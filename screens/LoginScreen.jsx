@@ -49,7 +49,7 @@ const LoginScreen = () => {
             <Text style={{fontSize:16,color:"#230C45",marginLeft:75,marginTop:40,fontFamily:"Roboto"}}>Enter Mobile Number for Verification</Text>
             <Text style={{fontSize:14,fontFamily:"Noto Sans",marginTop:60,marginLeft:40,color:"#020614"}}>Mobile Number</Text>
             {console.log(DeviceInfo.getPhoneNumber())}
-            <TextInput style={tw`ml-10 w-80 h-12 border-b-2`} value={phoneNumber} onChangeText={setPhoneNumber} autoCompleteType="tel" keyboardType="phone-pad" textContentType="telephoneNumber"/>
+            <TextInput style={tw`ml-10 w-80 h-12 border-b-2`} autoFocus={true} value={phoneNumber} onChangeText={setPhoneNumber} autoCompleteType="tel" keyboardType="phone-pad" textContentType="telephoneNumber"/>
             {next ? <Button uppercase={false} title="Continue" type="solid" style={tw`p-2 ml-10 mt-18 w-80 h-14 text-xl text-center content-center`} color="#4E46F1" onPress={() => {signIn(phoneNumber) }}/>: <Button uppercase={false} title="Continue" type="solid" style={tw` p-2 ml-10 mt-18 w-80 h-14 text-xl text-center`} disabled/>}
             {/* <Button uppercase={false} title="ESCAPE" type="solid" style={tw`p-2 ml-10 mt-5 w-80 h-14 text-xl`} color="#4E46F1" onPress={() => {navigation.navigate("PersonlInfoForm") }}/>
             <Button uppercase={false} title="ESCAPE home" type="solid" style={tw`ml-10 mt-5 w-80 h-14 text-xl`} onPress={() => {navigation.navigate("Home") }}/>   */}

@@ -52,7 +52,7 @@ const OTPScreen = () => {
           <Text style={{color:"#230C45",marginLeft:65,marginTop:30,fontSize:16,fontFamily:"Roboto"}} >Please wait, we will auto verify the OTP {'\n'}                 sent to {phn}
           <Icon name="edit" size={12} color="#4E46F1" onPress={() =>navigation.navigate('Login')}/>
           </Text>
-          <TextInput style={tw`ml-28 mt-20 w-44 h-12 border-b-2`} letterSpacing={23} maxLength={6} numeric value={otp} onChangeText={setOtp} keyboardType="numeric"/>
+          <TextInput style={tw`ml-28 mt-20 w-44 h-12 border-b-2`} autoFocus={true} letterSpacing={23} maxLength={6} numeric value={otp} onChangeText={setOtp} keyboardType="numeric"/>
           <Text style={{color:"#4E46F1",marginLeft:155,marginTop:30,fontSize:16,fontFamily:"Roboto"}} onPress={()=>{ResendOtp()}}>Resend OTP</Text>
           {next ? <Button uppercase={false} title="Verify" type="solid"  color="#4E46F1" style={tw` p-2 ml-10 mt-5 w-80 h-14 text-xl rounded`} onPress={() => {confirmVerificationCode(otp)}}><Text>Verify</Text></Button> : <Button title="Verify" uppercase={false} type="solid" style={tw`p-2 ml-10 mt-5 w-80 h-14 text-xl rounded`} disabled/>}
       </View>
