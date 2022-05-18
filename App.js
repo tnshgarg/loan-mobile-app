@@ -4,7 +4,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 const Stack = createNativeStackNavigator();
-import tw from "twrnc";
 import LoginScreen from "./screens/LoginScreen";
 import {StateProvider} from "./StateProvider";
 import reducer, { initialState } from './reducer/reducer';
@@ -16,10 +15,10 @@ export default function App() {
   return (
   <StateProvider initialState={initialState} reducer={reducer}>
   <NavigationContainer>
-  <SafeAreaProvider style={tw`flex-1 bg-white`}>
+  <SafeAreaProvider style={{backgroundColor:"white",flex:1}}>
   <IconComponentProvider IconComponent={Icon}>
   <KeyboardAvoidingView 
-        style={tw`flex-1`} 
+        style={{flex:1}} 
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? -64 : 0}
         >
