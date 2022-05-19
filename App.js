@@ -14,6 +14,7 @@ import PersonalDetailsForm from './screens/PersonalDetailsForm';
 import AadharForm from './screens/AadharForm';
 import AadharVerify from './screens/AadharVerify';
 import AadharConfirm from './screens/AadharConfirm';
+import PanCardInfo from './screens/PanCardInfo';
 
 export default function App() {
   return (
@@ -68,6 +69,14 @@ export default function App() {
        <Stack.Screen 
         name="AadharConfirm" 
         component={AadharConfirm} 
+        options={{
+          headerShown: false,
+          header: null,
+        }}
+      />
+      <Stack.Screen 
+        name="PanCardInfo" 
+        component={PanCardInfo} 
         options={{
           headerShown: false,
           header: null,
