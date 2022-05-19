@@ -107,7 +107,8 @@ export const form = StyleSheet.create({
     formHeader:{
         marginLeft:38,
         marginTop:10,
-        color:"grey"
+        color:"grey",
+        fontSize:16,
     },
     formLabel:{
         marginLeft:34,
