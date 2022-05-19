@@ -50,8 +50,6 @@ const LoginScreen = () => {
             {console.log(DeviceInfo.getPhoneNumber())}
             <TextInput style={{marginLeft:40,width:320,height:50,borderBottomWidth:1}} value={phoneNumber} onChangeText={setPhoneNumber} autoCompleteType="tel" keyboardType="phone-pad" textContentType="telephoneNumber"/>
             {next ? <Button uppercase={false} title="Continue" type="solid" style={{padding:10,marginLeft:40,marginTop:50,width:320,height:60,fontSize:20}} color="#4E46F1" onPress={() => {signIn(phoneNumber) }}/>: <Button uppercase={false} title="Continue" type="solid" style={{padding:10,marginLeft:40,marginTop:50,width:320,height:60,fontSize:20}} disabled/>}
-            <Button uppercase={false} title="ESCAPE" type="solid" style={{padding:10,marginLeft:40,marginTop:50,width:320,height:60,fontSize:20}} color="#4E46F1" onPress={() => {navigation.navigate("PersonlInfoForm") }}/>
-            <Button uppercase={false} title="ESCAPE home" type="solid" style={{padding:10,marginLeft:40,marginTop:50,width:320,height:60,fontSize:20}} onPress={() => {navigation.navigate("Home") }}/>  
         </View>
     </SafeAreaView>
   )
