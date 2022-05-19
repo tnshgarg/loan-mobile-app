@@ -11,6 +11,9 @@ import OTPScreen from './screens/OTPScreen';
 import { IconComponentProvider} from "@react-native-material/core";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import PersonalDetailsForm from './screens/PersonalDetailsForm';
+import AadharForm from './screens/AadharForm';
+import AadharVerify from './screens/AadharVerify';
+import AadharConfirm from './screens/AadharConfirm';
 
 export default function App() {
   return (
@@ -41,6 +44,30 @@ export default function App() {
        <Stack.Screen 
         name="PersonlInfoForm" 
         component={PersonalDetailsForm} 
+        options={{
+          headerShown: false,
+          header: null,
+        }}
+      />
+      <Stack.Screen 
+        name="AadharForm" 
+        component={AadharForm} 
+        options={{
+          headerShown: false,
+          header: null,
+        }}
+      />
+       <Stack.Screen 
+        name="AadharVerify" 
+        component={AadharVerify} 
+        options={{
+          headerShown: false,
+          header: null,
+        }}
+      />
+       <Stack.Screen 
+        name="AadharConfirm" 
+        component={AadharConfirm} 
         options={{
           headerShown: false,
           header: null,
