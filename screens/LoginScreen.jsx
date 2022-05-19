@@ -4,8 +4,9 @@ import { useNavigation} from '@react-navigation/core';
 import { useStateValue } from "../StateProvider";
 import DeviceInfo from 'react-native-device-info';
 import { Button } from "@react-native-material/core";
+import {styles} from "./styles";
 
-const LoginScreen = () => {
+export default LoginScreen = () => {
   const navigation = useNavigation();
   const [phoneNumber, setPhoneNumber] = useState('');
   const [next, setNext] = useState(false);
@@ -42,17 +43,16 @@ const LoginScreen = () => {
   }, [phoneNumber]);
 
   return (
-    <SafeAreaView style={{flex:1,backgroundColor:"white",height:"100%"}}>
+    <SafeAreaView style={styles.container}>
         <View >
-            <Image style={{marginLeft:70,marginTop:30,width:250,height:87}} source={require("../Unipe-Thumbnail.png")}/>
-            <Text style={{fontSize:16,color:"#230C45",marginLeft:75,marginTop:40,fontFamily:"Roboto"}}>Enter Mobile Number for Verification</Text>
-            <Text style={{fontSize:14,fontFamily:"Noto Sans",marginTop:60,marginLeft:40,color:"#020614"}}>Mobile Number</Text>
+            <Image style={styles.logo} source={require("../assets/unipe-Thumbnail.png")}/>
+            <Text style={styles.headline}>Enter Mobile Number for Verification</Text>
+            <Text style={styles.fieldLabel}>Mobile Number</Text>
             {console.log(DeviceInfo.getPhoneNumber())}
-            <TextInput style={{marginLeft:40,width:320,height:50,borderBottomWidth:1}} value={phoneNumber} onChangeText={setPhoneNumber} autoCompleteType="tel" keyboardType="phone-pad" textContentType="telephoneNumber"/>
-            {next ? <Button uppercase={false} title="Continue" type="solid" style={{padding:10,marginLeft:40,marginTop:50,width:320,height:60,fontSize:20}} color="#4E46F1" onPress={() => {signIn(phoneNumber) }}/>: <Button uppercase={false} title="Continue" type="solid" style={{padding:10,marginLeft:40,marginTop:50,width:320,height:60,fontSize:20}} disabled/>}
+            <TextInput style={styles.textInput} value={phoneNumber} onChangeText={setPhoneNumber} autoCompleteType="tel" keyboardType="phone-pad" textContentType="telephoneNumber"/>
+            {next ? <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} color="#4E46F1" onPress={() => {signIn(phoneNumber) }}/>: <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} disabled/>}
         </View>
     </SafeAreaView>
   )
 }
 
-export default LoginScreen;
