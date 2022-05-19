@@ -10,6 +10,7 @@ import reducer, { initialState } from './reducer/reducer';
 import OTPScreen from './screens/OTPScreen';
 import { IconComponentProvider} from "@react-native-material/core";
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import PersonalDetailsForm from './screens/PersonalDetailsForm';
 
 export default function App() {
   return (
@@ -35,6 +36,14 @@ export default function App() {
         component={OTPScreen} 
         options={{
           headerShown: false,
+        }}
+      />
+       <Stack.Screen 
+        name="PersonlInfoForm" 
+        component={PersonalDetailsForm} 
+        options={{
+          headerShown: false,
+          header: null,
         }}
       />
     </Stack.Navigator>
