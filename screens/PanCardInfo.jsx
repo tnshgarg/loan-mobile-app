@@ -26,7 +26,7 @@ const PanCardInfo = () => {
   title="Setup Profile"
   color="#4E46F1"
   leading={
-    <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.navigate('PersonlInfoForm')} />
+    <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.navigate('AadharConfirm')} />
   }
   />
    <View style={progressBar.progressView}>
