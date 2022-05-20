@@ -1,5 +1,5 @@
 import React ,{useState,useEffect} from 'react'
-import { StyleSheet, Text, View,SafeAreaView,TextInput} from 'react-native';
+import {Text, View,SafeAreaView,TextInput} from 'react-native';
 import { AppBar,IconButton,Icon, Button, Flex} from "@react-native-material/core";
 import { useNavigation} from '@react-navigation/core';
 import CheckBox from '@react-native-community/checkbox';
@@ -8,7 +8,7 @@ import { progressBar, form ,checkBox} from './styles';
 
 const AadharForm = () => {
     const navigation = useNavigation();
-    const [isSelected, setSelection] = useState(false);
+    const [consent, setConsent] = useState(false);
     const [aadhar,setaadhar]=useState("");
     const [next,setNext]=useState(false);
     useEffect(() => {
@@ -19,6 +19,7 @@ const AadharForm = () => {
         setNext(false);
       }
     }, [aadhar]);
+
   return (
     <>
       <SafeAreaView >
@@ -44,14 +45,14 @@ const AadharForm = () => {
     <TextInput style={form.formTextInput} value={aadhar} onChangeText={setaadhar} placeholder="Enter 12 Digit Aadhar Number"/>
     <View style={{flexDirection:"row"}}>
     <CheckBox
-          value={isSelected}
-          onValueChange={setSelection}
+          value={consent}
+          onValueChange={setConsent}
           style={checkBox.checkBox}
           tintColors={{true: '#4E46F1'}}
     />
     <Text style={checkBox.checkBoxText}>I agree KYC registration for the lorem ipsum {'\n'} & term & conditions to verifiy my identity</Text>
     </View>
-    {next && isSelected ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{navigation.navigate("AadharVerify")}}><Text>Verify</Text></Button> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
+    {next && consent ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{navigation.navigate("AadharVerify")}}><Text>Verify</Text></Button> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
     
     </SafeAreaView>
     </>

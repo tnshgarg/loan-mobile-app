@@ -61,7 +61,10 @@ export const styles=StyleSheet.create({
         height:60,
         fontSize:20,
         backgroundColor:"#4E46F1"
-    }
+    },
+    flexrow:{
+        flexDirection:"row"
+    },
 })
 
 
