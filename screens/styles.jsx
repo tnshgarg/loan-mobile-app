@@ -53,15 +53,6 @@ export const styles=StyleSheet.create({
         height:60,
         fontSize:20
     },
-    button1:{
-        padding:10,
-        marginLeft:40,
-        marginTop:50,
-        width:320,
-        height:60,
-        fontSize:20,
-        backgroundColor:"#4E46F1"
-    },
     flexrow:{
         flexDirection:"row"
     },
