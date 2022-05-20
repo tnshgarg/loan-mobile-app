@@ -2,8 +2,10 @@
 #
 .DS_Store
 
+# Build Files
 ios/
 android/
+
 # Xcode
 #
 build/
