@@ -15,6 +15,7 @@ import AadharForm from './screens/AadharForm';
 import AadharVerify from './screens/AadharVerify';
 import AadharConfirm from './screens/AadharConfirm';
 import PanCardInfo from './screens/PanCardInfo';
+import BankInformationForm from './screens/BankInformationForm';
 
 export default function App() {
   return (
@@ -77,6 +78,14 @@ export default function App() {
       <Stack.Screen 
         name="PanCardInfo" 
         component={PanCardInfo} 
+        options={{
+          headerShown: false,
+          header: null,
+        }}
+      />
+         <Stack.Screen 
+        name="BankInfoForm" 
+        component={BankInformationForm} 
         options={{
           headerShown: false,
           header: null,
