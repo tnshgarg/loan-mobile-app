@@ -52,7 +52,7 @@ const AadharForm = () => {
     />
     <Text style={checkBox.checkBoxText}>I agree KYC registration for the lorem ipsum {'\n'} & term & conditions to verifiy my identity</Text>
     </View>
-    {next && isSelected ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{navigation.navigate("AadharVerify")}}><Text>Verify</Text></Button> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
+    {next && consent ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{navigation.navigate("AadharVerify")}}><Text>Verify</Text></Button> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
     
     </SafeAreaView>
     </>
