@@ -6,7 +6,7 @@ import { useStateValue } from "../StateProvider";
 import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { styles,progressBar, form } from './styles';
 
-export default AadhaSarVerify = () => {
+export default AadhaarVerify = () => {
     const navigation = useNavigation();
     const [{phn,auth,conf},dispatch] = useStateValue();
     const [otp, setOtp] = useState('');
