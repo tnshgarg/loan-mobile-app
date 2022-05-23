@@ -76,7 +76,7 @@ export default PesonalDetailsForm = () => {
       )
     })}
     </View>
-    <Button title="Continue" type="solid"  uppercase={false} style={form.nextButton} color="#4E46F1" onPress={()=>{navigation.navigate("AadharForm")}}/>
+    <Button title="Continue" type="solid"  uppercase={false} style={form.nextButton} color="#4E46F1" onPress={()=>{navigation.navigate("AadhaarForm")}}/>
     </SafeAreaView>
     </>
   )

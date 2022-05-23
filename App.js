@@ -11,9 +11,9 @@ import OTPScreen from './screens/OTPScreen';
 import { IconComponentProvider} from "@react-native-material/core";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import PersonalDetailsForm from './screens/PersonalDetailsForm';
-import AadharForm from './screens/AadharForm';
-import AadharVerify from './screens/AadharVerify';
-import AadharConfirm from './screens/AadharConfirm';
+import AadhaarForm from './screens/AadhaarForm';
+import AadhaarVerify from './screens/AadhaarVerify';
+import AadhaarConfirm from './screens/AadhaarConfirm';
 import PanCardInfo from './screens/PanCardInfo';
 
 export default function App() {
@@ -51,24 +51,24 @@ export default function App() {
         }}
       />
       <Stack.Screen 
-        name="AadharForm" 
-        component={AadharForm} 
+        name="AadhaarForm" 
+        component={AadhaarForm} 
         options={{
           headerShown: false,
           header: null,
         }}
       />
        <Stack.Screen 
-        name="AadharVerify" 
-        component={AadharVerify} 
+        name="AadhaarVerify" 
+        component={AadhaarVerify} 
         options={{
           headerShown: false,
           header: null,
         }}
       />
        <Stack.Screen 
-        name="AadharConfirm" 
-        component={AadharConfirm} 
+        name="AadhaarConfirm" 
+        component={AadhaarConfirm} 
         options={{
           headerShown: false,
           header: null,

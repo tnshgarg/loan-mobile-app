@@ -6,7 +6,7 @@ import { useStateValue } from "../StateProvider";
 import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { styles,progressBar, form } from './styles';
 
-const AadharVerify = () => {
+export default AadhaarVerify = () => {
     const navigation = useNavigation();
     const [{phn,auth,conf},dispatch] = useStateValue();
     const [otp, setOtp] = useState('');
@@ -15,7 +15,7 @@ const AadharVerify = () => {
     async function confirmVerificationCode(code) {
       console.log(conf,phn);
       try {
-        navigation.navigate('AadharConfirm');
+        navigation.navigate('AadhaarConfirm');
       } catch (error) {
         alert('Invalid code');
       }
@@ -44,7 +44,7 @@ const AadharVerify = () => {
     title="Setup Profile"
     color="#4E46F1"
     leading={
-      <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.navigate('AadharForm')} />
+      <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.navigate('AadhaarForm')} />
     }
     />
     <View style={progressBar.progressView}>
@@ -57,7 +57,7 @@ const AadharVerify = () => {
     <Text style={progressBar.progressNos} >2/4</Text>
     </View>
       <View style={styles.container}>
-          <Text style={form.OtpAwaitMsg} >OTP has been sent vis SMS to your Aadhar {'\n'}          registered mobile number
+          <Text style={form.OtpAwaitMsg} >OTP has been sent vis SMS to your Aadhaar {'\n'}          registered mobile number
           </Text>
           <TextInput style={styles.otpInput} letterSpacing={23} maxLength={6} numeric value={otp} onChangeText={setOtp} keyboardType="numeric"/>
           <Text style={styles.resendText} onPress={()=>{ResendOtp()}}>Resend OTP</Text>
@@ -66,5 +66,3 @@ const AadharVerify = () => {
     </SafeAreaView>
   )
 }
-
-export default AadharVerify

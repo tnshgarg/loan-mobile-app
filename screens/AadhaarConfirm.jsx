@@ -6,7 +6,7 @@ import { useStateValue } from "../StateProvider";
 import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { form,progressBar, styles} from './styles';
 
-const AadharConfirm = () => {
+export default AadhaarConfirm = () => {
     const navigation = useNavigation();
   return (
     <SafeAreaView>
@@ -14,7 +14,7 @@ const AadharConfirm = () => {
     title="Setup Profile"
     color="#4E46F1"
     leading={
-      <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.navigate('AadharVerify')} />
+      <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.navigate('AadhaarVerify')} />
     }
     />
     <View style={progressBar.progressView}>
@@ -38,12 +38,10 @@ const AadharConfirm = () => {
           
           
           <View style={{flexDirection:"row"}}>
-            <Button title="No" type="solid" uppercase={false}  style={form.noButton} color="#EB5757"  onPress={()=>{navigation.navigate("AadharForm")}}/>
+            <Button title="No" type="solid" uppercase={false}  style={form.noButton} color="#EB5757"  onPress={()=>{navigation.navigate("AadhaarForm")}}/>
             <Button title="Yes" type="solid" uppercase={false}  style={form.yesButton} color="#4E46F1" onPress={()=>{navigation.navigate("PanCardInfo")}}/>
           </View>
       </View>
     </SafeAreaView>
   )
 }
-
-export default AadharConfirm
