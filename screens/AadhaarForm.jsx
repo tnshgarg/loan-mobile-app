@@ -6,19 +6,19 @@ import CheckBox from '@react-native-community/checkbox';
 import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { progressBar, form ,checkBox} from './styles';
 
-const AadharForm = () => {
+export default AadhaarForm = () => {
     const navigation = useNavigation();
     const [consent, setConsent] = useState(false);
-    const [aadhar,setaadhar]=useState("");
+    const [aadhaar,setAadhaar]=useState("");
     const [next,setNext]=useState(false);
     useEffect(() => {
-      if(aadhar.length === 12){
+      if(aadhaar.length === 12){
         setNext(true);
       }
       else{
         setNext(false);
       }
-    }, [aadhar]);
+    }, [aadhaar]);
 
   return (
     <>
@@ -41,8 +41,8 @@ const AadharForm = () => {
     </View>
     <Text style={form.formHeader} >Let's begin with your background verification {'\n'}                   processs with eKYC</Text>
 
-    {aadhar? <Text style={form.formLabel} >Enter 12 Digit Aadhar Number</Text> : null}
-    <TextInput style={form.formTextInput} value={aadhar} onChangeText={setaadhar} placeholder="Enter 12 Digit Aadhar Number"/>
+    {aadhaar? <Text style={form.formLabel} >Enter 12 Digit Aadhaar Number</Text> : null}
+    <TextInput style={form.formTextInput} value={aadhaar} onChangeText={setAadhaar} placeholder="Enter 12 Digit Aadhaar Number"/>
     <View style={{flexDirection:"row"}}>
     <CheckBox
           value={consent}
@@ -52,11 +52,9 @@ const AadharForm = () => {
     />
     <Text style={checkBox.checkBoxText}>I agree KYC registration for the lorem ipsum {'\n'} & term & conditions to verifiy my identity</Text>
     </View>
-    {next && consent ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{navigation.navigate("AadharVerify")}}><Text>Verify</Text></Button> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
+    {next && consent ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{navigation.navigate("AadhaarVerify")}}><Text>Verify</Text></Button> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
     
     </SafeAreaView>
     </>
   )
 }
-
-export default AadharForm;
