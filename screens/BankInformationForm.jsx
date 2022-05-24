@@ -7,7 +7,7 @@ import { AppBar,IconButton,Icon, Button} from "@react-native-material/core";
 import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { progressBar,form,bankform} from './styles';
 
-const BankInformationForm = () => {
+export default BankInformationForm = () => {
   const navigation = useNavigation();
   const [{user}] = useStateValue();
   const [bank,setBank] = useState("");
@@ -60,5 +60,3 @@ const BankInformationForm = () => {
     </>
   )
 }
-
-export default BankInformationForm;
