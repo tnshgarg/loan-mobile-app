@@ -5,7 +5,7 @@ import { useNavigation} from '@react-navigation/core';
 import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { styles,form,progressBar} from './styles';
 
-const PanCardInfo = () => {
+export default PanCardInfo = () => {
     const navigation = useNavigation();
     const [pan,setpan]=useState("");
     const [next,setNext] = useState();
@@ -48,5 +48,3 @@ const PanCardInfo = () => {
   </>
   )
 }
-
-export default PanCardInfo
