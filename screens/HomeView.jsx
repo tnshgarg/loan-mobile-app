@@ -5,7 +5,7 @@ import {Card, Title, Paragraph } from 'react-native-paper';
 import {styles,homeCard,docSearch} from "./styles";
 import FAB from 'react-native-fab'
 
-const HomeView = () => {
+export default HomeView = () => {
   return (
     <>
     <SafeAreaView style={styles.container}>
@@ -91,5 +91,3 @@ const HomeView = () => {
   </>
   )
 }
-
-export default HomeView
