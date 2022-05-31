@@ -9,7 +9,7 @@ import { progressBar,form,bankform} from './styles';
 
 export default BankInformationForm = () => {
   const navigation = useNavigation();
-  const [{user}] = useStateValue();
+  const [{fullName}] = useStateValue();
   const [bank,setBank] = useState("");
 
 
@@ -46,7 +46,7 @@ export default BankInformationForm = () => {
       
 
     <Text style={bankform.formtitle} >Account Holder Name<Icon name="info-outline" size={20} color="grey"/></Text>
-    <TextInput style={bankform.formInput} editable={false} value={user}/>
+    <TextInput style={bankform.formInput} editable={false} value={fullName}/>
     <Text style={bankform.formtitle} >Bank Account No*<Icon name="info-outline" size={20} color="grey"/></Text>
     <TextInput style={bankform.formInput}/>
     <Text style={bankform.formtitle} >Bank Account Id*<Icon name="info-outline" size={20} color="grey"/></Text>
