@@ -1,0 +1,39 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-employeeapp-dev-225607-authRole",
+      "UnauthRoleArn": "arn:aws:iam::696850127250:role/amplify-employeeapp-dev-225607-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::696850127250:role/amplify-employeeapp-dev-225607-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-employeeapp-dev-225607-deployment",
+      "UnauthRoleName": "amplify-employeeapp-dev-225607-unauthRole",
+      "StackName": "amplify-employeeapp-dev-225607",
+      "StackId": "arn:aws:cloudformation:ap-south-1:696850127250:stack/amplify-employeeapp-dev-225607/ed416ad0-e1cf-11ec-adf9-022bb8129d34",
+      "AmplifyAppId": "d2c3cv59mq955u",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-employeeapp-dev-225607-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
+    },
+    "categories": {
+      "auth": {
+        "employeeapp9beaf1ce9beaf1ce": {}
+      },
+      "function": {
+        "employeeapp9beaf1ce9beaf1ceCreateAuthChallenge": {
+          "deploymentBucketName": "amplify-employeeapp-dev-225607-deployment",
+          "s3Key": "amplify-builds/employeeapp9beaf1ce9beaf1ceCreateAuthChallenge-7773726b354e34372f42-build.zip"
+        },
+        "employeeapp9beaf1ce9beaf1ceDefineAuthChallenge": {
+          "deploymentBucketName": "amplify-employeeapp-dev-225607-deployment",
+          "s3Key": "amplify-builds/employeeapp9beaf1ce9beaf1ceDefineAuthChallenge-395649435a4158646434-build.zip"
+        },
+        "employeeapp9beaf1ce9beaf1cePreSignup": {
+          "deploymentBucketName": "amplify-employeeapp-dev-225607-deployment",
+          "s3Key": "amplify-builds/employeeapp9beaf1ce9beaf1cePreSignup-6f64314f665771517158-build.zip"
+        },
+        "employeeapp9beaf1ce9beaf1ceVerifyAuthChallengeResponse": {
+          "deploymentBucketName": "amplify-employeeapp-dev-225607-deployment",
+          "s3Key": "amplify-builds/employeeapp9beaf1ce9beaf1ceVerifyAuthChallengeResponse-705532783664566c6238-build.zip"
+        }
+      }
+    }
+  }
+}
