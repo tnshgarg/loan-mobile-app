@@ -14,7 +14,8 @@
     },
     "categories": {
       "auth": {
-        "employeeapp9beaf1ce9beaf1ce": {}
+        "employeeapp9beaf1ce9beaf1ce": {},
+        "userPoolGroups": {}
       },
       "function": {
         "employeeapp9beaf1ce9beaf1ceCreateAuthChallenge": {

@@ -1,7 +1,7 @@
 
 export const initialState = {
     phone_number : '',
-    AuthConfirmation : null,
+    session : null,
     user: '',
     fullName : '',
 };
@@ -13,10 +13,10 @@ const reducer = (state, action) => {
                 ...state,
                 phone_number: action.payload,
             };
-        case 'SET_CONF':
+        case 'SET_SESSION':
             return {
                 ...state,
-                AuthConfirmation: action.payload,
+                session: action.payload,
             };
         case 'SET_FULL_NAME':
             return {

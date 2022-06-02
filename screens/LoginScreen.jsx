@@ -19,7 +19,25 @@ export default LoginScreen = () => {
   const [{conf},dispatch] = useStateValue();
   const [session,setSession] = useState(null); 
   const [confirm, setConfirm] = useState(null);
-  const password = Math.random().toString(10) + 'Abc#';
+  const password = Math.random().toString(8) + 'Abc#';
+
+  useEffect(() => {
+    console.log('Ready to auth');
+    // Auth.currentCredentials();
+    setTimeout(verifyAuth, 1500);
+  }, []);
+
+  const verifyAuth = () => {
+    Auth.currentAuthenticatedUser()
+      .then((user) => {
+        setUser(user);
+        console.log(user);
+        setSession(null);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   const signIn = () => {
     Auth.signIn(phoneNumber)
@@ -34,6 +52,7 @@ export default LoginScreen = () => {
           console.log('User not found');
         } else if (e.code === 'UsernameExistsException') {
           signIn();
+          console.log('User already exists');
         } else {
           console.log(e.code);
           console.error(e);
@@ -53,9 +72,9 @@ export default LoginScreen = () => {
 
   useEffect(() => {
     dispatch({
-      type: "SET_CONF",
-      payload: confirm,
-    })}, [confirm]);
+      type: "SET_SESSION",
+      payload: session,
+    })}, [session]);
 
   useEffect(() => {
     dispatch({
