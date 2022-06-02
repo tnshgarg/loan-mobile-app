@@ -11,6 +11,8 @@ import Auth from '@aws-amplify/auth';
 import awsconfig from '../src/aws-exports';
 Amplify.configure(awsconfig);
 
+import SplashScreen from 'react-native-splash-screen'
+
 export default LoginScreen = () => {
   const navigation = useNavigation();
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -20,7 +22,7 @@ export default LoginScreen = () => {
   const [session,setSession] = useState(null); 
   const [confirm, setConfirm] = useState(null);
   const password = Math.random().toString(8) + 'Abc#';
-
+  SplashScreen.hide();
   useEffect(() => {
     console.log('Ready to auth');
     // Auth.currentCredentials();
