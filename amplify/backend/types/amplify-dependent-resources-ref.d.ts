@@ -1,9 +1,32 @@
 export type AmplifyDependentResourcesAttributes = {
-    "auth": {
-        "userPoolGroups": {
-            "amplifyuserGroupRole": "string"
+    "function": {
+        "employeeappc90fc2e6c90fc2e6CreateAuthChallenge": {
+            "Name": "string",
+            "Arn": "string",
+            "LambdaExecutionRole": "string",
+            "Region": "string"
         },
-        "employeeapp9beaf1ce9beaf1ce": {
+        "employeeappc90fc2e6c90fc2e6DefineAuthChallenge": {
+            "Name": "string",
+            "Arn": "string",
+            "LambdaExecutionRole": "string",
+            "Region": "string"
+        },
+        "employeeappc90fc2e6c90fc2e6PreSignup": {
+            "Name": "string",
+            "Arn": "string",
+            "LambdaExecutionRole": "string",
+            "Region": "string"
+        },
+        "employeeappc90fc2e6c90fc2e6VerifyAuthChallengeResponse": {
+            "Name": "string",
+            "Arn": "string",
+            "LambdaExecutionRole": "string",
+            "Region": "string"
+        }
+    },
+    "auth": {
+        "employeeappc90fc2e6c90fc2e6": {
             "IdentityPoolId": "string",
             "IdentityPoolName": "string",
             "UserPoolId": "string",
@@ -12,32 +35,6 @@ export type AmplifyDependentResourcesAttributes = {
             "AppClientIDWeb": "string",
             "AppClientID": "string",
             "CreatedSNSRole": "string"
-        }
-    },
-    "function": {
-        "employeeapp9beaf1ce9beaf1ceCreateAuthChallenge": {
-            "Name": "string",
-            "Arn": "string",
-            "LambdaExecutionRole": "string",
-            "Region": "string"
-        },
-        "employeeapp9beaf1ce9beaf1ceDefineAuthChallenge": {
-            "Name": "string",
-            "Arn": "string",
-            "LambdaExecutionRole": "string",
-            "Region": "string"
-        },
-        "employeeapp9beaf1ce9beaf1cePreSignup": {
-            "Name": "string",
-            "Arn": "string",
-            "LambdaExecutionRole": "string",
-            "Region": "string"
-        },
-        "employeeapp9beaf1ce9beaf1ceVerifyAuthChallengeResponse": {
-            "Name": "string",
-            "Arn": "string",
-            "LambdaExecutionRole": "string",
-            "Region": "string"
         }
     }
 }

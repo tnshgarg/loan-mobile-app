@@ -1,28 +1,34 @@
 {
-  "auth": {
-    "userPoolGroups": {
-      "service": "Cognito-UserPool-Groups",
+  "function": {
+    "employeeappc90fc2e6c90fc2e6CreateAuthChallenge": {
+      "build": true,
       "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "auth",
-          "resourceName": "employeeapp9beaf1ce9beaf1ce",
-          "attributes": [
-            "UserPoolId",
-            "AppClientIDWeb",
-            "AppClientID",
-            "IdentityPoolId"
-          ]
-        }
-      ]
+      "service": "Lambda"
     },
-    "employeeapp9beaf1ce9beaf1ce": {
+    "employeeappc90fc2e6c90fc2e6DefineAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "employeeappc90fc2e6c90fc2e6PreSignup": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "employeeappc90fc2e6c90fc2e6VerifyAuthChallengeResponse": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "auth": {
+    "employeeappc90fc2e6c90fc2e6": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "employeeapp9beaf1ce9beaf1ceCreateAuthChallenge",
+          "resourceName": "employeeappc90fc2e6c90fc2e6CreateAuthChallenge",
           "triggerProvider": "Cognito",
           "attributes": [
             "Arn",
@@ -31,7 +37,7 @@
         },
         {
           "category": "function",
-          "resourceName": "employeeapp9beaf1ce9beaf1ceDefineAuthChallenge",
+          "resourceName": "employeeappc90fc2e6c90fc2e6DefineAuthChallenge",
           "triggerProvider": "Cognito",
           "attributes": [
             "Arn",
@@ -40,7 +46,7 @@
         },
         {
           "category": "function",
-          "resourceName": "employeeapp9beaf1ce9beaf1cePreSignup",
+          "resourceName": "employeeappc90fc2e6c90fc2e6PreSignup",
           "triggerProvider": "Cognito",
           "attributes": [
             "Arn",
@@ -49,7 +55,7 @@
         },
         {
           "category": "function",
-          "resourceName": "employeeapp9beaf1ce9beaf1ceVerifyAuthChallengeResponse",
+          "resourceName": "employeeappc90fc2e6c90fc2e6VerifyAuthChallengeResponse",
           "triggerProvider": "Cognito",
           "attributes": [
             "Arn",
@@ -76,28 +82,6 @@
           "PHONE_NUMBER"
         ]
       }
-    }
-  },
-  "function": {
-    "employeeapp9beaf1ce9beaf1ceCreateAuthChallenge": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "employeeapp9beaf1ce9beaf1ceDefineAuthChallenge": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "employeeapp9beaf1ce9beaf1cePreSignup": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "employeeapp9beaf1ce9beaf1ceVerifyAuthChallengeResponse": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
     }
   }
 }
