@@ -3,6 +3,7 @@ export const initialState = {
     phone_number : '',
     AuthConfirmation : null,
     user: '',
+    fullName : '',
 };
 
 const reducer = (state, action) => {
@@ -17,10 +18,10 @@ const reducer = (state, action) => {
                 ...state,
                 AuthConfirmation: action.payload,
             };
-        case 'SET_USER':
+        case 'SET_FULL_NAME':
             return {
                 ...state,
-                user: action.payload,
+                fullName : action.payload,
             };
         default:
             return state;
