@@ -35,8 +35,6 @@ export default AadhaarConfirm = () => {
           <Text style={form.OtpAwaitMsg} >Name: </Text>
           <Text style={form.userData} >Date of Birth:</Text>
           <Text style={form.userData} >Locality:</Text>
-          
-          
           <View style={{flexDirection:"row"}}>
             <Button title="No" type="solid" uppercase={false}  style={form.noButton} color="#EB5757"  onPress={()=>{navigation.navigate("AadhaarForm")}}/>
             <Button title="Yes" type="solid" uppercase={false}  style={form.yesButton} color="#4E46F1" onPress={()=>{navigation.navigate("PanCardInfo")}}/>
