@@ -22,6 +22,10 @@ export default LoginScreen = () => {
   const password = Math.random().toString(8) + 'Abc#';
   SplashScreen.hide();
 
+  if(user) {
+    navigation.navigate('Home');
+  }
+  
   const signIn = () => {
     Auth.signIn(phoneNumber)
       .then((result) => {

@@ -32,6 +32,7 @@ export default OTPScreen = () => {
     Auth.currentAuthenticatedUser()
       .then((user) => {
         setUser(user);
+        console.log('User is authenticated');
         console.log(user);
       })
       .catch((err) => {
