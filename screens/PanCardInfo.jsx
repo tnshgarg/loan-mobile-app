@@ -7,7 +7,7 @@ import { styles,form,progressBar} from './styles';
 
 export default PanCardInfo = () => {
     const navigation = useNavigation();
-    const [pan,setpan]=useState("");
+    const [pan,setPan]=useState("");
     const [next,setNext] = useState();
     
     useEffect(() => {
@@ -41,7 +41,7 @@ export default PanCardInfo = () => {
   <Text style={form.formHeader} >You are almost there, we just need to verify {'\n'}                       your Pan Card</Text>
 
   {pan? <Text style={form.formLabel} >Enter PAN Number</Text>:null}
-  <TextInput style={form.formTextInput} value={pan} onChangeText={setpan}  placeholder="Enter PAN Number"/>
+  <TextInput style={form.formTextInput} value={pan} onChangeText={setPan}  placeholder="Enter PAN Number"/>
   {next ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{navigation.navigate("BankInfoForm")}}><Text>Verify</Text></Button> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}  
     
   </SafeAreaView>
