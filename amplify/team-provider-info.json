@@ -19,7 +19,7 @@
       "function": {
         "employeeappc90fc2e6c90fc2e6CreateAuthChallenge": {
           "deploymentBucketName": "amplify-employeeapp-dev-234635-deployment",
-          "s3Key": "amplify-builds/employeeappc90fc2e6c90fc2e6CreateAuthChallenge-444e6b75785552504466-build.zip"
+          "s3Key": "amplify-builds/employeeappc90fc2e6c90fc2e6CreateAuthChallenge-755a72584b2f7477756a-build.zip"
         },
         "employeeappc90fc2e6c90fc2e6DefineAuthChallenge": {
           "deploymentBucketName": "amplify-employeeapp-dev-234635-deployment",

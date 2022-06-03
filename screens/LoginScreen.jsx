@@ -16,36 +16,16 @@ import SplashScreen from 'react-native-splash-screen'
 export default LoginScreen = () => {
   const navigation = useNavigation();
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [user, setUser] = useState(null);
   const [next, setNext] = useState(false);
-  const [{conf},dispatch] = useStateValue();
+  const [{user},dispatch] = useStateValue();
   const [session,setSession] = useState(null); 
-  const [confirm, setConfirm] = useState(null);
   const password = Math.random().toString(8) + 'Abc#';
   SplashScreen.hide();
-  useEffect(() => {
-    console.log('Ready to auth');
-    // Auth.currentCredentials();
-    setTimeout(verifyAuth, 1500);
-  }, []);
-
-  const verifyAuth = () => {
-    Auth.currentAuthenticatedUser()
-      .then((user) => {
-        setUser(user);
-        console.log(user);
-        setSession(null);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
 
   const signIn = () => {
     Auth.signIn(phoneNumber)
       .then((result) => {
         setSession(result);
-        console.log(result);
         navigation.navigate("Otp");
       })
       .catch((e) => {

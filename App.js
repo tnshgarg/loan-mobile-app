@@ -17,6 +17,14 @@ import AadhaarConfirm from './screens/AadhaarConfirm';
 import PanCardInfo from './screens/PanCardInfo';
 import BankInformationForm from './screens/BankInformationForm';
 import Home from './screens/Home';
+import { useStateValue } from "./StateProvider";
+
+import Amplify from '@aws-amplify/core';
+import Auth from '@aws-amplify/auth';
+import awsconfig from './src/aws-exports';
+Amplify.configure(awsconfig);
+
+
 export default function App() {
   return (
   <StateProvider initialState={initialState} reducer={reducer}>

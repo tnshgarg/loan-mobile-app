@@ -23,6 +23,11 @@ const reducer = (state, action) => {
                 ...state,
                 fullName : action.payload,
             };
+        case 'SET_USER':
+            return {
+                ...state,
+                user : action.payload,
+            };
         default:
             return state;
     }

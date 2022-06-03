@@ -64,7 +64,7 @@ export default PesonalDetailsForm = () => {
         prompt="Educational Qualification"
       >
         {Educational_Qualification.map((item,index) => {
-          return(<Picker.Item label={item} value={item}/>)
+          return(<Picker.Item key={index} label={item} value={item}/>)
         })}
         
       </Picker>

@@ -15,7 +15,30 @@ export default OTPScreen = () => {
   const [{phone_number,session},dispatch] = useStateValue();
   const [otp, setOtp] = useState('');
   const [next, setNext] = useState(false);
+  const [user, setUser] = useState(null);
   
+  useEffect(() => {
+    dispatch({
+      type: "SET_USER",
+      payload: user,
+    })}, [user]);
+    
+  useEffect(() => {
+    console.log('Ready to auth');
+    verifyAuth();
+  }, []);
+
+  const verifyAuth = () => {
+    Auth.currentAuthenticatedUser()
+      .then((user) => {
+        setUser(user);
+        console.log(user);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   async function ResendOtp() {
     try {
       console.log('resend');
@@ -33,13 +56,11 @@ export default OTPScreen = () => {
     }
   }, [otp]);
 
-  console.log("otppp");
-  console.log(session);
-  console.log(otp);
   const verifyOtp = () => {
     Auth.sendCustomChallengeAnswer(session, otp)
       .then((user) => {
-        setUser(user); // this is THE cognito user 
+        setUser(user);
+        console.log("THIS IS THE USER");
         console.log(user);
         navigation.navigate('PersonlInfoForm');
       })
@@ -49,7 +70,6 @@ export default OTPScreen = () => {
       });
   };
   
-
   return (
     <SafeAreaView>
       <View style={styles.container}>
