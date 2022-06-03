@@ -51,7 +51,6 @@ export default PesonalDetailsForm = () => {
         </View>
         
         <Text style={form.formHeader}>Welcome, Let's start your onboarding process</Text>
-        
         {fullName ? <Text style={form.formLabel}>Full Name</Text>:null}
         <TextInput style={form.formTextInput} value={fullName} onChangeText={setFullName}  placeholder="Full Name"/>
 

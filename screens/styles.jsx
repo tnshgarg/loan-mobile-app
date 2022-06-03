@@ -136,5 +136,49 @@ export const form = StyleSheet.create({
         height:60,
         fontSize:20
     },
+    OtpAwaitMsg:{
+        color:"#230C45",
+        marginLeft:55,
+        marginTop:30,
+        fontSize:16,
+        fontFamily:"Roboto"
+    },
+    userData:{
+        color:"#230C45",
+        marginLeft:55,
+        marginTop:10,
+        fontSize:16,
+        fontFamily:"Roboto"
+
+    },
+    yesButton:{
+        padding:10,
+        marginLeft:34,
+        marginTop:50,
+        width:150,
+        height:60,
+        fontSize:20,
+    },
+    noButton:{
+        padding:10,
+        marginLeft:34,
+        marginTop:50,
+        width:150,
+        height:60,
+        fontSize:20,
+    },
+
+})
+
+export const checkBox=StyleSheet.create({
+    checkBox:{
+        marginLeft:34,
+        marginTop:30,
+    },
+    checkBoxText:{
+        marginTop:30,
+        fontSize:14,
+        color:"#828282"
+    },
 
 })
