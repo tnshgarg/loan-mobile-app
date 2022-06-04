@@ -30,6 +30,7 @@ export default LoginScreen = () => {
     Auth.signIn(phoneNumber)
       .then((result) => {
         setSession(result);
+        console.log(result);
         navigation.navigate("Otp");
       })
       .catch((e) => {

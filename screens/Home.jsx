@@ -7,10 +7,30 @@ import HomeView from './HomeView';
 import {styles,nav} from "./styles"
 import { AppBar,IconButton,Icon, Button} from "@react-native-material/core";
 
-export default Home = () => {
+import Amplify from '@aws-amplify/core';
+import Auth from '@aws-amplify/auth';
+import awsconfig from '../src/aws-exports';
+Amplify.configure(awsconfig);
+
+export default Home = () => { 
+  const [{user},dispatch] = useStateValue();
+  const signOut = () => {
+    if (user) {
+      Auth.signOut();
+      dispatch({
+        type: "SET_USER",
+        payload: null,
+      })
+      navigation.navigate('Login');
+      console.log('signed out');
+    } else {
+      console.log('No user to sign out');
+    }
+  };
     const navigation = useNavigation();
-    const [{user}] = useStateValue();
     const bottomTab = createBottomTabNavigator();
+    console.log("USER REGED");
+    console.log(user);
   return (
     <>
     <SafeAreaView style={styles.container}>
@@ -20,8 +40,7 @@ export default Home = () => {
     contentContainerStyle={nav.navbar}
     color="#ffffff"
     leading={
-      <IconButton icon={<Icon name="menu"  size={30}/>} 
-      />
+      <IconButton icon={<Icon name="menu"  size={30} />} onPress={() =>signOut()} /> 
     }
     trailing={
         <IconButton

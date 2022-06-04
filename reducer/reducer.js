@@ -2,7 +2,7 @@
 export const initialState = {
     phone_number : '',
     session : null,
-    user: '',
+    user: null,
     fullName : '',
 };
 
