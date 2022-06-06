@@ -287,3 +287,51 @@ export const docSearch = StyleSheet.create({
         textAlignVertical:"center",
     },
 })
+
+export const Camera = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: 'black',
+      },
+      preview: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+      },
+      capture: {
+        flex: 0,
+        backgroundColor: '#4E46F1',
+        borderRadius: 10,
+        padding: 15,
+        paddingHorizontal: 20,
+        alignSelf: 'center',
+        marginTop: 580,
+      },
+      wait:{
+        flex: 1,
+        backgroundColor: '#4E46F1',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      buttons:{
+        flex: 1, 
+      },
+      buttonText:{
+        fontSize: 16 ,
+        color: '#fff',
+      },
+      back:{
+        flex: 0,
+        backgroundColor: 'rgba(78, 70, 241, 0.9)',
+        borderRadius: 25,
+        padding: 10,
+        alignSelf: 'center',
+        marginTop: 10,
+        marginLeft: -330,
+      },
+      cameraButton:{
+        marginLeft:-40,
+        marginTop:5
+      }
+})

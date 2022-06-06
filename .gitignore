@@ -88,3 +88,4 @@ amplifytools.xcconfig
 test-json-outputs/Aadhar base details from number response.json
 test-json-outputs/otpAadhar.json
 test-json-outputs/PAN VALIDresponse.json
+test-json-outputs/ocrAadhaar.json

@@ -12,6 +12,7 @@ import { IconComponentProvider} from "@react-native-material/core";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import PersonalDetailsForm from './screens/PersonalDetailsForm';
 import AadhaarForm from './screens/AadhaarForm';
+import IDCapture from './screens/IDCapture';
 import AadhaarVerify from './screens/AadhaarVerify';
 import AadhaarConfirm from './screens/AadhaarConfirm';
 import PanCardInfo from './screens/PanCardInfo';
@@ -61,6 +62,14 @@ export default function App() {
       <Stack.Screen 
         name="AadhaarForm" 
         component={AadhaarForm} 
+        options={{
+          headerShown: false,
+          header: null,
+        }}
+      />
+      <Stack.Screen 
+        name="IDCapture" 
+        component={IDCapture} 
         options={{
           headerShown: false,
           header: null,

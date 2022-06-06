@@ -4,6 +4,7 @@ export const initialState = {
     session : null,
     user: null,
     fullName : '',
+    IDCapture : null,
 };
 
 const reducer = (state, action) => {
@@ -27,6 +28,11 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 user : action.payload,
+            };
+        case 'SET_ID':
+            return {
+                ...state,
+                IDCapture : action.payload,
             };
         default:
             return state;

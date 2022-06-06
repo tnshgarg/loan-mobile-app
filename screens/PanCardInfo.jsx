@@ -3,13 +3,16 @@ import { StyleSheet, Text, View,SafeAreaView,TextInput} from 'react-native';
 import { AppBar,IconButton,Icon, Button} from "@react-native-material/core";
 import { useNavigation} from '@react-navigation/core';
 import {ProgressBar} from '@react-native-community/progress-bar-android';
-import { styles,form,progressBar} from './styles';
+import { styles,form,progressBar,Camera} from './styles';
+import { useStateValue } from "../StateProvider";
 
 export default PanCardInfo = () => {
     const navigation = useNavigation();
     const [pan,setPan]=useState("");
     const [next,setNext] = useState();
-    const [panName, setPanName]=useState('');
+    const [{IDCapture},dispatch] = useStateValue();
+    // const [panName, setPanName]=useState('');
+
     useEffect(() => {
       if(pan.length === 10){
         setNext(true);
@@ -41,8 +44,10 @@ export default PanCardInfo = () => {
   <Text style={form.formHeader} >You are almost there, we just need to verify {'\n'}                       your Pan Card</Text>
 
   {pan? <Text style={form.formLabel} >Enter PAN Number</Text>:null}
+  <View style={{flexDirection:"row"}}>
   <TextInput style={form.formTextInput} value={pan} onChangeText={setPan}  placeholder="Enter PAN Number"/>
-
+  <IconButton icon={<Icon name="camera-alt" size={20} color="black"/>} style={Camera.cameraButton} onPress={()=>{navigation.navigate("IDCapture")}}/>
+  </View>
  {/* PAN OnGrid API based Dynamic Render */}
   {/* {panName ? <Text style={form.formLabel}>Name Registered with PAN</Text>:null}
   {
