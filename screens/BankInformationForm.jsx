@@ -19,7 +19,7 @@ export default BankInformationForm = () => {
     title="Setup Profile"
     color="#4E46F1"
     leading={
-      <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.navigate("PanCardInfo")} />
+      <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.navigate("PersonlInfoForm")} />
     }
     />
     <View style={progressBar.progressView}>
@@ -49,7 +49,7 @@ export default BankInformationForm = () => {
     <TextInput style={bankform.formInput} editable={false} value={fullName}/>
     <Text style={bankform.formtitle} >Bank Account No*<Icon name="info-outline" size={20} color="grey"/></Text>
     <TextInput style={bankform.formInput}/>
-    <Text style={bankform.formtitle} >Bank Account Id*<Icon name="info-outline" size={20} color="grey"/></Text>
+    <Text style={bankform.formtitle} >IFSC Code*<Icon name="info-outline" size={20} color="grey"/></Text>
     <TextInput style={bankform.formInput}/>
     <Text style={bankform.formtitle}>UPI ID*<Icon name="info-outline" size={20} color="grey"/></Text>
     <TextInput style={bankform.formInput}/>

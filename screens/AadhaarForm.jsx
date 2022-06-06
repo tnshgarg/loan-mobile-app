@@ -27,7 +27,7 @@ export default AadhaarForm = () => {
     title="Setup Profile"
     color="#4E46F1"
     leading={
-      <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.navigate('PersonlInfoForm')} />
+      <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.navigate('Otp')} />
     }
     />
     <View style={progressBar.progressView}>
@@ -35,9 +35,9 @@ export default AadhaarForm = () => {
           styleAttr="Horizontal"
           style={progressBar.progressBar}
           indeterminate={false}
-          progress={0.5}
+          progress={0.25}
         />
-    <Text style={progressBar.progressNos} >2/4</Text>
+    <Text style={progressBar.progressNos} >1/4</Text>
     </View>
     <Text style={form.formHeader} >Let's begin with your background verification {'\n'}                   processs with eKYC</Text>
 

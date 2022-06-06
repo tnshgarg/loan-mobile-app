@@ -17,14 +17,14 @@ export default AadhaarConfirm = () => {
       <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.navigate('AadhaarVerify')} />
     }
     />
-    <View style={progressBar.progressView}>
+     <View style={progressBar.progressView}>
     <ProgressBar
           styleAttr="Horizontal"
           style={progressBar.progressBar}
           indeterminate={false}
-          progress={0.5}
+          progress={0.25}
         />
-    <Text style={progressBar.progressNos} >2/4</Text>
+    <Text style={progressBar.progressNos} >1/4</Text>
     </View>
       <View style={styles.container}>
           <Text style={form.OtpAwaitMsg} >Please confirm if these are your details</Text>

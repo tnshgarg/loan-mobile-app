@@ -63,7 +63,7 @@ export default OTPScreen = () => {
         setUser(user);
         console.log("THIS IS THE USER");
         console.log(user);
-        navigation.navigate('PersonlInfoForm');
+        navigation.navigate('AadhaarForm');
       })
       .catch((err) => {
         setOtp('');

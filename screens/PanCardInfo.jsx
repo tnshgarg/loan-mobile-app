@@ -9,7 +9,7 @@ export default PanCardInfo = () => {
     const navigation = useNavigation();
     const [pan,setPan]=useState("");
     const [next,setNext] = useState();
-    
+    const [panName, setPanName]=useState('');
     useEffect(() => {
       if(pan.length === 10){
         setNext(true);
@@ -26,7 +26,7 @@ export default PanCardInfo = () => {
   title="Setup Profile"
   color="#4E46F1"
   leading={
-    <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.navigate('AadharConfirm')} />
+    <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.navigate('AadhaarConfirm')} />
   }
   />
    <View style={progressBar.progressView}>
@@ -34,15 +34,24 @@ export default PanCardInfo = () => {
           styleAttr="Horizontal"
           style={progressBar.progressBar}
           indeterminate={false}
-          progress={0.75}
+          progress={0.5}
         />
-    <Text style={progressBar.progressNos} >3/4</Text>
+    <Text style={progressBar.progressNos} >2/4</Text>
     </View>
   <Text style={form.formHeader} >You are almost there, we just need to verify {'\n'}                       your Pan Card</Text>
 
   {pan? <Text style={form.formLabel} >Enter PAN Number</Text>:null}
   <TextInput style={form.formTextInput} value={pan} onChangeText={setPan}  placeholder="Enter PAN Number"/>
-  {next ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{navigation.navigate("BankInfoForm")}}><Text>Verify</Text></Button> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}  
+
+ {/* PAN OnGrid API based Dynamic Render */}
+  {/* {panName ? <Text style={form.formLabel}>Name Registered with PAN</Text>:null}
+  {
+      resp["data"]["pan_data"]["name_match_status"] === "MATCH" ? 
+      <TextInput style={form.formTextInput} value={panName} onChangeText={setPanName}  placeholder="Enter Name Registered with PAN"/> :
+      null
+  } */}
+
+  {next ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{navigation.navigate("PersonlInfoForm")}}><Text>Verify</Text></Button> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}  
     
   </SafeAreaView>
   </>

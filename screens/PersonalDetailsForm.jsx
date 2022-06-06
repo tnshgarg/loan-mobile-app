@@ -10,23 +10,13 @@ import {form, progressBar, styles} from './styles';
 export default PesonalDetailsForm = () => {
 
   const educationalQualifications = ["10th Pass", "12th Pass", "Graduate", "Post Graduate", "None of the Above"];
-  const genders = ["Male", "Female"];
   const maritalStatuses = ["Unmarried", "Married"];
 
-  const [gender, setGender] = useState('');
   const [maritalStatus, setMaritalStatus] = useState('');
-  const [fullName, setFullName]=useState('');
   const [educationalQualification,setEducationallQualification] = useState('');
 
   const navigation = useNavigation();
   const [{user},dispatch] = useStateValue();
-
-  useEffect(() => {
-    dispatch({
-      type: "SET_FULL_NAME",
-      payload: fullName,
-    })}, [fullName]);
-  
 
   return (
     <>
@@ -36,36 +26,21 @@ export default PesonalDetailsForm = () => {
           title="Setup Profile"
           color="#4E46F1"
           leading={
-            <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.navigate("Otp")} />
+            <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.navigate("PanCardInfo")} />
           }
         />
 
         <View style={progressBar.progressView}>
-          <ProgressBar
-            styleAttr="Horizontal"
-            style={progressBar.progressBar}
-            indeterminate={false}
-            progress={0.25}
-          />
-          <Text style={progressBar.progressNos} >1/4</Text>
+            <ProgressBar
+                  styleAttr="Horizontal"
+                  style={progressBar.progressBar}
+                  indeterminate={false}
+                  progress={0.75}
+                />
+            <Text style={progressBar.progressNos} >3/4</Text>
         </View>
         
         <Text style={form.formHeader}>Welcome, Let's start your onboarding process</Text>
-        {fullName ? <Text style={form.formLabel}>Full Name</Text>:null}
-        <TextInput style={form.formTextInput} value={fullName} onChangeText={setFullName}  placeholder="Full Name"/>
-
-        <Text style={form.formLabel}>Gender</Text>
-        <View style={styles.flexrow}>
-          {
-            genders.map((item,index)=>{
-              return(
-                <Button key={index} uppercase={false} 
-                        style={gender==item ? form.chosenButton :form.choiceButton} title={item} type="solid" color="#4E46F1" 
-                        onPress={()=>setGender(item)}/>
-              )}
-            )
-          }
-        </View>
 
         <Text style={form.formLabel}>Select Education</Text>
           <Picker
@@ -94,9 +69,7 @@ export default PesonalDetailsForm = () => {
             )
           }
         </View>
-
-        <Button title="Continue" type="solid"  uppercase={false} style={form.nextButton} color="#4E46F1" onPress={()=>{navigation.navigate("AadhaarForm")}}/>
-
+        <Button title="Continue" type="solid"  uppercase={false} style={form.nextButton} color="#4E46F1" onPress={()=>{navigation.navigate("BankInfoForm")}}/>
       </SafeAreaView>
     </>
   )
