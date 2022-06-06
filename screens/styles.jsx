@@ -149,7 +149,13 @@ export const form = StyleSheet.create({
         marginTop:10,
         fontSize:16,
         fontFamily:"Roboto"
-
+    },
+    aadharConfirmText:{
+        color:"#230C45",
+        marginLeft:69,
+        marginTop:10,
+        fontSize:16,
+        fontFamily:"Roboto"
     },
     yesButton:{
         padding:10,
@@ -166,6 +172,12 @@ export const form = StyleSheet.create({
         width:150,
         height:60,
         fontSize:20,
+    },
+    aadharimg:{
+        marginLeft:100,
+        marginTop:30,
+        width:200,
+        height:200
     },
 
 })
@@ -220,6 +232,7 @@ export const bankform=StyleSheet.create({
     }
 
 })
+
 export const homeCard=StyleSheet.create({
     card:{
         marginTop:20,
