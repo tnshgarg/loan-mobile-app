@@ -21,10 +21,6 @@ export default LoginScreen = () => {
   const [session,setSession] = useState(null); 
   const password = Math.random().toString(8) + 'Abc#';
   SplashScreen.hide();
-
-  if(user) {
-    navigation.navigate('Home');
-  }
   
   const signIn = () => {
     Auth.signIn(phoneNumber)
@@ -87,7 +83,6 @@ export default LoginScreen = () => {
             {console.log(DeviceInfo.getPhoneNumber())}
             <TextInput style={styles.textInput} value={phoneNumber} onChangeText={setPhoneNumber} autoCompleteType="tel" keyboardType="phone-pad" textContentType="telephoneNumber"/>
             {next ? <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} color="#4E46F1" onPress={() => {signIn()}}/>: <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} disabled/>}
-            <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} color="#4E46F1" onPress={() => {navigation.navigate('AadhaarForm')}}/>  
         </View>
     </SafeAreaView>
   )

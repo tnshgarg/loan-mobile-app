@@ -331,7 +331,10 @@ export const Camera = StyleSheet.create({
         marginLeft: -330,
       },
       cameraButton:{
-        marginLeft:-40,
-        marginTop:5
+        alignSelf: 'center',
+        marginTop:20,
+        borderWidth:2,
+        borderRadius:10,
+        paddingHorizontal:100,
       }
 })

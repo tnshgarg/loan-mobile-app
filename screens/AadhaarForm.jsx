@@ -40,12 +40,14 @@ export default AadhaarForm = () => {
     <Text style={progressBar.progressNos} >1/4</Text>
     </View>
     <Text style={form.formHeader} >Let's begin with your background verification {'\n'}                   processs with eKYC</Text>
-
-    {aadhaar? <Text style={form.formLabel} >Enter 12 Digit Aadhaar Number</Text> : null}
-    <View style={{flexDirection:"row"}}>
-    <TextInput style={form.formTextInput} value={aadhaar} onChangeText={setAadhaar} placeholder="Enter 12 Digit Aadhaar Number"/>
+    <Text style={form.formLabel} >Aadhaar Front</Text>
     {consent ? <IconButton icon={<Icon name="camera-alt" size={20} color="black"/>} style={Camera.cameraButton} onPress={()=>{navigation.navigate("IDCapture")}}/> : <IconButton icon={<Icon name="camera-alt" size={20} color="grey"/>} style={Camera.cameraButton} onPress={()=>{navigation.navigate("IDCapture")}} disabled/>}
-    </View>
+    <Text style={form.formLabel} >Aadhaar Back</Text>
+    {consent ? <IconButton icon={<Icon name="camera-alt" size={20} color="black"/>} style={Camera.cameraButton} onPress={()=>{navigation.navigate("IDCapture")}}/> : <IconButton icon={<Icon name="camera-alt" size={20} color="grey"/>} style={Camera.cameraButton} onPress={()=>{navigation.navigate("IDCapture")}} disabled/>}
+    
+    {aadhaar? <Text style={form.formLabel} >Enter 12 Digit Aadhaar Number</Text> : null}
+    <TextInput style={form.formTextInput} value={aadhaar} onChangeText={setAadhaar} placeholder="Enter 12 Digit Aadhaar Number"/>
+   
     <View style={{flexDirection:"row"}}>
     <CheckBox
           value={consent}

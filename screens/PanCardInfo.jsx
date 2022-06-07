@@ -44,10 +44,9 @@ export default PanCardInfo = () => {
   <Text style={form.formHeader} >You are almost there, we just need to verify {'\n'}                       your Pan Card</Text>
 
   {pan? <Text style={form.formLabel} >Enter PAN Number</Text>:null}
-  <View style={{flexDirection:"row"}}>
   <TextInput style={form.formTextInput} value={pan} onChangeText={setPan}  placeholder="Enter PAN Number"/>
+  <Text style={form.formLabel} >Scan PAN Front</Text>
   <IconButton icon={<Icon name="camera-alt" size={20} color="black"/>} style={Camera.cameraButton} onPress={()=>{navigation.navigate("IDCapture")}}/>
-  </View>
  {/* PAN OnGrid API based Dynamic Render */}
   {/* {panName ? <Text style={form.formLabel}>Name Registered with PAN</Text>:null}
   {
