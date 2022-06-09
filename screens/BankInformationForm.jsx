@@ -11,7 +11,8 @@ export default BankInformationForm = () => {
   const navigation = useNavigation();
   const [{fullName}] = useStateValue();
   const [bank,setBank] = useState("");
-
+  const fields = ["Account Holder Name*","Bank Account Number*","IFSC Code*","UPI ID*"];
+  const banks = ["HDFC Bank","ICICI Bank"]
 
   return (
     <>
@@ -40,20 +41,21 @@ export default BankInformationForm = () => {
         style={form.picker}
         onValueChange={(itemValue) => setBank(itemValue)}
       >
-        <Picker.Item label="HDFC Bank" value="HDFC Bank"/>
-        <Picker.Item label="ICICI Bank" value="ICICI Bank" />
+         {banks.map((bank,index)=>{
+          return <Picker.Item label={bank} value={bank} key={index}/>
+        }
+        )}
       </Picker>
       
-
-    <Text style={bankform.formtitle} >Account Holder Name<Icon name="info-outline" size={20} color="grey"/></Text>
-    <TextInput style={bankform.formInput} editable={false} value={fullName}/>
-    <Text style={bankform.formtitle} >Bank Account No*<Icon name="info-outline" size={20} color="grey"/></Text>
-    <TextInput style={bankform.formInput}/>
-    <Text style={bankform.formtitle} >Bank Account Id*<Icon name="info-outline" size={20} color="grey"/></Text>
-    <TextInput style={bankform.formInput}/>
-    <Text style={bankform.formtitle}>UPI ID*<Icon name="info-outline" size={20} color="grey"/></Text>
-    <TextInput style={bankform.formInput}/>
-    
+    {fields.map((field,index)=>{
+      return(
+        <>
+        <Text style={bankform.formtitle} key={index}>{field}<Icon name="info-outline" size={20} color="grey"/></Text>
+        <TextInput style={bankform.formInput}/>
+        </>
+      )
+    }
+    )}
     <Button title="Finish" type="solid" uppercase={false} style={bankform.nextButton} color="#4E46F1" onPress={()=>{navigation.navigate("Home")}}/>
     <View style={bankform.padding}></View>
     </ScrollView>
