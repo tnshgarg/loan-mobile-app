@@ -1,0 +1,176 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-employeeapp-dev-234635-authRole",
+      "UnauthRoleArn": "arn:aws:iam::696850127250:role/amplify-employeeapp-dev-234635-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::696850127250:role/amplify-employeeapp-dev-234635-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-employeeapp-dev-234635-deployment",
+      "UnauthRoleName": "amplify-employeeapp-dev-234635-unauthRole",
+      "StackName": "amplify-employeeapp-dev-234635",
+      "StackId": "arn:aws:cloudformation:ap-south-1:696850127250:stack/amplify-employeeapp-dev-234635/24caadb0-e2a0-11ec-8e87-020fe85ccf7a",
+      "AmplifyAppId": "d1jzzk8we1w6nn",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-employeeapp-dev-234635-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
+    }
+  },
+  "function": {
+    "employeeappc90fc2e6c90fc2e6CreateAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "Region": "ap-south-1",
+        "Arn": "arn:aws:lambda:ap-south-1:696850127250:function:employeeappc90fc2e6c90fc2e6CreateAuthChallenge-dev",
+        "Name": "employeeappc90fc2e6c90fc2e6CreateAuthChallenge-dev",
+        "LambdaExecutionRole": "employeeappc90fc2e6c90fc2e6CreateAuthChallenge-dev"
+      },
+      "lastPushTimeStamp": "2022-06-04T10:55:10.202Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-employeeapp-dev-234635-deployment/amplify-cfn-templates/function/employeeappc90fc2e6c90fc2e6CreateAuthChallenge-cloudformation-template.json",
+        "logicalId": "functionemployeeappc90fc2e6c90fc2e6CreateAuthChallenge"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-employeeapp-dev-234635-deployment",
+        "s3Key": "amplify-builds/employeeappc90fc2e6c90fc2e6CreateAuthChallenge-755a72584b2f7477756a-build.zip"
+      }
+    },
+    "employeeappc90fc2e6c90fc2e6DefineAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "Region": "ap-south-1",
+        "Arn": "arn:aws:lambda:ap-south-1:696850127250:function:employeeappc90fc2e6c90fc2e6DefineAuthChallenge-dev",
+        "Name": "employeeappc90fc2e6c90fc2e6DefineAuthChallenge-dev",
+        "LambdaExecutionRole": "employeeappc90fc2e6c90fc2e6DefineAuthChallenge-dev"
+      },
+      "lastPushTimeStamp": "2022-06-04T10:55:10.206Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-employeeapp-dev-234635-deployment/amplify-cfn-templates/function/employeeappc90fc2e6c90fc2e6DefineAuthChallenge-cloudformation-template.json",
+        "logicalId": "functionemployeeappc90fc2e6c90fc2e6DefineAuthChallenge"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-employeeapp-dev-234635-deployment",
+        "s3Key": "amplify-builds/employeeappc90fc2e6c90fc2e6DefineAuthChallenge-396264484c3531423157-build.zip"
+      }
+    },
+    "employeeappc90fc2e6c90fc2e6PreSignup": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "Region": "ap-south-1",
+        "Arn": "arn:aws:lambda:ap-south-1:696850127250:function:employeeappc90fc2e6c90fc2e6PreSignup-dev",
+        "Name": "employeeappc90fc2e6c90fc2e6PreSignup-dev",
+        "LambdaExecutionRole": "employeeappc90fc2e6c90fc2e6PreSignup-dev"
+      },
+      "lastPushTimeStamp": "2022-06-04T10:55:10.210Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-employeeapp-dev-234635-deployment/amplify-cfn-templates/function/employeeappc90fc2e6c90fc2e6PreSignup-cloudformation-template.json",
+        "logicalId": "functionemployeeappc90fc2e6c90fc2e6PreSignup"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-employeeapp-dev-234635-deployment",
+        "s3Key": "amplify-builds/employeeappc90fc2e6c90fc2e6PreSignup-56617135756533746c51-build.zip"
+      }
+    },
+    "employeeappc90fc2e6c90fc2e6VerifyAuthChallengeResponse": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "Region": "ap-south-1",
+        "Arn": "arn:aws:lambda:ap-south-1:696850127250:function:employeeappc90fc2e6c90fc2e6VerifyAuthChallengeResponse-dev",
+        "Name": "employeeappc90fc2e6c90fc2e6VerifyAuthChallengeResponse-dev",
+        "LambdaExecutionRole": "employeeappc90fc2e6c90fc2e6VerifyAuthChallengeResponse-dev"
+      },
+      "lastPushTimeStamp": "2022-06-04T10:55:10.213Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-employeeapp-dev-234635-deployment/amplify-cfn-templates/function/employeeappc90fc2e6c90fc2e6VerifyAuthChallengeResponse-cloudformation-template.json",
+        "logicalId": "functionemployeeappc90fc2e6c90fc2e6VerifyAuthChallengeResponse"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-employeeapp-dev-234635-deployment",
+        "s3Key": "amplify-builds/employeeappc90fc2e6c90fc2e6VerifyAuthChallengeResponse-6156356d70445877382f-build.zip"
+      }
+    }
+  },
+  "auth": {
+    "employeeappc90fc2e6c90fc2e6": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "employeeappc90fc2e6c90fc2e6CreateAuthChallenge",
+          "triggerProvider": "Cognito",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "employeeappc90fc2e6c90fc2e6DefineAuthChallenge",
+          "triggerProvider": "Cognito",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "employeeappc90fc2e6c90fc2e6PreSignup",
+          "triggerProvider": "Cognito",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "employeeappc90fc2e6c90fc2e6VerifyAuthChallengeResponse",
+          "triggerProvider": "Cognito",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
+        }
+      ],
+      "customAuth": true,
+      "frontendAuthConfig": {
+        "socialProviders": [],
+        "usernameAttributes": [],
+        "signupAttributes": [
+          "PHONE_NUMBER"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "verificationMechanisms": [
+          "PHONE_NUMBER"
+        ]
+      },
+      "output": {
+        "CreatedSNSRole": "arn:aws:iam::696850127250:role/snsc90fc2e6234635-dev",
+        "UserPoolId": "ap-south-1_OBWdxxqt3",
+        "AppClientIDWeb": "133238kjd8d9ivvfds1iqjcloj",
+        "AppClientID": "10edqgq8jtoqmmjdtia279jvu1",
+        "IdentityPoolId": "ap-south-1:86a7d75f-2c28-45ab-854f-fd8816403130",
+        "UserPoolArn": "arn:aws:cognito-idp:ap-south-1:696850127250:userpool/ap-south-1_OBWdxxqt3",
+        "IdentityPoolName": "employeeappc90fc2e6_identitypool_c90fc2e6__dev",
+        "UserPoolName": "employeeappc90fc2e6_userpool_c90fc2e6"
+      },
+      "lastPushTimeStamp": "2022-06-04T10:55:10.217Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-employeeapp-dev-234635-deployment/amplify-cfn-templates/auth/employeeappc90fc2e6c90fc2e6-cloudformation-template.json",
+        "logicalId": "authemployeeappc90fc2e6c90fc2e6"
+      }
+    }
+  }
+}

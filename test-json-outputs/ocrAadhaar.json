@@ -1,0 +1,1 @@
+{"request_id":"321b8c1f-03c9-4828-ba21-3ff9c1829cae","status":200,"data":{"code":"1014","message":"Data extracted.","ocr_data":{"document":{"document_type":"AADHAAR","document_id":"230491855069","name":"Pranav Murali","gender":"MALE"},"metadata":{"components":[{"tags":["AADHAAR_FRONT"]}]}}},"timestamp":1654545341945,"path":"/ocr"}

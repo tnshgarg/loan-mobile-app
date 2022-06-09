@@ -1,0 +1,1 @@
+{"request_id":"cc2b4513-a8fc-4223-8954-a9dbadc0ce06","status":200,"data":{"code":"1018","message":"Aadhaar number exists","aadhaar_data":{"document_type":"AADHAAR","gender":"MALE","age_band":"20-30","mobile":"xxxxxxx140","state":"Tamil Nadu"}},"timestamp":1654464862149,"path":"/verify"}

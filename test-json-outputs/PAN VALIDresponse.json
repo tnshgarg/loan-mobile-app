@@ -1,0 +1,1 @@
+{"request_id":"0a482142-42a6-4293-a18d-f36d08ff10d5","status":200,"data":{"code":"1001","message":"Valid details.","pan_data":{"document_type":"PAN","name_match_status":"MATCH","dob_match_status":"MATCH"}},"timestamp":1654465212346,"path":"/v2/verify"}
