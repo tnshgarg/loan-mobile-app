@@ -49,7 +49,6 @@ export default PesonalDetailsForm = () => {
           />
           <Text style={progressBar.progressNos} >1/4</Text>
         </View>
-        
         <Text style={form.formHeader}>Welcome, Let's start your onboarding process</Text>
         {fullName ? <Text style={form.formLabel}>Full Name</Text>:null}
         <TextInput style={form.formTextInput} value={fullName} onChangeText={setFullName}  placeholder="Full Name"/>
@@ -81,23 +80,17 @@ export default PesonalDetailsForm = () => {
               )
             }
           </Picker>
-        
-        <Text style={form.formLabel}>Marital Status</Text>
-        <View style={styles.flexrow}>
-          {
-            maritalStatuses.map((item,index)=>{
-              return(
-                <Button key={index} uppercase={false} 
-                        style={maritalStatus==item ? form.chosenButton : form.choiceButton} title={item} type="solid" color="#4E46F1" 
-                        onPress={()=>setMaritalStatus(item)}/>
-              )}
-            )
-          }
-        </View>
-
-        <Button title="Continue" type="solid"  uppercase={false} style={form.nextButton} color="#4E46F1" onPress={()=>{navigation.navigate("AadharForm")}}/>
-
-      </SafeAreaView>
+      </Picker>
+    <Text style={form.formLabel} >Marital Status</Text>
+    <View style={styles.flexrow}>
+    {maritalStatuslist.map((item,index)=>{
+      return(
+        <Button key={index} uppercase={false} style={maritalStatus==item ? form.chosenButton : form.choiceButton} title={item} type="solid" color="#4E46F1" onPress={()=>setMaritalStatus(item)}/>
+      )
+    })}
+    </View>
+    <Button title="Continue" type="solid"  uppercase={false} style={form.nextButton} color="#4E46F1" onPress={()=>{navigation.navigate("AadhaarForm")}}/>
+    </SafeAreaView>
     </>
   )
 }

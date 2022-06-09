@@ -13,14 +13,6 @@ export default LoginScreen = () => {
   const [{conf},dispatch] = useStateValue();
   const [confirm, setConfirm] = useState(null);
 
-  async function signIn(phoneNumber) {
-    try {
-      navigation.navigate('Otp');
-    } catch (error) {
-      alert(error);
-    }
-  }
-
   useEffect(() => {
     dispatch({
       type: "SET_CONF",
