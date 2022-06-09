@@ -277,6 +277,7 @@ export const docSearch = StyleSheet.create({
     searchBar:{
         marginLeft:20,
         flexDirection:"row",
+        flexWrap: "wrap",
     },
     searchIcon:{
         marginTop:20,
@@ -287,7 +288,6 @@ export const docSearch = StyleSheet.create({
         textAlignVertical:"center",
     },
 })
-
 export const Camera = StyleSheet.create({
     container: {
         flex: 1,

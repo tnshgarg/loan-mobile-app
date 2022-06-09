@@ -39,7 +39,6 @@ export default PesonalDetailsForm = () => {
                 />
             <Text style={progressBar.progressNos} >3/4</Text>
         </View>
-        
         <Text style={form.formHeader}>Welcome, Let's start your onboarding process</Text>
 
         <Text style={form.formLabel}>Select Education</Text>
@@ -55,8 +54,7 @@ export default PesonalDetailsForm = () => {
                 }
               )
             }
-          </Picker>
-        
+          </Picker>        
         <Text style={form.formLabel}>Marital Status</Text>
         <View style={styles.flexrow}>
           {
@@ -71,6 +69,7 @@ export default PesonalDetailsForm = () => {
         </View>
         <Button title="Continue" type="solid"  uppercase={false} style={form.nextButton} color="#4E46F1" onPress={()=>{navigation.navigate("BankInfoForm")}}/>
       </SafeAreaView>
+   
     </>
   )
 }

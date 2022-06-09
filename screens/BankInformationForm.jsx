@@ -11,7 +11,7 @@ export default BankInformationForm = () => {
   const navigation = useNavigation();
   const [{fullName}] = useStateValue();
   const [bank,setBank] = useState("");
-  const fields = ["Account Holder Name","Bank Account Number*","IFSC Code*","UPI ID*"];
+  const fields = ["Account Holder Name*","Bank Account Number*","IFSC Code*","UPI ID*"];
   const banks = ["HDFC Bank","ICICI Bank"]
 
   return (
