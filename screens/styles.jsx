@@ -264,6 +264,7 @@ export const docSearch = StyleSheet.create({
     searchBar:{
         marginLeft:20,
         flexDirection:"row",
+        flexWrap: "wrap",
     },
     searchIcon:{
         marginTop:20,
