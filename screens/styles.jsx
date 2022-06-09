@@ -220,3 +220,58 @@ export const bankform=StyleSheet.create({
     }
 
 })
+export const homeCard=StyleSheet.create({
+    card:{
+        marginTop:20,
+        width:170,
+        borderWidth:1,
+        borderRadius:10,
+        marginRight:10
+    },
+    title:{
+        fontSize:16,
+        fontFamily:"Roboto",
+        fontWeight:"bold",
+    },
+    subtitle:{
+        fontSize:12,
+        fontFamily:"Roboto",
+    },
+    downloadIcon:{
+        marginTop:30,
+        color:"#4E46F1"
+    },
+    downloadText:{
+        marginTop:30,
+        fontSize:12,
+        fontFamily:"Roboto",
+        fontWeight:"bold",
+        color:"#4E46F1"
+    }
+})
+
+export const nav =StyleSheet.create({
+    titleLogo:{
+        width:160,
+        height:80
+    },
+    navbar:{
+        height:80
+    },
+})
+
+export const docSearch = StyleSheet.create({
+    searchBar:{
+        marginLeft:20,
+        flexDirection:"row",
+        flexWrap: "wrap",
+    },
+    searchIcon:{
+        marginTop:20,
+    },
+    searchInput:{
+        width:320,
+        borderBottomWidth:2,
+        textAlignVertical:"center",
+    },
+})

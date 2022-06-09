@@ -9,7 +9,7 @@ import { progressBar,form,bankform} from './styles';
 
 export default BankInformationForm = () => {
   const navigation = useNavigation();
-  const [{user}] = useStateValue();
+  const [{fullName}] = useStateValue();
   const [bank,setBank] = useState("");
   const fields = ["Account Holder Name*","Bank Account Number*","IFSC Code*","UPI ID*"];
   const banks = ["HDFC Bank","ICICI Bank"]
@@ -47,7 +47,6 @@ export default BankInformationForm = () => {
         )}
       </Picker>
       
-
     {fields.map((field,index)=>{
       return(
         <>
@@ -57,7 +56,6 @@ export default BankInformationForm = () => {
       )
     }
     )}
-    
     <Button title="Finish" type="solid" uppercase={false} style={bankform.nextButton} color="#4E46F1" onPress={()=>{navigation.navigate("Home")}}/>
     <View style={bankform.padding}></View>
     </ScrollView>

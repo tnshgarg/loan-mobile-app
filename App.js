@@ -16,7 +16,7 @@ import AadhaarVerify from './screens/AadhaarVerify';
 import AadhaarConfirm from './screens/AadhaarConfirm';
 import PanCardInfo from './screens/PanCardInfo';
 import BankInformationForm from './screens/BankInformationForm';
-
+import Home from './screens/Home';
 export default function App() {
   return (
   <StateProvider initialState={initialState} reducer={reducer}>
@@ -86,6 +86,14 @@ export default function App() {
          <Stack.Screen 
         name="BankInfoForm" 
         component={BankInformationForm} 
+        options={{
+          headerShown: false,
+          header: null,
+        }}
+      />
+         <Stack.Screen 
+        name="Home" 
+        component={Home} 
         options={{
           headerShown: false,
           header: null,
