@@ -4,7 +4,9 @@ export const initialState = {
     session : null,
     user: null,
     fullName : '',
-    IDCapture : null,
+    AadhaarFront : null,
+    AadhaarBack : null,
+    PanFront : null,
 };
 
 const reducer = (state, action) => {
@@ -30,10 +32,23 @@ const reducer = (state, action) => {
                 user : action.payload,
             };
         case 'SET_ID':
-            return {
-                ...state,
-                IDCapture : action.payload,
-            };
+            switch(action.payload.type){
+                case 'AADHAAR_FRONT':
+                    return {
+                        ...state,
+                        AadhaarFront : action.payload.data,
+                    };
+                case 'AADHAAR_BACK':
+                    return {
+                        ...state,
+                        AadhaarBack : action.payload.data,
+                    };
+                case 'PAN_FRONT':
+                    return {
+                        ...state,
+                        PanFront : action.payload.data,
+                    };
+            }
         default:
             return state;
     }

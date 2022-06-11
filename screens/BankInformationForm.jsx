@@ -1,11 +1,11 @@
 import React,{useEffect, useState} from 'react'
-import { Text, View,ScrollView,TextInput} from 'react-native';
+import { Text, View,ScrollView,TextInput, SafeAreaView} from 'react-native';
 import { useStateValue } from "../StateProvider";
 import { useNavigation} from '@react-navigation/core';
 import {Picker} from '@react-native-picker/picker';
 import { AppBar,IconButton,Icon, Button} from "@react-native-material/core";
 import {ProgressBar} from '@react-native-community/progress-bar-android';
-import { progressBar,form,bankform} from './styles';
+import { progressBar,form,bankform,styles} from './styles';
 
 export default BankInformationForm = () => {
   const navigation = useNavigation();
@@ -16,6 +16,7 @@ export default BankInformationForm = () => {
 
   return (
     <>
+    <SafeAreaView style={styles.container}>
      <AppBar
     title="Setup Profile"
     color="#4E46F1"
@@ -59,6 +60,7 @@ export default BankInformationForm = () => {
     <Button title="Finish" type="solid" uppercase={false} style={bankform.nextButton} color="#4E46F1" onPress={()=>{navigation.navigate("Home")}}/>
     <View style={bankform.padding}></View>
     </ScrollView>
+    </SafeAreaView>
     </>
   )
 }

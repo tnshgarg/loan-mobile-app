@@ -13,15 +13,14 @@ const PendingView = () => (
   </View>
 );
 
-export default IDCapture = () => {
+export default IDCapture = (props) => {
   const navigation = useNavigation();
   const [{user},dispatch] = useStateValue();
   const [id,setId] = useState(null);
-
   useEffect(() => {
     dispatch({
       type: "SET_ID",
-      payload: id,
+      payload: {"data":id,"type":props.route.params}
     })
   }, [id])
 
@@ -29,7 +28,6 @@ export default IDCapture = () => {
         const options = { quality: 0.5, base64: true };
         const data = await camera.takePictureAsync(options);
         const base64image = await RNFS.readFile(data.uri, 'base64');
-        console.log(base64image);
         setId(base64image);
       };
 

@@ -75,7 +75,7 @@ export const progressBar = StyleSheet.create({
         marginTop:20,
         marginRight:40,
         marginLeft:20,
-        flexDirection:"row"
+        flexDirection:"row",
     },
     progressBar:{
         width:"100%",
@@ -190,7 +190,10 @@ export const checkBox=StyleSheet.create({
     checkBoxText:{
         marginTop:30,
         fontSize:14,
-        color:"#828282"
+        color:"#828282",
+    },
+    padding:{
+        marginTop:30
     },
 
 })
@@ -331,10 +334,15 @@ export const Camera = StyleSheet.create({
         marginLeft: -330,
       },
       cameraButton:{
-        alignSelf: 'center',
+        marginLeft: 30,
         marginTop:20,
         borderWidth:2,
         borderRadius:10,
-        paddingHorizontal:100,
+        paddingHorizontal:30,
+      },
+      previewImage:{
+        marginLeft:30,
+        height:200,
+        width:200,
       }
 })

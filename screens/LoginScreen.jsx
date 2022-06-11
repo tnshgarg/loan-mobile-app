@@ -1,5 +1,5 @@
 import React ,{useEffect, useState} from 'react'
-import { Image, Text, View,SafeAreaView,TextInput} from 'react-native';
+import { Image, Text, ScrollView,SafeAreaView,TextInput} from 'react-native';
 import { useNavigation} from '@react-navigation/core';
 import { useStateValue } from "../StateProvider";
 import DeviceInfo from 'react-native-device-info';
@@ -76,14 +76,15 @@ export default LoginScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-        <View >
+        <ScrollView>
             <Image style={styles.logo} source={require("../assets/unipe-Thumbnail.png")}/>
             <Text style={styles.headline}>Enter Mobile Number for Verification</Text>
             <Text style={styles.fieldLabel}>Mobile Number</Text>
             {console.log(DeviceInfo.getPhoneNumber())}
             <TextInput style={styles.textInput} value={phoneNumber} onChangeText={setPhoneNumber} autoCompleteType="tel" keyboardType="phone-pad" textContentType="telephoneNumber"/>
             {next ? <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} color="#4E46F1" onPress={() => {signIn()}}/>: <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} disabled/>}
-        </View>
+            <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} color="#4E46F1" onPress={() => {navigation.navigate("AadhaarForm")}}/>
+        </ScrollView>
     </SafeAreaView>
   )
 }

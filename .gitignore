@@ -65,6 +65,15 @@ buck-out/
 /ios/Pods/
 /vendor/bundle/
 
+test-json-outputs/Aadhar base details from number response.json
+test-json-outputs/otpAadhar.json
+test-json-outputs/PAN VALIDresponse.json
+test-json-outputs/ocrAadhaar.json
+test-json-outputs/PAN VALIDresponse.json
+test-json-outputs/otpAadhar.json
+test-json-outputs/ocrAadhaar.json
+test-json-outputs/Aadhar base details from number response.json
+
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
 amplify/.config/local-*
@@ -85,11 +94,3 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
-test-json-outputs/Aadhar base details from number response.json
-test-json-outputs/otpAadhar.json
-test-json-outputs/PAN VALIDresponse.json
-test-json-outputs/ocrAadhaar.json
-test-json-outputs/PAN VALIDresponse.json
-test-json-outputs/otpAadhar.json
-test-json-outputs/ocrAadhaar.json
-test-json-outputs/Aadhar base details from number response.json

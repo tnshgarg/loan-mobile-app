@@ -20,7 +20,7 @@ export default PesonalDetailsForm = () => {
 
   return (
     <>
-      <SafeAreaView>
+      <SafeAreaView style={styles.container}>
 
         <AppBar
           title="Setup Profile"

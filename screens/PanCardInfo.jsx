@@ -1,5 +1,5 @@
 import React ,{useState,useEffect} from 'react'
-import { StyleSheet, Text, View,SafeAreaView,TextInput} from 'react-native';
+import { StyleSheet, Text, View,SafeAreaView,TextInput,Image,ScrollView} from 'react-native';
 import { AppBar,IconButton,Icon, Button} from "@react-native-material/core";
 import { useNavigation} from '@react-navigation/core';
 import {ProgressBar} from '@react-native-community/progress-bar-android';
@@ -10,7 +10,7 @@ export default PanCardInfo = () => {
     const navigation = useNavigation();
     const [pan,setPan]=useState("");
     const [next,setNext] = useState();
-    const [{IDCapture},dispatch] = useStateValue();
+    const [{PanFront},dispatch] = useStateValue();
     // const [panName, setPanName]=useState('');
 
     useEffect(() => {
@@ -24,7 +24,7 @@ export default PanCardInfo = () => {
 
   return (
     <>
-    <SafeAreaView >
+    <SafeAreaView style={styles.container}>
     <AppBar
   title="Setup Profile"
   color="#4E46F1"
@@ -43,10 +43,12 @@ export default PanCardInfo = () => {
     </View>
   <Text style={form.formHeader} >You are almost there, we just need to verify {'\n'}                       your Pan Card</Text>
 
+  <ScrollView>
   {pan? <Text style={form.formLabel} >Enter PAN Number</Text>:null}
   <TextInput style={form.formTextInput} value={pan} onChangeText={setPan}  placeholder="Enter PAN Number"/>
   <Text style={form.formLabel} >Scan PAN Front</Text>
-  <IconButton icon={<Icon name="camera-alt" size={20} color="black"/>} style={Camera.cameraButton} onPress={()=>{navigation.navigate("IDCapture")}}/>
+  {PanFront ? <Image source={{uri: `data:image/jpeg;base64,${PanFront}`}} style={Camera.previewImage} /> : null}
+  <IconButton icon={<Icon name="camera-alt" size={20} color="black"/>} style={Camera.cameraButton} onPress={()=>{navigation.navigate("IDCapture","PAN_FRONT")}}/>
  {/* PAN OnGrid API based Dynamic Render */}
   {/* {panName ? <Text style={form.formLabel}>Name Registered with PAN</Text>:null}
   {
@@ -56,7 +58,7 @@ export default PanCardInfo = () => {
   } */}
 
   {next ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{navigation.navigate("PersonlInfoForm")}}><Text>Verify</Text></Button> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}  
-    
+  </ScrollView>
   </SafeAreaView>
   </>
   )

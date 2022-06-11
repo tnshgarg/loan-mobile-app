@@ -9,7 +9,7 @@ import { form,progressBar, styles} from './styles';
 export default AadhaarConfirm = () => {
     const navigation = useNavigation();
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
     <AppBar
     title="Setup Profile"
     color="#4E46F1"

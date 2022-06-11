@@ -2,11 +2,10 @@ import React,{useEffect, useState} from 'react'
 import { Image, Text, View,SafeAreaView,TextInput} from 'react-native';
 import { useStateValue } from "../StateProvider";
 import { useNavigation} from '@react-navigation/core';
-import HomeView from './HomeView';
 import {styles,nav} from "./styles"
 import { AppBar,IconButton,Icon, Button} from "@react-native-material/core";
 import BottomTabNav from '../components/BottomTabNav';
-
+import HomeView from "./HomeView";
 import Amplify from '@aws-amplify/core';
 import Auth from '@aws-amplify/auth';
 import awsconfig from '../src/aws-exports';
@@ -14,6 +13,7 @@ Amplify.configure(awsconfig);
 
 export default Home = () => { 
   const [{user},dispatch] = useStateValue();
+  const tabs=[{"name":"Home","component":HomeView},{"name":"Documents","component":HomeView},{"name":"Benefits","component":HomeView},{"name":"Banking","component":HomeView}];
   const signOut = () => {
     if (user) {
       Auth.signOut();
@@ -28,7 +28,6 @@ export default Home = () => {
     }
   };
     const navigation = useNavigation();
-    const bottomTab = createBottomTabNavigator();
     console.log("USER REGED");
     console.log(user);
   return (

@@ -1,5 +1,5 @@
 import React ,{useEffect, useState} from 'react'
-import { Image, Text, View,SafeAreaView,TextInput, KeyboardAvoidingView} from 'react-native';
+import { Image, Text, View,SafeAreaView,TextInput, ScrollView} from 'react-native';
 import { Button,Icon,Grid} from "@react-native-material/core";
 import { useNavigation} from '@react-navigation/core';
 import { useStateValue } from "../StateProvider";
@@ -72,7 +72,8 @@ export default OTPScreen = () => {
   };
   
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
       <View style={styles.container}>
       <Image style={styles.logo} source={require("../assets/unipe-Thumbnail.png")}/>
           <Text style={styles.headline} >Please wait, we will auto verify the OTP {'\n'}             sent to {phone_number}
@@ -82,6 +83,7 @@ export default OTPScreen = () => {
           <Text style={styles.resendText} onPress={()=>{ResendOtp()}}>Resend OTP</Text>
           {next ? <Button uppercase={false} title="Verify" type="solid"  color="#4E46F1" style={styles.ContinueButton} onPress={() => {verifyOtp()}}><Text>Verify</Text></Button> : <Button title="Verify" uppercase={false} type="solid"  style={styles.ContinueButton} disabled/>}
       </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }

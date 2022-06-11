@@ -1,5 +1,5 @@
 import React ,{useEffect, useState} from 'react'
-import { Image, Text, View,SafeAreaView,TextInput, KeyboardAvoidingView} from 'react-native';
+import { Image, Text, View,SafeAreaView,TextInput, ScrollView} from 'react-native';
 import { AppBar,IconButton,Icon, Button} from "@react-native-material/core";
 import { useNavigation} from '@react-navigation/core';
 import { useStateValue } from "../StateProvider";
@@ -39,7 +39,7 @@ export default AadhaarVerify = () => {
     }, [otp]);
   
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
           <AppBar
     title="Setup Profile"
     color="#4E46F1"
@@ -56,13 +56,14 @@ export default AadhaarVerify = () => {
         />
     <Text style={progressBar.progressNos} >1/4</Text>
     </View>
+    <ScrollView>
       <View style={styles.container}>
-          <Text style={form.OtpAwaitMsg} >OTP has been sent vis SMS to your Aadhaar {'\n'}          registered mobile number
-          </Text>
+          <Text style={form.OtpAwaitMsg} >OTP has been sent vis SMS to your Aadhaar {'\n'}          registered mobile number</Text>
           <TextInput style={styles.otpInput} letterSpacing={23} maxLength={6} numeric value={otp} onChangeText={setOtp} keyboardType="numeric"/>
           <Text style={styles.resendText} onPress={()=>{ResendOtp()}}>Resend OTP</Text>
           {next ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={() => {confirmVerificationCode(otp)}}/> : <Button title="Continue" uppercase={false} type="solid" style={form.nextButton} disabled/>}
       </View>
+    </ScrollView>
     </SafeAreaView>
   )
 }
