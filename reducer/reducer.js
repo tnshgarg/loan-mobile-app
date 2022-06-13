@@ -7,6 +7,10 @@ export const initialState = {
     AadhaarFront : null,
     AadhaarBack : null,
     PanFront : null,
+    AadhaarTransactionId: null,
+    AadharData: null,
+    AadhaarDataFront:null,
+    AadhaarDataBack:null,
 };
 
 const reducer = (state, action) => {
@@ -31,6 +35,16 @@ const reducer = (state, action) => {
                 ...state,
                 user : action.payload,
             };
+        case 'SET_AADHAAR_TRANSACTION_ID':
+            return {
+                ...state,
+                AadhaarTransactionId : action.payload,
+            };
+        case 'SET_AADHAAR_DATA':
+            return {
+                ...state,
+                AadhaarData : action.payload,
+            };
         case 'SET_ID':
             switch(action.payload.type){
                 case 'AADHAAR_FRONT':
@@ -49,6 +63,20 @@ const reducer = (state, action) => {
                         PanFront : action.payload.data,
                     };
             }
+        case 'SET_AADHAAR_OCR_DATA':
+            switch(action.payload.type){
+                case 'AADHAAR_FRONT':
+                    return {
+                        ...state,
+                        AadhaarDataFront : action.payload.data,
+                    };
+                case 'AADHAAR_BACK':
+                    return {
+                        ...state,
+                        AadhaarDataBack : action.payload.data,
+                    };
+            }
+
         default:
             return state;
     }

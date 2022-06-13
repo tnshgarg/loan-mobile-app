@@ -179,6 +179,13 @@ export const form = StyleSheet.create({
         width:200,
         height:200
     },
+    aadhaarOr:{
+        marginBottom:20,
+        marginTop:20,
+        alignSelf:"center",
+        fontSize:16,
+        fontFamily:"Roboto"
+    }
 
 })
 

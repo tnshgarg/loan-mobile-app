@@ -5,20 +5,44 @@ import { useNavigation} from '@react-navigation/core';
 import { useStateValue } from "../StateProvider";
 import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { styles,progressBar, form } from './styles';
+import {CF_API_KEY, CF_API_PATH} from '@env';
 
 export default AadhaarVerify = () => {
     const navigation = useNavigation();
-    const [{phn,auth,conf},dispatch] = useStateValue();
+    const [{AadhaarTransactionId},dispatch] = useStateValue();
     const [otp, setOtp] = useState('');
     const [next, setNext] = useState(false);
-  
-    async function confirmVerificationCode(code) {
-      console.log(conf,phn);
-      try {
-        navigation.navigate('AadhaarConfirm');
-      } catch (error) {
-        alert('Invalid code');
-      }
+    const [aadharData,setAadharData] = useState({});
+
+    useEffect(()=>{
+      dispatch({
+        type: "SET_AADHAAR_DATA",
+        payload: aadharData
+      })
+    },[aadharData]);
+
+    const data = {
+      "otp": otp,
+      "include_xml": false,
+      "share_code": 1234,
+      "transaction_id": AadhaarTransactionId,
+    }
+
+    async function confirmVerificationCode() {
+      const options = {
+        method: 'POST',
+        headers: {
+          'X-Auth-Type': 'API-Key',
+          'X-API-Key': CF_API_KEY,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      };
+        
+        fetch(`${CF_API_PATH}/aadhaar-api/boson/submit-otp`, options)
+          .then(response => response.json())
+          .then(response => {setAadharData(response["data"]);navigation.navigate('AadhaarConfirm');})
+          .catch(err => console.error(err));
     }
     
     async function ResendOtp() {
@@ -44,7 +68,7 @@ export default AadhaarVerify = () => {
     title="Setup Profile"
     color="#4E46F1"
     leading={
-      <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.navigate('AadhaarForm')} />
+      <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.goBack()} />
     }
     />
      <View style={progressBar.progressView}>
@@ -61,7 +85,7 @@ export default AadhaarVerify = () => {
           <Text style={form.OtpAwaitMsg} >OTP has been sent vis SMS to your Aadhaar {'\n'}          registered mobile number</Text>
           <TextInput style={styles.otpInput} letterSpacing={23} maxLength={6} numeric value={otp} onChangeText={setOtp} keyboardType="numeric"/>
           <Text style={styles.resendText} onPress={()=>{ResendOtp()}}>Resend OTP</Text>
-          {next ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={() => {confirmVerificationCode(otp)}}/> : <Button title="Continue" uppercase={false} type="solid" style={form.nextButton} disabled/>}
+          {next ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={() => {confirmVerificationCode()}}/> : <Button title="Continue" uppercase={false} type="solid" style={form.nextButton} disabled/>}
       </View>
     </ScrollView>
     </SafeAreaView>
