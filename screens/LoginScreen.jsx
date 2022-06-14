@@ -81,7 +81,7 @@ export default LoginScreen = () => {
             <Text style={styles.headline}>Enter Mobile Number for Verification</Text>
             <Text style={styles.fieldLabel}>Mobile Number</Text>
             {console.log(DeviceInfo.getPhoneNumber())}
-            <TextInput style={styles.textInput} value={phoneNumber} onChangeText={setPhoneNumber} autoCompleteType="tel" keyboardType="phone-pad" textContentType="telephoneNumber"/>
+            <TextInput style={styles.textInput} value={phoneNumber} onChangeText={setPhoneNumber} autoCompleteType="tel" keyboardType="phone-pad" textContentType="telephoneNumber" required/>
             {next ? <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} color="#4E46F1" onPress={() => {signIn()}}/>: <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} disabled/>}
         </ScrollView>
     </SafeAreaView>

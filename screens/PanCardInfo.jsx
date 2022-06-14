@@ -118,9 +118,9 @@ export default PanCardInfo = () => {
    null:
    <>
     {pan? <Text style={form.formLabel} >Enter PAN Number</Text>:null}
-  <TextInput style={form.formTextInput} value={pan} onChangeText={setPan}  placeholder="Enter PAN Number"/>
+  <TextInput style={form.formTextInput} value={pan} onChangeText={setPan}  placeholder="Enter PAN Number" required/>
   {panName ? <Text style={form.formLabel}>Name Registered with PAN</Text>:null}
-  <TextInput style={form.formTextInput} value={panName} onChangeText={setPanName}  placeholder="Enter Name Registered with PAN"/>
+  <TextInput style={form.formTextInput} value={panName} onChangeText={setPanName}  placeholder="Enter Name Registered with PAN" required/>
   {next ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{VerifyPAN()}}><Text>Verify</Text></Button> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}   
   </>
   }

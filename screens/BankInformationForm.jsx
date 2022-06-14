@@ -93,7 +93,7 @@ export default BankInformationForm = () => {
       return(
         <>
         <Text style={bankform.formtitle} key={index}>{field.title}<Icon name="info-outline" size={20} color="grey"/></Text>
-        <TextInput style={bankform.formInput}  value={field.value} onChangeText={field.setvalue}/>
+        <TextInput style={bankform.formInput}  value={field.value} onChangeText={field.setvalue} required/>
         </>
       )
     }

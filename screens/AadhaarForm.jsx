@@ -163,7 +163,7 @@ export default AadhaarForm = () => {
         :
         <>
         {aadhaar? <Text style={form.formLabel} >Enter 12 Digit Aadhaar Number</Text> : null}
-        <TextInput style={form.formTextInput} value={aadhaar} onChangeText={setAadhaar} placeholder="Enter 12 Digit Aadhaar Number"/>
+        <TextInput style={form.formTextInput} value={aadhaar} onChangeText={setAadhaar} placeholder="Enter 12 Digit Aadhaar Number" required/>
        
         <View style={{flexDirection:"row"}}>
         <CheckBox
