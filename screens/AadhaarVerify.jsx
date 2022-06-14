@@ -5,7 +5,7 @@ import { useNavigation} from '@react-navigation/core';
 import { useStateValue } from "../StateProvider";
 import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { styles,progressBar, form } from './styles';
-import {CF_API_KEY, CF_API_PATH} from '@env';
+import {CF_API_KEY} from '@env';
 
 export default AadhaarVerify = () => {
     const navigation = useNavigation();
@@ -39,7 +39,7 @@ export default AadhaarVerify = () => {
         body: JSON.stringify(data)
       };
         
-        fetch(`${CF_API_PATH}/aadhaar-api/boson/submit-otp`, options)
+        fetch(`https://api.gridlines.io/aadhaar-api/boson/submit-otp`, options)
           .then(response => response.json())
           .then(response => {setAadharData(response["data"]);navigation.navigate('AadhaarConfirm');})
           .catch(err => console.error(err));

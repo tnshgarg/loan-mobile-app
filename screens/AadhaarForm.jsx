@@ -6,7 +6,7 @@ import CheckBox from '@react-native-community/checkbox';
 import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { progressBar, form ,checkBox,Camera,styles} from './styles';
 import { useStateValue } from '../StateProvider';
-import {CF_API_KEY, CF_API_PATH} from '@env';
+import {CF_API_KEY} from '@env';
 
 export default AadhaarForm = () => {
     const navigation = useNavigation();
@@ -65,7 +65,7 @@ export default AadhaarForm = () => {
       body: JSON.stringify(data)
     };
     
-    fetch(`${CF_API_PATH}/aadhaar-api/boson/generate-otp`, options)
+    fetch(`https://api.gridlines.io/aadhaar-api/boson/generate-otp`, options)
       .then(response => response.json())
       .then(response => {console.log(response);setTransactionId(response["data"]["transaction_id"]);navigation.navigate('AadhaarVerify');})
       .catch(err => console.error(err));
@@ -89,9 +89,9 @@ export default AadhaarForm = () => {
       body: JSON.stringify(base64data)
     };
     
-    fetch(`${CF_API_PATH}/aadhaar-api/ocr`, options)
+    fetch(`https://api.gridlines.io/aadhaar-api/ocr`, options)
       .then(response => response.json())
-      .then(response => {console.log(response["data"]["ocr_data"]["document"]);alert(`Verfied Aadhaar ${type==="front"?"Front":"Back"}`);{type==="front" ? setFrontAadhaarData(response["data"]["ocr_data"]["document"]):setBackAadhaarData(response["data"]["ocr_data"]["document"])};})
+      .then(response => {{ response["data"]["ocr_data"] ?  alert(`Verfied Aadhaar ${type==="front"?"Front":"Back"}`): alert(`OCR failed for Aadhaar ${type==="front"?"Front":"Back"}, please retake Photo.`)};{type==="front" ? setFrontAadhaarData(response["data"]["ocr_data"]["document"]):setBackAadhaarData(response["data"]["ocr_data"]["document"])};})
       .catch(err => console.error(err));
         
   }

@@ -6,7 +6,7 @@ import {Picker} from '@react-native-picker/picker';
 import { AppBar,IconButton,Icon, Button} from "@react-native-material/core";
 import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { progressBar,form,bankform,styles} from './styles';
-import {CF_API_KEY, CF_API_PATH} from '@env';
+import {CF_API_KEY} from '@env';
 
 export default BankInformationForm = () => {
   const navigation = useNavigation();
@@ -40,7 +40,7 @@ export default BankInformationForm = () => {
       body: JSON.stringify(data)
     };
     try{
-    fetch(`${CF_API_PATH}/bank-api/verify`, options)
+    fetch(`https://api.gridlines.io/bank-api/verify`, options)
       .then(response => response.json())
       .then(response => {console.log(response);setRespCode(response["data"]["code"]);navigation.navigate("Home");})
       .catch(err => console.error(err));

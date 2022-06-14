@@ -5,7 +5,7 @@ import { useNavigation} from '@react-navigation/core';
 import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { styles,form,progressBar,Camera} from './styles';
 import { useStateValue } from "../StateProvider";
-import {CF_API_KEY, CF_API_PATH} from '@env';
+import {CF_API_KEY} from '@env';
 
 export default PanCardInfo = () => {
     const navigation = useNavigation();
@@ -42,7 +42,7 @@ export default PanCardInfo = () => {
         body: JSON.stringify(data)
       };
       
-      fetch(`${CF_API_PATH}/pan-api/v2/verify`, options)
+      fetch(`https://api.gridlines.io/pan-api/v2/verify`, options)
         .then(response => response.json())
         .then(response => {console.log(response);setResponse(response["data"]);})
         .catch(err => console.error(err));
@@ -67,9 +67,9 @@ export default PanCardInfo = () => {
         body: JSON.stringify(base64data)
       };
       
-      fetch(`${CF_API_PATH}/pan-api/ocr`, options)
+      fetch(`https://api.gridlines.io/pan-api/ocr`, options)
         .then(response => response.json())
-        .then(response => {console.log(response);alert(`Verfied PAN`);navigation.navigate("PersonlInfoForm");})
+        .then(response => {console.log(response);{response["data"]["ocr_data"] ? navigation.navigate("PersonlInfoForm"):alert(`PAN not Verified please retake Photo.`)}})
         .catch(err => console.error(err));
           
     }
