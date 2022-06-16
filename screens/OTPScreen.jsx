@@ -80,8 +80,8 @@ export default OTPScreen = () => {
           <Icon name="edit" size={12} color="#4E46F1" onPress={() =>navigation.navigate('Login')}/>
           </Text>
           <TextInput style={styles.otpInput} letterSpacing={23} maxLength={6} numeric value={otp} onChangeText={setOtp} keyboardType="numeric"/>
-          <Text style={styles.resendText} onPress={()=>{ResendOtp()}}>Resend OTP</Text>
           {next ? <Button uppercase={false} title="Verify" type="solid"  color="#4E46F1" style={styles.ContinueButton} onPress={() => {verifyOtp()}}><Text>Verify</Text></Button> : <Button title="Verify" uppercase={false} type="solid"  style={styles.ContinueButton} disabled/>}
+         
       </View>
       </ScrollView>
     </SafeAreaView>

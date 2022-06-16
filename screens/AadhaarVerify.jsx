@@ -6,6 +6,7 @@ import { useStateValue } from "../StateProvider";
 import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { styles,progressBar, form } from './styles';
 import {CF_API_KEY} from '@env';
+import CountDown from 'react-native-countdown-component';
 
 export default AadhaarVerify = () => {
     const navigation = useNavigation();
@@ -41,18 +42,10 @@ export default AadhaarVerify = () => {
         
         fetch(`https://api.gridlines.io/aadhaar-api/boson/submit-otp`, options)
           .then(response => response.json())
-          .then(response => {setAadharData(response["data"]);navigation.navigate('AadhaarConfirm');})
+          .then(response => {console.log(response["data"]);setAadharData(response["data"]);navigation.navigate('AadhaarConfirm');})
           .catch(err => console.error(err));
     }
-    
-    async function ResendOtp() {
-      try {
-        console.log('resend');
-      } catch (error) {
-        alert(error);
-      }
-    }
-  
+
     useEffect(() => {
       if(otp.length === 6){
         setNext(true);
@@ -84,7 +77,17 @@ export default AadhaarVerify = () => {
       <View style={styles.container}>
           <Text style={form.OtpAwaitMsg} >OTP has been sent vis SMS to your Aadhaar {'\n'}          registered mobile number</Text>
           <TextInput style={styles.otpInput} letterSpacing={23} maxLength={6} numeric value={otp} onChangeText={setOtp} keyboardType="numeric"/>
-          <Text style={styles.resendText} onPress={()=>{ResendOtp()}}>Resend OTP</Text>
+          <CountDown
+          until={60*10}
+          onFinish={() => alert('finished')}
+          onPress={() => alert('hello')}
+          size={20}
+          style={{marginTop:20}}
+          digitStyle={{backgroundColor: '#FFF'}}
+          digitTxtStyle={{color: '#4E46F1'}}
+          timeToShow={['M', 'S']}
+          timeLabels={{m: 'MM', s: 'SS'}}
+          />
           {next ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={() => {confirmVerificationCode()}}/> : <Button title="Continue" uppercase={false} type="solid" style={form.nextButton} disabled/>}
       </View>
     </ScrollView>

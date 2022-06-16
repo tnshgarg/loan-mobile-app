@@ -69,7 +69,7 @@ export default PanCardInfo = () => {
       
       fetch(`https://api.gridlines.io/pan-api/ocr`, options)
         .then(response => response.json())
-        .then(response => {console.log(response);{response["data"]["ocr_data"] ? navigation.navigate("PersonlInfoForm"):alert(`PAN not Verified please retake Photo.`)}})
+        .then(response => {console.log(response["data"]["ocr_data"]["document"]);{response["data"]["ocr_data"] ? navigation.navigate("PersonlInfoForm"):alert(`PAN not Verified please retake Photo.`)}})
         .catch(err => console.error(err));
           
     }
