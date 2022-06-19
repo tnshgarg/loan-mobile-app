@@ -1,12 +1,11 @@
 import React ,{useState,useEffect} from 'react'
-import { StyleSheet, Text, View,SafeAreaView,TextInput,Image,ScrollView} from 'react-native';
+import { StyleSheet, Text, View,SafeAreaView,TextInput,Image,ScrollView, Alert} from 'react-native';
 import { AppBar,IconButton,Icon, Button} from "@react-native-material/core";
 import { useNavigation} from '@react-navigation/core';
 import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { styles,form,progressBar,Camera} from './styles';
 import { useStateValue } from "../StateProvider";
 import {CF_API_KEY} from '@env';
-import DatePicker from 'react-native-date-picker'
 
 export default PanCardInfo = () => {
     const navigation = useNavigation();
@@ -15,7 +14,6 @@ export default PanCardInfo = () => {
     const [{PanFront},dispatch] = useStateValue();
     const [response,setResponse] = useState("");
     const [panName, setPanName]=useState('');
-    const [date, setDate] = useState(new Date())
     const [birthday,setBirthday]=useState('');
 
     useEffect(() => {
@@ -26,16 +24,6 @@ export default PanCardInfo = () => {
         setNext(false);
       }
     }, [pan]);
-
-    useEffect(()=>{
-      var day = date.getDate();
-      var month = date.getMonth()+1;  
-      var year = date.getFullYear();
-      var dateString = year+"-"+month+"-"+day;
-      setBirthday(dateString);
-    }
-    ,[date]);
-   
 
     const data=
     {
@@ -57,7 +45,7 @@ export default PanCardInfo = () => {
       
       fetch(`https://api.gridlines.io/pan-api/v2/verify`, options)
         .then(response => response.json())
-        .then(response => {console.log(response);setResponse(response["data"]);{response["data"]["code"]=="1001" ? navigation.navigate("PersonlInfoForm") : null};{response["data"]["code"]=="1002"?alert(`Partial details matched, Please verify details.`):null}})
+        .then(response => {console.log(response);setResponse(response["data"]);{response["data"]["code"]=="1001" ? <> {navigation.navigate("PersonlInfoForm")}{Alert.alert("Pan Number Verification status",`PAN number ${pan} verified!`)}</> : null};{response["data"]["code"]=="1002"?<>{response["data"]["pan_data"]["name_match_status"]=="NO_MATCH" ? Alert.alert("Pan Number Verification status",`Partial details matched, Please Check Name.`): Alert.alert("Pan Number Verification status",`Partial details matched, Please Check DOB.`)}</>:null};{response["data"]["code"]=="1004"?Alert.alert("Pan Number Verification status",`PAN number incorrect.`):null}})
         .catch(err => console.error(err));
     }
     
@@ -119,7 +107,7 @@ export default PanCardInfo = () => {
         payload: {"data":null,"type":"PAN_FRONT"}
       })}}/>
   </View>
-  {PanFront!=null ? <Button uppercase={false} title="Verify PAN" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{PanOCR()}}><Text>Verify</Text></Button> : <Button title="Verify PAN" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
+  {PanFront!=null ? <Button uppercase={false} title="Verify PAN" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{PanOCR()}}/> : <Button title="Verify PAN" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
   </>
   }
 
@@ -132,7 +120,7 @@ export default PanCardInfo = () => {
   <Text style={form.formLabel}>Name Registered with PAN</Text>
   <TextInput style={form.formTextInput} autoCapitalize="words" value={panName} onChangeText={setPanName}  placeholder="Enter Name Registered with PAN" required/>
   <Text style={form.formLabel}>Date of birth as recorded in PAN</Text>
-  <DatePicker date={date} onDateChange={setDate} textColor="#4E46F1" mode="date" style={{marginLeft:30}}/>
+  <TextInput style={form.formTextInput} value={birthday} onChangeText={setBirthday}  placeholder="YYYY-MM-DD" required/>
   {next ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{VerifyPAN()}}><Text>Verify</Text></Button> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}   
   </>
   }

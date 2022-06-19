@@ -1,6 +1,6 @@
 import React ,{useState,useEffect} from 'react'
-import {Text, View,SafeAreaView,TextInput,Image,ScrollView} from 'react-native';
-import { AppBar,IconButton,Icon, Button} from "@react-native-material/core";
+import {Text, View,SafeAreaView,TextInput,Image,ScrollView,Alert} from 'react-native';
+import { AppBar,IconButton,Icon, Button,Divider} from "@react-native-material/core";
 import { useNavigation} from '@react-navigation/core';
 import CheckBox from '@react-native-community/checkbox';
 import {ProgressBar} from '@react-native-community/progress-bar-android';
@@ -20,6 +20,33 @@ export default AadhaarForm = () => {
     const [aadhaarFrontVerified,setAadhaarFrontVerified]=useState(false);
     const [aadhaarBackVerified,setAadhaarBackVerified]=useState(false);
     const [aadhaarLinked,setAadhaarLinked]=useState(null);
+    const [dataValidated,setDataValidated] = useState(null);
+
+    const AadharLinkedAlert = () =>
+    Alert.alert(
+      "Aadhaar Link Status",
+      "My Aadhaar is linked to a phone number.",
+      [
+        {
+          text: "Yes",
+          onPress: () => setAadhaarLinked(true),
+        },
+        { text: "No", onPress: () => setAadhaarLinked(false) }
+      ]
+    );
+
+    const InfoConfirmAlert = () =>
+    Alert.alert(
+      "Information Validation",
+      "All the above information is Accurate.",
+      [
+        {
+          text: "Yes",
+          onPress: () => setDataValidated(true),
+        },
+        { text: "No", onPress: () => {setDataValidated(false);Alert.alert("Information Validation", "Please correct the information.") }}
+      ]
+    );
 
     useEffect(()=>{
       dispatch({
@@ -67,11 +94,13 @@ export default AadhaarForm = () => {
       },
       body: JSON.stringify(data)
     };
-    
+    InfoConfirmAlert();
+    if (dataValidated) {
     fetch(`https://api.gridlines.io/aadhaar-api/boson/generate-otp`, options)
       .then(response => response.json())
       .then(response => {console.log(response);setTransactionId(response["data"]["transaction_id"]);navigation.navigate('AadhaarVerify');})
       .catch(err => console.error(err));
+    }
         
   }
 
@@ -106,8 +135,12 @@ export default AadhaarForm = () => {
     aadhaarBackVerified && aadhaarFrontVerified ? <>{alert("Aadhar Verified through OCR.")}{navigation.navigate("PanCardInfo")}</> :null;
 
   }
+  if(aadhaarLinked==null){
+    AadharLinkedAlert()
+  }
   return (
     <>
+    
     <SafeAreaView style={styles.container}>
     <AppBar
     title="Setup Profile"
@@ -127,7 +160,7 @@ export default AadhaarForm = () => {
     </View>
     <Text style={form.formHeader} >Let's begin with your background verification {'\n'}                   processs with eKYC</Text>
     <ScrollView>
-    
+    <Divider style={{ marginTop: 20 , height:1}} leadingInset={12} trailingInset={12} color="#4E46F1" />
     <View style={{flexDirection:"row"}}>
       <CheckBox
             value={aadhaarLinked}
@@ -137,7 +170,7 @@ export default AadhaarForm = () => {
       />
       <Text style={checkBox.checkBoxText}>My Aadhaar is linked to a phone number.</Text>
       </View>
-    
+      <Divider style={{ marginTop: 20 , height:1}} leadingInset={12} trailingInset={12} color="#4E46F1" />
     {aadhaarLinked? 
       <>
       {aadhaar? <Text style={form.formLabel} >Enter 12 Digit Aadhaar Number</Text> : null}
