@@ -17,6 +17,9 @@ export default AadhaarForm = () => {
     const [{AadhaarFront,AadhaarBack},dispatch] = useStateValue();
     const [frontaadhaarData,setFrontAadhaarData] = useState({});
     const [backaadhaarData,setBackAadhaarData] = useState({});
+    const [aadhaarFrontVerified,setAadhaarFrontVerified]=useState(false);
+    const [aadhaarBackVerified,setAadhaarBackVerified]=useState(false);
+    const [aadhaarLinked,setAadhaarLinked]=useState(null);
 
     useEffect(()=>{
       dispatch({
@@ -91,11 +94,18 @@ export default AadhaarForm = () => {
     
     fetch(`https://api.gridlines.io/aadhaar-api/ocr`, options)
       .then(response => response.json())
-      .then(response => {{ response["data"]["ocr_data"] ?  alert(`Verfied Aadhaar ${type==="front"?"Front":"Back"}`): alert(`OCR failed for Aadhaar ${type==="front"?"Front":"Back"}, please retake Photo.`)};{type==="front" ? setFrontAadhaarData(response["data"]["ocr_data"]["document"]):setBackAadhaarData(response["data"]["ocr_data"]["document"])};})
+      .then(response => {console.log(response);{ response["data"]["ocr_data"] ?  <> {type==="front"?setAadhaarFrontVerified(true):setAadhaarBackVerified(true)}</>: null};{type==="front" ? setFrontAadhaarData(response["data"]["ocr_data"]["document"]):setBackAadhaarData(response["data"]["ocr_data"]["document"])};})
       .catch(err => console.error(err));
-        
   }
 
+  const VerifyAadharOCR=()=>{
+    AadhaarOCR("front");
+    AadhaarOCR();
+    !aadhaarBackVerified ? alert(`OCR failed for Aadhaar Back, please retake Photo.`):null;
+    !aadhaarFrontVerified ? alert(`OCR failed for Aadhaar Front, please retake Photo.`):null;
+    aadhaarBackVerified && aadhaarFrontVerified ? <>{alert("Aadhar Verified through OCR.")}{navigation.navigate("PanCardInfo")}</> :null;
+
+  }
   return (
     <>
     <SafeAreaView style={styles.container}>
@@ -117,8 +127,33 @@ export default AadhaarForm = () => {
     </View>
     <Text style={form.formHeader} >Let's begin with your background verification {'\n'}                   processs with eKYC</Text>
     <ScrollView>
-    {aadhaar? 
-    null
+    
+    <View style={{flexDirection:"row"}}>
+      <CheckBox
+            value={aadhaarLinked}
+            onValueChange={setAadhaarLinked}
+            style={checkBox.checkBox}
+            tintColors={{true: '#4E46F1'}}
+      />
+      <Text style={checkBox.checkBoxText}>My Aadhaar is linked to a phone number.</Text>
+      </View>
+    
+    {aadhaarLinked? 
+      <>
+      {aadhaar? <Text style={form.formLabel} >Enter 12 Digit Aadhaar Number</Text> : null}
+      <TextInput style={form.formTextInput} value={aadhaar} onChangeText={setAadhaar} placeholder="Enter 12 Digit Aadhaar Number" required numeric/>
+     
+      <View style={{flexDirection:"row"}}>
+      <CheckBox
+            value={consent}
+            onValueChange={setConsent}
+            style={checkBox.checkBox}
+            tintColors={{true: '#4E46F1'}}
+      />
+      <Text style={checkBox.checkBoxText}>I agree with the KYC registration Terms {'\n'} and Conditions to verifiy my identity.</Text>
+      </View>
+      {next && consent ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{GenerateOtp()}}/> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
+      </>
     :
     <>
     <Text style={form.formLabel} >Aadhaar Front</Text>
@@ -131,8 +166,6 @@ export default AadhaarForm = () => {
         payload: {"data":null,"type":"AADHAAR_FRONT"}
       })}}/>
     </View>
-    {AadhaarFront!=null ? <Button uppercase={false} title="Verify Front" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{AadhaarOCR("front")}}/>: <Button title="Verify Front" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
-    
     <Text style={form.formLabel} >Aadhaar Back</Text>
     {AadhaarBack ? <Image source={{uri: `data:image/jpeg;base64,${AadhaarBack}`}} style={Camera.previewImage} /> : null}
     <View style={{flexDirection:"row"}}>
@@ -143,43 +176,18 @@ export default AadhaarForm = () => {
         payload: {"data":null,"type":"AADHAAR_BACK"}
       })}}/>
     </View>
-    {AadhaarBack!=null ? <Button uppercase={false} title="Verify Back" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{AadhaarOCR()}}/> : <Button title="Verify Back" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
+        <View style={{flexDirection:"row"}}>
+        <CheckBox
+              value={consent}
+              onValueChange={setConsent}
+              style={checkBox.checkBox}
+              tintColors={{true: '#4E46F1'}}
+        />
+        <Text style={checkBox.checkBoxText}>I agree with the KYC registration Terms {'\n'} and Conditions to verifiy my identity.</Text>
+        </View>
+        {AadhaarFront && AadhaarBack && consent ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{VerifyAadharOCR()}}/> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
     </>
     }
-    {!AadhaarFront && !AadhaarBack && !aadhaar? <Text style={form.aadhaarOr}>-OR-</Text>:null}
-    {AadhaarFront || AadhaarBack ? 
-        <>
-        <View style={{flexDirection:"row"}}>
-        <CheckBox
-              value={consent}
-              onValueChange={setConsent}
-              style={checkBox.checkBox}
-              tintColors={{true: '#4E46F1'}}
-        />
-        <Text style={checkBox.checkBoxText}>I agree with the KYC registration Terms {'\n'} and Conditions to verifiy my identity.</Text>
-        </View>
-        {consent ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{navigation.navigate("PanCardInfo")}}/> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
-        </>
-        :
-        <>
-        {aadhaar? <Text style={form.formLabel} >Enter 12 Digit Aadhaar Number</Text> : null}
-        <TextInput style={form.formTextInput} value={aadhaar} onChangeText={setAadhaar} placeholder="Enter 12 Digit Aadhaar Number" required/>
-       
-        <View style={{flexDirection:"row"}}>
-        <CheckBox
-              value={consent}
-              onValueChange={setConsent}
-              style={checkBox.checkBox}
-              tintColors={{true: '#4E46F1'}}
-        />
-        <Text style={checkBox.checkBoxText}>I agree with the KYC registration Terms {'\n'} and Conditions to verifiy my identity.</Text>
-        </View>
-        {next && consent ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{GenerateOtp()}}/> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
-        </>
-  
-      }
-    
-    
     <View style={checkBox.padding}></View>
     </ScrollView>
     </SafeAreaView>

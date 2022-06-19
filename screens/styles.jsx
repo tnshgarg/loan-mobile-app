@@ -56,6 +56,13 @@ export const styles=StyleSheet.create({
     flexrow:{
         flexDirection:"row"
     },
+    otpback:{
+        backgroundColor:"white",
+        width:50,
+        borderRadius:40,
+        marginLeft:10,
+        marginTop:20
+    },
 })
 
 

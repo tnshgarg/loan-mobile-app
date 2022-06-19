@@ -6,6 +6,7 @@ import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { styles,form,progressBar,Camera} from './styles';
 import { useStateValue } from "../StateProvider";
 import {CF_API_KEY} from '@env';
+import DatePicker from 'react-native-date-picker'
 
 export default PanCardInfo = () => {
     const navigation = useNavigation();
@@ -14,6 +15,8 @@ export default PanCardInfo = () => {
     const [{PanFront},dispatch] = useStateValue();
     const [response,setResponse] = useState("");
     const [panName, setPanName]=useState('');
+    const [date, setDate] = useState(new Date())
+    const [birthday,setBirthday]=useState('');
 
     useEffect(() => {
       if(pan.length === 10){
@@ -24,11 +27,21 @@ export default PanCardInfo = () => {
       }
     }, [pan]);
 
+    useEffect(()=>{
+      var day = date.getDate();
+      var month = date.getMonth()+1;  
+      var year = date.getFullYear();
+      var dateString = year+"-"+month+"-"+day;
+      setBirthday(dateString);
+    }
+    ,[date]);
+   
+
     const data=
     {
       "pan_number": pan,
       "name": panName,
-      "date_of_birth": "2001-10-23",
+      "date_of_birth": birthday,
       "consent": "Y"
     };
     const VerifyPAN =() =>{
@@ -44,11 +57,8 @@ export default PanCardInfo = () => {
       
       fetch(`https://api.gridlines.io/pan-api/v2/verify`, options)
         .then(response => response.json())
-        .then(response => {console.log(response);setResponse(response["data"]);})
+        .then(response => {console.log(response);setResponse(response["data"]);{response["data"]["code"]=="1001" ? navigation.navigate("PersonlInfoForm") : null};{response["data"]["code"]=="1002"?alert(`Partial details matched, Please verify details.`):null}})
         .catch(err => console.error(err));
-        if(response["data"]["code"]=="1001"){
-          navigation.navigate("PersonlInfoForm");
-        }
     }
     
     const PanOCR =() =>{
@@ -69,7 +79,7 @@ export default PanCardInfo = () => {
       
       fetch(`https://api.gridlines.io/pan-api/ocr`, options)
         .then(response => response.json())
-        .then(response => {console.log(response["data"]["ocr_data"]["document"]);{response["data"]["ocr_data"] ? navigation.navigate("PersonlInfoForm"):alert(`PAN not Verified please retake Photo.`)}})
+        .then(response => {console.log(response["data"]["ocr_data"]);{response["data"]["ocr_data"] ? navigation.navigate("PersonlInfoForm"):alert(`PAN not Verified please retake Photo.`)};})
         .catch(err => console.error(err));
           
     }
@@ -118,9 +128,11 @@ export default PanCardInfo = () => {
    null:
    <>
     {pan? <Text style={form.formLabel} >Enter PAN Number</Text>:null}
-  <TextInput style={form.formTextInput} value={pan} onChangeText={setPan}  placeholder="Enter PAN Number" required/>
-  {panName ? <Text style={form.formLabel}>Name Registered with PAN</Text>:null}
-  <TextInput style={form.formTextInput} value={panName} onChangeText={setPanName}  placeholder="Enter Name Registered with PAN" required/>
+  <TextInput style={form.formTextInput} autoCapitalize="characters" value={pan} onChangeText={setPan}  placeholder="Enter PAN Number" required/>
+  <Text style={form.formLabel}>Name Registered with PAN</Text>
+  <TextInput style={form.formTextInput} autoCapitalize="words" value={panName} onChangeText={setPanName}  placeholder="Enter Name Registered with PAN" required/>
+  <Text style={form.formLabel}>Date of birth as recorded in PAN</Text>
+  <DatePicker date={date} onDateChange={setDate} textColor="#4E46F1" mode="date" style={{marginLeft:30}}/>
   {next ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{VerifyPAN()}}><Text>Verify</Text></Button> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}   
   </>
   }

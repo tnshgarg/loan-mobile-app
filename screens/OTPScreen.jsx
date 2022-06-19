@@ -1,6 +1,6 @@
 import React ,{useEffect, useState} from 'react'
 import { Image, Text, View,SafeAreaView,TextInput, ScrollView} from 'react-native';
-import { Button,Icon,Grid} from "@react-native-material/core";
+import { Button,Icon,IconButton} from "@react-native-material/core";
 import { useNavigation} from '@react-navigation/core';
 import { useStateValue } from "../StateProvider";
 import { styles } from './styles';
@@ -40,14 +40,6 @@ export default OTPScreen = () => {
       });
   };
 
-  async function ResendOtp() {
-    try {
-      console.log('resend');
-    } catch (error) {
-      alert(error);
-    }
-  }
-
   useEffect(() => {
     if(otp.length === 6){
       setNext(true);
@@ -75,6 +67,9 @@ export default OTPScreen = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
       <View style={styles.container}>
+        <View style={styles.otpback}>
+      <IconButton icon={<Icon name="arrow-back" size={30} color="#4E46F1"/>} onPress={()=>navigation.goBack()} />
+      </View>
       <Image style={styles.logo} source={require("../assets/unipe-Thumbnail.png")}/>
           <Text style={styles.headline} >Please wait, we will auto verify the OTP {'\n'}             sent to {phone_number}
           <Icon name="edit" size={12} color="#4E46F1" onPress={() =>navigation.navigate('Login')}/>
