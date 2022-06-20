@@ -95,12 +95,14 @@ export default AadhaarForm = () => {
       body: JSON.stringify(data)
     };
     InfoConfirmAlert();
+    setTimeout(() => {
     if (dataValidated) {
     fetch(`https://api.gridlines.io/aadhaar-api/boson/generate-otp`, options)
       .then(response => response.json())
-      .then(response => {console.log(response);setTransactionId(response["data"]["transaction_id"]);navigation.navigate('AadhaarVerify');})
+      .then(response => {console.log(response);{response["data"]["code"]!="1012" ? <>{setTransactionId(response["data"]["transaction_id"])}{navigation.navigate('AadhaarVerify')}</> : Alert.alert("Aadhaar Verification","Aadhaar Number does not exist")}{response["error"] ? Alert.alert("Error","Incorrect Aadhaar Details") : null}})
       .catch(err => console.error(err));
     }
+    }, 1000);
         
   }
 
