@@ -162,7 +162,6 @@ export default AadhaarForm = () => {
     </View>
     <Text style={form.formHeader} >Let's begin with your background verification {'\n'}                   processs with eKYC</Text>
     <ScrollView>
-    <Divider style={{ marginTop: 20 , height:1}} leadingInset={12} trailingInset={12} color="#4E46F1" />
     <View style={{flexDirection:"row"}}>
       <CheckBox
             value={aadhaarLinked}
@@ -172,7 +171,6 @@ export default AadhaarForm = () => {
       />
       <Text style={checkBox.checkBoxText}>My Aadhaar is linked to a phone number.</Text>
       </View>
-      <Divider style={{ marginTop: 20 , height:1}} leadingInset={12} trailingInset={12} color="#4E46F1" />
     {aadhaarLinked? 
       <>
       {aadhaar? <Text style={form.formLabel} >Enter 12 Digit Aadhaar Number</Text> : null}
