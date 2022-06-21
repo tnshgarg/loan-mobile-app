@@ -12,7 +12,6 @@ export default PanCardInfo = () => {
     const [pan,setPan]=useState("");
     const [next,setNext] = useState();
     const [{PanFront},dispatch] = useStateValue();
-    const [response,setResponse] = useState("");
     const [panName, setPanName]=useState('');
     const [birthday,setBirthday]=useState('');
 
@@ -45,8 +44,30 @@ export default PanCardInfo = () => {
       
       fetch(`https://api.gridlines.io/pan-api/v2/verify`, options)
         .then(response => response.json())
-        .then(response => {console.log(response);setResponse(response["data"]);{response["data"]["code"]=="1001" ? <> {navigation.navigate("PersonlInfoForm")}{Alert.alert("Pan Number Verification status",`PAN number ${pan} verified!`)}</> : null};{response["data"]["code"]=="1002"?<>{response["data"]["pan_data"]["name_match_status"]=="NO_MATCH" ? Alert.alert("Pan Number Verification status",`Partial details matched, Please Check Name.`): Alert.alert("Pan Number Verification status",`Partial details matched, Please Check DOB.`)}</>:null};{response["data"]["code"]=="1004"?Alert.alert("Pan Number Verification status",`PAN number incorrect.`):null}})
-        .catch(err => console.error(err));
+        .then(response => 
+          {console.log(response);
+            {if(response["status"]=="200") {
+              switch(response["data"]["code"]){
+                case "1001" : 
+                  navigation.navigate("PersonlInfoForm")
+                  Alert.alert("Pan Number Verification status",`PAN number ${pan} verified!`)
+                  break;
+                
+                case "1002" :
+                  response["data"]["pan_data"]["name_match_status"]=="NO_MATCH" ? Alert.alert("Pan Number Verification status",`Partial details matched, Please Check Name.`): Alert.alert("Pan Number Verification status",`Partial details matched, Please Check DOB.`)
+                  break;
+
+                case "1004":
+                  Alert.alert("Pan Number Verification status",`PAN number incorrect.`)
+                  break;
+            
+            }}
+            else{
+              Alert.alert("Error",response["error"]["message"])
+            }
+          }
+          })
+            .catch(err => Alert.alert("Error",err));
     }
     
     const PanOCR =() =>{
@@ -67,7 +88,22 @@ export default PanCardInfo = () => {
       
       fetch(`https://api.gridlines.io/pan-api/ocr`, options)
         .then(response => response.json())
-        .then(response => {console.log(response["data"]["ocr_data"]);{response["data"]["ocr_data"] ? navigation.navigate("PersonlInfoForm"):alert(`PAN not Verified please retake Photo.`)};})
+        .then(response => 
+          {console.log(response["data"]["ocr_data"]);
+          {if(response["status"]=="200"){
+            switch(response["data"]["code"]){
+              case "1009":
+                navigation.navigate("PersonlInfoForm");
+                break;
+
+              case "1010":
+                Alert.alert("Error",response["data"]["message"])
+                break;
+          }}
+          else{
+            Alert.alert("Error",response["error"]["message"]);
+          }
+        };})
         .catch(err => console.error(err));
           
     }
@@ -91,9 +127,9 @@ export default PanCardInfo = () => {
         />
     <Text style={progressBar.progressNos} >2/4</Text>
     </View>
-  <Text style={form.formHeader} >You are almost there, we just need to verify {'\n'}                       your Pan Card</Text>
+  <Text style={form.formHeader} >We just need to verify {'\n'}                       your Pan Card</Text>
 
-  <ScrollView>
+  <ScrollView keyboardShouldPersistTaps='handled'>
   {pan?
   null:
   <>

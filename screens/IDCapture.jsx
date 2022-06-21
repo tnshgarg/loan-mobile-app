@@ -29,6 +29,7 @@ export default IDCapture = (props) => {
         const data = await camera.takePictureAsync(options);
         const base64image = await RNFS.readFile(data.uri, 'base64');
         setId(base64image);
+        navigation.goBack();
       };
 
       

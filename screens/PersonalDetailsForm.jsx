@@ -39,7 +39,7 @@ export default PesonalDetailsForm = () => {
                 />
             <Text style={progressBar.progressNos} >3/4</Text>
         </View>
-        <Text style={form.formHeader}>Welcome, Let's start your onboarding process</Text>
+        <Text style={form.formHeader}>Let us get to know you better.</Text>
 
         <Text style={form.formLabel}>Select Education</Text>
           <Picker

@@ -42,7 +42,11 @@ export default AadhaarVerify = () => {
         
         fetch(`https://api.gridlines.io/aadhaar-api/boson/submit-otp`, options)
           .then(response => response.json())
-          .then(response => {console.log(response["data"]);setAadharData(response["data"]);navigation.navigate('AadhaarConfirm');})
+          .then(response => {console.log(response);setAadharData(response["data"]);navigation.navigate('AadhaarConfirm'); 
+          {dispatch({
+            type: "SET_AADHAAR_VERIFED_STATUS",
+            payload: "OTP_VERIFIED"
+          })};})
           .catch(err => console.error(err));
     }
 
@@ -73,14 +77,13 @@ export default AadhaarVerify = () => {
         />
     <Text style={progressBar.progressNos} >1/4</Text>
     </View>
-    <ScrollView>
+    <ScrollView keyboardShouldPersistTaps='handled'>
       <View style={styles.container}>
           <Text style={form.OtpAwaitMsg} >OTP has been sent vis SMS to your Aadhaar {'\n'}          registered mobile number</Text>
           <TextInput style={styles.otpInput} letterSpacing={23} maxLength={6} numeric value={otp} onChangeText={setOtp} keyboardType="numeric"/>
           <CountDown
           until={60*10}
-          onFinish={() => alert('finished')}
-          onPress={() => alert('hello')}
+          onFinish={() => alert('OTP has expired and you need to resend OTP.')}
           size={20}
           style={{marginTop:20}}
           digitStyle={{backgroundColor: '#FFF'}}

@@ -19,34 +19,8 @@ export default AadhaarForm = () => {
     const [backaadhaarData,setBackAadhaarData] = useState({});
     const [aadhaarFrontVerified,setAadhaarFrontVerified]=useState(false);
     const [aadhaarBackVerified,setAadhaarBackVerified]=useState(false);
-    const [aadhaarLinked,setAadhaarLinked]=useState(null);
+    const [aadhaarLinked,setAadhaarLinked] = useState(true);
     const [dataValidated,setDataValidated] = useState(null);
-
-    const AadharLinkedAlert = () =>
-    Alert.alert(
-      "Aadhaar Link Status",
-      "My Aadhaar is linked to a phone number.",
-      [
-        {
-          text: "Yes",
-          onPress: () => setAadhaarLinked(true),
-        },
-        { text: "No", onPress: () => setAadhaarLinked(false) }
-      ]
-    );
-
-    const InfoConfirmAlert = () =>
-    Alert.alert(
-      "Information Validation",
-      "All the above information is Accurate.",
-      [
-        {
-          text: "Yes",
-          onPress: () => setDataValidated(true),
-        },
-        { text: "No", onPress: () => {setDataValidated(false);Alert.alert("Information Validation", "Please correct the information.") }}
-      ]
-    );
 
     useEffect(()=>{
       dispatch({
@@ -94,15 +68,34 @@ export default AadhaarForm = () => {
       },
       body: JSON.stringify(data)
     };
-    InfoConfirmAlert();
-    setTimeout(() => {
-    if (dataValidated) {
+
     fetch(`https://api.gridlines.io/aadhaar-api/boson/generate-otp`, options)
       .then(response => response.json())
-      .then(response => {console.log(response);{response["data"]["code"]!="1012" ? <>{setTransactionId(response["data"]["transaction_id"])}{navigation.navigate('AadhaarVerify')}</> : Alert.alert("Aadhaar Verification","Aadhaar Number does not exist")}{response["error"] ? Alert.alert("Error","Incorrect Aadhaar Details") : null}})
-      .catch(err => console.error(err));
-    }
-    }, 1000);
+      .then(response => {
+        console.log(response);
+        {if(response["status"]=="200"){
+          switch(response["data"]["code"]){
+          case "1001":
+           setTransactionId(response["data"]["transaction_id"]);
+           navigation.navigate('AadhaarVerify');
+           break;
+
+          case "1011":
+          case "1008":
+            setAadhaarLinked(false);
+            break;
+            
+          case "1012":
+            Alert.alert("Error",response["data"]["message"]);
+            break;
+
+        }}
+        else{
+          Alert.alert("Error",response["error"]["message"]);
+        }
+      };
+        })
+      .catch(err => Alert.alert("Error",err))
         
   }
 
@@ -125,7 +118,11 @@ export default AadhaarForm = () => {
     
     fetch(`https://api.gridlines.io/aadhaar-api/ocr`, options)
       .then(response => response.json())
-      .then(response => {console.log(response);{ response["data"]["ocr_data"] ?  <> {type==="front"?setAadhaarFrontVerified(true):setAadhaarBackVerified(true)}</>: null};{type==="front" ? setFrontAadhaarData(response["data"]["ocr_data"]["document"]):setBackAadhaarData(response["data"]["ocr_data"]["document"])};})
+      .then(response => {console.log(response);{ response["data"]["ocr_data"] ?  <> {type==="front"?setAadhaarFrontVerified(true):setAadhaarBackVerified(true)}
+      {dispatch({
+        type: "SET_AADHAAR_VERIFED_STATUS",
+        payload: "OCR_VERIFIED"
+      })}</>: null};{type==="front" ? setFrontAadhaarData(response["data"]["ocr_data"]["document"]):setBackAadhaarData(response["data"]["ocr_data"]["document"])};})
       .catch(err => console.error(err));
   }
 
@@ -137,12 +134,8 @@ export default AadhaarForm = () => {
     aadhaarBackVerified && aadhaarFrontVerified ? <>{alert("Aadhar Verified through OCR.")}{navigation.navigate("PanCardInfo")}</> :null;
 
   }
-  if(aadhaarLinked==null){
-    AadharLinkedAlert()
-  }
   return (
     <>
-    
     <SafeAreaView style={styles.container}>
     <AppBar
     title="Setup Profile"
@@ -161,21 +154,12 @@ export default AadhaarForm = () => {
     <Text style={progressBar.progressNos} >1/4</Text>
     </View>
     <Text style={form.formHeader} >Let's begin with your background verification {'\n'}                   processs with eKYC</Text>
-    <ScrollView>
-    <View style={{flexDirection:"row"}}>
-      <CheckBox
-            value={aadhaarLinked}
-            onValueChange={setAadhaarLinked}
-            style={checkBox.checkBox}
-            tintColors={{true: '#4E46F1'}}
-      />
-      <Text style={checkBox.checkBoxText}>My Aadhaar is linked to a phone number.</Text>
-      </View>
+    <ScrollView keyboardShouldPersistTaps='handled'>
     {aadhaarLinked? 
       <>
       {aadhaar? <Text style={form.formLabel} >Enter 12 Digit Aadhaar Number</Text> : null}
       <TextInput style={form.formTextInput} value={aadhaar} onChangeText={setAadhaar} placeholder="Enter 12 Digit Aadhaar Number" required numeric/>
-     
+      <Text style={form.AadharLinkedStatus} onPress={()=>{setAadhaarLinked(false)}}>Phone number is not linked to Aadhaar?</Text>
       <View style={{flexDirection:"row"}}>
       <CheckBox
             value={consent}
@@ -209,6 +193,7 @@ export default AadhaarForm = () => {
         payload: {"data":null,"type":"AADHAAR_BACK"}
       })}}/>
     </View>
+    <Text style={form.AadharLinkedStatus} onPress={()=>{setAadhaarLinked(true)}}>Phone number is linked to Aadhaar?</Text>
         <View style={{flexDirection:"row"}}>
         <CheckBox
               value={consent}

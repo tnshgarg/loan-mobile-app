@@ -1,8 +1,7 @@
 import React ,{useEffect, useState} from 'react'
-import { Image, Text, ScrollView,SafeAreaView,TextInput} from 'react-native';
+import { Image, Text, ScrollView,SafeAreaView,TextInput, Linking} from 'react-native';
 import { useNavigation} from '@react-navigation/core';
 import { useStateValue } from "../StateProvider";
-import DeviceInfo from 'react-native-device-info';
 import { Button } from "@react-native-material/core";
 import {styles} from "./styles";
 
@@ -12,16 +11,30 @@ import awsconfig from '../src/aws-exports';
 Amplify.configure(awsconfig);
 
 import SplashScreen from 'react-native-splash-screen'
+import SmsRetriever from 'react-native-sms-retriever';
 
 export default LoginScreen = () => {
   const navigation = useNavigation();
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('+91');
   const [next, setNext] = useState(false);
   const [{user},dispatch] = useStateValue();
   const [session,setSession] = useState(null); 
   const password = Math.random().toString(8) + 'Abc#';
   SplashScreen.hide();
   
+  const onPhoneNumberPressed = async () => {
+    try {
+      const phn = await SmsRetriever.requestPhoneNumber();
+      console.log(phn);
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+   };
+
+   useEffect(() => {
+   onPhoneNumberPressed();
+  }, [phoneNumber]);
+
   const signIn = () => {
     Auth.signIn(phoneNumber)
       .then((result) => {
@@ -76,13 +89,14 @@ export default LoginScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-        <ScrollView>
+        <ScrollView keyboardShouldPersistTaps='handled'>
             <Image style={styles.logo} source={require("../assets/unipe-Thumbnail.png")}/>
-            <Text style={styles.headline}>Enter Mobile Number for Verification</Text>
+            <Text style={styles.headline}>Please enter your mobile number to login:</Text>
             <Text style={styles.fieldLabel}>Mobile Number</Text>
-            {console.log(DeviceInfo.getPhoneNumber())}
-            <TextInput style={styles.textInput} value={phoneNumber} onChangeText={setPhoneNumber} autoCompleteType="tel" keyboardType="phone-pad" textContentType="telephoneNumber" required placeholder='+91XXXXXXXXXX'/>
+            <TextInput style={styles.textInput} value={phoneNumber} onChangeText={setPhoneNumber} autoCompleteType="tel" keyboardType="phone-pad" textContentType="telephoneNumber" required placeholder='XXXXXXXXXX'/>
+            <Text style={styles.dataUseText}>This number will be used for all communication.         You shall receive an SMS with code for verification.        By continuing, you agree to our <Text onPress={() => Linking.openURL('https://policies.google.com/terms?hl=en-US')} style={styles.termsText}>Terms of Service</Text> &   <Text onPress={() => Linking.openURL('https://policies.google.com/privacy?hl=en-US')} style={styles.termsText}>Privacy Policy</Text></Text>
             {next ? <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} color="#4E46F1" onPress={() => {signIn()}}/>: <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} disabled/>}
+            <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} color="#4E46F1" onPress={() => {navigation.navigate("BankInfoForm")}}/>
         </ScrollView>
     </SafeAreaView>
   )

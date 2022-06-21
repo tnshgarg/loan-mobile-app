@@ -1,8 +1,6 @@
 import React,{useEffect, useState} from 'react'
-import { Text, View,ScrollView,TextInput, SafeAreaView} from 'react-native';
-import { useStateValue } from "../StateProvider";
+import { Text, View,ScrollView,TextInput, SafeAreaView,Alert} from 'react-native';
 import { useNavigation} from '@react-navigation/core';
-import {Picker} from '@react-native-picker/picker';
 import { AppBar,IconButton,Icon, Button} from "@react-native-material/core";
 import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { progressBar,form,bankform,styles} from './styles';
@@ -10,17 +8,13 @@ import {CF_API_KEY} from '@env';
 
 export default BankInformationForm = () => {
   const navigation = useNavigation();
-  const [bank,setBank] = useState("");
   const [ifsc,setIfsc] = useState("");
   const [accountNumber,setAccountNumber] = useState("");
   const [accountHolderName,setAccountHolderName] = useState("");
   const [upiID,setUpiId] = useState("");
-  const [respCode,setRespCode] = useState("");
   
-  const fields = [{"title":"Account Holder Name*","value":accountHolderName,"setvalue":setAccountHolderName},{"title":"Bank Account Number*","value":accountNumber,"setvalue":setAccountNumber}
-  ,{"title":"IFSC Code*","value":ifsc,"setvalue":setIfsc},{"title":"UPI ID*","value":upiID,"setvalue":setUpiId}];
-
-  const banks = ["HDFC Bank","ICICI Bank"];
+  const fields = [{"title":"Account Holder Name*","value":accountHolderName,"setvalue":setAccountHolderName,"requiredStatus":true},{"title":"Bank Account Number*","value":accountNumber,"setvalue":setAccountNumber,"requiredStatus":true}
+  ,{"title":"IFSC Code*","value":ifsc,"setvalue":setIfsc,"requiredStatus":true},{"title":"UPI ID*","value":upiID,"setvalue":setUpiId,"requiredStatus":false}];
 
   const data=
   {
@@ -42,11 +36,22 @@ export default BankInformationForm = () => {
     try{
     fetch(`https://api.gridlines.io/bank-api/verify`, options)
       .then(response => response.json())
-      .then(response => {console.log(response);setRespCode(response["data"]["code"]);navigation.navigate("Home");})
-      .catch(err => console.error(err));
-      if (respCode) {
-        respCode!="1000" ? alert("Invalid Account Number or IFSC Code") :null;
-      }
+      .then(response => {
+        console.log(response)
+        {if(response["status"]=="200"){
+          switch(response["data"]["code"]){
+            case "1000":
+              navigation.navigate("PersonlInfoForm");
+              break;
+            default:
+              Alert.alert("Error",response["data"]["message"]);
+              break;
+        }}
+        else{
+          Alert.alert("Error",response["error"]["message"]);
+        } 
+      };})
+      .catch(err => Alert.alert("Error",err));
       
     }
     catch(err){
@@ -75,25 +80,13 @@ export default BankInformationForm = () => {
     <Text style={progressBar.progressNos} >4/4</Text>
     </View>
     <Text style={form.formHeader} >Final step - we need your primary bank details</Text>
-    <ScrollView>
+    <ScrollView keyboardShouldPersistTaps='handled'>
       <View style={bankform.infoCard}><Text style={bankform.infoText}><Icon name="info-outline" size={20} color="#4E46F1"/>We will use this bank account / UPI ID to deposit your salary every month, Please ensure the bank account belongs to you</Text></View>
-    <Text style={form.formLabel} >Bank Name</Text>
-      <Picker
-        selectedValue={bank}
-        style={form.picker}
-        onValueChange={(itemValue) => setBank(itemValue)}
-      >
-        {banks.map((bank,index)=>{
-          return <Picker.Item label={bank} value={bank} key={index}/>
-        }
-        )}
-      </Picker>
-      
     {fields.map((field,index)=>{
       return(
         <>
         <Text style={bankform.formtitle} key={index}>{field.title}<Icon name="info-outline" size={20} color="grey"/></Text>
-        <TextInput style={bankform.formInput}  value={field.value} onChangeText={field.setvalue} required/>
+         {field.requiredStatus ? <TextInput style={bankform.formInput}  value={field.value} onChangeText={field.setvalue} required/> :  <TextInput style={bankform.formInput}  value={field.value} onChangeText={field.setvalue}/>}
         </>
       )
     }

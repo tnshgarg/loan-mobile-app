@@ -14,7 +14,7 @@ export const styles=StyleSheet.create({
     headline:{
         fontSize:16,
         color:"#230C45",
-        marginLeft:75,
+        marginLeft:55,
         marginTop:40,
         fontFamily:"Roboto"
     },
@@ -63,6 +63,25 @@ export const styles=StyleSheet.create({
         marginLeft:10,
         marginTop:20
     },
+    dataUseText:{
+        marginLeft:40,
+        marginTop:20,
+        fontSize:14,
+        fontFamily:"Roboto",
+        color:"gray",
+    },
+    termsText:{
+        fontWeight:"bold",
+        color:"#4E46F1",
+    },
+    otpreadtxt:{
+        marginLeft:60,
+        marginTop:20,
+        color:"gray",
+        fontSize:14,
+        fontFamily:"Roboto",
+        fontWeight:"bold",
+    }
 })
 
 
@@ -192,7 +211,14 @@ export const form = StyleSheet.create({
         alignSelf:"center",
         fontSize:16,
         fontFamily:"Roboto"
-    }
+    },
+    AadharLinkedStatus:{
+        marginLeft:34,
+        marginTop:30,
+        color:"#4E46F1",
+        fontWeight:"normal",
+        fontSize:14,
+    },
 
 })
 

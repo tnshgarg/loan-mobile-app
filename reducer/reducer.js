@@ -11,6 +11,7 @@ export const initialState = {
     AadharData: null,
     AadhaarDataFront:null,
     AadhaarDataBack:null,
+    AadhaarVerifedStatus:null,
 };
 
 const reducer = (state, action) => {
@@ -76,7 +77,11 @@ const reducer = (state, action) => {
                         AadhaarDataBack : action.payload.data,
                     };
             }
-
+        case 'SET_AADHAAR_VERIFED_STATUS':
+            return {
+                ...state,
+                AadhaarVerifedStatus : action.payload,
+            };
         default:
             return state;
     }
