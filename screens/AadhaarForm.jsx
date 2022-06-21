@@ -1,16 +1,74 @@
 import React ,{useState,useEffect} from 'react'
-import {Text, View,SafeAreaView,TextInput} from 'react-native';
-import { AppBar,IconButton,Icon, Button, Flex} from "@react-native-material/core";
+import {Text, View,SafeAreaView,TextInput,Image,ScrollView,Alert} from 'react-native';
+import { AppBar,IconButton,Icon, Button,Divider} from "@react-native-material/core";
 import { useNavigation} from '@react-navigation/core';
 import CheckBox from '@react-native-community/checkbox';
 import {ProgressBar} from '@react-native-community/progress-bar-android';
-import { progressBar, form ,checkBox} from './styles';
+import { progressBar, form ,checkBox,Camera,styles} from './styles';
+import { useStateValue } from '../StateProvider';
+import {CF_API_KEY} from '@env';
 
 export default AadhaarForm = () => {
     const navigation = useNavigation();
     const [consent, setConsent] = useState(false);
     const [aadhaar,setAadhaar]=useState("");
     const [next,setNext]=useState(false);
+    const [transactionId,setTransactionId]=useState("");
+    const [{AadhaarFront,AadhaarBack},dispatch] = useStateValue();
+    const [frontaadhaarData,setFrontAadhaarData] = useState({});
+    const [backaadhaarData,setBackAadhaarData] = useState({});
+    const [aadhaarFrontVerified,setAadhaarFrontVerified]=useState(false);
+    const [aadhaarBackVerified,setAadhaarBackVerified]=useState(false);
+    const [aadhaarLinked,setAadhaarLinked]=useState(null);
+    const [dataValidated,setDataValidated] = useState(null);
+
+    const AadharLinkedAlert = () =>
+    Alert.alert(
+      "Aadhaar Link Status",
+      "My Aadhaar is linked to a phone number.",
+      [
+        {
+          text: "Yes",
+          onPress: () => setAadhaarLinked(true),
+        },
+        { text: "No", onPress: () => setAadhaarLinked(false) }
+      ]
+    );
+
+    const InfoConfirmAlert = () =>
+    Alert.alert(
+      "Information Validation",
+      "All the above information is Accurate.",
+      [
+        {
+          text: "Yes",
+          onPress: () => setDataValidated(true),
+        },
+        { text: "No", onPress: () => {setDataValidated(false);Alert.alert("Information Validation", "Please correct the information.") }}
+      ]
+    );
+
+    useEffect(()=>{
+      dispatch({
+        type: "SET_AADHAAR_TRANSACTION_ID",
+        payload: transactionId
+      })
+    },[transactionId]);
+
+    useEffect(()=>{
+      dispatch({
+        type: "SET_AADHAAR_OCR_DATA",
+        payload: {"data":frontaadhaarData,"type":"AADHAAR_FRONT"}
+      })
+    },[frontaadhaarData]);
+
+    useEffect(()=>{
+      dispatch({
+        type: "SET_AADHAAR_OCR_DATA",
+        payload: {"data":backaadhaarData,"type":"AADHAAR_BACK"}
+      })
+    },[backaadhaarData]);
+
     useEffect(() => {
       if(aadhaar.length === 12){
         setNext(true);
@@ -19,15 +77,78 @@ export default AadhaarForm = () => {
         setNext(false);
       }
     }, [aadhaar]);
+  
+  const data = 
+  {
+      "aadhaar_number": aadhaar,
+      "consent": "Y"
+  };
+  
+  const GenerateOtp =() =>{
+    const options = {
+      method: 'POST',
+      headers: {
+        'X-Auth-Type': 'API-Key',
+        'X-API-Key': CF_API_KEY,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    };
+    InfoConfirmAlert();
+    setTimeout(() => {
+    if (dataValidated) {
+    fetch(`https://api.gridlines.io/aadhaar-api/boson/generate-otp`, options)
+      .then(response => response.json())
+      .then(response => {console.log(response);{response["data"]["code"]!="1012" ? <>{setTransactionId(response["data"]["transaction_id"])}{navigation.navigate('AadhaarVerify')}</> : Alert.alert("Aadhaar Verification","Aadhaar Number does not exist")}{response["error"] ? Alert.alert("Error","Incorrect Aadhaar Details") : null}})
+      .catch(err => console.error(err));
+    }
+    }, 1000);
+        
+  }
 
+
+  const AadhaarOCR =(type) =>{
+    const base64data=
+    {
+      "consent": "Y",
+      "base64_data": type==="front"?AadhaarFront:AadhaarBack
+    }
+    const options = {
+      method: 'POST',
+      headers: {
+        'X-Auth-Type': 'API-Key',
+        'X-API-Key': CF_API_KEY,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(base64data)
+    };
+    
+    fetch(`https://api.gridlines.io/aadhaar-api/ocr`, options)
+      .then(response => response.json())
+      .then(response => {console.log(response);{ response["data"]["ocr_data"] ?  <> {type==="front"?setAadhaarFrontVerified(true):setAadhaarBackVerified(true)}</>: null};{type==="front" ? setFrontAadhaarData(response["data"]["ocr_data"]["document"]):setBackAadhaarData(response["data"]["ocr_data"]["document"])};})
+      .catch(err => console.error(err));
+  }
+
+  const VerifyAadharOCR=()=>{
+    AadhaarOCR("front");
+    AadhaarOCR();
+    !aadhaarBackVerified ? alert(`OCR failed for Aadhaar Back, please retake Photo.`):null;
+    !aadhaarFrontVerified ? alert(`OCR failed for Aadhaar Front, please retake Photo.`):null;
+    aadhaarBackVerified && aadhaarFrontVerified ? <>{alert("Aadhar Verified through OCR.")}{navigation.navigate("PanCardInfo")}</> :null;
+
+  }
+  if(aadhaarLinked==null){
+    AadharLinkedAlert()
+  }
   return (
     <>
-      <SafeAreaView >
-      <AppBar
+    
+    <SafeAreaView style={styles.container}>
+    <AppBar
     title="Setup Profile"
     color="#4E46F1"
     leading={
-      <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.navigate('PersonlInfoForm')} />
+      <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.goBack()} />
     }
     />
     <View style={progressBar.progressView}>
@@ -35,25 +156,73 @@ export default AadhaarForm = () => {
           styleAttr="Horizontal"
           style={progressBar.progressBar}
           indeterminate={false}
-          progress={0.5}
+          progress={0.25}
         />
-    <Text style={progressBar.progressNos} >2/4</Text>
+    <Text style={progressBar.progressNos} >1/4</Text>
     </View>
     <Text style={form.formHeader} >Let's begin with your background verification {'\n'}                   processs with eKYC</Text>
-
-    {aadhaar? <Text style={form.formLabel} >Enter 12 Digit Aadhaar Number</Text> : null}
-    <TextInput style={form.formTextInput} value={aadhaar} onChangeText={setAadhaar} placeholder="Enter 12 Digit Aadhaar Number"/>
+    <ScrollView>
     <View style={{flexDirection:"row"}}>
-    <CheckBox
-          value={consent}
-          onValueChange={setConsent}
-          style={checkBox.checkBox}
-          tintColors={{true: '#4E46F1'}}
-    />
-    <Text style={checkBox.checkBoxText}>I agree KYC registration for the lorem ipsum {'\n'} & term & conditions to verifiy my identity</Text>
+      <CheckBox
+            value={aadhaarLinked}
+            onValueChange={setAadhaarLinked}
+            style={checkBox.checkBox}
+            tintColors={{true: '#4E46F1'}}
+      />
+      <Text style={checkBox.checkBoxText}>My Aadhaar is linked to a phone number.</Text>
+      </View>
+    {aadhaarLinked? 
+      <>
+      {aadhaar? <Text style={form.formLabel} >Enter 12 Digit Aadhaar Number</Text> : null}
+      <TextInput style={form.formTextInput} value={aadhaar} onChangeText={setAadhaar} placeholder="Enter 12 Digit Aadhaar Number" required numeric/>
+     
+      <View style={{flexDirection:"row"}}>
+      <CheckBox
+            value={consent}
+            onValueChange={setConsent}
+            style={checkBox.checkBox}
+            tintColors={{true: '#4E46F1'}}
+      />
+      <Text style={checkBox.checkBoxText}>I agree with the KYC registration Terms {'\n'} and Conditions to verifiy my identity.</Text>
+      </View>
+      {next && consent ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{GenerateOtp()}}/> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
+      </>
+    :
+    <>
+    <Text style={form.formLabel} >Aadhaar Front</Text>
+    {AadhaarFront ? <Image source={{uri: `data:image/jpeg;base64,${AadhaarFront}`}} style={Camera.previewImage} /> : null}
+    <View style={{flexDirection:"row"}}>
+    <IconButton icon={<Icon name="camera-alt" size={20} color="black"/>} style={Camera.cameraButton} onPress={()=>{navigation.navigate("IDCapture","AADHAAR_FRONT")}}/>
+    <IconButton icon={<Icon name="delete" size={20} color="black"/>} style={Camera.cameraButton} onPress={()=>{ 
+      dispatch({
+        type: "SET_ID",
+        payload: {"data":null,"type":"AADHAAR_FRONT"}
+      })}}/>
     </View>
-    {next && consent ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{navigation.navigate("AadhaarVerify")}}><Text>Verify</Text></Button> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
-    
+    <Text style={form.formLabel} >Aadhaar Back</Text>
+    {AadhaarBack ? <Image source={{uri: `data:image/jpeg;base64,${AadhaarBack}`}} style={Camera.previewImage} /> : null}
+    <View style={{flexDirection:"row"}}>
+    <IconButton icon={<Icon name="camera-alt" size={20} color="black"/>} style={Camera.cameraButton} onPress={()=>{navigation.navigate("IDCapture","AADHAAR_BACK")}}/>
+    <IconButton icon={<Icon name="delete" size={20} color="black"/>} style={Camera.cameraButton} onPress={()=>{ 
+      dispatch({
+        type: "SET_ID",
+        payload: {"data":null,"type":"AADHAAR_BACK"}
+      })}}/>
+    </View>
+        <View style={{flexDirection:"row"}}>
+        <CheckBox
+              value={consent}
+              onValueChange={setConsent}
+              style={checkBox.checkBox}
+              tintColors={{true: '#4E46F1'}}
+        />
+        <Text style={checkBox.checkBoxText}>I agree with the KYC registration Terms {'\n'} and Conditions to verifiy my identity.</Text>
+        </View>
+        {AadhaarFront && AadhaarBack && consent ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{VerifyAadharOCR()}}/> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
+    </>
+    }
+    <View style={checkBox.padding}></View>
+    </ScrollView>
     </SafeAreaView>
     </>
   )

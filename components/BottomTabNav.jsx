@@ -1,5 +1,5 @@
-import React,{useEffect, useState} from 'react'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React  from 'react';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Icon} from "@react-native-material/core";
 
 export default BottomTabNav = (props) => {

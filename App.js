@@ -12,11 +12,19 @@ import { IconComponentProvider} from "@react-native-material/core";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import PersonalDetailsForm from './screens/PersonalDetailsForm';
 import AadhaarForm from './screens/AadhaarForm';
+import IDCapture from './screens/IDCapture';
 import AadhaarVerify from './screens/AadhaarVerify';
 import AadhaarConfirm from './screens/AadhaarConfirm';
 import PanCardInfo from './screens/PanCardInfo';
 import BankInformationForm from './screens/BankInformationForm';
 import Home from './screens/Home';
+import { useStateValue } from "./StateProvider";
+
+import Amplify from '@aws-amplify/core';
+import Auth from '@aws-amplify/auth';
+import awsconfig from './src/aws-exports';
+Amplify.configure(awsconfig);
+
 export default function App() {
   return (
   <StateProvider initialState={initialState} reducer={reducer}>
@@ -54,6 +62,14 @@ export default function App() {
       <Stack.Screen 
         name="AadhaarForm" 
         component={AadhaarForm} 
+        options={{
+          headerShown: false,
+          header: null,
+        }}
+      />
+      <Stack.Screen 
+        name="IDCapture" 
+        component={IDCapture} 
         options={{
           headerShown: false,
           header: null,

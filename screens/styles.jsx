@@ -56,6 +56,13 @@ export const styles=StyleSheet.create({
     flexrow:{
         flexDirection:"row"
     },
+    otpback:{
+        backgroundColor:"white",
+        width:50,
+        borderRadius:40,
+        marginLeft:10,
+        marginTop:20
+    },
 })
 
 
@@ -75,7 +82,7 @@ export const progressBar = StyleSheet.create({
         marginTop:20,
         marginRight:40,
         marginLeft:20,
-        flexDirection:"row"
+        flexDirection:"row",
     },
     progressBar:{
         width:"100%",
@@ -149,7 +156,13 @@ export const form = StyleSheet.create({
         marginTop:10,
         fontSize:16,
         fontFamily:"Roboto"
-
+    },
+    aadharConfirmText:{
+        color:"#230C45",
+        marginLeft:69,
+        marginTop:10,
+        fontSize:16,
+        fontFamily:"Roboto"
     },
     yesButton:{
         padding:10,
@@ -167,6 +180,19 @@ export const form = StyleSheet.create({
         height:60,
         fontSize:20,
     },
+    aadharimg:{
+        marginLeft:100,
+        marginTop:30,
+        width:200,
+        height:200
+    },
+    aadhaarOr:{
+        marginBottom:20,
+        marginTop:20,
+        alignSelf:"center",
+        fontSize:16,
+        fontFamily:"Roboto"
+    }
 
 })
 
@@ -178,7 +204,10 @@ export const checkBox=StyleSheet.create({
     checkBoxText:{
         marginTop:30,
         fontSize:14,
-        color:"#828282"
+        color:"#828282",
+    },
+    padding:{
+        marginTop:30
     },
 
 })
@@ -220,6 +249,7 @@ export const bankform=StyleSheet.create({
     }
 
 })
+
 export const homeCard=StyleSheet.create({
     card:{
         marginTop:20,
@@ -274,4 +304,59 @@ export const docSearch = StyleSheet.create({
         borderBottomWidth:2,
         textAlignVertical:"center",
     },
+})
+export const Camera = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: 'black',
+      },
+      preview: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+      },
+      capture: {
+        flex: 0,
+        backgroundColor: '#4E46F1',
+        borderRadius: 10,
+        padding: 15,
+        paddingHorizontal: 20,
+        alignSelf: 'center',
+        marginTop: 580,
+      },
+      wait:{
+        flex: 1,
+        backgroundColor: '#4E46F1',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      buttons:{
+        flex: 1, 
+      },
+      buttonText:{
+        fontSize: 16 ,
+        color: '#fff',
+      },
+      back:{
+        flex: 0,
+        backgroundColor: 'rgba(78, 70, 241, 0.9)',
+        borderRadius: 25,
+        padding: 10,
+        alignSelf: 'center',
+        marginTop: 10,
+        marginLeft: -330,
+      },
+      cameraButton:{
+        marginLeft: 30,
+        marginTop:20,
+        borderWidth:2,
+        borderRadius:10,
+        paddingHorizontal:30,
+      },
+      previewImage:{
+        marginLeft:30,
+        height:200,
+        width:200,
+      }
 })
