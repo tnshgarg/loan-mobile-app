@@ -16,7 +16,7 @@ export default AadhaarConfirm = () => {
     title="Setup Profile"
     color="#4E46F1"
     leading={
-      <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.navigate('AadhaarVerify')} />
+      <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.goBack()} />
     }
     />
      <View style={progressBar.progressView}>

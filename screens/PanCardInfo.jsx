@@ -94,6 +94,7 @@ export default PanCardInfo = () => {
             switch(response["data"]["code"]){
               case "1009":
                 navigation.navigate("PersonlInfoForm");
+                Alert.alert("Pan Number Verification status",`PAN verified through OCR`);
                 break;
 
               case "1010":
@@ -127,7 +128,7 @@ export default PanCardInfo = () => {
         />
     <Text style={progressBar.progressNos} >2/4</Text>
     </View>
-  <Text style={form.formHeader} >We just need to verify {'\n'}                       your Pan Card</Text>
+  <Text style={form.formHeader} >We just need to verify your Pan Card</Text>
 
   <ScrollView keyboardShouldPersistTaps='handled'>
   {pan?

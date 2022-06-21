@@ -44,7 +44,7 @@ export default LoginScreen = () => {
       })
       .catch((e) => {
         if (e.code === 'UserNotFoundException') {
-          signUp(); // Note that this is a new function to be created later
+          signUp();
           console.log('User not found');
         } else if (e.code === 'UsernameExistsException') {
           signIn();
@@ -62,7 +62,7 @@ export default LoginScreen = () => {
       attributes: {
         phone_number: phoneNumber,
       },
-    }).then(() => signIn()); // After signUp, we are going to signIn() 
+    }).then(() => signIn());
     return result;
   };
 
@@ -96,7 +96,7 @@ export default LoginScreen = () => {
             <TextInput style={styles.textInput} value={phoneNumber} onChangeText={setPhoneNumber} autoCompleteType="tel" keyboardType="phone-pad" textContentType="telephoneNumber" required placeholder='XXXXXXXXXX'/>
             <Text style={styles.dataUseText}>This number will be used for all communication.         You shall receive an SMS with code for verification.        By continuing, you agree to our <Text onPress={() => Linking.openURL('https://policies.google.com/terms?hl=en-US')} style={styles.termsText}>Terms of Service</Text> &   <Text onPress={() => Linking.openURL('https://policies.google.com/privacy?hl=en-US')} style={styles.termsText}>Privacy Policy</Text></Text>
             {next ? <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} color="#4E46F1" onPress={() => {signIn()}}/>: <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} disabled/>}
-            <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} color="#4E46F1" onPress={() => {navigation.navigate("BankInfoForm")}}/>
+            <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} color="#4E46F1" onPress={() => {navigation.navigate("PanCardInfo")}}/>
         </ScrollView>
     </SafeAreaView>
   )

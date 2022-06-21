@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {Text, View, SafeAreaView, TextInput} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import {useStateValue } from "../StateProvider";
 import {useNavigation} from '@react-navigation/core';
 import {AppBar, IconButton, Icon, Button} from "@react-native-material/core";
 import {ProgressBar} from '@react-native-community/progress-bar-android';
@@ -11,12 +10,10 @@ export default PesonalDetailsForm = () => {
 
   const educationalQualifications = ["10th Pass", "12th Pass", "Graduate", "Post Graduate", "None of the Above"];
   const maritalStatuses = ["Unmarried", "Married"];
-
   const [maritalStatus, setMaritalStatus] = useState('');
   const [educationalQualification,setEducationallQualification] = useState('');
-
   const navigation = useNavigation();
-  const [{user},dispatch] = useStateValue();
+
 
   return (
     <>
@@ -26,7 +23,7 @@ export default PesonalDetailsForm = () => {
           title="Setup Profile"
           color="#4E46F1"
           leading={
-            <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.navigate("PanCardInfo")} />
+            <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.goBack()} />
           }
         />
 
