@@ -22,18 +22,16 @@ export default LoginScreen = () => {
   const password = Math.random().toString(8) + 'Abc#';
   SplashScreen.hide();
   
+
   const onPhoneNumberPressed = async () => {
     try {
       const phn = await SmsRetriever.requestPhoneNumber();
       console.log(phn);
+      setPhoneNumber(phn);
     } catch (error) {
       console.log(JSON.stringify(error));
     }
    };
-
-   useEffect(() => {
-   onPhoneNumberPressed();
-  }, [phoneNumber]);
 
   const signIn = () => {
     Auth.signIn(phoneNumber)
@@ -87,6 +85,11 @@ export default LoginScreen = () => {
     }
   }, [phoneNumber]);
 
+  useEffect(() => {
+      onPhoneNumberPressed();
+  }, [])
+
+
   return (
     <SafeAreaView style={styles.container}>
         <ScrollView keyboardShouldPersistTaps='handled'>
@@ -96,7 +99,7 @@ export default LoginScreen = () => {
             <TextInput style={styles.textInput} value={phoneNumber} onChangeText={setPhoneNumber} autoCompleteType="tel" keyboardType="phone-pad" textContentType="telephoneNumber" required placeholder='XXXXXXXXXX'/>
             <Text style={styles.dataUseText}>This number will be used for all communication.         You shall receive an SMS with code for verification.        By continuing, you agree to our <Text onPress={() => Linking.openURL('https://policies.google.com/terms?hl=en-US')} style={styles.termsText}>Terms of Service</Text> &   <Text onPress={() => Linking.openURL('https://policies.google.com/privacy?hl=en-US')} style={styles.termsText}>Privacy Policy</Text></Text>
             {next ? <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} color="#4E46F1" onPress={() => {signIn()}}/>: <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} disabled/>}
-            <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} color="#4E46F1" onPress={() => {navigation.navigate("PanCardInfo")}}/>
+            <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} color="#4E46F1" onPress={() => {navigation.navigate("AadhaarForm")}}/>
         </ScrollView>
     </SafeAreaView>
   )
