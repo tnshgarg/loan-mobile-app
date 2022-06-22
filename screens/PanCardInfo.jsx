@@ -49,7 +49,7 @@ export default PanCardInfo = () => {
             {if(response["status"]=="200") {
               switch(response["data"]["code"]){
                 case "1001" : 
-                  navigation.navigate("PersonlInfoForm")
+                  navigation.navigate("BankInfoForm")
                   Alert.alert("Pan Number Verification status",`PAN number ${pan} verified!`)
                   break;
                 
@@ -93,7 +93,7 @@ export default PanCardInfo = () => {
           {if(response["status"]=="200"){
             switch(response["data"]["code"]){
               case "1009":
-                navigation.navigate("PersonlInfoForm");
+                navigation.navigate("BankInfoForm");
                 Alert.alert("Pan Number Verification status",`PAN verified through OCR`);
                 break;
 
