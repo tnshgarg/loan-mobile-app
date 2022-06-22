@@ -2,7 +2,6 @@ import React ,{useState} from 'react'
 import { StyleSheet, Text, View,ScrollView,SafeAreaView,TextInput} from 'react-native';
 import { Icon } from "@react-native-material/core";
 import {styles,docSearch} from "./styles";
-import FAB from 'react-native-fab'
 import DocumentTile from '../components/DocumentTile';
 
 export default HomeView = () => {
@@ -17,7 +16,6 @@ export default HomeView = () => {
     <ScrollView>
     <DocumentTile documents={documents}/>
     </ScrollView>  
-    <View style={{zIndex:1}}><FAB buttonColor="#4E46F1" iconTextColor="#FFFFFF"  onClickAction={() => {console.log("FAB pressed")}} visible={true} iconTextComponent={<Icon name="add"/>} /></View>
     </SafeAreaView>
   </>
   )

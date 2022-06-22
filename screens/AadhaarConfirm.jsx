@@ -10,13 +10,27 @@ export default AadhaarConfirm = () => {
     const navigation = useNavigation();
     const [{AadhaarData},dispatch] = useStateValue();
 
+    const backAlert = () =>
+    Alert.alert(
+      "Heading Back?",
+      "If you continue to go back your OTP Aadhaar Verification would be invalid and you would have to redo it!",
+      [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => navigation.goBack() }
+      ]
+    );
+
   return (
     <SafeAreaView style={styles.container}>
     <AppBar
     title="Setup Profile"
     color="#4E46F1"
     leading={
-      <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.goBack()} />
+      <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>backAlert()} />
     }
     />
      <View style={progressBar.progressView}>

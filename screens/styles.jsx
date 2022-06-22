@@ -94,6 +94,9 @@ export const buttons = StyleSheet.create({
         height:60,
         fontSize:20
     },
+    FAB:{
+        backgroundColor:"#4E46F1",
+    }
 })
 
 export const progressBar = StyleSheet.create({

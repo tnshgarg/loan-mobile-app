@@ -133,6 +133,20 @@ export default AadhaarForm = () => {
     aadhaarBackVerified && aadhaarFrontVerified ? <>{alert("Aadhar Verified through OCR.")}{navigation.navigate("PanCardInfo")}</> :null;
 
   }
+  const backAlert = () =>
+    Alert.alert(
+      "Heading Back?",
+      "If you continue to go back your OTP authentication would be invalid and you would have to redo it!",
+      [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => navigation.goBack() }
+      ]
+    );
+
   return (
     <>
     <SafeAreaView style={styles.container}>
@@ -140,7 +154,7 @@ export default AadhaarForm = () => {
     title="Setup Profile"
     color="#4E46F1"
     leading={
-      <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.goBack()} />
+      <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>{backAlert()}} />
     }
     />
     <View style={progressBar.progressView}>
@@ -157,7 +171,7 @@ export default AadhaarForm = () => {
     {aadhaarLinked? 
       <>
       {aadhaar? <Text style={form.formLabel} >Enter 12 Digit Aadhaar Number</Text> : null}
-      <TextInput style={form.formTextInput} value={aadhaar} onChangeText={setAadhaar} placeholder="Enter 12 Digit Aadhaar Number" required numeric/>
+      <TextInput style={form.formTextInput} value={aadhaar} onChangeText={setAadhaar} placeholder="Enter 12 Digit Aadhaar Number" maxLength={12} numeric/>
       <Text style={form.AadharLinkedStatus} onPress={()=>{setAadhaarLinked(false)}}>My Mobile number is not linked to my Aadhar card</Text>
       <View style={bankform.infoCard}><Text style={bankform.infoText}><Icon name="info-outline" size={20} color="#4E46F1"/>My Mobile number is linked to my Aadhar card & I can receive the OTP on my Aadhar Linked Mobile Number</Text></View>
       <View style={{flexDirection:"row"}}>

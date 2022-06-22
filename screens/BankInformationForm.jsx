@@ -91,7 +91,7 @@ export default BankInformationForm = () => {
     {fields.map((field,index)=>{
       return(
         <>
-        <Text style={bankform.formtitle} key={index}>{field.title}  <Popable  content={field.tooltip} position="right" caret={false}><Icon name="info-outline" size={20} color="grey" /></Popable></Text>
+        <Text style={bankform.formtitle} key={index}>{field.title}  <Popable content={field.tooltip} position="right" caret={false}><Icon name="info-outline" size={20} color="grey" /></Popable></Text>
          {field.requiredStatus ? <TextInput style={bankform.formInput}  value={field.value} onChangeText={field.setvalue} required/> :  <TextInput style={bankform.formInput}  value={field.value} onChangeText={field.setvalue}/>}
         </>
       )

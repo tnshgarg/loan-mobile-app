@@ -70,6 +70,16 @@ export default PanCardInfo = () => {
             .catch(err => Alert.alert("Error",err));
     }
     
+    useEffect(() => {
+      const birthdayChange =()=>{
+        setBirthday(birthday.replace(/^(\d{4})(\d{2})(\d{2})/, '$1-$2-$3'))
+      }
+      return(
+          birthdayChange()
+      )
+    }, [birthday])
+    
+
     const PanOCR =() =>{
       const base64data=
       {
@@ -154,12 +164,12 @@ export default PanCardInfo = () => {
    null:
    <>
   <Text style={form.formLabel} >Enter PAN Number</Text>
-  <TextInput style={form.formTextInput} autoCapitalize="characters" value={pan} onChangeText={setPan}  placeholder="Enter PAN Number" required/>
+  <TextInput style={form.formTextInput} autoCapitalize="characters" value={pan} onChangeText={setPan} maxLength={10} placeholder="Enter PAN Number" required/>
   <View style={form.forgotText}><Text style={styles.termsText} onPress={() => Linking.openURL('https://docs.google.com/document/d/19nf3qwzXcun0yTN6WH6iA5hpGKlgsg4erbHuDql0EZQ/edit')}>Forgot PAN?</Text></View>
   <Text style={form.formLabel}>Name as per PAN Card</Text>
   <TextInput style={form.formTextInput} autoCapitalize="words" value={panName} onChangeText={setPanName}  placeholder="Enter Name Registered with PAN" required/>
   <Text style={form.formLabel}>Date of birth as recorded in PAN</Text>
-  <TextInput style={form.formTextInput} value={birthday} onChangeText={setBirthday}  placeholder="YYYY-MM-DD" required/>
+  <TextInput style={form.formTextInput} value={birthday} onChangeText={setBirthday}  placeholder="YYYY-MM-DD" maxLength={10}/>
   <View style={bankform.infoCard}><Text style={bankform.infoText}><Icon name="info-outline" size={20} color="#4E46F1"/>PAN is needed to verify your name and date of birth</Text></View>
   {next ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{VerifyPAN()}}/> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}   
   </>
