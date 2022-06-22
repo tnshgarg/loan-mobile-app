@@ -4,7 +4,7 @@ import { AppBar,IconButton,Icon, Button,Divider} from "@react-native-material/co
 import { useNavigation} from '@react-navigation/core';
 import CheckBox from '@react-native-community/checkbox';
 import {ProgressBar} from '@react-native-community/progress-bar-android';
-import { progressBar, form ,checkBox,Camera,styles} from './styles';
+import { progressBar, form ,checkBox,Camera,styles,bankform} from './styles';
 import { useStateValue } from '../StateProvider';
 import {CF_API_KEY} from '@env';
 
@@ -20,7 +20,6 @@ export default AadhaarForm = () => {
     const [aadhaarFrontVerified,setAadhaarFrontVerified]=useState(false);
     const [aadhaarBackVerified,setAadhaarBackVerified]=useState(false);
     const [aadhaarLinked,setAadhaarLinked] = useState(true);
-    const [dataValidated,setDataValidated] = useState(null);
 
     useEffect(()=>{
       dispatch({
@@ -129,8 +128,8 @@ export default AadhaarForm = () => {
   const VerifyAadharOCR=()=>{
     AadhaarOCR("front");
     AadhaarOCR();
-    !aadhaarBackVerified ? alert(`OCR failed for Aadhaar Back, please retake Photo.`):null;
-    !aadhaarFrontVerified ? alert(`OCR failed for Aadhaar Front, please retake Photo.`):null;
+    !aadhaarBackVerified ? alert(`The Image captured is not verified please capture the image again for Aadhaar Back to get it verified.`):null;
+    !aadhaarFrontVerified ? alert(`The Image captured is not verified please capture the image again for Aadhaar Front to get it verified.`):null;
     aadhaarBackVerified && aadhaarFrontVerified ? <>{alert("Aadhar Verified through OCR.")}{navigation.navigate("PanCardInfo")}</> :null;
 
   }
@@ -159,7 +158,8 @@ export default AadhaarForm = () => {
       <>
       {aadhaar? <Text style={form.formLabel} >Enter 12 Digit Aadhaar Number</Text> : null}
       <TextInput style={form.formTextInput} value={aadhaar} onChangeText={setAadhaar} placeholder="Enter 12 Digit Aadhaar Number" required numeric/>
-      <Text style={form.AadharLinkedStatus} onPress={()=>{setAadhaarLinked(false)}}>Phone number is not linked to Aadhaar?</Text>
+      <Text style={form.AadharLinkedStatus} onPress={()=>{setAadhaarLinked(false)}}>My Mobile number is not linked to my Aadhar card</Text>
+      <View style={bankform.infoCard}><Text style={bankform.infoText}><Icon name="info-outline" size={20} color="#4E46F1"/>My Mobile number is linked to my Aadhar card & I can receive the OTP on my Aadhar Linked Mobile Number</Text></View>
       <View style={{flexDirection:"row"}}>
       <CheckBox
             value={consent}
@@ -173,7 +173,7 @@ export default AadhaarForm = () => {
       </>
     :
     <>
-    <Text style={form.formLabel} >Aadhaar Front</Text>
+    <Text style={form.formLabel} >Upload Aadhar Front Photo</Text>
     {AadhaarFront ? <Image source={{uri: `data:image/jpeg;base64,${AadhaarFront}`}} style={Camera.previewImage} /> : null}
     <View style={{flexDirection:"row"}}>
     <IconButton icon={<Icon name="camera-alt" size={20} color="black"/>} style={Camera.cameraButton} onPress={()=>{navigation.navigate("IDCapture","AADHAAR_FRONT")}}/>
@@ -183,7 +183,7 @@ export default AadhaarForm = () => {
         payload: {"data":null,"type":"AADHAAR_FRONT"}
       })}}/>
     </View>
-    <Text style={form.formLabel} >Aadhaar Back</Text>
+    <Text style={form.formLabel} >Upload Aadhar Back Photo</Text>
     {AadhaarBack ? <Image source={{uri: `data:image/jpeg;base64,${AadhaarBack}`}} style={Camera.previewImage} /> : null}
     <View style={{flexDirection:"row"}}>
     <IconButton icon={<Icon name="camera-alt" size={20} color="black"/>} style={Camera.cameraButton} onPress={()=>{navigation.navigate("IDCapture","AADHAAR_BACK")}}/>
@@ -193,7 +193,7 @@ export default AadhaarForm = () => {
         payload: {"data":null,"type":"AADHAAR_BACK"}
       })}}/>
     </View>
-    <Text style={form.AadharLinkedStatus} onPress={()=>{setAadhaarLinked(true)}}>Phone number is linked to Aadhaar?</Text>
+    <Text style={form.AadharLinkedStatus} onPress={()=>{setAadhaarLinked(true)}}>My Mobile number is linked to my Aadhar card.</Text>
         <View style={{flexDirection:"row"}}>
         <CheckBox
               value={consent}

@@ -12,6 +12,8 @@ export default PesonalDetailsForm = () => {
   const maritalStatuses = ["Unmarried", "Married"];
   const [maritalStatus, setMaritalStatus] = useState('');
   const [educationalQualification,setEducationallQualification] = useState('');
+  const [alternatePhone,setAlternatePhone]= useState("");
+  const [email,setEmail]= useState("");
   const navigation = useNavigation();
 
 
@@ -36,9 +38,9 @@ export default PesonalDetailsForm = () => {
                 />
             <Text style={progressBar.progressNos} >3/4</Text>
         </View>
-        <Text style={form.formHeader}>Let us get to know you better.</Text>
+        <Text style={form.formHeader}>Employee basic details</Text>
 
-        <Text style={form.formLabel}>Select Education</Text>
+        <Text style={form.formLabel}>Select Education*</Text>
           <Picker
             selectedValue={educationalQualification}
             style={form.picker}
@@ -52,7 +54,7 @@ export default PesonalDetailsForm = () => {
               )
             }
           </Picker>        
-        <Text style={form.formLabel}>Marital Status</Text>
+        <Text style={form.formLabel}>Marital Status*</Text>
         <View style={styles.flexrow}>
           {
             maritalStatuses.map((item,index)=>{
@@ -64,7 +66,12 @@ export default PesonalDetailsForm = () => {
             )
           }
         </View>
-        <Button title="Continue" type="solid"  uppercase={false} style={form.nextButton} color="#4E46F1" onPress={()=>{navigation.navigate("BankInfoForm")}}/>
+        <Text style={form.formLabel}>Enter your alternate mobile number</Text>
+        <TextInput style={styles.textInput} value={alternatePhone} onChangeText={setAlternatePhone} autoCompleteType="tel" keyboardType="phone-pad" textContentType="telephoneNumber" required placeholder='XXXXXXXXXX'/>
+        <Text style={form.formLabel}>Enter your Email ID</Text>
+        <TextInput style={form.formTextInput} value={email} onChangeText={setEmail}  placeholder="Enter Email" required/>
+
+        <Button title="Finish" type="solid"  uppercase={false} style={form.nextButton} color="#4E46F1" onPress={()=>{navigation.navigate("Home")}}/>
       </SafeAreaView>
    
     </>

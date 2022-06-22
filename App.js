@@ -18,11 +18,13 @@ import AadhaarConfirm from './screens/AadhaarConfirm';
 import PanCardInfo from './screens/PanCardInfo';
 import BankInformationForm from './screens/BankInformationForm';
 import Home from './screens/Home';
+import WelcomePage from './screens/WelcomePage';
 import { useStateValue } from "./StateProvider";
 
 import Amplify from '@aws-amplify/core';
 import Auth from '@aws-amplify/auth';
 import awsconfig from './src/aws-exports';
+
 Amplify.configure(awsconfig);
 
 export default function App() {
@@ -37,6 +39,13 @@ export default function App() {
         keyboardVerticalOffset={Platform.OS === "ios" ? -64 : 0}
         >
     <Stack.Navigator>
+    <Stack.Screen 
+        name="Welcome" 
+        component={WelcomePage} 
+        options={{
+          headerShown: false,  
+        }}
+      />
       <Stack.Screen 
         name="Login" 
         component={LoginScreen} 

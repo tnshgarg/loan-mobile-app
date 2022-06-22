@@ -80,6 +80,9 @@ export default OTPScreen = () => {
       .catch((err) => {
         setOtp('');
         console.log(err);
+        if(err = "[NotAuthorizedException: Incorrect username or password.]"){
+          Alert.alert("Error","Entered verification code is incorrect, please check the verification code & enter it again.");
+        }
       });
   };
   
@@ -91,7 +94,7 @@ export default OTPScreen = () => {
       {back ? <IconButton icon={<Icon name="arrow-back" size={30} color="#4E46F1"/>} onPress={()=>navigation.goBack()} /> : <IconButton icon={<Icon name="arrow-back" size={30} color="#808080"/>} onPress={()=>Alert.alert("OTP Timer","You must wait for 30 seconds to resend otp")} />}
       </View>
       <Image style={styles.logo} source={require("../assets/unipe-Thumbnail.png")}/>
-          <Text style={styles.headline} >Please wait, we will auto verify the OTP {'\n'}             sent to {phone_number}
+          <Text style={styles.headline} >   Please wait, we will auto verify the OTP {'\n'}             sent to {phone_number}
           {back ? <Icon name="edit" size={12} color="#4E46F1" onPress={() =>navigation.goBack()}/>:<Icon name="edit" size={12} color="#808080" onPress={()=>Alert.alert("OTP Timer","You must wait for 30 seconds to edit number")}/>}
           </Text>
           <TextInput style={styles.otpInput} letterSpacing={23} maxLength={6} numeric value={otp} onChangeText={setOtp} keyboardType="numeric"/>
@@ -105,7 +108,7 @@ export default OTPScreen = () => {
           timeToShow={['M', 'S']}
           timeLabels={{m: 'MM', s: 'SS'}}
           />
-          <Text style={styles.otpreadtxt}>Sit back & relax while we fetch the OTP & log {'\n'} you inside the Unipe App</Text>
+          <Text style={styles.otpreadtxt}> Sit back & relax while we fetch the OTP & log {'\n'}                you inside the Unipe App</Text>
           {next ? <Button uppercase={false} title="Verify" type="solid"  color="#4E46F1" style={styles.ContinueButton} onPress={() => {verifyOtp()}}><Text>Verify</Text></Button> : <Button title="Verify" uppercase={false} type="solid"  style={styles.ContinueButton} disabled/>}
       </View>
       </ScrollView>

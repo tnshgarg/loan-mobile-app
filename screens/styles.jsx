@@ -116,7 +116,7 @@ export const progressBar = StyleSheet.create({
 
 export const form = StyleSheet.create({
     formHeader:{
-        marginLeft:38,
+        alignSelf:"center",
         marginTop:10,
         color:"grey",
         fontSize:16,
@@ -219,6 +219,10 @@ export const form = StyleSheet.create({
         fontWeight:"normal",
         fontSize:14,
     },
+    forgotText:{
+        marginLeft:280,
+        marginTop:10
+    }
 
 })
 
@@ -267,11 +271,26 @@ export const bankform=StyleSheet.create({
         backgroundColor:"rgba(78, 70, 241, 0.1)",
         width:"85%",
         marginLeft:30,
-        height:80,
-        padding:10
+        marginTop:10,
+        padding:10,
+        flex: 0
     },
     infoText:{
         color:"#333333"
+    },
+    Maintitle:{
+        alignSelf:"center",
+        marginTop:20,
+        color:"#828282",
+        fontSize:18,
+        fontFamily:"Roboto"
+    },
+    subTitle:{
+        marginLeft:34,
+        marginTop:20,
+        color:"#828282",
+        fontSize:16,
+        fontFamily:"Roboto"
     }
 
 })
@@ -349,7 +368,7 @@ export const Camera = StyleSheet.create({
         padding: 15,
         paddingHorizontal: 20,
         alignSelf: 'center',
-        marginTop: 580,
+        marginTop: 500,
       },
       wait:{
         flex: 1,
@@ -385,4 +404,28 @@ export const Camera = StyleSheet.create({
         height:200,
         width:200,
       }
+})
+
+export const welcome = StyleSheet.create({
+    title:{
+        marginLeft:34,
+        marginTop:20,
+        color:"black",
+        fontSize:14,
+        fontFamily:"Roboto"
+    },
+    mainTitle:{
+        marginTop:20,
+        marginLeft:30,
+        color:"black",
+        fontWeight:"bold",
+        fontSize:28,
+        fontFamily:"Roboto"
+    },
+    subTitle:{
+        marginLeft:30,
+        color:"black",
+        fontSize:22,
+        fontFamily:"Roboto"
+    }
 })

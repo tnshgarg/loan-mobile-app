@@ -10,7 +10,6 @@ import Auth from '@aws-amplify/auth';
 import awsconfig from '../src/aws-exports';
 Amplify.configure(awsconfig);
 
-import SplashScreen from 'react-native-splash-screen'
 import SmsRetriever from 'react-native-sms-retriever';
 
 export default LoginScreen = () => {
@@ -20,7 +19,7 @@ export default LoginScreen = () => {
   const [{user},dispatch] = useStateValue();
   const [session,setSession] = useState(null); 
   const password = Math.random().toString(8) + 'Abc#';
-  SplashScreen.hide();
+
   
 
   const onPhoneNumberPressed = async () => {
@@ -99,7 +98,6 @@ export default LoginScreen = () => {
             <TextInput style={styles.textInput} value={phoneNumber} onChangeText={setPhoneNumber} autoCompleteType="tel" keyboardType="phone-pad" textContentType="telephoneNumber" required placeholder='XXXXXXXXXX'/>
             <Text style={styles.dataUseText}>This number will be used for all communication.         You shall receive an SMS with code for verification.        By continuing, you agree to our <Text onPress={() => Linking.openURL('https://policies.google.com/terms?hl=en-US')} style={styles.termsText}>Terms of Service</Text> &   <Text onPress={() => Linking.openURL('https://policies.google.com/privacy?hl=en-US')} style={styles.termsText}>Privacy Policy</Text></Text>
             {next ? <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} color="#4E46F1" onPress={() => {signIn()}}/>: <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} disabled/>}
-            <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} color="#4E46F1" onPress={() => {navigation.navigate("AadhaarForm")}}/>
         </ScrollView>
     </SafeAreaView>
   )

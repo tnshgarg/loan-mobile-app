@@ -1,9 +1,9 @@
 import React ,{useState,useEffect} from 'react'
-import { StyleSheet, Text, View,SafeAreaView,TextInput,Image,ScrollView, Alert} from 'react-native';
+import { StyleSheet, Text, View,SafeAreaView,TextInput,Image,ScrollView, Alert,Linking} from 'react-native';
 import { AppBar,IconButton,Icon, Button} from "@react-native-material/core";
 import { useNavigation} from '@react-navigation/core';
 import {ProgressBar} from '@react-native-community/progress-bar-android';
-import { styles,form,progressBar,Camera} from './styles';
+import { styles,form,progressBar,Camera, checkBox,bankform} from './styles';
 import { useStateValue } from "../StateProvider";
 import {CF_API_KEY} from '@env';
 
@@ -128,10 +128,10 @@ export default PanCardInfo = () => {
         />
     <Text style={progressBar.progressNos} >2/4</Text>
     </View>
-  <Text style={form.formHeader} >We just need to verify your Pan Card</Text>
+  <Text style={form.formHeader} >PAN Verification</Text>
 
   <ScrollView keyboardShouldPersistTaps='handled'>
-  {pan?
+  {/* {pan?
   null:
   <>
   <Text style={form.formLabel} >Scan PAN Front</Text>
@@ -146,22 +146,25 @@ export default PanCardInfo = () => {
   </View>
   {PanFront!=null ? <Button uppercase={false} title="Verify PAN" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{PanOCR()}}/> : <Button title="Verify PAN" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
   </>
-  }
+  } */}
 
-  {!PanFront && !pan? <Text style={form.aadhaarOr}>-OR-</Text>:null}
+  {/* {!PanFront && !pan? <Text style={form.aadhaarOr}>-OR-</Text>:null} */}
+  <View style={checkBox.padding}/>
   {PanFront ? 
    null:
    <>
-    {pan? <Text style={form.formLabel} >Enter PAN Number</Text>:null}
+  <Text style={form.formLabel} >Enter PAN Number</Text>
   <TextInput style={form.formTextInput} autoCapitalize="characters" value={pan} onChangeText={setPan}  placeholder="Enter PAN Number" required/>
-  <Text style={form.formLabel}>Name Registered with PAN</Text>
+  <View style={form.forgotText}><Text style={styles.termsText} onPress={() => Linking.openURL('https://docs.google.com/document/d/19nf3qwzXcun0yTN6WH6iA5hpGKlgsg4erbHuDql0EZQ/edit')}>Forgot PAN?</Text></View>
+  <Text style={form.formLabel}>Name as per PAN Card</Text>
   <TextInput style={form.formTextInput} autoCapitalize="words" value={panName} onChangeText={setPanName}  placeholder="Enter Name Registered with PAN" required/>
   <Text style={form.formLabel}>Date of birth as recorded in PAN</Text>
   <TextInput style={form.formTextInput} value={birthday} onChangeText={setBirthday}  placeholder="YYYY-MM-DD" required/>
-  {next ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{VerifyPAN()}}><Text>Verify</Text></Button> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}   
+  <View style={bankform.infoCard}><Text style={bankform.infoText}><Icon name="info-outline" size={20} color="#4E46F1"/>PAN is needed to verify your name and date of birth</Text></View>
+  {next ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{VerifyPAN()}}/> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}   
   </>
   }
-  
+  <View style={checkBox.padding}/>
   </ScrollView>
   </SafeAreaView>
   </>
