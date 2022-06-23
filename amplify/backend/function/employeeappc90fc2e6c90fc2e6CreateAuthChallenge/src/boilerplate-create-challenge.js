@@ -10,7 +10,7 @@
    const sns = new AWS.SNS({ region: 'ap-south-1' });
    sns.publish(
      {
-       Message: 'Welcome to Unipe! Your OTP for verification is :' + challengeAnswer,
+       Message: 'your otp: ' + challengeAnswer,
        PhoneNumber: phoneNumber,
        MessageStructure: 'string',
        MessageAttributes: {

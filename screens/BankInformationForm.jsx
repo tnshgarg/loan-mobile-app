@@ -20,14 +20,14 @@ export default BankInformationForm = () => {
   ,{"title":"IFSC Code*","value":ifsc,"setvalue":setIfsc,"requiredStatus":true,"tooltip":"You can find the IFSC code on the cheque book or bank passbook that is provided by the bank"},
   {"title":"UPI ID","value":upiID,"setvalue":setUpiId,"requiredStatus":false,"tooltip":"There are lots of UPI apps available like Phonepe, Amazon Pay, Paytm, Bhim, Mobikwik etc. from where you can fetch your UPI ID."}];
 
-  const data=
-  {
-    "account_number": accountNumber,
-    "ifsc": ifsc,
-    "consent": "Y"
-  };
 
   const VerifyBankAccount =() =>{
+    const data=
+    {
+      "account_number": accountNumber,
+      "ifsc": ifsc,
+      "consent": "Y"
+    };
     const options = {
       method: 'POST',
       headers: {

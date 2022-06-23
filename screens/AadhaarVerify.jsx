@@ -23,14 +23,13 @@ export default AadhaarVerify = () => {
       })
     },[aadharData]);
 
-    const data = {
-      "otp": otp,
-      "include_xml": false,
-      "share_code": 1234,
-      "transaction_id": AadhaarTransactionId,
-    }
-
     async function confirmVerificationCode() {
+      const data = {
+        "otp": otp,
+        "include_xml": false,
+        "share_code": 1234,
+        "transaction_id": AadhaarTransactionId,
+      }
       const options = {
         method: 'POST',
         headers: {

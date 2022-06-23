@@ -24,14 +24,15 @@ export default PanCardInfo = () => {
       }
     }, [pan]);
 
-    const data=
-    {
-      "pan_number": pan,
-      "name": panName,
-      "date_of_birth": birthday,
-      "consent": "Y"
-    };
+
     const VerifyPAN =() =>{
+      const data=
+      {
+        "pan_number": pan,
+        "name": panName,
+        "date_of_birth": birthday,
+        "consent": "Y"
+      };
       const options = {
         method: 'POST',
         headers: {
@@ -79,46 +80,6 @@ export default PanCardInfo = () => {
       )
     }, [birthday])
     
-
-    const PanOCR =() =>{
-      const base64data=
-      {
-        "consent": "Y",
-        "base64_data": PanFront
-      }
-      const options = {
-        method: 'POST',
-        headers: {
-          'X-Auth-Type': 'API-Key',
-          'X-API-Key': CF_API_KEY,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(base64data)
-      };
-      
-      fetch(`https://api.gridlines.io/pan-api/ocr`, options)
-        .then(response => response.json())
-        .then(response => 
-          {console.log(response["data"]["ocr_data"]);
-          {if(response["status"]=="200"){
-            switch(response["data"]["code"]){
-              case "1009":
-                navigation.navigate("BankInfoForm");
-                Alert.alert("Pan Number Verification status",`PAN verified through OCR`);
-                break;
-
-              case "1010":
-                Alert.alert("Error",response["data"]["message"])
-                break;
-          }}
-          else{
-            Alert.alert("Error",response["error"]["message"]);
-          }
-        };})
-        .catch(err => console.error(err));
-          
-    }
-
   return (
     <>
     <SafeAreaView style={styles.container}>
@@ -141,24 +102,6 @@ export default PanCardInfo = () => {
   <Text style={form.formHeader} >PAN Verification</Text>
 
   <ScrollView keyboardShouldPersistTaps='handled'>
-  {/* {pan?
-  null:
-  <>
-  <Text style={form.formLabel} >Scan PAN Front</Text>
-  {PanFront ? <Image source={{uri: `data:image/jpeg;base64,${PanFront}`}} style={Camera.previewImage} /> : null}
-  <View style={{flexDirection:"row"}}>
-  <IconButton icon={<Icon name="camera-alt" size={20} color="black"/>} style={Camera.cameraButton} onPress={()=>{navigation.navigate("IDCapture","PAN_FRONT")}}/>
-  <IconButton icon={<Icon name="delete" size={20} color="black"/>} style={Camera.cameraButton} onPress={()=>{ 
-      dispatch({
-        type: "SET_ID",
-        payload: {"data":null,"type":"PAN_FRONT"}
-      })}}/>
-  </View>
-  {PanFront!=null ? <Button uppercase={false} title="Verify PAN" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{PanOCR()}}/> : <Button title="Verify PAN" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
-  </>
-  } */}
-
-  {/* {!PanFront && !pan? <Text style={form.aadhaarOr}>-OR-</Text>:null} */}
   <View style={checkBox.padding}/>
   {PanFront ? 
    null:

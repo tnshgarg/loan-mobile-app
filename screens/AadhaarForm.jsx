@@ -51,13 +51,13 @@ export default AadhaarForm = () => {
       }
     }, [aadhaar]);
   
-  const data = 
-  {
-      "aadhaar_number": aadhaar,
-      "consent": "Y"
-  };
   
   const GenerateOtp =() =>{
+    const data = 
+    {
+        "aadhaar_number": aadhaar,
+        "consent": "Y"
+    };
     const options = {
       method: 'POST',
       headers: {
