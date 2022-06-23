@@ -12,6 +12,8 @@ Amplify.configure(awsconfig);
 
 import SmsRetriever from 'react-native-sms-retriever';
 
+import {sendSmsVerification} from "../services/otp/Twilio/verify"
+
 export default LoginScreen = () => {
   const navigation = useNavigation();
   const [phoneNumber, setPhoneNumber] = useState('+91');
@@ -62,7 +64,6 @@ export default LoginScreen = () => {
     }).then(() => signIn());
     return result;
   };
-
   useEffect(() => {
     dispatch({
       type: "SET_SESSION",
@@ -76,7 +77,7 @@ export default LoginScreen = () => {
     })}, [phoneNumber]);
 
   useEffect(() => {
-    if(phoneNumber.length === 13){
+    if(phoneNumber.length === 12 || 13){
       setNext(true);
     }
     else{
@@ -97,8 +98,7 @@ export default LoginScreen = () => {
             <Text style={styles.fieldLabel}>Mobile Number</Text>
             <TextInput style={styles.textInput} value={phoneNumber} onChangeText={setPhoneNumber} autoCompleteType="tel" keyboardType="phone-pad" textContentType="telephoneNumber" maxLength={13} placeholder='XXXXXXXXXX'/>
             <Text style={styles.dataUseText}>This number will be used for all communication.         You shall receive an SMS with code for verification.        By continuing, you agree to our <Text onPress={() => Linking.openURL('https://policies.google.com/terms?hl=en-US')} style={styles.termsText}>Terms of Service</Text> &   <Text onPress={() => Linking.openURL('https://policies.google.com/privacy?hl=en-US')} style={styles.termsText}>Privacy Policy</Text></Text>
-            {next ? <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} color="#4E46F1" onPress={() => {signIn()}}/>: <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} disabled/>}
-            <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} color="#4E46F1" onPress={() => {navigation.navigate("AadhaarForm")}}/>
+            {next ? <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} color="#4E46F1" onPress={() => { sendSmsVerification(phoneNumber).then((sent) => {console.log("Sent!"); navigation.navigate("Otp")});}}/>: <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} disabled/>}
         </ScrollView>
     </SafeAreaView>
   )

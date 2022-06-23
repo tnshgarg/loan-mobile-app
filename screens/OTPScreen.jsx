@@ -11,6 +11,7 @@ import awsconfig from '../src/aws-exports';
 Amplify.configure(awsconfig);
 
 import RNOtpVerify from 'react-native-otp-verify';
+import {checkVerification} from "../services/otp/Twilio/verify"
 import CountDown from 'react-native-countdown-component';
 
 export default OTPScreen = () => {
@@ -109,7 +110,13 @@ export default OTPScreen = () => {
           timeLabels={{m: 'MM', s: 'SS'}}
           />
           <Text style={styles.otpreadtxt}> Sit back & relax while we fetch the OTP & log {'\n'}                you inside the Unipe App</Text>
-          {next ? <Button uppercase={false} title="Verify" type="solid"  color="#4E46F1" style={styles.ContinueButton} onPress={() => {verifyOtp()}}><Text>Verify</Text></Button> : <Button title="Verify" uppercase={false} type="solid"  style={styles.ContinueButton} disabled/>}
+          {console.log(otp)}
+          {next ? <Button uppercase={false} title="Verify" type="solid"  color="#4E46F1" style={styles.ContinueButton} onPress={() => { 
+          checkVerification(phone_number, otp).then((success) => {
+              if (!success) Alert.alert("err","Incorrect OTP");
+              success && navigation.navigate("AadhaarForm");
+            });
+          }}><Text>Verify</Text></Button> : <Button title="Verify" uppercase={false} type="solid"  style={styles.ContinueButton} disabled/>}
       </View>
       </ScrollView>
     </SafeAreaView>
