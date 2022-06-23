@@ -22,11 +22,6 @@ import WelcomePage from './screens/WelcomePage';
 import PersonalImage from "./screens/PersonalImage";
 import { useStateValue } from "./StateProvider";
 
-import Amplify from '@aws-amplify/core';
-import Auth from '@aws-amplify/auth';
-import awsconfig from './src/aws-exports';
-
-Amplify.configure(awsconfig);
 
 export default function App() {
   return (
