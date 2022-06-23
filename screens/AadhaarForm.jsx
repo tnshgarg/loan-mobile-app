@@ -172,7 +172,6 @@ export default AadhaarForm = () => {
       <>
       {aadhaar? <Text style={form.formLabel} >Enter 12 Digit Aadhaar Number</Text> : null}
       <TextInput style={form.formTextInput} value={aadhaar} onChangeText={setAadhaar} placeholder="Enter 12 Digit Aadhaar Number" maxLength={12} numeric/>
-      <Text style={form.AadharLinkedStatus} onPress={()=>{setAadhaarLinked(false)}}>My Mobile number is not linked to my Aadhar card</Text>
       <View style={bankform.infoCard}><Text style={bankform.infoText}><Icon name="info-outline" size={20} color="#4E46F1"/>My Mobile number is linked to my Aadhar card & I can receive the OTP on my Aadhar Linked Mobile Number</Text></View>
       <View style={{flexDirection:"row"}}>
       <CheckBox
@@ -183,6 +182,7 @@ export default AadhaarForm = () => {
       />
       <Text style={checkBox.checkBoxText}>I agree with the KYC registration Terms {'\n'} and Conditions to verifiy my identity.</Text>
       </View>
+      <Text style={form.AadharLinkedStatus} onPress={()=>{setAadhaarLinked(false)}}>My Mobile number is not linked to my Aadhar card</Text>
       {next && consent ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{GenerateOtp()}}/> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
       </>
     :
@@ -207,7 +207,6 @@ export default AadhaarForm = () => {
         payload: {"data":null,"type":"AADHAAR_BACK"}
       })}}/>
     </View>
-    <Text style={form.AadharLinkedStatus} onPress={()=>{setAadhaarLinked(true)}}>My Mobile number is linked to my Aadhar card.</Text>
         <View style={{flexDirection:"row"}}>
         <CheckBox
               value={consent}
@@ -217,6 +216,7 @@ export default AadhaarForm = () => {
         />
         <Text style={checkBox.checkBoxText}>I agree with the KYC registration Terms {'\n'} and Conditions to verifiy my identity.</Text>
         </View>
+        <Text style={form.AadharLinkedStatus} onPress={()=>{setAadhaarLinked(true)}}>My Mobile number is linked to my Aadhar card.</Text>
         {AadhaarFront && AadhaarBack && consent ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{VerifyAadharOCR()}}/> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
     </>
     }

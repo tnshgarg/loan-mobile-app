@@ -14,6 +14,7 @@ export default AadhaarVerify = () => {
     const [otp, setOtp] = useState('');
     const [next, setNext] = useState(false);
     const [aadharData,setAadharData] = useState({});
+    const [back,setBack] = useState(false);
 
     useEffect(()=>{
       dispatch({
@@ -83,7 +84,7 @@ export default AadhaarVerify = () => {
           <TextInput style={styles.otpInput} letterSpacing={23} maxLength={6} numeric value={otp} onChangeText={setOtp} keyboardType="numeric"/>
           <CountDown
           until={60*10}
-          onFinish={() => alert('OTP has expired and you need to resend OTP.')}
+          onFinish={() => setBack(true)}
           size={20}
           style={{marginTop:20}}
           digitStyle={{backgroundColor: '#FFF'}}
@@ -91,6 +92,7 @@ export default AadhaarVerify = () => {
           timeToShow={['M', 'S']}
           timeLabels={{m: 'MM', s: 'SS'}}
           />
+          
           {next ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={() => {confirmVerificationCode()}}/> : <Button title="Continue" uppercase={false} type="solid" style={form.nextButton} disabled/>}
       </View>
     </ScrollView>

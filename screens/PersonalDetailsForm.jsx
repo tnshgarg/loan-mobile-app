@@ -6,7 +6,7 @@ import {AppBar, IconButton, Icon, Button} from "@react-native-material/core";
 import {ProgressBar} from '@react-native-community/progress-bar-android';
 import {form, progressBar, styles} from './styles';
 
-export default PesonalDetailsForm = () => {
+export default PersonalDetailsForm = () => {
 
   const educationalQualifications = ["10th Pass", "12th Pass", "Graduate", "Post Graduate", "None of the Above"];
   const maritalStatuses = ["Unmarried", "Married"];
@@ -71,7 +71,7 @@ export default PesonalDetailsForm = () => {
         <Text style={form.formLabel}>Enter your Email ID</Text>
         <TextInput style={form.formTextInput} value={email} onChangeText={setEmail}  placeholder="Enter Email" required/>
 
-        <Button title="Finish" type="solid"  uppercase={false} style={form.nextButton} color="#4E46F1" onPress={()=>{navigation.navigate("Home")}}/>
+        <Button title="Continue" type="solid"  uppercase={false} style={form.nextButton} color="#4E46F1" onPress={()=>{navigation.navigate("PersonalImage")}}/>
       </SafeAreaView>
    
     </>

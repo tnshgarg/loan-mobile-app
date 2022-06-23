@@ -19,6 +19,7 @@ import PanCardInfo from './screens/PanCardInfo';
 import BankInformationForm from './screens/BankInformationForm';
 import Home from './screens/Home';
 import WelcomePage from './screens/WelcomePage';
+import PersonalImage from "./screens/PersonalImage";
 import { useStateValue } from "./StateProvider";
 
 import Amplify from '@aws-amplify/core';
@@ -116,9 +117,17 @@ export default function App() {
           header: null,
         }}
       />
-         <Stack.Screen 
+      <Stack.Screen 
         name="Home" 
         component={Home} 
+        options={{
+          headerShown: false,
+          header: null,
+        }}
+      />
+      <Stack.Screen 
+        name="PersonalImage" 
+        component={PersonalImage} 
         options={{
           headerShown: false,
           header: null,

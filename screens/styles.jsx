@@ -119,10 +119,10 @@ export const progressBar = StyleSheet.create({
 
 export const form = StyleSheet.create({
     formHeader:{
-        alignSelf:"center",
+        marginLeft:30,
         marginTop:10,
-        color:"grey",
-        fontSize:16,
+        color:"black",
+        fontSize:18,
     },
     formLabel:{
         marginLeft:34,
@@ -282,9 +282,9 @@ export const bankform=StyleSheet.create({
         color:"#333333"
     },
     Maintitle:{
-        alignSelf:"center",
-        marginTop:20,
-        color:"#828282",
+        marginLeft:30,
+        marginTop:10,
+        color:"black",
         fontSize:18,
         fontFamily:"Roboto"
     },
@@ -406,7 +406,7 @@ export const Camera = StyleSheet.create({
         marginLeft:30,
         height:200,
         width:200,
-      }
+      },
 })
 
 export const welcome = StyleSheet.create({
@@ -431,4 +431,26 @@ export const welcome = StyleSheet.create({
         fontSize:22,
         fontFamily:"Roboto"
     }
+})
+
+export const selfie = StyleSheet.create({
+    uploadButton:{
+        marginTop:20,
+        borderWidth:2,
+        borderRadius:10,
+        paddingHorizontal:30,
+    },
+    cameraButton:{
+        marginLeft: 60,
+        marginTop:20,
+        borderWidth:2,
+        borderRadius:10,
+        paddingHorizontal:30,
+    },
+    selfie:{
+        marginTop:20,
+        alignSelf:"center",
+        height:300,
+        width:300,
+    },
 })
