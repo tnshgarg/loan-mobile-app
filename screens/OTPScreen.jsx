@@ -5,6 +5,11 @@ import { useNavigation} from '@react-navigation/core';
 import { useStateValue } from "../StateProvider";
 import { styles } from './styles';
 
+import Amplify from '@aws-amplify/core';
+import Auth from '@aws-amplify/auth';
+import awsconfig from '../src/aws-exports';
+Amplify.configure(awsconfig);
+
 import RNOtpVerify from 'react-native-otp-verify';
 import {checkVerification} from "../services/otp/Twilio/verify"
 import CountDown from 'react-native-countdown-component';
@@ -39,7 +44,23 @@ export default OTPScreen = () => {
       payload: user,
     })}, [user]);
     
- 
+  useEffect(() => {
+    console.log('Ready to auth');
+    verifyAuth();
+  }, []);
+
+  const verifyAuth = () => {
+    Auth.currentAuthenticatedUser()
+      .then((user) => {
+        setUser(user);
+        console.log('User is authenticated');
+        console.log(user);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   useEffect(() => {
     if(otp.length === 6){
       setNext(true);
@@ -49,6 +70,23 @@ export default OTPScreen = () => {
     }
   }, [otp]);
 
+  const verifyOtp = () => {
+    Auth.sendCustomChallengeAnswer(session, otp)
+      .then((user) => {
+        setUser(user);
+        console.log("THIS IS THE USER");
+        console.log(user);
+        navigation.navigate('AadhaarForm');
+      })
+      .catch((err) => {
+        setOtp('');
+        console.log(err);
+        if(err = "[NotAuthorizedException: Incorrect username or password.]"){
+          Alert.alert("Error","Entered verification code is incorrect, please check the verification code & enter it again.");
+        }
+      });
+  };
+  
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView keyboardShouldPersistTaps='handled'> 
@@ -78,7 +116,7 @@ export default OTPScreen = () => {
               if (!success) Alert.alert("err","Incorrect OTP");
               success && navigation.navigate("AadhaarForm");
             });
-          }}/> : <Button title="Verify" uppercase={false} type="solid"  style={styles.ContinueButton} disabled/>}
+          }}><Text>Verify</Text></Button> : <Button title="Verify" uppercase={false} type="solid"  style={styles.ContinueButton} disabled/>}
       </View>
       </ScrollView>
     </SafeAreaView>

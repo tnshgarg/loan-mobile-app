@@ -5,6 +5,11 @@ import { useStateValue } from "../StateProvider";
 import { Button } from "@react-native-material/core";
 import {styles} from "./styles";
 
+import Amplify from '@aws-amplify/core';
+import Auth from '@aws-amplify/auth';
+import awsconfig from '../src/aws-exports';
+Amplify.configure(awsconfig);
+
 import SmsRetriever from 'react-native-sms-retriever';
 
 import {sendSmsVerification} from "../services/otp/Twilio/verify"
@@ -28,6 +33,42 @@ export default LoginScreen = () => {
       console.log(JSON.stringify(error));
     }
    };
+
+  const signIn = () => {
+    Auth.signIn(phoneNumber)
+      .then((result) => {
+        setSession(result);
+        console.log(result);
+        navigation.navigate("Otp");
+      })
+      .catch((e) => {
+        if (e.code === 'UserNotFoundException') {
+          signUp();
+          console.log('User not found');
+        } else if (e.code === 'UsernameExistsException') {
+          signIn();
+          console.log('User already exists');
+        } else {
+          console.log(e.code);
+          console.error(e);
+        }
+      });
+  };
+  const signUp = async () => {
+    const result = await Auth.signUp({
+      username: phoneNumber,
+      password,
+      attributes: {
+        phone_number: phoneNumber,
+      },
+    }).then(() => signIn());
+    return result;
+  };
+  useEffect(() => {
+    dispatch({
+      type: "SET_SESSION",
+      payload: session,
+    })}, [session]);
 
   useEffect(() => {
     dispatch({

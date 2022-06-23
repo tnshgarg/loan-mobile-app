@@ -6,6 +6,10 @@ import {styles,nav,buttons} from "./styles"
 import { AppBar,IconButton,Icon, Button} from "@react-native-material/core";
 import BottomTabNav from '../components/BottomTabNav';
 import HomeView from "./HomeView";
+import Amplify from '@aws-amplify/core';
+import Auth from '@aws-amplify/auth';
+import awsconfig from '../src/aws-exports';
+Amplify.configure(awsconfig);
 
 
 import { FAB ,Portal,Provider} from 'react-native-paper';
@@ -17,6 +21,19 @@ export default Home = () => {
 
   const [{user},dispatch] = useStateValue();
   const tabs=[{"name":"Home","component":HomeView},{"name":"Documents","component":HomeView},{"name":"Benefits","component":HomeView},{"name":"Banking","component":HomeView}];
+  const signOut = () => {
+    if (user) {
+      Auth.signOut();
+      dispatch({
+        type: "SET_USER",
+        payload: null,
+      })
+      navigation.navigate('Login');
+      console.log('signed out');
+    } else {
+      console.log('No user to sign out');
+    }
+  };
     const navigation = useNavigation();
     console.log("USER REGED");
     console.log(user);
