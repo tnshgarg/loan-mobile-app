@@ -49,6 +49,7 @@
     "react-native-screens": "^3.13.1",
     "react-native-sms-retriever": "^1.1.1",
     "react-native-splash-screen": "^3.3.0",
+    "react-native-step-indicator": "^1.0.3",
     "react-native-vector-icons": "^9.1.0",
     "react-native-web": "0.17.7"
   },

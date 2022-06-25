@@ -7,6 +7,7 @@ import { progressBar,form,bankform,styles} from './styles';
 import {CF_API_KEY} from '@env';
 import { Popable } from 'react-native-popable';
 
+
 export default BankInformationForm = () => {
   const navigation = useNavigation();
   const [ifsc,setIfsc] = useState("");
@@ -45,7 +46,18 @@ export default BankInformationForm = () => {
         {if(response["status"]=="200"){
           switch(response["data"]["code"]){
             case "1000":
-              navigation.navigate("PersonlInfoForm");
+              Alert.alert("Your Bank Account Information",
+            `Name: ${response["data"]["bank_account_data"]["name"]}\nBank Name: ${response["data"]["bank_account_data"]["bank_name"]}\nUTR no.: ${response["data"]["bank_account_data"]["utr"]}\nBranch: ${response["data"]["bank_account_data"]["branch"]}\nCity: ${response["data"]["bank_account_data"]["city"]}`,
+            [
+              {
+                text: "Yes",
+                onPress: () => navigation.navigate("PersonlInfoForm"),
+              },
+              { text: "No", 
+                onPress: () => Alert.alert("Information Validation", "Please provide the correct bank account number and IFSC Code."),
+                style: "cancel"
+              }
+            ])
               break;
             default:
               Alert.alert("Error",response["data"]["message"]);
