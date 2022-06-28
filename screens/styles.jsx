@@ -33,10 +33,12 @@ export const styles=StyleSheet.create({
     },
     resendText:{
         color:"#4E46F1",
-        marginLeft:155,
+        alignSelf:"center",
         marginTop:30,
         fontSize:16,
         fontFamily:"Roboto",
+        textDecorationLine: 'underline',
+        fontWeight: 'bold',
     },
     otpInput:{
         marginLeft:105,
@@ -216,8 +218,9 @@ export const form = StyleSheet.create({
         marginLeft:34,
         marginTop:30,
         color:"#4E46F1",
-        fontWeight:"normal",
         fontSize:14,
+        textDecorationLine: 'underline',
+        fontWeight: 'bold',
     },
     forgotText:{
         marginLeft:280,

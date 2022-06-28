@@ -85,7 +85,7 @@ export default ProgressBarTop = (props) => {
                     "PAN Card Verification",
                     "Bank Details",
                     "Employee basic details",
-                    "Upload Passport size photo or capture selfie photo"
+                    "Upload selfie photo"
                     ]}
               renderStepIndicator={renderStepIndicator}
             />
