@@ -6,6 +6,7 @@ import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { styles,form,progressBar,Camera, checkBox,bankform} from './styles';
 import { useStateValue } from "../StateProvider";
 import {CF_API_KEY} from '@env';
+import ProgressBarTop from '../components/ProgressBarTop';
 
 export default PanCardInfo = () => {
     const navigation = useNavigation();
@@ -90,15 +91,7 @@ export default PanCardInfo = () => {
     <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.goBack()} />
   }
   />
-   <View style={progressBar.progressView}>
-    <ProgressBar
-          styleAttr="Horizontal"
-          style={progressBar.progressBar}
-          indeterminate={false}
-          progress={0.5}
-        />
-    <Text style={progressBar.progressNos} >2/4</Text>
-    </View>
+  <ProgressBarTop step={2}/>
   <Text style={form.formHeader} >PAN Verification</Text>
 
   <ScrollView keyboardShouldPersistTaps='handled'>

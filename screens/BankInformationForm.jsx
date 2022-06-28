@@ -6,7 +6,7 @@ import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { progressBar,form,bankform,styles} from './styles';
 import {CF_API_KEY} from '@env';
 import { Popable } from 'react-native-popable';
-
+import ProgressBarTop from '../components/ProgressBarTop';
 
 export default BankInformationForm = () => {
   const navigation = useNavigation();
@@ -86,15 +86,7 @@ export default BankInformationForm = () => {
       <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.goBack()} />
     }
     />
-    <View style={progressBar.progressView}>
-    <ProgressBar
-          styleAttr="Horizontal"
-          style={progressBar.progressBar}
-          indeterminate={false}
-          progress={1}
-        />
-    <Text style={progressBar.progressNos} >4/4</Text>
-    </View>
+    <ProgressBarTop step={3}/>
     <Text style={bankform.Maintitle} >Bank Details Verification</Text>
 
     <ScrollView keyboardShouldPersistTaps='handled'>

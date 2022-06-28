@@ -9,9 +9,7 @@ import Amplify from '@aws-amplify/core';
 import Auth from '@aws-amplify/auth';
 import awsconfig from '../src/aws-exports';
 Amplify.configure(awsconfig);
-
 import SmsRetriever from 'react-native-sms-retriever';
-
 import {sendSmsVerification} from "../services/otp/Twilio/verify"
 
 export default LoginScreen = () => {
@@ -99,6 +97,7 @@ export default LoginScreen = () => {
             <TextInput style={styles.textInput} value={phoneNumber} onChangeText={setPhoneNumber} autoCompleteType="tel" keyboardType="phone-pad" textContentType="telephoneNumber" maxLength={13} placeholder='XXXXXXXXXX'/>
             <Text style={styles.dataUseText}>This number will be used for all communication.         You shall receive an SMS with code for verification.        By continuing, you agree to our <Text onPress={() => Linking.openURL('https://policies.google.com/terms?hl=en-US')} style={styles.termsText}>Terms of Service</Text> &   <Text onPress={() => Linking.openURL('https://policies.google.com/privacy?hl=en-US')} style={styles.termsText}>Privacy Policy</Text></Text>
             {next ? <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} color="#4E46F1" onPress={() => { sendSmsVerification(phoneNumber).then((sent) => {console.log("Sent!"); navigation.navigate("Otp")});}}/>: <Button uppercase={false} title="Continue" type="solid" style={styles.ContinueButton} disabled/>}
+          <Button onPress={()=>{navigation.navigate("PersonalImage")}}></Button>
         </ScrollView>
     </SafeAreaView>
   )
