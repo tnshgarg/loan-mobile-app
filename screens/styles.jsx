@@ -372,6 +372,7 @@ export const Camera = StyleSheet.create({
       },
       wait:{
         flex: 1,
+        width:'100%',
         backgroundColor: '#4E46F1',
         justifyContent: 'center',
         alignItems: 'center',
@@ -401,6 +402,7 @@ export const Camera = StyleSheet.create({
       },
       previewImage:{
         height:200,
+        width:'100%',
       },
 })
 
