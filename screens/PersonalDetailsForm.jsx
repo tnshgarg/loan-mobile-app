@@ -3,8 +3,8 @@ import {Text, View, SafeAreaView, TextInput} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {useNavigation} from '@react-navigation/core';
 import {AppBar, IconButton, Icon, Button} from "@react-native-material/core";
-import {ProgressBar} from '@react-native-community/progress-bar-android';
 import {form, progressBar, styles} from './styles';
+import ProgressBarTop from '../components/ProgressBarTop';
 
 export default PersonalDetailsForm = () => {
 
@@ -29,15 +29,7 @@ export default PersonalDetailsForm = () => {
           }
         />
 
-        <View style={progressBar.progressView}>
-            <ProgressBar
-                  styleAttr="Horizontal"
-                  style={progressBar.progressBar}
-                  indeterminate={false}
-                  progress={0.75}
-                />
-            <Text style={progressBar.progressNos} >3/4</Text>
-        </View>
+        <ProgressBarTop step={4}/>
         <Text style={form.formHeader}>Employee basic details</Text>
 
         <Text style={form.formLabel}>Select Education*</Text>

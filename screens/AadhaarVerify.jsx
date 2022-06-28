@@ -7,7 +7,7 @@ import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { styles,progressBar, form } from './styles';
 import {CF_API_KEY} from '@env';
 import CountDown from 'react-native-countdown-component';
-
+import ProgressBarTop from '../components/ProgressBarTop'; 
 export default AadhaarVerify = () => {
     const navigation = useNavigation();
     const [{AadhaarTransactionId},dispatch] = useStateValue();
@@ -68,15 +68,7 @@ export default AadhaarVerify = () => {
       <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.goBack()} />
     }
     />
-     <View style={progressBar.progressView}>
-    <ProgressBar
-          styleAttr="Horizontal"
-          style={progressBar.progressBar}
-          indeterminate={false}
-          progress={0.25}
-        />
-    <Text style={progressBar.progressNos} >1/4</Text>
-    </View>
+    <ProgressBarTop step={1}/>
     <ScrollView keyboardShouldPersistTaps='handled'>
       <View style={styles.container}>
           <Text style={form.OtpAwaitMsg} >OTP has been sent vis SMS to your Aadhaar {'\n'}          registered mobile number</Text>

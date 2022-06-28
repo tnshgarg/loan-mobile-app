@@ -102,9 +102,6 @@ export const buttons = StyleSheet.create({
 export const progressBar = StyleSheet.create({
     progressView:{
         marginTop:20,
-        marginRight:40,
-        marginLeft:20,
-        flexDirection:"row",
     },
     progressBar:{
         width:"100%",
@@ -403,9 +400,7 @@ export const Camera = StyleSheet.create({
         paddingHorizontal:30,
       },
       previewImage:{
-        marginLeft:30,
         height:200,
-        width:200,
       },
 })
 

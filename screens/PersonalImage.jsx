@@ -1,11 +1,12 @@
 import React ,{useState,useCallback,useEffect}from 'react'
-import {Text, View, SafeAreaView,Image} from 'react-native';
+import {Text, View, SafeAreaView,Image,ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import {ProgressBar} from '@react-native-community/progress-bar-android';
-import {styles,progressBar,form,Camera,selfie} from './styles';
+import {styles,checkBox,form,Camera,selfie} from './styles';
 import {AppBar, IconButton, Icon, Button} from "@react-native-material/core";
 import * as ImagePicker from 'react-native-image-picker';
 import { useStateValue } from "../StateProvider";
+import ProgressBarTop from '../components/ProgressBarTop';
 
 export default PersonalImage = () => {
     const navigation = useNavigation();
@@ -50,15 +51,8 @@ export default PersonalImage = () => {
             <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.goBack()} />
           }
         />
-      <View style={progressBar.progressView}>
-            <ProgressBar
-                  styleAttr="Horizontal"
-                  style={progressBar.progressBar}
-                  indeterminate={false}
-                  progress={0.75}
-                />
-            <Text style={progressBar.progressNos} >3/4</Text>
-        </View>
+     <ProgressBarTop step={5}/>
+     <ScrollView keyboardShouldPersistTaps='handled'>
         <Text style={form.formHeader}>Upload your Passport size photo or capture your selfie.</Text>
         {imageData ? <Image source={{uri: `data:image/jpeg;base64,${imageData}`}} style={selfie.selfie} /> : <Image source={{uri: `data:image/jpeg;base64,${placeHolder}`}} style={selfie.selfie} /> }
         <View style={{flexDirection:"row",alignSelf:"center"}}>
@@ -66,6 +60,8 @@ export default PersonalImage = () => {
         <IconButton icon={<Icon name="camera-alt" size={25} color="black"/>} style={selfie.cameraButton} onPress={()=>{onCameraPress()}}/>
         </View>
       <Button title="Finish" type="solid"  uppercase={false} style={form.nextButton} color="#4E46F1" onPress={()=>{navigation.navigate("Home")}}/>
+      <View style={checkBox.padding}></View>
+      </ScrollView>
       </SafeAreaView>
    
     </>

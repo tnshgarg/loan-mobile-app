@@ -5,7 +5,7 @@ import { useNavigation} from '@react-navigation/core';
 import { useStateValue } from "../StateProvider";
 import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { form,progressBar, styles} from './styles';
-
+import ProgressBarTop from '../components/ProgressBarTop'; 
 export default AadhaarConfirm = () => {
     const navigation = useNavigation();
     const [{AadhaarData},dispatch] = useStateValue();
@@ -33,15 +33,7 @@ export default AadhaarConfirm = () => {
       <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>backAlert()} />
     }
     />
-     <View style={progressBar.progressView}>
-    <ProgressBar
-          styleAttr="Horizontal"
-          style={progressBar.progressBar}
-          indeterminate={false}
-          progress={0.25}
-        />
-    <Text style={progressBar.progressNos} >1/4</Text>
-    </View>
+    <ProgressBarTop step={1}/>
       <View style={styles.container}>
         {console.log(AadhaarData)}
           <Text style={form.OtpAwaitMsg} >Please confirm if these are your details</Text>

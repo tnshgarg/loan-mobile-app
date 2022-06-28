@@ -13,7 +13,7 @@ export default WelcomePage = () => {
         "Mobile Number Verification",
         "Aadhar Card Verification",
         "PAN Card Verification",
-        "Bank Details ( Account Number & UPI ID Verification)",
+        "Bank Details",
         "Employee basic details",
         "Upload Passport size photo or capture selfie photo"
         ]
