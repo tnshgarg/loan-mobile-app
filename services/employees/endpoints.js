@@ -1,0 +1,6 @@
+export const MOBILE_ONBOARD_API ="https://wq1kbvpl4b.execute-api.ap-south-1.amazonaws.com/dev/employee/onboard/mobile"
+export const AADHAR_ONBOARD_API ="https://wq1kbvpl4b.execute-api.ap-south-1.amazonaws.com/dev/employee/onboard/aadhaar"
+export const PAN_ONBOARD_API ="https://wq1kbvpl4b.execute-api.ap-south-1.amazonaws.com/dev/employee/onboard/pan"
+export const BANK_ONBOARD_API ="https://wq1kbvpl4b.execute-api.ap-south-1.amazonaws.com/dev/employee/onboard/bank"
+export const PROFILE_ONBOARD_API ="https://wq1kbvpl4b.execute-api.ap-south-1.amazonaws.com/dev/employee/onboard/profile"
+export const GET_DOCUMENTS_API ="https://wq1kbvpl4b.execute-api.ap-south-1.amazonaws.com/dev/employee/documents"
