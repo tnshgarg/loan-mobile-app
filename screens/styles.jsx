@@ -430,7 +430,8 @@ export const welcome = StyleSheet.create({
         color:"black",
         fontSize:22,
         fontFamily:"Roboto"
-    }
+    },
+    steps:{alignSelf:"center",flex:1}
 })
 
 export const selfie = StyleSheet.create({
