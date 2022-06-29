@@ -64,7 +64,8 @@ export default BankInformationForm = () => {
               break;
         }}
         else{
-          Alert.alert("Error",response["error"]["message"]);
+          Alert.alert("Error",response["error"]["metadata"]["fields"].map((item,value)=>
+          item["message"]).join('\n'));
         } 
       };})
       .catch(err => Alert.alert("Error",err));
