@@ -51,8 +51,7 @@ export default PanCardInfo = () => {
             {if(response["status"]=="200") {
               switch(response["data"]["code"]){
                 case "1001" : 
-                  navigation.navigate("BankInfoForm")
-                  Alert.alert("Pan Number Verification status",`PAN number ${pan} verified!`)
+                  RetrievePAN();
                   break;
                 
                 case "1002" :
@@ -72,6 +71,28 @@ export default PanCardInfo = () => {
             .catch(err => Alert.alert("Error",err));
     }
     
+    const RetrievePAN =() =>{
+      const data=
+      {
+        "pan_number": pan,
+        "consent": "Y"
+      };
+      const options = {
+        method: 'POST',
+        headers: {
+          'X-Auth-Type': 'API-Key',
+          'X-API-Key': CF_API_KEY,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      };
+      
+      fetch(`https://api.gridlines.io/pan-api/fetch-detailed`, options)
+        .then(response => response.json())
+        .then(response =>  {console.log(response);Alert.alert("PAN Information",`PAN: ${pan}\nName: ${panName}\nGender: ${response["data"]["pan_data"]["gender"]}\nEmail: ${response["data"]["pan_data"]["email"]}`)})
+        .catch(err => Alert.alert("Error",err));
+    }
+
     useEffect(() => {
       const birthdayChange =()=>{
         setBirthday(birthday.replace(/^(\d{4})(\d{2})(\d{2})/, '$1-$2-$3'))
