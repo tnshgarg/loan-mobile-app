@@ -1,12 +1,13 @@
 import React ,{useState,useEffect} from 'react'
 import {Text, View,SafeAreaView,TextInput,Image,ScrollView,Alert} from 'react-native';
-import { AppBar,IconButton,Icon, Button,Divider} from "@react-native-material/core";
+import { AppBar,IconButton,Icon, Button} from "@react-native-material/core";
 import { useNavigation} from '@react-navigation/core';
 import CheckBox from '@react-native-community/checkbox';
 import {form ,checkBox,Camera,styles,bankform} from './styles';
 import { useStateValue } from '../StateProvider';
 import {CF_API_KEY} from '@env';
 import ProgressBarTop from '../components/ProgressBarTop';
+import {GenerateDocument} from "../helpers/GenerateDocument";
 
 export default AadhaarForm = () => {
     const [consent, setConsent] = useState(false);
@@ -21,6 +22,8 @@ export default AadhaarForm = () => {
     const [aadhaarBackVerified,setAadhaarBackVerified]=useState(false);
     const [aadhaarLinked,setAadhaarLinked] = useState(true);
 
+    console.log(GenerateDocument({"src":"otp","number":"1234567890"}));
+
     useEffect(()=>{
       dispatch({
         type: "SET_AADHAAR_TRANSACTION_ID",
@@ -34,6 +37,13 @@ export default AadhaarForm = () => {
         payload: {"data":frontaadhaarData,"type":"AADHAAR_FRONT"}
       })
     },[frontaadhaarData]);
+    
+    useEffect(()=>{
+      dispatch({
+        type: "SET_AADHAAR",
+        payload: aadhaar
+      })
+    },[aadhaar]);
 
     useEffect(()=>{
       dispatch({
@@ -117,7 +127,7 @@ export default AadhaarForm = () => {
     
     fetch(`https://api.gridlines.io/aadhaar-api/ocr`, options)
       .then(response => response.json())
-      .then(response => {console.log(response);{ response["data"]["ocr_data"] ?  <> {type==="front"?setAadhaarFrontVerified(true):setAadhaarBackVerified(true)}
+      .then(response => {console.log(response["data"]["ocr_data"] );{ response["data"]["ocr_data"] ?  <> {type==="front"?setAadhaarFrontVerified(true):setAadhaarBackVerified(true)}
       {dispatch({
         type: "SET_AADHAAR_VERIFED_STATUS",
         payload: "OCR_VERIFIED"

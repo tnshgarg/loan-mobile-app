@@ -8,7 +8,7 @@ import { form,progressBar, styles} from './styles';
 import ProgressBarTop from '../components/ProgressBarTop'; 
 export default AadhaarConfirm = () => {
     const navigation = useNavigation();
-    const [{AadhaarData},dispatch] = useStateValue();
+    const [{AadhaarData,aadhaar},dispatch] = useStateValue();
 
     const backAlert = () =>
     Alert.alert(
@@ -35,7 +35,6 @@ export default AadhaarConfirm = () => {
     />
     <ProgressBarTop step={1}/>
       <View style={styles.container}>
-        {console.log(AadhaarData)}
           <Text style={form.OtpAwaitMsg} >Please confirm if these are your details</Text>
           <Text style={form.OtpAwaitMsg}><Icon name="check-circle-outline" size={30} color="green"/>Aadhaar Verified Successfully</Text>
           <Image source={{uri: `data:image/jpeg;base64,${AadhaarData["aadhaar_data"]["photo_base64"]}`}} style={form.aadharimg} />
