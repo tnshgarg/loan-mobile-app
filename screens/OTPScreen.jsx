@@ -1,5 +1,5 @@
 import React ,{useEffect, useState} from 'react'
-import { Image, Text, View,SafeAreaView,TextInput, ScrollView, Alert,ActivityIndicator} from 'react-native';
+import { Image, Text, View,SafeAreaView,TextInput, ScrollView, Alert,ActivityIndicator,TouchableOpacity} from 'react-native';
 import { Button,Icon,IconButton} from "@react-native-material/core";
 import { useNavigation} from '@react-navigation/core';
 import { useStateValue } from "../StateProvider";
@@ -15,9 +15,9 @@ export default OTPScreen = () => {
   const [next, setNext] = useState(false);
   const [user, setUser] = useState(null);
   const [back,setBack] = useState(false);
+  const [isLoading,setIsLoading]=useState(false);
 
   // HHrHWFsvgjF
-
   
   useEffect(() => {
     dispatch({
@@ -59,12 +59,18 @@ export default OTPScreen = () => {
           />
           {back ? <Text style={styles.resendText} onPress={()=>{sendSmsVerification(phone_number).then((sent) => {console.log("Sent!")})}}>Resend</Text> :null}
           <Text style={styles.otpreadtxt}> Sit back & relax while we fetch the OTP & log {'\n'}                you inside the Unipe App</Text>
-          {next ? <Button uppercase={false} title="Verify" type="solid"  color="#4E46F1" style={styles.ContinueButton} onPress={() => { 
+          {!isLoading ? <>{next ? <Button uppercase={false} title="Verify" type="solid"  color="#4E46F1" style={styles.ContinueButton} onPress={() => { 
           checkVerification(phone_number, otp).then((success) => {
               if (!success) Alert.alert("err","Incorrect OTP");
-              success && navigation.navigate("AadhaarForm");SmsRetriever.removeSmsListener();
+              success && navigation.navigate("AadhaarForm");SmsRetriever.removeSmsListener();setIsLoading(true);
             });
-          }}/> : <Button title="Verify" uppercase={false} type="solid" style={styles.ContinueButton} disabled/>}
+          }}/> : <Button title="Verify" uppercase={false} type="solid" style={styles.ContinueButton} disabled/>}</>: 
+          <TouchableOpacity onPress={toggleLoading}>
+          <View style={styles.ContinueButton}>
+            <ActivityIndicator size="large" color="yellow" />
+          </View>
+        </TouchableOpacity>
+        }
       </View>
       </ScrollView>
     </SafeAreaView>
