@@ -89,7 +89,7 @@ export default PanCardInfo = () => {
       
       fetch(`https://api.gridlines.io/pan-api/fetch-detailed`, options)
         .then(response => response.json())
-        .then(response =>  {console.log(response);Alert.alert("PAN Information",`PAN: ${pan}\nName: ${panName}\nGender: ${response["data"]["pan_data"]["gender"]}\nEmail: ${response["data"]["pan_data"]["email"]}`)})
+        .then(response =>  {console.log(response);Alert.alert("PAN Information",`PAN: ${pan}\nName: ${panName}\nGender: ${response["data"]["pan_data"]["gender"]}\nEmail: ${response["data"]["pan_data"]["email"]}`);navigation.navigate("BankInfoForm")})
         .catch(err => Alert.alert("Error",err));
     }
 

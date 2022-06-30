@@ -39,7 +39,7 @@ const GenerateDocument =(props) =>{
 
         case 'Bank':
             document={
-                accountNumber: props.accountNumber,
+                account_number: props.accountNumber,
                 ifsc: props.ifsc,
                 status: "",
                 message: ""
