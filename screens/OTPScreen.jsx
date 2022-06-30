@@ -1,5 +1,5 @@
 import React ,{useEffect, useState} from 'react'
-import { Image, Text, View,SafeAreaView,TextInput, ScrollView, Alert} from 'react-native';
+import { Image, Text, View,SafeAreaView,TextInput, ScrollView, Alert,ActivityIndicator} from 'react-native';
 import { Button,Icon,IconButton} from "@react-native-material/core";
 import { useNavigation} from '@react-navigation/core';
 import { useStateValue } from "../StateProvider";
@@ -48,7 +48,7 @@ export default OTPScreen = () => {
           </Text>
           <TextInput style={styles.otpInput} letterSpacing={23} maxLength={6} numeric value={otp} onChangeText={setOtp} keyboardType="numeric"/>
           <CountDown
-          until={1}
+          until={60}
           onFinish={() => {setBack(true)}}
           size={20}
           style={{marginTop:20}}
@@ -64,7 +64,7 @@ export default OTPScreen = () => {
               if (!success) Alert.alert("err","Incorrect OTP");
               success && navigation.navigate("AadhaarForm");SmsRetriever.removeSmsListener();
             });
-          }}/> : <Button title="Verify" uppercase={false} type="solid"  style={styles.ContinueButton} disabled/>}
+          }}/> : <Button title="Verify" uppercase={false} type="solid" style={styles.ContinueButton} disabled/>}
       </View>
       </ScrollView>
     </SafeAreaView>

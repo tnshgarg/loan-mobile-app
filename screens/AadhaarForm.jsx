@@ -138,10 +138,11 @@ export default AadhaarForm = () => {
   const VerifyAadharOCR=()=>{
     AadhaarOCR("front");
     AadhaarOCR();
+    setTimeout(() => {
     !aadhaarBackVerified ? alert(`The Image captured is not verified please capture the image again for Aadhaar Back to get it verified.`):null;
     !aadhaarFrontVerified ? alert(`The Image captured is not verified please capture the image again for Aadhaar Front to get it verified.`):null;
     aadhaarBackVerified && aadhaarFrontVerified ? <>{alert("Aadhar Verified through OCR.")}{navigation.navigate("PanCardInfo")}</> :null;
-
+    },1000);
   }
   const backAlert = () =>
     Alert.alert(
