@@ -8,14 +8,20 @@ import { styles,progressBar, form } from './styles';
 import {CF_API_KEY} from '@env';
 import CountDown from 'react-native-countdown-component';
 import ProgressBarTop from '../components/ProgressBarTop'; 
+import {GenerateDocument} from '../helpers/GenerateDocument';
+import { putAadhaarData } from '../services/employees/employeeServices';
+
 export default AadhaarVerify = () => {
     const navigation = useNavigation();
-    const [{AadhaarTransactionId},dispatch] = useStateValue();
+    const [{AadhaarTransactionId,id,aadhaar},dispatch] = useStateValue();
     const [otp, setOtp] = useState('');
     const [next, setNext] = useState(false);
     const [aadharData,setAadharData] = useState({});
     const [back,setBack] = useState(false);
-
+    
+    // console.log(GenerateDocument({"src":"AadhaarOTP","type":"front","id":id,"aadhaar":aadhaar}));
+    // putAadhaarData();
+    
     useEffect(()=>{
       dispatch({
         type: "SET_AADHAAR_DATA",

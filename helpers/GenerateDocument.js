@@ -9,7 +9,8 @@ const GenerateDocument =(props) =>{
 
         case 'AadhaarOTP':
             document={
-                aadhaarNumber: aadhaar,
+                id: props.id,
+                aadhaarNumber: props.aadhaar,
                 base64_data: "", 
                 method: "OTP", 
                 side: "", 
@@ -20,7 +21,8 @@ const GenerateDocument =(props) =>{
 
         case 'AadhaarOCR':
             document={
-                aadhaarNumber: props.type =="front" ? props.frontaadhaarData["document"]["document_id"]:props.backaadhaarData["document"]["document_id"],
+                id: props.id,
+                aadhaarNumber: props.type =="front" ? props.frontaadhaarData["document_id"]:props.backaadhaarData["document_id"],
                 base64_data: props.type=="front" ? props.AadhaarFront:props.AadhaarBack, 
                 method: "OCR", 
                 side: props.type=="front" ? "front":"back", 
@@ -31,6 +33,7 @@ const GenerateDocument =(props) =>{
 
         case 'Pan':
             document={
+                id: props.id,
                 pan: props.pan,
                 status: "",
                 message: ""
@@ -39,8 +42,10 @@ const GenerateDocument =(props) =>{
 
         case 'Bank':
             document={
+                id: props.id,
                 account_number: props.accountNumber,
                 ifsc: props.ifsc,
+                upi: props.upi,
                 status: "",
                 message: ""
             }
@@ -48,10 +53,12 @@ const GenerateDocument =(props) =>{
 
         case 'Profile':
             document={
+                id: props.id,
                 maritalStatus: props.maritalStatus,
-                qualification : props.qualification,
-                status: "",
-                message: ""
+                qualification: props.qualification,
+                altMobile:  props.altMobile,
+                email: props.email,
+                photo: props.photo
             }
             break;  
         

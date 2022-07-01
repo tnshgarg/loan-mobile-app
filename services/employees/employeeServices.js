@@ -1,62 +1,105 @@
 import * as APIS from "./endpoints";
+import axios from "axios";
 
-export const postAadhaarFormData = (authToken, document) => {
-    const options = {
-      headers: { Authorization: authToken },
-    };
+export const putMobileData = (document) => {
+  var data = JSON.stringify(document);
+  var config = {
+    method: 'post',
+    url: APIS.MOBILE_ONBOARD_API,
+    headers: { 
+      'Content-Type': 'application/json'
+    },
+    data : data
+  };
+  
+  return axios(config);
+};
+
+export const putAadhaarData = (document) => {
     const body = {
+      id: document.id,
       number: document.aadhaarNumber,
-      base64_data: document.base64_data, 
-      method: document.method, 
-      side: document.side, 
-      status: document.status,
-      message: document.message
+      data: document.base64_data, 
+      verifyMode: document.method,
+      verifyStatus: document.status,
+      verifyMsg: document.message
     };
-    return axios.post(APIS.AADHAR_ONBOARD_API, body, options);
+    var data = JSON.stringify(body);
+    var config = {
+      method: 'post',
+      url: APIS.AADHAR_ONBOARD_API,
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : data
+    };
+    return axios(config);
 };
 
-export const postPanFormData = (authToken, document) => {
-  const options = {
-    headers: { Authorization: authToken },
-  };
+export const putPanData = (document) => {
   const body = {
-    number: document.pan, 
-    status: document.status,
-    message: document.message 
+    id: document.id,
+    number: document.pan,
+    verifyStatus: document.status,
+    verifyMsg: document.message
   };
-  return axios.post(APIS.PAN_ONBOARD_API, body, options);
+  var data = JSON.stringify(body);
+    var config = {
+      method: 'post',
+      url: APIS.PAN_ONBOARD_API,
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : data
+    };
+    return axios(config);
 };
 
-export const postBankAccountFormData = (authToken, document) => {
-  const options = {
-    headers: { Authorization: authToken },
-  };
+export const putBankAccountData = (document) => {
   const body = {
-    account_number: document.account_number,
+    id: document.id,
+    accountNumber: document.account_number,
     ifsc: document.ifsc,
-    status: document.status,
-    message: document.message 
+    upi:document.upi,
+    verifyStatus: document.status,
+    verifyMsg: document.message
   };
-  return axios.post(APIS.BANK_ONBOARD_API, body, options);
+  var data = JSON.stringify(body);
+  var config = {
+    method: 'post',
+    url: APIS.BANK_ONBOARD_API,
+    headers: { 
+      'Content-Type': 'application/json'
+    },
+    data : data
+  };
+  return axios(config);
 };
 
-export const postProfileFormData = (authToken, document) => {
-  const options = {
-    headers: { Authorization: authToken },
-  };
+export const putProfileData = (document) => {
   const body = {
+    id: document.id,
     maritalStatus: document.maritalStatus,
     qualification: document.qualification,
-    status: document.status,
-    message: document.message 
+    altMobile:  document.altMobile,
+    email: document.email,
+    photo: document.photo
   };
-  return axios.post(APIS.PROFILE_ONBOARD_API, body, options);
+  var data = JSON.stringify(body);
+  var config = {
+    method: 'post',
+    url: APIS.PROFILE_ONBOARD_API,
+    headers: { 
+      'Content-Type': 'application/json'
+    },
+    data : data
+  };
+  return axios(config);
 };
 
 
-export const getDocumentData = (authToken, employeeId) => {
+export const getDocumentData = (employeeId) => {
   const options = {
-    headers: { Authorization: authToken },
     params: {
       employee_id: employeeId,
     },

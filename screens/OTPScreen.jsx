@@ -1,5 +1,5 @@
 import React ,{useEffect, useState} from 'react'
-import { Image, Text, View,SafeAreaView,TextInput, ScrollView, Alert,ActivityIndicator,TouchableOpacity} from 'react-native';
+import { Image, Text, View,SafeAreaView,TextInput, ScrollView, Alert} from 'react-native';
 import { Button,Icon,IconButton} from "@react-native-material/core";
 import { useNavigation} from '@react-navigation/core';
 import { useStateValue } from "../StateProvider";
@@ -10,12 +10,12 @@ import CountDown from 'react-native-countdown-component';
 
 export default OTPScreen = () => {
   const navigation = useNavigation();
-  const [{phone_number,session},dispatch] = useStateValue();
+  const [{phone_number,id},dispatch] = useStateValue();
   const [otp, setOtp] = useState('');
   const [next, setNext] = useState(false);
   const [user, setUser] = useState(null);
   const [back,setBack] = useState(false);
-  const [isLoading,setIsLoading]=useState(false);
+
 
   // HHrHWFsvgjF
   
@@ -59,18 +59,13 @@ export default OTPScreen = () => {
           />
           {back ? <Text style={styles.resendText} onPress={()=>{sendSmsVerification(phone_number).then((sent) => {console.log("Sent!")})}}>Resend</Text> :null}
           <Text style={styles.otpreadtxt}> Sit back & relax while we fetch the OTP & log {'\n'}                you inside the Unipe App</Text>
-          {!isLoading ? <>{next ? <Button uppercase={false} title="Verify" type="solid"  color="#4E46F1" style={styles.ContinueButton} onPress={() => { 
+          <Text style={styles.otpreadtxt}> {id}</Text>
+          {next ? <Button uppercase={false} title="Verify" type="solid"  color="#4E46F1" style={styles.ContinueButton} onPress={() => { 
           checkVerification(phone_number, otp).then((success) => {
               if (!success) Alert.alert("err","Incorrect OTP");
-              success && navigation.navigate("AadhaarForm");SmsRetriever.removeSmsListener();setIsLoading(true);
+              success && navigation.navigate("AadhaarForm");SmsRetriever.removeSmsListener();
             });
-          }}/> : <Button title="Verify" uppercase={false} type="solid" style={styles.ContinueButton} disabled/>}</>: 
-          <TouchableOpacity onPress={toggleLoading}>
-          <View style={styles.ContinueButton}>
-            <ActivityIndicator size="large" color="yellow" />
-          </View>
-        </TouchableOpacity>
-        }
+          }}/> : <Button title="Verify" uppercase={false} type="solid" style={styles.ContinueButton} disabled/>}
       </View>
       </ScrollView>
     </SafeAreaView>

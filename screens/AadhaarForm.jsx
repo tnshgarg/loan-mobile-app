@@ -7,7 +7,8 @@ import {form ,checkBox,Camera,styles,bankform} from './styles';
 import { useStateValue } from '../StateProvider';
 import {CF_API_KEY} from '@env';
 import ProgressBarTop from '../components/ProgressBarTop';
-import {GenerateDocument} from "../helpers/GenerateDocument";
+import { GenerateDocument } from '../helpers/GenerateDocument';
+import { putAadhaarData } from '../services/employees/employeeServices';
 
 export default AadhaarForm = () => {
     const [consent, setConsent] = useState(false);
@@ -21,8 +22,6 @@ export default AadhaarForm = () => {
     const [aadhaarFrontVerified,setAadhaarFrontVerified]=useState(false);
     const [aadhaarBackVerified,setAadhaarBackVerified]=useState(false);
     const [aadhaarLinked,setAadhaarLinked] = useState(true);
-
-    console.log(GenerateDocument({"src":"otp","number":"1234567890"}));
 
     useEffect(()=>{
       dispatch({
@@ -60,9 +59,21 @@ export default AadhaarForm = () => {
         setNext(false);
       }
     }, [aadhaar]);
-  
-  
-  const GenerateOtp =() =>{
+
+const AadharPush = () => {
+  var aadhaarPayload= GenerateDocument({"src":"AadhaarOCR","type":"front","id":id ,"frontaadhaarData":frontaadhaarData,"backaadhaarData":backaadhaarData,"AadhaarBack":AadhaarBack,"AadhaarFront":AadhaarFront});
+  putAadhaarData(aadhaarPayload).then(res=>{
+    console.log(aadhaarPayload);
+    console.log(res.data);
+    Alert.alert("Message",res.data["message"]);
+  })
+  .catch(err=>{
+    console.log(err);
+  })
+}
+
+    
+const GenerateOtp =() =>{
     const data = 
     {
         "aadhaar_number": aadhaar,
@@ -109,7 +120,7 @@ export default AadhaarForm = () => {
   }
 
 
-  const AadhaarOCR =(type) =>{
+const AadhaarOCR =(type) =>{
     const base64data=
     {
       "consent": "Y",
@@ -141,7 +152,13 @@ export default AadhaarForm = () => {
     setTimeout(() => {
     !aadhaarBackVerified ? alert(`The Image captured is not verified please capture the image again for Aadhaar Back to get it verified.`):null;
     !aadhaarFrontVerified ? alert(`The Image captured is not verified please capture the image again for Aadhaar Front to get it verified.`):null;
-    aadhaarBackVerified && aadhaarFrontVerified ? <>{alert("Aadhar Verified through OCR.")}{navigation.navigate("PanCardInfo")}</> :null;
+    aadhaarBackVerified && aadhaarFrontVerified ? 
+    <>
+      {alert("Aadhar Verified through OCR.")}
+      {navigation.navigate("PanCardInfo")}
+      {AadharPush()}
+      {}
+    </> :null;
     },1000);
   }
   const backAlert = () =>
@@ -185,7 +202,7 @@ export default AadhaarForm = () => {
       />
       <Text style={checkBox.checkBoxText}>I agree with the KYC registration Terms {'\n'} and Conditions to verifiy my identity.</Text>
       </View>
-      <Text style={form.AadharLinkedStatus} onPress={()=>{setAadhaarLinked(false)}}>My Mobile number is not linked to my Aadhar card</Text>
+      <Button style={form.AadharLinkedStatus} onPress={()=>{setAadhaarLinked(false)}} uppercase={false} title="My Mobile number is not linked to my Aadhar card"/>
       {next && consent ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{GenerateOtp()}}/> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
       </>
     :
@@ -219,7 +236,7 @@ export default AadhaarForm = () => {
         />
         <Text style={checkBox.checkBoxText}>I agree with the KYC registration Terms {'\n'} and Conditions to verifiy my identity.</Text>
         </View>
-        <Button style={form.AadharLinkedStatus} onPress={()=>{setAadhaarLinked(true)}}>My Mobile number is linked to my Aadhar card.</Button>
+        <Button style={form.AadharLinkedStatus} onPress={()=>{setAadhaarLinked(true)}} uppercase={false} title="My Mobile number is linked to my Aadhar card."/>
         {AadhaarFront && AadhaarBack && consent ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{VerifyAadharOCR()}}/> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
     </>
     }

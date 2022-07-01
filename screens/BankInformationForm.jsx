@@ -4,12 +4,16 @@ import { useNavigation} from '@react-navigation/core';
 import { AppBar,IconButton,Icon, Button} from "@react-native-material/core";
 import { progressBar,form,bankform,styles} from './styles';
 import {CF_API_KEY} from '@env';
+import { useStateValue } from "../StateProvider";
 import { Popable } from 'react-native-popable';
 import ProgressBarTop from '../components/ProgressBarTop';
+import {GenerateDocument} from '../helpers/GenerateDocument';
+import { putBankAccountData } from '../services/employees/employeeServices';
 
 export default BankInformationForm = () => {
   const navigation = useNavigation();
   const [ifsc,setIfsc] = useState("");
+  const [{id},dispatch] = useStateValue();
   const [accountNumber,setAccountNumber] = useState("");
   const [accountHolderName,setAccountHolderName] = useState("");
   const [upiID,setUpiId] = useState("");
@@ -17,10 +21,21 @@ export default BankInformationForm = () => {
   const fields = [
   {"title":"Account Holder Name*","value":accountHolderName,"setvalue":setAccountHolderName,"requiredStatus":true,"tooltip":"Refer to your Bank Passbook or Cheque book for the exact Name mentioned in your bank records"},
   {"title":"Bank Account Number*","value":accountNumber,"setvalue":setAccountNumber,"requiredStatus":true,"tooltip":"Refer to your Bank Passbook or Cheque book to get the Bank Account Number."}
-  ,{"title":"IFSC Code*","value":ifsc,"setvalue":setIfsc,"requiredStatus":true,"tooltip":"You can find the IFSC code on the cheque book or bank passbook that is provided by the bank"},];
-  // {"title":"UPI ID","value":upiID,"setvalue":setUpiId,"requiredStatus":false,"tooltip":"There are lots of UPI apps available like Phonepe, Amazon Pay, Paytm, Bhim, Mobikwik etc. from where you can fetch your UPI ID."}];
+  ,{"title":"IFSC Code*","value":ifsc,"setvalue":setIfsc,"requiredStatus":true,"tooltip":"You can find the IFSC code on the cheque book or bank passbook that is provided by the bank"},
+  {"title":"UPI ID","value":upiID,"setvalue":setUpiId,"requiredStatus":false,"tooltip":"There are lots of UPI apps available like Phonepe, Amazon Pay, Paytm, Bhim, Mobikwik etc. from where you can fetch your UPI ID."}];
 
-
+  const BankPush = () => {
+    var bankPayload= GenerateDocument({"src":"Bank","type":"front","id":id,"ifsc":ifsc,"accountNumber":accountNumber,"upi":upiID});
+    putBankAccountData(bankPayload).then(res=>{
+      console.log(bankPayload);
+      console.log(res.data);
+      Alert.alert("Message",res.data["message"]);
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+  }
+    // putBankAccountData()
   const VerifyBankAccount =() =>{
     const data=
     {
@@ -45,6 +60,7 @@ export default BankInformationForm = () => {
         {if(response["status"]=="200"){
           switch(response["data"]["code"]){
             case "1000":
+              BankPush();
               Alert.alert("Your Bank Account Information",
             `Name: ${response["data"]["bank_account_data"]["name"]}\nBank Name: ${response["data"]["bank_account_data"]["bank_name"]}\nUTR no.: ${response["data"]["bank_account_data"]["utr"]}\nBranch: ${response["data"]["bank_account_data"]["branch"]}\nCity: ${response["data"]["bank_account_data"]["city"]}`,
             [

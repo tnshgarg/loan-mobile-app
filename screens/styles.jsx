@@ -49,7 +49,7 @@ export const styles=StyleSheet.create({
     },
     ContinueButton:{
         padding:10,
-        marginLeft:40,
+        alignSelf:"center",
         marginTop:50,
         width:320,
         height:60,
@@ -83,14 +83,24 @@ export const styles=StyleSheet.create({
         fontSize:14,
         fontFamily:"Roboto",
         fontWeight:"bold",
-    }
+    },
+    LoadingButton:{
+        padding:10,
+        alignSelf:"center",
+        marginTop:50,
+        width:320,
+        height:60,
+        fontSize:20,
+        backgroundColor:"#4E46F1",
+        borderRadius:4,
+    },
 })
 
 
 export const buttons = StyleSheet.create({
     ContinueButton:{
         padding:10,
-        marginLeft:40,
+        alignSelf:"center",
         marginTop:50,
         width:320,
         height:60,
@@ -158,7 +168,7 @@ export const form = StyleSheet.create({
     },
     nextButton:{
         padding:10,
-        marginLeft:34,
+        alignSelf:"center",
         marginTop:50,
         width:320,
         height:60,
@@ -215,10 +225,10 @@ export const form = StyleSheet.create({
         fontFamily:"Roboto"
     },
     AadharLinkedStatus:{
-        marginLeft:34,
         marginTop:30,
+        alignSelf:"center",
         color:"#4E46F1",
-        fontSize:14,
+        width:300,
         textDecorationLine: 'underline',
         fontWeight: 'bold',
     },
@@ -261,7 +271,7 @@ export const bankform=StyleSheet.create({
     },
     nextButton:{
         padding:10,
-        marginLeft:34,
+        alignSelf:"center",
         marginTop:40,
         width:320,
         height:60,
