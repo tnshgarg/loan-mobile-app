@@ -105,11 +105,14 @@ export default LoginScreen = () => {
     })}, [phoneNumber]);
 
   useEffect(() => {
-    if(phoneNumber.length === 12 || phoneNumber.length === 13){
+    var phoneno = /^(\+91)? ?[0-9]{10}$/gm;
+    if(phoneno.test(phoneNumber) && phoneNumber.length === 12 || phoneNumber.length === 13){
       setNext(true);
+      console.log("true");
     }
     else{
       setNext(false);
+      console.log("false");
     }
   }, [phoneNumber]);
 
