@@ -7,7 +7,7 @@ import { styles } from './styles';
 import SmsRetriever from 'react-native-sms-retriever';
 import {checkVerification} from "../services/otp/Twilio/verify"
 import CountDown from 'react-native-countdown-component';
-
+import {sendSmsVerification} from "../services/otp/Twilio/verify"
 export default OTPScreen = () => {
   const navigation = useNavigation();
   const [{phone_number,id},dispatch] = useStateValue();

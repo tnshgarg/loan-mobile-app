@@ -29,7 +29,6 @@ export default BankInformationForm = () => {
     putBankAccountData(bankPayload).then(res=>{
       console.log(bankPayload);
       console.log(res.data);
-      Alert.alert("Message",res.data["message"]);
     })
     .catch(err=>{
       console.log(err);

@@ -19,15 +19,10 @@ export default PersonalDetailsForm = () => {
   const [email,setEmail]= useState("");
   const navigation = useNavigation();
 
-  const ProfilePush = () => {
-    var profilePayload= GenerateDocument({"src":"Profile","id":id,"maritalStatus":maritalStatus,"qualification":educationalQualification,"altMobile":alternatePhone,"email":email,"photo":"asd"});
-    putProfileData(profilePayload).then(res=>{
-      console.log(profilePayload);
-      console.log(res.data);
-      Alert.alert("Message",res.data["message"]);
-    })
-    .catch(err=>{
-      console.log(err);
+  const onFinish=()=>{
+    dispatch({
+      type: "SET_PROFILE",
+      payload: {"maritalStatus":maritalStatus,"qualification":educationalQualification,"altMobile":alternatePhone,"email":email}
     })
   }
   return (
@@ -76,7 +71,7 @@ export default PersonalDetailsForm = () => {
         <Text style={form.formLabel}>Enter your Email ID</Text>
         <TextInput style={form.formTextInput} value={email} onChangeText={setEmail}  placeholder="Enter Email" required/>
 
-        <Button title="Continue" type="solid"  uppercase={false} style={form.nextButton} color="#4E46F1" onPress={()=>{ProfilePush();navigation.navigate("PersonalImage")}}/>
+        <Button title="Continue" type="solid"  uppercase={false} style={form.nextButton} color="#4E46F1" onPress={()=>{onFinish();navigation.navigate("PersonalImage")}}/>
         <View style={bankform.padding}></View>
         </ScrollView>
       </SafeAreaView>

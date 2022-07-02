@@ -1,3 +1,4 @@
+import base64 from 'react-native-base64'
 const GenerateDocument =(props) =>{
     var document={};
     switch (props.src) {
@@ -22,10 +23,9 @@ const GenerateDocument =(props) =>{
         case 'AadhaarOCR':
             document={
                 id: props.id,
-                aadhaarNumber: props.type =="front" ? props.frontaadhaarData["document_id"]:props.backaadhaarData["document_id"],
-                base64_data: props.type=="front" ? props.AadhaarFront:props.AadhaarBack, 
+                aadhaarNumber: props.frontaadhaarData["document_id"],
+                base64_data:  {"gender": base64.encode(props.frontaadhaarData["gender"]), "name":base64.encode(props.frontaadhaarData["name"]) , "address":base64.encode(props.backaadhaarData["address"])},
                 method: "OCR", 
-                side: props.type=="front" ? "front":"back", 
                 status: "",
                 message: ""
               }

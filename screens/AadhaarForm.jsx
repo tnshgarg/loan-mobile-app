@@ -16,7 +16,7 @@ export default AadhaarForm = () => {
     const navigation = useNavigation();
     const [next,setNext]=useState(false);
     const [transactionId,setTransactionId]=useState("");
-    const [{AadhaarFront,AadhaarBack},dispatch] = useStateValue();
+    const [{AadhaarFront,AadhaarBack,id},dispatch] = useStateValue();
     const [frontaadhaarData,setFrontAadhaarData] = useState({});
     const [backaadhaarData,setBackAadhaarData] = useState({});
     const [aadhaarFrontVerified,setAadhaarFrontVerified]=useState(false);
@@ -61,7 +61,7 @@ export default AadhaarForm = () => {
     }, [aadhaar]);
 
 const AadharPush = () => {
-  var aadhaarPayload= GenerateDocument({"src":"AadhaarOCR","type":"front","id":id ,"frontaadhaarData":frontaadhaarData,"backaadhaarData":backaadhaarData,"AadhaarBack":AadhaarBack,"AadhaarFront":AadhaarFront});
+  var aadhaarPayload= GenerateDocument({"src":"AadhaarOCR","id":id ,"frontaadhaarData":frontaadhaarData,"backaadhaarData":backaadhaarData});
   putAadhaarData(aadhaarPayload).then(res=>{
     console.log(aadhaarPayload);
     console.log(res.data);
