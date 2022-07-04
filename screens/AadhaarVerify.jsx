@@ -32,7 +32,7 @@ export default AadhaarVerify = () => {
     async function confirmVerificationCode() {
       const data = {
         "otp": otp,
-        "include_xml": false,
+        "include_xml": true,
         "share_code": 1234,
         "transaction_id": AadhaarTransactionId,
       }

@@ -59,7 +59,6 @@ export default OTPScreen = () => {
           />
           {back ? <Text style={styles.resendText} onPress={()=>{sendSmsVerification(phone_number).then((sent) => {console.log("Sent!")})}}>Resend</Text> :null}
           <Text style={styles.otpreadtxt}> Sit back & relax while we fetch the OTP & log {'\n'}                you inside the Unipe App</Text>
-          <Text style={styles.otpreadtxt}> {id}</Text>
           {next ? <Button uppercase={false} title="Verify" type="solid"  color="#4E46F1" style={styles.ContinueButton} onPress={() => { 
           checkVerification(phone_number, otp).then((success) => {
               if (!success) Alert.alert("err","Incorrect OTP");

@@ -12,9 +12,8 @@ const GenerateDocument =(props) =>{
             document={
                 id: props.id,
                 aadhaarNumber: props.aadhaar,
-                base64_data: "", 
+                base64_data: props.xml, 
                 method: "OTP", 
-                side: "", 
                 status: "",
                 message: ""
               }
