@@ -77,7 +77,7 @@ export default AadhaarVerify = () => {
     <ProgressBarTop step={1}/>
     <ScrollView keyboardShouldPersistTaps='handled'>
       <View style={styles.container}>
-          <Text style={form.OtpAwaitMsg} >OTP has been sent vis SMS to your Aadhaar {'\n'}          registered mobile number</Text>
+          <Text style={form.OtpAwaitMsg} >OTP has been sent vis SMS to your Aadhaar registered mobile number</Text>
           <TextInput style={styles.otpInput} letterSpacing={23} maxLength={6} numeric value={otp} onChangeText={setOtp} keyboardType="numeric"/>
           <CountDown
           until={60*10}

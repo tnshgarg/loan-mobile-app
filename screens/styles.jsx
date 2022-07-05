@@ -66,7 +66,8 @@ export const styles=StyleSheet.create({
         marginTop:20
     },
     dataUseText:{
-        marginLeft:40,
+        marginLeft: 40,
+        marginRight: 20,
         marginTop:20,
         fontSize:14,
         fontFamily:"Roboto",
@@ -77,7 +78,8 @@ export const styles=StyleSheet.create({
         color:"#4E46F1",
     },
     otpreadtxt:{
-        marginLeft:60,
+        marginLeft: 40,
+        marginRight: 20,
         marginTop:20,
         color:"gray",
         fontSize:14,
@@ -176,7 +178,8 @@ export const form = StyleSheet.create({
     },
     OtpAwaitMsg:{
         color:"#230C45",
-        marginLeft:55,
+        marginLeft: 40,
+        marginRight: 20,
         marginTop:30,
         fontSize:16,
         fontFamily:"Roboto"
@@ -245,6 +248,8 @@ export const checkBox=StyleSheet.create({
         marginTop:30,
     },
     checkBoxText:{
+        marginLeft: 40,
+        marginRight: 20,
         marginTop:30,
         fontSize:14,
         color:"#828282",

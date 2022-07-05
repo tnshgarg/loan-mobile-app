@@ -234,7 +234,7 @@ const AadhaarOCR =(type) =>{
               style={checkBox.checkBox}
               tintColors={{true: '#4E46F1'}}
         />
-        <Text style={checkBox.checkBoxText}>I agree with the KYC registration Terms {'\n'} and Conditions to verifiy my identity.</Text>
+        <Text style={checkBox.checkBoxText}>I agree with the KYC registration Terms and Conditions to verifiy my identity.</Text>
         </View>
         <Button style={form.AadharLinkedStatus} onPress={()=>{setAadhaarLinked(true)}} uppercase={false} title="My Mobile number is linked to my Aadhar card."/>
         {AadhaarFront && AadhaarBack && consent ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{VerifyAadharOCR()}}/> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
