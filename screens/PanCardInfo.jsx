@@ -10,11 +10,17 @@ import ProgressBarTop from '../components/ProgressBarTop';
 import {GenerateDocument} from '../helpers/GenerateDocument';
 import { putPanData } from '../services/employees/employeeServices';
 
+import {useSelector} from "react-redux";
+
+import {useDispatch} from "react-redux";
+import { addPan } from '../store/slices/panSlice';
+
 export default PanCardInfo = () => {
     const navigation = useNavigation();
     const [pan,setPan]=useState("");
     const [next,setNext] = useState();
-    const [{id},dispatch] = useStateValue();
+    const dispatch = useDispatch();
+    const id = useSelector((state)=>state.auth.userId);
     const [panName, setPanName]=useState('');
     const [birthday,setBirthday]=useState('');
 
@@ -24,6 +30,7 @@ export default PanCardInfo = () => {
     useEffect(() => {
       if(pan.length === 10){
         setNext(true);
+        dispatch(addPan(pan));
       }
       else{
         setNext(false);

@@ -10,12 +10,14 @@ import {sendSmsVerification} from "../services/otp/Twilio/verify"
 import {GenerateDocument} from "../helpers/GenerateDocument";
 import { putMobileData } from '../services/employees/employeeServices';
 
+import {useDispatch} from "react-redux";
+import { addPhoneNumber, addId } from '../store/slices/authSlice';
+
 export default LoginScreen = () => {
   const navigation = useNavigation();
-  const [phoneNumber, setPhoneNumber] = useState('+91');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [next, setNext] = useState(false);
-  const [{user},dispatch] = useStateValue();
-  const [session,setSession] = useState(null); 
+  const dispatch = useDispatch();
   const password = Math.random().toString(8) + 'Abc#';
   const [isLoading,setIsLoading]=useState(false);
   const [id,setId] = useState(null);
@@ -71,7 +73,7 @@ export default LoginScreen = () => {
     .then((sent) => {
       console.log("Sent!");
       setIsLoading(true);
-      var phonePayload = GenerateDocument({"src":"otp","number":phoneNumber});
+      var phonePayload = GenerateDocument({"src":"otp","number":`+91${phoneNumber}`});
       putMobileData(phonePayload).then(res=>{
         console.log(phonePayload);
         console.log(res.data);
@@ -93,20 +95,14 @@ export default LoginScreen = () => {
   }
   
   useEffect(() => {
-    dispatch({
-      type: "SET_USERID",
-      payload: id,
-    })}, [id]);
+    dispatch(addId(id))}, [id]);
 
   useEffect(() => {
-    dispatch({
-      type: "SET_PHONE",
-      payload: phoneNumber,
-    })}, [phoneNumber]);
+    dispatch(addPhoneNumber(phoneNumber))}, [phoneNumber]);
 
   useEffect(() => {
-    var phoneno = /^(\+91)? ?[0-9]{10}$/gm;
-    if(phoneno.test(phoneNumber) && phoneNumber.length === 12 || phoneNumber.length === 13){
+    var phoneno = /^[0-9]{10}$/gm;
+    if(phoneno.test(phoneNumber) && phoneNumber.length === 10 || phoneNumber.length === 13){
       setNext(true);
       console.log("true");
     }
@@ -136,6 +132,7 @@ export default LoginScreen = () => {
             </View>
             </TouchableOpacity>
             }
+            <Button uppercase={false} title="Retry" type="solid" style={styles.RetryButton} color="#4E46F1" onPress={()=>navigation.navigate("AadhaarForm")}/>
         </ScrollView>
     </SafeAreaView>
   )

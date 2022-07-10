@@ -2,8 +2,6 @@ import React ,{useEffect, useState} from 'react'
 import { Image, Text, View,SafeAreaView,TextInput, ScrollView} from 'react-native';
 import { AppBar,IconButton,Icon, Button} from "@react-native-material/core";
 import { useNavigation} from '@react-navigation/core';
-import { useStateValue } from "../StateProvider";
-import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { styles,progressBar, form } from './styles';
 import {CF_API_KEY} from '@env';
 import CountDown from 'react-native-countdown-component';
@@ -11,9 +9,15 @@ import ProgressBarTop from '../components/ProgressBarTop';
 import {GenerateDocument} from '../helpers/GenerateDocument';
 import { putAadhaarData } from '../services/employees/employeeServices';
 
+
+import {useDispatch} from "react-redux";
+import {addAadhaarData} from "../store/slices/aadhaarSlice";
+import {useSelector} from "react-redux";
+
 export default AadhaarVerify = () => {
     const navigation = useNavigation();
-    const [{AadhaarTransactionId,id,aadhaar},dispatch] = useStateValue();
+    const dispatch = useDispatch();
+    const AadhaarTransactionId = useSelector((state)=>state.aadhaar.aadhaarTransactionId);
     const [otp, setOtp] = useState('');
     const [next, setNext] = useState(false);
     const [aadharData,setAadharData] = useState({});
@@ -23,10 +27,7 @@ export default AadhaarVerify = () => {
     // putAadhaarData();
     
     useEffect(()=>{
-      dispatch({
-        type: "SET_AADHAAR_DATA",
-        payload: aadharData
-      })
+      dispatch(addAadhaarData(aadharData));
     },[aadharData]);
 
     async function confirmVerificationCode() {

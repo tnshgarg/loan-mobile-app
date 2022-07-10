@@ -5,7 +5,9 @@ import { useNavigation} from '@react-navigation/core';
 const RNFS = require('react-native-fs');
 import {Camera} from './styles';
 import {Icon} from "@react-native-material/core";
-import { useStateValue } from "../StateProvider";
+
+import {useDispatch} from "react-redux";
+import {addImage} from "../store/slices/imageSlice";
 
 const PendingView = () => (
   <View style={Camera.wait}>
@@ -15,13 +17,10 @@ const PendingView = () => (
 
 export default IDCapture = (props) => {
   const navigation = useNavigation();
-  const [{user},dispatch] = useStateValue();
+  const dispatch = useDispatch();
   const [id,setId] = useState(null);
   useEffect(() => {
-    dispatch({
-      type: "SET_ID",
-      payload: {"data":id,"type":props.route.params}
-    })
+    dispatch(addImage({"data":id,"type":props.route.params}))
   }, [id])
 
     takePicture = async function(camera) {

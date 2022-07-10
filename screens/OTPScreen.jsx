@@ -8,9 +8,12 @@ import SmsRetriever from 'react-native-sms-retriever';
 import {checkVerification} from "../services/otp/Twilio/verify"
 import CountDown from 'react-native-countdown-component';
 import {sendSmsVerification} from "../services/otp/Twilio/verify"
+import {useSelector} from "react-redux";
+
 export default OTPScreen = () => {
+  const phonenumber = useSelector((state)=>state.auth.phoneNumber);
   const navigation = useNavigation();
-  const [{phone_number,id},dispatch] = useStateValue();
+  const [{id},dispatch] = useStateValue();
   const [otp, setOtp] = useState('');
   const [next, setNext] = useState(false);
   const [user, setUser] = useState(null);
@@ -43,7 +46,7 @@ export default OTPScreen = () => {
       {back ? <IconButton icon={<Icon name="arrow-back" size={30} color="#4E46F1"/>} onPress={()=>navigation.goBack()} /> : <IconButton icon={<Icon name="arrow-back" size={30} color="#808080"/>} onPress={()=>Alert.alert("OTP Timer","You must wait for 30 seconds to resend otp")} />}
       </View>
       <Image style={styles.logo} source={require("../assets/unipe-Thumbnail.png")}/>
-          <Text style={styles.headline} >   Please wait, we will auto verify the OTP {'\n'}             sent to {phone_number}
+          <Text style={styles.headline} >   Please wait, we will auto verify the OTP {'\n'}             sent to {phonenumber}
           {back ? <Icon name="edit" size={12} color="#4E46F1" onPress={() =>navigation.goBack()}/>:<Icon name="edit" size={12} color="#808080" onPress={()=>Alert.alert("OTP Timer","You must wait for 30 seconds to edit number")}/>}
           </Text>
           <TextInput style={styles.otpInput} letterSpacing={23} maxLength={6} numeric value={otp} onChangeText={setOtp} keyboardType="numeric"/>
@@ -57,10 +60,10 @@ export default OTPScreen = () => {
           timeToShow={['M', 'S']}
           timeLabels={{m: 'MM', s: 'SS'}}
           />
-          {back ? <Text style={styles.resendText} onPress={()=>{sendSmsVerification(phone_number).then((sent) => {console.log("Sent!")})}}>Resend</Text> :null}
+          {back ? <Text style={styles.resendText} onPress={()=>{sendSmsVerification(phonenumber).then((sent) => {console.log("Sent!")})}}>Resend</Text> :null}
           <Text style={styles.otpreadtxt}> Sit back & relax while we fetch the OTP & log you inside the Unipe App</Text>
           {next ? <Button uppercase={false} title="Verify" type="solid" color="#4E46F1" style={styles.ContinueButton} onPress={() => { 
-          checkVerification(phone_number, otp).then((success) => {
+          checkVerification(phonenumber, otp).then((success) => {
               if (!success) Alert.alert("err","Incorrect OTP");
               success && navigation.navigate("AadhaarForm");SmsRetriever.removeSmsListener();
             });

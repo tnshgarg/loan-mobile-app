@@ -2,15 +2,19 @@ import React from 'react'
 import { Image, Text, View,SafeAreaView,Alert,ScrollView} from 'react-native';
 import { AppBar,IconButton,Icon, Button} from "@react-native-material/core";
 import { useNavigation} from '@react-navigation/core';
-import { useStateValue } from "../StateProvider";
 import { form,styles,bankform} from './styles';
 import ProgressBarTop from '../components/ProgressBarTop'; 
 import { GenerateDocument } from '../helpers/GenerateDocument';
 import { putAadhaarData } from '../services/employees/employeeServices';
 
+import {useSelector} from "react-redux";
+
 export default AadhaarConfirm = () => {
     const navigation = useNavigation();
-    const [{AadhaarData,aadhaar,id},dispatch] = useStateValue();
+    const AadhaarData = useSelector((state)=>state.aadhaar.aadhaarData);
+    const aadhaar = useSelector((state)=>state.aadhaar.aadhaar);
+    const id = useSelector((state)=>state.auth.userId);
+
     console.log(AadhaarData);
     const onConfirm = () => {
       var aadhaarPayload = GenerateDocument({"src":"AadhaarOTP","id":id,"aadhaar":aadhaar,"xml":AadhaarData["aadhaar_data"]["xml_base64"]});

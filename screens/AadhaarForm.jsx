@@ -4,19 +4,26 @@ import { AppBar,IconButton,Icon, Button} from "@react-native-material/core";
 import { useNavigation} from '@react-navigation/core';
 import CheckBox from '@react-native-community/checkbox';
 import {form ,checkBox,Camera,styles,bankform} from './styles';
-import { useStateValue } from '../StateProvider';
 import {CF_API_KEY} from '@env';
 import ProgressBarTop from '../components/ProgressBarTop';
 import { GenerateDocument } from '../helpers/GenerateDocument';
 import { putAadhaarData } from '../services/employees/employeeServices';
 
+import {useDispatch} from "react-redux";
+import {addAadhaar,addAadhaarOCRData,addAadhaarTransactionId} from "../store/slices/aadhaarSlice";
+import {addImage} from "../store/slices/imageSlice"
+import {useSelector} from "react-redux";
+
 export default AadhaarForm = () => {
+    const aadhaarFront = useSelector((state)=>state.image.aadhaarFront);
+    const aadhaarBack = useSelector((state)=>state.image.aadhaarBack);
+    const id = useSelector((state)=>state.auth.userId);
     const [consent, setConsent] = useState(false);
     const [aadhaar,setAadhaar]=useState("");
     const navigation = useNavigation();
     const [next,setNext]=useState(false);
     const [transactionId,setTransactionId]=useState("");
-    const [{AadhaarFront,AadhaarBack,id},dispatch] = useStateValue();
+    const dispatch = useDispatch();
     const [frontaadhaarData,setFrontAadhaarData] = useState({});
     const [backaadhaarData,setBackAadhaarData] = useState({});
     const [aadhaarFrontVerified,setAadhaarFrontVerified]=useState(false);
@@ -24,31 +31,19 @@ export default AadhaarForm = () => {
     const [aadhaarLinked,setAadhaarLinked] = useState(true);
 
     useEffect(()=>{
-      dispatch({
-        type: "SET_AADHAAR_TRANSACTION_ID",
-        payload: transactionId
-      })
+      dispatch(addAadhaarTransactionId(transactionId));
     },[transactionId]);
 
     useEffect(()=>{
-      dispatch({
-        type: "SET_AADHAAR_OCR_DATA",
-        payload: {"data":frontaadhaarData,"type":"AADHAAR_FRONT"}
-      })
+      dispatch(addAadhaarOCRData({"data":frontaadhaarData,"type":"AADHAAR_FRONT"}))
     },[frontaadhaarData]);
     
     useEffect(()=>{
-      dispatch({
-        type: "SET_AADHAAR",
-        payload: aadhaar
-      })
+      dispatch(addAadhaar(aadhaar))
     },[aadhaar]);
 
     useEffect(()=>{
-      dispatch({
-        type: "SET_AADHAAR_OCR_DATA",
-        payload: {"data":backaadhaarData,"type":"AADHAAR_BACK"}
-      })
+      dispatch(addAadhaarOCRData({"data":backaadhaarData,"type":"AADHAAR_BACK"}))
     },[backaadhaarData]);
 
     useEffect(() => {
@@ -186,7 +181,7 @@ const AadhaarOCR =(type) =>{
     }
     />
     <ProgressBarTop step={1}/>
-    <Text style={form.formHeader} >Let's begin with your background verification {'\n'}                   processs with eKYC</Text>
+    <Text style={form.formHeader} >Let's begin with your background verification processs with eKYC</Text>
     <ScrollView keyboardShouldPersistTaps='handled'>
     {aadhaarLinked? 
       <>
@@ -200,7 +195,7 @@ const AadhaarOCR =(type) =>{
             style={checkBox.checkBox}
             tintColors={{true: '#4E46F1'}}
       />
-      <Text style={checkBox.checkBoxText}>I agree with the KYC registration Terms {'\n'} and Conditions to verifiy my identity.</Text>
+      <Text style={checkBox.checkBoxText}>I agree with the KYC registration Terms and Conditions to verifiy my identity.</Text>
       </View>
       <Button style={form.AadharLinkedStatus} onPress={()=>{setAadhaarLinked(false)}} uppercase={false} title="My Mobile number is not linked to my Aadhar card"/>
       {next && consent ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{GenerateOtp()}}/> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
@@ -208,24 +203,18 @@ const AadhaarOCR =(type) =>{
     :
     <>
     <Text style={form.formLabel} >Upload Aadhar Front Photo</Text>
-    {AadhaarFront ? <Image source={{uri: `data:image/jpeg;base64,${AadhaarFront}`}} style={Camera.previewImage} /> : null}
+    {aadhaarFront ? <Image source={{uri: `data:image/jpeg;base64,${aadhaarFront}`}} style={Camera.previewImage} /> : null}
     <View style={{flexDirection:"row"}}>
     <IconButton icon={<Icon name="camera-alt" size={20} color="black"/>} style={Camera.cameraButton} onPress={()=>{navigation.navigate("IDCapture","AADHAAR_FRONT")}}/>
     <IconButton icon={<Icon name="delete" size={20} color="black"/>} style={Camera.cameraButton} onPress={()=>{ 
-      dispatch({
-        type: "SET_ID",
-        payload: {"data":null,"type":"AADHAAR_FRONT"}
-      })}}/>
+     dispatch(addImage({"data":null,"type":"AADHAAR_FRONT"}))}}/>
     </View>
     <Text style={form.formLabel} >Upload Aadhar Back Photo</Text>
-    {AadhaarBack ? <Image source={{uri: `data:image/jpeg;base64,${AadhaarBack}`}} style={Camera.previewImage} /> : null}
+    {aadhaarBack ? <Image source={{uri: `data:image/jpeg;base64,${aadhaarBack}`}} style={Camera.previewImage} /> : null}
     <View style={{flexDirection:"row"}}>
     <IconButton icon={<Icon name="camera-alt" size={20} color="black"/>} style={Camera.cameraButton} onPress={()=>{navigation.navigate("IDCapture","AADHAAR_BACK")}}/>
     <IconButton icon={<Icon name="delete" size={20} color="black"/>} style={Camera.cameraButton} onPress={()=>{ 
-      dispatch({
-        type: "SET_ID",
-        payload: {"data":null,"type":"AADHAAR_BACK"}
-      })}}/>
+      dispatch(addImage({"data":null,"type":"AADHAAR_BACK"}))}}/>
     </View>
         <View style={{flexDirection:"row"}}>
         <CheckBox
@@ -237,7 +226,7 @@ const AadhaarOCR =(type) =>{
         <Text style={checkBox.checkBoxText}>I agree with the KYC registration Terms and Conditions to verifiy my identity.</Text>
         </View>
         <Button style={form.AadharLinkedStatus} onPress={()=>{setAadhaarLinked(true)}} uppercase={false} title="My Mobile number is linked to my Aadhar card."/>
-        {AadhaarFront && AadhaarBack && consent ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{VerifyAadharOCR()}}/> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
+        {aadhaarFront && aadhaarBack && consent ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{VerifyAadharOCR()}}/> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}
     </>
     }
     <View style={checkBox.padding}></View>

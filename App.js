@@ -20,11 +20,14 @@ import BankInformationForm from './screens/BankInformationForm';
 import Home from './screens/Home';
 import WelcomePage from './screens/WelcomePage';
 import PersonalImage from "./screens/PersonalImage";
-
+import ESICForm from './screens/ESIC/ESICForm';
+import {Provider} from "react-redux";
+import {store} from "./store/store";
 
 export default function App() {
   return (
   <StateProvider initialState={initialState} reducer={reducer}>
+    <Provider store={store}>
   <NavigationContainer>
   <SafeAreaProvider style={{backgroundColor:"white",flex:1}}>
   <IconComponentProvider IconComponent={Icon}>
@@ -127,11 +130,20 @@ export default function App() {
           header: null,
         }}
       />
+       <Stack.Screen 
+        name="ESIC" 
+        component={ESICForm} 
+        options={{
+          headerShown: false,
+          header: null,
+        }}
+      />
     </Stack.Navigator>
     </KeyboardAvoidingView>
     </IconComponentProvider>
   </SafeAreaProvider>
 </NavigationContainer>
+</Provider>
 </StateProvider>
   );
 }
