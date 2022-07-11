@@ -22,7 +22,6 @@ export default AadhaarForm = () => {
     const [aadhaarFrontVerified,setAadhaarFrontVerified]=useState(false);
     const [aadhaarBackVerified,setAadhaarBackVerified]=useState(false);
     const [aadhaarLinked,setAadhaarLinked] = useState(true);
-
     useEffect(()=>{
       dispatch({
         type: "SET_AADHAAR_TRANSACTION_ID",
@@ -138,7 +137,7 @@ const AadhaarOCR =(type) =>{
     
     fetch(`https://api.gridlines.io/aadhaar-api/ocr`, options)
       .then(response => response.json())
-      .then(response => {console.log(response["data"]["ocr_data"] );{ response["data"]["ocr_data"] ?  <> {type==="front"?setAadhaarFrontVerified(true):setAadhaarBackVerified(true)}
+      .then(response => {console.log(response["data"]);{ response["data"]["ocr_data"] ?  <> {type==="front"?setAadhaarFrontVerified(true):setAadhaarBackVerified(true)}
       {dispatch({
         type: "SET_AADHAAR_VERIFED_STATUS",
         payload: "OCR_VERIFIED"
@@ -149,7 +148,6 @@ const AadhaarOCR =(type) =>{
   const VerifyAadharOCR=()=>{
     AadhaarOCR("front");
     AadhaarOCR();
-    setTimeout(() => {
     !aadhaarBackVerified ? alert(`The Image captured is not verified please capture the image again for Aadhaar Back to get it verified.`):null;
     !aadhaarFrontVerified ? alert(`The Image captured is not verified please capture the image again for Aadhaar Front to get it verified.`):null;
     aadhaarBackVerified && aadhaarFrontVerified ? 
@@ -159,7 +157,6 @@ const AadhaarOCR =(type) =>{
       {AadharPush()}
       {}
     </> :null;
-    },1000);
   }
   const backAlert = () =>
     Alert.alert(
