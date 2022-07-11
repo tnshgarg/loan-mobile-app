@@ -4,13 +4,13 @@ import { AppBar,IconButton,Icon, Button} from "@react-native-material/core";
 import { useNavigation} from '@react-navigation/core';
 import CheckBox from '@react-native-community/checkbox';
 import {form ,checkBox,Camera,styles,bankform} from './styles';
-import {CF_API_KEY} from '@env';
+import {OG_API_KEY} from '@env';
 import ProgressBarTop from '../components/ProgressBarTop';
 import { GenerateDocument } from '../helpers/GenerateDocument';
 import { putAadhaarData } from '../services/employees/employeeServices';
 
 import {useDispatch} from "react-redux";
-import {addAadhaar,addAadhaarOCRData,addAadhaarTransactionId} from "../store/slices/aadhaarSlice";
+import {addAadhaar,addAadhaarOCRData,addAadhaarTransactionId,addAadhaarVerifedStatus} from "../store/slices/aadhaarSlice";
 import {addImage} from "../store/slices/imageSlice"
 import {useSelector} from "react-redux";
 
@@ -78,7 +78,7 @@ const GenerateOtp =() =>{
       method: 'POST',
       headers: {
         'X-Auth-Type': 'API-Key',
-        'X-API-Key': CF_API_KEY,
+        'X-API-Key': OG_API_KEY,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data)
@@ -119,13 +119,13 @@ const AadhaarOCR =(type) =>{
     const base64data=
     {
       "consent": "Y",
-      "base64_data": type==="front"?AadhaarFront:AadhaarBack
+      "base64_data": type==="front"?aadhaarFront:aadhaarBack
     }
     const options = {
       method: 'POST',
       headers: {
         'X-Auth-Type': 'API-Key',
-        'X-API-Key': CF_API_KEY,
+        'X-API-Key': OG_API_KEY,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(base64data)
@@ -151,6 +151,7 @@ const AadhaarOCR =(type) =>{
     <>
       {alert("Aadhar Verified through OCR.")}
       {navigation.navigate("PanCardInfo")}
+      {dispatch(addAadhaarVerifedStatus("OCR_VERIFIED"))}
       {AadharPush()}
       {}
     </> :null;

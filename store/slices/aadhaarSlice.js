@@ -6,6 +6,7 @@ const initialState = {
     aadhaarBackData : null,
     aadhaar : null,
     aadhaarData: null,
+    AadhaarVerifedStatus:null,
 };
   
 const aadhaarSlice = createSlice({
@@ -30,9 +31,11 @@ const aadhaarSlice = createSlice({
     addAadhaar(state, action) {
         state.aadhaar = action.payload;
     },
-
+    addAadhaarVerifedStatus(state,action){
+        state.AadhaarVerifedStatus = action.payload;
+    }
   }
 })
 
-export const { addAadhaar,addAadhaarOCRData,addAadhaarTransactionId,addAadhaarData} = aadhaarSlice.actions
+export const { addAadhaar,addAadhaarOCRData,addAadhaarTransactionId,addAadhaarData,addAadhaarVerifedStatus} = aadhaarSlice.actions
 export default aadhaarSlice.reducer

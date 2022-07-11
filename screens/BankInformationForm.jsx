@@ -3,7 +3,7 @@ import { Text, View,ScrollView,TextInput, SafeAreaView,Alert,Linking} from 'reac
 import { useNavigation} from '@react-navigation/core';
 import { AppBar,IconButton,Icon, Button} from "@react-native-material/core";
 import { progressBar,form,bankform,styles} from './styles';
-import {CF_API_KEY} from '@env';
+import {OG_API_KEY} from '@env';
 import { useStateValue } from "../StateProvider";
 import { Popable } from 'react-native-popable';
 import ProgressBarTop from '../components/ProgressBarTop';
@@ -46,7 +46,7 @@ export default BankInformationForm = () => {
       method: 'POST',
       headers: {
         'X-Auth-Type': 'API-Key',
-        'X-API-Key': CF_API_KEY,
+        'X-API-Key': OG_API_KEY,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data)

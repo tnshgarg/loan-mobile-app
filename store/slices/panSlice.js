@@ -11,7 +11,6 @@ const panSlice = createSlice({
     addPan(state, action) {
         state.pan = action.payload;
     },
-
   }
 })
 

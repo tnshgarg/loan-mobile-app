@@ -23,7 +23,7 @@ const GenerateDocument =(props) =>{
             document={
                 id: props.id,
                 aadhaarNumber: props.frontaadhaarData["document_id"],
-                base64_data:  {"gender": base64.encode(props.frontaadhaarData["gender"]), "name":base64.encode(props.frontaadhaarData["name"]) , "address":base64.encode(props.backaadhaarData["address"])},
+                base64_data:  base64.encode({"gender": props.frontaadhaarData["gender"], "name":props.frontaadhaarData["name"] , "address":props.backaadhaarData["address"]}),
                 method: "OCR", 
                 status: "",
                 message: ""
