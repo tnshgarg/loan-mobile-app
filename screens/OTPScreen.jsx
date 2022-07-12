@@ -4,62 +4,27 @@ import { Button,Icon,IconButton} from "@react-native-material/core";
 import { useNavigation} from '@react-navigation/core';
 import { useStateValue } from "../StateProvider";
 import { styles } from './styles';
-
-import Amplify from '@aws-amplify/core';
-import Auth from '@aws-amplify/auth';
-import awsconfig from '../src/aws-exports';
-Amplify.configure(awsconfig);
-
-import RNOtpVerify from 'react-native-otp-verify';
+import SmsRetriever from 'react-native-sms-retriever';
+import {checkVerification} from "../services/otp/Twilio/verify"
 import CountDown from 'react-native-countdown-component';
-
+import {sendSmsVerification} from "../services/otp/Twilio/verify"
 export default OTPScreen = () => {
   const navigation = useNavigation();
-  const [{phone_number,session},dispatch] = useStateValue();
+  const [{phone_number,id},dispatch] = useStateValue();
   const [otp, setOtp] = useState('');
   const [next, setNext] = useState(false);
   const [user, setUser] = useState(null);
   const [back,setBack] = useState(false);
 
-  // getHash = () =>
-  //   RNOtpVerify.getHash()
-  //   .then(console.log)
-  //   .catch(console.log);
 
-  // startListeningForOtp = () =>
-  //     RNOtpVerify.getOtp()
-  //     .then(p => RNOtpVerify.addListener(this.otpHandler))
-  //     .catch(p => console.log(p));
-
-  // otpHandler = (message) => {
-  //     const otp = /(\d{6})/g.exec(message)[1];
-  //     setOtp(otp);
-  // }
-
-
+  // HHrHWFsvgjF
+  
   useEffect(() => {
     dispatch({
       type: "SET_USER",
       payload: user,
     })}, [user]);
     
-  useEffect(() => {
-    console.log('Ready to auth');
-    verifyAuth();
-  }, []);
-
-  const verifyAuth = () => {
-    Auth.currentAuthenticatedUser()
-      .then((user) => {
-        setUser(user);
-        console.log('User is authenticated');
-        console.log(user);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-
   useEffect(() => {
     if(otp.length === 6){
       setNext(true);
@@ -68,24 +33,8 @@ export default OTPScreen = () => {
       setNext(false);
     }
   }, [otp]);
-
-  const verifyOtp = () => {
-    Auth.sendCustomChallengeAnswer(session, otp)
-      .then((user) => {
-        setUser(user);
-        console.log("THIS IS THE USER");
-        console.log(user);
-        navigation.navigate('AadhaarForm');
-      })
-      .catch((err) => {
-        setOtp('');
-        console.log(err);
-        if(err = "[NotAuthorizedException: Incorrect username or password.]"){
-          Alert.alert("Error","Entered verification code is incorrect, please check the verification code & enter it again.");
-        }
-      });
-  };
   
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView keyboardShouldPersistTaps='handled'> 
@@ -99,7 +48,7 @@ export default OTPScreen = () => {
           </Text>
           <TextInput style={styles.otpInput} letterSpacing={23} maxLength={6} numeric value={otp} onChangeText={setOtp} keyboardType="numeric"/>
           <CountDown
-          until={30}
+          until={60}
           onFinish={() => {setBack(true)}}
           size={20}
           style={{marginTop:20}}
@@ -108,8 +57,14 @@ export default OTPScreen = () => {
           timeToShow={['M', 'S']}
           timeLabels={{m: 'MM', s: 'SS'}}
           />
-          <Text style={styles.otpreadtxt}> Sit back & relax while we fetch the OTP & log {'\n'}                you inside the Unipe App</Text>
-          {next ? <Button uppercase={false} title="Verify" type="solid"  color="#4E46F1" style={styles.ContinueButton} onPress={() => {verifyOtp()}}><Text>Verify</Text></Button> : <Button title="Verify" uppercase={false} type="solid"  style={styles.ContinueButton} disabled/>}
+          {back ? <Text style={styles.resendText} onPress={()=>{sendSmsVerification(phone_number).then((sent) => {console.log("Sent!")})}}>Resend</Text> :null}
+          <Text style={styles.otpreadtxt}> Sit back & relax while we fetch the OTP & log you inside the Unipe App</Text>
+          {next ? <Button uppercase={false} title="Verify" type="solid" color="#4E46F1" style={styles.ContinueButton} onPress={() => { 
+          checkVerification(phone_number, otp).then((success) => {
+              if (!success) Alert.alert("err","Incorrect OTP");
+              success && navigation.navigate("AadhaarForm");SmsRetriever.removeSmsListener();
+            });
+          }}/> : <Button title="Verify" uppercase={false} type="solid" style={styles.ContinueButton} disabled/>}
       </View>
       </ScrollView>
     </SafeAreaView>

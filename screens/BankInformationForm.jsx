@@ -2,14 +2,18 @@ import React,{useEffect, useState} from 'react'
 import { Text, View,ScrollView,TextInput, SafeAreaView,Alert,Linking} from 'react-native';
 import { useNavigation} from '@react-navigation/core';
 import { AppBar,IconButton,Icon, Button} from "@react-native-material/core";
-import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { progressBar,form,bankform,styles} from './styles';
 import {CF_API_KEY} from '@env';
+import { useStateValue } from "../StateProvider";
 import { Popable } from 'react-native-popable';
+import ProgressBarTop from '../components/ProgressBarTop';
+import {GenerateDocument} from '../helpers/GenerateDocument';
+import { putBankAccountData } from '../services/employees/employeeServices';
 
 export default BankInformationForm = () => {
   const navigation = useNavigation();
   const [ifsc,setIfsc] = useState("");
+  const [{id},dispatch] = useStateValue();
   const [accountNumber,setAccountNumber] = useState("");
   const [accountHolderName,setAccountHolderName] = useState("");
   const [upiID,setUpiId] = useState("");
@@ -20,14 +24,24 @@ export default BankInformationForm = () => {
   ,{"title":"IFSC Code*","value":ifsc,"setvalue":setIfsc,"requiredStatus":true,"tooltip":"You can find the IFSC code on the cheque book or bank passbook that is provided by the bank"},
   {"title":"UPI ID","value":upiID,"setvalue":setUpiId,"requiredStatus":false,"tooltip":"There are lots of UPI apps available like Phonepe, Amazon Pay, Paytm, Bhim, Mobikwik etc. from where you can fetch your UPI ID."}];
 
-  const data=
-  {
-    "account_number": accountNumber,
-    "ifsc": ifsc,
-    "consent": "Y"
-  };
-
+  const BankPush = () => {
+    var bankPayload= GenerateDocument({"src":"Bank","type":"front","id":id,"ifsc":ifsc,"accountNumber":accountNumber,"upi":upiID});
+    putBankAccountData(bankPayload).then(res=>{
+      console.log(bankPayload);
+      console.log(res.data);
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+  }
+    // putBankAccountData()
   const VerifyBankAccount =() =>{
+    const data=
+    {
+      "account_number": accountNumber,
+      "ifsc": ifsc,
+      "consent": "Y"
+    };
     const options = {
       method: 'POST',
       headers: {
@@ -45,14 +59,27 @@ export default BankInformationForm = () => {
         {if(response["status"]=="200"){
           switch(response["data"]["code"]){
             case "1000":
-              navigation.navigate("PersonlInfoForm");
+              BankPush();
+              Alert.alert("Your Bank Account Information",
+            `Name: ${response["data"]["bank_account_data"]["name"]}\nBank Name: ${response["data"]["bank_account_data"]["bank_name"]}\nUTR no.: ${response["data"]["bank_account_data"]["utr"]}\nBranch: ${response["data"]["bank_account_data"]["branch"]}\nCity: ${response["data"]["bank_account_data"]["city"]}`,
+            [
+              {
+                text: "Yes",
+                onPress: () => navigation.navigate("PersonlInfoForm"),
+              },
+              { text: "No", 
+                onPress: () => Alert.alert("Information Validation", "Please provide the correct bank account number and IFSC Code."),
+                style: "cancel"
+              }
+            ])
               break;
             default:
               Alert.alert("Error",response["data"]["message"]);
               break;
         }}
         else{
-          Alert.alert("Error",response["error"]["message"]);
+          Alert.alert("Error",response["error"]["metadata"]["fields"].map((item,value)=>
+          item["message"]).join('\n'));
         } 
       };})
       .catch(err => Alert.alert("Error",err));
@@ -74,15 +101,7 @@ export default BankInformationForm = () => {
       <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.goBack()} />
     }
     />
-    <View style={progressBar.progressView}>
-    <ProgressBar
-          styleAttr="Horizontal"
-          style={progressBar.progressBar}
-          indeterminate={false}
-          progress={1}
-        />
-    <Text style={progressBar.progressNos} >4/4</Text>
-    </View>
+    <ProgressBarTop step={3}/>
     <Text style={bankform.Maintitle} >Bank Details Verification</Text>
 
     <ScrollView keyboardShouldPersistTaps='handled'>
@@ -92,7 +111,7 @@ export default BankInformationForm = () => {
       return(
         <>
         <Text style={bankform.formtitle} key={index}>{field.title}  <Popable content={field.tooltip} position="right" caret={false}><Icon name="info-outline" size={20} color="grey" /></Popable></Text>
-         {field.requiredStatus ? <TextInput style={bankform.formInput}  value={field.value} onChangeText={field.setvalue} required/> :  <TextInput style={bankform.formInput}  value={field.value} onChangeText={field.setvalue}/>}
+        {field.title === "IFSC Code*" ? <TextInput style={bankform.formInput}  value={field.value} onChangeText={field.setvalue} autoCapitalize="characters" required/> : <TextInput style={bankform.formInput}  value={field.value} onChangeText={field.setvalue} required/>}
         </>
       )
     }
