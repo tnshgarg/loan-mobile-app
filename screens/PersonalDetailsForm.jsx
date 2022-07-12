@@ -1,23 +1,30 @@
 import React, {useEffect, useState} from 'react'
-import {Text, View, SafeAreaView, TextInput} from 'react-native';
+import {Text, View, SafeAreaView, TextInput,ScrollView,Alert} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import {useStateValue } from "../StateProvider";
 import {useNavigation} from '@react-navigation/core';
 import {AppBar, IconButton, Icon, Button} from "@react-native-material/core";
-import {ProgressBar} from '@react-native-community/progress-bar-android';
-import {form, progressBar, styles} from './styles';
+import {form, bankform, styles} from './styles';
+import ProgressBarTop from '../components/ProgressBarTop';
+import { useStateValue } from "../StateProvider";
+import {GenerateDocument} from '../helpers/GenerateDocument';
+import { putProfileData } from '../services/employees/employeeServices';
 
-export default PesonalDetailsForm = () => {
-
+export default PersonalDetailsForm = () => {
   const educationalQualifications = ["10th Pass", "12th Pass", "Graduate", "Post Graduate", "None of the Above"];
   const maritalStatuses = ["Unmarried", "Married"];
-
+  const [{id},dispatch] = useStateValue();
   const [maritalStatus, setMaritalStatus] = useState('');
   const [educationalQualification,setEducationallQualification] = useState('');
-
+  const [alternatePhone,setAlternatePhone]= useState("");
+  const [email,setEmail]= useState("");
   const navigation = useNavigation();
-  const [{user},dispatch] = useStateValue();
 
+  const onFinish=()=>{
+    dispatch({
+      type: "SET_PROFILE",
+      payload: {"maritalStatus":maritalStatus,"qualification":educationalQualification,"altMobile":alternatePhone,"email":email}
+    })
+  }
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -26,22 +33,14 @@ export default PesonalDetailsForm = () => {
           title="Setup Profile"
           color="#4E46F1"
           leading={
-            <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.navigate("PanCardInfo")} />
+            <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.goBack()} />
           }
         />
 
-        <View style={progressBar.progressView}>
-            <ProgressBar
-                  styleAttr="Horizontal"
-                  style={progressBar.progressBar}
-                  indeterminate={false}
-                  progress={0.75}
-                />
-            <Text style={progressBar.progressNos} >3/4</Text>
-        </View>
-        <Text style={form.formHeader}>Welcome, Let's start your onboarding process</Text>
-
-        <Text style={form.formLabel}>Select Education</Text>
+        <ProgressBarTop step={4}/>
+        <Text style={form.formHeader}>Employee basic details</Text>
+        <ScrollView keyboardShouldPersistTaps='handled'>
+        <Text style={form.formLabel}>Select Education*</Text>
           <Picker
             selectedValue={educationalQualification}
             style={form.picker}
@@ -55,7 +54,7 @@ export default PesonalDetailsForm = () => {
               )
             }
           </Picker>        
-        <Text style={form.formLabel}>Marital Status</Text>
+        <Text style={form.formLabel}>Marital Status*</Text>
         <View style={styles.flexrow}>
           {
             maritalStatuses.map((item,index)=>{
@@ -67,7 +66,14 @@ export default PesonalDetailsForm = () => {
             )
           }
         </View>
-        <Button title="Continue" type="solid"  uppercase={false} style={form.nextButton} color="#4E46F1" onPress={()=>{navigation.navigate("BankInfoForm")}}/>
+        <Text style={form.formLabel}>Enter your alternate mobile number</Text>
+        <TextInput style={styles.textInput} value={alternatePhone} onChangeText={setAlternatePhone} autoCompleteType="tel" keyboardType="phone-pad" textContentType="telephoneNumber" required placeholder='XXXXXXXXXX'/>
+        <Text style={form.formLabel}>Enter your Email ID</Text>
+        <TextInput style={form.formTextInput} value={email} onChangeText={setEmail}  placeholder="Enter Email" required/>
+
+        <Button title="Continue" type="solid"  uppercase={false} style={form.nextButton} color="#4E46F1" onPress={()=>{onFinish();navigation.navigate("PersonalImage")}}/>
+        <View style={bankform.padding}></View>
+        </ScrollView>
       </SafeAreaView>
    
     </>

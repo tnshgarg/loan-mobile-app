@@ -18,12 +18,9 @@ import AadhaarConfirm from './screens/AadhaarConfirm';
 import PanCardInfo from './screens/PanCardInfo';
 import BankInformationForm from './screens/BankInformationForm';
 import Home from './screens/Home';
-import { useStateValue } from "./StateProvider";
+import WelcomePage from './screens/WelcomePage';
+import PersonalImage from "./screens/PersonalImage";
 
-import Amplify from '@aws-amplify/core';
-import Auth from '@aws-amplify/auth';
-import awsconfig from './src/aws-exports';
-Amplify.configure(awsconfig);
 
 export default function App() {
   return (
@@ -37,6 +34,13 @@ export default function App() {
         keyboardVerticalOffset={Platform.OS === "ios" ? -64 : 0}
         >
     <Stack.Navigator>
+    <Stack.Screen 
+        name="Welcome" 
+        component={WelcomePage} 
+        options={{
+          headerShown: false,  
+        }}
+      />
       <Stack.Screen 
         name="Login" 
         component={LoginScreen} 
@@ -107,9 +111,17 @@ export default function App() {
           header: null,
         }}
       />
-         <Stack.Screen 
+      <Stack.Screen 
         name="Home" 
         component={Home} 
+        options={{
+          headerShown: false,
+          header: null,
+        }}
+      />
+      <Stack.Screen 
+        name="PersonalImage" 
+        component={PersonalImage} 
         options={{
           headerShown: false,
           header: null,

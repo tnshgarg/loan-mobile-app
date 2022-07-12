@@ -1,35 +1,47 @@
 import React,{useEffect, useState} from 'react'
-import { Text, View,ScrollView,TextInput, SafeAreaView} from 'react-native';
-import { useStateValue } from "../StateProvider";
+import { Text, View,ScrollView,TextInput, SafeAreaView,Alert,Linking} from 'react-native';
 import { useNavigation} from '@react-navigation/core';
-import {Picker} from '@react-native-picker/picker';
 import { AppBar,IconButton,Icon, Button} from "@react-native-material/core";
-import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { progressBar,form,bankform,styles} from './styles';
 import {CF_API_KEY} from '@env';
+import { useStateValue } from "../StateProvider";
+import { Popable } from 'react-native-popable';
+import ProgressBarTop from '../components/ProgressBarTop';
+import {GenerateDocument} from '../helpers/GenerateDocument';
+import { putBankAccountData } from '../services/employees/employeeServices';
 
 export default BankInformationForm = () => {
   const navigation = useNavigation();
-  const [bank,setBank] = useState("");
   const [ifsc,setIfsc] = useState("");
+  const [{id},dispatch] = useStateValue();
   const [accountNumber,setAccountNumber] = useState("");
   const [accountHolderName,setAccountHolderName] = useState("");
   const [upiID,setUpiId] = useState("");
-  const [respCode,setRespCode] = useState("");
   
-  const fields = [{"title":"Account Holder Name*","value":accountHolderName,"setvalue":setAccountHolderName},{"title":"Bank Account Number*","value":accountNumber,"setvalue":setAccountNumber}
-  ,{"title":"IFSC Code*","value":ifsc,"setvalue":setIfsc},{"title":"UPI ID*","value":upiID,"setvalue":setUpiId}];
+  const fields = [
+  {"title":"Account Holder Name*","value":accountHolderName,"setvalue":setAccountHolderName,"requiredStatus":true,"tooltip":"Refer to your Bank Passbook or Cheque book for the exact Name mentioned in your bank records"},
+  {"title":"Bank Account Number*","value":accountNumber,"setvalue":setAccountNumber,"requiredStatus":true,"tooltip":"Refer to your Bank Passbook or Cheque book to get the Bank Account Number."}
+  ,{"title":"IFSC Code*","value":ifsc,"setvalue":setIfsc,"requiredStatus":true,"tooltip":"You can find the IFSC code on the cheque book or bank passbook that is provided by the bank"},
+  {"title":"UPI ID","value":upiID,"setvalue":setUpiId,"requiredStatus":false,"tooltip":"There are lots of UPI apps available like Phonepe, Amazon Pay, Paytm, Bhim, Mobikwik etc. from where you can fetch your UPI ID."}];
 
-  const banks = ["HDFC Bank","ICICI Bank"];
-
-  const data=
-  {
-    "account_number": accountNumber,
-    "ifsc": ifsc,
-    "consent": "Y"
-  };
-
+  const BankPush = () => {
+    var bankPayload= GenerateDocument({"src":"Bank","type":"front","id":id,"ifsc":ifsc,"accountNumber":accountNumber,"upi":upiID});
+    putBankAccountData(bankPayload).then(res=>{
+      console.log(bankPayload);
+      console.log(res.data);
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+  }
+    // putBankAccountData()
   const VerifyBankAccount =() =>{
+    const data=
+    {
+      "account_number": accountNumber,
+      "ifsc": ifsc,
+      "consent": "Y"
+    };
     const options = {
       method: 'POST',
       headers: {
@@ -42,11 +54,35 @@ export default BankInformationForm = () => {
     try{
     fetch(`https://api.gridlines.io/bank-api/verify`, options)
       .then(response => response.json())
-      .then(response => {console.log(response);setRespCode(response["data"]["code"]);navigation.navigate("Home");})
-      .catch(err => console.error(err));
-      if (respCode) {
-        respCode!="1000" ? alert("Invalid Account Number or IFSC Code") :null;
-      }
+      .then(response => {
+        console.log(response)
+        {if(response["status"]=="200"){
+          switch(response["data"]["code"]){
+            case "1000":
+              BankPush();
+              Alert.alert("Your Bank Account Information",
+            `Name: ${response["data"]["bank_account_data"]["name"]}\nBank Name: ${response["data"]["bank_account_data"]["bank_name"]}\nUTR no.: ${response["data"]["bank_account_data"]["utr"]}\nBranch: ${response["data"]["bank_account_data"]["branch"]}\nCity: ${response["data"]["bank_account_data"]["city"]}`,
+            [
+              {
+                text: "Yes",
+                onPress: () => navigation.navigate("PersonlInfoForm"),
+              },
+              { text: "No", 
+                onPress: () => Alert.alert("Information Validation", "Please provide the correct bank account number and IFSC Code."),
+                style: "cancel"
+              }
+            ])
+              break;
+            default:
+              Alert.alert("Error",response["data"]["message"]);
+              break;
+        }}
+        else{
+          Alert.alert("Error",response["error"]["metadata"]["fields"].map((item,value)=>
+          item["message"]).join('\n'));
+        } 
+      };})
+      .catch(err => Alert.alert("Error",err));
       
     }
     catch(err){
@@ -62,43 +98,25 @@ export default BankInformationForm = () => {
     title="Setup Profile"
     color="#4E46F1"
     leading={
-      <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.navigate("PersonlInfoForm")} />
+      <IconButton icon={<Icon name="arrow-back" size={20} color="white"/>} onPress={()=>navigation.goBack()} />
     }
     />
-    <View style={progressBar.progressView}>
-    <ProgressBar
-          styleAttr="Horizontal"
-          style={progressBar.progressBar}
-          indeterminate={false}
-          progress={1}
-        />
-    <Text style={progressBar.progressNos} >4/4</Text>
-    </View>
-    <Text style={form.formHeader} >Final step - we need your primary bank details</Text>
-    <ScrollView>
-      <View style={bankform.infoCard}><Text style={bankform.infoText}><Icon name="info-outline" size={20} color="#4E46F1"/>We will use this bank account / UPI ID to deposit your salary every month, Please ensure the bank account belongs to you</Text></View>
-    <Text style={form.formLabel} >Bank Name</Text>
-      <Picker
-        selectedValue={bank}
-        style={form.picker}
-        onValueChange={(itemValue) => setBank(itemValue)}
-      >
-        {banks.map((bank,index)=>{
-          return <Picker.Item label={bank} value={bank} key={index}/>
-        }
-        )}
-      </Picker>
-      
+    <ProgressBarTop step={3}/>
+    <Text style={bankform.Maintitle} >Bank Details Verification</Text>
+
+    <ScrollView keyboardShouldPersistTaps='handled'>
+      <View style={bankform.infoCard}><Text style={bankform.infoText}><Icon name="info-outline" size={20} color="#4E46F1"/>We will use this bank account / UPI ID to deposit your salary every month, Please ensure the bank account belongs to you.{'\n'}We will also deposit INR 1 to your account for verification make sure you enter the correct account details.</Text></View>
+    <Text style={bankform.subTitle} >Enter your Bank Details</Text>
     {fields.map((field,index)=>{
       return(
         <>
-        <Text style={bankform.formtitle} key={index}>{field.title}<Icon name="info-outline" size={20} color="grey"/></Text>
-        <TextInput style={bankform.formInput}  value={field.value} onChangeText={field.setvalue} required/>
+        <Text style={bankform.formtitle} key={index}>{field.title}  <Popable content={field.tooltip} position="right" caret={false}><Icon name="info-outline" size={20} color="grey" /></Popable></Text>
+        {field.title === "IFSC Code*" ? <TextInput style={bankform.formInput}  value={field.value} onChangeText={field.setvalue} autoCapitalize="characters" required/> : <TextInput style={bankform.formInput}  value={field.value} onChangeText={field.setvalue} required/>}
         </>
       )
     }
     )}
-    <Button title="Finish" type="solid" uppercase={false} style={bankform.nextButton} color="#4E46F1" onPress={()=>{VerifyBankAccount()}}/>
+    <Button title="Continue" type="solid" uppercase={false} style={bankform.nextButton} color="#4E46F1" onPress={()=>{VerifyBankAccount()}}/>
     <View style={bankform.padding}></View>
     </ScrollView>
     </SafeAreaView>

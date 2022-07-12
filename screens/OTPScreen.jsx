@@ -1,21 +1,23 @@
 import React ,{useEffect, useState} from 'react'
-import { Image, Text, View,SafeAreaView,TextInput, ScrollView} from 'react-native';
+import { Image, Text, View,SafeAreaView,TextInput, ScrollView, Alert} from 'react-native';
 import { Button,Icon,IconButton} from "@react-native-material/core";
 import { useNavigation} from '@react-navigation/core';
 import { useStateValue } from "../StateProvider";
 import { styles } from './styles';
-
-import Amplify from '@aws-amplify/core';
-import Auth from '@aws-amplify/auth';
-import awsconfig from '../src/aws-exports';
-Amplify.configure(awsconfig);
-
+import SmsRetriever from 'react-native-sms-retriever';
+import {checkVerification} from "../services/otp/Twilio/verify"
+import CountDown from 'react-native-countdown-component';
+import {sendSmsVerification} from "../services/otp/Twilio/verify"
 export default OTPScreen = () => {
   const navigation = useNavigation();
-  const [{phone_number,session},dispatch] = useStateValue();
+  const [{phone_number,id},dispatch] = useStateValue();
   const [otp, setOtp] = useState('');
   const [next, setNext] = useState(false);
   const [user, setUser] = useState(null);
+  const [back,setBack] = useState(false);
+
+
+  // HHrHWFsvgjF
   
   useEffect(() => {
     dispatch({
@@ -24,23 +26,6 @@ export default OTPScreen = () => {
     })}, [user]);
     
   useEffect(() => {
-    console.log('Ready to auth');
-    verifyAuth();
-  }, []);
-
-  const verifyAuth = () => {
-    Auth.currentAuthenticatedUser()
-      .then((user) => {
-        setUser(user);
-        console.log('User is authenticated');
-        console.log(user);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-
-  useEffect(() => {
     if(otp.length === 6){
       setNext(true);
     }
@@ -48,35 +33,38 @@ export default OTPScreen = () => {
       setNext(false);
     }
   }, [otp]);
-
-  const verifyOtp = () => {
-    Auth.sendCustomChallengeAnswer(session, otp)
-      .then((user) => {
-        setUser(user);
-        console.log("THIS IS THE USER");
-        console.log(user);
-        navigation.navigate('AadhaarForm');
-      })
-      .catch((err) => {
-        setOtp('');
-        console.log(err);
-      });
-  };
   
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps='handled'> 
       <View style={styles.container}>
         <View style={styles.otpback}>
-      <IconButton icon={<Icon name="arrow-back" size={30} color="#4E46F1"/>} onPress={()=>navigation.goBack()} />
+      {back ? <IconButton icon={<Icon name="arrow-back" size={30} color="#4E46F1"/>} onPress={()=>navigation.goBack()} /> : <IconButton icon={<Icon name="arrow-back" size={30} color="#808080"/>} onPress={()=>Alert.alert("OTP Timer","You must wait for 30 seconds to resend otp")} />}
       </View>
       <Image style={styles.logo} source={require("../assets/unipe-Thumbnail.png")}/>
-          <Text style={styles.headline} >Please wait, we will auto verify the OTP {'\n'}             sent to {phone_number}
-          <Icon name="edit" size={12} color="#4E46F1" onPress={() =>navigation.navigate('Login')}/>
+          <Text style={styles.headline} >   Please wait, we will auto verify the OTP {'\n'}             sent to {phone_number}
+          {back ? <Icon name="edit" size={12} color="#4E46F1" onPress={() =>navigation.goBack()}/>:<Icon name="edit" size={12} color="#808080" onPress={()=>Alert.alert("OTP Timer","You must wait for 30 seconds to edit number")}/>}
           </Text>
           <TextInput style={styles.otpInput} letterSpacing={23} maxLength={6} numeric value={otp} onChangeText={setOtp} keyboardType="numeric"/>
-          {next ? <Button uppercase={false} title="Verify" type="solid"  color="#4E46F1" style={styles.ContinueButton} onPress={() => {verifyOtp()}}><Text>Verify</Text></Button> : <Button title="Verify" uppercase={false} type="solid"  style={styles.ContinueButton} disabled/>}
-         
+          <CountDown
+          until={60}
+          onFinish={() => {setBack(true)}}
+          size={20}
+          style={{marginTop:20}}
+          digitStyle={{backgroundColor: '#FFF'}}
+          digitTxtStyle={{color: '#4E46F1'}}
+          timeToShow={['M', 'S']}
+          timeLabels={{m: 'MM', s: 'SS'}}
+          />
+          {back ? <Text style={styles.resendText} onPress={()=>{sendSmsVerification(phone_number).then((sent) => {console.log("Sent!")})}}>Resend</Text> :null}
+          <Text style={styles.otpreadtxt}> Sit back & relax while we fetch the OTP & log you inside the Unipe App</Text>
+          {next ? <Button uppercase={false} title="Verify" type="solid" color="#4E46F1" style={styles.ContinueButton} onPress={() => { 
+          checkVerification(phone_number, otp).then((success) => {
+              if (!success) Alert.alert("err","Incorrect OTP");
+              success && navigation.navigate("AadhaarForm");SmsRetriever.removeSmsListener();
+            });
+          }}/> : <Button title="Verify" uppercase={false} type="solid" style={styles.ContinueButton} disabled/>}
       </View>
       </ScrollView>
     </SafeAreaView>

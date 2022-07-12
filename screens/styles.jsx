@@ -14,7 +14,7 @@ export const styles=StyleSheet.create({
     headline:{
         fontSize:16,
         color:"#230C45",
-        marginLeft:75,
+        marginLeft:55,
         marginTop:40,
         fontFamily:"Roboto"
     },
@@ -33,10 +33,12 @@ export const styles=StyleSheet.create({
     },
     resendText:{
         color:"#4E46F1",
-        marginLeft:155,
+        alignSelf:"center",
         marginTop:30,
         fontSize:16,
         fontFamily:"Roboto",
+        textDecorationLine: 'underline',
+        fontWeight: 'bold',
     },
     otpInput:{
         marginLeft:105,
@@ -47,7 +49,7 @@ export const styles=StyleSheet.create({
     },
     ContinueButton:{
         padding:10,
-        marginLeft:40,
+        alignSelf:"center",
         marginTop:50,
         width:320,
         height:60,
@@ -63,26 +65,57 @@ export const styles=StyleSheet.create({
         marginLeft:10,
         marginTop:20
     },
+    dataUseText:{
+        marginLeft: 40,
+        marginRight: 20,
+        marginTop:20,
+        fontSize:14,
+        fontFamily:"Roboto",
+        color:"gray",
+    },
+    termsText:{
+        fontWeight:"bold",
+        color:"#4E46F1",
+    },
+    otpreadtxt:{
+        marginLeft: 40,
+        marginRight: 20,
+        marginTop:20,
+        color:"gray",
+        fontSize:14,
+        fontFamily:"Roboto",
+        fontWeight:"bold",
+    },
+    LoadingButton:{
+        padding:10,
+        alignSelf:"center",
+        marginTop:50,
+        width:320,
+        height:60,
+        fontSize:20,
+        backgroundColor:"#4E46F1",
+        borderRadius:4,
+    },
 })
 
 
 export const buttons = StyleSheet.create({
     ContinueButton:{
         padding:10,
-        marginLeft:40,
+        alignSelf:"center",
         marginTop:50,
         width:320,
         height:60,
         fontSize:20
     },
+    FAB:{
+        backgroundColor:"#4E46F1",
+    }
 })
 
 export const progressBar = StyleSheet.create({
     progressView:{
         marginTop:20,
-        marginRight:40,
-        marginLeft:20,
-        flexDirection:"row",
     },
     progressBar:{
         width:"100%",
@@ -97,10 +130,10 @@ export const progressBar = StyleSheet.create({
 
 export const form = StyleSheet.create({
     formHeader:{
-        marginLeft:38,
+        marginLeft:30,
         marginTop:10,
-        color:"grey",
-        fontSize:16,
+        color:"black",
+        fontSize:18,
     },
     formLabel:{
         marginLeft:34,
@@ -137,7 +170,7 @@ export const form = StyleSheet.create({
     },
     nextButton:{
         padding:10,
-        marginLeft:34,
+        alignSelf:"center",
         marginTop:50,
         width:320,
         height:60,
@@ -145,7 +178,8 @@ export const form = StyleSheet.create({
     },
     OtpAwaitMsg:{
         color:"#230C45",
-        marginLeft:55,
+        marginLeft: 40,
+        marginRight: 20,
         marginTop:30,
         fontSize:16,
         fontFamily:"Roboto"
@@ -192,6 +226,18 @@ export const form = StyleSheet.create({
         alignSelf:"center",
         fontSize:16,
         fontFamily:"Roboto"
+    },
+    AadharLinkedStatus:{
+        marginTop:30,
+        alignSelf:"center",
+        color:"#4E46F1",
+        width:300,
+        textDecorationLine: 'underline',
+        fontWeight: 'bold',
+    },
+    forgotText:{
+        marginLeft:280,
+        marginTop:10
     }
 
 })
@@ -202,6 +248,8 @@ export const checkBox=StyleSheet.create({
         marginTop:30,
     },
     checkBoxText:{
+        marginLeft: 40,
+        marginRight: 20,
         marginTop:30,
         fontSize:14,
         color:"#828282",
@@ -228,7 +276,7 @@ export const bankform=StyleSheet.create({
     },
     nextButton:{
         padding:10,
-        marginLeft:34,
+        alignSelf:"center",
         marginTop:40,
         width:320,
         height:60,
@@ -241,11 +289,26 @@ export const bankform=StyleSheet.create({
         backgroundColor:"rgba(78, 70, 241, 0.1)",
         width:"85%",
         marginLeft:30,
-        height:80,
-        padding:10
+        marginTop:10,
+        padding:10,
+        flex: 0
     },
     infoText:{
         color:"#333333"
+    },
+    Maintitle:{
+        marginLeft:30,
+        marginTop:10,
+        color:"black",
+        fontSize:18,
+        fontFamily:"Roboto"
+    },
+    subTitle:{
+        marginLeft:34,
+        marginTop:20,
+        color:"#828282",
+        fontSize:16,
+        fontFamily:"Roboto"
     }
 
 })
@@ -323,10 +386,11 @@ export const Camera = StyleSheet.create({
         padding: 15,
         paddingHorizontal: 20,
         alignSelf: 'center',
-        marginTop: 580,
+        marginTop: 500,
       },
       wait:{
         flex: 1,
+        width:'100%',
         backgroundColor: '#4E46F1',
         justifyContent: 'center',
         alignItems: 'center',
@@ -355,8 +419,54 @@ export const Camera = StyleSheet.create({
         paddingHorizontal:30,
       },
       previewImage:{
-        marginLeft:30,
         height:200,
-        width:200,
-      }
+        width:'100%',
+      },
+})
+
+export const welcome = StyleSheet.create({
+    title:{
+        marginLeft:34,
+        marginTop:20,
+        color:"black",
+        fontSize:14,
+        fontFamily:"Roboto"
+    },
+    mainTitle:{
+        marginTop:20,
+        marginLeft:30,
+        color:"black",
+        fontWeight:"bold",
+        fontSize:28,
+        fontFamily:"Roboto"
+    },
+    subTitle:{
+        marginLeft:30,
+        color:"black",
+        fontSize:22,
+        fontFamily:"Roboto"
+    },
+    steps:{alignSelf:"center",flex:1}
+})
+
+export const selfie = StyleSheet.create({
+    uploadButton:{
+        marginTop:20,
+        borderWidth:2,
+        borderRadius:10,
+        paddingHorizontal:30,
+    },
+    cameraButton:{
+        marginLeft: 60,
+        marginTop:20,
+        borderWidth:2,
+        borderRadius:10,
+        paddingHorizontal:30,
+    },
+    selfie:{
+        marginTop:20,
+        alignSelf:"center",
+        height:300,
+        width:300,
+    },
 })
