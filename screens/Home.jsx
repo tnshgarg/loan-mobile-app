@@ -6,6 +6,7 @@ import { styles, nav, buttons } from "./styles";
 import { AppBar, IconButton, Icon, Button } from "@react-native-material/core";
 import BottomTabNav from "../components/BottomTabNav";
 import HomeView from "./HomeView";
+import ESICForm from "../screens/ESIC/ESICForm";
 import Amplify from "@aws-amplify/core";
 import Auth from "@aws-amplify/auth";
 import awsconfig from "../src/aws-exports";
@@ -21,7 +22,7 @@ export default Home = () => {
   const [{ user }, dispatch] = useStateValue();
   const tabs = [
     { name: "Home", component: HomeView },
-    { name: "Documents", component: HomeView },
+    { name: "Documents", component: ESICForm },
     { name: "Benefits", component: HomeView },
     { name: "Banking", component: HomeView },
   ];

@@ -130,14 +130,6 @@ export default function App() {
           header: null,
         }}
       />
-       <Stack.Screen 
-        name="ESIC" 
-        component={ESICForm} 
-        options={{
-          headerShown: false,
-          header: null,
-        }}
-      />
     </Stack.Navigator>
     </KeyboardAvoidingView>
     </IconComponentProvider>

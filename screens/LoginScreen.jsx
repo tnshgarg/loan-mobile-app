@@ -32,7 +32,7 @@ export default LoginScreen = () => {
   const password = Math.random().toString(8) + "Abc#";
   const [isLoading, setIsLoading] = useState(false);
   const [id, setId] = useState(null);
-
+  const customData = require('../assets/state_districts.json');
   const onPhoneNumberPressed = async () => {
     try {
       const phn = await SmsRetriever.requestPhoneNumber();
@@ -210,7 +210,7 @@ export default LoginScreen = () => {
           type="solid"
           style={styles.RetryButton}
           color="#4E46F1"
-          onPress={() => navigation.navigate("AadhaarForm")}
+          onPress={navigation.navigate("Home")}
         />
       </ScrollView>
     </SafeAreaView>
