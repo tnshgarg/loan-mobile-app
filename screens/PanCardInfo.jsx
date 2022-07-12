@@ -7,14 +7,19 @@ import { styles,form,progressBar,Camera, checkBox,bankform} from './styles';
 import { useStateValue } from "../StateProvider";
 import {CF_API_KEY} from '@env';
 import ProgressBarTop from '../components/ProgressBarTop';
+import {GenerateDocument} from '../helpers/GenerateDocument';
+import { putPanData } from '../services/employees/employeeServices';
 
 export default PanCardInfo = () => {
     const navigation = useNavigation();
     const [pan,setPan]=useState("");
     const [next,setNext] = useState();
-    const [{PanFront},dispatch] = useStateValue();
+    const [{id},dispatch] = useStateValue();
     const [panName, setPanName]=useState('');
     const [birthday,setBirthday]=useState('');
+
+    // console.log();
+    // putPanData()
 
     useEffect(() => {
       if(pan.length === 10){
@@ -51,6 +56,7 @@ export default PanCardInfo = () => {
             {if(response["status"]=="200") {
               switch(response["data"]["code"]){
                 case "1001" : 
+                  PanPush();
                   RetrievePAN();
                   break;
                 
@@ -70,7 +76,19 @@ export default PanCardInfo = () => {
           })
             .catch(err => Alert.alert("Error",err));
     }
-    
+
+    const PanPush = () => {
+      var panPayload= GenerateDocument({"src":"Pan","id":id,"pan":pan})
+      putPanData(panPayload).then(res=>{
+        console.log(panPayload);
+        console.log(res.data);
+        Alert.alert("Message",res.data["message"]);
+      })
+      .catch(err=>{
+        console.log(err);
+      })
+    }
+
     const RetrievePAN =() =>{
       const data=
       {
@@ -89,7 +107,7 @@ export default PanCardInfo = () => {
       
       fetch(`https://api.gridlines.io/pan-api/fetch-detailed`, options)
         .then(response => response.json())
-        .then(response =>  {console.log(response);Alert.alert("PAN Information",`PAN: ${pan}\nName: ${panName}\nGender: ${response["data"]["pan_data"]["gender"]}\nEmail: ${response["data"]["pan_data"]["email"]}`)})
+        .then(response =>  {console.log(response);Alert.alert("PAN Information",`PAN: ${pan}\nName: ${panName}\nGender: ${response["data"]["pan_data"]["gender"]}\nEmail: ${response["data"]["pan_data"]["email"]}`);navigation.navigate("BankInfoForm")})
         .catch(err => Alert.alert("Error",err));
     }
 
@@ -117,9 +135,6 @@ export default PanCardInfo = () => {
 
   <ScrollView keyboardShouldPersistTaps='handled'>
   <View style={checkBox.padding}/>
-  {PanFront ? 
-   null:
-   <>
   <Text style={form.formLabel} >Enter PAN Number</Text>
   <TextInput style={form.formTextInput} autoCapitalize="characters" value={pan} onChangeText={setPan} maxLength={10} placeholder="Enter PAN Number" required/>
   <View style={form.forgotText}><Text style={styles.termsText} onPress={() => Linking.openURL('https://docs.google.com/document/d/19nf3qwzXcun0yTN6WH6iA5hpGKlgsg4erbHuDql0EZQ/edit')}>Forgot PAN?</Text></View>
@@ -129,8 +144,6 @@ export default PanCardInfo = () => {
   <TextInput style={form.formTextInput} value={birthday} onChangeText={setBirthday}  placeholder="YYYY-MM-DD" maxLength={10}/>
   <View style={bankform.infoCard}><Text style={bankform.infoText}><Icon name="info-outline" size={20} color="#4E46F1"/>PAN is needed to verify your name and date of birth</Text></View>
   {next ? <Button uppercase={false} title="Continue" type="solid"  color="#4E46F1" style={form.nextButton} onPress={()=>{VerifyPAN()}}/> : <Button title="Continue" uppercase={false} type="solid"  style={form.nextButton} disabled/>}   
-  </>
-  }
   <View style={checkBox.padding}/>
   </ScrollView>
   </SafeAreaView>

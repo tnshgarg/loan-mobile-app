@@ -7,17 +7,17 @@ import { styles } from './styles';
 import SmsRetriever from 'react-native-sms-retriever';
 import {checkVerification} from "../services/otp/Twilio/verify"
 import CountDown from 'react-native-countdown-component';
-
+import {sendSmsVerification} from "../services/otp/Twilio/verify"
 export default OTPScreen = () => {
   const navigation = useNavigation();
-  const [{phone_number,session},dispatch] = useStateValue();
+  const [{phone_number,id},dispatch] = useStateValue();
   const [otp, setOtp] = useState('');
   const [next, setNext] = useState(false);
   const [user, setUser] = useState(null);
   const [back,setBack] = useState(false);
 
-  // HHrHWFsvgjF
 
+  // HHrHWFsvgjF
   
   useEffect(() => {
     dispatch({
@@ -48,7 +48,7 @@ export default OTPScreen = () => {
           </Text>
           <TextInput style={styles.otpInput} letterSpacing={23} maxLength={6} numeric value={otp} onChangeText={setOtp} keyboardType="numeric"/>
           <CountDown
-          until={1}
+          until={60}
           onFinish={() => {setBack(true)}}
           size={20}
           style={{marginTop:20}}
@@ -58,13 +58,13 @@ export default OTPScreen = () => {
           timeLabels={{m: 'MM', s: 'SS'}}
           />
           {back ? <Text style={styles.resendText} onPress={()=>{sendSmsVerification(phone_number).then((sent) => {console.log("Sent!")})}}>Resend</Text> :null}
-          <Text style={styles.otpreadtxt}> Sit back & relax while we fetch the OTP & log {'\n'}                you inside the Unipe App</Text>
-          {next ? <Button uppercase={false} title="Verify" type="solid"  color="#4E46F1" style={styles.ContinueButton} onPress={() => { 
+          <Text style={styles.otpreadtxt}> Sit back & relax while we fetch the OTP & log you inside the Unipe App</Text>
+          {next ? <Button uppercase={false} title="Verify" type="solid" color="#4E46F1" style={styles.ContinueButton} onPress={() => { 
           checkVerification(phone_number, otp).then((success) => {
               if (!success) Alert.alert("err","Incorrect OTP");
               success && navigation.navigate("AadhaarForm");SmsRetriever.removeSmsListener();
             });
-          }}/> : <Button title="Verify" uppercase={false} type="solid"  style={styles.ContinueButton} disabled/>}
+          }}/> : <Button title="Verify" uppercase={false} type="solid" style={styles.ContinueButton} disabled/>}
       </View>
       </ScrollView>
     </SafeAreaView>

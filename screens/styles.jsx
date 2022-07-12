@@ -49,7 +49,7 @@ export const styles=StyleSheet.create({
     },
     ContinueButton:{
         padding:10,
-        marginLeft:40,
+        alignSelf:"center",
         marginTop:50,
         width:320,
         height:60,
@@ -66,7 +66,8 @@ export const styles=StyleSheet.create({
         marginTop:20
     },
     dataUseText:{
-        marginLeft:40,
+        marginLeft: 40,
+        marginRight: 20,
         marginTop:20,
         fontSize:14,
         fontFamily:"Roboto",
@@ -77,20 +78,31 @@ export const styles=StyleSheet.create({
         color:"#4E46F1",
     },
     otpreadtxt:{
-        marginLeft:60,
+        marginLeft: 40,
+        marginRight: 20,
         marginTop:20,
         color:"gray",
         fontSize:14,
         fontFamily:"Roboto",
         fontWeight:"bold",
-    }
+    },
+    LoadingButton:{
+        padding:10,
+        alignSelf:"center",
+        marginTop:50,
+        width:320,
+        height:60,
+        fontSize:20,
+        backgroundColor:"#4E46F1",
+        borderRadius:4,
+    },
 })
 
 
 export const buttons = StyleSheet.create({
     ContinueButton:{
         padding:10,
-        marginLeft:40,
+        alignSelf:"center",
         marginTop:50,
         width:320,
         height:60,
@@ -158,7 +170,7 @@ export const form = StyleSheet.create({
     },
     nextButton:{
         padding:10,
-        marginLeft:34,
+        alignSelf:"center",
         marginTop:50,
         width:320,
         height:60,
@@ -166,7 +178,8 @@ export const form = StyleSheet.create({
     },
     OtpAwaitMsg:{
         color:"#230C45",
-        marginLeft:55,
+        marginLeft: 40,
+        marginRight: 20,
         marginTop:30,
         fontSize:16,
         fontFamily:"Roboto"
@@ -215,10 +228,10 @@ export const form = StyleSheet.create({
         fontFamily:"Roboto"
     },
     AadharLinkedStatus:{
-        marginLeft:34,
         marginTop:30,
+        alignSelf:"center",
         color:"#4E46F1",
-        fontSize:14,
+        width:300,
         textDecorationLine: 'underline',
         fontWeight: 'bold',
     },
@@ -235,6 +248,8 @@ export const checkBox=StyleSheet.create({
         marginTop:30,
     },
     checkBoxText:{
+        marginLeft: 40,
+        marginRight: 20,
         marginTop:30,
         fontSize:14,
         color:"#828282",
@@ -261,7 +276,7 @@ export const bankform=StyleSheet.create({
     },
     nextButton:{
         padding:10,
-        marginLeft:34,
+        alignSelf:"center",
         marginTop:40,
         width:320,
         height:60,
