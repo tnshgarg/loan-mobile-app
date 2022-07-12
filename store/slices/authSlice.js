@@ -1,22 +1,22 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    userId: null,
-    phoneNumber: null,
+  userId: null,
+  phoneNumber: null,
 };
-  
+
 const authSlice = createSlice({
-  name: 'image',
+  name: "image",
   initialState: initialState,
   reducers: {
     addPhoneNumber(state, action) {
-        state.phoneNumber = action.payload;
+      state.phoneNumber = action.payload;
     },
     addId(state, action) {
-        state.userId = action.payload
+      state.userId = action.payload;
     },
-  }
-})
+  },
+});
 
-export const { addId, addPhoneNumber } = authSlice.actions
-export default authSlice.reducer
+export const { addId, addPhoneNumber } = authSlice.actions;
+export default authSlice.reducer;

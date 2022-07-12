@@ -1,18 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-   pan: null,
+  pan: null,
 };
-  
+
 const panSlice = createSlice({
-  name: 'pan',
+  name: "pan",
   initialState: initialState,
   reducers: {
     addPan(state, action) {
-        state.pan = action.payload;
+      state.pan = action.payload;
     },
-  }
-})
+  },
+});
 
-export const {addPan} = panSlice.actions
-export default panSlice.reducer
+export const { addPan } = panSlice.actions;
+export default panSlice.reducer;
