@@ -6,7 +6,7 @@ const initialState = {
 };
 
 const authSlice = createSlice({
-  name: "image",
+  name: "auth",
   initialState: initialState,
   reducers: {
     addPhoneNumber(state, action) {
