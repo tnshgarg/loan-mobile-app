@@ -30,7 +30,7 @@ import { putPanData } from "../services/employees/employeeServices";
 import { useSelector } from "react-redux";
 
 import { useDispatch } from "react-redux";
-import { addPan } from "../store/slices/panSlice";
+import { addNumber } from "../store/slices/panSlice";
 
 export default PanCardInfo = () => {
   const navigation = useNavigation();
@@ -47,7 +47,7 @@ export default PanCardInfo = () => {
   useEffect(() => {
     if (pan.length === 10) {
       setNext(true);
-      dispatch(addPan(pan));
+      dispatch(addNumber(pan));
     } else {
       setNext(false);
     }

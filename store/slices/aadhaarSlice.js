@@ -1,47 +1,47 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  aadhaarTransactionId: null,
-  aadhaarFrontData: null,
-  aadhaarBackData: null,
-  aadhaar: null,
-  aadhaarData: null,
-  AadhaarVerifedStatus: null,
+  submitOTPtxnId: null,
+  frontData: null,
+  backData: null,
+  number: null,
+  data: null,
+  verifyStatus: null,
 };
 
 const aadhaarSlice = createSlice({
   name: "aadhaar",
   initialState: initialState,
   reducers: {
-    addAadhaarTransactionId(state, action) {
-      state.aadhaarTransactionId = action.payload;
+    addSubmitOTPtxnId(state, action) {
+      state.submitOTPtxnId = action.payload;
     },
-    addAadhaarOCRData(state, action) {
+    addOCRData(state, action) {
       switch (action.payload.type) {
         case "AADHAAR_FRONT":
-          state.aadhaarFrontData = action.payload.data;
+          state.frontData = action.payload.data;
 
         case "AADHAAR_BACK":
-          state.aadhaarBackData = action.payload.data;
+          state.backData = action.payload.data;
       }
     },
-    addAadhaarData(state, action) {
-      state.aadhaarData = action.payload;
+    addData(state, action) {
+      state.data = action.payload;
     },
-    addAadhaar(state, action) {
-      state.aadhaar = action.payload;
+    addNumber(state, action) {
+      state.number = action.payload;
     },
-    addAadhaarVerifedStatus(state, action) {
-      state.AadhaarVerifedStatus = action.payload;
+    addVerifyStatus(state, action) {
+      state.verifyStatus = action.payload;
     },
   },
 });
 
 export const {
-  addAadhaar,
-  addAadhaarOCRData,
-  addAadhaarTransactionId,
-  addAadhaarData,
-  addAadhaarVerifedStatus,
+  addSubmitOTPtxnId,
+  addOCRData,
+  addData,
+  addNumber,
+  addVerifyStatus,
 } = aadhaarSlice.actions;
 export default aadhaarSlice.reducer;

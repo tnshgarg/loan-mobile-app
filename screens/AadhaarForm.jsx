@@ -19,10 +19,10 @@ import { putAadhaarData } from "../services/employees/employeeServices";
 
 import { useDispatch } from "react-redux";
 import {
-  addAadhaar,
-  addAadhaarOCRData,
-  addAadhaarTransactionId,
-  addAadhaarVerifedStatus,
+  addNumber,
+  addOCRData,
+  addSubmitOTPtxnId,
+  addVerifyStatus,
 } from "../store/slices/aadhaarSlice";
 import { addImage } from "../store/slices/imageSlice";
 import { useSelector } from "react-redux";
@@ -45,22 +45,22 @@ export default AadhaarForm = () => {
   const [aadhaarLinked, setAadhaarLinked] = useState(true);
 
   useEffect(() => {
-    dispatch(addAadhaarTransactionId(transactionId));
+    dispatch(addSubmitOTPtxnId(transactionId));
   }, [transactionId]);
 
   useEffect(() => {
     dispatch(
-      addAadhaarOCRData({ data: frontaadhaarData, type: "AADHAAR_FRONT" })
+      addOCRData({ data: frontaadhaarData, type: "AADHAAR_FRONT" })
     );
   }, [frontaadhaarData]);
 
   useEffect(() => {
-    dispatch(addAadhaar(aadhaar));
+    dispatch(addNumber(aadhaar));
   }, [aadhaar]);
 
   useEffect(() => {
     dispatch(
-      addAadhaarOCRData({ data: backaadhaarData, type: "AADHAAR_BACK" })
+      addOCRData({ data: backaadhaarData, type: "AADHAAR_BACK" })
     );
   }, [backaadhaarData]);
 
@@ -194,7 +194,7 @@ export default AadhaarForm = () => {
         <>
           {alert("Aadhar Verified through OCR.")}
           {navigation.navigate("PanCardInfo")}
-          {dispatch(addAadhaarVerifedStatus("OCR_VERIFIED"))}
+          {dispatch(addVerifyStatus("OCR_VERIFIED"))}
           {AadharPush()}
           {}
         </>
