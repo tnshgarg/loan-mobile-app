@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  accountNumber: null,
+  esic: null,
 };
 
 const esicSlice = createSlice({
@@ -11,5 +11,7 @@ const esicSlice = createSlice({
   },
 });
 
-export const { addBank } = esicSlice.actions;
+export const { } = esicSlice.actions;
 export default esicSlice.reducer;
+
+// YTBD
