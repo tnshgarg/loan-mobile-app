@@ -28,6 +28,7 @@ import { addImage } from "../store/slices/imageSlice";
 import { useSelector } from "react-redux";
 
 export default AadhaarForm = () => {
+
   const aadhaarFront = useSelector((state) => state.image.aadhaarFront);
   const aadhaarBack = useSelector((state) => state.image.aadhaarBack);
   const id = useSelector((state) => state.auth.userId);
@@ -200,6 +201,7 @@ export default AadhaarForm = () => {
       ) : null;
     }, 1000);
   };
+
   const backAlert = () =>
     Alert.alert(
       "Heading Back?",
