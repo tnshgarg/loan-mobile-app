@@ -12,16 +12,12 @@ export default TopTabNav = (props) => {
           textTransform: "capitalize",
         },
         tabBarItemStyle: { width: 100 },
-        tabBarStyle: { backgroundColor: "white" },
-        sceneContainerStyle: {
-          flex: 1,
-          backgroundColor: "powderblue",
-          marginTop: 100,
-          zIndex: 0,
-        },
+        tabBarStyle: { backgroundColor: "white"},
+        tabBarPressColor: "purple",
         animationEnabled: true,
         swipeEnabled: true,
         lazy: true,
+        tabBarIndicatorStyle :{backgroundColor: "#4E46F1"}
       }}
     >
       {props.tabs.map((tab, index) => {
