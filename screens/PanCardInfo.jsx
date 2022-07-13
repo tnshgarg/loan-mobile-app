@@ -1,29 +1,20 @@
-import React, { useState, useEffect } from "react";
+import { OG_API_KEY } from "@env";
+import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
+import { useNavigation } from "@react-navigation/core";
+import React, { useEffect, useState } from "react";
 import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  TextInput,
-  Image,
-  ScrollView,
   Alert,
   Linking,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
-import { AppBar, IconButton, Icon, Button } from "@react-native-material/core";
-import { useNavigation } from "@react-navigation/core";
-import {
-  styles,
-  form,
-  progressBar,
-  Camera,
-  checkBox,
-  bankform,
-} from "./styles";
-import { OG_API_KEY } from "@env";
 import ProgressBarTop from "../components/ProgressBarTop";
 import { GenerateDocument } from "../helpers/GenerateDocument";
 import { putPanData } from "../services/employees/employeeServices";
+import { bankform, checkBox, form, styles } from "./styles";
 
 import { useSelector } from "react-redux";
 
@@ -88,7 +79,7 @@ export default PanCardInfo = () => {
                       "Pan Number Verification status",
                       `Partial details matched, Please Check DOB.`
                     );
-                    dispatch(setVerifyStatus(false));
+                dispatch(setVerifyStatus(false));
                 break;
 
               case "1004":

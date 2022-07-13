@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { Icon } from "@react-native-material/core";
+import { useNavigation } from "@react-navigation/core";
+import React, { useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { RNCamera } from "react-native-camera";
-import { useNavigation } from "@react-navigation/core";
-const RNFS = require("react-native-fs");
 import { Camera } from "./styles";
-import { Icon } from "@react-native-material/core";
+const RNFS = require("react-native-fs");
 
 import { useDispatch } from "react-redux";
 import { addImage } from "../store/slices/aadhaarSlice";

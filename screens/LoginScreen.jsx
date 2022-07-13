@@ -1,27 +1,27 @@
+import { Button } from "@react-native-material/core";
+import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import {
-  Image,
-  Text,
-  ScrollView,
-  SafeAreaView,
-  TextInput,
-  Linking,
-  View,
   ActivityIndicator,
-  TouchableOpacity,
   Alert,
+  Image,
+  Linking,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import { useNavigation } from "@react-navigation/core";
-import { Button } from "@react-native-material/core";
 import { styles } from "./styles";
 
 import SmsRetriever from "react-native-sms-retriever";
-import { sendSmsVerification } from "../services/otp/Twilio/verify";
 import { GenerateDocument } from "../helpers/GenerateDocument";
 import { putMobileData } from "../services/employees/employeeServices";
+import { sendSmsVerification } from "../services/otp/Twilio/verify";
 
 import { useDispatch } from "react-redux";
-import { addPhoneNumber, addId } from "../store/slices/authSlice";
+import { addId, addPhoneNumber } from "../store/slices/authSlice";
 
 export default LoginScreen = () => {
   const navigation = useNavigation();

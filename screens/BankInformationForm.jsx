@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
-import {
-  Text,
-  View,
-  ScrollView,
-  TextInput,
-  SafeAreaView,
-  Alert,
-} from "react-native";
-import { useNavigation } from "@react-navigation/core";
-import { AppBar, IconButton, Icon, Button } from "@react-native-material/core";
-import { progressBar, form, bankform, styles } from "./styles";
 import { OG_API_KEY } from "@env";
+import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
+import { useNavigation } from "@react-navigation/core";
+import React, { useState } from "react";
+import {
+  Alert,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { Popable } from "react-native-popable";
+import { useDispatch, useSelector } from "react-redux";
 import ProgressBarTop from "../components/ProgressBarTop";
 import { GenerateDocument } from "../helpers/GenerateDocument";
 import { putBankAccountData } from "../services/employees/employeeServices";
 import { addBank } from "../store/slices/bankSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { bankform, styles } from "./styles";
 
 export default BankInformationForm = () => {
   const navigation = useNavigation();

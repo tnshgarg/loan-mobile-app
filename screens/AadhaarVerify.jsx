@@ -1,25 +1,17 @@
-import React, { useEffect, useState } from "react";
-import {
-  Image,
-  Text,
-  View,
-  SafeAreaView,
-  TextInput,
-  ScrollView,
-} from "react-native";
-import { AppBar, IconButton, Icon, Button } from "@react-native-material/core";
-import { useNavigation } from "@react-navigation/core";
-import { styles, progressBar, form } from "./styles";
 import { OG_API_KEY } from "@env";
+import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
+import { useNavigation } from "@react-navigation/core";
+import React, { useEffect, useState } from "react";
+import { SafeAreaView, ScrollView, Text, TextInput, View } from "react-native";
 import CountDown from "react-native-countdown-component";
 import ProgressBarTop from "../components/ProgressBarTop";
+import { form, styles } from "./styles";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   addAadhaarData,
   addAadhaarVerifedStatus,
 } from "../store/slices/aadhaarSlice";
-import { useSelector } from "react-redux";
 
 export default AadhaarVerify = () => {
   const navigation = useNavigation();

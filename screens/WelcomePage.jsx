@@ -1,11 +1,11 @@
-import React from "react";
-import { Text, View, SafeAreaView, Image } from "react-native";
-import { useNavigation } from "@react-navigation/core";
-import { AppBar, IconButton, Icon, Button } from "@react-native-material/core";
-import { styles, welcome, form, checkBox } from "./styles";
-import StepIndicator from "react-native-step-indicator";
-import SplashScreen from "react-native-splash-screen";
 import { MaterialIcons } from "@expo/vector-icons";
+import { Button } from "@react-native-material/core";
+import { useNavigation } from "@react-navigation/core";
+import React from "react";
+import { Image, SafeAreaView, Text, View } from "react-native";
+import SplashScreen from "react-native-splash-screen";
+import StepIndicator from "react-native-step-indicator";
+import { checkBox, form, styles, welcome } from "./styles";
 
 export default WelcomePage = () => {
   const navigation = useNavigation();

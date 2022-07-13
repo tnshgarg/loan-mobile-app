@@ -1,21 +1,21 @@
-import React, { useState, useCallback, useEffect } from "react";
+import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
+import { useNavigation } from "@react-navigation/core";
+import React, { useCallback, useEffect, useState } from "react";
 import {
+  Alert,
+  Image,
+  SafeAreaView,
+  ScrollView,
   Text,
   View,
-  SafeAreaView,
-  Image,
-  ScrollView,
-  Alert,
 } from "react-native";
-import { useNavigation } from "@react-navigation/core";
-import { styles, checkBox, form, Camera, selfie } from "./styles";
-import { AppBar, IconButton, Icon, Button } from "@react-native-material/core";
 import * as ImagePicker from "react-native-image-picker";
 import { useDispatch, useSelector } from "react-redux";
 import ProgressBarTop from "../components/ProgressBarTop";
-import { putProfileData } from "../services/employees/employeeServices";
 import { GenerateDocument } from "../helpers/GenerateDocument";
+import { putProfileData } from "../services/employees/employeeServices";
 import { addImage } from "../store/slices/imageSlice";
+import { checkBox, form, selfie, styles } from "./styles";
 
 export default PersonalImage = () => {
   const navigation = useNavigation();
@@ -71,7 +71,7 @@ export default PersonalImage = () => {
 
   const imageData = pickerResponse?.assets && pickerResponse.assets[0].base64;
 
-  console.log("asdasd",placeholder)
+  console.log("asdasd", placeholder);
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -96,7 +96,12 @@ export default PersonalImage = () => {
               style={selfie.selfie}
             />
           ) : (
-            <Icon name="perm-identity" size={300} color="grey" style={selfie.selfie}/>
+            <Icon
+              name="perm-identity"
+              size={300}
+              color="grey"
+              style={selfie.selfie}
+            />
           )}
           <View style={{ flexDirection: "row", alignSelf: "center" }}>
             <IconButton

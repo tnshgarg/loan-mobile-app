@@ -1,18 +1,18 @@
+import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
+import { useNavigation } from "@react-navigation/core";
 import React from "react";
 import {
+  Alert,
   Image,
+  SafeAreaView,
+  ScrollView,
   Text,
   View,
-  SafeAreaView,
-  Alert,
-  ScrollView,
 } from "react-native";
-import { AppBar, IconButton, Icon, Button } from "@react-native-material/core";
-import { useNavigation } from "@react-navigation/core";
-import { form, styles, bankform } from "./styles";
 import ProgressBarTop from "../components/ProgressBarTop";
 import { GenerateDocument } from "../helpers/GenerateDocument";
 import { putAadhaarData } from "../services/employees/employeeServices";
+import { bankform, form, styles } from "./styles";
 
 import { useSelector } from "react-redux";
 

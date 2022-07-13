@@ -1,21 +1,12 @@
-import React, { useEffect, useState } from "react";
-import {
-  Text,
-  View,
-  SafeAreaView,
-  TextInput,
-  ScrollView,
-  Alert,
-} from "react-native";
+import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/core";
-import { AppBar, IconButton, Icon, Button } from "@react-native-material/core";
-import { form, bankform, styles } from "./styles";
+import React, { useState } from "react";
+import { SafeAreaView, ScrollView, Text, TextInput, View } from "react-native";
+import { useDispatch } from "react-redux";
 import ProgressBarTop from "../components/ProgressBarTop";
-import { GenerateDocument } from "../helpers/GenerateDocument";
-import { putProfileData } from "../services/employees/employeeServices";
 import { addProfile } from "../store/slices/profileSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { bankform, form, styles } from "./styles";
 
 export default PersonalDetailsForm = () => {
   const educationalQualifications = [

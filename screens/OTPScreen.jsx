@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import { useStateValue } from "../StateProvider";
 import { styles } from "./styles";
 import SmsRetriever from "react-native-sms-retriever";
 import { checkVerification } from "../services/otp/Twilio/verify";
@@ -21,7 +20,6 @@ import { useSelector } from "react-redux";
 export default OTPScreen = () => {
   const phonenumber = useSelector((state) => state.auth.phoneNumber);
   const navigation = useNavigation();
-  const [{ id }, dispatch] = useStateValue();
   const [otp, setOtp] = useState("");
   const [next, setNext] = useState(false);
   const [user, setUser] = useState(null);
@@ -29,12 +27,12 @@ export default OTPScreen = () => {
 
   // HHrHWFsvgjF
 
-  useEffect(() => {
-    dispatch({
-      type: "SET_USER",
-      payload: user,
-    });
-  }, [user]);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "SET_USER",
+  //     payload: user,
+  //   });
+  // }, [user]);
 
   useEffect(() => {
     if (otp.length === 6) {
