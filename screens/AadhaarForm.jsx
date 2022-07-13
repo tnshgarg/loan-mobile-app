@@ -23,14 +23,13 @@ import {
   addOCRData,
   addSubmitOTPtxnId,
   addVerifyStatus,
+  addImage
 } from "../store/slices/aadhaarSlice";
-import { addImage } from "../store/slices/imageSlice";
 import { useSelector } from "react-redux";
 
 export default AadhaarForm = () => {
-
-  const aadhaarFront = useSelector((state) => state.image.aadhaarFront);
-  const aadhaarBack = useSelector((state) => state.image.aadhaarBack);
+  const aadhaarFront = useSelector((state) => state.aadhaar.aadhaarFront);
+  const aadhaarBack = useSelector((state) => state.aadhaar.aadhaarBack);
   const id = useSelector((state) => state.auth.userId);
   const [consent, setConsent] = useState(false);
   const [aadhaar, setAadhaar] = useState("");
@@ -49,9 +48,7 @@ export default AadhaarForm = () => {
   }, [transactionId]);
 
   useEffect(() => {
-    dispatch(
-      addOCRData({ data: frontaadhaarData, type: "AADHAAR_FRONT" })
-    );
+    dispatch(addOCRData({ data: frontaadhaarData, type: "AADHAAR_FRONT" }));
   }, [frontaadhaarData]);
 
   useEffect(() => {
@@ -59,9 +56,7 @@ export default AadhaarForm = () => {
   }, [aadhaar]);
 
   useEffect(() => {
-    dispatch(
-      addOCRData({ data: backaadhaarData, type: "AADHAAR_BACK" })
-    );
+    dispatch(addOCRData({ data: backaadhaarData, type: "AADHAAR_BACK" }));
   }, [backaadhaarData]);
 
   useEffect(() => {

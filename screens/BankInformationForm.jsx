@@ -6,25 +6,26 @@ import {
   TextInput,
   SafeAreaView,
   Alert,
-  Linking,
 } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { AppBar, IconButton, Icon, Button } from "@react-native-material/core";
 import { progressBar, form, bankform, styles } from "./styles";
 import { OG_API_KEY } from "@env";
-import { useStateValue } from "../StateProvider";
 import { Popable } from "react-native-popable";
 import ProgressBarTop from "../components/ProgressBarTop";
 import { GenerateDocument } from "../helpers/GenerateDocument";
 import { putBankAccountData } from "../services/employees/employeeServices";
+import { addBank } from "../store/slices/bankSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export default BankInformationForm = () => {
   const navigation = useNavigation();
   const [ifsc, setIfsc] = useState("");
-  const [{ id }, dispatch] = useStateValue();
+  const id = useSelector((state) => state.auth.userId);
   const [accountNumber, setAccountNumber] = useState("");
   const [accountHolderName, setAccountHolderName] = useState("");
   const [upiID, setUpiId] = useState("");
+  const dispatch = useDispatch();
 
   const fields = [
     {
@@ -111,7 +112,16 @@ export default BankInformationForm = () => {
                     [
                       {
                         text: "Yes",
-                        onPress: () => navigation.navigate("PersonlInfoForm"),
+                        onPress: () => {
+                          navigation.navigate("PersonlInfoForm");
+                          dispatch(
+                            addBank({
+                              accNo: accountNumber,
+                              ifsc: ifsc,
+                              upi: upiID,
+                            })
+                          );
+                        },
                       },
                       {
                         text: "No",

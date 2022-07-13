@@ -12,9 +12,10 @@ import { useNavigation } from "@react-navigation/core";
 import { AppBar, IconButton, Icon, Button } from "@react-native-material/core";
 import { form, bankform, styles } from "./styles";
 import ProgressBarTop from "../components/ProgressBarTop";
-import { useStateValue } from "../StateProvider";
 import { GenerateDocument } from "../helpers/GenerateDocument";
 import { putProfileData } from "../services/employees/employeeServices";
+import { addProfile } from "../store/slices/profileSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export default PersonalDetailsForm = () => {
   const educationalQualifications = [
@@ -25,23 +26,21 @@ export default PersonalDetailsForm = () => {
     "None of the Above",
   ];
   const maritalStatuses = ["Unmarried", "Married"];
-  const [{ id }, dispatch] = useStateValue();
   const [maritalStatus, setMaritalStatus] = useState("");
   const [educationalQualification, setEducationallQualification] = useState("");
   const [alternatePhone, setAlternatePhone] = useState("");
   const [email, setEmail] = useState("");
   const navigation = useNavigation();
-
+  const dispatch = useDispatch();
   const onFinish = () => {
-    dispatch({
-      type: "SET_PROFILE",
-      payload: {
+    dispatch(
+      addProfile({
         maritalStatus: maritalStatus,
-        qualification: educationalQualification,
-        altMobile: alternatePhone,
+        education: educationalQualification,
+        altnum: alternatePhone,
         email: email,
-      },
-    });
+      })
+    );
   };
   return (
     <>

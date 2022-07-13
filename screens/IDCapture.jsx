@@ -7,7 +7,7 @@ import { Camera } from "./styles";
 import { Icon } from "@react-native-material/core";
 
 import { useDispatch } from "react-redux";
-import { addImage } from "../store/slices/imageSlice";
+import { addImage } from "../store/slices/aadhaarSlice";
 
 const PendingView = () => (
   <View style={Camera.wait}>

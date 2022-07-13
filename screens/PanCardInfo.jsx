@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import { AppBar, IconButton, Icon, Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import { ProgressBar } from "@react-native-community/progress-bar-android";
 import {
   styles,
   form,
@@ -21,7 +20,6 @@ import {
   checkBox,
   bankform,
 } from "./styles";
-import { useStateValue } from "../StateProvider";
 import { OG_API_KEY } from "@env";
 import ProgressBarTop from "../components/ProgressBarTop";
 import { GenerateDocument } from "../helpers/GenerateDocument";
@@ -30,7 +28,7 @@ import { putPanData } from "../services/employees/employeeServices";
 import { useSelector } from "react-redux";
 
 import { useDispatch } from "react-redux";
-import { addNumber } from "../store/slices/panSlice";
+import { addNumber, setVerifyStatus } from "../store/slices/panSlice";
 
 export default PanCardInfo = () => {
   const navigation = useNavigation();
@@ -40,9 +38,6 @@ export default PanCardInfo = () => {
   const id = useSelector((state) => state.auth.userId);
   const [panName, setPanName] = useState("");
   const [birthday, setBirthday] = useState("");
-
-  // console.log();
-  // putPanData()
 
   useEffect(() => {
     if (pan.length === 10) {
@@ -80,6 +75,7 @@ export default PanCardInfo = () => {
               case "1001":
                 PanPush();
                 RetrievePAN();
+                dispatch(setVerifyStatus(true));
                 break;
 
               case "1002":
@@ -92,6 +88,7 @@ export default PanCardInfo = () => {
                       "Pan Number Verification status",
                       `Partial details matched, Please Check DOB.`
                     );
+                    dispatch(setVerifyStatus(false));
                 break;
 
               case "1004":
@@ -99,10 +96,12 @@ export default PanCardInfo = () => {
                   "Pan Number Verification status",
                   `PAN number incorrect.`
                 );
+                dispatch(setVerifyStatus(false));
                 break;
             }
           } else {
             Alert.alert("Error", response["error"]["message"]);
+            dispatch(setVerifyStatus(false));
           }
         }
       })
