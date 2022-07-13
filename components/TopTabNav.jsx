@@ -1,7 +1,5 @@
 import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import HomeView from "../screens/HomeView";
-import ESICForm from "../screens/ESIC/ESICForm";
 
 export default TopTabNav = (props) => {
   const Tab = createMaterialTopTabNavigator();
@@ -26,11 +24,9 @@ export default TopTabNav = (props) => {
         lazy: true,
       }}
     >
-      <Tab.Screen name="EPFO" component={HomeView} />
-      <Tab.Screen name="ESIC" component={ESICForm} />
-      <Tab.Screen name="Offer Letter" component={HomeView} />
-      <Tab.Screen name="Pay Slips" component={HomeView} />
-      <Tab.Screen name="ID Card" component={HomeView} />
+      {props.tabs.map((tab, index) => {
+        return <Tab.Screen name={tab.name} component={tab.component} />;
+      })}
     </Tab.Navigator>
   );
 };

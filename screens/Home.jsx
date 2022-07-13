@@ -13,6 +13,7 @@ Amplify.configure(awsconfig);
 
 import { FAB, Portal, Provider } from "react-native-paper";
 import Document from "./Document";
+import Benefits from "./Benefits";
 
 export default Home = () => {
   const [state, setState] = React.useState({ open: false });
@@ -23,7 +24,7 @@ export default Home = () => {
   const tabs = [
     { name: "Home", component: HomeView },
     { name: "Documents", component: Document },
-    { name: "Benefits", component: HomeView },
+    { name: "Benefits", component: Benefits },
     { name: "Banking", component: HomeView },
   ];
   const signOut = () => {
