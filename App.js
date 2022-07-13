@@ -20,7 +20,6 @@ import BankInformationForm from './screens/BankInformationForm';
 import Home from './screens/Home';
 import WelcomePage from './screens/WelcomePage';
 import PersonalImage from "./screens/PersonalImage";
-import ESICForm from './screens/ESIC/ESICForm';
 import {Provider} from "react-redux";
 import {store} from "./store/store";
 

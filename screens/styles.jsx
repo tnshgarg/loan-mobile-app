@@ -466,3 +466,13 @@ export const selfie = StyleSheet.create({
     width: 300,
   },
 });
+
+export const esic = StyleSheet.create({
+  CollapseTitle: {
+    marginLeft: 34,
+    marginTop: 20,
+    color: "#4E46F1",
+    fontSize: 14,
+    fontFamily: "Roboto",
+  },
+});

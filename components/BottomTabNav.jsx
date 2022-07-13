@@ -4,7 +4,6 @@ import { Icon } from "@react-native-material/core";
 
 export default BottomTabNav = (props) => {
   const bottomTab = createBottomTabNavigator();
-  console.log(props);
   return (
     <bottomTab.Navigator
       screenOptions={({ route }) => ({
