@@ -154,10 +154,6 @@ export default AadhaarForm = () => {
               {type === "front"
                 ? setAadhaarFrontVerified(true)
                 : setAadhaarBackVerified(true)}
-              {dispatch({
-                type: "SET_AADHAAR_VERIFED_STATUS",
-                payload: "OCR_VERIFIED",
-              })}
             </>
           ) : null;
         }
