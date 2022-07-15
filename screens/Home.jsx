@@ -39,8 +39,6 @@ export default Home = () => {
   //   }
   // };
   const navigation = useNavigation();
-  console.log("USER REGED");
-  console.log(user);
   return (
     <>
       <SafeAreaView style={{ flex: 1 }}>
