@@ -1,7 +1,5 @@
 import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import HomeView from "../screens/HomeView";
-import ESICForm from "../screens/ESIC/ESICForm";
 
 export default TopTabNav = (props) => {
   const Tab = createMaterialTopTabNavigator();
@@ -14,23 +12,17 @@ export default TopTabNav = (props) => {
           textTransform: "capitalize",
         },
         tabBarItemStyle: { width: 100 },
-        tabBarStyle: { backgroundColor: "white" },
-        sceneContainerStyle: {
-          flex: 1,
-          backgroundColor: "powderblue",
-          marginTop: 100,
-          zIndex: 0,
-        },
+        tabBarStyle: { backgroundColor: "white"},
+        tabBarPressColor: "purple",
         animationEnabled: true,
         swipeEnabled: true,
         lazy: true,
+        tabBarIndicatorStyle :{backgroundColor: "#4E46F1"}
       }}
     >
-      <Tab.Screen name="EPFO" component={HomeView} />
-      <Tab.Screen name="ESIC" component={ESICForm} />
-      <Tab.Screen name="Offer Letter" component={HomeView} />
-      <Tab.Screen name="Pay Slips" component={HomeView} />
-      <Tab.Screen name="ID Card" component={HomeView} />
+      {props.tabs.map((tab, index) => {
+        return <Tab.Screen name={tab.name} component={tab.component} />;
+      })}
     </Tab.Navigator>
   );
 };

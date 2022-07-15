@@ -13,6 +13,7 @@ import { styles, form, bankform, esic } from "../styles";
 import StateDropdown from "../../components/StateDropdown";
 import { Picker } from "@react-native-picker/picker";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import TopTabNav from "../../components/TopTabNav";
 
 export default ESICForm = () => {
   const navigation = useNavigation();
@@ -192,34 +193,15 @@ export default ESICForm = () => {
       setValue: setNomineeName,
     },
   ];
-
+  const tabs = [
+    { name: "ESIC", component: ESIC },
+    { name: "Family Details", component: FamilyDetails },
+    { name: "Employee Address", component: EmployeeAddress },
+    { name: "Nominee Address", component: NomineeAddress },
+  ];
   return (
     <SafeAreaView style={styles.container}>
-      <Tab.Navigator
-        screenOptions={{
-          tabBarLabelStyle: {
-            fontSize: 12,
-            fontWeight: "bold",
-            textTransform: "capitalize",
-          },
-          tabBarItemStyle: { width: 100 },
-          tabBarStyle: { backgroundColor: "white" },
-          sceneContainerStyle: {
-            flex: 1,
-            backgroundColor: "powderblue",
-            marginTop: 100,
-            zIndex: 0,
-          },
-          animationEnabled: true,
-          swipeEnabled: true,
-          lazy: true,
-        }}
-      >
-        <Tab.Screen name="ESIC" component={ESIC} />
-        <Tab.Screen name="Family Details" component={FamilyDetails} />
-        <Tab.Screen name="Employee Address" component={EmployeeAddress} />
-        <Tab.Screen name="Nominee Address" component={NomineeAddress} />
-      </Tab.Navigator>
+     <TopTabNav tabs={tabs} />
     </SafeAreaView>
   );
 };
