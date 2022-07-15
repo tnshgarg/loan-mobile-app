@@ -21,8 +21,7 @@ export default AadhaarConfirm = () => {
   const AadhaarData = useSelector((state) => state.aadhaar.aadhaarData);
   const aadhaar = useSelector((state) => state.aadhaar.aadhaar);
   const id = useSelector((state) => state.auth.userId);
-
-  console.log(AadhaarData);
+  
   const onConfirm = () => {
     var aadhaarPayload = GenerateDocument({
       src: "AadhaarOTP",

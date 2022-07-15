@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  accountNumber: null,
-  ifsc: null,
-  upi: null,
-  holderName: null,
+  accountNumber: "",
+  ifsc: "",
+  upi: "",
+  holderName: "",
 };
 
 const bankSlice = createSlice({

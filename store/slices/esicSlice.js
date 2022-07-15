@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  esic: null,
+  esic: "",
 };
 
 const esicSlice = createSlice({

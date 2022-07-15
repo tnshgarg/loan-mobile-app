@@ -21,7 +21,9 @@ export default AadhaarVerify = () => {
   );
   const [otp, setOtp] = useState("");
   const [next, setNext] = useState(false);
-  const [aadharData, setAadharData] = useState({});
+  const [aadharData, setAadharData] = useState(
+    useSelector((state) => state.aadhaar.data)
+  );
   const [back, setBack] = useState(false);
 
   useEffect(() => {

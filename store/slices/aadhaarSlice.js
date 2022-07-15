@@ -2,14 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import { aadhaarFrontPlaceholder, aadhaarBackPlaceholder } from "../../helpers/base64";
 
 const initialState = {
-  submitOTPtxnId: null,
-  frontData: null,
-  backData: null,
-  number: null,
-  data: null,
-  verifyStatus: null,
-  aadhaarFront: aadhaarFrontPlaceholder,
-  aadhaarBack: aadhaarBackPlaceholder,
+  submitOTPtxnId: "",
+  frontData: "",
+  backData: "",
+  number: "",
+  data: "",
+  verifyStatus: "",
+  frontimg: aadhaarFrontPlaceholder,
+  backimg: aadhaarBackPlaceholder,
 };
 
 const aadhaarSlice = createSlice({

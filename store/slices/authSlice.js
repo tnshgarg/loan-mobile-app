@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   userId: "62be55b1bb8d55cb4644801b",
-  phoneNumber: null,
+  phoneNumber: "",
 };
 
 const authSlice = createSlice({

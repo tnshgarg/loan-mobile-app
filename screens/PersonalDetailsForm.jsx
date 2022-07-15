@@ -3,7 +3,7 @@ import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
 import { SafeAreaView, ScrollView, Text, TextInput, View } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ProgressBarTop from "../components/ProgressBarTop";
 import { addProfile } from "../store/slices/profileSlice";
 import { bankform, form, styles } from "./styles";
@@ -17,10 +17,10 @@ export default PersonalDetailsForm = () => {
     "None of the Above",
   ];
   const maritalStatuses = ["Unmarried", "Married"];
-  const [maritalStatus, setMaritalStatus] = useState("");
-  const [educationalQualification, setEducationallQualification] = useState("");
-  const [alternatePhone, setAlternatePhone] = useState("");
-  const [email, setEmail] = useState("");
+  const [maritalStatus, setMaritalStatus] = useState(useSelector((state) => state.profile.profile["maritalStatus"]));
+  const [educationalQualification, setEducationallQualification] = useState(useSelector((state) => state.profile.profile["education"]));
+  const [alternatePhone, setAlternatePhone] = useState(useSelector((state) => state.profile.profile["altnum"]));
+  const [email, setEmail] = useState(useSelector((state) => state.profile.profile["email"]));
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const onFinish = () => {

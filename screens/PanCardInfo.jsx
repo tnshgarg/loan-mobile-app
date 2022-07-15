@@ -16,14 +16,12 @@ import { GenerateDocument } from "../helpers/GenerateDocument";
 import { putPanData } from "../services/employees/employeeServices";
 import { bankform, checkBox, form, styles } from "./styles";
 
-import { useSelector } from "react-redux";
-
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addNumber, setVerifyStatus } from "../store/slices/panSlice";
 
 export default PanCardInfo = () => {
   const navigation = useNavigation();
-  const [pan, setPan] = useState("");
+  const [pan, setPan] = useState(useSelector((state) => state.pan.number));
   const [next, setNext] = useState();
   const dispatch = useDispatch();
   const id = useSelector((state) => state.auth.userId);

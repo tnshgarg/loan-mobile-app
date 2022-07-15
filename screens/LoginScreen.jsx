@@ -209,7 +209,7 @@ export default LoginScreen = () => {
           type="solid"
           style={styles.ContinueButton}
           color="#4E46F1"
-          onPress={() => navigation.navigate("AadhaarForm")}
+          onPress={() => navigation.navigate("PersonlInfoForm")}
         />
       </ScrollView>
     </SafeAreaView>

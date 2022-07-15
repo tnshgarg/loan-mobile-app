@@ -26,20 +26,31 @@ import {
   addVerifyStatus,
 } from "../store/slices/aadhaarSlice";
 
-import {aadhaarFrontPlaceholder, aadhaarBackPlaceholder} from "../helpers/base64";
- 
+import {
+  aadhaarFrontPlaceholder,
+  aadhaarBackPlaceholder,
+} from "../helpers/base64";
+
 export default AadhaarForm = () => {
-  const aadhaarFront = useSelector((state) => state.aadhaar.aadhaarFront);
-  const aadhaarBack = useSelector((state) => state.aadhaar.aadhaarBack);
+  const aadhaarFront = useSelector((state) => state.aadhaar.frontimg);
+  const aadhaarBack = useSelector((state) => state.aadhaar.backimg);
   const id = useSelector((state) => state.auth.userId);
   const [consent, setConsent] = useState(false);
-  const [aadhaar, setAadhaar] = useState("");
+  const [aadhaar, setAadhaar] = useState(
+    useSelector((state) => state.aadhaar.number)
+  );
   const navigation = useNavigation();
   const [next, setNext] = useState(false);
-  const [transactionId, setTransactionId] = useState("");
+  const [transactionId, setTransactionId] = useState(
+    useSelector((state) => state.aadhaar.submitOTPtxnId)
+  );
   const dispatch = useDispatch();
-  const [frontaadhaarData, setFrontAadhaarData] = useState({});
-  const [backaadhaarData, setBackAadhaarData] = useState({});
+  const [frontaadhaarData, setFrontAadhaarData] = useState(
+    useSelector((state) => state.aadhaar.frontData)
+  );
+  const [backaadhaarData, setBackAadhaarData] = useState(
+    useSelector((state) => state.aadhaar.backData)
+  );
   const [aadhaarFrontVerified, setAadhaarFrontVerified] = useState(false);
   const [aadhaarBackVerified, setAadhaarBackVerified] = useState(false);
   const [aadhaarLinked, setAadhaarLinked] = useState(true);
@@ -311,7 +322,12 @@ export default AadhaarForm = () => {
                   icon={<Icon name="delete" size={20} color="black" />}
                   style={Camera.cameraButton}
                   onPress={() => {
-                    dispatch(addImage({ data: aadhaarFrontPlaceholder, type: "AADHAAR_FRONT" }));
+                    dispatch(
+                      addImage({
+                        data: aadhaarFrontPlaceholder,
+                        type: "AADHAAR_FRONT",
+                      })
+                    );
                   }}
                 />
               </View>
@@ -334,7 +350,12 @@ export default AadhaarForm = () => {
                   icon={<Icon name="delete" size={20} color="black" />}
                   style={Camera.cameraButton}
                   onPress={() => {
-                    dispatch(addImage({ data: aadhaarBackPlaceholder, type: "AADHAAR_BACK" }));
+                    dispatch(
+                      addImage({
+                        data: aadhaarBackPlaceholder,
+                        type: "AADHAAR_BACK",
+                      })
+                    );
                   }}
                 />
               </View>

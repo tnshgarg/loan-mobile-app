@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  number: null,
-  verifyStatus: null,
+  number: "",
+  verifyStatus: "",
 };
 
 const panSlice = createSlice({

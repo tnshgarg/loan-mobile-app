@@ -20,11 +20,15 @@ import { bankform, styles } from "./styles";
 
 export default BankInformationForm = () => {
   const navigation = useNavigation();
-  const [ifsc, setIfsc] = useState("");
+  const [ifsc, setIfsc] = useState(useSelector((state) => state.bank.ifsc));
   const id = useSelector((state) => state.auth.userId);
-  const [accountNumber, setAccountNumber] = useState("");
-  const [accountHolderName, setAccountHolderName] = useState("");
-  const [upiID, setUpiId] = useState("");
+  const [accountNumber, setAccountNumber] = useState(
+    useSelector((state) => state.bank.accountNumber)
+  );
+  const [accountHolderName, setAccountHolderName] = useState(
+    useSelector((state) => state.bank.holderName)
+  );
+  const [upiID, setUpiId] = useState(useSelector((state) => state.bank.upi));
   const dispatch = useDispatch();
 
   const fields = [
