@@ -6,8 +6,9 @@ import { Picker } from "@react-native-picker/picker";
 import relations from "../../helpers/RelationData";
 import { useDispatch, useSelector } from "react-redux";
 import { addFamilyDetails } from "../../store/slices/esicSlice";
-
+import { useNavigation } from "@react-navigation/core";
 export default FamilyDetails = () => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const onFinish = () => {
     dispatch(
@@ -86,8 +87,8 @@ export default FamilyDetails = () => {
         style={form.nextButton}
         onPress={() => {
           onFinish();
-          navigation.navigate("Home", {
-            screen: "Documents",
+          navigation.navigate("Benefits", {
+            screen: "ESIC",
             params: {
               screen: "Employee Address",
             },

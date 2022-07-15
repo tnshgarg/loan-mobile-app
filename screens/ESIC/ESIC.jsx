@@ -4,9 +4,10 @@ import { bankform, form, styles } from "../styles";
 import { Button } from "@react-native-material/core";
 import { useDispatch, useSelector } from "react-redux";
 import { addEsic } from "../../store/slices/esicSlice";
-
+import { useNavigation } from "@react-navigation/core";
 export default ESIC = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const [esic, setEsic] = useState(
     useSelector((state) => state.esic.esic["esic"])
   );
@@ -44,8 +45,8 @@ export default ESIC = () => {
           style={form.nextButton}
           onPress={() => {
             onFinish();
-            navigation.navigate("Home", {
-              screen: "Documents",
+            navigation.navigate("Benefits", {
+              screen: "ESIC",
               params: {
                 screen: "Family Details",
               },

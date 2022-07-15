@@ -5,9 +5,10 @@ import { Button } from "@react-native-material/core";
 import StateDropdown from "../../components/StateDropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { addNomineeAddress } from "../../store/slices/esicSlice";
-
+import { useNavigation } from "@react-navigation/core";
 export default NomineeAddress = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const [nomStreet, setNomStreet] = useState(useSelector((state) => state.esic.nomineeAddress["nomStreet"]));
   const [nomState, setNomState] = useState(useSelector((state) => state.esic.nomineeAddress["nomState"]));
   const [nomPincode, setNomPincode] = useState(useSelector((state) => state.esic.nomineeAddress["nomPincode"]));

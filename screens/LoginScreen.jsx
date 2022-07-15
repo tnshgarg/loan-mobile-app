@@ -79,7 +79,7 @@ export default LoginScreen = () => {
   //   })}, [session]);
 
   const signIn = () => {
-    sendSmsVerification(phoneNumber)
+    sendSmsVerification(`+91${phoneNumber}`)
       .then((sent) => {
         console.log("Sent!");
         setIsLoading(true);
@@ -203,6 +203,7 @@ export default LoginScreen = () => {
             </View>
           </TouchableOpacity>
         )}
+        <Button onPress={navigation.navigate("Home")}></Button>
       </ScrollView>
     </SafeAreaView>
   );

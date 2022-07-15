@@ -5,9 +5,10 @@ import { Button } from "@react-native-material/core";
 import StateDropdown from "../../components/StateDropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { addAddress } from "../../store/slices/esicSlice";
-
+import { useNavigation } from "@react-navigation/core";
 export default EmployeeAddress = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const [presentStreet, setPresentStreet] = useState(
     useSelector((state) => state.esic.address["presentStreet"])
   );
@@ -86,8 +87,8 @@ export default EmployeeAddress = () => {
         style={form.nextButton}
         onPress={() => {
           onFinish();
-          navigation.navigate("Home", {
-            screen: "Documents",
+          navigation.navigate("Benefits", {
+            screen: "ESIC",
             params: {
               screen: "Nominee Address",
             },
