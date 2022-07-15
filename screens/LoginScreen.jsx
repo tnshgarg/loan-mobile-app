@@ -203,6 +203,14 @@ export default LoginScreen = () => {
             </View>
           </TouchableOpacity>
         )}
+        <Button
+          uppercase={false}
+          title="Continue"
+          type="solid"
+          style={styles.ContinueButton}
+          color="#4E46F1"
+          onPress={() => navigation.navigate("AadhaarForm")}
+        />
       </ScrollView>
     </SafeAreaView>
   );

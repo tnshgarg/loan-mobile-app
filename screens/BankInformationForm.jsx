@@ -116,9 +116,10 @@ export default BankInformationForm = () => {
                           navigation.navigate("PersonlInfoForm");
                           dispatch(
                             addBank({
-                              accNo: accountNumber,
+                              accountNumber: accountNumber,
                               ifsc: ifsc,
                               upi: upiID,
+                              holderName: accountHolderName,
                             })
                           );
                         },

@@ -26,6 +26,8 @@ import {
   addVerifyStatus,
 } from "../store/slices/aadhaarSlice";
 
+import {aadhaarFrontPlaceholder, aadhaarBackPlaceholder} from "../helpers/base64";
+ 
 export default AadhaarForm = () => {
   const aadhaarFront = useSelector((state) => state.aadhaar.aadhaarFront);
   const aadhaarBack = useSelector((state) => state.aadhaar.aadhaarBack);
@@ -186,7 +188,6 @@ export default AadhaarForm = () => {
           {navigation.navigate("PanCardInfo")}
           {dispatch(addVerifyStatus("OCR_VERIFIED"))}
           {AadharPush()}
-          {}
         </>
       ) : null;
     }, 1000);
@@ -310,7 +311,7 @@ export default AadhaarForm = () => {
                   icon={<Icon name="delete" size={20} color="black" />}
                   style={Camera.cameraButton}
                   onPress={() => {
-                    dispatch(addImage({ data: null, type: "AADHAAR_FRONT" }));
+                    dispatch(addImage({ data: aadhaarFrontPlaceholder, type: "AADHAAR_FRONT" }));
                   }}
                 />
               </View>
@@ -333,7 +334,7 @@ export default AadhaarForm = () => {
                   icon={<Icon name="delete" size={20} color="black" />}
                   style={Camera.cameraButton}
                   onPress={() => {
-                    dispatch(addImage({ data: null, type: "AADHAAR_BACK" }));
+                    dispatch(addImage({ data: aadhaarBackPlaceholder, type: "AADHAAR_BACK" }));
                   }}
                 />
               </View>

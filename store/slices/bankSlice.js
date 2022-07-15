@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  number: null,
+  accountNumber: null,
   ifsc: null,
   upi: null,
+  holderName: null,
 };
 
 const bankSlice = createSlice({
@@ -11,9 +12,10 @@ const bankSlice = createSlice({
   initialState: initialState,
   reducers: {
     addBank(state, action) {
-      state.number = action.payload.accNo;
+      state.accountNumber = action.payload.accountNumber;
       state.ifsc = action.payload.ifsc;
       state.upi = action.payload.upi;
+      state.holderName = action.payload.holderName;
     },
   },
 });

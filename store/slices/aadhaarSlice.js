@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { aadhaarFront, aadhaarBack } from "../../helpers/base64";
+import { aadhaarFrontPlaceholder, aadhaarBackPlaceholder } from "../../helpers/base64";
 
 const initialState = {
   submitOTPtxnId: null,
@@ -8,8 +8,8 @@ const initialState = {
   number: null,
   data: null,
   verifyStatus: null,
-  aadhaarFront: aadhaarFront,
-  aadhaarBack: aadhaarBack,
+  aadhaarFront: aadhaarFrontPlaceholder,
+  aadhaarBack: aadhaarBackPlaceholder,
 };
 
 const aadhaarSlice = createSlice({
@@ -23,18 +23,21 @@ const aadhaarSlice = createSlice({
       switch (action.payload.type) {
         case "AADHAAR_FRONT":
           state.frontData = action.payload.data;
+          break;
 
         case "AADHAAR_BACK":
           state.backData = action.payload.data;
+          break;
       }
     },
     addImage(state, action) {
       switch (action.payload.type) {
         case "AADHAAR_FRONT":
           state.aadhaarFront = action.payload.data;
-
+          break;
         case "AADHAAR_BACK":
           state.aadhaarBack = action.payload.data;
+          break;
       }
     },
     addData(state, action) {
