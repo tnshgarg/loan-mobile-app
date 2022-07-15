@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   esic: {"eecode":"","esic":""},
   familyDetails: {"relationName":"","relation":"","nomineeName":"","nomineeRelation":""},
-  address: {},
-  nomineeAddress: {},
+  address: {"presentStreet":"","presentState":"","presentPincode":"","permStreet":"","permState":"","permPincode":""},
+  nomineeAddress: {"nomStreet":"","nomState":"","nomPincode":""},
 };
 
 const esicSlice = createSlice({

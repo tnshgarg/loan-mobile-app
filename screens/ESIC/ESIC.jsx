@@ -7,9 +7,20 @@ import { addEsic } from "../../store/slices/esicSlice";
 
 export default ESIC = () => {
   const dispatch = useDispatch();
-  const [esic, setEsic] = useState("");
-  const [eeCode, setEECode] = useState("");
-  
+  const [esic, setEsic] = useState(
+    useSelector((state) => state.esic.esic["esic"])
+  );
+  const [eeCode, setEECode] = useState(
+    useSelector((state) => state.esic.esic["eecode"])
+  );
+  const onFinish = () => {
+    dispatch(
+      addEsic({
+        "esic": esic,
+        "eecode": eeCode,
+      })
+    );
+  };
   return (
     <>
       <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
@@ -32,6 +43,7 @@ export default ESIC = () => {
           color="#4E46F1"
           style={form.nextButton}
           onPress={() => {
+            onFinish();
             navigation.navigate("Home", {
               screen: "Documents",
               params: {

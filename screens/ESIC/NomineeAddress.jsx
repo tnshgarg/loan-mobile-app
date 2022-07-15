@@ -8,16 +8,34 @@ import { addNomineeAddress } from "../../store/slices/esicSlice";
 
 export default NomineeAddress = () => {
   const dispatch = useDispatch();
+  const [nomStreet, setNomStreet] = useState(useSelector((state) => state.esic.nomineeAddress["nomStreet"]));
+  const [nomState, setNomState] = useState(useSelector((state) => state.esic.nomineeAddress["nomState"]));
+  const [nomPincode, setNomPincode] = useState(useSelector((state) => state.esic.nomineeAddress["nomPincode"]));
+
+  const onFinish = () => {
+    dispatch(
+      addNomineeAddress({"nomStreet":nomStreet,"nomState":nomState,"nomPincode":nomPincode})
+    );
+  };
+
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
       <Text style={bankform.formtitle}>Nominee Address Street *</Text>
-      <TextInput style={bankform.formInput} />
+      <TextInput
+        style={bankform.formInput}
+        value={nomStreet}
+        onChangeText={setNomStreet}
+      />
       <StateDropdown
         stateTitle={"Nominee address State"}
         districtTitle={"Nominee address District"}
       />
       <Text style={bankform.formtitle}>Nominee Pincode *</Text>
-      <TextInput style={bankform.formInput} />
+      <TextInput
+        style={bankform.formInput}
+        value={nomPincode}
+        onChangeText={setNomPincode}
+      />
       <Button
         uppercase={false}
         title="Finish"
@@ -25,6 +43,7 @@ export default NomineeAddress = () => {
         color="#4E46F1"
         style={form.nextButton}
         onPress={() => {
+          onFinish();
           console.log("pressed");
         }}
       />

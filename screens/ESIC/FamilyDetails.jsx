@@ -9,7 +9,16 @@ import { addFamilyDetails } from "../../store/slices/esicSlice";
 
 export default FamilyDetails = () => {
   const dispatch = useDispatch();
-
+  const onFinish = () => {
+    dispatch(
+      addFamilyDetails({
+        "relationName": relationName,
+        "relation": relation,
+        "nomineeName": nomineeName,
+        "nomineeRelation": nomineeRelation,
+      })
+    );
+  };
   const fields = [
     {
       title: "Father's / Husband's Name *",
@@ -27,10 +36,19 @@ export default FamilyDetails = () => {
       setValue: setNomineeName,
     },
   ];
-  const [nomineeRelation, setNomineeRelation] = useState("");
-  const [relation, setRelation] = useState("");
-  const [relationName, setRelationName] = useState("");
-  const [nomineeName, setNomineeName] = useState("");
+  const [nomineeRelation, setNomineeRelation] = useState(
+    useSelector((state) => state.esic.familyDetails["nomineeRelation"])
+  );
+  const [relation, setRelation] = useState(
+    useSelector((state) => state.esic.familyDetails["relation"])
+  );
+  const [relationName, setRelationName] = useState(
+    useSelector((state) => state.esic.familyDetails["relationName"])
+  );
+  const [nomineeName, setNomineeName] = useState(
+    useSelector((state) => state.esic.familyDetails["nomineeName"])
+  );
+
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
       {fields.map((field, index) => {
@@ -67,7 +85,13 @@ export default FamilyDetails = () => {
         color="#4E46F1"
         style={form.nextButton}
         onPress={() => {
-          console.log("pressed");
+          onFinish();
+          navigation.navigate("Home", {
+            screen: "Documents",
+            params: {
+              screen: "Employee Address",
+            },
+          });
         }}
       />
       <View style={bankform.padding}></View>
