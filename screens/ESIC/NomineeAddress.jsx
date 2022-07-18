@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ScrollView, Text, TextInput, View } from "react-native";
 import { bankform, form, styles } from "../styles";
 import { Button } from "@react-native-material/core";
@@ -14,29 +14,26 @@ export default NomineeAddress = () => {
   const [nomineeStreet, setNomineeStreet] = useState(
     useSelector((state) => state.esic.address.nominee.street)
   );
-  const [nomineeState, setNomineeState] = useState(
-    useSelector((state) => state.esic.address.nominee.state)
-  );
-  const [nomineeDistrict, setNomineeDistrict] = useState(
-    useSelector((state) => state.esic.address.nominee.district)
-  );
+
   const [nomineePincode, setNomineePincode] = useState(
     useSelector((state) => state.esic.address.nominee.pincode)
   );
 
   useEffect(() => {
-    dispatch(addESICAddress({type: "nominee", subtype: "street", val: nomineeStreet}));
+    dispatch(
+      addESICAddress({ type: "nominee", subtype: "street", val: nomineeStreet })
+    );
   }, [nomineeStreet]);
-  useEffect(() => {
-    dispatch(addESICAddress({type: "nominee", subtype: "state", val: nomineeState}));
-  }, [nomineeState]);
-  useEffect(() => {
-    dispatch(addESICAddress({type: "nominee", subtype: "district", val: nomineeDistrict}));
-  }, [nomineeDistrict]);
-  useEffect(() => {
-    dispatch(addESICAddress({type: "nominee", subtype: "pincode", val: nomineePincode}));
-  }, [nomineePincode]);
 
+  useEffect(() => {
+    dispatch(
+      addESICAddress({
+        type: "nominee",
+        subtype: "pincode",
+        val: nomineePincode,
+      })
+    );
+  }, [nomineePincode]);
 
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">

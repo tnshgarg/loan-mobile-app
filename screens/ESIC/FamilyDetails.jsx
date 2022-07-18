@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ScrollView, Text, TextInput, View } from "react-native";
 import { bankform, form, styles } from "../styles";
 import { Button } from "@react-native-material/core";
@@ -11,24 +11,6 @@ import { useNavigation } from "@react-navigation/core";
 export default FamilyDetails = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
- 
-  const fields = [
-    {
-      title: "Father's / Husband's Name *",
-      value: fatherHusbandName,
-      setValue: setRelationName,
-    },
-    {
-      title: "Relation with Employee (Father/Husband) *",
-      value: fatherHusbandRelation,
-      setValue: setRelation,
-    },
-    {
-      title: "Name of Nominee (As per Aadhaar card) *",
-      value: nomineeName,
-      setValue: setNomineeName,
-    },
-  ];
 
   const [fatherHusbandRelation, setRelation] = useState(
     useSelector((state) => state.esic.familyDetails.fatherHusband.relation)
@@ -44,37 +26,76 @@ export default FamilyDetails = () => {
   );
 
   useEffect(() => {
-    dispatch(addESICFamilyDetails({type: "fatherHusband", subtype: "relation", val: fatherHusbandRelation}));
+    dispatch(
+      addESICFamilyDetails({
+        type: "fatherHusband",
+        subtype: "relation",
+        val: fatherHusbandRelation,
+      })
+    );
   }, [fatherHusbandRelation]);
 
   useEffect(() => {
-    dispatch(addESICFamilyDetails({type: "fatherHusband", subtype: "name", val: fatherHusbandName}));
+    dispatch(
+      addESICFamilyDetails({
+        type: "fatherHusband",
+        subtype: "name",
+        val: fatherHusbandName,
+      })
+    );
   }, [fatherHusbandName]);
 
   useEffect(() => {
-    dispatch(addESICFamilyDetails({type: "nominee", subtype: "relation", val: nomineeRelation}));
+    dispatch(
+      addESICFamilyDetails({
+        type: "nominee",
+        subtype: "relation",
+        val: nomineeRelation,
+      })
+    );
   }, [nomineeRelation]);
 
   useEffect(() => {
-    dispatch(addESICFamilyDetails({type: "nominee", subtype: "name", val: nomineeName}));
+    dispatch(
+      addESICFamilyDetails({
+        type: "nominee",
+        subtype: "name",
+        val: nomineeName,
+      })
+    );
   }, [nomineeName]);
 
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
-      {fields.map((field, index) => {
-        return (
-          <>
-            <Text style={bankform.formtitle} key={index}>
-              {field.title}{" "}
-            </Text>
-            <TextInput
-              style={bankform.formInput}
-              value={field.value}
-              onChangeText={field.setValue}
-            />
-          </>
-        );
-      })}
+      <Text style={bankform.formtitle}>Father's / Husband's Name *</Text>
+      <TextInput
+        style={bankform.formInput}
+        value={fatherHusbandName}
+        onChangeText={setRelationName}
+      />
+
+      <Text style={bankform.formtitle}>
+        Relation with Employee (Father/Husband) *
+      </Text>
+      <Picker
+        style={form.picker}
+        prompt="Relation with Employee (Father/Husband) *"
+        selectedValue={fatherHusbandRelation}
+        onValueChange={setRelation}
+      >
+        <Picker.Item label="Father" value="Father" />
+        <Picker.Item label="Husband" value="Husband" />
+      </Picker>
+
+      <Text style={bankform.formtitle}>
+        Name of Nominee (As per Aadhaar card) *
+      </Text>
+      <TextInput
+        style={bankform.formInput}
+        value={nomineeName}
+        onChangeText={setNomineeName}
+      />
+
       <Text style={bankform.formtitle}>
         Nominee Relationship with Employee *
       </Text>
@@ -95,7 +116,6 @@ export default FamilyDetails = () => {
         color="#4E46F1"
         style={form.nextButton}
         onPress={() => {
-          onFinish();
           navigation.navigate("Benefits", {
             screen: "ESIC",
             params: {

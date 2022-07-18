@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ScrollView, Text, TextInput, View } from "react-native";
 import { bankform, form, styles } from "../styles";
 import { Button } from "@react-native-material/core";
@@ -18,26 +18,26 @@ export default Portal = () => {
   );
 
   useEffect(() => {
-    dispatch(addESICPortal({type: "estCode", val: estCode}));
+    dispatch(addESICPortal({ type: "estCode", val: estCode }));
   }, [estCode]);
 
   useEffect(() => {
-    dispatch(addESICPortal({type: "ipNumber", val: ipNumber}));
+    dispatch(addESICPortal({ type: "ipNumber", val: ipNumber }));
   }, [ipNumber]);
-  
+
   return (
     <>
       <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
         <Text style={bankform.formtitle}>Employer Establishment Code*</Text>
         <TextInput
           style={bankform.formInput}
-          value={eeCode}
+          value={estCode}
           onChangeText={setEstCode}
         />
         <Text style={bankform.formtitle}>IP Number</Text>
         <TextInput
           style={bankform.formInput}
-          value={esic}
+          value={ipNumber}
           onChangeText={setIpNumber}
         />
         <Button
@@ -47,7 +47,6 @@ export default Portal = () => {
           color="#4E46F1"
           style={form.nextButton}
           onPress={() => {
-            onFinish();
             navigation.navigate("Benefits", {
               screen: "ESIC",
               params: {

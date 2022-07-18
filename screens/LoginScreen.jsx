@@ -32,8 +32,10 @@ export default LoginScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [id, setId] = useState(null);
 
-  useEffect(() => {dispatch(addCurrentScreen("Login"))}, []);
-  
+  useEffect(() => {
+    dispatch(addCurrentScreen("Login"));
+  }, []);
+
   const onPhoneNumberPressed = async () => {
     try {
       const phn = await SmsRetriever.requestPhoneNumber();
