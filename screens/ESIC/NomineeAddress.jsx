@@ -4,38 +4,47 @@ import { bankform, form, styles } from "../styles";
 import { Button } from "@react-native-material/core";
 import StateDropdown from "../../components/StateDropdown";
 import { useDispatch, useSelector } from "react-redux";
-import { addNomineeAddress } from "../../store/slices/esicSlice";
+import { addESICAddress } from "../../store/slices/esicSlice";
 import { useNavigation } from "@react-navigation/core";
+
 export default NomineeAddress = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [nomStreet, setNomStreet] = useState(
-    useSelector((state) => state.esic.nomineeAddress["nomStreet"])
+
+  const [nomineeStreet, setNomineeStreet] = useState(
+    useSelector((state) => state.esic.address.nominee.street)
   );
-  const [nomState, setNomState] = useState(
-    useSelector((state) => state.esic.nomineeAddress["nomState"])
+  const [nomineeState, setNomineeState] = useState(
+    useSelector((state) => state.esic.address.nominee.state)
   );
-  const [nomPincode, setNomPincode] = useState(
-    useSelector((state) => state.esic.nomineeAddress["nomPincode"])
+  const [nomineeDistrict, setNomineeDistrict] = useState(
+    useSelector((state) => state.esic.address.nominee.district)
+  );
+  const [nomineePincode, setNomineePincode] = useState(
+    useSelector((state) => state.esic.address.nominee.pincode)
   );
 
-  const onFinish = () => {
-    dispatch(
-      addNomineeAddress({
-        "nomStreet": nomStreet,
-        "nomState": nomState,
-        "nomPincode": nomPincode,
-      })
-    );
-  };
+  useEffect(() => {
+    dispatch(addESICAddress({type: "nominee", subtype: "street", val: nomineeStreet}));
+  }, [nomineeStreet]);
+  useEffect(() => {
+    dispatch(addESICAddress({type: "nominee", subtype: "state", val: nomineeState}));
+  }, [nomineeState]);
+  useEffect(() => {
+    dispatch(addESICAddress({type: "nominee", subtype: "district", val: nomineeDistrict}));
+  }, [nomineeDistrict]);
+  useEffect(() => {
+    dispatch(addESICAddress({type: "nominee", subtype: "pincode", val: nomineePincode}));
+  }, [nomineePincode]);
+
 
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
       <Text style={bankform.formtitle}>Nominee Address Street *</Text>
       <TextInput
         style={bankform.formInput}
-        value={nomStreet}
-        onChangeText={setNomStreet}
+        value={nomineeStreet}
+        onChangeText={setNomineeStreet}
       />
       <StateDropdown
         stateTitle={"Nominee address State"}
@@ -44,8 +53,8 @@ export default NomineeAddress = () => {
       <Text style={bankform.formtitle}>Nominee Pincode *</Text>
       <TextInput
         style={bankform.formInput}
-        value={nomPincode}
-        onChangeText={setNomPincode}
+        value={nomineePincode}
+        onChangeText={setNomineePincode}
       />
       <Button
         uppercase={false}

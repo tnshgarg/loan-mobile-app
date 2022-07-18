@@ -1,27 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { ScrollView, Text, TextInput, View } from "react-native";
 import { bankform, form, styles } from "../styles";
 import { Button } from "@react-native-material/core";
 import { useDispatch, useSelector } from "react-redux";
-import { addEsic } from "../../store/slices/esicSlice";
+import { addESICPortal } from "../../store/slices/esicSlice";
 import { useNavigation } from "@react-navigation/core";
-export default ESIC = () => {
+
+export default Portal = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [esic, setEsic] = useState(
-    useSelector((state) => state.esic.esic["esic"])
+
+  const [estCode, setEstCode] = useState(
+    useSelector((state) => state.esic.portal.estCode)
   );
-  const [eeCode, setEECode] = useState(
-    useSelector((state) => state.esic.esic["eecode"])
+  const [ipNumber, setIpNumber] = useState(
+    useSelector((state) => state.esic.portal.ipNumber)
   );
-  const onFinish = () => {
-    dispatch(
-      addEsic({
-        "esic": esic,
-        "eecode": eeCode,
-      })
-    );
-  };
+
+  useEffect(() => {
+    dispatch(addESICPortal({type: "estCode", val: estCode}));
+  }, [estCode]);
+
+  useEffect(() => {
+    dispatch(addESICPortal({type: "ipNumber", val: ipNumber}));
+  }, [ipNumber]);
+  
   return (
     <>
       <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
@@ -29,13 +32,13 @@ export default ESIC = () => {
         <TextInput
           style={bankform.formInput}
           value={eeCode}
-          onChangeText={setEECode}
+          onChangeText={setEstCode}
         />
-        <Text style={bankform.formtitle}>ESIC Number</Text>
+        <Text style={bankform.formtitle}>IP Number</Text>
         <TextInput
           style={bankform.formInput}
           value={esic}
-          onChangeText={setEsic}
+          onChangeText={setIpNumber}
         />
         <Button
           uppercase={false}

@@ -19,21 +19,10 @@ const aadhaarSlice = createSlice({
   name: "aadhaar",
   initialState: initialState,
   reducers: {
-    addSubmitOTPtxnId(state, action) {
-      state.submitOTPtxnId = action.payload;
+    addAadhaarData(state, action) {
+      state.data = action.payload;
     },
-    addOCRData(state, action) {
-      switch (action.payload.type) {
-        case "AADHAAR_FRONT":
-          state.frontData = action.payload.data;
-          break;
-
-        case "AADHAAR_BACK":
-          state.backData = action.payload.data;
-          break;
-      }
-    },
-    addImage(state, action) {
+    addAadhaarImage(state, action) {
       switch (action.payload.type) {
         case "AADHAAR_FRONT":
           state.frontImg = action.payload.data;
@@ -43,23 +32,23 @@ const aadhaarSlice = createSlice({
           break;
       }
     },
-    defaultImage(state, action) {
+    addAadhaarNumber(state, action) {
+      state.number = action.payload;
+    },
+    addAadhaarOCRData(state, action) {
       switch (action.payload.type) {
         case "AADHAAR_FRONT":
-          state.frontImg = aadhaarFrontPlaceholder;
+          state.frontData = action.payload.data;
           break;
         case "AADHAAR_BACK":
-          state.backImg = aadhaarBackPlaceholder;
+          state.backData = action.payload.data;
           break;
       }
     },
-    addData(state, action) {
-      state.data = action.payload;
+    addAadhaarSubmitOTPtxnId(state, action) {
+      state.submitOTPtxnId = action.payload;
     },
-    addNumber(state, action) {
-      state.number = action.payload;
-    },
-    addVerifyStatus(state, action) {
+    addAadhaarVerifyStatus(state, action) {
       switch (action.payload.type) {
         case "OTP":
           state.verifyStatus.OTP = action.payload.status;
@@ -69,16 +58,27 @@ const aadhaarSlice = createSlice({
           break;
       }
     },
+    setAadhaarPlaceholderImage(state, action) {
+      switch (action.payload.type) {
+        case "AADHAAR_FRONT":
+          state.frontImg = aadhaarFrontPlaceholder;
+          break;
+        case "AADHAAR_BACK":
+          state.backImg = aadhaarBackPlaceholder;
+          break;
+      }
+    },
   },
 });
 
 export const {
-  addSubmitOTPtxnId,
-  addOCRData,
-  addData,
-  addNumber,
-  addVerifyStatus,
-  addImage,
-  defaultImage,
+  addAadhaarData,
+  addAadhaarImage,
+  addAadhaarNumber,
+  addAadhaarOCRData,
+  addAadhaarSubmitOTPtxnId,
+  addAadhaarVerifyStatus,
+  setAadhaarPlaceholderImage,
 } = aadhaarSlice.actions;
+
 export default aadhaarSlice.reducer;

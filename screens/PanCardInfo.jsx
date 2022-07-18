@@ -17,7 +17,7 @@ import { putPanData } from "../services/employees/employeeServices";
 import { bankform, checkBox, form, styles } from "./styles";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addNumber, addVerifyStatus } from "../store/slices/panSlice";
+import { addPanNumber, addPanVerifyStatus } from "../store/slices/panSlice";
 import { addCurrentScreen } from "../store/slices/navigationSlice";
 
 export default PanCardInfo = () => {
@@ -33,7 +33,7 @@ export default PanCardInfo = () => {
   useEffect(() => {
     if (pan.length === 10) {
       setNext(true);
-      dispatch(addNumber(pan));
+      dispatch(addPanNumber(pan));
     } else {
       setNext(false);
     }
@@ -66,7 +66,7 @@ export default PanCardInfo = () => {
               case "1001":
                 PanPush();
                 RetrievePAN();
-                dispatch(addVerifyStatus("SUCCESS"));
+                dispatch(addPanVerifyStatus("SUCCESS"));
                 break;
 
               case "1002":

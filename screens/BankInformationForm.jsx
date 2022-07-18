@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ProgressBarTop from "../components/ProgressBarTop";
 import { GenerateDocument } from "../helpers/GenerateDocument";
 import { putBankAccountData } from "../services/employees/employeeServices";
-import { addAccountNumber,  addAccountHolderName, addIfsc, addUpiId, addVerifyStatus } from "../store/slices/bankSlice";
+import { addBankAccountHolderName, addBankAccountNumber, addBankIfsc, addBankUpiId, addBankVerifyStatus } from "../store/slices/bankSlice";
 import { addCurrentScreen } from "../store/slices/navigationSlice";
 import { bankform, styles } from "./styles";
 
@@ -33,10 +33,10 @@ export default BankInformationForm = () => {
   const dispatch = useDispatch();
   
   useEffect(() => {dispatch(addCurrentScreen("BankInfoForm"))}, []);
-  useEffect(()=>{dispatch(addAccountNumber(accountNumber))}, [accountNumber]);
-  useEffect(()=>{dispatch(addAccountHolderName(accountHolderName))}, [accountHolderName]);
-  useEffect(()=>{dispatch(addIfsc(ifsc))}, [ifsc]);
-  useEffect(()=>{dispatch(addUpiId(upiId))}, [upiId]);
+  useEffect(()=>{dispatch(addBankAccountHolderName(accountHolderName))}, [accountHolderName]);
+  useEffect(()=>{dispatch(addBankAccountNumber(accountNumber))}, [accountNumber]);
+  useEffect(()=>{dispatch(addBankIfsc(ifsc))}, [ifsc]);
+  useEffect(()=>{dispatch(addBankUpiId(upiId))}, [upiId]);
 
   const fields = [
     {
@@ -123,7 +123,7 @@ export default BankInformationForm = () => {
                       {
                         text: "Yes",
                         onPress: () => {
-                          dispatch(addVerifyStatus("SUCCESS"));
+                          dispatch(addBankVerifyStatus("SUCCESS"));
                           navigation.navigate("PersonalDetailsForm");
                         },
                       },

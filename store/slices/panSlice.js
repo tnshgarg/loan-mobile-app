@@ -9,14 +9,14 @@ const panSlice = createSlice({
   name: "pan",
   initialState: initialState,
   reducers: {
-    addNumber(state, action) {
+    addPanNumber(state, action) {
       state.number = action.payload;
     },
-    addVerifyStatus(state, action) {
+    addPanVerifyStatus(state, action) {
       state.verifyStatus = action.payload;
     },
   },
 });
 
-export const { addNumber, addVerifyStatus } = panSlice.actions;
+export const { addPanNumber, addPanVerifyStatus } = panSlice.actions;
 export default panSlice.reducer;

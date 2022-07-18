@@ -9,8 +9,8 @@ import { form, styles } from "./styles";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addData,
-  addVerifyStatus,
+  addAadhaarData,
+  addAadhaarVerifyStatus,
 } from "../store/slices/aadhaarSlice";
 import { addCurrentScreen } from "../store/slices/navigationSlice";
 
@@ -29,7 +29,7 @@ export default AadhaarVerify = () => {
 
   useEffect(() => {dispatch(addCurrentScreen("AadhaarVerify"))}, []);
   useEffect(() => {
-    dispatch(addData(aadharData));
+    dispatch(addAadhaarData(aadharData));
   }, [aadharData]);
 
   async function confirmVerificationCode() {
@@ -57,7 +57,7 @@ export default AadhaarVerify = () => {
         navigation.navigate("AadhaarConfirm");
         {
           {
-            dispatch(addVerifyStatus({type:"OTP", status: "SUCCESS"}));
+            dispatch(addAadhaarVerifyStatus({type:"OTP", status: "SUCCESS"}));
           }
         }
       })

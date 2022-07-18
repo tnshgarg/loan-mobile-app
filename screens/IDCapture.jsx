@@ -7,7 +7,8 @@ import { Camera } from "./styles";
 const RNFS = require("react-native-fs");
 
 import { useDispatch } from "react-redux";
-import { addImage } from "../store/slices/aadhaarSlice";
+import { addAadhaarImage } from "../store/slices/aadhaarSlice";
+import { addSelfie } from "../store/slices/profileSlice";
 
 const PendingView = () => (
   <View style={Camera.wait}>
@@ -19,8 +20,13 @@ export default IDCapture = (props) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [id, setId] = useState(null);
+
   useEffect(() => {
-    dispatch(addImage({ data: id, type: props.route.params.type }));
+    if (props.route.params.type.match(/^AADHAAR_/)) {
+      dispatch(addAadhaarImage({ data: id, type: props.route.params.type }));
+    } else if (props.route.params.type.match(/^SELFIE_/)) {
+      dispatch(addSelfie({ data: id, type: props.route.params.type }));
+    }
   }, [id]);
 
   takePicture = async function (camera) {

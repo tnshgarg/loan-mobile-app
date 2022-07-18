@@ -7,6 +7,7 @@ const customData = require("../assets/state_districts.json");
 export default StateDropdown = (props) => {
   const [state, setState] = useState("");
   const [district, setDistrict] = useState("");
+  
   const states = Object.keys(customData);
   const [districts, setDistricts] = useState(["Please Choose a State"]);
 

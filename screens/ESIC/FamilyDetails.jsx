@@ -5,30 +5,22 @@ import { Button } from "@react-native-material/core";
 import { Picker } from "@react-native-picker/picker";
 import relations from "../../helpers/RelationData";
 import { useDispatch, useSelector } from "react-redux";
-import { addFamilyDetails } from "../../store/slices/esicSlice";
+import { addESICFamilyDetails } from "../../store/slices/esicSlice";
 import { useNavigation } from "@react-navigation/core";
+
 export default FamilyDetails = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const onFinish = () => {
-    dispatch(
-      addFamilyDetails({
-        "relationName": relationName,
-        "relation": relation,
-        "nomineeName": nomineeName,
-        "nomineeRelation": nomineeRelation,
-      })
-    );
-  };
+ 
   const fields = [
     {
       title: "Father's / Husband's Name *",
-      value: relationName,
+      value: fatherHusbandName,
       setValue: setRelationName,
     },
     {
       title: "Relation with Employee (Father/Husband) *",
-      value: relation,
+      value: fatherHusbandRelation,
       setValue: setRelation,
     },
     {
@@ -37,18 +29,35 @@ export default FamilyDetails = () => {
       setValue: setNomineeName,
     },
   ];
+
+  const [fatherHusbandRelation, setRelation] = useState(
+    useSelector((state) => state.esic.familyDetails.fatherHusband.relation)
+  );
+  const [fatherHusbandName, setRelationName] = useState(
+    useSelector((state) => state.esic.familyDetails.fatherHusband.name)
+  );
   const [nomineeRelation, setNomineeRelation] = useState(
-    useSelector((state) => state.esic.familyDetails["nomineeRelation"])
-  );
-  const [relation, setRelation] = useState(
-    useSelector((state) => state.esic.familyDetails["relation"])
-  );
-  const [relationName, setRelationName] = useState(
-    useSelector((state) => state.esic.familyDetails["relationName"])
+    useSelector((state) => state.esic.familyDetails.nominee.relation)
   );
   const [nomineeName, setNomineeName] = useState(
-    useSelector((state) => state.esic.familyDetails["nomineeName"])
+    useSelector((state) => state.esic.familyDetails.nominee.name)
   );
+
+  useEffect(() => {
+    dispatch(addESICFamilyDetails({type: "fatherHusband", subtype: "relation", val: fatherHusbandRelation}));
+  }, [fatherHusbandRelation]);
+
+  useEffect(() => {
+    dispatch(addESICFamilyDetails({type: "fatherHusband", subtype: "name", val: fatherHusbandName}));
+  }, [fatherHusbandName]);
+
+  useEffect(() => {
+    dispatch(addESICFamilyDetails({type: "nominee", subtype: "relation", val: nomineeRelation}));
+  }, [nomineeRelation]);
+
+  useEffect(() => {
+    dispatch(addESICFamilyDetails({type: "nominee", subtype: "name", val: nomineeName}));
+  }, [nomineeName]);
 
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">

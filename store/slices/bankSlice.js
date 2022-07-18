@@ -12,29 +12,29 @@ const bankSlice = createSlice({
   name: "bank",
   initialState: initialState,
   reducers: {
-    addAccountNumber(state, action) {
+    addBankAccountNumber(state, action) {
       state.accountNumber = action.payload;
     },
-    addAccountHolderName(state, action) {
-      state.accountHolderName = action.payload
+    addBankAccountHolderName(state, action) {
+      state.accountHolderName = action.payload;
     },
-    addIfsc(state, action) {
+    addBankIfsc(state, action) {
       state.ifsc = action.payload;
     },
-    addUpiId(state, action) {
+    addBankUpiId(state, action) {
       state.upiId = action.payload;
     },
-    addVerifyStatus(state, action) {
+    addBankVerifyStatus(state, action) {
       state.verifyStatus = action.payload;
     },
   },
 });
 
 export const {
-  addAccountNumber,
-  addAccountHolderName,
-  addIfsc,
-  addUpiId,
-  addVerifyStatus,
+  addBankAccountHolderName,
+  addBankAccountNumber,
+  addBankIfsc,
+  addBankUpiId,
+  addBankVerifyStatus,
 } = bankSlice.actions;
 export default bankSlice.reducer;

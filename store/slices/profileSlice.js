@@ -21,11 +21,11 @@ const profileSlice = createSlice({
     addEmail(state, action) {
       state.email = action.payload;
     },
-    addSelfie(state, action) {
-      state.selfie = action.payload;
-    },
     addMaritalStatus(state, action) {
       state.maritalStatus = action.payload;
+    },
+    addSelfie(state, action) {
+      state.selfie = action.payload;
     },
   },
 });
@@ -34,7 +34,7 @@ export const {
   addAlternatePhone,
   addEducationalQualification,
   addEmail,
-  addSelfie,
   addMaritalStatus,
+  addSelfie,
 } = profileSlice.actions;
 export default profileSlice.reducer;

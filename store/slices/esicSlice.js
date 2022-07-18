@@ -1,32 +1,38 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  esic: {"eecode":"","esic":""},
-  familyDetails: {"relationName":"","relation":"","nomineeName":"","nomineeRelation":""},
-  address: {"presentStreet":"","presentState":"","presentPincode":"","permStreet":"","permState":"","permPincode":""},
-  nomineeAddress: {"nomStreet":"","nomState":"","nomPincode":""},
+  portal: { estCode: "", ipNumber: "" },
+  familyDetails: {
+    fatherHusband: { relation: "", name: "" },
+    nominee: { relation: "", name: "" },
+  },
+  address: {
+    present: { street: "", state: "", district: "", pincode: "" },
+    permanent: { street: "", state: "", district: "", pincode: "" },
+    nominee: { street: "", state: "", district: "", pincode: "" },
+  },
 };
 
 const esicSlice = createSlice({
   name: "esic",
   initialState: initialState,
   reducers: {
-    addEsic(state, action) {
-      state.esic = action.payload;
+    addESICPortal(state, action) {
+      state.portal[action.payload.type] = action.payload.val;
     },
-    addFamilyDetails(state, action) {
-      state.familyDetails = action.payload;
+    addESICFamilyDetails(state, action) {
+      state.familyDetails[action.payload.type][action.payload.subtype] =
+        action.payload.familyDetails;
     },
-    addAddress(state, action) {
-      state.address = action.payload;
-    },
-    addNomineeAddress(state, action) {
-      state.nomineeAddress = action.payload;
+    addESICAddress(state, action) {
+      state.address[action.payload.type][action.payload.subtype] =
+        action.payload.address;
     },
   },
 });
 
-export const { addEsic, addFamilyDetails, addAddress, addNomineeAddress } = esicSlice.actions;
+export const { addESICPortal, addESICFamilyDetails, addESICAddress } =
+  esicSlice.actions;
 export default esicSlice.reducer;
 
 // YTBD
