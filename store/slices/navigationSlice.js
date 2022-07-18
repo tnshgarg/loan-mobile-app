@@ -9,7 +9,7 @@ const navigationSlice = createSlice({
   initialState: initialState,
   reducers: {
     addCurrentScreen(state, action) {
-      state.alternatePhone = action.payload;
+      state.currentScreen = action.payload;
     },
   },
 });

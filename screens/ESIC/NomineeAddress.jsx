@@ -9,13 +9,23 @@ import { useNavigation } from "@react-navigation/core";
 export default NomineeAddress = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [nomStreet, setNomStreet] = useState(useSelector((state) => state.esic.nomineeAddress["nomStreet"]));
-  const [nomState, setNomState] = useState(useSelector((state) => state.esic.nomineeAddress["nomState"]));
-  const [nomPincode, setNomPincode] = useState(useSelector((state) => state.esic.nomineeAddress["nomPincode"]));
+  const [nomStreet, setNomStreet] = useState(
+    useSelector((state) => state.esic.nomineeAddress["nomStreet"])
+  );
+  const [nomState, setNomState] = useState(
+    useSelector((state) => state.esic.nomineeAddress["nomState"])
+  );
+  const [nomPincode, setNomPincode] = useState(
+    useSelector((state) => state.esic.nomineeAddress["nomPincode"])
+  );
 
   const onFinish = () => {
     dispatch(
-      addNomineeAddress({"nomStreet":nomStreet,"nomState":nomState,"nomPincode":nomPincode})
+      addNomineeAddress({
+        "nomStreet": nomStreet,
+        "nomState": nomState,
+        "nomPincode": nomPincode,
+      })
     );
   };
 

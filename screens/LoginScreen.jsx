@@ -205,7 +205,6 @@ export default LoginScreen = () => {
             </View>
           </TouchableOpacity>
         )}
-        <Button onPress={navigation.navigate("Home")}></Button>
       </ScrollView>
     </SafeAreaView>
   );
