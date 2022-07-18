@@ -125,6 +125,7 @@ export default OTPScreen = () => {
                 sendSmsVerification(phoneNumber).then((sent) => {
                   console.log("Sent!");
                 });
+                setOtp("");
               }}
             >
               Resend
@@ -146,6 +147,7 @@ export default OTPScreen = () => {
                 checkVerification(phoneNumber, otp).then((success) => {
                   if (!success) Alert.alert("err", "Incorrect OTP");
                   success && navigation.navigate("AadhaarForm");
+                  console.log(phoneNumber,otp)
                   dispatch(addVerifyStatus("SUCCESS"));
                   SmsRetriever.removeSmsListener();
                 });

@@ -38,7 +38,7 @@ export default LoginScreen = () => {
     try {
       const phn = await SmsRetriever.requestPhoneNumber();
       console.log(phn);
-      setPhoneNumber(phn);
+      setPhoneNumber(`+91${phn}`);
     } catch (error) {
       console.log(JSON.stringify(error));
     }
@@ -81,13 +81,13 @@ export default LoginScreen = () => {
   //   })}, [session]);
 
   const signIn = () => {
-    sendSmsVerification(`+91${phoneNumber}`)
+    sendSmsVerification(phoneNumber)
       .then((sent) => {
         console.log("Sent!");
         setIsLoading(true);
         var phonePayload = GenerateDocument({
           src: "otp",
-          number: `+91${phoneNumber}`,
+          number: phoneNumber,
         });
         putMobileData(phonePayload)
           .then((res) => {
@@ -114,7 +114,7 @@ export default LoginScreen = () => {
   }, [id]);
 
   useEffect(() => {
-    dispatch(addPhoneNumber(phoneNumber));
+    dispatch(addPhoneNumber(`+91${phoneNumber}`));
   }, [phoneNumber]);
 
   useEffect(() => {

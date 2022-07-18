@@ -32,15 +32,13 @@ export default PersonalImage = () => {
       src: "Profile",
       id: id,
       maritalStatus: Profile["maritalStatus"],
-      qualification: Profile["education"],
-      altMobile: Profile["altnum"],
+      qualification: Profile["educationalQualification"],
+      altMobile: Profile["alternatePhone"],
       email: Profile["email"],
       photo: imageData,
     });
     putProfileData(profilePayload)
       .then((res) => {
-        console.log(profilePayload);
-        console.log(res.data);
         Alert.alert("Message", res.data["message"]);
         navigation.navigate("Home");
       })
@@ -73,8 +71,6 @@ export default PersonalImage = () => {
   }, []);
 
   const imageData = pickerResponse?.assets && pickerResponse.assets[0].base64;
-
-  console.log("asdasd", placeholder);
   return (
     <>
       <SafeAreaView style={styles.container}>

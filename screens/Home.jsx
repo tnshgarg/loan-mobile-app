@@ -1,6 +1,6 @@
 import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import React from "react";
+import React, { useEffect } from "react";
 import { Image, SafeAreaView } from "react-native";
 import BottomTabNav from "../components/BottomTabNav";
 import HomeView from "./HomeView";
@@ -40,11 +40,13 @@ export default Home = () => {
   //     console.log("No user to sign out");
   //   }
   // };
-  
+
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
-  useEffect(() => {dispatch(addCurrentScreen("Home"))}, []);
+  useEffect(() => {
+    dispatch(addCurrentScreen("Home"));
+  }, []);
 
   return (
     <>

@@ -28,8 +28,8 @@ import {
 import { addCurrentScreen } from "../store/slices/navigationSlice";
 
 export default AadhaarForm = () => {
-  const aadhaarFront = useSelector((state) => state.aadhaar.frontimg);
-  const aadhaarBack = useSelector((state) => state.aadhaar.backimg);
+  const aadhaarFront = useSelector((state) => state.aadhaar.frontImg);
+  const aadhaarBack = useSelector((state) => state.aadhaar.backImg);
   const id = useSelector((state) => state.auth.userId);
   const [consent, setConsent] = useState(false);
   const [aadhaar, setAadhaar] = useState(

@@ -399,9 +399,8 @@ export const Camera = StyleSheet.create({
     color: "#fff",
   },
   back: {
-    flex: 0,
     backgroundColor: "rgba(78, 70, 241, 0.9)",
-    borderRadius: 25,
+    borderRadius: 30,
     padding: 10,
     alignSelf: "center",
     marginTop: 10,

@@ -109,7 +109,6 @@ export default PersonalDetailsForm = () => {
             style={form.nextButton}
             color="#4E46F1"
             onPress={() => {
-              onFinish();
               navigation.navigate("PersonalImage");
             }}
           />
