@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  userId: "62be55b1bb8d55cb4644801b",
+  userId: "", //TODO: this should be fetched from AsyncStorage
   phoneNumber: "",
+  verifyStatus: "PENDING",
 };
 
 const authSlice = createSlice({
@@ -15,8 +16,11 @@ const authSlice = createSlice({
     addId(state, action) {
       state.userId = action.payload;
     },
+    addVerifyStatus(state, action) {
+      state.verifyStatus = action.payload;
+    },
   },
 });
 
-export const { addId, addPhoneNumber } = authSlice.actions;
+export const { addId, addPhoneNumber, addVerifyStatus } = authSlice.actions;
 export default authSlice.reducer;

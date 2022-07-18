@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { aadhaarFrontPlaceholder, aadhaarBackPlaceholder } from "../../helpers/base64";
+import {
+  aadhaarFrontPlaceholder,
+  aadhaarBackPlaceholder,
+} from "../../helpers/base64";
 
 const initialState = {
   submitOTPtxnId: "",
@@ -7,9 +10,9 @@ const initialState = {
   backData: "",
   number: "",
   data: "",
-  verifyStatus: "",
-  frontimg: aadhaarFrontPlaceholder,
-  backimg: aadhaarBackPlaceholder,
+  verifyStatus: { OCR: "PENDING", OTP: "PENDING" },
+  frontImg: aadhaarFrontPlaceholder,
+  backImg: aadhaarBackPlaceholder,
 };
 
 const aadhaarSlice = createSlice({
@@ -33,10 +36,20 @@ const aadhaarSlice = createSlice({
     addImage(state, action) {
       switch (action.payload.type) {
         case "AADHAAR_FRONT":
-          state.aadhaarFront = action.payload.data;
+          state.frontImg = action.payload.data;
           break;
         case "AADHAAR_BACK":
-          state.aadhaarBack = action.payload.data;
+          state.backImg = action.payload.data;
+          break;
+      }
+    },
+    defaultImage(state, action) {
+      switch (action.payload.type) {
+        case "AADHAAR_FRONT":
+          state.frontImg = aadhaarFrontPlaceholder;
+          break;
+        case "AADHAAR_BACK":
+          state.backImg = aadhaarBackPlaceholder;
           break;
       }
     },
@@ -47,7 +60,14 @@ const aadhaarSlice = createSlice({
       state.number = action.payload;
     },
     addVerifyStatus(state, action) {
-      state.verifyStatus = action.payload;
+      switch (action.payload.type) {
+        case "OTP":
+          state.verifyStatus.OTP = action.payload.status;
+          break;
+        case "OCR":
+          state.verifyStatus.OCR = action.payload.status;
+          break;
+      }
     },
   },
 });
@@ -59,5 +79,6 @@ export const {
   addNumber,
   addVerifyStatus,
   addImage,
+  defaultImage,
 } = aadhaarSlice.actions;
 export default aadhaarSlice.reducer;

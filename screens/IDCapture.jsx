@@ -20,7 +20,7 @@ export default IDCapture = (props) => {
   const dispatch = useDispatch();
   const [id, setId] = useState(null);
   useEffect(() => {
-    dispatch(addImage({ data: id, type: props.route.params }));
+    dispatch(addImage({ data: id, type: props.route.params.type }));
   }, [id]);
 
   takePicture = async function (camera) {

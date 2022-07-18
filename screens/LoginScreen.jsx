@@ -22,16 +22,18 @@ import { sendSmsVerification } from "../services/otp/Twilio/verify";
 
 import { useDispatch } from "react-redux";
 import { addId, addPhoneNumber } from "../store/slices/authSlice";
+import { addCurrentScreen } from "../store/slices/navigationSlice";
 
 export default LoginScreen = () => {
   const navigation = useNavigation();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [next, setNext] = useState(false);
   const dispatch = useDispatch();
-  const password = Math.random().toString(8) + "Abc#";
   const [isLoading, setIsLoading] = useState(false);
   const [id, setId] = useState(null);
-  const customData = require("../assets/state_districts.json");
+
+  useEffect(() => {dispatch(addCurrentScreen("Login"))}, []);
+  
   const onPhoneNumberPressed = async () => {
     try {
       const phn = await SmsRetriever.requestPhoneNumber();

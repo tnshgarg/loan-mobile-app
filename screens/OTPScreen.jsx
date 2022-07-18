@@ -12,18 +12,22 @@ import { Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { styles } from "./styles";
 import SmsRetriever from "react-native-sms-retriever";
-import { checkVerification } from "../services/otp/Twilio/verify";
+import { checkVerification, sendSmsVerification } from "../services/otp/Twilio/verify";
 import CountDown from "react-native-countdown-component";
-import { sendSmsVerification } from "../services/otp/Twilio/verify";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addVerifyStatus } from "../store/slices/authSlice";
+import { addCurrentScreen } from "../store/slices/navigationSlice";
 
 export default OTPScreen = () => {
-  const phonenumber = useSelector((state) => state.auth.phoneNumber);
+  const phoneNumber = useSelector((state) => state.auth.phoneNumber);
   const navigation = useNavigation();
   const [otp, setOtp] = useState("");
   const [next, setNext] = useState(false);
   const [user, setUser] = useState(null);
   const [back, setBack] = useState(false);
+
+  const dispatch = useDispatch();
+  useEffect(() => {dispatch(addCurrentScreen("Otp"))}, []);
 
   // HHrHWFsvgjF
 
@@ -71,7 +75,7 @@ export default OTPScreen = () => {
           <Text style={styles.headline}>
             {" "}
             Please wait, we will auto verify the OTP {"\n"} sent to{" "}
-            {phonenumber}
+            {phoneNumber}
             {back ? (
               <Icon
                 name="edit"
@@ -118,7 +122,7 @@ export default OTPScreen = () => {
             <Text
               style={styles.resendText}
               onPress={() => {
-                sendSmsVerification(phonenumber).then((sent) => {
+                sendSmsVerification(phoneNumber).then((sent) => {
                   console.log("Sent!");
                 });
               }}
@@ -139,9 +143,10 @@ export default OTPScreen = () => {
               color="#4E46F1"
               style={styles.ContinueButton}
               onPress={() => {
-                checkVerification(phonenumber, otp).then((success) => {
+                checkVerification(phoneNumber, otp).then((success) => {
                   if (!success) Alert.alert("err", "Incorrect OTP");
                   success && navigation.navigate("AadhaarForm");
+                  dispatch(addVerifyStatus("SUCCESS"));
                   SmsRetriever.removeSmsListener();
                 });
               }}

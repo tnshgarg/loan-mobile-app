@@ -11,26 +11,26 @@ const GenerateDocument = (props) => {
     case "AadhaarOTP":
       document = {
         id: props.id,
-        aadhaarNumber: props.aadhaar,
+        number: props.aadhaar,
         base64_data: props.xml,
-        method: "OTP",
-        status: "",
-        message: "",
+        verifyMode: "OTP",
+        verifyStatus: "",
+        verifyMsg: "",
       };
       break;
 
     case "AadhaarOCR":
       document = {
         id: props.id,
-        aadhaarNumber: props.frontaadhaarData["document_id"],
+        number: props.frontaadhaarData["document_id"],
         base64_data: base64.encode({
           gender: props.frontaadhaarData["gender"],
           name: props.frontaadhaarData["name"],
           address: props.backaadhaarData["address"],
         }),
-        method: "OCR",
-        status: "",
-        message: "",
+        verifyMode: "OCR",
+        verifyStatus: "",
+        verifyMsg: "",
       };
       break;
 

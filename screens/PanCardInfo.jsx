@@ -17,7 +17,8 @@ import { putPanData } from "../services/employees/employeeServices";
 import { bankform, checkBox, form, styles } from "./styles";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addNumber, setVerifyStatus } from "../store/slices/panSlice";
+import { addNumber, addVerifyStatus } from "../store/slices/panSlice";
+import { addCurrentScreen } from "../store/slices/navigationSlice";
 
 export default PanCardInfo = () => {
   const navigation = useNavigation();
@@ -28,6 +29,7 @@ export default PanCardInfo = () => {
   const [panName, setPanName] = useState("");
   const [birthday, setBirthday] = useState("");
 
+  useEffect(() => {dispatch(addCurrentScreen("PanCardInfo"))}, []);
   useEffect(() => {
     if (pan.length === 10) {
       setNext(true);
@@ -64,7 +66,7 @@ export default PanCardInfo = () => {
               case "1001":
                 PanPush();
                 RetrievePAN();
-                dispatch(setVerifyStatus(true));
+                dispatch(addVerifyStatus("SUCCESS"));
                 break;
 
               case "1002":
@@ -77,20 +79,17 @@ export default PanCardInfo = () => {
                       "Pan Number Verification status",
                       `Partial details matched, Please Check DOB.`
                     );
-                dispatch(setVerifyStatus(false));
+                
                 break;
-
               case "1004":
                 Alert.alert(
                   "Pan Number Verification status",
                   `PAN number incorrect.`
                 );
-                dispatch(setVerifyStatus(false));
                 break;
             }
           } else {
             Alert.alert("Error", response["error"]["message"]);
-            dispatch(setVerifyStatus(false));
           }
         }
       })

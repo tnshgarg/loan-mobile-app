@@ -9,9 +9,10 @@ import { form, styles } from "./styles";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addAadhaarData,
-  addAadhaarVerifedStatus,
+  addData,
+  addVerifyStatus,
 } from "../store/slices/aadhaarSlice";
+import { addCurrentScreen } from "../store/slices/navigationSlice";
 
 export default AadhaarVerify = () => {
   const navigation = useNavigation();
@@ -26,8 +27,9 @@ export default AadhaarVerify = () => {
   );
   const [back, setBack] = useState(false);
 
+  useEffect(() => {dispatch(addCurrentScreen("AadhaarVerify"))}, []);
   useEffect(() => {
-    dispatch(addAadhaarData(aadharData));
+    dispatch(addData(aadharData));
   }, [aadharData]);
 
   async function confirmVerificationCode() {
@@ -55,7 +57,7 @@ export default AadhaarVerify = () => {
         navigation.navigate("AadhaarConfirm");
         {
           {
-            dispatch(addAadhaarVerifedStatus("OTP_VERIFIED"));
+            dispatch(addVerifyStatus({type:"OTP", status: "SUCCESS"}));
           }
         }
       })
@@ -79,6 +81,7 @@ export default AadhaarVerify = () => {
           <IconButton
             icon={<Icon name="arrow-back" size={20} color="white" />}
             onPress={() => navigation.goBack()}
+            disabled={!back}
           />
         }
       />

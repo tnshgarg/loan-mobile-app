@@ -15,13 +15,15 @@ import { putAadhaarData } from "../services/employees/employeeServices";
 import { bankform, form, styles } from "./styles";
 
 import { useSelector } from "react-redux";
+import { addCurrentScreen } from "../store/slices/navigationSlice";
 
 export default AadhaarConfirm = () => {
   const navigation = useNavigation();
   const AadhaarData = useSelector((state) => state.aadhaar.aadhaarData);
   const aadhaar = useSelector((state) => state.aadhaar.aadhaar);
   const id = useSelector((state) => state.auth.userId);
-  
+
+  useEffect(() => {dispatch(addCurrentScreen("AadhaarConfirm"))}, []);
   const onConfirm = () => {
     var aadhaarPayload = GenerateDocument({
       src: "AadhaarOTP",

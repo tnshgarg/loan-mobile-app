@@ -5,6 +5,8 @@ import { Image, SafeAreaView } from "react-native";
 import BottomTabNav from "../components/BottomTabNav";
 import HomeView from "./HomeView";
 import { buttons, nav } from "./styles";
+import { useDispatch } from "react-redux";
+import { addCurrentScreen } from "../store/slices/navigationSlice";
 
 // import Amplify from "@aws-amplify/core";
 // import Auth from "@aws-amplify/auth";
@@ -38,7 +40,12 @@ export default Home = () => {
   //     console.log("No user to sign out");
   //   }
   // };
+  
   const navigation = useNavigation();
+
+  const dispatch = useDispatch();
+  useEffect(() => {dispatch(addCurrentScreen("Home"))}, []);
+
   return (
     <>
       <SafeAreaView style={{ flex: 1 }}>

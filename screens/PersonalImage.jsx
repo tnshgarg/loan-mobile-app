@@ -14,16 +14,19 @@ import { useDispatch, useSelector } from "react-redux";
 import ProgressBarTop from "../components/ProgressBarTop";
 import { GenerateDocument } from "../helpers/GenerateDocument";
 import { putProfileData } from "../services/employees/employeeServices";
-import { addImage } from "../store/slices/imageSlice";
+import { addSelfie } from "../store/slices/profileSlice";
+import { addCurrentScreen } from "../store/slices/navigationSlice";
 import { checkBox, form, selfie, styles } from "./styles";
 
 export default PersonalImage = () => {
   const navigation = useNavigation();
   const [pickerResponse, setPickerResponse] = useState(null);
   const id = useSelector((state) => state.auth.userId);
-  const placeholder = useSelector((state) => state.image.selfie);
-  const Profile = useSelector((state) => state.profile.profile);
+  const placeholder = useSelector((state) => state.profile.selfie);
+  const Profile = useSelector((state) => state.profile);
   const dispatch = useDispatch();
+
+  useEffect(() => {dispatch(addCurrentScreen("PersonalImage"))}, []);
   const ProfilePush = () => {
     var profilePayload = GenerateDocument({
       src: "Profile",
@@ -47,7 +50,7 @@ export default PersonalImage = () => {
   };
 
   useEffect(() => {
-    dispatch(addImage(imageData));
+    dispatch(addSelfie(imageData));
   }, [imageData]);
 
   const onImageLibraryPress = useCallback(() => {

@@ -1,7 +1,7 @@
 import { OG_API_KEY } from "@env";
 import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   SafeAreaView,
@@ -15,7 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import ProgressBarTop from "../components/ProgressBarTop";
 import { GenerateDocument } from "../helpers/GenerateDocument";
 import { putBankAccountData } from "../services/employees/employeeServices";
-import { addBank } from "../store/slices/bankSlice";
+import { addAccountNumber,  addAccountHolderName, addIfsc, addUpiId, addVerifyStatus } from "../store/slices/bankSlice";
+import { addCurrentScreen } from "../store/slices/navigationSlice";
 import { bankform, styles } from "./styles";
 
 export default BankInformationForm = () => {
@@ -28,8 +29,14 @@ export default BankInformationForm = () => {
   const [accountHolderName, setAccountHolderName] = useState(
     useSelector((state) => state.bank.holderName)
   );
-  const [upiID, setUpiId] = useState(useSelector((state) => state.bank.upi));
+  const [upiId, setUpiId] = useState(useSelector((state) => state.bank.upi));
   const dispatch = useDispatch();
+  
+  useEffect(() => {dispatch(addCurrentScreen("BankInfoForm"))}, []);
+  useEffect(()=>{dispatch(addAccountNumber(accountNumber))}, [accountNumber]);
+  useEffect(()=>{dispatch(addAccountHolderName(accountHolderName))}, [accountHolderName]);
+  useEffect(()=>{dispatch(addIfsc(ifsc))}, [ifsc]);
+  useEffect(()=>{dispatch(addUpiId(upiId))}, [upiId]);
 
   const fields = [
     {
@@ -58,7 +65,7 @@ export default BankInformationForm = () => {
     },
     {
       title: "UPI ID",
-      value: upiID,
+      value: upiId,
       setvalue: setUpiId,
       requiredStatus: false,
       tooltip:
@@ -69,11 +76,10 @@ export default BankInformationForm = () => {
   const BankPush = () => {
     var bankPayload = GenerateDocument({
       src: "Bank",
-      type: "front",
       id: id,
       ifsc: ifsc,
       accountNumber: accountNumber,
-      upi: upiID,
+      upi: upiId,
     });
     putBankAccountData(bankPayload)
       .then((res) => {
@@ -117,15 +123,8 @@ export default BankInformationForm = () => {
                       {
                         text: "Yes",
                         onPress: () => {
-                          navigation.navigate("PersonlInfoForm");
-                          dispatch(
-                            addBank({
-                              accountNumber: accountNumber,
-                              ifsc: ifsc,
-                              upi: upiID,
-                              holderName: accountHolderName,
-                            })
-                          );
+                          dispatch(addVerifyStatus("SUCCESS"));
+                          navigation.navigate("PersonalDetailsForm");
                         },
                       },
                       {

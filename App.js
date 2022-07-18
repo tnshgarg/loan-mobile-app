@@ -55,7 +55,7 @@ export default function App() {
                   }}
                 />
                 <Stack.Screen
-                  name="PersonlInfoForm"
+                  name="PersonalDetailsForm"
                   component={PersonalDetailsForm}
                   options={{
                     headerShown: false,

@@ -3,22 +3,38 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   accountNumber: "",
   ifsc: "",
-  upi: "",
-  holderName: "",
+  upiId: "",
+  accountHolderName: "",
+  verifyStatus: "PENDING",
 };
 
 const bankSlice = createSlice({
   name: "bank",
   initialState: initialState,
   reducers: {
-    addBank(state, action) {
+    addAccountNumber(state, action) {
       state.accountNumber = action.payload.accountNumber;
+    },
+    addAccountHolderName(state, action) {
+      state.accountHolderName = action.payload.accountHolderName;
+    },
+    addIfsc(state, action) {
       state.ifsc = action.payload.ifsc;
-      state.upi = action.payload.upi;
-      state.holderName = action.payload.holderName;
+    },
+    addUpiId(state, action) {
+      state.upiId = action.payload.upiId;
+    },
+    addVerifyStatus(state, action) {
+      state.verifyStatus = action.payload;
     },
   },
 });
 
-export const { addBank } = bankSlice.actions;
+export const {
+  addAccountNumber,
+  addAccountHolderName,
+  addIfsc,
+  addUpiId,
+  addVerifyStatus,
+} = bankSlice.actions;
 export default bankSlice.reducer;

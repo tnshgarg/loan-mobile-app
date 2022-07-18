@@ -1,12 +1,14 @@
 import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, Text, TextInput, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import ProgressBarTop from "../components/ProgressBarTop";
-import { addProfile } from "../store/slices/profileSlice";
+import { addAlternatePhone, addEducationalQualification, addEmail, addMaritalStatus} from "../store/slices/profileSlice";
+import { addCurrentScreen } from "../store/slices/navigationSlice";
 import { bankform, form, styles } from "./styles";
+
 
 export default PersonalDetailsForm = () => {
   const educationalQualifications = [
@@ -17,22 +19,19 @@ export default PersonalDetailsForm = () => {
     "None of the Above",
   ];
   const maritalStatuses = ["Unmarried", "Married"];
-  const [maritalStatus, setMaritalStatus] = useState(useSelector((state) => state.profile.profile["maritalStatus"]));
-  const [educationalQualification, setEducationallQualification] = useState(useSelector((state) => state.profile.profile["education"]));
-  const [alternatePhone, setAlternatePhone] = useState(useSelector((state) => state.profile.profile["altnum"]));
-  const [email, setEmail] = useState(useSelector((state) => state.profile.profile["email"]));
+  const [maritalStatus, setMaritalStatus] = useState(useSelector((state) => state.profile["maritalStatus"]));
+  const [educationalQualification, setEducationallQualification] = useState(useSelector((state) => state.profile["educationalQualification"]));
+  const [alternatePhone, setAlternatePhone] = useState(useSelector((state) => state.profile["alternatePhone"]));
+  const [email, setEmail] = useState(useSelector((state) => state.profile["email"]));
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const onFinish = () => {
-    dispatch(
-      addProfile({
-        maritalStatus: maritalStatus,
-        education: educationalQualification,
-        altnum: alternatePhone,
-        email: email,
-      })
-    );
-  };
+  
+  useEffect(() => {dispatch(addCurrentScreen("PersonalDetailsForm"))}, []);
+  useEffect(() => {dispatch(addMaritalStatus(maritalStatus))}, [maritalStatus]);
+  useEffect(() => {dispatch(addEducationalQualification(educationalQualification))}, [educationalQualification]);
+  useEffect(() => {dispatch(addAlternatePhone(alternatePhone))}, [alternatePhone]);
+  useEffect(() => {dispatch(addEmail(email))}, [email]);
+
   return (
     <>
       <SafeAreaView style={styles.container}>

@@ -19,17 +19,13 @@ import { bankform, Camera, checkBox, form, styles } from "./styles";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addImage,
+  defaultImage,
   addNumber,
   addOCRData,
   addSubmitOTPtxnId,
   addVerifyStatus,
 } from "../store/slices/aadhaarSlice";
-
-import {
-  aadhaarFrontPlaceholder,
-  aadhaarBackPlaceholder,
-} from "../helpers/base64";
+import { addCurrentScreen } from "../store/slices/navigationSlice";
 
 export default AadhaarForm = () => {
   const aadhaarFront = useSelector((state) => state.aadhaar.frontimg);
@@ -45,31 +41,32 @@ export default AadhaarForm = () => {
     useSelector((state) => state.aadhaar.submitOTPtxnId)
   );
   const dispatch = useDispatch();
-  const [frontaadhaarData, setFrontAadhaarData] = useState(
+  const [frontAadhaarData, setFrontAadhaarData] = useState(
     useSelector((state) => state.aadhaar.frontData)
   );
-  const [backaadhaarData, setBackAadhaarData] = useState(
+  const [backAadhaarData, setBackAadhaarData] = useState(
     useSelector((state) => state.aadhaar.backData)
   );
   const [aadhaarFrontVerified, setAadhaarFrontVerified] = useState(false);
   const [aadhaarBackVerified, setAadhaarBackVerified] = useState(false);
   const [aadhaarLinked, setAadhaarLinked] = useState(true);
 
+  useEffect(() => {dispatch(addCurrentScreen("AadhaarForm"))}, []);
   useEffect(() => {
     dispatch(addSubmitOTPtxnId(transactionId));
   }, [transactionId]);
 
   useEffect(() => {
-    dispatch(addOCRData({ data: frontaadhaarData, type: "AADHAAR_FRONT" }));
-  }, [frontaadhaarData]);
+    dispatch(addOCRData({ data: frontAadhaarData, type: "AADHAAR_FRONT" }));
+  }, [frontAadhaarData]);
 
   useEffect(() => {
     dispatch(addNumber(aadhaar));
   }, [aadhaar]);
 
   useEffect(() => {
-    dispatch(addOCRData({ data: backaadhaarData, type: "AADHAAR_BACK" }));
-  }, [backaadhaarData]);
+    dispatch(addOCRData({ data: backAadhaarData, type: "AADHAAR_BACK" }));
+  }, [backAadhaarData]);
 
   useEffect(() => {
     if (aadhaar.length === 12) {
@@ -83,8 +80,8 @@ export default AadhaarForm = () => {
     var aadhaarPayload = GenerateDocument({
       src: "AadhaarOCR",
       id: id,
-      frontaadhaarData: frontaadhaarData,
-      backaadhaarData: backaadhaarData,
+      frontAadhaarData: frontAadhaarData,
+      backAadhaarData: backAadhaarData,
     });
     putAadhaarData(aadhaarPayload)
       .then((res) => {
@@ -197,7 +194,7 @@ export default AadhaarForm = () => {
         <>
           {alert("Aadhar Verified through OCR.")}
           {navigation.navigate("PanCardInfo")}
-          {dispatch(addVerifyStatus("OCR_VERIFIED"))}
+          {dispatch(addVerifyStatus({type:"OCR", status: "SUCCESS"}))}
           {AadharPush()}
         </>
       ) : null;
@@ -315,7 +312,7 @@ export default AadhaarForm = () => {
                   icon={<Icon name="camera-alt" size={20} color="black" />}
                   style={Camera.cameraButton}
                   onPress={() => {
-                    navigation.navigate("IDCapture", "AADHAAR_FRONT");
+                    navigation.navigate("IDCapture", {type: "AADHAAR_FRONT"});
                   }}
                 />
                 <IconButton
@@ -323,8 +320,7 @@ export default AadhaarForm = () => {
                   style={Camera.cameraButton}
                   onPress={() => {
                     dispatch(
-                      addImage({
-                        data: aadhaarFrontPlaceholder,
+                      defaultImage({
                         type: "AADHAAR_FRONT",
                       })
                     );
@@ -343,7 +339,7 @@ export default AadhaarForm = () => {
                   icon={<Icon name="camera-alt" size={20} color="black" />}
                   style={Camera.cameraButton}
                   onPress={() => {
-                    navigation.navigate("IDCapture", "AADHAAR_BACK");
+                    navigation.navigate("IDCapture", {type: "AADHAAR_BACK"});
                   }}
                 />
                 <IconButton
@@ -351,8 +347,7 @@ export default AadhaarForm = () => {
                   style={Camera.cameraButton}
                   onPress={() => {
                     dispatch(
-                      addImage({
-                        data: aadhaarBackPlaceholder,
+                      defaultImage({
                         type: "AADHAAR_BACK",
                       })
                     );

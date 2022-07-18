@@ -18,11 +18,11 @@ export const putMobileData = (document) => {
 export const putAadhaarData = (document) => {
   const body = {
     id: document.id,
-    number: document.aadhaarNumber,
+    number: document.number,
     data: document.base64_data,
-    verifyMode: document.method,
-    verifyStatus: document.status,
-    verifyMsg: document.message,
+    verifyMode: document.verifyMode,
+    verifyStatus: document.verifyStatus,
+    verifyMsg: document.verifyMsg,
   };
   var data = JSON.stringify(body);
   var config = {
