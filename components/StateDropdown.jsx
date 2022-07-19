@@ -136,8 +136,10 @@ export default StateDropdown = (props) => {
   // }
 
   useEffect(() => {
+    if(geoState){
       setDistricts(customData[geoState]);
       console.log(geoState);
+    }
   }, [geoState]);
 
   return (
