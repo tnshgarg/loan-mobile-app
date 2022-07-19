@@ -61,7 +61,7 @@ export default NomineeAddress = () => {
         color="#4E46F1"
         style={form.nextButton}
         onPress={() => {
-          onFinish();
+          navigation.navigate("Home")
           console.log("pressed");
         }}
       />

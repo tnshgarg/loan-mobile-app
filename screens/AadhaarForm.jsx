@@ -77,6 +77,7 @@ export default AadhaarForm = () => {
   }, [aadhaar]);
 
   const AadharPush = () => {
+    console.log(frontAadhaarData)
     var aadhaarPayload = GenerateDocument({
       src: "AadhaarOCR",
       id: id,
@@ -87,7 +88,6 @@ export default AadhaarForm = () => {
       .then((res) => {
         console.log(aadhaarPayload);
         console.log(res.data);
-        Alert.alert("Message", res.data["message"]);
       })
       .catch((err) => {
         console.log(err);
@@ -156,7 +156,6 @@ export default AadhaarForm = () => {
     fetch(`https://api.gridlines.io/aadhaar-api/ocr`, options)
       .then((response) => response.json())
       .then((response) => {
-        console.log(response["data"]["ocr_data"]);
         {
           response["data"]["ocr_data"] ? (
             <>

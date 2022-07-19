@@ -102,7 +102,6 @@ export default PanCardInfo = () => {
       .then((res) => {
         console.log(panPayload);
         console.log(res.data);
-        Alert.alert("Message", res.data["message"]);
       })
       .catch((err) => {
         console.log(err);

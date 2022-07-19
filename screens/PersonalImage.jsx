@@ -39,7 +39,6 @@ export default PersonalImage = () => {
     });
     putProfileData(profilePayload)
       .then((res) => {
-        Alert.alert("Message", res.data["message"]);
         navigation.navigate("Home");
       })
       .catch((err) => {
@@ -126,6 +125,7 @@ export default PersonalImage = () => {
             color="#4E46F1"
             onPress={() => {
               ProfilePush();
+              navigation.navigate("Home");
             }}
           />
           <View style={checkBox.padding}></View>
