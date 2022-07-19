@@ -15,7 +15,13 @@ import { useDispatch, useSelector } from "react-redux";
 import ProgressBarTop from "../components/ProgressBarTop";
 import { GenerateDocument } from "../helpers/GenerateDocument";
 import { putBankAccountData } from "../services/employees/employeeServices";
-import { addBankAccountHolderName, addBankAccountNumber, addBankIfsc, addBankUpiId, addBankVerifyStatus } from "../store/slices/bankSlice";
+import {
+  addBankAccountHolderName,
+  addBankAccountNumber,
+  addBankIfsc,
+  addBankUpiId,
+  addBankVerifyStatus,
+} from "../store/slices/bankSlice";
 import { addCurrentScreen } from "../store/slices/navigationSlice";
 import { bankform, styles } from "./styles";
 
@@ -31,47 +37,22 @@ export default BankInformationForm = () => {
   );
   const [upiId, setUpiId] = useState(useSelector((state) => state.bank.upi));
   const dispatch = useDispatch();
-  
-  useEffect(() => {dispatch(addCurrentScreen("BankInfoForm"))}, []);
-  useEffect(()=>{dispatch(addBankAccountHolderName(accountHolderName))}, [accountHolderName]);
-  useEffect(()=>{dispatch(addBankAccountNumber(accountNumber))}, [accountNumber]);
-  useEffect(()=>{dispatch(addBankIfsc(ifsc))}, [ifsc]);
-  useEffect(()=>{dispatch(addBankUpiId(upiId))}, [upiId]);
 
-  const fields = [
-    {
-      title: "Account Holder Name*",
-      value: accountHolderName,
-      setvalue: setAccountHolderName,
-      requiredStatus: true,
-      tooltip:
-        "Refer to your Bank Passbook or Cheque book for the exact Name mentioned in your bank records",
-    },
-    {
-      title: "Bank Account Number*",
-      value: accountNumber,
-      setvalue: setAccountNumber,
-      requiredStatus: true,
-      tooltip:
-        "Refer to your Bank Passbook or Cheque book to get the Bank Account Number.",
-    },
-    {
-      title: "IFSC Code*",
-      value: ifsc,
-      setvalue: setIfsc,
-      requiredStatus: true,
-      tooltip:
-        "You can find the IFSC code on the cheque book or bank passbook that is provided by the bank",
-    },
-    {
-      title: "UPI ID",
-      value: upiId,
-      setvalue: setUpiId,
-      requiredStatus: false,
-      tooltip:
-        "There are lots of UPI apps available like Phonepe, Amazon Pay, Paytm, Bhim, Mobikwik etc. from where you can fetch your UPI ID.",
-    },
-  ];
+  useEffect(() => {
+    dispatch(addCurrentScreen("BankInfoForm"));
+  }, []);
+  useEffect(() => {
+    dispatch(addBankAccountHolderName(accountHolderName));
+  }, [accountHolderName]);
+  useEffect(() => {
+    dispatch(addBankAccountNumber(accountNumber));
+  }, [accountNumber]);
+  useEffect(() => {
+    dispatch(addBankIfsc(ifsc));
+  }, [ifsc]);
+  useEffect(() => {
+    dispatch(addBankUpiId(upiId));
+  }, [upiId]);
 
   const BankPush = () => {
     var bankPayload = GenerateDocument({
@@ -186,38 +167,84 @@ export default BankInformationForm = () => {
             </Text>
           </View>
           <Text style={bankform.subTitle}>Enter your Bank Details</Text>
-          {fields.map((field, index) => {
-            return (
-              <>
-                <Text style={bankform.formtitle} key={index}>
-                  {field.title}{" "}
-                  <Popable
-                    content={field.tooltip}
-                    position="right"
-                    caret={false}
-                  >
-                    <Icon name="info-outline" size={20} color="grey" />
-                  </Popable>
-                </Text>
-                {field.title === "IFSC Code*" ? (
-                  <TextInput
-                    style={bankform.formInput}
-                    value={field.value}
-                    onChangeText={field.setvalue}
-                    autoCapitalize="characters"
-                    required
-                  />
-                ) : (
-                  <TextInput
-                    style={bankform.formInput}
-                    value={field.value}
-                    onChangeText={field.setvalue}
-                    required
-                  />
-                )}
-              </>
-            );
-          })}
+
+          <Text style={bankform.formtitle}>
+            Account Holder Name*
+            <Popable
+              content={
+                "Refer to your Bank Passbook or Cheque book for the exact Name mentioned in your bank records"
+              }
+              position="right"
+              caret={false}
+            >
+              <Icon name="info-outline" size={20} color="grey" />
+            </Popable>
+          </Text>
+          <TextInput
+            style={bankform.formInput}
+            value={accountHolderName}
+            onChangeText={setAccountHolderName}
+            autoCapitalize="words"
+            required
+          />
+
+          <Text style={bankform.formtitle}>
+            Bank Account Number*
+            <Popable
+              content={
+                "Refer to your Bank Passbook or Cheque book to get the Bank Account Number."
+              }
+              position="right"
+              caret={false}
+            >
+              <Icon name="info-outline" size={20} color="grey" />
+            </Popable>
+          </Text>
+          <TextInput
+            style={bankform.formInput}
+            value={accountNumber}
+            onChangeText={setAccountNumber}
+            autoCapitalize="characters"
+            required
+          />
+
+          <Text style={bankform.formtitle}>
+            IFSC Code*
+            <Popable
+              content={
+                "You can find the IFSC code on the cheque book or bank passbook that is provided by the bank"
+              }
+              position="right"
+              caret={false}
+            >
+              <Icon name="info-outline" size={20} color="grey" />
+            </Popable>
+          </Text>
+          <TextInput
+            style={bankform.formInput}
+            value={ifsc}
+            onChangeText={setIfsc}
+            autoCapitalize="characters"
+            required
+          />
+          <Text style={bankform.formtitle}>
+            UPI ID
+            <Popable
+              content={
+                "There are lots of UPI apps available like Phonepe, Amazon Pay, Paytm, Bhim, Mobikwik etc. from where you can fetch your UPI ID."
+              }
+              position="right"
+              caret={false}
+            >
+              <Icon name="info-outline" size={20} color="grey" />
+            </Popable>
+          </Text>
+          <TextInput
+            style={bankform.formInput}
+            value={upiId}
+            onChangeText={setUpiId}
+            required
+          />
           <Button
             title="Continue"
             type="solid"
