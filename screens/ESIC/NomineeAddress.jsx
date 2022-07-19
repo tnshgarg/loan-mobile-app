@@ -46,6 +46,7 @@ export default NomineeAddress = () => {
       <StateDropdown
         stateTitle={"Nominee address State"}
         districtTitle={"Nominee address District"}
+        type={"nominee"}
       />
       <Text style={bankform.formtitle}>Nominee Pincode *</Text>
       <TextInput

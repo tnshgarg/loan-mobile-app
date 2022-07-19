@@ -74,6 +74,7 @@ export default EmployeeAddress = () => {
       <StateDropdown
         stateTitle={"Employee Present address State"}
         districtTitle={"Employee Present address District"}
+        type={"present"}
       />
       <Text style={bankform.formtitle}>Employee Present Pincode *</Text>
       <TextInput
@@ -93,6 +94,7 @@ export default EmployeeAddress = () => {
       <StateDropdown
         stateTitle={"Employee Permanent address State"}
         districtTitle={"Employee Permanent address District"}
+        type={"permanent"}
       />
       <Text style={bankform.formtitle}>Employee Permanent Pincode *</Text>
       <TextInput

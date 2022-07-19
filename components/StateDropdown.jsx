@@ -11,109 +11,134 @@ export default StateDropdown = (props) => {
 
   const dispatch = useDispatch();
   const states = Object.keys(customData);
-  const [presentState, setPresentState] = useState(
-    useSelector((state) => state.esic.address.present.state)
-  );
-  const [presentDistrict, setPresentDistrict] = useState(
-    useSelector((state) => state.esic.address.present.district)
-  );
-  const [permanentState, setPermanentState] = useState(
-    useSelector((state) => state.esic.address.permanent.state)
-  );
-  const [permanentDistrict, setPermanentDistrict] = useState(
-    useSelector((state) => state.esic.address.permanent.district)
-  );
 
-  const [nomineeState, setNomineeState] = useState(
-    useSelector((state) => state.esic.address.nominee.state)
+  const [geoState, setGeoState] = useState(
+    useSelector((state) => state.esic.address[props.type].state)
   );
-  const [nomineeDistrict, setNomineeDistrict] = useState(
-    useSelector((state) => state.esic.address.nominee.district)
+  const [district, setDistrict] = useState(
+    useSelector((state) => state.esic.address[props.type].district)
   );
 
   useEffect(() => {
     dispatch(
-      addESICAddress({ type: "nominee", subtype: "state", val: nomineeState })
+      addESICAddress({ type: props.type, subtype: "state", val: geoState })
     );
-  }, [nomineeState]);
+  }, [geoState]);
+  
   useEffect(() => {
     dispatch(
       addESICAddress({
-        type: "nominee",
+        type: props.type,
         subtype: "district",
-        val: nomineeDistrict,
+        val: district,
       })
     );
-  }, [nomineeDistrict]);
+  }, [district]);
 
-  useEffect(() => {
-    dispatch(
-      addESICAddress({
-        type: "permanent",
-        subtype: "state",
-        val: permanentState,
-      })
-    );
-  }, [permanentState]);
-  useEffect(() => {
-    dispatch(
-      addESICAddress({
-        type: "permanent",
-        subtype: "district",
-        val: permanentDistrict,
-      })
-    );
-  }, [permanentDistrict]);
+  // const [presentDistrict, setPresentDistrict] = useState(
+  //   useSelector((state) => state.esic.address.present.district)
+  // );
+  // const [presentState, setPresentState] = useState(
+  //   useSelector((state) => state.esic.address.present.state)
+  // );
+  // const [presentDistrict, setPresentDistrict] = useState(
+  //   useSelector((state) => state.esic.address.present.district)
+  // );
+  // const [permanentState, setPermanentState] = useState(
+  //   useSelector((state) => state.esic.address.permanent.state)
+  // );
+  // const [permanentDistrict, setPermanentDistrict] = useState(
+  //   useSelector((state) => state.esic.address.permanent.district)
+  // );
+  // const [nomineeState, setNomineeState] = useState(
+  //   useSelector((state) => state.esic.address.nominee.state)
+  // );
+  // const [nomineeDistrict, setNomineeDistrict] = useState(
+  //   useSelector((state) => state.esic.address.nominee.district)
+  // );
 
-  useEffect(() => {
-    dispatch(
-      addESICAddress({ type: "present", subtype: "state", val: presentState })
-    );
-  }, [presentState]);
+  // useEffect(() => {
+  //   dispatch(
+  //     addESICAddress({ type: "nominee", subtype: "state", val: nomineeState })
+  //   );
+  // }, [nomineeState]);
+  // useEffect(() => {
+  //   dispatch(
+  //     addESICAddress({
+  //       type: "nominee",
+  //       subtype: "district",
+  //       val: nomineeDistrict,
+  //     })
+  //   );
+  // }, [nomineeDistrict]);
 
-  useEffect(() => {
-    dispatch(
-      addESICAddress({
-        type: "present",
-        subtype: "district",
-        val: presentDistrict,
-      })
-    );
-  }, [presentDistrict]);
+  // useEffect(() => {
+  //   dispatch(
+  //     addESICAddress({
+  //       type: "permanent",
+  //       subtype: "state",
+  //       val: permanentState,
+  //     })
+  //   );
+  // }, [permanentState]);
+  // useEffect(() => {
+  //   dispatch(
+  //     addESICAddress({
+  //       type: "permanent",
+  //       subtype: "district",
+  //       val: permanentDistrict,
+  //     })
+  //   );
+  // }, [permanentDistrict]);
+
+  // useEffect(() => {
+  //   dispatch(
+  //     addESICAddress({ type: "present", subtype: "state", val: presentState })
+  //   );
+  // }, [presentState]);
+
+  // useEffect(() => {
+  //   dispatch(
+  //     addESICAddress({
+  //       type: "present",
+  //       subtype: "district",
+  //       val: presentDistrict,
+  //     })
+  //   );
+  // }, [presentDistrict]);
 
   // switch to dispatch the right state and district as per props.type
-  switch (props.type) {
-    case "present":
-      pickerSettings = {
-        stateValue: presentState,
-        districtValue: presentDistrict,
-        setStateValue: setPresentState,
-        setDistrictValue: setPresentDistrict,
-      };
-      break;
-    case "permanent":
-      pickerSettings = {
-        stateValue: permanentState,
-        districtValue: permanentDistrict,
-        setStateValue: setPermanentState,
-        setDistrictValue: setPermanentDistrict,
-      };
-      break;
-    default:
-      pickerSettings = {
-        stateValue: nomineeState,
-        districtValue: nomineeDistrict,
-        setStateValue: setNomineeState,
-        setDistrictValue: setNomineeDistrict,
-      };
-      break;
-  }
+  // switch (props.type) {
+  //   case "present":
+  //     pickerSettings = {
+  //       stateValue: presentState,
+  //       districtValue: presentDistrict,
+  //       setStateValue: setPresentState,
+  //       setDistrictValue: setPresentDistrict,
+  //     };
+  //     break;
+  //   case "permanent":
+  //     pickerSettings = {
+  //       stateValue: permanentState,
+  //       districtValue: permanentDistrict,
+  //       setStateValue: setPermanentState,
+  //       setDistrictValue: setPermanentDistrict,
+  //     };
+  //     break;
+  //   default:
+  //     pickerSettings = {
+  //       stateValue: nomineeState,
+  //       districtValue: nomineeDistrict,
+  //       setStateValue: setNomineeState,
+  //       setDistrictValue: setNomineeDistrict,
+  //     };
+  //     break;
+  // }
+
   useEffect(() => {
-    if (pickerSettings["stateValue"]) {
-      setDistricts(customData[pickerSettings["stateValue"]]);
-      console.log(pickerSettings["stateValue"]);
-    }
-  }, [pickerSettings]);
+      setDistricts(customData[geoState]);
+      console.log(geoState);
+  }, [geoState]);
 
   return (
     <>
@@ -121,8 +146,8 @@ export default StateDropdown = (props) => {
       <Picker
         style={form.picker}
         prompt="Select State"
-        selectedValue={pickerSettings.stateValue}
-        onValueChange={pickerSettings.setStateValue}
+        selectedValue={geoState}
+        onValueChange={setGeoState}
       >
         {states.map((value, index) => {
           return <Picker.Item label={value} value={value} key={index} />;
@@ -132,8 +157,8 @@ export default StateDropdown = (props) => {
       <Picker
         style={form.picker}
         prompt="Select District"
-        selectedValue={pickerSettings.districtValue}
-        onValueChange={pickerSettings.setDistrictValue}
+        selectedValue={district}
+        onValueChange={setDistrict}
       >
         {districts.map((value, index) => {
           return <Picker.Item label={value} value={value} key={index} />;
