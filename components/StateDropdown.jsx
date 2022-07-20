@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
-import { form, docSearch, bankform } from "../screens/styles";
-import { Picker } from "@react-native-picker/picker";
-const customData = require("../assets/state_districts.json");
 import { useDispatch, useSelector } from "react-redux";
+import { Text, View } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+
 import { addESICAddress } from "../store/slices/esicSlice";
+import { form, docSearch, bankform } from "../styles";
+
+const customData = require("../assets/state_districts.json");
 
 export default StateDropdown = (props) => {
   const [districts, setDistricts] = useState(["Please Choose a State"]);

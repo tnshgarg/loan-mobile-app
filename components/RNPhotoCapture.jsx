@@ -3,12 +3,12 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { RNCamera } from "react-native-camera";
-import { Camera } from "./styles";
 const RNFS = require("react-native-fs");
 
 import { useDispatch } from "react-redux";
 import { addAadhaarImage } from "../store/slices/aadhaarSlice";
 import { addSelfie } from "../store/slices/profileSlice";
+import { Camera } from "../styles";
 
 const PendingView = () => (
   <View style={Camera.wait}>
@@ -16,15 +16,18 @@ const PendingView = () => (
   </View>
 );
 
-export default IDCapture = (props) => {
-  const navigation = useNavigation();
+
+export default function RNPhotoCapture (props) {
+  const navigation = useNavigation()
+  const [id, setId] = useState(null)
+  const {front} = props.route.params
+
   const dispatch = useDispatch();
-  const [id, setId] = useState(null);
 
   useEffect(() => {
-    if (props.route.params.type.match(/^AADHAAR_/)) {
+    if (props.route.params.type.match(/^AADHAAR/)) {
       dispatch(addAadhaarImage({ data: id, type: props.route.params.type }));
-    } else if (props.route.params.type.match(/^SELFIE_/)) {
+    } else if (props.route.params.type.match(/^SELFIE/)) {
       dispatch(addSelfie({ data: id, type: props.route.params.type }));
     }
   }, [id]);
@@ -41,7 +44,9 @@ export default IDCapture = (props) => {
     <View style={Camera.container}>
       <RNCamera
         style={Camera.preview}
-        type={RNCamera.Constants.Type.back}
+        type={
+          RNCamera.Constants.Type.back
+        }
         flashMode={RNCamera.Constants.FlashMode.off}
         androidCameraPermissionOptions={{
           title: "Permission to use camera",
@@ -64,13 +69,10 @@ export default IDCapture = (props) => {
                 onPress={() => navigation.goBack()}
                 style={Camera.back}
               >
-                <Text style={Camera.buttonText}>
-                  {" "}
-                  <Icon name="arrow-back" size={25} color="white" />
-                </Text>
+                <Icon name="arrow-back" size={25} color="white" />
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => this.takePicture(camera)}
+                onPress={() => takePicture(camera)}
                 style={Camera.capture}
               >
                 <Text style={Camera.buttonText}> Capture </Text>

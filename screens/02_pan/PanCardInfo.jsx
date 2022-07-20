@@ -1,7 +1,8 @@
 import { OG_API_KEY } from "@env";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
 import {
   Alert,
   Linking,
@@ -11,14 +12,13 @@ import {
   TextInput,
   View,
 } from "react-native";
-import ProgressBarTop from "../components/ProgressBarTop";
-import { GenerateDocument } from "../helpers/GenerateDocument";
-import { putPanData } from "../services/employees/employeeServices";
-import { bankform, checkBox, form, styles } from "./styles";
+import ProgressBarTop from "../../components/ProgressBarTop";
+import { GenerateDocument } from "../../helpers/GenerateDocument";
+import { putPanData } from "../../services/employees/employeeServices";
+import { addPanNumber, addPanVerifyStatus } from "../../store/slices/panSlice";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { bankform, checkBox, form, styles } from "../../styles";
 
-import { useDispatch, useSelector } from "react-redux";
-import { addPanNumber, addPanVerifyStatus } from "../store/slices/panSlice";
-import { addCurrentScreen } from "../store/slices/navigationSlice";
 
 export default PanCardInfo = () => {
   const navigation = useNavigation();

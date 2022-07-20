@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, Text, TextInput, View } from "react-native";
-import { bankform, form, styles } from "../styles";
-import { Button } from "@react-native-material/core";
 import { useDispatch, useSelector } from "react-redux";
-import { addESICPortal } from "../../store/slices/esicSlice";
+import { ScrollView, Text, TextInput, View } from "react-native";
+import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
+
+import { addESICPortal } from "../../../store/slices/esicSlice";
+import { bankform, form, styles } from "../../../styles";
 
 export default Portal = () => {
   const dispatch = useDispatch();

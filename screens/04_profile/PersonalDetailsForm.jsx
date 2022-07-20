@@ -4,10 +4,10 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, Text, TextInput, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import ProgressBarTop from "../components/ProgressBarTop";
-import { addAlternatePhone, addEducationalQualification, addEmail, addMaritalStatus} from "../store/slices/profileSlice";
-import { addCurrentScreen } from "../store/slices/navigationSlice";
-import { bankform, form, styles } from "./styles";
+import ProgressBarTop from "../../components/ProgressBarTop";
+import { addAlternatePhone, addEducationalQualification, addEmail, addMaritalStatus} from "../../store/slices/profileSlice";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { bankform, form, styles } from "../../styles";
 
 
 export default PersonalDetailsForm = () => {

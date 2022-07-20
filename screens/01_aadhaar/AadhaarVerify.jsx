@@ -2,17 +2,16 @@ import { OG_API_KEY } from "@env";
 import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { SafeAreaView, ScrollView, Text, TextInput, View } from "react-native";
 import CountDown from "react-native-countdown-component";
-import ProgressBarTop from "../components/ProgressBarTop";
-import { form, styles } from "./styles";
-
-import { useDispatch, useSelector } from "react-redux";
+import ProgressBarTop from "../../components/ProgressBarTop";
 import {
   addAadhaarData,
   addAadhaarVerifyStatus,
-} from "../store/slices/aadhaarSlice";
-import { addCurrentScreen } from "../store/slices/navigationSlice";
+} from "../../store/slices/aadhaarSlice";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { form, styles } from "../../styles";
 
 export default AadhaarVerify = () => {
   const navigation = useNavigation();

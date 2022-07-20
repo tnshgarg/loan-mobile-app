@@ -3,6 +3,7 @@ import CheckBox from "@react-native-community/checkbox";
 import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Alert,
   Image,
@@ -12,20 +13,18 @@ import {
   TextInput,
   View,
 } from "react-native";
-import ProgressBarTop from "../components/ProgressBarTop";
-import { GenerateDocument } from "../helpers/GenerateDocument";
-import { putAadhaarData } from "../services/employees/employeeServices";
-import { bankform, Camera, checkBox, form, styles } from "./styles";
-
-import { useDispatch, useSelector } from "react-redux";
+import ProgressBarTop from "../../components/ProgressBarTop";
+import { GenerateDocument } from "../../helpers/GenerateDocument";
+import { putAadhaarData } from "../../services/employees/employeeServices";
 import {
   addAadhaarNumber,
   addAadhaarOCRData,
   addAadhaarSubmitOTPtxnId,
   addAadhaarVerifyStatus,
   setAadhaarPlaceholderImage,
-} from "../store/slices/aadhaarSlice";
-import { addCurrentScreen } from "../store/slices/navigationSlice";
+} from "../../store/slices/aadhaarSlice";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { bankform, Camera, checkBox, form, styles } from "../../styles";
 
 export default AadhaarForm = () => {
   const aadhaarFront = useSelector((state) => state.aadhaar.frontImg);

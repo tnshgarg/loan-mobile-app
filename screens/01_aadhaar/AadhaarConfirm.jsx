@@ -1,6 +1,7 @@
 import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React from "react";
+import { useSelector } from "react-redux";
 import {
   Alert,
   Image,
@@ -9,13 +10,11 @@ import {
   Text,
   View,
 } from "react-native";
-import ProgressBarTop from "../components/ProgressBarTop";
-import { GenerateDocument } from "../helpers/GenerateDocument";
-import { putAadhaarData } from "../services/employees/employeeServices";
-import { bankform, form, styles } from "./styles";
-
-import { useSelector } from "react-redux";
-import { addCurrentScreen } from "../store/slices/navigationSlice";
+import ProgressBarTop from "../../components/ProgressBarTop";
+import { GenerateDocument } from "../../helpers/GenerateDocument";
+import { putAadhaarData } from "../../services/employees/employeeServices";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { bankform, form, styles } from "../../styles";
 
 export default AadhaarConfirm = () => {
   const navigation = useNavigation();

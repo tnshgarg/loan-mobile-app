@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, Text, TextInput, View } from "react-native";
-import { bankform, form, styles } from "../styles";
-import { Button } from "@react-native-material/core";
-import StateDropdown from "../../components/StateDropdown";
 import { useDispatch, useSelector } from "react-redux";
-import { addESICAddress } from "../../store/slices/esicSlice";
+import { ScrollView, Text, TextInput, View } from "react-native";
 import { useNavigation } from "@react-navigation/core";
+import { Button } from "@react-native-material/core";
+
+import StateDropdown from "../../../components/StateDropdown";
+import { addESICAddress } from "../../../store/slices/esicSlice";
+
+import { bankform, form, styles } from "../../../styles";
 
 export default NomineeAddress = () => {
   const dispatch = useDispatch();

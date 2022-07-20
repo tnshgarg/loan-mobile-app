@@ -2,6 +2,7 @@ import { OG_API_KEY } from "@env";
 import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Alert,
   SafeAreaView,
@@ -11,19 +12,19 @@ import {
   View,
 } from "react-native";
 import { Popable } from "react-native-popable";
-import { useDispatch, useSelector } from "react-redux";
-import ProgressBarTop from "../components/ProgressBarTop";
-import { GenerateDocument } from "../helpers/GenerateDocument";
-import { putBankAccountData } from "../services/employees/employeeServices";
+import ProgressBarTop from "../../components/ProgressBarTop";
+import { GenerateDocument } from "../../helpers/GenerateDocument";
+import { putBankAccountData } from "../../services/employees/employeeServices";
 import {
   addBankAccountHolderName,
   addBankAccountNumber,
   addBankIfsc,
   addBankUpiId,
   addBankVerifyStatus,
-} from "../store/slices/bankSlice";
-import { addCurrentScreen } from "../store/slices/navigationSlice";
-import { bankform, styles } from "./styles";
+} from "../../store/slices/bankSlice";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { bankform, styles } from "../../styles";
+
 
 export default BankInformationForm = () => {
   const navigation = useNavigation();

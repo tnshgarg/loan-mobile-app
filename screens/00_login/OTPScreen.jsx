@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Image,
   Text,
@@ -10,13 +11,13 @@ import {
 } from "react-native";
 import { Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import { styles } from "./styles";
 import SmsRetriever from "react-native-sms-retriever";
-import { checkVerification, sendSmsVerification } from "../services/otp/Twilio/verify";
 import CountDown from "react-native-countdown-component";
-import { useDispatch, useSelector } from "react-redux";
-import { addVerifyStatus } from "../store/slices/authSlice";
-import { addCurrentScreen } from "../store/slices/navigationSlice";
+import { checkVerification, sendSmsVerification } from "../../services/otp/Twilio/verify";
+import { addVerifyStatus } from "../../store/slices/authSlice";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { styles } from "../../styles";
+
 
 export default OTPScreen = () => {
   const phoneNumber = useSelector((state) => state.auth.phoneNumber);
@@ -70,7 +71,7 @@ export default OTPScreen = () => {
           </View>
           <Image
             style={styles.logo}
-            source={require("../assets/unipe-Thumbnail.png")}
+            source={require("../../assets/unipe-Thumbnail.png")}
           />
           <Text style={styles.headline}>
             {" "}

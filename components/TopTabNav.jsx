@@ -21,7 +21,7 @@ export default TopTabNav = (props) => {
       }}
     >
       {props.tabs.map((tab, index) => {
-        return <Tab.Screen name={tab.name} component={tab.component} />;
+        return <Tab.Screen key={tab.name} name={tab.name} component={tab.component} />;
       })}
     </Tab.Navigator>
   );
