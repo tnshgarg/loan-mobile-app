@@ -1,7 +1,7 @@
 import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector , useDispatch} from "react-redux";
 import {
   Alert,
   Image,
@@ -18,11 +18,11 @@ import { bankform, form, styles } from "../../styles";
 
 export default AadhaarConfirm = () => {
   const navigation = useNavigation();
-  const AadhaarData = useSelector((state) => state.aadhaar.data);
+  const aadhaarData = useSelector((state) => state.aadhaar.data);
   const aadhaar = useSelector((state) => state.aadhaar.number);
   const id = useSelector((state) => state.auth.userId);
-
-  console.log("AadhaarData: ", AadhaarData);
+  const dispatch = useDispatch();
+  console.log("AadhaarData: ", aadhaarData);
 
   useEffect(() => {dispatch(addCurrentScreen("AadhaarConfirm"))}, []);
   const onConfirm = () => {
@@ -30,7 +30,7 @@ export default AadhaarConfirm = () => {
       src: "AadhaarOTP",
       id: id,
       aadhaar: aadhaar,
-      xml: AadhaarData["aadhaar_data"]["xml_base64"],
+      xml: aadhaarData["aadhaar_data"]["xml_base64"],
     });
     putAadhaarData(aadhaarPayload)
       .then((res) => {
@@ -84,19 +84,19 @@ export default AadhaarConfirm = () => {
           </Text>
           <Image
             source={{
-              uri: `data:image/jpeg;base64,${AadhaarData["aadhaar_data"]["photo_base64"]}`,
+              uri: `data:image/jpeg;base64,${aadhaarData["aadhaar_data"]["photo_base64"]}`,
             }}
             style={form.aadharimg}
           />
-          {console.log(AadhaarData["aadhaar_data"])}
+          {console.log(aadhaarData["aadhaar_data"])}
           <Text style={form.OtpAwaitMsg}>
-            Name: {AadhaarData["aadhaar_data"]["name"]}
+            Name: {aadhaarData["aadhaar_data"]["name"]}
           </Text>
           <Text style={form.userData}>
-            Date of Birth: {AadhaarData["aadhaar_data"]["date_of_birth"]}
+            Date of Birth: {aadhaarData["aadhaar_data"]["date_of_birth"]}
           </Text>
           <Text style={form.userData}>
-            Locality: {AadhaarData["aadhaar_data"]["locality"]}
+            Locality: {aadhaarData["aadhaar_data"]["locality"]}
           </Text>
           <View style={{ flexDirection: "row" }}>
             <Button

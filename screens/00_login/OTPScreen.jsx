@@ -123,7 +123,7 @@ export default OTPScreen = () => {
             <Text
               style={styles.resendText}
               onPress={() => {
-                sendSmsVerification(phoneNumber).then((sent) => {
+                sendSmsVerification(`+91${phoneNumber}`).then((sent) => {
                   console.log("Sent!");
                 });
                 setOtp("");
