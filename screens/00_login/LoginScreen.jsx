@@ -154,7 +154,7 @@ export default LoginScreen = () => {
           keyboardType="phone-pad"
           textContentType="telephoneNumber"
           maxLength={13}
-          placeholder="XXXXXXXXXX"
+          placeholder="9999999999"
         />
         <Text style={styles.dataUseText}>
           This number will be used for all communication. You shall receive an

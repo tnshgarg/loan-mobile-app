@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/core";
 import React from "react";
 import { ScrollView, View } from "react-native";
 import AddressDropdown from "../../../components/AddressDropdown";
-import { bankform, form, styles } from "../../styles";
+import { bankform, form, styles } from "../../../styles";
 
 export default NomineeAddress = () => {
   const navigation = useNavigation();
