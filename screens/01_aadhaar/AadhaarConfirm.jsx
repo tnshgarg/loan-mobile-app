@@ -56,7 +56,7 @@ export default AadhaarConfirm = () => {
           onPress: () => null,
           style: "cancel",
         },
-        { text: "OK", onPress: () => navigation.goBack() },
+        { text: "OK", onPress: () => navigation.navigate("AadhaarVerify") },
       ]
     );
 

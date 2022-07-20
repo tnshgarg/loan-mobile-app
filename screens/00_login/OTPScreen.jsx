@@ -55,7 +55,7 @@ export default OTPScreen = () => {
             {back ? (
               <IconButton
                 icon={<Icon name="arrow-back" size={30} color="#4E46F1" />}
-                onPress={() => navigation.goBack()}
+                onPress={() => navigation.navigate('Login')}
               />
             ) : (
               <IconButton
