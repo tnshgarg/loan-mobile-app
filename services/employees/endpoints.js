@@ -1,6 +1,23 @@
-import {STAGE, EMPLOYEE_DEV_API_BASE_URL, EMPLOYEE_TEST_API_BASE_URL, EMPLOYEE_PROD_API_BASE_URL} from "@env";
+import {
+  STAGE,
+  EMPLOYEE_DEV_API_BASE_URL,
+  EMPLOYEE_TEST_API_BASE_URL,
+  EMPLOYEE_PROD_API_BASE_URL,
+} from "@env";
 
-const EMPLOYEE_API_BASE_URL = STAGE === "dev" ? EMPLOYEE_DEV_API_BASE_URL : (STAGE === "test" ? EMPLOYEE_TEST_API_BASE_URL : EMPLOYEE_PROD_API_BASE_URL);
+const API = () => {
+  if (STAGE === "dev") {
+    return EMPLOYEE_DEV_API_BASE_URL;
+  } else {
+    if (STAGE === "test") {
+      return EMPLOYEE_TEST_API_BASE_URL;
+    } else {
+      return EMPLOYEE_PROD_API_BASE_URL;
+    }
+  }
+};
+
+const EMPLOYEE_API_BASE_URL = API();
 
 export const MOBILE_ONBOARD_API = `${EMPLOYEE_API_BASE_URL}/mobile`;
 export const AADHAR_ONBOARD_API = `${EMPLOYEE_API_BASE_URL}/aadhaar`;
