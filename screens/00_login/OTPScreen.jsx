@@ -14,7 +14,7 @@ import { useNavigation } from "@react-navigation/core";
 import SmsRetriever from "react-native-sms-retriever";
 import CountDown from "react-native-countdown-component";
 import { checkVerification, sendSmsVerification } from "../../services/otp/Twilio/verify";
-import { addVerifyStatus } from "../../store/slices/authSlice";
+import { addLoginVerifyStatus } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 
@@ -145,11 +145,12 @@ export default OTPScreen = () => {
               color="#4E46F1"
               style={styles.ContinueButton}
               onPress={() => {
-                checkVerification(phoneNumber, otp).then((success) => {
+                const fullPhoneNumber = `+91${phoneNumber}`;
+                checkVerification(fullPhoneNumber, otp).then((success) => {
                   if (!success) Alert.alert("err", "Incorrect OTP");
                   success && navigation.navigate("AadhaarForm");
-                  console.log(phoneNumber,otp)
-                  dispatch(addVerifyStatus("SUCCESS"));
+                  console.log(fullPhoneNumber,otp)
+                  dispatch(addLoginVerifyStatus("SUCCESS"));
                   SmsRetriever.removeSmsListener();
                 });
               }}

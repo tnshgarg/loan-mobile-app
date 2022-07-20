@@ -8,6 +8,7 @@ npx react-native start
 npx react-native run-android
 ```
 
+
 ## Install and run on ios
 ```
 npm install -g react-native-cli
@@ -16,4 +17,23 @@ npm install
 react-native run-ios
 ```
 
-//npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res &&
+
+## Build Strategies
+` STAGE = "dev" | "test" | "prod" `
+
+```
+start:dev
+- Emulator for developers while building a feature or making a fix with `dev` STAGE [DB]
+
+start:test
+- Emulator for developers while building a feature or making a fix with `test` STAGE [DB]
+
+build:dev
+- Test out an APK for developers while building a feature or making a fix with `dev` STAGE [DB]
+
+build:test
+- Test out an APK for Client Servicing Team while building a feature or making a fix with `test` STAGE [DB]
+
+build:prod
+- AAB to be released to PlayStore `prod` STAGE [DB]
+```

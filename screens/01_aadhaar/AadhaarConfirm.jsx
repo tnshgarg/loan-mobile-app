@@ -1,6 +1,6 @@
 import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
   Alert,
@@ -18,9 +18,11 @@ import { bankform, form, styles } from "../../styles";
 
 export default AadhaarConfirm = () => {
   const navigation = useNavigation();
-  const AadhaarData = useSelector((state) => state.aadhaar.aadhaarData);
-  const aadhaar = useSelector((state) => state.aadhaar.aadhaar);
+  const AadhaarData = useSelector((state) => state.aadhaar.data);
+  const aadhaar = useSelector((state) => state.aadhaar.number);
   const id = useSelector((state) => state.auth.userId);
+
+  console.log("AadhaarData: ", AadhaarData);
 
   useEffect(() => {dispatch(addCurrentScreen("AadhaarConfirm"))}, []);
   const onConfirm = () => {

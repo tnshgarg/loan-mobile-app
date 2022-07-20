@@ -81,13 +81,14 @@ export default LoginScreen = () => {
   //   })}, [session]);
 
   const signIn = () => {
-    sendSmsVerification(phoneNumber)
+    const fullPhoneNumber = `+91${phoneNumber}`;
+    sendSmsVerification(fullPhoneNumber)
       .then((sent) => {
         console.log("Sent!");
         setIsLoading(true);
         var phonePayload = GenerateDocument({
           src: "otp",
-          number: `91${phoneNumber}`,
+          number: fullPhoneNumber,
         });
         putMobileData(phonePayload)
           .then((res) => {
