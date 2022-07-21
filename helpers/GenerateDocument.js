@@ -9,31 +9,53 @@ const GenerateDocument = (props) => {
       break;
 
     case "AadhaarOTP":
-      document = {
-        id: props.id,
-        number: props.aadhaar,
-        data: props.xml,
-        verifyMode: "OTP",
-        verifyStatus: props.status,
-        verifyMsg: "",
-      };
+      if (props.status == "SUCCESS") {
+        document = {
+          id: props.id,
+          number: props.aadhaar,
+          data: props.xml,
+          verifyMode: "OTP",
+          verifyStatus: props.status,
+          verifyMsg: props.message,
+        };
+      } else {
+        document = {
+          id: props.id,
+          number: props.aadhaar,
+          data: "",
+          verifyMode: "OTP",
+          verifyStatus: props.status,
+          verifyMsg: props.message,
+        };
+      }
       break;
 
     case "AadhaarOCR":
-      const data = {
-        gender: props.frontAadhaarData["gender"],
-        name: props.frontAadhaarData["name"],
-        address: props.backAadhaarData["address"],
+      if (props.status == "SUCCESS") {
+        const data = {
+          gender: props.frontAadhaarData["gender"],
+          name: props.frontAadhaarData["name"],
+          address: props.backAadhaarData["address"],
+        };
+        const stringifyData = JSON.stringify(data);
+        document = {
+          id: props.id,
+          number: props.frontAadhaarData["document_id"],
+          data: btoa(stringifyData),
+          verifyMode: "OCR",
+          verifyStatus: props.status,
+          verifyMsg: props.message,
+        };
+      } else {
+        document = {
+          id: props.id,
+          number: "",
+          data: "",
+          verifyMode: "OCR",
+          verifyStatus: props.status,
+          verifyMsg: props.message,
+        };
       }
-      const stringifyData = JSON.stringify(data);
-      document = {
-        id: props.id,
-        number: props.frontAadhaarData["document_id"],
-        data: btoa(stringifyData),
-        verifyMode: "OCR",
-        verifyStatus: props.status,
-        verifyMsg: "",
-      };
       break;
 
     case "Pan":

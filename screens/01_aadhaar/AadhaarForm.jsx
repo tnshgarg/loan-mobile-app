@@ -14,8 +14,7 @@ import {
   View,
 } from "react-native";
 import ProgressBarTop from "../../components/ProgressBarTop";
-import { GenerateDocument } from "../../helpers/GenerateDocument";
-import { putAadhaarData } from "../../services/employees/employeeServices";
+import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import {
   addAadhaarNumber,
   addAadhaarOCRData,
@@ -27,9 +26,9 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { bankform, Camera, checkBox, form, styles } from "../../styles";
 
 export default AadhaarForm = () => {
-
   const aadhaarFront = useSelector((state) => state.aadhaar.frontImg);
   const aadhaarBack = useSelector((state) => state.aadhaar.backImg);
+  const [errorMsg, setErrorMsg] = useState("");
   const id = useSelector((state) => state.auth.id);
   const [consent, setConsent] = useState(false);
   const [aadhaar, setAadhaar] = useState(
@@ -51,13 +50,17 @@ export default AadhaarForm = () => {
   const [aadhaarBackVerified, setAadhaarBackVerified] = useState(false);
   const [aadhaarLinked, setAadhaarLinked] = useState(true);
 
-  useEffect(() => {dispatch(addCurrentScreen("AadhaarForm"))}, []);
+  useEffect(() => {
+    dispatch(addCurrentScreen("AadhaarForm"));
+  }, []);
   useEffect(() => {
     dispatch(addAadhaarSubmitOTPtxnId(transactionId));
   }, [transactionId]);
 
   useEffect(() => {
-    dispatch(addAadhaarOCRData({ data: frontAadhaarData, type: "AADHAAR_FRONT" }));
+    dispatch(
+      addAadhaarOCRData({ data: frontAadhaarData, type: "AADHAAR_FRONT" })
+    );
   }, [frontAadhaarData]);
 
   useEffect(() => {
@@ -65,7 +68,9 @@ export default AadhaarForm = () => {
   }, [aadhaar]);
 
   useEffect(() => {
-    dispatch(addAadhaarOCRData({ data: backAadhaarData, type: "AADHAAR_BACK" }));
+    dispatch(
+      addAadhaarOCRData({ data: backAadhaarData, type: "AADHAAR_BACK" })
+    );
   }, [backAadhaarData]);
 
   useEffect(() => {
@@ -75,24 +80,6 @@ export default AadhaarForm = () => {
       setNext(false);
     }
   }, [aadhaar]);
-
-  const AadharPush = (props) => {
-    var aadhaarPayload = GenerateDocument({
-      src: "AadhaarOCR",
-      id: id,
-      frontAadhaarData: frontAadhaarData,
-      backAadhaarData: backAadhaarData,
-      status : props.status
-    });
-    putAadhaarData(aadhaarPayload)
-      .then((res) => {
-        console.log(aadhaarPayload);
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   const GenerateOtp = () => {
     const data = {
@@ -112,8 +99,8 @@ export default AadhaarForm = () => {
     fetch(`https://api.gridlines.io/aadhaar-api/boson/generate-otp`, options)
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         {
+          console.log(response);
           if (response["status"] == "200") {
             switch (response["data"]["code"]) {
               case "1001":
@@ -127,15 +114,25 @@ export default AadhaarForm = () => {
                 break;
 
               case "1012":
+                setErrorMsg(response["data"]["message"]);
                 Alert.alert("Error", response["data"]["message"]);
                 break;
             }
           } else {
-            Alert.alert("Error", response["error"]["message"]);
+            if (response["error"]) {
+              setErrorMsg(response["error"]["message"]);
+              Alert.alert("Error", response["error"]["message"]);
+            } else {
+              setErrorMsg(response["message"]);
+              Alert.alert("Error", response["message"]);
+            }
           }
         }
       })
-      .catch((err) => Alert.alert("Error", err));
+      .catch((err) => {
+        setErrorMsg(err);
+        Alert.alert("Error", err);
+      });
   };
 
   const AadhaarOCR = (type) => {
@@ -157,22 +154,42 @@ export default AadhaarForm = () => {
       .then((response) => response.json())
       .then((response) => {
         {
-          response["data"]["ocr_data"] ? (
-            <>
-              {" "}
-              {type === "front"
-                ? setAadhaarFrontVerified(true)
-                : setAadhaarBackVerified(true)}
-            </>
-          ) : null;
-        }
-        {
-          type === "front"
-            ? setFrontAadhaarData(response["data"]["ocr_data"]["document"])
-            : setBackAadhaarData(response["data"]["ocr_data"]["document"]);
+          if (response["status"] == "200") {
+            switch (response["data"]["code"]) {
+              case "1014":
+                type === "front"
+                  ? setAadhaarFrontVerified(true)
+                  : setAadhaarBackVerified(true);
+                {
+                  type === "front"
+                    ? setFrontAadhaarData(
+                        response["data"]["ocr_data"]["document"]
+                      )
+                    : setBackAadhaarData(
+                        response["data"]["ocr_data"]["document"]
+                      );
+                }
+                break;
+              case "1015":
+                setErrorMsg(response["data"]["message"]);
+                Alert.alert("Error", response["data"]["message"]);
+                break;
+            }
+          } else {
+            if (response["error"]) {
+              setErrorMsg(response["error"]["message"]);
+              Alert.alert("Error", response["error"]["message"]);
+            } else {
+              setErrorMsg(response["message"]);
+              Alert.alert("Error", response["message"]);
+            }
+          }
         }
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        setErrorMsg(err);
+        Alert.alert("Error", err);
+      });
   };
 
   const VerifyAadharOCR = () => {
@@ -192,11 +209,24 @@ export default AadhaarForm = () => {
       aadhaarBackVerified && aadhaarFrontVerified ? (
         <>
           {alert("Aadhar Verified through OCR.")}
-          {navigation.navigate("PanCardInfo")}
-          {dispatch(addAadhaarVerifyStatus({type:"OCR", status: "SUCCESS"}))}
-          {AadharPush({status : "SUCCESS"})}
+          {dispatch(addAadhaarVerifyStatus({ type: "OCR", status: "SUCCESS" }))}
+          {aadhaarBackendPush({
+            type: "OCR",
+            status: "SUCCESS",
+            id: id,
+            frontAadhaarData: frontAadhaarData,
+            backAadhaarData: backAadhaarData,
+            message: "",
+          })}
         </>
-      ) : AadharPush({status : "ERROR"});
+      ) : (
+        aadhaarBackendPush({
+          type: "OCR",
+          id: id,
+          status: "ERROR",
+          message: errorMsg,
+        })
+      );
     }, 1000);
   };
 
@@ -311,7 +341,9 @@ export default AadhaarForm = () => {
                   icon={<Icon name="camera-alt" size={20} color="black" />}
                   style={Camera.cameraButton}
                   onPress={() => {
-                    navigation.navigate("RNPhotoCapture", {type: "AADHAAR_FRONT"});
+                    navigation.navigate("RNPhotoCapture", {
+                      type: "AADHAAR_FRONT",
+                    });
                   }}
                 />
                 <IconButton
@@ -338,7 +370,9 @@ export default AadhaarForm = () => {
                   icon={<Icon name="camera-alt" size={20} color="black" />}
                   style={Camera.cameraButton}
                   onPress={() => {
-                    navigation.navigate("RNPhotoCapture", {type: "AADHAAR_BACK"});
+                    navigation.navigate("RNPhotoCapture", {
+                      type: "AADHAAR_BACK",
+                    });
                   }}
                 />
                 <IconButton
