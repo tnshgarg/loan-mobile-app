@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import ProgressBarTop from "../../components/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
 
 export default AadhaarConfirm = () => {
@@ -84,14 +85,6 @@ export default AadhaarConfirm = () => {
               style={form.noButton}
               color="#EB5757"
               onPress={() => {
-                aadhaarBackendPush({
-                  type: "OTP",
-                  status: "SUCCESS",
-                  id: id,
-                  aadhaar: aadhaar,
-                  xml: aadhaarData["aadhaar_data"]["xml_base64"],
-                  message: "",
-                });
                 navigation.navigate("AadhaarForm");
               }}
             />
@@ -102,7 +95,15 @@ export default AadhaarConfirm = () => {
               style={form.yesButton}
               color="#4E46F1"
               onPress={() => {
-                onConfirm({ status: "SUCCESS" });
+                aadhaarBackendPush({
+                  type: "OTP",
+                  status: "SUCCESS",
+                  id: id,
+                  aadhaar: aadhaar,
+                  xml: aadhaarData["aadhaar_data"]["xml_base64"],
+                  message: "",
+                });
+                navigation.navigate("PanCardInfo");
               }}
             />
             <View style={bankform.padding}></View>

@@ -18,8 +18,8 @@ import {
   addAadhaarVerifyStatus,
 } from "../../store/slices/aadhaarSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { form, styles } from "../../styles";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
+import { form, styles } from "../../styles";
 
 export default AadhaarVerify = () => {
   const navigation = useNavigation();

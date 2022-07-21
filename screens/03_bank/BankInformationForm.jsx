@@ -13,8 +13,6 @@ import {
 } from "react-native";
 import { Popable } from "react-native-popable";
 import ProgressBarTop from "../../components/ProgressBarTop";
-import { GenerateDocument } from "../../helpers/GenerateDocument";
-import { putBankAccountData } from "../../services/employees/employeeServices";
 import {
   addBankAccountHolderName,
   addBankAccountNumber,
@@ -23,6 +21,7 @@ import {
   addBankVerifyStatus,
 } from "../../store/slices/bankSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { bankBackendPush } from "../../helpers/BackendPush";
 import { bankform, styles } from "../../styles";
 
 export default BankInformationForm = () => {
@@ -54,24 +53,8 @@ export default BankInformationForm = () => {
     dispatch(addBankUpiId(upiId));
   }, [upiId]);
 
-  const BankPush = () => {
-    var bankPayload = GenerateDocument({
-      src: "Bank",
-      id: id,
-      ifsc: ifsc,
-      accountNumber: accountNumber,
-      upi: upiId,
-    });
-    putBankAccountData(bankPayload)
-      .then((res) => {
-        console.log(bankPayload);
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  // putBankAccountData()
+  var status = "ERROR";
+  var message = "";
   const VerifyBankAccount = () => {
     const data = {
       account_number: accountNumber,
@@ -96,7 +79,6 @@ export default BankInformationForm = () => {
             if (response["status"] == "200") {
               switch (response["data"]["code"]) {
                 case "1000":
-                  BankPush();
                   Alert.alert(
                     "Your Bank Account Information",
                     `Name: ${response["data"]["bank_account_data"]["name"]}\nBank Name: ${response["data"]["bank_account_data"]["bank_name"]}\nUTR no.: ${response["data"]["bank_account_data"]["utr"]}\nBranch: ${response["data"]["bank_account_data"]["branch"]}\nCity: ${response["data"]["bank_account_data"]["city"]}`,
@@ -105,6 +87,7 @@ export default BankInformationForm = () => {
                         text: "Yes",
                         onPress: () => {
                           dispatch(addBankVerifyStatus("SUCCESS"));
+                          status = "SUCCESS";
                           navigation.navigate("PersonalDetailsForm");
                         },
                       },
@@ -122,6 +105,7 @@ export default BankInformationForm = () => {
                   break;
                 default:
                   Alert.alert("Error", response["data"]["message"]);
+                  message = response["data"]["message"];
                   break;
               }
             } else {
@@ -132,16 +116,29 @@ export default BankInformationForm = () => {
                     .map((item, value) => item["message"])
                     .join("\n")
                 );
+                message = response["error"];
               } else {
                 Alert.alert("Error", response["message"]);
+                message = response["messsage"];
               }
             }
           }
         })
-        .catch((err) => Alert.alert("Error", err));
+        .catch((err) => {
+          Alert.alert("Error", err);
+          message = err;
+        });
     } catch (err) {
       console.log(err);
     }
+    bankBackendPush({                  
+        id: id,
+        ifsc: ifsc,
+        accountNumber: accountNumber,
+        upi: upiId,
+        status: status,
+        message: message                 
+    });
   };
 
   return (
