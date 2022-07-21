@@ -310,7 +310,7 @@ export default AadhaarForm = () => {
                   icon={<Icon name="camera-alt" size={20} color="black" />}
                   style={Camera.cameraButton}
                   onPress={() => {
-                    navigation.navigate("IDCapture", {type: "AADHAAR_FRONT"});
+                    navigation.navigate("RNPhotoCapture", {type: "AADHAAR_FRONT"});
                   }}
                 />
                 <IconButton
@@ -337,7 +337,7 @@ export default AadhaarForm = () => {
                   icon={<Icon name="camera-alt" size={20} color="black" />}
                   style={Camera.cameraButton}
                   onPress={() => {
-                    navigation.navigate("IDCapture", {type: "AADHAAR_BACK"});
+                    navigation.navigate("RNPhotoCapture", {type: "AADHAAR_BACK"});
                   }}
                 />
                 <IconButton
