@@ -81,7 +81,7 @@ export default PersonalImage = () => {
           leading={
             <IconButton
               icon={<Icon name="arrow-back" size={20} color="white" />}
-              onPress={() => navigation.goBack()}
+              onPress={() => navigation.navigate("PersonalDetailsForm")}
             />
           }
         />

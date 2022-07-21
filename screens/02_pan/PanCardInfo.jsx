@@ -28,7 +28,7 @@ export default PanCardInfo = () => {
   const id = useSelector((state) => state.auth.userId);
   const [panName, setPanName] = useState("");
   const [birthday, setBirthday] = useState("");
-
+  const aadhaarVerifyScreen = useSelector((state) => { if (state.aadhaar.verifyStatus.OCR !="PENDING") { return "AadhaarForm" } else { return "AadhaarConfirm" } });
   useEffect(() => {dispatch(addCurrentScreen("PanCardInfo"))}, []);
   useEffect(() => {
     if (pan.length === 10) {
@@ -152,7 +152,7 @@ export default PanCardInfo = () => {
           leading={
             <IconButton
               icon={<Icon name="arrow-back" size={20} color="white" />}
-              onPress={() => navigation.goBack()}
+              onPress={() => navigation.navigate(aadhaarVerifyScreen)} //Conditonal back based on verify status
             />
           }
         />
