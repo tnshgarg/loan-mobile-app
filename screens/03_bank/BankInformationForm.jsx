@@ -25,7 +25,6 @@ import {
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { bankform, styles } from "../../styles";
 
-
 export default BankInformationForm = () => {
   const navigation = useNavigation();
   const [ifsc, setIfsc] = useState(useSelector((state) => state.bank.ifsc));
@@ -126,12 +125,16 @@ export default BankInformationForm = () => {
                   break;
               }
             } else {
-              Alert.alert(
-                "Error",
-                response["error"]["metadata"]["fields"]
-                  .map((item, value) => item["message"])
-                  .join("\n")
-              );
+              if (response["error"]) {
+                Alert.alert(
+                  "Error",
+                  response["error"]["metadata"]["fields"]
+                    .map((item, value) => item["message"])
+                    .join("\n")
+                );
+              } else {
+                Alert.alert("Error", response["message"]);
+              }
             }
           }
         })

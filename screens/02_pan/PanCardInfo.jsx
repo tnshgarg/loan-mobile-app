@@ -19,7 +19,6 @@ import { addPanNumber, addPanVerifyStatus } from "../../store/slices/panSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { bankform, checkBox, form, styles } from "../../styles";
 
-
 export default PanCardInfo = () => {
   const navigation = useNavigation();
   const [pan, setPan] = useState(useSelector((state) => state.pan.number));
@@ -28,8 +27,16 @@ export default PanCardInfo = () => {
   const id = useSelector((state) => state.auth.id);
   const [panName, setPanName] = useState("");
   const [birthday, setBirthday] = useState("");
-  const aadhaarVerifyScreen = useSelector((state) => { if (state.aadhaar.verifyStatus.OCR !="PENDING") { return "AadhaarForm" } else { return "AadhaarConfirm" } });
-  useEffect(() => {dispatch(addCurrentScreen("PanCardInfo"))}, []);
+  const aadhaarVerifyScreen = useSelector((state) => {
+    if (state.aadhaar.verifyStatus.OCR != "PENDING") {
+      return "AadhaarForm";
+    } else {
+      return "AadhaarConfirm";
+    }
+  });
+  useEffect(() => {
+    dispatch(addCurrentScreen("PanCardInfo"));
+  }, []);
   useEffect(() => {
     if (pan.length === 10) {
       setNext(true);
@@ -79,7 +86,13 @@ export default PanCardInfo = () => {
                       "Pan Number Verification status",
                       `Partial details matched, Please Check DOB.`
                     );
-                
+
+                break;
+              case "1003":
+                Alert.alert(
+                  "Pan Number Verification status",
+                  `Multiple Details mismatched, Please Check Details.`
+                );
                 break;
               case "1004":
                 Alert.alert(
@@ -89,7 +102,11 @@ export default PanCardInfo = () => {
                 break;
             }
           } else {
-            Alert.alert("Error", response["error"]["message"]);
+            if (response["error"]) {
+              Alert.alert("Error", response["error"]["message"]);
+            } else {
+              Alert.alert("Error", response["message"]);
+            }
           }
         }
       })

@@ -1,5 +1,7 @@
 import { GenerateDocument } from "./GenerateDocument";
 import { putAadhaarData } from "../services/employees/employeeServices";
+import navigationSlice from "../store/slices/navigationSlice";
+
 const aadhaarBackendPush = (props) => {
   var aadhaarPayload = {};
   props.type == "OCR"
@@ -26,7 +28,7 @@ const aadhaarBackendPush = (props) => {
     .catch((err) => {
       console.log(err);
     });
-    return null;
+  return null;
 };
 
 module.exports = {

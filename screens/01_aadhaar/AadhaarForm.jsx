@@ -94,6 +94,7 @@ export default AadhaarForm = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
+    
     };
 
     fetch(`https://api.gridlines.io/aadhaar-api/boson/generate-otp`, options)
@@ -171,15 +172,18 @@ export default AadhaarForm = () => {
                 }
                 break;
               case "1015":
+                type === "front" ? setAadhaarFrontVerified(false) : setAadhaarBackVerified(false);
                 setErrorMsg(response["data"]["message"]);
                 Alert.alert("Error", response["data"]["message"]);
                 break;
             }
           } else {
             if (response["error"]) {
+              type === "front" ? setAadhaarFrontVerified(false) : setAadhaarBackVerified(false);
               setErrorMsg(response["error"]["message"]);
               Alert.alert("Error", response["error"]["message"]);
             } else {
+              type === "front" ? setAadhaarFrontVerified(false) : setAadhaarBackVerified(false);
               setErrorMsg(response["message"]);
               Alert.alert("Error", response["message"]);
             }
@@ -210,6 +214,7 @@ export default AadhaarForm = () => {
         <>
           {alert("Aadhar Verified through OCR.")}
           {dispatch(addAadhaarVerifyStatus({ type: "OCR", status: "SUCCESS" }))}
+          {navigation.navigate("PanCardInfo")}
           {aadhaarBackendPush({
             type: "OCR",
             status: "SUCCESS",
@@ -350,6 +355,7 @@ export default AadhaarForm = () => {
                   icon={<Icon name="delete" size={20} color="black" />}
                   style={Camera.cameraButton}
                   onPress={() => {
+                    setAadhaarFrontVerified(false)
                     dispatch(
                       setAadhaarPlaceholderImage({
                         type: "AADHAAR_FRONT",
@@ -379,6 +385,7 @@ export default AadhaarForm = () => {
                   icon={<Icon name="delete" size={20} color="black" />}
                   style={Camera.cameraButton}
                   onPress={() => {
+                    setAadhaarBackVerified(false)
                     dispatch(
                       setAadhaarPlaceholderImage({
                         type: "AADHAAR_BACK",
