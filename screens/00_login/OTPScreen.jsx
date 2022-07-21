@@ -82,7 +82,7 @@ export default OTPScreen = () => {
                 name="edit"
                 size={12}
                 color="#4E46F1"
-                onPress={() => navigation.goBack()}
+                onPress={() => navigation.navigate('Login')}
               />
             ) : (
               <Icon

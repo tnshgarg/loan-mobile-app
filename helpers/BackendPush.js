@@ -15,7 +15,7 @@ export const aadhaarBackendPush = (props) => {
       }))
     : (aadhaarPayload = GenerateDocument({
         src: "AadhaarOTP",
-        id: id,
+        id: props.id,
         aadhaar: props.aadhaar,
         xml: props.xml,
         status: props.status,
@@ -35,10 +35,10 @@ export const aadhaarBackendPush = (props) => {
 export const bankBackendPush = (props) => {
   var bankPayload = GenerateDocument({
     src: "Bank",
-    id: id,
-    ifsc: ifsc,
-    accountNumber: accountNumber,
-    upi: upiId,
+    id: props.id,
+    ifsc: props.ifsc,
+    accountNumber: props.accountNumber,
+    upi: props.upiId,
     status: props.status,
     message: props.message
   });
