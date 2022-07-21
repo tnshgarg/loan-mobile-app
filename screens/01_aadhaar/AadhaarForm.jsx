@@ -27,9 +27,10 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { bankform, Camera, checkBox, form, styles } from "../../styles";
 
 export default AadhaarForm = () => {
+
   const aadhaarFront = useSelector((state) => state.aadhaar.frontImg);
   const aadhaarBack = useSelector((state) => state.aadhaar.backImg);
-  const id = useSelector((state) => state.auth.userId);
+  const id = useSelector((state) => state.auth.id);
   const [consent, setConsent] = useState(false);
   const [aadhaar, setAadhaar] = useState(
     useSelector((state) => state.aadhaar.number)
@@ -75,13 +76,13 @@ export default AadhaarForm = () => {
     }
   }, [aadhaar]);
 
-  const AadharPush = () => {
-    console.log(frontAadhaarData)
+  const AadharPush = (props) => {
     var aadhaarPayload = GenerateDocument({
       src: "AadhaarOCR",
       id: id,
       frontAadhaarData: frontAadhaarData,
       backAadhaarData: backAadhaarData,
+      status : props.status
     });
     putAadhaarData(aadhaarPayload)
       .then((res) => {
@@ -193,9 +194,9 @@ export default AadhaarForm = () => {
           {alert("Aadhar Verified through OCR.")}
           {navigation.navigate("PanCardInfo")}
           {dispatch(addAadhaarVerifyStatus({type:"OCR", status: "SUCCESS"}))}
-          {AadharPush()}
+          {AadharPush({status : "SUCCESS"})}
         </>
-      ) : null;
+      ) : AadharPush({status : "ERROR"});
     }, 1000);
   };
 

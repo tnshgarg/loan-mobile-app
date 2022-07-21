@@ -23,7 +23,7 @@ import { checkBox, form, selfie, styles } from "../../styles";
 export default PersonalImage = () => {
   const navigation = useNavigation();
   const [pickerResponse, setPickerResponse] = useState(null);
-  const id = useSelector((state) => state.auth.userId);
+  const id = useSelector((state) => state.auth.id);
   const placeholder = useSelector((state) => state.profile.selfie);
   const Profile = useSelector((state) => state.profile);
   const dispatch = useDispatch();
@@ -41,6 +41,7 @@ export default PersonalImage = () => {
     });
     putProfileData(profilePayload)
       .then((res) => {
+        console.log(res.data);
         navigation.navigate("Home");
       })
       .catch((err) => {

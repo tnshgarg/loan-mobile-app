@@ -16,15 +16,7 @@ export const putMobileData = (document) => {
 };
 
 export const putAadhaarData = (document) => {
-  const body = {
-    id: document.id,
-    number: document.number,
-    data: document.base64_data,
-    verifyMode: document.verifyMode,
-    verifyStatus: document.verifyStatus,
-    verifyMsg: document.verifyMsg,
-  };
-  var data = JSON.stringify(body);
+  var data = JSON.stringify(document);
   var config = {
     method: "post",
     url: APIS.AADHAR_ONBOARD_API,
@@ -37,13 +29,7 @@ export const putAadhaarData = (document) => {
 };
 
 export const putPanData = (document) => {
-  const body = {
-    id: document.id,
-    number: document.pan,
-    verifyStatus: document.status,
-    verifyMsg: document.message,
-  };
-  var data = JSON.stringify(body);
+  var data = JSON.stringify(document);
   var config = {
     method: "post",
     url: APIS.PAN_ONBOARD_API,
@@ -56,15 +42,7 @@ export const putPanData = (document) => {
 };
 
 export const putBankAccountData = (document) => {
-  const body = {
-    id: document.id,
-    accountNumber: document.account_number,
-    ifsc: document.ifsc,
-    upi: document.upi,
-    verifyStatus: document.status,
-    verifyMsg: document.message,
-  };
-  var data = JSON.stringify(body);
+  var data = JSON.stringify(document);
   var config = {
     method: "post",
     url: APIS.BANK_ONBOARD_API,
@@ -77,15 +55,7 @@ export const putBankAccountData = (document) => {
 };
 
 export const putProfileData = (document) => {
-  const body = {
-    id: document.id,
-    maritalStatus: document.maritalStatus,
-    qualification: document.qualification,
-    altMobile: document.altMobile,
-    email: document.email,
-    photo: document.photo,
-  };
-  var data = JSON.stringify(body);
+  var data = JSON.stringify(document);
   var config = {
     method: "post",
     url: APIS.PROFILE_ONBOARD_API,

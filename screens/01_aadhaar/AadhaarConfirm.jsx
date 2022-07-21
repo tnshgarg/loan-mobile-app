@@ -20,17 +20,18 @@ export default AadhaarConfirm = () => {
   const navigation = useNavigation();
   const aadhaarData = useSelector((state) => state.aadhaar.data);
   const aadhaar = useSelector((state) => state.aadhaar.number);
-  const id = useSelector((state) => state.auth.userId);
+  const id = useSelector((state) => state.auth.id);
   const dispatch = useDispatch();
   console.log("AadhaarData: ", aadhaarData);
 
   useEffect(() => {dispatch(addCurrentScreen("AadhaarConfirm"))}, []);
-  const onConfirm = () => {
+  const onConfirm = (props) => {
     var aadhaarPayload = GenerateDocument({
       src: "AadhaarOTP",
       id: id,
       aadhaar: aadhaar,
       xml: aadhaarData["aadhaar_data"]["xml_base64"],
+      status : props.status,
     });
     putAadhaarData(aadhaarPayload)
       .then((res) => {
@@ -116,7 +117,7 @@ export default AadhaarConfirm = () => {
               style={form.yesButton}
               color="#4E46F1"
               onPress={() => {
-                onConfirm();
+                onConfirm({status : "SUCCESS"});
               }}
             />
             <View style={bankform.padding}></View>

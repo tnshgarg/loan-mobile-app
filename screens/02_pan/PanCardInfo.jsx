@@ -25,7 +25,7 @@ export default PanCardInfo = () => {
   const [pan, setPan] = useState(useSelector((state) => state.pan.number));
   const [next, setNext] = useState();
   const dispatch = useDispatch();
-  const id = useSelector((state) => state.auth.userId);
+  const id = useSelector((state) => state.auth.id);
   const [panName, setPanName] = useState("");
   const [birthday, setBirthday] = useState("");
   const aadhaarVerifyScreen = useSelector((state) => { if (state.aadhaar.verifyStatus.OCR !="PENDING") { return "AadhaarForm" } else { return "AadhaarConfirm" } });

@@ -29,7 +29,7 @@ import { bankform, styles } from "../../styles";
 export default BankInformationForm = () => {
   const navigation = useNavigation();
   const [ifsc, setIfsc] = useState(useSelector((state) => state.bank.ifsc));
-  const id = useSelector((state) => state.auth.userId);
+  const id = useSelector((state) => state.auth.id);
   const [accountNumber, setAccountNumber] = useState(
     useSelector((state) => state.bank.accountNumber)
   );

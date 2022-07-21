@@ -12,24 +12,26 @@ const GenerateDocument = (props) => {
       document = {
         id: props.id,
         number: props.aadhaar,
-        base64_data: props.xml,
+        data: props.xml,
         verifyMode: "OTP",
-        verifyStatus: "",
+        verifyStatus: props.status,
         verifyMsg: "",
       };
       break;
 
     case "AadhaarOCR":
+      const data = {
+        gender: props.frontAadhaarData["gender"],
+        name: props.frontAadhaarData["name"],
+        address: props.backAadhaarData["address"],
+      }
+      const stringifyData = JSON.stringify(data);
       document = {
         id: props.id,
         number: props.frontAadhaarData["document_id"],
-        base64_data: btoa({
-          gender: props.frontAadhaarData["gender"],
-          name: props.frontAadhaarData["name"],
-          address: props.backAadhaarData["address"],
-        }),
+        data: btoa(stringifyData),
         verifyMode: "OCR",
-        verifyStatus: "",
+        verifyStatus: props.status,
         verifyMsg: "",
       };
       break;
@@ -37,20 +39,20 @@ const GenerateDocument = (props) => {
     case "Pan":
       document = {
         id: props.id,
-        pan: props.pan,
-        status: "",
-        message: "",
+        number: props.pan,
+        verifyStatus: "SUCCESS",
+        verifyMsg: "",
       };
       break;
 
     case "Bank":
       document = {
         id: props.id,
-        account_number: props.accountNumber,
+        accountNumber: props.accountNumber,
         ifsc: props.ifsc,
         upi: props.upi,
-        status: "",
-        message: "",
+        verifyStatus: "SUCCESS",
+        verifyMsg: "",
       };
       break;
 
