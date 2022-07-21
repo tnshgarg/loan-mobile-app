@@ -246,8 +246,8 @@ export const checkBox = StyleSheet.create({
     marginTop: 30,
   },
   checkBoxText: {
-    marginLeft: 40,
-    marginRight: 20,
+    marginLeft: 10,
+    marginRight: 40,
     marginTop: 30,
     fontSize: 14,
     color: "#828282",
