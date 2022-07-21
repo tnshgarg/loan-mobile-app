@@ -8,12 +8,10 @@ import {
 const API = () => {
   if (STAGE === "dev") {
     return EMPLOYEE_DEV_API_BASE_URL;
+  } else if (STAGE === "test") {
+    return EMPLOYEE_TEST_API_BASE_URL;
   } else {
-    if (STAGE === "test") {
-      return EMPLOYEE_TEST_API_BASE_URL;
-    } else {
-      return EMPLOYEE_PROD_API_BASE_URL;
-    }
+    return EMPLOYEE_PROD_API_BASE_URL;
   }
 };
 
