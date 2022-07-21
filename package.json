@@ -3,17 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "expo start --dev-client",
-    "android": "expo run:android",
-    "ios": "expo run:ios",
-    "web": "expo start --web"
+    "start:dev": "npx react-native run-android",
+    "start:test": "npx react-native run-android",
+    "build:dev": "cd android && ./gradlew assembleRelease",
+    "build:test": "cd android && ./gradlew assembleRelease",
+    "build:debug": "cd android && ./gradlew assembleDebug",
+    "build:prod": "cd android && ./gradlew bundleRelease"
   },
   "dependencies": {
-    "@aws-amplify/auth": "^4.5.6",
-    "@aws-amplify/cli": "^8.5.1",
-    "@aws-amplify/core": "^4.5.6",
-    "@aws-amplify/ui-components": "^1.9.6",
-    "@aws-amplify/ui-react": "^2.18.3",
     "@react-native-async-storage/async-storage": "^1.17.6",
     "@react-native-community/checkbox": "^0.5.12",
     "@react-native-community/netinfo": "^8.3.1",
@@ -25,9 +22,6 @@
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.2",
     "@reduxjs/toolkit": "^1.8.3",
-    "amazon-cognito-identity-js": "^5.2.9",
-    "aws-amplify": "^4.3.24",
-    "aws-amplify-react-native": "^6.0.4",
     "axios": "^0.27.2",
     "expo": "~45.0.0",
     "expo-splash-screen": "~0.15.1",
@@ -36,7 +30,6 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-native": "0.68.2",
-    "react-native-base64": "^0.2.1",
     "react-native-camera": "^4.2.1",
     "react-native-countdown-component": "^2.7.1",
     "react-native-date-picker": "^4.2.2",
@@ -48,6 +41,7 @@
     "react-native-pager-view": "^5.4.25",
     "react-native-paper": "^4.12.1",
     "react-native-popable": "^0.4.3",
+    "react-native-quick-base64": "^2.0.3",
     "react-native-reanimated": "^2.8.0",
     "react-native-safe-area-context": "^4.2.5",
     "react-native-screens": "^3.13.1",
@@ -57,7 +51,8 @@
     "react-native-tab-view": "^3.1.1",
     "react-native-vector-icons": "^9.1.0",
     "react-native-web": "0.17.7",
-    "react-redux": "^8.0.2"
+    "react-redux": "^8.0.2",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

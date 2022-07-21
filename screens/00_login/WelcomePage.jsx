@@ -2,12 +2,12 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Image, SafeAreaView, Text, View } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import StepIndicator from "react-native-step-indicator";
-import { checkBox, form, styles, welcome } from "./styles";
-import { useDispatch } from "react-redux";
-import { addCurrentScreen } from "../store/slices/navigationSlice";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { checkBox, form, styles, welcome } from "../../styles";
 
 export default WelcomePage = () => {
   const dispatch = useDispatch();
@@ -94,7 +94,7 @@ export default WelcomePage = () => {
       <SafeAreaView style={styles.container}>
         <Image
           style={styles.logo}
-          source={require("../assets/unipe-Thumbnail.png")}
+          source={require("../../assets/unipe-Thumbnail.png")}
         />
         <Text style={welcome.mainTitle}>Hello,</Text>
         <Text style={welcome.subTitle}>

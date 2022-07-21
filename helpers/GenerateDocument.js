@@ -1,4 +1,4 @@
-import base64 from "react-native-base64";
+import { btoa } from "react-native-quick-base64";
 const GenerateDocument = (props) => {
   var document = {};
   switch (props.src) {
@@ -22,11 +22,11 @@ const GenerateDocument = (props) => {
     case "AadhaarOCR":
       document = {
         id: props.id,
-        number: props.frontaadhaarData["document_id"],
-        base64_data: base64.encode({
-          gender: props.frontaadhaarData["gender"],
-          name: props.frontaadhaarData["name"],
-          address: props.backaadhaarData["address"],
+        number: props.frontAadhaarData["document_id"],
+        base64_data: btoa({
+          gender: props.frontAadhaarData["gender"],
+          name: props.frontAadhaarData["name"],
+          address: props.backAadhaarData["address"],
         }),
         verifyMode: "OCR",
         verifyStatus: "",

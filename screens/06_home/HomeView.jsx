@@ -1,8 +1,8 @@
 import { Icon } from "@react-native-material/core";
 import React from "react";
 import { SafeAreaView, ScrollView, TextInput, View } from "react-native";
-import DocumentTile from "../components/DocumentTile";
-import { docSearch, styles } from "./styles";
+import DocumentTile from "../../components/DocumentTile";
+import { docSearch, styles } from "../../styles";
 
 export default HomeView = () => {
   documents = [

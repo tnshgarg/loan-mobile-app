@@ -1,18 +1,39 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authSlice from "./slices/authSlice";
+import { combineReducers } from "redux";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { persistStore, persistReducer } from 'redux-persist';
+
 import aadhaarSlice from "./slices/aadhaarSlice";
-import panSlice from "./slices/panSlice";
+import authSlice from "./slices/authSlice";
 import bankSlice from "./slices/bankSlice";
 import esicSlice from "./slices/esicSlice";
+import navigationSlice from "./slices/navigationSlice";
+import panSlice from "./slices/panSlice";
 import profileSlice from "./slices/profileSlice";
 
-export const store = configureStore({
-  reducer: {
-    auth: authSlice,
-    aadhaar: aadhaarSlice,
-    pan: panSlice,
-    bank: bankSlice,
-    profile: profileSlice,
-    esic: esicSlice,
-  },
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+};
+
+const rootReducer =  combineReducers({
+  aadhaar: aadhaarSlice,
+  auth: authSlice,
+  bank: bankSlice,
+  esic: esicSlice,
+  navigation: navigationSlice,
+  pan: panSlice,
+  profile: profileSlice,
 });
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
+});
+
+export const persistor = persistStore(store);

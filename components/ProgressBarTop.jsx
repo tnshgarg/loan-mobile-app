@@ -2,7 +2,7 @@ import StepIndicator from "react-native-step-indicator";
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import { View } from "react-native";
-import { progressBar } from "../screens/styles";
+import { progressBar } from "../styles";
 
 export default ProgressBarTop = (props) => {
   const secondIndicatorStyles = {

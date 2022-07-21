@@ -15,5 +15,4 @@ const navigationSlice = createSlice({
 });
 
 export const { addCurrentScreen } = navigationSlice.actions;
-
 export default navigationSlice.reducer;

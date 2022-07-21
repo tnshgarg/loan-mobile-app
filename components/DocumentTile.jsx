@@ -1,8 +1,8 @@
 import React from "react";
 import { Text, View } from "react-native";
 import { Card, Title, Paragraph } from "react-native-paper";
-import { homeCard, docSearch } from "../screens/styles";
 import { Icon } from "@react-native-material/core";
+import { homeCard, docSearch } from "../styles";
 
 export default DocumentTile = (props) => {
   return (

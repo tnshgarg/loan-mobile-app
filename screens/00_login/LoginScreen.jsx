@@ -1,6 +1,7 @@
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -13,16 +14,14 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { styles } from "./styles";
-
 import SmsRetriever from "react-native-sms-retriever";
-import { GenerateDocument } from "../helpers/GenerateDocument";
-import { putMobileData } from "../services/employees/employeeServices";
-import { sendSmsVerification } from "../services/otp/Twilio/verify";
 
-import { useDispatch } from "react-redux";
-import { addId, addPhoneNumber } from "../store/slices/authSlice";
-import { addCurrentScreen } from "../store/slices/navigationSlice";
+import { GenerateDocument } from "../../helpers/GenerateDocument";
+import { putMobileData } from "../../services/employees/employeeServices";
+import { sendSmsVerification } from "../../services/otp/Twilio/verify";
+import { addId, addPhoneNumber } from "../../store/slices/authSlice";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { styles } from "../../styles";
 
 export default LoginScreen = () => {
   const navigation = useNavigation();
@@ -82,13 +81,14 @@ export default LoginScreen = () => {
   //   })}, [session]);
 
   const signIn = () => {
-    sendSmsVerification(phoneNumber)
+    const fullPhoneNumber = `+91${phoneNumber}`;
+    sendSmsVerification(fullPhoneNumber)
       .then((sent) => {
         console.log("Sent!");
         setIsLoading(true);
         var phonePayload = GenerateDocument({
           src: "otp",
-          number: `91${phoneNumber}`,
+          number: fullPhoneNumber,
         });
         putMobileData(phonePayload)
           .then((res) => {
@@ -141,7 +141,7 @@ export default LoginScreen = () => {
       <ScrollView keyboardShouldPersistTaps="handled">
         <Image
           style={styles.logo}
-          source={require("../assets/unipe-Thumbnail.png")}
+          source={require("../../assets/unipe-Thumbnail.png")}
         />
         <Text style={styles.headline}>
           Please enter your mobile number to login:
@@ -155,7 +155,7 @@ export default LoginScreen = () => {
           keyboardType="phone-pad"
           textContentType="telephoneNumber"
           maxLength={13}
-          placeholder="XXXXXXXXXX"
+          placeholder="9999999999"
         />
         <Text style={styles.dataUseText}>
           This number will be used for all communication. You shall receive an

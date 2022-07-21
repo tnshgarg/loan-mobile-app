@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Image,
   Text,
@@ -10,13 +11,13 @@ import {
 } from "react-native";
 import { Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import { styles } from "./styles";
 import SmsRetriever from "react-native-sms-retriever";
-import { checkVerification, sendSmsVerification } from "../services/otp/Twilio/verify";
 import CountDown from "react-native-countdown-component";
-import { useDispatch, useSelector } from "react-redux";
-import { addVerifyStatus } from "../store/slices/authSlice";
-import { addCurrentScreen } from "../store/slices/navigationSlice";
+import { checkVerification, sendSmsVerification } from "../../services/otp/Twilio/verify";
+import { addLoginVerifyStatus } from "../../store/slices/authSlice";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { styles } from "../../styles";
+
 
 export default OTPScreen = () => {
   const phoneNumber = useSelector((state) => state.auth.phoneNumber);
@@ -54,7 +55,7 @@ export default OTPScreen = () => {
             {back ? (
               <IconButton
                 icon={<Icon name="arrow-back" size={30} color="#4E46F1" />}
-                onPress={() => navigation.goBack()}
+                onPress={() => navigation.navigate('Login')}
               />
             ) : (
               <IconButton
@@ -70,7 +71,7 @@ export default OTPScreen = () => {
           </View>
           <Image
             style={styles.logo}
-            source={require("../assets/unipe-Thumbnail.png")}
+            source={require("../../assets/unipe-Thumbnail.png")}
           />
           <Text style={styles.headline}>
             {" "}
@@ -122,7 +123,7 @@ export default OTPScreen = () => {
             <Text
               style={styles.resendText}
               onPress={() => {
-                sendSmsVerification(phoneNumber).then((sent) => {
+                sendSmsVerification(`+91${phoneNumber}`).then((sent) => {
                   console.log("Sent!");
                 });
                 setOtp("");
@@ -144,11 +145,12 @@ export default OTPScreen = () => {
               color="#4E46F1"
               style={styles.ContinueButton}
               onPress={() => {
-                checkVerification(phoneNumber, otp).then((success) => {
+                const fullPhoneNumber = `+91${phoneNumber}`;
+                checkVerification(fullPhoneNumber, otp).then((success) => {
                   if (!success) Alert.alert("err", "Incorrect OTP");
                   success && navigation.navigate("AadhaarForm");
-                  console.log(phoneNumber,otp)
-                  dispatch(addVerifyStatus("SUCCESS"));
+                  console.log(fullPhoneNumber,otp)
+                  dispatch(addLoginVerifyStatus("SUCCESS"));
                   SmsRetriever.removeSmsListener();
                 });
               }}

@@ -1,21 +1,17 @@
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect } from "react";
 import { Image, SafeAreaView } from "react-native";
-import BottomTabNav from "../components/BottomTabNav";
-import HomeView from "./HomeView";
-import { buttons, nav } from "./styles";
-import { useDispatch } from "react-redux";
-import { addCurrentScreen } from "../store/slices/navigationSlice";
-
-// import Amplify from "@aws-amplify/core";
-// import Auth from "@aws-amplify/auth";
-// import awsconfig from "../src/aws-exports";
-// Amplify.configure(awsconfig);
-
 import { FAB, Portal, Provider } from "react-native-paper";
-import Document from "./Document";
+
+import BottomTabNav from "../../components/BottomTabNav";
 import Benefits from "./Benefits";
+import HomeView from "./HomeView";
+import Documents from "./Documents";
+
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { buttons, nav } from "../../styles";
 
 export default Home = () => {
   const [state, setState] = React.useState({ open: false });
@@ -23,23 +19,10 @@ export default Home = () => {
   const { open } = state;
   const tabs = [
     { name: "Home", component: HomeView },
-    { name: "Documents", component: Document },
+    { name: "Documents", component: Documents },
     { name: "Benefits", component: Benefits },
     { name: "Banking", component: HomeView },
   ];
-  // const signOut = () => {
-  //   if (user) {
-  //     Auth.signOut();
-  //     dispatch({
-  //       type: "SET_USER",
-  //       payload: null,
-  //     });
-  //     navigation.navigate("Login");
-  //     console.log("signed out");
-  //   } else {
-  //     console.log("No user to sign out");
-  //   }
-  // };
 
   const navigation = useNavigation();
 
@@ -56,7 +39,7 @@ export default Home = () => {
             title={
               <Image
                 style={nav.titleLogo}
-                source={require("../assets/unipe-Thumbnail.png")}
+                source={require("../../assets/unipe-Thumbnail.png")}
               />
             }
             centerTitle={true}
