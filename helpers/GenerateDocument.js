@@ -9,61 +9,42 @@ const GenerateDocument = (props) => {
       break;
 
     case "AadhaarOTP":
-      if (props.status == "SUCCESS") {
-        document = {
-          id: props.id,
-          number: props.aadhaar,
-          data: props.xml,
-          verifyMode: "OTP",
-          verifyStatus: props.status,
-          verifyMsg: props.message,
-        };
-      } else {
-        document = {
-          id: props.id,
-          number: props.aadhaar,
-          data: "",
-          verifyMode: "OTP",
-          verifyStatus: props.status,
-          verifyMsg: props.message,
-        };
-      }
+      document = {
+        id: props.id,
+        number: props.aadhaar,
+        data: props.status === "SUCCESS" ? props.xml: "",
+        verifyMode: "OTP",
+        verifyStatus: props.status,
+        verifyMsg: props.message,
+      };
       break;
 
     case "AadhaarOCR":
+      var stringifyData = "";
       if (props.status == "SUCCESS") {
         const data = {
           gender: props.frontAadhaarData["gender"],
           name: props.frontAadhaarData["name"],
           address: props.backAadhaarData["address"],
         };
-        const stringifyData = JSON.stringify(data);
-        document = {
-          id: props.id,
-          number: props.frontAadhaarData["document_id"],
-          data: btoa(stringifyData),
-          verifyMode: "OCR",
-          verifyStatus: props.status,
-          verifyMsg: props.message,
-        };
-      } else {
-        document = {
-          id: props.id,
-          number: "",
-          data: "",
-          verifyMode: "OCR",
-          verifyStatus: props.status,
-          verifyMsg: props.message,
-        };
+        stringifyData = btoa(JSON.stringify(data));
       }
+      document = {
+        id: props.id,
+        number: props.frontAadhaarData["document_id"],
+        data: stringifyData,
+        verifyMode: "OCR",
+        verifyStatus: props.status,
+        verifyMsg: props.message,
+      };
       break;
 
     case "Pan":
       document = {
         id: props.id,
         number: props.pan,
-        verifyStatus: "SUCCESS",
-        verifyMsg: "",
+        verifyStatus: props.status,
+        verifyMsg: props.message,
       };
       break;
 

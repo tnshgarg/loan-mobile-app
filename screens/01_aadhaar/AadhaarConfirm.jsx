@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import ProgressBarTop from "../../components/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
 
 export default AadhaarConfirm = () => {
