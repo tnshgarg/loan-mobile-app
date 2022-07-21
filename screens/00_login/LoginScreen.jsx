@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import {
@@ -25,20 +25,22 @@ import { styles } from "../../styles";
 
 export default LoginScreen = () => {
   const navigation = useNavigation();
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState(
+    useSelector((state) => state.auth.phoneNumber)
+  );
   const [next, setNext] = useState(false);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [id, setId] = useState(null);
-
+  var phn = "";
   useEffect(() => {
     dispatch(addCurrentScreen("Login"));
   }, []);
 
   const onPhoneNumberPressed = async () => {
     try {
-      const phn = await SmsRetriever.requestPhoneNumber();
-      setPhoneNumber(phn);
+      phn = await SmsRetriever.requestPhoneNumber();
+      setPhoneNumber(phn.replace("+91", ""));
     } catch (error) {
       console.log(JSON.stringify(error));
     }
@@ -81,7 +83,7 @@ export default LoginScreen = () => {
   //   })}, [session]);
 
   const signIn = () => {
-    const fullPhoneNumber = `+91${phoneNumber}`;
+    var fullPhoneNumber = `+91${phoneNumber}`;
     sendSmsVerification(fullPhoneNumber)
       .then((sent) => {
         console.log("Sent!");
@@ -120,10 +122,7 @@ export default LoginScreen = () => {
 
   useEffect(() => {
     var phoneno = /^[0-9]{10}$/gm;
-    if (
-      (phoneno.test(phoneNumber) && phoneNumber.length === 10) ||
-      phoneNumber.length === 13
-    ) {
+    if (phoneno.test(phoneNumber) && phoneNumber.length === 10) {
       setNext(true);
       console.log("true");
     } else {
