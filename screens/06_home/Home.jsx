@@ -48,7 +48,7 @@ export default Home = () => {
             leading={
               <IconButton
                 icon={<Icon name="menu" size={30} />}
-                onPress={() => signOut()}
+                onPress={() => console.log("Menu")}
               />
             }
             trailing={<IconButton icon={<Icon name="more-vert" size={30} />} />}

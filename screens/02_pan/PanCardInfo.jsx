@@ -13,23 +13,29 @@ import {
   View,
 } from "react-native";
 import ProgressBarTop from "../../components/ProgressBarTop";
-import { GenerateDocument } from "../../helpers/GenerateDocument";
-import { putPanData } from "../../services/employees/employeeServices";
 import { addPanNumber, addPanVerifyStatus } from "../../store/slices/panSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { panBackendPush } from "../../helpers/BackendPush";
 import { bankform, checkBox, form, styles } from "../../styles";
-
 
 export default PanCardInfo = () => {
   const navigation = useNavigation();
   const [pan, setPan] = useState(useSelector((state) => state.pan.number));
   const [next, setNext] = useState();
   const dispatch = useDispatch();
-  const id = useSelector((state) => state.auth.userId);
+  const id = useSelector((state) => state.auth.id);
   const [panName, setPanName] = useState("");
   const [birthday, setBirthday] = useState("");
-  const aadhaarVerifyScreen = useSelector((state) => { if (state.aadhaar.verifyStatus.OCR !="PENDING") { return "AadhaarForm" } else { return "AadhaarConfirm" } });
-  useEffect(() => {dispatch(addCurrentScreen("PanCardInfo"))}, []);
+  const aadhaarVerifyScreen = useSelector((state) => {
+    if (state.aadhaar.verifyStatus.OCR != "PENDING") {
+      return "AadhaarForm";
+    } else {
+      return "AadhaarConfirm";
+    }
+  });
+  useEffect(() => {
+    dispatch(addCurrentScreen("PanCardInfo"));
+  }, []);
   useEffect(() => {
     if (pan.length === 10) {
       setNext(true);
@@ -56,55 +62,65 @@ export default PanCardInfo = () => {
       body: JSON.stringify(data),
     };
 
+    var status = "ERROR";
+    var message = "";
     fetch(`https://api.gridlines.io/pan-api/v2/verify`, options)
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
-        {
-          if (response["status"] == "200") {
-            switch (response["data"]["code"]) {
-              case "1001":
-                PanPush();
-                RetrievePAN();
-                dispatch(addPanVerifyStatus("SUCCESS"));
-                break;
-
-              case "1002":
-                response["data"]["pan_data"]["name_match_status"] == "NO_MATCH"
-                  ? Alert.alert(
-                      "Pan Number Verification status",
-                      `Partial details matched, Please Check Name.`
-                    )
-                  : Alert.alert(
-                      "Pan Number Verification status",
-                      `Partial details matched, Please Check DOB.`
-                    );
-                
-                break;
-              case "1004":
-                Alert.alert(
-                  "Pan Number Verification status",
-                  `PAN number incorrect.`
-                );
-                break;
-            }
-          } else {
+        if (response["status"] == "200") {
+          switch (response["data"]["code"]) {
+            case "1001":
+              RetrievePAN();
+              dispatch(addPanVerifyStatus("SUCCESS"));
+              status = "SUCCESS";
+              break;
+            case "1002":
+              response["data"]["pan_data"]["name_match_status"] == "NO_MATCH"
+                ? Alert.alert(
+                    "Pan Number Verification status",
+                    `Partial details matched, Please Check Name.`
+                  )
+                : Alert.alert(
+                    "Pan Number Verification status",
+                    `Partial details matched, Please Check DOB.`
+                  );
+              message = response["data"]["message"];
+              break;
+            case "1003":
+              Alert.alert(
+                "Pan Number Verification status",
+                `Multiple Details mismatched, Please Check Details.`
+              );
+              message = response["data"]["message"];
+              break;
+            case "1004":
+              Alert.alert(
+                "Pan Number Verification status",
+                `PAN number incorrect.`
+              );
+              message = response["data"]["message"];
+              break;
+          }
+        } else {
+          if (response["error"]) {
             Alert.alert("Error", response["error"]["message"]);
+            message = response["error"]["message"];
+          } else {
+            Alert.alert("Error", response["message"]);
+            message = response["message"];
           }
         }
       })
-      .catch((err) => Alert.alert("Error", err));
-  };
-
-  const PanPush = () => {
-    var panPayload = GenerateDocument({ src: "Pan", id: id, pan: pan });
-    putPanData(panPayload)
-      .then((res) => {
-        console.log(panPayload);
-        console.log(res.data);
-      })
       .catch((err) => {
-        console.log(err);
+        Alert.alert("Error", err);
+        message = err;
+      });
+      panBackendPush({                  
+        id: id,
+        pan: pan,
+        status: status,
+        message: message                 
       });
   };
 

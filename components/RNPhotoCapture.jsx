@@ -28,7 +28,7 @@ export default function RNPhotoCapture (props) {
     if (props.route.params.type.match(/^AADHAAR/)) {
       dispatch(addAadhaarImage({ data: id, type: props.route.params.type }));
     } else if (props.route.params.type.match(/^SELFIE/)) {
-      dispatch(addSelfie({ data: id, type: props.route.params.type }));
+      dispatch(addSelfie(id));
     }
   }, [id]);
 

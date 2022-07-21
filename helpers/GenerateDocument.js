@@ -12,45 +12,50 @@ const GenerateDocument = (props) => {
       document = {
         id: props.id,
         number: props.aadhaar,
-        base64_data: props.xml,
+        data: props.status === "SUCCESS" ? props.xml: "",
         verifyMode: "OTP",
-        verifyStatus: "",
-        verifyMsg: "",
+        verifyStatus: props.status,
+        verifyMsg: props.message,
       };
       break;
 
     case "AadhaarOCR":
-      document = {
-        id: props.id,
-        number: props.frontAadhaarData["document_id"],
-        base64_data: btoa({
+      var stringifyData = "";
+      if (props.status == "SUCCESS") {
+        const data = {
           gender: props.frontAadhaarData["gender"],
           name: props.frontAadhaarData["name"],
           address: props.backAadhaarData["address"],
-        }),
+        };
+        stringifyData = btoa(JSON.stringify(data));
+      }
+      document = {
+        id: props.id,
+        number: props.frontAadhaarData["document_id"],
+        data: stringifyData,
         verifyMode: "OCR",
-        verifyStatus: "",
-        verifyMsg: "",
+        verifyStatus: props.status,
+        verifyMsg: props.message,
       };
       break;
 
     case "Pan":
       document = {
         id: props.id,
-        pan: props.pan,
-        status: "",
-        message: "",
+        number: props.pan,
+        verifyStatus: props.status,
+        verifyMsg: props.message,
       };
       break;
 
     case "Bank":
       document = {
         id: props.id,
-        account_number: props.accountNumber,
+        accountNumber: props.accountNumber,
         ifsc: props.ifsc,
         upi: props.upi,
-        status: "",
-        message: "",
+        verifyStatus: "SUCCESS",
+        verifyMsg: "",
       };
       break;
 

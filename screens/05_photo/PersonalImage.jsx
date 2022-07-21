@@ -19,16 +19,17 @@ import { addSelfie } from "../../store/slices/profileSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { checkBox, form, selfie, styles } from "../../styles";
 
-
 export default PersonalImage = () => {
   const navigation = useNavigation();
   const [pickerResponse, setPickerResponse] = useState(null);
-  const id = useSelector((state) => state.auth.userId);
-  const placeholder = useSelector((state) => state.profile.selfie);
+  const id = useSelector((state) => state.auth.id);
+  const image = useSelector((state) => state.profile.selfie);
   const Profile = useSelector((state) => state.profile);
   const dispatch = useDispatch();
 
-  useEffect(() => {dispatch(addCurrentScreen("PersonalImage"))}, []);
+  useEffect(() => {
+    dispatch(addCurrentScreen("PersonalImage"));
+  }, []);
   const ProfilePush = () => {
     var profilePayload = GenerateDocument({
       src: "Profile",
@@ -41,6 +42,7 @@ export default PersonalImage = () => {
     });
     putProfileData(profilePayload)
       .then((res) => {
+        console.log(res.data);
         navigation.navigate("Home");
       })
       .catch((err) => {
@@ -61,17 +63,7 @@ export default PersonalImage = () => {
     ImagePicker.launchImageLibrary(options, setPickerResponse);
   }, []);
 
-  const onCameraPress = React.useCallback(() => {
-    const options = {
-      cameraType: "front",
-      quality: 1,
-      mediaType: "photo",
-      includeBase64: true,
-    };
-    ImagePicker.launchCamera(options, setPickerResponse);
-  }, []);
-
-  const imageData = pickerResponse?.assets && pickerResponse.assets[0].base64;
+  var imageData = pickerResponse?.assets && pickerResponse.assets[0].base64;
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -96,12 +88,21 @@ export default PersonalImage = () => {
               style={selfie.selfie}
             />
           ) : (
-            <Icon
-              name="perm-identity"
-              size={300}
-              color="grey"
-              style={selfie.selfie}
-            />
+            <>
+              {image ? (
+                <Image
+                  source={{ uri: `data:image/jpeg;base64,${image}` }}
+                  style={selfie.selfie}
+                />
+              ) : (
+                <Icon
+                  name="perm-identity"
+                  size={300}
+                  color="grey"
+                  style={selfie.selfie}
+                />
+              )}
+            </>
           )}
           <View style={{ flexDirection: "row", alignSelf: "center" }}>
             <IconButton
@@ -115,7 +116,10 @@ export default PersonalImage = () => {
               icon={<Icon name="camera-alt" size={25} color="black" />}
               style={selfie.cameraButton}
               onPress={() => {
-                onCameraPress();
+                imageData=null;
+                navigation.navigate("RNPhotoCapture", {
+                  type: "SELFIE",
+                });
               }}
             />
           </View>

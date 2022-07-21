@@ -1,7 +1,7 @@
 import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
-import { useSelector , useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Alert,
   Image,
@@ -11,41 +11,20 @@ import {
   View,
 } from "react-native";
 import ProgressBarTop from "../../components/ProgressBarTop";
-import { GenerateDocument } from "../../helpers/GenerateDocument";
-import { putAadhaarData } from "../../services/employees/employeeServices";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
 
 export default AadhaarConfirm = () => {
   const navigation = useNavigation();
   const aadhaarData = useSelector((state) => state.aadhaar.data);
   const aadhaar = useSelector((state) => state.aadhaar.number);
-  const id = useSelector((state) => state.auth.userId);
+  const id = useSelector((state) => state.auth.id);
   const dispatch = useDispatch();
-  console.log("AadhaarData: ", aadhaarData);
 
-  useEffect(() => {dispatch(addCurrentScreen("AadhaarConfirm"))}, []);
-  const onConfirm = () => {
-    var aadhaarPayload = GenerateDocument({
-      src: "AadhaarOTP",
-      id: id,
-      aadhaar: aadhaar,
-      xml: aadhaarData["aadhaar_data"]["xml_base64"],
-    });
-    putAadhaarData(aadhaarPayload)
-      .then((res) => {
-        console.log(aadhaarPayload);
-        console.log(res.data);
-        if (res.data["message"]) {
-          Alert.alert("Message", res.data["message"]);
-        }
-        navigation.navigate("PanCardInfo");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
+  useEffect(() => {
+    dispatch(addCurrentScreen("AadhaarConfirm"));
+  }, []);
   const backAlert = () =>
     Alert.alert(
       "Heading Back?",
@@ -116,7 +95,15 @@ export default AadhaarConfirm = () => {
               style={form.yesButton}
               color="#4E46F1"
               onPress={() => {
-                onConfirm();
+                aadhaarBackendPush({
+                  type: "OTP",
+                  status: "SUCCESS",
+                  id: id,
+                  aadhaar: aadhaar,
+                  xml: aadhaarData["aadhaar_data"]["xml_base64"],
+                  message: "",
+                });
+                navigation.navigate("PanCardInfo");
               }}
             />
             <View style={bankform.padding}></View>
