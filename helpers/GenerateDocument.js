@@ -21,7 +21,9 @@ const GenerateDocument = (props) => {
 
     case "AadhaarOCR":
       var stringifyData = "";
+      var number = ""
       if (props.status == "SUCCESS") {
+        number = props.frontAadhaarData["document_id"]
         const data = {
           gender: props.frontAadhaarData["gender"],
           name: props.frontAadhaarData["name"],
@@ -31,7 +33,7 @@ const GenerateDocument = (props) => {
       }
       document = {
         id: props.id,
-        number: props.frontAadhaarData["document_id"],
+        number: number,
         data: stringifyData,
         verifyMode: "OCR",
         verifyStatus: props.status,
