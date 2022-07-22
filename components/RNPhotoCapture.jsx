@@ -16,11 +16,10 @@ const PendingView = () => (
   </View>
 );
 
-
-export default function RNPhotoCapture (props) {
-  const navigation = useNavigation()
-  const [id, setId] = useState(null)
-  const {front} = props.route.params
+export default function RNPhotoCapture(props) {
+  const navigation = useNavigation();
+  const [id, setId] = useState(null);
+  const [side, setSide] = useState("back");
 
   const dispatch = useDispatch();
 
@@ -29,6 +28,7 @@ export default function RNPhotoCapture (props) {
       dispatch(addAadhaarImage({ data: id, type: props.route.params.type }));
     } else if (props.route.params.type.match(/^SELFIE/)) {
       dispatch(addSelfie(id));
+      setSide("front");
     }
   }, [id]);
 
@@ -42,45 +42,83 @@ export default function RNPhotoCapture (props) {
 
   return (
     <View style={Camera.container}>
-      <RNCamera
-        style={Camera.preview}
-        type={
-          RNCamera.Constants.Type.back
-        }
-        flashMode={RNCamera.Constants.FlashMode.off}
-        androidCameraPermissionOptions={{
-          title: "Permission to use camera",
-          message: "We need your permission to use your camera",
-          buttonPositive: "Ok",
-          buttonNegative: "Cancel",
-        }}
-        androidRecordAudioPermissionOptions={{
-          title: "Permission to use audio recording",
-          message: "We need your permission to use your audio",
-          buttonPositive: "Ok",
-          buttonNegative: "Cancel",
-        }}
-      >
-        {({ camera, status, recordAudioPermissionStatus }) => {
-          if (status !== "READY") return <PendingView />;
-          return (
-            <View style={Camera.buttons}>
-              <TouchableOpacity
-                onPress={() => navigation.goBack()}
-                style={Camera.back}
-              >
-                <Icon name="arrow-back" size={25} color="white" />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => takePicture(camera)}
-                style={Camera.capture}
-              >
-                <Text style={Camera.buttonText}> Capture </Text>
-              </TouchableOpacity>
-            </View>
-          );
-        }}
-      </RNCamera>
+      {side == "front" ? (
+        <RNCamera
+          style={Camera.preview}
+          type={RNCamera.Constants.Type.front}
+          flashMode={RNCamera.Constants.FlashMode.off}
+          androidCameraPermissionOptions={{
+            title: "Permission to use camera",
+            message: "We need your permission to use your camera",
+            buttonPositive: "Ok",
+            buttonNegative: "Cancel",
+          }}
+          androidRecordAudioPermissionOptions={{
+            title: "Permission to use audio recording",
+            message: "We need your permission to use your audio",
+            buttonPositive: "Ok",
+            buttonNegative: "Cancel",
+          }}
+        >
+          {({ camera, status, recordAudioPermissionStatus }) => {
+            if (status !== "READY") return <PendingView />;
+            return (
+              <View style={Camera.buttons}>
+                <TouchableOpacity
+                  onPress={() => navigation.goBack()}
+                  style={Camera.back}
+                >
+                  <Icon name="arrow-back" size={25} color="white" />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => takePicture(camera)}
+                  style={Camera.capture}
+                >
+                  <Text style={Camera.buttonText}> Capture </Text>
+                </TouchableOpacity>
+              </View>
+            );
+          }}
+        </RNCamera>
+      ) : (
+        <RNCamera
+          style={Camera.preview}
+          type={RNCamera.Constants.Type.back}
+          flashMode={RNCamera.Constants.FlashMode.off}
+          androidCameraPermissionOptions={{
+            title: "Permission to use camera",
+            message: "We need your permission to use your camera",
+            buttonPositive: "Ok",
+            buttonNegative: "Cancel",
+          }}
+          androidRecordAudioPermissionOptions={{
+            title: "Permission to use audio recording",
+            message: "We need your permission to use your audio",
+            buttonPositive: "Ok",
+            buttonNegative: "Cancel",
+          }}
+        >
+          {({ camera, status, recordAudioPermissionStatus }) => {
+            if (status !== "READY") return <PendingView />;
+            return (
+              <View style={Camera.buttons}>
+                <TouchableOpacity
+                  onPress={() => navigation.goBack()}
+                  style={Camera.back}
+                >
+                  <Icon name="arrow-back" size={25} color="white" />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => takePicture(camera)}
+                  style={Camera.capture}
+                >
+                  <Text style={Camera.buttonText}> Capture </Text>
+                </TouchableOpacity>
+              </View>
+            );
+          }}
+        </RNCamera>
+      )}
     </View>
   );
-};
+}

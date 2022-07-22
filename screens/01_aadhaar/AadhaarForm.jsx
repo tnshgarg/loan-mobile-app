@@ -199,7 +199,6 @@ export default AadhaarForm = () => {
   const VerifyAadharOCR = () => {
     AadhaarOCR("front");
     AadhaarOCR();
-    setTimeout(() => {
       !aadhaarBackVerified
         ? alert(
             `The Image captured is not verified please capture the image again for Aadhaar Back to get it verified.`
@@ -232,7 +231,6 @@ export default AadhaarForm = () => {
           message: errorMsg,
         })
       );
-    }, 1000);
   };
 
   const backAlert = () =>

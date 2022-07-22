@@ -1,6 +1,5 @@
 import { GenerateDocument } from "./GenerateDocument";
 import { putAadhaarData, putBankAccountData, putPanData } from "../services/employees/employeeServices";
-import navigationSlice from "../store/slices/navigationSlice";
 
 export const aadhaarBackendPush = (props) => {
   var aadhaarPayload = {};
@@ -29,7 +28,6 @@ export const aadhaarBackendPush = (props) => {
     .catch((err) => {
       console.log(err);
     });
-  return null;
 };
 
 export const bankBackendPush = (props) => {
@@ -38,7 +36,7 @@ export const bankBackendPush = (props) => {
     id: props.id,
     ifsc: props.ifsc,
     accountNumber: props.accountNumber,
-    upi: props.upiId,
+    upi: props.upi,
     status: props.status,
     message: props.message
   });
