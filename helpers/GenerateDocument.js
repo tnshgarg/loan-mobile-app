@@ -12,7 +12,7 @@ const GenerateDocument = (props) => {
       document = {
         id: props.id,
         number: props.aadhaar,
-        data: props.status === "SUCCESS" ? props.xml: "",
+        data: props.status === "SUCCESS" ? props.xml : "",
         verifyMode: "OTP",
         verifyStatus: props.status,
         verifyMsg: props.message,
@@ -21,9 +21,9 @@ const GenerateDocument = (props) => {
 
     case "AadhaarOCR":
       var stringifyData = "";
-      var number = ""
+      var number = "";
       if (props.status == "SUCCESS") {
-        number = props.frontAadhaarData["document_id"]
+        number = props.frontAadhaarData["document_id"];
         const data = {
           gender: props.frontAadhaarData["gender"],
           name: props.frontAadhaarData["name"],
@@ -70,6 +70,26 @@ const GenerateDocument = (props) => {
         email: props.email,
         photo: props.photo,
       };
+      break;
+
+    case "FamilyDetails":
+      document = {
+        id: props.id,
+        type: props.type,
+        relation: props.relation,
+        name: props.name,
+      };
+      break;
+
+    case "Address":
+      document = {
+        id: props.id,
+        type: props.type,
+        street: props.street,
+        state: props.state,
+        district: props.district,
+      };
+
       break;
   }
   return document;

@@ -4,17 +4,15 @@ import { ScrollView, Text, TextInput, View } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { Button } from "@react-native-material/core";
 import { Picker } from "@react-native-picker/picker";
-
 import relations from "../../../helpers/RelationData";
 import { addESICFamilyDetails } from "../../../store/slices/esicSlice";
-
+import { familyDetailsPush } from "../../../helpers/BackendPush";
 import { bankform, form, styles } from "../../../styles";
-
 
 export default FamilyDetails = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-
+  const id = useSelector((state) => state.auth.id);
   const [fatherHusbandRelation, setRelation] = useState(
     useSelector((state) => state.esic.familyDetails.fatherHusband.relation)
   );
@@ -119,6 +117,21 @@ export default FamilyDetails = () => {
         color="#4E46F1"
         style={form.nextButton}
         onPress={() => {
+
+          familyDetailsPush({
+            id: id,
+            type: "fh",
+            relation: fatherHusbandRelation,
+            name: fatherHusbandName,
+          });
+
+          familyDetailsPush({
+            id: id,
+            type: "nominee",
+            relation: nomineeRelation,
+            name: nomineeName,
+          });
+          
           navigation.navigate("Benefits", {
             screen: "ESIC",
             params: {
