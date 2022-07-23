@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   accountNumber: "",
   ifsc: "",
-  upiId: "",
+  upi: "",
   accountHolderName: "",
   verifyStatus: "PENDING",
 };
@@ -22,7 +22,7 @@ const bankSlice = createSlice({
       state.ifsc = action.payload;
     },
     addBankUpiId(state, action) {
-      state.upiId = action.payload;
+      state.upi = action.payload;
     },
     addBankVerifyStatus(state, action) {
       state.verifyStatus = action.payload;
