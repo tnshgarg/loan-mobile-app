@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   number: "",
   verifyStatus: "PENDING",
+  verifyMessage: "",
 };
 
 const panSlice = createSlice({
@@ -15,8 +16,11 @@ const panSlice = createSlice({
     addPanVerifyStatus(state, action) {
       state.verifyStatus = action.payload;
     },
+    addPanVerifyMessage(state, action) {
+      state.verifyMessage = action.payload;
+    },
   },
 });
 
-export const { addPanNumber, addPanVerifyStatus } = panSlice.actions;
+export const { addPanNumber, addPanVerifyStatus, addPanVerifyMessage } = panSlice.actions;
 export default panSlice.reducer;
