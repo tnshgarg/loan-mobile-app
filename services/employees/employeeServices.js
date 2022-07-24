@@ -26,6 +26,9 @@ export const putBackendData = (props) => {
     case "Address":
       url = APIS.ADDRESS_ONBOARD_API;
       break;
+    case "Portal":
+      url = APIS.PORTAL_ONBOARD_API;
+      break;
   }
   var config = {
     method: "post",

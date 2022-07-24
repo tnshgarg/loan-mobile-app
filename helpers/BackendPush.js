@@ -91,13 +91,30 @@ export const addressPush = (props) => {
     src: "Address",
     id: props.id,
     type: props.type,
-    street: props.street,
-    state: props.state,
-    district: props.district,
+    street: props.address[props.type].street,
+    state: props.address[props.type].state,
+    district: props.address[props.type].district,
+    pin: props.address[props.type].pincode,
   });
   putBackendData({ document: addressPayload, src: "Address" })
     .then((res) => {
       console.log(addressPayload);
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const portalPush = (props) => {
+  var portalPayload = GenerateDocument({
+    src: "Portal",
+    id: props.id,
+    ipNumber : props.ipNumber,
+  });
+  putBackendData({ document: portalPayload, src: "Portal" })
+    .then((res) => {
+      console.log(portalPayload);
       console.log(res.data);
     })
     .catch((err) => {

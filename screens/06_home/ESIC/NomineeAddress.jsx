@@ -17,6 +17,7 @@ export default NomineeAddress = () => {
         color="#4E46F1"
         style={form.nextButton}
         onPress={() => {
+          {addressPush({ id: id, type: "nominee", address: address})}
           navigation.navigate("Home");
         }}
       />

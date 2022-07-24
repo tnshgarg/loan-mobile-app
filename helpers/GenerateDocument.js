@@ -88,8 +88,12 @@ const GenerateDocument = (props) => {
         street: props.street,
         state: props.state,
         district: props.district,
+        pin: props.pin,
       };
-
+      break;
+      
+    case "Portal":
+      document = { id: props.id, ipNumber: props.ipNumber };
       break;
   }
   return document;
