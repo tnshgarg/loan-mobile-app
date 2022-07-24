@@ -102,6 +102,7 @@ export default AadhaarConfirm = () => {
                   aadhaar: aadhaar,
                   xml: aadhaarData["aadhaar_data"]["xml_base64"],
                   message: "",
+                  data : aadhaarData["aadhaar_data"]
                 });
                 navigation.navigate("PanCardInfo");
               }}

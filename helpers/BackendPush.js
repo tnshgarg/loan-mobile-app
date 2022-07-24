@@ -19,6 +19,7 @@ export const aadhaarBackendPush = (props) => {
         xml: props.xml,
         status: props.status,
         message: props.message,
+        data : props.data,
       }));
   putBackendData({ document: aadhaarPayload, src: "Aadhaar" })
     .then((res) => {
@@ -57,6 +58,7 @@ export const panBackendPush = (props) => {
     pan: props.pan,
     status: props.status,
     message: props.message,
+    dob : props.dob,
   });
   putBackendData({ document: panPayload, src: "Pan" })
     .then((res) => {
@@ -110,7 +112,7 @@ export const portalPush = (props) => {
   var portalPayload = GenerateDocument({
     src: "Portal",
     id: props.id,
-    ipNumber : props.ipNumber,
+    ipNumber: props.ipNumber,
   });
   putBackendData({ document: portalPayload, src: "Portal" })
     .then((res) => {

@@ -137,6 +137,7 @@ export default PanCardInfo = () => {
     panBackendPush({
       id: id,
       pan: pan,
+      dob : birthday,
       status: verifyStatus,
       message: verifyMessage,
     });
