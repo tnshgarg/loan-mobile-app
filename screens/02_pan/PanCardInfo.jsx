@@ -42,13 +42,14 @@ export default PanCardInfo = () => {
     setVerifyStatus(panSlice.verifyStatus);
   }, [panSlice.verifyStatus]);
 
-  const aadhaarVerifyScreen = useSelector((state) => {
+  const aadhaartype = useSelector((state) => {
     if (state.aadhaar.verifyStatus.OCR != "PENDING") {
-      return "AadhaarForm";
+      return "OCR";
     } else {
-      return "AadhaarConfirm";
+      return "OTP";
     }
   });
+  console.log("aadhaartype", aadhaartype);
   useEffect(() => {
     dispatch(addCurrentScreen("PanCardInfo"));
   }, []);
@@ -185,7 +186,7 @@ export default PanCardInfo = () => {
           leading={
             <IconButton
               icon={<Icon name="arrow-back" size={20} color="white" />}
-              onPress={() => navigation.navigate(aadhaarVerifyScreen)} //Conditonal back based on verify status
+              onPress={() => navigation.navigate("AadhaarConfirm",aadhaartype)}
             />
           }
         />
