@@ -66,7 +66,7 @@ export default AadhaarVerify = () => {
           switch (response["data"]["code"]) {
             case "1002":
               setAadhaarData(response["data"]);
-              navigation.navigate("AadhaarConfirm");
+              navigation.navigate("AadhaarConfirm","OTP");
               dispatch(
                 addAadhaarVerifyStatus({ type: "OTP", status: "SUCCESS" })
               );
