@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { ScrollView, Text, TextInput, View } from "react-native";
 import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-
+import { portalPush } from "../../../helpers/BackendPush";
 import { addESICPortal } from "../../../store/slices/esicSlice";
 import { bankform, form, styles } from "../../../styles";
 
 export default Portal = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
+  const id = useSelector((state) => state.auth.id);
   const [estCode, setEstCode] = useState(
     useSelector((state) => state.esic.portal.estCode)
   );
@@ -29,12 +29,12 @@ export default Portal = () => {
   return (
     <>
       <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
-        <Text style={bankform.formtitle}>Employer Establishment Code*</Text>
+        {/* <Text style={bankform.formtitle}>Employer Establishment Code*</Text>
         <TextInput
           style={bankform.formInput}
           value={estCode}
           onChangeText={setEstCode}
-        />
+        /> */}
         <Text style={bankform.formtitle}>IP Number</Text>
         <TextInput
           style={bankform.formInput}
@@ -48,6 +48,7 @@ export default Portal = () => {
           color="#4E46F1"
           style={form.nextButton}
           onPress={() => {
+            portalPush({ id: id, ipNumber: ipNumber });
             navigation.navigate("Benefits", {
               screen: "ESIC",
               params: {

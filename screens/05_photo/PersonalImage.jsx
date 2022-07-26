@@ -14,14 +14,13 @@ import * as ImagePicker from "react-native-image-picker";
 
 import ProgressBarTop from "../../components/ProgressBarTop";
 import { GenerateDocument } from "../../helpers/GenerateDocument";
-import { putProfileData } from "../../services/employees/employeeServices";
+import { putBackendData } from "../../services/employees/employeeServices";
 import { addSelfie } from "../../store/slices/profileSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { checkBox, form, selfie, styles } from "../../styles";
 
 export default PersonalImage = () => {
   const navigation = useNavigation();
-  const [pickerResponse, setPickerResponse] = useState(null);
   const id = useSelector((state) => state.auth.id);
   const Profile = useSelector((state) => state.profile);
   const [imageData,setImageData] = useState(Profile.selfie);
@@ -45,7 +44,7 @@ export default PersonalImage = () => {
       email: Profile["email"],
       photo: imageData,
     });
-    putProfileData(profilePayload)
+    putBackendData({ document: profilePayload, src: "Profile" })
       .then((res) => {
         console.log(res.data);
         navigation.navigate("Home");
