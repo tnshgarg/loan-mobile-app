@@ -2,8 +2,8 @@ import React from "react";
 import AadhaarConfirmOCR from "./AadhaarConfirm/AadhaarConfirmOCR";
 import AadhaarConfirmOTP from "./AadhaarConfirm/AadhaarConfirmOTP";
 
-export default AadhaarConfirm = (type) => {
+export default AadhaarConfirm = (props) => {
   return (
-     type.route.params =="OCR" ? <AadhaarConfirmOCR /> : <AadhaarConfirmOTP /> 
+     props.route.params =="OCR" ? <AadhaarConfirmOCR /> : <AadhaarConfirmOTP /> 
   )
 };
