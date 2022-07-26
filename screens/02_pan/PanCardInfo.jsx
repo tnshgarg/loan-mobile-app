@@ -21,6 +21,7 @@ import {
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { panBackendPush } from "../../helpers/BackendPush";
 import { bankform, checkBox, form, styles } from "../../styles";
+import { addEmail } from "../../store/slices/profileSlice";
 
 export default PanCardInfo = () => {
   const navigation = useNavigation();
@@ -138,6 +139,7 @@ export default PanCardInfo = () => {
     panBackendPush({
       id: id,
       pan: pan,
+      dob : birthday,
       status: verifyStatus,
       message: verifyMessage,
     });
@@ -163,8 +165,9 @@ export default PanCardInfo = () => {
       .then((response) => {
         Alert.alert(
           "PAN Information",
-          `PAN: ${pan}\nName: ${panName}\nGender: ${response["data"]["pan_data"]["gender"]}\nEmail: ${response["data"]["pan_data"]["email"]}`
+          `PAN: ${pan}\nName: ${panName}\nGender: ${response["data"]["pan_data"]["gender"]}\nEmail: ${response["data"]["pan_data"]["email"].toLowerCase()}`
         );
+        dispatch(addEmail(response["data"]["pan_data"]["email"].toLowerCase()));
         navigation.navigate("BankInfoForm");
       })
       .catch((err) => Alert.alert("Error", err));
