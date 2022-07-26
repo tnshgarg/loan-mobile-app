@@ -14,6 +14,7 @@ import ProgressBarTop from "../../components/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
+import { showToast } from "../../components/Toast";
 
 export default AadhaarConfirm = () => {
   const navigation = useNavigation();
@@ -103,6 +104,7 @@ export default AadhaarConfirm = () => {
                   xml: aadhaarData["aadhaar_data"]["xml_base64"],
                   message: "",
                 });
+                showToast("Aadhaar Details Recorded");
                 navigation.navigate("PanCardInfo");
               }}
             />

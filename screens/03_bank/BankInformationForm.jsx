@@ -23,6 +23,7 @@ import {
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { bankBackendPush } from "../../helpers/BackendPush";
 import { bankform, styles } from "../../styles";
+import { showToast } from "../../components/Toast";
 
 export default BankInformationForm = () => {
   const navigation = useNavigation();
@@ -89,6 +90,7 @@ export default BankInformationForm = () => {
                           dispatch(addBankVerifyStatus("SUCCESS"));
                           status = "SUCCESS";
                           navigation.navigate("PersonalDetailsForm");
+                          showToast("Bank Account Details Recorded");
                         },
                       },
                       {

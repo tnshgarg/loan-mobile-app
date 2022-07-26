@@ -21,6 +21,7 @@ import {
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { panBackendPush } from "../../helpers/BackendPush";
 import { bankform, checkBox, form, styles } from "../../styles";
+import { showToast } from "../../components/Toast";
 
 export default PanCardInfo = () => {
   const navigation = useNavigation();
@@ -164,6 +165,7 @@ export default PanCardInfo = () => {
           "PAN Information",
           `PAN: ${pan}\nName: ${panName}\nGender: ${response["data"]["pan_data"]["gender"]}\nEmail: ${response["data"]["pan_data"]["email"]}`
         );
+        showToast("PAN Details Recorded");
         navigation.navigate("BankInfoForm");
       })
       .catch((err) => Alert.alert("Error", err));

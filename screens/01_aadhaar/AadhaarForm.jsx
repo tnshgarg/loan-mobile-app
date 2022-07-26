@@ -24,6 +24,7 @@ import {
 } from "../../store/slices/aadhaarSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { bankform, Camera, checkBox, form, styles } from "../../styles";
+import { showToast } from "../../components/Toast";
 
 export default AadhaarForm = () => {
   const aadhaarFront = useSelector((state) => state.aadhaar.frontImg);
@@ -170,6 +171,7 @@ export default AadhaarForm = () => {
                         response["data"]["ocr_data"]["document"]
                       );
                 }
+                showToast("Aadhaar Details Recorded");
                 break;
               case "1015":
                 type === "front" ? setAadhaarFrontVerified(false) : setAadhaarBackVerified(false);

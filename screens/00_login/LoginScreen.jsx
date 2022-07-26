@@ -22,6 +22,7 @@ import { sendSmsVerification } from "../../services/otp/Twilio/verify";
 import { addId, addPhoneNumber } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
+import { showToast } from "../../components/Toast";
 
 export default LoginScreen = () => {
   const navigation = useNavigation();
@@ -100,6 +101,7 @@ export default LoginScreen = () => {
               Alert.alert("Error", res.data["message"]);
             } else {
               setId(res.data["id"]);
+              showToast("Mobile Number Registered");
             }
           })
           .catch((err) => {
