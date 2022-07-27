@@ -96,16 +96,16 @@ export default LoginScreen = () => {
           .then((res) => {
             console.log(phonePayload);
             console.log(res.data);
-            if (res.data["message"]) {
-              Alert.alert("Error", res.data["message"]);
-            } else {
+            if (res.data["status"] == 201) {
               setId(res.data["id"]);
+              navigation.navigate("Otp");
+            } else {
+              Alert.alert("Error", res.data["message"]);
             }
           })
           .catch((err) => {
             console.log(err);
           });
-        navigation.navigate("Otp");
       })
       .catch((err) => {
         console.log(err);
