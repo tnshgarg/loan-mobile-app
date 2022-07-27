@@ -17,7 +17,7 @@ import {
 import SmsRetriever from "react-native-sms-retriever";
 
 import { GenerateDocument } from "../../helpers/GenerateDocument";
-import { putMobileData } from "../../services/employees/employeeServices";
+import { putBackendData } from "../../services/employees/employeeServices";
 import { sendSmsVerification } from "../../services/otp/Twilio/verify";
 import { addId, addPhoneNumber } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
@@ -93,21 +93,21 @@ export default LoginScreen = () => {
           src: "otp",
           number: fullPhoneNumber,
         });
-        putMobileData(phonePayload)
+        putBackendData({ document: phonePayload, src: "Mobile" })
           .then((res) => {
             console.log(phonePayload);
             console.log(res.data);
-            if (res.data["message"]) {
-              Alert.alert("Error", res.data["message"]);
-            } else {
+            if (res.data["status"] == 201) {
               setId(res.data["id"]);
               showToast("Mobile Number Registered");
+              navigation.navigate("Otp");
+            } else {
+              Alert.alert("Error", res.data["message"]);
             }
           })
           .catch((err) => {
             console.log(err);
           });
-        navigation.navigate("Otp");
       })
       .catch((err) => {
         console.log(err);

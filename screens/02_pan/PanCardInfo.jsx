@@ -22,6 +22,8 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { panBackendPush } from "../../helpers/BackendPush";
 import { bankform, checkBox, form, styles } from "../../styles";
 import { showToast } from "../../components/Toast";
+import { addEmail } from "../../store/slices/profileSlice";
+import DateEntry from "../../components/DateEntry";
 
 export default PanCardInfo = () => {
   const navigation = useNavigation();
@@ -43,11 +45,11 @@ export default PanCardInfo = () => {
     setVerifyStatus(panSlice.verifyStatus);
   }, [panSlice.verifyStatus]);
 
-  const aadhaarVerifyScreen = useSelector((state) => {
+  const aadhaartype = useSelector((state) => {
     if (state.aadhaar.verifyStatus.OCR != "PENDING") {
-      return "AadhaarForm";
+      return "OCR";
     } else {
-      return "AadhaarConfirm";
+      return "OTP";
     }
   });
   useEffect(() => {
@@ -138,6 +140,7 @@ export default PanCardInfo = () => {
     panBackendPush({
       id: id,
       pan: pan,
+      dob: birthday,
       status: verifyStatus,
       message: verifyMessage,
     });
@@ -163,20 +166,16 @@ export default PanCardInfo = () => {
       .then((response) => {
         Alert.alert(
           "PAN Information",
-          `PAN: ${pan}\nName: ${panName}\nGender: ${response["data"]["pan_data"]["gender"]}\nEmail: ${response["data"]["pan_data"]["email"]}`
+          `PAN: ${pan}\nName: ${panName}\nGender: ${
+            response["data"]["pan_data"]["gender"]
+          }\nEmail: ${response["data"]["pan_data"]["email"].toLowerCase()}`
         );
         showToast("PAN Details Recorded");
+        dispatch(addEmail(response["data"]["pan_data"]["email"].toLowerCase()));
         navigation.navigate("BankInfoForm");
       })
       .catch((err) => Alert.alert("Error", err));
   };
-
-  useEffect(() => {
-    const birthdayChange = () => {
-      setBirthday(birthday.replace(/^(\d{4})(\d{2})(\d{2})/, "$1-$2-$3"));
-    };
-    return birthdayChange();
-  }, [birthday]);
 
   return (
     <>
@@ -187,7 +186,7 @@ export default PanCardInfo = () => {
           leading={
             <IconButton
               icon={<Icon name="arrow-back" size={20} color="white" />}
-              onPress={() => navigation.navigate(aadhaarVerifyScreen)} //Conditonal back based on verify status
+              onPress={() => navigation.navigate("AadhaarConfirm", aadhaartype)}
             />
           }
         />
@@ -227,14 +226,8 @@ export default PanCardInfo = () => {
             placeholder="Enter Name Registered with PAN"
             required
           />
-          <Text style={form.formLabel}>Date of birth as recorded in PAN</Text>
-          <TextInput
-            style={form.formTextInput}
-            value={birthday}
-            onChangeText={setBirthday}
-            placeholder="YYYY-MM-DD"
-            maxLength={10}
-          />
+          <DateEntry title="Date of birth as recorded in PAN" val={birthday} setval={setBirthday}/>
+          {console.log(birthday)}
           <View style={bankform.infoCard}>
             <Text style={bankform.infoText}>
               <Icon name="info-outline" size={20} color="#4E46F1" />

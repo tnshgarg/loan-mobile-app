@@ -215,15 +215,7 @@ export default AadhaarForm = () => {
         <>
           {alert("Aadhar Verified through OCR.")}
           {dispatch(addAadhaarVerifyStatus({ type: "OCR", status: "SUCCESS" }))}
-          {navigation.navigate("PanCardInfo")}
-          {aadhaarBackendPush({
-            type: "OCR",
-            status: "SUCCESS",
-            id: id,
-            frontAadhaarData: frontAadhaarData,
-            backAadhaarData: backAadhaarData,
-            message: "",
-          })}
+          {navigation.navigate("AadhaarConfirm","OCR")}
         </>
       ) : (
         aadhaarBackendPush({
