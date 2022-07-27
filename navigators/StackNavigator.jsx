@@ -1,9 +1,6 @@
-import React from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import { View, Text } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
+import React from 'react';
+import { useSelector } from "react-redux";
 import LoginScreen from "../screens/00_login/LoginScreen";
 import OTPScreen from "../screens/00_login/OTPScreen";
 import WelcomePage from "../screens/00_login/WelcomePage";
@@ -16,9 +13,7 @@ import PersonalDetailsForm from "../screens/04_profile/PersonalDetailsForm";
 import PersonalImage from "../screens/05_photo/PersonalImage";
 import Home from "../screens/06_home/Home";
 import DevMenu from "../screens/DevMenu";
-import RNPhotoCapture from "../components/RNPhotoCapture";
-
-import {STAGE} from "@env";
+import { STAGE } from "@env";
 
 
 const StackNavigator = () => {
@@ -70,14 +65,6 @@ const StackNavigator = () => {
             <Stack.Screen
                 name="AadhaarForm"
                 component={AadhaarForm}
-                options={{
-                headerShown: false,
-                header: null,
-                }}
-            />
-            <Stack.Screen
-                name="RNPhotoCapture"
-                component={RNPhotoCapture}
                 options={{
                 headerShown: false,
                 header: null,

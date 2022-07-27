@@ -24,7 +24,7 @@ import {
 } from "../../store/slices/aadhaarSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { bankform, Camera, checkBox, form, styles } from "../../styles";
-
+import RNPhotoCapture from "../../components/RNPhotoCapture";
 export default AadhaarForm = () => {
   const aadhaarFront = useSelector((state) => state.aadhaar.frontImg);
   const aadhaarBack = useSelector((state) => state.aadhaar.backImg);
@@ -332,15 +332,7 @@ export default AadhaarForm = () => {
                 />
               ) : null}
               <View style={{ flexDirection: "row" }}>
-                <IconButton
-                  icon={<Icon name="camera-alt" size={20} color="black" />}
-                  style={Camera.cameraButton}
-                  onPress={() => {
-                    navigation.navigate("RNPhotoCapture", {
-                      type: "AADHAAR_FRONT",
-                    });
-                  }}
-                />
+              <RNPhotoCapture type="AADHAAR_FRONT" side="back"/>
                 <IconButton
                   icon={<Icon name="delete" size={20} color="black" />}
                   style={Camera.cameraButton}
@@ -362,15 +354,7 @@ export default AadhaarForm = () => {
                 />
               ) : null}
               <View style={{ flexDirection: "row" }}>
-                <IconButton
-                  icon={<Icon name="camera-alt" size={20} color="black" />}
-                  style={Camera.cameraButton}
-                  onPress={() => {
-                    navigation.navigate("RNPhotoCapture", {
-                      type: "AADHAAR_BACK",
-                    });
-                  }}
-                />
+              <RNPhotoCapture type="AADHAAR_BACK" side="back"/>
                 <IconButton
                   icon={<Icon name="delete" size={20} color="black" />}
                   style={Camera.cameraButton}
