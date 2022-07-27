@@ -238,6 +238,21 @@ export const form = StyleSheet.create({
     marginLeft: 280,
     marginTop: 10,
   },
+  year: {
+    marginLeft: 34,
+    height: 40,
+    width: 40,
+    textAlign: "center",
+    borderBottomWidth: 1,
+  },
+  monthday: {
+    height: 40,
+    width: 40,
+    textAlign: "center",
+    borderBottomWidth: 1,
+  },
+  hypenView: { width: 30, alignSelf: "center" },
+  hypen: { alignSelf: "center", fontSize: 30 },
 });
 
 export const checkBox = StyleSheet.create({
