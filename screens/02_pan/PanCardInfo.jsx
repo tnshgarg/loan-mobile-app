@@ -21,6 +21,7 @@ import {
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { panBackendPush } from "../../helpers/BackendPush";
 import { bankform, checkBox, form, styles } from "../../styles";
+import { showToast } from "../../components/Toast";
 import { addEmail } from "../../store/slices/profileSlice";
 import DateEntry from "../../components/DateEntry";
 
@@ -169,6 +170,7 @@ export default PanCardInfo = () => {
             response["data"]["pan_data"]["gender"]
           }\nEmail: ${response["data"]["pan_data"]["email"].toLowerCase()}`
         );
+        showToast("PAN Details Recorded");
         dispatch(addEmail(response["data"]["pan_data"]["email"].toLowerCase()));
         navigation.navigate("BankInfoForm");
       })

@@ -6,6 +6,7 @@ import AddressDropdown from "../../../components/AddressDropdown";
 import { bankform, form, styles } from "../../../styles";
 import { useSelector } from "react-redux";
 import { addressPush } from "../../../helpers/BackendPush";
+import { showToast } from "../../../components/Toast";
 
 export default NomineeAddress = () => {
   const navigation = useNavigation();
@@ -24,6 +25,7 @@ export default NomineeAddress = () => {
           {
             addressPush({ id: id, type: "nominee", address: address });
           }
+          showToast("Nominee Address details recorded.");
           navigation.navigate("Home");
         }}
       />
