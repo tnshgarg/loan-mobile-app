@@ -11,7 +11,6 @@ import {
   View,
 } from "react-native";
 import * as ImagePicker from "react-native-image-picker";
-import RNPhotoCapture from "../../components/RNPhotoCapture";
 
 import ProgressBarTop from "../../components/ProgressBarTop";
 import { GenerateDocument } from "../../helpers/GenerateDocument";
@@ -24,9 +23,9 @@ export default PersonalImage = () => {
   const navigation = useNavigation();
   const id = useSelector((state) => state.auth.id);
   const Profile = useSelector((state) => state.profile);
-  const [imageData, setImageData] = useState(Profile.selfie);
+  const [imageData,setImageData] = useState(Profile.selfie);
   const dispatch = useDispatch();
-  console.log(Profile.selfie);
+
   useEffect(() => {
     dispatch(addCurrentScreen("PersonalImage"));
   }, []);
@@ -63,13 +62,14 @@ export default PersonalImage = () => {
     };
     ImagePicker.launchImageLibrary(options, (response) => {
       if (response.didCancel) {
-        console.log("User cancelled image picker");
+        console.log('User cancelled image picker');
       } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
+        console.log('ImagePicker Error: ', response.error);
       } else {
         dispatch(addSelfie(response?.assets && response.assets[0].base64));
       }
     });
+
   }, []);
 
   return (
@@ -111,7 +111,15 @@ export default PersonalImage = () => {
                 onImageLibraryPress();
               }}
             />
-            <RNPhotoCapture type="SELFIE" side="front"/>
+            <IconButton
+              icon={<Icon name="camera-alt" size={25} color="black" />}
+              style={selfie.cameraButton}
+              onPress={() => {
+                navigation.navigate("RNPhotoCapture", {
+                  type: "SELFIE",
+                });
+              }}
+            />
           </View>
           <Button
             title="Finish"
