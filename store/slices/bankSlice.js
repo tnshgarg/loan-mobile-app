@@ -27,6 +27,9 @@ const bankSlice = createSlice({
     addBankVerifyStatus(state, action) {
       state.verifyStatus = action.payload;
     },
+    resetBank(state) {
+      Object.assign(state, initialState);
+    },
   },
 });
 
@@ -36,5 +39,6 @@ export const {
   addBankIfsc,
   addBankUpiId,
   addBankVerifyStatus,
+  resetBank,
 } = bankSlice.actions;
 export default bankSlice.reducer;
