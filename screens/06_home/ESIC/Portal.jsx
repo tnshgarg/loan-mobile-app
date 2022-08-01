@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/core";
 import { portalPush } from "../../../helpers/BackendPush";
 import { addESICPortal } from "../../../store/slices/esicSlice";
 import { bankform, form, styles } from "../../../styles";
+import { showToast } from "../../../components/Toast";
 
 export default Portal = () => {
   const dispatch = useDispatch();
@@ -49,6 +50,7 @@ export default Portal = () => {
           style={form.nextButton}
           onPress={() => {
             portalPush({ id: id, ipNumber: ipNumber });
+            showToast("ESIC Portal details recorded.");
             navigation.navigate("Benefits", {
               screen: "ESIC",
               params: {
