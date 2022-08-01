@@ -8,6 +8,7 @@ import relations from "../../../helpers/RelationData";
 import { addESICFamilyDetails } from "../../../store/slices/esicSlice";
 import { familyDetailsPush } from "../../../helpers/BackendPush";
 import { bankform, form, styles } from "../../../styles";
+import { showToast } from "../../../components/Toast";
 
 export default FamilyDetails = () => {
   const navigation = useNavigation();
@@ -131,7 +132,7 @@ export default FamilyDetails = () => {
             relation: nomineeRelation,
             name: nomineeName,
           });
-          
+          showToast("Family details recorded.");
           navigation.navigate("Benefits", {
             screen: "ESIC",
             params: {
