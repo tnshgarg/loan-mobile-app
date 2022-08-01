@@ -19,8 +19,16 @@ const panSlice = createSlice({
     addPanVerifyMessage(state, action) {
       state.verifyMessage = action.payload;
     },
+    resetPan(state) {
+      Object.assign(state, initialState);
+    },
   },
 });
 
-export const { addPanNumber, addPanVerifyStatus, addPanVerifyMessage } = panSlice.actions;
+export const {
+  addPanNumber,
+  addPanVerifyStatus,
+  addPanVerifyMessage,
+  resetPan,
+} = panSlice.actions;
 export default panSlice.reducer;

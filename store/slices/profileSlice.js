@@ -27,6 +27,9 @@ const profileSlice = createSlice({
     addSelfie(state, action) {
       state.selfie = action.payload;
     },
+    resetProfile(state) {
+      Object.assign(state, initialState);
+    },
   },
 });
 
@@ -36,5 +39,6 @@ export const {
   addEmail,
   addMaritalStatus,
   addSelfie,
+  resetProfile,
 } = profileSlice.actions;
 export default profileSlice.reducer;
