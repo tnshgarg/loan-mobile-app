@@ -54,6 +54,7 @@ export default AadhaarForm = () => {
   useEffect(() => {
     dispatch(addCurrentScreen("AadhaarForm"));
   }, []);
+  
   useEffect(() => {
     dispatch(addAadhaarSubmitOTPtxnId(transactionId));
   }, [transactionId]);
@@ -201,30 +202,36 @@ export default AadhaarForm = () => {
   const VerifyAadharOCR = () => {
     AadhaarOCR("front");
     AadhaarOCR();
-      !aadhaarBackVerified
-        ? alert(
-            `The Image captured is not verified please capture the image again for Aadhaar Back to get it verified.`
-          )
-        : null;
-      !aadhaarFrontVerified
-        ? alert(
-            `The Image captured is not verified please capture the image again for Aadhaar Front to get it verified.`
-          )
-        : null;
-      aadhaarBackVerified && aadhaarFrontVerified ? (
-        <>
-          {alert("Aadhar Verified through OCR.")}
-          {dispatch(addAadhaarVerifyStatus({ type: "OCR", status: "SUCCESS" }))}
-          {navigation.navigate("AadhaarConfirm","OCR")}
-        </>
-      ) : (
-        aadhaarBackendPush({
-          type: "OCR",
-          id: id,
-          status: "ERROR",
-          message: errorMsg,
-        })
-      );
+    !aadhaarBackVerified ? (
+      <>
+        {alert(
+          `The Image captured is not verified please capture the image again for Aadhaar Back to get it verified.`
+        )}{" "}
+        {setErrorMsg("Aadhaar Back not verified")}
+      </>
+    ) : null;
+    !aadhaarFrontVerified ? (
+      <>
+        {alert(
+          `The Image captured is not verified please capture the image again for Aadhaar Front to get it verified.`
+        )}
+        {setErrorMsg("Aadhaar Front not verified")}
+      </>
+    ) : null;
+    aadhaarBackVerified && aadhaarFrontVerified ? (
+      <>
+        {alert("Aadhar Verified through OCR.")}
+        {dispatch(addAadhaarVerifyStatus({ type: "OCR", status: "SUCCESS" }))}
+        {navigation.navigate("AadhaarConfirm", "OCR")}
+      </>
+    ) : (
+      aadhaarBackendPush({
+        type: "OCR",
+        id: id,
+        status: "ERROR",
+        message: errorMsg,
+      })
+    );
   };
 
   const backAlert = () =>
