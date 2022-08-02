@@ -5,24 +5,20 @@ import PrimaryButton from "../../components/PrimaryButton";
 import { useSelector } from "react-redux";
 
 const Aadhaar = () => {
+  const fullName = useSelector((state) => state.aadhaar.fullName);
   const aadhaarNumber = useSelector((state) => state.aadhaar.number);
+  const DOB = useSelector((state) => state.aadhaar.DOB);
+  const address = useSelector((state) => state.aadhaar.address);
   const verifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
+  //Todo: Full Name, DOB and Address not present
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <DetailItem label="Full Name" title="Tanish Garg" divider />
-      <DetailItem
-        label="Aadhaar Number"
-        title={JSON.stringify("aadhaarNumber")}
-        divider
-      />
-      <DetailItem label="DOB" title="07/07/2000" divider />
-      <DetailItem
-        label="Address"
-        title="Vasant Vihar, Kaithal, Haryana, 136027"
-        divider
-      />
-      <DetailItem label="Verify Status" title={"verifyStatus"} />
+      <DetailItem label="Full Name" title={fullName} divider />
+      <DetailItem label="Aadhaar Number" title={aadhaarNumber} divider />
+      <DetailItem label="DOB" title={DOB} divider />
+      <DetailItem label="Address" title={address} divider />
+      <DetailItem label="Verify Status" title={verifyStatus.OCR} />
       <View style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}>
         <PrimaryButton
           style={{ marginTop: 20 }}
