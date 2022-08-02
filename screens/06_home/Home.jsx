@@ -48,7 +48,10 @@ export default Home = () => {
             leading={
               <IconButton
                 icon={<Icon name="menu" size={30} />}
-                onPress={() => console.log("Menu")}
+                onPress={() => {
+                  console.log("Menu");
+                  navigation.toggleDrawer();
+                }}
               />
             }
             trailing={<IconButton icon={<Icon name="more-vert" size={30} />} />}
