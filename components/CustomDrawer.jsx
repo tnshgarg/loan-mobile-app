@@ -5,8 +5,11 @@ import {
   DrawerItemList,
 } from "@react-navigation/drawer";
 import { AntDesign } from "react-native-vector-icons";
+import { useSelector } from "react-redux";
 
 const CustomDrawer = (props) => {
+  const imageData = useSelector((state) => state.profile.selfie);
+
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView
@@ -16,7 +19,7 @@ const CustomDrawer = (props) => {
         <View style={{ padding: 20 }}>
           <Image
             source={{
-              uri: "https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg",
+              uri: `data:image/jpeg;base64,${imageData}`,
             }}
             style={{
               width: 80,
@@ -35,32 +38,6 @@ const CustomDrawer = (props) => {
           >
             Kamal Goyal
           </Text>
-          <Text style={{ color: "white", fontSize: 15, paddingTop: 8 }}>
-            Email: <Text style={{ fontWeight: "bold" }}>kamal@unipe.co</Text>
-          </Text>
-          <Text style={{ color: "white", fontSize: 15, paddingTop: 8 }}>
-            Mobile: <Text style={{ fontWeight: "bold" }}>+919876543210</Text>
-          </Text>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              paddingTop: 8,
-            }}
-          >
-            <Text style={{ color: "white", fontSize: 15 }}>
-              KYC Status: <Text style={{ fontWeight: "bold" }}>Pending</Text>
-            </Text>
-            <View
-              style={{
-                backgroundColor: "red",
-                width: 8,
-                height: 8,
-                borderRadius: 15,
-                marginLeft: 5,
-              }}
-            />
-          </View>
         </View>
         <View style={{ flex: 1, backgroundColor: "white", paddingTop: 10 }}>
           <DrawerItemList {...props} />
