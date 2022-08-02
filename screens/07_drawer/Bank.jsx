@@ -11,13 +11,13 @@ const Bank = () => {
       <DetailItem label="Account Holder Name" title="Kamal Goyal" divider />
       <DetailItem label="UPI Id" title="9876543210@upi" divider />
       <DetailItem label="Verify Status" title="Pending" />
-      <View style={{ flex: 1, alignItems: "flex-end", paddingBottom: 20 }}>
+      <View style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}>
         <PrimaryButton
           style={{ marginTop: 20 }}
-          title="Home Screen"
+          title="Update"
           onPress={() =>
             Alert.alert(
-              "The Bank Details are not editable, please ask your employer to update these details for you."
+              "The Bank Details are not editable, please ask your employer to update"
             )
           }
         />

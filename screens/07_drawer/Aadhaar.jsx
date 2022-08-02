@@ -15,13 +15,13 @@ const Aadhaar = () => {
         divider
       />
       <DetailItem label="Verify Status" title="Pending" />
-      <View style={{ flex: 1, alignItems: "flex-end", paddingBottom: 20 }}>
+      <View style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}>
         <PrimaryButton
           style={{ marginTop: 20 }}
-          title="Home Screen"
+          title="Update"
           onPress={() =>
             Alert.alert(
-              "The Aadhaar Details are not editable, please ask your employer to update these details for you."
+              "The Aadhaar Details are not editable, please ask your employer to update"
             )
           }
         />
