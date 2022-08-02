@@ -17,8 +17,9 @@ import {
   addBankAccountHolderName,
   addBankAccountNumber,
   addBankIfsc,
-  addBankUpiId,
+  addBankUpi,
   addBankVerifyStatus,
+  addBankVerifyMsg,
 } from "../../store/slices/bankSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { bankBackendPush } from "../../helpers/BackendPush";
@@ -27,15 +28,17 @@ import { showToast } from "../../components/Toast";
 
 export default BankInformationForm = () => {
   const navigation = useNavigation();
-  const [ifsc, setIfsc] = useState(useSelector((state) => state.bank.ifsc));
   const id = useSelector((state) => state.auth.id);
-  const [accountNumber, setAccountNumber] = useState(
-    useSelector((state) => state.bank.accountNumber)
-  );
-  const [accountHolderName, setAccountHolderName] = useState(
-    useSelector((state) => state.bank.holderName)
-  );
-  const [upiId, setUpiId] = useState(useSelector((state) => state.bank.upi));
+  const bankSlice = useSelector((state) => state.bank);
+  const [ifsc, setIfsc] = useState(bankSlice?.ifsc);
+  const [accountNumber, setAccountNumber] = useState(bankSlice?.accountNumber);
+  const [accountHolderName, setAccountHolderName] = useState(bankSlice?.accountHolderName);
+  const [upi, setUpi] = useState(bankSlice?.upi);
+  const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
+  const [verifyMsg, setverifyMsg] = useState(bankSlice?.verifyMsg);
+
+  const [backendPush, setBackendPush] = useState(false);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -51,11 +54,32 @@ export default BankInformationForm = () => {
     dispatch(addBankIfsc(ifsc));
   }, [ifsc]);
   useEffect(() => {
-    dispatch(addBankUpiId(upiId));
-  }, [upiId]);
+    dispatch(addBankUpi(upi));
+  }, [upi]);
 
-  var status = "ERROR";
-  var message = "";
+  useEffect(() => {
+    setverifyMsg(bankSlice.verifyMsg);
+  }, [bankSlice.verifyMsg]);
+
+  useEffect(() => {
+    setVerifyStatus(bankSlice.verifyStatus);
+  }, [bankSlice.verifyStatus]);
+
+  useEffect(() => {
+    console.log("bankSlice : ", bankSlice);
+    console.log("upi : ", upi);
+    if (backendPush){
+      bankBackendPush({                  
+        id: id,
+        ifsc: ifsc,
+        accountNumber: accountNumber,
+        upi: upi,
+        verifyStatus: verifyStatus,
+        verifyMsg: verifyMsg                 
+      });
+    }
+  }, [backendPush]);
+
   const VerifyBankAccount = () => {
     const data = {
       account_number: accountNumber,
@@ -71,76 +95,71 @@ export default BankInformationForm = () => {
       },
       body: JSON.stringify(data),
     };
-    try {
-      fetch(`https://api.gridlines.io/bank-api/verify`, options)
-        .then((response) => response.json())
-        .then((response) => {
-          console.log(response);
-          {
-            if (response["status"] == "200") {
-              switch (response["data"]["code"]) {
-                case "1000":
-                  Alert.alert(
-                    "Your Bank Account Information",
-                    `Name: ${response["data"]["bank_account_data"]["name"]}\nBank Name: ${response["data"]["bank_account_data"]["bank_name"]}\nUTR no.: ${response["data"]["bank_account_data"]["utr"]}\nBranch: ${response["data"]["bank_account_data"]["branch"]}\nCity: ${response["data"]["bank_account_data"]["city"]}`,
-                    [
-                      {
-                        text: "Yes",
-                        onPress: () => {
-                          dispatch(addBankVerifyStatus("SUCCESS"));
-                          status = "SUCCESS";
-                          navigation.navigate("PersonalDetailsForm");
-                          showToast("Bank Account Details Recorded");
-                        },
-                      },
-                      {
-                        text: "No",
-                        onPress: () =>
-                          Alert.alert(
-                            "Information Validation",
-                            "Please provide the correct bank account number and IFSC Code."
-                          ),
-                        style: "cancel",
-                      },
-                    ]
-                  );
-                  break;
-                default:
-                  Alert.alert("Error", response["data"]["message"]);
-                  message = response["data"]["message"];
-                  break;
-              }
-            } else {
-              if (response["error"]) {
+
+    fetch(`https://api.gridlines.io/bank-api/verify`, options)
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+        {
+          if (response["status"] == "200") {
+            switch (response["data"]["code"]) {
+              case "1000":
                 Alert.alert(
-                  "Error",
-                  response["error"]["metadata"]["fields"]
-                    .map((item, value) => item["message"])
-                    .join("\n")
+                  "Your Bank Account Information",
+                  `Name: ${response["data"]["bank_account_data"]["name"]}\nBank Name: ${response["data"]["bank_account_data"]["bank_name"]}\nUTR no.: ${response["data"]["bank_account_data"]["utr"]}\nBranch: ${response["data"]["bank_account_data"]["branch"]}\nCity: ${response["data"]["bank_account_data"]["city"]}`,
+                  [
+                    {
+                      text: "Yes",
+                      onPress: () => {
+                        dispatch(addBankVerifyStatus("SUCCESS"));
+                        dispatch(addBankVerifyMsg(""));
+                        navigation.navigate("PersonalDetailsForm");
+                        showToast("Bank Account Details Recorded");
+                      },
+                    },
+                    {
+                      text: "No",
+                      onPress: () => {
+                        Alert.alert(
+                          "Information Validation",
+                          "Please provide the correct bank account number and IFSC Code."
+                        )
+                      },
+                      style: "cancel",
+                    },
+                  ]
                 );
-                message = response["error"];
-              } else {
-                Alert.alert("Error", response["message"]);
-                message = response["messsage"];
-              }
+                break;
+              default:
+                dispatch(addBankVerifyStatus("ERROR"));
+                dispatch(addBankVerifyMsg(response["data"]["message"]));
+                Alert.alert("Error", response["data"]["message"]);
+                break;
+            }
+          } else {
+            dispatch(addBankVerifyStatus("ERROR"));
+            if (response["error"]) {
+              dispatch(addBankVerifyMsg(response["error"]));
+              Alert.alert(
+                "Error",
+                response["error"]["metadata"]["fields"]
+                  .map((item, value) => item["message"])
+                  .join("\n")
+              );
+            } else {
+              dispatch(addBankVerifyMsg(response["messsage"]));
+              Alert.alert("Error", response["message"]);
             }
           }
-        })
-        .catch((err) => {
-          Alert.alert("Error", err);
-          message = err;
-        });
-    } catch (err) {
-      console.log(err);
-    }
-    bankBackendPush({                  
-        id: id,
-        ifsc: ifsc,
-        accountNumber: accountNumber,
-        upi: upiId,
-        status: status,
-        message: message                 
-    });
+        }
+        setBackendPush(true);
+      })
+      .catch((err) => {
+        dispatch(addBankVerifyStatus("ERROR"));
+        dispatch(addBankVerifyMsg(err));
+        Alert.alert("Error", err);
+        setBackendPush(true);
+      });
   };
 
   return (
@@ -244,8 +263,8 @@ export default BankInformationForm = () => {
           </Text>
           <TextInput
             style={bankform.formInput}
-            value={upiId}
-            onChangeText={setUpiId}
+            value={upi}
+            onChangeText={setUpi}
             required
           />
           <Button
@@ -255,6 +274,7 @@ export default BankInformationForm = () => {
             style={bankform.nextButton}
             color="#4E46F1"
             onPress={() => {
+              // TODO: check for mandatory fields and validations
               VerifyBankAccount();
             }}
           />

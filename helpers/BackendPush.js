@@ -19,7 +19,7 @@ export const aadhaarBackendPush = (props) => {
         xml: props.xml,
         status: props.status,
         message: props.message,
-        data : props.data,
+        data: props.data,
       }));
   putBackendData({ document: aadhaarPayload, src: "Aadhaar" })
     .then((res) => {
@@ -38,16 +38,16 @@ export const bankBackendPush = (props) => {
     ifsc: props.ifsc,
     accountNumber: props.accountNumber,
     upi: props.upi,
-    status: props.status,
-    message: props.message,
+    verifyStatus: props.verifyStatus,
+    verifyMsg: props.verifyMsg,
   });
   putBackendData({ document: bankPayload, src: "Bank" })
     .then((res) => {
-      console.log(bankPayload);
-      console.log(res.data);
+      console.log("bankPayload: ", bankPayload);
+      console.log("res.data: ", res.data);
     })
     .catch((err) => {
-      console.log(err);
+      console.log("err: ", err);
     });
 };
 
@@ -56,17 +56,17 @@ export const panBackendPush = (props) => {
     src: "Pan",
     id: props.id,
     pan: props.pan,
-    status: props.status,
-    message: props.message,
-    dob : props.dob,
+    verifyStatus: props.verifyStatus,
+    verifyMsg: props.verifyMsg,
+    dob: props.dob,
   });
   putBackendData({ document: panPayload, src: "Pan" })
     .then((res) => {
-      console.log(panPayload);
-      console.log(res.data);
+      console.log("panPayload: ", panPayload);
+      console.log("res.data: ", res.data);
     })
     .catch((err) => {
-      console.log(err);
+      console.log("err: ", err);
     });
 };
 

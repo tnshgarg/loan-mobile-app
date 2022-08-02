@@ -19,8 +19,11 @@ export default AadhaarConfirmOTP = () => {
   const navigation = useNavigation();
   const aadhaarData = useSelector((state) => state.aadhaar.data);
   const aadhaar = useSelector((state) => state.aadhaar.number);
+  const auth = useSelector((state) => state.auth);
   const id = useSelector((state) => state.auth.id);
   const dispatch = useDispatch();
+
+  console.log("AadhaarConfirmOTP state.auth: ", auth);
 
   useEffect(() => {
     dispatch(addCurrentScreen("AadhaarConfirm"));
@@ -101,6 +104,7 @@ export default AadhaarConfirmOTP = () => {
                   aadhaar: aadhaar,
                   xml: aadhaarData["aadhaar_data"]["xml_base64"],
                   message: "",
+                  data: aadhaarData["aadhaar_data"],
                 });
                 navigation.navigate("PanCardInfo");
               }}
