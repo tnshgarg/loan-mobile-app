@@ -50,7 +50,7 @@ export const styles = StyleSheet.create({
   ContinueButton: {
     padding: 10,
     alignSelf: "center",
-    marginTop: 50,
+    // marginTop: 50,
     width: 320,
     height: 60,
     fontSize: 20,
