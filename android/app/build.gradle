@@ -246,12 +246,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
-    release {
-      storeFile file('unipe.keystore')
-      storePassword 'unipe1234'
-      keyAlias 'unipe'
-      keyPassword 'unipe1234'
-    }
+        release {
+            storeFile file('unipe.keystore')
+            storePassword 'unipe1234'
+            keyAlias 'unipe'
+            keyPassword 'unipe1234'
+        }
     }
     buildTypes {
         debug {

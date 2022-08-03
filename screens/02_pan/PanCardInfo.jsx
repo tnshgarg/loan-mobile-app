@@ -16,7 +16,7 @@ import ProgressBarTop from "../../components/ProgressBarTop";
 import {
   addPanNumber,
   addPanVerifyStatus,
-  addPanVerifyMessage,
+  addPanVerifyMsg,
 } from "../../store/slices/panSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { panBackendPush } from "../../helpers/BackendPush";
@@ -28,22 +28,38 @@ import DateEntry from "../../components/DateEntry";
 export default PanCardInfo = () => {
   const navigation = useNavigation();
   const panSlice = useSelector((state) => state.pan);
-  const [pan, setPan] = useState(panSlice.number);
+  const [pan, setPan] = useState(panSlice?.number);
   const [next, setNext] = useState();
   const dispatch = useDispatch();
   const id = useSelector((state) => state.auth.id);
   const [panName, setPanName] = useState("");
-  const [birthday, setBirthday] = useState("");
-  const [verifyStatus, setVerifyStatus] = useState(panSlice.verifyStatus);
-  const [verifyMessage, setVerifyMessage] = useState(panSlice.verifyMessage);
+  const [dob, setDob] = useState("");
+  const [verifyStatus, setVerifyStatus] = useState(panSlice?.verifyStatus);
+  const [verifyMsg, setVerifyMsg] = useState(panSlice?.verifyMsg);
+
+  const [backendPush, setBackendPush] = useState(false);
 
   useEffect(() => {
-    setVerifyMessage(panSlice.verifyMessage);
-  }, [panSlice.verifyMessage]);
+    if (backendPush){
+      panBackendPush({
+        id: id,
+        pan: pan,
+        dob: dob,
+        verifyStatus: verifyStatus,
+        verifyMsg: verifyMsg,
+      });
+    }
+  }, [backendPush]);
 
   useEffect(() => {
-    setVerifyStatus(panSlice.verifyStatus);
+    console.log("panSlice : ", panSlice);
+    setVerifyStatus(panSlice?.verifyStatus);
   }, [panSlice.verifyStatus]);
+
+  useEffect(() => {
+    console.log("panSlice : ", panSlice);
+    setVerifyMsg(panSlice?.verifyMsg);
+  }, [panSlice.verifyMsg]);
 
   const aadhaartype = useSelector((state) => {
     if (state.aadhaar.verifyStatus.OCR != "PENDING") {
@@ -52,9 +68,11 @@ export default PanCardInfo = () => {
       return "OTP";
     }
   });
+
   useEffect(() => {
     dispatch(addCurrentScreen("PanCardInfo"));
   }, []);
+
   useEffect(() => {
     if (pan.length === 10) {
       setNext(true);
@@ -68,7 +86,7 @@ export default PanCardInfo = () => {
     const data = {
       pan_number: pan,
       name: panName,
-      date_of_birth: birthday,
+      date_of_birth: dob,
       consent: "Y",
     };
     const options = {
@@ -89,10 +107,12 @@ export default PanCardInfo = () => {
           switch (response["data"]["code"]) {
             case "1001":
               RetrievePAN();
-              dispatch(addPanVerifyMessage(""));
               dispatch(addPanVerifyStatus("SUCCESS"));
+              dispatch(addPanVerifyMsg(""));
               break;
             case "1002":
+              dispatch(addPanVerifyStatus("ERROR"));
+              dispatch(addPanVerifyMsg(response["data"]["message"]));
               response["data"]["pan_data"]["name_match_status"] == "NO_MATCH"
                 ? Alert.alert(
                     "Pan Number Verification status",
@@ -102,48 +122,42 @@ export default PanCardInfo = () => {
                     "Pan Number Verification status",
                     `Partial details matched, Please Check DOB.`
                   );
-              dispatch(addPanVerifyMessage(response["data"]["message"]));
-              dispatch(addPanVerifyStatus("ERROR"));
               break;
             case "1003":
+              dispatch(addPanVerifyStatus("ERROR"));
+              dispatch(addPanVerifyMsg(response["data"]["message"]));
               Alert.alert(
                 "Pan Number Verification status",
                 `Multiple Details mismatched, Please Check Details.`
               );
-              dispatch(addPanVerifyMessage(response["data"]["message"]));
-              dispatch(addPanVerifyStatus("ERROR"));
               break;
             case "1004":
+              dispatch(addPanVerifyStatus("ERROR"));
+              dispatch(addPanVerifyMsg(response["data"]["message"]));
               Alert.alert(
                 "Pan Number Verification status",
                 `PAN number incorrect.`
               );
-              dispatch(addPanVerifyMessage(response["data"]["message"]));
-              dispatch(addPanVerifyStatus("ERROR"));
               break;
           }
         } else {
           dispatch(addPanVerifyStatus("ERROR"));
           if (response["error"]) {
+            dispatch(addPanVerifyMsg(response["error"]["message"]));
             Alert.alert("Error", response["error"]["message"]);
-            dispatch(addPanVerifyMessage(response["error"]["message"]));
           } else {
+            dispatch(addPanVerifyMsg(response["message"]));
             Alert.alert("Error", response["message"]);
-            dispatch(addPanVerifyMessage(response["message"]));
           }
         }
+        setBackendPush(true);
       })
       .catch((err) => {
-        dispatch(addPanVerifyMessage(err));
         dispatch(addPanVerifyStatus("ERROR"));
+        dispatch(addPanVerifyMsg(err));
+        Alert.alert("Error", err);
+        setBackendPush(true);
       });
-    panBackendPush({
-      id: id,
-      pan: pan,
-      dob: birthday,
-      status: verifyStatus,
-      message: verifyMessage,
-    });
   };
 
   const RetrievePAN = () => {
@@ -226,8 +240,8 @@ export default PanCardInfo = () => {
             placeholder="Enter Name Registered with PAN"
             required
           />
-          <DateEntry title="Date of birth as recorded in PAN" val={birthday} setval={setBirthday}/>
-          {console.log(birthday)}
+          <DateEntry title="Date of birth as recorded in PAN" val={dob} setval={setDob}/>
+          {console.log(dob)}
           <View style={bankform.infoCard}>
             <Text style={bankform.infoText}>
               <Icon name="info-outline" size={20} color="#4E46F1" />
