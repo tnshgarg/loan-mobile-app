@@ -180,8 +180,8 @@ export default BankInformationForm = () => {
 
         <ScrollView keyboardShouldPersistTaps="handled">
           <View style={bankform.infoCard}>
+            <Icon name="info-outline" size={20} color="#4E46F1" />
             <Text style={bankform.infoText}>
-              <Icon name="info-outline" size={20} color="#4E46F1" />
               We will use this bank account / UPI ID to deposit your salary
               every month, Please ensure the bank account belongs to you.{"\n"}
               We will also deposit INR 1 to your account for verification make
