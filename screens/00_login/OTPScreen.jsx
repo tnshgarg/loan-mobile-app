@@ -24,8 +24,10 @@ export default OTPScreen = () => {
   const navigation = useNavigation();
   const [otp, setOtp] = useState("");
   const [next, setNext] = useState(false);
-  const [user, setUser] = useState(null);
   const [back, setBack] = useState(false);
+  const auth = useSelector((state) => state.auth);
+
+  console.log("OTPScreen state.auth: ", auth);
 
   const dispatch = useDispatch();
   useEffect(() => {dispatch(addCurrentScreen("Otp"))}, []);

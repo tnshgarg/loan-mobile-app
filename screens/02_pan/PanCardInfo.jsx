@@ -13,30 +13,68 @@ import {
   View,
 } from "react-native";
 import ProgressBarTop from "../../components/ProgressBarTop";
-import { addPanNumber, addPanVerifyStatus } from "../../store/slices/panSlice";
+import {
+  addPanNumber,
+  addPanVerifyStatus,
+  addPanVerifyMsg,
+} from "../../store/slices/panSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { panBackendPush } from "../../helpers/BackendPush";
 import { bankform, checkBox, form, styles } from "../../styles";
+import { showToast } from "../../components/Toast";
+import { addEmail } from "../../store/slices/profileSlice";
+import DateEntry from "../../components/DateEntry";
 
 export default PanCardInfo = () => {
   const navigation = useNavigation();
-  const [pan, setPan] = useState(useSelector((state) => state.pan.number));
+  const panSlice = useSelector((state) => state.pan);
+  const [pan, setPan] = useState(panSlice?.number);
   const [next, setNext] = useState();
   const dispatch = useDispatch();
   const id = useSelector((state) => state.auth.id);
   const [panName, setPanName] = useState("");
-  const [birthday, setBirthday] = useState("");
-  const aadhaarVerifyScreen = useSelector((state) => {
+  const [dob, setDob] = useState("");
+  const [verifyStatus, setVerifyStatus] = useState(panSlice?.verifyStatus);
+  const [verifyMsg, setVerifyMsg] = useState(panSlice?.verifyMsg);
+
+  const [backendPush, setBackendPush] = useState(false);
+
+  useEffect(() => {
+    if (backendPush){
+      panBackendPush({
+        id: id,
+        pan: pan,
+        dob: dob,
+        verifyStatus: verifyStatus,
+        verifyMsg: verifyMsg,
+      });
+    }
+  }, [backendPush]);
+
+  useEffect(() => {
+    console.log("panSlice : ", panSlice);
+    setVerifyStatus(panSlice?.verifyStatus);
+  }, [panSlice.verifyStatus]);
+
+  useEffect(() => {
+    console.log("panSlice : ", panSlice);
+    setVerifyMsg(panSlice?.verifyMsg);
+  }, [panSlice.verifyMsg]);
+
+  const aadhaartype = useSelector((state) => {
     if (state.aadhaar.verifyStatus.OCR != "PENDING") {
-      return "AadhaarForm";
+      return "OCR";
     } else {
-      return "AadhaarConfirm";
+      return "OTP";
     }
   });
+
   useEffect(() => {
     dispatch(addCurrentScreen("PanCardInfo"));
   }, []);
+
   useEffect(() => {
+    // TODO: should be a check on regex
     if (pan.length === 10) {
       setNext(true);
       dispatch(addPanNumber(pan));
@@ -45,11 +83,19 @@ export default PanCardInfo = () => {
     }
   }, [pan]);
 
+  const SkipPAN = () => {
+    Alert.alert(
+      "PAN KYC pending",
+      `You have not completed PAN KYC.`
+    );
+    navigation.navigate("BankInfoForm");
+  };
+
   const VerifyPAN = () => {
     const data = {
       pan_number: pan,
       name: panName,
-      date_of_birth: birthday,
+      date_of_birth: dob,
       consent: "Y",
     };
     const options = {
@@ -62,8 +108,6 @@ export default PanCardInfo = () => {
       body: JSON.stringify(data),
     };
 
-    var status = "ERROR";
-    var message = "";
     fetch(`https://api.gridlines.io/pan-api/v2/verify`, options)
       .then((response) => response.json())
       .then((response) => {
@@ -73,9 +117,11 @@ export default PanCardInfo = () => {
             case "1001":
               RetrievePAN();
               dispatch(addPanVerifyStatus("SUCCESS"));
-              status = "SUCCESS";
+              dispatch(addPanVerifyMsg(""));
               break;
             case "1002":
+              dispatch(addPanVerifyStatus("ERROR"));
+              dispatch(addPanVerifyMsg(response["data"]["message"]));
               response["data"]["pan_data"]["name_match_status"] == "NO_MATCH"
                 ? Alert.alert(
                     "Pan Number Verification status",
@@ -85,42 +131,41 @@ export default PanCardInfo = () => {
                     "Pan Number Verification status",
                     `Partial details matched, Please Check DOB.`
                   );
-              message = response["data"]["message"];
               break;
             case "1003":
+              dispatch(addPanVerifyStatus("ERROR"));
+              dispatch(addPanVerifyMsg(response["data"]["message"]));
               Alert.alert(
                 "Pan Number Verification status",
                 `Multiple Details mismatched, Please Check Details.`
               );
-              message = response["data"]["message"];
               break;
             case "1004":
+              dispatch(addPanVerifyStatus("ERROR"));
+              dispatch(addPanVerifyMsg(response["data"]["message"]));
               Alert.alert(
                 "Pan Number Verification status",
                 `PAN number incorrect.`
               );
-              message = response["data"]["message"];
               break;
           }
         } else {
+          dispatch(addPanVerifyStatus("ERROR"));
           if (response["error"]) {
+            dispatch(addPanVerifyMsg(response["error"]["message"]));
             Alert.alert("Error", response["error"]["message"]);
-            message = response["error"]["message"];
           } else {
+            dispatch(addPanVerifyMsg(response["message"]));
             Alert.alert("Error", response["message"]);
-            message = response["message"];
           }
         }
+        setBackendPush(true);
       })
       .catch((err) => {
+        dispatch(addPanVerifyStatus("ERROR"));
+        dispatch(addPanVerifyMsg(err));
         Alert.alert("Error", err);
-        message = err;
-      });
-      panBackendPush({                  
-        id: id,
-        pan: pan,
-        status: status,
-        message: message                 
+        setBackendPush(true);
       });
   };
 
@@ -142,22 +187,18 @@ export default PanCardInfo = () => {
     fetch(`https://api.gridlines.io/pan-api/fetch-detailed`, options)
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         Alert.alert(
           "PAN Information",
-          `PAN: ${pan}\nName: ${panName}\nGender: ${response["data"]["pan_data"]["gender"]}\nEmail: ${response["data"]["pan_data"]["email"]}`
+          `PAN: ${pan}\nName: ${panName}\nGender: ${
+            response["data"]["pan_data"]["gender"]
+          }\nEmail: ${response["data"]["pan_data"]["email"].toLowerCase()}`
         );
+        showToast("PAN Details Recorded");
+        dispatch(addEmail(response["data"]["pan_data"]["email"].toLowerCase()));
         navigation.navigate("BankInfoForm");
       })
       .catch((err) => Alert.alert("Error", err));
   };
-
-  useEffect(() => {
-    const birthdayChange = () => {
-      setBirthday(birthday.replace(/^(\d{4})(\d{2})(\d{2})/, "$1-$2-$3"));
-    };
-    return birthdayChange();
-  }, [birthday]);
 
   return (
     <>
@@ -168,7 +209,7 @@ export default PanCardInfo = () => {
           leading={
             <IconButton
               icon={<Icon name="arrow-back" size={20} color="white" />}
-              onPress={() => navigation.navigate(aadhaarVerifyScreen)} //Conditonal back based on verify status
+              onPress={() => navigation.navigate("AadhaarConfirm", aadhaartype)}
             />
           }
         />
@@ -208,17 +249,11 @@ export default PanCardInfo = () => {
             placeholder="Enter Name Registered with PAN"
             required
           />
-          <Text style={form.formLabel}>Date of birth as recorded in PAN</Text>
-          <TextInput
-            style={form.formTextInput}
-            value={birthday}
-            onChangeText={setBirthday}
-            placeholder="YYYY-MM-DD"
-            maxLength={10}
-          />
+          <DateEntry title="Date of birth as recorded in PAN" val={dob} setval={setDob}/>
+          {console.log(dob)}
           <View style={bankform.infoCard}>
+            <Icon name="info-outline" size={20} color="#4E46F1" />
             <Text style={bankform.infoText}>
-              <Icon name="info-outline" size={20} color="#4E46F1" />
               PAN is needed to verify your name and date of birth
             </Text>
           </View>
@@ -242,7 +277,18 @@ export default PanCardInfo = () => {
               disabled
             />
           )}
-          <View style={checkBox.padding} />
+          <View>
+            <Button
+                title="Skip"
+                uppercase={false}
+                type="solid"
+                color="#4E46F1"
+                style={form.skipButton}
+                onPress={() => {
+                  SkipPAN();
+                }}
+            />
+          </View>
         </ScrollView>
       </SafeAreaView>
     </>

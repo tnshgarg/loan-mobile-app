@@ -4,9 +4,14 @@ import React from "react";
 import { ScrollView, View } from "react-native";
 import AddressDropdown from "../../../components/AddressDropdown";
 import { bankform, form, styles } from "../../../styles";
+import { useSelector } from "react-redux";
+import { addressPush } from "../../../helpers/BackendPush";
+import { showToast } from "../../../components/Toast";
 
 export default EmployeeAddress = () => {
   const navigation = useNavigation();
+  const id = useSelector((state) => state.auth.id);
+  const address = useSelector((state) => state.esic.address);
 
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
@@ -19,6 +24,13 @@ export default EmployeeAddress = () => {
         color="#4E46F1"
         style={form.nextButton}
         onPress={() => {
+          {
+            addressPush({ id: id, type: "present", address: address });
+          }
+          {
+            addressPush({ id: id, type: "permanent", address: address });
+          }
+          showToast("Employee Address details recorded.");
           navigation.navigate("Benefits", {
             screen: "ESIC",
             params: {
