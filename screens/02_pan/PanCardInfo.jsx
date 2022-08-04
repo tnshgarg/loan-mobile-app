@@ -74,6 +74,7 @@ export default PanCardInfo = () => {
   }, []);
 
   useEffect(() => {
+    // TODO: should be a check on regex
     if (pan.length === 10) {
       setNext(true);
       dispatch(addPanNumber(pan));
@@ -81,6 +82,14 @@ export default PanCardInfo = () => {
       setNext(false);
     }
   }, [pan]);
+
+  const SkipPAN = () => {
+    Alert.alert(
+      "PAN KYC pending",
+      `You have not completed PAN KYC.`
+    );
+    navigation.navigate("BankInfoForm");
+  };
 
   const VerifyPAN = () => {
     const data = {
@@ -243,8 +252,8 @@ export default PanCardInfo = () => {
           <DateEntry title="Date of birth as recorded in PAN" val={dob} setval={setDob}/>
           {console.log(dob)}
           <View style={bankform.infoCard}>
+            <Icon name="info-outline" size={20} color="#4E46F1" />
             <Text style={bankform.infoText}>
-              <Icon name="info-outline" size={20} color="#4E46F1" />
               PAN is needed to verify your name and date of birth
             </Text>
           </View>
@@ -268,7 +277,18 @@ export default PanCardInfo = () => {
               disabled
             />
           )}
-          <View style={checkBox.padding} />
+          <View>
+            <Button
+                title="Skip"
+                uppercase={false}
+                type="solid"
+                color="#4E46F1"
+                style={form.skipButton}
+                onPress={() => {
+                  SkipPAN();
+                }}
+            />
+          </View>
         </ScrollView>
       </SafeAreaView>
     </>

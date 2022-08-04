@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   accountNumber: "",
   ifsc: "",
-  upi: "t",
+  upi: "",
   accountHolderName: "",
   verifyStatus: "PENDING",
   verifyMsg: "",

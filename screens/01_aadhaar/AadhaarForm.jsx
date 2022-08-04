@@ -284,8 +284,8 @@ export default AadhaarForm = () => {
                 numeric
               />
               <View style={bankform.infoCard}>
-                <Text style={bankform.infoText}>
-                  <Icon name="info-outline" size={20} color="#4E46F1" />
+                <Icon name="info-outline" size={20} color="#4E46F1" />
+                <Text style={bankform.infoText}>  
                   My Mobile number is linked to my Aadhar card & I can receive
                   the OTP on my Aadhar Linked Mobile Number
                 </Text>
