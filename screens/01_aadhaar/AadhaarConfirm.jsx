@@ -5,6 +5,6 @@ import AadhaarConfirmOTP from "./AadhaarConfirm/AadhaarConfirmOTP";
 
 export default AadhaarConfirm = (props) => {
   return (
-     props.route.params =="OCR" ? <AadhaarConfirmOCR /> : <AadhaarConfirmOTP /> 
+     props.route.params === "OCR" ? <AadhaarConfirmOCR /> : <AadhaarConfirmOTP /> 
   )
 };

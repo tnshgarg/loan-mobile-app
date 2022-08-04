@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { AppBar, Icon, IconButton } from "@react-native-material/core";
+import { useNavigation } from "@react-navigation/core";
 import { Image, SafeAreaView } from "react-native";
 import { FAB, Portal, Provider } from "react-native-paper";
 
@@ -12,10 +13,12 @@ import Documents from "./Documents";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { buttons, nav } from "../../styles";
 
-import Logout from "../../components/Logout";
 export default Home = () => {
+  const navigation = useNavigation();
+
   const [state, setState] = React.useState({ open: false });
   const onStateChange = ({ open }) => setState({ open });
+  
   const { open } = state;
   const tabs = [
     { name: "Home", component: HomeView },
