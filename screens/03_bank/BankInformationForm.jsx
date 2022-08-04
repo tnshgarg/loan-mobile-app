@@ -32,13 +32,14 @@ export default BankInformationForm = () => {
   const bankSlice = useSelector((state) => state.bank);
   const [ifsc, setIfsc] = useState(bankSlice?.ifsc);
   const [accountNumber, setAccountNumber] = useState(bankSlice?.accountNumber);
-  const [accountHolderName, setAccountHolderName] = useState(bankSlice?.accountHolderName);
+  const [accountHolderName, setAccountHolderName] = useState(
+    bankSlice?.accountHolderName
+  );
   const [upi, setUpi] = useState(bankSlice?.upi);
   const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
   const [verifyMsg, setverifyMsg] = useState(bankSlice?.verifyMsg);
-
   const [backendPush, setBackendPush] = useState(false);
-
+  const [next, setNext] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -66,16 +67,20 @@ export default BankInformationForm = () => {
   }, [bankSlice.verifyStatus]);
 
   useEffect(() => {
+    validations();
+  }, [accountNumber, ifsc]);
+
+  useEffect(() => {
     console.log("bankSlice : ", bankSlice);
     console.log("upi : ", upi);
-    if (backendPush){
-      bankBackendPush({                  
+    if (backendPush) {
+      bankBackendPush({
         id: id,
         ifsc: ifsc,
         accountNumber: accountNumber,
         upi: upi,
         verifyStatus: verifyStatus,
-        verifyMsg: verifyMsg                 
+        verifyMsg: verifyMsg,
       });
     }
   }, [backendPush]);
@@ -123,7 +128,7 @@ export default BankInformationForm = () => {
                         Alert.alert(
                           "Information Validation",
                           "Please provide the correct bank account number and IFSC Code."
-                        )
+                        );
                       },
                       style: "cancel",
                     },
@@ -162,6 +167,15 @@ export default BankInformationForm = () => {
       });
   };
 
+  const validations = () => {
+    var ifscReg = /^[A-Z]{4}0[A-Z0-9]{6}$/gm;
+    var accountNumberReg = /^[0-9]{9,18}$/gm;
+    if (ifscReg.test(ifsc) && accountNumberReg.test(accountNumber)) {
+      setNext(true);
+    } else {
+      setNext(false);
+    }
+  };
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -267,17 +281,26 @@ export default BankInformationForm = () => {
             onChangeText={setUpi}
             required
           />
-          <Button
-            title="Continue"
-            type="solid"
-            uppercase={false}
-            style={bankform.nextButton}
-            color="#4E46F1"
-            onPress={() => {
-              // TODO: check for mandatory fields and validations
-              VerifyBankAccount();
-            }}
-          />
+          {next ? (
+            <Button
+              title="Continue"
+              type="solid"
+              uppercase={false}
+              style={bankform.nextButton}
+              color="#4E46F1"
+              onPress={() => {
+                VerifyBankAccount();
+              }}
+            />
+          ) : (
+            <Button
+              title="Continue"
+              uppercase={false}
+              type="solid"
+              style={bankform.nextButton}
+              disabled
+            />
+          )}
           <View style={bankform.padding}></View>
         </ScrollView>
       </SafeAreaView>

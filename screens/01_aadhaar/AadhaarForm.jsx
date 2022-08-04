@@ -76,7 +76,8 @@ export default AadhaarForm = () => {
   }, [backAadhaarData]);
 
   useEffect(() => {
-    if (aadhaar.length === 12) {
+    var aadhaarReg = /^[0-9]{12}$/gm;
+    if (aadhaarReg.test(aadhaar)) {
       setNext(true);
     } else {
       setNext(false);

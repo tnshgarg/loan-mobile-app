@@ -40,7 +40,7 @@ export default PanCardInfo = () => {
   const [backendPush, setBackendPush] = useState(false);
 
   useEffect(() => {
-    if (backendPush){
+    if (backendPush) {
       panBackendPush({
         id: id,
         pan: pan,
@@ -74,20 +74,16 @@ export default PanCardInfo = () => {
   }, []);
 
   useEffect(() => {
-    // TODO: should be a check on regex
-    if (pan.length === 10) {
+    var panReg = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/gm;
+    if (panReg.test(pan)) {
       setNext(true);
-      dispatch(addPanNumber(pan));
     } else {
       setNext(false);
     }
   }, [pan]);
 
   const SkipPAN = () => {
-    Alert.alert(
-      "PAN KYC pending",
-      `You have not completed PAN KYC.`
-    );
+    Alert.alert("PAN KYC pending", `You have not completed PAN KYC.`);
     navigation.navigate("BankInfoForm");
   };
 
@@ -214,9 +210,8 @@ export default PanCardInfo = () => {
           }
         />
         <ProgressBarTop step={2} />
-        <Text style={form.formHeader}>PAN Verification</Text>
-
         <ScrollView keyboardShouldPersistTaps="handled">
+          <Text style={form.formHeader}>PAN Verification</Text>
           <View style={checkBox.padding} />
           <Text style={form.formLabel}>Enter PAN Number</Text>
           <TextInput
@@ -249,7 +244,11 @@ export default PanCardInfo = () => {
             placeholder="Enter Name Registered with PAN"
             required
           />
-          <DateEntry title="Date of birth as recorded in PAN" val={dob} setval={setDob}/>
+          <DateEntry
+            title="Date of birth as recorded in PAN"
+            val={dob}
+            setval={setDob}
+          />
           {console.log(dob)}
           <View style={bankform.infoCard}>
             <Icon name="info-outline" size={20} color="#4E46F1" />
@@ -279,16 +278,17 @@ export default PanCardInfo = () => {
           )}
           <View>
             <Button
-                title="Skip"
-                uppercase={false}
-                type="solid"
-                color="#4E46F1"
-                style={form.skipButton}
-                onPress={() => {
-                  SkipPAN();
-                }}
+              title="Skip"
+              uppercase={false}
+              type="solid"
+              color="#4E46F1"
+              style={form.skipButton}
+              onPress={() => {
+                SkipPAN();
+              }}
             />
           </View>
+          <View style={checkBox.padding}></View>
         </ScrollView>
       </SafeAreaView>
     </>
