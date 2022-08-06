@@ -24,6 +24,7 @@ import {
 } from "../../store/slices/aadhaarSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { bankform, Camera, checkBox, form, styles } from "../../styles";
+import RNPhotoCapture from "../../components/RNPhotoCapture";
 import { showToast } from "../../components/Toast";
 
 export default AadhaarForm = () => {
