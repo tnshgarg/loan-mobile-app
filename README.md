@@ -5,8 +5,25 @@
 cd employee-app
 npm install
 npx react-native start
+
+# start after reset cache
+npx react-native start --reset-cache
+
+# build and start emulator
 npx react-native run-android
 ```
+
+
+## Gradle
+```
+# cleanup
+cd android && ./gradlew clean
+
+# assemble release for building an APK
+cd android && ./gradlew assembleRelease
+
+```
+
 
 
 ## Install and run on ios

@@ -68,6 +68,9 @@ const aadhaarSlice = createSlice({
           break;
       }
     },
+    resetAadhaar(state) {
+      Object.assign(state, initialState);
+    },
   },
 });
 
@@ -79,6 +82,7 @@ export const {
   addAadhaarSubmitOTPtxnId,
   addAadhaarVerifyStatus,
   setAadhaarPlaceholderImage,
+  resetAadhaar,
 } = aadhaarSlice.actions;
 
 export default aadhaarSlice.reducer;

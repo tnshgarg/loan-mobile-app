@@ -70,7 +70,7 @@ export default AadhaarConfirmOCR = () => {
           />
           <Text style={form.userData}>Name: {frontAadhaarData["name"]}</Text>
           <Text style={form.userData}>
-            Gender: {frontAadhaarData["gender"]}
+            Date of Birth: {frontAadhaarData["date_of_birth"]}
           </Text>
           <Text style={form.userData}>
             Address: {backAadhaarData["address"]}

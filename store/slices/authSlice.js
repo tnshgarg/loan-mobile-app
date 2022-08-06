@@ -19,9 +19,12 @@ const authSlice = createSlice({
     addPhoneNumber(state, action) {
       state.phoneNumber = action.payload;
     },
+    resetAuth(state) {
+      Object.assign(state, initialState);
+    },
   },
 });
 
-export const { addId, addPhoneNumber, addLoginVerifyStatus } =
+export const { addId, addPhoneNumber, addLoginVerifyStatus, resetAuth } =
   authSlice.actions;
 export default authSlice.reducer;

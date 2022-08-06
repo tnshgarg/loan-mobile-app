@@ -25,6 +25,8 @@ import {
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { bankform, Camera, checkBox, form, styles } from "../../styles";
 import RNPhotoCapture from "../../components/RNPhotoCapture";
+import { showToast } from "../../components/Toast";
+
 export default AadhaarForm = () => {
   const aadhaarFront = useSelector((state) => state.aadhaar.frontImg);
   const aadhaarBack = useSelector((state) => state.aadhaar.backImg);
@@ -53,7 +55,7 @@ export default AadhaarForm = () => {
   useEffect(() => {
     dispatch(addCurrentScreen("AadhaarForm"));
   }, []);
-
+  
   useEffect(() => {
     dispatch(addAadhaarSubmitOTPtxnId(transactionId));
   }, [transactionId]);
@@ -169,6 +171,7 @@ export default AadhaarForm = () => {
                         response["data"]["ocr_data"]["document"]
                       );
                 }
+                showToast("Aadhaar Details Recorded");
                 break;
               case "1015":
                 type === "front"
@@ -287,8 +290,8 @@ export default AadhaarForm = () => {
                 numeric
               />
               <View style={bankform.infoCard}>
-                <Text style={bankform.infoText}>
-                  <Icon name="info-outline" size={20} color="#4E46F1" />
+                <Icon name="info-outline" size={20} color="#4E46F1" />
+                <Text style={bankform.infoText}>  
                   My Mobile number is linked to my Aadhar card & I can receive
                   the OTP on my Aadhar Linked Mobile Number
                 </Text>

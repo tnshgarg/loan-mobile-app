@@ -72,11 +72,16 @@ const esicSlice = createSlice({
           break;
       }
     },
+    resetESIC(state) {
+      Object.assign(state, initialState);
+    },
   },
 });
 
-export const { addESICPortal, addESICFamilyDetails, addESICAddress } =
-  esicSlice.actions;
+export const {
+  addESICPortal,
+  addESICFamilyDetails,
+  addESICAddress,
+  resetESIC,
+} = esicSlice.actions;
 export default esicSlice.reducer;
-
-// YTBD

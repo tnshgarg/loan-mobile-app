@@ -29,6 +29,7 @@ const GenerateDocument = (props) => {
       var data = { gender: "", name: "", address: "" };
       if (props.status == "SUCCESS") {
         number = props.frontAadhaarData["document_id"];
+        dob = props.frontAadhaarData["date_of_birth"];
         data = {
           gender: props.frontAadhaarData["gender"],
           name: props.frontAadhaarData["name"],
@@ -54,8 +55,8 @@ const GenerateDocument = (props) => {
         id: props.id,
         number: props.pan,
         dob: props.dob,
-        verifyStatus: props.status,
-        verifyMsg: props.message,
+        verifyStatus: props.verifyStatus,
+        verifyMsg: props.verifyMsg,
       };
       break;
 

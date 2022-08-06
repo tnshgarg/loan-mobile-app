@@ -157,6 +157,7 @@ android {
         versionCode 1
         versionName "1.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
+        missingDimensionStrategy 'react-native-camera', 'general' 
 
         if (isNewArchitectureEnabled()) {
             // We configure the NDK build only if you decide to opt-in for the New Architecture.
@@ -245,12 +246,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
-    release {
-      storeFile file('unipe.keystore')
-      storePassword 'unipe1234'
-      keyAlias 'unipe'
-      keyPassword 'unipe1234'
-    }
+        release {
+            storeFile file('unipe.keystore')
+            storePassword 'unipe1234'
+            keyAlias 'unipe'
+            keyPassword 'unipe1234'
+        }
     }
     buildTypes {
         debug {
