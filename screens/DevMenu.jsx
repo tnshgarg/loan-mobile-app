@@ -1,10 +1,10 @@
-import { StyleSheet, View } from "react-native"
-import React from "react"
-import { useNavigation } from "@react-navigation/native"
-import PrimaryButton from "../components/PrimaryButton"
+import React from "react";
+import { View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import PrimaryButton from "../components/PrimaryButton";
 
 const DevMenu = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <PrimaryButton
@@ -48,9 +48,7 @@ const DevMenu = () => {
         onPress={() => navigation.navigate("Home")}
       />
     </View>
-  )
+  );
 };
 
 export default DevMenu;
-
-const styles = StyleSheet.create({});
