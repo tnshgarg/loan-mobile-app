@@ -9,7 +9,7 @@ export default DocumentTile = (props) => {
     <View style={docSearch.searchBar}>
       {props.documents.map((doc, index) => {
         return (
-          <Card style={homeCard.card}>
+          <Card style={homeCard.card} key={index}>
             <Card.Content>
               <Title style={homeCard.title}>{doc.title}</Title>
               <Paragraph style={homeCard.subtitle}>
