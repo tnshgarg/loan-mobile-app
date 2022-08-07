@@ -24,8 +24,8 @@ import {
 } from "../../store/slices/aadhaarSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { bankform, Camera, checkBox, form, styles } from "../../styles";
-import RNPhotoCapture from "../../components/RNPhotoCapture";
 import { showToast } from "../../components/Toast";
+import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 
 export default AadhaarForm = () => {
   const aadhaarFront = useSelector((state) => state.aadhaar.frontImg);
@@ -55,7 +55,7 @@ export default AadhaarForm = () => {
   useEffect(() => {
     dispatch(addCurrentScreen("AadhaarForm"));
   }, []);
-  
+
   useEffect(() => {
     dispatch(addAadhaarSubmitOTPtxnId(transactionId));
   }, [transactionId]);
@@ -273,9 +273,10 @@ export default AadhaarForm = () => {
         <Text style={form.formHeader}>
           Let's begin with your background verification processs with eKYC
         </Text>
-        <ScrollView keyboardShouldPersistTaps="handled">
-          {aadhaarLinked ? (
-            <>
+
+        {aadhaarLinked ? (
+          <KeyboardAvoidingWrapper>
+            <View>
               {aadhaar ? (
                 <Text style={form.formLabel}>
                   Enter 12 Digit Aadhaar Number
@@ -291,7 +292,7 @@ export default AadhaarForm = () => {
               />
               <View style={bankform.infoCard}>
                 <Icon name="info-outline" size={20} color="#4E46F1" />
-                <Text style={bankform.infoText}>  
+                <Text style={bankform.infoText}>
                   My Mobile number is linked to my Aadhar card & I can receive
                   the OTP on my Aadhar Linked Mobile Number
                 </Text>
@@ -336,97 +337,113 @@ export default AadhaarForm = () => {
                   disabled
                 />
               )}
-            </>
-          ) : (
-            <>
-              <Text style={form.formLabel}>Upload Aadhar Front Photo</Text>
-              {aadhaarFront ? (
-                <Image
-                  source={{ uri: `data:image/jpeg;base64,${aadhaarFront}` }}
-                  style={Camera.previewImage}
-                />
-              ) : null}
-              <View style={{ flexDirection: "row" }}>
-                <RNPhotoCapture type="AADHAAR_FRONT" side="back" />
-                <IconButton
-                  icon={<Icon name="delete" size={20} color="black" />}
-                  style={Camera.cameraButton}
-                  onPress={() => {
-                    setAadhaarFrontVerified(false);
-                    dispatch(
-                      setAadhaarPlaceholderImage({
-                        type: "AADHAAR_FRONT",
-                      })
-                    );
-                  }}
-                />
-              </View>
-              <Text style={form.formLabel}>Upload Aadhar Back Photo</Text>
-              {aadhaarBack ? (
-                <Image
-                  source={{ uri: `data:image/jpeg;base64,${aadhaarBack}` }}
-                  style={Camera.previewImage}
-                />
-              ) : null}
-              <View style={{ flexDirection: "row" }}>
-                <RNPhotoCapture type="AADHAAR_BACK" side="back" />
-                <IconButton
-                  icon={<Icon name="delete" size={20} color="black" />}
-                  style={Camera.cameraButton}
-                  onPress={() => {
-                    setAadhaarBackVerified(false);
-                    dispatch(
-                      setAadhaarPlaceholderImage({
-                        type: "AADHAAR_BACK",
-                      })
-                    );
-                  }}
-                />
-              </View>
-              <View style={{ flexDirection: "row" }}>
-                <CheckBox
-                  value={consent}
-                  onValueChange={setConsent}
-                  style={checkBox.checkBox}
-                  tintColors={{ true: "#4E46F1" }}
-                />
-                <Text style={checkBox.checkBoxText}>
-                  I agree with the KYC registration Terms and Conditions to
-                  verifiy my identity.
-                </Text>
-              </View>
-              <Button
-                style={form.AadharLinkedStatus}
-                onPress={() => {
-                  setAadhaarLinked(true);
-                }}
-                uppercase={false}
-                title="My Mobile number is linked to my Aadhar card."
+            </View>
+          </KeyboardAvoidingWrapper>
+        ) : (
+          <ScrollView keyboardShouldPersistTaps="handled">
+            <Text style={form.formLabel}>Upload Aadhar Front Photo</Text>
+            {aadhaarFront ? (
+              <Image
+                source={{ uri: `data:image/jpeg;base64,${aadhaarFront}` }}
+                style={Camera.previewImage}
               />
-              {aadhaarFront && aadhaarBack && consent ? (
-                <Button
-                  uppercase={false}
-                  title="Continue"
-                  type="solid"
-                  color="#4E46F1"
-                  style={form.nextButton}
-                  onPress={() => {
-                    VerifyAadharOCR();
-                  }}
-                />
-              ) : (
-                <Button
-                  title="Continue"
-                  uppercase={false}
-                  type="solid"
-                  style={form.nextButton}
-                  disabled
-                />
-              )}
-            </>
-          )}
-          <View style={checkBox.padding}></View>
-        </ScrollView>
+            ) : null}
+            <View style={{ flexDirection: "row" }}>
+              <IconButton
+                icon={<Icon name="camera-alt" size={20} color="black" />}
+                style={Camera.cameraButton}
+                onPress={() => {
+                  navigation.navigate("RNPhotoCapture", {
+                    type: "AADHAAR_FRONT",
+                  });
+                }}
+              />
+              <IconButton
+                icon={<Icon name="delete" size={20} color="black" />}
+                style={Camera.cameraButton}
+                onPress={() => {
+                  setAadhaarFrontVerified(false);
+                  dispatch(
+                    setAadhaarPlaceholderImage({
+                      type: "AADHAAR_FRONT",
+                    })
+                  );
+                }}
+              />
+            </View>
+            <Text style={form.formLabel}>Upload Aadhar Back Photo</Text>
+            {aadhaarBack ? (
+              <Image
+                source={{ uri: `data:image/jpeg;base64,${aadhaarBack}` }}
+                style={Camera.previewImage}
+              />
+            ) : null}
+            <View style={{ flexDirection: "row" }}>
+              <IconButton
+                icon={<Icon name="camera-alt" size={20} color="black" />}
+                style={Camera.cameraButton}
+                onPress={() => {
+                  navigation.navigate("RNPhotoCapture", {
+                    type: "AADHAAR_BACK",
+                  });
+                }}
+              />
+              <IconButton
+                icon={<Icon name="delete" size={20} color="black" />}
+                style={Camera.cameraButton}
+                onPress={() => {
+                  setAadhaarBackVerified(false);
+                  dispatch(
+                    setAadhaarPlaceholderImage({
+                      type: "AADHAAR_BACK",
+                    })
+                  );
+                }}
+              />
+            </View>
+            <View style={{ flexDirection: "row" }}>
+              <CheckBox
+                value={consent}
+                onValueChange={setConsent}
+                style={checkBox.checkBox}
+                tintColors={{ true: "#4E46F1" }}
+              />
+              <Text style={checkBox.checkBoxText}>
+                I agree with the KYC registration Terms and Conditions to
+                verifiy my identity.
+              </Text>
+            </View>
+            <Button
+              style={form.AadharLinkedStatus}
+              onPress={() => {
+                setAadhaarLinked(true);
+              }}
+              uppercase={false}
+              title="My Mobile number is linked to my Aadhar card."
+            />
+            {aadhaarFront && aadhaarBack && consent ? (
+              <Button
+                uppercase={false}
+                title="Continue"
+                type="solid"
+                color="#4E46F1"
+                style={form.nextButton}
+                onPress={() => {
+                  VerifyAadharOCR();
+                }}
+              />
+            ) : (
+              <Button
+                title="Continue"
+                uppercase={false}
+                type="solid"
+                style={form.nextButton}
+                disabled
+              />
+            )}
+          </ScrollView>
+        )}
+        <View style={checkBox.padding}></View>
       </SafeAreaView>
     </>
   );

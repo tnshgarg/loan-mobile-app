@@ -1,28 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
+import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
   Image,
-  Linking,
-  SafeAreaView,
-  ScrollView,
-  Text,
+  Linking, Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
+import { useDispatch, useSelector } from "react-redux";
 
 import { GenerateDocument } from "../../helpers/GenerateDocument";
+import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { putBackendData } from "../../services/employees/employeeServices";
 import { sendSmsVerification } from "../../services/otp/Twilio/verify";
 import { addId, addPhoneNumber } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
-import { showToast } from "../../components/Toast";
 
 export default LoginScreen = () => {
   const navigation = useNavigation();
@@ -96,14 +93,14 @@ export default LoginScreen = () => {
         if (res.data["status"] == 201) {
           setId(res.data["id"]);
           sendSmsVerification(fullPhoneNumber)
-          .then((sent) => {
-            console.log("Sent!");
-            setIsLoading(true);
-            navigation.navigate("Otp");
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+            .then((sent) => {
+              console.log("Sent!");
+              setIsLoading(true);
+              navigation.navigate("Otp");
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         } else {
           Alert.alert("Error", res.data["message"]);
         }
@@ -137,8 +134,8 @@ export default LoginScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView keyboardShouldPersistTaps="handled">
+    <KeyboardAvoidingWrapper>
+      <View>
         <Image
           style={styles.logo}
           source={require("../../assets/unipe-Thumbnail.png")}
@@ -206,7 +203,7 @@ export default LoginScreen = () => {
             </View>
           </TouchableOpacity>
         )}
-      </ScrollView>
-    </SafeAreaView>
+      </View>
+    </KeyboardAvoidingWrapper>
   );
 };

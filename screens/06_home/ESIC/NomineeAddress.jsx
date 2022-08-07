@@ -7,29 +7,32 @@ import { bankform, form, styles } from "../../../styles";
 import { useSelector } from "react-redux";
 import { addressPush } from "../../../helpers/BackendPush";
 import { showToast } from "../../../components/Toast";
+import { KeyboardAvoidingWrapper } from "../../../KeyboardAvoidingWrapper";
 
 export default NomineeAddress = () => {
   const navigation = useNavigation();
   const id = useSelector((state) => state.auth.id);
   const address = useSelector((state) => state.esic.address);
   return (
-    <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
-      <AddressDropdown type={"nominee"} />
-      <Button
-        uppercase={false}
-        title="Finish"
-        type="solid"
-        color="#4E46F1"
-        style={form.nextButton}
-        onPress={() => {
-          {
-            addressPush({ id: id, type: "nominee", address: address });
-          }
-          showToast("Nominee Address details recorded.");
-          navigation.navigate("Home");
-        }}
-      />
-      <View style={bankform.padding}></View>
-    </ScrollView>
+    <KeyboardAvoidingWrapper>
+      <View>
+        <AddressDropdown type={"nominee"} />
+        <Button
+          uppercase={false}
+          title="Finish"
+          type="solid"
+          color="#4E46F1"
+          style={form.nextButton}
+          onPress={() => {
+            {
+              addressPush({ id: id, type: "nominee", address: address });
+            }
+            showToast("Nominee Address details recorded.");
+            navigation.navigate("Home");
+          }}
+        />
+        <View style={bankform.padding}></View>
+      </View>
+    </KeyboardAvoidingWrapper>
   );
 };
