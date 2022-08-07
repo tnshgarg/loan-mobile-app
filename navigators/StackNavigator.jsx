@@ -1,11 +1,5 @@
 import React from "react";
-<<<<<<< HEAD
-import { useDispatch, useSelector } from "react-redux";
-import { View, Text } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-=======
 import { useSelector } from "react-redux";
->>>>>>> develop
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import LoginScreen from "../screens/00_login/LoginScreen";
@@ -23,11 +17,8 @@ import RNPhotoCapture from "../components/RNPhotoCapture";
 import DrawerNavigator from "./DrawerNavigator";
 
 import { STAGE } from "@env";
-<<<<<<< HEAD
 import KYCScreen from "../screens/07_drawer/KYCScreen";
 import Profile from "../screens/07_drawer/Profile";
-=======
->>>>>>> develop
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -128,11 +119,7 @@ const StackNavigator = () => {
       />
       <Stack.Screen
         name="Home"
-<<<<<<< HEAD
-        component={Home}
-=======
         component={DrawerNavigator}
->>>>>>> develop
         options={{
           headerShown: false,
           header: null,
@@ -146,7 +133,6 @@ const StackNavigator = () => {
           header: null,
         }}
       />
-<<<<<<< HEAD
       <Stack.Screen
         name="KYC"
         component={KYCScreen}
@@ -164,8 +150,6 @@ const StackNavigator = () => {
           headerTitle: "Profile Details",
         }}
       />
-=======
->>>>>>> develop
     </Stack.Navigator>
   );
 };
