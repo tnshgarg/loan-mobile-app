@@ -8,6 +8,7 @@ import SplashScreen from "react-native-splash-screen";
 import StepIndicator from "react-native-step-indicator";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { checkBox, form, styles, welcome } from "../../styles";
+import Loading from "../../components/Loading";
 
 export default WelcomePage = () => {
   const dispatch = useDispatch();

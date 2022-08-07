@@ -1,7 +1,11 @@
 import React from "react";
+<<<<<<< HEAD
 import { useDispatch, useSelector } from "react-redux";
 import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
+=======
+import { useSelector } from "react-redux";
+>>>>>>> develop
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import LoginScreen from "../screens/00_login/LoginScreen";
@@ -14,16 +18,20 @@ import PanCardInfo from "../screens/02_pan/PanCardInfo";
 import BankInformationForm from "../screens/03_bank/BankInformationForm";
 import PersonalDetailsForm from "../screens/04_profile/PersonalDetailsForm";
 import PersonalImage from "../screens/05_photo/PersonalImage";
-import Home from "../screens/06_home/Home";
 import DevMenu from "../screens/DevMenu";
 import RNPhotoCapture from "../components/RNPhotoCapture";
+import DrawerNavigator from "./DrawerNavigator";
 
 import { STAGE } from "@env";
+<<<<<<< HEAD
 import KYCScreen from "../screens/07_drawer/KYCScreen";
 import Profile from "../screens/07_drawer/Profile";
+=======
+>>>>>>> develop
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
+
   const initialRoute = useSelector((state) => state.navigation.currentScreen);
 
   console.log("STAGE: ", STAGE);
@@ -120,7 +128,11 @@ const StackNavigator = () => {
       />
       <Stack.Screen
         name="Home"
+<<<<<<< HEAD
         component={Home}
+=======
+        component={DrawerNavigator}
+>>>>>>> develop
         options={{
           headerShown: false,
           header: null,
@@ -134,6 +146,7 @@ const StackNavigator = () => {
           header: null,
         }}
       />
+<<<<<<< HEAD
       <Stack.Screen
         name="KYC"
         component={KYCScreen}
@@ -151,6 +164,8 @@ const StackNavigator = () => {
           headerTitle: "Profile Details",
         }}
       />
+=======
+>>>>>>> develop
     </Stack.Navigator>
   );
 };

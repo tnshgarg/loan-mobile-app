@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import PrimaryButton from "../components/PrimaryButton";
@@ -62,5 +62,3 @@ const DevMenu = () => {
 };
 
 export default DevMenu;
-
-const styles = StyleSheet.create({});

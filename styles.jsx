@@ -50,7 +50,7 @@ export const styles = StyleSheet.create({
   ContinueButton: {
     padding: 10,
     alignSelf: "center",
-    marginTop: 50,
+    // marginTop: 50,
     width: 320,
     height: 60,
     fontSize: 20,
@@ -168,11 +168,19 @@ export const form = StyleSheet.create({
     backgroundColor: "grey",
   },
   nextButton: {
-    padding: 10,
+    padding: 5,
     alignSelf: "center",
-    marginTop: 50,
+    marginTop: 20,
     width: 320,
-    height: 60,
+    height: 50,
+    fontSize: 20,
+  },
+  skipButton: {
+    padding: 5,
+    alignSelf: "center",
+    marginTop: 10,
+    width: 320,
+    height: 50,
     fontSize: 20,
   },
   OtpAwaitMsg: {
@@ -238,6 +246,21 @@ export const form = StyleSheet.create({
     marginLeft: 280,
     marginTop: 10,
   },
+  year: {
+    marginLeft: 34,
+    height: 40,
+    width: 40,
+    textAlign: "center",
+    borderBottomWidth: 1,
+  },
+  monthday: {
+    height: 40,
+    width: 40,
+    textAlign: "center",
+    borderBottomWidth: 1,
+  },
+  hypenView: { width: 30, alignSelf: "center" },
+  hypen: { alignSelf: "center", fontSize: 30 },
 });
 
 export const checkBox = StyleSheet.create({
@@ -286,12 +309,16 @@ export const bankform = StyleSheet.create({
     backgroundColor: "rgba(78, 70, 241, 0.1)",
     width: "85%",
     marginLeft: 30,
-    marginTop: 10,
+    marginTop: 20,
     padding: 10,
     flex: 0,
+    flexDirection: "row",
+    alignItems: "flex-start",
   },
   infoText: {
+    width: "93%",
     color: "#333333",
+    paddingLeft: 7,
   },
   Maintitle: {
     marginLeft: 30,

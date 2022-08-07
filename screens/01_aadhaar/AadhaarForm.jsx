@@ -24,6 +24,8 @@ import {
 } from "../../store/slices/aadhaarSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { bankform, Camera, checkBox, form, styles } from "../../styles";
+import RNPhotoCapture from "../../components/RNPhotoCapture";
+import { showToast } from "../../components/Toast";
 
 export default AadhaarForm = () => {
   const aadhaarFront = useSelector((state) => state.aadhaar.frontImg);
@@ -53,6 +55,7 @@ export default AadhaarForm = () => {
   useEffect(() => {
     dispatch(addCurrentScreen("AadhaarForm"));
   }, []);
+  
   useEffect(() => {
     dispatch(addAadhaarSubmitOTPtxnId(transactionId));
   }, [transactionId]);
@@ -94,14 +97,12 @@ export default AadhaarForm = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    
     };
 
     fetch(`https://api.gridlines.io/aadhaar-api/boson/generate-otp`, options)
       .then((response) => response.json())
       .then((response) => {
         {
-          console.log(response);
           if (response["status"] == "200") {
             switch (response["data"]["code"]) {
               case "1001":
@@ -170,20 +171,27 @@ export default AadhaarForm = () => {
                         response["data"]["ocr_data"]["document"]
                       );
                 }
+                showToast("Aadhaar Details Recorded");
                 break;
               case "1015":
-                type === "front" ? setAadhaarFrontVerified(false) : setAadhaarBackVerified(false);
+                type === "front"
+                  ? setAadhaarFrontVerified(false)
+                  : setAadhaarBackVerified(false);
                 setErrorMsg(response["data"]["message"]);
                 Alert.alert("Error", response["data"]["message"]);
                 break;
             }
           } else {
             if (response["error"]) {
-              type === "front" ? setAadhaarFrontVerified(false) : setAadhaarBackVerified(false);
+              type === "front"
+                ? setAadhaarFrontVerified(false)
+                : setAadhaarBackVerified(false);
               setErrorMsg(response["error"]["message"]);
               Alert.alert("Error", response["error"]["message"]);
             } else {
-              type === "front" ? setAadhaarFrontVerified(false) : setAadhaarBackVerified(false);
+              type === "front"
+                ? setAadhaarFrontVerified(false)
+                : setAadhaarBackVerified(false);
               setErrorMsg(response["message"]);
               Alert.alert("Error", response["message"]);
             }
@@ -199,40 +207,37 @@ export default AadhaarForm = () => {
   const VerifyAadharOCR = () => {
     AadhaarOCR("front");
     AadhaarOCR();
-    setTimeout(() => {
-      !aadhaarBackVerified
-        ? alert(
-            `The Image captured is not verified please capture the image again for Aadhaar Back to get it verified.`
-          )
-        : null;
-      !aadhaarFrontVerified
-        ? alert(
-            `The Image captured is not verified please capture the image again for Aadhaar Front to get it verified.`
-          )
-        : null;
-      aadhaarBackVerified && aadhaarFrontVerified ? (
-        <>
-          {alert("Aadhar Verified through OCR.")}
-          {dispatch(addAadhaarVerifyStatus({ type: "OCR", status: "SUCCESS" }))}
-          {navigation.navigate("PanCardInfo")}
-          {aadhaarBackendPush({
-            type: "OCR",
-            status: "SUCCESS",
-            id: id,
-            frontAadhaarData: frontAadhaarData,
-            backAadhaarData: backAadhaarData,
-            message: "",
-          })}
-        </>
-      ) : (
-        aadhaarBackendPush({
-          type: "OCR",
-          id: id,
-          status: "ERROR",
-          message: errorMsg,
-        })
-      );
-    }, 1000);
+    console.log(aadhaarFrontVerified, aadhaarBackVerified);
+    !aadhaarBackVerified ? (
+      <>
+        {alert(
+          `The Image captured is not verified please capture the image again for Aadhaar Back to get it verified.`
+        )}{" "}
+        {setErrorMsg("Aadhaar Back not verified")}
+      </>
+    ) : null;
+    !aadhaarFrontVerified ? (
+      <>
+        {alert(
+          `The Image captured is not verified please capture the image again for Aadhaar Front to get it verified.`
+        )}
+        {setErrorMsg("Aadhaar Front not verified")}
+      </>
+    ) : null;
+    aadhaarBackVerified && aadhaarFrontVerified ? (
+      <>
+        {alert("Aadhar Verified through OCR.")}
+        {dispatch(addAadhaarVerifyStatus({ type: "OCR", status: "SUCCESS" }))}
+        {navigation.navigate("AadhaarConfirm", "OCR")}
+      </>
+    ) : (
+      aadhaarBackendPush({
+        type: "OCR",
+        id: id,
+        status: "ERROR",
+        message: errorMsg,
+      })
+    );
   };
 
   const backAlert = () =>
@@ -285,8 +290,8 @@ export default AadhaarForm = () => {
                 numeric
               />
               <View style={bankform.infoCard}>
-                <Text style={bankform.infoText}>
-                  <Icon name="info-outline" size={20} color="#4E46F1" />
+                <Icon name="info-outline" size={20} color="#4E46F1" />
+                <Text style={bankform.infoText}>  
                   My Mobile number is linked to my Aadhar card & I can receive
                   the OTP on my Aadhar Linked Mobile Number
                 </Text>
@@ -342,20 +347,12 @@ export default AadhaarForm = () => {
                 />
               ) : null}
               <View style={{ flexDirection: "row" }}>
-                <IconButton
-                  icon={<Icon name="camera-alt" size={20} color="black" />}
-                  style={Camera.cameraButton}
-                  onPress={() => {
-                    navigation.navigate("RNPhotoCapture", {
-                      type: "AADHAAR_FRONT",
-                    });
-                  }}
-                />
+                <RNPhotoCapture type="AADHAAR_FRONT" side="back" />
                 <IconButton
                   icon={<Icon name="delete" size={20} color="black" />}
                   style={Camera.cameraButton}
                   onPress={() => {
-                    setAadhaarFrontVerified(false)
+                    setAadhaarFrontVerified(false);
                     dispatch(
                       setAadhaarPlaceholderImage({
                         type: "AADHAAR_FRONT",
@@ -372,20 +369,12 @@ export default AadhaarForm = () => {
                 />
               ) : null}
               <View style={{ flexDirection: "row" }}>
-                <IconButton
-                  icon={<Icon name="camera-alt" size={20} color="black" />}
-                  style={Camera.cameraButton}
-                  onPress={() => {
-                    navigation.navigate("RNPhotoCapture", {
-                      type: "AADHAAR_BACK",
-                    });
-                  }}
-                />
+                <RNPhotoCapture type="AADHAAR_BACK" side="back" />
                 <IconButton
                   icon={<Icon name="delete" size={20} color="black" />}
                   style={Camera.cameraButton}
                   onPress={() => {
-                    setAadhaarBackVerified(false)
+                    setAadhaarBackVerified(false);
                     dispatch(
                       setAadhaarPlaceholderImage({
                         type: "AADHAAR_BACK",

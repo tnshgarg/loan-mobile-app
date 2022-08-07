@@ -11,8 +11,11 @@ const navigationSlice = createSlice({
     addCurrentScreen(state, action) {
       state.currentScreen = action.payload;
     },
+    resetNavigation(state) {
+      Object.assign(state, initialState);
+    },
   },
 });
 
-export const { addCurrentScreen } = navigationSlice.actions;
+export const { addCurrentScreen, resetNavigation } = navigationSlice.actions;
 export default navigationSlice.reducer;

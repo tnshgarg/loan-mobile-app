@@ -17,11 +17,12 @@ import {
 import SmsRetriever from "react-native-sms-retriever";
 
 import { GenerateDocument } from "../../helpers/GenerateDocument";
-import { putMobileData } from "../../services/employees/employeeServices";
+import { putBackendData } from "../../services/employees/employeeServices";
 import { sendSmsVerification } from "../../services/otp/Twilio/verify";
 import { addId, addPhoneNumber } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
+import { showToast } from "../../components/Toast";
 
 export default LoginScreen = () => {
   const navigation = useNavigation();
@@ -84,28 +85,28 @@ export default LoginScreen = () => {
 
   const signIn = () => {
     var fullPhoneNumber = `+91${phoneNumber}`;
-    sendSmsVerification(fullPhoneNumber)
-      .then((sent) => {
-        console.log("Sent!");
-        setIsLoading(true);
-        var phonePayload = GenerateDocument({
-          src: "otp",
-          number: fullPhoneNumber,
-        });
-        putMobileData(phonePayload)
-          .then((res) => {
-            console.log(phonePayload);
-            console.log(res.data);
-            if (res.data["message"]) {
-              Alert.alert("Error", res.data["message"]);
-            } else {
-              setId(res.data["id"]);
-            }
+    var phonePayload = GenerateDocument({
+      src: "otp",
+      number: fullPhoneNumber,
+    });
+    putBackendData({ document: phonePayload, src: "Mobile" })
+      .then((res) => {
+        console.log(phonePayload);
+        console.log(res.data);
+        if (res.data["status"] == 201) {
+          setId(res.data["id"]);
+          sendSmsVerification(fullPhoneNumber)
+          .then((sent) => {
+            console.log("Sent!");
+            setIsLoading(true);
+            navigation.navigate("Otp");
           })
           .catch((err) => {
             console.log(err);
           });
-        navigation.navigate("Otp");
+        } else {
+          Alert.alert("Error", res.data["message"]);
+        }
       })
       .catch((err) => {
         console.log(err);

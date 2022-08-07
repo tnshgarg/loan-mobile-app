@@ -12,19 +12,25 @@ const GenerateDocument = (props) => {
       document = {
         id: props.id,
         number: props.aadhaar,
-        data: props.status === "SUCCESS" ? props.xml: "",
+        data: props.status === "SUCCESS" ? props.xml : "",
         verifyMode: "OTP",
         verifyStatus: props.status,
         verifyMsg: props.message,
+        name: props.data["name"],
+        gender: props.data["gender"],
+        dob: props.data["date_of_birth"],
       };
       break;
 
     case "AadhaarOCR":
       var stringifyData = "";
-      var number = ""
+      var number = "";
+      var dob = "";
+      var data = { gender: "", name: "", address: "" };
       if (props.status == "SUCCESS") {
-        number = props.frontAadhaarData["document_id"]
-        const data = {
+        number = props.frontAadhaarData["document_id"];
+        dob = props.frontAadhaarData["date_of_birth"];
+        data = {
           gender: props.frontAadhaarData["gender"],
           name: props.frontAadhaarData["name"],
           address: props.backAadhaarData["address"],
@@ -36,6 +42,9 @@ const GenerateDocument = (props) => {
         number: number,
         data: stringifyData,
         verifyMode: "OCR",
+        name: data.name,
+        gender: data.gender,
+        dob: dob,
         verifyStatus: props.status,
         verifyMsg: props.message,
       };
@@ -45,8 +54,9 @@ const GenerateDocument = (props) => {
       document = {
         id: props.id,
         number: props.pan,
-        verifyStatus: props.status,
-        verifyMsg: props.message,
+        dob: props.dob,
+        verifyStatus: props.verifyStatus,
+        verifyMsg: props.verifyMsg,
       };
       break;
 
@@ -70,6 +80,30 @@ const GenerateDocument = (props) => {
         email: props.email,
         photo: props.photo,
       };
+      break;
+
+    case "FamilyDetails":
+      document = {
+        id: props.id,
+        type: props.type,
+        relation: props.relation,
+        name: props.name,
+      };
+      break;
+
+    case "Address":
+      document = {
+        id: props.id,
+        type: props.type,
+        street: props.street,
+        state: props.state,
+        district: props.district,
+        pin: props.pin,
+      };
+      break;
+
+    case "Portal":
+      document = { id: props.id, ipNumber: props.ipNumber };
       break;
   }
   return document;

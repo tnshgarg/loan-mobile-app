@@ -14,8 +14,11 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { buttons, nav } from "../../styles";
 
 export default Home = () => {
+  const navigation = useNavigation();
+
   const [state, setState] = React.useState({ open: false });
   const onStateChange = ({ open }) => setState({ open });
+  
   const { open } = state;
   const tabs = [
     { name: "Home", component: HomeView },
@@ -23,8 +26,6 @@ export default Home = () => {
     { name: "Benefits", component: Benefits },
     { name: "Banking", component: HomeView },
   ];
-
-  const navigation = useNavigation();
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -48,7 +49,10 @@ export default Home = () => {
             leading={
               <IconButton
                 icon={<Icon name="menu" size={30} />}
-                onPress={() => console.log("Menu")}
+                onPress={() => {
+                  console.log("Menu");
+                  navigation.toggleDrawer();
+                }}
               />
             }
             trailing={<IconButton icon={<Icon name="more-vert" size={30} />} />}
