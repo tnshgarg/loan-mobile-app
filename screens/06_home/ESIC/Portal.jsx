@@ -7,6 +7,7 @@ import { portalPush } from "../../../helpers/BackendPush";
 import { addESICPortal } from "../../../store/slices/esicSlice";
 import { bankform, form, styles } from "../../../styles";
 import { showToast } from "../../../components/Toast";
+import { KeyboardAvoidingWrapper } from "../../../KeyboardAvoidingWrapper";
 
 export default Portal = () => {
   const dispatch = useDispatch();
@@ -28,39 +29,39 @@ export default Portal = () => {
   }, [ipNumber]);
 
   return (
-    <>
-      <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
-        {/* <Text style={bankform.formtitle}>Employer Establishment Code*</Text>
+      <KeyboardAvoidingWrapper>
+        <View>
+          {/* <Text style={bankform.formtitle}>Employer Establishment Code*</Text>
         <TextInput
           style={bankform.formInput}
           value={estCode}
           onChangeText={setEstCode}
         /> */}
-        <Text style={bankform.formtitle}>IP Number</Text>
-        <TextInput
-          style={bankform.formInput}
-          value={ipNumber}
-          onChangeText={setIpNumber}
-        />
-        <Button
-          uppercase={false}
-          title="Continue"
-          type="solid"
-          color="#4E46F1"
-          style={form.nextButton}
-          onPress={() => {
-            portalPush({ id: id, ipNumber: ipNumber });
-            showToast("ESIC Portal details recorded.");
-            navigation.navigate("Benefits", {
-              screen: "ESIC",
-              params: {
-                screen: "Family Details",
-              },
-            });
-          }}
-        />
-        <View style={bankform.padding}></View>
-      </ScrollView>
-    </>
+          <Text style={bankform.formtitle}>IP Number</Text>
+          <TextInput
+            style={bankform.formInput}
+            value={ipNumber}
+            onChangeText={setIpNumber}
+          />
+          <Button
+            uppercase={false}
+            title="Continue"
+            type="solid"
+            color="#4E46F1"
+            style={form.nextButton}
+            onPress={() => {
+              portalPush({ id: id, ipNumber: ipNumber });
+              showToast("ESIC Portal details recorded.");
+              navigation.navigate("Benefits", {
+                screen: "ESIC",
+                params: {
+                  screen: "Family Details",
+                },
+              });
+            }}
+          />
+          <View style={bankform.padding}></View>
+        </View>
+      </KeyboardAvoidingWrapper>
   );
 };

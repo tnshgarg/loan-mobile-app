@@ -9,6 +9,7 @@ import { addESICFamilyDetails } from "../../../store/slices/esicSlice";
 import { familyDetailsPush } from "../../../helpers/BackendPush";
 import { bankform, form, styles } from "../../../styles";
 import { showToast } from "../../../components/Toast";
+import { KeyboardAvoidingWrapper } from "../../../KeyboardAvoidingWrapper";
 
 export default FamilyDetails = () => {
   const navigation = useNavigation();
@@ -68,80 +69,81 @@ export default FamilyDetails = () => {
   }, [nomineeName]);
 
   return (
-    <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
-      <Text style={bankform.formtitle}>Father's / Husband's Name *</Text>
-      <TextInput
-        style={bankform.formInput}
-        value={fatherHusbandName}
-        onChangeText={setRelationName}
-      />
+    <KeyboardAvoidingWrapper>
+      <View>
+        <Text style={bankform.formtitle}>Father's / Husband's Name *</Text>
+        <TextInput
+          style={bankform.formInput}
+          value={fatherHusbandName}
+          onChangeText={setRelationName}
+        />
 
-      <Text style={bankform.formtitle}>
-        Relation with Employee (Father/Husband) *
-      </Text>
-      <Picker
-        style={form.picker}
-        prompt="Relation with Employee (Father/Husband) *"
-        selectedValue={fatherHusbandRelation}
-        onValueChange={setRelation}
-      >
-        <Picker.Item label="Father" value="Father" />
-        <Picker.Item label="Husband" value="Husband" />
-      </Picker>
+        <Text style={bankform.formtitle}>
+          Relation with Employee (Father/Husband) *
+        </Text>
+        <Picker
+          style={form.picker}
+          prompt="Relation with Employee (Father/Husband) *"
+          selectedValue={fatherHusbandRelation}
+          onValueChange={setRelation}
+        >
+          <Picker.Item label="Father" value="Father" />
+          <Picker.Item label="Husband" value="Husband" />
+        </Picker>
 
-      <Text style={bankform.formtitle}>
-        Name of Nominee (As per Aadhaar card) *
-      </Text>
-      <TextInput
-        style={bankform.formInput}
-        value={nomineeName}
-        onChangeText={setNomineeName}
-      />
+        <Text style={bankform.formtitle}>
+          Name of Nominee (As per Aadhaar card) *
+        </Text>
+        <TextInput
+          style={bankform.formInput}
+          value={nomineeName}
+          onChangeText={setNomineeName}
+        />
 
-      <Text style={bankform.formtitle}>
-        Nominee Relationship with Employee *
-      </Text>
-      <Picker
-        style={form.picker}
-        prompt="Nominee Relationship with Employee *"
-        selectedValue={nomineeRelation}
-        onValueChange={setNomineeRelation}
-      >
-        {relations.map((value, index) => {
-          return <Picker.Item label={value} value={value} key={index} />;
-        })}
-      </Picker>
-      <Button
-        uppercase={false}
-        title="Continue"
-        type="solid"
-        color="#4E46F1"
-        style={form.nextButton}
-        onPress={() => {
+        <Text style={bankform.formtitle}>
+          Nominee Relationship with Employee *
+        </Text>
+        <Picker
+          style={form.picker}
+          prompt="Nominee Relationship with Employee *"
+          selectedValue={nomineeRelation}
+          onValueChange={setNomineeRelation}
+        >
+          {relations.map((value, index) => {
+            return <Picker.Item label={value} value={value} key={index} />;
+          })}
+        </Picker>
+        <Button
+          uppercase={false}
+          title="Continue"
+          type="solid"
+          color="#4E46F1"
+          style={form.nextButton}
+          onPress={() => {
+            familyDetailsPush({
+              id: id,
+              type: "fh",
+              relation: fatherHusbandRelation,
+              name: fatherHusbandName,
+            });
 
-          familyDetailsPush({
-            id: id,
-            type: "fh",
-            relation: fatherHusbandRelation,
-            name: fatherHusbandName,
-          });
-
-          familyDetailsPush({
-            id: id,
-            type: "nominee",
-            relation: nomineeRelation,
-            name: nomineeName,
-          });
-          showToast("Family details recorded.");
-          navigation.navigate("Benefits", {
-            screen: "ESIC",
-            params: {
-              screen: "Employee Address",
-            },
-          });
-        }}
-      />
-      <View style={bankform.padding}></View>
-    </ScrollView>
+            familyDetailsPush({
+              id: id,
+              type: "nominee",
+              relation: nomineeRelation,
+              name: nomineeName,
+            });
+            showToast("Family details recorded.");
+            navigation.navigate("Benefits", {
+              screen: "ESIC",
+              params: {
+                screen: "Employee Address",
+              },
+            });
+          }}
+        />
+        <View style={bankform.padding}></View>
+      </View>
+    </KeyboardAvoidingWrapper>
   );
 };

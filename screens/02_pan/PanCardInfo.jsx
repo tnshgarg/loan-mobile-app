@@ -24,6 +24,7 @@ import { bankform, checkBox, form, styles } from "../../styles";
 import { showToast } from "../../components/Toast";
 import { addEmail } from "../../store/slices/profileSlice";
 import DateEntry from "../../components/DateEntry";
+import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 
 export default PanCardInfo = () => {
   const navigation = useNavigation();
@@ -218,85 +219,85 @@ export default PanCardInfo = () => {
         />
         <ProgressBarTop step={2} />
         <Text style={form.formHeader}>PAN Verification</Text>
-
-        <ScrollView keyboardShouldPersistTaps="handled">
-          <View style={checkBox.padding} />
-          <Text style={form.formLabel}>Enter PAN Number</Text>
-          <TextInput
-            style={form.formTextInput}
-            autoCapitalize="characters"
-            value={pan}
-            onChangeText={setPan}
-            maxLength={10}
-            placeholder="Enter PAN Number"
-            required
-          />
-          <View style={form.forgotText}>
-            <Text
-              style={styles.termsText}
-              onPress={() =>
-                Linking.openURL(
-                  "https://docs.google.com/document/d/19nf3qwzXcun0yTN6WH6iA5hpGKlgsg4erbHuDql0EZQ/edit"
-                )
-              }
-            >
-              Forgot PAN?
-            </Text>
-          </View>
-          <Text style={form.formLabel}>Name as per PAN Card</Text>
-          <TextInput
-            style={form.formTextInput}
-            autoCapitalize="words"
-            value={panName}
-            onChangeText={setPanName}
-            placeholder="Enter Name Registered with PAN"
-            required
-          />
-          <DateEntry
-            title="Date of birth as recorded in PAN"
-            val={dob}
-            setval={setDob}
-          />
-          {console.log(dob)}
-          <View style={bankform.infoCard}>
-            <Icon name="info-outline" size={20} color="#4E46F1" />
-            <Text style={bankform.infoText}>
-              PAN is needed to verify your name and date of birth
-            </Text>
-          </View>
-          {next ? (
-            <Button
-              uppercase={false}
-              title="Continue"
-              type="solid"
-              color="#4E46F1"
-              style={form.nextButton}
-              onPress={() => {
-                VerifyPAN();
-              }}
-            />
-          ) : (
-            <Button
-              title="Continue"
-              uppercase={false}
-              type="solid"
-              style={form.nextButton}
-              disabled
-            />
-          )}
+        <KeyboardAvoidingWrapper>
           <View>
-            <Button
-              title="Skip"
-              uppercase={false}
-              type="solid"
-              color="#4E46F1"
-              style={form.skipButton}
-              onPress={() => {
-                SkipPAN();
-              }}
+            <Text style={form.formLabel}>Enter PAN Number</Text>
+            <TextInput
+              style={form.formTextInput}
+              autoCapitalize="characters"
+              value={pan}
+              onChangeText={setPan}
+              maxLength={10}
+              placeholder="Enter PAN Number"
+              required
             />
+            <View style={form.forgotText}>
+              <Text
+                style={styles.termsText}
+                onPress={() =>
+                  Linking.openURL(
+                    "https://docs.google.com/document/d/19nf3qwzXcun0yTN6WH6iA5hpGKlgsg4erbHuDql0EZQ/edit"
+                  )
+                }
+              >
+                Forgot PAN?
+              </Text>
+            </View>
+            <Text style={form.formLabel}>Name as per PAN Card</Text>
+            <TextInput
+              style={form.formTextInput}
+              autoCapitalize="words"
+              value={panName}
+              onChangeText={setPanName}
+              placeholder="Enter Name Registered with PAN"
+              required
+            />
+            <DateEntry
+              title="Date of birth as recorded in PAN"
+              val={dob}
+              setval={setDob}
+            />
+            {console.log(dob)}
+            <View style={bankform.infoCard}>
+              <Icon name="info-outline" size={20} color="#4E46F1" />
+              <Text style={bankform.infoText}>
+                PAN is needed to verify your name and date of birth
+              </Text>
+            </View>
+            {next ? (
+              <Button
+                uppercase={false}
+                title="Continue"
+                type="solid"
+                color="#4E46F1"
+                style={form.nextButton}
+                onPress={() => {
+                  VerifyPAN();
+                }}
+              />
+            ) : (
+              <Button
+                title="Continue"
+                uppercase={false}
+                type="solid"
+                style={form.nextButton}
+                disabled
+              />
+            )}
+            <View>
+              <Button
+                title="Skip"
+                uppercase={false}
+                type="solid"
+                color="#4E46F1"
+                style={form.skipButton}
+                onPress={() => {
+                  SkipPAN();
+                }}
+              />
+            </View>
           </View>
-        </ScrollView>
+        </KeyboardAvoidingWrapper>
       </SafeAreaView>
     </>
   );

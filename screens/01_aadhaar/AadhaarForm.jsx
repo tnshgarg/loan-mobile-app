@@ -18,7 +18,9 @@ import {
   addAadhaarSubmitOTPtxnId,
 } from "../../store/slices/aadhaarSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { bankform, checkBox, form, styles } from "../../styles";
+import { bankform, Camera, checkBox, form, styles } from "../../styles";
+import { showToast } from "../../components/Toast";
+import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 
 export default AadhaarForm = () => {
   const [consent, setConsent] = useState(false);
@@ -35,7 +37,7 @@ export default AadhaarForm = () => {
   useEffect(() => {
     dispatch(addCurrentScreen("AadhaarForm"));
   }, []);
-  
+
   useEffect(() => {
     dispatch(addAadhaarSubmitOTPtxnId(transactionId));
   }, [transactionId]);
@@ -146,7 +148,8 @@ export default AadhaarForm = () => {
         <Text style={form.formHeader}>
           Let's begin with your background verification processs with eKYC
         </Text>
-        <ScrollView keyboardShouldPersistTaps="handled">
+        <KeyboardAvoidingWrapper>
+            <View>
               {aadhaar ? (
                 <Text style={form.formLabel}>
                   Enter 12 Digit Aadhaar Number
@@ -162,7 +165,7 @@ export default AadhaarForm = () => {
               />
               <View style={bankform.infoCard}>
                 <Icon name="info-outline" size={20} color="#4E46F1" />
-                <Text style={bankform.infoText}>  
+                <Text style={bankform.infoText}>
                   My Mobile number is linked to my Aadhar card & I can receive
                   the OTP on my Aadhar Linked Mobile Number
                 </Text>
@@ -211,7 +214,8 @@ export default AadhaarForm = () => {
                     }}
                 />
               </View>
-        </ScrollView>
+            </View>
+          </KeyboardAvoidingWrapper>
       </SafeAreaView>
     </>
   );
