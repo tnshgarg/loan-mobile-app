@@ -18,7 +18,7 @@ export default Home = () => {
 
   const [state, setState] = React.useState({ open: false });
   const onStateChange = ({ open }) => setState({ open });
-  
+
   const { open } = state;
   const tabs = [
     { name: "Home", component: HomeView },
@@ -36,27 +36,6 @@ export default Home = () => {
     <>
       <SafeAreaView style={{ flex: 1 }}>
         <Provider>
-          <AppBar
-            title={
-              <Image
-                style={nav.titleLogo}
-                source={require("../../assets/unipe-Thumbnail.png")}
-              />
-            }
-            centerTitle={true}
-            contentContainerStyle={nav.navbar}
-            color="#ffffff"
-            leading={
-              <IconButton
-                icon={<Icon name="menu" size={30} />}
-                onPress={() => {
-                  console.log("Menu");
-                  navigation.toggleDrawer();
-                }}
-              />
-            }
-            trailing={<IconButton icon={<Icon name="more-vert" size={30} />} />}
-          />
           <Portal>
             <FAB.Group
               open={open}

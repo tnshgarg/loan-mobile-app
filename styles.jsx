@@ -51,9 +51,13 @@ export const styles = StyleSheet.create({
     padding: 10,
     alignSelf: "center",
     // marginTop: 50,
-    width: 320,
+    width: "100%",
     height: 60,
     fontSize: 20,
+  },
+  continueButtonStyle: {
+    width: "90%",
+    alignSelf: "center",
   },
   flexrow: {
     flexDirection: "row",

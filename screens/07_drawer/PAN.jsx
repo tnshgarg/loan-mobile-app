@@ -13,11 +13,22 @@ const PAN = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <DetailItem label="Full Name" title={fullName} divider />
-      <DetailItem label="PAN Number" title={panNumber} divider />
-      <DetailItem label="DOB" title={DOB} divider />
-      <DetailItem label="Address" title={address} divider />
-      <DetailItem label="Verify Status" title={verifyStatus} />
+      <DetailItem
+        label="Full Name"
+        value={fullName || "Not Provided"}
+        divider
+      />
+      <DetailItem
+        label="PAN Number"
+        value={panNumber || "Not Provided"}
+        divider
+      />
+      <DetailItem label="Date of Birth" value={DOB || "Not Provided"} divider />
+      <DetailItem label="Address" value={address || "Not Provided"} divider />
+      <DetailItem
+        label="Verify Status"
+        value={verifyStatus || "Not Provided"}
+      />
       <View style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}>
         <PrimaryButton
           style={{ marginTop: 20 }}
