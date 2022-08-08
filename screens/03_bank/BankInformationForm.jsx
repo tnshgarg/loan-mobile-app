@@ -39,7 +39,8 @@ export default BankInformationForm = () => {
   const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
   const [verifyMsg, setverifyMsg] = useState(bankSlice?.verifyMsg);
   const [backendPush, setBackendPush] = useState(false);
-  const [next, setNext] = useState(false);
+  const [ifscNext, setIfscNext] = useState(false);
+  const [accNumNext, setAccNumNext] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -67,8 +68,22 @@ export default BankInformationForm = () => {
   }, [bankSlice.verifyStatus]);
 
   useEffect(() => {
-    validations();
-  }, [accountNumber, ifsc]);
+    var accountNumberReg = /^[0-9]{9,18}$/gm;
+    if (accountNumberReg.test(accountNumber)) {
+      setAccNumNext(true);
+    } else {
+      setAccNumNext(false);
+    }
+  }, [accountNumber]);
+
+  useEffect(() => {
+    var ifscReg = /^[A-Z]{4}0[A-Z0-9]{6}$/gm;
+    if (ifscReg.test(ifsc)) {
+      setIfscNext(true);
+    } else {
+      setIfscNext(false);
+    }
+  }, [ifsc]);
 
   useEffect(() => {
     console.log("bankSlice : ", bankSlice);
@@ -166,16 +181,6 @@ export default BankInformationForm = () => {
         setBackendPush(true);
       });
   };
-
-  const validations = () => {
-    var ifscReg = /^[A-Z]{4}0[A-Z0-9]{6}$/gm;
-    var accountNumberReg = /^[0-9]{9,18}$/gm;
-    if (ifscReg.test(ifsc) && accountNumberReg.test(accountNumber)) {
-      setNext(true);
-    } else {
-      setNext(false);
-    }
-  };
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -243,7 +248,9 @@ export default BankInformationForm = () => {
             autoCapitalize="characters"
             required
           />
-
+          {accountNumber && !accNumNext ? (
+            <Text style={bankform.formatmsg}>Incorrect Format</Text>
+          ) : null}
           <Text style={bankform.formtitle}>
             IFSC Code*
             <Popable
@@ -263,6 +270,9 @@ export default BankInformationForm = () => {
             autoCapitalize="characters"
             required
           />
+          {ifsc && !ifscNext ? (
+            <Text style={bankform.formatmsg}>Incorrect Format</Text>
+          ) : null}
           <Text style={bankform.formtitle}>
             UPI ID
             <Popable
@@ -281,7 +291,7 @@ export default BankInformationForm = () => {
             onChangeText={setUpi}
             required
           />
-          {next ? (
+          {accNumNext && ifscNext ? (
             <Button
               title="Continue"
               type="solid"

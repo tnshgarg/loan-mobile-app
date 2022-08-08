@@ -288,6 +288,11 @@ export const bankform = StyleSheet.create({
     fontSize: 14,
     fontFamily: "Roboto",
   },
+  formatmsg:{
+    marginLeft: 34,
+    color: "red",
+    fontSize: 12,
+  },
   formInput: {
     marginLeft: 34,
     width: 320,
