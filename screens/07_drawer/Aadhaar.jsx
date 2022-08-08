@@ -16,19 +16,19 @@ const Aadhaar = () => {
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <DetailItem
         label="Full Name"
-        title={fullName || "Not Provided"}
+        value={fullName || "Not Provided"}
         divider
       />
       <DetailItem
         label="Aadhaar Number"
-        title={aadhaarNumber || "Not Provided"}
+        value={aadhaarNumber || "Not Provided"}
         divider
       />
-      <DetailItem label="DOB" title={DOB || "Not Provided"} divider />
-      <DetailItem label="Address" title={address || "Not Provided"} divider />
+      <DetailItem label="Date of Birth" value={DOB || "Not Provided"} divider />
+      <DetailItem label="Address" value={address || "Not Provided"} divider />
       <DetailItem
         label="Verify Status"
-        title={verifyStatus.OCR || "Not Provided"}
+        value={verifyStatus || "Not Provided"}
       />
       <View style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}>
         <PrimaryButton

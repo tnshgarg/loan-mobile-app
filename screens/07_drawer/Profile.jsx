@@ -13,11 +13,11 @@ const Profile = () => {
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <DetailItem
         label="Full Name"
-        title={fullName || "Not Provided"}
+        value={fullName || "Not Provided"}
         divider
       />
-      <DetailItem label="Email Id" title={email || "Not Provided"} divider />
-      <DetailItem label="Mobile Number" title={mobile || "Not Provided"} />
+      <DetailItem label="Email Id" value={email || "Not Provided"} divider />
+      <DetailItem label="Mobile Number" value={mobile || "Not Provided"} />
       <View style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}>
         <PrimaryButton
           style={{ marginTop: 20 }}

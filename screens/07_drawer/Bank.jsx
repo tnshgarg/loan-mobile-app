@@ -17,19 +17,19 @@ const Bank = () => {
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <DetailItem
         label="Account Number"
-        title={accountNumber || "Not Provided"}
+        value={accountNumber || "Not Provided"}
         divider
       />
-      <DetailItem label="IFSC Code" title={ifsc || "Not Provided"} divider />
+      <DetailItem label="IFSC Code" value={ifsc || "Not Provided"} divider />
       <DetailItem
         label="Account Holder Name"
-        title={accountHolderName || "Not Provided"}
+        value={accountHolderName || "Not Provided"}
         divider
       />
-      <DetailItem label="UPI Id" title={upi || "Not Provided"} divider />
+      <DetailItem label="UPI Id" value={upi || "Not Provided"} divider />
       <DetailItem
         label="Verify Status"
-        title={verifyStatus || "Not Provided"}
+        value={verifyStatus || "Not Provided"}
       />
       <View style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}>
         <PrimaryButton
