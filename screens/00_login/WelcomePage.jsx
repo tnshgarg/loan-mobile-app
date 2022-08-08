@@ -89,6 +89,7 @@ export default WelcomePage = () => {
     labelColor: "#999999",
     labelSize: 14,
     currentStepLabelColor: "#4E46F1",
+    labelAlign: "flex-start",
   };
   return (
     <>
