@@ -50,14 +50,23 @@ export const styles = StyleSheet.create({
   ContinueButton: {
     padding: 10,
     alignSelf: "center",
-    // marginTop: 50,
-    width: "100%",
+    marginTop: 20,
+    width: 320,
+    height: 60,
+    fontSize: 20,
+    backgroundColor: "#4E46F1",
+    borderRadius: 6,
+  },
+  PrimaryButton: {
+    alignSelf: "center",
+    marginTop: 20,
+    width: 320,
     height: 60,
     fontSize: 20,
   },
-  continueButtonStyle: {
-    width: "90%",
-    alignSelf: "center",
+  ButtonContainer: {
+    width: "100%",
+    height: "100%",
   },
   flexrow: {
     flexDirection: "row",
@@ -93,12 +102,12 @@ export const styles = StyleSheet.create({
   LoadingButton: {
     padding: 10,
     alignSelf: "center",
-    marginTop: 50,
+    marginTop: 20,
     width: 320,
     height: 60,
     fontSize: 20,
     backgroundColor: "#4E46F1",
-    borderRadius: 4,
+    borderRadius: 6,
   },
 });
 
@@ -292,7 +301,7 @@ export const bankform = StyleSheet.create({
     fontSize: 14,
     fontFamily: "Roboto",
   },
-  formatmsg:{
+  formatmsg: {
     marginLeft: 34,
     color: "red",
     fontSize: 12,
