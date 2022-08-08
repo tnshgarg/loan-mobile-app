@@ -52,6 +52,14 @@ export default AadhaarForm = () => {
     }
   }, [aadhaar]);
 
+  const SkipAadhaar = () => {
+    Alert.alert(
+      "Aadhaar KYC pending",
+      `You have not completed Aadhaar KYC.`
+    );
+    navigation.navigate("PanCardInfo");
+  };
+
   const GenerateOtp = () => {
     const data = {
       aadhaar_number: aadhaar,
@@ -191,7 +199,18 @@ export default AadhaarForm = () => {
                   disabled
                 />
               )}
-          <View style={checkBox.padding}></View>
+              <View>
+                <Button
+                    title="Skip"
+                    uppercase={false}
+                    type="solid"
+                    color="#4E46F1"
+                    style={form.skipButton}
+                    onPress={() => {
+                      SkipAadhaar();
+                    }}
+                />
+              </View>
         </ScrollView>
       </SafeAreaView>
     </>
