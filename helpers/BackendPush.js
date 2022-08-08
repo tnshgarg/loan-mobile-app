@@ -2,25 +2,15 @@ import { GenerateDocument } from "./GenerateDocument";
 import { putBackendData } from "../services/employees/employeeServices";
 
 export const aadhaarBackendPush = (props) => {
-  var aadhaarPayload = {};
-  props.type == "OCR"
-    ? (aadhaarPayload = GenerateDocument({
-        src: "AadhaarOCR",
-        id: props.id,
-        frontAadhaarData: props.frontAadhaarData,
-        backAadhaarData: props.backAadhaarData,
-        status: props.status,
-        message: props.message,
-      }))
-    : (aadhaarPayload = GenerateDocument({
-        src: "AadhaarOTP",
-        id: props.id,
-        aadhaar: props.aadhaar,
-        xml: props.xml,
-        status: props.status,
-        message: props.message,
-        data: props.data,
-      }));
+  aadhaarPayload = GenerateDocument({
+    src: "AadhaarOTP",
+    id: props.id,
+    aadhaar: props.aadhaar,
+    xml: props.xml,
+    status: props.status,
+    message: props.message,
+    data: props.data,
+  });
   putBackendData({ document: aadhaarPayload, src: "Aadhaar" })
     .then((res) => {
       console.log(aadhaarPayload);
