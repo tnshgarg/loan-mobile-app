@@ -40,7 +40,7 @@ export default PanCardInfo = () => {
   const [backendPush, setBackendPush] = useState(false);
 
   useEffect(() => {
-    if (backendPush){
+    if (backendPush) {
       panBackendPush({
         id: id,
         pan: pan,
@@ -84,10 +84,7 @@ export default PanCardInfo = () => {
   }, [pan]);
 
   const SkipPAN = () => {
-    Alert.alert(
-      "PAN KYC pending",
-      `You have not completed PAN KYC.`
-    );
+    Alert.alert("PAN KYC pending", `You have not completed PAN KYC.`);
     navigation.navigate("BankInfoForm");
   };
 
@@ -118,6 +115,7 @@ export default PanCardInfo = () => {
               RetrievePAN();
               dispatch(addPanVerifyStatus("SUCCESS"));
               dispatch(addPanVerifyMsg(""));
+              setBackendPush(true);
               break;
             case "1002":
               dispatch(addPanVerifyStatus("ERROR"));
@@ -131,6 +129,7 @@ export default PanCardInfo = () => {
                     "Pan Number Verification status",
                     `Partial details matched, Please Check DOB.`
                   );
+              setBackendPush(true);
               break;
             case "1003":
               dispatch(addPanVerifyStatus("ERROR"));
@@ -139,6 +138,7 @@ export default PanCardInfo = () => {
                 "Pan Number Verification status",
                 `Multiple Details mismatched, Please Check Details.`
               );
+              setBackendPush(true);
               break;
             case "1004":
               dispatch(addPanVerifyStatus("ERROR"));
@@ -147,6 +147,7 @@ export default PanCardInfo = () => {
                 "Pan Number Verification status",
                 `PAN number incorrect.`
               );
+              setBackendPush(true);
               break;
           }
         } else {
@@ -191,10 +192,12 @@ export default PanCardInfo = () => {
           "PAN Information",
           `PAN: ${pan}\nName: ${panName}\nGender: ${
             response["data"]["pan_data"]["gender"]
-          }\nEmail: ${response["data"]["pan_data"]["email"].toLowerCase()}`
+          }\nEmail: ${response["data"]["pan_data"]["email"]?.toLowerCase()}`
         );
         showToast("PAN Details Recorded");
-        dispatch(addEmail(response["data"]["pan_data"]["email"].toLowerCase()));
+        dispatch(
+          addEmail(response["data"]["pan_data"]["email"]?.toLowerCase())
+        );
         navigation.navigate("BankInfoForm");
       })
       .catch((err) => Alert.alert("Error", err));
@@ -249,7 +252,11 @@ export default PanCardInfo = () => {
             placeholder="Enter Name Registered with PAN"
             required
           />
-          <DateEntry title="Date of birth as recorded in PAN" val={dob} setval={setDob}/>
+          <DateEntry
+            title="Date of birth as recorded in PAN"
+            val={dob}
+            setval={setDob}
+          />
           {console.log(dob)}
           <View style={bankform.infoCard}>
             <Icon name="info-outline" size={20} color="#4E46F1" />
@@ -279,14 +286,14 @@ export default PanCardInfo = () => {
           )}
           <View>
             <Button
-                title="Skip"
-                uppercase={false}
-                type="solid"
-                color="#4E46F1"
-                style={form.skipButton}
-                onPress={() => {
-                  SkipPAN();
-                }}
+              title="Skip"
+              uppercase={false}
+              type="solid"
+              color="#4E46F1"
+              style={form.skipButton}
+              onPress={() => {
+                SkipPAN();
+              }}
             />
           </View>
         </ScrollView>
