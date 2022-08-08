@@ -14,11 +14,22 @@ const Aadhaar = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <DetailItem label="Full Name" title={fullName} divider />
-      <DetailItem label="Aadhaar Number" title={aadhaarNumber} divider />
-      <DetailItem label="DOB" title={DOB} divider />
-      <DetailItem label="Address" title={address} divider />
-      <DetailItem label="Verify Status" title={verifyStatus.OCR} />
+      <DetailItem
+        label="Full Name"
+        title={fullName || "Not Provided"}
+        divider
+      />
+      <DetailItem
+        label="Aadhaar Number"
+        title={aadhaarNumber || "Not Provided"}
+        divider
+      />
+      <DetailItem label="DOB" title={DOB || "Not Provided"} divider />
+      <DetailItem label="Address" title={address || "Not Provided"} divider />
+      <DetailItem
+        label="Verify Status"
+        title={verifyStatus.OCR || "Not Provided"}
+      />
       <View style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}>
         <PrimaryButton
           style={{ marginTop: 20 }}

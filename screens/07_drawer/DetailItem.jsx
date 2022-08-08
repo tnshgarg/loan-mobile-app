@@ -5,9 +5,22 @@ const DetailItem = ({ label, title, divider }) => {
   return (
     <View style={{ paddingTop: 15, paddingHorizontal: 20 }}>
       <Text style={{ fontSize: 14 }}>{label}</Text>
-      <Text style={{ fontSize: 16, fontWeight: "bold", paddingTop: 8 }}>
-        {title}
-      </Text>
+      {title == "Not Provided" ? (
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: "bold",
+            paddingTop: 8,
+            color: "gray",
+          }}
+        >
+          {title}
+        </Text>
+      ) : (
+        <Text style={{ fontSize: 16, fontWeight: "bold", paddingTop: 8 }}>
+          {title}
+        </Text>
+      )}
       {divider && (
         <View
           style={{

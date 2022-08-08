@@ -1,4 +1,4 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Pressable } from "react-native";
 import React from "react";
 import {
   DrawerContentScrollView,
@@ -6,8 +6,10 @@ import {
 } from "@react-navigation/drawer";
 import { AntDesign } from "react-native-vector-icons";
 import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
 const CustomDrawer = (props) => {
+  const navigation = useNavigation();
   const imageData = useSelector((state) => state.profile.selfie);
 
   return (
@@ -43,7 +45,8 @@ const CustomDrawer = (props) => {
           <DrawerItemList {...props} />
         </View>
       </DrawerContentScrollView>
-      <View
+      <Pressable
+        onPress={() => navigation.replace("Welcome")}
         style={{
           flexDirection: "row",
           alignItems: "center",
@@ -53,7 +56,7 @@ const CustomDrawer = (props) => {
       >
         <AntDesign name="logout" color="black" size={16} />
         <Text style={{ fontSize: 16, paddingLeft: 10 }}>Logout</Text>
-      </View>
+      </Pressable>
     </View>
   );
 };

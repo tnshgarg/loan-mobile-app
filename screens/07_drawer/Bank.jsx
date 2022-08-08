@@ -15,15 +15,22 @@ const Bank = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <DetailItem label="Account Number" title={accountNumber} divider />
-      <DetailItem label="IFSC Code" title={ifsc} divider />
       <DetailItem
-        label="Account Holder Name"
-        title={accountHolderName}
+        label="Account Number"
+        title={accountNumber || "Not Provided"}
         divider
       />
-      <DetailItem label="UPI Id" title={upi} divider />
-      <DetailItem label="Verify Status" title={verifyStatus} />
+      <DetailItem label="IFSC Code" title={ifsc || "Not Provided"} divider />
+      <DetailItem
+        label="Account Holder Name"
+        title={accountHolderName || "Not Provided"}
+        divider
+      />
+      <DetailItem label="UPI Id" title={upi || "Not Provided"} divider />
+      <DetailItem
+        label="Verify Status"
+        title={verifyStatus || "Not Provided"}
+      />
       <View style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}>
         <PrimaryButton
           style={{ marginTop: 20 }}
