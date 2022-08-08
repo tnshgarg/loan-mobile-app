@@ -13,11 +13,14 @@ import { Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import SmsRetriever from "react-native-sms-retriever";
 import CountDown from "react-native-countdown-component";
-import { checkVerification, sendSmsVerification } from "../../services/otp/Twilio/verify";
+import {
+  checkVerification,
+  sendSmsVerification,
+} from "../../services/otp/Twilio/verify";
 import { addLoginVerifyStatus } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
-
+import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 
 export default OTPScreen = () => {
   const phoneNumber = useSelector((state) => state.auth.phoneNumber);
@@ -30,7 +33,9 @@ export default OTPScreen = () => {
   console.log("OTPScreen state.auth: ", auth);
 
   const dispatch = useDispatch();
-  useEffect(() => {dispatch(addCurrentScreen("Otp"))}, []);
+  useEffect(() => {
+    dispatch(addCurrentScreen("Otp"));
+  }, []);
 
   // HHrHWFsvgjF
 
@@ -51,13 +56,13 @@ export default OTPScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView keyboardShouldPersistTaps="handled">
+      <KeyboardAvoidingWrapper>
         <View style={styles.container}>
           <View style={styles.otpback}>
             {back ? (
               <IconButton
                 icon={<Icon name="arrow-back" size={30} color="#4E46F1" />}
-                onPress={() => navigation.navigate('Login')}
+                onPress={() => navigation.navigate("Login")}
               />
             ) : (
               <IconButton
@@ -84,7 +89,7 @@ export default OTPScreen = () => {
                 name="edit"
                 size={12}
                 color="#4E46F1"
-                onPress={() => navigation.navigate('Login')}
+                onPress={() => navigation.navigate("Login")}
               />
             ) : (
               <Icon
@@ -151,7 +156,7 @@ export default OTPScreen = () => {
                 checkVerification(fullPhoneNumber, otp).then((success) => {
                   if (!success) Alert.alert("err", "Incorrect OTP");
                   success && navigation.navigate("AadhaarForm");
-                  console.log(fullPhoneNumber,otp)
+                  console.log(fullPhoneNumber, otp);
                   dispatch(addLoginVerifyStatus("SUCCESS"));
                   SmsRetriever.removeSmsListener();
                 });
@@ -167,7 +172,7 @@ export default OTPScreen = () => {
             />
           )}
         </View>
-      </ScrollView>
+      </KeyboardAvoidingWrapper>
     </SafeAreaView>
   );
 };

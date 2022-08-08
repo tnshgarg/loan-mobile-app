@@ -77,12 +77,12 @@ export default ProgressBarTop = (props) => {
         customStyles={secondIndicatorStyles}
         currentPosition={props.step}
         labels={[
-          "Mobile Number Verification",
-          "Aadhar Card Verification",
-          "PAN Card Verification",
-          "Bank Details",
-          "Basic Details",
-          "Upload Selfie Photo",
+          "Mobile Number",
+          "Aadhaar Card",
+          "PAN Card",
+          "Bank Account",
+          "Profile",
+          "Photo",
         ]}
         renderStepIndicator={renderStepIndicator}
       />
