@@ -68,7 +68,7 @@ export default AadhaarVerify = () => {
               setAadhaarData(response["data"]);
               navigation.navigate("AadhaarConfirm","OTP");
               dispatch(
-                addAadhaarVerifyStatus({ type: "OTP", status: "SUCCESS" })
+                addAadhaarVerifyStatus("SUCCESS")
               );
               break;
             default:
