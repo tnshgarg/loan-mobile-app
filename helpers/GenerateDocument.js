@@ -22,34 +22,6 @@ const GenerateDocument = (props) => {
       };
       break;
 
-    case "AadhaarOCR":
-      var stringifyData = "";
-      var number = "";
-      var dob = "";
-      var data = { gender: "", name: "", address: "" };
-      if (props.status == "SUCCESS") {
-        number = props.frontAadhaarData["document_id"];
-        dob = props.frontAadhaarData["date_of_birth"];
-        data = {
-          gender: props.frontAadhaarData["gender"],
-          name: props.frontAadhaarData["name"],
-          address: props.backAadhaarData["address"],
-        };
-        stringifyData = btoa(JSON.stringify(data));
-      }
-      document = {
-        id: props.id,
-        number: number,
-        data: stringifyData,
-        verifyMode: "OCR",
-        name: data.name,
-        gender: data.gender,
-        dob: dob,
-        verifyStatus: props.status,
-        verifyMsg: props.message,
-      };
-      break;
-
     case "Pan":
       document = {
         id: props.id,

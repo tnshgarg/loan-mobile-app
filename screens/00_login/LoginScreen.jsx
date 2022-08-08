@@ -81,6 +81,7 @@ export default LoginScreen = () => {
   //   })}, [session]);
 
   const signIn = () => {
+    setIsLoading(true);
     var fullPhoneNumber = `+91${phoneNumber}`;
     var phonePayload = GenerateDocument({
       src: "otp",
@@ -95,7 +96,6 @@ export default LoginScreen = () => {
           sendSmsVerification(fullPhoneNumber)
             .then((sent) => {
               console.log("Sent!");
-              setIsLoading(true);
               navigation.navigate("Otp");
             })
             .catch((err) => {

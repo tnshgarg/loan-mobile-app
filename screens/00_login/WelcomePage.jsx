@@ -59,12 +59,12 @@ export default WelcomePage = () => {
     <MaterialIcons {...getStepIndicatorIconConfig(params)} />
   );
   const data = [
-    "Mobile Number Verification",
-    "Aadhar Card Verification",
-    "PAN Card Verification",
-    "Bank Details",
-    "Basic Details",
-    "User Photo Capture",
+    "Mobile Number",
+    "Aadhaar Card",
+    "PAN Card",
+    "Bank Account",
+    "Profile",
+    "Photo",
   ];
   const stepIndicatorStyles = {
     stepIndicatorSize: 30,
@@ -89,6 +89,7 @@ export default WelcomePage = () => {
     labelColor: "#999999",
     labelSize: 14,
     currentStepLabelColor: "#4E46F1",
+    labelAlign: "flex-start",
   };
   return (
     <>
@@ -97,9 +98,8 @@ export default WelcomePage = () => {
           style={styles.logo}
           source={require("../../assets/unipe-Thumbnail.png")}
         />
-        <Text style={welcome.mainTitle}>Hello,</Text>
         <Text style={welcome.subTitle}>
-          Let’s verify the below documents & start the onboarding process.
+          Let’s start onboarding process by verifying below documents.
         </Text>
         {/* {data.map((datai,index)=>{
       return(
@@ -118,7 +118,7 @@ export default WelcomePage = () => {
         </View>
         <Button
           style={form.nextButton}
-          title="Welcome! Let’s start onboarding process with Unipe"
+          title="Welcome!"
           uppercase={false}
           onPress={() => {
             navigation.navigate("Login");

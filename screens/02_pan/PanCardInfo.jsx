@@ -116,6 +116,7 @@ export default PanCardInfo = () => {
               RetrievePAN();
               dispatch(addPanVerifyStatus("SUCCESS"));
               dispatch(addPanVerifyMsg(""));
+              setBackendPush(true);
               break;
             case "1002":
               dispatch(addPanVerifyStatus("ERROR"));
@@ -129,6 +130,7 @@ export default PanCardInfo = () => {
                     "Pan Number Verification status",
                     `Partial details matched, Please Check DOB.`
                   );
+              setBackendPush(true);
               break;
             case "1003":
               dispatch(addPanVerifyStatus("ERROR"));
@@ -137,6 +139,7 @@ export default PanCardInfo = () => {
                 "Pan Number Verification status",
                 `Multiple Details mismatched, Please Check Details.`
               );
+              setBackendPush(true);
               break;
             case "1004":
               dispatch(addPanVerifyStatus("ERROR"));
@@ -145,6 +148,7 @@ export default PanCardInfo = () => {
                 "Pan Number Verification status",
                 `PAN number incorrect.`
               );
+              setBackendPush(true);
               break;
           }
         } else {
@@ -189,10 +193,12 @@ export default PanCardInfo = () => {
           "PAN Information",
           `PAN: ${pan}\nName: ${panName}\nGender: ${
             response["data"]["pan_data"]["gender"]
-          }\nEmail: ${response["data"]["pan_data"]["email"].toLowerCase()}`
+          }\nEmail: ${response["data"]["pan_data"]["email"]?.toLowerCase()}`
         );
         showToast("PAN Details Recorded");
-        dispatch(addEmail(response["data"]["pan_data"]["email"].toLowerCase()));
+        dispatch(
+          addEmail(response["data"]["pan_data"]["email"]?.toLowerCase())
+        );
         navigation.navigate("BankInfoForm");
       })
       .catch((err) => Alert.alert("Error", err));
