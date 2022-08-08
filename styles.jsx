@@ -463,7 +463,9 @@ export const welcome = StyleSheet.create({
     fontFamily: "Roboto",
   },
   subTitle: {
+    marginTop: 20,
     marginLeft: 30,
+    marginRight: 30,
     color: "black",
     fontSize: 18,
     fontFamily: "Roboto",
