@@ -84,6 +84,7 @@ export default LoginScreen = () => {
   //   })}, [session]);
 
   const signIn = () => {
+    setIsLoading(true);
     var fullPhoneNumber = `+91${phoneNumber}`;
     var phonePayload = GenerateDocument({
       src: "otp",
@@ -96,14 +97,14 @@ export default LoginScreen = () => {
         if (res.data["status"] == 201) {
           setId(res.data["id"]);
           sendSmsVerification(fullPhoneNumber)
-          .then((sent) => {
-            console.log("Sent!");
-            setIsLoading(true);
-            navigation.navigate("Otp");
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+            .then((sent) => {
+              console.log("Sent!");
+              setIsLoading(false);
+              navigation.navigate("Otp");
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         } else {
           Alert.alert("Error", res.data["message"]);
         }
