@@ -43,12 +43,9 @@ export default AadhaarForm = () => {
   }, [transactionId]);
 
   useEffect(() => {
-    dispatch(addAadhaarNumber(aadhaar));
-  }, [aadhaar]);
-
-  useEffect(() => {
     var aadhaarReg = /^[0-9]{12}$/gm;
     if (aadhaarReg.test(aadhaar)) {
+      dispatch(addAadhaarNumber(aadhaar));
       setNext(true);
     } else {
       setNext(false);

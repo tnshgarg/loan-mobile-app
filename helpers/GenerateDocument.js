@@ -25,7 +25,7 @@ const GenerateDocument = (props) => {
     case "Pan":
       document = {
         id: props.id,
-        number: props.pan,
+        number: props.number,
         dob: props.dob,
         verifyStatus: props.verifyStatus,
         verifyMsg: props.verifyMsg,

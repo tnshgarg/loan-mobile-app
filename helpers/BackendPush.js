@@ -45,7 +45,7 @@ export const panBackendPush = (props) => {
   var panPayload = GenerateDocument({
     src: "Pan",
     id: props.id,
-    pan: props.pan,
+    number: props.number,
     verifyStatus: props.verifyStatus,
     verifyMsg: props.verifyMsg,
     dob: props.dob,
