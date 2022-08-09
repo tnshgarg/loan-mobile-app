@@ -187,7 +187,7 @@ export default BankInformationForm = () => {
           leading={
             <IconButton
               icon={<Icon name="arrow-back" size={20} color="white" />}
-              onPress={() => navigation.navigate("PanCardInfo")}
+              onPress={() => navigation.navigate("PanForm")}
             />
           }
         />

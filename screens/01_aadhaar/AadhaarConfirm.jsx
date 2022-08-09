@@ -106,7 +106,7 @@ export default AadhaarConfirm = () => {
                   message: "",
                   data: aadhaarData["aadhaar_data"],
                 });
-                navigation.navigate("PanCardInfo");
+                navigation.navigate("PanForm");
               }}
             />
             <View style={bankform.padding}></View>

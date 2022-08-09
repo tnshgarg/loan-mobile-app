@@ -25,7 +25,7 @@ const DevMenu = () => {
       <PrimaryButton
         style={{ marginTop: 20 }}
         title="PAN"
-        onPress={() => navigation.navigate("PanCardInfo")}
+        onPress={() => navigation.navigate("PanForm")}
       />
       <PrimaryButton
         style={{ marginTop: 20 }}

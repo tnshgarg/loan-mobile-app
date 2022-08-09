@@ -18,7 +18,7 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { addPanNumber } from "../../store/slices/panSlice";
 import PanVerify from "../../apis/pan/Verify";
 
-export default PanCardInfo = () => {
+export default PanForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -28,7 +28,7 @@ export default PanCardInfo = () => {
   const [number, setNumber] = useState(panSlice?.number);
 
   useEffect(() => {
-    dispatch(addCurrentScreen("PanCardInfo"));
+    dispatch(addCurrentScreen("PanForm"));
   }, []);
 
   useEffect(() => {

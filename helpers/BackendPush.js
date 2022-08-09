@@ -3,7 +3,7 @@ import { putBackendData } from "../services/employees/employeeServices";
 
 export const aadhaarBackendPush = (props) => {
   aadhaarPayload = GenerateDocument({
-    src: "AadhaarOTP",
+    src: "Aadhaar",
     id: props.id,
     aadhaar: props.aadhaar,
     xml: props.xml,
