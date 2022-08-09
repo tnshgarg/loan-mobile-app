@@ -35,9 +35,9 @@ export default BankInformationForm = () => {
   const [upi, setUpi] = useState(bankSlice?.upi);
   const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
   const [verifyMsg, setverifyMsg] = useState(bankSlice?.verifyMsg);
-
   const [backendPush, setBackendPush] = useState(false);
-
+  const [ifscNext, setIfscNext] = useState(false);
+  const [accNumNext, setAccNumNext] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -63,6 +63,24 @@ export default BankInformationForm = () => {
   useEffect(() => {
     setVerifyStatus(bankSlice.verifyStatus);
   }, [bankSlice.verifyStatus]);
+
+  useEffect(() => {
+    var accountNumberReg = /^[0-9]{9,18}$/gm;
+    if (accountNumberReg.test(accountNumber)) {
+      setAccNumNext(true);
+    } else {
+      setAccNumNext(false);
+    }
+  }, [accountNumber]);
+
+  useEffect(() => {
+    var ifscReg = /^[A-Z]{4}0[A-Z0-9]{6}$/gm;
+    if (ifscReg.test(ifsc)) {
+      setIfscNext(true);
+    } else {
+      setIfscNext(false);
+    }
+  }, [ifsc]);
 
   useEffect(() => {
     console.log("bankSlice : ", bankSlice);
@@ -160,7 +178,6 @@ export default BankInformationForm = () => {
         setBackendPush(true);
       });
   };
-
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -230,6 +247,9 @@ export default BankInformationForm = () => {
               autoCapitalize="characters"
               required
             />
+            {accountNumber && !accNumNext ? (
+              <Text style={bankform.formatmsg}>Incorrect Format</Text>
+            ) : null}
 
             <Text style={bankform.formtitle}>
               IFSC Code*
@@ -250,6 +270,9 @@ export default BankInformationForm = () => {
               autoCapitalize="characters"
               required
             />
+            {ifsc && !ifscNext ? (
+              <Text style={bankform.formatmsg}>Incorrect Format</Text>
+            ) : null}
             <Text style={bankform.formtitle}>
               UPI ID
               <Popable
@@ -268,17 +291,26 @@ export default BankInformationForm = () => {
               onChangeText={setUpi}
               required
             />
-            <Button
-              title="Continue"
-              type="solid"
-              uppercase={false}
-              style={bankform.nextButton}
-              color="#4E46F1"
-              onPress={() => {
-                // TODO: check for mandatory fields and validations
-                VerifyBankAccount();
-              }}
-            />
+            {accNumNext && ifscNext ? (
+              <Button
+                title="Continue"
+                type="solid"
+                uppercase={false}
+                style={bankform.nextButton}
+                color="#4E46F1"
+                onPress={() => {
+                  VerifyBankAccount();
+                }}
+              />
+            ) : (
+              <Button
+                title="Continue"
+                uppercase={false}
+                type="solid"
+                style={bankform.nextButton}
+                disabled
+              />
+            )}
             <View style={bankform.padding}></View>
           </View>
         </KeyboardAvoidingWrapper>

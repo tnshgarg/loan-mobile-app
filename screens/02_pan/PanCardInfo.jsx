@@ -75,10 +75,9 @@ export default PanCardInfo = () => {
   }, []);
 
   useEffect(() => {
-    // TODO: should be a check on regex
-    if (pan.length === 10) {
+    var panReg = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/gm;
+    if (panReg.test(pan)) {
       setNext(true);
-      dispatch(addPanNumber(pan));
     } else {
       setNext(false);
     }

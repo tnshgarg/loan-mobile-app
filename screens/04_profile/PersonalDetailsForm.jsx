@@ -36,6 +36,7 @@ export default PersonalDetailsForm = () => {
   const [email, setEmail] = useState(
     useSelector((state) => state.profile["email"])
   );
+  const [next, setNext] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -55,6 +56,14 @@ export default PersonalDetailsForm = () => {
     dispatch(addEmail(email));
   }, [email]);
 
+  useEffect(() => {
+    if (maritalStatus && educationalQualification) {
+      setNext(true);
+    } else {
+      setNext(false);
+    }
+  }, [maritalStatus, educationalQualification]);
+  
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -128,6 +137,7 @@ export default PersonalDetailsForm = () => {
               required
             />
 
+          {next ? (
             <Button
               title="Continue"
               type="solid"
@@ -138,7 +148,16 @@ export default PersonalDetailsForm = () => {
                 navigation.navigate("PersonalImage");
               }}
             />
-            <View style={bankform.padding}></View>
+          ) : (
+            <Button
+              title="Continue"
+              uppercase={false}
+              type="solid"
+              style={form.nextButton}
+              disabled
+            />
+          )}
+          <View style={bankform.padding}></View>
           </View>
         </KeyboardAvoidingWrapper>
       </SafeAreaView>

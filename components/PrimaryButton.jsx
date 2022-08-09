@@ -36,9 +36,9 @@ const PrimaryButton = ({
         title={title}
         color={color}
         type={type}
-        style={[styles.continueButtonStyle, style]}
-        contentContainerStyle={styles.ContinueButton}
+        style={styles.PrimaryButton}
         disabled={disabled}
+        contentContainerStyle={styles.ButtonContainer}
         onPress={onPress}
         titleStyle={[styles.continueButtonText, titleStyle]}
         {...otherProps}

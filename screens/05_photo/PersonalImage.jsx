@@ -23,7 +23,8 @@ export default PersonalImage = () => {
   const navigation = useNavigation();
   const id = useSelector((state) => state.auth.id);
   const Profile = useSelector((state) => state.profile);
-  const [imageData,setImageData] = useState(Profile.selfie);
+  const [imageData, setImageData] = useState(Profile.selfie);
+  const [next, setNext] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,6 +33,12 @@ export default PersonalImage = () => {
 
   useEffect(() => {
     setImageData(Profile.selfie);
+    if (Profile.selfie) {
+      setNext(true);
+    }
+    else{
+      setNext(false);
+    }
   }, [Profile.selfie]);
 
   const ProfilePush = () => {
@@ -62,14 +69,13 @@ export default PersonalImage = () => {
     };
     ImagePicker.launchImageLibrary(options, (response) => {
       if (response.didCancel) {
-        console.log('User cancelled image picker');
+        console.log("User cancelled image picker");
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
+        console.log("ImagePicker Error: ", response.error);
       } else {
         dispatch(addSelfie(response?.assets && response.assets[0].base64));
       }
     });
-
   }, []);
 
   return (
@@ -121,17 +127,27 @@ export default PersonalImage = () => {
               }}
             />
           </View>
-          <Button
-            title="Finish"
-            type="solid"
-            uppercase={false}
-            style={form.nextButton}
-            color="#4E46F1"
-            onPress={() => {
-              ProfilePush();
-              navigation.navigate("Home");
-            }}
-          />
+          {next ? (
+            <Button
+              title="Finish"
+              type="solid"
+              uppercase={false}
+              style={form.nextButton}
+              color="#4E46F1"
+              onPress={() => {
+                ProfilePush();
+                navigation.navigate("Home");
+              }}
+            />
+          ) : (
+            <Button
+              title="Finish"
+              uppercase={false}
+              type="solid"
+              style={form.nextButton}
+              disabled
+            />
+          )}
           <View style={checkBox.padding}></View>
         </ScrollView>
       </SafeAreaView>
