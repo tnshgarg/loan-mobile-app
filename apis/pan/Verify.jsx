@@ -14,7 +14,7 @@ import { addEmail } from "../../store/slices/profileSlice";
 import { panBackendPush } from "../../helpers/BackendPush";
 import { OG_API_KEY } from "@env";
 
-const PanVerify = (props) => {
+export default PanVerify = (props) => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
@@ -125,4 +125,4 @@ Date of Birth: ${panDob}
     );
 }
 
-export default PanVerify;
+

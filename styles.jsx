@@ -256,7 +256,7 @@ export const form = StyleSheet.create({
     fontWeight: "bold",
   },
   forgotText: {
-    marginLeft: 280,
+    marginLeft: "70%",
     marginTop: 10,
   },
   year: {

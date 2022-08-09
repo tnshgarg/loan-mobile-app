@@ -15,15 +15,13 @@ import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { bankform, form, styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import {
-  addPanNumber,
-} from "../../store/slices/panSlice";
+import { addPanNumber } from "../../store/slices/panSlice";
 import PanVerify from "../../apis/pan/Verify";
 
 export default PanCardInfo = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  
+
   const [validNumber, setValidNumber] = useState(true);
 
   const panSlice = useSelector((state) => state.number);
@@ -38,9 +36,9 @@ export default PanCardInfo = () => {
     if (panReg.test(number)) {
       console.log("number: ", number);
       dispatch(addPanNumber(number));
-      setValidNumber(false);
-    } else {
       setValidNumber(true);
+    } else {
+      setValidNumber(false);
     }
   }, [number]);
 
@@ -77,6 +75,9 @@ export default PanCardInfo = () => {
               placeholder="Enter PAN Number"
               required
             />
+            {number && !validNumber ? (
+              <Text style={bankform.formatmsg}>Incorrect Format</Text>
+            ) : null}
             <View style={form.forgotText}>
               <Text
                 style={styles.termsText}
@@ -89,7 +90,7 @@ export default PanCardInfo = () => {
                 Forgot PAN?
               </Text>
             </View>
-            
+
             <View style={bankform.infoCard}>
               <Icon name="info-outline" size={20} color="#4E46F1" />
               <Text style={bankform.infoText}>
@@ -97,11 +98,11 @@ export default PanCardInfo = () => {
               </Text>
             </View>
 
-            <PanVerify 
-              url={"https://api.gridlines.io/pan-api/fetch-detailed"} 
-              data={{pan_number: number, consent: "Y"}} 
+            <PanVerify
+              url={"https://api.gridlines.io/pan-api/fetch-detailed"}
+              data={{ pan_number: number, consent: "Y" }}
               style={form.skipButton}
-              disabled={validNumber}
+              disabled={!validNumber}
             />
 
             <Button
