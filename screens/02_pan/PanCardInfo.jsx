@@ -23,8 +23,8 @@ import PanVerify from "../../apis/pan/Verify";
 export default PanCardInfo = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
-  const [disabled, setDisabled] = useState(true);
+  
+  const [validNumber, setValidNumber] = useState(true);
 
   const panSlice = useSelector((state) => state.number);
   const [number, setNumber] = useState(panSlice?.number);
@@ -38,9 +38,9 @@ export default PanCardInfo = () => {
     if (panReg.test(number)) {
       console.log("number: ", number);
       dispatch(addPanNumber(number));
-      setDisabled(false);
+      setValidNumber(false);
     } else {
-      setDisabled(true);
+      setValidNumber(true);
     }
   }, [number]);
 
@@ -96,12 +96,12 @@ export default PanCardInfo = () => {
                 PAN is needed to verify your name and date of birth
               </Text>
             </View>
-            
+
             <PanVerify 
               url={"https://api.gridlines.io/pan-api/fetch-detailed"} 
               data={{pan_number: number, consent: "Y"}} 
               style={form.skipButton}
-              disabled={disabled}
+              disabled={validNumber}
             />
 
             <Button
