@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
@@ -15,8 +15,8 @@ import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { bankform, form, styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { addPanNumber } from "../../store/slices/panSlice";
-import PanVerify from "../../apis/pan/Verify";
+import { addNumber } from "../../store/slices/panSlice";
+import Verify from "../../apis/pan/Verify";
 
 export default PanForm = () => {
   const dispatch = useDispatch();
@@ -34,8 +34,7 @@ export default PanForm = () => {
   useEffect(() => {
     var panReg = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/gm;
     if (panReg.test(number)) {
-      console.log("number: ", number);
-      dispatch(addPanNumber(number));
+      dispatch(addNumber(number));
       setValidNumber(true);
     } else {
       setValidNumber(false);
@@ -75,9 +74,11 @@ export default PanForm = () => {
               placeholder="Enter PAN Number"
               required
             />
-            {number && !validNumber ? (
-              <Text style={bankform.formatmsg}>Incorrect Format</Text>
-            ) : null}
+            {
+              number && !validNumber ? (
+                <Text style={bankform.formatmsg}>Invalid PAN Number.</Text>
+              ) : null
+            }
             <View style={form.forgotText}>
               <Text
                 style={styles.termsText}
@@ -98,7 +99,7 @@ export default PanForm = () => {
               </Text>
             </View>
 
-            <PanVerify
+            <Verify
               url={"https://api.gridlines.io/pan-api/fetch-detailed"}
               data={{ pan_number: number, consent: "Y" }}
               style={form.skipButton}

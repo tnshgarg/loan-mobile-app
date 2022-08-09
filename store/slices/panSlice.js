@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  dob: "",
+  email: "",
+  gender: "",
   name: "",
   number: "",
-  dob: "",
   verifyMsg: "",
   verifyStatus: "PENDING",
 };
@@ -12,19 +14,25 @@ const panSlice = createSlice({
   name: "pan",
   initialState: initialState,
   reducers: {
-    addPanName(state, action) {
-      state.name = action.payload;
-    },
-    addPanNumber(state, action) {
-      state.number = action.payload;
-    },
-    addPanDob(state, action) {
+    addDob(state, action) {
       state.dob = action.payload;
     },
-    addPanVerifyMsg(state, action) {
+    addEmail(state, action) {
+      state.email = action.payload;
+    },
+    addGender(state, action) {
+      state.gender = action.payload;
+    },
+    addName(state, action) {
+      state.name = action.payload;
+    },
+    addNumber(state, action) {
+      state.number = action.payload;
+    },
+    addVerifyMsg(state, action) {
       state.verifyMsg = action.payload;
     },
-    addPanVerifyStatus(state, action) {
+    addVerifyStatus(state, action) {
       state.verifyStatus = action.payload;
     },
     resetPan(state) {
@@ -34,11 +42,13 @@ const panSlice = createSlice({
 });
 
 export const {
-  addPanName,
-  addPanNumber,
-  addPanDob,
-  addPanVerifyMsg,
-  addPanVerifyStatus,
+  addDob,
+  addEmail,
+  addGender,
+  addName,
+  addNumber,
+  addVerifyMsg,
+  addVerifyStatus,
   resetPan,
 } = panSlice.actions;
 

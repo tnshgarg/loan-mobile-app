@@ -45,15 +45,18 @@ export const panBackendPush = (props) => {
   var panPayload = GenerateDocument({
     src: "Pan",
     id: props.id,
+    dob: props.dob,
+    email: props.email,
+    gender: props.gender,
+    name: props.name,
     number: props.number,
     verifyStatus: props.verifyStatus,
     verifyMsg: props.verifyMsg,
-    dob: props.dob,
   });
   putBackendData({ document: panPayload, src: "Pan" })
-    .then((res) => {
+    .then((response) => {
       console.log("panPayload: ", panPayload);
-      console.log("res.data: ", res.data);
+      console.log("response.data: ", response.data);
     })
     .catch((err) => {
       console.log("err: ", err);
