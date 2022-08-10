@@ -39,8 +39,8 @@ const GenerateDocument = (props) => {
         accountNumber: props.accountNumber,
         ifsc: props.ifsc,
         upi: props.upi,
-        verifyStatus: "SUCCESS",
-        verifyMsg: "",
+        verifyStatus: props.verifyStatus,
+        verifyMsg: props.verifyMsg,
       };
       break;
 

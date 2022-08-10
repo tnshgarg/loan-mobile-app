@@ -3,11 +3,13 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { showToast } from "../../components/Toast";
 import { bankBackendPush } from "../../helpers/BackendPush";
 import {
-    addBankVerifyMsg,
-    addBankVerifyStatus
+  addBankVerifyMsg,
+  addBankVerifyStatus,
+  addBankName,
+  addBankBranch,
+  addBranchCity,
 } from "../../store/slices/bankSlice";
 import ApiView from "../ApiView";
 
@@ -22,15 +24,28 @@ export default Verify = (props) => {
   const accountNumber = useSelector((state) => bankSlice?.accountNumber);
   const upi = useSelector((state) => bankSlice?.upi);
   const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
-  const [verifyMsg, setverifyMsg] = useState(bankSlice?.verifyMsg);
+  const [verifyMsg, setVerifyMsg] = useState(bankSlice?.verifyMsg);
+  const [bankName, setBankName] = useState(bankSlice?.bankName);
+  const [bankBranch, setBankBranch] = useState(bankSlice?.bankBranch);
+  const [city, setCity] = useState(bankSlice?.branchCity);
+
 
   useEffect(() => {
-    setverifyMsg(bankSlice.verifyMsg);
-  }, [bankSlice.verifyMsg]);
+    dispatch(addBankBranch(bankBranch));
+  } , [bankBranch]);
 
   useEffect(() => {
-    setVerifyStatus(bankSlice.verifyStatus);
-  }, [bankSlice.verifyStatus]);
+    dispatch(addBranchCity(city));
+  } , [city]);
+
+
+  useEffect(() => {
+    dispatch(addBankVerifyMsg(verifyMsg));
+  }, [verifyMsg]);
+
+  useEffect(() => {
+    dispatch(addBankVerifyStatus(verifyStatus));
+  }, [verifyStatus]);
 
   useEffect(() => {
     console.log("bankSlice : ", bankSlice);
@@ -45,6 +60,7 @@ export default Verify = (props) => {
         verifyMsg: verifyMsg,
       });
     }
+    setBackendPush(false);
   }, [backendPush]);
 
   const goForFetch = () => {
@@ -67,42 +83,32 @@ export default Verify = (props) => {
           if (response["status"] == "200") {
             switch (response["data"]["code"]) {
               case "1000":
-                Alert.alert(
-                  "Your Bank Account Information",
-                  `Name: ${response["data"]["bank_account_data"]["name"]}\nBank Name: ${response["data"]["bank_account_data"]["bank_name"]}\nUTR no.: ${response["data"]["bank_account_data"]["utr"]}\nBranch: ${response["data"]["bank_account_data"]["branch"]}\nCity: ${response["data"]["bank_account_data"]["city"]}`,
-                  [
-                    {
-                      text: "Yes",
-                      onPress: () => {
-                        dispatch(addBankVerifyStatus("SUCCESS"));
-                        dispatch(addBankVerifyMsg(""));
-                        navigation.navigate("PersonalDetailsForm");
-                        showToast("Bank Account Details Recorded");
-                      },
-                    },
-                    {
-                      text: "No",
-                      onPress: () => {
-                        Alert.alert(
-                          "Information Validation",
-                          "Please provide the correct bank account number and IFSC Code."
-                        );
-                      },
-                      style: "cancel",
-                    },
-                  ]
+                dispatch(
+                  addBankName(
+                    response["data"]["bank_account_data"]["bank_name"]
+                  )
                 );
+                dispatch(
+                  addBankBranch(response["data"]["bank_account_data"]["branch"])
+                );
+                dispatch(
+                  addBranchCity(response["data"]["bank_account_data"]["city"])
+                );
+                setVerifyStatus("PENDING");
+                setVerifyMsg("To be confirmed by User");
+                navigation.navigate("BankConfirm");
                 break;
+
               default:
-                dispatch(addBankVerifyStatus("ERROR"));
-                dispatch(addBankVerifyMsg(response["data"]["message"]));
+                setVerifyStatus("ERROR");
+                setVerifyMsg(response["data"]["message"]);
                 Alert.alert("Error", response["data"]["message"]);
                 break;
             }
           } else {
-            dispatch(addBankVerifyStatus("ERROR"));
+            setVerifyStatus("ERROR");
             if (response["error"]) {
-              dispatch(addBankVerifyMsg(response["error"]));
+              setVerifyMsg(response["error"]);
               Alert.alert(
                 "Error",
                 response["error"]["metadata"]["fields"]
@@ -110,7 +116,7 @@ export default Verify = (props) => {
                   .join("\n")
               );
             } else {
-              dispatch(addBankVerifyMsg(response["messsage"]));
+              setVerifyMsg(response["messsage"]);
               Alert.alert("Error", response["message"]);
             }
           }
@@ -118,8 +124,8 @@ export default Verify = (props) => {
         setBackendPush(true);
       })
       .catch((err) => {
-        dispatch(addBankVerifyStatus("ERROR"));
-        dispatch(addBankVerifyMsg(err));
+        setVerifyStatus("ERROR");
+        setVerifyMsg(err);
         Alert.alert("Error", err);
         setBackendPush(true);
       });

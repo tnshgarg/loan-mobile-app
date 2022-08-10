@@ -15,15 +15,16 @@ export default Confirm = () => {
     const navigation = useNavigation();
 
     const [backendPush, setBackendPush] = useState(false);
-  
+
     const id = useSelector((state) => state.auth.id);
-    const dob = useSelector((state) => state.pan.dob);
-    const email = useSelector((state) => state.pan.email);
-    const gender = useSelector((state) => state.pan.gender);
-    const name = useSelector((state) => state.pan.name);
-    const number = useSelector((state) => state.pan.number);
-  
-    const panSlice = useSelector((state) => state.number);
+    const panSlice = useSelector((state) => state.pan);
+
+    const dob = useSelector((state) => panSlice?.dob);
+    const email = useSelector((state) =>  panSlice?.email);
+    const gender = useSelector((state) =>  panSlice?.gender);
+    const name = useSelector((state) =>  panSlice?.name);
+    const number = useSelector((state) =>  panSlice?.number); 
+    
     const [verifyMsg, setVerifyMsg] = useState(panSlice?.verifyMsg);
     const [verifyStatus, setVerifyStatus] = useState(panSlice?.verifyStatus);
 

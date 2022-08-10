@@ -24,7 +24,7 @@ export default PanForm = () => {
 
   const [validNumber, setValidNumber] = useState(true);
 
-  const panSlice = useSelector((state) => state.number);
+  const panSlice = useSelector((state) => state.pan);
   const [number, setNumber] = useState(panSlice?.number);
 
   useEffect(() => {
