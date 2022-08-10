@@ -9,6 +9,7 @@ import {
   } from "../../store/slices/panSlice";
 import { panBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
+import { showToast } from "../../components/Toast";
 
 export default Confirm = () => {
     const dispatch = useDispatch();
@@ -86,6 +87,7 @@ export default Confirm = () => {
                 setVerifyMsg("Confirmed by User");
                 setVerifyStatus("SUCCESS");
                 setBackendPush(true);
+                showToast("PAN Details Recorded");
                 navigation.navigate("BankInfoForm");
               }}
             />
