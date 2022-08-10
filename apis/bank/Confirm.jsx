@@ -1,16 +1,16 @@
-import { useNavigation } from "@react-navigation/core";
+
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { bankBackendPush } from "../../helpers/BackendPush";
+import { Text, View } from "react-native";
+import { Button } from "@react-native-material/core";
+import { useNavigation } from "@react-navigation/core";
 import {
   addBankVerifyMsg,
   addBankVerifyStatus,
 } from "../../store/slices/bankSlice";
-
-import { Button } from "@react-native-material/core";
-import { Text, View } from "react-native";
+import { bankBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
-import { showToast } from "../../components/Toast";
+
 
 export default Confirm = () => {
   const dispatch = useDispatch();
@@ -18,16 +18,17 @@ export default Confirm = () => {
 
   const [backendPush, setBackendPush] = useState(false);
   const id = useSelector((state) => state.auth.id);
+  
+  const ifsc = useSelector((state) => state.bank?.ifsc);
+  const accountNumber = useSelector((state) => state.bank?.accountNumber);
+  const upi = useSelector((state) => state.bank?.upi);
+  const bankName = useSelector((state) => state.bank?.bankName);
+  const branch = useSelector((state) => state.bank?.bankBranch);
+  const city = useSelector((state) => state.bank?.branchCity);
+
   const bankSlice = useSelector((state) => state.bank);
-  const ifsc = useSelector((state) => bankSlice?.ifsc);
-  const accountNumber = useSelector((state) => bankSlice?.accountNumber);
-  const upi = useSelector((state) => bankSlice?.upi);
-  const bankName = useSelector((state) => bankSlice?.bankName);
-  const branch = useSelector((state) => bankSlice?.bankBranch);
-  const city = useSelector((state) => bankSlice?.branchCity);
   const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
   const [verifyMsg, setVerifyMsg] = useState(bankSlice?.verifyMsg);
-
   
   useEffect(() => {
     dispatch(addBankVerifyMsg(verifyMsg));
@@ -70,6 +71,8 @@ export default Confirm = () => {
           color="#EB5757"
           onPress={() => {
             setVerifyMsg("Rejected by User");
+            setVerifyStatus("ERROR");
+            setBackendPush(true);
             navigation.navigate("BankInfoForm");
           }}
         />
@@ -83,7 +86,6 @@ export default Confirm = () => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
-            showToast("Bank Account Details Recorded");
             navigation.navigate("PersonalDetailsForm");
           }}
         />
