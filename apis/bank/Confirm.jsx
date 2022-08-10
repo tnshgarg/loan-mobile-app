@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Text, View } from "react-native";
@@ -11,14 +10,13 @@ import {
 import { bankBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
 
-
 export default Confirm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const [backendPush, setBackendPush] = useState(false);
   const id = useSelector((state) => state.auth.id);
-  
+
   const ifsc = useSelector((state) => state.bank?.ifsc);
   const accountNumber = useSelector((state) => state.bank?.accountNumber);
   const upi = useSelector((state) => state.bank?.upi);
@@ -29,7 +27,7 @@ export default Confirm = () => {
   const bankSlice = useSelector((state) => state.bank);
   const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
   const [verifyMsg, setVerifyMsg] = useState(bankSlice?.verifyMsg);
-  
+
   useEffect(() => {
     dispatch(addBankVerifyMsg(verifyMsg));
   }, [verifyMsg]);
@@ -62,7 +60,14 @@ export default Confirm = () => {
       <Text style={form.userData}>AccountNumber: {accountNumber}</Text>
       <Text style={form.userData}>IFSC: {ifsc}</Text>
       <Text style={form.userData}>UPI: {upi}</Text>
-      <View style={{ flexDirection: "row" }}>
+      <View
+        style={{
+          alignSelf: "center",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          flex: 1,
+        }}
+      >
         <Button
           title="No"
           type="solid"

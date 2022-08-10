@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CheckBox from "@react-native-community/checkbox";
-import { AppBar, Icon, IconButton } from "@react-native-material/core";
+import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { Alert, SafeAreaView, Text, TextInput, View } from "react-native";
 import ProgressBarTop from "../../components/ProgressBarTop";
 
-import { bankform, checkBox, form, styles } from "../../styles";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
+import { bankform, checkBox, form, styles } from "../../styles";
 
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import {
-  addNumber,
-} from "../../store/slices/aadhaarSlice";
 import Otp from "../../apis/aadhaar/Otp";
+import { addNumber } from "../../store/slices/aadhaarSlice";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
 
 export default AadhaarForm = () => {
   const dispatch = useDispatch();
@@ -24,7 +22,7 @@ export default AadhaarForm = () => {
 
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const [number, setNumber] = useState(aadhaarSlice?.number);
-  
+
   useEffect(() => {
     dispatch(addCurrentScreen("AadhaarForm"));
   }, []);
@@ -40,17 +38,14 @@ export default AadhaarForm = () => {
   }, [number]);
 
   const SkipAadhaar = () => {
-    Alert.alert(
-      "Aadhaar KYC pending",
-      `You have not completed Aadhaar KYC.`
-    );
+    Alert.alert("Aadhaar KYC pending", `You have not completed Aadhaar KYC.`);
     navigation.navigate("PanForm");
   };
 
   const backAlert = () => {
     Alert.alert(
       "Do you want to go back ?",
-      "If you go back your Aadhaar Verification will have to be redone.",
+      "If you go back your Mobile Number Verification will have to be redone.",
       [
         { text: "No", onPress: () => null, style: "cancel" },
         { text: "Yes", onPress: () => navigation.navigate("Otp") },
@@ -61,7 +56,6 @@ export default AadhaarForm = () => {
   return (
     <>
       <SafeAreaView style={styles.container}>
-
         <AppBar
           title="Setup Profile"
           color="#4E46F1"
@@ -80,7 +74,6 @@ export default AadhaarForm = () => {
 
         <KeyboardAvoidingWrapper>
           <View>
-            
             <Text style={form.formLabel}>Enter AADHAAR Number</Text>
             <TextInput
               style={form.formTextInput}
@@ -90,15 +83,15 @@ export default AadhaarForm = () => {
               maxLength={12}
               numeric
             />
-            {
-              number && !validNumber ? (
-                <Text style={bankform.formatmsg}>Invalid AADHAAR Number.</Text>
-              ) : null
-            }
+            {number && !validNumber ? (
+              <Text style={bankform.formatmsg}>Invalid AADHAAR Number.</Text>
+            ) : null}
 
             <View style={bankform.infoCard}>
+            <Icon name="info-outline" size={20} color="#4E46F1" />
               <Text style={bankform.infoText}>
-                My Mobile number is linked with AAADHAAR on which you can receive the OTP.
+                My Mobile number is linked with AADHAAR on which you can
+                receive the OTP.
               </Text>
             </View>
 
@@ -135,12 +128,12 @@ export default AadhaarForm = () => {
                 disabled
               />
             )} */}
-            
+
             <Otp
               url={"https://api.gridlines.io/aadhaar-api/boson/generate-otp"}
               data={{ aadhaar_number: number, consent: "Y" }}
               style={form.skipButton}
-              disabled={!validNumber}
+              disabled={!validNumber || !consent}
             />
 
             <Button
@@ -153,7 +146,6 @@ export default AadhaarForm = () => {
                 SkipAadhaar();
               }}
             />
-            
           </View>
         </KeyboardAvoidingWrapper>
       </SafeAreaView>
