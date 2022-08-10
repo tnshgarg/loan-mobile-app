@@ -7,7 +7,7 @@ import {
 import { AntDesign } from "react-native-vector-icons";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-
+import Logout from "./Logout";
 const CustomDrawer = (props) => {
   const navigation = useNavigation();
   const imageData = useSelector((state) => state.profile.selfie);
@@ -45,18 +45,7 @@ const CustomDrawer = (props) => {
           <DrawerItemList {...props} />
         </View>
       </DrawerContentScrollView>
-      <Pressable
-        onPress={() => navigation.replace("Welcome")}
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          paddingHorizontal: 20,
-          paddingVertical: 20,
-        }}
-      >
-        <AntDesign name="logout" color="black" size={16} />
-        <Text style={{ fontSize: 16, paddingLeft: 10 }}>Logout</Text>
-      </Pressable>
+      <Logout />
     </View>
   );
 };
