@@ -8,7 +8,8 @@ import WelcomePage from "../screens/00_login/WelcomePage";
 import AadhaarConfirm from "../screens/01_aadhaar/AadhaarConfirm";
 import AadhaarForm from "../screens/01_aadhaar/AadhaarForm";
 import AadhaarVerify from "../screens/01_aadhaar/AadhaarVerify";
-import PanCardInfo from "../screens/02_pan/PanCardInfo";
+import PanForm from "../screens/02_pan/PanForm";
+import PanConfirm from "../screens/02_pan/PanConfirm";
 import BankInformationForm from "../screens/03_bank/BankInformationForm";
 import PersonalDetailsForm from "../screens/04_profile/PersonalDetailsForm";
 import PersonalImage from "../screens/05_photo/PersonalImage";
@@ -102,8 +103,16 @@ const StackNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="PanCardInfo"
-        component={PanCardInfo}
+        name="PanForm"
+        component={PanForm}
+        options={{
+          headerShown: false,
+          header: null,
+        }}
+      />
+      <Stack.Screen
+        name="PanConfirm"
+        component={PanConfirm}
         options={{
           headerShown: false,
           header: null,

@@ -23,7 +23,7 @@ export default AadhaarConfirm = () => {
   const id = useSelector((state) => state.auth.id);
   const dispatch = useDispatch();
 
-  console.log("AadhaarConfirmOTP state.auth: ", auth);
+  console.log("AadhaarConfirm state.auth: ", auth);
 
   useEffect(() => {
     dispatch(addCurrentScreen("AadhaarConfirm"));
@@ -98,7 +98,6 @@ export default AadhaarConfirm = () => {
               color="#4E46F1"
               onPress={() => {
                 aadhaarBackendPush({
-                  type: "OTP",
                   status: "SUCCESS",
                   id: id,
                   aadhaar: aadhaar,
@@ -106,7 +105,7 @@ export default AadhaarConfirm = () => {
                   message: "",
                   data: aadhaarData["aadhaar_data"],
                 });
-                navigation.navigate("PanCardInfo");
+                navigation.navigate("PanForm");
               }}
             />
             <View style={bankform.padding}></View>

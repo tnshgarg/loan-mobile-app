@@ -1,4 +1,3 @@
-import { btoa } from "react-native-quick-base64";
 const GenerateDocument = (props) => {
   var document = {};
   switch (props.src) {
@@ -8,12 +7,11 @@ const GenerateDocument = (props) => {
       };
       break;
 
-    case "AadhaarOTP":
+    case "Aadhaar":
       document = {
         id: props.id,
         number: props.aadhaar,
         data: props.status === "SUCCESS" ? props.xml : "",
-        verifyMode: "OTP",
         verifyStatus: props.status,
         verifyMsg: props.message,
         name: props.data["name"],
@@ -25,10 +23,13 @@ const GenerateDocument = (props) => {
     case "Pan":
       document = {
         id: props.id,
-        number: props.pan,
         dob: props.dob,
-        verifyStatus: props.verifyStatus,
+        email: props.email,
+        gender: props.gender,
+        name: props.name,
+        number: props.number,
         verifyMsg: props.verifyMsg,
+        verifyStatus: props.verifyStatus,
       };
       break;
 

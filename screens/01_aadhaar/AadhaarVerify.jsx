@@ -66,7 +66,7 @@ export default AadhaarVerify = () => {
           switch (response["data"]["code"]) {
             case "1002":
               setAadhaarData(response["data"]);
-              navigation.navigate("AadhaarConfirmOTP");
+              navigation.navigate("AadhaarConfirm");
               dispatch(
                 addAadhaarVerifyStatus("SUCCESS")
               );
@@ -74,7 +74,6 @@ export default AadhaarVerify = () => {
             default:
               setErrorMsg(response["data"]["message"]);
               aadhaarBackendPush({
-                type: "OTP",
                 id: id,
                 status: "ERROR",
                 message: errorMsg,
@@ -85,7 +84,6 @@ export default AadhaarVerify = () => {
           if (response["error"]) {
             setErrorMsg(response["error"]["message"]);
             aadhaarBackendPush({
-              type: "OTP",
               id: id,
               status: "ERROR",
               message: errorMsg,
@@ -94,7 +92,6 @@ export default AadhaarVerify = () => {
           } else {
             setErrorMsg(response["message"]);
             aadhaarBackendPush({
-              type: "OTP",
               id: id,
               status: "ERROR",
               message: errorMsg,
@@ -106,7 +103,6 @@ export default AadhaarVerify = () => {
       .catch((err) => {
         setErrorMsg(err);
         aadhaarBackendPush({
-          type: "OTP",
           id: id,
           status: "ERROR",
           message: errorMsg,

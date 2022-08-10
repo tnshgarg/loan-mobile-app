@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import PrimaryButton from "../components/PrimaryButton";
@@ -25,7 +25,7 @@ const DevMenu = () => {
       <PrimaryButton
         style={{ marginTop: 20 }}
         title="PAN"
-        onPress={() => navigation.navigate("PanCardInfo")}
+        onPress={() => navigation.navigate("PanForm")}
       />
       <PrimaryButton
         style={{ marginTop: 20 }}

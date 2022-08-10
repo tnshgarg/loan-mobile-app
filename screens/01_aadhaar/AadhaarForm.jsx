@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   Alert,
   SafeAreaView,
-  ScrollView,
   Text,
   TextInput,
   View,
@@ -18,8 +17,7 @@ import {
   addAadhaarSubmitOTPtxnId,
 } from "../../store/slices/aadhaarSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { bankform, Camera, checkBox, form, styles } from "../../styles";
-import { showToast } from "../../components/Toast";
+import { bankform, checkBox, form, styles } from "../../styles";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 
 export default AadhaarForm = () => {
@@ -43,12 +41,9 @@ export default AadhaarForm = () => {
   }, [transactionId]);
 
   useEffect(() => {
-    dispatch(addAadhaarNumber(aadhaar));
-  }, [aadhaar]);
-
-  useEffect(() => {
     var aadhaarReg = /^[0-9]{12}$/gm;
     if (aadhaarReg.test(aadhaar)) {
+      dispatch(addAadhaarNumber(aadhaar));
       setNext(true);
     } else {
       setNext(false);
@@ -60,7 +55,7 @@ export default AadhaarForm = () => {
       "Aadhaar KYC pending",
       `You have not completed Aadhaar KYC.`
     );
-    navigation.navigate("PanCardInfo");
+    navigation.navigate("PanForm");
   };
 
   const GenerateOtp = () => {
