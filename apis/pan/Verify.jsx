@@ -88,11 +88,12 @@ export default Verify = (props) => {
             .then(response => response.json())
             .then((responseJson) => {
                 try {
+                    const names = ["first", "middle", "last"];
                     console.log('getting data from fetch', responseJson);
                     setDob(responseJson["data"]["pan_data"]["date_of_birth"]);
                     setEmail(responseJson["data"]["pan_data"]["email"]?.toLowerCase());
                     setGender(responseJson["data"]["pan_data"]["gender"]);
-                    setName(responseJson["data"]["pan_data"]["first_name"] + " " + responseJson["data"]["pan_data"]["middle_name"] + " " + responseJson["data"]["pan_data"]["last_name"]);
+                    setName(names.map(k => responseJson["data"]["pan_data"][`${k}_name`]).join(" "));
                     setVerifyStatus("PENDING");
                     setVerifyMsg("To be confirmed by User");
                     setBackendPush(true);
