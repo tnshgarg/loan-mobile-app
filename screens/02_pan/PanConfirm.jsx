@@ -24,7 +24,7 @@ export default PanConfirm = () => {
   const backAlert = () => {
     Alert.alert(
       "Do you want to go back ?",
-      "If you go back your PAN Verification will have to be redone. Continue only if you want to edit your PAN number.",
+      "If you go back your PAN Verification will have to be redone. Continue if you want to edit your PAN number.",
       [
         { text: "No",  onPress: () => null, style: "cancel" },
         { text: "Yes", onPress: () => navigation.navigate("PanForm") },
