@@ -1,16 +1,9 @@
-import { OG_API_KEY } from "@env";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CheckBox from "@react-native-community/checkbox";
 import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import {
-  Alert,
-  SafeAreaView,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { Alert, SafeAreaView, Text, TextInput, View } from "react-native";
 import ProgressBarTop from "../../components/ProgressBarTop";
 
 import { bankform, checkBox, form, styles } from "../../styles";

@@ -13,6 +13,8 @@ import {
 import SmsRetriever from "react-native-sms-retriever";
 import { useDispatch, useSelector } from "react-redux";
 
+import Bugsnag from "@bugsnag/react-native";
+
 import { GenerateDocument } from "../../helpers/GenerateDocument";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { putBackendData } from "../../services/employees/employeeServices";
@@ -95,18 +97,35 @@ export default LoginScreen = () => {
           setId(res.data["id"]);
           sendSmsVerification(fullPhoneNumber)
             .then((sent) => {
-              console.log("Sent!");
-              navigation.navigate("Otp");
+              if (sent) {
+                setIsLoading(false);
+                console.log("Sent!");
+                navigation.navigate("Otp");
+              } else {
+                setIsLoading(false);
+                console.log("Code not sent");
+                console.log("IsSent: ", sent);
+                Bugsnag.notify(
+                  new Error(
+                    "OTP Screen Error: Code not sent, Some issue identified with the Twillio API"
+                  )
+                );
+              }
             })
             .catch((err) => {
               console.log(err);
+              Bugsnag.notify(new Error(`Login Screen Error: ${err}`));
             });
         } else {
           Alert.alert("Error", res.data["message"]);
+          Bugsnag.notify(
+            new Error(`Login Screen Error: ${res.data["message"]}`)
+          );
         }
       })
       .catch((err) => {
-        console.log(err);
+        Bugsnag.notify(new Error(err));
+        console.log(`Login Screen Error: ${err}`);
       });
   };
 

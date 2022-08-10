@@ -48,54 +48,54 @@ export default Confirm = () => {
   }, [backendPush]);
   
   return (
-      <View style={styles.container}>
+    <View style={styles.container}>
 
-          <Text style={form.OtpAwaitMsg}>
-            Are these your AADHAAR details ?
-            {"\n"}
-          </Text>
+      <Text style={form.OtpAwaitMsg}>
+        Are these your AADHAAR details ?
+        {"\n"}
+      </Text>
 
-          <Image
-            source={{
-              uri: `data:image/jpeg;base64,${  data["aadhaar_data"]["photo_base64"]}`,
-            }}
-            style={form.aadharimg}
-          />
-          <Text style={form.userData}>Name: {  data["aadhaar_data"]["name"]}</Text>
-          <Text style={form.userData}>Date of Birth: {  data["aadhaar_data"]["date_of_birth"]}</Text>
-          <Text style={form.userData}>Locality: {  data["aadhaar_data"]["locality"]}</Text>
+      <Image
+        source={{
+          uri: `data:image/jpeg;base64,${  data["aadhaar_data"]["photo_base64"]}`,
+        }}
+        style={form.aadharimg}
+      />
+      <Text style={form.userData}>Name: {  data["aadhaar_data"]["name"]}</Text>
+      <Text style={form.userData}>Date of Birth: {  data["aadhaar_data"]["date_of_birth"]}</Text>
+      <Text style={form.userData}>Locality: {  data["aadhaar_data"]["locality"]}</Text>
 
-          <View style={{ flexDirection: "row" }}>
-            <Button
-              title="No"
-              type="solid"
-              uppercase={false}
-              style={form.noButton}
-              color="#EB5757"
-              onPress={() => {
-                setVerifyMsg("Rejected by User");
-                setVerifyStatus("ERROR");
-                setBackendPush(true);
-                navigation.navigate("AadhaarForm");
-              }}
-            />
-            <Button
-              title="Yes"
-              type="solid"
-              uppercase={false}
-              style={form.yesButton}
-              color="#4E46F1"
-              onPress={() => {
-                setVerifyMsg("Confirmed by User");
-                setVerifyStatus("SUCCESS");
-                setBackendPush(true);
-                navigation.navigate("PanForm");
-              }}
-            />
-            <View style={bankform.padding}></View>
-          </View>
-
+      <View style={{ flexDirection: "row" }}>
+        <Button
+          title="No"
+          type="solid"
+          uppercase={false}
+          style={form.noButton}
+          color="#EB5757"
+          onPress={() => {
+            setVerifyMsg("Rejected by User");
+            setVerifyStatus("ERROR");
+            setBackendPush(true);
+            navigation.navigate("AadhaarForm");
+          }}
+        />
+        <Button
+          title="Yes"
+          type="solid"
+          uppercase={false}
+          style={form.yesButton}
+          color="#4E46F1"
+          onPress={() => {
+            setVerifyMsg("Confirmed by User");
+            setVerifyStatus("SUCCESS");
+            setBackendPush(true);
+            navigation.navigate("PanForm");
+          }}
+        />
+        <View style={bankform.padding}></View>
       </View>
+
+    </View>
   );
-  
+
 };

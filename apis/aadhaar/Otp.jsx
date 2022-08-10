@@ -10,6 +10,7 @@ import {
 } from "../../store/slices/aadhaarSlice";
 import ApiView from "../ApiView";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
+import BugSnagNotify from "../../helpers/BugSnag";
 
 export default Otp = (props) => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ export default Otp = (props) => {
   const [backendPush, setBackendPush] = useState(false);
 
   const id = useSelector((state) => state.auth.id);
+  
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const [submitOTPtxnId, setSubmitOTPtxnId] = useState(aadhaarSlice?.submitOTPtxnId);
   const [verifyMsg, setVerifyMsg] = useState(aadhaarSlice?.verifyMsg);
@@ -77,6 +79,7 @@ export default Otp = (props) => {
                 navigation.navigate("AadhaarVerify");
                 break;
               default:
+                BugSnagNotify({text: responseJson["data"]["message"]});
                 setVerifyMsg(responseJson["data"]["message"]);
                 setVerifyStatus("ERROR");
                 setBackendPush(true);
@@ -84,18 +87,21 @@ export default Otp = (props) => {
                 break;
             }
           } else if (responseJson["error"]) {
-              setVerifyMsg(responseJson["error"]["message"]);
-              setVerifyStatus("ERROR");
-              setBackendPush(false);
-              Alert.alert("Error", responseJson["error"]["message"]);
+            BugSnagNotify({text: responseJson["error"]["message"]});
+            setVerifyMsg(responseJson["error"]["message"]);
+            setVerifyStatus("ERROR");
+            setBackendPush(false);
+            Alert.alert("Error", responseJson["error"]["message"]);
           } else {
-              setVerifyMsg(responseJson["message"]);
-              setVerifyStatus("ERROR");
-              setBackendPush(true);
-              Alert.alert("Error", responseJson["message"]);
+            BugSnagNotify({text: responseJson["message"]});
+            setVerifyMsg(responseJson["message"]);
+            setVerifyStatus("ERROR");
+            setBackendPush(true);
+            Alert.alert("Error", responseJson["message"]);
           }
         }
         catch(error) {
+          BugSnagNotify({text: error});
           console.log("Error: ", error);
           setVerifyMsg(error);
           setVerifyStatus("ERROR");
@@ -103,11 +109,12 @@ export default Otp = (props) => {
           Alert.alert("Error", error);
         }
       })
-      .catch((err) => {
-        setVerifyMsg(err);
+      .catch((error) => {
+        BugSnagNotify({text: error});
+        setVerifyMsg(error);
         setVerifyStatus("ERROR");
         setBackendPush(true);
-        Alert.alert("Error", err);
+        Alert.alert("Error", error);
       });
       setLoading(false);
   };
