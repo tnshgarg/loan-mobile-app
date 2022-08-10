@@ -34,7 +34,7 @@ export default OTPScreen = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(addCurrentScreen("Otp"));
+    dispatch(addCurrentScreen("Login"));
   }, []);
 
   // HHrHWFsvgjF

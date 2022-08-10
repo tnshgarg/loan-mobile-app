@@ -5,11 +5,11 @@ export const aadhaarBackendPush = (props) => {
   aadhaarPayload = GenerateDocument({
     src: "Aadhaar",
     id: props.id,
-    aadhaar: props.aadhaar,
+    number: props.number,
+    data: props.data || {},
     xml: props.xml,
-    status: props.status,
-    message: props.message,
-    data: props.data,
+    verifyMsg: props.verifyMsg,
+    verifyStatus: props.verifyStatus,
   });
   putBackendData({ document: aadhaarPayload, src: "Aadhaar" })
     .then((res) => {

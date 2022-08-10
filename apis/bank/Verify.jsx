@@ -12,6 +12,7 @@ import {
   addBranchCity,
 } from "../../store/slices/bankSlice";
 import ApiView from "../ApiView";
+import BugSnagNotify from "../../helpers/BugSnag";
 
 export default Verify = (props) => {
   const dispatch = useDispatch();
@@ -19,25 +20,29 @@ export default Verify = (props) => {
   const [loading, setLoading] = useState(false);
   const [backendPush, setBackendPush] = useState(false);
   const id = useSelector((state) => state.auth.id);
-  const bankSlice = useSelector((state) => state.bank);
-  const ifsc = useSelector((state) => bankSlice?.ifsc);
-  const accountNumber = useSelector((state) => bankSlice?.accountNumber);
-  const upi = useSelector((state) => bankSlice?.upi);
-  const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
-  const [verifyMsg, setVerifyMsg] = useState(bankSlice?.verifyMsg);
-  const [bankName, setBankName] = useState(bankSlice?.bankName);
-  const [bankBranch, setBankBranch] = useState(bankSlice?.bankBranch);
-  const [city, setCity] = useState(bankSlice?.branchCity);
+  
+  const ifsc = useSelector((state) => state.bank?.ifsc);
+  const accountNumber = useSelector((state) => state.bank?.accountNumber);
+  const upi = useSelector((state) => state.bank?.upi);
 
+  const bankSlice = useSelector((state) => state.bank);
+  const [bankBranch, setBankBranch] = useState(bankSlice?.bankBranch);
+  const [bankName, setBankName] = useState(bankSlice?.bankName);
+  const [city, setCity] = useState(bankSlice?.branchCity);
+  const [verifyMsg, setVerifyMsg] = useState(bankSlice?.verifyMsg);
+  const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
 
   useEffect(() => {
     dispatch(addBankBranch(bankBranch));
-  } , [bankBranch]);
+  }, [bankBranch]);
+
+  useEffect(() => {
+    dispatch(addBankName(bankName));
+  }, [bankName]);
 
   useEffect(() => {
     dispatch(addBranchCity(city));
-  } , [city]);
-
+  }, [city]);
 
   useEffect(() => {
     dispatch(addBankVerifyMsg(verifyMsg));
@@ -79,36 +84,32 @@ export default Verify = (props) => {
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
-        {
+        try {
           if (response["status"] == "200") {
             switch (response["data"]["code"]) {
               case "1000":
-                dispatch(
-                  addBankName(
-                    response["data"]["bank_account_data"]["bank_name"]
-                  )
-                );
-                dispatch(
-                  addBankBranch(response["data"]["bank_account_data"]["branch"])
-                );
-                dispatch(
-                  addBranchCity(response["data"]["bank_account_data"]["city"])
-                );
-                setVerifyStatus("PENDING");
+                setBankBranch(response["data"]["bank_account_data"]["branch"]);
+                setBankName(response["data"]["bank_account_data"]["bank_name"]);
+                setCity(response["data"]["bank_account_data"]["city"]);
                 setVerifyMsg("To be confirmed by User");
+                setVerifyStatus("PENDING");
+                setBackendPush(true);
                 navigation.navigate("BankConfirm");
                 break;
-
               default:
-                setVerifyStatus("ERROR");
+                BugSnagNotify({text: response["data"]["message"]});
                 setVerifyMsg(response["data"]["message"]);
+                setVerifyStatus("ERROR");
+                setBackendPush(true);
                 Alert.alert("Error", response["data"]["message"]);
                 break;
             }
           } else {
             setVerifyStatus("ERROR");
             if (response["error"]) {
+              BugSnagNotify({text: response["error"]});
               setVerifyMsg(response["error"]);
+              setBackendPush(true);
               Alert.alert(
                 "Error",
                 response["error"]["metadata"]["fields"]
@@ -116,21 +117,33 @@ export default Verify = (props) => {
                   .join("\n")
               );
             } else {
+              BugSnagNotify({text: response["message"]});
               setVerifyMsg(response["messsage"]);
+              setBackendPush(true);
               Alert.alert("Error", response["message"]);
             }
           }
         }
+        catch(error) {
+          BugSnagNotify({text: error});
+          console.log("Error: ", error);
+          setVerifyMsg(error);
+          setVerifyStatus("ERROR");
+          setBackendPush(true);
+          Alert.alert("Error", error);
+        }
         setBackendPush(true);
       })
-      .catch((err) => {
+      .catch((error) => {
+        BugSnagNotify({text: error});
+        setVerifyMsg(error);
         setVerifyStatus("ERROR");
-        setVerifyMsg(err);
-        Alert.alert("Error", err);
         setBackendPush(true);
+        Alert.alert("Error", error);
       });
     setLoading(false);
   };
+  
   return (
     <ApiView
       disabled={props.disabled}

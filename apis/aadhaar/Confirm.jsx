@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { Text, View } from "react-native";
+import { Text, View, Image } from "react-native";
 import { Button } from "@react-native-material/core";
-import { addVerifyMsg, addVerifyStatus } from "../../store/slices/panSlice";
-import { panBackendPush } from "../../helpers/BackendPush";
+import { addVerifyMsg, addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
+import { aadhaarBackendPush } from "../../helpers/BackendPush";
 
 export default Confirm = () => {
   const dispatch = useDispatch();
@@ -14,15 +14,12 @@ export default Confirm = () => {
   const [backendPush, setBackendPush] = useState(false);
 
   const id = useSelector((state) => state.auth.id);
-  const dob = useSelector((state) => state.pan.dob);
-  const email = useSelector((state) => state.pan.email);
-  const gender = useSelector((state) => state.pan.gender);
-  const name = useSelector((state) => state.pan.name);
-  const number = useSelector((state) => state.pan.number);
+  const data = useSelector((state) => state.aadhaar.data);
+  const number = useSelector((state) => state.aadhaar.number);
 
-  const panSlice = useSelector((state) => state.pan);
-  const [verifyMsg, setVerifyMsg] = useState(panSlice?.verifyMsg);
-  const [verifyStatus, setVerifyStatus] = useState(panSlice?.verifyStatus);
+  const aadhaarSlice = useSelector((state) => state.aadhaar);
+  const [verifyMsg, setVerifyMsg] = useState(aadhaarSlice?.verifyMsg);
+  const [verifyStatus, setVerifyStatus] = useState(aadhaarSlice?.verifyStatus);
 
   useEffect(() => {
     dispatch(addVerifyMsg(verifyMsg));
@@ -35,15 +32,13 @@ export default Confirm = () => {
   useEffect(() => {
     console.log(backendPush);
     if (backendPush) {
-      panBackendPush({
+      aadhaarBackendPush({
         id: id,
-        dob: dob,
-        email: email,
-        gender: gender,
-        name: name,
+        data: data["aadhaar_data"],
         number: number,
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
+        xml: data["aadhaar_data"]["xml_base64"],
       });
       setBackendPush(false);
     }
@@ -51,12 +46,23 @@ export default Confirm = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={form.OtpAwaitMsg}>Are these your PAN details ?{"\n"}</Text>
-      <Text style={form.userData}>Number: {number}</Text>
-      <Text style={form.userData}>Name: {name}</Text>
-      <Text style={form.userData}>Date of Birth: {dob}</Text>
-      <Text style={form.userData}>Gender: {gender}</Text>
-      <Text style={form.userData}>Email: {email}</Text>
+      <Text style={form.OtpAwaitMsg}>
+        Are these your AADHAAR details ?{"\n"}
+      </Text>
+
+      <Image
+        source={{
+          uri: `data:image/jpeg;base64,${data["aadhaar_data"]["photo_base64"]}`,
+        }}
+        style={form.aadharimg}
+      />
+      <Text style={form.userData}>Name: {data["aadhaar_data"]["name"]}</Text>
+      <Text style={form.userData}>
+        Date of Birth: {data["aadhaar_data"]["date_of_birth"]}
+      </Text>
+      <Text style={form.userData}>
+        Locality: {data["aadhaar_data"]["locality"]}
+      </Text>
 
       <View
         style={{
@@ -76,7 +82,7 @@ export default Confirm = () => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
             setBackendPush(true);
-            navigation.navigate("PanForm");
+            navigation.navigate("AadhaarForm");
           }}
         />
         <Button
@@ -89,7 +95,7 @@ export default Confirm = () => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
-            navigation.navigate("BankInfoForm");
+            navigation.navigate("PanForm");
           }}
         />
         <View style={bankform.padding}></View>

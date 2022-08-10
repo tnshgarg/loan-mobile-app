@@ -26,7 +26,7 @@ export default PanForm = () => {
 
   const panSlice = useSelector((state) => state.pan);
   const [number, setNumber] = useState(panSlice?.number);
-
+  
   useEffect(() => {
     dispatch(addCurrentScreen("PanForm"));
   }, []);
@@ -49,6 +49,7 @@ export default PanForm = () => {
   return (
     <>
       <SafeAreaView style={styles.container}>
+
         <AppBar
           title="Setup Profile"
           color="#4E46F1"
@@ -60,18 +61,21 @@ export default PanForm = () => {
             />
           }
         />
+
         <ProgressBarTop step={2} />
         <Text style={form.formHeader}>PAN Verification</Text>
+        
         <KeyboardAvoidingWrapper>
           <View>
+
             <Text style={form.formLabel}>Enter PAN Number</Text>
             <TextInput
               style={form.formTextInput}
               autoCapitalize="characters"
               value={number}
               onChangeText={setNumber}
+              // placeholder="AAAAA1234A"
               maxLength={10}
-              placeholder="Enter PAN Number"
               required
             />
             {
@@ -79,6 +83,7 @@ export default PanForm = () => {
                 <Text style={bankform.formatmsg}>Invalid PAN Number.</Text>
               ) : null
             }
+            
             <View style={form.forgotText}>
               <Text
                 style={styles.termsText}
@@ -93,10 +98,7 @@ export default PanForm = () => {
             </View>
 
             <View style={bankform.infoCard}>
-              <Icon name="info-outline" size={20} color="#4E46F1" />
-              <Text style={bankform.infoText}>
-                PAN is needed to verify your name and date of birth
-              </Text>
+              <Text style={bankform.infoText}>PAN is required to verify name and date of birth.</Text>
             </View>
 
             <Verify
@@ -112,10 +114,9 @@ export default PanForm = () => {
               type="solid"
               color="#4E46F1"
               style={form.skipButton}
-              onPress={() => {
-                SkipPAN();
-              }}
+              onPress={() => SkipPAN()}
             />
+
           </View>
         </KeyboardAvoidingWrapper>
       </SafeAreaView>
