@@ -7,6 +7,9 @@ const initialState = {
   accountHolderName: "",
   verifyStatus: "PENDING",
   verifyMsg: "",
+  bankName: "",
+  bankBranch: "",
+  branchCity: "",
 };
 
 const bankSlice = createSlice({
@@ -31,6 +34,15 @@ const bankSlice = createSlice({
     addBankVerifyMsg(state, action) {
       state.verifyMsg = action.payload;
     },
+    addBankName(state, action) {
+      state.bankName = action.payload;
+    },
+    addBankBranch(state, action) {
+      state.bankBranch = action.payload;
+    },
+    addBranchCity(state, action) {
+      state.branchCity = action.payload;
+    },
     resetBank(state) {
       Object.assign(state, initialState);
     },
@@ -44,6 +56,9 @@ export const {
   addBankUpi,
   addBankVerifyStatus,
   addBankVerifyMsg,
+  addBankName,
+  addBankBranch,
+  addBranchCity,
   resetBank,
 } = bankSlice.actions;
 export default bankSlice.reducer;

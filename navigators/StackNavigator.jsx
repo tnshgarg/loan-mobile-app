@@ -20,6 +20,7 @@ import DrawerNavigator from "./DrawerNavigator";
 import { STAGE } from "@env";
 import KYCScreen from "../screens/07_drawer/KYCScreen";
 import Profile from "../screens/07_drawer/Profile";
+import BankConfirm from "../screens/03_bank/BankConfirm";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -126,6 +127,15 @@ const StackNavigator = () => {
           header: null,
         }}
       />
+       <Stack.Screen
+        name="BankConfirm"
+        component={BankConfirm}
+        options={{
+          headerShown: false,
+          header: null,
+        }}
+      />
+
       <Stack.Screen
         name="Home"
         component={DrawerNavigator}
