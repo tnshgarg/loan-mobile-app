@@ -6,7 +6,7 @@ export const aadhaarBackendPush = (props) => {
     src: "Aadhaar",
     id: props.id,
     number: props.number,
-    data: props.data,
+    data: props.data || {},
     xml: props.xml,
     verifyMsg: props.verifyMsg,
     verifyStatus: props.verifyStatus,

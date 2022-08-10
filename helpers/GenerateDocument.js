@@ -14,10 +14,11 @@ const GenerateDocument = (props) => {
         number: props.number,
         verifyMsg: props.verifyMsg,
         verifyStatus: props.verifyStatus,
-        name: props.data["name"] ?? "",
-        gender: props.data["gender"] ?? "",
-        dob: props.data["date_of_birth"] ?? "",
+        name: props.data["name"] || "",
+        gender: props.data["gender"] || "",
+        dob: props.data["date_of_birth"] || "",
       };
+      console.log("document: ", document);
       break;
 
     case "Pan":

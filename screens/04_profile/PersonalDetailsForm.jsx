@@ -119,7 +119,7 @@ export default PersonalDetailsForm = () => {
               Enter your alternate mobile number
             </Text>
             <TextInput
-              style={styles.textInput}
+              style={form.formTextInput}
               value={alternatePhone}
               onChangeText={setAlternatePhone}
               autoCompleteType="tel"
