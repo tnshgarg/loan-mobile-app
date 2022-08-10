@@ -1,12 +1,15 @@
-import { useEffect, useState } from 'react';
+import { OG_API_KEY } from "@env";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import {
-
-} from "../../store/slices/panSlice";
-import ApiView from '../ApiView';
-import { OG_API_KEY } from "@env";
+  addSubmitOTPtxnId,
+  addVerifyMsg,
+  addVerifyStatus
+} from "../../store/slices/aadhaarSlice";
+import ApiView from "../ApiView";
+import { aadhaarBackendPush } from "../../helpers/BackendPush";
 
 export default Otp = (props) => {
   const dispatch = useDispatch();
@@ -14,6 +17,38 @@ export default Otp = (props) => {
 
   const [loading, setLoading] = useState(false);
   const [backendPush, setBackendPush] = useState(false);
+
+  const id = useSelector((state) => state.auth.id);
+  const aadhaarSlice = useSelector((state) => state.aadhaar);
+  const [submitOTPtxnId, setSubmitOTPtxnId] = useState(aadhaarSlice?.submitOTPtxnId);
+  const [verifyMsg, setVerifyMsg] = useState(aadhaarSlice?.verifyMsg);
+  const [verifyStatus, setVerifyStatus] = useState(aadhaarSlice?.verifyStatus);
+
+  useEffect(() => {
+    dispatch(addSubmitOTPtxnId(submitOTPtxnId));
+  }, [submitOTPtxnId]);
+
+  useEffect(() => {
+    dispatch(addVerifyMsg(verifyMsg))
+  }, [verifyMsg]);
+
+  useEffect(() => {
+    dispatch(addVerifyStatus(verifyStatus))
+  }, [verifyStatus]);
+
+  useEffect(() => {
+    console.log(backendPush);
+    console.log("verifyStatus: ", verifyStatus);
+    if (backendPush) {
+      aadhaarBackendPush({
+        id: id,
+        number: aadhaarSlice?.number,
+        verifyMsg: verifyMsg,
+        verifyStatus: verifyStatus,
+      });
+      setBackendPush(false);
+    }
+  }, [backendPush]);
 
   const goForFetch = () => {
     setLoading(true);
@@ -25,45 +60,56 @@ export default Otp = (props) => {
         "X-API-Key": OG_API_KEY,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(props.data),
     };
 
     fetch(props.url, options)
       .then((response) => response.json())
       .then((responseJson) => {
-        {
+        try {
           if (responseJson["status"] == "200") {
             switch (responseJson["data"]["code"]) {
               case "1001":
-                setTransactionId(responseJson["data"]["transaction_id"]);
+                setSubmitOTPtxnId(responseJson["data"]["transaction_id"]);
+                setVerifyMsg("OTP sent to User");
+                setVerifyStatus("PENDING");
+                setBackendPush(true);
                 navigation.navigate("AadhaarVerify");
                 break;
-
-              case "1011":
-              case "1008":
-                // TODO: handle above cases for backend data push
-                break;
-
-              case "1012":
-                setErrorMsg(responseJson["data"]["message"]);
+              default:
+                setVerifyMsg(responseJson["data"]["message"]);
+                setVerifyStatus("ERROR");
+                setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
                 break;
             }
-          } else {
-            if (responseJson["error"]) {
-              setErrorMsg(responseJson["error"]["message"]);
+          } else if (responseJson["error"]) {
+              setVerifyMsg(responseJson["error"]["message"]);
+              setVerifyStatus("ERROR");
+              setBackendPush(false);
               Alert.alert("Error", responseJson["error"]["message"]);
-            } else {
-              setErrorMsg(responseJson["message"]);
+          } else {
+              setVerifyMsg(responseJson["message"]);
+              setVerifyStatus("ERROR");
+              setBackendPush(true);
               Alert.alert("Error", responseJson["message"]);
-            }
           }
+        }
+        catch(error) {
+          console.log("Error: ", error);
+          setVerifyMsg(error);
+          setVerifyStatus("ERROR");
+          setBackendPush(true);
+          Alert.alert("Error", error);
         }
       })
       .catch((err) => {
-        setErrorMsg(err);
+        setVerifyMsg(err);
+        setVerifyStatus("ERROR");
+        setBackendPush(true);
         Alert.alert("Error", err);
       });
+      setLoading(false);
   };
 
   return (

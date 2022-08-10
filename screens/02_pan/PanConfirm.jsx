@@ -34,6 +34,7 @@ export default PanConfirm = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+
       <AppBar
         title="Setup Profile"
         color="#4E46F1"
@@ -44,10 +45,14 @@ export default PanConfirm = () => {
           />
         }
       />
+
       <ProgressBarTop step={2} />
+
       <ScrollView keyboardShouldPersistTaps="handled">
         <Confirm />
       </ScrollView>
+    
     </SafeAreaView>
   );
+  
 };

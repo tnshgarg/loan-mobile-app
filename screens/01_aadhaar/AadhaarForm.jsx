@@ -2,7 +2,7 @@ import { OG_API_KEY } from "@env";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CheckBox from "@react-native-community/checkbox";
-import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
+import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import {
   Alert,
@@ -18,8 +18,7 @@ import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import {
-  addAadhaarNumber,
-  addAadhaarSubmitOTPtxnId,
+  addNumber,
 } from "../../store/slices/aadhaarSlice";
 import Otp from "../../apis/aadhaar/Otp";
 
@@ -31,26 +30,21 @@ export default AadhaarForm = () => {
   const [validNumber, setValidNumber] = useState(true);
 
   const aadhaarSlice = useSelector((state) => state.aadhaar);
-  const [aadhaar, setAadhaar] = useState(aadhaarSlice?.number);
-  const [transactionId, setTransactionId] = useState(aadhaarSlice?.submitOTPtxnId);
+  const [number, setNumber] = useState(aadhaarSlice?.number);
   
   useEffect(() => {
     dispatch(addCurrentScreen("AadhaarForm"));
   }, []);
 
   useEffect(() => {
-    dispatch(addAadhaarSubmitOTPtxnId(transactionId));
-  }, [transactionId]);
-
-  useEffect(() => {
     var aadhaarReg = /^[0-9]{12}$/gm;
-    if (aadhaarReg.test(aadhaar)) {
-      dispatch(addAadhaarNumber(aadhaar));
+    if (aadhaarReg.test(number)) {
+      dispatch(addNumber(number));
       setValidNumber(true);
     } else {
       setValidNumber(false);
     }
-  }, [aadhaar]);
+  }, [number]);
 
   const SkipAadhaar = () => {
     Alert.alert(
@@ -74,6 +68,7 @@ export default AadhaarForm = () => {
   return (
     <>
       <SafeAreaView style={styles.container}>
+
         <AppBar
           title="Setup Profile"
           color="#4E46F1"
@@ -86,22 +81,24 @@ export default AadhaarForm = () => {
             />
           }
         />
+
         <ProgressBarTop step={1} />
         <Text style={form.formHeader}>Aadhaar Verification</Text>
+
         <KeyboardAvoidingWrapper>
           <View>
             
             <Text style={form.formLabel}>Enter AADHAAR Number</Text>
             <TextInput
               style={form.formTextInput}
-              value={aadhaar}
-              onChangeText={setAadhaar}
+              value={number}
+              onChangeText={setNumber}
               // placeholder="1234123412341234"
               maxLength={12}
               numeric
             />
             {
-              aadhaar && !validNumber ? (
+              number && !validNumber ? (
                 <Text style={bankform.formatmsg}>Invalid AADHAAR Number.</Text>
               ) : null
             }
@@ -148,7 +145,7 @@ export default AadhaarForm = () => {
             
             <Otp
               url={"https://api.gridlines.io/aadhaar-api/boson/generate-otp"}
-              data={{ aadhaar_number: aadhaar, consent: "Y" }}
+              data={{ aadhaar_number: number, consent: "Y" }}
               style={form.skipButton}
               disabled={!validNumber}
             />

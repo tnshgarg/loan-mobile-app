@@ -58,70 +58,71 @@ export default Verify = (props) => {
     console.log(backendPush);
     console.log("verifyStatus: ", verifyStatus);
     if (backendPush) {
-        panBackendPush({
-            id: id,
-            dob: dob,
-            email: email,
-            gender: gender,
-            name: name,
-            number: panSlice?.number,
-            verifyMsg: verifyMsg,
-            verifyStatus: verifyStatus,
-        });
-        setBackendPush(false);
+      panBackendPush({
+        id: id,
+        dob: dob,
+        email: email,
+        gender: gender,
+        name: name,
+        number: panSlice?.number,
+        verifyMsg: verifyMsg,
+        verifyStatus: verifyStatus,
+      });
+      setBackendPush(false);
     }
   }, [backendPush]);
 
   const goForFetch = () => {
     setLoading(true);
     const options = {
-        method: "POST",
-        headers: {
-            "X-Auth-Type": "API-Key",
-            "X-API-Key": OG_API_KEY,
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(props.data),
+      method: "POST",
+      headers: {
+        "X-Auth-Type": "API-Key",
+        "X-API-Key": OG_API_KEY,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(props.data),
     };
 
-    fetch(props.url, options).then(response => response.json())
-        .then((responseJson) => {
+    fetch(props.url, options)
+      .then(response => response.json())
+      .then((responseJson) => {
         try {
-            const names = ["first", "middle", "last"];
-            console.log('getting data from fetch', responseJson);
-            setDob(responseJson["data"]["pan_data"]["date_of_birth"]);
-            setEmail(responseJson["data"]["pan_data"]["email"]?.toLowerCase());
-            setGender(responseJson["data"]["pan_data"]["gender"]);
-            setName(names.map(k => responseJson["data"]["pan_data"][`${k}_name`]).join(" "));
-            setVerifyStatus("PENDING");
-            setVerifyMsg("To be confirmed by User");
-            setBackendPush(true);
-            navigation.navigate("PanConfirm");
+          const names = ["first", "middle", "last"];
+          console.log('getting data from fetch', responseJson);
+          setDob(responseJson["data"]["pan_data"]["date_of_birth"]);
+          setEmail(responseJson["data"]["pan_data"]["email"]?.toLowerCase());
+          setGender(responseJson["data"]["pan_data"]["gender"]);
+          setName(names.map(k => responseJson["data"]["pan_data"][`${k}_name`]).join(" "));
+          setVerifyMsg("To be confirmed by User");
+          setVerifyStatus("PENDING");
+          setBackendPush(true);
+          navigation.navigate("PanConfirm");
         }
         catch(error) {
-            console.log("Error: ", error);
-            setVerifyMsg(error);
-            setVerifyStatus("ERROR");
-            setBackendPush(true);
-            Alert.alert("Error", error);
+          console.log("Error: ", error);
+          setVerifyMsg(error);
+          setVerifyStatus("ERROR");
+          setBackendPush(true);
+          Alert.alert("Error", error);
         }
-        })
-        .catch((error) => {
-            console.log("Error: ", error);
-            setVerifyMsg(error);
-            setVerifyStatus("ERROR");
-            setBackendPush(true);
-            Alert.alert("Error", error);
-        });
-        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("Error: ", error);
+        setVerifyMsg(error);
+        setVerifyStatus("ERROR");
+        setBackendPush(true);
+        Alert.alert("Error", error);
+      });
+      setLoading(false);
   };
   
   return (
     <ApiView
-        disabled={props.disabled}
-        loading={loading}
-        goForFetch={goForFetch}
-        style={props.style}
+      disabled={props.disabled}
+      loading={loading}
+      goForFetch={goForFetch}
+      style={props.style}
     />
   );
 

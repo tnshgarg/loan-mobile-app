@@ -23,7 +23,7 @@ export default Confirm = () => {
   const name = useSelector((state) => state.pan.name);
   const number = useSelector((state) => state.pan.number);
   
-  const panSlice = useSelector((state) => state.number);
+  const panSlice = useSelector((state) => state.pan);
   const [verifyMsg, setVerifyMsg] = useState(panSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(panSlice?.verifyStatus);
 
@@ -38,17 +38,17 @@ export default Confirm = () => {
   useEffect(() => {
     console.log(backendPush);
     if (backendPush) {
-    panBackendPush({
-      id: id,
-      dob: dob,
-      email: email,
-      gender: gender,
-      name: name,
-      number: number,
-      verifyMsg: verifyMsg,
-      verifyStatus: verifyStatus,
-    });
-    setBackendPush(false);
+      panBackendPush({
+        id: id,
+        dob: dob,
+        email: email,
+        gender: gender,
+        name: name,
+        number: number,
+        verifyMsg: verifyMsg,
+        verifyStatus: verifyStatus,
+      });
+      setBackendPush(false);
     }
   }, [backendPush]);
   
@@ -73,8 +73,10 @@ export default Confirm = () => {
           style={form.noButton}
           color="#EB5757"
           onPress={() => {
-          setVerifyMsg("Rejected by User");
-          navigation.navigate("PanForm");
+            setVerifyMsg("Rejected by User");
+            setVerifyStatus("ERROR");
+            setBackendPush(true);
+            navigation.navigate("PanForm");
           }}
         />
         <Button
@@ -84,10 +86,10 @@ export default Confirm = () => {
           style={form.yesButton}
           color="#4E46F1"
           onPress={() => {
-          setVerifyMsg("Confirmed by User");
-          setVerifyStatus("SUCCESS");
-          setBackendPush(true);
-          navigation.navigate("BankInfoForm");
+            setVerifyMsg("Confirmed by User");
+            setVerifyStatus("SUCCESS");
+            setBackendPush(true);
+            navigation.navigate("BankInfoForm");
           }}
         />
         <View style={bankform.padding}></View>
