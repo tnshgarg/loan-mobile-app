@@ -5,7 +5,8 @@ import { Image, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { TimeDifference } from "../../helpers/TimeDifference";
 import {
-  addLicenseVerifyMsg, addLicenseVerifyStatus
+  addLicenseVerifyMsg,
+  addLicenseVerifyStatus,
 } from "../../store/slices/licenseSlice";
 import { form, license, styles } from "../../styles";
 
@@ -31,7 +32,7 @@ export default Confirm = () => {
   useEffect(() => {
     dispatch(addLicenseVerifyStatus(verifyStatus));
   }, [verifyStatus]);
-  
+
   console.log(licenseSlice?.verifyStatus);
   return (
     <View style={styles.container}>
@@ -87,7 +88,14 @@ export default Confirm = () => {
         </>
       ) : null}
 
-      <View style={{ flexDirection: "row" }}>
+      <View
+        style={{
+          alignSelf: "center",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          flex: 1,
+        }}
+      >
         <Button
           title="No"
           type="solid"

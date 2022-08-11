@@ -15,7 +15,7 @@ import {
   addPhoto,
 } from "../../store/slices/licenseSlice";
 import ApiView from "../ApiView";
-import { OG_API_KEY } from "@env";
+import { OG_API_TEST_KEY } from "@env";
 
 export default Fetch = (props) => {
   const dispatch = useDispatch();
@@ -71,7 +71,7 @@ export default Fetch = (props) => {
       method: "POST",
       headers: {
         "X-Auth-Type": "API-Key",
-        "X-API-Key": OG_API_KEY,
+        "X-API-Key": OG_API_TEST_KEY,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(props.data),
