@@ -38,8 +38,14 @@ export default AadhaarForm = () => {
   }, [number]);
 
   const SkipAadhaar = () => {
-    Alert.alert("Aadhaar KYC pending", `You have not completed Aadhaar KYC.`);
-    navigation.navigate("PanForm");
+    Alert.alert(
+      "Aadhaar KYC pending",
+      `You have not completed Aadhaar KYC. Do you wish to Skip?`,
+      [
+        { text: "No", onPress: () => null, style: "cancel" },
+        { text: "Yes", onPress: () => navigation.navigate("PanForm") },
+      ]
+    );
   };
 
   const backAlert = () => {
@@ -88,10 +94,10 @@ export default AadhaarForm = () => {
             ) : null}
 
             <View style={bankform.infoCard}>
-            <Icon name="info-outline" size={20} color="#4E46F1" />
+              <Icon name="info-outline" size={20} color="#4E46F1" />
               <Text style={bankform.infoText}>
-                My Mobile number is linked with AADHAAR on which you can
-                receive the OTP.
+                My Mobile number is linked with AADHAAR on which you can receive
+                the OTP.
               </Text>
             </View>
 
