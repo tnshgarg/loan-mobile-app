@@ -1,6 +1,5 @@
-import axios from "axios";
 import * as APIS from "./endpoints";
-import BugSnagNotify from "../../helpers/BugSnag";
+import axios from "axios";
 
 export const putBackendData = (props) => {
   var data = JSON.stringify(props.document);
@@ -31,7 +30,6 @@ export const putBackendData = (props) => {
       url = APIS.PORTAL_ONBOARD_API;
       break;
   }
-
   var config = {
     method: "post",
     url: url,
@@ -41,12 +39,7 @@ export const putBackendData = (props) => {
     data: data,
   };
 
-  try {
-    return axios(config);
-  } catch (error) {
-    BugSnagNotify({ text: error });
-    console.log(error);
-  }
+  return axios(config);
 };
 
 export const getDocumentData = (employeeId) => {

@@ -11,7 +11,6 @@ import {
 } from "../../store/slices/aadhaarSlice";
 import ApiView from "../ApiView";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
-import BugSnagNotify from "../../helpers/BugSnag";
 
 export default Verify = (props) => {
   const dispatch = useDispatch();
@@ -89,20 +88,17 @@ export default Verify = (props) => {
                 navigation.navigate("AadhaarConfirm");
                 break;
               default:
-                BugSnagNotify({text: responseJson["data"]["message"]});
                 setVerifyMsg(responseJson["data"]["message"]);
                 setVerifyStatus("ERROR");
                 setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
             }
           } else if (responseJson["error"]) {
-            BugSnagNotify({text: responseJson["error"]["message"]});
             setVerifyMsg(responseJson["error"]["message"]);
             setVerifyStatus("ERROR");
             setBackendPush(true);
             Alert.alert("Error", responseJson["error"]["message"]);
           } else {
-            BugSnagNotify({text: responseJson["message"]});
             setVerifyMsg(responseJson["message"]);
             setVerifyStatus("ERROR");
             setBackendPush(true);
@@ -110,7 +106,6 @@ export default Verify = (props) => {
           }
         }
         catch(error) {
-          BugSnagNotify({text: error});
           console.log("Error: ", error);
           setVerifyMsg(error);
           setVerifyStatus("ERROR");
@@ -122,7 +117,7 @@ export default Verify = (props) => {
         setVerifyMsg(error);
         setVerifyStatus("ERROR");
         setBackendPush(true);
-        Alert.alert("Error", error);
+        Alert.alert("Error", err);
       });
   };
 
