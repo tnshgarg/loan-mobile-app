@@ -66,6 +66,7 @@ export default Verify = (props) => {
       });
     }
     setBackendPush(false);
+    setLoading(false);
   }, [backendPush]);
 
   const goForFetch = () => {
@@ -141,7 +142,6 @@ export default Verify = (props) => {
         setBackendPush(true);
         Alert.alert("Error", error);
       });
-    setLoading(false);
   };
   
   return (
