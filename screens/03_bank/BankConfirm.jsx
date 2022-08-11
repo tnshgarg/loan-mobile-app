@@ -11,30 +11,29 @@ import ProgressBarTop from "../../components/ProgressBarTop";
 import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import Confirm from "../../apis/aadhaar/Confirm";
+import Confirm from "../../apis/bank/Confirm";
 
-export default AadhaarConfirm = () => {
+export default BankConfirm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   useEffect(() => {
-    dispatch(addCurrentScreen("AadhaarConfirm"));
+    dispatch(addCurrentScreen("BankConfirm"));
   }, []);
 
   const backAlert = () => {
     Alert.alert(
       "Do you want to go back ?",
-      "If you go back your AADHAAR Verification will have to be redone. Continue if you want to edit your Aadhaar number.",
+      "If you go back your Bank Verification will have to be redone. Continue only if you want to edit your Bank Account Details.",
       [
         { text: "No",  onPress: () => null, style: "cancel" },
-        { text: "Yes", onPress: () => navigation.navigate("AadhaarVerify") },
+        { text: "Yes", onPress: () => navigation.navigate("BankInfoForm") },
       ]
     );
   };
 
   return (
     <SafeAreaView style={styles.container}>
-
       <AppBar
         title="Setup Profile"
         color="#4E46F1"
@@ -45,14 +44,10 @@ export default AadhaarConfirm = () => {
           />
         }
       />
-
-      <ProgressBarTop step={1} />
-
+      <ProgressBarTop step={2} />
       <ScrollView keyboardShouldPersistTaps="handled">
         <Confirm />
       </ScrollView>
-    
     </SafeAreaView>
   );
-  
 };

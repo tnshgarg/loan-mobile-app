@@ -1,126 +1,40 @@
-import { OG_API_KEY } from "@env";
-import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
-import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useNavigation } from "@react-navigation/core";
+import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import {
   SafeAreaView,
   ScrollView,
   Text,
   TextInput,
   View,
-  Alert,
 } from "react-native";
 import CountDown from "react-native-countdown-component";
 import ProgressBarTop from "../../components/ProgressBarTop";
-import {
-  addAadhaarData,
-  addAadhaarVerifyStatus,
-} from "../../store/slices/aadhaarSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { aadhaarBackendPush } from "../../helpers/BackendPush";
+
+import Verify from "../../apis/aadhaar/Verify";
 import { form, styles } from "../../styles";
 
 export default AadhaarVerify = () => {
-  const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [errorMsg, setErrorMsg] = useState("");
-  const AadhaarTransactionId = useSelector(
-    (state) => state.aadhaar.submitOTPtxnId
-  );
+  const navigation = useNavigation();
+
+  const [backDisabled, setBackDisabled] = useState(true);
   const [otp, setOtp] = useState("");
-  const [next, setNext] = useState(false);
-  const [aadhaarData, setAadhaarData] = useState(
-    useSelector((state) => state.aadhaar.data)
-  );
-  const [back, setBack] = useState(false);
+  const [validOtp, setValidOtp] = useState(true);
 
   useEffect(() => {
     dispatch(addCurrentScreen("AadhaarVerify"));
   }, []);
+  
   useEffect(() => {
-    dispatch(addAadhaarData(aadhaarData));
-  }, [aadhaarData]);
-
-  async function confirmVerificationCode() {
-    const data = {
-      otp: otp,
-      include_xml: true,
-      share_code: 1234,
-      transaction_id: AadhaarTransactionId,
-    };
-    const options = {
-      method: "POST",
-      headers: {
-        "X-Auth-Type": "API-Key",
-        "X-API-Key": OG_API_KEY,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    };
-
-    fetch(`https://api.gridlines.io/aadhaar-api/boson/submit-otp`, options)
-      .then((response) => response.json())
-      .then((response) => {
-        if (response["status"] == "200") {
-          switch (response["data"]["code"]) {
-            case "1002":
-              setAadhaarData(response["data"]);
-              navigation.navigate("AadhaarConfirm");
-              dispatch(
-                addAadhaarVerifyStatus("SUCCESS")
-              );
-              break;
-            default:
-              setErrorMsg(response["data"]["message"]);
-              aadhaarBackendPush({
-                id: id,
-                status: "ERROR",
-                message: errorMsg,
-              });
-              Alert.alert("Error", response["data"]["message"]);
-          }
-        } else {
-          if (response["error"]) {
-            setErrorMsg(response["error"]["message"]);
-            aadhaarBackendPush({
-              id: id,
-              status: "ERROR",
-              message: errorMsg,
-            });
-            Alert.alert("Error", response["error"]["message"]);
-          } else {
-            setErrorMsg(response["message"]);
-            aadhaarBackendPush({
-              id: id,
-              status: "ERROR",
-              message: errorMsg,
-            });
-            Alert.alert("Error", response["message"]);
-          }
-        }
-      })
-      .catch((err) => {
-        setErrorMsg(err);
-        aadhaarBackendPush({
-          id: id,
-          status: "ERROR",
-          message: errorMsg,
-        });
-        Alert.alert("Error", err);
-      });
-  }
-
-  useEffect(() => {
-    if (otp.length === 6) {
-      setNext(true);
-    } else {
-      setNext(false);
-    }
+    setValidOtp(otp.length === 6);
   }, [otp]);
 
   return (
     <SafeAreaView style={styles.container}>
+
       <AppBar
         title="Setup Profile"
         color="#4E46F1"
@@ -128,16 +42,17 @@ export default AadhaarVerify = () => {
           <IconButton
             icon={<Icon name="arrow-back" size={20} color="white" />}
             onPress={() => navigation.navigate("AadhaarForm")}
-            disabled={!back}
+            disabled={backDisabled}
           />
         }
       />
+
       <ProgressBarTop step={1} />
+
       <ScrollView keyboardShouldPersistTaps="handled">
         <View style={styles.container}>
-          <Text style={form.OtpAwaitMsg}>
-            OTP has been sent vis SMS to your Aadhaar registered mobile number
-          </Text>
+
+          <Text style={form.OtpAwaitMsg}>Enter 6 digit OTP sent to your Aadhaar registered mobile number</Text>
           <TextInput
             style={styles.otpInput}
             letterSpacing={23}
@@ -147,9 +62,10 @@ export default AadhaarVerify = () => {
             onChangeText={setOtp}
             keyboardType="numeric"
           />
+
           <CountDown
             until={60 * 10}
-            onFinish={() => setBack(true)}
+            onFinish={() => setBackDisabled(false)}
             size={20}
             style={{ marginTop: 20 }}
             digitStyle={{ backgroundColor: "#FFF" }}
@@ -158,26 +74,13 @@ export default AadhaarVerify = () => {
             timeLabels={{ m: "MM", s: "SS" }}
           />
 
-          {next ? (
-            <Button
-              uppercase={false}
-              title="Continue"
-              type="solid"
-              color="#4E46F1"
-              style={form.nextButton}
-              onPress={() => {
-                confirmVerificationCode();
-              }}
-            />
-          ) : (
-            <Button
-              title="Continue"
-              uppercase={false}
-              type="solid"
-              style={form.nextButton}
-              disabled
-            />
-          )}
+          <Verify
+            url={"https://api.gridlines.io/aadhaar-api/boson/submit-otp"}
+            data={{ otp: otp }}
+            style={form.skipButton}
+            disabled={!validOtp}
+          />
+
         </View>
       </ScrollView>
     </SafeAreaView>

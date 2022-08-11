@@ -10,14 +10,15 @@ const GenerateDocument = (props) => {
     case "Aadhaar":
       document = {
         id: props.id,
-        number: props.aadhaar,
         data: props.status === "SUCCESS" ? props.xml : "",
-        verifyStatus: props.status,
-        verifyMsg: props.message,
-        name: props.data["name"],
-        gender: props.data["gender"],
-        dob: props.data["date_of_birth"],
+        number: props.number,
+        verifyMsg: props.verifyMsg,
+        verifyStatus: props.verifyStatus,
+        name: props.data["name"] || "",
+        gender: props.data["gender"] || "",
+        dob: props.data["date_of_birth"] || "",
       };
+      console.log("document: ", document);
       break;
 
     case "Pan":
@@ -39,8 +40,8 @@ const GenerateDocument = (props) => {
         accountNumber: props.accountNumber,
         ifsc: props.ifsc,
         upi: props.upi,
-        verifyStatus: "SUCCESS",
-        verifyMsg: "",
+        verifyStatus: props.verifyStatus,
+        verifyMsg: props.verifyMsg,
       };
       break;
 

@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigation } from "@react-navigation/core";
 import { Text, View } from "react-native";
 import { Button } from "@react-native-material/core";
-import { addVerifyMsg, addVerifyStatus } from "../../store/slices/panSlice";
-import { panBackendPush } from "../../helpers/BackendPush";
+import { useNavigation } from "@react-navigation/core";
+import {
+  addBankVerifyMsg,
+  addBankVerifyStatus,
+} from "../../store/slices/bankSlice";
+import { bankBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
 
 export default Confirm = () => {
@@ -12,52 +15,51 @@ export default Confirm = () => {
   const navigation = useNavigation();
 
   const [backendPush, setBackendPush] = useState(false);
-
   const id = useSelector((state) => state.auth.id);
-  const dob = useSelector((state) => state.pan.dob);
-  const email = useSelector((state) => state.pan.email);
-  const gender = useSelector((state) => state.pan.gender);
-  const name = useSelector((state) => state.pan.name);
-  const number = useSelector((state) => state.pan.number);
 
-  const panSlice = useSelector((state) => state.pan);
-  const [verifyMsg, setVerifyMsg] = useState(panSlice?.verifyMsg);
-  const [verifyStatus, setVerifyStatus] = useState(panSlice?.verifyStatus);
+  const ifsc = useSelector((state) => state.bank?.ifsc);
+  const accountNumber = useSelector((state) => state.bank?.accountNumber);
+  const upi = useSelector((state) => state.bank?.upi);
+  const bankName = useSelector((state) => state.bank?.bankName);
+  const branch = useSelector((state) => state.bank?.bankBranch);
+  const city = useSelector((state) => state.bank?.branchCity);
+
+  const bankSlice = useSelector((state) => state.bank);
+  const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
+  const [verifyMsg, setVerifyMsg] = useState(bankSlice?.verifyMsg);
 
   useEffect(() => {
-    dispatch(addVerifyMsg(verifyMsg));
+    dispatch(addBankVerifyMsg(verifyMsg));
   }, [verifyMsg]);
 
   useEffect(() => {
-    dispatch(addVerifyStatus(verifyStatus));
+    dispatch(addBankVerifyStatus(verifyStatus));
   }, [verifyStatus]);
 
   useEffect(() => {
-    console.log(backendPush);
+    console.log("bankSlice : ", bankSlice);
     if (backendPush) {
-      panBackendPush({
+      bankBackendPush({
         id: id,
-        dob: dob,
-        email: email,
-        gender: gender,
-        name: name,
-        number: number,
-        verifyMsg: verifyMsg,
+        ifsc: ifsc,
+        accountNumber: accountNumber,
+        upi: upi,
         verifyStatus: verifyStatus,
+        verifyMsg: verifyMsg,
       });
-      setBackendPush(false);
     }
+    setBackendPush(false);
   }, [backendPush]);
 
   return (
     <View style={styles.container}>
-      <Text style={form.OtpAwaitMsg}>Are these your PAN details ?{"\n"}</Text>
-      <Text style={form.userData}>Number: {number}</Text>
-      <Text style={form.userData}>Name: {name}</Text>
-      <Text style={form.userData}>Date of Birth: {dob}</Text>
-      <Text style={form.userData}>Gender: {gender}</Text>
-      <Text style={form.userData}>Email: {email}</Text>
-
+      <Text style={form.OtpAwaitMsg}>Are these your Bank details ?{"\n"}</Text>
+      <Text style={form.userData}>BankName: {bankName}</Text>
+      <Text style={form.userData}>Branch: {branch}</Text>
+      <Text style={form.userData}>City: {city}</Text>
+      <Text style={form.userData}>AccountNumber: {accountNumber}</Text>
+      <Text style={form.userData}>IFSC: {ifsc}</Text>
+      <Text style={form.userData}>UPI: {upi}</Text>
       <View
         style={{
           alignSelf: "center",
@@ -76,7 +78,7 @@ export default Confirm = () => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
             setBackendPush(true);
-            navigation.navigate("PanForm");
+            navigation.navigate("BankInfoForm");
           }}
         />
         <Button
@@ -89,7 +91,7 @@ export default Confirm = () => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
-            navigation.navigate("BankInfoForm");
+            navigation.navigate("PersonalDetailsForm");
           }}
         />
         <View style={bankform.padding}></View>

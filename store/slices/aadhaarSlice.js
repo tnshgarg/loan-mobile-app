@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  submitOTPtxnId: "",
+  data: {},
   number: "",
-  data: "",
+  submitOTPtxnId: "",
+  verifyMsg: "",
   verifyStatus: "PENDING",
 };
 
@@ -11,16 +12,19 @@ const aadhaarSlice = createSlice({
   name: "aadhaar",
   initialState: initialState,
   reducers: {
-    addAadhaarData(state, action) {
+    addData(state, action) {
       state.data = action.payload;
     },
-    addAadhaarNumber(state, action) {
+    addNumber(state, action) {
       state.number = action.payload;
     },
-    addAadhaarSubmitOTPtxnId(state, action) {
+    addSubmitOTPtxnId(state, action) {
       state.submitOTPtxnId = action.payload;
     },
-    addAadhaarVerifyStatus(state, action) {
+    addVerifyMsg(state, action) {
+      state.verifyMsg = action.payload;
+    },
+    addVerifyStatus(state, action) {
       state.verifyStatus = action.payload;
     },
     resetAadhaar(state) {
@@ -30,10 +34,11 @@ const aadhaarSlice = createSlice({
 });
 
 export const {
-  addAadhaarData,
-  addAadhaarNumber,
-  addAadhaarSubmitOTPtxnId,
-  addAadhaarVerifyStatus,
+  addData,
+  addNumber,
+  addSubmitOTPtxnId,
+  addVerifyMsg,
+  addVerifyStatus,
   resetAadhaar,
 } = aadhaarSlice.actions;
 
