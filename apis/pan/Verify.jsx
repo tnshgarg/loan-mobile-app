@@ -68,7 +68,6 @@ export default Verify = (props) => {
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
       });
-      setLoading(false);
       setBackendPush(false);
       setLoading(false);
     }
@@ -107,15 +106,18 @@ export default Verify = (props) => {
               default:
                 setVerifyMsg(responseJson["data"]["message"]);
                 setVerifyStatus("ERROR");
+                setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
             }
           } else if (responseJson["error"]) {
             setVerifyMsg(responseJson["error"]["message"]);
             setVerifyStatus("ERROR");
+            setBackendPush(true);
             Alert.alert("Error", responseJson["error"]["message"]);
           } else {
             setVerifyMsg(responseJson["message"]);
             setVerifyStatus("ERROR");
+            setBackendPush(true);
             Alert.alert("Error", responseJson["message"]);
           }
         }
