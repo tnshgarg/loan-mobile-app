@@ -11,9 +11,8 @@ import {
   addVerifyMsg,
   addVerifyStatus
 } from "../../store/slices/panSlice";
-import ApiView from '../ApiView';
 import { panBackendPush } from "../../helpers/BackendPush";
-import BugSnagNotify from "../../helpers/BugSnag";
+import ApiView from '../ApiView';
 
 export default Verify = (props) => {
   const dispatch = useDispatch();
@@ -121,7 +120,6 @@ export default Verify = (props) => {
           }
         }
         catch(error) {
-          BugSnagNotify({text: error});
           console.log("Error: ", error);
           setVerifyMsg(error);
           setVerifyStatus("ERROR");
@@ -130,7 +128,6 @@ export default Verify = (props) => {
         }
       })
       .catch((error) => {
-        BugSnagNotify({text: error});
         console.log("Error: ", error);
         setVerifyMsg(error);
         setVerifyStatus("ERROR");
