@@ -53,7 +53,6 @@ export default Otp = (props) => {
 
   const goForFetch = () => {
     setLoading(true);
-
     const options = {
       method: "POST",
       headers: {
@@ -87,7 +86,7 @@ export default Otp = (props) => {
           } else if (responseJson["error"]) {
               setVerifyMsg(responseJson["error"]["message"]);
               setVerifyStatus("ERROR");
-              setBackendPush(false);
+              setBackendPush(true);
               Alert.alert("Error", responseJson["error"]["message"]);
           } else {
               setVerifyMsg(responseJson["message"]);
