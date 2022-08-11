@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View , ScrollView} from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import PrimaryButton from "../components/PrimaryButton";
@@ -6,6 +6,7 @@ import PrimaryButton from "../components/PrimaryButton";
 const DevMenu = () => {
   const navigation = useNavigation();
   return (
+    <ScrollView>
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <PrimaryButton
         style={{ marginTop: 20 }}
@@ -58,6 +59,7 @@ const DevMenu = () => {
         onPress={() => navigation.navigate("Profile")}
       />
     </View>
+    </ScrollView>
   );
 };
 
