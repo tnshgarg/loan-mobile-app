@@ -7,14 +7,15 @@ import { useDispatch, useSelector } from "react-redux";
 import Verify from "../../apis/bank/Verify";
 import ProgressBarTop from "../../components/ProgressBarTop";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
+import CheckBox from "@react-native-community/checkbox";
 import {
   addBankAccountHolderName,
   addBankAccountNumber,
   addBankIfsc,
-  addBankUpi
+  addBankUpi,
 } from "../../store/slices/bankSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { bankform, form, styles } from "../../styles";
+import { bankform, form, styles, checkBox } from "../../styles";
 
 export default BankInformationForm = () => {
   const navigation = useNavigation();
@@ -27,6 +28,7 @@ export default BankInformationForm = () => {
   const [upi, setUpi] = useState(bankSlice?.upi);
   const [ifscNext, setIfscNext] = useState(false);
   const [accNumNext, setAccNumNext] = useState(false);
+  const [consent, setConsent] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -176,11 +178,23 @@ export default BankInformationForm = () => {
               onChangeText={setUpi}
               required
             />
+            <View style={{ flexDirection: "row" }}>
+              <CheckBox
+                value={consent}
+                onValueChange={setConsent}
+                style={checkBox.checkBox}
+                tintColors={{ true: "#4E46F1" }}
+              />
+              <Text style={checkBox.checkBoxText}>
+                I agree with the KYC registration Terms and Conditions to
+                verifiy my identity.
+              </Text>
+            </View>
             <Verify
               url={"https://api.gridlines.io/bank-api/verify"}
               data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}
               style={form.skipButton}
-              disabled={!ifscNext || !accNumNext}
+              disabled={!ifscNext || !accNumNext || !consent}
             />
             <View style={bankform.padding}></View>
           </View>

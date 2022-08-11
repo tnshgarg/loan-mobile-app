@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import CheckBox from "@react-native-community/checkbox";
 import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
+import { useEffect, useState } from "react";
 import {
   Alert,
   Linking,
@@ -10,18 +10,19 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import ProgressBarTop from "../../components/ProgressBarTop";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import { bankform, form, styles } from "../../styles";
+import { bankform, form, styles, checkBox } from "../../styles";
 
+import Verify from "../../apis/pan/Verify";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { addNumber } from "../../store/slices/panSlice";
-import Verify from "../../apis/pan/Verify";
 
 export default PanForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
+  const [consent, setConsent] = useState(false);
   const [validNumber, setValidNumber] = useState(true);
 
   const panSlice = useSelector((state) => state.pan);
@@ -100,8 +101,22 @@ export default PanForm = () => {
             </View>
 
             <View style={bankform.infoCard}>
+              <Icon name="info-outline" size={20} color="#4E46F1" />
               <Text style={bankform.infoText}>
                 PAN is required to verify name and date of birth.
+              </Text>
+            </View>
+
+            <View style={{ flexDirection: "row" }}>
+              <CheckBox
+                value={consent}
+                onValueChange={setConsent}
+                style={checkBox.checkBox}
+                tintColors={{ true: "#4E46F1" }}
+              />
+              <Text style={checkBox.checkBoxText}>
+                I agree with the KYC registration Terms and Conditions to
+                verifiy my identity.
               </Text>
             </View>
 
@@ -109,7 +124,7 @@ export default PanForm = () => {
               url={"https://api.gridlines.io/pan-api/fetch-detailed"}
               data={{ pan_number: number, consent: "Y" }}
               style={form.skipButton}
-              disabled={!validNumber}
+              disabled={!validNumber || !consent}
             />
 
             <Button
