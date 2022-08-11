@@ -153,6 +153,7 @@ export default OTPScreen = () => {
               style={styles.ContinueButton}
               onPress={() => {
                 const fullPhoneNumber = `+91${phoneNumber}`;
+                setNext(false);
                 checkVerification(fullPhoneNumber, otp).then((success) => {
                   if (!success) Alert.alert("err", "Incorrect OTP");
                   success && navigation.navigate("AadhaarForm");

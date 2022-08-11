@@ -46,6 +46,7 @@ export default Confirm = () => {
         verifyStatus: verifyStatus,
       });
       setBackendPush(false);
+      setLoading(false);
     }
   }, [backendPush]);
 

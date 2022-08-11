@@ -47,6 +47,7 @@ export default Otp = (props) => {
         verifyStatus: verifyStatus,
       });
       setBackendPush(false);
+      setLoading(false);
     }
   }, [backendPush]);
 
@@ -109,7 +110,6 @@ export default Otp = (props) => {
         setBackendPush(true);
         Alert.alert("Error", err);
       });
-      setLoading(false);
   };
 
   return (

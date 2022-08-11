@@ -69,6 +69,7 @@ export default Verify = (props) => {
         verifyStatus: verifyStatus,
       });
       setBackendPush(false);
+      setLoading(false);
     }
   }, [backendPush]);
 
@@ -97,6 +98,7 @@ export default Verify = (props) => {
           setVerifyMsg("To be confirmed by User");
           setVerifyStatus("PENDING");
           setBackendPush(true);
+          setLoading(false);
           navigation.navigate("PanConfirm");
         }
         catch(error) {
@@ -104,6 +106,7 @@ export default Verify = (props) => {
           setVerifyMsg(error);
           setVerifyStatus("ERROR");
           setBackendPush(true);
+          setLoading(false);
           Alert.alert("Error", error);
         }
       })
@@ -112,9 +115,9 @@ export default Verify = (props) => {
         setVerifyMsg(error);
         setVerifyStatus("ERROR");
         setBackendPush(true);
+        setLoading(false);
         Alert.alert("Error", error);
       });
-      setLoading(false);
   };
   
   return (
