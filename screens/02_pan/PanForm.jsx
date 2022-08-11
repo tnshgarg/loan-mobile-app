@@ -43,8 +43,14 @@ export default PanForm = () => {
   }, [number]);
 
   const SkipPAN = () => {
-    Alert.alert("PAN KYC pending", `You have not completed PAN KYC.`);
-    navigation.navigate("BankInfoForm");
+    Alert.alert(
+      "PAN KYC pending",
+      `You have not completed PAN KYC. Do you wish to Skip?`,
+      [
+        { text: "No", onPress: () => null, style: "cancel" },
+        { text: "Yes", onPress: () => navigation.navigate("BankInfoForm") },
+      ]
+    );
   };
 
   return (
