@@ -16,6 +16,7 @@ export default TopTabNav = (props) => {
         tabBarPressColor: "purple",
         animationEnabled: true,
         swipeEnabled: true,
+        tabBarScrollEnabled: true,
         lazy: true,
         tabBarIndicatorStyle :{backgroundColor: "#4E46F1"}
       }}
