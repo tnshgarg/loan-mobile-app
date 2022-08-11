@@ -5,10 +5,10 @@
   "scripts": {
     "start:dev": "gulp set --env=dev && npx react-native run-android",
     "start:test": "gulp set --env=test && npx react-native run-android",
-    "build:dev": "gulp set --env=dev && cd android && ./gradlew assembleRelease",
-    "build:test": "gulp set --env=test && cd android && ./gradlew assembleRelease",
-    "build:debug": "gulp set --env=test && cd android && ./gradlew assembleDebug",
-    "build:prod": "gulp set --env=prod && cd android && ./gradlew bundleRelease"
+    "build:dev": "gulp set --env=dev && cd android && gradlew assembleRelease",
+    "build:test": "gulp set --env=test && cd android && gradlew assembleRelease",
+    "build:debug": "gulp set --env=test && cd android && gradlew assembleDebug",
+    "build:prod": "gulp set --env=prod && cd android && gradlew bundleRelease"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.17.6",
