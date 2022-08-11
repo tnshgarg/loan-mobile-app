@@ -11,6 +11,7 @@ import {
 } from "../../store/slices/aadhaarSlice";
 import ApiView from "../ApiView";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
+import BugSnagNotify from "../../helpers/BugSnag";
 
 export default Verify = (props) => {
   const dispatch = useDispatch();
@@ -50,6 +51,7 @@ export default Verify = (props) => {
         verifyStatus: verifyStatus,
       });
       setBackendPush(false);
+      setLoading(false);
     }
   }, [backendPush]);
 
@@ -83,24 +85,32 @@ export default Verify = (props) => {
                 setData(responseJson["data"]);
                 setVerifyMsg("OTP validated by User");
                 setVerifyStatus("PENDING");
+                setBackendPush(true);
                 navigation.navigate("AadhaarConfirm");
                 break;
               default:
+                BugSnagNotify({text: responseJson["data"]["message"]});
                 setVerifyMsg(responseJson["data"]["message"]);
                 setVerifyStatus("ERROR");
+                setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
             }
           } else if (responseJson["error"]) {
+            BugSnagNotify({text: responseJson["error"]["message"]});
             setVerifyMsg(responseJson["error"]["message"]);
             setVerifyStatus("ERROR");
+            setBackendPush(true);
             Alert.alert("Error", responseJson["error"]["message"]);
           } else {
+            BugSnagNotify({text: responseJson["message"]});
             setVerifyMsg(responseJson["message"]);
             setVerifyStatus("ERROR");
+            setBackendPush(true);
             Alert.alert("Error", responseJson["message"]);
           }
         }
         catch(error) {
+          BugSnagNotify({text: error});
           console.log("Error: ", error);
           setVerifyMsg(error);
           setVerifyStatus("ERROR");
@@ -108,13 +118,12 @@ export default Verify = (props) => {
           Alert.alert("Error", error);
         }
       })
-      .catch((err) => {
-        setVerifyMsg(err);
+      .catch((error) => {
+        setVerifyMsg(error);
         setVerifyStatus("ERROR");
         setBackendPush(true);
-        Alert.alert("Error", err);
+        Alert.alert("Error", error);
       });
-      setLoading(false);
   };
 
   return (

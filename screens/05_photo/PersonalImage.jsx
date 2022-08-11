@@ -18,6 +18,7 @@ import { putBackendData } from "../../services/employees/employeeServices";
 import { addSelfie } from "../../store/slices/profileSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { checkBox, form, selfie, styles } from "../../styles";
+import BugSnagNotify from "../../helpers/BugSnag";
 
 export default PersonalImage = () => {
   const navigation = useNavigation();
@@ -56,8 +57,9 @@ export default PersonalImage = () => {
         console.log(res.data);
         navigation.navigate("Home");
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        BugSnagNotify({text: error});
+        console.log(error);
       });
   };
 
@@ -71,6 +73,7 @@ export default PersonalImage = () => {
       if (response.didCancel) {
         console.log("User cancelled image picker");
       } else if (response.error) {
+        BugSnagNotify({text: response.error});
         console.log("ImagePicker Error: ", response.error);
       } else {
         dispatch(addSelfie(response?.assets && response.assets[0].base64));

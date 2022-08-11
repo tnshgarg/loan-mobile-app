@@ -56,13 +56,10 @@ export default Confirm = () => {
         }}
         style={form.aadharimg}
       />
+      <Text style={form.userData}>Number: {number}</Text>
       <Text style={form.userData}>Name: {data["aadhaar_data"]["name"]}</Text>
-      <Text style={form.userData}>
-        Date of Birth: {data["aadhaar_data"]["date_of_birth"]}
-      </Text>
-      <Text style={form.userData}>
-        Locality: {data["aadhaar_data"]["locality"]}
-      </Text>
+      <Text style={form.userData}>Date of Birth: {data["aadhaar_data"]["date_of_birth"]}</Text>
+      <Text style={form.userData}>Gender: {data["aadhaar_data"]["gender"]}</Text>
 
       <View
         style={{

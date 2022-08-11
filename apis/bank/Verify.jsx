@@ -12,6 +12,7 @@ import {
   addBranchCity,
 } from "../../store/slices/bankSlice";
 import ApiView from "../ApiView";
+import BugSnagNotify from "../../helpers/BugSnag";
 
 export default Verify = (props) => {
   const dispatch = useDispatch();
@@ -65,6 +66,7 @@ export default Verify = (props) => {
       });
     }
     setBackendPush(false);
+    setLoading(false);
   }, [backendPush]);
 
   const goForFetch = () => {
@@ -96,6 +98,7 @@ export default Verify = (props) => {
                 navigation.navigate("BankConfirm");
                 break;
               default:
+                BugSnagNotify({text: response["data"]["message"]});
                 setVerifyMsg(response["data"]["message"]);
                 setVerifyStatus("ERROR");
                 setBackendPush(true);
@@ -105,8 +108,8 @@ export default Verify = (props) => {
           } else {
             setVerifyStatus("ERROR");
             if (response["error"]) {
+              BugSnagNotify({text: response["error"]});
               setVerifyMsg(response["error"]);
-              setVerifyStatus("ERROR");
               setBackendPush(true);
               Alert.alert(
                 "Error",
@@ -115,14 +118,15 @@ export default Verify = (props) => {
                   .join("\n")
               );
             } else {
+              BugSnagNotify({text: response["message"]});
               setVerifyMsg(response["messsage"]);
-              setVerifyStatus("ERROR");
               setBackendPush(true);
               Alert.alert("Error", response["message"]);
             }
           }
         }
         catch(error) {
+          BugSnagNotify({text: error});
           console.log("Error: ", error);
           setVerifyMsg(error);
           setVerifyStatus("ERROR");
@@ -131,14 +135,15 @@ export default Verify = (props) => {
         }
         setBackendPush(true);
       })
-      .catch((err) => {
-        setVerifyMsg(err);
+      .catch((error) => {
+        BugSnagNotify({text: error});
+        setVerifyMsg(error);
         setVerifyStatus("ERROR");
         setBackendPush(true);
-        Alert.alert("Error", err);
+        Alert.alert("Error", error);
       });
-    setLoading(false);
   };
+  
   return (
     <ApiView
       disabled={props.disabled}
