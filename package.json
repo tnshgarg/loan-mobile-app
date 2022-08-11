@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start:dev": "npx react-native run-android",
-    "start:test": "npx react-native run-android",
-    "build:dev": "cd android && ./gradlew assembleRelease",
-    "build:test": "cd android && ./gradlew assembleRelease",
-    "build:debug": "cd android && ./gradlew assembleDebug",
-    "build:prod": "cd android && ./gradlew bundleRelease"
+    "start:dev": "gulp set --env=dev && npx react-native run-android",
+    "start:test": "gulp set --env=test && npx react-native run-android",
+    "build:dev": "gulp set --env=dev && cd android && gradlew assembleRelease",
+    "build:test": "gulp set --env=test && cd android && gradlew assembleRelease",
+    "build:debug": "gulp set --env=test && cd android && gradlew assembleDebug",
+    "build:prod": "gulp set --env=prod && cd android && gradlew bundleRelease"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.17.6",
@@ -52,7 +52,11 @@
     "react-native-vector-icons": "^9.1.0",
     "react-native-web": "0.17.7",
     "react-redux": "^8.0.2",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-rename": "^2.0.0",
+    "metro-react-native-babel-preset": "^0.71.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
