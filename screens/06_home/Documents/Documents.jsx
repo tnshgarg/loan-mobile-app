@@ -1,7 +1,7 @@
 import React from "react";
 import TopTabNav from "../../../components/TopTabNav";
 import HomeView from "../HomeView";
-import LicenseForm from "./LicenseForm";
+import LicenseForm from "./License/LicenseForm";
 
 export default Documents = () => {
   const tabs = [

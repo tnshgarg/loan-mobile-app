@@ -3,12 +3,12 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, SafeAreaView, Text, TextInput, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { KeyboardAvoidingWrapper } from "../../../KeyboardAvoidingWrapper";
-import { bankform, form, styles } from "../../../styles";
+import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
+import { bankform, form, styles } from "../../../../styles";
 
-import Fetch from "../../../apis/license/Fetch";
-import { addDob, addLicenseNumber } from "../../../store/slices/licenseSlice";
-import DateEntry from "../../../components/DateEntry";
+import Fetch from "../../../../apis/license/Fetch";
+import { addDob, addLicenseNumber } from "../../../../store/slices/licenseSlice";
+import DateEntry from "../../../../components/DateEntry";
 
 export default LicenseForm = () => {
   const dispatch = useDispatch();
