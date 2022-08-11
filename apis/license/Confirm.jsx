@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigation } from "@react-navigation/core";
-import { Text, View, Image } from "react-native";
 import { Button } from "@react-native-material/core";
+import { useNavigation } from "@react-navigation/core";
+import { useEffect, useState } from "react";
+import { Image, Text, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { TimeDifference } from "../../helpers/TimeDifference";
 import {
-  addLicenseVerifyStatus,
-  addLicenseVerifyMsg,
+  addLicenseVerifyMsg, addLicenseVerifyStatus
 } from "../../store/slices/licenseSlice";
-import { bankform, form, license, styles } from "../../styles";
+import { form, license, styles } from "../../styles";
 
 export default Confirm = () => {
   const dispatch = useDispatch();
@@ -21,7 +21,6 @@ export default Confirm = () => {
   const bloodGroup = useSelector((state) => licenseSlice?.bloodGroup);
   const dob = useSelector((state) => licenseSlice?.dob);
   const validity = useSelector((state) => licenseSlice?.validity);
-  const rto = useSelector((state) => licenseSlice?.rto);
   const classes = useSelector((state) => licenseSlice?.classes);
   const [verifyStatus, setVerifyStatus] = useState(licenseSlice?.verifyStatus);
   const [verifyMsg, setVerifyMsg] = useState(licenseSlice?.verifyMsg);
@@ -32,7 +31,8 @@ export default Confirm = () => {
   useEffect(() => {
     dispatch(addLicenseVerifyStatus(verifyStatus));
   }, [verifyStatus]);
-
+  
+  console.log(licenseSlice?.verifyStatus);
   return (
     <View style={styles.container}>
       <Text style={form.OtpAwaitMsg}>
@@ -49,13 +49,9 @@ export default Confirm = () => {
       <Text style={form.userData}>Date of Birth: {dob}</Text>
       <Text style={form.userData}>Blood Group: {bloodGroup}</Text>
       {classes.map((item, index) => (
-        <View key={index} >
-          <Text style={form.userData}>
-            Class: {item["category"]}
-          </Text>
-          <Text style={license.authority}>
-            {item["authority"]}
-          </Text>
+        <View key={index}>
+          <Text style={form.userData}>Class: {item["category"]}</Text>
+          <Text style={license.authority}>{item["authority"]}</Text>
         </View>
       ))}
       {validity["non_transport"] ? (
@@ -64,20 +60,30 @@ export default Confirm = () => {
             Validity: {validity["non_transport"]["issue_date"]} to{" "}
             {validity["non_transport"]["expiry_date"]}
           </Text>
-          <Text style={license.authority}>
-            Non-Transport
-          </Text>
+          <View style={{ flexDirection: "row" }}>
+            <Text style={license.authority}>Non-Transport</Text>
+            {TimeDifference(validity["non_transport"]["expiry_date"]) > 0 ? (
+              <Text style={license.valid}>Valid</Text>
+            ) : (
+              <Text style={license.invalid}>Invalid</Text>
+            )}
+          </View>
         </>
       ) : null}
       {validity["transport"] ? (
         <>
-        <Text style={form.userData}>
-          Transport Validity: {validity["transport"]["issue_date"]} to{" "}
-          {validity["transport"]["expiry_date"]}
-        </Text>
-        <Text style={license.authority}>
-            Transport
-          </Text>
+          <Text style={form.userData}>
+            Transport Validity: {validity["transport"]["issue_date"]} to{" "}
+            {validity["transport"]["expiry_date"]}
+          </Text>{" "}
+          <View style={{ flexDirection: "row" }}>
+            <Text style={license.authority}>Transport</Text>
+            {TimeDifference(validity["transport"]["expiry_date"]) > 0 ? (
+              <Text style={license.valid}>Valid</Text>
+            ) : (
+              <Text style={license.invalid}>Invalid</Text>
+            )}
+          </View>
         </>
       ) : null}
 
@@ -116,7 +122,6 @@ export default Confirm = () => {
             });
           }}
         />
-        <View style={bankform.padding}></View>
       </View>
     </View>
   );

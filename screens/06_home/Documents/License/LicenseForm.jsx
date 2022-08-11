@@ -40,7 +40,7 @@ export default LicenseForm = () => {
   useEffect(() => {
     dispatch(addDob(dob));
   }, [dob]);
-
+  
   return (
     <>
       <SafeAreaView style={styles.container}>

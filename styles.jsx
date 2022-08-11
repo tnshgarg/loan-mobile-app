@@ -529,5 +529,17 @@ export const license = StyleSheet.create({
     marginLeft: "20%",
     fontSize: 12,
     fontFamily: "Roboto",
+  },
+  valid:{
+    color: "green",
+    marginLeft: "10%",
+    fontSize: 12,
+    fontFamily: "Roboto",
+  },
+  invalid:{
+    color: "red",
+    marginLeft: "20%",
+    fontSize: 12,
+    fontFamily: "Roboto",
   }
 });
