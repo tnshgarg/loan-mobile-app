@@ -7,7 +7,10 @@ import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
 import { bankform, form, styles } from "../../../../styles";
 
 import Fetch from "../../../../apis/license/Fetch";
-import { addDob, addLicenseNumber } from "../../../../store/slices/licenseSlice";
+import {
+  addDob,
+  addLicenseNumber,
+} from "../../../../store/slices/licenseSlice";
 import DateEntry from "../../../../components/DateEntry";
 
 export default LicenseForm = () => {
@@ -32,15 +35,18 @@ export default LicenseForm = () => {
   const SkipLicense = () => {
     Alert.alert(
       "License Verification pending",
-      `You have not completed License Verification.`
+      `You have not completed License Verification. Do you wish to Skip?`,
+      [
+        { text: "No", onPress: () => null, style: "cancel" },
+        { text: "Yes", onPress: () => navigation.navigate("Home") },
+      ]
     );
-    navigation.navigate("Home");
   };
 
   useEffect(() => {
     dispatch(addDob(dob));
   }, [dob]);
-  
+
   return (
     <>
       <SafeAreaView style={styles.container}>
