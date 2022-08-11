@@ -17,6 +17,7 @@ export default Confirm = () => {
   const [backendPush, setBackendPush] = useState(false);
   const id = useSelector((state) => state.auth.id);
 
+  const accountHolderName = useSelector((state) => state.bank.accountHolderName); 
   const ifsc = useSelector((state) => state.bank?.ifsc);
   const accountNumber = useSelector((state) => state.bank?.accountNumber);
   const upi = useSelector((state) => state.bank?.upi);
@@ -57,6 +58,7 @@ export default Confirm = () => {
       <Text style={form.userData}>BankName: {bankName}</Text>
       <Text style={form.userData}>Branch: {branch}</Text>
       <Text style={form.userData}>City: {city}</Text>
+      <Text style={form.userData}>AccountHolderName: {accountHolderName}</Text>
       <Text style={form.userData}>AccountNumber: {accountNumber}</Text>
       <Text style={form.userData}>IFSC: {ifsc}</Text>
       <Text style={form.userData}>UPI: {upi}</Text>
