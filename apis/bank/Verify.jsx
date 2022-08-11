@@ -132,11 +132,12 @@ export default Verify = (props) => {
         }
         setBackendPush(true);
       })
-      .catch((err) => {
-        setVerifyMsg(err);
+      .catch((error) => {
+        console.log("Error: ", error);
+        setVerifyMsg(error);
         setVerifyStatus("ERROR");
         setBackendPush(true);
-        Alert.alert("Error", err);
+        Alert.alert("Error", error);
       });
   };
   return (
