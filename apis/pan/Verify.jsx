@@ -70,6 +70,7 @@ export default Verify = (props) => {
       });
       setLoading(false);
       setBackendPush(false);
+      setLoading(false);
     }
   }, [backendPush]);
 

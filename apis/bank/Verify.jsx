@@ -65,6 +65,7 @@ export default Verify = (props) => {
       });
     }
     setBackendPush(false);
+    setLoading(false);
   }, [backendPush]);
 
   const goForFetch = () => {
@@ -106,7 +107,6 @@ export default Verify = (props) => {
             setVerifyStatus("ERROR");
             if (response["error"]) {
               setVerifyMsg(response["error"]);
-              setVerifyStatus("ERROR");
               setBackendPush(true);
               Alert.alert(
                 "Error",
@@ -116,7 +116,6 @@ export default Verify = (props) => {
               );
             } else {
               setVerifyMsg(response["messsage"]);
-              setVerifyStatus("ERROR");
               setBackendPush(true);
               Alert.alert("Error", response["message"]);
             }
@@ -137,7 +136,6 @@ export default Verify = (props) => {
         setBackendPush(true);
         Alert.alert("Error", err);
       });
-    setLoading(false);
   };
   return (
     <ApiView
