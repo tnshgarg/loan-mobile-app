@@ -33,6 +33,7 @@ export default OTPScreen = () => {
   console.log("OTPScreen state.auth: ", auth);
 
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(addCurrentScreen("Otp"));
   }, []);

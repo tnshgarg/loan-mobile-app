@@ -103,11 +103,11 @@ export default Otp = (props) => {
           Alert.alert("Error", error);
         }
       })
-      .catch((err) => {
-        setVerifyMsg(err);
+      .catch((error) => {
+        setVerifyMsg(error);
         setVerifyStatus("ERROR");
         setBackendPush(true);
-        Alert.alert("Error", err);
+        Alert.alert("Error", error);
       });
   };
 
