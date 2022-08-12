@@ -113,28 +113,6 @@ export default AadhaarForm = () => {
                 verifiy my identity.
               </Text>
             </View>
-
-            {/* {next && consent ? (
-              <Button
-                uppercase={false}
-                title="Continue"
-                type="solid"
-                color="#4E46F1"
-                style={form.nextButton}
-                onPress={() => {
-                  GenerateOtp();
-                }}
-              />
-            ) : (
-              <Button
-                title="Continue"
-                uppercase={false}
-                type="solid"
-                style={form.nextButton}
-                disabled
-              />
-            )} */}
-
             <Otp
               url={"https://api.gridlines.io/aadhaar-api/boson/generate-otp"}
               data={{ aadhaar_number: number, consent: "Y" }}

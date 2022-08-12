@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import { AppBar, Icon, IconButton } from "@react-native-material/core";
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { SafeAreaView, ScrollView, Text, TextInput, View } from "react-native";
 import CountDown from "react-native-countdown-component";
 import ProgressBarTop from "../../components/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-
 import Verify from "../../apis/aadhaar/Verify";
 import { form, styles } from "../../styles";
+import { setAadhaarTimer } from "../../store/slices/timerSlice";
 
 export default AadhaarVerify = () => {
   const dispatch = useDispatch();
@@ -23,18 +17,18 @@ export default AadhaarVerify = () => {
   const [backDisabled, setBackDisabled] = useState(true);
   const [otp, setOtp] = useState("");
   const [validOtp, setValidOtp] = useState(true);
+  const countDownTime = useSelector((state) => state.timer.aadhaar);
 
   useEffect(() => {
     dispatch(addCurrentScreen("AadhaarVerify"));
   }, []);
-  
+
   useEffect(() => {
     setValidOtp(otp.length === 6);
   }, [otp]);
 
   return (
     <SafeAreaView style={styles.container}>
-
       <AppBar
         title="Setup Profile"
         color="#4E46F1"
@@ -51,8 +45,9 @@ export default AadhaarVerify = () => {
 
       <ScrollView keyboardShouldPersistTaps="handled">
         <View style={styles.container}>
-
-          <Text style={form.OtpAwaitMsg}>Enter 6 digit OTP sent to your Aadhaar registered mobile number</Text>
+          <Text style={form.OtpAwaitMsg}>
+            Enter 6 digit OTP sent to your Aadhaar registered mobile number
+          </Text>
           <TextInput
             style={styles.otpInput}
             letterSpacing={23}
@@ -64,7 +59,7 @@ export default AadhaarVerify = () => {
           />
 
           <CountDown
-            until={60 * 10}
+            until={countDownTime}
             onFinish={() => setBackDisabled(false)}
             size={20}
             style={{ marginTop: 20 }}
@@ -72,6 +67,9 @@ export default AadhaarVerify = () => {
             digitTxtStyle={{ color: "#4E46F1" }}
             timeToShow={["M", "S"]}
             timeLabels={{ m: "MM", s: "SS" }}
+            onChange={(time) => {
+              dispatch(setAadhaarTimer(time));
+            }}
           />
 
           <Verify
@@ -80,7 +78,6 @@ export default AadhaarVerify = () => {
             style={form.skipButton}
             disabled={!validOtp}
           />
-
         </View>
       </ScrollView>
     </SafeAreaView>

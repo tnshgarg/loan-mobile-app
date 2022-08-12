@@ -1,26 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  Image,
-  Text,
-  View,
-  SafeAreaView,
-  TextInput,
-  ScrollView,
-  Alert,
-} from "react-native";
 import { Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import SmsRetriever from "react-native-sms-retriever";
+import React, { useEffect, useState } from "react";
+import {
+  Alert, Image, SafeAreaView, Text, TextInput, View
+} from "react-native";
 import CountDown from "react-native-countdown-component";
+import SmsRetriever from "react-native-sms-retriever";
+import { useDispatch, useSelector } from "react-redux";
+import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
   checkVerification,
-  sendSmsVerification,
+  sendSmsVerification
 } from "../../services/otp/Twilio/verify";
 import { addLoginVerifyStatus } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
-import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 
 export default OTPScreen = () => {
   const phoneNumber = useSelector((state) => state.auth.phoneNumber);
@@ -29,7 +24,7 @@ export default OTPScreen = () => {
   const [next, setNext] = useState(false);
   const [back, setBack] = useState(false);
   const auth = useSelector((state) => state.auth);
-
+  const countDownTime = useSelector((state) => state.timer.login);
   console.log("OTPScreen state.auth: ", auth);
 
   const dispatch = useDispatch();
@@ -37,15 +32,6 @@ export default OTPScreen = () => {
   useEffect(() => {
     dispatch(addCurrentScreen("Otp"));
   }, []);
-
-  // HHrHWFsvgjF
-
-  // useEffect(() => {
-  //   dispatch({
-  //     type: "SET_USER",
-  //     payload: user,
-  //   });
-  // }, [user]);
 
   useEffect(() => {
     if (otp.length === 6) {
@@ -116,7 +102,7 @@ export default OTPScreen = () => {
             keyboardType="numeric"
           />
           <CountDown
-            until={60}
+            until={countDownTime}
             onFinish={() => {
               setBack(true);
             }}
@@ -126,6 +112,9 @@ export default OTPScreen = () => {
             digitTxtStyle={{ color: "#4E46F1" }}
             timeToShow={["M", "S"]}
             timeLabels={{ m: "MM", s: "SS" }}
+            onChange={(time) => {
+              dispatch(setLoginTimer(time));
+            }}
           />
           {back ? (
             <Text
@@ -135,6 +124,8 @@ export default OTPScreen = () => {
                   console.log("Sent!");
                 });
                 setOtp("");
+                setBack(false);
+                dispatch(resetTimer());
               }}
             >
               Resend
