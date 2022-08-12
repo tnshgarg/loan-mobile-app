@@ -22,15 +22,20 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 
 export default LoginScreen = () => {
+
+  const dispatch = useDispatch();
   const navigation = useNavigation();
+
   const [phoneNumber, setPhoneNumber] = useState(
     useSelector((state) => state.auth.phoneNumber)
   );
   const [next, setNext] = useState(false);
-  const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+  
+
+  const [loading, setLoading] = useState(false);
   const [id, setId] = useState(null);
   var phn = "";
+
   useEffect(() => {
     dispatch(addCurrentScreen("Login"));
   }, []);
@@ -81,7 +86,7 @@ export default LoginScreen = () => {
   //   })}, [session]);
 
   const signIn = () => {
-    setIsLoading(true);
+    setLoading(true);
     var fullPhoneNumber = `+91${phoneNumber}`;
     var phonePayload = GenerateDocument({
       src: "otp",
@@ -95,18 +100,24 @@ export default LoginScreen = () => {
           setId(res.data["id"]);
           sendSmsVerification(fullPhoneNumber)
             .then((sent) => {
-              console.log("Sent!");
-              navigation.navigate("Otp");
+              setLoading(false);
+              if (sent) {
+                console.log("Sent!");
+                navigation.navigate("Otp");
+              } else {
+                console.log("Code not sent");
+                console.log("IsSent: ", sent);
+              }
             })
-            .catch((err) => {
-              console.log(err);
+            .catch((error) => {
+              console.log(error);
             });
         } else {
           Alert.alert("Error", res.data["message"]);
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -175,7 +186,7 @@ export default LoginScreen = () => {
             Privacy Policy
           </Text>
         </Text>
-        {!isLoading ? (
+        {!loading ? (
           <>
             {next ? (
               <Button
