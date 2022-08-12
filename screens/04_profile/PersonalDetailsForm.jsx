@@ -34,7 +34,7 @@ export default PersonalDetailsForm = () => {
     useSelector((state) => state.profile["alternatePhone"])
   );
   const [email, setEmail] = useState(
-    useSelector((state) => state.profile["email"])
+    useSelector((state) => state.profile["email"] || state.pan.email)
   );
   const [next, setNext] = useState(false);
   const navigation = useNavigation();
