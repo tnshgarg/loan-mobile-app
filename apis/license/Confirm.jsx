@@ -1,4 +1,4 @@
-import { Button } from "@react-native-material/core";
+import { Button, Icon } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Image, Text, View } from "react-native";
@@ -8,7 +8,7 @@ import {
   addLicenseVerifyMsg,
   addLicenseVerifyStatus,
 } from "../../store/slices/licenseSlice";
-import { form, license, styles } from "../../styles";
+import { form, license, styles, selfie } from "../../styles";
 
 export default Confirm = () => {
   const dispatch = useDispatch();
@@ -39,12 +39,21 @@ export default Confirm = () => {
       <Text style={form.OtpAwaitMsg}>
         Are these your License details ?{"\n"}
       </Text>
-      <Image
-        source={{
-          uri: `data:image/jpeg;base64,${photo}`,
-        }}
-        style={form.aadharimg}
-      />
+      {photo ? (
+        <Image
+          source={{
+            uri: `data:image/jpeg;base64,${photo}`,
+          }}
+          style={form.aadharimg}
+        />
+      ) : (
+        <Icon
+          name="perm-identity"
+          size={300}
+          color="grey"
+          style={selfie.selfie}
+        />
+      )}
       <Text style={form.userData}>Number: {number}</Text>
       <Text style={form.userData}>Name: {name}</Text>
       <Text style={form.userData}>Date of Birth: {dob}</Text>
