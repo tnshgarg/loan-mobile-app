@@ -57,7 +57,7 @@ export default Confirm = () => {
       <Text style={form.userData}>Number: {number}</Text>
       <Text style={form.userData}>Name: {name}</Text>
       <Text style={form.userData}>Date of Birth: {dob}</Text>
-      <Text style={form.userData}>Blood Group: {bloodGroup}</Text>
+      <Text style={form.userData}>Blood Group: {bloodGroup ? bloodGroup : "NA"}</Text>
       {classes.map((item, index) => (
         <View key={index}>
           <Text style={form.userData}>Class: {item["category"]}</Text>
