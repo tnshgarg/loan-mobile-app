@@ -542,3 +542,11 @@ export const license = StyleSheet.create({
     fontFamily: "Roboto",
   }
 });
+
+export const dev = StyleSheet.create({
+  title: {
+    alignSelf: "center",
+    marginTop: 20,
+    width: "60%",
+  },
+});

@@ -5,10 +5,12 @@ import {
   ActivityIndicator,
   Alert,
   Image,
-  Linking, Text,
+  Linking,
+  Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
+  SafeAreaView,
 } from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
 import { useDispatch, useSelector } from "react-redux";
@@ -134,76 +136,78 @@ export default LoginScreen = () => {
   }, []);
 
   return (
-    <KeyboardAvoidingWrapper>
-      <View>
-        <Image
-          style={styles.logo}
-          source={require("../../assets/unipe-Thumbnail.png")}
-        />
-        <Text style={styles.headline}>
-          Please enter your mobile number to login:
-        </Text>
-        <Text style={styles.fieldLabel}>Mobile Number</Text>
-        <TextInput
-          style={styles.textInput}
-          value={phoneNumber}
-          onChangeText={setPhoneNumber}
-          autoCompleteType="tel"
-          keyboardType="phone-pad"
-          textContentType="telephoneNumber"
-          maxLength={13}
-          placeholder="9999999999"
-        />
-        <Text style={styles.dataUseText}>
-          This number will be used for all communication. You shall receive an
-          SMS with code for verification. By continuing, you agree to our{" "}
-          <Text
-            onPress={() =>
-              Linking.openURL("https://policies.google.com/terms?hl=en-US")
-            }
-            style={styles.termsText}
-          >
-            Terms of Service
-          </Text>{" "}
-          &{" "}
-          <Text
-            onPress={() =>
-              Linking.openURL("https://policies.google.com/privacy?hl=en-US")
-            }
-            style={styles.termsText}
-          >
-            Privacy Policy
+    <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingWrapper>
+        <View>
+          <Image
+            style={styles.logo}
+            source={require("../../assets/unipe-Thumbnail.png")}
+          />
+          <Text style={styles.headline}>
+            Please enter your mobile number to login:
           </Text>
-        </Text>
-        {!isLoading ? (
-          <>
-            {next ? (
-              <Button
-                uppercase={false}
-                title="Continue"
-                type="solid"
-                style={styles.ContinueButton}
-                color="#4E46F1"
-                onPress={() => signIn()}
-              />
-            ) : (
-              <Button
-                uppercase={false}
-                title="Continue"
-                type="solid"
-                style={styles.ContinueButton}
-                disabled
-              />
-            )}
-          </>
-        ) : (
-          <TouchableOpacity>
-            <View style={styles.LoadingButton}>
-              <ActivityIndicator size="large" color="white" />
-            </View>
-          </TouchableOpacity>
-        )}
-      </View>
-    </KeyboardAvoidingWrapper>
+          <Text style={styles.fieldLabel}>Mobile Number</Text>
+          <TextInput
+            style={styles.textInput}
+            value={phoneNumber}
+            onChangeText={setPhoneNumber}
+            autoCompleteType="tel"
+            keyboardType="phone-pad"
+            textContentType="telephoneNumber"
+            maxLength={13}
+            placeholder="9999999999"
+          />
+          <Text style={styles.dataUseText}>
+            This number will be used for all communication. You shall receive an
+            SMS with code for verification. By continuing, you agree to our{" "}
+            <Text
+              onPress={() =>
+                Linking.openURL("https://policies.google.com/terms?hl=en-US")
+              }
+              style={styles.termsText}
+            >
+              Terms of Service
+            </Text>{" "}
+            &{" "}
+            <Text
+              onPress={() =>
+                Linking.openURL("https://policies.google.com/privacy?hl=en-US")
+              }
+              style={styles.termsText}
+            >
+              Privacy Policy
+            </Text>
+          </Text>
+          {!isLoading ? (
+            <>
+              {next ? (
+                <Button
+                  uppercase={false}
+                  title="Continue"
+                  type="solid"
+                  style={styles.ContinueButton}
+                  color="#4E46F1"
+                  onPress={() => signIn()}
+                />
+              ) : (
+                <Button
+                  uppercase={false}
+                  title="Continue"
+                  type="solid"
+                  style={styles.ContinueButton}
+                  disabled
+                />
+              )}
+            </>
+          ) : (
+            <TouchableOpacity>
+              <View style={styles.LoadingButton}>
+                <ActivityIndicator size="large" color="white" />
+              </View>
+            </TouchableOpacity>
+          )}
+        </View>
+      </KeyboardAvoidingWrapper>
+    </SafeAreaView>
   );
 };
