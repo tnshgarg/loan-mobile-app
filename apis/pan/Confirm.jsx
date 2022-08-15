@@ -56,8 +56,8 @@ export default Confirm = () => {
       <Text style={form.userData}>Name: {name}</Text>
       <Text style={form.userData}>Date of Birth: {dob}</Text>
       <Text style={form.userData}>Gender: {gender}</Text>
-      <Text style={form.userData}>Email: {email}</Text>
-
+      {email && <Text style={form.userData}>Email: {email}</Text>}
+      
       <View
         style={{
           alignSelf: "center",
