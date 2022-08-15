@@ -6,17 +6,18 @@ import DevMenuButton from "../components/DevMenuButton";
 export default DevMenu = () => {
   const navigation = useNavigation();
   const screens = [
-    { title: "Welcome", screen: "Welcome" },
-    { title: "Login", screen: "Login" },
-    { title: "Aadhaar", screen: "AadhaarForm" },
-    { title: "PAN", screen: "PanForm" },
-    { title: "Bank Details", screen: "BankInfoForm" },
-    { title: "Profile", screen: "PersonalDetailsForm" },
-    { title: "Personal Photo", screen: "PersonalImage" },
-    { title: "Home", screen: "Home" },
-    { title: "KYC Screens", screen: "KYC" },
-    { title: "Profile Details Screen", screen: "Profile" },
+    { title: "Welcome", name: "Welcome" },
+    { title: "Login", name: "Login" },
+    { title: "AADHAAR", name: "AadhaarForm" },
+    { title: "PAN", name: "PanForm" },
+    { title: "Bank", name: "BankInfoForm" },
+    { title: "Profile", name: "PersonalDetailsForm" },
+    { title: "Photo", name: "PersonalImage" },
+    { title: "Home", name: "Home" },
+    { title: "KYC Details", name: "KYC" },
+    { title: "Profile Details", name: "Profile" },
   ];
+
   return (
     <ScrollView>
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -25,7 +26,7 @@ export default DevMenu = () => {
             key={index}
             style={{ marginTop: 20 }}
             title={screen.title}
-            onPress={() => navigation.navigate(screen.screen)}
+            onPress={() => navigation.navigate(screen.name)}
           />
         ))}
       </View>
