@@ -25,7 +25,7 @@ const GenerateDocument = (props) => {
       document = {
         id: props.id,
         dob: props.dob,
-        email: props.email,
+        email: props.email || "",
         gender: props.gender,
         name: props.name,
         number: props.number,
