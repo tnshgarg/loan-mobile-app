@@ -1,16 +1,16 @@
-import { View, Text, Image, Pressable } from "react-native";
-import React from "react";
 import {
   DrawerContentScrollView,
   DrawerItemList,
 } from "@react-navigation/drawer";
-import { AntDesign } from "react-native-vector-icons";
-import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
+import React from "react";
+import { Image, Text, View } from "react-native";
+import { useSelector } from "react-redux";
 import Logout from "./Logout";
 const CustomDrawer = (props) => {
   const navigation = useNavigation();
   const imageData = useSelector((state) => state.profile.selfie);
+  const name = useSelector((state) => state.aadhaar.data["aadhaar_data"]?.["name"]);
 
   return (
     <View style={{ flex: 1 }}>
@@ -38,7 +38,7 @@ const CustomDrawer = (props) => {
               fontWeight: "bold",
             }}
           >
-            Kamal Goyal
+            {name ? name : "User"}
           </Text>
         </View>
         <View style={{ flex: 1, backgroundColor: "white", paddingTop: 10 }}>

@@ -5,10 +5,11 @@ import PrimaryButton from "../../components/PrimaryButton";
 import { useSelector } from "react-redux";
 
 const Aadhaar = () => {
-  const fullName = useSelector((state) => state.aadhaar.fullName);
   const aadhaarNumber = useSelector((state) => state.aadhaar.number);
-  const DOB = useSelector((state) => state.aadhaar.DOB);
-  const address = useSelector((state) => state.aadhaar.address);
+  const aadhaarData = useSelector((state) => state.aadhaar.data["aadhaar_data"]);
+  const DOB = aadhaarData?.["date_of_birth"];
+  const fullName = aadhaarData?.["name"];
+  const address = aadhaarData?.["locality"];
   const verifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
   //Todo: Full Name, DOB and Address not present
 
