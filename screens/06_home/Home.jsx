@@ -83,17 +83,20 @@ export default Home = () => {
               }}
             />
           </Portal>
-          {showMessage({
-            message:
-              "Following pending steps need to be completed in order to receive advance salary.",
-            description: message,
-            type: "warning",
-            backgroundColor: "#4E46F1",
-            color: "white",
-            onPress: () => {
-              navigation.navigate("KYC");
-            },
-          })}
+          {message != ""
+            ? showMessage({
+                message:
+                  "Following pending steps need to be completed in order to receive advance salary.",
+                description: message,
+                type: "warning",
+                backgroundColor: "#4E46F1",
+                color: "white",
+                onPress: () => {
+                  navigation.navigate("KYC");
+                },
+              })
+            : null}
+
           <BottomTabNav tabs={tabs} />
         </Provider>
       </SafeAreaView>
