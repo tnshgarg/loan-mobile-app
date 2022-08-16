@@ -77,7 +77,7 @@ export default AadhaarVerify = () => {
           <Verify
             url={"https://api.gridlines.io/aadhaar-api/boson/submit-otp"}
             data={{ otp: otp }}
-            style={form.skipButton}
+            style={form.nextButton}
             disabled={!validOtp}
           />
 
