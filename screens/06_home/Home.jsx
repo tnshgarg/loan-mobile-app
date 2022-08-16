@@ -11,6 +11,8 @@ import HomeView from "./HomeView";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { buttons } from "../../styles";
+import { showMessage } from "react-native-flash-message";
+import { useSelector } from "react-redux";
 
 export default Home = () => {
   const navigation = useNavigation();
@@ -25,6 +27,15 @@ export default Home = () => {
     { name: "Benefits", component: Benefits },
     { name: "Banking", component: HomeView },
   ];
+
+  const bankStatus = useSelector((state) => state.bank.verifyStatus);
+  const panStatus = useSelector((state) => state.pan.verifyStatus);
+  const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);
+
+  const message =
+    (bankStatus != "SUCCESS" ? "Bank Account Details\n" : "") +
+    (panStatus != "SUCCESS" ? "PAN Details\n" : "") +
+    (aadhaarStatus != "SUCCESS" ? "Aadhaar Details" : "");
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -72,6 +83,17 @@ export default Home = () => {
               }}
             />
           </Portal>
+          {showMessage({
+            message:
+              "Following pending steps need to be completed in order to receive advance salary.",
+            description: message,
+            type: "warning",
+            backgroundColor: "#4E46F1",
+            color: "white",
+            onPress: () => {
+              navigation.navigate("KYC");
+            },
+          })}
           <BottomTabNav tabs={tabs} />
         </Provider>
       </SafeAreaView>

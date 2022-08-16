@@ -1,7 +1,7 @@
-import { AppBar, Icon, IconButton } from "@react-native-material/core";
+import { AppBar, Icon, IconButton, Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, Text, TextInput, View } from "react-native";
+import { SafeAreaView, Text, TextInput, View, Alert } from "react-native";
 import { Popable } from "react-native-popable";
 import { useDispatch, useSelector } from "react-redux";
 import Verify from "../../apis/bank/Verify";
@@ -46,6 +46,20 @@ export default BankInformationForm = () => {
   useEffect(() => {
     dispatch(addBankUpi(upi));
   }, [upi]);
+
+  const SkipBank = () => {
+    Alert.alert(
+      "Bank KYC pending",
+      `If you want to receive your salary on time, Bank details are required.`,
+      [
+        { text: "No", onPress: () => null, style: "cancel" },
+        {
+          text: "Yes",
+          onPress: () => navigation.navigate("PersonalDetailsForm"),
+        },
+      ]
+    );
+  };
 
   useEffect(() => {
     var accountNumberReg = /^[0-9]{9,18}$/gm;
@@ -195,6 +209,14 @@ export default BankInformationForm = () => {
               data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}
               style={form.skipButton}
               disabled={!ifscNext || !accNumNext || !consent}
+            />
+            <Button
+              title="Skip"
+              uppercase={false}
+              type="solid"
+              color="#4E46F1"
+              style={form.skipButton}
+              onPress={() => SkipBank()}
             />
             <View style={bankform.padding}></View>
           </View>
