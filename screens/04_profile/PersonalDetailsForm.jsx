@@ -92,7 +92,7 @@ export default PersonalDetailsForm = () => {
               prompt="Educational Qualification"
             >
               {educationalQualifications.map((item, index) => {
-                return <Picker.Item label={item} value={item} />;
+                return <Picker.Item label={item} value={item} key={index} />;
               })}
             </Picker>
             <Text style={form.formLabel}>Marital Status*</Text>
