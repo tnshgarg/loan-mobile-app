@@ -19,7 +19,6 @@ import { putBackendData } from "../../services/employees/employeeServices";
 import { sendSmsVerification } from "../../services/otp/Twilio/verify";
 import { addId, addPhoneNumber } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { setLoginAt } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
 
 export default LoginScreen = () => {
@@ -133,7 +132,6 @@ export default LoginScreen = () => {
   useEffect(() => {
     var phoneno = /^[0-9]{10}$/gm;
     if (phoneno.test(phoneNumber) && phoneNumber.length === 10) {
-      dispatch(setLoginAt());
       setNext(true);
       console.log("true");
     } else {

@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Image, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { TimeDifference } from "../../helpers/TimeFunctions";
+import { TimeDifference } from "../../helpers/TimeDifference";
 import {
   addLicenseVerifyMsg,
   addLicenseVerifyStatus,
