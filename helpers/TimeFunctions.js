@@ -6,3 +6,7 @@ export const TimeDifference = (end) => {
   const diffInDays = Math.ceil(Math.round(diffInTime / oneDay));
   return diffInDays;
 };
+
+export const getCurrentTimestamp = () => {
+  return Date.now();
+};

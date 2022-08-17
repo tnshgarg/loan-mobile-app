@@ -1,16 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getCurrentTimestamp } from "../../helpers/TimeFunctions";
 
 const initialState = {
-  login: 2 * 60,
+  loginAt: "",
+  aadhaarAt: "",
+  login: 120,
   aadhaar: 10 * 60,
 };
 
 const timerSlice = createSlice({
-  name: "profile",
+  name: "timer",
   initialState: initialState,
   reducers: {
+    setLoginAt: (state, action) => {
+      state.loginAt = getCurrentTimestamp();
+    },
     setLoginTimer: (state, action) => {
-      state.login = action.payload;
+      state.login = Math.max(
+        0,
+        state.login - (((getCurrentTimestamp() - state.loginAt) / 1000) % 60)
+      );
+    },
+    setAadhaarAt: (state, action) => {
+      state.aadhaarAt = action.payload;
     },
     setAadhaarTimer: (state, action) => {
       state.aadhaar = action.payload;
@@ -21,6 +33,11 @@ const timerSlice = createSlice({
   },
 });
 
-export const { setLoginTimer, setAadhaarTimer, resetTimer } =
-  timerSlice.actions;
+export const {
+  setLoginAt,
+  setLoginTimer,
+  setAadhaarAt,
+  setAadhaarTimer,
+  resetTimer,
+} = timerSlice.actions;
 export default timerSlice.reducer;

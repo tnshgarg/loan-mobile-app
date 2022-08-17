@@ -2,7 +2,12 @@ import { Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import {
-  Alert, Image, SafeAreaView, Text, TextInput, View
+  Alert,
+  Image,
+  SafeAreaView,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 import CountDown from "react-native-countdown-component";
 import SmsRetriever from "react-native-sms-retriever";
@@ -10,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
   checkVerification,
-  sendSmsVerification
+  sendSmsVerification,
 } from "../../services/otp/Twilio/verify";
 import { addLoginVerifyStatus } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
@@ -26,7 +31,10 @@ export default OTPScreen = () => {
   const auth = useSelector((state) => state.auth);
   const countDownTime = useSelector((state) => state.timer.login);
   console.log("OTPScreen state.auth: ", auth);
-
+  console.log(
+    "OTPScreen state.timer: ",
+    useSelector((state) => state.timer)
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
