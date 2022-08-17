@@ -7,11 +7,11 @@ import { useSelector } from "react-redux";
 const Aadhaar = () => {
   const aadhaarNumber = useSelector((state) => state.aadhaar.number);
   const aadhaarData = useSelector((state) => state.aadhaar.data["aadhaar_data"]);
-  const DOB = aadhaarData?.["date_of_birth"];
+  const dob = aadhaarData?.["date_of_birth"];
   const fullName = aadhaarData?.["name"];
   const address = aadhaarData?.["locality"];
   const verifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
-  //Todo: Full Name, DOB and Address not present
+  //Todo: Full Name, dob and Address not present
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -25,7 +25,7 @@ const Aadhaar = () => {
         value={aadhaarNumber || "Not Provided"}
         divider
       />
-      <DetailItem label="Date of Birth" value={DOB || "Not Provided"} divider />
+      <DetailItem label="Date of Birth" value={dob || "Not Provided"} divider />
       <DetailItem label="Address" value={address || "Not Provided"} divider />
       <DetailItem
         label="Verify Status"

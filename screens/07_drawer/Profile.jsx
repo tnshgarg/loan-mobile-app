@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 const Profile = () => {
   const aadhaarData = useSelector((state) => state.aadhaar.data["aadhaar_data"]);
-  const fullName = aadhaarData?.["name"];
+  const fullName = aadhaarData?.["name"] || useSelector((state) => state.pan?.name) || "User";
   const profile = useSelector((state) => state.profile);
   const email = profile?.email;
   const mobile = useSelector((state) => state.auth.phoneNumber);
