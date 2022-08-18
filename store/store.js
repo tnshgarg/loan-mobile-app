@@ -11,6 +11,7 @@ import navigationSlice from "./slices/navigationSlice";
 import panSlice from "./slices/panSlice";
 import profileSlice from "./slices/profileSlice";
 import licenseSlice from "./slices/licenseSlice";
+import timerSlice from "./slices/timerSlice";
 
 const persistConfig = {
   key: "root",
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   pan: panSlice,
   profile: profileSlice,
   license: licenseSlice,
+  timer : timerSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
