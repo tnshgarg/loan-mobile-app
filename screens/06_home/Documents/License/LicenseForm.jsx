@@ -84,7 +84,7 @@ export default LicenseForm = () => {
                 date_of_birth: dob,
                 consent: "Y",
               }}
-              style={form.skipButton}
+              style={form.nextButton}
               disabled={!validNumber}
             />
 
@@ -94,6 +94,7 @@ export default LicenseForm = () => {
               type="solid"
               color="#4E46F1"
               style={form.skipButton}
+              trailing={props => <Icon name="send" {...props} />} 
               onPress={() => {
                 SkipLicense();
               }}

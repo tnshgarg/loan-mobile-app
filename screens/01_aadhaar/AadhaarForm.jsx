@@ -73,11 +73,18 @@ export default AadhaarForm = () => {
               }}
             />
           }
+          trailing={
+            <IconButton
+              icon={<Icon name="arrow-forward" size={20} color="white" />}
+              onPress={() => {
+                SkipAadhaar();
+              }}
+            />
+          }
         />
 
         <ProgressBarTop step={1} />
         <Text style={form.formHeader}>Aadhaar Verification</Text>
-
         <KeyboardAvoidingWrapper>
           <View>
             <Text style={form.formLabel}>Enter AADHAAR Number</Text>
@@ -113,44 +120,11 @@ export default AadhaarForm = () => {
                 verifiy my identity.
               </Text>
             </View>
-
-            {/* {next && consent ? (
-              <Button
-                uppercase={false}
-                title="Continue"
-                type="solid"
-                color="#4E46F1"
-                style={form.nextButton}
-                onPress={() => {
-                  GenerateOtp();
-                }}
-              />
-            ) : (
-              <Button
-                title="Continue"
-                uppercase={false}
-                type="solid"
-                style={form.nextButton}
-                disabled
-              />
-            )} */}
-
             <Otp
               url={"https://api.gridlines.io/aadhaar-api/boson/generate-otp"}
               data={{ aadhaar_number: number, consent: "Y" }}
-              style={form.skipButton}
+              style={form.nextButton}
               disabled={!validNumber || !consent}
-            />
-
-            <Button
-              title="Skip"
-              uppercase={false}
-              type="solid"
-              color="#4E46F1"
-              style={form.skipButton}
-              onPress={() => {
-                SkipAadhaar();
-              }}
             />
           </View>
         </KeyboardAvoidingWrapper>

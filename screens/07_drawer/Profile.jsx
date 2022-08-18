@@ -5,9 +5,14 @@ import PrimaryButton from "../../components/PrimaryButton";
 import { useSelector } from "react-redux";
 
 const Profile = () => {
-  const fullName = useSelector((state) => state.profile.fullName);
-  const email = useSelector((state) => state.profile.email);
-  const mobile = useSelector((state) => state.profile.mobile);
+  const aadhaarData = useSelector((state) => state.aadhaar.data["aadhaar_data"]);
+  const fullName = aadhaarData?.["name"] || useSelector((state) => state.pan?.name) || "User";
+  const profile = useSelector((state) => state.profile);
+  const email = profile?.email;
+  const mobile = useSelector((state) => state.auth.phoneNumber);
+  const alternateMobile = profile?.alternatePhone;
+  const maritalStatus = profile?.maritalStatus;
+  const educationalQualification = profile?.educationalQualification;
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -18,6 +23,9 @@ const Profile = () => {
       />
       <DetailItem label="Email Id" value={email || "Not Provided"} divider />
       <DetailItem label="Mobile Number" value={mobile || "Not Provided"} />
+      <DetailItem label="Alternate Mobile Number" value={alternateMobile || "Not Provided"} />
+      <DetailItem label="Educational Qualification" value={educationalQualification || "Not Provided"} />
+      <DetailItem label="Marital Status" value={maritalStatus || "Not Provided"} />
       <View style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}>
         <PrimaryButton
           style={{ marginTop: 20 }}

@@ -195,14 +195,6 @@ export const form = StyleSheet.create({
     height: 50,
     fontSize: 20,
   },
-  skipButton: {
-    padding: 5,
-    alignSelf: "center",
-    marginTop: 10,
-    width: 320,
-    height: 50,
-    fontSize: 20,
-  },
   OtpAwaitMsg: {
     color: "#230C45",
     alignSelf: "center",
@@ -572,4 +564,14 @@ export const card = StyleSheet.create({
     textDecorationLine: "underline",
   },
 
+});
+  }
+});
+
+export const dev = StyleSheet.create({
+  title: {
+    alignSelf: "center",
+    marginTop: 20,
+    width: "60%",
+  },
 });

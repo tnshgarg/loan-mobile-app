@@ -66,6 +66,14 @@ export default PanForm = () => {
               onPress={() => navigation.navigate("AadhaarConfirm")}
             />
           }
+          trailing={
+            <IconButton
+              icon={<Icon name="arrow-forward" size={20} color="white" />}
+              onPress={() => {
+                SkipPAN();
+              }}
+            />
+          }
         />
 
         <ProgressBarTop step={2} />
@@ -123,17 +131,8 @@ export default PanForm = () => {
             <Verify
               url={"https://api.gridlines.io/pan-api/fetch-detailed"}
               data={{ pan_number: number, consent: "Y" }}
-              style={form.skipButton}
+              style={form.nextButton}
               disabled={!validNumber || !consent}
-            />
-
-            <Button
-              title="Skip"
-              uppercase={false}
-              type="solid"
-              color="#4E46F1"
-              style={form.skipButton}
-              onPress={() => SkipPAN()}
             />
           </View>
         </KeyboardAvoidingWrapper>

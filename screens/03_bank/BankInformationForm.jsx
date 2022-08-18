@@ -207,7 +207,7 @@ export default BankInformationForm = () => {
             <Verify
               url={"https://api.gridlines.io/bank-api/verify"}
               data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}
-              style={form.skipButton}
+              style={form.nextButton}
               disabled={!ifscNext || !accNumNext || !consent}
             />
             <Button
