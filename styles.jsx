@@ -565,8 +565,6 @@ export const card = StyleSheet.create({
   },
 
 });
-  }
-});
 
 export const dev = StyleSheet.create({
   title: {
