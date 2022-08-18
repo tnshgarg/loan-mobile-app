@@ -9,7 +9,6 @@ import SplashScreen from "react-native-splash-screen";
 
 import StackNavigator from "./navigators/StackNavigator";
 import { store, persistor } from "./store/store";
-import FlashMessage from "react-native-flash-message";
 
 export default function App() {
   SplashScreen.hide();
@@ -20,7 +19,6 @@ export default function App() {
           <SafeAreaProvider style={{ backgroundColor: "white", flex: 1 }}>
             <IconComponentProvider IconComponent={Icon}>
               <StackNavigator />
-              <FlashMessage position="top" icon="auto" floating={true}/>
             </IconComponentProvider>
           </SafeAreaProvider>
         </NavigationContainer>
