@@ -5,11 +5,12 @@ import PrimaryButton from "../../components/PrimaryButton";
 import { useSelector } from "react-redux";
 
 const PAN = () => {
-  const fullName = useSelector((state) => state.pan.accountNumber);
-  const panNumber = useSelector((state) => state.pan.ifsc);
-  const DOB = useSelector((state) => state.pan.upi);
-  const address = useSelector((state) => state.pan.accountHolderName);
-  const verifyStatus = useSelector((state) => state.pan.verifyStatus);
+  const fullName = useSelector((state) => state.pan.name);
+  const panNumber = useSelector((state) => state.pan.number);
+  const DOB = useSelector((state) => state.pan.dob);
+  const gender = useSelector((state) => state.pan.gender);
+  const email = useSelector((state) => state.pan.email);
+  const verifyStatus = useSelector((state) => state.pan.verifyStatus); 
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -24,7 +25,8 @@ const PAN = () => {
         divider
       />
       <DetailItem label="Date of Birth" value={DOB || "Not Provided"} divider />
-      <DetailItem label="Address" value={address || "Not Provided"} divider />
+      <DetailItem label="Gender" value={gender || "Not Provided"} divider />
+      <DetailItem label="E-Mail" value={email || "Not Provided"} divider />
       <DetailItem
         label="Verify Status"
         value={verifyStatus || "Not Provided"}

@@ -120,7 +120,6 @@ export default AadhaarForm = () => {
                 verifiy my identity.
               </Text>
             </View>
-
             <Otp
               url={"https://api.gridlines.io/aadhaar-api/boson/generate-otp"}
               data={{ aadhaar_number: number, consent: "Y" }}
