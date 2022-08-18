@@ -3,8 +3,11 @@ import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import { View } from "react-native";
 import { progressBar } from "../styles";
+import { useNavigation } from "@react-navigation/core";
+import { useSelector } from "react-redux";
 
 export default ProgressBarTop = (props) => {
+  const navigation = useNavigation();
   const secondIndicatorStyles = {
     stepIndicatorSize: 30,
     currentStepIndicatorSize: 40,
@@ -70,6 +73,38 @@ export default ProgressBarTop = (props) => {
     <MaterialIcons {...getStepIndicatorIconConfig(params)} />
   );
 
+  const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);
+  const panStatus = useSelector((state) => state.pan.verifyStatus);
+  const bankStatus = useSelector((state) => state.bank.verifyStatus);
+  const onStepPress = (position) => {
+    let step = "";
+    switch (position) {
+      case 0:
+        break;
+      case 1:
+        aadhaarStatus == "SUCCESS"
+          ? (step = "AadhaarConfirm")
+          : (step = "AadhaarForm");
+        break;
+      case 2:
+        panStatus == "SUCCESS" ? (step = "PanConfirm") : (step = "PanForm");
+        break;
+      case 3:
+        bankStatus == "SUCCESS"
+          ? (step = "BankConfirm")
+          : (step = "BankInfoForm");
+        break;
+      case 4:
+        step = "PersonalDetailsForm";
+        break;
+      case 5:
+        step = "PersonalImage";
+        break;
+      default:
+        break;
+    }
+    navigation.navigate(step);
+  };
   return (
     <View style={progressBar.progressView}>
       <StepIndicator
@@ -84,6 +119,7 @@ export default ProgressBarTop = (props) => {
           "Profile",
           "Photo",
         ]}
+        onPress={onStepPress}
         renderStepIndicator={renderStepIndicator}
       />
     </View>
