@@ -188,14 +188,6 @@ export const form = StyleSheet.create({
     height: 50,
     fontSize: 20,
   },
-  skipButton: {
-    padding: 5,
-    alignSelf: "center",
-    marginTop: 10,
-    width: 320,
-    height: 50,
-    fontSize: 20,
-  },
   OtpAwaitMsg: {
     color: "#230C45",
     alignSelf: "center",
