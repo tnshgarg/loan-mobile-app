@@ -544,24 +544,20 @@ export const license = StyleSheet.create({
 
 export const card = StyleSheet.create({
   alertCard: {
-    backgroundColor: "rgba(255,255,102,0.5)",
-    width: "85%",
-    marginLeft: 30,
-    borderRadius: 10,
     marginTop: 20,
     padding: 10,
-    flexDirection: "row",
-    alignItems: "flex-start",
+    flexDirection: "column",
   },
   infoText: {
-    width: "93%",
-    color: "#333333",
+    fontSize: 16,
   },
   alertText:{
     color: "black",
     fontSize: 14,
     fontWeight: "bold",
     textDecorationLine: "underline",
+    paddingLeft: 10,
+    paddingTop:10,
   },
 
 });
