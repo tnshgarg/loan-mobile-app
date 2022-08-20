@@ -96,25 +96,26 @@ export default LoginScreen = () => {
       .then((res) => {
         console.log(phonePayload);
         console.log(res.data);
-        if (res.data["status"] == 201) {
+        if (res.data["status"] == 200) {
           setId(res.data["id"]);
           sendSmsVerification(phoneNumber)
-            .then((res) => {
-              console.log(res);
-              if (res["response"]["status"] === "success") {
-                console.log(res);
+            .then((result) => {
+              console.log(result);
+              if (result["response"]["status"] === "success") {
+                console.log(result);
                 navigation.navigate("Otp");
               } else {
+                setLoading(false);
                 Alert.alert(
-                  res["response"]["status"],
-                  res["response"]["details"]
+                  result["response"]["status"],
+                  result["response"]["details"]
                 );
               }
             })
             .catch((error) => {
               setLoading(false);
-              Alert.alert("Error", error);
               console.log(error);
+              Alert("Error","Something is Wrong");
             });
         } else {
           setLoading(false);

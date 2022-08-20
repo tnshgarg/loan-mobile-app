@@ -30,7 +30,7 @@ const sendSmsVerification = async (phoneNumber) => {
     const json = await response.json();
     return json;
   } catch (error) {
-    return false;
+    return error;
   }
 };
 
@@ -63,7 +63,7 @@ const checkVerification = async (phoneNumber, code) => {
     return json;
   } catch (error) {
     console.error(error);
-    return false;
+    return error;
   }
 };
 
