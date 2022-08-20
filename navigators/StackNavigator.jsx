@@ -5,9 +5,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "../screens/00_login/LoginScreen";
 import OTPScreen from "../screens/00_login/OTPScreen";
 import WelcomePage from "../screens/00_login/WelcomePage";
-import AadhaarConfirm from "../screens/01_aadhaar/AadhaarConfirm";
-import AadhaarForm from "../screens/01_aadhaar/AadhaarForm";
-import AadhaarVerify from "../screens/01_aadhaar/AadhaarVerify";
+import AadhaarConfirm from "../screens/01_Aadhaar/AadhaarConfirm";
+import AadhaarForm from "../screens/01_Aadhaar/AadhaarForm";
+import AadhaarVerify from "../screens/01_Aadhaar/AadhaarVerify";
 import PanForm from "../screens/02_pan/PanForm";
 import PanConfirm from "../screens/02_pan/PanConfirm";
 import BankInformationForm from "../screens/03_bank/BankInformationForm";
@@ -20,7 +20,7 @@ import DrawerNavigator from "./DrawerNavigator";
 import { STAGE } from "@env";
 import KYCScreen from "../screens/07_drawer/KYCScreen";
 import Profile from "../screens/07_drawer/Profile";
-import LicenseConfirm from "../screens/06_home/Documents/License/LicenseConfirm";
+import LicenseConfirm from "../screens/06_Home/Documents/License/LicenseConfirm";
 import BankConfirm from "../screens/03_bank/BankConfirm";
 
 const StackNavigator = () => {

@@ -1,7 +1,7 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons, Octicons } from "react-native-vector-icons";
 
-import Home from "../screens/06_home/Home";
+import Home from "../screens/06_Home/Home";
 import CustomDrawer from "../components/CustomDrawer";
 import Profile from "../screens/07_drawer/Profile";
 import KYCScreen from "../screens/07_drawer/KYCScreen";
