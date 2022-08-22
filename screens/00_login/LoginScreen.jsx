@@ -100,7 +100,7 @@ export default LoginScreen = () => {
           setId(res.data["id"]);
           sendSmsVerification(phoneNumber)
             .then((result) => {
-              console.log(result);
+              console.log("result: ", result);
               if (result["response"]["status"] === "success") {
                 console.log(result);
                 navigation.navigate("Otp");

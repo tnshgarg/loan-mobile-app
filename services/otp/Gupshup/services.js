@@ -8,7 +8,7 @@ const sendSmsVerification = async (phoneNumber) => {
       method: "TWO_FACTOR_AUTH",
       v: "1.1",
       phone_no: phoneNumber,
-      msg:"Hello+from+Unipe%21+%3A%29%0D%0AYour+One+Time+Password+for+Mobile+Verification+is+%25code%25+and+valid+only+for+40Minutes%0D%0AKeep+it+confidential+%26+do+not+share.%0D%0A%0D%0AWagepe",
+      msg: "Hello+from+Unipe%21+%3A%29%0D%0AYour+One+Time+Password+for+Mobile+Verification+is+%25code%25+and+valid+only+for+40Minutes%0D%0AKeep+it+confidential+%26+do+not+share.%0D%0A%0D%0AWagepe",
       format: "JSON",
       otpCodeLength: "6",
       otpCodeType: "NUMERIC",
@@ -26,6 +26,7 @@ const sendSmsVerification = async (phoneNumber) => {
         },
       }
     );
+    console.log("response: ", response);
 
     const json = await response.json();
     return json;
