@@ -82,7 +82,7 @@ export default PersonalImage = () => {
     <>
       <SafeAreaView style={styles.container}>
         <AppBar
-          title="Setup Profile"
+          title="Selfie Upload"
           color="#4E46F1"
           leading={
             <IconButton

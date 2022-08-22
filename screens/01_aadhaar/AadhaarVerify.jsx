@@ -30,7 +30,7 @@ export default AadhaarVerify = () => {
   return (
     <SafeAreaView style={styles.container}>
       <AppBar
-        title="Setup Profile"
+        title="Aadhaar OTP Verification"
         color="#4E46F1"
         leading={
           <IconButton

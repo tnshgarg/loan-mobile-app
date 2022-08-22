@@ -63,7 +63,7 @@ export default AadhaarForm = () => {
     <>
       <SafeAreaView style={styles.container}>
         <AppBar
-          title="Setup Profile"
+          title="Aadhaar Verification"
           color="#4E46F1"
           leading={
             <IconButton
