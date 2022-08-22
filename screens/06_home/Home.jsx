@@ -23,7 +23,7 @@ export default Home = () => {
     { name: "Home", component: HomeView },
     { name: "Documents", component: Documents },
     { name: "Benefits", component: Benefits },
-    { name: "Banking", component: HomeView },
+    { name: "Money", component: HomeView },
   ];
 
   const dispatch = useDispatch();
