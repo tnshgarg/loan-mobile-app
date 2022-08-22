@@ -3,6 +3,7 @@ import { SafeAreaView, ScrollView, Text, View } from "react-native";
 import { docSearch, styles } from "../../styles";
 import HomeCard from "../../components/HomeCard";
 import { useSelector } from "react-redux";
+import { allAreNull } from "../../helpers/nullCheck";
 
 export default HomeMain = () => {
   const bankStatus = useSelector((state) => state.bank.verifyStatus);
@@ -17,13 +18,15 @@ export default HomeMain = () => {
   return (
     <>
       <SafeAreaView style={styles.container}>
-        {message.every((element) => element != null) ? (
+        {!allAreNull(message) ? (
           <HomeCard
             title="Following pending steps need to be completed in order to receive advance salary."
             message={message}
           />
         ) : (
-          <Text style={styles.Maintitle}>You've completed all the KYC steps for onboarding</Text>
+          <Text style={styles.Maintitle}>
+            You've completed all the KYC steps for onboarding
+          </Text>
         )}
       </SafeAreaView>
     </>
