@@ -154,7 +154,7 @@ export const form = StyleSheet.create({
   },
   formTextInput: {
     marginLeft: 34,
-    width:"80%",
+    width: "80%",
     height: 50,
     borderBottomWidth: 1,
   },
@@ -299,7 +299,7 @@ export const bankform = StyleSheet.create({
   },
   formInput: {
     marginLeft: 34,
-    width:"80%",
+    width: "80%",
     height: 40,
     borderBottomWidth: 1,
   },
@@ -343,6 +343,7 @@ export const bankform = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Roboto",
   },
+  asterisk: { fontWeight: "bold", color: "#4E46F1" },
 });
 
 export const homeCard = StyleSheet.create({
@@ -515,24 +516,24 @@ export const esic = StyleSheet.create({
 });
 
 export const license = StyleSheet.create({
-  authority:{
+  authority: {
     color: "#4E46F1",
     marginLeft: "20%",
     fontSize: 12,
     fontFamily: "Roboto",
   },
-  valid:{
+  valid: {
     color: "green",
     marginLeft: "10%",
     fontSize: 12,
     fontFamily: "Roboto",
   },
-  invalid:{
+  invalid: {
     color: "red",
     marginLeft: "20%",
     fontSize: 12,
     fontFamily: "Roboto",
-  }
+  },
 });
 
 export const dev = StyleSheet.create({
