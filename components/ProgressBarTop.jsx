@@ -8,12 +8,12 @@ import { useSelector } from "react-redux";
 
 export default ProgressBarTop = (props) => {
   const navigation = useNavigation();
-  const secondIndicatorStyles = {
+  const stepIndicatorStyles = {
     stepIndicatorSize: 30,
     currentStepIndicatorSize: 40,
     separatorStrokeWidth: 2,
     currentStepStrokeWidth: 3,
-    stepStrokeCurrentnColor: "#4E46F1",
+    stepStrokeCurrentColor: "#4E46F1",
     stepStrokeWidth: 3,
     separatorStrokeFinishedWidth: 4,
     stepStrokeFinishedColor: "#4E46F1",
@@ -32,6 +32,11 @@ export default ProgressBarTop = (props) => {
     labelSize: 9,
     currentStepLabelColor: "#4E46F1",
   };
+
+  const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);
+  const panStatus = useSelector((state) => state.pan.verifyStatus);
+  const bankStatus = useSelector((state) => state.bank.verifyStatus);
+
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
       name: "feed",
@@ -45,14 +50,30 @@ export default ProgressBarTop = (props) => {
       }
       case 1: {
         iconConfig.name = "perm-identity";
+        stepStatus == "finished"
+          ? aadhaarStatus == "SUCCESS"
+            ? (iconConfig.color = "#ffffff")
+            : (iconConfig.color = "red")
+          : "#4E46F1";
+
         break;
       }
       case 2: {
         iconConfig.name = "mood";
+        stepStatus == "finished"
+          ? panStatus == "SUCCESS"
+            ? (iconConfig.color = "#ffffff")
+            : (iconConfig.color = "red")
+          : "#4E46F1";
         break;
       }
       case 3: {
         iconConfig.name = "payment";
+        stepStatus == "finished"
+          ? bankStatus == "SUCCESS"
+            ? (iconConfig.color = "#ffffff")
+            : (iconConfig.color = "red")
+          : "#4E46F1";
         break;
       }
       case 4: {
@@ -73,9 +94,6 @@ export default ProgressBarTop = (props) => {
     <MaterialIcons {...getStepIndicatorIconConfig(params)} />
   );
 
-  const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);
-  const panStatus = useSelector((state) => state.pan.verifyStatus);
-  const bankStatus = useSelector((state) => state.bank.verifyStatus);
   const onStepPress = (position) => {
     let step = "";
     switch (position) {
@@ -109,7 +127,7 @@ export default ProgressBarTop = (props) => {
     <View style={progressBar.progressView}>
       <StepIndicator
         stepCount={6}
-        customStyles={secondIndicatorStyles}
+        customStyles={stepIndicatorStyles}
         currentPosition={props.step}
         labels={[
           "Mobile Number",
