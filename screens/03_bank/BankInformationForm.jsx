@@ -161,6 +161,7 @@ export default BankInformationForm = () => {
             {ifsc && !ifscNext ? (
               <Text style={bankform.formatmsg}>Incorrect Format</Text>
             ) : null}
+            <Text style={{alignSelf:"center",fontWeight:"bold",marginTop:20,fontSize:18}}>-OR-</Text>
             <Text style={bankform.formtitle}>
               UPI ID
               <Popable
