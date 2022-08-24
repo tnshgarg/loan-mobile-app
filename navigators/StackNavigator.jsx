@@ -22,6 +22,8 @@ import KYCScreen from "../screens/07_drawer/KYCScreen";
 import Profile from "../screens/07_drawer/Profile";
 import LicenseConfirm from "../screens/06_home/Documents/License/LicenseConfirm";
 import BankConfirm from "../screens/03_bank/BankConfirm";
+import Landing from "../screens/06_home/EWA/Landing";
+import Details from "../screens/06_home/EWA/Details";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -174,11 +176,23 @@ const StackNavigator = () => {
         name="LicenseConfirm"
         component={LicenseConfirm}
         options={{
-          headerShown: true,
-          headerTitle: "Profile Details",
+          headerShown: false,
         }}
       />
-
+       <Stack.Screen
+        name="EWALanding"
+        component={Landing}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="EWADetails"
+        component={Details}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
 };
