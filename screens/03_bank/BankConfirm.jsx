@@ -35,7 +35,7 @@ export default BankConfirm = () => {
   return (
     <SafeAreaView style={styles.container}>
       <AppBar
-        title="Bank Info Confirmation"
+        title="Bank Details Confirmation"
         color="#4E46F1"
         leading={
           <IconButton

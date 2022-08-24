@@ -69,7 +69,7 @@ export default BankInformationForm = () => {
     <>
       <SafeAreaView style={styles.container}>
         <AppBar
-          title="Setup Bank Info"
+          title="Bank Details"
           color="#4E46F1"
           leading={
             <IconButton
