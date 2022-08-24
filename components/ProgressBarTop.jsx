@@ -20,7 +20,7 @@ export default ProgressBarTop = (props) => {
     stepStrokeUnFinishedColor: "#aaaaaa",
     separatorFinishedColor: "#4E46F1",
     separatorUnFinishedColor: "#aaaaaa",
-    stepIndicatorFinishedColor: "#4E46F1",
+    stepIndicatorFinishedColor: "#E5EAF7",
     stepIndicatorUnFinishedColor: "#ffffff",
     stepIndicatorCurrentColor: "#ffffff",
     stepIndicatorLabelFontSize: 13,
@@ -40,7 +40,7 @@ export default ProgressBarTop = (props) => {
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
       name: "feed",
-      color: stepStatus === "finished" ? "#ffffff" : "#4E46F1",
+      color: stepStatus === "finished" ? "green" : "#4E46F1",
       size: 15,
     };
     switch (position) {
@@ -52,7 +52,7 @@ export default ProgressBarTop = (props) => {
         iconConfig.name = "perm-identity";
         stepStatus == "finished"
           ? aadhaarStatus == "SUCCESS"
-            ? (iconConfig.color = "#ffffff")
+            ? (iconConfig.color = "green")
             : (iconConfig.color = "red")
           : "#4E46F1";
 
@@ -62,7 +62,7 @@ export default ProgressBarTop = (props) => {
         iconConfig.name = "mood";
         stepStatus == "finished"
           ? panStatus == "SUCCESS"
-            ? (iconConfig.color = "#ffffff")
+            ? (iconConfig.color = "green")
             : (iconConfig.color = "red")
           : "#4E46F1";
         break;
@@ -71,7 +71,7 @@ export default ProgressBarTop = (props) => {
         iconConfig.name = "payment";
         stepStatus == "finished"
           ? bankStatus == "SUCCESS"
-            ? (iconConfig.color = "#ffffff")
+            ? (iconConfig.color = "green")
             : (iconConfig.color = "red")
           : "#4E46F1";
         break;
