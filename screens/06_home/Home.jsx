@@ -8,6 +8,7 @@ import BottomTabNav from "../../components/BottomTabNav";
 import Benefits from "./Benefits";
 import Documents from "./Documents/Documents";
 import HomeView from "./HomeView";
+import HomeMain from "./HomeMain";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { buttons } from "../../styles";
@@ -20,7 +21,7 @@ export default Home = () => {
 
   const { open } = state;
   const tabs = [
-    { name: "Home", component: HomeView },
+    { name: "Home", component: HomeMain },
     { name: "Documents", component: Documents },
     { name: "Benefits", component: Benefits },
     { name: "Banking", component: HomeView },
