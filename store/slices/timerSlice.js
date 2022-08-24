@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  login: 2 * 60,
+  login: 2 * 60 ,
   aadhaar: 10 * 60,
 };
 
