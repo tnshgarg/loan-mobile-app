@@ -3,6 +3,7 @@ import React from "react";
 import DetailItem from "./DetailItem";
 import PrimaryButton from "../../components/PrimaryButton";
 import { useSelector } from "react-redux";
+import PanDataCollection from "../../templates/Pan/PanDataCollection";
 
 const PAN = () => {
   const fullName = useSelector((state) => state.pan.name);
@@ -10,38 +11,47 @@ const PAN = () => {
   const DOB = useSelector((state) => state.pan.dob);
   const gender = useSelector((state) => state.pan.gender);
   const email = useSelector((state) => state.pan.email);
-  const verifyStatus = useSelector((state) => state.pan.verifyStatus); 
+  const verifyStatus = useSelector((state) => state.pan.verifyStatus);
+
+  const data = [
+    { label: "Full Name", value: fullName },
+    { label: "PAN Number", value: panNumber },
+    { label: "Date of Birth", value: DOB },
+    { label: "Gender", value: gender },
+    { label: "Email", value: email },
+    { label: "Verify Status", value: verifyStatus },
+  ];
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <DetailItem
-        label="Full Name"
-        value={fullName || "Not Provided"}
-        divider
-      />
-      <DetailItem
-        label="PAN Number"
-        value={panNumber || "Not Provided"}
-        divider
-      />
-      <DetailItem label="Date of Birth" value={DOB || "Not Provided"} divider />
-      <DetailItem label="Gender" value={gender || "Not Provided"} divider />
-      <DetailItem label="E-Mail" value={email || "Not Provided"} divider />
-      <DetailItem
-        label="Verify Status"
-        value={verifyStatus || "Not Provided"}
-      />
-      <View style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}>
-        <PrimaryButton
-          style={{ marginTop: 20 }}
-          title="Update"
-          onPress={() =>
-            Alert.alert(
-              "The PAN Details are not editable, please ask your employer to update"
-            )
-          }
-        />
-      </View>
+      {verifyStatus == "SUCCESS" ? (
+        <>
+          {data.map((item, index) => (
+            <DetailItem
+              key={index}
+              label={item.label}
+              value={item.value || "Not Provided"}
+              divider
+            />
+          ))}
+
+          <View
+            style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}
+          >
+            <PrimaryButton
+              style={{ marginTop: 20 }}
+              title="Update"
+              onPress={() =>
+                Alert.alert(
+                  "The PAN Details are not editable, please ask your employer to update"
+                )
+              }
+            />
+          </View>
+        </>
+      ) : (
+        <PanDataCollection />
+      )}
     </View>
   );
 };
