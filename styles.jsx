@@ -350,6 +350,7 @@ export const bankform = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Roboto",
   },
+  asterisk: { fontWeight: "bold", color: "#4E46F1" },
 });
 
 export const homeCard = StyleSheet.create({

@@ -17,6 +17,7 @@ import {
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { bankform, form, styles, checkBox } from "../../styles";
 
+
 export default BankInformationForm = () => {
   const navigation = useNavigation();
   const bankSlice = useSelector((state) => state.bank);
@@ -110,7 +111,7 @@ export default BankInformationForm = () => {
             <Text style={bankform.subTitle}>Enter your Bank Details</Text>
 
             <Text style={bankform.formtitle}>
-              Account Holder Name*
+              Account Holder Name <Text style={bankform.asterisk}>*</Text>
               <Popable
                 content={
                   "Refer to your Bank Passbook or Cheque book for the exact Name mentioned in your bank records"
@@ -130,7 +131,7 @@ export default BankInformationForm = () => {
             />
 
             <Text style={bankform.formtitle}>
-              Bank Account Number*
+              Bank Account Number <Text style={bankform.asterisk}>*</Text>
               <Popable
                 content={
                   "Refer to your Bank Passbook or Cheque book to get the Bank Account Number."
@@ -153,7 +154,7 @@ export default BankInformationForm = () => {
             ) : null}
 
             <Text style={bankform.formtitle}>
-              IFSC Code*
+              IFSC Code <Text style={bankform.asterisk}>*</Text>
               <Popable
                 content={
                   "You can find the IFSC code on the cheque book or bank passbook that is provided by the bank"
@@ -174,6 +175,7 @@ export default BankInformationForm = () => {
             {ifsc && !ifscNext ? (
               <Text style={bankform.formatmsg}>Incorrect Format</Text>
             ) : null}
+            <Text style={{alignSelf:"center",fontWeight:"bold",marginTop:20,fontSize:18}}>-OR-</Text>
             <Text style={bankform.formtitle}>
               UPI ID
               <Popable

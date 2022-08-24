@@ -63,7 +63,7 @@ export default PersonalDetailsForm = () => {
       setNext(false);
     }
   }, [maritalStatus, educationalQualification]);
-  
+
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -82,7 +82,9 @@ export default PersonalDetailsForm = () => {
         <Text style={form.formHeader}>Employee basic details</Text>
         <KeyboardAvoidingWrapper>
           <View>
-            <Text style={form.formLabel}>Select Education*</Text>
+            <Text style={form.formLabel}>
+              Select Education <Text style={bankform.asterisk}>*</Text>
+            </Text>
             <Picker
               selectedValue={educationalQualification}
               style={form.picker}
@@ -95,7 +97,7 @@ export default PersonalDetailsForm = () => {
                 return <Picker.Item label={item} value={item} key={index} />;
               })}
             </Picker>
-            <Text style={form.formLabel}>Marital Status*</Text>
+            <Text style={form.formLabel}>Marital Status <Text style={bankform.asterisk}>*</Text></Text>
             <View style={styles.flexrow}>
               {maritalStatuses.map((item, index) => {
                 return (
@@ -137,27 +139,27 @@ export default PersonalDetailsForm = () => {
               required
             />
 
-          {next ? (
-            <Button
-              title="Continue"
-              type="solid"
-              uppercase={false}
-              style={form.nextButton}
-              color="#4E46F1"
-              onPress={() => {
-                navigation.navigate("PersonalImage");
-              }}
-            />
-          ) : (
-            <Button
-              title="Continue"
-              uppercase={false}
-              type="solid"
-              style={form.nextButton}
-              disabled
-            />
-          )}
-          <View style={bankform.padding}></View>
+            {next ? (
+              <Button
+                title="Continue"
+                type="solid"
+                uppercase={false}
+                style={form.nextButton}
+                color="#4E46F1"
+                onPress={() => {
+                  navigation.navigate("PersonalImage");
+                }}
+              />
+            ) : (
+              <Button
+                title="Continue"
+                uppercase={false}
+                type="solid"
+                style={form.nextButton}
+                disabled
+              />
+            )}
+            <View style={bankform.padding}></View>
           </View>
         </KeyboardAvoidingWrapper>
       </SafeAreaView>
