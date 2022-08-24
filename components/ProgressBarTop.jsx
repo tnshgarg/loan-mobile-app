@@ -97,8 +97,6 @@ export default ProgressBarTop = (props) => {
   const onStepPress = (position) => {
     let step = "";
     switch (position) {
-      case 0:
-        break;
       case 1:
         aadhaarStatus == "SUCCESS"
           ? (step = "AadhaarConfirm")
@@ -118,10 +116,8 @@ export default ProgressBarTop = (props) => {
       case 5:
         step = "PersonalImage";
         break;
-      default:
-        break;
     }
-    navigation.navigate(step);
+    position != 0 ? navigation.navigate(step) : null;
   };
   return (
     <View style={progressBar.progressView}>
