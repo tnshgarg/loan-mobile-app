@@ -5,7 +5,7 @@ import DocumentTile from "../../components/DocumentTile";
 import { docSearch, styles } from "../../styles";
 
 export default HomeView = () => {
-  documents = [
+  const documents = [
     { title: "Document 1", date: "2020-01-01" },
     { title: "Document 2", date: "2020-01-01" },
     { title: "Document 3", date: "2020-01-01" },

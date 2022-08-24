@@ -109,6 +109,13 @@ export const styles = StyleSheet.create({
     backgroundColor: "#4E46F1",
     borderRadius: 6,
   },
+  Maintitle: {
+    marginLeft: 30,
+    marginTop: 10,
+    color: "black",
+    fontSize: 18,
+    fontFamily: "Roboto",
+  },
 });
 
 export const buttons = StyleSheet.create({
@@ -534,6 +541,26 @@ export const license = StyleSheet.create({
     fontSize: 12,
     fontFamily: "Roboto",
   },
+});
+
+export const card = StyleSheet.create({
+  alertCard: {
+    marginTop: 20,
+    padding: 10,
+    flexDirection: "column",
+  },
+  infoText: {
+    fontSize: 16,
+  },
+  alertText:{
+    color: "black",
+    fontSize: 14,
+    fontWeight: "bold",
+    textDecorationLine: "underline",
+    paddingLeft: 10,
+    paddingTop:10,
+  },
+
 });
 
 export const dev = StyleSheet.create({
