@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import { Text, View, Image } from "react-native";
 import { Button } from "@react-native-material/core";
-import { addVerifyMsg, addVerifyStatus } from "../../store/slices/aadhaarSlice";
+import { addVerifyMsg, addVerifyStatus ,addVerifyTimestamp} from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
 
@@ -20,6 +20,7 @@ export default Confirm = () => {
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const [verifyMsg, setVerifyMsg] = useState(aadhaarSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(aadhaarSlice?.verifyStatus);
+  const [verifyTimestamp, setVerifyTimestamp] = useState(aadhaarSlice?.verifyTimestamp);
 
   useEffect(() => {
     dispatch(addVerifyMsg(verifyMsg));
@@ -30,6 +31,10 @@ export default Confirm = () => {
   }, [verifyStatus]);
 
   useEffect(() => {
+    dispatch(addVerifyTimestamp(verifyTimestamp))
+  }, [verifyTimestamp]);
+
+  useEffect(() => {
     console.log(backendPush);
     if (backendPush) {
       aadhaarBackendPush({
@@ -38,6 +43,7 @@ export default Confirm = () => {
         number: number,
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
+        verifyTimestamp: verifyTimestamp,
       });
       setBackendPush(false);
     }

@@ -20,7 +20,8 @@ export default Confirm = () => {
   const panSlice = useSelector((state) => state.pan);
   const [verifyMsg, setVerifyMsg] = useState(panSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(panSlice?.verifyStatus);
-
+  const [verifyTimestamp, setVerifyTimestamp] = useState(panSlice?.verifyTimestamp);
+  
   useEffect(() => {
     dispatch(addVerifyMsg(verifyMsg));
   }, [verifyMsg]);
@@ -38,6 +39,7 @@ export default Confirm = () => {
         number: number,
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
+        verifyTimestamp:verifyTimestamp,
       });
       setBackendPush(false);
     }

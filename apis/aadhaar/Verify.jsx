@@ -7,7 +7,8 @@ import { useNavigation } from "@react-navigation/core";
 import {
   addData,
   addVerifyMsg,
-  addVerifyStatus
+  addVerifyStatus,
+  addVerifyTimestamp
 } from "../../store/slices/aadhaarSlice";
 import ApiView from "../ApiView";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
@@ -119,7 +120,7 @@ export default Verify = (props) => {
           console.log("Error: ", error);
           setVerifyMsg(error);
           setVerifyStatus("ERROR");
-          setBackendPush(true);
+          setBackendPush(true); 
           Alert.alert("Error", error);
         }
       })
