@@ -38,7 +38,6 @@ export default Confirm = () => {
         number: number,
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
-        xml: data["aadhaar_data"]["xml_base64"],
       });
       setBackendPush(false);
     }
@@ -52,14 +51,14 @@ export default Confirm = () => {
 
       <Image
         source={{
-          uri: `data:image/jpeg;base64,${data["aadhaar_data"]["photo_base64"]}`,
+          uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
         }}
         style={form.aadharimg}
       />
       <Text style={form.userData}>Number: {number}</Text>
-      <Text style={form.userData}>Name: {data["aadhaar_data"]["name"]}</Text>
-      <Text style={form.userData}>Date of Birth: {data["aadhaar_data"]["date_of_birth"]}</Text>
-      <Text style={form.userData}>Gender: {data["aadhaar_data"]["gender"]}</Text>
+      <Text style={form.userData}>Name: {data["name"]}</Text>
+      <Text style={form.userData}>Date of Birth: {data["date_of_birth"]}</Text>
+      <Text style={form.userData}>Gender: {data["gender"]}</Text>
 
       <View
         style={{

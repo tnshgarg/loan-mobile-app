@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import {
-  addDob,
-  addEmail,
-  addGender,
-  addName,
+  addData,
   addVerifyMsg,
-  addVerifyStatus
+  addVerifyStatus,
+  addVerifyTimestamp
 } from "../../store/slices/panSlice";
+
+import { useUpdatePanMutation } from "../../services/kyc/pan";
 import { panBackendPush } from "../../helpers/BackendPush";
 import ApiView from '../ApiView';
 
@@ -23,28 +23,16 @@ export default Verify = (props) => {
 
   const id = useSelector((state) => state.auth.id);
   const panSlice = useSelector((state) => state.pan);
-  const [dob, setDob] = useState(panSlice?.dob);
-  const [email, setEmail] = useState(panSlice?.email);
-  const [gender, setGender] = useState(panSlice?.gender);
-  const [name, setName] = useState(panSlice?.name);
+  const [data, setData] = useState(panSlice?.data);
   const [verifyMsg, setVerifyMsg] = useState(panSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(panSlice?.verifyStatus);
+  const [verifyTimestamp, setVerifyTimestamp] = useState(panSlice?.verifyTimestamp);
+
+  const [updatePan] = useUpdatePanMutation();
 
   useEffect(() => {
-    dispatch(addDob(dob))
-  }, [dob]);
-
-  useEffect(() => {
-    dispatch(addEmail(email))
-  }, [email]);
-
-  useEffect(() => {
-    dispatch(addGender(gender))
-  }, [gender]);
-
-  useEffect(() => {
-    dispatch(addName(name))
-  }, [name]);
+    dispatch(addData(data))
+  }, [data]);
 
   useEffect(() => {
     dispatch(addVerifyMsg(verifyMsg))
@@ -55,19 +43,27 @@ export default Verify = (props) => {
   }, [verifyStatus]);
 
   useEffect(() => {
-    console.log(backendPush);
-    console.log("verifyStatus: ", verifyStatus);
+    dispatch(addVerifyTimestamp(verifyTimestamp))
+  }, [verifyTimestamp]);
+
+  useEffect(() => {
+    console.log("panSlice: ", panSlice);
     if (backendPush) {
-      panBackendPush({
-        id: id,
-        dob: dob,
-        email: email,
-        gender: gender,
-        name: name,
-        number: panSlice?.number,
-        verifyMsg: verifyMsg,
-        verifyStatus: verifyStatus,
-      });
+      updatePan({...panSlice, id: id})
+        .then((response) => {
+          console.log("response: ", response);
+        })
+        .catch((err) => {
+          console.log("err: ", err);
+        });
+      // panBackendPush({
+      //   id: id,
+      //   data: data,
+      //   number: panSlice?.number,
+      //   verifyMsg: verifyMsg,
+      //   verifyStatus: verifyStatus,
+      //   verifyTimestamp: verifyTimestamp,
+      // });
       setBackendPush(false);
       setLoading(false);
     }
@@ -93,13 +89,12 @@ export default Verify = (props) => {
             switch (responseJson["data"]["code"]) {
               case "1000":
                 const names = ["first", "middle", "last"];
-                console.log('getting data from fetch', responseJson);
-                setDob(responseJson["data"]["pan_data"]["date_of_birth"]);
-                setEmail(responseJson["data"]["pan_data"]["email"]?.toLowerCase());
-                setGender(responseJson["data"]["pan_data"]["gender"]);
-                setName(names.map(k => responseJson["data"]["pan_data"][`${k}_name`]).join(" "));
+                responseJson["data"]["pan_data"]["name"] = names.map(k => responseJson["data"]["pan_data"][`${k}_name`]).join(" ");
+                console.log("PAN fetched data: ", responseJson);
+                setData(responseJson["data"]["pan_data"]);
                 setVerifyMsg("To be confirmed by User");
                 setVerifyStatus("PENDING");
+                setVerifyTimestamp(responseJson["timestamp"]);
                 setBackendPush(true);
                 navigation.navigate("PanConfirm");
                 break;
