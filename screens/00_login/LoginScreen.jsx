@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GenerateDocument } from "../../helpers/GenerateDocument";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { putBackendData } from "../../services/employees/employeeServices";
-import { sendSmsVerification } from "../../services/otp/Twilio/verify";
+import { sendSmsVerification } from "../../services/otp/Gupshup/services";
 import { addId, addPhoneNumber } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
@@ -96,27 +96,34 @@ export default LoginScreen = () => {
       .then((res) => {
         console.log(phonePayload);
         console.log(res.data);
-        if (res.data["status"] == 201) {
+        if (res.data["status"] == 200) {
           setId(res.data["id"]);
-          sendSmsVerification(fullPhoneNumber)
-            .then((sent) => {
-              setLoading(false);
-              if (sent) {
-                console.log("Sent!");
+          sendSmsVerification(phoneNumber)
+            .then((result) => {
+              console.log("result: ", result);
+              if (result["response"]["status"] === "success") {
+                console.log(result);
                 navigation.navigate("Otp");
               } else {
-                console.log("Code not sent");
-                console.log("IsSent: ", sent);
+                setLoading(false);
+                Alert.alert(
+                  result["response"]["status"],
+                  result["response"]["details"]
+                );
               }
             })
             .catch((error) => {
+              setLoading(false);
               console.log(error);
+              Alert("Error","Something is Wrong");
             });
         } else {
+          setLoading(false);
           Alert.alert("Error", res.data["message"]);
         }
       })
       .catch((error) => {
+        setLoading(false);
         console.log(error);
       });
   };

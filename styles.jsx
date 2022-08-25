@@ -109,6 +109,13 @@ export const styles = StyleSheet.create({
     backgroundColor: "#4E46F1",
     borderRadius: 6,
   },
+  Maintitle: {
+    marginLeft: 30,
+    marginTop: 10,
+    color: "black",
+    fontSize: 18,
+    fontFamily: "Roboto",
+  },
 });
 
 export const buttons = StyleSheet.create({
@@ -154,7 +161,7 @@ export const form = StyleSheet.create({
   },
   formTextInput: {
     marginLeft: 34,
-    width:"80%",
+    width: "80%",
     height: 50,
     borderBottomWidth: 1,
   },
@@ -299,7 +306,7 @@ export const bankform = StyleSheet.create({
   },
   formInput: {
     marginLeft: 34,
-    width:"80%",
+    width: "80%",
     height: 40,
     borderBottomWidth: 1,
   },
@@ -343,6 +350,7 @@ export const bankform = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Roboto",
   },
+  asterisk: { fontWeight: "bold", color: "#4E46F1" },
 });
 
 export const homeCard = StyleSheet.create({
@@ -515,24 +523,44 @@ export const esic = StyleSheet.create({
 });
 
 export const license = StyleSheet.create({
-  authority:{
+  authority: {
     color: "#4E46F1",
     marginLeft: "20%",
     fontSize: 12,
     fontFamily: "Roboto",
   },
-  valid:{
+  valid: {
     color: "green",
     marginLeft: "10%",
     fontSize: 12,
     fontFamily: "Roboto",
   },
-  invalid:{
+  invalid: {
     color: "red",
     marginLeft: "20%",
     fontSize: 12,
     fontFamily: "Roboto",
-  }
+  },
+});
+
+export const card = StyleSheet.create({
+  alertCard: {
+    marginTop: 20,
+    padding: 10,
+    flexDirection: "column",
+  },
+  infoText: {
+    fontSize: 16,
+  },
+  alertText:{
+    color: "black",
+    fontSize: 14,
+    fontWeight: "bold",
+    textDecorationLine: "underline",
+    paddingLeft: 10,
+    paddingTop:10,
+  },
+
 });
 
 export const dev = StyleSheet.create({

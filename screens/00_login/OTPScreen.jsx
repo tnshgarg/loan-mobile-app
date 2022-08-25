@@ -2,16 +2,20 @@ import { Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import {
-  Alert, Image, SafeAreaView, Text, TextInput, View
+  Alert,
+  Image,
+  SafeAreaView,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 import CountDown from "react-native-countdown-component";
-import SmsRetriever from "react-native-sms-retriever";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
   checkVerification,
-  sendSmsVerification
-} from "../../services/otp/Twilio/verify";
+  sendSmsVerification,
+} from "../../services/otp/Gupshup/services";
 import { addLoginVerifyStatus } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
@@ -86,7 +90,7 @@ export default OTPScreen = () => {
                 onPress={() =>
                   Alert.alert(
                     "OTP Timer",
-                    "You must wait for 30 seconds to edit number"
+                    "You must wait for 2 minutes to edit number"
                   )
                 }
               />
@@ -120,12 +124,24 @@ export default OTPScreen = () => {
             <Text
               style={styles.resendText}
               onPress={() => {
-                sendSmsVerification(`+91${phoneNumber}`).then((sent) => {
-                  console.log("Sent!");
-                });
-                setOtp("");
-                setBack(false);
-                dispatch(resetTimer());
+                sendSmsVerification(phoneNumber)
+                  .then((res) => {
+                    if (res["response"]["status"] === "success") {
+                      setOtp("");
+                      setBack(false);
+                      dispatch(resetTimer());
+                      Alert.alert("OTP resent successfully");
+                    } else {
+                      Alert.alert(
+                        res["response"]["status"],
+                        res["response"]["details"]
+                      );
+                    }
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                    Alert.alert("Error", error);
+                  });
               }}
             >
               Resend
@@ -144,15 +160,24 @@ export default OTPScreen = () => {
               color="#4E46F1"
               style={styles.ContinueButton}
               onPress={() => {
-                const fullPhoneNumber = `+91${phoneNumber}`;
                 setNext(false);
-                checkVerification(fullPhoneNumber, otp).then((success) => {
-                  if (!success) Alert.alert("err", "Incorrect OTP");
-                  success && navigation.navigate("AadhaarForm");
-                  console.log(fullPhoneNumber, otp);
-                  dispatch(addLoginVerifyStatus("SUCCESS"));
-                  SmsRetriever.removeSmsListener();
-                });
+                checkVerification(phoneNumber, otp)
+                  .then((res) => {
+                    if (res["response"]["status"] === "success") {
+                      navigation.navigate("AadhaarForm");
+                      dispatch(addLoginVerifyStatus("SUCCESS"));
+                      dispatch(resetTimer());
+                    } else {
+                      Alert.alert(
+                        res["response"]["status"],
+                        res["response"]["details"]
+                      );
+                    }
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                    Alert.alert("Error", error);
+                  });
               }}
             />
           ) : (

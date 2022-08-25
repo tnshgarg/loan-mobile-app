@@ -8,7 +8,6 @@ import KYCScreen from "../screens/07_drawer/KYCScreen";
 import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import { Image } from "react-native";
 import { nav } from "../styles";
-import { useNavigation } from "@react-navigation/native";
 
 const Drawer = createDrawerNavigator();
 

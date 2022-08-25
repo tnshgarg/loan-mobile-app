@@ -18,6 +18,7 @@ import { putBackendData } from "../../services/employees/employeeServices";
 import { addSelfie } from "../../store/slices/profileSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { checkBox, form, selfie, styles } from "../../styles";
+import RNIPPhotoCapture from "../../components/RNIPPhotoCapture";
 
 export default PersonalImage = () => {
   const navigation = useNavigation();
@@ -82,7 +83,7 @@ export default PersonalImage = () => {
     <>
       <SafeAreaView style={styles.container}>
         <AppBar
-          title="Setup Profile"
+          title="Photo"
           color="#4E46F1"
           leading={
             <IconButton
@@ -117,15 +118,7 @@ export default PersonalImage = () => {
                 onImageLibraryPress();
               }}
             />
-            <IconButton
-              icon={<Icon name="camera-alt" size={25} color="black" />}
-              style={selfie.cameraButton}
-              onPress={() => {
-                navigation.navigate("RNPhotoCapture", {
-                  type: "SELFIE",
-                });
-              }}
-            />
+           <RNIPPhotoCapture/>
           </View>
           {next ? (
             <Button
