@@ -25,6 +25,7 @@ export default Verify = (props) => {
   const [submitOTPtxnId, setSubmitOTPtxnId] = useState(aadhaarSlice?.submitOTPtxnId);
   const [verifyMsg, setVerifyMsg] = useState(aadhaarSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(aadhaarSlice?.verifyStatus);
+  const [verifyTimestamp, setVerifyTimestamp] = useState(aadhaarSlice?.verifyTimestamp);
 
   useEffect(() => {
     dispatch(addData(data))
@@ -39,6 +40,10 @@ export default Verify = (props) => {
   }, [verifyStatus]);
 
   useEffect(() => {
+    dispatch(addVerifyTimestamp(verifyTimestamp))
+  }, [verifyTimestamp]);
+
+  useEffect(() => {
     console.log(backendPush);
     console.log("verifyStatus: ", verifyStatus);
     if (backendPush) {
@@ -48,6 +53,7 @@ export default Verify = (props) => {
         number: aadhaarSlice?.number,
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
+        verifyTimestamp: verifyTimestamp,
       });
       setBackendPush(false);
       setLoading(false);
@@ -87,6 +93,7 @@ export default Verify = (props) => {
                 setData(responseJson["data"]["aadhaar_data"]);
                 setVerifyMsg("OTP validated by User");
                 setVerifyStatus("PENDING");
+                setVerifyTimestamp(responseJson["timestamp"]);
                 setBackendPush(true);
                 navigation.navigate("AadhaarConfirm");
                 break;

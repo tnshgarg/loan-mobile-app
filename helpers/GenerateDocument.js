@@ -14,6 +14,7 @@ const GenerateDocument = (props) => {
         number: props.number,
         verifyMsg: props.verifyMsg,
         verifyStatus: props.verifyStatus,
+        verifyTimestamp: props.verifyTimestamp,
       };
       console.log("document: ", document);
       break;

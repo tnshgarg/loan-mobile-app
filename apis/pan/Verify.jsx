@@ -9,8 +9,6 @@ import {
   addVerifyStatus,
   addVerifyTimestamp
 } from "../../store/slices/panSlice";
-
-import { useUpdatePanMutation } from "../../services/kyc/pan";
 import { panBackendPush } from "../../helpers/BackendPush";
 import ApiView from '../ApiView';
 
@@ -49,21 +47,14 @@ export default Verify = (props) => {
   useEffect(() => {
     console.log("panSlice: ", panSlice);
     if (backendPush) {
-      updatePan({...panSlice, id: id})
-        .then((response) => {
-          console.log("response: ", response);
-        })
-        .catch((err) => {
-          console.log("err: ", err);
-        });
-      // panBackendPush({
-      //   id: id,
-      //   data: data,
-      //   number: panSlice?.number,
-      //   verifyMsg: verifyMsg,
-      //   verifyStatus: verifyStatus,
-      //   verifyTimestamp: verifyTimestamp,
-      // });
+      panBackendPush({
+        id: id,
+        data: data,
+        number: panSlice?.number,
+        verifyMsg: verifyMsg,
+        verifyStatus: verifyStatus,
+        verifyTimestamp: verifyTimestamp,
+      });
       setBackendPush(false);
       setLoading(false);
     }

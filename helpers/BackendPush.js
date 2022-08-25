@@ -9,6 +9,7 @@ export const aadhaarBackendPush = (props) => {
     data: props.data || {},
     verifyMsg: props.verifyMsg,
     verifyStatus: props.verifyStatus,
+    verifyTimestamp: props.verifyTimestamp,
   });
   putBackendData({ document: aadhaarPayload, src: "Aadhaar" })
     .then((res) => {
