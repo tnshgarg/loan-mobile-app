@@ -26,8 +26,6 @@ export default Verify = (props) => {
   const [verifyStatus, setVerifyStatus] = useState(panSlice?.verifyStatus);
   const [verifyTimestamp, setVerifyTimestamp] = useState(panSlice?.verifyTimestamp);
 
-  const [updatePan] = useUpdatePanMutation();
-
   useEffect(() => {
     dispatch(addData(data))
   }, [data]);
