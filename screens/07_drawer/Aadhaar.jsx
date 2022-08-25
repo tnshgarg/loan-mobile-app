@@ -5,26 +5,18 @@ import PrimaryButton from "../../components/PrimaryButton";
 import { useSelector } from "react-redux";
 
 const Aadhaar = () => {
-  const aadhaarNumber = useSelector((state) => state.aadhaar.number);
-  const aadhaarData = useSelector((state) => state.aadhaar.data["aadhaar_data"]);
-  const dob = aadhaarData?.["date_of_birth"];
-  const fullName = aadhaarData?.["name"];
-  const address = aadhaarData?.["locality"];
+  const data = useSelector((state) => state.aadhaar.data["aadhaar_data"]);
+  const number = useSelector((state) => state.aadhaar.number);
+  const address = data?.["address"];
+  const dob = data?.["date_of_birth"];
+  const name = data?.["name"];
   const verifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
   //Todo: Full Name, dob and Address not present
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <DetailItem
-        label="Full Name"
-        value={fullName || "Not Provided"}
-        divider
-      />
-      <DetailItem
-        label="Aadhaar Number"
-        value={aadhaarNumber || "Not Provided"}
-        divider
-      />
+      <DetailItem label="Number" value={number || "Not Provided"} divider />
+      <DetailItem label="Name" value={name || "Not Provided"} divider />
       <DetailItem label="Date of Birth" value={dob || "Not Provided"} divider />
       <DetailItem label="Address" value={address || "Not Provided"} divider />
       <DetailItem

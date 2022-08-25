@@ -14,16 +14,14 @@ export default Confirm = () => {
   const [backendPush, setBackendPush] = useState(false);
 
   const id = useSelector((state) => state.auth.id);
-  const dob = useSelector((state) => state.pan.dob);
-  const email = useSelector((state) => state.pan.email);
-  const gender = useSelector((state) => state.pan.gender);
-  const name = useSelector((state) => state.pan.name);
+  const data = useSelector((state) => state.pan.data);
   const number = useSelector((state) => state.pan.number);
 
   const panSlice = useSelector((state) => state.pan);
   const [verifyMsg, setVerifyMsg] = useState(panSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(panSlice?.verifyStatus);
-
+  const [verifyTimestamp, setVerifyTimestamp] = useState(panSlice?.verifyTimestamp);
+  
   useEffect(() => {
     dispatch(addVerifyMsg(verifyMsg));
   }, [verifyMsg]);
@@ -37,13 +35,11 @@ export default Confirm = () => {
     if (backendPush) {
       panBackendPush({
         id: id,
-        dob: dob,
-        email: email,
-        gender: gender,
-        name: name,
+        data: data,
         number: number,
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
+        verifyTimestamp:verifyTimestamp,
       });
       setBackendPush(false);
     }
@@ -53,10 +49,10 @@ export default Confirm = () => {
     <View style={styles.container}>
       <Text style={form.OtpAwaitMsg}>Are these your PAN details ?{"\n"}</Text>
       <Text style={form.userData}>Number: {number}</Text>
-      <Text style={form.userData}>Name: {name}</Text>
-      <Text style={form.userData}>Date of Birth: {dob}</Text>
-      <Text style={form.userData}>Gender: {gender}</Text>
-      {email && <Text style={form.userData}>Email: {email}</Text>}
+      <Text style={form.userData}>Name: {data["name"]}</Text>
+      <Text style={form.userData}>Date of Birth: {data["date_of_birth"]}</Text>
+      <Text style={form.userData}>Gender: {data["gender"]}</Text>
+      {data["email"] && <Text style={form.userData}>Email: {data["email"]}</Text>}
       
       <View
         style={{

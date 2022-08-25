@@ -15,7 +15,7 @@ const API = () => {
   }
 };
 
-const EMPLOYEE_API_BASE_URL = API();
+export const EMPLOYEE_API_BASE_URL = API();
 
 export const MOBILE_ONBOARD_API = `${EMPLOYEE_API_BASE_URL}/mobile`;
 export const AADHAR_ONBOARD_API = `${EMPLOYEE_API_BASE_URL}/aadhaar`;
@@ -27,3 +27,4 @@ export const ADDRESS_ONBOARD_API = `${EMPLOYEE_API_BASE_URL}/esic/address`;
 export const PORTAL_ONBOARD_API = `${EMPLOYEE_API_BASE_URL}/esic/portal`;
 export const GET_DOCUMENTS_API = `${EMPLOYEE_API_BASE_URL}/documents`;
 
+export const TIMEOUT = 5 * 60;

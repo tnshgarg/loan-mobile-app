@@ -40,7 +40,7 @@ export default AadhaarForm = () => {
   const SkipAadhaar = () => {
     Alert.alert(
       "Aadhaar KYC pending",
-      `You have not completed Aadhaar KYC. Do you wish to Skip?`,
+      `To formally complete your employment with the company, Aadhaar KYC is required.`,
       [
         { text: "No", onPress: () => null, style: "cancel" },
         { text: "Yes", onPress: () => navigation.navigate("PanForm") },
@@ -63,7 +63,7 @@ export default AadhaarForm = () => {
     <>
       <SafeAreaView style={styles.container}>
         <AppBar
-          title="Setup Profile"
+          title="Aadhaar Verification"
           color="#4E46F1"
           leading={
             <IconButton

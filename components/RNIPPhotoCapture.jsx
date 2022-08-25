@@ -5,14 +5,14 @@ import { useDispatch } from "react-redux";
 import { addSelfie } from "../store/slices/profileSlice";
 import { selfie } from "../styles";
 
-export default function RNIPPhotoCapture(props) {
+export default function RNIPPhotoCapture() {
   const dispatch = useDispatch();
   const openCamera = () => {
     const options = {
       saveToPhotos: true,
       mediaType: "photo",
       includeBase64: true,
-      cameraType: props.side,
+      cameraType: "front",
     };
     ImagePicker.launchCamera(options, (response) => {
       if (response.didCancel) {

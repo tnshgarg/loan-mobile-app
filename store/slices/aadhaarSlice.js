@@ -6,6 +6,7 @@ const initialState = {
   submitOTPtxnId: "",
   verifyMsg: "",
   verifyStatus: "PENDING",
+  verifyTimestamp: "",
 };
 
 const aadhaarSlice = createSlice({
@@ -27,6 +28,9 @@ const aadhaarSlice = createSlice({
     addVerifyStatus(state, action) {
       state.verifyStatus = action.payload;
     },
+    addVerifyTimestamp(state, action) {
+      state.verifyTimestamp = action.payload;
+    },
     resetAadhaar(state) {
       Object.assign(state, initialState);
     },
@@ -39,6 +43,7 @@ export const {
   addSubmitOTPtxnId,
   addVerifyMsg,
   addVerifyStatus,
+  addVerifyTimestamp,
   resetAadhaar,
 } = aadhaarSlice.actions;
 

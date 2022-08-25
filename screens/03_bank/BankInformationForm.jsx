@@ -1,7 +1,7 @@
-import { AppBar, Icon, IconButton } from "@react-native-material/core";
+import { AppBar, Icon, IconButton, Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, Text, TextInput, View } from "react-native";
+import { SafeAreaView, Text, TextInput, View, Alert } from "react-native";
 import { Popable } from "react-native-popable";
 import { useDispatch, useSelector } from "react-redux";
 import Verify from "../../apis/bank/Verify";
@@ -16,6 +16,7 @@ import {
 } from "../../store/slices/bankSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { bankform, form, styles, checkBox } from "../../styles";
+
 
 export default BankInformationForm = () => {
   const navigation = useNavigation();
@@ -47,6 +48,20 @@ export default BankInformationForm = () => {
     dispatch(addBankUpi(upi));
   }, [upi]);
 
+  const SkipBank = () => {
+    Alert.alert(
+      "Bank KYC pending",
+      `If you want to receive your salary on time, Bank details are required.`,
+      [
+        { text: "No", onPress: () => null, style: "cancel" },
+        {
+          text: "Yes",
+          onPress: () => navigation.navigate("PersonalDetailsForm"),
+        },
+      ]
+    );
+  };
+
   useEffect(() => {
     var accountNumberReg = /^[0-9]{9,18}$/gm;
     if (accountNumberReg.test(accountNumber)) {
@@ -69,7 +84,7 @@ export default BankInformationForm = () => {
     <>
       <SafeAreaView style={styles.container}>
         <AppBar
-          title="Setup Profile"
+          title="Bank Details"
           color="#4E46F1"
           leading={
             <IconButton
@@ -96,7 +111,7 @@ export default BankInformationForm = () => {
             <Text style={bankform.subTitle}>Enter your Bank Details</Text>
 
             <Text style={bankform.formtitle}>
-              Account Holder Name*
+              Account Holder Name <Text style={bankform.asterisk}>*</Text>
               <Popable
                 content={
                   "Refer to your Bank Passbook or Cheque book for the exact Name mentioned in your bank records"
@@ -116,7 +131,7 @@ export default BankInformationForm = () => {
             />
 
             <Text style={bankform.formtitle}>
-              Bank Account Number*
+              Bank Account Number <Text style={bankform.asterisk}>*</Text>
               <Popable
                 content={
                   "Refer to your Bank Passbook or Cheque book to get the Bank Account Number."
@@ -139,7 +154,7 @@ export default BankInformationForm = () => {
             ) : null}
 
             <Text style={bankform.formtitle}>
-              IFSC Code*
+              IFSC Code <Text style={bankform.asterisk}>*</Text>
               <Popable
                 content={
                   "You can find the IFSC code on the cheque book or bank passbook that is provided by the bank"
@@ -160,6 +175,7 @@ export default BankInformationForm = () => {
             {ifsc && !ifscNext ? (
               <Text style={bankform.formatmsg}>Incorrect Format</Text>
             ) : null}
+            <Text style={{alignSelf:"center",fontWeight:"bold",marginTop:20,fontSize:18}}>-OR-</Text>
             <Text style={bankform.formtitle}>
               UPI ID
               <Popable
@@ -195,6 +211,14 @@ export default BankInformationForm = () => {
               data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}
               style={form.nextButton}
               disabled={!ifscNext || !accNumNext || !consent}
+            />
+            <Button
+              title="Skip"
+              uppercase={false}
+              type="solid"
+              color="#4E46F1"
+              style={form.skipButton}
+              onPress={() => SkipBank()}
             />
             <View style={bankform.padding}></View>
           </View>

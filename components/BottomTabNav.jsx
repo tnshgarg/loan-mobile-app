@@ -1,6 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Icon } from "@react-native-material/core";
+import Icon  from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default BottomTabNav = (props) => {
   const bottomTab = createBottomTabNavigator();
@@ -12,16 +12,16 @@ export default BottomTabNav = (props) => {
           let iconName;
           switch (route.name) {
             case "Home":
-              iconName = focused ? "home" : "home";
+              iconName = focused ? "home" : "home-outline";
               break;
             case "Documents":
-              iconName = focused ? "wysiwyg" : "wysiwyg";
+              iconName = focused ? "clipboard-account" : "clipboard-account-outline";
               break;
             case "Benefits":
-              iconName = focused ? "request-quote" : "request-quote";
+              iconName = focused ? "plus-thick" : "plus-outline";
               break;
-            case "Banking":
-              iconName = focused ? "money" : "money";
+            case "Money":
+              iconName = focused ? "currency-inr" : "currency-inr";
               break;
           }
           return <Icon name={iconName} size={size} color={color} />;
