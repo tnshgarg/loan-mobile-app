@@ -27,7 +27,7 @@ const rootReducer = combineReducers({
   pan: panSlice,
   profile: profileSlice,
   license: licenseSlice,
-  timer : timerSlice,
+  timer: timerSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -7,9 +7,9 @@ export const aadhaarBackendPush = (props) => {
     id: props.id,
     number: props.number,
     data: props.data || {},
-    xml: props.xml,
     verifyMsg: props.verifyMsg,
     verifyStatus: props.verifyStatus,
+    verifyTimestamp: props.verifyTimestamp,
   });
   putBackendData({ document: aadhaarPayload, src: "Aadhaar" })
     .then((res) => {
@@ -45,13 +45,11 @@ export const panBackendPush = (props) => {
   var panPayload = GenerateDocument({
     src: "Pan",
     id: props.id,
-    dob: props.dob,
-    email: props.email,
-    gender: props.gender,
-    name: props.name,
+    data: props.data || {},
     number: props.number,
-    verifyStatus: props.verifyStatus,
     verifyMsg: props.verifyMsg,
+    verifyStatus: props.verifyStatus,
+    verifyTimestamp: props.verifyTimestamp,
   });
   putBackendData({ document: panPayload, src: "Pan" })
     .then((response) => {

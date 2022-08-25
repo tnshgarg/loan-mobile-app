@@ -1,36 +1,28 @@
-import { View, Text, Alert } from "react-native";
+import { View, Alert } from "react-native";
 import React from "react";
 import DetailItem from "./DetailItem";
 import PrimaryButton from "../../components/PrimaryButton";
 import { useSelector } from "react-redux";
 
 const PAN = () => {
-  const fullName = useSelector((state) => state.pan.name);
-  const panNumber = useSelector((state) => state.pan.number);
-  const DOB = useSelector((state) => state.pan.dob);
-  const gender = useSelector((state) => state.pan.gender);
-  const email = useSelector((state) => state.pan.email);
+  const data = useSelector((state) => state.pan.data);
+  const number = useSelector((state) => state.pan.number);
+  const dob = data?.["date_of_birth"];
+  const email = data?.["email"];
+  const gender = data?.["gender"];
+  const name = data?.["name"];
+
   const verifyStatus = useSelector((state) => state.pan.verifyStatus); 
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <DetailItem
-        label="Full Name"
-        value={fullName || "Not Provided"}
-        divider
-      />
-      <DetailItem
-        label="PAN Number"
-        value={panNumber || "Not Provided"}
-        divider
-      />
-      <DetailItem label="Date of Birth" value={DOB || "Not Provided"} divider />
+      <DetailItem label="Number" value={number || "Not Provided"} divider />
+      <DetailItem label="Name" value={name || "Not Provided"} divider />
+      <DetailItem label="Date of Birth" value={dob || "Not Provided"} divider />
       <DetailItem label="Gender" value={gender || "Not Provided"} divider />
-      <DetailItem label="E-Mail" value={email || "Not Provided"} divider />
-      <DetailItem
-        label="Verify Status"
-        value={verifyStatus || "Not Provided"}
-      />
+      <DetailItem label="Email" value={email || "Not Provided"} divider />
+      <DetailItem label="Verify Status" value={verifyStatus || "Not Provided"}/>
+
       <View style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}>
         <PrimaryButton
           style={{ marginTop: 20 }}
