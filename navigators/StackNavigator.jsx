@@ -24,6 +24,10 @@ import LicenseConfirm from "../screens/06_home/Documents/License/LicenseConfirm"
 import BankConfirm from "../screens/03_bank/BankConfirm";
 import Landing from "../screens/06_home/EWA/Landing";
 import Details from "../screens/06_home/EWA/Details";
+import KYC from "../screens/06_home/EWA/KYC";
+import Mandate from "../screens/06_home/EWA/Mandate";
+import LoanDetails from "../screens/06_home/EWA/LoanDetails";
+import EarnedWage from "../screens/06_home/EWA/EarnedWage";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -189,6 +193,34 @@ const StackNavigator = () => {
       <Stack.Screen
         name="EWADetails"
         component={Details}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="EWAKYC"
+        component={KYC}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="EWAMandate"
+        component={Mandate}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="EWALoanDetails"
+        component={LoanDetails}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="EWAEarnedWage"
+        component={EarnedWage}
         options={{
           headerShown: false,
         }}

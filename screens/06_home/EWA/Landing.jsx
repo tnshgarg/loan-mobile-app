@@ -1,15 +1,14 @@
-import React, { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
-import { KeyboardAvoidingWrapper } from "../../../KeyboardAvoidingWrapper";
-import { Text, View, SafeAreaView, TextInput, ScrollView } from "react-native";
-import { AppBar, Button, IconButton } from "@react-native-material/core";
-import { useSelector } from "react-redux";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import StepIndicator from "react-native-step-indicator";
-import { styles, welcome, checkBox, bankform } from "../../../styles";
-import PrimaryButton from "../../../components/PrimaryButton";
 import CheckBox from "@react-native-community/checkbox";
+import { AppBar, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
+import React, { useState } from "react";
+import { Alert, SafeAreaView, Text, TextInput, View } from "react-native";
+import StepIndicator from "react-native-step-indicator";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { useSelector } from "react-redux";
+import PrimaryButton from "../../../components/PrimaryButton";
+import { bankform, checkBox, styles, welcome } from "../../../styles";
 
 const Landing = () => {
   const navigation = useNavigation();
@@ -17,7 +16,7 @@ const Landing = () => {
     useSelector((state) => state.aadhaar.data["aadhaar_data"]?.["name"]) ||
     useSelector((state) => state.pan?.name) ||
     "User";
-  const [amount, setAmount] = useState("20,000");
+  const [amount, setAmount] = useState("20000");
   const [consent, setConsent] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
@@ -106,14 +105,13 @@ const Landing = () => {
             style={{
               flex: 1,
               fontSize: 32,
-              color: "#0D2A4E",
+              color: canEdit ? "#0D2A4E" : "grey",
             }}
             keyboardType="numeric"
             textAlign={"center"}
             value={amount}
             onChangeText={setAmount}
             editable={canEdit}
-            clearTextOnFocus
           />
           <Icon
             name="pencil"

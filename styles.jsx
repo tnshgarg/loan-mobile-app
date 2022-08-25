@@ -535,6 +535,17 @@ export const license = StyleSheet.create({
   }
 });
 
+export const ewa = StyleSheet.create({
+  loanCard:{
+    marginTop: 20,
+    alignSelf:"center",
+    width: "90%",
+    backgroundColor:"#F2F4FB",
+    padding:"2%",
+    borderRadius:4
+  }
+});
+
 export const dev = StyleSheet.create({
   title: {
     alignSelf: "center",
