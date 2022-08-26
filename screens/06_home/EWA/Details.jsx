@@ -13,7 +13,7 @@ const Details = () => {
   const navigation = useNavigation();
   const name =
     useSelector((state) => state.aadhaar.data["aadhaar_data"]?.["name"]) ||
-    useSelector((state) => state.pan?.name) ||
+    useSelector((state) => state.pan.data?.["name"]) ||
     "";
   const [fullName, setFullName] = useState(name);
   const [pan, setPan] = useState(
