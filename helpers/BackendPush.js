@@ -22,15 +22,13 @@ export const aadhaarBackendPush = (props) => {
 };
 
 export const bankBackendPush = (props) => {
-  var bankPayload = GenerateDocument({
-    src: "Bank",
+  var bankPayload = {
     id: props.id,
-    ifsc: props.ifsc,
-    accountNumber: props.accountNumber,
-    upi: props.upi,
+    data: props.data,
     verifyStatus: props.verifyStatus,
     verifyMsg: props.verifyMsg,
-  });
+    verifyTimestamp: props.verifyTimestamp,
+  };
   putBackendData({ document: bankPayload, src: "Bank" })
     .then((res) => {
       console.log("bankPayload: ", bankPayload);

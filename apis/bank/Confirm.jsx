@@ -18,7 +18,7 @@ export default Confirm = () => {
 
   const id = useSelector((state) => state.auth.id);
   const data = useSelector((state) => state.bank.data);
-  const verifyTimestamp = useSelector((state) => state.aadhaar.verifyTimestamp);
+  const verifyTimestamp = useSelector((state) => state.bank.verifyTimestamp);
 
   const bankSlice = useSelector((state) => state.bank);
   const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
