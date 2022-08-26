@@ -92,6 +92,14 @@ export default BankInformationForm = () => {
               onPress={() => navigation.navigate("PanForm")}
             />
           }
+          trailing={
+            <IconButton
+              icon={<Icon name="arrow-forward" size={20} color="white" />}
+              onPress={() => {
+                SkipBank();
+              }}
+            />
+          }
         />
         <ProgressBarTop step={3} />
         <Text style={bankform.Maintitle}>Bank Details Verification</Text>
@@ -211,14 +219,6 @@ export default BankInformationForm = () => {
               data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}
               style={form.nextButton}
               disabled={!ifscNext || !accNumNext || !consent}
-            />
-            <Button
-              title="Skip"
-              uppercase={false}
-              type="solid"
-              color="#4E46F1"
-              style={form.skipButton}
-              onPress={() => SkipBank()}
             />
             <View style={bankform.padding}></View>
           </View>

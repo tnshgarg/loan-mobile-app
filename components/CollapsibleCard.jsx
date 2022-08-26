@@ -1,21 +1,24 @@
 import React, { useState } from "react";
 import { Text, View } from "react-native";
 import Collapsible from "react-native-collapsible";
-import { bankform, ewa } from "../styles";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import PrimaryButton from "./PrimaryButton";
+import { bankform, ewa } from "../styles";
 
-const CollapsibleCard = (props) => {
-  const [isCollapsed, setIsCollapsed] = useState(true);
+const CollapsibleCard = ({ title, TitleIcon, data, isClosed }) => {
+  const [isCollapsed, setIsCollapsed] = useState(isClosed);
   return (
     <View style={ewa.loanCard}>
       <View style={{ flexDirection: "row", width: "100%" }}>
         <Text style={{ fontWeight: "bold" }}>
-          {props.title}
-          <Icon name="information-outline" size={24} color="#FF6700" />
+          {title}
+          {TitleIcon ? <TitleIcon /> : null}
         </Text>
         <Icon
-          name="arrow-down-drop-circle-outline"
+          name={
+            isCollapsed
+              ? "arrow-down-drop-circle-outline"
+              : "arrow-up-drop-circle-outline"
+          }
           size={24}
           color="#FF6700"
           style={{ marginLeft: "auto" }}
@@ -23,7 +26,7 @@ const CollapsibleCard = (props) => {
         />
       </View>
       <Collapsible collapsed={isCollapsed}>
-        {props.data.map((item, index) => (
+        {data.map((item, index) => (
           <View
             style={{ flexDirection: "row", width: "100%", marginTop: 10 }}
             key={index}

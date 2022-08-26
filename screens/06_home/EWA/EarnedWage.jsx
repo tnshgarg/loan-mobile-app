@@ -15,6 +15,9 @@ const EarnedWage = () => {
     { subTitle: "Disbursement Bank Account No.", value: "98XXXXXXXXXX" },
     { subTitle: "Due Date", value: "23/10/2023" },
   ];
+  const icon = () => {
+    return <Icon name="information-outline" size={24} color="#FF6700" />;
+  };
   return (
     <SafeAreaView style={styles.container}>
       <AppBar
@@ -33,7 +36,12 @@ const EarnedWage = () => {
         style={ewa.successImg}
         source={require("../../../assets/success.png")}
       />
-      <CollapsibleCard data={data} title="Loan Details" />
+      <CollapsibleCard
+        data={data}
+        title="Loan Details"
+        TitleIcon={icon}
+        isClosed={false}
+      />
       <PrimaryButton
         title="Thank You"
         uppercase={false}
