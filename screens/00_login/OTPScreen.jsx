@@ -164,6 +164,10 @@ export default OTPScreen = () => {
                 checkVerification(phoneNumber, otp)
                   .then((res) => {
                     if (res["response"]["status"] === "success") {
+                      // TODO: 
+                      // 1. pull and update aadhaar, pan, bank, profile slices
+                      // 2. check if already fully verified, then take to home screen
+                      // else navigate to 1st remaining screen
                       navigation.navigate("AadhaarForm");
                       dispatch(addLoginVerifyStatus("SUCCESS"));
                       dispatch(resetTimer());

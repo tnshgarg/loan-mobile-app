@@ -16,11 +16,11 @@ export default Confirm = () => {
   const id = useSelector((state) => state.auth.id);
   const data = useSelector((state) => state.aadhaar.data);
   const number = useSelector((state) => state.aadhaar.number);
+  const verifyTimestamp = useSelector((state) => state.aadhaar.verifyTimestamp);
 
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const [verifyMsg, setVerifyMsg] = useState(aadhaarSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(aadhaarSlice?.verifyStatus);
-  const [verifyTimestamp, setVerifyTimestamp] = useState(aadhaarSlice?.verifyTimestamp);
 
   useEffect(() => {
     dispatch(addVerifyMsg(verifyMsg));
@@ -39,7 +39,7 @@ export default Confirm = () => {
     if (backendPush) {
       aadhaarBackendPush({
         id: id,
-        data: data["aadhaar_data"],
+        data: data,
         number: number,
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
