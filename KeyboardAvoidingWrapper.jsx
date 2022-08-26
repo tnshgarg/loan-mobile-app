@@ -10,10 +10,7 @@ import { styles } from "./styles";
 
 export const KeyboardAvoidingWrapper = ({ children }) => {
   return (
-    <ScrollView
-      keyboardShouldPersistTaps="handled"
-      contentContainerStyle={{ flex: 1 }}
-    >
+    <ScrollView keyboardShouldPersistTaps="handled">
       <KeyboardAvoidingView
         enabled
         style={styles.container}
