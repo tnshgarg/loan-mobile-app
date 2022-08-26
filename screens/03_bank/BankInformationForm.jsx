@@ -54,7 +54,7 @@ export default BankInformationForm = () => {
 
   const SkipBank = () => {
     Alert.alert(
-      "Bank KYC pending",
+      "Bank KYC Required",
       `If you want to receive your salary on time, Bank details are required.`,
       [
         { text: "No", onPress: () => null, style: "cancel" },
@@ -94,6 +94,14 @@ export default BankInformationForm = () => {
             <IconButton
               icon={<Icon name="arrow-back" size={20} color="white" />}
               onPress={() => navigation.navigate("PanForm")}
+            />
+          }
+          trailing={
+            <IconButton
+              icon={<Icon name="arrow-forward" size={20} color="white" />}
+              onPress={() => {
+                SkipBank();
+              }}
             />
           }
         />
@@ -222,14 +230,6 @@ export default BankInformationForm = () => {
               disabled={!ifscNext || !accNumNext || !consent}
             />
 
-            <Button
-              title="Skip"
-              uppercase={false}
-              type="solid"
-              color="#4E46F1"
-              style={form.skipButton}
-              onPress={() => SkipBank()}
-            />
             <View style={bankform.padding}></View>
           </View>
         </KeyboardAvoidingWrapper>

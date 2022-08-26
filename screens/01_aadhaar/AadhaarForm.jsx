@@ -39,8 +39,8 @@ export default AadhaarForm = () => {
 
   const SkipAadhaar = () => {
     Alert.alert(
-      "Aadhaar KYC pending",
-      `To formally complete your employment with the company, Aadhaar KYC is required.`,
+      "AADHAAR KYC Required",
+      `If you want to receive advance salary, AADHAAR KYC is required.`,
       [
         { text: "No", onPress: () => null, style: "cancel" },
         { text: "Yes", onPress: () => navigation.navigate("PanForm") },
