@@ -563,6 +563,26 @@ export const ewa = StyleSheet.create({
   },
 });
 
+export const card = StyleSheet.create({
+  alertCard: {
+    marginTop: 20,
+    padding: 10,
+    flexDirection: "column",
+  },
+  infoText: {
+    fontSize: 16,
+  },
+  alertText:{
+    color: "black",
+    fontSize: 14,
+    fontWeight: "bold",
+    textDecorationLine: "underline",
+    paddingLeft: 10,
+    paddingTop:10,
+  },
+
+});
+
 export const dev = StyleSheet.create({
   title: {
     alignSelf: "center",

@@ -10,8 +10,11 @@ import Logout from "./Logout";
 const CustomDrawer = (props) => {
   const navigation = useNavigation();
   const imageData = useSelector((state) => state.profile.selfie);
-  const name = useSelector((state) => state.aadhaar.data["aadhaar_data"]?.["name"]) || useSelector((state) => state.pan?.name) || "User";
-
+  const name =
+    useSelector((state) => state.aadhaar.data["aadhaar_data"]?.["name"]) ||
+    useSelector((state) => state.pan.data?.["name"]) ||
+    "User";
+  console.log();
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView
