@@ -5,11 +5,11 @@ import PrimaryButton from "../../components/PrimaryButton";
 import { useSelector } from "react-redux";
 
 const Bank = () => {
-  const accountNumber = useSelector((state) => state.bank.accountNumber);
-  const ifsc = useSelector((state) => state.bank.ifsc);
-  const upi = useSelector((state) => state.bank.upi);
+  const accountNumber = useSelector((state) => state.bank.data.accountNumber);
+  const ifsc = useSelector((state) => state.bank.data.ifsc);
+  const upi = useSelector((state) => state.bank.data.upi);
   const accountHolderName = useSelector(
-    (state) => state.bank.accountHolderName
+    (state) => state.bank.data.accountHolderName
   );
   const verifyStatus = useSelector((state) => state.bank.verifyStatus);
 
