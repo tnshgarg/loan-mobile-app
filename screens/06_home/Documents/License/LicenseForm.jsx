@@ -93,7 +93,7 @@ export default LicenseForm = () => {
               uppercase={false}
               type="solid"
               color="#4E46F1"
-              style={form.skipButton}
+              style={form.nextButton}
               trailing={props => <Icon name="send" {...props} />} 
               onPress={() => {
                 SkipLicense();
