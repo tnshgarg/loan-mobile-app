@@ -7,6 +7,7 @@ import {
   addSubmitOTPtxnId,
   addVerifyMsg,
   addVerifyStatus,
+  addVerifyTimestamp
 } from "../../store/slices/aadhaarSlice";
 import ApiView from "../ApiView";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
@@ -26,6 +27,7 @@ export default Otp = (props) => {
   );
   const [verifyMsg, setVerifyMsg] = useState(aadhaarSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(aadhaarSlice?.verifyStatus);
+  const [verifyTimestamp, setVerifyTimestamp] = useState(aadhaarSlice?.verifyTimestamp);
 
   useEffect(() => {
     dispatch(addSubmitOTPtxnId(submitOTPtxnId));
@@ -40,6 +42,10 @@ export default Otp = (props) => {
   }, [verifyStatus]);
 
   useEffect(() => {
+    dispatch(addVerifyTimestamp(verifyTimestamp))
+  }, [verifyTimestamp]);
+
+  useEffect(() => {
     console.log(backendPush);
     console.log("verifyStatus: ", verifyStatus);
     if (backendPush) {
@@ -48,6 +54,7 @@ export default Otp = (props) => {
         number: aadhaarSlice?.number,
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
+        verifyTimestamp : verifyTimestamp,
       });
       setBackendPush(false);
       setLoading(false);
@@ -77,6 +84,7 @@ export default Otp = (props) => {
                 setVerifyMsg("OTP sent to User");
                 setVerifyStatus("PENDING");
                 setBackendPush(true);
+                setVerifyTimestamp(responseJson["timestamp"]);
                 navigation.navigate("AadhaarVerify");
                 break;
               default:

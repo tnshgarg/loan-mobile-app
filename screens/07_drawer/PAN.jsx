@@ -1,4 +1,4 @@
-import { View, Text, Alert } from "react-native";
+import { View, Alert } from "react-native";
 import React from "react";
 import DetailItem from "./DetailItem";
 import PrimaryButton from "../../components/PrimaryButton";
@@ -6,17 +6,19 @@ import { useSelector } from "react-redux";
 import PanDataCollection from "../../templates/Pan/PanDataCollection";
 
 const PAN = () => {
-  const fullName = useSelector((state) => state.pan.name);
-  const panNumber = useSelector((state) => state.pan.number);
-  const DOB = useSelector((state) => state.pan.dob);
-  const gender = useSelector((state) => state.pan.gender);
-  const email = useSelector((state) => state.pan.email);
+  const data = useSelector((state) => state.pan.data);
+  const number = useSelector((state) => state.pan.number);
+  const dob = data?.["date_of_birth"];
+  const email = data?.["email"];
+  const gender = data?.["gender"];
+  const name = data?.["name"];
+
   const verifyStatus = useSelector((state) => state.pan.verifyStatus);
 
-  const data = [
-    { label: "Full Name", value: fullName },
-    { label: "PAN Number", value: panNumber },
-    { label: "Date of Birth", value: DOB },
+  const dataDetails = [
+    { label: "Full Name", value: name },
+    { label: "PAN Number", value: number },
+    { label: "Date of Birth", value: dob },
     { label: "Gender", value: gender },
     { label: "Email", value: email },
     { label: "Verify Status", value: verifyStatus },
@@ -26,7 +28,7 @@ const PAN = () => {
     <View style={{ flex: 1, backgroundColor: "white" }}>
       {verifyStatus == "SUCCESS" ? (
         <>
-          {data.map((item, index) => (
+          {dataDetails.map((item, index) => (
             <DetailItem
               key={index}
               label={item.label}

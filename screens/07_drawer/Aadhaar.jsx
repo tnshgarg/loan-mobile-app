@@ -1,24 +1,22 @@
-import { View, Text, Alert } from "react-native";
 import React from "react";
-import DetailItem from "./DetailItem";
-import PrimaryButton from "../../components/PrimaryButton";
+import { Alert, View } from "react-native";
 import { useSelector } from "react-redux";
+import PrimaryButton from "../../components/PrimaryButton";
 import AadhaarDataCollection from "../../templates/Aadhaar/AadhaarDataCollection";
+import DetailItem from "./DetailItem";
 
 const Aadhaar = () => {
-  const aadhaarNumber = useSelector((state) => state.aadhaar.number);
-  const aadhaarData = useSelector(
-    (state) => state.aadhaar.data["aadhaar_data"]
-  );
-  const dob = aadhaarData?.["date_of_birth"];
-  const fullName = aadhaarData?.["name"];
-  const address = aadhaarData?.["locality"];
+  const data = useSelector((state) => state.aadhaar.data["aadhaar_data"]);
+  const number = useSelector((state) => state.aadhaar.number);
+  const address = data?.["address"];
+  const dob = data?.["date_of_birth"];
+  const name = data?.["name"];
   const verifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
 
-  const data = [
-    { label: "Full Name", value: fullName },
+  const dataDetails = [
+    { label: "Full Name", value: name },
     { label: "Date of Birth", value: dob },
-    { label: "Aadhaar Number", value: aadhaarNumber },
+    { label: "Aadhaar Number", value: number },
     { label: "Address", value: address },
     { label: "Verify Status", value: verifyStatus },
   ];
@@ -27,7 +25,7 @@ const Aadhaar = () => {
     <View style={{ flex: 1, backgroundColor: "white" }}>
       {verifyStatus == "SUCCESS" ? (
         <>
-          {data.map((item, index) => (
+          {dataDetails.map((item, index) => (
             <DetailItem
               key={index}
               label={item.label}
