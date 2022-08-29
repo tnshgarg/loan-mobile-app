@@ -3,9 +3,9 @@ import { useNavigation } from "@react-navigation/core";
 import React from "react";
 import { SafeAreaView, Image } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import PrimaryButton from "../../../components/PrimaryButton";
-import CollapsibleCard from "../../../components/CollapsibleCard";
-import { ewa, styles } from "../../../styles";
+import PrimaryButton from "../../../../components/PrimaryButton";
+import CollapsibleCard from "../../../../components/CollapsibleCard";
+import { ewa, styles } from "../../../../styles";
 
 const EarnedWage = () => {
   const navigation = useNavigation();
@@ -34,7 +34,7 @@ const EarnedWage = () => {
       />
       <Image
         style={ewa.successImg}
-        source={require("../../../assets/success.png")}
+        source={require("../../../../assets/success.png")}
       />
       <CollapsibleCard
         data={data}

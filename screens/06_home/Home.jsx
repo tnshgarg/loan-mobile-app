@@ -5,13 +5,13 @@ import { FAB, Portal, Provider } from "react-native-paper";
 import { useDispatch } from "react-redux";
 
 import BottomTabNav from "../../components/BottomTabNav";
-import Benefits from "./Benefits";
+import Benefits from "./Benefits/Benefits";
 import Documents from "./Documents/Documents";
-import HomeView from "./HomeView";
 import HomeMain from "./HomeMain";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { buttons } from "../../styles";
+import Money from "./Money/Money";
 
 export default Home = () => {
   const navigation = useNavigation();
@@ -24,7 +24,7 @@ export default Home = () => {
     { name: "Home", component: HomeMain },
     { name: "Documents", component: Documents },
     { name: "Benefits", component: Benefits },
-    { name: "Money", component: HomeView },
+    { name: "Money", component: Money },
   ];
 
   const dispatch = useDispatch();

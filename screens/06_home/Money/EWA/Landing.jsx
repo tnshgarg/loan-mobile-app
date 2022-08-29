@@ -7,8 +7,8 @@ import { Alert, SafeAreaView, Text, TextInput, View } from "react-native";
 import StepIndicator from "react-native-step-indicator";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useSelector } from "react-redux";
-import PrimaryButton from "../../../components/PrimaryButton";
-import { bankform, checkBox, styles, welcome } from "../../../styles";
+import PrimaryButton from "../../../../components/PrimaryButton";
+import { bankform, checkBox, styles, welcome } from "../../../../styles";
 
 const Landing = () => {
   const navigation = useNavigation();

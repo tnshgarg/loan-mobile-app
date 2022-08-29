@@ -3,8 +3,8 @@ import { useNavigation } from "@react-navigation/core";
 import React from "react";
 import { SafeAreaView } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import PrimaryButton from "../../../components/PrimaryButton";
-import { styles } from "../../../styles";
+import PrimaryButton from "../../../../components/PrimaryButton";
+import { styles } from "../../../../styles";
 
 const KYC = () => {
   const navigation = useNavigation();

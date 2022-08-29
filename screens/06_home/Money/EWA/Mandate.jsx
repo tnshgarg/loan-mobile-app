@@ -3,16 +3,16 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, Text, TextInput, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import PrimaryButton from "../../../components/PrimaryButton";
-import { KeyboardAvoidingWrapper } from "../../../KeyboardAvoidingWrapper";
-import { form, bankform, styles } from "../../../styles";
-import Verify from "../../../apis/bank/Verify";
-
+import PrimaryButton from "../../../../components/PrimaryButton";
+import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
+import { form, bankform, styles } from "../../../../styles";
+import Verify from "../../../../apis/bank/Verify";
+import { useSelector } from "react-redux";
 const Mandate = () => {
   const navigation = useNavigation();
-  const [name, setName] = useState("");
-  const [number, setNumber] = useState("");
-  const [ifsc, setIfsc] = useState("");
+  const [name, setName] = useState(useSelector((state) => state.bank.accountHolderName));
+  const [number, setNumber] = useState(useSelector((state) => state.bank.accountNumber));
+  const [ifsc, setIfsc] = useState(useSelector((state) => state.bank.ifsc));
   const [ifscNext, setIfscNext] = useState(false);
   const [accNumNext, setAccNumNext] = useState(false);
 

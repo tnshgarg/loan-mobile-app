@@ -4,12 +4,12 @@ import { ScrollView, Text, TextInput, View } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { Button } from "@react-native-material/core";
 import { Picker } from "@react-native-picker/picker";
-import relations from "../../../helpers/RelationData";
-import { addESICFamilyDetails } from "../../../store/slices/esicSlice";
-import { familyDetailsPush } from "../../../helpers/BackendPush";
-import { bankform, form, styles } from "../../../styles";
-import { showToast } from "../../../components/Toast";
-import { KeyboardAvoidingWrapper } from "../../../KeyboardAvoidingWrapper";
+import relations from "../../../../helpers/RelationData";
+import { addESICFamilyDetails } from "../../../../store/slices/esicSlice";
+import { familyDetailsPush } from "../../../../helpers/BackendPush";
+import { bankform, form, styles } from "../../../../styles";
+import { showToast } from "../../../../components/Toast";
+import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
 
 export default FamilyDetails = () => {
   const navigation = useNavigation();

@@ -5,9 +5,9 @@ import React, { useState } from "react";
 import { SafeAreaView, Text, TextInput, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useSelector } from "react-redux";
-import PrimaryButton from "../../../components/PrimaryButton";
-import { bankform, checkBox, styles } from "../../../styles";
-import { KeyboardAvoidingWrapper } from "../../../KeyboardAvoidingWrapper";
+import PrimaryButton from "../../../../components/PrimaryButton";
+import { bankform, checkBox, styles } from "../../../../styles";
+import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
 
 const Details = () => {
   const navigation = useNavigation();

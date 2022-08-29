@@ -3,10 +3,10 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
 import { SafeAreaView, View, Text } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import CollapsibleCard from "../../../components/CollapsibleCard";
-import PrimaryButton from "../../../components/PrimaryButton";
+import CollapsibleCard from "../../../../components/CollapsibleCard";
+import PrimaryButton from "../../../../components/PrimaryButton";
 import CheckBox from "@react-native-community/checkbox";
-import { styles, checkBox, ewa } from "../../../styles";
+import { styles, checkBox, ewa } from "../../../../styles";
 import { useSelector } from "react-redux";
 const LoanDetails = () => {
   const navigation = useNavigation();

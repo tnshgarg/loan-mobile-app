@@ -22,12 +22,12 @@ import KYCScreen from "../screens/07_drawer/KYCScreen";
 import Profile from "../screens/07_drawer/Profile";
 import LicenseConfirm from "../screens/06_home/Documents/License/LicenseConfirm";
 import BankConfirm from "../screens/03_bank/BankConfirm";
-import Landing from "../screens/06_home/EWA/Landing";
-import Details from "../screens/06_home/EWA/Details";
-import KYC from "../screens/06_home/EWA/KYC";
-import Mandate from "../screens/06_home/EWA/Mandate";
-import LoanDetails from "../screens/06_home/EWA/LoanDetails";
-import EarnedWage from "../screens/06_home/EWA/EarnedWage";
+import Landing from "../screens/06_home/Money/EWA/Landing";
+import Details from "../screens/06_home/Money/EWA/Details";
+import KYC from "../screens/06_home/Money/EWA/KYC";
+import Mandate from "../screens/06_home/Money/EWA/Mandate";
+import LoanDetails from "../screens/06_home/Money/EWA/LoanDetails";
+import EarnedWage from "../screens/06_home/Money/EWA/EarnedWage";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -134,7 +134,7 @@ const StackNavigator = () => {
           header: null,
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="BankConfirm"
         component={BankConfirm}
         options={{
@@ -183,7 +183,7 @@ const StackNavigator = () => {
           headerShown: false,
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="EWALanding"
         component={Landing}
         options={{
