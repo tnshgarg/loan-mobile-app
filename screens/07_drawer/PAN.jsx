@@ -28,7 +28,7 @@ const PAN = () => {
 
   const tabs = [
     {
-      name: "PAN",
+      name: "PAN Data",
       component: PanDataCollection,
       initialParams: { type: "KYC" },
       disable: true,

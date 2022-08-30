@@ -103,7 +103,7 @@ export default Confirm = (props) => {
                 ? navigation.navigate("KYC", {
                     screen: "PAN",
                     params: {
-                      screen: "PAN",
+                      screen: "PAN Data",
                     },
                   })
                 : navigation.navigate("BankInfoForm");

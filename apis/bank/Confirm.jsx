@@ -86,6 +86,9 @@ export default Confirm = (props) => {
               props?.route?.params?.type == "KYC"
                 ? navigation.navigate("KYC", {
                     screen: "Bank",
+                    params: {
+                      screen: "Bank Data",
+                    },
                   })
                 : navigation.navigate("BankInfoForm");
             }

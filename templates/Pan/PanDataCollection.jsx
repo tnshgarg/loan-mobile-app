@@ -29,10 +29,9 @@ const PanDataCollection = (props) => {
 
   return (
     <>
-      <Text style={form.formHeader}>PAN Verification</Text>
-
       <KeyboardAvoidingWrapper>
         <View>
+          <Text style={form.formHeader}>PAN Verification</Text>
           <Text style={form.formLabel}>Enter PAN Number</Text>
           <TextInput
             style={form.formTextInput}
