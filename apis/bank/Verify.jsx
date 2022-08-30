@@ -19,7 +19,7 @@ export default Verify = (props) => {
   const [loading, setLoading] = useState(false);
   const [backendPush, setBackendPush] = useState(false);
   const id = useSelector((state) => state.auth.id);
-  
+
   const ifsc = useSelector((state) => state.bank?.ifsc);
   const accountNumber = useSelector((state) => state.bank?.accountNumber);
   const upi = useSelector((state) => state.bank?.upi);
@@ -94,7 +94,16 @@ export default Verify = (props) => {
                 setVerifyMsg("To be confirmed by User");
                 setVerifyStatus("PENDING");
                 setBackendPush(true);
-                navigation.navigate("BankConfirm");
+                {
+                  props.type == "KYC"
+                    ? navigation.navigate("KYC", {
+                        screen: "Bank",
+                        params: {
+                          screen: "Confirm",
+                        },
+                      })
+                    : navigation.navigate("BankConfirm");
+                }
                 break;
               default:
                 setVerifyMsg(response["data"]["message"]);
@@ -122,8 +131,7 @@ export default Verify = (props) => {
               Alert.alert("Error", response["message"]);
             }
           }
-        }
-        catch(error) {
+        } catch (error) {
           console.log("Error: ", error);
           setVerifyMsg(error);
           setVerifyStatus("ERROR");

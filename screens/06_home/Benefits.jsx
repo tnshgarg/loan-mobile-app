@@ -8,5 +8,5 @@ export default Benefits = () => {
     { name: "EPFO", component: HomeView },
     { name: "ESIC", component: ESICForm },
   ];
-  return <TopTabNav tabs={tabs} swipe={true}/>;
+  return <TopTabNav tabs={tabs} hide={false}/>;
 };

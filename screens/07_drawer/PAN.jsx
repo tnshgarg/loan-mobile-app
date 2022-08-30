@@ -5,6 +5,7 @@ import PrimaryButton from "../../components/PrimaryButton";
 import { useSelector } from "react-redux";
 import PanDataCollection from "../../templates/Pan/PanDataCollection";
 import TopTabNav from "../../components/TopTabNav";
+import Confirm from "../../apis/pan/Confirm";
 
 const PAN = () => {
   const data = useSelector((state) => state.pan.data);
@@ -26,9 +27,18 @@ const PAN = () => {
   ];
 
   const tabs = [
-    { name: "Home", component: HomeMain },
-    { name: "Documents", component: Documents },
-    { name: "Confirm", component: Benefits },
+    {
+      name: "PAN",
+      component: PanDataCollection,
+      initialParams: { type: "KYC" },
+      disable: true,
+    },
+    {
+      name: "Confirm",
+      component: Confirm,
+      initialParams: { type: "KYC" },
+      disable: true,
+    },
   ];
 
   return (
@@ -60,7 +70,7 @@ const PAN = () => {
         </>
       ) : (
         <>
-          <PanDataCollection />
+          <TopTabNav tabs={tabs} hide={true} />
         </>
       )}
     </View>

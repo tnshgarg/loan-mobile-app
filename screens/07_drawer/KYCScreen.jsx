@@ -11,7 +11,7 @@ const KYCScreen = () => {
     { name: "Bank Details", component: Bank },
   ];
   return (
-    <TopTabNav tabs={tabs} swipe={true}/>
+    <TopTabNav tabs={tabs} hide={false}/>
   );
 };
 

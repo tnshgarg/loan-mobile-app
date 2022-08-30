@@ -75,7 +75,7 @@ const Aadhaar = () => {
           </View>
         </>
       ) : (
-        <TopTabNav tabs={tabs} swipe={false} />
+        <TopTabNav tabs={tabs} hide={true} />
       )}
     </View>
   );

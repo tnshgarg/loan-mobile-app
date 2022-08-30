@@ -10,7 +10,7 @@ import { bankform, checkBox, form, styles } from "../../styles";
 import Verify from "../../apis/pan/Verify";
 import { addNumber } from "../../store/slices/panSlice";
 
-const PanDataCollection = () => {
+const PanDataCollection = (props) => {
   const dispatch = useDispatch();
   const [consent, setConsent] = useState(false);
   const [validNumber, setValidNumber] = useState(true);
@@ -85,6 +85,7 @@ const PanDataCollection = () => {
             data={{ pan_number: number, consent: "Y" }}
             style={form.nextButton}
             disabled={!validNumber || !consent}
+            type={props?.route?.params?.type || ""}
           />
         </View>
       </KeyboardAvoidingWrapper>

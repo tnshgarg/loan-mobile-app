@@ -10,5 +10,5 @@ export default Documents = () => {
     { name: "ID Card", component: HomeView },
     { name: "Driving License", component: LicenseForm },
   ];
-  return <TopTabNav tabs={tabs} swipe={true}/>;
+  return <TopTabNav tabs={tabs} hide={false}/>;
 };

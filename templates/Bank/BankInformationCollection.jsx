@@ -8,14 +8,14 @@ import { useDispatch, useSelector } from "react-redux";
 import Verify from "../../apis/bank/Verify";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
-    addBankAccountHolderName,
-    addBankAccountNumber,
-    addBankIfsc,
-    addBankUpi
+  addBankAccountHolderName,
+  addBankAccountNumber,
+  addBankIfsc,
+  addBankUpi,
 } from "../../store/slices/bankSlice";
 import { bankform, checkBox, form } from "../../styles";
 
-const BankInformationCollection = () => {
+const BankInformationCollection = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const bankSlice = useSelector((state) => state.bank);
@@ -61,9 +61,9 @@ const BankInformationCollection = () => {
   }, [ifsc]);
   return (
     <>
-      <Text style={bankform.Maintitle}>Bank Details Verification</Text>
       <KeyboardAvoidingWrapper>
         <View>
+          <Text style={bankform.Maintitle}>Bank Details Verification</Text>
           <View style={bankform.infoCard}>
             <Icon name="info-outline" size={20} color="#4E46F1" />
             <Text style={bankform.infoText}>
@@ -176,6 +176,7 @@ const BankInformationCollection = () => {
             data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}
             style={form.nextButton}
             disabled={!ifscNext || !accNumNext || !consent}
+            type={props?.route?.params?.type || ""}
           />
           <View style={bankform.padding}></View>
         </View>

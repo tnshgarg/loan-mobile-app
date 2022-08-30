@@ -7,7 +7,7 @@ import { addVerifyMsg, addVerifyStatus } from "../../store/slices/panSlice";
 import { panBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
 
-export default Confirm = () => {
+export default Confirm = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -20,8 +20,10 @@ export default Confirm = () => {
   const panSlice = useSelector((state) => state.pan);
   const [verifyMsg, setVerifyMsg] = useState(panSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(panSlice?.verifyStatus);
-  const [verifyTimestamp, setVerifyTimestamp] = useState(panSlice?.verifyTimestamp);
-  
+  const [verifyTimestamp, setVerifyTimestamp] = useState(
+    panSlice?.verifyTimestamp
+  );
+
   useEffect(() => {
     dispatch(addVerifyMsg(verifyMsg));
   }, [verifyMsg]);
@@ -39,7 +41,7 @@ export default Confirm = () => {
         number: number,
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
-        verifyTimestamp:verifyTimestamp,
+        verifyTimestamp: verifyTimestamp,
       });
       setBackendPush(false);
     }
@@ -52,8 +54,10 @@ export default Confirm = () => {
       <Text style={form.userData}>Name: {data["name"]}</Text>
       <Text style={form.userData}>Date of Birth: {data["date_of_birth"]}</Text>
       <Text style={form.userData}>Gender: {data["gender"]}</Text>
-      {data["email"] && <Text style={form.userData}>Email: {data["email"]}</Text>}
-      
+      {data["email"] && (
+        <Text style={form.userData}>Email: {data["email"]}</Text>
+      )}
+
       <View
         style={{
           alignSelf: "center",
@@ -72,7 +76,16 @@ export default Confirm = () => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
             setBackendPush(true);
-            navigation.navigate("PanForm");
+            {
+              props?.route?.params?.type == "KYC"
+                ? navigation.navigate("KYC", {
+                    screen: "PAN",
+                    params: {
+                      screen: "PAN",
+                    },
+                  })
+                : navigation.navigate("PanForm");
+            }
           }}
         />
         <Button
@@ -85,7 +98,16 @@ export default Confirm = () => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
-            navigation.navigate("BankInfoForm");
+            {
+              props?.route?.params?.type == "KYC"
+                ? navigation.navigate("KYC", {
+                    screen: "PAN",
+                    params: {
+                      screen: "PAN",
+                    },
+                  })
+                : navigation.navigate("BankInfoForm");
+            }
           }}
         />
         <View style={bankform.padding}></View>

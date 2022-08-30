@@ -10,14 +10,16 @@ import {
 import { bankBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
 
-export default Confirm = () => {
+export default Confirm = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const [backendPush, setBackendPush] = useState(false);
   const id = useSelector((state) => state.auth.id);
 
-  const accountHolderName = useSelector((state) => state.bank.accountHolderName); 
+  const accountHolderName = useSelector(
+    (state) => state.bank.accountHolderName
+  );
   const ifsc = useSelector((state) => state.bank?.ifsc);
   const accountNumber = useSelector((state) => state.bank?.accountNumber);
   const upi = useSelector((state) => state.bank?.upi);
@@ -80,7 +82,13 @@ export default Confirm = () => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
             setBackendPush(true);
-            navigation.navigate("BankInfoForm");
+            {
+              props?.route?.params?.type == "KYC"
+                ? navigation.navigate("KYC", {
+                    screen: "Bank",
+                  })
+                : navigation.navigate("BankInfoForm");
+            }
           }}
         />
         <Button
@@ -93,7 +101,13 @@ export default Confirm = () => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
-            navigation.navigate("PersonalDetailsForm");
+            {
+              props?.route?.params?.type == "KYC"
+                ? navigation.navigate("KYC", {
+                    screen: "Bank",
+                  })
+                : navigation.navigate("PersonalDetailsForm");
+            }
           }}
         />
         <View style={bankform.padding}></View>

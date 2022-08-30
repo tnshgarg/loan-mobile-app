@@ -4,6 +4,7 @@ import DetailItem from "./DetailItem";
 import PrimaryButton from "../../components/PrimaryButton";
 import { useSelector } from "react-redux";
 import BankInformationCollection from "../../templates/Bank/BankInformationCollection";
+import Confirm from "../../apis/bank/Confirm";
 
 const Bank = () => {
   const accountNumber = useSelector((state) => state.bank.accountNumber);
@@ -21,6 +22,23 @@ const Bank = () => {
     { label: "UPI Id", value: upi },
     { label: "Verify Status", value: verifyStatus },
   ];
+
+  const tabs = [
+    {
+      name: "Bank",
+      component: BankInformationCollection,
+      initialParams: { type: "KYC" },
+      disable: true,
+    },
+    {
+      name: "Confirm",
+      component: Confirm,
+      initialParams: { type: "KYC" },
+      disable: true,
+    },
+  ];
+
+
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       {verifyStatus == "SUCCESS" ? (
@@ -48,7 +66,7 @@ const Bank = () => {
           </View>
         </>
       ) : (
-        <BankInformationCollection />
+        <TopTabNav tabs={tabs} hide={true} />
       )}
     </View>
   );
