@@ -27,6 +27,7 @@ const Bank = () => {
         <>
           {data.map((item, index) => (
             <DetailItem
+              key={index}
               label={item.label}
               value={item.value || "Not Provided"}
               divider

@@ -198,7 +198,7 @@ export const form = StyleSheet.create({
   OtpAwaitMsg: {
     color: "#230C45",
     alignSelf: "center",
-    marginRight: 20,
+    textAlign:"center",
     marginTop: 20,
     fontSize: 16,
     fontFamily: "Roboto",

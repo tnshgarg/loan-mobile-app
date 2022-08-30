@@ -27,7 +27,6 @@ const AadhaarDataCollection = (props) => {
       setValidNumber(false);
     }
   }, [number]);
-
   return (
     <>
       <Text style={form.formHeader}>Aadhaar Verification</Text>
@@ -71,6 +70,7 @@ const AadhaarDataCollection = (props) => {
             data={{ aadhaar_number: number, consent: "Y" }}
             style={form.nextButton}
             disabled={!validNumber || !consent}
+            type={props?.route?.params?.type || ""}
           />
         </View>
       </KeyboardAvoidingWrapper>

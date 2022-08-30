@@ -4,6 +4,7 @@ import DetailItem from "./DetailItem";
 import PrimaryButton from "../../components/PrimaryButton";
 import { useSelector } from "react-redux";
 import PanDataCollection from "../../templates/Pan/PanDataCollection";
+import TopTabNav from "../../components/TopTabNav";
 
 const PAN = () => {
   const data = useSelector((state) => state.pan.data);
@@ -22,6 +23,12 @@ const PAN = () => {
     { label: "Gender", value: gender },
     { label: "Email", value: email },
     { label: "Verify Status", value: verifyStatus },
+  ];
+
+  const tabs = [
+    { name: "Home", component: HomeMain },
+    { name: "Documents", component: Documents },
+    { name: "Confirm", component: Benefits },
   ];
 
   return (
@@ -52,7 +59,9 @@ const PAN = () => {
           </View>
         </>
       ) : (
-        <PanDataCollection />
+        <>
+          <PanDataCollection />
+        </>
       )}
     </View>
   );

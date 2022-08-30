@@ -16,7 +16,7 @@ export default ESICForm = () => {
   ];
   return (
     <SafeAreaView style={styles.container}>
-      <TopTabNav tabs={tabs} />
+      <TopTabNav tabs={tabs} swipe={true} />
     </SafeAreaView>
   );
 };

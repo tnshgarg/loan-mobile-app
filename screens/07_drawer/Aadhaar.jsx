@@ -4,9 +4,12 @@ import { useSelector } from "react-redux";
 import PrimaryButton from "../../components/PrimaryButton";
 import AadhaarDataCollection from "../../templates/Aadhaar/AadhaarDataCollection";
 import DetailItem from "./DetailItem";
+import TopTabNav from "../../components/TopTabNav";
+import AadhaarOtpVerify from "../../templates/Aadhaar/AadhaarOtpVerify";
+import Confirm from "../../apis/aadhaar/Confirm";
 
 const Aadhaar = () => {
-  const data = useSelector((state) => state.aadhaar.data["aadhaar_data"]);
+  const data = useSelector((state) => state.aadhaar.data);
   const number = useSelector((state) => state.aadhaar.number);
   const address = data?.["address"];
   const dob = data?.["date_of_birth"];
@@ -19,6 +22,28 @@ const Aadhaar = () => {
     { label: "Aadhaar Number", value: number },
     { label: "Address", value: address },
     { label: "Verify Status", value: verifyStatus },
+  ];
+
+  const tabs = [
+    {
+      name: "Aadhaar Form",
+      component: AadhaarDataCollection,
+      initialParams: { type: "KYC" },
+      disable: true,
+    },
+    {
+      name: "Verify",
+      component: AadhaarOtpVerify,
+      initialParams: { type: "KYC" },
+      disable: true,
+    },
+
+    {
+      name: "Confirm",
+      component: Confirm,
+      initialParams: { type: "KYC" },
+      disable: true,
+    },
   ];
 
   return (
@@ -49,7 +74,9 @@ const Aadhaar = () => {
           </View>
         </>
       ) : (
-        <AadhaarDataCollection/>
+        <>
+          <TopTabNav tabs={tabs} swipe={false} />
+        </>
       )}
     </View>
   );

@@ -12,17 +12,29 @@ export default TopTabNav = (props) => {
           textTransform: "capitalize",
         },
         tabBarItemStyle: { width: 100 },
-        tabBarStyle: { backgroundColor: "white"},
+        tabBarStyle: { backgroundColor: "white" },
         tabBarPressColor: "purple",
         animationEnabled: true,
-        swipeEnabled: true,
+        swipeEnabled: props.swipe,
         tabBarScrollEnabled: true,
         lazy: true,
-        tabBarIndicatorStyle :{backgroundColor: "#4E46F1"}
+        tabBarIndicatorStyle: { backgroundColor: "#4E46F1" },
       }}
     >
       {props.tabs.map((tab, index) => {
-        return <Tab.Screen key={tab.name} name={tab.name} component={tab.component} />;
+        return (
+          <Tab.Screen
+            key={index}
+            name={tab.name}
+            component={tab.component}
+            initialParams={tab.initialParams}
+            listeners={{
+              tabPress: (e) => {
+                tab.disable ? e.preventDefault() : null;
+              },
+            }}
+          />
+        );
       })}
     </Tab.Navigator>
   );
