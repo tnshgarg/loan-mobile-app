@@ -7,6 +7,7 @@ import DetailItem from "./DetailItem";
 import TopTabNav from "../../components/TopTabNav";
 import AadhaarOtpVerify from "../../templates/Aadhaar/AadhaarOtpVerify";
 import Confirm from "../../apis/aadhaar/Confirm";
+import { styles } from "../../styles";
 
 const Aadhaar = () => {
   const data = useSelector((state) => state.aadhaar.data);
@@ -47,7 +48,7 @@ const Aadhaar = () => {
   ];
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <View style={styles.container}>
       {verifyStatus == "SUCCESS" ? (
         <>
           {dataDetails.map((item, index) => (
@@ -74,9 +75,7 @@ const Aadhaar = () => {
           </View>
         </>
       ) : (
-        <>
-          <TopTabNav tabs={tabs} swipe={false} />
-        </>
+        <TopTabNav tabs={tabs} swipe={false} />
       )}
     </View>
   );

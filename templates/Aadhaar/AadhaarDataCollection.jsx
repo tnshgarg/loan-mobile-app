@@ -29,9 +29,9 @@ const AadhaarDataCollection = (props) => {
   }, [number]);
   return (
     <>
-      <Text style={form.formHeader}>Aadhaar Verification</Text>
       <KeyboardAvoidingWrapper>
         <View>
+          <Text style={form.formHeader}>Aadhaar Verification</Text>
           <Text style={form.formLabel}>Enter AADHAAR Number</Text>
           <TextInput
             style={form.formTextInput}
