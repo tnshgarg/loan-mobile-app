@@ -18,6 +18,7 @@ import { bankform, form, styles, checkBox } from "../../styles";
 import Verify from "../../apis/pan/Verify";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { addNumber } from "../../store/slices/panSlice";
+import { OG_PAN_VERIFY_API } from "../../services/employees/endpoints";
 
 export default PanForm = () => {
   const dispatch = useDispatch();
@@ -129,7 +130,7 @@ export default PanForm = () => {
             </View>
 
             <Verify
-              url={"https://api.gridlines.io/pan-api/fetch-detailed"}
+              url={OG_PAN_VERIFY_API}
               data={{ pan_number: number, consent: "Y" }}
               style={form.nextButton}
               disabled={!validNumber || !consent}

@@ -16,7 +16,7 @@ import {
 } from "../../store/slices/bankSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { bankform, form, styles, checkBox } from "../../styles";
-
+import { OG_BANK_VERIFY_API } from "../../services/employees/endpoints";
 
 export default BankInformationForm = () => {
   const navigation = useNavigation();
@@ -175,7 +175,16 @@ export default BankInformationForm = () => {
             {ifsc && !ifscNext ? (
               <Text style={bankform.formatmsg}>Incorrect Format</Text>
             ) : null}
-            <Text style={{alignSelf:"center",fontWeight:"bold",marginTop:20,fontSize:18}}>-OR-</Text>
+            <Text
+              style={{
+                alignSelf: "center",
+                fontWeight: "bold",
+                marginTop: 20,
+                fontSize: 18,
+              }}
+            >
+              -OR-
+            </Text>
             <Text style={bankform.formtitle}>
               UPI ID
               <Popable
@@ -207,7 +216,7 @@ export default BankInformationForm = () => {
               </Text>
             </View>
             <Verify
-              url={"https://api.gridlines.io/bank-api/verify"}
+              url={OG_BANK_VERIFY_API}
               data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}
               style={form.nextButton}
               disabled={!ifscNext || !accNumNext || !consent}

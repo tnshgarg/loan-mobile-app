@@ -12,6 +12,7 @@ import { bankform, checkBox, form, styles } from "../../styles";
 import Otp from "../../apis/aadhaar/Otp";
 import { addNumber } from "../../store/slices/aadhaarSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { OG_AADHAAR_GENERATE_OTP_API } from "../../services/employees/endpoints";
 
 export default AadhaarForm = () => {
   const dispatch = useDispatch();
@@ -121,7 +122,7 @@ export default AadhaarForm = () => {
               </Text>
             </View>
             <Otp
-              url={"https://api.gridlines.io/aadhaar-api/boson/generate-otp"}
+              url={OG_AADHAAR_GENERATE_OTP_API}
               data={{ aadhaar_number: number, consent: "Y" }}
               style={form.nextButton}
               disabled={!validNumber || !consent}

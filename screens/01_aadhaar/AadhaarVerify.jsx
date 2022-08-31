@@ -9,6 +9,7 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import Verify from "../../apis/aadhaar/Verify";
 import { form, styles } from "../../styles";
 import { setAadhaarTimer } from "../../store/slices/timerSlice";
+import { OG_AADHAAR_SUBMIT_OTP_API } from "../../services/employees/endpoints";
 
 export default AadhaarVerify = () => {
   const dispatch = useDispatch();
@@ -73,7 +74,7 @@ export default AadhaarVerify = () => {
           />
 
           <Verify
-            url={"https://api.gridlines.io/aadhaar-api/boson/submit-otp"}
+            url={OG_AADHAAR_SUBMIT_OTP_API}
             data={{ otp: otp }}
             style={form.nextButton}
             disabled={!validOtp}
