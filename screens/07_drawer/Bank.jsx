@@ -3,7 +3,7 @@ import React from "react";
 import DetailItem from "./DetailItem";
 import PrimaryButton from "../../components/PrimaryButton";
 import { useSelector } from "react-redux";
-import BankInformationCollection from "../../templates/bank/BankInformationCollection";
+import Form from "../../templates/bank/Form";
 import Confirm from "../../apis/bank/Confirm";
 
 const Bank = () => {
@@ -24,7 +24,7 @@ const Bank = () => {
   const tabs = [
     {
       name: "Bank Data",
-      component: BankInformationCollection,
+      component: Form,
       initialParams: { type: "KYC" },
       disable: true,
     },

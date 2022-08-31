@@ -6,15 +6,15 @@ import { useDispatch } from "react-redux";
 import ProgressBarTop from "../../components/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
-import BankInformationCollection from "../../templates/Bank/BankInformationCollection";
+import Form from "../../templates/bank/Form";
 
 
-export default BankInformationForm = () => {
+const BankForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   useEffect(() => {
-    dispatch(addCurrentScreen("BankInfoForm"));
+    dispatch(addCurrentScreen("BankForm"));
   }, []);
 
   const SkipBank = () => {
@@ -54,8 +54,10 @@ export default BankInformationForm = () => {
           }
         />
         <ProgressBarTop step={3} />
-        <BankInformationCollection />
+        <Form />
       </SafeAreaView>
     </>
   );
 };
+
+export default BankForm;

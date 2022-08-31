@@ -82,7 +82,7 @@ export default Confirm = (props) => {
                       screen: "Bank Data",
                     },
                   })
-                : navigation.navigate("BankInfoForm");
+                : navigation.navigate("BankForm");
             }
           }}
         />

@@ -27,7 +27,7 @@ export default BankConfirm = () => {
       "If you go back your Bank Verification will have to be redone. Continue only if you want to edit your Bank Account Details.",
       [
         { text: "No",  onPress: () => null, style: "cancel" },
-        { text: "Yes", onPress: () => navigation.navigate("BankInfoForm") },
+        { text: "Yes", onPress: () => navigation.navigate("BankForm") },
       ]
     );
   };

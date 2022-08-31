@@ -15,7 +15,7 @@ import {
 import { OG_BANK_VERIFY_API } from "../../services/employees/endpoints";
 import { bankform, checkBox, form } from "../../styles";
 
-const BankInformationCollection = (props) => {
+const Form = (props) => {
   const dispatch = useDispatch();
 
   const [accNumNext, setAccNumNext] = useState(false);
@@ -188,4 +188,4 @@ const BankInformationCollection = (props) => {
   );
 };
 
-export default BankInformationCollection;
+export default Form;

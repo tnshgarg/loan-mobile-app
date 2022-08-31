@@ -5,12 +5,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "../screens/00_login/LoginScreen";
 import OTPScreen from "../screens/00_login/OTPScreen";
 import WelcomePage from "../screens/00_login/WelcomePage";
-import AadhaarConfirm from "../screens/01_aadhaar/AadhaarConfirm";
-import AadhaarForm from "../screens/01_aadhaar/AadhaarForm";
-import AadhaarVerify from "../screens/01_aadhaar/AadhaarVerify";
+import AadhaarConfirm from "../screens/01_aadhaar/Confirm";
+import AadhaarForm from "../screens/01_aadhaar/Form";
+import AadhaarVerify from "../screens/01_aadhaar/Verify";
 import PanForm from "../screens/02_pan/PanForm";
 import PanConfirm from "../screens/02_pan/PanConfirm";
-import BankInformationForm from "../screens/03_bank/BankInformationForm";
+import BankForm from "../screens/03_bank/Form";
 import PersonalDetailsForm from "../screens/04_profile/PersonalDetailsForm";
 import PersonalImage from "../screens/05_photo/PersonalImage";
 import DevMenu from "../screens/DevMenu";
@@ -121,8 +121,8 @@ const StackNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="BankInfoForm"
-        component={BankInformationForm}
+        name="BankForm"
+        component={BankForm}
         options={{
           headerShown: false,
           header: null,

@@ -101,7 +101,7 @@ export default Confirm = (props) => {
                       screen: "PAN Data",
                     },
                   })
-                : navigation.navigate("BankInfoForm");
+                : navigation.navigate("BankForm");
             }
           }}
         />
