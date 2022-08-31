@@ -3,10 +3,10 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Image, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { TimeDifference } from "../../helpers/TimeDifference";
+
 import {
-  addLicenseVerifyMsg,
-  addLicenseVerifyStatus,
+  addVerifyMsg,
+  addVerifyStatus,
 } from "../../store/slices/licenseSlice";
 import { form, license, styles, selfie } from "../../styles";
 
@@ -15,34 +15,52 @@ export default Confirm = () => {
   const navigation = useNavigation();
 
   const [backendPush, setBackendPush] = useState(false);
+
+  const id = useSelector((state) => state.auth.id);
+  const data = useSelector((state) => state.license.data);
+  const number = useSelector((state) => state.license.number);
+  const verifyTimestamp = useSelector((state) => state.license.verifyTimestamp);
+
   const licenseSlice = useSelector((state) => state.license);
-  const name = useSelector((state) => licenseSlice?.name);
-  const number = useSelector((state) => licenseSlice?.number);
-  const photo = useSelector((state) => licenseSlice?.photo);
-  const bloodGroup = useSelector((state) => licenseSlice?.bloodGroup);
-  const dob = useSelector((state) => licenseSlice?.dob);
-  const validity = useSelector((state) => licenseSlice?.validity);
-  const classes = useSelector((state) => licenseSlice?.classes);
-  const [verifyStatus, setVerifyStatus] = useState(licenseSlice?.verifyStatus);
   const [verifyMsg, setVerifyMsg] = useState(licenseSlice?.verifyMsg);
+  const [verifyStatus, setVerifyStatus] = useState(licenseSlice?.verifyStatus);
+  const classes = data?.vehicle_class_details;
+
   useEffect(() => {
-    dispatch(addLicenseVerifyMsg(verifyMsg));
+    dispatch(addVerifyMsg(verifyMsg));
   }, [verifyMsg]);
 
   useEffect(() => {
-    dispatch(addLicenseVerifyStatus(verifyStatus));
+    dispatch(addVerifyStatus(verifyStatus));
   }, [verifyStatus]);
 
-  console.log(licenseSlice?.verifyStatus);
+  useEffect(() => {
+    console.log("licenseSlice : ", licenseSlice);
+    if (backendPush) {
+      licenseBackendPush({
+        id: id,
+        data: data,
+        verifyMsg: verifyMsg,
+        verifyStatus: verifyStatus,
+        verifyTimestamp: verifyTimestamp,
+      });
+    }
+    setBackendPush(false);
+  }, [backendPush]);
+
+  const isDateValid = (expiry_date) => {
+    return new Date(expiry_date) > new Date();
+  }
+
   return (
     <View style={styles.container}>
       <Text style={form.OtpAwaitMsg}>
         Are these your License details ?{"\n"}
       </Text>
-      {photo ? (
+      {data?.photo_base64 ? (
         <Image
           source={{
-            uri: `data:image/jpeg;base64,${photo}`,
+            uri: `data:image/jpeg;base64,${data?.photo_base64}`,
           }}
           style={form.aadharimg}
         />
@@ -55,44 +73,50 @@ export default Confirm = () => {
         />
       )}
       <Text style={form.userData}>Number: {number}</Text>
-      <Text style={form.userData}>Name: {name}</Text>
-      <Text style={form.userData}>Date of Birth: {dob}</Text>
-      <Text style={form.userData}>Blood Group: {bloodGroup ? bloodGroup : "NA"}</Text>
+      <Text style={form.userData}>Name: {data?.name}</Text>
+      <Text style={form.userData}>Date of Birth: {data?.date_of_birth}</Text>
+      <Text style={form.userData}>Blood Group: {data?.bloodGroup || "NA"}</Text>
       {classes.map((item, index) => (
         <View key={index}>
           <Text style={form.userData}>Class: {item["category"]}</Text>
           <Text style={license.authority}>{item["authority"]}</Text>
         </View>
       ))}
-      {validity["non_transport"] ? (
+
+      {data?.validity?.non_transport ? (
         <>
           <Text style={form.userData}>
-            Validity: {validity["non_transport"]["issue_date"]} to{" "}
-            {validity["non_transport"]["expiry_date"]}
+            Validity: {data?.validity?.non_transport?.issue_date} to {" "}
+            {data?.validity?.non_transport?.expiry_date}
           </Text>
           <View style={{ flexDirection: "row" }}>
             <Text style={license.authority}>Non-Transport</Text>
-            {TimeDifference(validity["non_transport"]["expiry_date"]) > 0 ? (
-              <Text style={license.valid}>Valid</Text>
-            ) : (
-              <Text style={license.invalid}>Invalid</Text>
-            )}
+            {
+              isDateValid(data?.validity?.non_transport?.expiry_date) 
+                ? 
+                <Text style={license.valid}>Valid</Text>
+                :
+                <Text style={license.invalid}>Invalid</Text>
+            }
           </View>
         </>
       ) : null}
-      {validity["transport"] ? (
+
+      {data?.validity?.transport ? (
         <>
           <Text style={form.userData}>
-            Transport Validity: {validity["transport"]["issue_date"]} to{" "}
-            {validity["transport"]["expiry_date"]}
+            Transport Validity: {data?.validity?.transport?.issue_date} to {" "}
+            {data?.validity?.transport?.expiry_date}
           </Text>{" "}
           <View style={{ flexDirection: "row" }}>
             <Text style={license.authority}>Transport</Text>
-            {TimeDifference(validity["transport"]["expiry_date"]) > 0 ? (
-              <Text style={license.valid}>Valid</Text>
-            ) : (
-              <Text style={license.invalid}>Invalid</Text>
-            )}
+            {
+              isDateValid(data?.validity?.transport?.expiry_date)
+                ?
+                <Text style={license.valid}>Valid</Text>
+                :
+                <Text style={license.invalid}>Invalid</Text>
+            }
           </View>
         </>
       ) : null}

@@ -7,10 +7,11 @@ import {
   addSubmitOTPtxnId,
   addVerifyMsg,
   addVerifyStatus,
-  addVerifyTimestamp
+  addVerifyTimestamp,
 } from "../../store/slices/aadhaarSlice";
 import ApiView from "../ApiView";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
+import { resetTimer } from "../../store/slices/timerSlice";
 
 export default Otp = (props) => {
   const dispatch = useDispatch();
@@ -21,25 +22,29 @@ export default Otp = (props) => {
 
   const id = useSelector((state) => state.auth.id);
   const aadhaarSlice = useSelector((state) => state.aadhaar);
-  const [submitOTPtxnId, setSubmitOTPtxnId] = useState(aadhaarSlice?.submitOTPtxnId);
+  const [submitOTPtxnId, setSubmitOTPtxnId] = useState(
+    aadhaarSlice?.submitOTPtxnId
+  );
   const [verifyMsg, setVerifyMsg] = useState(aadhaarSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(aadhaarSlice?.verifyStatus);
-  const [verifyTimestamp, setVerifyTimestamp] = useState(aadhaarSlice?.verifyTimestamp);
+  const [verifyTimestamp, setVerifyTimestamp] = useState(
+    aadhaarSlice?.verifyTimestamp
+  );
 
   useEffect(() => {
     dispatch(addSubmitOTPtxnId(submitOTPtxnId));
   }, [submitOTPtxnId]);
 
   useEffect(() => {
-    dispatch(addVerifyMsg(verifyMsg))
+    dispatch(addVerifyMsg(verifyMsg));
   }, [verifyMsg]);
 
   useEffect(() => {
-    dispatch(addVerifyStatus(verifyStatus))
+    dispatch(addVerifyStatus(verifyStatus));
   }, [verifyStatus]);
 
   useEffect(() => {
-    dispatch(addVerifyTimestamp(verifyTimestamp))
+    dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
   useEffect(() => {
@@ -48,10 +53,11 @@ export default Otp = (props) => {
     if (backendPush) {
       aadhaarBackendPush({
         id: id,
+        data:"",
         number: aadhaarSlice?.number,
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
-        verifyTimestamp : verifyTimestamp,
+        verifyTimestamp: verifyTimestamp,
       });
       setBackendPush(false);
       setLoading(false);
@@ -82,7 +88,17 @@ export default Otp = (props) => {
                 setVerifyStatus("PENDING");
                 setBackendPush(true);
                 setVerifyTimestamp(responseJson["timestamp"]);
-                navigation.navigate("AadhaarVerify");
+                dispatch(resetTimer());
+                {
+                  props.type == "KYC"
+                    ? navigation.navigate("KYC", {
+                        screen: "Aadhaar",
+                        params: {
+                          screen: "Verify",
+                        },
+                      })
+                    : navigation.navigate("AadhaarVerify");
+                }
                 break;
               default:
                 setVerifyMsg(responseJson["data"]["message"]);
@@ -92,18 +108,17 @@ export default Otp = (props) => {
                 break;
             }
           } else if (responseJson["error"]) {
-              setVerifyMsg(responseJson["error"]["message"]);
-              setVerifyStatus("ERROR");
-              setBackendPush(true);
-              Alert.alert("Error", responseJson["error"]["message"]);
+            setVerifyMsg(responseJson["error"]["message"]);
+            setVerifyStatus("ERROR");
+            setBackendPush(true);
+            Alert.alert("Error", responseJson["error"]["message"]);
           } else {
-              setVerifyMsg(responseJson["message"]);
-              setVerifyStatus("ERROR");
-              setBackendPush(true);
-              Alert.alert("Error", responseJson["message"]);
+            setVerifyMsg(responseJson["message"]);
+            setVerifyStatus("ERROR");
+            setBackendPush(true);
+            Alert.alert("Error", responseJson["message"]);
           }
-        }
-        catch(error) {
+        } catch (error) {
           console.log("Error: ", error);
           setVerifyMsg(error);
           setVerifyStatus("ERROR");
@@ -127,5 +142,4 @@ export default Otp = (props) => {
       style={props.style}
     />
   );
-
 };

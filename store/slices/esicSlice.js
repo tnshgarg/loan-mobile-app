@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  portal: { estCode: "", ipNumber: "" },
+  portal: { ipNumber: "" },
   familyDetails: {
     fatherHusband: { relation: "", name: "" },
     nominee: { relation: "", name: "" },

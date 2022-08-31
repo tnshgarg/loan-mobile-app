@@ -2,16 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import { AppBar, Icon, IconButton } from "@react-native-material/core";
-import { SafeAreaView, ScrollView, Text, TextInput, View } from "react-native";
-import CountDown from "react-native-countdown-component";
+import { SafeAreaView } from "react-native";
 import ProgressBarTop from "../../components/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import Verify from "../../apis/aadhaar/Verify";
-import { form, styles } from "../../styles";
-import { setAadhaarTimer } from "../../store/slices/timerSlice";
-import { OG_AADHAAR_SUBMIT_OTP_API } from "../../services/employees/endpoints";
+import { styles } from "../../styles";
+import AadhaarOtpVerify from "../../templates/Aadhaar/AadhaarOtpVerify";
 
-export default AadhaarVerify = () => {
+export default AadhaarVerify = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -28,6 +25,20 @@ export default AadhaarVerify = () => {
     setValidOtp(otp.length === 6);
   }, [otp]);
 
+  const BackAlert = () => {
+    Alert.alert(
+      "Do you want to go back ?",
+      "If you go back you will have to wait 10 minutes. Continue if you want to edit your Aadhaar number.",
+      [
+        { text: "No", onPress: () => null, style: "cancel" },
+        {
+          text: "Yes",
+          onPress: () => navigation.navigate("AadhaarForm"),
+        },
+      ]
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <AppBar
@@ -43,44 +54,7 @@ export default AadhaarVerify = () => {
       />
 
       <ProgressBarTop step={1} />
-
-      <ScrollView keyboardShouldPersistTaps="handled">
-        <View style={styles.container}>
-          <Text style={form.OtpAwaitMsg}>
-            Enter 6 digit OTP sent to your Aadhaar registered mobile number
-          </Text>
-          <TextInput
-            style={styles.otpInput}
-            letterSpacing={23}
-            maxLength={6}
-            numeric
-            value={otp}
-            onChangeText={setOtp}
-            keyboardType="numeric"
-          />
-
-          <CountDown
-            until={countDownTime}
-            onFinish={() => setBackDisabled(false)}
-            size={20}
-            style={{ marginTop: 20 }}
-            digitStyle={{ backgroundColor: "#FFF" }}
-            digitTxtStyle={{ color: "#4E46F1" }}
-            timeToShow={["M", "S"]}
-            timeLabels={{ m: "MM", s: "SS" }}
-            onChange={(time) => {
-              dispatch(setAadhaarTimer(time));
-            }}
-          />
-
-          <Verify
-            url={OG_AADHAAR_SUBMIT_OTP_API}
-            data={{ otp: otp }}
-            style={form.nextButton}
-            disabled={!validOtp}
-          />
-        </View>
-      </ScrollView>
+      <AadhaarOtpVerify function={BackAlert} />
     </SafeAreaView>
   );
 };

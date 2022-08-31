@@ -1,50 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  data: {},
   number: "",
-  name: "",
-  dob: "",
-  bloodGroup: "",
-  classes: {},
-  rto: {},
-  validity: {},
   verifyMsg: "",
   verifyStatus: "PENDING",
+  verifyTimestamp: "",
 };
 
 const licenseSlice = createSlice({
-  name: "navigation",
+  name: "license",
   initialState: initialState,
   reducers: {
-    addLicenseNumber(state, action) {
+    addData(state, action) {
+      state.data = action.payload;
+    },
+    addNumber(state, action) {
       state.number = action.payload;
     },
-    addDob(state, action) {
-      state.dob = action.payload;
-    },
-    addName(state, action) {
-      state.name = action.payload;
-    },
-    addLicenseVerifyStatus(state, action) {
-      state.verifyStatus = action.payload;
-    },
-    addLicenseVerifyMsg(state, action) {
+    addVerifyMsg(state, action) {
       state.verifyMsg = action.payload;
     },
-    addBloodGroup(state, action) {
-      state.bloodGroup = action.payload;
+    addVerifyStatus(state, action) {
+      state.verifyStatus = action.payload;
     },
-    addRto(state, action) {
-      state.rto = action.payload;
-    },
-    addValidity(state, action) {
-      state.validity = action.payload;
-    },
-    addClasses(state, action) {
-      state.classes = action.payload;
-    },
-    addPhoto(state, action) {
-      state.photo = action.payload;
+    addVerifyTimestamp(state, action) {
+      state.verifyTimestamp = action.payload;
     },
     resetLicense(state) {
       Object.assign(state, initialState);
@@ -53,16 +34,12 @@ const licenseSlice = createSlice({
 });
 
 export const {
-  addLicenseNumber,
+  addData,
+  addNumber,
+  addVerifyMsg,
+  addVerifyStatus,
+  addVerifyTimestamp,
   resetLicense,
-  addLicenseVerifyStatus,
-  addDob,
-  addLicenseVerifyMsg,
-  addClasses,
-  addValidity,
-  addRto,
-  addBloodGroup,
-  addName,
-  addPhoto,
 } = licenseSlice.actions;
+
 export default licenseSlice.reducer;
