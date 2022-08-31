@@ -7,7 +7,7 @@ import ProgressBarTop from "../../components/ProgressBarTop";
 import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import PanDataCollection from "../../templates/pan/PanDataCollection";
+import Form from "../../templates/pan/Form";
 
 export default PanForm = () => {
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ export default PanForm = () => {
       `If you want to receive advance salary, PAN KYC is required.`,
       [
         { text: "No", onPress: () => null, style: "cancel" },
-        { text: "Yes", onPress: () => navigation.navigate("BankInfoForm") },
+        { text: "Yes", onPress: () => navigation.navigate("BankForm") },
       ]
     );
   };
@@ -52,7 +52,7 @@ export default PanForm = () => {
         />
 
         <ProgressBarTop step={2} />
-        <PanDataCollection />
+        <Form />
       </SafeAreaView>
     </>
   );

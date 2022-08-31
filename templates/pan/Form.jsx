@@ -11,7 +11,7 @@ import Verify from "../../apis/pan/Verify";
 import { OG_PAN_VERIFY_API } from "../../services/employees/endpoints";
 import { addNumber } from "../../store/slices/panSlice";
 
-const PanDataCollection = (props) => {
+const Form = (props) => {
   const dispatch = useDispatch();
   
   const [consent, setConsent] = useState(false);
@@ -95,4 +95,4 @@ const PanDataCollection = (props) => {
   );
 };
 
-export default PanDataCollection;
+export default Form;
