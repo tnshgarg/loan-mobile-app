@@ -100,7 +100,16 @@ export default Verify = (props) => {
                 setVerifyStatus("PENDING");
                 setVerifyTimestamp(responseJson["timestamp"]);
                 setBackendPush(true);
-                navigation.navigate("BankConfirm");
+                {
+                  props.type == "KYC"
+                    ? navigation.navigate("KYC", {
+                        screen: "Bank Details",
+                        params: {
+                          screen: "Confirm",
+                        },
+                      })
+                    : navigation.navigate("BankConfirm");
+                }
                 break;
               default:
                 setVerifyMsg(responseJson["data"]["message"]);
@@ -128,8 +137,7 @@ export default Verify = (props) => {
               Alert.alert("Error", responseJson["message"]);
             }
           }
-        }
-        catch(error) {
+        } catch (error) {
           console.log("Error: ", error);
           setVerifyMsg(error);
           setVerifyStatus("ERROR");

@@ -10,7 +10,7 @@ import {
 import { bankBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
 
-export default Confirm = () => {
+export default Confirm = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -74,7 +74,16 @@ export default Confirm = () => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
             setBackendPush(true);
-            navigation.navigate("BankInfoForm");
+            {
+              props?.route?.params?.type == "KYC"
+                ? navigation.navigate("KYC", {
+                    screen: "Bank Details",
+                    params: {
+                      screen: "Bank Data",
+                    },
+                  })
+                : navigation.navigate("BankInfoForm");
+            }
           }}
         />
         <Button
@@ -87,7 +96,13 @@ export default Confirm = () => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
-            navigation.navigate("PersonalDetailsForm");
+            {
+              props?.route?.params?.type == "KYC"
+                ? navigation.navigate("KYC", {
+                    screen: "Bank Details",
+                  })
+                : navigation.navigate("PersonalDetailsForm");
+            }
           }}
         />
         <View style={bankform.padding}></View>

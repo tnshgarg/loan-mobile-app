@@ -1,4 +1,3 @@
-
 import { OG_API_KEY } from "@env";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,10 +7,11 @@ import {
   addData,
   addVerifyMsg,
   addVerifyStatus,
-  addVerifyTimestamp
+  addVerifyTimestamp,
 } from "../../store/slices/aadhaarSlice";
 import ApiView from "../ApiView";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
+import AadhaarConfirm from "../../screens/01_aadhaar/AadhaarConfirm";
 
 export default Verify = (props) => {
   const dispatch = useDispatch();
@@ -23,25 +23,29 @@ export default Verify = (props) => {
   const id = useSelector((state) => state.auth.id);
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const [data, setData] = useState(aadhaarSlice?.data);
-  const [submitOTPtxnId, setSubmitOTPtxnId] = useState(aadhaarSlice?.submitOTPtxnId);
+  const [submitOTPtxnId, setSubmitOTPtxnId] = useState(
+    aadhaarSlice?.submitOTPtxnId
+  );
   const [verifyMsg, setVerifyMsg] = useState(aadhaarSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(aadhaarSlice?.verifyStatus);
-  const [verifyTimestamp, setVerifyTimestamp] = useState(aadhaarSlice?.verifyTimestamp);
+  const [verifyTimestamp, setVerifyTimestamp] = useState(
+    aadhaarSlice?.verifyTimestamp
+  );
 
   useEffect(() => {
-    dispatch(addData(data))
+    dispatch(addData(data));
   }, [data]);
 
   useEffect(() => {
-    dispatch(addVerifyMsg(verifyMsg))
+    dispatch(addVerifyMsg(verifyMsg));
   }, [verifyMsg]);
 
   useEffect(() => {
-    dispatch(addVerifyStatus(verifyStatus))
+    dispatch(addVerifyStatus(verifyStatus));
   }, [verifyStatus]);
 
   useEffect(() => {
-    dispatch(addVerifyTimestamp(verifyTimestamp))
+    dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
   useEffect(() => {
@@ -95,7 +99,16 @@ export default Verify = (props) => {
                 setVerifyStatus("PENDING");
                 setVerifyTimestamp(responseJson["timestamp"]);
                 setBackendPush(true);
-                navigation.navigate("AadhaarConfirm");
+                {
+                  props.type == "KYC"
+                    ? navigation.navigate("KYC", {
+                        screen: "Aadhaar",
+                        params: {
+                          screen: "Confirm",
+                        },
+                      })
+                    : navigation.navigate("AadhaarConfirm");
+                }
                 break;
               default:
                 setVerifyMsg(responseJson["data"]["message"]);
@@ -114,12 +127,11 @@ export default Verify = (props) => {
             setBackendPush(true);
             Alert.alert("Error", responseJson["message"]);
           }
-        }
-        catch(error) {
+        } catch (error) {
           console.log("Error: ", error);
           setVerifyMsg(error);
           setVerifyStatus("ERROR");
-          setBackendPush(true); 
+          setBackendPush(true);
           Alert.alert("Error", error);
         }
       })
@@ -139,5 +151,4 @@ export default Verify = (props) => {
       style={props.style}
     />
   );
-
 };
