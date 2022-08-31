@@ -8,10 +8,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Verify from "../../apis/bank/Verify";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
-  addBankAccountHolderName,
-  addBankAccountNumber,
-  addBankIfsc,
-  addBankUpi,
+  addAccountHolderName,
+  addAccountNumber,
+  addIfsc,
+  addUpi,
 } from "../../store/slices/bankSlice";
 import { bankform, checkBox, form } from "../../styles";
 
@@ -19,10 +19,10 @@ const BankInformationCollection = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const bankSlice = useSelector((state) => state.bank);
-  const [ifsc, setIfsc] = useState(bankSlice?.ifsc);
-  const [accountNumber, setAccountNumber] = useState(bankSlice?.accountNumber);
+  const [ifsc, setIfsc] = useState(bankSlice?.data?.ifsc);
+  const [accountNumber, setAccountNumber] = useState(bankSlice?.data?.accountNumber);
   const [accountHolderName, setAccountHolderName] = useState(
-    bankSlice?.accountHolderName
+    bankSlice?.data?.accountHolderName
   );
   const [upi, setUpi] = useState(bankSlice?.upi);
   const [ifscNext, setIfscNext] = useState(false);
@@ -30,16 +30,16 @@ const BankInformationCollection = (props) => {
   const [consent, setConsent] = useState(false);
 
   useEffect(() => {
-    dispatch(addBankAccountHolderName(accountHolderName));
+    dispatch(addAccountHolderName(accountHolderName));
   }, [accountHolderName]);
   useEffect(() => {
-    dispatch(addBankAccountNumber(accountNumber));
+    dispatch(addAccountNumber(accountNumber));
   }, [accountNumber]);
   useEffect(() => {
-    dispatch(addBankIfsc(ifsc));
+    dispatch(addIfsc(ifsc));
   }, [ifsc]);
   useEffect(() => {
-    dispatch(addBankUpi(upi));
+    dispatch(addUpi(upi));
   }, [upi]);
 
   useEffect(() => {

@@ -103,7 +103,7 @@ export default Verify = (props) => {
                 {
                   props.type == "KYC"
                     ? navigation.navigate("KYC", {
-                        screen: "Bank",
+                        screen: "Bank Details",
                         params: {
                           screen: "Confirm",
                         },

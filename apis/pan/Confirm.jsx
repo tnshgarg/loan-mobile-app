@@ -78,9 +78,6 @@ export default Confirm = (props) => {
               props?.route?.params?.type == "KYC"
                 ? navigation.navigate("KYC", {
                     screen: "PAN",
-                    params: {
-                      screen: "PAN",
-                    },
                   })
                 : navigation.navigate("PanForm");
             }

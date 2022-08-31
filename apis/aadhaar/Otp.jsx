@@ -53,6 +53,7 @@ export default Otp = (props) => {
     if (backendPush) {
       aadhaarBackendPush({
         id: id,
+        data:"",
         number: aadhaarSlice?.number,
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
