@@ -1,35 +1,10 @@
 import axios from "axios";
-import * as APIS from "./endpoints";
+import { EMPLOYEE_API_BASE_URL } from "./endpoints";
 
 export const putBackendData = (props) => {
   var data = JSON.stringify(props.document);
-  var url = "";
-  switch (props.src) {
-    case "Mobile":
-      url = APIS.MOBILE_ONBOARD_API;
-      break;
-    case "Aadhaar":
-      url = APIS.AADHAR_ONBOARD_API;
-      break;
-    case "Pan":
-      url = APIS.PAN_ONBOARD_API;
-      break;
-    case "Bank":
-      url = APIS.BANK_ONBOARD_API;
-      break;
-    case "Profile":
-      url = APIS.PROFILE_ONBOARD_API;
-      break;
-    case "FamilyDetails":
-      url = APIS.FAMILY_DETAILS_ONBOARD_API;
-      break;
-    case "Address":
-      url = APIS.ADDRESS_ONBOARD_API;
-      break;
-    case "Portal":
-      url = APIS.PORTAL_ONBOARD_API;
-      break;
-  }
+  var url = `${EMPLOYEE_API_BASE_URL}/${props.xpath}`;
+
   var config = {
     method: "post",
     url: url,
@@ -40,14 +15,4 @@ export const putBackendData = (props) => {
   };
 
   return axios(config);
-};
-
-export const getDocumentData = (employeeId) => {
-  const options = {
-    params: {
-      employee_id: employeeId,
-    },
-  };
-
-  return axios.get(APIS.GET_DOCUMENTS_API, options);
 };

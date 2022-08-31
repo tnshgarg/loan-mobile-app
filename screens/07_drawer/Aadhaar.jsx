@@ -1,12 +1,12 @@
-import { View, Text, Alert } from "react-native";
+import { View, Alert } from "react-native";
 import React from "react";
 import DetailItem from "./DetailItem";
 import PrimaryButton from "../../components/PrimaryButton";
 import { useSelector } from "react-redux";
 
 const Aadhaar = () => {
-  const data = useSelector((state) => state.aadhaar.data["aadhaar_data"]);
   const number = useSelector((state) => state.aadhaar.number);
+  const data = useSelector((state) => state.aadhaar.data);
   const address = data?.["address"];
   const dob = data?.["date_of_birth"];
   const name = data?.["name"];
@@ -19,10 +19,7 @@ const Aadhaar = () => {
       <DetailItem label="Name" value={name || "Not Provided"} divider />
       <DetailItem label="Date of Birth" value={dob || "Not Provided"} divider />
       <DetailItem label="Address" value={address || "Not Provided"} divider />
-      <DetailItem
-        label="Verify Status"
-        value={verifyStatus || "Not Provided"}
-      />
+      <DetailItem label="Verify Status" value={verifyStatus || "Not Provided"} />
       <View style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}>
         <PrimaryButton
           style={{ marginTop: 20 }}

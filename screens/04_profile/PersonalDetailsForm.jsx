@@ -2,7 +2,7 @@ import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, ScrollView, Text, TextInput, View } from "react-native";
+import { SafeAreaView, Text, TextInput, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import ProgressBarTop from "../../components/ProgressBarTop";
 import {
@@ -16,42 +16,35 @@ import { bankform, form, styles } from "../../styles";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 
 export default PersonalDetailsForm = () => {
-  const educationalQualifications = [
-    "10th Pass",
-    "12th Pass",
-    "Graduate",
-    "Post Graduate",
-    "None of the Above",
-  ];
-  const maritalStatuses = ["Unmarried", "Married"];
-  const [maritalStatus, setMaritalStatus] = useState(
-    useSelector((state) => state.profile["maritalStatus"])
-  );
-  const [educationalQualification, setEducationallQualification] = useState(
-    useSelector((state) => state.profile["educationalQualification"])
-  );
-  const [alternatePhone, setAlternatePhone] = useState(
-    useSelector((state) => state.profile["alternatePhone"])
-  );
-  const [email, setEmail] = useState(
-    useSelector((state) => state.profile["email"] || state.pan.email)
-  );
-  const [next, setNext] = useState(false);
-  const navigation = useNavigation();
+
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  const [next, setNext] = useState(false);
+
+  const panSlice = useSelector((state) => state.pan);
+  const profileSlice = useSelector((state) => state.profile);
+  const [maritalStatus, setMaritalStatus] = useState(profileSlice?.maritalStatus);
+  const [educationalQualification, setEducationallQualification] = useState(profileSlice?.educationalQualification);
+  const [alternatePhone, setAlternatePhone] = useState(profileSlice?.alternatePhone);
+  const [email, setEmail] = useState(profileSlice?.email || panSlice?.email);
 
   useEffect(() => {
     dispatch(addCurrentScreen("PersonalDetailsForm"));
   }, []);
+
   useEffect(() => {
     dispatch(addMaritalStatus(maritalStatus));
   }, [maritalStatus]);
+
   useEffect(() => {
     dispatch(addEducationalQualification(educationalQualification));
   }, [educationalQualification]);
+
   useEffect(() => {
     dispatch(addAlternatePhone(alternatePhone));
   }, [alternatePhone]);
+
   useEffect(() => {
     dispatch(addEmail(email));
   }, [email]);
@@ -63,6 +56,16 @@ export default PersonalDetailsForm = () => {
       setNext(false);
     }
   }, [maritalStatus, educationalQualification]);
+
+  const educationalQualifications = [
+    "10th Pass",
+    "12th Pass",
+    "Graduate",
+    "Post Graduate",
+    "None of the Above",
+  ];
+
+  const maritalStatuses = ["Unmarried", "Married"];
 
   return (
     <>

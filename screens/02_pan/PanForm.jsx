@@ -1,5 +1,5 @@
 import CheckBox from "@react-native-community/checkbox";
-import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
+import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import {
@@ -44,7 +44,7 @@ export default PanForm = () => {
 
   const SkipPAN = () => {
     Alert.alert(
-      "PAN KYC pending",
+      "PAN KYC Required",
       `If you want to receive advance salary, PAN KYC is required.`,
       [
         { text: "No", onPress: () => null, style: "cancel" },

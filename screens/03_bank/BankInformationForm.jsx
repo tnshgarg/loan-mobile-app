@@ -9,48 +9,52 @@ import ProgressBarTop from "../../components/ProgressBarTop";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import CheckBox from "@react-native-community/checkbox";
 import {
-  addBankAccountHolderName,
-  addBankAccountNumber,
-  addBankIfsc,
-  addBankUpi,
+  addAccountHolderName,
+  addAccountNumber,
+  addIfsc,
+  addUpi,
 } from "../../store/slices/bankSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { bankform, form, styles, checkBox } from "../../styles";
 
 
 export default BankInformationForm = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
-  const bankSlice = useSelector((state) => state.bank);
-  const [ifsc, setIfsc] = useState(bankSlice?.ifsc);
-  const [accountNumber, setAccountNumber] = useState(bankSlice?.accountNumber);
-  const [accountHolderName, setAccountHolderName] = useState(
-    bankSlice?.accountHolderName
-  );
-  const [upi, setUpi] = useState(bankSlice?.upi);
-  const [ifscNext, setIfscNext] = useState(false);
+
   const [accNumNext, setAccNumNext] = useState(false);
   const [consent, setConsent] = useState(false);
-  const dispatch = useDispatch();
+  const [ifscNext, setIfscNext] = useState(false);
+
+  const bankSlice = useSelector((state) => state.bank);
+  const [accountHolderName, setAccountHolderName] = useState(bankSlice?.data?.accountHolderName);
+  const [accountNumber, setAccountNumber] = useState(bankSlice?.data?.accountNumber);
+  const [ifsc, setIfsc] = useState(bankSlice?.data?.ifsc);
+  const [upi, setUpi] = useState(bankSlice?.data?.upi);
 
   useEffect(() => {
     dispatch(addCurrentScreen("BankInfoForm"));
   }, []);
+
   useEffect(() => {
-    dispatch(addBankAccountHolderName(accountHolderName));
+    dispatch(addAccountHolderName(accountHolderName));
   }, [accountHolderName]);
+
   useEffect(() => {
-    dispatch(addBankAccountNumber(accountNumber));
+    dispatch(addAccountNumber(accountNumber));
   }, [accountNumber]);
+
   useEffect(() => {
-    dispatch(addBankIfsc(ifsc));
+    dispatch(addIfsc(ifsc));
   }, [ifsc]);
+
   useEffect(() => {
-    dispatch(addBankUpi(upi));
+    dispatch(addUpi(upi));
   }, [upi]);
 
   const SkipBank = () => {
     Alert.alert(
-      "Bank KYC pending",
+      "Bank KYC Required",
       `If you want to receive your salary on time, Bank details are required.`,
       [
         { text: "No", onPress: () => null, style: "cancel" },
@@ -92,6 +96,14 @@ export default BankInformationForm = () => {
               onPress={() => navigation.navigate("PanForm")}
             />
           }
+          trailing={
+            <IconButton
+              icon={<Icon name="arrow-forward" size={20} color="white" />}
+              onPress={() => {
+                SkipBank();
+              }}
+            />
+          }
         />
         <ProgressBarTop step={3} />
         <Text style={bankform.Maintitle}>Bank Details Verification</Text>
@@ -118,6 +130,7 @@ export default BankInformationForm = () => {
                 }
                 position="right"
                 caret={false}
+                style={{ width: "40%" }}
               >
                 <Icon name="info-outline" size={20} color="grey" />
               </Popable>
@@ -138,6 +151,7 @@ export default BankInformationForm = () => {
                 }
                 position="right"
                 caret={false}
+                style={{ width: "40%" }}
               >
                 <Icon name="info-outline" size={20} color="grey" />
               </Popable>
@@ -161,6 +175,7 @@ export default BankInformationForm = () => {
                 }
                 position="right"
                 caret={false}
+                style={{ width: "40%" }}
               >
                 <Icon name="info-outline" size={20} color="grey" />
               </Popable>
@@ -175,7 +190,7 @@ export default BankInformationForm = () => {
             {ifsc && !ifscNext ? (
               <Text style={bankform.formatmsg}>Incorrect Format</Text>
             ) : null}
-            <Text style={{alignSelf:"center",fontWeight:"bold",marginTop:20,fontSize:18}}>-OR-</Text>
+            {/* <Text style={{alignSelf:"center",fontWeight:"bold",marginTop:20,fontSize:18}}>-OR-</Text> */}
             <Text style={bankform.formtitle}>
               UPI ID
               <Popable
@@ -184,6 +199,7 @@ export default BankInformationForm = () => {
                 }
                 position="right"
                 caret={false}
+                style={{ width: "40%" }}
               >
                 <Icon name="info-outline" size={20} color="grey" />
               </Popable>
@@ -206,20 +222,14 @@ export default BankInformationForm = () => {
                 verifiy my identity.
               </Text>
             </View>
+
             <Verify
               url={"https://api.gridlines.io/bank-api/verify"}
               data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}
               style={form.nextButton}
               disabled={!ifscNext || !accNumNext || !consent}
             />
-            <Button
-              title="Skip"
-              uppercase={false}
-              type="solid"
-              color="#4E46F1"
-              style={form.skipButton}
-              onPress={() => SkipBank()}
-            />
+
             <View style={bankform.padding}></View>
           </View>
         </KeyboardAvoidingWrapper>

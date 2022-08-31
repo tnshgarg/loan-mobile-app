@@ -3,67 +3,60 @@ import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import {
-  addLicenseNumber,
-  addLicenseVerifyStatus,
-  addDob,
-  addLicenseVerifyMsg,
-  addClasses,
-  addValidity,
-  addRto,
-  addName,
-  addBloodGroup,
-  addPhoto,
+  addData,
+  addVerifyMsg,
+  addVerifyStatus,
+  addVerifyTimestamp
 } from "../../store/slices/licenseSlice";
+import { licenseBackendPush } from "../../helpers/BackendPush";
 import ApiView from "../ApiView";
 import { OG_API_TEST_KEY } from "@env";
 
 export default Fetch = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
   const [loading, setLoading] = useState(false);
+  const [backendPush, setBackendPush] = useState(false);
 
   const id = useSelector((state) => state.auth.id);
   const licenseSlice = useSelector((state) => state.license);
-  const [verifyStatus, setVerifyStatus] = useState(licenseSlice?.verifyStatus);
+  const [data, setData] = useState(licenseSlice?.data);
   const [verifyMsg, setVerifyMsg] = useState(licenseSlice?.verifyMsg);
-  const [classes, setClasses] = useState(licenseSlice?.classes);
-  const [validity, setValidity] = useState(licenseSlice?.validity);
-  const [rto, setRto] = useState(licenseSlice?.rto);
-  const [bloodGroup, setBloodGroup] = useState(licenseSlice?.bloodGroup);
-  const [name, setName] = useState(licenseSlice?.name);
-  const [photo, setPhoto] = useState(licenseSlice?.photo);
+  const [verifyStatus, setVerifyStatus] = useState(licenseSlice?.verifyStatus);
+  const [verifyTimestamp, setVerifyTimestamp] = useState(licenseSlice?.verifyTimestamp);
 
   useEffect(() => {
-    dispatch(addLicenseVerifyStatus(verifyStatus));
-  }, [verifyStatus]);
+    dispatch(addData(data));
+  }, [data]);
 
   useEffect(() => {
-    dispatch(addLicenseVerifyMsg(verifyMsg));
+    dispatch(addVerifyMsg(verifyMsg));
   }, [verifyMsg]);
 
   useEffect(() => {
-    dispatch(addClasses(classes));
-  }, [classes]);
+    dispatch(addVerifyStatus(verifyStatus));
+  }, [verifyStatus]);
 
   useEffect(() => {
-    dispatch(addValidity(validity));
-  }, [validity]);
+    dispatch(addVerifyTimestamp(verifyTimestamp));
+  }, [verifyTimestamp]);
 
   useEffect(() => {
-    dispatch(addRto(rto));
-  }, [rto]);
-
-  useEffect(() => {
-    dispatch(addBloodGroup(bloodGroup));
-  }, [bloodGroup]);
-
-  useEffect(() => {
-    dispatch(addName(name));
-  }, [name]);
-
-  useEffect(() => {
-    dispatch(addPhoto(photo));
-  }, [photo]);
+    console.log("licenseSlice : ", licenseSlice);
+    if (backendPush) {
+      licenseBackendPush({
+        id: id,
+        data: data,
+        number: licenseSlice?.number,
+        verifyMsg: verifyMsg,
+        verifyStatus: verifyStatus,
+        verifyTimestamp: verifyTimestamp,
+      });
+      setBackendPush(false);
+      setLoading(false);
+    }
+  }, [backendPush]);
 
   const goForFetch = () => {
     setLoading(true);
@@ -80,54 +73,49 @@ export default Fetch = (props) => {
     fetch(props.url, options)
       .then((response) => response.json())
       .then((responseJson) => {
-        if (responseJson["status"] == "200") {
-          switch (responseJson["data"]["code"]) {
-            case "1000":
-              setName(responseJson["data"]["driving_license_data"]["name"]);
-              setBloodGroup(
-                responseJson["data"]["driving_license_data"]["blood_group"]
-              );
-              setPhoto(
-                responseJson["data"]["driving_license_data"]["photo_base64"]
-              );
-              setRto(
-                responseJson["data"]["driving_license_data"]["rto_details"]
-              );
-              setClasses(
-                responseJson["data"]["driving_license_data"][
-                  "vehicle_class_details"
-                ]
-              );
-              setValidity(
-                responseJson["data"]["driving_license_data"]["validity"]
-              );
-              setVerifyStatus("PENDING");
-              setVerifyMsg("To be confirmed by User");
-              navigation.navigate("LicenseConfirm");
-              break;
+        try {
+          if (responseJson["status"] == "200") {
+            switch (responseJson["data"]["code"]) {
+              case "1000":
+                setData(responseJson["data"]["driving_license_data"]);
+                setVerifyMsg("To be confirmed by User");
+                setVerifyStatus("PENDING");
+                setVerifyTimestamp(responseJson["timestamp"]);
+                setBackendPush(true);
+                navigation.navigate("LicenseConfirm");
+                break;
 
-            case "1001":
-              Alert.alert("Error", responseJson["data"]["message"]);
-              setVerifyMsg(responseJson["data"]["message"]);
-              setVerifyStatus("ERROR");
-              break;
-          }
-        } else {
-          if (responseJson["error"]) {
-            Alert.alert("Error", responseJson["error"]["message"]);
+              case "1001":
+                setVerifyMsg(responseJson["data"]["message"]);
+                setVerifyStatus("ERROR");
+                setBackendPush(true);
+                Alert.alert("Error", responseJson["data"]["message"]);
+                break;
+            }
+          } else if (responseJson["error"]) {
             setVerifyMsg(responseJson["error"]["message"]);
             setVerifyStatus("ERROR");
+            setBackendPush(true);
+            Alert.alert("Error", responseJson["error"]["message"]);
           } else {
             Alert.alert("Error", responseJson["message"]);
             setVerifyMsg(responseJson["message"]);
             setVerifyStatus("ERROR");
           }
         }
+        catch(error) {
+          console.log("Error: ", error);
+          setVerifyMsg(error);
+          setVerifyStatus("ERROR");
+          setBackendPush(true); 
+          Alert.alert("Error", error);
+        }
       })
       .catch((error) => {
-        console.log("Error: ", error);
-        setVerifyStatus("ERROR");
         Alert.alert("Error", error);
+        console.log("Error: ", error);
+        setVerifyMsg(error);
+        setVerifyStatus("ERROR");
       });
     setLoading(false);
   };

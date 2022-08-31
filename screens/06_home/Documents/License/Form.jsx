@@ -7,10 +7,7 @@ import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
 import { bankform, form, styles } from "../../../../styles";
 
 import Fetch from "../../../../apis/license/Fetch";
-import {
-  addDob,
-  addLicenseNumber,
-} from "../../../../store/slices/licenseSlice";
+import { addNumber } from "../../../../store/slices/licenseSlice";
 import DateEntry from "../../../../components/DateEntry";
 
 export default LicenseForm = () => {
@@ -18,14 +15,15 @@ export default LicenseForm = () => {
   const navigation = useNavigation();
 
   const [validNumber, setValidNumber] = useState(true);
-  const [dob, setDob] = useState(licenseSlice?.dob);
+
   const licenseSlice = useSelector((state) => state.license);
+  const [dob, setDob] = useState("");
   const [number, setNumber] = useState(licenseSlice?.number);
 
   useEffect(() => {
     var licenseReg = /^([A-Z]{2})(\d{2}|\d{3})[a-zA-Z]{0,1}(\d{4})(\d{7})$/gm;
     if (licenseReg.test(number)) {
-      dispatch(addLicenseNumber(number));
+      dispatch(addNumber(number));
       setValidNumber(true);
     } else {
       setValidNumber(false);
@@ -42,10 +40,6 @@ export default LicenseForm = () => {
       ]
     );
   };
-
-  useEffect(() => {
-    dispatch(addDob(dob));
-  }, [dob]);
 
   return (
     <>
@@ -94,7 +88,7 @@ export default LicenseForm = () => {
               type="solid"
               color="#4E46F1"
               style={form.skipButton}
-              trailing={props => <Icon name="send" {...props} />} 
+              trailing={(props) => <Icon name="send" {...props} />}
               onPress={() => {
                 SkipLicense();
               }}

@@ -1,66 +1,43 @@
 import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  Alert,
-  Image,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
+import { Image, SafeAreaView, ScrollView, Text, View } from "react-native";
 import * as ImagePicker from "react-native-image-picker";
+import { useDispatch, useSelector } from "react-redux";
 
 import ProgressBarTop from "../../components/ProgressBarTop";
-import { GenerateDocument } from "../../helpers/GenerateDocument";
-import { putBackendData } from "../../services/employees/employeeServices";
-import { addSelfie } from "../../store/slices/profileSlice";
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { checkBox, form, selfie, styles } from "../../styles";
 import RNIPPhotoCapture from "../../components/RNIPPhotoCapture";
+import { profileBackendPush } from "../../helpers/BackendPush";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { addPhoto } from "../../store/slices/profileSlice";
+import { checkBox, form, selfie, styles } from "../../styles";
 
 export default PersonalImage = () => {
-  const navigation = useNavigation();
-  const id = useSelector((state) => state.auth.id);
-  const Profile = useSelector((state) => state.profile);
-  const [imageData, setImageData] = useState(Profile.selfie);
-  const [next, setNext] = useState(false);
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  const [next, setNext] = useState(false);
+
+  const id = useSelector((state) => state.auth.id);
+  const profileSlice = useSelector((state) => state.profile);
+  const [image, setImage] = useState(profileSlice?.photo);
 
   useEffect(() => {
     dispatch(addCurrentScreen("PersonalImage"));
   }, []);
 
   useEffect(() => {
-    setImageData(Profile.selfie);
-    if (Profile.selfie) {
+    dispatch(addPhoto(image));
+  }, [image]);
+
+  useEffect(() => {
+    setImage(image);
+    if (image) {
       setNext(true);
-    }
-    else{
+    } else {
       setNext(false);
     }
-  }, [Profile.selfie]);
-
-  const ProfilePush = () => {
-    var profilePayload = GenerateDocument({
-      src: "Profile",
-      id: id,
-      maritalStatus: Profile["maritalStatus"],
-      qualification: Profile["educationalQualification"],
-      altMobile: Profile["alternatePhone"],
-      email: Profile["email"],
-      photo: imageData,
-    });
-    putBackendData({ document: profilePayload, src: "Profile" })
-      .then((res) => {
-        console.log(res.data);
-        navigation.navigate("Home");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  }, [image]);
 
   const onImageLibraryPress = useCallback(() => {
     const options = {
@@ -74,7 +51,7 @@ export default PersonalImage = () => {
       } else if (response.error) {
         console.log("ImagePicker Error: ", response.error);
       } else {
-        dispatch(addSelfie(response?.assets && response.assets[0].base64));
+        setImage(response?.assets[0]?.base64);
       }
     });
   }, []);
@@ -97,9 +74,9 @@ export default PersonalImage = () => {
           <Text style={form.formHeader}>
             Upload your Passport size photo or capture your selfie.
           </Text>
-          {imageData ? (
+          {image ? (
             <Image
-              source={{ uri: `data:image/jpeg;base64,${imageData}` }}
+              source={{ uri: `data:image/jpeg;base64,${image}` }}
               style={selfie.selfie}
             />
           ) : (
@@ -118,7 +95,7 @@ export default PersonalImage = () => {
                 onImageLibraryPress();
               }}
             />
-           <RNIPPhotoCapture/>
+            <RNIPPhotoCapture />
           </View>
           {next ? (
             <Button
@@ -128,7 +105,14 @@ export default PersonalImage = () => {
               style={form.nextButton}
               color="#4E46F1"
               onPress={() => {
-                ProfilePush();
+                profileBackendPush({
+                  id: id,
+                  maritalStatus: profileSlice?.maritalStatus,
+                  qualification: profileSlice?.educationalQualification,
+                  altMobile: profileSlice?.alternatePhone,
+                  email: profileSlice?.email,
+                  photo: profileSlice?.photo,
+                });
                 navigation.navigate("Home");
               }}
             />

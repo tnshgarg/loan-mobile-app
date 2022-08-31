@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ScrollView, Text, TextInput, View } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { portalPush } from "../../../helpers/BackendPush";
 import { addESICPortal } from "../../../store/slices/esicSlice";
-import { bankform, form, styles } from "../../../styles";
+import { bankform, form } from "../../../styles";
 import { showToast } from "../../../components/Toast";
 import { KeyboardAvoidingWrapper } from "../../../KeyboardAvoidingWrapper";
 
@@ -13,16 +13,9 @@ export default Portal = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const id = useSelector((state) => state.auth.id);
-  const [estCode, setEstCode] = useState(
-    useSelector((state) => state.esic.portal.estCode)
-  );
   const [ipNumber, setIpNumber] = useState(
     useSelector((state) => state.esic.portal.ipNumber)
   );
-
-  useEffect(() => {
-    dispatch(addESICPortal({ type: "estCode", val: estCode }));
-  }, [estCode]);
 
   useEffect(() => {
     dispatch(addESICPortal({ type: "ipNumber", val: ipNumber }));
@@ -31,12 +24,6 @@ export default Portal = () => {
   return (
       <KeyboardAvoidingWrapper>
         <View>
-          {/* <Text style={bankform.formtitle}>Employer Establishment Code*</Text>
-        <TextInput
-          style={bankform.formInput}
-          value={estCode}
-          onChangeText={setEstCode}
-        /> */}
           <Text style={bankform.formtitle}>IP Number</Text>
           <TextInput
             style={bankform.formInput}

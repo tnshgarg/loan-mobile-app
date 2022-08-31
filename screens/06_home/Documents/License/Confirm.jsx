@@ -8,8 +8,9 @@ import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 
 export default LicenseConfirm = () => {
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(addCurrentScreen("PanConfirm"));
+    dispatch(addCurrentScreen("LicenseConfirm"));
   }, []);
 
   return (

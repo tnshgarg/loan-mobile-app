@@ -1,11 +1,10 @@
-import React from "react";
 import { Icon, IconButton } from "@react-native-material/core";
 import * as ImagePicker from "react-native-image-picker";
 import { useDispatch } from "react-redux";
-import { addSelfie } from "../store/slices/profileSlice";
+import { addPhoto } from "../store/slices/profileSlice";
 import { selfie } from "../styles";
 
-export default function RNIPPhotoCapture() {
+export default RNIPPhotoCapture = () => {
   const dispatch = useDispatch();
   const openCamera = () => {
     const options = {
@@ -20,7 +19,7 @@ export default function RNIPPhotoCapture() {
       } else if (response.error) {
         console.log("ImagePicker Error: ", response.error);
       } else {
-        dispatch(addSelfie(response?.assets && response.assets[0].base64));
+        dispatch(addPhoto(response?.assets && response.assets[0].base64));
       }
     });
   };
@@ -33,4 +32,4 @@ export default function RNIPPhotoCapture() {
       }}
     />
   );
-}
+};
