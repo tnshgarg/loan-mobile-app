@@ -3,7 +3,7 @@ import React from "react";
 import DetailItem from "./DetailItem";
 import PrimaryButton from "../../components/PrimaryButton";
 import { useSelector } from "react-redux";
-import PanDataCollection from "../../templates/pan/PanDataCollection";
+import Form from "../../templates/pan/Form";
 import TopTabNav from "../../components/TopTabNav";
 import Confirm from "../../apis/pan/Confirm";
 
@@ -29,7 +29,7 @@ const Pan = () => {
   const tabs = [
     {
       name: "PAN Data",
-      component: PanDataCollection,
+      component: Form,
       initialParams: { type: "KYC" },
       disable: true,
     },
