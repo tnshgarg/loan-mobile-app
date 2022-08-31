@@ -15,7 +15,6 @@ import {
 import SmsRetriever from "react-native-sms-retriever";
 import { useDispatch, useSelector } from "react-redux";
 
-import { GenerateDocument } from "../../helpers/GenerateDocument";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { putBackendData } from "../../services/employees/employeeServices";
 import { sendSmsVerification } from "../../services/otp/Gupshup/services";
@@ -88,13 +87,8 @@ export default LoginScreen = () => {
   const signIn = () => {
     setLoading(true);
     var fullPhoneNumber = `+91${phoneNumber}`;
-    var phonePayload = GenerateDocument({
-      src: "otp",
-      number: fullPhoneNumber,
-    });
-    putBackendData({ document: phonePayload, src: "Mobile" })
+    putBackendData({ document: {number: fullPhoneNumber}, xpath: "mobile" })
       .then((res) => {
-        console.log(phonePayload);
         console.log(res.data);
         if (res.data["status"] == 200) {
           setId(res.data["id"]);

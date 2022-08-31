@@ -44,7 +44,7 @@ export default BankConfirm = () => {
           />
         }
       />
-      <ProgressBarTop step={2} />
+      <ProgressBarTop step={3} />
       <ScrollView keyboardShouldPersistTaps="handled">
         <Confirm />
       </ScrollView>

@@ -3,11 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import { Text, View, Image } from "react-native";
 import { Button } from "@react-native-material/core";
-import { addVerifyMsg, addVerifyStatus ,addVerifyTimestamp} from "../../store/slices/aadhaarSlice";
+import {
+  addVerifyMsg,
+  addVerifyStatus,
+  addVerifyTimestamp,
+} from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
 
-export default Confirm = () => {
+export default Confirm = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -16,11 +20,11 @@ export default Confirm = () => {
   const id = useSelector((state) => state.auth.id);
   const data = useSelector((state) => state.aadhaar.data);
   const number = useSelector((state) => state.aadhaar.number);
+  const verifyTimestamp = useSelector((state) => state.aadhaar.verifyTimestamp);
 
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const [verifyMsg, setVerifyMsg] = useState(aadhaarSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(aadhaarSlice?.verifyStatus);
-  const [verifyTimestamp, setVerifyTimestamp] = useState(aadhaarSlice?.verifyTimestamp);
 
   useEffect(() => {
     dispatch(addVerifyMsg(verifyMsg));
@@ -31,7 +35,7 @@ export default Confirm = () => {
   }, [verifyStatus]);
 
   useEffect(() => {
-    dispatch(addVerifyTimestamp(verifyTimestamp))
+    dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
   useEffect(() => {
@@ -39,7 +43,7 @@ export default Confirm = () => {
     if (backendPush) {
       aadhaarBackendPush({
         id: id,
-        data: data["aadhaar_data"],
+        data: data,
         number: number,
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
@@ -54,7 +58,6 @@ export default Confirm = () => {
       <Text style={form.OtpAwaitMsg}>
         Are these your AADHAAR details ?{"\n"}
       </Text>
-
       <Image
         source={{
           uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
@@ -84,7 +87,16 @@ export default Confirm = () => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
             setBackendPush(true);
-            navigation.navigate("AadhaarForm");
+            {
+              props?.route?.params?.type == "KYC"
+                ? navigation.navigate("KYC", {
+                    screen: "Aadhaar",
+                    params: {
+                      screen: "Aadhaar Form",
+                    },
+                  })
+                : navigation.navigate("AadhaarForm");
+            }
           }}
         />
         <Button
@@ -97,7 +109,13 @@ export default Confirm = () => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
-            navigation.navigate("PanForm");
+            {
+              props?.route?.params?.type == "KYC"
+                ? navigation.navigate("KYC", {
+                    screen: "Aadhaar",
+                  })
+                : navigation.navigate("PanForm");
+            }
           }}
         />
         <View style={bankform.padding}></View>
