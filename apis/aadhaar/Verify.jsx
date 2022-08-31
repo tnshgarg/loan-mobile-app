@@ -49,8 +49,7 @@ export default Verify = (props) => {
   }, [verifyTimestamp]);
 
   useEffect(() => {
-    console.log(backendPush);
-    console.log("verifyStatus: ", verifyStatus);
+    console.log("aadhaarSlice : ", aadhaarSlice);
     if (backendPush) {
       aadhaarBackendPush({
         id: id,
@@ -92,17 +91,8 @@ export default Verify = (props) => {
           if (responseJson["status"] == "200") {
             switch (responseJson["data"]["code"]) {
               case "1002":
-                const names = [
-                  "house",
-                  "street",
-                  "district",
-                  "locality",
-                  "state",
-                  "pincode",
-                ];
-                responseJson["data"]["aadhaar_data"]["address"] = names
-                  .map((k) => responseJson["data"]["aadhaar_data"][k])
-                  .join(", ");
+                const names = ["house", "street", "locality", "district", "state", "pincode"];
+                responseJson["data"]["aadhaar_data"]["address"] = names.map(k => responseJson["data"]["aadhaar_data"][k]).join(", ");
                 console.log("AADHAAR fetched data: ", responseJson);
                 setData(responseJson["data"]["aadhaar_data"]);
                 setVerifyMsg("OTP validated by User");

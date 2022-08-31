@@ -16,14 +16,12 @@ export default Confirm = (props) => {
   const id = useSelector((state) => state.auth.id);
   const data = useSelector((state) => state.pan.data);
   const number = useSelector((state) => state.pan.number);
+  const verifyTimestamp = useSelector((state) => state.pan.verifyTimestamp);
 
   const panSlice = useSelector((state) => state.pan);
   const [verifyMsg, setVerifyMsg] = useState(panSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(panSlice?.verifyStatus);
-  const [verifyTimestamp, setVerifyTimestamp] = useState(
-    panSlice?.verifyTimestamp
-  );
-
+  
   useEffect(() => {
     dispatch(addVerifyMsg(verifyMsg));
   }, [verifyMsg]);

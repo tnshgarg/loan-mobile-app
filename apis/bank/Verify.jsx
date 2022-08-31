@@ -5,63 +5,68 @@ import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { bankBackendPush } from "../../helpers/BackendPush";
 import {
-  addBankVerifyMsg,
-  addBankVerifyStatus,
   addBankName,
-  addBankBranch,
+  addBranchName,
   addBranchCity,
+  addVerifyMsg,
+  addVerifyStatus,
+  addVerifyTimestamp,
 } from "../../store/slices/bankSlice";
 import ApiView from "../ApiView";
 
 export default Verify = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
   const [loading, setLoading] = useState(false);
   const [backendPush, setBackendPush] = useState(false);
-  const id = useSelector((state) => state.auth.id);
 
-  const ifsc = useSelector((state) => state.bank?.ifsc);
-  const accountNumber = useSelector((state) => state.bank?.accountNumber);
-  const upi = useSelector((state) => state.bank?.upi);
+  const id = useSelector((state) => state.auth.id);
+  const data = useSelector((state) => state.bank.data);
 
   const bankSlice = useSelector((state) => state.bank);
-  const [bankBranch, setBankBranch] = useState(bankSlice?.bankBranch);
-  const [bankName, setBankName] = useState(bankSlice?.bankName);
-  const [city, setCity] = useState(bankSlice?.branchCity);
+  const [bankName, setBankName] = useState(bankSlice?.data?.bankName);
+  const [branchName, setBranchName] = useState(bankSlice?.data?.bankBranch);
+  const [branchCity, setBranchCity] = useState(bankSlice?.data?.branchCity);
   const [verifyMsg, setVerifyMsg] = useState(bankSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
-
-  useEffect(() => {
-    dispatch(addBankBranch(bankBranch));
-  }, [bankBranch]);
-
+  const [verifyTimestamp, setVerifyTimestamp] = useState(bankSlice?.verifyTimestamp);
+  
+  console.log("bankSlice: ", bankSlice);
+  
   useEffect(() => {
     dispatch(addBankName(bankName));
   }, [bankName]);
 
   useEffect(() => {
-    dispatch(addBranchCity(city));
-  }, [city]);
+    dispatch(addBranchName(branchName));
+  }, [branchName]);
 
   useEffect(() => {
-    dispatch(addBankVerifyMsg(verifyMsg));
+    dispatch(addBranchCity(branchCity));
+  }, [branchCity]);
+
+  useEffect(() => {
+    dispatch(addVerifyMsg(verifyMsg));
   }, [verifyMsg]);
 
   useEffect(() => {
-    dispatch(addBankVerifyStatus(verifyStatus));
+    dispatch(addVerifyStatus(verifyStatus));
   }, [verifyStatus]);
 
   useEffect(() => {
+    dispatch(addVerifyTimestamp(verifyTimestamp));
+  }, [verifyTimestamp]);
+
+  useEffect(() => {
     console.log("bankSlice : ", bankSlice);
-    console.log("upi : ", upi);
     if (backendPush) {
       bankBackendPush({
         id: id,
-        ifsc: ifsc,
-        accountNumber: accountNumber,
-        upi: upi,
+        data: data,
         verifyStatus: verifyStatus,
         verifyMsg: verifyMsg,
+        verifyTimestamp: verifyTimestamp,
       });
     }
     setBackendPush(false);
@@ -82,17 +87,18 @@ export default Verify = (props) => {
 
     fetch(props.url, options)
       .then((response) => response.json())
-      .then((response) => {
-        console.log(response);
+      .then((responseJson) => {
+        console.log(responseJson);
         try {
-          if (response["status"] == "200") {
-            switch (response["data"]["code"]) {
+          if (responseJson["status"] == "200") {
+            switch (responseJson["data"]["code"]) {
               case "1000":
-                setBankBranch(response["data"]["bank_account_data"]["branch"]);
-                setBankName(response["data"]["bank_account_data"]["bank_name"]);
-                setCity(response["data"]["bank_account_data"]["city"]);
+                setBankName(responseJson["data"]["bank_account_data"]["bank_name"]);
+                setBranchName(responseJson["data"]["bank_account_data"]["branch"]);
+                setBranchCity(responseJson["data"]["bank_account_data"]["city"]);
                 setVerifyMsg("To be confirmed by User");
                 setVerifyStatus("PENDING");
+                setVerifyTimestamp(responseJson["timestamp"]);
                 setBackendPush(true);
                 {
                   props.type == "KYC"
@@ -106,29 +112,29 @@ export default Verify = (props) => {
                 }
                 break;
               default:
-                setVerifyMsg(response["data"]["message"]);
+                setVerifyMsg(responseJson["data"]["message"]);
                 setVerifyStatus("ERROR");
                 setBackendPush(true);
-                Alert.alert("Error", response["data"]["message"]);
+                Alert.alert("Error", responseJson["data"]["message"]);
                 break;
             }
           } else {
             setVerifyStatus("ERROR");
-            if (response["error"]) {
-              setVerifyMsg(response["error"]);
+            if (responseJson["error"]) {
+              setVerifyMsg(responseJson["error"]);
               setVerifyStatus("ERROR");
               setBackendPush(true);
               Alert.alert(
                 "Error",
-                response["error"]["metadata"]["fields"]
+                responseJson["error"]["metadata"]["fields"]
                   .map((item, value) => item["message"])
                   .join("\n")
               );
             } else {
-              setVerifyMsg(response["messsage"]);
+              setVerifyMsg(responseJson["messsage"]);
               setVerifyStatus("ERROR");
               setBackendPush(true);
-              Alert.alert("Error", response["message"]);
+              Alert.alert("Error", responseJson["message"]);
             }
           }
         } catch (error) {

@@ -10,8 +10,8 @@ import BankInformationCollection from "../../templates/Bank/BankInformationColle
 
 
 export default BankInformationForm = () => {
-  const navigation = useNavigation();
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   useEffect(() => {
     dispatch(addCurrentScreen("BankInfoForm"));
@@ -19,7 +19,7 @@ export default BankInformationForm = () => {
 
   const SkipBank = () => {
     Alert.alert(
-      "Bank KYC pending",
+      "Bank KYC Required",
       `If you want to receive your salary on time, Bank details are required.`,
       [
         { text: "No", onPress: () => null, style: "cancel" },

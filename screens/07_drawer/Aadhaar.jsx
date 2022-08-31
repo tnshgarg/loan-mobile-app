@@ -1,4 +1,3 @@
-import React from "react";
 import { Alert, View } from "react-native";
 import { useSelector } from "react-redux";
 import PrimaryButton from "../../components/PrimaryButton";
@@ -10,11 +9,11 @@ import Confirm from "../../apis/aadhaar/Confirm";
 import { styles } from "../../styles";
 
 const Aadhaar = () => {
-  const data = useSelector((state) => state.aadhaar.data);
   const number = useSelector((state) => state.aadhaar.number);
-  const address = data?.["address"];
-  const dob = data?.["date_of_birth"];
-  const name = data?.["name"];
+  const data = useSelector((state) => state.aadhaar.data);
+  const address = data?.address;
+  const dob = data?.date_of_birth;
+  const name = data?.name;
   const verifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
 
   const dataDetails = [
@@ -22,7 +21,7 @@ const Aadhaar = () => {
     { label: "Date of Birth", value: dob },
     { label: "Aadhaar Number", value: number },
     { label: "Address", value: address },
-    { label: "Verify Status", value: verifyStatus },
+    { label: "Verify Status", value: verifyStatus, divider: false },
   ];
 
   const tabs = [
@@ -56,7 +55,7 @@ const Aadhaar = () => {
               key={index}
               label={item.label}
               value={item.value || "Not Provided"}
-              divider
+              divider={item?.divider??true}
             />
           ))}
 

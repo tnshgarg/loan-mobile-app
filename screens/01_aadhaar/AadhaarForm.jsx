@@ -1,8 +1,8 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Alert, SafeAreaView } from "react-native";
 import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import { useEffect } from "react";
-import { Alert, SafeAreaView } from "react-native";
-import { useDispatch } from "react-redux";
 
 import ProgressBarTop from "../../components/ProgressBarTop";
 import { styles } from "../../styles";
@@ -20,8 +20,8 @@ export default AadhaarForm = () => {
 
   const SkipAadhaar = () => {
     Alert.alert(
-      "Aadhaar KYC pending",
-      `To formally complete your employment with the company, Aadhaar KYC is required.`,
+      "AADHAAR KYC Required",
+      `If you want to receive advance salary, AADHAAR KYC is required.`,
       [
         { text: "No", onPress: () => null, style: "cancel" },
         { text: "Yes", onPress: () => navigation.navigate("PanForm") },

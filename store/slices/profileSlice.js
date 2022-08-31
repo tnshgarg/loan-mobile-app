@@ -5,7 +5,7 @@ const initialState = {
   educationalQualification: "",
   alternatePhone: "",
   email: "",
-  selfie: "",
+  photo: "",
 };
 
 const profileSlice = createSlice({
@@ -24,8 +24,8 @@ const profileSlice = createSlice({
     addMaritalStatus(state, action) {
       state.maritalStatus = action.payload;
     },
-    addSelfie(state, action) {
-      state.selfie = action.payload;
+    addPhoto(state, action) {
+      state.photo = action.payload;
     },
     resetProfile(state) {
       Object.assign(state, initialState);
@@ -38,7 +38,8 @@ export const {
   addEducationalQualification,
   addEmail,
   addMaritalStatus,
-  addSelfie,
+  addPhoto,
   resetProfile,
 } = profileSlice.actions;
+
 export default profileSlice.reducer;

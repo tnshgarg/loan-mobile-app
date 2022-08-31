@@ -7,12 +7,10 @@ import BankInformationCollection from "../../templates/Bank/BankInformationColle
 import Confirm from "../../apis/bank/Confirm";
 
 const Bank = () => {
-  const accountNumber = useSelector((state) => state.bank.accountNumber);
-  const ifsc = useSelector((state) => state.bank.ifsc);
-  const upi = useSelector((state) => state.bank.upi);
-  const accountHolderName = useSelector(
-    (state) => state.bank.accountHolderName
-  );
+  const accountHolderName = useSelector((state) => state.bank.data.accountHolderName);
+  const accountNumber = useSelector((state) => state.bank.data.accountNumber);
+  const ifsc = useSelector((state) => state.bank.data.ifsc);
+  const upi = useSelector((state) => state.bank.data.upi);
   const verifyStatus = useSelector((state) => state.bank.verifyStatus);
 
   const data = [
@@ -20,7 +18,7 @@ const Bank = () => {
     { label: "Account Holder Name", value: accountHolderName },
     { label: "IFSC Code", value: ifsc },
     { label: "UPI Id", value: upi },
-    { label: "Verify Status", value: verifyStatus },
+    { label: "Verify Status", value: verifyStatus, divider: false },
   ];
 
   const tabs = [
@@ -48,7 +46,7 @@ const Bank = () => {
               key={index}
               label={item.label}
               value={item.value || "Not Provided"}
-              divider
+              divider={item?.divider??true}
             />
           ))}
           <View

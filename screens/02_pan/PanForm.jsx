@@ -19,7 +19,7 @@ export default PanForm = () => {
 
   const SkipPAN = () => {
     Alert.alert(
-      "PAN KYC pending",
+      "PAN KYC Required",
       `If you want to receive advance salary, PAN KYC is required.`,
       [
         { text: "No", onPress: () => null, style: "cancel" },

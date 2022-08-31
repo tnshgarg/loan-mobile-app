@@ -1,47 +1,53 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  accountNumber: "",
-  ifsc: "",
-  upi: "",
-  accountHolderName: "",
-  verifyStatus: "PENDING",
+  data: {
+    accountHolderName: "",
+    accountNumber: "",
+    bankName: "",
+    branchName: "",
+    branchCity: "",
+    ifsc: "",
+    upi: "",
+  },
   verifyMsg: "",
-  bankName: "",
-  bankBranch: "",
-  branchCity: "",
+  verifyStatus: "PENDING",
+  verifyTimestamp: "",
 };
 
 const bankSlice = createSlice({
   name: "bank",
   initialState: initialState,
   reducers: {
-    addBankAccountNumber(state, action) {
-      state.accountNumber = action.payload;
+    addAccountHolderName(state, action) {
+      state.data.accountHolderName = action.payload;
     },
-    addBankAccountHolderName(state, action) {
-      state.accountHolderName = action.payload;
-    },
-    addBankIfsc(state, action) {
-      state.ifsc = action.payload;
-    },
-    addBankUpi(state, action) {
-      state.upi = action.payload;
-    },
-    addBankVerifyStatus(state, action) {
-      state.verifyStatus = action.payload;
-    },
-    addBankVerifyMsg(state, action) {
-      state.verifyMsg = action.payload;
+    addAccountNumber(state, action) {
+      state.data.accountNumber = action.payload;
     },
     addBankName(state, action) {
-      state.bankName = action.payload;
+      state.data.bankName = action.payload;
     },
-    addBankBranch(state, action) {
-      state.bankBranch = action.payload;
+    addBranchName(state, action) {
+      state.data.branchName = action.payload;
     },
     addBranchCity(state, action) {
-      state.branchCity = action.payload;
+      state.data.branchCity = action.payload;
+    },
+    addIfsc(state, action) {
+      state.data.ifsc = action.payload;
+    },
+    addUpi(state, action) {
+      state.data.upi = action.payload;
+    },
+    addVerifyMsg(state, action) {
+      state.verifyMsg = action.payload;
+    },
+    addVerifyStatus(state, action) {
+      state.verifyStatus = action.payload;
+    },
+    addVerifyTimestamp(state, action) {
+      state.verifyTimestamp = action.payload;
     },
     resetBank(state) {
       Object.assign(state, initialState);
@@ -50,15 +56,16 @@ const bankSlice = createSlice({
 });
 
 export const {
-  addBankAccountHolderName,
-  addBankAccountNumber,
-  addBankIfsc,
-  addBankUpi,
-  addBankVerifyStatus,
-  addBankVerifyMsg,
+  addAccountHolderName,
+  addAccountNumber,
   addBankName,
-  addBankBranch,
+  addBranchName,
   addBranchCity,
+  addIfsc,
+  addUpi,
+  addVerifyMsg,
+  addVerifyStatus,
+  addVerifyTimestamp,
   resetBank,
 } = bankSlice.actions;
 export default bankSlice.reducer;

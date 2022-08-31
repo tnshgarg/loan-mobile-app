@@ -2,15 +2,16 @@ import {
   DrawerContentScrollView,
   DrawerItemList,
 } from "@react-navigation/drawer";
-import { useNavigation } from "@react-navigation/native";
-import React from "react";
+
 import { Image, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import Logout from "./Logout";
-const CustomDrawer = (props) => {
-  const navigation = useNavigation();
-  const imageData = useSelector((state) => state.profile.selfie);
-  const name = useSelector((state) => state.aadhaar.data?.["name"]) || useSelector((state) => state.pan?.name) || "User";
+
+
+export default CustomDrawer = (props) => {
+
+  const image = useSelector((state) => state.profile.photo);
+  const name = useSelector((state) => state.aadhaar.data?.name || state.pan.data?.name || "User");
 
   return (
     <View style={{ flex: 1 }}>
@@ -21,7 +22,7 @@ const CustomDrawer = (props) => {
         <View style={{ padding: 20 }}>
           <Image
             source={{
-              uri: `data:image/jpeg;base64,${imageData}`,
+              uri: `data:image/jpeg;base64,${image}`,
             }}
             style={{
               width: 80,
@@ -50,4 +51,3 @@ const CustomDrawer = (props) => {
   );
 };
 
-export default CustomDrawer;
