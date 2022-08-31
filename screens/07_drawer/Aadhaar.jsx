@@ -1,10 +1,10 @@
 import { Alert, View } from "react-native";
 import { useSelector } from "react-redux";
 import PrimaryButton from "../../components/PrimaryButton";
-import AadhaarDataCollection from "../../templates/Aadhaar/AadhaarDataCollection";
+import Form from "../../templates/aadhaar/Form";
 import DetailItem from "./DetailItem";
 import TopTabNav from "../../components/TopTabNav";
-import AadhaarOtpVerify from "../../templates/aadhaar/AadhaarOtpVerify";
+import Verify from "../../templates/aadhaar/Verify";
 import Confirm from "../../apis/aadhaar/Confirm";
 import { styles } from "../../styles";
 
@@ -27,13 +27,13 @@ const Aadhaar = () => {
   const tabs = [
     {
       name: "Aadhaar Form",
-      component: AadhaarDataCollection,
+      component: Form,
       initialParams: { type: "KYC" },
       disable: true,
     },
     {
       name: "Verify",
-      component: AadhaarOtpVerify,
+      component: Verify,
       initialParams: { type: "KYC" },
       disable: true,
     },

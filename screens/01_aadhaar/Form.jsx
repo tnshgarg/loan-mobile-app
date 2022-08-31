@@ -6,11 +6,11 @@ import { useNavigation } from "@react-navigation/core";
 
 import ProgressBarTop from "../../components/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import AadhaarDataCollection from "../../templates/aadhaar/AadhaarDataCollection";
+import Form from "../../templates/aadhaar/Form";
 import { styles } from "../../styles";
 
 
-export default AadhaarForm = () => {
+const AadhaarForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -65,8 +65,10 @@ export default AadhaarForm = () => {
         />
 
         <ProgressBarTop step={1} />
-        <AadhaarDataCollection />
+        <Form />
       </SafeAreaView>
     </>
   );
 };
+
+export default AadhaarForm;

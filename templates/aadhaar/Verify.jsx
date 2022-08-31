@@ -8,12 +8,15 @@ import { setAadhaarTimer } from "../../store/slices/timerSlice";
 import { OG_AADHAAR_SUBMIT_OTP_API } from "../../services/employees/endpoints";
 import { form, styles } from "../../styles";
 
-const AadhaarOtpVerify = (props) => {
+const Verify = (props) => {
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
   const [otp, setOtp] = useState("");
   const [validOtp, setValidOtp] = useState(true);
   const countDownTime = useSelector((state) => state.timer.aadhaar);
+  
   useEffect(() => {
     setValidOtp(otp.length === 6);
   }, [otp]);
@@ -65,4 +68,4 @@ const AadhaarOtpVerify = (props) => {
   );
 };
 
-export default AadhaarOtpVerify;
+export default Verify;

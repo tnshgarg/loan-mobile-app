@@ -13,7 +13,7 @@ import { styles } from "../../styles";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import Confirm from "../../apis/aadhaar/Confirm";
 
-export default AadhaarConfirm = () => {
+const AadhaarConfirm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -56,3 +56,5 @@ export default AadhaarConfirm = () => {
   );
   
 };
+
+export default AadhaarConfirm;

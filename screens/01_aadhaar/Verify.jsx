@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import { AppBar, Icon, IconButton } from "@react-native-material/core";
@@ -6,15 +6,14 @@ import { SafeAreaView } from "react-native";
 import ProgressBarTop from "../../components/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
-import AadhaarOtpVerify from "../../templates/aadhaar/AadhaarOtpVerify";
+import Verify from "../../templates/aadhaar/Verify";
 
-export default AadhaarVerify = (props) => {
+
+const AadhaarVerify = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const [backDisabled, setBackDisabled] = useState(true);
-  const [otp, setOtp] = useState("");
-  const [validOtp, setValidOtp] = useState(true);
   const countDownTime = useSelector((state) => state.timer.aadhaar);
 
   useEffect(() => {
@@ -22,8 +21,10 @@ export default AadhaarVerify = (props) => {
   }, []);
 
   useEffect(() => {
-    setValidOtp(otp.length === 6);
-  }, [otp]);
+    if (countDownTime <= 0) {
+      setBackDisabled(false);
+    }
+  }, [countDownTime]);
 
   const BackAlert = () => {
     Alert.alert(
@@ -54,7 +55,9 @@ export default AadhaarVerify = (props) => {
       />
 
       <ProgressBarTop step={1} />
-      <AadhaarOtpVerify function={BackAlert} />
+      <Verify function={BackAlert} />
     </SafeAreaView>
   );
 };
+
+export default AadhaarVerify;
