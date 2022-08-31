@@ -15,16 +15,16 @@ export default Confirm = () => {
   const navigation = useNavigation();
 
   const [backendPush, setBackendPush] = useState(false);
+
+  const id = useSelector((state) => state.auth.id);
+  const data = useSelector((state) => state.license.data);
+  const number = useSelector((state) => state.license.number);
+  const verifyTimestamp = useSelector((state) => state.license.verifyTimestamp);
+
   const licenseSlice = useSelector((state) => state.license);
-  const name = useSelector((state) => licenseSlice?.name);
-  const number = useSelector((state) => licenseSlice?.number);
-  const photo = useSelector((state) => licenseSlice?.photo);
-  const bloodGroup = useSelector((state) => licenseSlice?.bloodGroup);
-  const dob = useSelector((state) => licenseSlice?.dob);
-  const validity = useSelector((state) => licenseSlice?.validity);
-  const classes = useSelector((state) => licenseSlice?.classes);
-  const [verifyStatus, setVerifyStatus] = useState(licenseSlice?.verifyStatus);
   const [verifyMsg, setVerifyMsg] = useState(licenseSlice?.verifyMsg);
+  const [verifyStatus, setVerifyStatus] = useState(licenseSlice?.verifyStatus);
+
   useEffect(() => {
     dispatch(addLicenseVerifyMsg(verifyMsg));
   }, [verifyMsg]);
@@ -33,7 +33,20 @@ export default Confirm = () => {
     dispatch(addLicenseVerifyStatus(verifyStatus));
   }, [verifyStatus]);
 
-  console.log(licenseSlice?.verifyStatus);
+  useEffect(() => {
+    console.log("licenseSlice : ", licenseSlice);
+    if (backendPush) {
+      licenseBackendPush({
+        id: id,
+        data: data,
+        verifyMsg: verifyMsg,
+        verifyStatus: verifyStatus,
+        verifyTimestamp: verifyTimestamp,
+      });
+    }
+    setBackendPush(false);
+  }, [backendPush]);
+
   return (
     <View style={styles.container}>
       <Text style={form.OtpAwaitMsg}>

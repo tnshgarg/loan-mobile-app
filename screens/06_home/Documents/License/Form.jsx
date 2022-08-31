@@ -18,9 +18,14 @@ export default LicenseForm = () => {
   const navigation = useNavigation();
 
   const [validNumber, setValidNumber] = useState(true);
-  const [dob, setDob] = useState(licenseSlice?.dob);
+
   const licenseSlice = useSelector((state) => state.license);
+  const [dob, setDob] = useState(licenseSlice?.dob);
   const [number, setNumber] = useState(licenseSlice?.number);
+
+  useEffect(() => {
+    dispatch(addDob(dob));
+  }, [dob]);
 
   useEffect(() => {
     var licenseReg = /^([A-Z]{2})(\d{2}|\d{3})[a-zA-Z]{0,1}(\d{4})(\d{7})$/gm;
@@ -42,11 +47,7 @@ export default LicenseForm = () => {
       ]
     );
   };
-
-  useEffect(() => {
-    dispatch(addDob(dob));
-  }, [dob]);
-
+  
   return (
     <>
       <SafeAreaView style={styles.container}>
