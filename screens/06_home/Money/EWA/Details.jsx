@@ -100,7 +100,7 @@ const Details = () => {
             uppercase={false}
             disabled={!consent}
             onPress={() => {
-              navigation.navigate("EWAKYC");
+              navigation.navigate("EWAMandate");
             }}
           />
           <View style={bankform.padding}></View>
