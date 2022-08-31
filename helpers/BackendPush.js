@@ -1,114 +1,81 @@
-import { GenerateDocument } from "./GenerateDocument";
 import { putBackendData } from "../services/employees/employeeServices";
 
-export const aadhaarBackendPush = (props) => {
-  aadhaarPayload = GenerateDocument({
-    src: "Aadhaar",
-    id: props.id,
-    number: props.number,
-    data: props.data || {},
-    verifyMsg: props.verifyMsg,
-    verifyStatus: props.verifyStatus,
-    verifyTimestamp: props.verifyTimestamp,
-  });
-  putBackendData({ document: aadhaarPayload, src: "Aadhaar" })
-    .then((res) => {
-      console.log(aadhaarPayload);
-      console.log(res.data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
-
-export const bankBackendPush = (props) => {
-  var bankPayload = {
-    id: props.id,
-    data: props.data,
-    verifyStatus: props.verifyStatus,
-    verifyMsg: props.verifyMsg,
-    verifyTimestamp: props.verifyTimestamp,
-  };
-  putBackendData({ document: bankPayload, src: "Bank" })
-    .then((res) => {
-      console.log("bankPayload: ", bankPayload);
-      console.log("res.data: ", res.data);
-    })
-    .catch((err) => {
-      console.log("err: ", err);
-    });
-};
-
-export const panBackendPush = (props) => {
-  var panPayload = GenerateDocument({
-    src: "Pan",
-    id: props.id,
-    data: props.data || {},
-    number: props.number,
-    verifyMsg: props.verifyMsg,
-    verifyStatus: props.verifyStatus,
-    verifyTimestamp: props.verifyTimestamp,
-  });
-  putBackendData({ document: panPayload, src: "Pan" })
+export const aadhaarBackendPush = (payload) => {
+  putBackendData({ document: payload, xpath: "aadhaar" })
     .then((response) => {
-      console.log("panPayload: ", panPayload);
       console.log("response.data: ", response.data);
     })
-    .catch((err) => {
-      console.log("err: ", err);
+    .catch((error) => {
+      console.log("error: ", error);
     });
 };
 
-export const familyDetailsPush = (props) => {
-  var familyPayload = GenerateDocument({
-    src: "FamilyDetails",
-    id: props.id,
-    type: props.type,
-    relation: props.relation,
-    name: props.name,
-  });
-  putBackendData({ document: familyPayload, src: "FamilyDetails" })
-    .then((res) => {
-      console.log(familyPayload);
-      console.log(res.data);
+export const bankBackendPush = (payload) => {
+  putBackendData({ document: payload, xpath: "bank" })
+    .then((response) => {
+      console.log("response.data: ", response.data);
     })
-    .catch((err) => {
-      console.log(err);
+    .catch((error) => {
+      console.log("error: ", error);
     });
 };
 
-export const addressPush = (props) => {
-  var addressPayload = GenerateDocument({
-    src: "Address",
-    id: props.id,
-    type: props.type,
-    street: props.address[props.type].street,
-    state: props.address[props.type].state,
-    district: props.address[props.type].district,
-    pin: props.address[props.type].pincode,
-  });
-  putBackendData({ document: addressPayload, src: "Address" })
-    .then((res) => {
-      console.log(addressPayload);
-      console.log(res.data);
+export const licenseBackendPush = (payload) => {
+  putBackendData({ document: payload, xpath: "license" })
+    .then((response) => {
+      console.log("response.data: ", response.data);
     })
-    .catch((err) => {
-      console.log(err);
+    .catch((error) => {
+      console.log("error: ", error);
     });
 };
 
-export const portalPush = (props) => {
-  var portalPayload = GenerateDocument({
-    src: "Portal",
-    id: props.id,
-    ipNumber: props.ipNumber,
-  });
-  putBackendData({ document: portalPayload, src: "Portal" })
-    .then((res) => {
-      console.log(portalPayload);
-      console.log(res.data);
+export const panBackendPush = (payload) => {
+  putBackendData({ document: payload, xpath: "pan" })
+    .then((response) => {
+      console.log("response.data: ", response.data);
     })
-    .catch((err) => {
-      console.log(err);
+    .catch((error) => {
+      console.log("error: ", error);
+    });
+};
+
+export const profileBackendPush = (payload) => {
+  putBackendData({ document: payload, xpath: "profile" })
+    .then((response) => {
+      console.log("response.data: ", response.data);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+    });
+};
+
+export const relationPush = (payload) => {
+  putBackendData({ document: payload, xpath: "esic/relation" })
+    .then((response) => {
+      console.log("response.data: ", response.data);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+    });
+};
+
+export const addressPush = (payload) => {
+  putBackendData({ document: payload, xpath: "esic/address" })
+    .then((response) => {
+      console.log("response.data: ", response.data);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+    });
+};
+
+export const portalPush = (payload) => {
+  putBackendData({ document: payload, xpath: "esic/portal" })
+    .then((response) => {
+      console.log("response.data: ", response.data);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
     });
 };
