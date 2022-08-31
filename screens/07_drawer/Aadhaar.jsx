@@ -4,7 +4,7 @@ import PrimaryButton from "../../components/PrimaryButton";
 import AadhaarDataCollection from "../../templates/Aadhaar/AadhaarDataCollection";
 import DetailItem from "./DetailItem";
 import TopTabNav from "../../components/TopTabNav";
-import AadhaarOtpVerify from "../../templates/Aadhaar/AadhaarOtpVerify";
+import AadhaarOtpVerify from "../../templates/aadhaar/AadhaarOtpVerify";
 import Confirm from "../../apis/aadhaar/Confirm";
 import { styles } from "../../styles";
 

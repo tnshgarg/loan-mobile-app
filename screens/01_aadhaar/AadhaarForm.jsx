@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/core";
 
 import ProgressBarTop from "../../components/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import AadhaarDataCollection from "../../templates/Aadhaar/AadhaarDataCollection";
+import AadhaarDataCollection from "../../templates/aadhaar/AadhaarDataCollection";
 import { styles } from "../../styles";
 
 

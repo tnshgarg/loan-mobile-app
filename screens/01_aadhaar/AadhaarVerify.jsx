@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native";
 import ProgressBarTop from "../../components/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
-import AadhaarOtpVerify from "../../templates/Aadhaar/AadhaarOtpVerify";
+import AadhaarOtpVerify from "../../templates/aadhaar/AadhaarOtpVerify";
 
 export default AadhaarVerify = (props) => {
   const dispatch = useDispatch();

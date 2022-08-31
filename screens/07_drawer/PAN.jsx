@@ -3,11 +3,11 @@ import React from "react";
 import DetailItem from "./DetailItem";
 import PrimaryButton from "../../components/PrimaryButton";
 import { useSelector } from "react-redux";
-import PanDataCollection from "../../templates/Pan/PanDataCollection";
+import PanDataCollection from "../../templates/pan/PanDataCollection";
 import TopTabNav from "../../components/TopTabNav";
 import Confirm from "../../apis/pan/Confirm";
 
-const PAN = () => {
+const Pan = () => {
   const data = useSelector((state) => state.pan.data);
   const number = useSelector((state) => state.pan.number);
   const dob = data?.["date_of_birth"];
@@ -77,4 +77,4 @@ const PAN = () => {
   );
 };
 
-export default PAN;
+export default Pan;

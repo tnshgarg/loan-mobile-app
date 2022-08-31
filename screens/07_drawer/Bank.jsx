@@ -3,7 +3,7 @@ import React from "react";
 import DetailItem from "./DetailItem";
 import PrimaryButton from "../../components/PrimaryButton";
 import { useSelector } from "react-redux";
-import BankInformationCollection from "../../templates/Bank/BankInformationCollection";
+import BankInformationCollection from "../../templates/bank/BankInformationCollection";
 import Confirm from "../../apis/bank/Confirm";
 
 const Bank = () => {

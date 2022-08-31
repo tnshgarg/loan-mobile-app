@@ -8,7 +8,7 @@ import { setAadhaarTimer } from "../../store/slices/timerSlice";
 import { OG_AADHAAR_SUBMIT_OTP_API } from "../../services/employees/endpoints";
 import { form, styles } from "../../styles";
 
-export default AadhaarOtpVerify = (props) => {
+const AadhaarOtpVerify = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [otp, setOtp] = useState("");
@@ -64,3 +64,5 @@ export default AadhaarOtpVerify = (props) => {
     </ScrollView>
   );
 };
+
+export default AadhaarOtpVerify;

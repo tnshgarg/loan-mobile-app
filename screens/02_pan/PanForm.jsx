@@ -7,7 +7,7 @@ import ProgressBarTop from "../../components/ProgressBarTop";
 import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import PanDataCollection from "../../templates/Pan/PanDataCollection";
+import PanDataCollection from "../../templates/pan/PanDataCollection";
 
 export default PanForm = () => {
   const dispatch = useDispatch();

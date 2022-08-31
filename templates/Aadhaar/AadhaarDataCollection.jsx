@@ -11,7 +11,7 @@ import Otp from "../../apis/aadhaar/Otp";
 import { OG_AADHAAR_GENERATE_OTP_API } from "../../services/employees/endpoints";
 import { addNumber } from "../../store/slices/aadhaarSlice";
 
-export default AadhaarDataCollection = (props) => {
+const AadhaarDataCollection = (props) => {
   const dispatch = useDispatch();
 
   const [consent, setConsent] = useState(false);
@@ -80,3 +80,5 @@ export default AadhaarDataCollection = (props) => {
     </>
   );
 };
+
+export default AadhaarDataCollection;
