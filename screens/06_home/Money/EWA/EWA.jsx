@@ -4,12 +4,13 @@ import { useSelector } from "react-redux";
 import { styles } from "../../../../styles";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import HomeMain from "../../HomeMain";
+import { useNavigation } from "@react-navigation/core";
 
 const EWA = () => {
   const aadhaarVerifyState = useSelector((state) => state.aadhaar.verifyStatus);
   const panVerifyState = useSelector((state) => state.pan.verifyStatus);
   const bankVerifyState = useSelector((state) => state.bank.verifyStatus);
-
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
       {aadhaarVerifyState === "SUCCESS" &&

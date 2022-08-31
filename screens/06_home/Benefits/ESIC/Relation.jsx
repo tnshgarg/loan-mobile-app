@@ -1,24 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Text, TextInput, View } from "react-native";
-import { useNavigation } from "@react-navigation/core";
 import { Button } from "@react-native-material/core";
 import { Picker } from "@react-native-picker/picker";
-<<<<<<<< HEAD:screens/06_home/Benefits/ESIC/FamilyDetails.jsx
-import relations from "../../../../helpers/RelationData";
-import { addESICFamilyDetails } from "../../../../store/slices/esicSlice";
-import { familyDetailsPush } from "../../../../helpers/BackendPush";
-import { bankform, form, styles } from "../../../../styles";
+import { useNavigation } from "@react-navigation/core";
+import React, { useEffect, useState } from "react";
+import { Text, TextInput, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { showToast } from "../../../../components/Toast";
+import { relationPush } from "../../../../helpers/BackendPush";
+import relations from "../../../../helpers/RelationData";
 import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
-========
-import relations from "../../../helpers/RelationData";
-import { addESICFamilyDetails } from "../../../store/slices/esicSlice";
-import { relationPush } from "../../../helpers/BackendPush";
-import { bankform, form } from "../../../styles";
-import { showToast } from "../../../components/Toast";
-import { KeyboardAvoidingWrapper } from "../../../KeyboardAvoidingWrapper";
->>>>>>>> develop:screens/06_home/Benefits/ESIC/Relation.jsx
+import { addESICFamilyDetails } from "../../../../store/slices/esicSlice";
+import { bankform, form } from "../../../../styles";
 
 export default Relation = () => {
 

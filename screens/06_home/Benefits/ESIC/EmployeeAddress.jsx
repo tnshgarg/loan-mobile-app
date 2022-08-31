@@ -3,8 +3,8 @@ import { useNavigation } from "@react-navigation/core";
 import React from "react";
 
 import { View } from "react-native";
-import AddressDropdown from "../../../components/AddressDropdown";
-import { bankform, form } from "../../../styles";
+import AddressDropdown from "../../../../components/AddressDropdown";
+import { bankform, form } from "../../../../styles";
 import { useSelector } from "react-redux";
 import { addressPush } from "../../../../helpers/BackendPush";
 import { showToast } from "../../../../components/Toast";
