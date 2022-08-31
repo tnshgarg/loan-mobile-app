@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert, SafeAreaView, Text, TextInput, View } from "react-native";
 import CheckBox from "@react-native-community/checkbox";
-import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
+import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 
 import ProgressBarTop from "../../components/ProgressBarTop";
