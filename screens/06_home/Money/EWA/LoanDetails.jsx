@@ -63,6 +63,7 @@ const LoanDetails = () => {
         title="Loan Details"
         TitleIcon={infoIcon}
         isClosed={false}
+        info = "Money will be deducted from your upcoming salary" 
       />
       <Text style={{ marginLeft: "6%", fontWeight: "300" }}>
         Annual Percentage Rate @xx%

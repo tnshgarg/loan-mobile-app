@@ -537,6 +537,9 @@ export const license = StyleSheet.create({
 });
 
 export const ewa = StyleSheet.create({
+  padding:{
+    marginTop: 10,
+  },
   loanCard: {
     marginTop: 20,
     alignSelf: "center",

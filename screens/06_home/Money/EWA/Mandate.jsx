@@ -8,10 +8,16 @@ import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
 import { form, bankform, styles } from "../../../../styles";
 import Verify from "../../../../apis/bank/Verify";
 import { useSelector } from "react-redux";
+import CollapsibleCard from "../../../../components/CollapsibleCard";
+
 const Mandate = () => {
   const navigation = useNavigation();
-  const [name, setName] = useState(useSelector((state) => state.bank.accountHolderName));
-  const [number, setNumber] = useState(useSelector((state) => state.bank.accountNumber));
+  const [name, setName] = useState(
+    useSelector((state) => state.bank.accountHolderName)
+  );
+  const [number, setNumber] = useState(
+    useSelector((state) => state.bank.accountNumber)
+  );
   const [ifsc, setIfsc] = useState(useSelector((state) => state.bank.ifsc));
   const [ifscNext, setIfscNext] = useState(false);
   const [accNumNext, setAccNumNext] = useState(false);
@@ -33,6 +39,26 @@ const Mandate = () => {
       setIfscNext(false);
     }
   }, [ifsc]);
+
+  const netIcon = () => {
+    return <Icon name="passport" size={24} color="#FF6700" />;
+  };
+
+  const upiIcon = () => {
+    return <Icon name="wallet" size={24} color="#FF6700" />;
+  };
+
+  const debitIcon = () => {
+    return <Icon name="smart-card" size={24} color="#FF6700" />;
+  };
+
+  const button = () => {
+    return <PrimaryButton title="Proceed" uppercase={false} />;
+  };
+
+  const inputs = () => {
+    return <TextInput style={form.input} placeholder="UPI" />;
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -81,7 +107,24 @@ const Mandate = () => {
           {ifsc && !ifscNext ? (
             <Text style={bankform.formatmsg}>Incorrect Format</Text>
           ) : null}
-
+          <CollapsibleCard
+            title="Net Banking "
+            TitleIcon={netIcon}
+            isClosed={true}
+            Component={button}
+          />
+          <CollapsibleCard
+            title="UPI "
+            TitleIcon={upiIcon}
+            isClosed={true}
+            Component={inputs}
+          />
+          <CollapsibleCard
+            title="Debit Card "
+            TitleIcon={debitIcon}
+            isClosed={true}
+            Component={button}
+          />
           <PrimaryButton
             title="My Details are Correct"
             uppercase={false}

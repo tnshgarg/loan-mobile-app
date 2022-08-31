@@ -41,6 +41,7 @@ const EarnedWage = () => {
         title="Loan Details"
         TitleIcon={icon}
         isClosed={false}
+        info = "Money will be deducted from your upcoming salary" 
       />
       <PrimaryButton
         title="Thank You"
