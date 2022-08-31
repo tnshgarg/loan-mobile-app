@@ -21,8 +21,8 @@ export default Confirm = () => {
   const verifyTimestamp = useSelector((state) => state.bank.verifyTimestamp);
 
   const bankSlice = useSelector((state) => state.bank);
-  const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
   const [verifyMsg, setVerifyMsg] = useState(bankSlice?.verifyMsg);
+  const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
 
   useEffect(() => {
     dispatch(addVerifyMsg(verifyMsg));

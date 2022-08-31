@@ -22,9 +22,7 @@ export default Verify = (props) => {
   const [backendPush, setBackendPush] = useState(false);
 
   const id = useSelector((state) => state.auth.id);
-  const accountNumber = useSelector((state) => state.bank?.accountNumber);
-  const ifsc = useSelector((state) => state.bank?.ifsc);
-  const upi = useSelector((state) => state.bank?.upi);
+  const data = useSelector((state) => state.bank.data);
 
   const bankSlice = useSelector((state) => state.bank);
   const [bankName, setBankName] = useState(bankSlice?.data?.bankName);
@@ -65,7 +63,7 @@ export default Verify = (props) => {
     if (backendPush) {
       bankBackendPush({
         id: id,
-        data: bankSlice?.data,
+        data: data,
         verifyStatus: verifyStatus,
         verifyMsg: verifyMsg,
         verifyTimestamp: verifyTimestamp,
