@@ -1,23 +1,16 @@
 import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  Alert,
-  Image,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
+import { Image, SafeAreaView, ScrollView, Text, View } from "react-native";
 import * as ImagePicker from "react-native-image-picker";
+import { useDispatch, useSelector } from "react-redux";
 
 import ProgressBarTop from "../../components/ProgressBarTop";
-import { profileBackendPush } from "../../services/employees/employeeServices";
-import { addPhoto } from "../../store/slices/profileSlice";
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { checkBox, form, selfie, styles } from "../../styles";
 import RNIPPhotoCapture from "../../components/RNIPPhotoCapture";
+import { profileBackendPush } from "../../helpers/BackendPush";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { addPhoto } from "../../store/slices/profileSlice";
+import { checkBox, form, selfie, styles } from "../../styles";
 
 export default PersonalImage = () => {
   const dispatch = useDispatch();
@@ -34,11 +27,14 @@ export default PersonalImage = () => {
   }, []);
 
   useEffect(() => {
+    dispatch(addPhoto(image));
+  }, [image]);
+
+  useEffect(() => {
     setImage(image);
     if (image) {
       setNext(true);
-    }
-    else{
+    } else {
       setNext(false);
     }
   }, [image]);
@@ -55,7 +51,7 @@ export default PersonalImage = () => {
       } else if (response.error) {
         console.log("ImagePicker Error: ", response.error);
       } else {
-        dispatch(addPhoto(response?.assets && response.assets[0].base64));
+        setImage(response?.assets[0]?.base64);
       }
     });
   }, []);
@@ -99,7 +95,7 @@ export default PersonalImage = () => {
                 onImageLibraryPress();
               }}
             />
-           <RNIPPhotoCapture/>
+            <RNIPPhotoCapture />
           </View>
           {next ? (
             <Button

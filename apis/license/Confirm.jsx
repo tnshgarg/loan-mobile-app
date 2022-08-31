@@ -5,8 +5,8 @@ import { Image, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { TimeDifference } from "../../helpers/TimeDifference";
 import {
-  addLicenseVerifyMsg,
-  addLicenseVerifyStatus,
+  addVerifyMsg,
+  addVerifyStatus,
 } from "../../store/slices/licenseSlice";
 import { form, license, styles, selfie } from "../../styles";
 
@@ -24,13 +24,13 @@ export default Confirm = () => {
   const licenseSlice = useSelector((state) => state.license);
   const [verifyMsg, setVerifyMsg] = useState(licenseSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(licenseSlice?.verifyStatus);
-
+  const classes = data?.["vehicle_class_details"];
   useEffect(() => {
-    dispatch(addLicenseVerifyMsg(verifyMsg));
+    dispatch(addVerifyMsg(verifyMsg));
   }, [verifyMsg]);
 
   useEffect(() => {
-    dispatch(addLicenseVerifyStatus(verifyStatus));
+    dispatch(addVerifyStatus(verifyStatus));
   }, [verifyStatus]);
 
   useEffect(() => {
@@ -52,10 +52,10 @@ export default Confirm = () => {
       <Text style={form.OtpAwaitMsg}>
         Are these your License details ?{"\n"}
       </Text>
-      {photo ? (
+      {data?.["photo_base64"] ? (
         <Image
           source={{
-            uri: `data:image/jpeg;base64,${photo}`,
+            uri: `data:image/jpeg;base64,${data?.["photo_base64"]}`,
           }}
           style={form.aadharimg}
         />
@@ -68,24 +68,24 @@ export default Confirm = () => {
         />
       )}
       <Text style={form.userData}>Number: {number}</Text>
-      <Text style={form.userData}>Name: {name}</Text>
-      <Text style={form.userData}>Date of Birth: {dob}</Text>
-      <Text style={form.userData}>Blood Group: {bloodGroup ? bloodGroup : "NA"}</Text>
+      <Text style={form.userData}>Name: {data?.["name"]}</Text>
+      <Text style={form.userData}>Date of Birth: {data?.["date_of_birth"]}</Text>
+      <Text style={form.userData}>Blood Group: {data?.["bloodGroup"] || "NA"}</Text>
       {classes.map((item, index) => (
         <View key={index}>
           <Text style={form.userData}>Class: {item["category"]}</Text>
           <Text style={license.authority}>{item["authority"]}</Text>
         </View>
       ))}
-      {validity["non_transport"] ? (
+      {data?.["validity"]["non_transport"] ? (
         <>
           <Text style={form.userData}>
-            Validity: {validity["non_transport"]["issue_date"]} to{" "}
-            {validity["non_transport"]["expiry_date"]}
+            Validity: {data?.["validity"]["non_transport"]["issue_date"]} to{" "}
+            {data?.["validity"]["non_transport"]["expiry_date"]}
           </Text>
           <View style={{ flexDirection: "row" }}>
             <Text style={license.authority}>Non-Transport</Text>
-            {TimeDifference(validity["non_transport"]["expiry_date"]) > 0 ? (
+            {TimeDifference(data?.["validity"]["non_transport"]["expiry_date"]) > 0 ? (
               <Text style={license.valid}>Valid</Text>
             ) : (
               <Text style={license.invalid}>Invalid</Text>
@@ -93,15 +93,15 @@ export default Confirm = () => {
           </View>
         </>
       ) : null}
-      {validity["transport"] ? (
+      {data?.["validity"]["transport"] ? (
         <>
           <Text style={form.userData}>
-            Transport Validity: {validity["transport"]["issue_date"]} to{" "}
-            {validity["transport"]["expiry_date"]}
+            Transport Validity: {data?.["validity"]["transport"]["issue_date"]} to{" "}
+            {data?.["validity"]["transport"]["expiry_date"]}
           </Text>{" "}
           <View style={{ flexDirection: "row" }}>
             <Text style={license.authority}>Transport</Text>
-            {TimeDifference(validity["transport"]["expiry_date"]) > 0 ? (
+            {TimeDifference(data?.["validity"]["transport"]["expiry_date"]) > 0 ? (
               <Text style={license.valid}>Valid</Text>
             ) : (
               <Text style={license.invalid}>Invalid</Text>
