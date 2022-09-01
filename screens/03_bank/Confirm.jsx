@@ -11,7 +11,8 @@ import ProgressBarTop from "../../components/ProgressBarTop";
 import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import Confirm from "../../apis/bank/Confirm";
+import BankConfirmApi from "../../apis/bank/Confirm";
+
 
 export default BankConfirm = () => {
   const dispatch = useDispatch();
@@ -46,7 +47,7 @@ export default BankConfirm = () => {
       />
       <ProgressBarTop step={3} />
       <ScrollView keyboardShouldPersistTaps="handled">
-        <Confirm />
+        <BankConfirmApi />
       </ScrollView>
     </SafeAreaView>
   );

@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import ProgressBarTop from "../../components/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
-import Form from "../../templates/bank/Form";
+import BankFormTemplate from "../../templates/bank/Form";
 
 
 const BankForm = () => {
@@ -54,7 +54,7 @@ const BankForm = () => {
           }
         />
         <ProgressBarTop step={3} />
-        <Form />
+        <BankFormTemplate />
       </SafeAreaView>
     </>
   );

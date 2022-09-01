@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Text, TextInput, View } from "react-native";
 import { Popable } from "react-native-popable";
 import { useDispatch, useSelector } from "react-redux";
-import Verify from "../../apis/bank/Verify";
+import BankVerifyApi from "../../apis/bank/Verify";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
   addAccountHolderName,
@@ -15,7 +15,8 @@ import {
 import { OG_BANK_VERIFY_API } from "../../services/employees/endpoints";
 import { bankform, checkBox, form } from "../../styles";
 
-const Form = (props) => {
+
+const BankFormTemplate = (props) => {
   const dispatch = useDispatch();
 
   const [accNumNext, setAccNumNext] = useState(false);
@@ -174,7 +175,7 @@ const Form = (props) => {
               my identity.
             </Text>
           </View>
-          <Verify
+          <BankVerifyApi
             url={OG_BANK_VERIFY_API}
             data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}
             style={form.nextButton}
@@ -188,4 +189,4 @@ const Form = (props) => {
   );
 };
 
-export default Form;
+export default BankFormTemplate;

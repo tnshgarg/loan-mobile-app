@@ -14,7 +14,7 @@ import {
 } from "../../store/slices/bankSlice";
 import ApiView from "../ApiView";
 
-export default Verify = (props) => {
+const BankVerifyApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -163,3 +163,5 @@ export default Verify = (props) => {
     />
   );
 };
+
+export default BankVerifyApi;

@@ -10,7 +10,7 @@ import {
 import { bankBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
 
-export default Confirm = (props) => {
+const BankConfirmApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -110,3 +110,5 @@ export default Confirm = (props) => {
     </View>
   );
 };
+
+export default BankConfirmApi;
