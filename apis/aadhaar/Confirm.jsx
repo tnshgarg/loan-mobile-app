@@ -90,7 +90,7 @@ const AadhaarConfirmApi = (props) => {
             {
               props?.route?.params?.type == "KYC"
                 ? navigation.navigate("KYC", {
-                    screen: "Aadhaar",
+                    screen: "AADHAAR",
                     params: {
                       screen: "Aadhaar Form",
                     },
@@ -112,7 +112,7 @@ const AadhaarConfirmApi = (props) => {
             {
               props?.route?.params?.type == "KYC"
                 ? navigation.navigate("KYC", {
-                    screen: "Aadhaar",
+                    screen: "AADHAAR",
                   })
                 : navigation.navigate("PanForm");
             }

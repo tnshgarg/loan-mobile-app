@@ -77,7 +77,7 @@ const BankConfirmApi = (props) => {
             {
               props?.route?.params?.type == "KYC"
                 ? navigation.navigate("KYC", {
-                    screen: "Bank Details",
+                    screen: "BANK",
                     params: {
                       screen: "Bank Data",
                     },
@@ -99,7 +99,7 @@ const BankConfirmApi = (props) => {
             {
               props?.route?.params?.type == "KYC"
                 ? navigation.navigate("KYC", {
-                    screen: "Bank Details",
+                    screen: "BANK",
                   })
                 : navigation.navigate("PersonalDetailsForm");
             }

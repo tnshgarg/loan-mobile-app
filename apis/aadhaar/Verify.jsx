@@ -83,7 +83,6 @@ const AadhaarVerifyApi = (props) => {
       },
       body: JSON.stringify(data),
     };
-
     fetch(props.url, options)
       .then((response) => response.json())
       .then((responseJson) => {
@@ -102,7 +101,7 @@ const AadhaarVerifyApi = (props) => {
                 {
                   props.type == "KYC"
                     ? navigation.navigate("KYC", {
-                        screen: "Aadhaar",
+                        screen: "AADHAAR",
                         params: {
                           screen: "Confirm",
                         },

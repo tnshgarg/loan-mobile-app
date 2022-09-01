@@ -103,7 +103,7 @@ const BankVerifyApi = (props) => {
                 {
                   props.type == "KYC"
                     ? navigation.navigate("KYC", {
-                        screen: "Bank Details",
+                        screen: "BANK",
                         params: {
                           screen: "Confirm",
                         },
