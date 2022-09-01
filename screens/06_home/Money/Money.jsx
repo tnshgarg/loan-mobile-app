@@ -8,7 +8,7 @@ import EWA from "./EWA/EWA";
 const Money = () => {
   const tabs = [
     { name: "EWA", component: EWA },
-    { name: "Details", component: HomeView },
+    { name: "Transaction History", component: HomeView },
   ];
 
   return (

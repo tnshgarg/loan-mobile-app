@@ -72,13 +72,13 @@ const LoanDetails = () => {
       </Text>
       <CollapsibleCard
         title="Personal Details"
-        isClosed={true}
+        isClosed={false}
         TitleIcon={profileIcon}
         data={profileData}
       />
       <CollapsibleCard
         title="Bank Details"
-        isClosed={true}
+        isClosed={false}
         TitleIcon={bankIcon}
         data={bankData}
       />
@@ -103,7 +103,7 @@ const LoanDetails = () => {
         </Text>
       </View>
       <PrimaryButton
-        title="My Details are Correct"
+        title="Proceed"
         uppercase={false}
         onPress={() => {
           navigation.navigate("EWAEarnedWage");
