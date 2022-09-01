@@ -64,7 +64,7 @@ const Landing = () => {
   return (
     <SafeAreaView style={styles.container}>
       <AppBar
-        title="Earned Wage Access"
+        title="Advanced Salary"
         color="#4E46F1"
         leading={
           <IconButton
