@@ -53,7 +53,7 @@ const AadhaarOtpApi = (props) => {
     if (backendPush) {
       aadhaarBackendPush({
         id: id,
-        data:"",
+        data: aadhaarSlice?.data,
         number: aadhaarSlice?.number,
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
