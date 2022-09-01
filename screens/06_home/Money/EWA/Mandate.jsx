@@ -1,14 +1,13 @@
 import { AppBar, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, Text, TextInput, View } from "react-native";
+import { SafeAreaView, Text, TextInput, View, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import PrimaryButton from "../../../../components/PrimaryButton";
-import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
-import { form, bankform, styles } from "../../../../styles";
-import Verify from "../../../../apis/bank/Verify";
 import { useSelector } from "react-redux";
 import CollapsibleCard from "../../../../components/CollapsibleCard";
+import PrimaryButton from "../../../../components/PrimaryButton";
+import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
+import { bankform, form, styles } from "../../../../styles";
 
 const Mandate = () => {
   const navigation = useNavigation();
@@ -85,7 +84,7 @@ const Mandate = () => {
         }
       />
       <KeyboardAvoidingWrapper>
-        <View>
+        <ScrollView>
           <Text style={bankform.formtitle}>Account Holder Name</Text>
           <TextInput
             style={bankform.formInput}
@@ -143,7 +142,7 @@ const Mandate = () => {
             }}
           />
           <View style={bankform.padding}></View>
-        </View>
+        </ScrollView>
       </KeyboardAvoidingWrapper>
     </SafeAreaView>
   );
