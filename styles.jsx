@@ -583,6 +583,21 @@ export const card = StyleSheet.create({
     paddingLeft: 10,
     paddingTop:10,
   },
+});
+
+export const datacard = StyleSheet.create({
+  card:{
+    marginHorizontal: "2%",
+    marginTop:10,
+    padding: 10,
+    borderRadius: 4,
+    flexDirection: "column",
+    backgroundColor: "rgba(78, 70, 241, 0.2)",
+  },
+  cardTitle:{
+    fontSize: 16,
+    fontWeight: "bold",
+  },
 
 });
 
