@@ -3,9 +3,9 @@ import React from "react";
 import DetailItem from "./DetailItem";
 import PrimaryButton from "../../components/PrimaryButton";
 import { useSelector } from "react-redux";
-import Form from "../../templates/pan/Form";
+import PanFormTemplate from "../../templates/pan/Form";
 import TopTabNav from "../../components/TopTabNav";
-import Confirm from "../../apis/pan/Confirm";
+import PanConfirmApi from "../../apis/pan/Confirm";
 
 const Pan = () => {
   const data = useSelector((state) => state.pan.data);
@@ -29,13 +29,13 @@ const Pan = () => {
   const tabs = [
     {
       name: "PAN Data",
-      component: Form,
+      component: PanFormTemplate,
       initialParams: { type: "KYC" },
       disable: true,
     },
     {
       name: "Confirm",
-      component: Confirm,
+      component: PanConfirmApi,
       initialParams: { type: "KYC" },
       disable: true,
     },

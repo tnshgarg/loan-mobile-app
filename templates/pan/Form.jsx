@@ -7,11 +7,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { bankform, checkBox, form, styles } from "../../styles";
 
-import Verify from "../../apis/pan/Verify";
+import PanVerifyApi from "../../apis/pan/Verify";
 import { OG_PAN_VERIFY_API } from "../../services/employees/endpoints";
 import { addNumber } from "../../store/slices/panSlice";
 
-const Form = (props) => {
+const PanFormTemplate = (props) => {
   const dispatch = useDispatch();
   
   const [consent, setConsent] = useState(false);
@@ -82,7 +82,7 @@ const Form = (props) => {
             </Text>
           </View>
 
-          <Verify
+          <PanVerifyApi
             url={OG_PAN_VERIFY_API}
             data={{ pan_number: number, consent: "Y" }}
             style={form.nextButton}
@@ -95,4 +95,4 @@ const Form = (props) => {
   );
 };
 
-export default Form;
+export default PanFormTemplate;

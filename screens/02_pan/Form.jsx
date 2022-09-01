@@ -7,7 +7,7 @@ import ProgressBarTop from "../../components/ProgressBarTop";
 import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import Form from "../../templates/pan/Form";
+import PanFormTemplate from "../../templates/pan/Form";
 
 export default PanForm = () => {
   const dispatch = useDispatch();
@@ -52,7 +52,7 @@ export default PanForm = () => {
         />
 
         <ProgressBarTop step={2} />
-        <Form />
+        <PanFormTemplate />
       </SafeAreaView>
     </>
   );

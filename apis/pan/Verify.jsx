@@ -12,7 +12,7 @@ import {
 import { panBackendPush } from "../../helpers/BackendPush";
 import ApiView from "../ApiView";
 
-export default Verify = (props) => {
+const PanVerifyApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -143,3 +143,5 @@ export default Verify = (props) => {
     />
   );
 };
+
+export default PanVerifyApi;
