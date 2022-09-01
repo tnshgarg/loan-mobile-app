@@ -34,7 +34,7 @@ const EWA = () => {
           >
             You are eligible for EWA.
           </Text>
-          <DataCard title="EWA Details" data={data} />
+          <DataCard title="Overview of Current Month" data={data} />
           <PrimaryButton
             title="Apply"
             uppercase={false}
