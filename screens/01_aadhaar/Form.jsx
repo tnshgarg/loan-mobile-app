@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/core";
 
 import ProgressBarTop from "../../components/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import Form from "../../templates/aadhaar/Form";
+import AadhaarFormTemplate from "../../templates/aadhaar/Form";
 import { styles } from "../../styles";
 
 
@@ -65,7 +65,7 @@ const AadhaarForm = () => {
         />
 
         <ProgressBarTop step={1} />
-        <Form />
+        <AadhaarFormTemplate />
       </SafeAreaView>
     </>
   );

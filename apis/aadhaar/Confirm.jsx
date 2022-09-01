@@ -11,7 +11,7 @@ import {
 import { bankform, form, styles } from "../../styles";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
 
-export default Confirm = (props) => {
+const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -123,3 +123,5 @@ export default Confirm = (props) => {
     </View>
   );
 };
+
+export default AadhaarConfirmApi;

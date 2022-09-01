@@ -13,7 +13,7 @@ import ApiView from "../ApiView";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import { resetTimer } from "../../store/slices/timerSlice";
 
-export default Otp = (props) => {
+const AadhaarOtpApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -143,3 +143,5 @@ export default Otp = (props) => {
     />
   );
 };
+
+export default AadhaarOtpApi;

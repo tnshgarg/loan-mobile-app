@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { ScrollView, Text, TextInput, View } from "react-native";
 import CountDown from "react-native-countdown-component";
 import { useDispatch, useSelector } from "react-redux";
-import Verify from "../../apis/aadhaar/Verify";
+import AadhaarVerifyApi from "../../apis/aadhaar/Verify";
 import { useNavigation } from "@react-navigation/core";
 import { setAadhaarTimer } from "../../store/slices/timerSlice";
 import { OG_AADHAAR_SUBMIT_OTP_API } from "../../services/employees/endpoints";
 import { form, styles } from "../../styles";
 
-const Verify = (props) => {
+const AadhaarVerifyTemplate = (props) => {
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -56,7 +56,7 @@ const Verify = (props) => {
           }}
         />
 
-        <Verify
+        <AadhaarVerifyApi
           url={OG_AADHAAR_SUBMIT_OTP_API}
           data={{ otp: otp }}
           style={form.nextButton}
@@ -68,4 +68,4 @@ const Verify = (props) => {
   );
 };
 
-export default Verify;
+export default AadhaarVerifyTemplate;

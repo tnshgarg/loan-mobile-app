@@ -7,11 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { bankform, checkBox, form } from "../../styles";
 
-import Otp from "../../apis/aadhaar/Otp";
+import AadhaarOtpApi from "../../apis/aadhaar/Otp";
 import { OG_AADHAAR_GENERATE_OTP_API } from "../../services/employees/endpoints";
 import { addNumber } from "../../store/slices/aadhaarSlice";
 
-const Form = (props) => {
+
+const AadhaarFormTemplate = (props) => {
   const dispatch = useDispatch();
 
   const [consent, setConsent] = useState(false);
@@ -68,7 +69,7 @@ const Form = (props) => {
               my identity.
             </Text>
           </View>
-          <Otp
+          <AadhaarOtpApi
             url={OG_AADHAAR_GENERATE_OTP_API}
             data={{ aadhaar_number: number, consent: "Y" }}
             style={form.nextButton}
@@ -81,4 +82,4 @@ const Form = (props) => {
   );
 };
 
-export default Form;
+export default AadhaarFormTemplate;

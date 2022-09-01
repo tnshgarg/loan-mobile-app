@@ -11,9 +11,9 @@ import {
 } from "../../store/slices/aadhaarSlice";
 import ApiView from "../ApiView";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
-import AadhaarConfirm from "../../screens/01_aadhaar/AadhaarConfirm";
 
-export default Verify = (props) => {
+
+const AadhaarVerifyApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -152,3 +152,5 @@ export default Verify = (props) => {
     />
   );
 };
+
+export default AadhaarVerifyApi;

@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native";
 import ProgressBarTop from "../../components/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
-import Verify from "../../templates/aadhaar/Verify";
+import AadhaarVerifyTemplate from "../../templates/aadhaar/Verify";
 
 
 const AadhaarVerify = () => {
@@ -55,7 +55,7 @@ const AadhaarVerify = () => {
       />
 
       <ProgressBarTop step={1} />
-      <Verify function={BackAlert} />
+      <AadhaarVerifyTemplate function={BackAlert} />
     </SafeAreaView>
   );
 };
