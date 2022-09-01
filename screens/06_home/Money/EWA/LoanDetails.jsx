@@ -1,7 +1,7 @@
 import { AppBar, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
-import { SafeAreaView, View, Text } from "react-native";
+import { SafeAreaView, View, Text, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import CollapsibleCard from "../../../../components/CollapsibleCard";
 import PrimaryButton from "../../../../components/PrimaryButton";
@@ -60,56 +60,59 @@ const LoanDetails = () => {
           />
         }
       />
-      <CollapsibleCard
-        data={data}
-        title="Loan Details"
-        TitleIcon={infoIcon}
-        isClosed={false}
-        info="Money will be deducted from your upcoming salary"
-      />
-      <Text style={{ marginLeft: "6%", fontWeight: "300" }}>
-        Annual Percentage Rate @xx%
-      </Text>
-      <CollapsibleCard
-        title="Personal Details"
-        isClosed={false}
-        TitleIcon={profileIcon}
-        data={profileData}
-      />
-      <CollapsibleCard
-        title="Bank Details"
-        isClosed={false}
-        TitleIcon={bankIcon}
-        data={bankData}
-      />
-      <View style={{ flexDirection: "row", marginTop: 30 }}>
-        <CheckBox
-          style={ewa.checkBox}
-          tintColors={{ true: "#4E46F1" }}
-          value={confirm}
-          onValueChange={setConfirm}
+      <ScrollView>
+        <CollapsibleCard
+          data={data}
+          title="Loan Details"
+          TitleIcon={infoIcon}
+          isClosed={false}
+          info="Money will be deducted from your upcoming salary"
         />
-        <Text style={ewa.checkBoxText}>I confirm the details above.</Text>
-      </View>
-      <View style={{ flexDirection: "row" }}>
-        <CheckBox
-          style={ewa.checkBox}
-          tintColors={{ true: "#4E46F1" }}
-          value={consent}
-          onValueChange={setConsent}
-        />
-        <Text style={ewa.checkBoxText}>
-          I agree to the Terms and Conditions.
+        <Text style={{ marginLeft: "6%", fontWeight: "300" }}>
+          Annual Percentage Rate @xx%
         </Text>
-      </View>
-      <PrimaryButton
-        title="Proceed"
-        uppercase={false}
-        onPress={() => {
-          navigation.navigate("EWAEarnedWage");
-        }}
-        disabled={!confirm || !consent}
-      />
+        <CollapsibleCard
+          title="Personal Details"
+          isClosed={false}
+          TitleIcon={profileIcon}
+          data={profileData}
+        />
+        <CollapsibleCard
+          title="Bank Details"
+          isClosed={false}
+          TitleIcon={bankIcon}
+          data={bankData}
+        />
+        <View style={{ flexDirection: "row", marginTop: 30 }}>
+          <CheckBox
+            style={ewa.checkBox}
+            tintColors={{ true: "#4E46F1" }}
+            value={confirm}
+            onValueChange={setConfirm}
+          />
+          <Text style={ewa.checkBoxText}>I confirm the details above.</Text>
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          <CheckBox
+            style={ewa.checkBox}
+            tintColors={{ true: "#4E46F1" }}
+            value={consent}
+            onValueChange={setConsent}
+          />
+          <Text style={ewa.checkBoxText}>
+            I agree to the Terms and Conditions.
+          </Text>
+        </View>
+        <PrimaryButton
+          title="My Details are Correct"
+          uppercase={false}
+          onPress={() => {
+            navigation.navigate("EWAEarnedWage");
+          }}
+          disabled={!confirm || !consent}
+        />
+        <View style={checkBox.padding}></View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
