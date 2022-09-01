@@ -8,8 +8,8 @@ import WelcomePage from "../screens/00_login/WelcomePage";
 import AadhaarConfirm from "../screens/01_aadhaar/Confirm";
 import AadhaarForm from "../screens/01_aadhaar/Form";
 import AadhaarVerify from "../screens/01_aadhaar/Verify";
-import PanForm from "../screens/02_pan/PanForm";
-import PanConfirm from "../screens/02_pan/PanConfirm";
+import PanForm from "../screens/02_pan/Form";
+import PanConfirm from "../screens/02_pan/Confirm";
 import BankForm from "../screens/03_bank/Form";
 import PersonalDetailsForm from "../screens/04_profile/PersonalDetailsForm";
 import PersonalImage from "../screens/05_photo/PersonalImage";
@@ -21,7 +21,7 @@ import { STAGE } from "@env";
 import KYCScreen from "../screens/07_drawer/KYCScreen";
 import Profile from "../screens/07_drawer/Profile";
 import LicenseConfirm from "../screens/06_home/Documents/License/Confirm";
-import BankConfirm from "../screens/03_bank/BankConfirm";
+import BankConfirm from "../screens/03_bank/Confirm";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();

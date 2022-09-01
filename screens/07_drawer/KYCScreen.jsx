@@ -2,7 +2,7 @@ import React from "react";
 import TopTabNav from "../../components/TopTabNav";
 import Aadhaar from "./Aadhaar";
 import Bank from "./Bank";
-import Pan from "./Pan";
+import Pan from "./PAN";
 
 const KYCScreen = () => {
   const tabs = [
