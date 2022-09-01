@@ -12,20 +12,22 @@ const LoanDetails = () => {
   const navigation = useNavigation();
   const [confirm, setConfirm] = useState(false);
   const [consent, setConsent] = useState(false);
-  const profileSlice = useSelector((state) => state.profile);
+  const name = useSelector(
+    (state) => state.aadhaar.data?.name || state.pan.data?.name || "User"
+  );
   const panSlice = useSelector((state) => state.pan);
-  const bankSlice = useSelector((state) => state.bank);
+  const bankSliceData = useSelector((state) => state.bank.data);
 
   const profileData = [
-    { subTitle: "Name", value: profileSlice?.name },
+    { subTitle: "Name", value: name },
     { subTitle: "PAN", value: panSlice?.number },
     { subTitle: "DOB", value: panSlice?.data["date_of_birth"] },
   ];
   const bankData = [
-    { subTitle: "Bank Name", value: bankSlice?.bankName },
-    { subTitle: "Branch", value: bankSlice?.bankBranch },
-    { subTitle: "Account Number", value: bankSlice?.accountNumber },
-    { subTitle: "IFSC", value: bankSlice?.ifsc },
+    { subTitle: "Bank Name", value: bankSliceData?.bankName },
+    { subTitle: "Branch", value: bankSliceData?.branchName },
+    { subTitle: "Account Number", value: bankSliceData?.accountNumber },
+    { subTitle: "IFSC", value: bankSliceData?.ifsc },
   ];
 
   const data = [
@@ -63,7 +65,7 @@ const LoanDetails = () => {
         title="Loan Details"
         TitleIcon={infoIcon}
         isClosed={false}
-        info = "Money will be deducted from your upcoming salary" 
+        info="Money will be deducted from your upcoming salary"
       />
       <Text style={{ marginLeft: "6%", fontWeight: "300" }}>
         Annual Percentage Rate @xx%

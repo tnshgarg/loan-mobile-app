@@ -13,12 +13,15 @@ import CollapsibleCard from "../../../../components/CollapsibleCard";
 const Mandate = () => {
   const navigation = useNavigation();
   const [name, setName] = useState(
-    useSelector((state) => state.bank.accountHolderName)
+    useSelector((state) => state.bank.data.accountHolderName)
   );
   const [number, setNumber] = useState(
-    useSelector((state) => state.bank.accountNumber)
+    useSelector((state) => state.bank.data.accountNumber)
   );
-  const [ifsc, setIfsc] = useState(useSelector((state) => state.bank.ifsc));
+  const [ifsc, setIfsc] = useState(
+    useSelector((state) => state.bank.data.ifsc)
+  );
+  const [upi, setUpi] = useState(useSelector((state) => state.bank.data.upi));
   const [ifscNext, setIfscNext] = useState(false);
   const [accNumNext, setAccNumNext] = useState(false);
 
@@ -57,7 +60,14 @@ const Mandate = () => {
   };
 
   const inputs = () => {
-    return <TextInput style={form.input} placeholder="UPI" />;
+    return (
+      <TextInput
+        style={form.input}
+        placeholder="UPI"
+        value={upi}
+        onChangeText={setUpi}
+      />
+    );
   };
 
   return (
