@@ -7,16 +7,18 @@ import { useSelector, useDispatch } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { bankform, checkBox, form, styles } from "../../styles";
 
-import Verify from "../../apis/pan/Verify";
+import PanVerifyApi from "../../apis/pan/Verify";
 import { addNumber } from "../../store/slices/panSlice";
 
-const PanDataCollection = (props) => {
+const PanFormTemplate = (props) => {
   const dispatch = useDispatch();
+  
   const [consent, setConsent] = useState(false);
   const [validNumber, setValidNumber] = useState(true);
 
   const panSlice = useSelector((state) => state.pan);
   const [number, setNumber] = useState(panSlice?.number);
+
   useEffect(() => {
     var panReg = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/gm;
     if (panReg.test(number)) {
@@ -79,17 +81,17 @@ const PanDataCollection = (props) => {
             </Text>
           </View>
 
-          <Verify
-            url={"https://api.gridlines.io/pan-api/fetch-detailed"}
+          <PanVerifyApi
             data={{ pan_number: number, consent: "Y" }}
             style={form.nextButton}
             disabled={!validNumber || !consent}
             type={props?.route?.params?.type || ""}
           />
+
         </View>
       </KeyboardAvoidingWrapper>
     </>
   );
 };
 
-export default PanDataCollection;
+export default PanFormTemplate;

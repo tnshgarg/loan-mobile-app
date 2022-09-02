@@ -22,16 +22,16 @@ import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
 
 export default OTPScreen = () => {
-  const phoneNumber = useSelector((state) => state.auth.phoneNumber);
+
+  const dispatch = useDispatch();
   const navigation = useNavigation();
+  
   const [otp, setOtp] = useState("");
   const [next, setNext] = useState(false);
   const [back, setBack] = useState(false);
-  const auth = useSelector((state) => state.auth);
-  const countDownTime = useSelector((state) => state.timer.login);
-  console.log("OTPScreen state.auth: ", auth);
 
-  const dispatch = useDispatch();
+  const countDownTime = useSelector((state) => state.timer.login);
+  const phoneNumber = useSelector((state) => state.auth.phoneNumber);
 
   useEffect(() => {
     dispatch(addCurrentScreen("Otp"));

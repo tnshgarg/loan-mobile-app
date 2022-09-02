@@ -3,7 +3,6 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { bankBackendPush } from "../../helpers/BackendPush";
 import {
   addBankName,
   addBranchName,
@@ -12,11 +11,20 @@ import {
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/bankSlice";
+import { KYC_BANK_VERIFY_API_URL } from "../../services/employees/endpoints";
+import { bankBackendPush } from "../../helpers/BackendPush";
 import ApiView from "../ApiView";
+import {
+  STAGE,
+  EMPLOYEE_API_BASE_URL,
+  KYC_API_BASE_URL,
+  KYC_MOCK_API_BASE_URL,
+} from "@env";
 
-export default Verify = (props) => {
+const BankVerifyApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  console.log("Mock api URl", KYC_BANK_VERIFY_API_URL);
 
   const [loading, setLoading] = useState(false);
   const [backendPush, setBackendPush] = useState(false);
@@ -30,10 +38,10 @@ export default Verify = (props) => {
   const [branchCity, setBranchCity] = useState(bankSlice?.data?.branchCity);
   const [verifyMsg, setVerifyMsg] = useState(bankSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
-  const [verifyTimestamp, setVerifyTimestamp] = useState(bankSlice?.verifyTimestamp);
-  
-  console.log("bankSlice: ", bankSlice);
-  
+  const [verifyTimestamp, setVerifyTimestamp] = useState(
+    bankSlice?.verifyTimestamp
+  );
+
   useEffect(() => {
     dispatch(addBankName(bankName));
   }, [bankName]);
@@ -59,7 +67,7 @@ export default Verify = (props) => {
   }, [verifyTimestamp]);
 
   useEffect(() => {
-    console.log("bankSlice : ", bankSlice);
+    console.log("BankVerifyApi bankSlice : ", bankSlice);
     if (backendPush) {
       bankBackendPush({
         id: id,
@@ -85,7 +93,7 @@ export default Verify = (props) => {
       body: JSON.stringify(props.data),
     };
 
-    fetch(props.url, options)
+    fetch(KYC_BANK_VERIFY_API_URL, options)
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson);
@@ -93,9 +101,15 @@ export default Verify = (props) => {
           if (responseJson["status"] == "200") {
             switch (responseJson["data"]["code"]) {
               case "1000":
-                setBankName(responseJson["data"]["bank_account_data"]["bank_name"]);
-                setBranchName(responseJson["data"]["bank_account_data"]["branch"]);
-                setBranchCity(responseJson["data"]["bank_account_data"]["city"]);
+                setBankName(
+                  responseJson["data"]["bank_account_data"]["bank_name"]
+                );
+                setBranchName(
+                  responseJson["data"]["bank_account_data"]["branch"]
+                );
+                setBranchCity(
+                  responseJson["data"]["bank_account_data"]["city"]
+                );
                 setVerifyMsg("To be confirmed by User");
                 setVerifyStatus("PENDING");
                 setVerifyTimestamp(responseJson["timestamp"]);
@@ -103,7 +117,7 @@ export default Verify = (props) => {
                 {
                   props.type == "KYC"
                     ? navigation.navigate("KYC", {
-                        screen: "Bank Details",
+                        screen: "BANK",
                         params: {
                           screen: "Confirm",
                         },
@@ -163,3 +177,5 @@ export default Verify = (props) => {
     />
   );
 };
+
+export default BankVerifyApi;

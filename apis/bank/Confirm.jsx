@@ -10,7 +10,8 @@ import {
 import { bankBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
 
-export default Confirm = (props) => {
+
+const BankConfirmApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -33,7 +34,7 @@ export default Confirm = (props) => {
   }, [verifyStatus]);
 
   useEffect(() => {
-    console.log("bankSlice : ", bankSlice);
+    console.log("BankConfirmApi bankSlice : ", bankSlice);
     if (backendPush) {
       bankBackendPush({
         id: id,
@@ -77,12 +78,12 @@ export default Confirm = (props) => {
             {
               props?.route?.params?.type == "KYC"
                 ? navigation.navigate("KYC", {
-                    screen: "Bank Details",
+                    screen: "BANK",
                     params: {
                       screen: "Bank Data",
                     },
                   })
-                : navigation.navigate("BankInfoForm");
+                : navigation.navigate("BankForm");
             }
           }}
         />
@@ -99,7 +100,7 @@ export default Confirm = (props) => {
             {
               props?.route?.params?.type == "KYC"
                 ? navigation.navigate("KYC", {
-                    screen: "Bank Details",
+                    screen: "BANK",
                   })
                 : navigation.navigate("PersonalDetailsForm");
             }
@@ -110,3 +111,5 @@ export default Confirm = (props) => {
     </View>
   );
 };
+
+export default BankConfirmApi;

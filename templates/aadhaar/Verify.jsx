@@ -2,17 +2,20 @@ import React, { useEffect, useState } from "react";
 import { ScrollView, Text, TextInput, View } from "react-native";
 import CountDown from "react-native-countdown-component";
 import { useDispatch, useSelector } from "react-redux";
-import Verify from "../../apis/aadhaar/Verify";
+import AadhaarVerifyApi from "../../apis/aadhaar/Verify";
 import { useNavigation } from "@react-navigation/core";
 import { setAadhaarTimer } from "../../store/slices/timerSlice";
 import { form, styles } from "../../styles";
 
-const AadhaarOtpVerify = (props) => {
+const AadhaarVerifyTemplate = (props) => {
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
   const [otp, setOtp] = useState("");
   const [validOtp, setValidOtp] = useState(true);
   const countDownTime = useSelector((state) => state.timer.aadhaar);
+  
   useEffect(() => {
     setValidOtp(otp.length === 6);
   }, [otp]);
@@ -52,16 +55,16 @@ const AadhaarOtpVerify = (props) => {
           }}
         />
 
-        <Verify
-          url={"https://api.gridlines.io/aadhaar-api/boson/submit-otp"}
-          data={{ otp: otp }}
+        <AadhaarVerifyApi
+          data={{ otp: otp, include_xml: true, share_code: 5934 }}
           style={form.nextButton}
           disabled={!validOtp}
           type={props?.route?.params?.type || ""}
         />
+        
       </View>
     </ScrollView>
   );
 };
 
-export default AadhaarOtpVerify;
+export default AadhaarVerifyTemplate;

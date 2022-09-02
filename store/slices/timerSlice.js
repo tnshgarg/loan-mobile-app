@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  login: 2 * 60 ,
+  login: 2 * 60,
   aadhaar: 10 * 60,
 };
 
 const timerSlice = createSlice({
-  name: "profile",
+  name: "timer",
   initialState: initialState,
   reducers: {
     setLoginTimer: (state, action) => {
@@ -23,4 +23,5 @@ const timerSlice = createSlice({
 
 export const { setLoginTimer, setAadhaarTimer, resetTimer } =
   timerSlice.actions;
+
 export default timerSlice.reducer;

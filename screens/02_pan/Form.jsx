@@ -1,60 +1,58 @@
 import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Alert, SafeAreaView } from "react-native";
 import { useDispatch } from "react-redux";
 import ProgressBarTop from "../../components/ProgressBarTop";
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
-import BankInformationCollection from "../../templates/Bank/BankInformationCollection";
 
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import PanFormTemplate from "../../templates/pan/Form";
 
-export default BankInformationForm = () => {
+export default PanForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   useEffect(() => {
-    dispatch(addCurrentScreen("BankInfoForm"));
+    dispatch(addCurrentScreen("PanForm"));
   }, []);
 
-  const SkipBank = () => {
+  const SkipPAN = () => {
     Alert.alert(
-      "Bank KYC Required",
-      `If you want to receive your salary on time, Bank details are required.`,
+      "PAN KYC Required",
+      `If you want to receive advance salary, PAN KYC is required.`,
       [
         { text: "No", onPress: () => null, style: "cancel" },
-        {
-          text: "Yes",
-          onPress: () => navigation.navigate("PersonalDetailsForm"),
-        },
+        { text: "Yes", onPress: () => navigation.navigate("BankForm") },
       ]
     );
   };
-
 
   return (
     <>
       <SafeAreaView style={styles.container}>
         <AppBar
-          title="Bank Details"
+          title="PAN Verification"
           color="#4E46F1"
           leading={
             <IconButton
               icon={<Icon name="arrow-back" size={20} color="white" />}
-              onPress={() => navigation.navigate("PanForm")}
+              // TODO: Conditional if Aadhaar verified or not
+              onPress={() => navigation.navigate("AadhaarConfirm")}
             />
           }
           trailing={
             <IconButton
               icon={<Icon name="arrow-forward" size={20} color="white" />}
               onPress={() => {
-                SkipBank();
+                SkipPAN();
               }}
             />
           }
         />
-        <ProgressBarTop step={3} />
-        <BankInformationCollection />
+
+        <ProgressBarTop step={2} />
+        <PanFormTemplate />
       </SafeAreaView>
     </>
   );

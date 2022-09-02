@@ -11,32 +11,32 @@ import ProgressBarTop from "../../components/ProgressBarTop";
 import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import Confirm from "../../apis/pan/Confirm";
+import BankConfirmApi from "../../apis/bank/Confirm";
 
-export default PanConfirm = () => {
+
+const BankConfirm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   useEffect(() => {
-    dispatch(addCurrentScreen("PanConfirm"));
+    dispatch(addCurrentScreen("BankConfirm"));
   }, []);
 
   const backAlert = () => {
     Alert.alert(
       "Do you want to go back ?",
-      "If you go back your PAN Verification will have to be redone. Continue if you want to edit your PAN number.",
+      "If you go back your Bank Verification will have to be redone. Continue only if you want to edit your Bank Account Details.",
       [
         { text: "No",  onPress: () => null, style: "cancel" },
-        { text: "Yes", onPress: () => navigation.navigate("PanForm") },
+        { text: "Yes", onPress: () => navigation.navigate("BankForm") },
       ]
     );
   };
 
   return (
     <SafeAreaView style={styles.container}>
-
       <AppBar
-        title="PAN Confirmation"
+        title="Bank Details Confirmation"
         color="#4E46F1"
         leading={
           <IconButton
@@ -45,14 +45,12 @@ export default PanConfirm = () => {
           />
         }
       />
-
-      <ProgressBarTop step={2} />
-
+      <ProgressBarTop step={3} />
       <ScrollView keyboardShouldPersistTaps="handled">
-        <Confirm />
+        <BankConfirmApi />
       </ScrollView>
-    
     </SafeAreaView>
   );
-  
 };
+
+export default BankConfirm;
