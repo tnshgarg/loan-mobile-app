@@ -8,7 +8,6 @@ import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { bankform, checkBox, form, styles } from "../../styles";
 
 import PanVerifyApi from "../../apis/pan/Verify";
-import { OG_PAN_VERIFY_API } from "../../services/employees/endpoints";
 import { addNumber } from "../../store/slices/panSlice";
 
 const PanFormTemplate = (props) => {
@@ -83,12 +82,12 @@ const PanFormTemplate = (props) => {
           </View>
 
           <PanVerifyApi
-            url={OG_PAN_VERIFY_API}
             data={{ pan_number: number, consent: "Y" }}
             style={form.nextButton}
             disabled={!validNumber || !consent}
             type={props?.route?.params?.type || ""}
           />
+
         </View>
       </KeyboardAvoidingWrapper>
     </>

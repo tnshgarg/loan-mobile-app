@@ -12,7 +12,6 @@ import {
   addIfsc,
   addUpi,
 } from "../../store/slices/bankSlice";
-import { OG_BANK_VERIFY_API } from "../../services/employees/endpoints";
 import { bankform, checkBox, form } from "../../styles";
 
 
@@ -27,7 +26,7 @@ const BankFormTemplate = (props) => {
   const [ifsc, setIfsc] = useState(bankSlice?.data?.ifsc);
   const [accountNumber, setAccountNumber] = useState(bankSlice?.data?.accountNumber);
   const [accountHolderName, setAccountHolderName] = useState(bankSlice?.data?.accountHolderName);
-  const [upi, setUpi] = useState(bankSlice?.upi);
+  const [upi, setUpi] = useState(bankSlice?.data?.upi);
   
   useEffect(() => {
     dispatch(addAccountHolderName(accountHolderName));
@@ -175,14 +174,16 @@ const BankFormTemplate = (props) => {
               my identity.
             </Text>
           </View>
+
           <BankVerifyApi
-            url={OG_BANK_VERIFY_API}
             data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}
             style={form.nextButton}
             disabled={!ifscNext || !accNumNext || !consent}
             type={props?.route?.params?.type || ""}
           />
+          
           <View style={bankform.padding}></View>
+
         </View>
       </KeyboardAvoidingWrapper>
     </>

@@ -3,7 +3,6 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { bankBackendPush } from "../../helpers/BackendPush";
 import {
   addBankName,
   addBranchName,
@@ -12,7 +11,10 @@ import {
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/bankSlice";
+import { KYC_BANK_VERIFY_API_URL } from "../../services/employees/endpoints";
+import { bankBackendPush } from "../../helpers/BackendPush";
 import ApiView from "../ApiView";
+
 
 const BankVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -31,8 +33,6 @@ const BankVerifyApi = (props) => {
   const [verifyMsg, setVerifyMsg] = useState(bankSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
   const [verifyTimestamp, setVerifyTimestamp] = useState(bankSlice?.verifyTimestamp);
-  
-  console.log("bankSlice: ", bankSlice);
   
   useEffect(() => {
     dispatch(addBankName(bankName));
@@ -59,7 +59,7 @@ const BankVerifyApi = (props) => {
   }, [verifyTimestamp]);
 
   useEffect(() => {
-    console.log("bankSlice : ", bankSlice);
+    console.log("BankVerifyApi bankSlice : ", bankSlice);
     if (backendPush) {
       bankBackendPush({
         id: id,
@@ -85,7 +85,7 @@ const BankVerifyApi = (props) => {
       body: JSON.stringify(props.data),
     };
 
-    fetch(props.url, options)
+    fetch(KYC_BANK_VERIFY_API_URL, options)
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson);

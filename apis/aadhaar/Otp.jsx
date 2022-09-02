@@ -9,6 +9,7 @@ import {
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/aadhaarSlice";
+import { KYC_AADHAAR_GENERATE_OTP_API_URL } from "../../services/employees/endpoints";
 import ApiView from "../ApiView";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import { resetTimer } from "../../store/slices/timerSlice";
@@ -48,8 +49,7 @@ const AadhaarOtpApi = (props) => {
   }, [verifyTimestamp]);
 
   useEffect(() => {
-    console.log(backendPush);
-    console.log("verifyStatus: ", verifyStatus);
+    console.log("AadhaarOtpApi aadhaarSlice: ", aadhaarSlice);
     if (backendPush) {
       aadhaarBackendPush({
         id: id,
@@ -66,6 +66,7 @@ const AadhaarOtpApi = (props) => {
 
   const goForFetch = () => {
     setLoading(true);
+
     const options = {
       method: "POST",
       headers: {
@@ -75,7 +76,8 @@ const AadhaarOtpApi = (props) => {
       },
       body: JSON.stringify(props.data),
     };
-    fetch(props.url, options)
+
+    fetch(KYC_AADHAAR_GENERATE_OTP_API_URL, options)
       .then((response) => response.json())
       .then((responseJson) => {
         try {

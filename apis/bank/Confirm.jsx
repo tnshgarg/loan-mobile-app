@@ -10,6 +10,7 @@ import {
 import { bankBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
 
+
 const BankConfirmApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -33,7 +34,7 @@ const BankConfirmApi = (props) => {
   }, [verifyStatus]);
 
   useEffect(() => {
-    console.log("bankSlice : ", bankSlice);
+    console.log("BankConfirmApi bankSlice : ", bankSlice);
     if (backendPush) {
       bankBackendPush({
         id: id,

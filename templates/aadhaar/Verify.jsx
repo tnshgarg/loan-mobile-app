@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import AadhaarVerifyApi from "../../apis/aadhaar/Verify";
 import { useNavigation } from "@react-navigation/core";
 import { setAadhaarTimer } from "../../store/slices/timerSlice";
-import { OG_AADHAAR_SUBMIT_OTP_API } from "../../services/employees/endpoints";
 import { form, styles } from "../../styles";
 
 const AadhaarVerifyTemplate = (props) => {
@@ -57,12 +56,12 @@ const AadhaarVerifyTemplate = (props) => {
         />
 
         <AadhaarVerifyApi
-          url={OG_AADHAAR_SUBMIT_OTP_API}
           data={{ otp: otp }}
           style={form.nextButton}
           disabled={!validOtp}
           type={props?.route?.params?.type || ""}
         />
+        
       </View>
     </ScrollView>
   );

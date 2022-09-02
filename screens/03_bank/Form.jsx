@@ -54,7 +54,9 @@ const BankForm = () => {
           }
         />
         <ProgressBarTop step={3} />
+
         <BankFormTemplate />
+        
       </SafeAreaView>
     </>
   );

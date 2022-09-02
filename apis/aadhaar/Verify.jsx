@@ -9,6 +9,7 @@ import {
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/aadhaarSlice";
+import { KYC_AADHAAR_SUBMIT_OTP_API_URL } from "../../services/employees/endpoints";
 import ApiView from "../ApiView";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
 
@@ -21,16 +22,13 @@ const AadhaarVerifyApi = (props) => {
   const [backendPush, setBackendPush] = useState(false);
 
   const id = useSelector((state) => state.auth.id);
+  const submitOTPtxnId = useSelector((state) => state.aadhaar.submitOTPtxnId);
+
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const [data, setData] = useState(aadhaarSlice?.data);
-  const [submitOTPtxnId, setSubmitOTPtxnId] = useState(
-    aadhaarSlice?.submitOTPtxnId
-  );
   const [verifyMsg, setVerifyMsg] = useState(aadhaarSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(aadhaarSlice?.verifyStatus);
-  const [verifyTimestamp, setVerifyTimestamp] = useState(
-    aadhaarSlice?.verifyTimestamp
-  );
+  const [verifyTimestamp, setVerifyTimestamp] = useState(aadhaarSlice?.verifyTimestamp);
 
   useEffect(() => {
     dispatch(addData(data));
@@ -49,7 +47,7 @@ const AadhaarVerifyApi = (props) => {
   }, [verifyTimestamp]);
 
   useEffect(() => {
-    console.log("aadhaarSlice : ", aadhaarSlice);
+    console.log("AadhaarVerifyApi aadhaarSlice : ", aadhaarSlice);
     if (backendPush) {
       aadhaarBackendPush({
         id: id,
@@ -83,7 +81,8 @@ const AadhaarVerifyApi = (props) => {
       },
       body: JSON.stringify(data),
     };
-    fetch(props.url, options)
+
+    fetch(KYC_AADHAAR_SUBMIT_OTP_API_URL, options)
       .then((response) => response.json())
       .then((responseJson) => {
         try {

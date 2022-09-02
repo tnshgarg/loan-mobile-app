@@ -8,7 +8,6 @@ import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { bankform, checkBox, form } from "../../styles";
 
 import AadhaarOtpApi from "../../apis/aadhaar/Otp";
-import { OG_AADHAAR_GENERATE_OTP_API } from "../../services/employees/endpoints";
 import { addNumber } from "../../store/slices/aadhaarSlice";
 
 
@@ -69,13 +68,14 @@ const AadhaarFormTemplate = (props) => {
               my identity.
             </Text>
           </View>
+
           <AadhaarOtpApi
-            url={OG_AADHAAR_GENERATE_OTP_API}
             data={{ aadhaar_number: number, consent: "Y" }}
             style={form.nextButton}
             disabled={!validNumber || !consent}
             type={props?.route?.params?.type || ""}
           />
+
         </View>
       </KeyboardAvoidingWrapper>
     </>

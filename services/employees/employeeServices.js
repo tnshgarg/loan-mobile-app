@@ -1,9 +1,9 @@
 import axios from "axios";
-import { EMPLOYEE_API_BASE_URL } from "./endpoints";
+import { EMPLOYEE_API_URL } from "./endpoints";
 
 export const putBackendData = (props) => {
   var data = JSON.stringify(props.document);
-  var url = `${EMPLOYEE_API_BASE_URL}/${props.xpath}`;
+  var url = `${EMPLOYEE_API_URL}/${props.xpath}`;
 
   var config = {
     method: "post",

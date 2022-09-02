@@ -68,4 +68,5 @@ export const {
   addVerifyTimestamp,
   resetBank,
 } = bankSlice.actions;
+
 export default bankSlice.reducer;

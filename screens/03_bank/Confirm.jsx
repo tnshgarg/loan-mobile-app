@@ -14,7 +14,7 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import BankConfirmApi from "../../apis/bank/Confirm";
 
 
-export default BankConfirm = () => {
+const BankConfirm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -52,3 +52,5 @@ export default BankConfirm = () => {
     </SafeAreaView>
   );
 };
+
+export default BankConfirm;

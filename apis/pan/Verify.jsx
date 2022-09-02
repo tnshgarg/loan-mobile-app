@@ -9,8 +9,10 @@ import {
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/panSlice";
+import { KYC_PAN_VERIFY_API_URL } from "../../services/employees/endpoints";
 import { panBackendPush } from "../../helpers/BackendPush";
 import ApiView from "../ApiView";
+
 
 const PanVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -24,9 +26,7 @@ const PanVerifyApi = (props) => {
   const [data, setData] = useState(panSlice?.data);
   const [verifyMsg, setVerifyMsg] = useState(panSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(panSlice?.verifyStatus);
-  const [verifyTimestamp, setVerifyTimestamp] = useState(
-    panSlice?.verifyTimestamp
-  );
+  const [verifyTimestamp, setVerifyTimestamp] = useState(panSlice?.verifyTimestamp);
 
   useEffect(() => {
     dispatch(addData(data));
@@ -45,7 +45,7 @@ const PanVerifyApi = (props) => {
   }, [verifyTimestamp]);
 
   useEffect(() => {
-    console.log("panSlice: ", panSlice);
+    console.log("PanVerifyApi panSlice: ", panSlice);
     if (backendPush) {
       panBackendPush({
         id: id,
@@ -72,7 +72,7 @@ const PanVerifyApi = (props) => {
       body: JSON.stringify(props.data),
     };
 
-    fetch(props.url, options)
+    fetch(KYC_PAN_VERIFY_API_URL, options)
       .then((response) => response.json())
       .then((responseJson) => {
         try {

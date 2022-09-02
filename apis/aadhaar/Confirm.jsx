@@ -39,7 +39,7 @@ const AadhaarConfirmApi = (props) => {
   }, [verifyTimestamp]);
 
   useEffect(() => {
-    console.log(backendPush);
+    console.log("AadhaarConfirmApi aadhaarSlice: ", aadhaarSlice);
     if (backendPush) {
       aadhaarBackendPush({
         id: id,
