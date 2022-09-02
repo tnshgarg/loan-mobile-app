@@ -13,7 +13,6 @@ import { KYC_PAN_VERIFY_API_URL } from "../../services/employees/endpoints";
 import { panBackendPush } from "../../helpers/BackendPush";
 import ApiView from "../ApiView";
 
-
 const PanVerifyApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -26,7 +25,9 @@ const PanVerifyApi = (props) => {
   const [data, setData] = useState(panSlice?.data);
   const [verifyMsg, setVerifyMsg] = useState(panSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(panSlice?.verifyStatus);
-  const [verifyTimestamp, setVerifyTimestamp] = useState(panSlice?.verifyTimestamp);
+  const [verifyTimestamp, setVerifyTimestamp] = useState(
+    panSlice?.verifyTimestamp
+  );
 
   useEffect(() => {
     dispatch(addData(data));
@@ -97,7 +98,7 @@ const PanVerifyApi = (props) => {
                           screen: "Confirm",
                         },
                       })
-                    : navigation.navigate("PanConfirm")
+                    : navigation.navigate("PanConfirm");
                 }
                 break;
               default:

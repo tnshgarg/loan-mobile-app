@@ -14,11 +14,17 @@ import {
 import { KYC_BANK_VERIFY_API_URL } from "../../services/employees/endpoints";
 import { bankBackendPush } from "../../helpers/BackendPush";
 import ApiView from "../ApiView";
-
+import {
+  STAGE,
+  EMPLOYEE_API_BASE_URL,
+  KYC_API_BASE_URL,
+  KYC_MOCK_API_BASE_URL,
+} from "@env";
 
 const BankVerifyApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  console.log("Mock api URl", KYC_BANK_VERIFY_API_URL);
 
   const [loading, setLoading] = useState(false);
   const [backendPush, setBackendPush] = useState(false);
@@ -32,8 +38,10 @@ const BankVerifyApi = (props) => {
   const [branchCity, setBranchCity] = useState(bankSlice?.data?.branchCity);
   const [verifyMsg, setVerifyMsg] = useState(bankSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
-  const [verifyTimestamp, setVerifyTimestamp] = useState(bankSlice?.verifyTimestamp);
-  
+  const [verifyTimestamp, setVerifyTimestamp] = useState(
+    bankSlice?.verifyTimestamp
+  );
+
   useEffect(() => {
     dispatch(addBankName(bankName));
   }, [bankName]);
@@ -93,9 +101,15 @@ const BankVerifyApi = (props) => {
           if (responseJson["status"] == "200") {
             switch (responseJson["data"]["code"]) {
               case "1000":
-                setBankName(responseJson["data"]["bank_account_data"]["bank_name"]);
-                setBranchName(responseJson["data"]["bank_account_data"]["branch"]);
-                setBranchCity(responseJson["data"]["bank_account_data"]["city"]);
+                setBankName(
+                  responseJson["data"]["bank_account_data"]["bank_name"]
+                );
+                setBranchName(
+                  responseJson["data"]["bank_account_data"]["branch"]
+                );
+                setBranchCity(
+                  responseJson["data"]["bank_account_data"]["city"]
+                );
                 setVerifyMsg("To be confirmed by User");
                 setVerifyStatus("PENDING");
                 setVerifyTimestamp(responseJson["timestamp"]);
