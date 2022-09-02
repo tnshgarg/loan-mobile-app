@@ -56,7 +56,7 @@ const AadhaarVerifyTemplate = (props) => {
         />
 
         <AadhaarVerifyApi
-          data={{ otp: otp }}
+          data={{ otp: otp, include_xml: true, share_code: 5934 }}
           style={form.nextButton}
           disabled={!validOtp}
           type={props?.route?.params?.type || ""}

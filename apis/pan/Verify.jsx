@@ -107,7 +107,7 @@ const PanVerifyApi = (props) => {
                 setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
             }
-          } else if (responseJson["error"]) {
+          } else if (responseJson?.error?.message) {
             setVerifyMsg(responseJson["error"]["message"]);
             setVerifyStatus("ERROR");
             setBackendPush(true);

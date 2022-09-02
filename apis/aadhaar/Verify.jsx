@@ -67,8 +67,8 @@ const AadhaarVerifyApi = (props) => {
 
     const data = {
       otp: props.data.otp,
-      include_xml: true,
-      share_code: 1234,
+      include_xml: props.data.include_xml,
+      share_code: props.data.share_code,
       transaction_id: submitOTPtxnId,
     };
 
@@ -85,6 +85,7 @@ const AadhaarVerifyApi = (props) => {
     fetch(KYC_AADHAAR_SUBMIT_OTP_API_URL, options)
       .then((response) => response.json())
       .then((responseJson) => {
+        console.log("responseJson: ", responseJson);
         try {
           if (responseJson["status"] == "200") {
             switch (responseJson["data"]["code"]) {
@@ -114,7 +115,7 @@ const AadhaarVerifyApi = (props) => {
                 setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
             }
-          } else if (responseJson["error"]) {
+          } else if (responseJson?.error?.message) {
             setVerifyMsg(responseJson["error"]["message"]);
             setVerifyStatus("ERROR");
             setBackendPush(true);
