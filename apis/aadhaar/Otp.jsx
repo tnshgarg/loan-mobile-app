@@ -9,11 +9,12 @@ import {
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/aadhaarSlice";
+import { KYC_AADHAAR_GENERATE_OTP_API_URL } from "../../services/employees/endpoints";
 import ApiView from "../ApiView";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import { resetTimer } from "../../store/slices/timerSlice";
 
-export default Otp = (props) => {
+const AadhaarOtpApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -48,12 +49,11 @@ export default Otp = (props) => {
   }, [verifyTimestamp]);
 
   useEffect(() => {
-    console.log(backendPush);
-    console.log("verifyStatus: ", verifyStatus);
+    console.log("AadhaarOtpApi aadhaarSlice: ", aadhaarSlice);
     if (backendPush) {
       aadhaarBackendPush({
         id: id,
-        data:"",
+        data: aadhaarSlice?.data,
         number: aadhaarSlice?.number,
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
@@ -66,6 +66,7 @@ export default Otp = (props) => {
 
   const goForFetch = () => {
     setLoading(true);
+
     const options = {
       method: "POST",
       headers: {
@@ -76,7 +77,7 @@ export default Otp = (props) => {
       body: JSON.stringify(props.data),
     };
 
-    fetch(props.url, options)
+    fetch(KYC_AADHAAR_GENERATE_OTP_API_URL, options)
       .then((response) => response.json())
       .then((responseJson) => {
         try {
@@ -92,7 +93,7 @@ export default Otp = (props) => {
                 {
                   props.type == "KYC"
                     ? navigation.navigate("KYC", {
-                        screen: "Aadhaar",
+                        screen: "AADHAAR",
                         params: {
                           screen: "Verify",
                         },
@@ -107,7 +108,7 @@ export default Otp = (props) => {
                 Alert.alert("Error", responseJson["data"]["message"]);
                 break;
             }
-          } else if (responseJson["error"]) {
+          } else if (responseJson?.error?.message) {
             setVerifyMsg(responseJson["error"]["message"]);
             setVerifyStatus("ERROR");
             setBackendPush(true);
@@ -143,3 +144,5 @@ export default Otp = (props) => {
     />
   );
 };
+
+export default AadhaarOtpApi;

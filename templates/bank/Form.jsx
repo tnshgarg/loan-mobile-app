@@ -1,11 +1,10 @@
 import CheckBox from "@react-native-community/checkbox";
 import { Icon } from "@react-native-material/core";
-import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Text, TextInput, View } from "react-native";
 import { Popable } from "react-native-popable";
 import { useDispatch, useSelector } from "react-redux";
-import Verify from "../../apis/bank/Verify";
+import BankVerifyApi from "../../apis/bank/Verify";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
   addAccountHolderName,
@@ -15,29 +14,32 @@ import {
 } from "../../store/slices/bankSlice";
 import { bankform, checkBox, form } from "../../styles";
 
-const BankInformationCollection = (props) => {
+
+const BankFormTemplate = (props) => {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+
+  const [accNumNext, setAccNumNext] = useState(false);
+  const [ifscNext, setIfscNext] = useState(false);
+  const [consent, setConsent] = useState(false);
+  
   const bankSlice = useSelector((state) => state.bank);
   const [ifsc, setIfsc] = useState(bankSlice?.data?.ifsc);
   const [accountNumber, setAccountNumber] = useState(bankSlice?.data?.accountNumber);
-  const [accountHolderName, setAccountHolderName] = useState(
-    bankSlice?.data?.accountHolderName
-  );
-  const [upi, setUpi] = useState(bankSlice?.upi);
-  const [ifscNext, setIfscNext] = useState(false);
-  const [accNumNext, setAccNumNext] = useState(false);
-  const [consent, setConsent] = useState(false);
-
+  const [accountHolderName, setAccountHolderName] = useState(bankSlice?.data?.accountHolderName);
+  const [upi, setUpi] = useState(bankSlice?.data?.upi);
+  
   useEffect(() => {
     dispatch(addAccountHolderName(accountHolderName));
   }, [accountHolderName]);
+
   useEffect(() => {
     dispatch(addAccountNumber(accountNumber));
   }, [accountNumber]);
+
   useEffect(() => {
     dispatch(addIfsc(ifsc));
   }, [ifsc]);
+
   useEffect(() => {
     dispatch(addUpi(upi));
   }, [upi]);
@@ -59,6 +61,7 @@ const BankInformationCollection = (props) => {
       setIfscNext(false);
     }
   }, [ifsc]);
+
   return (
     <>
       <KeyboardAvoidingWrapper>
@@ -171,18 +174,20 @@ const BankInformationCollection = (props) => {
               my identity.
             </Text>
           </View>
-          <Verify
-            url={"https://api.gridlines.io/bank-api/verify"}
+
+          <BankVerifyApi
             data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}
             style={form.nextButton}
             disabled={!ifscNext || !accNumNext || !consent}
             type={props?.route?.params?.type || ""}
           />
+          
           <View style={bankform.padding}></View>
+
         </View>
       </KeyboardAvoidingWrapper>
     </>
   );
 };
 
-export default BankInformationCollection;
+export default BankFormTemplate;

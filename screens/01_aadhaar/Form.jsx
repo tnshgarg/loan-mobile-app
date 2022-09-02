@@ -5,12 +5,12 @@ import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 
 import ProgressBarTop from "../../components/ProgressBarTop";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import AadhaarFormTemplate from "../../templates/aadhaar/Form";
 import { styles } from "../../styles";
 
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import AadhaarDataCollection from "../../templates/Aadhaar/AadhaarDataCollection";
 
-export default AadhaarForm = () => {
+const AadhaarForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -65,8 +65,10 @@ export default AadhaarForm = () => {
         />
 
         <ProgressBarTop step={1} />
-        <AadhaarDataCollection />
+        <AadhaarFormTemplate />
       </SafeAreaView>
     </>
   );
 };
+
+export default AadhaarForm;

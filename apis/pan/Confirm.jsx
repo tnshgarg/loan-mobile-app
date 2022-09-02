@@ -7,7 +7,7 @@ import { addVerifyMsg, addVerifyStatus } from "../../store/slices/panSlice";
 import { panBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
 
-export default Confirm = (props) => {
+const PanConfirmApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -101,7 +101,7 @@ export default Confirm = (props) => {
                       screen: "PAN Data",
                     },
                   })
-                : navigation.navigate("BankInfoForm");
+                : navigation.navigate("BankForm");
             }
           }}
         />
@@ -110,3 +110,5 @@ export default Confirm = (props) => {
     </View>
   );
 };
+
+export default PanConfirmApi;

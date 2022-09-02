@@ -9,10 +9,11 @@ import {
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/panSlice";
+import { KYC_PAN_VERIFY_API_URL } from "../../services/employees/endpoints";
 import { panBackendPush } from "../../helpers/BackendPush";
 import ApiView from "../ApiView";
 
-export default Verify = (props) => {
+const PanVerifyApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -45,7 +46,7 @@ export default Verify = (props) => {
   }, [verifyTimestamp]);
 
   useEffect(() => {
-    console.log("panSlice: ", panSlice);
+    console.log("PanVerifyApi panSlice: ", panSlice);
     if (backendPush) {
       panBackendPush({
         id: id,
@@ -72,7 +73,7 @@ export default Verify = (props) => {
       body: JSON.stringify(props.data),
     };
 
-    fetch(props.url, options)
+    fetch(KYC_PAN_VERIFY_API_URL, options)
       .then((response) => response.json())
       .then((responseJson) => {
         try {
@@ -97,7 +98,7 @@ export default Verify = (props) => {
                           screen: "Confirm",
                         },
                       })
-                    : navigation.navigate("PanConfirm")
+                    : navigation.navigate("PanConfirm");
                 }
                 break;
               default:
@@ -106,7 +107,7 @@ export default Verify = (props) => {
                 setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
             }
-          } else if (responseJson["error"]) {
+          } else if (responseJson?.error?.message) {
             setVerifyMsg(responseJson["error"]["message"]);
             setVerifyStatus("ERROR");
             setBackendPush(true);
@@ -143,3 +144,5 @@ export default Verify = (props) => {
     />
   );
 };
+
+export default PanVerifyApi;

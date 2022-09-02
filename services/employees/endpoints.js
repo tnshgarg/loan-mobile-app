@@ -1,20 +1,17 @@
 import {
   STAGE,
-  EMPLOYEE_DEV_API_BASE_URL,
-  EMPLOYEE_TEST_API_BASE_URL,
-  EMPLOYEE_PROD_API_BASE_URL,
+  EMPLOYEE_API_BASE_URL,
+  KYC_API_BASE_URL,
+  KYC_MOCK_API_BASE_URL,
 } from "@env";
 
-const API = () => {
-  if (STAGE === "dev") {
-    return EMPLOYEE_DEV_API_BASE_URL;
-  } else if (STAGE === "test") {
-    return EMPLOYEE_TEST_API_BASE_URL;
-  } else {
-    return EMPLOYEE_PROD_API_BASE_URL;
-  }
-};
+export const EMPLOYEE_API_URL = `${EMPLOYEE_API_BASE_URL}/${STAGE}/employee`;
 
-export const EMPLOYEE_API_BASE_URL = API();
+export const KYC_API_URL =
+  STAGE === "dev" ? KYC_MOCK_API_BASE_URL : KYC_API_BASE_URL;
+export const KYC_AADHAAR_GENERATE_OTP_API_URL = `${KYC_API_URL}/aadhaar-api/boson/generate-otp`;
+export const KYC_AADHAAR_SUBMIT_OTP_API_URL = `${KYC_API_URL}/aadhaar-api/boson/submit-otp`;
+export const KYC_PAN_VERIFY_API_URL = `${KYC_API_URL}/pan-api/fetch-detailed`;
+export const KYC_BANK_VERIFY_API_URL = `${KYC_API_URL}/bank-api/verify`;
 
 export const TIMEOUT = 5 * 60;

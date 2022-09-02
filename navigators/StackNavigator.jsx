@@ -5,12 +5,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "../screens/00_login/LoginScreen";
 import OTPScreen from "../screens/00_login/OTPScreen";
 import WelcomePage from "../screens/00_login/WelcomePage";
-import AadhaarConfirm from "../screens/01_aadhaar/AadhaarConfirm";
-import AadhaarForm from "../screens/01_aadhaar/AadhaarForm";
-import AadhaarVerify from "../screens/01_aadhaar/AadhaarVerify";
-import PanForm from "../screens/02_pan/PanForm";
-import PanConfirm from "../screens/02_pan/PanConfirm";
-import BankInformationForm from "../screens/03_bank/BankInformationForm";
+import AadhaarConfirm from "../screens/01_aadhaar/Confirm";
+import AadhaarForm from "../screens/01_aadhaar/Form";
+import AadhaarVerify from "../screens/01_aadhaar/Verify";
+import PanForm from "../screens/02_pan/Form";
+import PanConfirm from "../screens/02_pan/Confirm";
+import BankForm from "../screens/03_bank/Form";
 import PersonalDetailsForm from "../screens/04_profile/PersonalDetailsForm";
 import PersonalImage from "../screens/05_photo/PersonalImage";
 import DevMenu from "../screens/DevMenu";
@@ -21,7 +21,7 @@ import { STAGE } from "@env";
 import KYCScreen from "../screens/07_drawer/KYCScreen";
 import Profile from "../screens/07_drawer/Profile";
 import LicenseConfirm from "../screens/06_home/Documents/License/Confirm";
-import BankConfirm from "../screens/03_bank/BankConfirm";
+import BankConfirm from "../screens/03_bank/Confirm";
 import Landing from "../screens/06_home/Money/EWA/Landing";
 import Details from "../screens/06_home/Money/EWA/Details";
 import Mandate from "../screens/06_home/Money/EWA/Mandate";
@@ -126,8 +126,8 @@ const StackNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="BankInfoForm"
-        component={BankInformationForm}
+        name="BankForm"
+        component={BankForm}
         options={{
           headerShown: false,
           header: null,

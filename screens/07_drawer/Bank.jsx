@@ -1,10 +1,11 @@
-import { View, Text, Alert } from "react-native";
+import { View, Alert } from "react-native";
 import React from "react";
 import DetailItem from "./DetailItem";
 import PrimaryButton from "../../components/PrimaryButton";
 import { useSelector } from "react-redux";
-import BankInformationCollection from "../../templates/Bank/BankInformationCollection";
-import Confirm from "../../apis/bank/Confirm";
+import BankFormTemplate from "../../templates/bank/Form";
+import BankConfirmApi from "../../apis/bank/Confirm";
+
 
 const Bank = () => {
   const accountHolderName = useSelector((state) => state.bank.data.accountHolderName);
@@ -24,13 +25,13 @@ const Bank = () => {
   const tabs = [
     {
       name: "Bank Data",
-      component: BankInformationCollection,
+      component: BankFormTemplate,
       initialParams: { type: "KYC" },
       disable: true,
     },
     {
       name: "Confirm",
-      component: Confirm,
+      component: BankConfirmApi,
       initialParams: { type: "KYC" },
       disable: true,
     },

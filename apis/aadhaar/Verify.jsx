@@ -9,11 +9,12 @@ import {
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/aadhaarSlice";
+import { KYC_AADHAAR_SUBMIT_OTP_API_URL } from "../../services/employees/endpoints";
 import ApiView from "../ApiView";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
-import AadhaarConfirm from "../../screens/01_aadhaar/AadhaarConfirm";
 
-export default Verify = (props) => {
+
+const AadhaarVerifyApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -21,16 +22,13 @@ export default Verify = (props) => {
   const [backendPush, setBackendPush] = useState(false);
 
   const id = useSelector((state) => state.auth.id);
+  const submitOTPtxnId = useSelector((state) => state.aadhaar.submitOTPtxnId);
+
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const [data, setData] = useState(aadhaarSlice?.data);
-  const [submitOTPtxnId, setSubmitOTPtxnId] = useState(
-    aadhaarSlice?.submitOTPtxnId
-  );
   const [verifyMsg, setVerifyMsg] = useState(aadhaarSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(aadhaarSlice?.verifyStatus);
-  const [verifyTimestamp, setVerifyTimestamp] = useState(
-    aadhaarSlice?.verifyTimestamp
-  );
+  const [verifyTimestamp, setVerifyTimestamp] = useState(aadhaarSlice?.verifyTimestamp);
 
   useEffect(() => {
     dispatch(addData(data));
@@ -49,7 +47,7 @@ export default Verify = (props) => {
   }, [verifyTimestamp]);
 
   useEffect(() => {
-    console.log("aadhaarSlice : ", aadhaarSlice);
+    console.log("AadhaarVerifyApi aadhaarSlice : ", aadhaarSlice);
     if (backendPush) {
       aadhaarBackendPush({
         id: id,
@@ -69,8 +67,8 @@ export default Verify = (props) => {
 
     const data = {
       otp: props.data.otp,
-      include_xml: true,
-      share_code: 1234,
+      include_xml: props.data.include_xml,
+      share_code: props.data.share_code,
       transaction_id: submitOTPtxnId,
     };
 
@@ -84,9 +82,10 @@ export default Verify = (props) => {
       body: JSON.stringify(data),
     };
 
-    fetch(props.url, options)
+    fetch(KYC_AADHAAR_SUBMIT_OTP_API_URL, options)
       .then((response) => response.json())
       .then((responseJson) => {
+        console.log("responseJson: ", responseJson);
         try {
           if (responseJson["status"] == "200") {
             switch (responseJson["data"]["code"]) {
@@ -102,7 +101,7 @@ export default Verify = (props) => {
                 {
                   props.type == "KYC"
                     ? navigation.navigate("KYC", {
-                        screen: "Aadhaar",
+                        screen: "AADHAAR",
                         params: {
                           screen: "Confirm",
                         },
@@ -116,7 +115,7 @@ export default Verify = (props) => {
                 setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
             }
-          } else if (responseJson["error"]) {
+          } else if (responseJson?.error?.message) {
             setVerifyMsg(responseJson["error"]["message"]);
             setVerifyStatus("ERROR");
             setBackendPush(true);
@@ -152,3 +151,5 @@ export default Verify = (props) => {
     />
   );
 };
+
+export default AadhaarVerifyApi;

@@ -7,11 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { bankform, checkBox, form } from "../../styles";
 
-import Otp from "../../apis/aadhaar/Otp";
+import AadhaarOtpApi from "../../apis/aadhaar/Otp";
 import { addNumber } from "../../store/slices/aadhaarSlice";
 
-const AadhaarDataCollection = (props) => {
+
+const AadhaarFormTemplate = (props) => {
   const dispatch = useDispatch();
+
   const [consent, setConsent] = useState(false);
   const [validNumber, setValidNumber] = useState(true);
 
@@ -27,6 +29,7 @@ const AadhaarDataCollection = (props) => {
       setValidNumber(false);
     }
   }, [number]);
+  
   return (
     <>
       <KeyboardAvoidingWrapper>
@@ -65,17 +68,18 @@ const AadhaarDataCollection = (props) => {
               my identity.
             </Text>
           </View>
-          <Otp
-            url={"https://api.gridlines.io/aadhaar-api/boson/generate-otp"}
+
+          <AadhaarOtpApi
             data={{ aadhaar_number: number, consent: "Y" }}
             style={form.nextButton}
             disabled={!validNumber || !consent}
             type={props?.route?.params?.type || ""}
           />
+
         </View>
       </KeyboardAvoidingWrapper>
     </>
   );
 };
 
-export default AadhaarDataCollection;
+export default AadhaarFormTemplate;

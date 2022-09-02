@@ -11,7 +11,7 @@ import {
 import { bankform, form, styles } from "../../styles";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
 
-export default Confirm = (props) => {
+const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -39,7 +39,7 @@ export default Confirm = (props) => {
   }, [verifyTimestamp]);
 
   useEffect(() => {
-    console.log(backendPush);
+    console.log("AadhaarConfirmApi aadhaarSlice: ", aadhaarSlice);
     if (backendPush) {
       aadhaarBackendPush({
         id: id,
@@ -90,7 +90,7 @@ export default Confirm = (props) => {
             {
               props?.route?.params?.type == "KYC"
                 ? navigation.navigate("KYC", {
-                    screen: "Aadhaar",
+                    screen: "AADHAAR",
                     params: {
                       screen: "Aadhaar Form",
                     },
@@ -112,7 +112,7 @@ export default Confirm = (props) => {
             {
               props?.route?.params?.type == "KYC"
                 ? navigation.navigate("KYC", {
-                    screen: "Aadhaar",
+                    screen: "AADHAAR",
                   })
                 : navigation.navigate("PanForm");
             }
@@ -123,3 +123,5 @@ export default Confirm = (props) => {
     </View>
   );
 };
+
+export default AadhaarConfirmApi;

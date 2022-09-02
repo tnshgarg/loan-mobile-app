@@ -108,7 +108,7 @@ export default ProgressBarTop = (props) => {
       case 3:
         bankStatus == "SUCCESS"
           ? (step = "BankConfirm")
-          : (step = "BankInfoForm");
+          : (step = "BankForm");
         break;
       case 4:
         step = "PersonalDetailsForm";
