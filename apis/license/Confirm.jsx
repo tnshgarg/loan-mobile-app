@@ -3,12 +3,9 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Image, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-
-import {
-  addVerifyMsg,
-  addVerifyStatus,
-} from "../../store/slices/licenseSlice";
-import { form, license, styles, selfie } from "../../styles";
+import { licenseBackendPush } from "../../helpers/BackendPush";
+import { addVerifyMsg, addVerifyStatus } from "../../store/slices/licenseSlice";
+import { form, license, selfie, styles } from "../../styles";
 
 export default Confirm = () => {
   const dispatch = useDispatch();
@@ -50,7 +47,7 @@ export default Confirm = () => {
 
   const isDateValid = (expiry_date) => {
     return new Date(expiry_date) > new Date();
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -76,7 +73,7 @@ export default Confirm = () => {
       <Text style={form.userData}>Name: {data?.name}</Text>
       <Text style={form.userData}>Date of Birth: {data?.date_of_birth}</Text>
       <Text style={form.userData}>Blood Group: {data?.bloodGroup || "NA"}</Text>
-      {classes.map((item, index) => (
+      {licenseSlice?.vehicle_class_details.map((item, index) => (
         <View key={index}>
           <Text style={form.userData}>Class: {item["category"]}</Text>
           <Text style={license.authority}>{item["authority"]}</Text>
@@ -86,18 +83,16 @@ export default Confirm = () => {
       {data?.validity?.non_transport ? (
         <>
           <Text style={form.userData}>
-            Validity: {data?.validity?.non_transport?.issue_date} to {" "}
+            Validity: {data?.validity?.non_transport?.issue_date} to{" "}
             {data?.validity?.non_transport?.expiry_date}
           </Text>
           <View style={{ flexDirection: "row" }}>
             <Text style={license.authority}>Non-Transport</Text>
-            {
-              isDateValid(data?.validity?.non_transport?.expiry_date) 
-                ? 
-                <Text style={license.valid}>Valid</Text>
-                :
-                <Text style={license.invalid}>Invalid</Text>
-            }
+            {isDateValid(data?.validity?.non_transport?.expiry_date) ? (
+              <Text style={license.valid}>Valid</Text>
+            ) : (
+              <Text style={license.invalid}>Invalid</Text>
+            )}
           </View>
         </>
       ) : null}
@@ -105,18 +100,16 @@ export default Confirm = () => {
       {data?.validity?.transport ? (
         <>
           <Text style={form.userData}>
-            Transport Validity: {data?.validity?.transport?.issue_date} to {" "}
+            Transport Validity: {data?.validity?.transport?.issue_date} to{" "}
             {data?.validity?.transport?.expiry_date}
           </Text>{" "}
           <View style={{ flexDirection: "row" }}>
             <Text style={license.authority}>Transport</Text>
-            {
-              isDateValid(data?.validity?.transport?.expiry_date)
-                ?
-                <Text style={license.valid}>Valid</Text>
-                :
-                <Text style={license.invalid}>Invalid</Text>
-            }
+            {isDateValid(data?.validity?.transport?.expiry_date) ? (
+              <Text style={license.valid}>Valid</Text>
+            ) : (
+              <Text style={license.invalid}>Invalid</Text>
+            )}
           </View>
         </>
       ) : null}
@@ -137,10 +130,10 @@ export default Confirm = () => {
           color="#EB5757"
           onPress={() => {
             setVerifyMsg("Rejected by User");
-            navigation.navigate("Home", {
-              screen: "Documents",
+            navigation.navigate("Documents", {
+              screen: "Driving License",
               params: {
-                screen: "Drivers License",
+                screen: "Form",
               },
             });
           }}
@@ -155,11 +148,8 @@ export default Confirm = () => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
-            navigation.navigate("Home", {
-              screen: "Documents",
-              params: {
-                screen: "Drivers License",
-              },
+            navigation.navigate("Documents", {
+              screen: "Driving License",
             });
           }}
         />

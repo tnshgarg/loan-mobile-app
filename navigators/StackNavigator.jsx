@@ -20,7 +20,6 @@ import DrawerNavigator from "./DrawerNavigator";
 import { STAGE } from "@env";
 import KYCScreen from "../screens/07_drawer/KYCScreen";
 import Profile from "../screens/07_drawer/Profile";
-import LicenseConfirm from "../screens/06_home/Documents/License/Confirm";
 import BankConfirm from "../screens/03_bank/Confirm";
 import Landing from "../screens/06_home/Money/EWA/Landing";
 import Details from "../screens/06_home/Money/EWA/Details";
@@ -173,13 +172,6 @@ const StackNavigator = () => {
         options={{
           headerShown: true,
           headerTitle: "Profile Details",
-        }}
-      />
-      <Stack.Screen
-        name="LicenseConfirm"
-        component={LicenseConfirm}
-        options={{
-          headerShown: false,
         }}
       />
       <Stack.Screen

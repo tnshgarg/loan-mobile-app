@@ -6,7 +6,7 @@ import {
   addData,
   addVerifyMsg,
   addVerifyStatus,
-  addVerifyTimestamp
+  addVerifyTimestamp,
 } from "../../store/slices/licenseSlice";
 import { licenseBackendPush } from "../../helpers/BackendPush";
 import ApiView from "../ApiView";
@@ -24,7 +24,9 @@ export default Fetch = (props) => {
   const [data, setData] = useState(licenseSlice?.data);
   const [verifyMsg, setVerifyMsg] = useState(licenseSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(licenseSlice?.verifyStatus);
-  const [verifyTimestamp, setVerifyTimestamp] = useState(licenseSlice?.verifyTimestamp);
+  const [verifyTimestamp, setVerifyTimestamp] = useState(
+    licenseSlice?.verifyTimestamp
+  );
 
   useEffect(() => {
     dispatch(addData(data));
@@ -82,7 +84,12 @@ export default Fetch = (props) => {
                 setVerifyStatus("PENDING");
                 setVerifyTimestamp(responseJson["timestamp"]);
                 setBackendPush(true);
-                navigation.navigate("LicenseConfirm");
+                navigation.navigate("Documents", {
+                  screen: "Driving License",
+                  params: {
+                    screen: "Confirm",
+                  },
+                });
                 break;
 
               case "1001":
@@ -102,12 +109,11 @@ export default Fetch = (props) => {
             setVerifyMsg(responseJson["message"]);
             setVerifyStatus("ERROR");
           }
-        }
-        catch(error) {
+        } catch (error) {
           console.log("Error: ", error);
           setVerifyMsg(error);
           setVerifyStatus("ERROR");
-          setBackendPush(true); 
+          setBackendPush(true);
           Alert.alert("Error", error);
         }
       })
