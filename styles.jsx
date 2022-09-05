@@ -550,8 +550,9 @@ export const ewa = StyleSheet.create({
   },
   successImg: {
     alignSelf: "center",
-    height: "37%",
+    height: "43%",
     width: "100%",
+    marginTop:"-8%"
   },
   checkBox: {
     marginLeft: 34,

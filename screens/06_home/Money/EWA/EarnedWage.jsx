@@ -34,14 +34,14 @@ const EarnedWage = () => {
       />
       <Image
         style={ewa.successImg}
-        source={require("../../../../assets/success.png")}
+        source={require("../../../../assets/animatedsuccess.gif")}
       />
       <CollapsibleCard
         data={data}
         title="Loan Details"
         TitleIcon={icon}
         isClosed={false}
-        info = "Money will be deducted from your upcoming salary" 
+        info="Money will be deducted from your upcoming salary"
       />
       <PrimaryButton
         title="Thank You"
