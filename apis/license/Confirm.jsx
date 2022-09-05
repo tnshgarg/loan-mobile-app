@@ -73,7 +73,7 @@ export default Confirm = () => {
       <Text style={form.userData}>Name: {data?.name}</Text>
       <Text style={form.userData}>Date of Birth: {data?.date_of_birth}</Text>
       <Text style={form.userData}>Blood Group: {data?.bloodGroup || "NA"}</Text>
-      {licenseSlice?.vehicle_class_details.map((item, index) => (
+      {classes.map((item, index) => (
         <View key={index}>
           <Text style={form.userData}>Class: {item["category"]}</Text>
           <Text style={license.authority}>{item["authority"]}</Text>
