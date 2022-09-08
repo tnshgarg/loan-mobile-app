@@ -27,8 +27,12 @@ const profileSlice = createSlice({
     addPhoto(state, action) {
       state.photo = action.payload;
     },
-    resetProfile(state) {
-      Object.assign(state, initialState);
+    resetProfile(state, action) {
+      if (!action.payload) {
+        Object.assign(state, initialState);
+      } else {
+        Object.assign(state, action.payload);
+      }
     },
   },
 });
