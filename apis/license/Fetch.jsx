@@ -123,7 +123,6 @@ export default Fetch = (props) => {
         setVerifyMsg(error);
         setVerifyStatus("ERROR");
       });
-    setLoading(false);
   };
 
   return (
