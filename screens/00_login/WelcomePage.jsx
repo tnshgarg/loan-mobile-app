@@ -8,6 +8,8 @@ import StepIndicator from "react-native-step-indicator";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { aadhaarBackendFetch } from "../../helpers/BackendFetch";
 import { checkBox, form, styles, welcome, stepIndicatorStyles } from "../../styles";
+import { getBackendData } from "../../services/employees/employeeServices";
+import { resetAadhaar } from "../../store/slices/aadhaarSlice";
 
 export default WelcomePage = () => {
 
@@ -19,11 +21,19 @@ export default WelcomePage = () => {
   }, []);
 
   useEffect(() => {
-    var response = aadhaarBackendFetch({id: id});
-    if (response.data.status === 200) {
-      dispatch(resetAadhaar(response.data.body));
-    }
-  }, [id]);
+    getBackendData({ params: {id:"123412341234123412341234"}, xpath: "aadhaar" })
+    .then((response) => {
+      console.log(response.data);
+      if (response.data.status === 200) {
+        dispatch(resetAadhaar(response.data.body));
+        console.log("fecthedAadhaar",response.data.body);
+      }
+    })
+    .catch((error) => {
+      console.log("aadhaarBackendFetch error: ", error);
+    });
+  
+  }, []);
 
   const navigation = useNavigation();
   
