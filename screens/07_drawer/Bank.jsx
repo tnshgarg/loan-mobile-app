@@ -1,7 +1,6 @@
-import { View, Alert } from "react-native";
+import { View } from "react-native";
 import React from "react";
 import DetailItem from "./DetailItem";
-import PrimaryButton from "../../components/PrimaryButton";
 import { useSelector } from "react-redux";
 import BankFormTemplate from "../../templates/bank/Form";
 import BankConfirmApi from "../../apis/bank/Confirm";
@@ -50,19 +49,6 @@ const Bank = () => {
               divider={item?.divider??true}
             />
           ))}
-          <View
-            style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}
-          >
-            <PrimaryButton
-              style={{ marginTop: 20 }}
-              title="Update"
-              onPress={() =>
-                Alert.alert(
-                  "The Bank Details are not editable, please ask your employer to update"
-                )
-              }
-            />
-          </View>
         </>
       ) : (
         <TopTabNav tabs={tabs} hide={true} />
