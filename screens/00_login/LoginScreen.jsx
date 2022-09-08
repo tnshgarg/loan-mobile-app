@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
 import { useDispatch, useSelector } from "react-redux";
-
+import PrimaryButton from "../../components/PrimaryButton";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { putBackendData } from "../../services/employees/employeeServices";
 import { sendSmsVerification } from "../../services/otp/Gupshup/services";
@@ -87,7 +87,7 @@ export default LoginScreen = () => {
   const signIn = () => {
     setLoading(true);
     var fullPhoneNumber = `+91${phoneNumber}`;
-    putBackendData({ document: {number: fullPhoneNumber}, xpath: "mobile" })
+    putBackendData({ document: { number: fullPhoneNumber }, xpath: "mobile" })
       .then((res) => {
         console.log(res.data);
         if (res.data["status"] == 200) {
@@ -109,7 +109,7 @@ export default LoginScreen = () => {
             .catch((error) => {
               setLoading(false);
               console.log(error);
-              Alert("Error","Something is Wrong");
+              Alert("Error", "Something is Wrong");
             });
         } else {
           setLoading(false);
@@ -190,24 +190,14 @@ export default LoginScreen = () => {
           </Text>
           {!loading ? (
             <>
-              {next ? (
-                <Button
-                  uppercase={false}
-                  title="Continue"
-                  type="solid"
-                  style={styles.ContinueButton}
-                  color="#4E46F1"
-                  onPress={() => signIn()}
-                />
-              ) : (
-                <Button
-                  uppercase={false}
-                  title="Continue"
-                  type="solid"
-                  style={styles.ContinueButton}
-                  disabled
-                />
-              )}
+              <PrimaryButton
+                uppercase={false}
+                title="Continue"
+                type="solid"
+                color="#4E46F1"
+                disabled={!next}
+                onPress={() => signIn()}
+              />
             </>
           ) : (
             <TouchableOpacity>

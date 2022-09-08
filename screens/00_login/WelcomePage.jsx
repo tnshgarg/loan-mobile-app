@@ -1,14 +1,13 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { Image, SafeAreaView, Text, View } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import StepIndicator from "react-native-step-indicator";
+import { useDispatch } from "react-redux";
+import PrimaryButton from "../../components/PrimaryButton";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { checkBox, form, styles, welcome } from "../../styles";
-import Loading from "../../components/Loading";
 
 export default WelcomePage = () => {
   const dispatch = useDispatch();
@@ -116,14 +115,13 @@ export default WelcomePage = () => {
             labels={data}
           />
         </View>
-        <Button
-          style={form.nextButton}
+        <PrimaryButton
           title="Welcome!"
           uppercase={false}
           onPress={() => {
             navigation.navigate("Login");
           }}
-        ></Button>
+        />
         <View style={checkBox.padding}></View>
       </SafeAreaView>
     </>
