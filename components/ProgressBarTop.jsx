@@ -45,10 +45,6 @@ export default ProgressBarTop = (props) => {
     };
     switch (position) {
       case 0: {
-        iconConfig.name = "smartphone";
-        break;
-      }
-      case 1: {
         iconConfig.name = "perm-identity";
         stepStatus == "finished"
           ? aadhaarStatus == "SUCCESS"
@@ -58,7 +54,7 @@ export default ProgressBarTop = (props) => {
 
         break;
       }
-      case 2: {
+      case 1: {
         iconConfig.name = "mood";
         stepStatus == "finished"
           ? panStatus == "SUCCESS"
@@ -67,7 +63,7 @@ export default ProgressBarTop = (props) => {
           : "#4E46F1";
         break;
       }
-      case 3: {
+      case 2: {
         iconConfig.name = "payment";
         stepStatus == "finished"
           ? bankStatus == "SUCCESS"
@@ -76,11 +72,11 @@ export default ProgressBarTop = (props) => {
           : "#4E46F1";
         break;
       }
-      case 4: {
+      case 3: {
         iconConfig.name = "info-outline";
         break;
       }
-      case 5: {
+      case 4: {
         iconConfig.name = "camera-front";
         break;
       }
@@ -117,16 +113,15 @@ export default ProgressBarTop = (props) => {
         step = "PersonalImage";
         break;
     }
-    position != 0 ? navigation.navigate(step) : null;
+    navigation.navigate(step);
   };
   return (
     <View style={progressBar.progressView}>
       <StepIndicator
-        stepCount={6}
+        stepCount={5}
         customStyles={stepIndicatorStyles}
         currentPosition={props.step}
         labels={[
-          "Mobile Number",
           "Aadhaar Card",
           "PAN Card",
           "Bank Account",

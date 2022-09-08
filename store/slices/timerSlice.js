@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  login: 2 * 60,
-  aadhaar: 10 * 60,
+  login: 1 * 30,
+  aadhaar: 1 * 30,
 };
 
 const timerSlice = createSlice({

@@ -1,6 +1,6 @@
 import { Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Alert,
   Image,
@@ -16,7 +16,6 @@ import {
   checkVerification,
   sendSmsVerification,
 } from "../../services/otp/Gupshup/services";
-import { addLoginVerifyStatus } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
@@ -32,6 +31,7 @@ export default OTPScreen = () => {
 
   const countDownTime = useSelector((state) => state.timer.login);
   const phoneNumber = useSelector((state) => state.auth.phoneNumber);
+  const onboarded = useSelector((state) => state.auth.onboarded);
 
   useEffect(() => {
     dispatch(addCurrentScreen("Otp"));
@@ -164,13 +164,12 @@ export default OTPScreen = () => {
                 checkVerification(phoneNumber, otp)
                   .then((res) => {
                     if (res["response"]["status"] === "success") {
-                      // TODO: 
-                      // 1. pull and update aadhaar, pan, bank, profile slices
-                      // 2. check if already fully verified, then take to home screen
-                      // else navigate to 1st remaining screen
-                      navigation.navigate("AadhaarForm");
-                      dispatch(addLoginVerifyStatus("SUCCESS"));
-                      dispatch(resetTimer());
+                      if (onboarded) {
+                        navigation.navigate("Home");
+                      } else {
+                        navigation.navigate("Welcome");
+                        dispatch(resetTimer());
+                      }
                     } else {
                       Alert.alert(
                         res["response"]["status"],

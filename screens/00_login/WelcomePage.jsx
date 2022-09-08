@@ -4,11 +4,9 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Image, SafeAreaView, Text, View } from "react-native";
-import SplashScreen from "react-native-splash-screen";
 import StepIndicator from "react-native-step-indicator";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { checkBox, form, styles, welcome } from "../../styles";
-import Loading from "../../components/Loading";
 
 export default WelcomePage = () => {
   const dispatch = useDispatch();
@@ -17,7 +15,7 @@ export default WelcomePage = () => {
   }, []);
 
   const navigation = useNavigation();
-  SplashScreen.hide();
+  
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
       name: "feed",
@@ -59,7 +57,6 @@ export default WelcomePage = () => {
     <MaterialIcons {...getStepIndicatorIconConfig(params)} />
   );
   const data = [
-    "Mobile Number",
     "Aadhaar Card",
     "PAN Card",
     "Bank Account",
@@ -121,7 +118,7 @@ export default WelcomePage = () => {
           title="Welcome!"
           uppercase={false}
           onPress={() => {
-            navigation.navigate("Login");
+            navigation.navigate("AadhaarForm");
           }}
         ></Button>
         <View style={checkBox.padding}></View>

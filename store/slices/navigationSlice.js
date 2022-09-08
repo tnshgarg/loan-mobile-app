@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  currentScreen: "Welcome",
+  currentScreen: "Login",
 };
 
 const navigationSlice = createSlice({

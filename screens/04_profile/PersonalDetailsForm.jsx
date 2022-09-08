@@ -81,7 +81,7 @@ export default PersonalDetailsForm = () => {
           }
         />
 
-        <ProgressBarTop step={4} />
+        <ProgressBarTop step={3} />
         <Text style={form.formHeader}>Employee basic details</Text>
         <KeyboardAvoidingWrapper>
           <View>

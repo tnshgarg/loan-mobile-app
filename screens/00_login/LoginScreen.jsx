@@ -14,117 +14,41 @@ import {
 } from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
 import { useDispatch, useSelector } from "react-redux";
-
+import SplashScreen from "react-native-splash-screen";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { putBackendData } from "../../services/employees/employeeServices";
 import { sendSmsVerification } from "../../services/otp/Gupshup/services";
-import { addId, addPhoneNumber } from "../../store/slices/authSlice";
+import { addId, addOnboarded, addPhoneNumber } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 
 export default LoginScreen = () => {
+  SplashScreen.hide();
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const [phoneNumber, setPhoneNumber] = useState(
-    useSelector((state) => state.auth.phoneNumber)
-  );
-  const [next, setNext] = useState(false);
-
   const [loading, setLoading] = useState(false);
-  const [id, setId] = useState(null);
-  var phn = "";
+  const [next, setNext] = useState(false);
+  
+  const authSlice = useSelector((state) => state.auth.phoneNumber);
+  const [id, setId] = useState(authSlice?.id);
+  const [onboarded, setOnboarded] = useState(authSlice?.onboarded);
+  const [phoneNumber, setPhoneNumber] = useState(authSlice?.phoneNumber);
+  
+  var phone_number = "";
 
   useEffect(() => {
     dispatch(addCurrentScreen("Login"));
   }, []);
 
-  const onPhoneNumberPressed = async () => {
-    try {
-      phn = await SmsRetriever.requestPhoneNumber();
-      setPhoneNumber(phn.replace("+91", ""));
-    } catch (error) {
-      console.log(JSON.stringify(error));
-    }
-  };
-
-  // const signIn = () => {
-  //   Auth.signIn(phoneNumber)
-  //     .then((result) => {
-  //       setSession(result);
-  //       console.log(result);
-  //       navigation.navigate("Otp");
-  //     })
-  //     .catch((e) => {
-  //       if (e.code === 'UserNotFoundException') {
-  //         signUp();
-  //         console.log('User not found');
-  //       } else if (e.code === 'UsernameExistsException') {
-  //         signIn();
-  //         console.log('User already exists');
-  //       } else {
-  //         console.log(e.code);
-  //         console.error(e);
-  //       }
-  //     });
-  // };
-  // const signUp = async () => {
-  //   const result = await Auth.signUp({
-  //     username: phoneNumber,
-  //     password,
-  //     attributes: {
-  //       phone_number: phoneNumber,
-  //     },
-  //   }).then(() => signIn());
-  //   return result;
-  // };
-  // useEffect(() => {
-  //   dispatch({
-  //     type: "SET_SESSION",
-  //     payload: session,
-  //   })}, [session]);
-
-  const signIn = () => {
-    setLoading(true);
-    var fullPhoneNumber = `+91${phoneNumber}`;
-    putBackendData({ document: {number: fullPhoneNumber}, xpath: "mobile" })
-      .then((res) => {
-        console.log(res.data);
-        if (res.data["status"] == 200) {
-          setId(res.data["id"]);
-          sendSmsVerification(phoneNumber)
-            .then((result) => {
-              console.log("result: ", result);
-              if (result["response"]["status"] === "success") {
-                console.log(result);
-                navigation.navigate("Otp");
-              } else {
-                setLoading(false);
-                Alert.alert(
-                  result["response"]["status"],
-                  result["response"]["details"]
-                );
-              }
-            })
-            .catch((error) => {
-              setLoading(false);
-              console.log(error);
-              Alert("Error","Something is Wrong");
-            });
-        } else {
-          setLoading(false);
-          Alert.alert("Error", res.data["message"]);
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log(error);
-      });
-  };
-
   useEffect(() => {
     dispatch(addId(id));
   }, [id]);
+
+  useEffect(() => {
+    dispatch(addOnboarded(onboarded));
+  }, [onboarded]);
 
   useEffect(() => {
     dispatch(addPhoneNumber(phoneNumber));
@@ -141,9 +65,55 @@ export default LoginScreen = () => {
     }
   }, [phoneNumber]);
 
+  const onPhoneNumberPressed = async () => {
+    try {
+      phone_number = await SmsRetriever.requestPhoneNumber();
+      setPhoneNumber(phone_number.replace("+91", ""));
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+  };
+
   useEffect(() => {
     onPhoneNumberPressed();
   }, []);
+
+  const signIn = () => {
+    setLoading(true);
+    var fullPhoneNumber = `+91${phoneNumber}`;
+    putBackendData({ document: {number: fullPhoneNumber}, xpath: "mobile" })
+      .then((res) => {
+        if (res.data["status"] == 200) {
+          setId(res.data["id"]);
+          setOnboarded(res.data["onboarded"]);
+          sendSmsVerification(phoneNumber)
+            .then((result) => {
+              console.log("sendSmsVerification result: ", result);
+              if (result["response"]["status"] === "success") {
+                navigation.navigate("Otp");
+              } else {
+                setLoading(false);
+                Alert.alert(
+                  result["response"]["status"],
+                  result["response"]["details"]
+                );
+              }
+            })
+            .catch((error) => {
+              setLoading(false);
+              console.log(error);
+              Alert("Error", "Something is Wrong");
+            });
+        } else {
+          setLoading(false);
+          Alert.alert("Error", res.data["message"]);
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log(error);
+      });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
