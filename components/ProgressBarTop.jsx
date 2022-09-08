@@ -93,23 +93,21 @@ export default ProgressBarTop = (props) => {
   const onStepPress = (position) => {
     let step = "";
     switch (position) {
-      case 1:
+      case 0:
         aadhaarStatus == "SUCCESS"
           ? (step = "AadhaarConfirm")
           : (step = "AadhaarForm");
         break;
-      case 2:
+      case 1:
         panStatus == "SUCCESS" ? (step = "PanConfirm") : (step = "PanForm");
         break;
-      case 3:
-        bankStatus == "SUCCESS"
-          ? (step = "BankConfirm")
-          : (step = "BankForm");
+      case 2:
+        bankStatus == "SUCCESS" ? (step = "BankConfirm") : (step = "BankForm");
         break;
-      case 4:
+      case 3:
         step = "PersonalDetailsForm";
         break;
-      case 5:
+      case 4:
         step = "PersonalImage";
         break;
     }

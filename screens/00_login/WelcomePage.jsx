@@ -98,11 +98,6 @@ export default WelcomePage = () => {
         <Text style={welcome.subTitle}>
           Let’s start onboarding process by verifying below documents.
         </Text>
-        {/* {data.map((datai,index)=>{
-      return(
-        <Text style={welcome.title} key={index}><Text>{'\u2B24'}</Text>  {datai}</Text>
-      )
-    })} */}
         <View style={welcome.steps}>
           <StepIndicator
             customStyles={stepIndicatorStyles}
