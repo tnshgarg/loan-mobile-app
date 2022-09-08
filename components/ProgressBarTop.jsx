@@ -2,36 +2,13 @@ import StepIndicator from "react-native-step-indicator";
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import { View } from "react-native";
-import { progressBar } from "../styles";
 import { useNavigation } from "@react-navigation/core";
 import { useSelector } from "react-redux";
+import { progressBar, stepIndicatorStyles } from "../styles";
 
 export default ProgressBarTop = (props) => {
+
   const navigation = useNavigation();
-  const stepIndicatorStyles = {
-    stepIndicatorSize: 30,
-    currentStepIndicatorSize: 40,
-    separatorStrokeWidth: 2,
-    currentStepStrokeWidth: 3,
-    stepStrokeCurrentColor: "#4E46F1",
-    stepStrokeWidth: 3,
-    separatorStrokeFinishedWidth: 4,
-    stepStrokeFinishedColor: "#4E46F1",
-    stepStrokeUnFinishedColor: "#aaaaaa",
-    separatorFinishedColor: "#4E46F1",
-    separatorUnFinishedColor: "#aaaaaa",
-    stepIndicatorFinishedColor: "#E5EAF7",
-    stepIndicatorUnFinishedColor: "#ffffff",
-    stepIndicatorCurrentColor: "#ffffff",
-    stepIndicatorLabelFontSize: 13,
-    currentStepIndicatorLabelFontSize: 13,
-    stepIndicatorLabelCurrentColor: "#4E46F1",
-    stepIndicatorLabelFinishedColor: "#4E46F1",
-    stepIndicatorLabelUnFinishedColor: "#aaaaaa",
-    labelColor: "#999999",
-    labelSize: 9,
-    currentStepLabelColor: "#4E46F1",
-  };
 
   const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);
   const panStatus = useSelector((state) => state.pan.verifyStatus);

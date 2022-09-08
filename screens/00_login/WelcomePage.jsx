@@ -1,18 +1,29 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Image, SafeAreaView, Text, View } from "react-native";
 import StepIndicator from "react-native-step-indicator";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { checkBox, form, styles, welcome } from "../../styles";
+import { aadhaarBackendFetch } from "../../helpers/BackendFetch";
+import { checkBox, form, styles, welcome, stepIndicatorStyles } from "../../styles";
 
 export default WelcomePage = () => {
+
   const dispatch = useDispatch();
+  const id = useSelector((state) => state.auth.id);
+
   useEffect(() => {
     dispatch(addCurrentScreen("Welcome"));
   }, []);
+
+  useEffect(() => {
+    var response = aadhaarBackendFetch({id: id});
+    if (response.data.status === 200) {
+      dispatch(resetAadhaar(response.data.body));
+    }
+  }, [id]);
 
   const navigation = useNavigation();
   
@@ -53,9 +64,11 @@ export default WelcomePage = () => {
     }
     return iconConfig;
   };
+
   const renderStepIndicator = (params) => (
     <MaterialIcons {...getStepIndicatorIconConfig(params)} />
   );
+
   const data = [
     "Aadhaar Card",
     "PAN Card",
@@ -63,31 +76,7 @@ export default WelcomePage = () => {
     "Profile",
     "Photo",
   ];
-  const stepIndicatorStyles = {
-    stepIndicatorSize: 30,
-    currentStepIndicatorSize: 30,
-    separatorStrokeWidth: 2,
-    currentStepStrokeWidth: 3,
-    stepStrokeCurrentColor: "#4E46F1",
-    stepStrokeWidth: 3,
-    separatorStrokeFinishedWidth: 4,
-    stepStrokeFinishedColor: "#4E46F1",
-    stepStrokeUnFinishedColor: "#aaaaaa",
-    separatorFinishedColor: "#4E46F1",
-    separatorUnFinishedColor: "#aaaaaa",
-    stepIndicatorFinishedColor: "#4E46F1",
-    stepIndicatorUnFinishedColor: "#ffffff",
-    stepIndicatorCurrentColor: "#ffffff",
-    stepIndicatorLabelFontSize: 14,
-    currentStepIndicatorLabelFontSize: 14,
-    stepIndicatorLabelCurrentColor: "#4E46F1",
-    stepIndicatorLabelFinishedColor: "#4E46F1",
-    stepIndicatorLabelUnFinishedColor: "#aaaaaa",
-    labelColor: "#999999",
-    labelSize: 14,
-    currentStepLabelColor: "#4E46F1",
-    labelAlign: "flex-start",
-  };
+
   return (
     <>
       <SafeAreaView style={styles.container}>

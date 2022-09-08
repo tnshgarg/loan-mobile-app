@@ -18,7 +18,7 @@ export const putBackendData = (props) => {
 };
 
 export const getBackendData = (props) => {
-  var data = JSON.stringify(props.document);
+  var params = props.params;
   var url = `${EMPLOYEE_API_URL}/${props.xpath}`;
 
   var config = {
@@ -27,7 +27,7 @@ export const getBackendData = (props) => {
     headers: {
       "Content-Type": "application/json",
     },
-    data: data,
+    params: params,
   };
 
   return axios(config);
