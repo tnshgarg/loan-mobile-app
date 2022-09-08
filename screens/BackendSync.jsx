@@ -18,7 +18,7 @@ export default BackendSync = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log("BackendSync id: ", id);
+    console.log("aadhaarBackendFetch BackendSync id: ", id);
     if (id) {
       getBackendData({ params: {id: id}, xpath: "aadhaar" })
       .then((response) => {
@@ -35,7 +35,6 @@ export default BackendSync = (props) => {
   }, [id]);
 
   useEffect(() => {
-    console.log("BackendSync id: ", id);
     if (id) {
       getBackendData({ params: {id: id}, xpath: "pan" })
       .then((response) => {
