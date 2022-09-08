@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getBackendData } from "../services/employees/employeeServices";
 import { resetAadhaar } from "../store/slices/aadhaarSlice";
 import { resetBank } from "../store/slices/bankSlice";
+import { resetPan } from "../store/slices/panSlice";
 import { resetProfile } from "../store/slices/profileSlice";
 
 export default BackendSync = (props) => {
@@ -18,31 +19,30 @@ export default BackendSync = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log("BackendSync id: ", id);
+    console.log("aadhaarBackendFetch BackendSync id: ", id);
     if (id) {
-      getBackendData({ params: { id: id }, xpath: "aadhaar" })
-        .then((response) => {
-          console.log(response.data);
-          if (response.data.status === 200) {
-            dispatch(resetAadhaar(response.data.body));
-            console.log("fecthedAadhaar", response.data.body);
-          }
-        })
-        .catch((error) => {
-          console.log("aadhaarBackendFetch error: ", error);
-        });
+      getBackendData({ params: {id: id}, xpath: "aadhaar" })
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.status === 200) {
+          dispatch(resetAadhaar(response.data.body));
+          console.log("aadhaarBackendFetch response.data", response.data);
+        }
+      })
+      .catch((error) => {
+        console.log("aadhaarBackendFetch error: ", error);
+      });
     }
   }, [id]);
 
   useEffect(() => {
-    console.log("BackendSync id: ", id);
     if (id) {
       getBackendData({ params: { id: id }, xpath: "bank" })
         .then((response) => {
           console.log(response.data);
           if (response.data.status === 200) {
             dispatch(resetBank(response.data.body));
-            console.log("fetchedBank", response.data.body);
+            console.log("bankBackendFetch response.data", response.data);
           }
         })
         .catch((error) => {
@@ -52,14 +52,29 @@ export default BackendSync = (props) => {
   }, [id]);
 
   useEffect(() => {
-    console.log("BackendSync id: ", id);
+    if (id) {
+      getBackendData({ params: {id: id}, xpath: "pan" })
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.status === 200) {
+          dispatch(resetPan(response.data.body));
+          console.log("panBackendFetch response.data", response.data);
+        }
+      })
+      .catch((error) => {
+        console.log("panBackendFetch error: ", error);
+      });
+    }
+  }, [id]);
+
+  useEffect(() => {
     if (id) {
       getBackendData({ params: { id: id }, xpath: "profile" })
         .then((response) => {
           console.log(response.data);
           if (response.data.status === 200) {
             dispatch(resetProfile(response.data.body));
-            console.log("fetchedProfile", response.data.body);
+            console.log("profileBackendFetch response.data", response.data);
           }
         })
         .catch((error) => {

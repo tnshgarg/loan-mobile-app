@@ -27,8 +27,12 @@ const panSlice = createSlice({
     addVerifyTimestamp(state, action) {
       state.verifyTimestamp = action.payload;
     },
-    resetPan(state) {
-      Object.assign(state, initialState);
+    resetPan(state, action) {
+      if (!action.payload) {
+        Object.assign(state, initialState);
+      } else {
+        Object.assign(state, action.payload);
+      }
     },
   },
 });
