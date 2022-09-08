@@ -31,7 +31,7 @@ export default LoginScreen = () => {
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState(false);
   
-  const authSlice = useSelector((state) => state.auth.phoneNumber);
+  const authSlice = useSelector((state) => state.auth);
   const [id, setId] = useState(authSlice?.id);
   const [onboarded, setOnboarded] = useState(authSlice?.onboarded);
   const [phoneNumber, setPhoneNumber] = useState(authSlice?.phoneNumber);
@@ -83,9 +83,9 @@ export default LoginScreen = () => {
     var fullPhoneNumber = `+91${phoneNumber}`;
     putBackendData({ document: {number: fullPhoneNumber}, xpath: "mobile" })
       .then((res) => {
-        if (res.data["status"] == 200) {
-          setId(res.data["id"]);
-          setOnboarded(res.data["onboarded"]);
+        if (res.data.status === 200) {
+          setId(res.data.body.id);
+          setOnboarded(res.data.body.onboarded);
           sendSmsVerification(phoneNumber)
             .then((result) => {
               console.log("sendSmsVerification result: ", result);

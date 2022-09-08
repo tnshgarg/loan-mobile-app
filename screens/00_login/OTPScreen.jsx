@@ -165,9 +165,9 @@ export default OTPScreen = () => {
                   .then((res) => {
                     if (res["response"]["status"] === "success") {
                       if (onboarded) {
-                        navigation.navigate("Home");
+                        navigation.navigate("BackendSync", {"destination": "Home"});
                       } else {
-                        navigation.navigate("Welcome");
+                        navigation.navigate("BackendSync", {"destination": "Welcome"});
                         dispatch(resetTimer());
                       }
                     } else {

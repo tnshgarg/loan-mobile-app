@@ -14,28 +14,13 @@ import { resetAadhaar } from "../../store/slices/aadhaarSlice";
 export default WelcomePage = () => {
 
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+
   const id = useSelector((state) => state.auth.id);
 
   useEffect(() => {
     dispatch(addCurrentScreen("Welcome"));
   }, []);
-
-  useEffect(() => {
-    getBackendData({ params: {id:"123412341234123412341234"}, xpath: "aadhaar" })
-    .then((response) => {
-      console.log(response.data);
-      if (response.data.status === 200) {
-        dispatch(resetAadhaar(response.data.body));
-        console.log("fecthedAadhaar",response.data.body);
-      }
-    })
-    .catch((error) => {
-      console.log("aadhaarBackendFetch error: ", error);
-    });
-  
-  }, []);
-
-  const navigation = useNavigation();
   
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
@@ -100,7 +85,7 @@ export default WelcomePage = () => {
         <View style={welcome.steps}>
           <StepIndicator
             customStyles={stepIndicatorStyles}
-            stepCount={6}
+            stepCount={5}
             direction="vertical"
             renderStepIndicator={renderStepIndicator}
             currentPosition={0}

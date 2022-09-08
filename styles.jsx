@@ -583,7 +583,7 @@ export const stepIndicatorStyles = {
   stepStrokeUnFinishedColor: "#aaaaaa",
   separatorFinishedColor: "#4E46F1",
   separatorUnFinishedColor: "#aaaaaa",
-  stepIndicatorFinishedColor: "#4E46F1",
+  stepIndicatorFinishedColor: "#E5EAF7",
   stepIndicatorUnFinishedColor: "#ffffff",
   stepIndicatorCurrentColor: "#ffffff",
   stepIndicatorLabelFontSize: 14,
