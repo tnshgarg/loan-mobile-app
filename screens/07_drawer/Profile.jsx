@@ -10,9 +10,9 @@ const Profile = () => {
   const profile = useSelector((state) => state.profile);
   const email = profile?.email;
   const mobile = useSelector((state) => state.auth.phoneNumber);
-  const alternateMobile = profile?.alternatePhone;
+  const alternateMobile = profile?.altMobile;
   const maritalStatus = profile?.maritalStatus;
-  const educationalQualification = profile?.educationalQualification;
+  const qualification = profile?.qualification;
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -24,7 +24,7 @@ const Profile = () => {
       <DetailItem label="Email Id" value={email || "Not Provided"} divider />
       <DetailItem label="Mobile Number" value={mobile || "Not Provided"} />
       <DetailItem label="Alternate Mobile Number" value={alternateMobile || "Not Provided"} />
-      <DetailItem label="Educational Qualification" value={educationalQualification || "Not Provided"} />
+      <DetailItem label="Educational Qualification" value={qualification || "Not Provided"} />
       <DetailItem label="Marital Status" value={maritalStatus || "Not Provided"} />
       <View style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}>
         <PrimaryButton
