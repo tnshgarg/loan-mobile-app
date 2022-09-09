@@ -73,13 +73,13 @@ const LoanDetails = () => {
         </Text>
         <CollapsibleCard
           title="Personal Details"
-          isClosed={true}
+          isClosed={false}
           TitleIcon={profileIcon}
           data={profileData}
         />
         <CollapsibleCard
           title="Bank Details"
-          isClosed={true}
+          isClosed={false}
           TitleIcon={bankIcon}
           data={bankData}
         />

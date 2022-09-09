@@ -5,12 +5,19 @@ import { styles } from "../../../../styles";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import HomeMain from "../../HomeMain";
 import { useNavigation } from "@react-navigation/core";
+import DataCard from "../../../../components/DataCard";
 
 const EWA = () => {
   const aadhaarVerifyState = useSelector((state) => state.aadhaar.verifyStatus);
   const panVerifyState = useSelector((state) => state.pan.verifyStatus);
   const bankVerifyState = useSelector((state) => state.bank.verifyStatus);
   const navigation = useNavigation();
+  const data = [
+    { subtitle: "Days Present", value: "10" },
+    { subtitle: "Expected Salary", value: "0" },
+    { subtitle: "Expected Advanced Salary", value: "0" },
+  ];
+
   return (
     <SafeAreaView style={styles.container}>
       {aadhaarVerifyState === "SUCCESS" &&
@@ -25,8 +32,9 @@ const EWA = () => {
               marginTop: 20,
             }}
           >
-            You are eligible for EWA.
+            You are eligible for Advanced Salary.
           </Text>
+          <DataCard title="Overview of Current Month" data={data} />
           <PrimaryButton
             title="Apply"
             uppercase={false}
@@ -45,7 +53,7 @@ const EWA = () => {
               marginTop: 20,
             }}
           >
-            You are not eligible for EWA.
+            You are not eligible for Advanced Salary.
           </Text>
           <HomeMain />
         </>
