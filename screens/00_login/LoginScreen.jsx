@@ -83,6 +83,7 @@ export default LoginScreen = () => {
     var fullPhoneNumber = `+91${phoneNumber}`;
     putBackendData({ document: {number: fullPhoneNumber}, xpath: "mobile" })
       .then((res) => {
+        console.log("LoginScreen res.data: ", res.data);
         if (res.data.status === 200) {
           setId(res.data.body.id);
           setOnboarded(res.data.body.onboarded);
