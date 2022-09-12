@@ -198,7 +198,7 @@ export const form = StyleSheet.create({
   OtpAwaitMsg: {
     color: "#230C45",
     alignSelf: "center",
-    textAlign:"center",
+    textAlign: "center",
     marginTop: 20,
     fontSize: 16,
     fontFamily: "Roboto",
@@ -481,8 +481,8 @@ export const welcome = StyleSheet.create({
   },
   subTitle: {
     marginTop: 20,
-    marginLeft: 30,
-    marginRight: 30,
+    alignSelf: "center",
+    justifyContent: "center",
     color: "black",
     fontSize: 18,
     fontFamily: "Roboto",
@@ -552,15 +552,14 @@ export const card = StyleSheet.create({
   infoText: {
     fontSize: 16,
   },
-  alertText:{
+  alertText: {
     color: "black",
     fontSize: 14,
     fontWeight: "bold",
     textDecorationLine: "underline",
     paddingLeft: 10,
-    paddingTop:10,
+    paddingTop: 10,
   },
-
 });
 
 export const dev = StyleSheet.create({

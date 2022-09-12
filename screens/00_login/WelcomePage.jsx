@@ -80,7 +80,7 @@ export default WelcomePage = () => {
           source={require("../../assets/unipe-Thumbnail.png")}
         />
         <Text style={welcome.subTitle}>
-          Let’s start onboarding process by verifying below documents.
+          Let’s start onboarding process by {"\n"} verifying below documents.
         </Text>
         <View style={welcome.steps}>
           <StepIndicator
