@@ -1,23 +1,27 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Image, SafeAreaView, Text, View } from "react-native";
-import SplashScreen from "react-native-splash-screen";
 import StepIndicator from "react-native-step-indicator";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { checkBox, form, styles, welcome } from "../../styles";
-import Loading from "../../components/Loading";
+import { aadhaarBackendFetch } from "../../helpers/BackendFetch";
+import { checkBox, form, styles, welcome, stepIndicatorStyles } from "../../styles";
+import { getBackendData } from "../../services/employees/employeeServices";
+import { resetAadhaar } from "../../store/slices/aadhaarSlice";
 
 export default WelcomePage = () => {
+
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  const id = useSelector((state) => state.auth.id);
+
   useEffect(() => {
     dispatch(addCurrentScreen("Welcome"));
   }, []);
-
-  const navigation = useNavigation();
-  SplashScreen.hide();
+  
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
       name: "feed",
@@ -55,42 +59,19 @@ export default WelcomePage = () => {
     }
     return iconConfig;
   };
+
   const renderStepIndicator = (params) => (
     <MaterialIcons {...getStepIndicatorIconConfig(params)} />
   );
+
   const data = [
-    "Mobile Number",
     "Aadhaar Card",
     "PAN Card",
     "Bank Account",
     "Profile",
     "Photo",
   ];
-  const stepIndicatorStyles = {
-    stepIndicatorSize: 30,
-    currentStepIndicatorSize: 30,
-    separatorStrokeWidth: 2,
-    currentStepStrokeWidth: 3,
-    stepStrokeCurrentColor: "#4E46F1",
-    stepStrokeWidth: 3,
-    separatorStrokeFinishedWidth: 4,
-    stepStrokeFinishedColor: "#4E46F1",
-    stepStrokeUnFinishedColor: "#aaaaaa",
-    separatorFinishedColor: "#4E46F1",
-    separatorUnFinishedColor: "#aaaaaa",
-    stepIndicatorFinishedColor: "#4E46F1",
-    stepIndicatorUnFinishedColor: "#ffffff",
-    stepIndicatorCurrentColor: "#ffffff",
-    stepIndicatorLabelFontSize: 14,
-    currentStepIndicatorLabelFontSize: 14,
-    stepIndicatorLabelCurrentColor: "#4E46F1",
-    stepIndicatorLabelFinishedColor: "#4E46F1",
-    stepIndicatorLabelUnFinishedColor: "#aaaaaa",
-    labelColor: "#999999",
-    labelSize: 14,
-    currentStepLabelColor: "#4E46F1",
-    labelAlign: "flex-start",
-  };
+
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -101,15 +82,10 @@ export default WelcomePage = () => {
         <Text style={welcome.subTitle}>
           Let’s start onboarding process by verifying below documents.
         </Text>
-        {/* {data.map((datai,index)=>{
-      return(
-        <Text style={welcome.title} key={index}><Text>{'\u2B24'}</Text>  {datai}</Text>
-      )
-    })} */}
         <View style={welcome.steps}>
           <StepIndicator
             customStyles={stepIndicatorStyles}
-            stepCount={6}
+            stepCount={5}
             direction="vertical"
             renderStepIndicator={renderStepIndicator}
             currentPosition={0}
@@ -121,7 +97,7 @@ export default WelcomePage = () => {
           title="Welcome!"
           uppercase={false}
           onPress={() => {
-            navigation.navigate("Login");
+            navigation.navigate("AadhaarForm");
           }}
         ></Button>
         <View style={checkBox.padding}></View>

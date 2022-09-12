@@ -1,6 +1,5 @@
-import { Alert, View } from "react-native";
+import { View } from "react-native";
 import { useSelector } from "react-redux";
-import PrimaryButton from "../../components/PrimaryButton";
 import DetailItem from "./DetailItem";
 import TopTabNav from "../../components/TopTabNav";
 import AadhaarFormTemplate from "../../templates/aadhaar/Form";
@@ -59,20 +58,6 @@ const Aadhaar = () => {
               divider={item?.divider??true}
             />
           ))}
-
-          <View
-            style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}
-          >
-            <PrimaryButton
-              style={{ marginTop: 20 }}
-              title="Update"
-              onPress={() =>
-                Alert.alert(
-                  "The Aadhaar Details are not editable, please ask your employer to update"
-                )
-              }
-            />
-          </View>
         </>
       ) : (
         <TopTabNav tabs={tabs} hide={true} />

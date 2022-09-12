@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import { AppBar, Icon, IconButton } from "@react-native-material/core";
-import { SafeAreaView } from "react-native";
+import { Alert, SafeAreaView } from "react-native";
 import ProgressBarTop from "../../components/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
@@ -21,7 +21,7 @@ const AadhaarVerify = () => {
   }, []);
 
   useEffect(() => {
-    if (countDownTime <= 0) {
+    if (countDownTime < 2) {
       setBackDisabled(false);
     }
   }, [countDownTime]);
@@ -48,13 +48,13 @@ const AadhaarVerify = () => {
         leading={
           <IconButton
             icon={<Icon name="arrow-back" size={20} color="white" />}
-            onPress={() => navigation.navigate("AadhaarForm")}
+            onPress={() => BackAlert()}
             disabled={backDisabled}
           />
         }
       />
 
-      <ProgressBarTop step={1} />
+      <ProgressBarTop step={0} />
       <AadhaarVerifyTemplate function={BackAlert} />
     </SafeAreaView>
   );
