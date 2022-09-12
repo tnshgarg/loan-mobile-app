@@ -6,6 +6,7 @@ import { Button } from "@react-native-material/core";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/panSlice";
 import { panBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
+import FuzzyCheck from "../../components/FuzzyCheck";
 
 const PanConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -64,6 +65,7 @@ const PanConfirmApi = (props) => {
           flex: 1,
         }}
       >
+        <FuzzyCheck name={data["name"]} step="PAN"/>
         <Button
           title="No"
           type="solid"

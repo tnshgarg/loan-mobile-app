@@ -5,6 +5,7 @@ import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addBankName,
+  addAccountHolderName,
   addBranchName,
   addBranchCity,
   addVerifyMsg,
@@ -14,12 +15,6 @@ import {
 import { KYC_BANK_VERIFY_API_URL } from "../../services/employees/endpoints";
 import { bankBackendPush } from "../../helpers/BackendPush";
 import ApiView from "../ApiView";
-import {
-  STAGE,
-  EMPLOYEE_API_BASE_URL,
-  KYC_API_BASE_URL,
-  KYC_MOCK_API_BASE_URL,
-} from "@env";
 
 const BankVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -36,6 +31,7 @@ const BankVerifyApi = (props) => {
   const [bankName, setBankName] = useState(bankSlice?.data?.bankName);
   const [branchName, setBranchName] = useState(bankSlice?.data?.bankBranch);
   const [branchCity, setBranchCity] = useState(bankSlice?.data?.branchCity);
+  const [accountHolderName, setAccountHolderName] = useState(bankSlice?.data?.accountHolderName);
   const [verifyMsg, setVerifyMsg] = useState(bankSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
   const [verifyTimestamp, setVerifyTimestamp] = useState(
@@ -45,6 +41,10 @@ const BankVerifyApi = (props) => {
   useEffect(() => {
     dispatch(addBankName(bankName));
   }, [bankName]);
+
+  useEffect(() => {
+    dispatch(addAccountHolderName(accountHolderName));
+  }, [accountHolderName]);
 
   useEffect(() => {
     dispatch(addBranchName(branchName));
@@ -109,6 +109,9 @@ const BankVerifyApi = (props) => {
                 );
                 setBranchCity(
                   responseJson["data"]["bank_account_data"]["city"]
+                );
+                setAccountHolderName(
+                  responseJson["data"]["bank_account_data"]["name"]
                 );
                 setVerifyMsg("To be confirmed by User");
                 setVerifyStatus("PENDING");
