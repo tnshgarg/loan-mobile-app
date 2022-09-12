@@ -29,17 +29,6 @@ const LicenseFormTemplate = () => {
     }
   }, [number]);
 
-  const SkipLicense = () => {
-    Alert.alert(
-      "License Verification pending",
-      `You have not completed License Verification. Do you wish to Skip?`,
-      [
-        { text: "No", onPress: () => null, style: "cancel" },
-        { text: "Yes", onPress: () => navigation.navigate("Home") },
-      ]
-    );
-  };
-
   return (
     <KeyboardAvoidingWrapper>
       <View>
@@ -77,17 +66,6 @@ const LicenseFormTemplate = () => {
           }}
           style={form.nextButton}
           disabled={!validNumber}
-        />
-        <Button
-          title="Skip"
-          uppercase={false}
-          type="solid"
-          color="#4E46F1"
-          style={form.nextButton}
-          trailing={(props) => <Icon name="send" {...props} />}
-          onPress={() => {
-            SkipLicense();
-          }}
         />
       </View>
     </KeyboardAvoidingWrapper>
