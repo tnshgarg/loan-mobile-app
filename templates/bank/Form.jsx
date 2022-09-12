@@ -45,7 +45,7 @@ const BankFormTemplate = (props) => {
   }, [upi]);
 
   useEffect(() => {
-    var accountNumberReg = /^[0-9]{9,18}$/gm;
+    var accountNumberReg = /^[A-Z0-9]{6,25}$/gm;
     if (accountNumberReg.test(accountNumber)) {
       setAccNumNext(true);
     } else {
@@ -95,7 +95,7 @@ const BankFormTemplate = (props) => {
             style={bankform.formInput}
             value={accountHolderName}
             onChangeText={setAccountHolderName}
-            autoCapitalize="words"
+            autoCapitalize="characters"
             required
           />
 
