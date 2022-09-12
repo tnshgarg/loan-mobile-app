@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   maritalStatus: "",
-  educationalQualification: "",
-  alternatePhone: "",
+  qualification: "",
+  altMobile: "",
   email: "",
   photo: "",
 };
@@ -12,11 +12,11 @@ const profileSlice = createSlice({
   name: "profile",
   initialState: initialState,
   reducers: {
-    addAlternatePhone(state, action) {
-      state.alternatePhone = action.payload;
+    addAltMobile(state, action) {
+      state.altMobile = action.payload;
     },
-    addEducationalQualification(state, action) {
-      state.educationalQualification = action.payload;
+    addQualification(state, action) {
+      state.qualification = action.payload;
     },
     addEmail(state, action) {
       state.email = action.payload;
@@ -38,8 +38,8 @@ const profileSlice = createSlice({
 });
 
 export const {
-  addAlternatePhone,
-  addEducationalQualification,
+  addAltMobile,
+  addQualification,
   addEmail,
   addMaritalStatus,
   addPhoto,
