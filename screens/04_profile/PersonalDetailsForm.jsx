@@ -138,6 +138,8 @@ export default PersonalDetailsForm = () => {
               style={form.formTextInput}
               value={email}
               onChangeText={setEmail}
+              autoCompleteType="email"
+              keyboardType="email-address"
               placeholder="Enter Email"
               required
             />

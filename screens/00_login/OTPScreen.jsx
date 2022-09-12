@@ -22,10 +22,9 @@ import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
 
 export default OTPScreen = () => {
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  
+
   const [otp, setOtp] = useState("");
   const [next, setNext] = useState(false);
   const [back, setBack] = useState(false);
@@ -101,6 +100,7 @@ export default OTPScreen = () => {
             letterSpacing={23}
             maxLength={6}
             numeric
+            autoCompleteType="sms-otp"
             value={otp}
             onChangeText={setOtp}
             keyboardType="numeric"
@@ -164,7 +164,7 @@ export default OTPScreen = () => {
                 checkVerification(phoneNumber, otp)
                   .then((res) => {
                     if (res["response"]["status"] === "success") {
-                      // TODO: 
+                      // TODO:
                       // 1. pull and update aadhaar, pan, bank, profile slices
                       // 2. check if already fully verified, then take to home screen
                       // else navigate to 1st remaining screen
