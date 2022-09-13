@@ -15,7 +15,7 @@ import { resetTimer } from "../store/slices/timerSlice";
 export default Logout = () => {
   const dispatch = useDispatch();
   const store = useSelector((state) => state);
-  console.log(store);
+  // console.log(store);
   const navigation = useNavigation();
   return (
     <Pressable
