@@ -22,6 +22,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
+import com.microsoft.codepush.react.CodePush;
 
 public class MainApplication extends Application implements ReactApplication {
   private final ReactNativeHost mReactNativeHost = new ReactNativeHostWrapper(
@@ -44,6 +45,10 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected String getJSMainModuleName() {
       return "index";
+    }
+    @Override
+    protected String getJSBundleFile() {
+        return CodePush.getJSBundleFile();
     }
   });
 

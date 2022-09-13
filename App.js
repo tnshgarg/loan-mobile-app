@@ -9,8 +9,13 @@ import SplashScreen from "react-native-splash-screen";
 
 import StackNavigator from "./navigators/StackNavigator";
 import { store, persistor } from "./store/store";
-
-export default function App() {
+import codePush from "react-native-code-push";
+let codePushOptions = {
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+  updateDialog: true,
+  installMode: codePush.InstallMode.IMMEDIATE,
+};
+const App = () => {
   SplashScreen.hide();
   return (
     <Provider store={store}>
@@ -25,4 +30,6 @@ export default function App() {
       </PersistGate>
     </Provider>
   );
-}
+};
+
+export default codePush(codePushOptions)(App);
