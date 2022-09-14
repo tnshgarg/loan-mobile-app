@@ -24,7 +24,7 @@ import BankConfirm from "../screens/03_bank/Confirm";
 import Landing from "../screens/06_home/Money/EWA/Landing";
 import Details from "../screens/06_home/Money/EWA/Details";
 import Mandate from "../screens/06_home/Money/EWA/Mandate";
-import LoanDetails from "../screens/06_home/Money/EWA/LoanDetails";
+import Agreement from "../screens/06_home/Money/EWA/Agreement";
 import EarnedWage from "../screens/06_home/Money/EWA/EarnedWage";
 
 const StackNavigator = () => {
@@ -196,8 +196,8 @@ const StackNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="EWALoanDetails"
-        component={LoanDetails}
+        name="EWAAgreement"
+        component={Agreement}
         options={{
           headerShown: false,
         }}

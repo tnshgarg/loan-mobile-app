@@ -8,7 +8,8 @@ import PrimaryButton from "../../../../components/PrimaryButton";
 import CheckBox from "@react-native-community/checkbox";
 import { styles, checkBox, ewa } from "../../../../styles";
 import { useSelector } from "react-redux";
-const LoanDetails = () => {
+
+const Agreement = () => {
   const navigation = useNavigation();
   const [confirm, setConfirm] = useState(false);
   const [consent, setConsent] = useState(false);
@@ -66,7 +67,7 @@ const LoanDetails = () => {
           title="Loan Details"
           TitleIcon={infoIcon}
           isClosed={false}
-          info="Money will be deducted from your upcoming salary"
+          info="Disbursed amount will be adjusted in your next salary."
         />
         <Text style={{ marginLeft: "6%", fontWeight: "300" }}>
           Annual Percentage Rate @xx%
@@ -117,4 +118,4 @@ const LoanDetails = () => {
   );
 };
 
-export default LoanDetails;
+export default Agreement;

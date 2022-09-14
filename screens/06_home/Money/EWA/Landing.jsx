@@ -131,7 +131,7 @@ const Landing = () => {
             marginTop: 10,
           }}
         >
-          You choose between 1000 to 20,000 rupees{" "}
+         You choose between 1000 to ${amount} rupees{" "}
         </Text>
         <Text
           style={{

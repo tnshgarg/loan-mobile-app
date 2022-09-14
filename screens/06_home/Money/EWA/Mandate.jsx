@@ -91,6 +91,7 @@ const Mandate = () => {
             autoCapitalize="words"
             value={name}
             onChangeText={setName}
+            editable={false}
             required
           />
           <Text style={bankform.formtitle}>Bank Account Number</Text>
@@ -99,6 +100,7 @@ const Mandate = () => {
             autoCapitalize="words"
             value={number}
             onChangeText={setNumber}
+            editable={false}
             required
           />
           {number && !accNumNext ? (
@@ -111,6 +113,7 @@ const Mandate = () => {
             autoCapitalize="characters"
             value={ifsc}
             onChangeText={setIfsc}
+            editable={false}
             required
           />
           {ifsc && !ifscNext ? (
@@ -138,7 +141,7 @@ const Mandate = () => {
             title="My Details are Correct"
             uppercase={false}
             onPress={() => {
-              navigation.navigate("EWALoanDetails");
+              navigation.navigate("EWAAgreement");
             }}
           />
           <View style={bankform.padding}></View>
