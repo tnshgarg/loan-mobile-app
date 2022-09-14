@@ -46,7 +46,7 @@ const AadhaarConfirm = () => {
         }
       />
 
-      <ProgressBarTop step={1} />
+      <ProgressBarTop step={0} />
 
       <ScrollView keyboardShouldPersistTaps="handled">
         <AadhaarConfirmApi />

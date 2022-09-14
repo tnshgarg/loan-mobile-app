@@ -53,7 +53,7 @@ const BankForm = () => {
             />
           }
         />
-        <ProgressBarTop step={3} />
+        <ProgressBarTop step={2} />
 
         <BankFormTemplate />
         

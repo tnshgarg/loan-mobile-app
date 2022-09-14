@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Image, SafeAreaView, ScrollView, Text, View } from "react-native";
 import * as ImagePicker from "react-native-image-picker";
 import { useDispatch, useSelector } from "react-redux";
-
+import PrimaryButton from "../../components/PrimaryButton";
 import ProgressBarTop from "../../components/ProgressBarTop";
 import RNIPPhotoCapture from "../../components/RNIPPhotoCapture";
 import { profileBackendPush } from "../../helpers/BackendPush";
@@ -20,18 +20,16 @@ export default PersonalImage = () => {
 
   const id = useSelector((state) => state.auth.id);
   const profileSlice = useSelector((state) => state.profile);
-  const [image, setImage] = useState(profileSlice?.photo);
-
+  const [image, setImage] = useState(useSelector((state) => state.profile.photo));
   useEffect(() => {
     dispatch(addCurrentScreen("PersonalImage"));
   }, []);
+  
+  useEffect(() => {
+    setImage(profileSlice.photo);
+  }, [profileSlice.photo]);
 
   useEffect(() => {
-    dispatch(addPhoto(image));
-  }, [image]);
-
-  useEffect(() => {
-    setImage(image);
     if (image) {
       setNext(true);
     } else {
@@ -51,7 +49,7 @@ export default PersonalImage = () => {
       } else if (response.error) {
         console.log("ImagePicker Error: ", response.error);
       } else {
-        setImage(response?.assets[0]?.base64);
+        dispatch(addPhoto(response?.assets[0]?.base64));
       }
     });
   }, []);
@@ -69,7 +67,7 @@ export default PersonalImage = () => {
             />
           }
         />
-        <ProgressBarTop step={5} />
+        <ProgressBarTop step={4} />
         <ScrollView keyboardShouldPersistTaps="handled">
           <Text style={form.formHeader}>
             Upload your Passport size photo or capture your selfie.
@@ -97,34 +95,24 @@ export default PersonalImage = () => {
             />
             <RNIPPhotoCapture />
           </View>
-          {next ? (
-            <Button
-              title="Finish"
-              type="solid"
-              uppercase={false}
-              style={form.nextButton}
-              color="#4E46F1"
-              onPress={() => {
-                profileBackendPush({
-                  id: id,
-                  maritalStatus: profileSlice?.maritalStatus,
-                  qualification: profileSlice?.educationalQualification,
-                  altMobile: profileSlice?.alternatePhone,
-                  email: profileSlice?.email,
-                  photo: profileSlice?.photo,
-                });
-                navigation.navigate("Home");
-              }}
-            />
-          ) : (
-            <Button
-              title="Finish"
-              uppercase={false}
-              type="solid"
-              style={form.nextButton}
-              disabled
-            />
-          )}
+          <PrimaryButton
+            title="Finish"
+            type="solid"
+            uppercase={false}
+            color="#4E46F1"
+            disabled={!next}
+            onPress={() => {
+              profileBackendPush({
+                id: id,
+                maritalStatus: profileSlice?.maritalStatus,
+                qualification: profileSlice?.educationalQualification,
+                altMobile: profileSlice?.alternatePhone,
+                email: profileSlice?.email,
+                photo: profileSlice?.photo,
+              });
+              navigation.navigate("Home");
+            }}
+          />
           <View style={checkBox.padding}></View>
         </ScrollView>
       </SafeAreaView>

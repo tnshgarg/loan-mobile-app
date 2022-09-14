@@ -31,8 +31,12 @@ const aadhaarSlice = createSlice({
     addVerifyTimestamp(state, action) {
       state.verifyTimestamp = action.payload;
     },
-    resetAadhaar(state) {
-      Object.assign(state, initialState);
+    resetAadhaar(state, action) {
+      if (!action.payload) {
+        Object.assign(state, initialState);
+      } else {
+        Object.assign(state, action.payload);
+      }
     },
   },
 });
