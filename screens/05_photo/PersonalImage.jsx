@@ -20,18 +20,16 @@ export default PersonalImage = () => {
 
   const id = useSelector((state) => state.auth.id);
   const profileSlice = useSelector((state) => state.profile);
-  const [image, setImage] = useState(profileSlice?.photo);
-
+  const [image, setImage] = useState(useSelector((state) => state.profile.photo));
   useEffect(() => {
     dispatch(addCurrentScreen("PersonalImage"));
   }, []);
+  
+  useEffect(() => {
+    setImage(profileSlice.photo);
+  }, [profileSlice.photo]);
 
   useEffect(() => {
-    dispatch(addPhoto(image));
-  }, [image]);
-
-  useEffect(() => {
-    setImage(image);
     if (image) {
       setNext(true);
     } else {
@@ -51,7 +49,7 @@ export default PersonalImage = () => {
       } else if (response.error) {
         console.log("ImagePicker Error: ", response.error);
       } else {
-        setImage(response?.assets[0]?.base64);
+        dispatch(addPhoto(response?.assets[0]?.base64));
       }
     });
   }, []);
@@ -69,7 +67,7 @@ export default PersonalImage = () => {
             />
           }
         />
-        <ProgressBarTop step={5} />
+        <ProgressBarTop step={4} />
         <ScrollView keyboardShouldPersistTaps="handled">
           <Text style={form.formHeader}>
             Upload your Passport size photo or capture your selfie.

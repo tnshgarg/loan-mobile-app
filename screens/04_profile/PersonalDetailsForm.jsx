@@ -6,8 +6,8 @@ import { SafeAreaView, Text, TextInput, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import ProgressBarTop from "../../components/ProgressBarTop";
 import {
-  addAlternatePhone,
-  addEducationalQualification,
+  addAltMobile,
+  addQualification,
   addEmail,
   addMaritalStatus,
 } from "../../store/slices/profileSlice";
@@ -23,15 +23,9 @@ export default PersonalDetailsForm = () => {
 
   const panSlice = useSelector((state) => state.pan);
   const profileSlice = useSelector((state) => state.profile);
-  const [maritalStatus, setMaritalStatus] = useState(
-    profileSlice?.maritalStatus
-  );
-  const [educationalQualification, setEducationallQualification] = useState(
-    profileSlice?.educationalQualification
-  );
-  const [alternatePhone, setAlternatePhone] = useState(
-    profileSlice?.alternatePhone
-  );
+  const [maritalStatus, setMaritalStatus] = useState(profileSlice?.maritalStatus);
+  const [qualification, setQualification] = useState(profileSlice?.qualification);
+  const [altMobile, setAltMobile] = useState(profileSlice?.altMobile);
   const [email, setEmail] = useState(profileSlice?.email || panSlice?.email);
 
   useEffect(() => {
@@ -43,26 +37,26 @@ export default PersonalDetailsForm = () => {
   }, [maritalStatus]);
 
   useEffect(() => {
-    dispatch(addEducationalQualification(educationalQualification));
-  }, [educationalQualification]);
+    dispatch(addQualification(qualification));
+  }, [qualification]);
 
   useEffect(() => {
-    dispatch(addAlternatePhone(alternatePhone));
-  }, [alternatePhone]);
+    dispatch(addAltMobile(altMobile));
+  }, [altMobile]);
 
   useEffect(() => {
     dispatch(addEmail(email));
   }, [email]);
 
   useEffect(() => {
-    if (maritalStatus && educationalQualification) {
+    if (maritalStatus && qualification) {
       setNext(true);
     } else {
       setNext(false);
     }
-  }, [maritalStatus, educationalQualification]);
+  }, [maritalStatus, qualification]);
 
-  const educationalQualifications = [
+  const qualifications = [
     "10th Pass",
     "12th Pass",
     "Graduate",
@@ -86,7 +80,7 @@ export default PersonalDetailsForm = () => {
           }
         />
 
-        <ProgressBarTop step={4} />
+        <ProgressBarTop step={3} />
         <Text style={form.formHeader}>Employee basic details</Text>
         <KeyboardAvoidingWrapper>
           <View>
@@ -94,14 +88,14 @@ export default PersonalDetailsForm = () => {
               Select Education <Text style={bankform.asterisk}>*</Text>
             </Text>
             <Picker
-              selectedValue={educationalQualification}
+              selectedValue={qualification}
               style={form.picker}
               onValueChange={(itemValue) =>
-                setEducationallQualification(itemValue)
+                setQualification(itemValue)
               }
               prompt="Educational Qualification"
             >
-              {educationalQualifications.map((item, index) => {
+              {qualifications.map((item, index) => {
                 return <Picker.Item label={item} value={item} key={index} />;
               })}
             </Picker>
@@ -132,8 +126,8 @@ export default PersonalDetailsForm = () => {
             </Text>
             <TextInput
               style={form.formTextInput}
-              value={alternatePhone}
-              onChangeText={setAlternatePhone}
+              value={altMobile}
+              onChangeText={setAltMobile}
               autoCompleteType="tel"
               keyboardType="phone-pad"
               textContentType="telephoneNumber"
