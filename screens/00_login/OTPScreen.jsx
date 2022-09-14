@@ -1,4 +1,4 @@
-import { Button, Icon, IconButton } from "@react-native-material/core";
+import { Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import {
@@ -101,6 +101,7 @@ export default OTPScreen = () => {
             letterSpacing={23}
             maxLength={6}
             numeric
+            autoCompleteType="sms-otp"
             value={otp}
             onChangeText={setOtp}
             keyboardType="numeric"
