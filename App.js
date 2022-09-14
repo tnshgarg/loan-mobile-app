@@ -10,11 +10,30 @@ import SplashScreen from "react-native-splash-screen";
 import StackNavigator from "./navigators/StackNavigator";
 import { store, persistor } from "./store/store";
 import codePush from "react-native-code-push";
+import Crashes from "appcenter-crashes";
+import Analytics from "appcenter-analytics";
+
+Crashes.setListener({
+  shouldProcess: function (report) {
+    return true; // return true if the crash report should be processed, otherwise false.
+  },
+});
+Analytics.startSession();
 let codePushOptions = {
   checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
   updateDialog: true,
-  installMode: codePush.InstallMode.IMMEDIATE,
+  installMode: codePush.InstallMode.IMMEDIATE, //InstallMode.ON_NEXT_RESUME to have minimum background duration effect
+  minimumBackgroundDuration: 30 * 60, //30 minutes
 };
+// var updateDialogOptions = {
+//   title: "You have an update",
+//   optionalUpdateMessage: "Update available. Install?",
+//   optionalIgnoreButtonLabel: "Ignore",
+//   optionalInstallButtonLabel: "Instal",
+// };
+
+// codePush.sync({ updateDialog: updateDialogOptions });
+
 const App = () => {
   SplashScreen.hide();
   return (
