@@ -62,7 +62,7 @@ export default Home = () => {
                   label: "Invoice",
                   style: buttons.FAB,
                   labelTextColor: "black",
-                  onPress: () => navigation.navigate("EWALanding"),
+                  onPress: () => console.log("Pressed Invoice"),
                 },
               ]}
               onStateChange={onStateChange}
