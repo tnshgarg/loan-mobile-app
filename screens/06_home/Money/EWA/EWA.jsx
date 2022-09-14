@@ -11,6 +11,8 @@ const EWA = () => {
   const aadhaarVerifyState = useSelector((state) => state.aadhaar.verifyStatus);
   const panVerifyState = useSelector((state) => state.pan.verifyStatus);
   const bankVerifyState = useSelector((state) => state.bank.verifyStatus);
+  const panMisMatch = useSelector((state) => state.pan.misMatch);
+  const bankMisMatch = useSelector((state) => state.bank.misMatch);
   const navigation = useNavigation();
   const data = [
     { subtitle: "Days Present", value: "10" },
@@ -22,7 +24,9 @@ const EWA = () => {
     <SafeAreaView style={styles.container}>
       {aadhaarVerifyState === "SUCCESS" &&
       panVerifyState === "SUCCESS" &&
-      bankVerifyState === "SUCCESS" ? (
+      bankVerifyState === "SUCCESS" &&
+      panMisMatch < 20 &&
+      bankMisMatch < 20 ? (
         <>
           <Text
             style={{

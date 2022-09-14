@@ -6,6 +6,7 @@ const initialState = {
   verifyMsg: "",
   verifyStatus: "PENDING",
   verifyTimestamp: "",
+  misMatch : ""
 };
 
 const panSlice = createSlice({
@@ -30,6 +31,9 @@ const panSlice = createSlice({
     resetPan(state) {
       Object.assign(state, initialState);
     },
+    setMistmatch(state, action) {
+      state.misMatch = action.payload;
+    }
   },
 });
 
@@ -39,6 +43,7 @@ export const {
   addVerifyMsg,
   addVerifyStatus,
   addVerifyTimestamp,
+  setMistmatch,
   resetPan,
 } = panSlice.actions;
 

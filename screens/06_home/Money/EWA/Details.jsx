@@ -11,11 +11,11 @@ import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
 
 const Details = () => {
   const navigation = useNavigation();
-  const name =
-    useSelector((state) => state.aadhaar.data["aadhaar_data"]?.["name"]) ||
-    useSelector((state) => state.pan.data?.["name"]) ||
-    "";
-  const [fullName, setFullName] = useState(name);
+  const [fullName, setFullName] = useState(
+    useSelector((state) => state.aadhaar.data?.name) ||
+      useSelector((state) => state.pan.data?.name) ||
+      ""
+  );
   const [pan, setPan] = useState(
     useSelector((state) => state.pan.number) || ""
   );
@@ -33,7 +33,7 @@ const Details = () => {
           <IconButton
             icon={<Icon name="arrow-left" size={20} color="white" />}
             onPress={() => {
-              navigation.goBack()
+              navigation.goBack();
             }}
           />
         }
