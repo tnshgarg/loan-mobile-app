@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Image, SafeAreaView, ScrollView, Text, View } from "react-native";
 import * as ImagePicker from "react-native-image-picker";
 import { useDispatch, useSelector } from "react-redux";
-
+import PrimaryButton from "../../components/PrimaryButton";
 import ProgressBarTop from "../../components/ProgressBarTop";
 import RNIPPhotoCapture from "../../components/RNIPPhotoCapture";
 import { profileBackendPush } from "../../helpers/BackendPush";
@@ -95,34 +95,24 @@ export default PersonalImage = () => {
             />
             <RNIPPhotoCapture />
           </View>
-          {next ? (
-            <Button
-              title="Finish"
-              type="solid"
-              uppercase={false}
-              style={form.nextButton}
-              color="#4E46F1"
-              onPress={() => {
-                profileBackendPush({
-                  id: id,
-                  maritalStatus: profileSlice?.maritalStatus,
-                  qualification: profileSlice?.qualification,
-                  altMobile: profileSlice?.altMobile,
-                  email: profileSlice?.email,
-                  photo: profileSlice?.photo,
-                });
-                navigation.navigate("Home");
-              }}
-            />
-          ) : (
-            <Button
-              title="Finish"
-              uppercase={false}
-              type="solid"
-              style={form.nextButton}
-              disabled
-            />
-          )}
+          <PrimaryButton
+            title="Finish"
+            type="solid"
+            uppercase={false}
+            color="#4E46F1"
+            disabled={!next}
+            onPress={() => {
+              profileBackendPush({
+                id: id,
+                maritalStatus: profileSlice?.maritalStatus,
+                qualification: profileSlice?.educationalQualification,
+                altMobile: profileSlice?.alternatePhone,
+                email: profileSlice?.email,
+                photo: profileSlice?.photo,
+              });
+              navigation.navigate("Home");
+            }}
+          />
           <View style={checkBox.padding}></View>
         </ScrollView>
       </SafeAreaView>

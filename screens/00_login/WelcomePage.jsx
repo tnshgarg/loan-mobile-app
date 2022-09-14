@@ -1,15 +1,15 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
+import React, { useEffect } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Image, SafeAreaView, Text, View } from "react-native";
 import StepIndicator from "react-native-step-indicator";
+import { useDispatch } from "react-redux";
+import PrimaryButton from "../../components/PrimaryButton";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { aadhaarBackendFetch } from "../../helpers/BackendFetch";
+import { checkBox, styles, welcome } from "../../styles";
 import { checkBox, form, styles, welcome, stepIndicatorStyles } from "../../styles";
-import { getBackendData } from "../../services/employees/employeeServices";
-import { resetAadhaar } from "../../store/slices/aadhaarSlice";
 
 export default WelcomePage = () => {
 
@@ -92,14 +92,13 @@ export default WelcomePage = () => {
             labels={data}
           />
         </View>
-        <Button
-          style={form.nextButton}
+        <PrimaryButton
           title="Welcome!"
           uppercase={false}
           onPress={() => {
             navigation.navigate("AadhaarForm");
           }}
-        ></Button>
+        />
         <View style={checkBox.padding}></View>
       </SafeAreaView>
     </>

@@ -14,9 +14,8 @@ import {
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { bankform, form, styles } from "../../styles";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-
+import PrimaryButton from "../../components/PrimaryButton";
 export default PersonalDetailsForm = () => {
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -100,7 +99,9 @@ export default PersonalDetailsForm = () => {
                 return <Picker.Item label={item} value={item} key={index} />;
               })}
             </Picker>
-            <Text style={form.formLabel}>Marital Status <Text style={bankform.asterisk}>*</Text></Text>
+            <Text style={form.formLabel}>
+              Marital Status <Text style={bankform.asterisk}>*</Text>
+            </Text>
             <View style={styles.flexrow}>
               {maritalStatuses.map((item, index) => {
                 return (
@@ -142,26 +143,17 @@ export default PersonalDetailsForm = () => {
               required
             />
 
-            {next ? (
-              <Button
-                title="Continue"
-                type="solid"
-                uppercase={false}
-                style={form.nextButton}
-                color="#4E46F1"
-                onPress={() => {
-                  navigation.navigate("PersonalImage");
-                }}
-              />
-            ) : (
-              <Button
-                title="Continue"
-                uppercase={false}
-                type="solid"
-                style={form.nextButton}
-                disabled
-              />
-            )}
+            <PrimaryButton
+              title="Continue"
+              type="solid"
+              uppercase={false}
+              color="#4E46F1"
+              disabled={!next}
+              onPress={() => {
+                navigation.navigate("PersonalImage");
+              }}
+            />
+
             <View style={bankform.padding}></View>
           </View>
         </KeyboardAvoidingWrapper>
