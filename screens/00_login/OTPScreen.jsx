@@ -1,4 +1,4 @@
-import { Button, Icon, IconButton } from "@react-native-material/core";
+import { Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import {
@@ -18,13 +18,13 @@ import {
 } from "../../services/otp/Gupshup/services";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
+import PrimaryButton from "../../components/PrimaryButton";
 import { styles } from "../../styles";
 
 export default OTPScreen = () => {
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  
+
   const [otp, setOtp] = useState("");
   const [next, setNext] = useState(false);
   const [back, setBack] = useState(false);
@@ -101,6 +101,7 @@ export default OTPScreen = () => {
             letterSpacing={23}
             maxLength={6}
             numeric
+            autoCompleteType="sms-otp"
             value={otp}
             onChangeText={setOtp}
             keyboardType="numeric"
@@ -152,46 +153,33 @@ export default OTPScreen = () => {
             Sit back & relax while we fetch the OTP & log you inside the Unipe
             App
           </Text>
-          {next ? (
-            <Button
-              uppercase={false}
-              title="Verify"
-              type="solid"
-              color="#4E46F1"
-              style={styles.ContinueButton}
-              onPress={() => {
-                setNext(false);
-                checkVerification(phoneNumber, otp)
-                  .then((res) => {
-                    if (res["response"]["status"] === "success") {
-                      if (onboarded) {
-                        navigation.navigate("BackendSync", {"destination": "Home"});
-                      } else {
-                        navigation.navigate("BackendSync", {"destination": "Welcome"});
-                        dispatch(resetTimer());
-                      }
-                    } else {
-                      Alert.alert(
-                        res["response"]["status"],
-                        res["response"]["details"]
-                      );
-                    }
-                  })
-                  .catch((error) => {
-                    console.log(error);
-                    Alert.alert("Error", error);
-                  });
-              }}
-            />
-          ) : (
-            <Button
-              title="Verify"
-              uppercase={false}
-              type="solid"
-              style={styles.ContinueButton}
-              disabled
-            />
-          )}
+          <PrimaryButton
+            uppercase={false}
+            title="Verify"
+            type="solid"
+            color="#4E46F1"
+            disabled={!next}
+            onPress={() => {
+              setNext(false);
+              checkVerification(phoneNumber, otp)
+                .then((res) => {
+                  if (res["response"]["status"] === "success") {
+                    navigation.navigate("AadhaarForm");
+                    dispatch(addLoginVerifyStatus("SUCCESS"));
+                    dispatch(resetTimer());
+                  } else {
+                    Alert.alert(
+                      res["response"]["status"],
+                      res["response"]["details"]
+                    );
+                  }
+                })
+                .catch((error) => {
+                  console.log(error);
+                  Alert.alert("Error", error);
+                });
+            }}
+          />
         </View>
       </KeyboardAvoidingWrapper>
     </SafeAreaView>

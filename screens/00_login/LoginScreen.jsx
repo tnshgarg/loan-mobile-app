@@ -1,4 +1,3 @@
-import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import {
@@ -14,6 +13,7 @@ import {
 } from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
 import { useDispatch, useSelector } from "react-redux";
+import PrimaryButton from "../../components/PrimaryButton";
 import SplashScreen from "react-native-splash-screen";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { putBackendData } from "../../services/employees/employeeServices";
@@ -161,24 +161,14 @@ export default LoginScreen = () => {
           </Text>
           {!loading ? (
             <>
-              {next ? (
-                <Button
-                  uppercase={false}
-                  title="Continue"
-                  type="solid"
-                  style={styles.ContinueButton}
-                  color="#4E46F1"
-                  onPress={() => signIn()}
-                />
-              ) : (
-                <Button
-                  uppercase={false}
-                  title="Continue"
-                  type="solid"
-                  style={styles.ContinueButton}
-                  disabled
-                />
-              )}
+              <PrimaryButton
+                uppercase={false}
+                title="Continue"
+                type="solid"
+                color="#4E46F1"
+                disabled={!next}
+                onPress={() => signIn()}
+              />
             </>
           ) : (
             <TouchableOpacity>
