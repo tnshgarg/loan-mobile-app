@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  eligibleAmount: "",
+  eligibleAmount: "20000",
   processingFeeRate: "",
   dueDate: "",
 };

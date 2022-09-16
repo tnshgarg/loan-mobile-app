@@ -8,21 +8,45 @@ import { useSelector } from "react-redux";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { bankform, checkBox, styles } from "../../../../styles";
 import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
+import {
+  addName,
+  addPanNumber,
+  addMotherName,
+  addDob,
+  addAddress,
+  addEmployer,
+} from "../../../../store/slices/ewa/ewaDetailsSlice";
 
 const Details = () => {
   const navigation = useNavigation();
   const [fullName, setFullName] = useState(
-    useSelector((state) => state.aadhaar.data?.name) ||
-      useSelector((state) => state.pan.data?.name) ||
-      ""
+    useSelector((state) => state.aadhaar.data?.name)
   );
-  const [pan, setPan] = useState(
-    useSelector((state) => state.pan.number) || ""
+  const [pan, setPan] = useState(useSelector((state) => state.pan.number));
+  const [address, setAddress] = useState(
+    useSelector((state) => state.aadhaar.data?.address)
+  );
+  const [dob, setDob] = useState(
+    useSelector((state) => state.aadhaar.data?.date_of_birth)
   );
   const [motherName, setMotherName] = useState("");
-  const [employerName, setEmployerName] = useState("");
-  const [address, setAddress] = useState("");
+  const [employer, setEmployer] = useState("");
   const [consent, setConsent] = useState(false);
+
+  useEffect(() => {
+    addName(fullName);
+    addPanNumber(pan);
+    addDob(dob);
+    addAddress(address);
+  }, []);
+
+  useEffect(() => {
+    dispatch(addMotherName(motherName));
+  }, [motherName]);
+
+  useEffect(() => {
+    dispatch(addEmployer(employer));
+  }, [employer]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -46,6 +70,7 @@ const Details = () => {
             autoCapitalize="words"
             value={fullName}
             onChangeText={setFullName}
+            editable={false}
             required
           />
 
@@ -55,6 +80,7 @@ const Details = () => {
             autoCapitalize="characters"
             value={pan}
             onChangeText={setPan}
+            editable={false}
             required
           />
 
@@ -64,6 +90,7 @@ const Details = () => {
             autoCapitalize="words"
             value={motherName}
             onChangeText={setMotherName}
+            editable={false}
             required
           />
 
@@ -71,8 +98,9 @@ const Details = () => {
           <TextInput
             style={bankform.formInput}
             autoCapitalize="words"
-            value={employerName}
-            onChangeText={setEmployerName}
+            value={employer}
+            onChangeText={setEmployer}
+            editable={false}
             required
           />
           <Text style={bankform.formtitle}>Address</Text>
@@ -81,6 +109,7 @@ const Details = () => {
             autoCapitalize="words"
             value={address}
             onChangeText={setAddress}
+            editable={false}
             required
           />
 

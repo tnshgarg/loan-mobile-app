@@ -9,16 +9,29 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useSelector } from "react-redux";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { bankform, checkBox, styles, welcome } from "../../../../styles";
-
+import {
+  addAmount,
+  addConsent,
+} from "../../../../store/slices/ewa/ewaLandingSlice";
 const Landing = () => {
   const navigation = useNavigation();
   const name =
     useSelector((state) => state.aadhaar.data["aadhaar_data"]?.["name"]) ||
     useSelector((state) => state.pan?.name) ||
     "User";
-  const [amount, setAmount] = useState("20000");
+  const eligibleAmount = useSelector((state) => state.ewaConfig.eligibleAmount);
+  const [amount, setAmount] = useState(eligibleAmount);
   const [consent, setConsent] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
+
+  useEffect(() => {
+    dispatch(addAmount(amount));
+  }, [amount]);
+
+  useEffect(() => {
+    dispatch(addConsent(consent));
+  }, [consent]);
+
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
       color: "white",
@@ -131,7 +144,7 @@ const Landing = () => {
             marginTop: 10,
           }}
         >
-         You choose between 1000 to ${amount} rupees{" "}
+          You choose between 1000 to {amount} rupees{" "}
         </Text>
         <Text
           style={{

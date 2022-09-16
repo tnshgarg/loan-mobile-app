@@ -13,6 +13,12 @@ import profileSlice from "./slices/profileSlice";
 import licenseSlice from "./slices/licenseSlice";
 import timerSlice from "./slices/timerSlice";
 
+import ewaConfigSlice from "./slices/ewa/ewaConfigSlice";
+import ewaLandingSlice from "./slices/ewa/ewaLandingSlice";
+import ewaDetailsSlice from "./slices/ewa/ewaDetailsSlice";
+import ewaMandateSlice from "./slices/ewa/ewaMandateSlice";
+import ewaAgreementSlice from "./slices/ewa/ewaAgreementSlice";
+
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
@@ -28,6 +34,11 @@ const rootReducer = combineReducers({
   profile: profileSlice,
   license: licenseSlice,
   timer: timerSlice,
+  ewaConfig: ewaConfigSlice,
+  ewaLanding: ewaLandingSlice,
+  ewaDetails: ewaDetailsSlice,
+  ewaMandate: ewaMandateSlice,
+  ewaAgreement: ewaAgreementSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
