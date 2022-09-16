@@ -29,7 +29,7 @@ let codePushOptions = {
 //   title: "You have an update",
 //   optionalUpdateMessage: "Update available. Install?",
 //   optionalIgnoreButtonLabel: "Ignore",
-//   optionalInstallButtonLabel: "Instal",
+//   optionalInstallButtonLabel: "Install",
 // };
 
 // codePush.sync({ updateDialog: updateDialogOptions });
