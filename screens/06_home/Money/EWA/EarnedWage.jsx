@@ -6,14 +6,20 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import CollapsibleCard from "../../../../components/CollapsibleCard";
 import { ewa, styles } from "../../../../styles";
+import { useSelector } from "react-redux";
 
 const EarnedWage = () => {
   const navigation = useNavigation();
+  const DetailsSlice = useSelector((state) => state.ewaDetails);
+  const mandateSlice = useSelector((state) => state.ewaMandate);
+  const bankSlice = useSelector((state) => state.bank?.data);
+  const agreementSlice = useSelector((state) => state.ewaAgreement);
+  const configSlice = useSelector((state) => state.ewaConfig);
   const data = [
-    { subTitle: "Loan Account Number", value: "$1,000" },
-    { subTitle: "Net Disbursement Amount ", value: "$990" },
-    { subTitle: "Disbursement Bank Account No.", value: "98XXXXXXXXXX" },
-    { subTitle: "Due Date", value: "23/10/2023" },
+    { subTitle: "Loan Account Number", value: "id"},
+    { subTitle: "Net Disbursement Amount ", value: agreementSlice.netDisbursementAmount },
+    { subTitle: "Disbursement Bank Account No.", value: mandateSlice.accountNumber },
+    { subTitle: "Due Date", value: agreementSlice?.dueDate },
   ];
   const icon = () => {
     return <Icon name="information-outline" size={24} color="#FF6700" />;

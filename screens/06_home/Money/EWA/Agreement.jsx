@@ -15,7 +15,7 @@ const Agreement = () => {
   const [consent, setConsent] = useState(false);
   const name = useSelector((state) => state.ewaDetails.name);
   const DetailsSlice = useSelector((state) => state.ewaDetails);
-  const MandateSlice = useSelector((state) => state.ewaMandate);
+  const mandateSlice = useSelector((state) => state.ewaMandate);
   const bankSlice = useSelector((state) => state.bank?.data);
   const agreementSlice = useSelector((state) => state.ewaAgreement);
   const configSlice = useSelector((state) => state.ewaConfig);
@@ -27,15 +27,15 @@ const Agreement = () => {
   const bankData = [
     { subTitle: "Bank Name", value: bankSlice?.bankName },
     { subTitle: "Branch", value: bankSlice?.branchName },
-    { subTitle: "Account Number", value: MandateSlice?.accountNumber },
-    { subTitle: "IFSC", value: MandateSlice?.ifsc },
+    { subTitle: "Account Number", value: mandateSlice?.accountNumber },
+    { subTitle: "IFSC", value: mandateSlice?.ifsc },
   ];
 
   const data = [
     { subTitle: "Loan Amount", value: agreementSlice?.amount},
     { subTitle: "Processing Fees", value: agreementSlice?.processingFeeAmount},
     { subTitle: "Net Disbursement Amount ", value: agreementSlice?.netDisbursementAmount},
-    { subTitle: "Due Date", value: configSlice?.dueDate },
+    { subTitle: "Due Date", value: agreementSlice?.dueDate },
   ];
   const infoIcon = () => {
     return <Icon name="information-outline" size={24} color="#FF6700" />;
@@ -70,7 +70,7 @@ const Agreement = () => {
           info="Disbursed amount will be adjusted in your next salary."
         />
         <Text style={{ marginLeft: "6%", fontWeight: "300" }}>
-          Annual Percentage Rate @{configSlice?.processingFeeRate}%
+          Annual Percentage Rate @{configSlice?.processingFeeRate || agreementSlice?.processingFeeRate}%
         </Text>
         <CollapsibleCard
           title="Personal Details"
