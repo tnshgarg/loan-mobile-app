@@ -191,7 +191,7 @@ export const form = StyleSheet.create({
   OtpAwaitMsg: {
     color: "#230C45",
     alignSelf: "center",
-    textAlign:"center",
+    textAlign: "center",
     marginTop: 20,
     fontSize: 16,
     fontFamily: "Roboto",
@@ -474,8 +474,8 @@ export const welcome = StyleSheet.create({
   },
   subTitle: {
     marginTop: 20,
-    marginLeft: 30,
-    marginRight: 30,
+    alignSelf: "center",
+    justifyContent: "center",
     color: "black",
     fontSize: 18,
     fontFamily: "Roboto",
@@ -576,13 +576,13 @@ export const card = StyleSheet.create({
   infoText: {
     fontSize: 16,
   },
-  alertText:{
+  alertText: {
     color: "black",
     fontSize: 14,
     fontWeight: "bold",
     textDecorationLine: "underline",
     paddingLeft: 10,
-    paddingTop:10,
+    paddingTop: 10,
   },
 });
 
@@ -609,3 +609,29 @@ export const dev = StyleSheet.create({
     width: "60%",
   },
 });
+
+export const stepIndicatorStyles = {
+  stepIndicatorSize: 30,
+  currentStepIndicatorSize: 30,
+  separatorStrokeWidth: 2,
+  currentStepStrokeWidth: 3,
+  stepStrokeCurrentColor: "#4E46F1",
+  stepStrokeWidth: 3,
+  separatorStrokeFinishedWidth: 4,
+  stepStrokeFinishedColor: "#4E46F1",
+  stepStrokeUnFinishedColor: "#aaaaaa",
+  separatorFinishedColor: "#4E46F1",
+  separatorUnFinishedColor: "#aaaaaa",
+  stepIndicatorFinishedColor: "#E5EAF7",
+  stepIndicatorUnFinishedColor: "#ffffff",
+  stepIndicatorCurrentColor: "#ffffff",
+  stepIndicatorLabelFontSize: 14,
+  currentStepIndicatorLabelFontSize: 14,
+  stepIndicatorLabelCurrentColor: "#4E46F1",
+  stepIndicatorLabelFinishedColor: "#4E46F1",
+  stepIndicatorLabelUnFinishedColor: "#aaaaaa",
+  labelColor: "#999999",
+  labelSize: 14,
+  currentStepLabelColor: "#4E46F1",
+  labelAlign: "flex-start",
+};

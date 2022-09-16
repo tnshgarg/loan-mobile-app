@@ -50,8 +50,12 @@ const bankSlice = createSlice({
     addVerifyTimestamp(state, action) {
       state.verifyTimestamp = action.payload;
     },
-    resetBank(state) {
-      Object.assign(state, initialState);
+    resetBank(state, action) {
+      if (!action.payload) {
+        Object.assign(state, initialState);
+      } else {
+        Object.assign(state, action.payload);
+      }
     },
     setMistmatch(state, action) {
       state.misMatch = action.payload;

@@ -13,10 +13,12 @@ import { resetProfile } from "../store/slices/profileSlice";
 import { resetTimer } from "../store/slices/timerSlice";
 
 export default Logout = () => {
+
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+
   const store = useSelector((state) => state);
   // console.log(store);
-  const navigation = useNavigation();
   return (
     <Pressable
       onPress={() => {

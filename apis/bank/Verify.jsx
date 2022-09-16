@@ -76,9 +76,9 @@ const BankVerifyApi = (props) => {
         verifyMsg: verifyMsg,
         verifyTimestamp: verifyTimestamp,
       });
+      setBackendPush(false);
+      setLoading(false);
     }
-    setBackendPush(false);
-    setLoading(false);
   }, [backendPush]);
 
   const goForFetch = () => {

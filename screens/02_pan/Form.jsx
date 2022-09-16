@@ -51,7 +51,7 @@ export default PanForm = () => {
           }
         />
 
-        <ProgressBarTop step={2} />
+        <ProgressBarTop step={1} />
         <PanFormTemplate />
       </SafeAreaView>
     </>

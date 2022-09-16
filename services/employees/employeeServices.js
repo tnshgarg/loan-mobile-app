@@ -16,3 +16,10 @@ export const putBackendData = (props) => {
 
   return axios(config);
 };
+
+export const getBackendData = async (props) => {
+  var params = props.params;
+  var url = `${EMPLOYEE_API_URL}/${props.xpath}`;
+  const res = await axios.get(url, { params: params });
+  return res;
+};

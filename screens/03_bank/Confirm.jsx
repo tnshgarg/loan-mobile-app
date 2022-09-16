@@ -45,7 +45,7 @@ const BankConfirm = () => {
           />
         }
       />
-      <ProgressBarTop step={3} />
+      <ProgressBarTop step={2} />
       <ScrollView keyboardShouldPersistTaps="handled">
         <BankConfirmApi />
       </ScrollView>

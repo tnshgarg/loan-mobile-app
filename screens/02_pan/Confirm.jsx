@@ -46,7 +46,7 @@ export default PanConfirm = () => {
         }
       />
 
-      <ProgressBarTop step={2} />
+      <ProgressBarTop step={1} />
 
       <ScrollView keyboardShouldPersistTaps="handled">
         <PanConfirmApi />

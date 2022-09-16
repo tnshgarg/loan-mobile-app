@@ -44,8 +44,8 @@ const BankConfirmApi = (props) => {
         verifyStatus: verifyStatus,
         verifyTimestamp: verifyTimestamp,
       });
+      setBackendPush(false);
     }
-    setBackendPush(false);
   }, [backendPush]);
 
   return (
