@@ -3,14 +3,22 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, Text, TextInput, View, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import CollapsibleCard from "../../../../components/CollapsibleCard";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
 import { bankform, form, styles } from "../../../../styles";
+import {
+  addAccountHolderName,
+  addAccountNumber,
+  addIfsc,
+  addType,
+  addData,
+} from "../../../../store/slices/ewa/ewaMandateSlice";
 
 const Mandate = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [name, setName] = useState(
     useSelector((state) => state.bank.data.accountHolderName)
   );
@@ -23,6 +31,13 @@ const Mandate = () => {
   const [upi, setUpi] = useState(useSelector((state) => state.bank.data.upi));
   const [ifscNext, setIfscNext] = useState(false);
   const [accNumNext, setAccNumNext] = useState(false);
+
+  useEffect(() => {
+    dispatch(addAccountHolderName(name));
+    dispatch(addAccountNumber(number));
+    dispatch(addIfsc(ifsc));
+    dispatch(addType(upi));
+  }, []);
 
   useEffect(() => {
     var accountNumberReg = /^[0-9]{9,18}$/gm;

@@ -1,10 +1,10 @@
 import CheckBox from "@react-native-community/checkbox";
 import { AppBar, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SafeAreaView, Text, TextInput, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { bankform, checkBox, styles } from "../../../../styles";
 import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
@@ -19,6 +19,7 @@ import {
 
 const Details = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [fullName, setFullName] = useState(
     useSelector((state) => state.aadhaar.data?.name)
   );
@@ -29,15 +30,19 @@ const Details = () => {
   const [dob, setDob] = useState(
     useSelector((state) => state.aadhaar.data?.date_of_birth)
   );
-  const [motherName, setMotherName] = useState("");
-  const [employer, setEmployer] = useState("");
+  const [motherName, setMotherName] = useState(
+    useSelector((state) => state.ewaDetails.motherName)
+  );
+  const [employer, setEmployer] = useState(
+    useSelector((state) => state.ewaDetails.employer)
+  );
   const [consent, setConsent] = useState(false);
 
   useEffect(() => {
-    addName(fullName);
-    addPanNumber(pan);
-    addDob(dob);
-    addAddress(address);
+    dispatch(addName(fullName));
+    dispatch(addPanNumber(pan));
+    dispatch(addDob(dob));
+    dispatch(addAddress(address));
   }, []);
 
   useEffect(() => {
@@ -71,7 +76,6 @@ const Details = () => {
             value={fullName}
             onChangeText={setFullName}
             editable={false}
-            required
           />
 
           <Text style={bankform.formtitle}>PAN</Text>
@@ -81,7 +85,6 @@ const Details = () => {
             value={pan}
             onChangeText={setPan}
             editable={false}
-            required
           />
 
           <Text style={bankform.formtitle}>Mother's Name</Text>
@@ -91,7 +94,15 @@ const Details = () => {
             value={motherName}
             onChangeText={setMotherName}
             editable={false}
-            required
+          />
+
+          <Text style={bankform.formtitle}>Date of Birth</Text>
+          <TextInput
+            style={bankform.formInput}
+            autoCapitalize="words"
+            value={dob}
+            onChangeText={setDob}
+            editable={false}
           />
 
           <Text style={bankform.formtitle}>Employer Name</Text>
@@ -101,7 +112,6 @@ const Details = () => {
             value={employer}
             onChangeText={setEmployer}
             editable={false}
-            required
           />
           <Text style={bankform.formtitle}>Address</Text>
           <TextInput
@@ -109,8 +119,8 @@ const Details = () => {
             autoCapitalize="words"
             value={address}
             onChangeText={setAddress}
+            multiline={true}
             editable={false}
-            required
           />
 
           <View style={{ flexDirection: "row" }}>

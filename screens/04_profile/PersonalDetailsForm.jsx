@@ -23,8 +23,12 @@ export default PersonalDetailsForm = () => {
 
   const panSlice = useSelector((state) => state.pan);
   const profileSlice = useSelector((state) => state.profile);
-  const [maritalStatus, setMaritalStatus] = useState(profileSlice?.maritalStatus);
-  const [qualification, setQualification] = useState(profileSlice?.qualification);
+  const [maritalStatus, setMaritalStatus] = useState(
+    profileSlice?.maritalStatus
+  );
+  const [qualification, setQualification] = useState(
+    profileSlice?.qualification
+  );
   const [altMobile, setAltMobile] = useState(profileSlice?.altMobile);
   const [email, setEmail] = useState(profileSlice?.email || panSlice?.email);
 
@@ -90,9 +94,7 @@ export default PersonalDetailsForm = () => {
             <Picker
               selectedValue={qualification}
               style={form.picker}
-              onValueChange={(itemValue) =>
-                setQualification(itemValue)
-              }
+              onValueChange={(itemValue) => setQualification(itemValue)}
               prompt="Educational Qualification"
             >
               {qualifications.map((item, index) => {
@@ -131,7 +133,6 @@ export default PersonalDetailsForm = () => {
               autoCompleteType="tel"
               keyboardType="phone-pad"
               textContentType="telephoneNumber"
-              required
               placeholder="XXXXXXXXXX"
             />
             <Text style={form.formLabel}>Enter your Email ID</Text>
@@ -142,7 +143,6 @@ export default PersonalDetailsForm = () => {
               autoCompleteType="email"
               keyboardType="email-address"
               placeholder="Enter Email"
-              required
             />
 
             <PrimaryButton

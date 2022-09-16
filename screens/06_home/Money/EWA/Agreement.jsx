@@ -7,35 +7,35 @@ import CollapsibleCard from "../../../../components/CollapsibleCard";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import CheckBox from "@react-native-community/checkbox";
 import { styles, checkBox, ewa } from "../../../../styles";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const Agreement = () => {
   const navigation = useNavigation();
   const [confirm, setConfirm] = useState(false);
   const [consent, setConsent] = useState(false);
-  const name = useSelector(
-    (state) => state.aadhaar.data?.name || state.pan.data?.name || "User"
-  );
-  const panSlice = useSelector((state) => state.pan);
-  const bankSliceData = useSelector((state) => state.bank.data);
-
+  const name = useSelector((state) => state.ewaDetails.name);
+  const DetailsSlice = useSelector((state) => state.ewaDetails);
+  const MandateSlice = useSelector((state) => state.ewaMandate);
+  const bankSlice = useSelector((state) => state.bank?.data);
+  const agreementSlice = useSelector((state) => state.ewaAgreement);
+  const configSlice = useSelector((state) => state.ewaConfig);
   const profileData = [
     { subTitle: "Name", value: name },
-    { subTitle: "PAN", value: panSlice?.number },
-    { subTitle: "DOB", value: panSlice?.data["date_of_birth"] },
+    { subTitle: "PAN", value: DetailsSlice?.panNumber},
+    { subTitle: "DOB", value: DetailsSlice?.dob},
   ];
   const bankData = [
-    { subTitle: "Bank Name", value: bankSliceData?.bankName },
-    { subTitle: "Branch", value: bankSliceData?.branchName },
-    { subTitle: "Account Number", value: bankSliceData?.accountNumber },
-    { subTitle: "IFSC", value: bankSliceData?.ifsc },
+    { subTitle: "Bank Name", value: bankSlice?.bankName },
+    { subTitle: "Branch", value: bankSlice?.branchName },
+    { subTitle: "Account Number", value: MandateSlice?.accountNumber },
+    { subTitle: "IFSC", value: MandateSlice?.ifsc },
   ];
 
   const data = [
-    { subTitle: "Loan Amount", value: "$1,000" },
-    { subTitle: "Processing Fees", value: "$10" },
-    { subTitle: "Net Disbursement Amount ", value: "$990" },
-    { subTitle: "Due Date", value: "23/10/2023" },
+    { subTitle: "Loan Amount", value: agreementSlice?.amount},
+    { subTitle: "Processing Fees", value: agreementSlice?.processingFeeAmount},
+    { subTitle: "Net Disbursement Amount ", value: agreementSlice?.netDisbursementAmount},
+    { subTitle: "Due Date", value: configSlice?.dueDate },
   ];
   const infoIcon = () => {
     return <Icon name="information-outline" size={24} color="#FF6700" />;
@@ -70,7 +70,7 @@ const Agreement = () => {
           info="Disbursed amount will be adjusted in your next salary."
         />
         <Text style={{ marginLeft: "6%", fontWeight: "300" }}>
-          Annual Percentage Rate @xx%
+          Annual Percentage Rate @{configSlice?.processingFeeRate}%
         </Text>
         <CollapsibleCard
           title="Personal Details"

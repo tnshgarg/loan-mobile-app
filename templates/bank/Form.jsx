@@ -14,20 +14,23 @@ import {
 } from "../../store/slices/bankSlice";
 import { bankform, checkBox, form } from "../../styles";
 
-
 const BankFormTemplate = (props) => {
   const dispatch = useDispatch();
 
   const [accNumNext, setAccNumNext] = useState(false);
   const [ifscNext, setIfscNext] = useState(false);
   const [consent, setConsent] = useState(false);
-  
+
   const bankSlice = useSelector((state) => state.bank);
   const [ifsc, setIfsc] = useState(bankSlice?.data?.ifsc);
-  const [accountNumber, setAccountNumber] = useState(bankSlice?.data?.accountNumber);
-  const [accountHolderName, setAccountHolderName] = useState(bankSlice?.data?.accountHolderName);
+  const [accountNumber, setAccountNumber] = useState(
+    bankSlice?.data?.accountNumber
+  );
+  const [accountHolderName, setAccountHolderName] = useState(
+    bankSlice?.data?.accountHolderName
+  );
   const [upi, setUpi] = useState(bankSlice?.data?.upi);
-  
+
   useEffect(() => {
     dispatch(addAccountHolderName(accountHolderName));
   }, [accountHolderName]);
@@ -96,7 +99,6 @@ const BankFormTemplate = (props) => {
             value={accountHolderName}
             onChangeText={setAccountHolderName}
             autoCapitalize="characters"
-            required
           />
 
           <Text style={bankform.formtitle}>
@@ -116,7 +118,6 @@ const BankFormTemplate = (props) => {
             value={accountNumber}
             onChangeText={setAccountNumber}
             autoCapitalize="characters"
-            required
           />
           {accountNumber && !accNumNext ? (
             <Text style={bankform.formatmsg}>Incorrect Format</Text>
@@ -139,7 +140,6 @@ const BankFormTemplate = (props) => {
             value={ifsc}
             onChangeText={setIfsc}
             autoCapitalize="characters"
-            required
           />
           {ifsc && !ifscNext ? (
             <Text style={bankform.formatmsg}>Incorrect Format</Text>
@@ -160,7 +160,6 @@ const BankFormTemplate = (props) => {
             style={bankform.formInput}
             value={upi}
             onChangeText={setUpi}
-            required
           />
           <View style={{ flexDirection: "row" }}>
             <CheckBox
@@ -181,9 +180,8 @@ const BankFormTemplate = (props) => {
             disabled={!ifscNext || !accNumNext || !consent}
             type={props?.route?.params?.type || ""}
           />
-          
-          <View style={bankform.padding}></View>
 
+          <View style={bankform.padding}></View>
         </View>
       </KeyboardAvoidingWrapper>
     </>

@@ -101,7 +101,6 @@ export default OTPScreen = () => {
             letterSpacing={23}
             maxLength={6}
             numeric
-            autoCompleteType="sms-otp"
             value={otp}
             onChangeText={setOtp}
             keyboardType="numeric"
@@ -164,8 +163,11 @@ export default OTPScreen = () => {
               checkVerification(phoneNumber, otp)
                 .then((res) => {
                   if (res["response"]["status"] === "success") {
-                    navigation.navigate("AadhaarForm");
-                    dispatch(addLoginVerifyStatus("SUCCESS"));
+                    if (onboarded) {
+                      navigation.navigate("BackendSync", {"destination": "Home"});
+                    } else {
+                      navigation.navigate("BackendSync", {"destination": "Welcome"});
+                    }
                     dispatch(resetTimer());
                   } else {
                     Alert.alert(

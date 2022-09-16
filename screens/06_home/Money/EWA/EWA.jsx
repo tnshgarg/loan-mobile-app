@@ -19,7 +19,6 @@ const EWA = () => {
     { subtitle: "Expected Salary", value: "0" },
     { subtitle: "Expected Advanced Salary", value: "0" },
   ];
-
   return (
     <SafeAreaView style={styles.container}>
       {aadhaarVerifyState === "SUCCESS" &&

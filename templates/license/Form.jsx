@@ -39,7 +39,7 @@ const LicenseFormTemplate = () => {
           value={number}
           onChangeText={setNumber}
           placeholder="Enter License Number"
-          required
+          
         />
         {number && !validNumber ? (
           <Text style={bankform.formatmsg}>Invalid License Number.</Text>

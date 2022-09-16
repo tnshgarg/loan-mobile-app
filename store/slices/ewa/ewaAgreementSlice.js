@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  amount: "",
-  processingFeeRate: "",
-  processingFeeAmount: "",
-  netDisbursementAmount: "",
-  dueDate: "",
+  amount: "1000",
+  processingFeeRate: "1",
+  processingFeeAmount: "10",
+  netDisbursementAmount: "1010",
+  dueDate: "23/12/12",
 };
 
 const ewaAgreementSlice = createSlice({

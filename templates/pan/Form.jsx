@@ -12,7 +12,7 @@ import { addNumber } from "../../store/slices/panSlice";
 
 const PanFormTemplate = (props) => {
   const dispatch = useDispatch();
-  
+
   const [consent, setConsent] = useState(false);
   const [validNumber, setValidNumber] = useState(true);
 
@@ -42,7 +42,6 @@ const PanFormTemplate = (props) => {
             onChangeText={setNumber}
             // placeholder="AAAAA1234A"
             maxLength={10}
-            required
           />
           {number && !validNumber ? (
             <Text style={bankform.formatmsg}>Invalid PAN Number.</Text>
@@ -87,7 +86,6 @@ const PanFormTemplate = (props) => {
             disabled={!validNumber || !consent}
             type={props?.route?.params?.type || ""}
           />
-
         </View>
       </KeyboardAvoidingWrapper>
     </>

@@ -1,15 +1,12 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Image, SafeAreaView, Text, View } from "react-native";
 import StepIndicator from "react-native-step-indicator";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/PrimaryButton";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { checkBox, styles, welcome } from "../../styles";
-import { checkBox, form, styles, welcome, stepIndicatorStyles } from "../../styles";
+import { checkBox, stepIndicatorStyles, styles, welcome } from "../../styles";
 
 export default WelcomePage = () => {
 
