@@ -22,11 +22,11 @@ import { STAGE } from "@env";
 import KYCScreen from "../screens/07_drawer/KYCScreen";
 import Profile from "../screens/07_drawer/Profile";
 import BankConfirm from "../screens/03_bank/Confirm";
-import Landing from "../screens/06_home/Money/EWA/Landing";
-import Details from "../screens/06_home/Money/EWA/Details";
-import Mandate from "../screens/06_home/Money/EWA/Mandate";
-import Agreement from "../screens/06_home/Money/EWA/Agreement";
-import EarnedWage from "../screens/06_home/Money/EWA/EarnedWage";
+import Landing from "../screens/06_home/Money/EWA/01_Landing";
+import Details from "../screens/06_home/Money/EWA/02_Details";
+import Mandate from "../screens/06_home/Money/EWA/03_Mandate";
+import Agreement from "../screens/06_home/Money/EWA/04_Agreement";
+import EarnedWage from "../screens/06_home/Money/EWA/05_EarnedWage";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
