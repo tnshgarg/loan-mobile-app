@@ -20,18 +20,9 @@ Crashes.setListener({
 });
 Analytics.startSession();
 let codePushOptions = {
-  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+  checkFrequency: codePush.CheckFrequency.ON_APP_START,
   installMode: codePush.InstallMode.IMMEDIATE, //InstallMode.ON_NEXT_RESUME to have minimum background duration effect
-  minimumBackgroundDuration: 30 * 60, //30 minutes
 };
-// var updateDialogOptions = {
-//   title: "You have an update",
-//   optionalUpdateMessage: "Update available. Install?",
-//   optionalIgnoreButtonLabel: "Ignore",
-//   optionalInstallButtonLabel: "Install",
-// };
-
-// codePush.sync({ updateDialog: updateDialogOptions });
 
 const App = () => {
   SplashScreen.hide();
