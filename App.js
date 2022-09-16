@@ -21,7 +21,6 @@ Crashes.setListener({
 Analytics.startSession();
 let codePushOptions = {
   checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
-  updateDialog: true,
   installMode: codePush.InstallMode.IMMEDIATE, //InstallMode.ON_NEXT_RESUME to have minimum background duration effect
   minimumBackgroundDuration: 30 * 60, //30 minutes
 };
