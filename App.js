@@ -9,8 +9,22 @@ import SplashScreen from "react-native-splash-screen";
 
 import StackNavigator from "./navigators/StackNavigator";
 import { store, persistor } from "./store/store";
+import codePush from "react-native-code-push";
+import Crashes from "appcenter-crashes";
+import Analytics from "appcenter-analytics";
 
-export default function App() {
+Crashes.setListener({
+  shouldProcess: function (report) {
+    return true; // return true if the crash report should be processed, otherwise false.
+  },
+});
+Analytics.startSession();
+let codePushOptions = {
+  checkFrequency: codePush.CheckFrequency.ON_APP_START,
+  mandatoryInstallMode: codePush.InstallMode.IMMEDIATE, //InstallMode.ON_NEXT_RESUME to have minimum background duration effect
+};
+
+const App = () => {
   SplashScreen.hide();
   return (
     <Provider store={store}>
@@ -25,4 +39,6 @@ export default function App() {
       </PersistGate>
     </Provider>
   );
-}
+};
+
+export default codePush(codePushOptions)(App);
