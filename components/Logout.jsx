@@ -31,7 +31,7 @@ export default Logout = () => {
         dispatch(resetBank());
         dispatch(resetTimer());
         
-        navigation.navigate("Welcome");
+        navigation.navigate("Login");
       }}
       style={{
         flexDirection: "row",
