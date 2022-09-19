@@ -21,7 +21,7 @@ export const bankBackendPush = (payload) => {
 };
 
 export const licenseBackendPush = (payload) => {
-  putBackendData({ document: payload, xpath: "license" })
+  putBackendData({ document: payload, xpath: "driving-license" })
     .then((response) => {
       console.log("licenseBackendPush response: ", response);
     })
