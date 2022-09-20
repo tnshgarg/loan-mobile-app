@@ -17,7 +17,7 @@ const EarnedWage = () => {
   const configSlice = useSelector((state) => state.ewaConfig);
   const data = [
     { subTitle: "Loan Account Number", value: "id"},
-    { subTitle: "Net Disbursement Amount ", value: agreementSlice.netDisbursementAmount },
+    { subTitle: "Net Disbursement Amount ", value: "₹" + agreementSlice.netDisbursementAmount },
     { subTitle: "Disbursement Bank Account No.", value: mandateSlice.accountNumber },
     { subTitle: "Due Date", value: agreementSlice?.dueDate },
   ];

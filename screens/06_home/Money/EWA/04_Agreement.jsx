@@ -32,9 +32,9 @@ const Agreement = () => {
   ];
 
   const data = [
-    { subTitle: "Loan Amount", value: agreementSlice?.amount},
-    { subTitle: "Processing Fees", value: agreementSlice?.processingFeeAmount},
-    { subTitle: "Net Disbursement Amount ", value: agreementSlice?.netDisbursementAmount},
+    { subTitle: "Loan Amount", value: "₹" + agreementSlice?.amount},
+    { subTitle: "Processing Fees", value: "₹" + agreementSlice?.processingFeeAmount},
+    { subTitle: "Net Disbursement Amount ", value: "₹" + agreementSlice?.netDisbursementAmount},
     { subTitle: "Due Date", value: agreementSlice?.dueDate },
   ];
   const infoIcon = () => {
