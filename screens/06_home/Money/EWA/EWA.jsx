@@ -1,11 +1,12 @@
 import React from "react";
-import { SafeAreaView, Text } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import { useSelector } from "react-redux";
-import { styles } from "../../../../styles";
+import { checkBox, styles } from "../../../../styles";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import HomeMain from "../../HomeMain";
 import { useNavigation } from "@react-navigation/core";
 import DataCard from "../../../../components/DataCard";
+import { ScrollView } from "react-native-gesture-handler";
 
 const EWA = () => {
   const aadhaarVerifyState = useSelector((state) => state.aadhaar.verifyStatus);
@@ -15,9 +16,41 @@ const EWA = () => {
   const bankMisMatch = useSelector((state) => state.bank.misMatch);
   const navigation = useNavigation();
   const data = [
-    { subtitle: "Days Present", value: "10" },
-    { subtitle: "Expected Salary", value: "0" },
-    { subtitle: "Expected Advanced Salary", value: "0" },
+    {
+      day: "15",
+      month: "Oct",
+      amount: "3000",
+      dueDate: "1st Nov, 2022",
+      paid: false,
+    },
+    {
+      day: "15",
+      month: "Aug",
+      amount: "1000",
+      dueDate: "1st Sep, 2022",
+      paid: false,
+    },
+    {
+      day: "15",
+      month: "Apr",
+      amount: "2000",
+      dueDate: "1st May, 2022",
+      paid: true,
+    },
+    {
+      day: "15",
+      month: "Feb",
+      amount: "10000",
+      dueDate: "1st Mar, 2022",
+      paid: true,
+    },
+    {
+      day: "15",
+      month: "Jan",
+      amount: "5000",
+      dueDate: "1st Feb, 2022",
+      paid: true,
+    },
   ];
   return (
     <SafeAreaView style={styles.container}>
@@ -26,26 +59,50 @@ const EWA = () => {
       bankVerifyState === "SUCCESS" &&
       panMisMatch < 20 &&
       bankMisMatch < 20 ? (
-        <>
-          <Text
+        <ScrollView>
+          <View
             style={{
-              color: "green",
-              fontWeight: "bold",
               alignSelf: "center",
-              marginTop: 20,
             }}
           >
-            You are eligible for Advanced Salary.
-          </Text>
-          <DataCard title="Overview of Current Month" data={data} />
+            <Text
+              style={{
+                marginTop: "8%",
+                color: "#597E8D",
+                letterSpacing: 0.6,
+              }}
+            >
+              Hi {useSelector((state) => state.aadhaar.data.name)}, here is you
+              advanced Salary Access
+            </Text>
+            <Text style={{ fontSize: 20 ,marginBottom:"8%",color:"#3C3F54",letterSpacing:0.8}}>get money instantly</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 36 }}>₹20,000</Text>
+            <Text style={{ fontSize: 16, color: "#597E8D" }}>
+              days worked 15 days
+            </Text>
+            <Text style={{ fontSize: 16, color: "#597E8D" }}>
+              available of total balance ₹20000
+            </Text>
+          </View>
           <PrimaryButton
-            title="Apply"
+            title="Get money now"
             uppercase={false}
             onPress={() => {
               navigation.navigate("EWALanding");
             }}
           />
-        </>
+          <View
+            style={{
+              alignSelf: "center",
+            }}
+          >
+            <Text style={{ fontSize: 16, color: "#597E8D", marginTop: "10%" }}>
+              Your past draws
+            </Text>
+            <DataCard data={data} />
+          </View>
+          <View style={checkBox.padding}></View>
+        </ScrollView>
       ) : (
         <>
           <Text

@@ -11,7 +11,7 @@ import HomeMain from "./HomeMain";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { buttons } from "../../styles";
-import Money from "./Money/Money";
+import EWA from "./Money/EWA/EWA";
 
 export default Home = () => {
   const navigation = useNavigation();
@@ -24,7 +24,7 @@ export default Home = () => {
     { name: "Home", component: HomeMain },
     { name: "Documents", component: Documents },
     { name: "Benefits", component: Benefits },
-    { name: "Money", component: Money },
+    { name: "Money", component: EWA },
   ];
 
   const dispatch = useDispatch();
