@@ -15,7 +15,6 @@ import timerSlice from "./slices/timerSlice";
 
 import ewaConfigSlice from "./slices/ewa/ewaConfigSlice";
 import ewaLandingSlice from "./slices/ewa/ewaLandingSlice";
-import ewaDetailsSlice from "./slices/ewa/ewaDetailsSlice";
 import ewaMandateSlice from "./slices/ewa/ewaMandateSlice";
 import ewaAgreementSlice from "./slices/ewa/ewaAgreementSlice";
 
@@ -36,7 +35,6 @@ const rootReducer = combineReducers({
   timer: timerSlice,
   ewaConfig: ewaConfigSlice,
   ewaLanding: ewaLandingSlice,
-  ewaDetails: ewaDetailsSlice,
   ewaMandate: ewaMandateSlice,
   ewaAgreement: ewaAgreementSlice,
 });

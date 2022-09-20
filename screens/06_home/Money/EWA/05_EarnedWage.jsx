@@ -10,7 +10,6 @@ import { useSelector } from "react-redux";
 
 const EarnedWage = () => {
   const navigation = useNavigation();
-  const DetailsSlice = useSelector((state) => state.ewaDetails);
   const mandateSlice = useSelector((state) => state.ewaMandate);
   const bankSlice = useSelector((state) => state.bank?.data);
   const agreementSlice = useSelector((state) => state.ewaAgreement);
