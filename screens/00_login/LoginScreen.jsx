@@ -20,6 +20,7 @@ import { putBackendData } from "../../services/employees/employeeServices";
 import { sendSmsVerification } from "../../services/otp/Gupshup/services";
 import { addId, addOnboarded, addPhoneNumber } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { resetTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
 
 export default LoginScreen = () => {
@@ -80,6 +81,7 @@ export default LoginScreen = () => {
 
   const signIn = () => {
     setLoading(true);
+    dispatch(resetTimer());
     var fullPhoneNumber = `+91${phoneNumber}`;
     putBackendData({ document: {number: fullPhoneNumber}, xpath: "mobile" })
       .then((res) => {

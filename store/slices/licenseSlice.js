@@ -27,8 +27,12 @@ const licenseSlice = createSlice({
     addVerifyTimestamp(state, action) {
       state.verifyTimestamp = action.payload;
     },
-    resetLicense(state) {
-      Object.assign(state, initialState);
+    resetLicense(state, action) {
+      if (!action.payload) {
+        Object.assign(state, initialState);
+      } else {
+        Object.assign(state, action.payload);
+      }
     },
   },
 });
