@@ -537,7 +537,7 @@ export const license = StyleSheet.create({
 });
 
 export const ewa = StyleSheet.create({
-  padding:{
+  padding: {
     marginTop: 10,
   },
   loanCard: {
@@ -552,7 +552,7 @@ export const ewa = StyleSheet.create({
     alignSelf: "center",
     height: "43%",
     width: "100%",
-    marginTop:"-8%"
+    marginTop: "-8%",
   },
   checkBox: {
     marginLeft: 34,
@@ -587,19 +587,20 @@ export const card = StyleSheet.create({
 });
 
 export const datacard = StyleSheet.create({
-  card:{
-    marginHorizontal: "2%",
-    marginTop:10,
-    padding: 10,
+  card: {
+    marginTop: 10,
+    padding: "3%",
+    width: "85%",
     borderRadius: 4,
-    flexDirection: "column",
-    backgroundColor: "rgba(78, 70, 241, 0.2)",
+    flexDirection: "row",
+    backgroundColor: "rgba(228, 238, 240, 0.4)",
+    justifyContent: "space-between",
   },
-  cardTitle:{
+  cardTitle: {
     fontSize: 16,
     fontWeight: "bold",
+    color: "#270949",
   },
-
 });
 
 export const dev = StyleSheet.create({
