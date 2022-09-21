@@ -1,6 +1,6 @@
 import { AppBar, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SafeAreaView, View, Text, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import CollapsibleCard from "../../../../components/CollapsibleCard";
@@ -8,9 +8,13 @@ import PrimaryButton from "../../../../components/PrimaryButton";
 import CheckBox from "@react-native-community/checkbox";
 import { styles, checkBox, ewa } from "../../../../styles";
 import { useSelector, useDispatch } from "react-redux";
+import { DeviceId, DeviceIp } from "../../../../helpers/DeviceDetails";
+import { ewaAgreementPush } from "../../../../helpers/BackendPush";
+import { addStatus } from "../../../../store/slices/ewa/ewaAgreementSlice";
 
 const Agreement = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [confirm, setConfirm] = useState(false);
   const [consent, setConsent] = useState(false);
   const aadhaarSlice = useSelector((state) => state.aadhaar.data);
@@ -21,8 +25,8 @@ const Agreement = () => {
   const configSlice = useSelector((state) => state.ewaConfig);
   const profileData = [
     { subTitle: "Name", value: aadhaarSlice?.name },
-    { subTitle: "PAN", value: panSlice?.number},
-    { subTitle: "DOB", value: aadhaarSlice?.date_of_birth},
+    { subTitle: "PAN", value: panSlice?.number },
+    { subTitle: "DOB", value: aadhaarSlice?.date_of_birth },
   ];
   const bankData = [
     { subTitle: "Bank Name", value: bankSlice?.bankName },
@@ -32,11 +36,49 @@ const Agreement = () => {
   ];
 
   const data = [
-    { subTitle: "Loan Amount", value: "₹" + agreementSlice?.amount},
-    { subTitle: "Processing Fees", value: "₹" + agreementSlice?.processingFeeAmount},
-    { subTitle: "Net Disbursement Amount ", value: "₹" + agreementSlice?.netDisbursementAmount},
+    { subTitle: "Loan Amount", value: "₹" + agreementSlice?.amount },
+    {
+      subTitle: "Processing Fees",
+      value: "₹" + agreementSlice?.processingFeeAmount,
+    },
+    {
+      subTitle: "Net Disbursement Amount ",
+      value: "₹" + agreementSlice?.netDisbursementAmount,
+    },
     { subTitle: "Due Date", value: agreementSlice?.dueDate },
   ];
+
+  const [status, setStatus] = useState(agreementSlice?.status);
+  const employeeId = useSelector((state) => state.auth.id);
+  useEffect(() => {
+    status === "PENDING"
+      ? ewaAgreementPush({
+          offerId: employeeId, //change to offerID
+          unipeEmployeeId: employeeId,
+          status: "INPROGRESS",
+          timestamp: Date.now(),
+          ipAddress: DeviceIp(),
+          deviceId: DeviceId(),
+        })
+      : null;
+  }, []);
+
+  function handleAgreement() {
+    dispatch(addStatus("CONFIRMED"));
+    ewaAgreementPush({
+      offerId: employeeId, //change to offerID
+      unipeEmployeeId: employeeId,
+      status: "CONFIRMED",
+      timestamp: Date.now(),
+      ipAddress: DeviceIp(),
+      deviceId: DeviceId(),
+      bankAccountNumber: mandateSlice?.accountNumber,
+      dueDate: agreementSlice?.dueDate,
+      fees: agreementSlice?.processingFeeAmount,
+      loanAmount: agreementSlice?.amount,
+    });
+  }
+
   const infoIcon = () => {
     return <Icon name="information-outline" size={24} color="#FF6700" />;
   };
@@ -70,7 +112,8 @@ const Agreement = () => {
           info="Disbursed amount will be adjusted in your next salary."
         />
         <Text style={{ marginLeft: "6%", fontWeight: "300" }}>
-          Annual Percentage Rate @{configSlice?.processingFeeRate || agreementSlice?.processingFeeRate}%
+          Annual Percentage Rate @
+          {configSlice?.processingFeeRate || agreementSlice?.processingFeeRate}%
         </Text>
         <CollapsibleCard
           title="Personal Details"
@@ -108,6 +151,7 @@ const Agreement = () => {
           title="My Details are Correct"
           uppercase={false}
           onPress={() => {
+            handleAgreement();
             navigation.navigate("EWAEarnedWage");
           }}
           disabled={!confirm || !consent}

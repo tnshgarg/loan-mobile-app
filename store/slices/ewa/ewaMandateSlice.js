@@ -6,6 +6,7 @@ const initialState = {
   ifsc: "", // BANK
   type: "", // MANDATE Type
   data: {}, // Ex: upi vpa
+  status : "PENDING",
 };
 
 const ewaMandateSlice = createSlice({
@@ -27,6 +28,9 @@ const ewaMandateSlice = createSlice({
     addData(state, action) {
       state.data = action.payload;
     },
+    addStatus(state, action) {
+      state.status = action.payload;
+    },
   },
 });
 
@@ -36,5 +40,6 @@ export const {
   addIfsc,
   addType,
   addData,
+  addStatus
 } = ewaMandateSlice.actions;
 export default ewaMandateSlice.reducer;

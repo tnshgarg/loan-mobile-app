@@ -11,11 +11,16 @@ import PrimaryButton from "../../../../components/PrimaryButton";
 import {
   addAmount,
   addConsent,
+  addStatus
 } from "../../../../store/slices/ewa/ewaLandingSlice";
+import { DeviceId, DeviceIp } from "../../../../helpers/DeviceDetails";
+import { ewaLandingPush } from "../../../../helpers/BackendPush";
 import { bankform, checkBox, styles, welcome } from "../../../../styles";
+
 const Landing = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const employeeId = useSelector((state) => state.auth.id);
   const name =
     useSelector((state) => state.aadhaar.data["aadhaar_data"]?.["name"]) ||
     useSelector((state) => state.pan?.name) ||
@@ -24,6 +29,33 @@ const Landing = () => {
   const [amount, setAmount] = useState(eligibleAmount);
   const [consent, setConsent] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
+  const [status,setStatus] = useState(useSelector((state) => state.ewaLanding.status));
+
+  useEffect(() => {
+    status ==="PENDING"
+      ? ewaLandingPush({
+          offerId: employeeId, //change to offerID
+          unipeEmployeeId: employeeId,
+          status: "INPROGRESS",
+          timestamp: Date.now(),
+          ipAddress: DeviceIp(),
+          deviceId: DeviceId(),
+        })
+      : null;
+  }, []);
+
+  function handleAmount() {
+    dispatch(addStatus("CONFIRMED"));
+    ewaLandingPush({
+      offerId: employeeId, //change to offerID
+      unipeEmployeeId: employeeId,
+      status: "CONFIRMED",
+      timestamp: Date.now(),
+      ipAddress: DeviceIp(),
+      deviceId: DeviceId(),
+      requestedAmount: amount,
+    });
+  }
 
   useEffect(() => {
     dispatch(addAmount(amount));
@@ -196,6 +228,7 @@ const Landing = () => {
         uppercase={false}
         disabled={!consent}
         onPress={() => {
+          handleAmount();
           navigation.navigate("EWAMandate");
         }}
       />

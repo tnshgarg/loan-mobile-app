@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   amount: 0,
   consent: false,
+  status: "PENDING",
 };
 
 const ewaLandingSlice = createSlice({
@@ -15,8 +16,11 @@ const ewaLandingSlice = createSlice({
     addConsent(state, action) {
       state.consent = action.payload;
     },
+    addStatus(state, action) {
+      state.status = action.payload;
+    },
   },
 });
 
-export const { addAmount, addConsent } = ewaLandingSlice.actions;
+export const { addAmount, addConsent, addStatus } = ewaLandingSlice.actions;
 export default ewaLandingSlice.reducer;

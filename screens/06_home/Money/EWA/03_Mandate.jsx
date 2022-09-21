@@ -14,11 +14,15 @@ import {
   addIfsc,
   addType,
   addData,
+  addStatus,
 } from "../../../../store/slices/ewa/ewaMandateSlice";
+import { ewaMandatePush } from "../../../../helpers/BackendPush";
+import { DeviceId, DeviceIp } from "../../../../helpers/DeviceDetails";
 
 const Mandate = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const employeeId = useSelector((state) => state.auth.id);
   const [name, setName] = useState(
     useSelector((state) => state.bank.data.accountHolderName)
   );
@@ -29,8 +33,42 @@ const Mandate = () => {
     useSelector((state) => state.bank.data.ifsc)
   );
   const [upi, setUpi] = useState(useSelector((state) => state.bank.data.upi));
+  const MandateSlice = useSelector((state) => state.ewaMandate);
   const [ifscNext, setIfscNext] = useState(false);
   const [accNumNext, setAccNumNext] = useState(false);
+  const [status, setStatus] = useState(
+    useSelector((state) => state.ewaMandate.status)
+  );
+  useEffect(() => {
+    status === "PENDING"
+      ? ewaMandatePush({
+          offerId: employeeId, //change to offerID
+          unipeEmployeeId: employeeId,
+          status: "INPROGRESS",
+          timestamp: Date.now(),
+          ipAddress: DeviceIp(),
+          deviceId: DeviceId(),
+        })
+      : null;
+  }, []);
+
+  function handleMandate() {
+    dispatch(addStatus("CONFIRMED"));
+    ewaMandatePush({
+      offerId: employeeId, //change to offerID
+      unipeEmployeeId: employeeId,
+      status: "CONFIRMED",
+      timestamp: Date.now(),
+      ipAddress: DeviceIp(),
+      deviceId: DeviceId(),
+      type:  MandateSlice?.type,//change based on user action
+      bankDetails:{
+        accountHolderName: name,
+        accountNumber: number,
+        ifsc: ifsc,
+      }
+    });
+  }
 
   useEffect(() => {
     dispatch(addAccountHolderName(name));
@@ -156,6 +194,7 @@ const Mandate = () => {
             title="My Details are Correct"
             uppercase={false}
             onPress={() => {
+              handleMandate();
               navigation.navigate("EWAAgreement");
             }}
           />

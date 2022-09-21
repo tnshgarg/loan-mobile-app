@@ -6,6 +6,7 @@ const initialState = {
   processingFeeAmount: "10",
   netDisbursementAmount: "1010",
   dueDate: "23/12/12",
+  status: "PENDING",
 };
 
 const ewaAgreementSlice = createSlice({
@@ -27,6 +28,9 @@ const ewaAgreementSlice = createSlice({
     addDueDate(state, action) {
       state.dueDate = action.payload;
     },
+    addStatus(state, action) {
+      state.status = action.payload;
+    },
   },
 });
 
@@ -36,5 +40,6 @@ export const {
   addProcessingFeeAmount,
   addNetDisbursementAmount,
   addDueDate,
+  addStatus,
 } = ewaAgreementSlice.actions;
 export default ewaAgreementSlice.reducer;
