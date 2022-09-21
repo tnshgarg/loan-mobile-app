@@ -8,11 +8,20 @@ import PrimaryButton from "../../../../components/PrimaryButton";
 import CheckBox from "@react-native-community/checkbox";
 import { styles, checkBox, ewa } from "../../../../styles";
 import { useSelector, useDispatch } from "react-redux";
-import { DeviceId, DeviceIp } from "../../../../helpers/DeviceDetails";
+import { getUniqueId } from "react-native-device-info";
+import { NetworkInfo } from "react-native-network-info";
 import { ewaAgreementPush } from "../../../../helpers/BackendPush";
 import { addStatus } from "../../../../store/slices/ewa/ewaAgreementSlice";
 
 const Agreement = () => {
+  let DeviceId = 0;
+  getUniqueId().then((id) => {
+    DeviceId= id;
+  });
+  let DeviceIp =0;
+  NetworkInfo.getIPV4Address().then((ipv4Address) => {
+    DeviceIp = ipv4Address;
+  });
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [confirm, setConfirm] = useState(false);
@@ -57,8 +66,8 @@ const Agreement = () => {
           unipeEmployeeId: employeeId,
           status: "INPROGRESS",
           timestamp: Date.now(),
-          ipAddress: DeviceIp(),
-          deviceId: DeviceId(),
+          ipAddress: DeviceIp,
+          deviceId: DeviceId,
         })
       : null;
   }, []);
@@ -70,8 +79,8 @@ const Agreement = () => {
       unipeEmployeeId: employeeId,
       status: "CONFIRMED",
       timestamp: Date.now(),
-      ipAddress: DeviceIp(),
-      deviceId: DeviceId(),
+      ipAddress: DeviceIp,
+      deviceId: DeviceId,
       bankAccountNumber: mandateSlice?.accountNumber,
       dueDate: agreementSlice?.dueDate,
       fees: agreementSlice?.processingFeeAmount,

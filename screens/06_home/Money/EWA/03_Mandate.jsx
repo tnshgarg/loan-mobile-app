@@ -17,9 +17,18 @@ import {
   addStatus,
 } from "../../../../store/slices/ewa/ewaMandateSlice";
 import { ewaMandatePush } from "../../../../helpers/BackendPush";
-import { DeviceId, DeviceIp } from "../../../../helpers/DeviceDetails";
+import { getUniqueId } from "react-native-device-info";
+import { NetworkInfo } from "react-native-network-info";
 
 const Mandate = () => {
+  let DeviceId = 0;
+  getUniqueId().then((id) => {
+    DeviceId= id;
+  });
+  let DeviceIp =0;
+  NetworkInfo.getIPV4Address().then((ipv4Address) => {
+    DeviceIp = ipv4Address;
+  });
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const employeeId = useSelector((state) => state.auth.id);
@@ -46,8 +55,8 @@ const Mandate = () => {
           unipeEmployeeId: employeeId,
           status: "INPROGRESS",
           timestamp: Date.now(),
-          ipAddress: DeviceIp(),
-          deviceId: DeviceId(),
+          ipAddress: DeviceIp,
+          deviceId: DeviceId,
         })
       : null;
   }, []);
@@ -59,8 +68,8 @@ const Mandate = () => {
       unipeEmployeeId: employeeId,
       status: "CONFIRMED",
       timestamp: Date.now(),
-      ipAddress: DeviceIp(),
-      deviceId: DeviceId(),
+      ipAddress: DeviceIp,
+      deviceId: DeviceId,
       type:  MandateSlice?.type,//change based on user action
       bankDetails:{
         accountHolderName: name,

@@ -11,7 +11,7 @@ const DeviceId = () => {
 
 const DeviceIp = () => {
   let deviceIp = 0;
-  NetworkInfo.getIPAddress().then((ip) => {
+  NetworkInfo.getIPV4Address().then((ip) => {
     deviceIp = ip;
   });
   return deviceIp;

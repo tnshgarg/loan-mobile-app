@@ -13,11 +13,20 @@ import {
   addConsent,
   addStatus
 } from "../../../../store/slices/ewa/ewaLandingSlice";
-import { DeviceId, DeviceIp } from "../../../../helpers/DeviceDetails";
 import { ewaLandingPush } from "../../../../helpers/BackendPush";
 import { bankform, checkBox, styles, welcome } from "../../../../styles";
+import { getUniqueId } from "react-native-device-info";
+import { NetworkInfo } from "react-native-network-info";
 
 const Landing = () => {
+  let DeviceId = 0;
+  getUniqueId().then((id) => {
+    DeviceId= id;
+  });
+  let DeviceIp =0;
+  NetworkInfo.getIPV4Address().then((ipv4Address) => {
+    DeviceIp = ipv4Address;
+  });
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const employeeId = useSelector((state) => state.auth.id);
@@ -38,8 +47,8 @@ const Landing = () => {
           unipeEmployeeId: employeeId,
           status: "INPROGRESS",
           timestamp: Date.now(),
-          ipAddress: DeviceIp(),
-          deviceId: DeviceId(),
+          ipAddress: DeviceIp,
+          deviceId: DeviceId,
         })
       : null;
   }, []);
@@ -51,8 +60,8 @@ const Landing = () => {
       unipeEmployeeId: employeeId,
       status: "CONFIRMED",
       timestamp: Date.now(),
-      ipAddress: DeviceIp(),
-      deviceId: DeviceId(),
+      ipAddress: DeviceIp,
+      deviceId: DeviceId,
       requestedAmount: amount,
     });
   }
