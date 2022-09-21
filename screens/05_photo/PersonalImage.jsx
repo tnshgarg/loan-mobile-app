@@ -105,9 +105,10 @@ export default PersonalImage = () => {
               profileBackendPush({
                 id: id,
                 maritalStatus: profileSlice?.maritalStatus,
-                qualification: profileSlice?.educationalQualification,
-                altMobile: profileSlice?.alternatePhone,
+                qualification: profileSlice?.qualification,
+                altMobile: profileSlice?.altMobile,
                 email: profileSlice?.email,
+                motherName: profileSlice?.motherName,
                 photo: profileSlice?.photo,
               });
               navigation.navigate("Home");
