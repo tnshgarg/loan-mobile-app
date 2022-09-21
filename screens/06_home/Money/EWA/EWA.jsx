@@ -1,12 +1,13 @@
 import React from "react";
-import { SafeAreaView, Text, View } from "react-native";
+import { SafeAreaView, Text, View, ScrollView } from "react-native";
 import { useSelector } from "react-redux";
 import { checkBox, styles } from "../../../../styles";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import HomeMain from "../../HomeMain";
 import { useNavigation } from "@react-navigation/core";
 import DataCard from "../../../../components/DataCard";
-import { ScrollView } from "react-native-gesture-handler";
+import { getUniqueId } from "react-native-device-info";
+import { NetworkInfo } from "react-native-network-info";
 
 const EWA = () => {
   const aadhaarVerifyState = useSelector((state) => state.aadhaar.verifyStatus);
@@ -15,6 +16,12 @@ const EWA = () => {
   const panMisMatch = useSelector((state) => state.pan.misMatch);
   const bankMisMatch = useSelector((state) => state.bank.misMatch);
   const navigation = useNavigation();
+  getUniqueId().then((id) => {
+    console.log("Device Unique ID",id);
+  });
+  NetworkInfo.getIPV4Address().then((ipv4Address) => {
+    console.log("Device IP",ipv4Address);
+  });
   const data = [
     {
       day: "15",
