@@ -96,10 +96,9 @@ const EWA = () => {
               alignSelf: "center",
             }}
           >
-            <Text style={{ fontSize: 16, color: "#597E8D", marginTop: "10%" }}>
+            {/* <Text style={{ fontSize: 16, color: "#597E8D", marginTop: "10%" }}>
               Your past draws
-            </Text>
-            <DataCard data={data} />
+            </Text> */}
           </View>
           <View style={checkBox.padding}></View>
         </ScrollView>
