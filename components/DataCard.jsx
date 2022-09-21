@@ -6,8 +6,8 @@ import { datacard } from "../styles";
 const DataCard = (props) => {
   return (
     <>
-      {props.data.map((txn) => (
-        <View style={datacard.card}>
+      {props.data.map((txn,index) => (
+        <View style={datacard.card} key={index}>
           <View
             style={{
               backgroundColor: "#DDE5E5",
