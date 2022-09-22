@@ -96,7 +96,7 @@ const EWA = () => {
             title="Get money now"
             uppercase={false}
             onPress={() => {
-              navigation.navigate("EWALanding");
+              navigation.navigate("EWAOffer");
             }}
           />
           <View

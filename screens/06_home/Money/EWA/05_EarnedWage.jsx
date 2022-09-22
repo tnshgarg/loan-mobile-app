@@ -10,15 +10,13 @@ import { useSelector } from "react-redux";
 
 const EarnedWage = () => {
   const navigation = useNavigation();
-  const mandateSlice = useSelector((state) => state.ewaMandate);
   const bankSlice = useSelector((state) => state.bank?.data);
-  const agreementSlice = useSelector((state) => state.ewaAgreement);
-  const configSlice = useSelector((state) => state.ewaConfig);
+  const ewaSlice = useSelector((state) => state.ewa);
   const data = [
     { subTitle: "Loan Account Number", value: "id"},
-    { subTitle: "Net Disbursement Amount ", value: "₹" + agreementSlice.netDisbursementAmount },
-    { subTitle: "Disbursement Bank Account No.", value: mandateSlice.accountNumber },
-    { subTitle: "Due Date", value: agreementSlice?.dueDate },
+    { subTitle: "Net Disbursement Amount ", value: "₹" + (ewaSlice.loanAmount - ewaSlice.loanAmount * (ewaSlice.fees / 100))},
+    { subTitle: "Disbursement Bank Account No.", value: bankSlice.accountNumber },
+    { subTitle: "Due Date", value: ewaSlice?.dueDate },
   ];
   const icon = () => {
     return <Icon name="information-outline" size={24} color="#FF6700" />;

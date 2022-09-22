@@ -22,10 +22,11 @@ import { STAGE } from "@env";
 import KYCScreen from "../screens/07_drawer/KYCScreen";
 import Profile from "../screens/07_drawer/Profile";
 import BankConfirm from "../screens/03_bank/Confirm";
-import Landing from "../screens/06_home/Money/EWA/01_Landing";
-import Mandate from "../screens/06_home/Money/EWA/03_Mandate";
+import Offer from "../screens/06_home/Money/EWA/01_Offer";
+import Mandate from "../screens/03_bank/Mandate";
 import Agreement from "../screens/06_home/Money/EWA/04_Agreement";
 import EarnedWage from "../screens/06_home/Money/EWA/05_EarnedWage";
+import KYC from "../screens/06_home/Money/EWA/02_Kyc";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -147,7 +148,13 @@ const StackNavigator = () => {
           header: null,
         }}
       />
-
+      <Stack.Screen
+        name="Mandate"
+        component={Mandate}
+        options={{
+          headerShown: false,
+        }}
+      />
       <Stack.Screen
         name="Home"
         component={DrawerNavigator}
@@ -182,15 +189,15 @@ const StackNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="EWALanding"
-        component={Landing}
+        name="EWAOffer"
+        component={Offer}
         options={{
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name="EWAMandate"
-        component={Mandate}
+        name="EWAKYC"
+        component={KYC}
         options={{
           headerShown: false,
         }}

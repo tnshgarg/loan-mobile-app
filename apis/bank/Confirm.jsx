@@ -104,7 +104,7 @@ const BankConfirmApi = (props) => {
                 ? navigation.navigate("KYC", {
                     screen: "BANK",
                   })
-                : navigation.navigate("PersonalDetailsForm");
+                : navigation.navigate("Mandate");
             }
           }}
         />

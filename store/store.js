@@ -13,10 +13,7 @@ import profileSlice from "./slices/profileSlice";
 import licenseSlice from "./slices/licenseSlice";
 import timerSlice from "./slices/timerSlice";
 
-import ewaConfigSlice from "./slices/ewa/ewaConfigSlice";
-import ewaLandingSlice from "./slices/ewa/ewaLandingSlice";
-import ewaMandateSlice from "./slices/ewa/ewaMandateSlice";
-import ewaAgreementSlice from "./slices/ewa/ewaAgreementSlice";
+import ewaSlice from "./slices/ewaSlice";
 
 const persistConfig = {
   key: "root",
@@ -33,10 +30,7 @@ const rootReducer = combineReducers({
   profile: profileSlice,
   license: licenseSlice,
   timer: timerSlice,
-  ewaConfig: ewaConfigSlice,
-  ewaLanding: ewaLandingSlice,
-  ewaMandate: ewaMandateSlice,
-  ewaAgreement: ewaAgreementSlice,
+  ewa: ewaSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -1,22 +1,18 @@
-import { AppBar, IconButton } from "@react-native-material/core";
+import { AppBar, IconButton,Icon} from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, Text, TextInput, View, ScrollView } from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon1 from "react-native-vector-icons/MaterialCommunityIcons";
 import { useSelector, useDispatch } from "react-redux";
-import CollapsibleCard from "../../../../components/CollapsibleCard";
-import PrimaryButton from "../../../../components/PrimaryButton";
-import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
-import { bankform, form, styles } from "../../../../styles";
+import CollapsibleCard from "../../components/CollapsibleCard";
+import PrimaryButton from "../../components/PrimaryButton";
+import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
+import { bankform, form, styles } from "../../styles";
 import {
-  addAccountHolderName,
-  addAccountNumber,
-  addIfsc,
-  addType,
-  addData,
   addStatus,
-} from "../../../../store/slices/ewa/ewaMandateSlice";
-import { ewaMandatePush } from "../../../../helpers/BackendPush";
+} from "../../store/slices/ewaSlice";
+import ProgressBarTop from "../../components/ProgressBarTop";
+import { ewaMandatePush } from "../../helpers/BackendPush";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 
@@ -42,11 +38,10 @@ const Mandate = () => {
     useSelector((state) => state.bank.data.ifsc)
   );
   const [upi, setUpi] = useState(useSelector((state) => state.bank.data.upi));
-  const MandateSlice = useSelector((state) => state.ewaMandate);
   const [ifscNext, setIfscNext] = useState(false);
   const [accNumNext, setAccNumNext] = useState(false);
   const [status, setStatus] = useState(
-    useSelector((state) => state.ewaMandate.status)
+    useSelector((state) => state.ewa.status.mandate)
   );
   useEffect(() => {
     status === "PENDING"
@@ -62,7 +57,7 @@ const Mandate = () => {
   }, []);
 
   function handleMandate() {
-    dispatch(addStatus("CONFIRMED"));
+    dispatch(addStatus({ type: "mandate", data: "CONFIRMED" }));
     ewaMandatePush({
       offerId: employeeId, //change to offerID
       unipeEmployeeId: employeeId,
@@ -70,7 +65,7 @@ const Mandate = () => {
       timestamp: Date.now(),
       ipAddress: DeviceIp,
       deviceId: DeviceId,
-      type:  MandateSlice?.type,//change based on user action
+      type:  "NEFT",//change based on user action
       bankDetails:{
         accountHolderName: name,
         accountNumber: number,
@@ -78,13 +73,6 @@ const Mandate = () => {
       }
     });
   }
-
-  useEffect(() => {
-    dispatch(addAccountHolderName(name));
-    dispatch(addAccountNumber(number));
-    dispatch(addIfsc(ifsc));
-    dispatch(addType(upi));
-  }, []);
 
   useEffect(() => {
     var accountNumberReg = /^[0-9]{9,18}$/gm;
@@ -105,15 +93,15 @@ const Mandate = () => {
   }, [ifsc]);
 
   const netIcon = () => {
-    return <Icon name="passport" size={24} color="#FF6700" />;
+    return <Icon1 name="passport" size={24} color="#FF6700" />;
   };
 
   const upiIcon = () => {
-    return <Icon name="wallet" size={24} color="#FF6700" />;
+    return <Icon1 name="wallet" size={24} color="#FF6700" />;
   };
 
   const debitIcon = () => {
-    return <Icon name="smart-card" size={24} color="#FF6700" />;
+    return <Icon1 name="smart-card" size={24} color="#FF6700" />;
   };
 
   const button = () => {
@@ -133,18 +121,17 @@ const Mandate = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <AppBar
-        title="Mandate"
+        <AppBar
+        title="Bank Details Confirmation"
         color="#4E46F1"
         leading={
           <IconButton
-            icon={<Icon name="arrow-left" size={20} color="white" />}
-            onPress={() => {
-              navigation.goBack();
-            }}
+            icon={<Icon name="arrow-back" size={20} color="white" />}
+            onPress={() => backAlert()}
           />
         }
       />
+      <ProgressBarTop step={3} />
       <KeyboardAvoidingWrapper>
         <ScrollView>
           <Text style={bankform.formtitle}>Account Holder Name</Text>
@@ -204,7 +191,7 @@ const Mandate = () => {
             uppercase={false}
             onPress={() => {
               handleMandate();
-              navigation.navigate("EWAAgreement");
+              navigation.navigate("PersonalDetailsForm");
             }}
           />
           <View style={bankform.padding}></View>
