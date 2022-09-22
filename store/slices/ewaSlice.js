@@ -4,8 +4,8 @@ const initialState = {
   offerId: "",
   stage: "",
   eligibleDays: "",
-  eligibleAmount: 20000,
-  fees: 5,
+  eligibleAmount: "20000",
+  fees: "5",
   dueDate: "23/10/22",
   loanAmount: "",
   status: {
