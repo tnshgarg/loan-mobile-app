@@ -40,6 +40,9 @@ const Offer = () => {
   const [status, setStatus] = useState(
     useSelector((state) => state.ewa.status.offer)
   );
+  const [kycStatus, setKycStatus] = useState(
+    useSelector((state) => state.ewa.status.kyc)
+  );
 
   useEffect(() => {
     status === "PENDING"
@@ -235,7 +238,9 @@ const Offer = () => {
         disabled={!consent}
         onPress={() => {
           handleAmount();
-          navigation.navigate("EWAKYC");
+          kycStatus === "PENDING"
+            ? navigation.navigate("EWAKYC")
+            : navigation.navigate("EWAAgreement");
         }}
       />
       <View style={bankform.padding}></View>
