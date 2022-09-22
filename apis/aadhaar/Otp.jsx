@@ -139,6 +139,7 @@ const AadhaarOtpApi = (props) => {
     <ApiView
       disabled={props.disabled}
       loading={loading}
+      title={props.title}
       goForFetch={goForFetch}
       style={props.style}
     />

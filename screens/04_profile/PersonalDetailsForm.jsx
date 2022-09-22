@@ -21,12 +21,12 @@ export default PersonalDetailsForm = () => {
 
   const [next, setNext] = useState(false);
 
-  const panSlice = useSelector((state) => state.pan);
+  const panSlice = useSelector((state) => state.pan.data);
   const profileSlice = useSelector((state) => state.profile);
   const [maritalStatus, setMaritalStatus] = useState(profileSlice?.maritalStatus);
   const [qualification, setQualification] = useState(profileSlice?.qualification);
   const [altMobile, setAltMobile] = useState(profileSlice?.altMobile);
-  const [email, setEmail] = useState(profileSlice?.email || panSlice?.email);
+  const [email, setEmail] = useState(panSlice?.email || profileSlice?.email);
 
   useEffect(() => {
     dispatch(addCurrentScreen("PersonalDetailsForm"));
