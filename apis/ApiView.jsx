@@ -2,10 +2,10 @@ import React from "react";
 import { Button } from "@react-native-material/core";
 
 export default ApiView = (props) => {
-  const { disabled, goForFetch, loading, style ,title} = props;
+  const { disabled, goForFetch, loading, style, title, func } = props;
   return (
     <Button
-      title={loading ? "Verifying" : title || "Continue" }
+      title={loading ? "Verifying" : title || "Continue"}
       uppercase={false}
       type="solid"
       color="#4E46F1"
@@ -13,6 +13,7 @@ export default ApiView = (props) => {
       disabled={loading || disabled}
       onPress={() => {
         goForFetch();
+        func();
       }}
     />
   );

@@ -142,6 +142,7 @@ const AadhaarOtpApi = (props) => {
       title={props.title}
       goForFetch={goForFetch}
       style={props.style}
+      func={props.func}
     />
   );
 };

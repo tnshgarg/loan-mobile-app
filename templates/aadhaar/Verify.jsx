@@ -41,6 +41,7 @@ const AadhaarVerifyTemplate = (props) => {
         <CountDown
           until={countDownTime}
           size={20}
+          on
           onFinish={() => {
             setResend(true);
             props.function ||
@@ -58,13 +59,18 @@ const AadhaarVerifyTemplate = (props) => {
           }}
         />
         {resend ? (
-          <AadhaarOtpApi
-            data={{ aadhaar_number: number, consent: "Y" }}
-            style={form.nextButton}
-            disabled={!resend}
-            title="Resend"
-            type={props?.route?.params?.type || ""}
-          />
+          <>
+            <AadhaarOtpApi
+              data={{ aadhaar_number: number, consent: "Y" }}
+              style={form.nextButton}
+              disabled={!resend}
+              title="Resend"
+              type={props?.route?.params?.type || ""}
+              func={() => {
+                setResend(false);
+              }}
+            />
+          </>
         ) : null}
         <AadhaarVerifyApi
           data={{ otp: otp, include_xml: true, share_code: 5934 }}
