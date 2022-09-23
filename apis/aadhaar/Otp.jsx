@@ -134,7 +134,6 @@ const AadhaarOtpApi = (props) => {
         Alert.alert("Error", error);
       });
   };
-
   return (
     <ApiView
       disabled={props.disabled}
@@ -142,7 +141,6 @@ const AadhaarOtpApi = (props) => {
       title={props.title}
       goForFetch={goForFetch}
       style={props.style}
-      func={props.func}
     />
   );
 };

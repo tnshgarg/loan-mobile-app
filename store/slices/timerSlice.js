@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   login: 1 * 30,
-  aadhaar: 1 * 30,
+  aadhaar: 1 * 3,
 };
 
 const timerSlice = createSlice({
