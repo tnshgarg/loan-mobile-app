@@ -5,20 +5,61 @@ import { datacard } from "../styles";
 
 const DataCard = (props) => {
   return (
-    <View style={datacard.card}>
-      <Text style={datacard.cardTitle}>{props.title}</Text>
-      {props.data.map((item, index) => {
-        return (
+    <>
+      {props.data.map((txn,index) => (
+        <View style={datacard.card} key={index}>
           <View
-            style={{ flexDirection: "row", width: "100%", marginTop: 10 }}
-            key={index}
+            style={{
+              backgroundColor: "#DDE5E5",
+              paddingHorizontal: "3%",
+              borderRadius: 8,
+              justifyContent: "flex-start",
+              alignSelf: "center",
+            }}
           >
-            <Text>{item.subtitle}</Text>
-            <Text style={{ marginLeft: "auto" }}>{item.value}</Text>
+            <Text style={{ color: "#597E8D", alignSelf: "center" }}>
+              {txn.day}
+            </Text>
+            <Text style={{ color: "#597E8D", alignSelf: "center" }}>
+              {txn.month}
+            </Text>
           </View>
-        );
-      })}
-    </View>
+          <View style={{ flexDirection: "column" }}>
+            <Text style={datacard.cardTitle}>₹{txn.amount}</Text>
+            <Text style={{ color: "#597E8D" }}>Due date {txn.dueDate}</Text>
+          </View>
+          {txn.paid ? (
+            <View
+              style={{
+                borderRadius: 3,
+                borderColor: "green",
+                borderWidth: 1,
+                paddingHorizontal: "4%",
+                justifyContent: "flex-end",
+                alignSelf: "center",
+                backgroundColor: "rgba(183, 65, 44, 0.08)",
+              }}
+            >
+              <Text style={{ color: "green" }}>Paid</Text>
+            </View>
+          ) : (
+            <View
+              style={{
+                borderRadius: 3,
+                borderColor: "orange",
+                borderWidth: 1,
+                paddingHorizontal: "4%",
+                justifyContent: "flex-end",
+                alignSelf: "center",
+                backgroundColor: "rgba(183, 65, 44, 0.08)",
+              }}
+            >
+              <Text style={{ color: "orange" }}>Due</Text>
+            </View>
+          )}
+        </View>
+      ))}
+    </>
   );
 };
 

@@ -196,7 +196,7 @@ const Landing = () => {
         uppercase={false}
         disabled={!consent}
         onPress={() => {
-          navigation.navigate("EWADetails");
+          navigation.navigate("EWAMandate");
         }}
       />
       <View style={bankform.padding}></View>

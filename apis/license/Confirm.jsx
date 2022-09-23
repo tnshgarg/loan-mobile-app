@@ -3,9 +3,12 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Image, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  addVerifyMsg,
+  addVerifyStatus,
+} from "../../store/slices/licenseSlice";
 import { licenseBackendPush } from "../../helpers/BackendPush";
-import { addVerifyMsg, addVerifyStatus } from "../../store/slices/licenseSlice";
-import { form, license, selfie, styles } from "../../styles";
+import { form, license, styles, selfie } from "../../styles";
 
 export default Confirm = () => {
   const dispatch = useDispatch();

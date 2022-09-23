@@ -13,16 +13,16 @@ const Agreement = () => {
   const navigation = useNavigation();
   const [confirm, setConfirm] = useState(false);
   const [consent, setConsent] = useState(false);
-  const name = useSelector((state) => state.ewaDetails.name);
-  const DetailsSlice = useSelector((state) => state.ewaDetails);
+  const aadhaarSlice = useSelector((state) => state.aadhaar.data);
+  const panSlice = useSelector((state) => state.pan);
   const mandateSlice = useSelector((state) => state.ewaMandate);
   const bankSlice = useSelector((state) => state.bank?.data);
   const agreementSlice = useSelector((state) => state.ewaAgreement);
   const configSlice = useSelector((state) => state.ewaConfig);
   const profileData = [
-    { subTitle: "Name", value: name },
-    { subTitle: "PAN", value: DetailsSlice?.panNumber},
-    { subTitle: "DOB", value: DetailsSlice?.dob},
+    { subTitle: "Name", value: aadhaarSlice?.name },
+    { subTitle: "PAN", value: panSlice?.number},
+    { subTitle: "DOB", value: aadhaarSlice?.date_of_birth},
   ];
   const bankData = [
     { subTitle: "Bank Name", value: bankSlice?.bankName },
@@ -32,9 +32,9 @@ const Agreement = () => {
   ];
 
   const data = [
-    { subTitle: "Loan Amount", value: agreementSlice?.amount},
-    { subTitle: "Processing Fees", value: agreementSlice?.processingFeeAmount},
-    { subTitle: "Net Disbursement Amount ", value: agreementSlice?.netDisbursementAmount},
+    { subTitle: "Loan Amount", value: "₹" + agreementSlice?.amount},
+    { subTitle: "Processing Fees", value: "₹" + agreementSlice?.processingFeeAmount},
+    { subTitle: "Net Disbursement Amount ", value: "₹" + agreementSlice?.netDisbursementAmount},
     { subTitle: "Due Date", value: agreementSlice?.dueDate },
   ];
   const infoIcon = () => {
