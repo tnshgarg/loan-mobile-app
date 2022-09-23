@@ -32,8 +32,8 @@ const Offer = () => {
     "User";
   const eligibleAmount = useSelector((state) => state.ewa.eligibleAmount);
   const [amount, setAmount] = useState(
-    useSelector((state) => state.ewa.loanAmount) ||
-      useSelector((state) => state.ewa.eligibleAmount)
+    useSelector((state) => state.ewa.loanAmount).toString() ||
+      useSelector((state) => state.ewa.eligibleAmount).toString()
   );
   const [consent, setConsent] = useState(false);
   const [canEdit, setCanEdit] = useState(false);

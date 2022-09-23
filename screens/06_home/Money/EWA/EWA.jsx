@@ -55,8 +55,8 @@ const EWA = () => {
     <SafeAreaView style={styles.container}>
       {aadhaarVerifyState === "SUCCESS" &&
       panVerifyState === "SUCCESS" &&
-      bankVerifyState === "SUCCESS" ||
-      panMisMatch < 20 ||
+      bankVerifyState === "SUCCESS" &&
+      panMisMatch < 20 &&
       bankMisMatch < 20 ? (
         <ScrollView>
           <View
