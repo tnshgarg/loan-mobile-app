@@ -127,7 +127,7 @@ const Mandate = () => {
         leading={
           <IconButton
             icon={<Icon name="arrow-back" size={20} color="white" />}
-            onPress={() => backAlert()}
+            onPress={() => navigation.navigate("BankForm")}
           />
         }
       />
