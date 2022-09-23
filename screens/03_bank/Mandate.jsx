@@ -1,4 +1,4 @@
-import { AppBar, IconButton,Icon} from "@react-native-material/core";
+import { AppBar, IconButton, Icon } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, Text, TextInput, View, ScrollView } from "react-native";
@@ -9,25 +9,38 @@ import PrimaryButton from "../../components/PrimaryButton";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { bankform, form, styles } from "../../styles";
 import {
-  addStatus,
-} from "../../store/slices/ewaSlice";
+  addData,
+  addDeviceId,
+  addDeviceIp,
+  addVerifyMsg,
+  addVerifyStatus,
+  addType,
+  addVerifyTimestamp,
+} from "../../store/slices/mandateSlice";
 import ProgressBarTop from "../../components/ProgressBarTop";
-import { ewaMandatePush } from "../../helpers/BackendPush";
+import { mandatePush } from "../../helpers/BackendPush";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 
 const Mandate = () => {
-  let DeviceId = 0;
+  const [deviceId, setDeviceId] = useState(
+    useSelector((state) => state.mandate.deviceId)
+  );
+  const [deviceIp, setDeviceIp] = useState(
+    useSelector((state) => state.mandate.deviceIp)
+  );
   getUniqueId().then((id) => {
-    DeviceId= id;
+    setDeviceId(id);
   });
-  let DeviceIp =0;
   NetworkInfo.getIPV4Address().then((ipv4Address) => {
-    DeviceIp = ipv4Address;
+    setDeviceIp(ipv4Address);
   });
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const employeeId = useSelector((state) => state.auth.id);
+  const mandateSlice = useSelector((state) => state.mandate);
+  const [timestamp, setTimestamp] = useState(mandateSlice?.verifyTimestamp);
+
   const [name, setName] = useState(
     useSelector((state) => state.bank.data.accountHolderName)
   );
@@ -37,60 +50,56 @@ const Mandate = () => {
   const [ifsc, setIfsc] = useState(
     useSelector((state) => state.bank.data.ifsc)
   );
-  const [upi, setUpi] = useState(useSelector((state) => state.bank.data.upi));
-  const [ifscNext, setIfscNext] = useState(false);
-  const [accNumNext, setAccNumNext] = useState(false);
-  const [status, setStatus] = useState(
-    useSelector((state) => state.ewa.status.mandate)
-  );
+  const [verifyStatus, setVerifyStatus] = useState(mandateSlice?.verifyStatus);
+  const [verifyMsg, setVerifyMsg] = useState(mandateSlice?.verifyMsg);
+  const [data, setData] = useState(mandateSlice?.data);
+  const [type, setType] = useState(mandateSlice?.type);
+  const [backendPush, setBackendPush] = useState(false);
+
   useEffect(() => {
-    status === "PENDING"
-      ? ewaMandatePush({
-          offerId: employeeId, //change to offerID
+    dispatch(addVerifyStatus(verifyStatus));
+  }, [verifyStatus]);
+
+  useEffect(() => {
+    dispatch(addType(type));
+  }, [type]);
+
+  useEffect(() => {
+    dispatch(addData(data));
+  }, [data]);
+
+  useEffect(() => {
+    dispatch(addDeviceId(deviceId));
+  }, [deviceId]);
+
+  useEffect(() => {
+    dispatch(addDeviceIp(deviceIp));
+  }, [deviceIp]);
+
+  useEffect(() => {
+    dispatch(addVerifyTimestamp(timestamp));
+  }, [timestamp]);
+
+  useEffect(() => {
+    dispatch(addVerifyMsg(verifyMsg));
+  }, [verifyMsg]);
+
+  useEffect(() => {
+    setTimestamp(Date.now());
+    console.log("handleMandate", mandateSlice);
+    backendPush
+      ? mandatePush({
           unipeEmployeeId: employeeId,
-          status: "INPROGRESS",
-          timestamp: Date.now(),
-          ipAddress: DeviceIp,
-          deviceId: DeviceId,
+          ipAddress: deviceIp,
+          deviceId: deviceId,
+          data: { type: type, token: "1234567899" },
+          verifyMsg: verifyMsg,
+          verifyStatus: verifyStatus,
+          verifyTimestamp: timestamp,
         })
       : null;
-  }, []);
-
-  function handleMandate() {
-    dispatch(addStatus({ type: "mandate", data: "CONFIRMED" }));
-    ewaMandatePush({
-      offerId: employeeId, //change to offerID
-      unipeEmployeeId: employeeId,
-      status: "CONFIRMED",
-      timestamp: Date.now(),
-      ipAddress: DeviceIp,
-      deviceId: DeviceId,
-      type:  "NEFT",//change based on user action
-      bankDetails:{
-        accountHolderName: name,
-        accountNumber: number,
-        ifsc: ifsc,
-      }
-    });
-  }
-
-  useEffect(() => {
-    var accountNumberReg = /^[0-9]{9,18}$/gm;
-    if (accountNumberReg.test(number)) {
-      setAccNumNext(true);
-    } else {
-      setAccNumNext(false);
-    }
-  }, [number]);
-
-  useEffect(() => {
-    var ifscReg = /^[A-Z]{4}0[A-Z0-9]{6}$/gm;
-    if (ifscReg.test(ifsc)) {
-      setIfscNext(true);
-    } else {
-      setIfscNext(false);
-    }
-  }, [ifsc]);
+    setBackendPush(false);
+  }, [backendPush]);
 
   const netIcon = () => {
     return <Icon1 name="passport" size={24} color="#FF6700" />;
@@ -104,24 +113,54 @@ const Mandate = () => {
     return <Icon1 name="smart-card" size={24} color="#FF6700" />;
   };
 
-  const button = () => {
-    return <PrimaryButton title="Proceed" uppercase={false} />;
+  const NetBankbutton = () => {
+    return (
+      <PrimaryButton
+        title="Proceed"
+        uppercase={false}
+        onPress={() => {
+          setType("NETBANKING");
+          setVerifyMsg("To be confirmed by user");
+          setTimestamp(Date.now());
+          setBackendPush(true);
+        }}
+      />
+    );
   };
 
-  const inputs = () => {
+  const Upibutton = () => {
     return (
-      <TextInput
-        style={form.input}
-        placeholder="UPI"
-        value={upi}
-        onChangeText={setUpi}
+      <PrimaryButton
+        title="Proceed"
+        uppercase={false}
+        onPress={() => {
+          setType("UPI");
+          setVerifyMsg("To be confirmed by user");
+          setTimestamp(Date.now());
+          setBackendPush(true);
+        }}
+      />
+    );
+  };
+
+  const Debitbutton = () => {
+    return (
+      <PrimaryButton
+        title="Proceed"
+        uppercase={false}
+        onPress={() => {
+          setType("DEBITCARD");
+          setVerifyMsg("To be confirmed by user");
+          setTimestamp(Date.now());
+          setBackendPush(true);
+        }}
       />
     );
   };
 
   return (
     <SafeAreaView style={styles.container}>
-        <AppBar
+      <AppBar
         title="Bank Details Confirmation"
         color="#4E46F1"
         leading={
@@ -152,10 +191,6 @@ const Mandate = () => {
             editable={false}
             required
           />
-          {number && !accNumNext ? (
-            <Text style={bankform.formatmsg}>Incorrect Format</Text>
-          ) : null}
-
           <Text style={bankform.formtitle}>IFSC</Text>
           <TextInput
             style={bankform.formInput}
@@ -165,32 +200,31 @@ const Mandate = () => {
             editable={false}
             required
           />
-          {ifsc && !ifscNext ? (
-            <Text style={bankform.formatmsg}>Incorrect Format</Text>
-          ) : null}
           <CollapsibleCard
             title="Net Banking "
             TitleIcon={netIcon}
             isClosed={true}
-            Component={button}
+            Component={NetBankbutton}
           />
           <CollapsibleCard
             title="UPI "
             TitleIcon={upiIcon}
             isClosed={true}
-            Component={inputs}
+            Component={Upibutton}
           />
           <CollapsibleCard
             title="Debit Card "
             TitleIcon={debitIcon}
             isClosed={true}
-            Component={button}
+            Component={Debitbutton}
           />
           <PrimaryButton
             title="My Details are Correct"
             uppercase={false}
             onPress={() => {
-              handleMandate();
+              setVerifyMsg("");
+              setVerifyStatus("SUCCESS");
+              setBackendPush(true);
               navigation.navigate("PersonalDetailsForm");
             }}
           />

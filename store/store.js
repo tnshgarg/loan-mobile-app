@@ -6,6 +6,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import aadhaarSlice from "./slices/aadhaarSlice";
 import authSlice from "./slices/authSlice";
 import bankSlice from "./slices/bankSlice";
+import mandateSlice from "./slices/mandateSlice";
 import esicSlice from "./slices/esicSlice";
 import navigationSlice from "./slices/navigationSlice";
 import panSlice from "./slices/panSlice";
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   aadhaar: aadhaarSlice,
   auth: authSlice,
   bank: bankSlice,
+  mandate: mandateSlice,
   esic: esicSlice,
   navigation: navigationSlice,
   pan: panSlice,

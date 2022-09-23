@@ -100,8 +100,8 @@ export const ewaKycPush = (payload) => {
     });
 }; //slot in!
 
-export const ewaMandatePush = (payload) => {
-  putBackendData({ document: payload, xpath: "ewa/mandate" })
+export const mandatePush = (payload) => {
+  putBackendData({ document: payload, xpath: "mandate" })
     .then((response) => {
       console.log("ewaMandatePush response: ", response.data);
     })
