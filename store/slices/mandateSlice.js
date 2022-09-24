@@ -1,14 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  data: {},
-  number: "",
+  data: { type: "" },
   deviceIp: "",
   deviceId: "",
   verifyMsg: "",
   verifyStatus: "PENDING",
   verifyTimestamp: "",
-  type: "",
 };
 
 const mandateSlice = createSlice({
@@ -34,7 +32,7 @@ const mandateSlice = createSlice({
       state.verifyTimestamp = action.payload;
     },
     addType(state, action) {
-      state.type = action.payload;
+      state.data.type = action.payload;
     },
     resetMandate(state, action) {
       if (!action.payload) {

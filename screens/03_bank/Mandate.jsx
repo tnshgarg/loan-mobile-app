@@ -53,9 +53,8 @@ const Mandate = () => {
   const [verifyStatus, setVerifyStatus] = useState(mandateSlice?.verifyStatus);
   const [verifyMsg, setVerifyMsg] = useState(mandateSlice?.verifyMsg);
   const [data, setData] = useState(mandateSlice?.data);
-  const [type, setType] = useState(mandateSlice?.type);
+  const [type, setType] = useState(mandateSlice?.data.type);
   const [backendPush, setBackendPush] = useState(false);
-
   useEffect(() => {
     dispatch(addVerifyStatus(verifyStatus));
   }, [verifyStatus]);
@@ -63,10 +62,6 @@ const Mandate = () => {
   useEffect(() => {
     dispatch(addType(type));
   }, [type]);
-
-  useEffect(() => {
-    dispatch(addData(data));
-  }, [data]);
 
   useEffect(() => {
     dispatch(addDeviceId(deviceId));
@@ -88,11 +83,12 @@ const Mandate = () => {
     setTimestamp(Date.now());
     console.log("handleMandate", mandateSlice);
     if (backendPush) {
+      console.log("handleMandate", data);
       mandatePush({
         unipeEmployeeId: employeeId,
         ipAddress: deviceIp,
         deviceId: deviceId,
-        data: { type: type, token: "1234567899" },
+        data: { ...data, token: "14123123" },
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
         verifyTimestamp: timestamp,
