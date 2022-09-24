@@ -66,12 +66,12 @@ const Offer = () => {
       timestamp: Date.now(),
       ipAddress: DeviceIp,
       deviceId: DeviceId,
-      loanAmount: amount,
+      loanAmount: parseInt(amount),
     });
   }
 
   useEffect(() => {
-    dispatch(addLoanAmount(amount));
+    dispatch(addLoanAmount(parseInt(amount)));
   }, [amount]);
 
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
