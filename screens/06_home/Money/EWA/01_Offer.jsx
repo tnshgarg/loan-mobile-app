@@ -31,11 +31,17 @@ const Offer = () => {
     useSelector((state) => state.pan?.name) ||
     "User";
   const eligibleAmount = useSelector((state) => state.ewa.eligibleAmount);
-  const [amount, setAmount] = useState(useSelector((state) => state.ewa.loanAmount));
+  const [amount, setAmount] = useState(
+    useSelector((state) => state.ewa.loanAmount).toString() ||
+      useSelector((state) => state.ewa.eligibleAmount).toString()
+  );
   const [consent, setConsent] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
   const [status, setStatus] = useState(
     useSelector((state) => state.ewa.status.offer)
+  );
+  const [kycStatus, setKycStatus] = useState(
+    useSelector((state) => state.ewa.status.kyc)
   );
 
   useEffect(() => {
@@ -60,12 +66,12 @@ const Offer = () => {
       timestamp: Date.now(),
       ipAddress: DeviceIp,
       deviceId: DeviceId,
-      loanAmount: amount,
+      loanAmount: parseInt(amount),
     });
   }
 
   useEffect(() => {
-    dispatch(addLoanAmount(amount));
+    dispatch(addLoanAmount(parseInt(amount)));
   }, [amount]);
 
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
@@ -232,7 +238,9 @@ const Offer = () => {
         disabled={!consent}
         onPress={() => {
           handleAmount();
-          navigation.navigate("EWAKYC");
+          kycStatus === "PENDING"
+            ? navigation.navigate("EWAKYC")
+            : navigation.navigate("EWAAgreement");
         }}
       />
       <View style={bankform.padding}></View>

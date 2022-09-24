@@ -42,18 +42,18 @@ const ewaSlice = createSlice({
       state.loanAmount = action.payload;
     },
     addStatus(state, action) {
-      switch (action.type) {
+      switch (action.payload.type) {
         case "offer":
-          state.status.offer = action.data;
+          state.status.offer = action.payload.data;
           break;
         case "kyc":
-          state.status.kyc = action.data;
+          state.status.kyc = action.payload.data;
           break;
         case "agreement":
-          state.status.agreement = action.data;
+          state.status.agreement = action.payload.data;
           break;
         case "mandate":
-          state.status.mandate = action.data;
+          state.status.mandate = action.payload.data;
           break;
       }
     },
