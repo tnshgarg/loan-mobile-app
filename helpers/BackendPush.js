@@ -79,3 +79,45 @@ export const portalPush = (payload) => {
       console.log("portalPush error: ", error);
     });
 };
+
+export const ewaLandingPush = (payload) => {
+  putBackendData({ document: payload, xpath: "ewa/offer" })
+    .then((response) => {
+      console.log("ewaLandingPush response: ", response.data);
+    })
+    .catch((error) => {
+      console.log("ewaLandingPush error: ", error);
+    });
+};
+
+export const ewaKycPush = (payload) => {
+  putBackendData({ document: payload, xpath: "ewa/kyc" })
+    .then((response) => {
+      console.log("ewaKycPush response: ", response.data);
+    })
+    .catch((error) => {
+      console.log("ewaKycPush error: ", error);
+    });
+}; //slot in!
+
+export const mandatePush = (payload) => {
+  putBackendData({ document: payload, xpath: "mandate" })
+    .then((response) => {
+      console.log("ewaMandatePush response: ", response.data);
+    })
+    .catch((error) => {
+      console.log("ewaMandatePush error: ", error);
+    });
+};
+
+export const ewaAgreementPush = (payload) => {
+  putBackendData({ document: payload, xpath: "ewa/agreement" })
+    .then((response) => {
+      console.log("ewaAgreementPush response: ", response.data);
+    })
+    .catch((error) => {
+      console.log("ewaAgreementPush error: ", error);
+    });
+};
+
+

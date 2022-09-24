@@ -67,7 +67,7 @@ export default PersonalImage = () => {
             />
           }
         />
-        <ProgressBarTop step={4} />
+        <ProgressBarTop step={5} />
         <ScrollView keyboardShouldPersistTaps="handled">
           <Text style={form.formHeader}>
             Upload your Passport size photo or capture your selfie.

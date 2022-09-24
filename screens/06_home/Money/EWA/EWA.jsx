@@ -6,8 +6,6 @@ import PrimaryButton from "../../../../components/PrimaryButton";
 import HomeMain from "../../HomeMain";
 import { useNavigation } from "@react-navigation/core";
 import DataCard from "../../../../components/DataCard";
-import { getUniqueId } from "react-native-device-info";
-import { NetworkInfo } from "react-native-network-info";
 
 const EWA = () => {
   const aadhaarVerifyState = useSelector((state) => state.aadhaar.verifyStatus);
@@ -16,12 +14,6 @@ const EWA = () => {
   const panMisMatch = useSelector((state) => state.pan.misMatch);
   const bankMisMatch = useSelector((state) => state.bank.misMatch);
   const navigation = useNavigation();
-  getUniqueId().then((id) => {
-    console.log("Device Unique ID",id);
-  });
-  NetworkInfo.getIPV4Address().then((ipv4Address) => {
-    console.log("Device IP",ipv4Address);
-  });
   const data = [
     {
       day: "15",
@@ -82,7 +74,16 @@ const EWA = () => {
               Hi {useSelector((state) => state.aadhaar.data.name)}, here is you
               advanced Salary Access
             </Text>
-            <Text style={{ fontSize: 20 ,marginBottom:"8%",color:"#3C3F54",letterSpacing:0.8}}>get money instantly</Text>
+            <Text
+              style={{
+                fontSize: 20,
+                marginBottom: "8%",
+                color: "#3C3F54",
+                letterSpacing: 0.8,
+              }}
+            >
+              get money instantly
+            </Text>
             <Text style={{ fontWeight: "bold", fontSize: 36 }}>₹20,000</Text>
             <Text style={{ fontSize: 16, color: "#597E8D" }}>
               days worked 15 days
@@ -95,7 +96,7 @@ const EWA = () => {
             title="Get money now"
             uppercase={false}
             onPress={() => {
-              navigation.navigate("EWALanding");
+              navigation.navigate("EWAOffer");
             }}
           />
           <View

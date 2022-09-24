@@ -31,7 +31,7 @@ export default PersonalDetailsForm = () => {
     profileSlice?.qualification
   );
   const [altMobile, setAltMobile] = useState(profileSlice?.altMobile);
-  const [email, setEmail] = useState(profileSlice?.email || panSlice?.email);
+  const [email, setEmail] = useState(panSlice?.email || profileSlice?.email );
   const [motherName, setMotherName] = useState(profileSlice?.motherName);
 
   useEffect(() => {
@@ -90,7 +90,7 @@ export default PersonalDetailsForm = () => {
           }
         />
 
-        <ProgressBarTop step={3} />
+        <ProgressBarTop step={4} />
         <Text style={form.formHeader}>Employee basic details</Text>
         <KeyboardAvoidingWrapper>
           <View>

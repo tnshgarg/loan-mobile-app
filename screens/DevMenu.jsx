@@ -11,12 +11,13 @@ export default DevMenu = () => {
     { title: "AADHAAR", name: "AadhaarForm" },
     { title: "PAN", name: "PanForm" },
     { title: "Bank", name: "BankForm" },
+    { title: "Mandate", name: "Mandate" },
     { title: "Profile", name: "PersonalDetailsForm" },
     { title: "Photo", name: "PersonalImage" },
     { title: "Home", name: "Home" },
     { title: "KYC Details", name: "KYC" },
     { title: "Profile Details", name: "Profile" },
-    { title: "EWA", name: "EWALanding" },
+    { title: "EWA", name: "EWAOffer" },
   ];
 
   return (

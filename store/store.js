@@ -6,6 +6,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import aadhaarSlice from "./slices/aadhaarSlice";
 import authSlice from "./slices/authSlice";
 import bankSlice from "./slices/bankSlice";
+import mandateSlice from "./slices/mandateSlice";
 import esicSlice from "./slices/esicSlice";
 import navigationSlice from "./slices/navigationSlice";
 import panSlice from "./slices/panSlice";
@@ -13,10 +14,7 @@ import profileSlice from "./slices/profileSlice";
 import licenseSlice from "./slices/licenseSlice";
 import timerSlice from "./slices/timerSlice";
 
-import ewaConfigSlice from "./slices/ewa/ewaConfigSlice";
-import ewaLandingSlice from "./slices/ewa/ewaLandingSlice";
-import ewaMandateSlice from "./slices/ewa/ewaMandateSlice";
-import ewaAgreementSlice from "./slices/ewa/ewaAgreementSlice";
+import ewaSlice from "./slices/ewaSlice";
 
 const persistConfig = {
   key: "root",
@@ -27,16 +25,14 @@ const rootReducer = combineReducers({
   aadhaar: aadhaarSlice,
   auth: authSlice,
   bank: bankSlice,
+  mandate: mandateSlice,
   esic: esicSlice,
   navigation: navigationSlice,
   pan: panSlice,
   profile: profileSlice,
   license: licenseSlice,
   timer: timerSlice,
-  ewaConfig: ewaConfigSlice,
-  ewaLanding: ewaLandingSlice,
-  ewaMandate: ewaMandateSlice,
-  ewaAgreement: ewaAgreementSlice,
+  ewa: ewaSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

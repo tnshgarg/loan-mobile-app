@@ -8,30 +8,71 @@ import StepIndicator from "react-native-step-indicator";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useSelector, useDispatch } from "react-redux";
 import PrimaryButton from "../../../../components/PrimaryButton";
-import {
-  addAmount,
-  addConsent,
-} from "../../../../store/slices/ewa/ewaLandingSlice";
+import { addLoanAmount, addStatus } from "../../../../store/slices/ewaSlice";
+import { ewaLandingPush } from "../../../../helpers/BackendPush";
 import { bankform, checkBox, styles, welcome } from "../../../../styles";
-const Landing = () => {
+import { getUniqueId } from "react-native-device-info";
+import { NetworkInfo } from "react-native-network-info";
+
+const Offer = () => {
+  let DeviceId = 0;
+  getUniqueId().then((id) => {
+    DeviceId = id;
+  });
+  let DeviceIp = 0;
+  NetworkInfo.getIPV4Address().then((ipv4Address) => {
+    DeviceIp = ipv4Address;
+  });
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const employeeId = useSelector((state) => state.auth.id);
   const name =
     useSelector((state) => state.aadhaar.data["aadhaar_data"]?.["name"]) ||
     useSelector((state) => state.pan?.name) ||
     "User";
-  const eligibleAmount = useSelector((state) => state.ewaConfig.eligibleAmount);
-  const [amount, setAmount] = useState(eligibleAmount);
+  const eligibleAmount = useSelector((state) => state.ewa.eligibleAmount);
+  const [amount, setAmount] = useState(
+    useSelector((state) => state.ewa.loanAmount).toString() ||
+      useSelector((state) => state.ewa.eligibleAmount).toString()
+  );
   const [consent, setConsent] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
+  const [status, setStatus] = useState(
+    useSelector((state) => state.ewa.status.offer)
+  );
+  const [kycStatus, setKycStatus] = useState(
+    useSelector((state) => state.ewa.status.kyc)
+  );
 
   useEffect(() => {
-    dispatch(addAmount(amount));
+    status === "PENDING"
+      ? ewaLandingPush({
+          offerId: employeeId, //change to offerID
+          unipeEmployeeId: employeeId,
+          status: "INPROGRESS",
+          timestamp: Date.now(),
+          ipAddress: DeviceIp,
+          deviceId: DeviceId,
+        })
+      : null;
+  }, []);
+
+  function handleAmount() {
+    dispatch(addStatus({ type: "offer", data: "CONFIRMED" }));
+    ewaLandingPush({
+      offerId: employeeId, //change to offerID
+      unipeEmployeeId: employeeId,
+      status: "CONFIRMED",
+      timestamp: Date.now(),
+      ipAddress: DeviceIp,
+      deviceId: DeviceId,
+      loanAmount: parseInt(amount),
+    });
+  }
+
+  useEffect(() => {
+    dispatch(addLoanAmount(parseInt(amount)));
   }, [amount]);
-
-  useEffect(() => {
-    dispatch(addConsent(consent));
-  }, [consent]);
 
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
@@ -145,7 +186,7 @@ const Landing = () => {
             marginTop: 10,
           }}
         >
-          You choose between 1000 to {amount} rupees{" "}
+          You choose between 1000 to {eligibleAmount} rupees{" "}
         </Text>
         <Text
           style={{
@@ -196,7 +237,10 @@ const Landing = () => {
         uppercase={false}
         disabled={!consent}
         onPress={() => {
-          navigation.navigate("EWAMandate");
+          handleAmount();
+          kycStatus === "PENDING"
+            ? navigation.navigate("EWAKYC")
+            : navigation.navigate("EWAAgreement");
         }}
       />
       <View style={bankform.padding}></View>
@@ -204,4 +248,4 @@ const Landing = () => {
   );
 };
 
-export default Landing;
+export default Offer;
