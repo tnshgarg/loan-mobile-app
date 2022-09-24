@@ -12,6 +12,7 @@ export default ProgressBarTop = (props) => {
   const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);
   const panStatus = useSelector((state) => state.pan.verifyStatus);
   const bankStatus = useSelector((state) => state.bank.verifyStatus);
+  const mandateStatus = useSelector((state) => state.mandate.verifyStatus);
 
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
@@ -50,6 +51,11 @@ export default ProgressBarTop = (props) => {
       }
       case 3: {
         iconConfig.name = "library-add-check";
+        stepStatus == "finished"
+        ? mandateStatus == "SUCCESS"
+          ? (iconConfig.color = "green")
+          : (iconConfig.color = "red")
+        : "#4E46F1";
         break;
       }
       case 4: {
