@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import CollapsibleCard from "../../../../components/CollapsibleCard";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import CheckBox from "@react-native-community/checkbox";
-import { styles, checkBox, ewa } from "../../../../styles";
+import { styles, checkBox, ewa, bankform } from "../../../../styles";
 import { useSelector, useDispatch } from "react-redux";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
@@ -51,7 +51,8 @@ const Agreement = () => {
     {
       subTitle: "Net Disbursement Amount ",
       value:
-        "₹" + (ewaSlice.loanAmount - (ewaSlice.loanAmount * (ewaSlice.fees / 100))),
+        "₹" +
+        (ewaSlice.loanAmount - ewaSlice.loanAmount * (ewaSlice.fees / 100)),
     },
     { subTitle: "Due Date", value: ewaSlice?.dueDate },
   ];
@@ -162,8 +163,8 @@ const Agreement = () => {
         />
         <View style={checkBox.padding}></View>
         <Text style={{ marginLeft: "6%", fontWeight: "300" }}>
-          Annual Percentage Rate @
-          {ewaSlice?.fees}%
+          <Text style={bankform.asterisk}>*</Text>
+          Annual Percentage Rate @{ewaSlice?.fees}%
         </Text>
       </ScrollView>
     </SafeAreaView>
