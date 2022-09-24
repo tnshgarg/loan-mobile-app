@@ -87,18 +87,18 @@ const Mandate = () => {
   useEffect(() => {
     setTimestamp(Date.now());
     console.log("handleMandate", mandateSlice);
-    backendPush
-      ? mandatePush({
-          unipeEmployeeId: employeeId,
-          ipAddress: deviceIp,
-          deviceId: deviceId,
-          data: { type: type, token: "1234567899" },
-          verifyMsg: verifyMsg,
-          verifyStatus: verifyStatus,
-          verifyTimestamp: timestamp,
-        })
-      : null;
-    setBackendPush(false);
+    if (backendPush) {
+      mandatePush({
+        unipeEmployeeId: employeeId,
+        ipAddress: deviceIp,
+        deviceId: deviceId,
+        data: { type: type, token: "1234567899" },
+        verifyMsg: verifyMsg,
+        verifyStatus: verifyStatus,
+        verifyTimestamp: timestamp,
+      });
+      setBackendPush(false);
+    }
   }, [backendPush]);
 
   const netIcon = () => {
@@ -167,6 +167,12 @@ const Mandate = () => {
           <IconButton
             icon={<Icon name="arrow-back" size={20} color="white" />}
             onPress={() => navigation.navigate("BankForm")}
+          />
+        }
+        trailing={
+          <IconButton
+            icon={<Icon name="arrow-forward" size={20} color="white" />}
+            onPress={() => navigation.navigate("PersonalDetailsForm")}
           />
         }
       />

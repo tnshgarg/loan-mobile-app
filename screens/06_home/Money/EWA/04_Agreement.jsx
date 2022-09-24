@@ -119,10 +119,6 @@ const Agreement = () => {
           isClosed={false}
           info="Disbursed amount will be adjusted in your next salary."
         />
-        <Text style={{ marginLeft: "6%", fontWeight: "300" }}>
-          Annual Percentage Rate @
-          {ewaSlice?.fees}%
-        </Text>
         <CollapsibleCard
           title="Personal Details"
           isClosed={false}
@@ -165,6 +161,10 @@ const Agreement = () => {
           disabled={!confirm || !consent}
         />
         <View style={checkBox.padding}></View>
+        <Text style={{ marginLeft: "6%", fontWeight: "300" }}>
+          Annual Percentage Rate @
+          {ewaSlice?.fees}%
+        </Text>
       </ScrollView>
     </SafeAreaView>
   );
