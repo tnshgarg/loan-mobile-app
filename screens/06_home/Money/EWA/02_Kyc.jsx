@@ -77,9 +77,10 @@ const KYC = () => {
         style={form.aadharimg}
       />
       <Text style={form.userData}>Number: {number}</Text>
-      <Text style={form.userData}>Name: {data["name"]}</Text>
-      <Text style={form.userData}>Date of Birth: {data["date_of_birth"]}</Text>
-      <Text style={form.userData}>Gender: {data["gender"]}</Text>
+      <Text style={form.userData}>Name: {data.name}</Text>
+      <Text style={form.userData}>Date of Birth: {data.date_of_birth}</Text>
+      <Text style={form.userData}>Gender: {data.gender}</Text>
+      <Text style={form.userData}>Address: {data.address}</Text>
 
       <PrimaryButton
         title="My Details are Correct"
