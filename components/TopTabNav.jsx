@@ -3,7 +3,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 
 export default TopTabNav = (props) => {
   const Tab = createMaterialTopTabNavigator();
-  const hide = { display: 'none' ,backgroundColor: "white" };
+  const hide = { display: "none", backgroundColor: "white" };
   const show = { backgroundColor: "white" };
   return (
     <Tab.Navigator
@@ -18,6 +18,7 @@ export default TopTabNav = (props) => {
         tabBarPressColor: "purple",
         animationEnabled: true,
         tabBarScrollEnabled: true,
+        swipeEnabled: !props.hide,
         lazy: true,
         tabBarIndicatorStyle: { backgroundColor: "#4E46F1" },
       }}
