@@ -8,10 +8,10 @@ apply plugin: "com.android.application"
 //   testbuild: ".env.test",
 //   prodbuild: ".env.prod",
 // ]
-// apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 import com.android.build.OutputFile
 import org.apache.tools.ant.taskdefs.condition.Os
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
@@ -154,6 +154,7 @@ android {
         applicationId "com.employeeapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        manifestPlaceholders = [codePushDeploymentKey: "NVWL2F2UKSif5SJWBOWtkSyPC3aRIYXM_adgy"]
         versionCode 1
         versionName "1.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
@@ -241,15 +242,15 @@ android {
     signingConfigs {
         debug {
             storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storePassword project.env.get("DEBUG_STORE_PASSWORD")
+            keyAlias project.env.get("DEBUG_KEY_ALIAS")
+            keyPassword project.env.get("DEBUG_KEY_PASSWORD")
         }
         release {
             storeFile file('unipe.keystore')
-            storePassword 'unipe1234'
-            keyAlias 'unipe'
-            keyPassword 'unipe1234'
+            storePassword project.env.get("STORE_PASSWORD")
+            keyAlias project.env.get("KEY_ALIAS")
+            keyPassword project.env.get("KEY_PASSWORD")
         }
     }
     buildTypes {
@@ -263,6 +264,7 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            resValue 'string', "codePushDeploymentKey", project.env.get("CODE_PUSH_DEPLOYMENT_KEY")
         }
     }
 
