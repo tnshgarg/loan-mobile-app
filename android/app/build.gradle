@@ -8,10 +8,10 @@ apply plugin: "com.android.application"
 //   testbuild: ".env.test",
 //   prodbuild: ".env.prod",
 // ]
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 import com.android.build.OutputFile
 import org.apache.tools.ant.taskdefs.condition.Os
-apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
@@ -154,10 +154,10 @@ android {
         applicationId "com.employeeapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        manifestPlaceholders = [codePushDeploymentKey: "NVWL2F2UKSif5SJWBOWtkSyPC3aRIYXM_adgy"]
         versionCode 1
         versionName "1.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
+
         // missingDimensionStrategy 'react-native-camera', 'general'
         if (isNewArchitectureEnabled()) {
             // We configure the NDK build only if you decide to opt-in for the New Architecture.
@@ -256,6 +256,7 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+            // resValue 'string', "envDeploymentKey", project.env.get("CODE_PUSH_DEPLOYMENT_KEY")
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
@@ -264,7 +265,8 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            resValue 'string', "codePushDeploymentKey", project.env.get("CODE_PUSH_DEPLOYMENT_KEY")
+            // resValue 'string', "envDeploymentKey", project.env.get("CODE_PUSH_DEPLOYMENT_KEY")
+            
         }
     }
 
