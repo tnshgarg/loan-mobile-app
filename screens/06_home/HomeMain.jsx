@@ -10,9 +10,9 @@ export default HomeMain = () => {
   const panStatus = useSelector((state) => state.pan.verifyStatus);
   const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);
   const message = [
-    bankStatus != "SUCCESS" ? "Bank Details" : null,
+    bankStatus != "SUCCESS" ? "BANK" : null,
     panStatus != "SUCCESS" ? "PAN" : null,
-    aadhaarStatus != "SUCCESS" ? "Aadhaar" : null,
+    aadhaarStatus != "SUCCESS" ? "AADHAAR" : null,
   ];
 
   return (

@@ -14,7 +14,8 @@ import profileSlice from "./slices/profileSlice";
 import licenseSlice from "./slices/licenseSlice";
 import timerSlice from "./slices/timerSlice";
 
-import ewaSlice from "./slices/ewaSlice";
+import ewaLiveSlice from "./slices/ewaLiveSlice";
+import ewaHistoricalSlice from "./slices/ewaHistoricalSlice";
 
 const persistConfig = {
   key: "root",
@@ -32,7 +33,8 @@ const rootReducer = combineReducers({
   profile: profileSlice,
   license: licenseSlice,
   timer: timerSlice,
-  ewa: ewaSlice,
+  ewaLive: ewaLiveSlice,
+  ewaHistorical: ewaHistoricalSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

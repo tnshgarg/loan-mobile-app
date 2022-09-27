@@ -3,70 +3,79 @@ import CheckBox from "@react-native-community/checkbox";
 import { AppBar, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, Text, TextInput, View } from "react-native";
+import { Alert, SafeAreaView, Text, TextInput, View } from "react-native";
 import StepIndicator from "react-native-step-indicator";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useSelector, useDispatch } from "react-redux";
 import PrimaryButton from "../../../../components/PrimaryButton";
-import { addLoanAmount, addStatus } from "../../../../store/slices/ewaSlice";
-import { ewaLandingPush } from "../../../../helpers/BackendPush";
+import { addLoanAmount } from "../../../../store/slices/ewaLiveSlice";
+import { ewaOfferPush } from "../../../../helpers/BackendPush";
 import { bankform, checkBox, styles, welcome } from "../../../../styles";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 
 const Offer = () => {
+  
   let DeviceId = 0;
+  let DeviceIp = 0;
+
   getUniqueId().then((id) => {
     DeviceId = id;
   });
-  let DeviceIp = 0;
   NetworkInfo.getIPV4Address().then((ipv4Address) => {
     DeviceIp = ipv4Address;
   });
-  const navigation = useNavigation();
+
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+  
   const employeeId = useSelector((state) => state.auth.id);
   const name =
     useSelector((state) => state.aadhaar.data["aadhaar_data"]?.["name"]) ||
     useSelector((state) => state.pan?.name) ||
     "User";
-  const eligibleAmount = useSelector((state) => state.ewa.eligibleAmount);
-  const [amount, setAmount] = useState(
-    useSelector((state) => state.ewa.loanAmount).toString() ||
-      useSelector((state) => state.ewa.eligibleAmount).toString()
-  );
+  
+  const ewaLiveSlice = useSelector((state) => state.ewaLive);
+  const offerId = useSelector((state) => state.ewaLive.offerId);
+  const eligibleAmount = useSelector((state) => state.ewaLive.eligibleAmount);
+  const [amount, setAmount] = useState(ewaLiveSlice?.eligibleAmount.toString());
   const [consent, setConsent] = useState(false);
-  const [canEdit, setCanEdit] = useState(false);
-  const [status, setStatus] = useState(
-    useSelector((state) => state.ewa.status.offer)
-  );
-  const [kycStatus, setKycStatus] = useState(
-    useSelector((state) => state.ewa.status.kyc)
-  );
 
   useEffect(() => {
-    status === "PENDING"
-      ? ewaLandingPush({
-          offerId: employeeId, //change to offerID
-          unipeEmployeeId: employeeId,
-          status: "INPROGRESS",
-          timestamp: Date.now(),
-          ipAddress: DeviceIp,
-          deviceId: DeviceId,
-        })
-      : null;
+    ewaOfferPush({
+      offerId: offerId,
+      unipeEmployeeId: employeeId,
+      status: "INPROGRESS",
+      timestamp: Date.now(),
+      ipAddress: DeviceIp,
+      deviceId: DeviceId,
+    })
+    .then((response) => {
+      console.log("ewaOfferPush response.data: ", response.data);
+    })
+    .catch((error) => {
+      console.log("ewaOfferPush error: ", error);
+      Alert.alert("An Error occured", error);
+    });;
   }, []);
 
   function handleAmount() {
-    dispatch(addStatus({ type: "offer", data: "CONFIRMED" }));
-    ewaLandingPush({
-      offerId: employeeId, //change to offerID
+    ewaOfferPush({
+      offerId: offerId,
       unipeEmployeeId: employeeId,
       status: "CONFIRMED",
       timestamp: Date.now(),
       ipAddress: DeviceIp,
       deviceId: DeviceId,
       loanAmount: parseInt(amount),
+    })
+    .then((response) => {
+      console.log("ewaOfferPush response.data: ", response.data);
+      navigation.navigate("EWA_KYC");
+    })
+    .catch((error) => {
+      console.log("ewaOfferPush error: ", error);
+      Alert.alert("An Error occured", error);
     });
   }
 
@@ -88,7 +97,6 @@ const Offer = () => {
   const data = [
     "Personal Details",
     "KYC",
-    "Mandate Registration",
     "Loan Agreement",
     "Money In Account",
   ];
@@ -160,21 +168,12 @@ const Offer = () => {
             style={{
               flex: 1,
               fontSize: 32,
-              color: canEdit ? "#0D2A4E" : "grey",
+              color: "#0D2A4E",
             }}
             keyboardType="numeric"
             textAlign={"center"}
             value={amount}
             onChangeText={setAmount}
-            editable={canEdit}
-          />
-          <Icon
-            name="pencil"
-            color="#000"
-            size={38}
-            onPress={() => {
-              setCanEdit(!canEdit);
-            }}
           />
         </View>
 
@@ -214,7 +213,7 @@ const Offer = () => {
       <View style={welcome.steps}>
         <StepIndicator
           customStyles={stepIndicatorStyles}
-          stepCount={5}
+          stepCount={4}
           direction="vertical"
           currentPosition={5}
           renderStepIndicator={renderStepIndicator}
@@ -238,9 +237,6 @@ const Offer = () => {
         disabled={!consent}
         onPress={() => {
           handleAmount();
-          kycStatus === "PENDING"
-            ? navigation.navigate("EWAKYC")
-            : navigation.navigate("EWAAgreement");
         }}
       />
       <View style={bankform.padding}></View>

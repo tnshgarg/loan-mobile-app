@@ -7,84 +7,98 @@ import CollapsibleCard from "../../../../components/CollapsibleCard";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import CheckBox from "@react-native-community/checkbox";
 import { styles, checkBox, ewa, bankform } from "../../../../styles";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { ewaAgreementPush } from "../../../../helpers/BackendPush";
-import { addStatus } from "../../../../store/slices/ewaSlice";
 
 const Agreement = () => {
+
   let DeviceId = 0;
+  let DeviceIp = 0;
+
   getUniqueId().then((id) => {
     DeviceId = id;
   });
-  let DeviceIp = 0;
   NetworkInfo.getIPV4Address().then((ipv4Address) => {
     DeviceIp = ipv4Address;
   });
+  
   const navigation = useNavigation();
-  const dispatch = useDispatch();
   const [confirm, setConfirm] = useState(false);
   const [consent, setConsent] = useState(false);
   const aadhaarSlice = useSelector((state) => state.aadhaar.data);
   const panSlice = useSelector((state) => state.pan);
-  const ewaSlice = useSelector((state) => state.ewa);
-  const bankSlice = useSelector((state) => state.bank?.data);
+  const ewaLiveSlice = useSelector((state) => state.ewaLive);
+  const bankSlice = useSelector((state) => state.bank);
   const profileData = [
     { subTitle: "Name", value: aadhaarSlice?.name },
     { subTitle: "PAN", value: panSlice?.number },
     { subTitle: "DOB", value: aadhaarSlice?.date_of_birth },
   ];
   const bankData = [
-    { subTitle: "Bank Name", value: bankSlice?.bankName },
-    { subTitle: "Branch", value: bankSlice?.branchName },
-    { subTitle: "Account Number", value: bankSlice?.accountNumber },
-    { subTitle: "IFSC", value: bankSlice?.ifsc },
+    { subTitle: "Bank Name", value: bankSlice?.data?.bankName },
+    { subTitle: "Branch", value: bankSlice?.data?.branchName },
+    { subTitle: "Account Number", value: bankSlice?.data?.accountNumber },
+    { subTitle: "IFSC", value: bankSlice?.data?.ifsc },
   ];
 
   const data = [
-    { subTitle: "Loan Amount", value: "₹" + ewaSlice?.loanAmount },
+    { subTitle: "Loan Amount", value: "₹" + ewaLiveSlice?.loanAmount },
     {
       subTitle: "Processing Fees",
-      value: "₹" + ewaSlice.loanAmount * (ewaSlice.fees / 100),
+      value: "₹" + ewaLiveSlice?.loanAmount * (ewaLiveSlice.fees / 100),
     },
     {
       subTitle: "Net Disbursement Amount ",
       value:
         "₹" +
-        (ewaSlice.loanAmount - ewaSlice.loanAmount * (ewaSlice.fees / 100)),
+        (ewaLiveSlice?.loanAmount - ewaLiveSlice?.loanAmount * (ewaLiveSlice?.fees / 100)),
     },
-    { subTitle: "Due Date", value: ewaSlice?.dueDate },
+    { subTitle: "Due Date", value: ewaLiveSlice?.dueDate },
   ];
 
-  const [status, setStatus] = useState(ewaSlice.status.agreement);
   const employeeId = useSelector((state) => state.auth.id);
+  const offerId = useSelector((state) => state.ewaLive.offerId);
+
   useEffect(() => {
-    status === "PENDING"
-      ? ewaAgreementPush({
-          offerId: employeeId, //change to offerID
-          unipeEmployeeId: employeeId,
-          status: "INPROGRESS",
-          timestamp: Date.now(),
-          ipAddress: DeviceIp,
-          deviceId: DeviceId,
-        })
-      : null;
+    ewaAgreementPush({
+      offerId: offerId,
+      unipeEmployeeId: employeeId,
+      status: "INPROGRESS",
+      timestamp: Date.now(),
+      ipAddress: DeviceIp,
+      deviceId: DeviceId,
+    })
+    .then((response) => {
+      console.log("ewaAgreementPush response.data: ", response.data);
+    })
+    .catch((error) => {
+      console.log("ewaAgreementPush error: ", error);
+      Alert.alert("An Error occured", error);
+    });
   }, []);
 
   function handleAgreement() {
-    dispatch(addStatus({ type: "agreement", data: "CONFIRMED" }));
     ewaAgreementPush({
-      offerId: employeeId, //change to offerID
+      offerId: offerId,
       unipeEmployeeId: employeeId,
       status: "CONFIRMED",
       timestamp: Date.now(),
       ipAddress: DeviceIp,
       deviceId: DeviceId,
-      bankAccountNumber: bankSlice?.accountNumber,
-      dueDate: ewaSlice?.dueDate,
-      fees: ewaSlice.loanAmount * (ewaSlice.fees / 100),
-      loanAmount: ewaSlice?.loanAmount,
+      bankAccountNumber: bankSlice?.data?.accountNumber,
+      dueDate: ewaLiveSlice?.dueDate,
+      fees: ewaLiveSlice.loanAmount * (ewaLiveSlice.fees / 100),
+      loanAmount: ewaLiveSlice?.loanAmount,
+    })
+    .then((response) => {
+      console.log("ewaAgreementPush response.data: ", response.data);
+      navigation.navigate("EWA_DISBURSEMENT");
+    })
+    .catch((error) => {
+      console.log("ewaAgreementPush error: ", error);
+      Alert.alert("An Error occured", error);
     });
   }
 
@@ -107,7 +121,7 @@ const Agreement = () => {
           <IconButton
             icon={<Icon name="arrow-left" size={20} color="white" />}
             onPress={() => {
-              navigation.goBack();
+              navigation.navigate("EWA_KYC");
             }}
           />
         }
@@ -157,14 +171,13 @@ const Agreement = () => {
           uppercase={false}
           onPress={() => {
             handleAgreement();
-            navigation.navigate("EWAEarnedWage");
           }}
           disabled={!confirm || !consent}
         />
         <View style={checkBox.padding}></View>
         <Text style={{ marginLeft: "6%", fontWeight: "300" }}>
           <Text style={bankform.asterisk}>*</Text>
-          Annual Percentage Rate @{ewaSlice?.fees}%
+          Annual Percentage Rate @{ewaLiveSlice?.fees}%
         </Text>
       </ScrollView>
     </SafeAreaView>
