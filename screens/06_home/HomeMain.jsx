@@ -10,11 +10,13 @@ const HomeMain = () => {
   const bankStatus = useSelector((state) => state.bank.verifyStatus);
   const panStatus = useSelector((state) => state.pan.verifyStatus);
   const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);
-
+  const mandateStatus = useSelector((state) => state.mandate.verifyStatus);
+  
   const message = [
-    bankStatus != "SUCCESS" ? "BANK" : null,
-    panStatus != "SUCCESS" ? "PAN" : null,
     aadhaarStatus != "SUCCESS" ? "AADHAAR" : null,
+    bankStatus != "SUCCESS" ? "BANK" : null,
+    mandateStatus != "SUCCESS" ? "Mandate" : null,
+    panStatus != "SUCCESS" ? "PAN" : null,
   ];
 
   return (
