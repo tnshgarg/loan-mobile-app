@@ -10,14 +10,14 @@ export default DevMenu = () => {
     { title: "Login", name: "Login" },
     { title: "AADHAAR", name: "AadhaarForm" },
     { title: "PAN", name: "PanForm" },
-    { title: "Bank", name: "BankForm" },
+    { title: "BANK", name: "BankForm" },
     { title: "Mandate", name: "Mandate" },
     { title: "Profile", name: "PersonalDetailsForm" },
     { title: "Photo", name: "PersonalImage" },
     { title: "Home", name: "Home" },
     { title: "KYC Details", name: "KYC" },
     { title: "Profile Details", name: "Profile" },
-    { title: "EWA", name: "EWAOffer" },
+    { title: "EWA", name: "EWA_OFFER" },
   ];
 
   return (

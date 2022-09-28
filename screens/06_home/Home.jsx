@@ -1,5 +1,4 @@
-import { useNavigation } from "@react-navigation/core";
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native";
 import { FAB, Portal, Provider } from "react-native-paper";
 import { useDispatch } from "react-redux";
@@ -13,21 +12,23 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { buttons } from "../../styles";
 import EWA from "./Money/EWA/EWA";
 
-export default Home = () => {
-  const navigation = useNavigation();
 
-  const [state, setState] = React.useState({ open: false });
+const Home = () => {
+
+  const dispatch = useDispatch();
+
+  const [state, setState] = useState({ open: false });
   const onStateChange = ({ open }) => setState({ open });
 
   const { open } = state;
+  
   const tabs = [
     { name: "Home", component: HomeMain },
     { name: "Documents", component: Documents },
     { name: "Benefits", component: Benefits },
     { name: "Money", component: EWA },
   ];
-
-  const dispatch = useDispatch();
+  
   useEffect(() => {
     dispatch(addCurrentScreen("Home"));
   }, []);
@@ -79,3 +80,5 @@ export default Home = () => {
     </>
   );
 };
+
+export default Home;

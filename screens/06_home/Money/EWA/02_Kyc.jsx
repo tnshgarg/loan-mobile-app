@@ -1,55 +1,74 @@
+import { useEffect, useState } from "react";
 import { AppBar, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
 import { Image, SafeAreaView, Text } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { ewaKycPush } from "../../../../helpers/BackendPush";
-import { addStatus } from "../../../../store/slices/ewaSlice";
 import { form, styles } from "../../../../styles";
 
+
 const KYC = () => {
+
   let DeviceId = 0;
+  let DeviceIp = 0;
+
   getUniqueId().then((id) => {
     DeviceId = id;
   });
-  let DeviceIp = 0;
+
   NetworkInfo.getIPV4Address().then((ipv4Address) => {
     DeviceIp = ipv4Address;
   });
+
   const navigation = useNavigation();
-  const dispatch = useDispatch();
+
+  const [loading, setLoading] = useState(false);
+  
   const data = useSelector((state) => state.aadhaar.data);
   const number = useSelector((state) => state.aadhaar.number);
-  const [status, setStatus] = useState(
-    useSelector((state) => state.ewa.status.kyc)
-  );
-  const employeeId = useSelector((state) => state.auth.id);
+  const unipeEmployeeId = useSelector((state) => state.auth.id);
+  const offerId = useSelector((state) => state.ewaLive.offerId);
+  
   useEffect(() => {
-    status === "PENDING"
-      ? ewaKycPush({
-          offerId: employeeId, //change to offerID
-          unipeEmployeeId: employeeId,
-          status: "INPROGRESS",
-          timestamp: Date.now(),
-          ipAddress: DeviceIp,
-          deviceId: DeviceId,
-        })
-      : null;
+    ewaKycPush({
+      offerId: offerId, 
+      unipeEmployeeId: unipeEmployeeId,
+      status: "INPROGRESS",
+      timestamp: Date.now(),
+      ipAddress: DeviceIp,
+      deviceId: DeviceId,
+    })
+    .then((response) => {
+      console.log("ewaKycPush response.data: ", response.data);
+    })
+    .catch((error) => {
+      console.log("ewaKycPush error: ", error);
+      Alert.alert("An Error occured", error);
+    });
   }, []);
 
   function handleKyc() {
-    dispatch(addStatus({ type: "kyc", data: "CONFIRMED" }));
+    setLoading(true);
     ewaKycPush({
-      offerId: employeeId, //change to offerID
-      unipeEmployeeId: employeeId,
+      offerId: offerId,
+      unipeEmployeeId: unipeEmployeeId,
       status: "CONFIRMED",
       timestamp: Date.now(),
       ipAddress: DeviceIp,
       deviceId: DeviceId,
+    })
+    .then((response) => {
+      console.log("ewaKycPush response.data: ", response.data);
+      navigation.navigate("EWA_AGREEMENT");
+      setLoading(false);
+    })
+    .catch((error) => {
+      console.log("ewaKycPush error: ", error);
+      Alert.alert("An Error occured", error);
     });
   }
 
@@ -62,7 +81,7 @@ const KYC = () => {
           <IconButton
             icon={<Icon name="arrow-left" size={20} color="white" />}
             onPress={() => {
-              navigation.navigate("EWAOffer");
+              navigation.navigate("EWA_OFFER");
             }}
           />
         }
@@ -83,11 +102,11 @@ const KYC = () => {
       <Text style={form.userData}>Address: {data.address}</Text>
 
       <PrimaryButton
-        title="My Details are Correct"
+        title={loading ? "Verifying" : "Continue"}
         uppercase={false}
+        disabled={loading}
         onPress={() => {
           handleKyc();
-          navigation.navigate("EWAAgreement");
         }}
       />
     </SafeAreaView>
