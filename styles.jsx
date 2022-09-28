@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
   otpInput: {
     alignSelf: "center",
     marginTop: 40,
-    width: 180,
+    width: "49%",
     height: 50,
     borderBottomWidth: 1,
   },

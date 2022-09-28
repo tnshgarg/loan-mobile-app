@@ -1,21 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, Text, TextInput, View } from "react-native";
+import {
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import CountDown from "react-native-countdown-component";
 import { useDispatch, useSelector } from "react-redux";
 import AadhaarVerifyApi from "../../apis/aadhaar/Verify";
 import { useNavigation } from "@react-navigation/core";
 import { setAadhaarTimer } from "../../store/slices/timerSlice";
+import AadhaarOtpApi from "../../apis/aadhaar/Otp";
 import { form, styles } from "../../styles";
 
 const AadhaarVerifyTemplate = (props) => {
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
+  const [resend, setResend] = useState(false);
   const [otp, setOtp] = useState("");
   const [validOtp, setValidOtp] = useState(true);
   const countDownTime = useSelector((state) => state.timer.aadhaar);
-  
+  const aadhaarSlice = useSelector((state) => state.aadhaar);
+  const [number, setNumber] = useState(aadhaarSlice?.number);
+
   useEffect(() => {
     setValidOtp(otp.length === 6);
   }, [otp]);
@@ -39,12 +47,14 @@ const AadhaarVerifyTemplate = (props) => {
         <CountDown
           until={countDownTime}
           size={20}
-          onFinish={() =>
+          on
+          onFinish={() => {
+            setResend(true);
             props.function ||
-            navigation.navigate("KYC", {
-              screen: "Aadhaar",
-            })
-          }
+              navigation.navigate("KYC", {
+                screen: "Aadhaar",
+              });
+          }}
           style={{ marginTop: 20 }}
           digitStyle={{ backgroundColor: "#FFF" }}
           digitTxtStyle={{ color: "#4E46F1" }}
@@ -54,14 +64,21 @@ const AadhaarVerifyTemplate = (props) => {
             dispatch(setAadhaarTimer(time));
           }}
         />
-
+        {resend ? (
+            <AadhaarOtpApi
+              data={{ aadhaar_number: number, consent: "Y" }}
+              style={form.nextButton}
+              disabled={!resend}
+              title="Resend"
+              type={props?.route?.params?.type || ""}
+            />
+        ) : null}
         <AadhaarVerifyApi
           data={{ otp: otp, include_xml: true, share_code: 5934 }}
           style={form.nextButton}
           disabled={!validOtp}
           type={props?.route?.params?.type || ""}
         />
-        
       </View>
     </ScrollView>
   );

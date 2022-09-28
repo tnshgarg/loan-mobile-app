@@ -22,7 +22,7 @@ export default PersonalDetailsForm = () => {
 
   const [next, setNext] = useState(false);
 
-  const panSlice = useSelector((state) => state.pan);
+  const panSlice = useSelector((state) => state.pan.data);
   const profileSlice = useSelector((state) => state.profile);
   const [maritalStatus, setMaritalStatus] = useState(
     profileSlice?.maritalStatus
