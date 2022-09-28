@@ -23,9 +23,10 @@ import KYCScreen from "../screens/07_drawer/KYCScreen";
 import Profile from "../screens/07_drawer/Profile";
 import BankConfirm from "../screens/03_bank/Confirm";
 import Offer from "../screens/06_home/Money/EWA/01_Offer";
+import EWA from "../screens/06_home/Money/EWA/EWA";
 import Mandate from "../screens/03_bank/Mandate";
-import Agreement from "../screens/06_home/Money/EWA/04_Agreement";
-import EarnedWage from "../screens/06_home/Money/EWA/05_EarnedWage";
+import Agreement from "../screens/06_home/Money/EWA/03_Agreement";
+import Disbursement from "../screens/06_home/Money/EWA/04_Disbursement";
 import KYC from "../screens/06_home/Money/EWA/02_Kyc";
 
 const StackNavigator = () => {
@@ -189,29 +190,36 @@ const StackNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="EWAOffer"
+        name="EWA"
+        component={EWA}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="EWA_OFFER"
         component={Offer}
         options={{
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name="EWAKYC"
+        name="EWA_KYC"
         component={KYC}
         options={{
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name="EWAAgreement"
+        name="EWA_AGREEMENT"
         component={Agreement}
         options={{
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name="EWAEarnedWage"
-        component={EarnedWage}
+        name="EWA_DISBURSEMENT"
+        component={Disbursement}
         options={{
           headerShown: false,
         }}

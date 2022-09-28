@@ -80,44 +80,24 @@ export const portalPush = (payload) => {
     });
 };
 
-export const ewaLandingPush = (payload) => {
-  putBackendData({ document: payload, xpath: "ewa/offer" })
-    .then((response) => {
-      console.log("ewaLandingPush response: ", response.data);
-    })
-    .catch((error) => {
-      console.log("ewaLandingPush error: ", error);
-    });
+export const ewaOfferPush = (payload) => {
+  return putBackendData({ document: payload, xpath: "ewa/offer" });
 };
 
 export const ewaKycPush = (payload) => {
-  putBackendData({ document: payload, xpath: "ewa/kyc" })
-    .then((response) => {
-      console.log("ewaKycPush response: ", response.data);
-    })
-    .catch((error) => {
-      console.log("ewaKycPush error: ", error);
-    });
-}; //slot in!
+  return putBackendData({ document: payload, xpath: "ewa/kyc" });
+};
 
 export const mandatePush = (payload) => {
   putBackendData({ document: payload, xpath: "mandate" })
     .then((response) => {
-      console.log("ewaMandatePush response: ", response.data);
+      console.log("mandatePush response: ", response.data);
     })
     .catch((error) => {
-      console.log("ewaMandatePush error: ", error);
+      console.log("mandatePush error: ", error);
     });
 };
 
 export const ewaAgreementPush = (payload) => {
-  putBackendData({ document: payload, xpath: "ewa/agreement" })
-    .then((response) => {
-      console.log("ewaAgreementPush response: ", response.data);
-    })
-    .catch((error) => {
-      console.log("ewaAgreementPush error: ", error);
-    });
+  return putBackendData({ document: payload, xpath: "ewa/agreement" });
 };
-
-

@@ -20,7 +20,7 @@ const CollapsibleCard = ({ title, TitleIcon, data, isClosed, info ,Component}) =
               : "arrow-up-drop-circle-outline"
           }
           size={24}
-          color="#FF6700"
+          color="green"
           style={{ marginLeft: "auto" }}
           onPress={() => setIsCollapsed(!isCollapsed)}
         />
@@ -29,7 +29,7 @@ const CollapsibleCard = ({ title, TitleIcon, data, isClosed, info ,Component}) =
         {Component ? <Component /> : null}
         {data?.map((item, index) => (
           <View
-            style={{ flexDirection: "row", width: "100%", marginTop: 10 }}
+            style={{ flexDirection: "row", width: "100%", marginTop: 5 }}
             key={index}
           >
             <Text>{item.subTitle}</Text>
@@ -37,7 +37,7 @@ const CollapsibleCard = ({ title, TitleIcon, data, isClosed, info ,Component}) =
           </View>
         ))}
         {info ? (
-          <Text style={{ marginTop: 20 }}>
+          <Text style={{ marginTop: 10 }}>
             <Text style={bankform.asterisk}>*</Text>
             {info}
           </Text>
