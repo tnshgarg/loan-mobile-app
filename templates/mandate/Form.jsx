@@ -15,11 +15,22 @@ import {
   addType,
   addVerifyMsg,
   addVerifyStatus,
+  addOrderId,
+  addCustomerId,
   addVerifyTimestamp,
 } from "../../store/slices/mandateSlice";
 import { bankform } from "../../styles";
+import RazorpayCheckout from "react-native-razorpay";
+import {
+  createCustomer,
+  createNetBankingOrder,
+  createUpiOrder,
+  createDebitOrder,
+} from "../../services/mandate/Razorpay/services";
+import { RZP_TEST_KEY_ID } from "@env";
 
 const Form = (props) => {
+  const navigation = useNavigation();
   const [deviceId, setDeviceId] = useState(
     useSelector((state) => state.mandate.deviceId)
   );
@@ -32,7 +43,6 @@ const Form = (props) => {
   NetworkInfo.getIPV4Address().then((ipv4Address) => {
     setDeviceIp(ipv4Address);
   });
-  const navigation = useNavigation();
   const dispatch = useDispatch();
   const employeeId = useSelector((state) => state.auth.id);
   const mandateSlice = useSelector((state) => state.mandate);
@@ -52,6 +62,19 @@ const Form = (props) => {
   const [data, setData] = useState(mandateSlice?.data);
   const [type, setType] = useState(mandateSlice?.data.type);
   const [backendPush, setBackendPush] = useState(false);
+  const [orderId, setOrderId] = useState(mandateSlice?.orderId);
+  const [customerId, setCustomerId] = useState(mandateSlice?.customerId);
+  const email = useSelector((state) => state.profile.email);
+  const phoneNumber = useSelector((state) => state.auth.phoneNumber);
+
+  useEffect(() => {
+    dispatch(addOrderId(orderId));
+  }, [orderId]);
+
+  useEffect(() => {
+    dispatch(addCustomerId(customerId));
+  }, [customerId]);
+
   useEffect(() => {
     dispatch(addVerifyStatus(verifyStatus));
   }, [verifyStatus]);
@@ -93,6 +116,56 @@ const Form = (props) => {
       setBackendPush(false);
     }
   }, [backendPush]);
+
+  useEffect(() => {
+    if (!customerId) {
+      createCustomer({
+        name: name,
+        email: email,
+        phoneNumber: phoneNumber,
+      })
+        .then((res) => {
+          console.log("createCustomer", res.data);
+          setCustomerId(res.data.id);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  }, [customerId]);
+
+  useEffect(() => {
+    if (orderId) {
+      var options = {
+        description: "Unipe Mandate Verification",
+        currency: "INR",
+        key: RZP_TEST_KEY_ID,
+        amount: "5000",
+        name: "Unipe",
+        order_id: orderId,
+        prefill: {
+          name: name,
+          email: email,
+          contact: phoneNumber,
+        },
+        theme: { color: "#4E46F1" },
+      };
+      RazorpayCheckout.open(options)
+        .then((data) => {
+          alert(`Success: ${data.razorpay_payment_id}`);
+          {
+            props?.type == "Onboarding"
+              ? navigation.navigate("PersonalDetailsForm")
+              : null;
+          }
+        })
+        .catch((error) => {
+          alert(`Error: ${error.code} | ${error.description}`);
+          setOrderId("");
+        });
+    }
+  }, [orderId]);
+
   const netIcon = () => {
     return <Icon1 name="passport" size={24} color="#FF6700" />;
   };
@@ -116,6 +189,19 @@ const Form = (props) => {
           setVerifyMsg("To be confirmed by user");
           setTimestamp(Date.now());
           setBackendPush(true);
+          createNetBankingOrder({
+            customerId: customerId,
+            accountHolderName: name,
+            accountNumber: number,
+            ifsc: ifsc,
+          })
+            .then((res) => {
+              console.log("Netbanking", res.data);
+              setOrderId(res.data.id);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         }}
       />
     );
@@ -132,6 +218,14 @@ const Form = (props) => {
           setVerifyMsg("To be confirmed by user");
           setTimestamp(Date.now());
           setBackendPush(true);
+          createUpiOrder({ customerId: customerId })
+            .then((res) => {
+              console.log("UPI", res.data);
+              setOrderId(res.data.id);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
         }}
       />
     );
@@ -148,6 +242,19 @@ const Form = (props) => {
           setVerifyMsg("To be confirmed by user");
           setTimestamp(Date.now());
           setBackendPush(true);
+          createDebitOrder({
+            customerId: customerId,
+            accountHolderName: name,
+            accountNumber: number,
+            ifsc: ifsc,
+          })
+            .then((res) => {
+              console.log("DebitCard", res.data);
+              setOrderId(res.data.id);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
         }}
       />
     );
@@ -200,20 +307,6 @@ const Form = (props) => {
           TitleIcon={debitIcon}
           isClosed={true}
           Component={Debitbutton}
-        />
-        <PrimaryButton
-          title="My Details are Correct"
-          uppercase={false}
-          onPress={() => {
-            setVerifyMsg("");
-            setVerifyStatus("SUCCESS");
-            setBackendPush(true);
-            {
-              props?.type == "Onboarding"
-                ? navigation.navigate("PersonalDetailsForm")
-                : null;
-            }
-          }}
         />
         <View style={bankform.padding}></View>
       </ScrollView>
