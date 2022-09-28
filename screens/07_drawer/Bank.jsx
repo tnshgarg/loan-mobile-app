@@ -4,6 +4,7 @@ import DetailItem from "./DetailItem";
 import { useSelector } from "react-redux";
 import BankFormTemplate from "../../templates/bank/Form";
 import BankConfirmApi from "../../apis/bank/Confirm";
+import TopTabNav from "../../components/TopTabNav";
 
 
 const Bank = () => {

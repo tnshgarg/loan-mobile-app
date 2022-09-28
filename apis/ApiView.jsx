@@ -4,7 +4,7 @@ import { Button } from "@react-native-material/core";
 
 const ApiView = (props) => {
 
-  const { disabled, goForFetch, loading, style } = props;
+  const { disabled, goForFetch, loading, style, title } = props;
 
   return (
     <Button
