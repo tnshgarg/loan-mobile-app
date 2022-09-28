@@ -10,7 +10,7 @@ export default DevMenu = () => {
     { title: "Login", name: "Login" },
     { title: "AADHAAR", name: "AadhaarForm" },
     { title: "PAN", name: "PanForm" },
-    { title: "Bank", name: "BankForm" },
+    { title: "BANK", name: "BankForm" },
     { title: "Mandate", name: "Mandate" },
     { title: "Profile", name: "PersonalDetailsForm" },
     { title: "Photo", name: "PersonalImage" },

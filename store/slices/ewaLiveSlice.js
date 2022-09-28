@@ -7,11 +7,6 @@ const initialState = {
   fees: 5,
   loanAmount: "",
   stage: "",
-  // status: {
-  //   offer: "PENDING",
-  //   kyc: "PENDING",
-  //   agreement: "PENDING",
-  // },
 };
 
 const ewaLiveSlice = createSlice({
@@ -36,19 +31,6 @@ const ewaLiveSlice = createSlice({
     addStage(state, action) {
       state.stage = action.payload;
     },
-    // addStatus(state, action) {
-    //   switch (action.payload.type) {
-    //     case "offer":
-    //       state.status.offer = action.payload.data;
-    //       break;
-    //     case "kyc":
-    //       state.status.kyc = action.payload.data;
-    //       break;
-    //     case "agreement":
-    //       state.status.agreement = action.payload.data;
-    //       break;
-    //   }
-    // },
     resetEwaLive(state, action) {
       if (!action.payload) {
         Object.assign(state, initialState);

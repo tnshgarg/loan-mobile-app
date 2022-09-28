@@ -18,6 +18,7 @@ const EWA = () => {
 
   const [id, setId] = useState(useSelector((state) => state.auth.id));
 
+  const name = useSelector((state) => state.aadhaar.data.name);
   const aadhaarVerifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
@@ -77,25 +78,23 @@ const EWA = () => {
           >
             <Text
               style={{
-                marginTop: "8%",
-                color: "#597E8D",
-                letterSpacing: 0.6,
-              }}
-            >
-              Hi {useSelector((state) => state.aadhaar.data.name)}, here is you
-              advanced Salary Access
-            </Text>
-            <Text
-              style={{
                 fontSize: 20,
+                marginTop: "8%",
                 marginBottom: "8%",
-                color: "#3C3F54",
-                letterSpacing: 0.8,
+                color: "#597E8D",
+                letterSpacing: 0.5,
               }}
             >
-              get money instantly
+              {name} get on demand salary
             </Text>
-            <Text style={{ fontWeight: "bold", fontSize: 36 }}>₹ {ewaLiveSlice.eligibleAmount}</Text>
+            <Text style={{ 
+              alignSelf: "center",
+              color: "green",
+              fontWeight: "bold", 
+              fontSize: 36 
+            }}>
+              ₹ {ewaLiveSlice.eligibleAmount}
+            </Text>
           </View>
           <PrimaryButton
             title="Get money now"

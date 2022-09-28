@@ -23,6 +23,7 @@ import KYCScreen from "../screens/07_drawer/KYCScreen";
 import Profile from "../screens/07_drawer/Profile";
 import BankConfirm from "../screens/03_bank/Confirm";
 import Offer from "../screens/06_home/Money/EWA/01_Offer";
+import EWA from "../screens/06_home/Money/EWA/EWA";
 import Mandate from "../screens/03_bank/Mandate";
 import Agreement from "../screens/06_home/Money/EWA/03_Agreement";
 import Disbursement from "../screens/06_home/Money/EWA/04_Disbursement";
@@ -186,6 +187,13 @@ const StackNavigator = () => {
         options={{
           headerShown: true,
           headerTitle: "Profile Details",
+        }}
+      />
+      <Stack.Screen
+        name="EWA"
+        component={EWA}
+        options={{
+          headerShown: false,
         }}
       />
       <Stack.Screen

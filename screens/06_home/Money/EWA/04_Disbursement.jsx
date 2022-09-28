@@ -1,6 +1,6 @@
 import { AppBar, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import React from "react";
+import { useEffect, useState } from "react";
 import { SafeAreaView, Image } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import CollapsibleCard from "../../../../components/CollapsibleCard";
@@ -13,20 +13,27 @@ const Disbursement = () => {
   
   const bankSlice = useSelector((state) => state.bank);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
+  
+  const [netDisbursementAmount, setNetDisbursementAmount] = useState();
+  const [dueDate, setDueDate] = useState();
+
+
+  useEffect(() => {
+    setNetDisbursementAmount(Math.round((ewaLiveSlice?.loanAmount * (1 - (ewaLiveSlice?.fees / 100)) + 1) / 10 ) * 10 - 1);
+    setDueDate(ewaLiveSlice?.dueDate);
+  }, [ewaLiveSlice]);
 
   const data = [
+    { subTitle: "Net Disbursement Amount ", value: "₹" + netDisbursementAmount },
+    { subTitle: "Disbursement Bank Account Number", value: bankSlice?.data?.accountNumber },
+    { subTitle: "Due Date", value: dueDate },
     { subTitle: "Loan Account Number", value: ""},
-    { subTitle: "Net Disbursement Amount ", value: "₹" + (ewaLiveSlice.loanAmount - ewaLiveSlice.loanAmount * (ewaLiveSlice.fees / 100))},
-    { subTitle: "Disbursement Bank Account No.", value: bankSlice?.data?.accountNumber },
-    { subTitle: "Due Date", value: ewaLiveSlice?.dueDate },
   ];
-  const icon = () => {
-    return <Icon name="information-outline" size={24} color="#FF6700" />;
-  };
+
   return (
     <SafeAreaView style={styles.container}>
       <AppBar
-        title="Earned Wages"
+        title="Money Transfer"
         color="#4E46F1"
         leading={
           <IconButton
@@ -44,9 +51,8 @@ const Disbursement = () => {
       <CollapsibleCard
         data={data}
         title="Loan Details"
-        TitleIcon={icon}
         isClosed={false}
-        info="Money will be deducted from your upcoming salary"
+        info="Disbursement will be reconciled in your next payroll"
       />
       
       {/* 

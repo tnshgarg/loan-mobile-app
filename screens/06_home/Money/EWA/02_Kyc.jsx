@@ -1,6 +1,6 @@
+import { useEffect, useState } from "react";
 import { AppBar, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import { useEffect } from "react";
 import { Image, SafeAreaView, Text } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { ewaKycPush } from "../../../../helpers/BackendPush";
 import { form, styles } from "../../../../styles";
+
 
 const KYC = () => {
 
@@ -24,16 +25,18 @@ const KYC = () => {
   });
 
   const navigation = useNavigation();
+
+  const [loading, setLoading] = useState(false);
   
   const data = useSelector((state) => state.aadhaar.data);
   const number = useSelector((state) => state.aadhaar.number);
-  const employeeId = useSelector((state) => state.auth.id);
+  const unipeEmployeeId = useSelector((state) => state.auth.id);
   const offerId = useSelector((state) => state.ewaLive.offerId);
   
   useEffect(() => {
     ewaKycPush({
       offerId: offerId, 
-      unipeEmployeeId: employeeId,
+      unipeEmployeeId: unipeEmployeeId,
       status: "INPROGRESS",
       timestamp: Date.now(),
       ipAddress: DeviceIp,
@@ -49,9 +52,10 @@ const KYC = () => {
   }, []);
 
   function handleKyc() {
+    setLoading(true);
     ewaKycPush({
       offerId: offerId,
-      unipeEmployeeId: employeeId,
+      unipeEmployeeId: unipeEmployeeId,
       status: "CONFIRMED",
       timestamp: Date.now(),
       ipAddress: DeviceIp,
@@ -60,6 +64,7 @@ const KYC = () => {
     .then((response) => {
       console.log("ewaKycPush response.data: ", response.data);
       navigation.navigate("EWA_AGREEMENT");
+      setLoading(false);
     })
     .catch((error) => {
       console.log("ewaKycPush error: ", error);
@@ -97,8 +102,9 @@ const KYC = () => {
       <Text style={form.userData}>Address: {data.address}</Text>
 
       <PrimaryButton
-        title="My Details are Correct"
+        title={loading ? "Verifying" : "Continue"}
         uppercase={false}
+        disabled={loading}
         onPress={() => {
           handleKyc();
         }}

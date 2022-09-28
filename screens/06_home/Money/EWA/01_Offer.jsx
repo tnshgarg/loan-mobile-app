@@ -2,7 +2,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import CheckBox from "@react-native-community/checkbox";
 import { AppBar, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert, SafeAreaView, Text, TextInput, View } from "react-native";
 import StepIndicator from "react-native-step-indicator";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -13,6 +13,7 @@ import { ewaOfferPush } from "../../../../helpers/BackendPush";
 import { bankform, checkBox, styles, welcome } from "../../../../styles";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
+
 
 const Offer = () => {
   
@@ -28,23 +29,22 @@ const Offer = () => {
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  const [consent, setConsent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [validAmount, setValidAmount] = useState(true);
   
-  const employeeId = useSelector((state) => state.auth.id);
-  const name =
-    useSelector((state) => state.aadhaar.data["aadhaar_data"]?.["name"]) ||
-    useSelector((state) => state.pan?.name) ||
-    "User";
+  const unipeEmployeeId = useSelector((state) => state.auth.id);
   
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const offerId = useSelector((state) => state.ewaLive.offerId);
   const eligibleAmount = useSelector((state) => state.ewaLive.eligibleAmount);
   const [amount, setAmount] = useState(ewaLiveSlice?.eligibleAmount.toString());
-  const [consent, setConsent] = useState(false);
 
   useEffect(() => {
     ewaOfferPush({
       offerId: offerId,
-      unipeEmployeeId: employeeId,
+      unipeEmployeeId: unipeEmployeeId,
       status: "INPROGRESS",
       timestamp: Date.now(),
       ipAddress: DeviceIp,
@@ -60,27 +60,36 @@ const Offer = () => {
   }, []);
 
   function handleAmount() {
-    ewaOfferPush({
-      offerId: offerId,
-      unipeEmployeeId: employeeId,
-      status: "CONFIRMED",
-      timestamp: Date.now(),
-      ipAddress: DeviceIp,
-      deviceId: DeviceId,
-      loanAmount: parseInt(amount),
-    })
-    .then((response) => {
-      console.log("ewaOfferPush response.data: ", response.data);
-      navigation.navigate("EWA_KYC");
-    })
-    .catch((error) => {
-      console.log("ewaOfferPush error: ", error);
-      Alert.alert("An Error occured", error);
-    });
+    setLoading(true);
+    if (validAmount) {
+      ewaOfferPush({
+        offerId: offerId,
+        unipeEmployeeId: unipeEmployeeId,
+        status: "CONFIRMED",
+        timestamp: Date.now(),
+        ipAddress: DeviceIp,
+        deviceId: DeviceId,
+        loanAmount: parseInt(amount),
+      })
+      .then((response) => {
+        console.log("ewaOfferPush response.data: ", response.data);
+        navigation.navigate("EWA_KYC");
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("ewaOfferPush error: ", error);
+        Alert.alert("An Error occured", error);
+      });
+    }
   }
 
   useEffect(() => {
-    dispatch(addLoanAmount(parseInt(amount)));
+    if ( parseInt(amount) > 999 ) {
+      setValidAmount(true);
+      dispatch(addLoanAmount(parseInt(amount)));
+    } else {
+      setValidAmount(false);
+    }
   }, [amount]);
 
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
@@ -91,15 +100,17 @@ const Offer = () => {
     };
     return iconConfig;
   };
+
   const renderStepIndicator = (params) => (
     <MaterialIcons {...getStepIndicatorIconConfig(params)} />
   );
+
   const data = [
-    "Personal Details",
     "KYC",
-    "Loan Agreement",
+    "Agreement",
     "Money In Account",
   ];
+
   const stepIndicatorStyles = {
     stepIndicatorSize: 30,
     currentStepIndicatorSize: 30,
@@ -127,7 +138,7 @@ const Offer = () => {
   return (
     <SafeAreaView style={styles.container}>
       <AppBar
-        title="Advanced Salary"
+        title="On Demand Salary"
         color="#4E46F1"
         leading={
           <IconButton
@@ -141,39 +152,37 @@ const Offer = () => {
       <View
         style={{
           backgroundColor: "#E5EAF7",
-          width: "95%",
-          height: "30%",
+          width: "85%",
+          height: "20%",
           alignSelf: "center",
           marginTop: 10,
           borderRadius: 10,
+          paddingTop: 18,
+          paddingBottom: 18,
         }}
       >
-        <Text style={{ color: "#0D2A4E", padding: 12, fontSize: 16 }}>
-          <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-            Hello {name},
-          </Text>
-          {"\n"}Here is your Access of Emergency Funds
-        </Text>
         <View
           style={{
             flexDirection: "row",
-            borderBottomWidth: 1,
-            width: "60%",
+            width: "50%",
             paddingBottom: 10,
             alignSelf: "center",
           }}
         >
-          <Icon name="currency-inr" color="#000" size={42} />
+          <Icon name="currency-inr" color="green" size={32} style={{marginTop: 8, marginRight: 10}}/>
           <TextInput
             style={{
               flex: 1,
               fontSize: 32,
-              color: "#0D2A4E",
+              color: "green",
+              borderWidth: 1,
+              width: 5,
             }}
             keyboardType="numeric"
             textAlign={"center"}
             value={amount}
             onChangeText={setAmount}
+            isFocused={true}
           />
         </View>
 
@@ -185,17 +194,7 @@ const Offer = () => {
             marginTop: 10,
           }}
         >
-          You choose between 1000 to {eligibleAmount} rupees{" "}
-        </Text>
-        <Text
-          style={{
-            fontSize: 14,
-            alignSelf: "center",
-            color: "#0D2A4E",
-            marginTop: 10,
-          }}
-        >
-          Zero Interest charges, Nominal Processing Fees
+          You can choose between 1000 to {eligibleAmount}
         </Text>
       </View>
 
@@ -213,7 +212,7 @@ const Offer = () => {
       <View style={welcome.steps}>
         <StepIndicator
           customStyles={stepIndicatorStyles}
-          stepCount={4}
+          stepCount={3}
           direction="vertical"
           currentPosition={5}
           renderStepIndicator={renderStepIndicator}
@@ -232,9 +231,9 @@ const Offer = () => {
         </Text>
       </View>
       <PrimaryButton
-        title="Get It Now"
+        title={loading ? "Processing" : "Continue"}
         uppercase={false}
-        disabled={!consent}
+        disabled={loading || !consent || !validAmount}
         onPress={() => {
           handleAmount();
         }}

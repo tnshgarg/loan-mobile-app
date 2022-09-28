@@ -6,7 +6,7 @@ import { datacard } from "../styles";
 const COLOR_MAP = {"Missed": "red", "Due": "orange", "Paid": "green"};
 
 const StatusCard = ({offerType}) => {
-  console.log("COLOR_MAP[offerType] : ", COLOR_MAP[offerType]);
+
   return (
     <View
       style={{
@@ -22,10 +22,10 @@ const StatusCard = ({offerType}) => {
       <Text style={{ color: COLOR_MAP[offerType] }}>{offerType}</Text>
     </View> 
   );
+  
 }
 
 const ParentCard = ({offer, index}) => {
-  console.log("offer: ", offer);
 
   var offerType = "Missed";
   var amount = offer.eligibleAmount;
@@ -72,10 +72,10 @@ const ParentCard = ({offer, index}) => {
       <StatusCard offerType={offerType} />
     </View>
   );
+
 }
 
 const DataCard = (props) => {
-  console.log(props);
 
   return (
     <>
@@ -84,6 +84,7 @@ const DataCard = (props) => {
       ))}
     </>
   );
+
 };
 
 export default DataCard;
