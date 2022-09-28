@@ -67,7 +67,7 @@ export default PersonalImage = () => {
             />
           }
         />
-        <ProgressBarTop step={4} />
+        <ProgressBarTop step={5} />
         <ScrollView keyboardShouldPersistTaps="handled">
           <Text style={form.formHeader}>
             Upload your Passport size photo or capture your selfie.
@@ -105,9 +105,10 @@ export default PersonalImage = () => {
               profileBackendPush({
                 id: id,
                 maritalStatus: profileSlice?.maritalStatus,
-                qualification: profileSlice?.educationalQualification,
-                altMobile: profileSlice?.alternatePhone,
+                qualification: profileSlice?.qualification,
+                altMobile: profileSlice?.altMobile,
                 email: profileSlice?.email,
+                motherName: profileSlice?.motherName,
                 photo: profileSlice?.photo,
               });
               navigation.navigate("Home");

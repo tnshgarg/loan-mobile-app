@@ -13,6 +13,7 @@ const initialState = {
   verifyMsg: "",
   verifyStatus: "PENDING",
   verifyTimestamp: "",
+  misMatch: "",
 };
 
 const bankSlice = createSlice({
@@ -56,6 +57,9 @@ const bankSlice = createSlice({
         Object.assign(state, action.payload);
       }
     },
+    setMistmatch(state, action) {
+      state.misMatch = action.payload;
+    }
   },
 });
 
@@ -70,6 +74,7 @@ export const {
   addVerifyMsg,
   addVerifyStatus,
   addVerifyTimestamp,
+  setMistmatch,
   resetBank,
 } = bankSlice.actions;
 
