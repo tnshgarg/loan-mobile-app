@@ -50,7 +50,7 @@ export default Confirm = () => {
 
   const isDateValid = (expiry_date) => {
     return new Date(expiry_date) > new Date();
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -86,18 +86,16 @@ export default Confirm = () => {
       {data?.validity?.non_transport ? (
         <>
           <Text style={form.userData}>
-            Validity: {data?.validity?.non_transport?.issue_date} to {" "}
+            Validity: {data?.validity?.non_transport?.issue_date} to{" "}
             {data?.validity?.non_transport?.expiry_date}
           </Text>
           <View style={{ flexDirection: "row" }}>
             <Text style={license.authority}>Non-Transport</Text>
-            {
-              isDateValid(data?.validity?.non_transport?.expiry_date) 
-                ? 
-                <Text style={license.valid}>Valid</Text>
-                :
-                <Text style={license.invalid}>Invalid</Text>
-            }
+            {isDateValid(data?.validity?.non_transport?.expiry_date) ? (
+              <Text style={license.valid}>Valid</Text>
+            ) : (
+              <Text style={license.invalid}>Invalid</Text>
+            )}
           </View>
         </>
       ) : null}
@@ -105,18 +103,16 @@ export default Confirm = () => {
       {data?.validity?.transport ? (
         <>
           <Text style={form.userData}>
-            Transport Validity: {data?.validity?.transport?.issue_date} to {" "}
+            Transport Validity: {data?.validity?.transport?.issue_date} to{" "}
             {data?.validity?.transport?.expiry_date}
           </Text>{" "}
           <View style={{ flexDirection: "row" }}>
             <Text style={license.authority}>Transport</Text>
-            {
-              isDateValid(data?.validity?.transport?.expiry_date)
-                ?
-                <Text style={license.valid}>Valid</Text>
-                :
-                <Text style={license.invalid}>Invalid</Text>
-            }
+            {isDateValid(data?.validity?.transport?.expiry_date) ? (
+              <Text style={license.valid}>Valid</Text>
+            ) : (
+              <Text style={license.invalid}>Invalid</Text>
+            )}
           </View>
         </>
       ) : null}
@@ -137,10 +133,10 @@ export default Confirm = () => {
           color="#EB5757"
           onPress={() => {
             setVerifyMsg("Rejected by User");
-            navigation.navigate("Home", {
-              screen: "Documents",
+            navigation.navigate("Documents", {
+              screen: "Driving License",
               params: {
-                screen: "Drivers License",
+                screen: "Form",
               },
             });
           }}
@@ -155,11 +151,8 @@ export default Confirm = () => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
-            navigation.navigate("Home", {
-              screen: "Documents",
-              params: {
-                screen: "Drivers License",
-              },
+            navigation.navigate("Documents", {
+              screen: "Driving License",
             });
           }}
         />

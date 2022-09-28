@@ -31,7 +31,6 @@ const BankForm = () => {
     );
   };
 
-
   return (
     <>
       <SafeAreaView style={styles.container}>

@@ -18,6 +18,7 @@ export const putBackendData = (props) => {
 };
 
 export const getBackendData = async (props) => {
+  console.log("getBackendData for ", props.xpath);
   var params = props.params;
   var url = `${EMPLOYEE_API_URL}/${props.xpath}`;
   const res = await axios.get(url, { params: params });

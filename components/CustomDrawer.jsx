@@ -7,11 +7,11 @@ import { Image, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import Logout from "./Logout";
 
-
 export default CustomDrawer = (props) => {
-
   const image = useSelector((state) => state.profile.photo);
-  const name = useSelector((state) => state.aadhaar.data?.name || state.pan.data?.name || "User");
+  const name = useSelector(
+    (state) => state.aadhaar.data?.name || state.pan.data?.name || "User"
+  );
 
   return (
     <View style={{ flex: 1 }}>
@@ -50,4 +50,3 @@ export default CustomDrawer = (props) => {
     </View>
   );
 };
-

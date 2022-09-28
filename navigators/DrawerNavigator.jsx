@@ -12,7 +12,7 @@ import { nav } from "../styles";
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
-  // const navigation = useNavigation();
+  
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawer {...props} />}

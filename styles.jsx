@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     height: "100%",
   },
   logo: {
-    marginLeft: 70,
+    alignSelf: "center",
     marginTop: 30,
     width: 250,
     height: 87,
@@ -108,13 +108,6 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     backgroundColor: "#4E46F1",
     borderRadius: 6,
-  },
-  Maintitle: {
-    marginLeft: 30,
-    marginTop: 10,
-    color: "black",
-    fontSize: 18,
-    fontFamily: "Roboto",
   },
 });
 
@@ -543,6 +536,37 @@ export const license = StyleSheet.create({
   },
 });
 
+export const ewa = StyleSheet.create({
+  padding: {
+    marginTop: 10,
+  },
+  loanCard: {
+    marginTop: 20,
+    alignSelf: "center",
+    width: "90%",
+    backgroundColor: "#F2F4FB",
+    padding: "2%",
+    borderRadius: 4,
+  },
+  successImg: {
+    alignSelf: "center",
+    height: "43%",
+    width: "100%",
+    marginTop: "-8%",
+  },
+  checkBox: {
+    marginLeft: 34,
+    marginTop: 10,
+  },
+  checkBoxText: {
+    marginLeft: 10,
+    marginRight: 40,
+    marginTop: 10,
+    fontSize: 14,
+    color: "#828282",
+  },
+});
+
 export const card = StyleSheet.create({
   alertCard: {
     marginTop: 20,
@@ -559,6 +583,23 @@ export const card = StyleSheet.create({
     textDecorationLine: "underline",
     paddingLeft: 10,
     paddingTop: 10,
+  },
+});
+
+export const datacard = StyleSheet.create({
+  card: {
+    marginTop: 10,
+    padding: "3%",
+    width: "85%",
+    borderRadius: 4,
+    flexDirection: "row",
+    backgroundColor: "rgba(228, 238, 240, 0.4)",
+    justifyContent: "space-between",
+  },
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#270949",
   },
 });
 

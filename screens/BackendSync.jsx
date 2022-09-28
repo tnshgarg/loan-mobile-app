@@ -8,6 +8,7 @@ import { resetBank } from "../store/slices/bankSlice";
 import { resetPan } from "../store/slices/panSlice";
 import { resetProfile } from "../store/slices/profileSlice";
 import { resetLicense } from "../store/slices/licenseSlice";
+import { resetMandate } from "../store/slices/mandateSlice";
 
 const BackendSync = (props) => {
   const dispatch = useDispatch();
@@ -91,6 +92,21 @@ const BackendSync = (props) => {
         })
         .catch((error) => {
           console.log("licenseBackendFetch error: ", error);
+        });
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (id) {
+      getBackendData({ params: { unipeEmployeeId: id }, xpath: "mandate" })
+        .then((response) => {
+          if (response.data.status === 200) {
+            dispatch(resetMandate(response.data.body));
+            console.log("mandateFetch response.data", response.data);
+          }
+        })
+        .catch((error) => {
+          console.log("mandateFetch error: ", error);
         });
     }
   }, [id]);

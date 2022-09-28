@@ -21,8 +21,13 @@ import DrawerNavigator from "./DrawerNavigator";
 import { STAGE } from "@env";
 import KYCScreen from "../screens/07_drawer/KYCScreen";
 import Profile from "../screens/07_drawer/Profile";
-import LicenseConfirm from "../screens/06_home/Documents/License/Confirm";
 import BankConfirm from "../screens/03_bank/Confirm";
+import Offer from "../screens/06_home/Money/EWA/01_Offer";
+import EWA from "../screens/06_home/Money/EWA/EWA";
+import Mandate from "../screens/03_bank/Mandate";
+import Agreement from "../screens/06_home/Money/EWA/03_Agreement";
+import Disbursement from "../screens/06_home/Money/EWA/04_Disbursement";
+import KYC from "../screens/06_home/Money/EWA/02_Kyc";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -136,7 +141,7 @@ const StackNavigator = () => {
           header: null,
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="BankConfirm"
         component={BankConfirm}
         options={{
@@ -144,7 +149,13 @@ const StackNavigator = () => {
           header: null,
         }}
       />
-
+      <Stack.Screen
+        name="Mandate"
+        component={Mandate}
+        options={{
+          headerShown: false,
+        }}
+      />
       <Stack.Screen
         name="Home"
         component={DrawerNavigator}
@@ -179,14 +190,40 @@ const StackNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="LicenseConfirm"
-        component={LicenseConfirm}
+        name="EWA"
+        component={EWA}
         options={{
-          headerShown: true,
-          headerTitle: "Profile Details",
+          headerShown: false,
         }}
       />
-
+      <Stack.Screen
+        name="EWA_OFFER"
+        component={Offer}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="EWA_KYC"
+        component={KYC}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="EWA_AGREEMENT"
+        component={Agreement}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="EWA_DISBURSEMENT"
+        component={Disbursement}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
 };

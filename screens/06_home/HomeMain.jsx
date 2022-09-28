@@ -1,18 +1,22 @@
-import React from "react";
-import { SafeAreaView, ScrollView, Text, View } from "react-native";
-import { docSearch, styles } from "../../styles";
-import HomeCard from "../../components/HomeCard";
+import { SafeAreaView, Text } from "react-native";
 import { useSelector } from "react-redux";
+import HomeCard from "../../components/HomeCard";
 import { allAreNull } from "../../helpers/nullCheck";
+import { styles } from "../../styles";
 
-export default HomeMain = () => {
+
+const HomeMain = () => {
+
   const bankStatus = useSelector((state) => state.bank.verifyStatus);
   const panStatus = useSelector((state) => state.pan.verifyStatus);
   const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);
+  const mandateStatus = useSelector((state) => state.mandate.verifyStatus);
+  
   const message = [
-    bankStatus != "SUCCESS" ? "Bank Details" : null,
+    aadhaarStatus != "SUCCESS" ? "AADHAAR" : null,
+    bankStatus != "SUCCESS" ? "BANK" : null,
+    mandateStatus != "SUCCESS" ? "Mandate" : null,
     panStatus != "SUCCESS" ? "PAN" : null,
-    aadhaarStatus != "SUCCESS" ? "Aadhaar" : null,
   ];
 
   return (
@@ -32,3 +36,5 @@ export default HomeMain = () => {
     </>
   );
 };
+
+export default HomeMain;

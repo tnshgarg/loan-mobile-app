@@ -6,6 +6,7 @@ const initialState = {
   altMobile: "",
   email: "",
   photo: "",
+  motherName: ""
 };
 
 const profileSlice = createSlice({
@@ -27,6 +28,9 @@ const profileSlice = createSlice({
     addPhoto(state, action) {
       state.photo = action.payload;
     },
+    addMotherName(state, action) {
+      state.motherName = action.payload;
+    },
     resetProfile(state, action) {
       if (!action.payload) {
         Object.assign(state, initialState);
@@ -44,6 +48,7 @@ export const {
   addMaritalStatus,
   addPhoto,
   resetProfile,
+  addMotherName
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

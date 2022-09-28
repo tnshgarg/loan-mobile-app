@@ -1,10 +1,11 @@
 import { useNavigation } from "@react-navigation/core";
-import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { card } from "../styles";
 
 export default HomeCard = (props) => {
+
   const navigation = useNavigation();
+  
   return (
     <View style={card.alertCard}>
         <Text style={card.infoText}>

@@ -2,12 +2,12 @@ import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React from "react";
 import { ScrollView, View } from "react-native";
-import AddressDropdown from "../../../components/AddressDropdown";
-import { bankform, form, styles } from "../../../styles";
+import AddressDropdown from "../../../../components/AddressDropdown";
+import { bankform, form, styles } from "../../../../styles";
 import { useSelector } from "react-redux";
-import { addressPush } from "../../../helpers/BackendPush";
-import { showToast } from "../../../components/Toast";
-import { KeyboardAvoidingWrapper } from "../../../KeyboardAvoidingWrapper";
+import { addressPush } from "../../../../helpers/BackendPush";
+import { showToast } from "../../../../components/Toast";
+import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
 
 export default NomineeAddress = () => {
   const navigation = useNavigation();
