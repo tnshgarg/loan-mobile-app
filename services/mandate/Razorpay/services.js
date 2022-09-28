@@ -36,7 +36,7 @@ const createDebitOrder = ({
     customer_id: customerId,
     token: {
       auth_type: "debitcard",
-      max_amount: 9999900,
+      max_amount: 10000000,
       expire_at: 2147483647,
       bank_account: {
         beneficiary_name: accountHolderName,
@@ -72,7 +72,7 @@ const createNetBankingOrder = ({
     customer_id: customerId,
     token: {
       auth_type: "netbanking",
-      max_amount: 9999900,
+      max_amount: 10000000,
       bank_account: {
         beneficiary_name: accountHolderName,
         account_number: accountNumber,
@@ -104,7 +104,7 @@ const createUpiOrder = ({ customerId }) => {
     method: "upi",
     payment_capture: 1,
     token: {
-      max_amount: 200000,
+      max_amount: 10000000,
       expire_at: 2709971120,
     },
   });
