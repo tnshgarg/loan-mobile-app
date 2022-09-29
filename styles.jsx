@@ -588,9 +588,10 @@ export const card = StyleSheet.create({
 
 export const datacard = StyleSheet.create({
   card: {
-    marginTop: 10,
+    alignSelf: "center",
+    marginTop: "3%",
     padding: "3%",
-    width: "85%",
+    width: "95%",
     borderRadius: 4,
     flexDirection: "row",
     backgroundColor: "rgba(228, 238, 240, 0.4)",

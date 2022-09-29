@@ -9,9 +9,9 @@ import Offers from "../../../../components/DataCard";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
 import { addOffers } from "../../../../store/slices/ewaHistoricalSlice";
+import DataCard from "../../../../components/DataCard";
 
 const EWA = () => {
-
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const navigation = useNavigation();
@@ -19,7 +19,9 @@ const EWA = () => {
   const [id, setId] = useState(useSelector((state) => state.auth.id));
 
   const name = useSelector((state) => state.aadhaar.data.name);
-  const aadhaarVerifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
+  const aadhaarVerifyStatus = useSelector(
+    (state) => state.aadhaar.verifyStatus
+  );
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
   const panMisMatch = useSelector((state) => state.pan.misMatch);
@@ -27,21 +29,20 @@ const EWA = () => {
 
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const ewaHistoricalSlice = useSelector((state) => state.ewaHistorical);
-
   useEffect(() => {
     console.log("ewaOffersFetch unipeEmployeeId:", id);
     if (isFocused && id) {
       getBackendData({ params: { unipeEmployeeId: id }, xpath: "ewa/offers" })
-      .then((response) => {
-        if (response.data.status === 200) {
-          dispatch(resetEwaLive(response.data.body.live));
-          dispatch(addOffers(response.data.body.past));
-          console.log("ewaOffersFetch response.data: ", response.data);
-        }
-      })
-      .catch((error) => {
-        console.log("ewaOffersFetch error: ", error);
-      });
+        .then((response) => {
+          if (response.data.status === 200) {
+            dispatch(resetEwaLive(response.data.body.live));
+            dispatch(addOffers(response.data.body.past));
+            console.log("ewaOffersFetch response.data: ", response.data);
+          }
+        })
+        .catch((error) => {
+          console.log("ewaOffersFetch error: ", error);
+        });
     }
   }, [isFocused, id]);
 
@@ -50,8 +51,8 @@ const EWA = () => {
       {aadhaarVerifyStatus === "SUCCESS" &&
       panVerifyStatus === "SUCCESS" &&
       bankVerifyStatus === "SUCCESS" ? (
-      // panMisMatch < 20 &&
-      // bankMisMatch < 20 ? (
+        // panMisMatch < 20 &&
+        // bankMisMatch < 20 ? (
 
         <ScrollView>
           <View
@@ -70,12 +71,14 @@ const EWA = () => {
             >
               {name} get on demand salary
             </Text>
-            <Text style={{ 
-              alignSelf: "center",
-              color: "green",
-              fontWeight: "bold", 
-              fontSize: 36,
-            }}>
+            <Text
+              style={{
+                alignSelf: "center",
+                color: "green",
+                fontWeight: "bold",
+                fontSize: 36,
+              }}
+            >
               ₹ {ewaLiveSlice?.eligibleAmount}
             </Text>
           </View>
@@ -89,7 +92,7 @@ const EWA = () => {
           />
           <View
             style={{
-              alignSelf: "center",
+              marginHorizontal: 20,
             }}
           >
             <Text style={{ fontSize: 16, color: "#597E8D", marginTop: "10%" }}>
