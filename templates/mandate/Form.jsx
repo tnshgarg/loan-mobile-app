@@ -26,6 +26,7 @@ import {
   createNetBankingOrder,
   createUpiOrder,
   createDebitOrder,
+  getToken,
 } from "../../services/mandate/Razorpay/services";
 import { RZP_TEST_KEY_ID } from "@env";
 
@@ -101,14 +102,13 @@ const Form = (props) => {
 
   useEffect(() => {
     setTimestamp(Date.now());
-    console.log("handleMandate", mandateSlice);
     if (backendPush) {
-      console.log("handleMandate", data);
+      console.log("Mandate Slice", mandateSlice);
       mandatePush({
         unipeEmployeeId: employeeId,
         ipAddress: deviceIp,
         deviceId: deviceId,
-        data: { ...data, token: "14123123" },
+        data: data,
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
         verifyTimestamp: timestamp,
@@ -138,8 +138,6 @@ const Form = (props) => {
     if (orderId) {
       var options = {
         description: "Unipe Mandate Verification",
-        currency: "INR",
-        amount: "5000",
         name: "Unipe",
         key: RZP_TEST_KEY_ID,
         order_id: orderId,
@@ -154,7 +152,26 @@ const Form = (props) => {
       };
       RazorpayCheckout.open(options)
         .then((data) => {
-          alert(`Success: ${data.razorpay_payment_id}`);
+          setVerifyMsg("");
+          setVerifyStatus("SUCCESS");
+          getToken({ paymentId: data.razorpay_payment_id })
+            .then((token) => {
+              console.log("getToken", token.data);
+              setData({
+                type: type,
+                extTokenId: token.data.token_id,
+                extOrderId: orderId,
+                extPaymentId: data.razorpay_payment_id,
+                extPaymentSignature: data.razorpay_signature,
+                extCustomerId: customerId,
+              });
+              setBackendPush(true);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+
+          setBackendPush(true);
           {
             props?.type == "Onboarding"
               ? navigation.navigate("PersonalDetailsForm")

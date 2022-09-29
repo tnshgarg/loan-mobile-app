@@ -121,7 +121,20 @@ const createUpiOrder = ({ customerId }) => {
   return axios(config);
 };
 
+const getToken = ({ paymentId }) => {
+  var config = {
+    method: "get",
+    url: `https://api.razorpay.com/v1/payments/${paymentId}`,
+    headers: {
+      Authorization: RZP_TEST_AUTH,
+    },
+  };
+
+  return axios(config);
+};
+
 module.exports = {
+  getToken,
   createCustomer,
   createDebitOrder,
   createNetBankingOrder,
