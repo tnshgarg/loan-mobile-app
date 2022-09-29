@@ -9,6 +9,7 @@ import Offers from "../../../../components/DataCard";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
 import { addOffers } from "../../../../store/slices/ewaHistoricalSlice";
+import DataCard from "../../../../components/DataCard";
 
 const EWA = () => {
   const dispatch = useDispatch();
@@ -70,12 +71,14 @@ const EWA = () => {
             >
               {name} get on demand salary
             </Text>
-            <Text style={{ 
-              alignSelf: "center",
-              color: "green",
-              fontWeight: "bold", 
-              fontSize: 36,
-            }}>
+            <Text
+              style={{
+                alignSelf: "center",
+                color: "green",
+                fontWeight: "bold",
+                fontSize: 36,
+              }}
+            >
               ₹ {ewaLiveSlice?.eligibleAmount}
             </Text>
           </View>
@@ -97,7 +100,6 @@ const EWA = () => {
             </Text>
             <Offers data={ewaHistoricalSlice} />
           </View>
-          <DataCard data={ewaHistoricalSlice} />
           <View style={checkBox.padding}></View>
         </ScrollView>
       ) : (
