@@ -79,3 +79,25 @@ export const portalPush = (payload) => {
       console.log("portalPush error: ", error);
     });
 };
+
+export const ewaOfferPush = (payload) => {
+  return putBackendData({ document: payload, xpath: "ewa/offer" });
+};
+
+export const ewaKycPush = (payload) => {
+  return putBackendData({ document: payload, xpath: "ewa/kyc" });
+};
+
+export const mandatePush = (payload) => {
+  putBackendData({ document: payload, xpath: "mandate" })
+    .then((response) => {
+      console.log("mandatePush response: ", response.data);
+    })
+    .catch((error) => {
+      console.log("mandatePush error: ", error);
+    });
+};
+
+export const ewaAgreementPush = (payload) => {
+  return putBackendData({ document: payload, xpath: "ewa/agreement" });
+};

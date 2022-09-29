@@ -1,6 +1,6 @@
 import React from "react";
-import TopTabNav from "../../components/TopTabNav";
-import HomeView from "./HomeView";
+import TopTabNav from "../../../components/TopTabNav";
+import HomeView from "../HomeView";
 import ESICForm from "./ESIC/ESICForm";
 
 export default Benefits = () => {

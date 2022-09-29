@@ -163,15 +163,10 @@ export default OTPScreen = () => {
               checkVerification(phoneNumber, otp)
                 .then((res) => {
                   if (res["response"]["status"] === "success") {
-                    navigation.navigate("AadhaarForm");
                     if (onboarded) {
-                      navigation.navigate("BackendSync", {
-                        destination: "Home",
-                      });
+                      navigation.navigate("BackendSync", {"destination": "Home"});
                     } else {
-                      navigation.navigate("BackendSync", {
-                        destination: "Welcome",
-                      });
+                      navigation.navigate("BackendSync", {"destination": "Welcome"});
                     }
                     dispatch(resetTimer());
                   } else {

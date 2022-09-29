@@ -2,7 +2,5 @@
     <string name="app_name">Unipe</string>
     <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true" translatable="false">ASK_JAVASCRIPT</string>
     <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
-    <!-- <string moduleConfig="true" name="CodePushDeploymentKey">NVWL2F2UKSif5SJWBOWtkSyPC3aRIYXM_adgy</string> -->
-    <string moduleConfig="true" name="CodePushDeploymentKey" >@string/CODE_PUSH_DEPLOYMENT_KEY</string>
-    <!-- <string moduleConfig="true" name="CodePushDeploymentKey" >{$CODE_PUSH_DEPLOYMENT_KEY}</string> -->
+    <string moduleConfig="true" name="CodePushDeploymentKey">djFugZgAXYEhRWZ_kKmXFQulkJSDB9Wegnb5M</string>
 </resources>

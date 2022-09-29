@@ -32,7 +32,6 @@ export default DateEntry = (props) => {
           style={form.year}
           maxLength={2}
           keyboardType="numeric"
-          autoCompleteType="birthdate-day"
           value={day}
           onChangeText={setDay}
           placeholder="DD"
@@ -45,7 +44,6 @@ export default DateEntry = (props) => {
           maxLength={2}
           keyboardType="numeric"
           value={month}
-          autoCompleteType="birthdate-month"
           onChangeText={setMonth}
           ref={months}
           placeholder="MM"
@@ -58,7 +56,6 @@ export default DateEntry = (props) => {
           maxLength={4}
           keyboardType="numeric"
           value={year}
-          autoCompleteType="birthdate-year"
           onChangeText={setYear}
           ref={years}
           placeholder="YYYY"

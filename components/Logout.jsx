@@ -19,9 +19,7 @@ export default Logout = () => {
   const navigation = useNavigation();
 
   const store = useSelector((state) => state);
-  console.log(store);
-  
-
+  // console.log(store);
   return (
     <Pressable
       onPress={() => {

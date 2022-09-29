@@ -7,12 +7,12 @@ import { useSelector } from "react-redux";
 import { progressBar, stepIndicatorStyles } from "../styles";
 
 export default ProgressBarTop = (props) => {
-
   const navigation = useNavigation();
 
   const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);
   const panStatus = useSelector((state) => state.pan.verifyStatus);
   const bankStatus = useSelector((state) => state.bank.verifyStatus);
+  const mandateStatus = useSelector((state) => state.mandate.verifyStatus);
 
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
@@ -50,10 +50,19 @@ export default ProgressBarTop = (props) => {
         break;
       }
       case 3: {
-        iconConfig.name = "info-outline";
+        iconConfig.name = "library-add-check";
+        stepStatus == "finished"
+        ? mandateStatus == "SUCCESS"
+          ? (iconConfig.color = "green")
+          : (iconConfig.color = "red")
+        : "#4E46F1";
         break;
       }
       case 4: {
+        iconConfig.name = "info-outline";
+        break;
+      }
+      case 5: {
         iconConfig.name = "camera-front";
         break;
       }
@@ -82,9 +91,12 @@ export default ProgressBarTop = (props) => {
         bankStatus == "SUCCESS" ? (step = "BankConfirm") : (step = "BankForm");
         break;
       case 3:
-        step = "PersonalDetailsForm";
+        step = "Mandate";
         break;
       case 4:
+        step = "PersonalDetailsForm";
+        break;
+      case 5:
         step = "PersonalImage";
         break;
     }
@@ -93,13 +105,14 @@ export default ProgressBarTop = (props) => {
   return (
     <View style={progressBar.progressView}>
       <StepIndicator
-        stepCount={5}
+        stepCount={6}
         customStyles={stepIndicatorStyles}
         currentPosition={props.step}
         labels={[
           "Aadhaar Card",
           "PAN Card",
           "Bank Account",
+          "Mandate",
           "Profile",
           "Photo",
         ]}
