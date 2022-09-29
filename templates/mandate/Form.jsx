@@ -139,10 +139,12 @@ const Form = (props) => {
       var options = {
         description: "Unipe Mandate Verification",
         currency: "INR",
-        key: RZP_TEST_KEY_ID,
         amount: "5000",
         name: "Unipe",
+        key: RZP_TEST_KEY_ID,
         order_id: orderId,
+        customer_id: customerId,
+        recurring: "1",
         prefill: {
           name: name,
           email: email,
