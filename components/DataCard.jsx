@@ -1,12 +1,11 @@
 import React from "react";
 import { View, Text } from "react-native";
-import {format} from 'date-fns';
+import { format } from "date-fns";
 import { datacard } from "../styles";
 
-const COLOR_MAP = {"Missed": "red", "Due": "orange", "Paid": "green"};
+const COLOR_MAP = { Missed: "red", Due: "orange", Paid: "green" };
 
-const StatusCard = ({offerType}) => {
-
+const StatusCard = ({ offerType }) => {
   return (
     <View
       style={{
@@ -19,14 +18,14 @@ const StatusCard = ({offerType}) => {
         backgroundColor: "rgba(183, 65, 44, 0.08)",
       }}
     >
-      <Text style={{ color: COLOR_MAP[offerType] }}>{offerType}</Text>
-    </View> 
+      <Text style={{ color: COLOR_MAP[offerType], fontWeight: "bold" }}>
+        {offerType}
+      </Text>
+    </View>
   );
-  
-}
+};
 
-const ParentCard = ({offer, index}) => {
-
+const ParentCard = ({ offer, index }) => {
   var offerType = "Missed";
   var amount = offer.eligibleAmount;
   var timestamp = new Date(offer.updatedAt);
@@ -55,28 +54,21 @@ const ParentCard = ({offer, index}) => {
           alignSelf: "center",
         }}
       >
-        <Text style={{ color: "#597E8D", alignSelf: "center" }}>
-          {day}
-        </Text>
-        <Text style={{ color: "#597E8D", alignSelf: "center" }}>
-          {month}
-        </Text>
+        <Text style={{ color: "#597E8D", alignSelf: "center" }}>{day}</Text>
+        <Text style={{ color: "#597E8D", alignSelf: "center" }}>{month}</Text>
       </View>
       <View style={{ flexDirection: "column" }}>
         <Text style={datacard.cardTitle}>₹{amount}</Text>
-        {
-          offerType === "Due" &&
-          <Text style={{ color: "#597E8D" }}>Due date {offer.dueDate}</Text> 
-        }
+        {offerType === "Due" && (
+          <Text style={{ color: "#597E8D" }}>Due date {offer.dueDate}</Text>
+        )}
       </View>
       <StatusCard offerType={offerType} />
     </View>
   );
-
-}
+};
 
 const DataCard = (props) => {
-
   return (
     <>
       {props.data.map((offer, index) => (
@@ -84,7 +76,6 @@ const DataCard = (props) => {
       ))}
     </>
   );
-
 };
 
 export default DataCard;

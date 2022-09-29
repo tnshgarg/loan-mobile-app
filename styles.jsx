@@ -588,7 +588,8 @@ export const card = StyleSheet.create({
 
 export const datacard = StyleSheet.create({
   card: {
-    marginTop: 10,
+    alignSelf: "center",
+    marginTop: "3%",
     padding: "3%",
     width: "85%",
     borderRadius: 4,
