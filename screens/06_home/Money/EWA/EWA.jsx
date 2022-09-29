@@ -5,7 +5,7 @@ import { checkBox, styles } from "../../../../styles";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import HomeMain from "../../HomeMain";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
-import DataCard from "../../../../components/DataCard";
+import Offers from "../../../../components/DataCard";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
 import { addOffers } from "../../../../store/slices/ewaHistoricalSlice";
@@ -27,23 +27,6 @@ const EWA = () => {
 
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const ewaHistoricalSlice = useSelector((state) => state.ewaHistorical);
-  
-  const data = [
-    {
-      day: "15",
-      month: "Oct",
-      amount: "3000",
-      dueDate: "1st Nov, 2022",
-      paid: false,
-    },
-    {
-      day: "15",
-      month: "Jan",
-      amount: "5000",
-      dueDate: "1st Feb, 2022",
-      paid: true,
-    },
-  ];
 
   useEffect(() => {
     console.log("ewaOffersFetch unipeEmployeeId:", id);
@@ -91,16 +74,17 @@ const EWA = () => {
               alignSelf: "center",
               color: "green",
               fontWeight: "bold", 
-              fontSize: 36 
+              fontSize: 36,
             }}>
-              ₹ {ewaLiveSlice.eligibleAmount}
+              ₹ {ewaLiveSlice?.eligibleAmount}
             </Text>
           </View>
           <PrimaryButton
             title="Get money now"
             uppercase={false}
+            // disabled={parseInt(ewaLiveSlice?.eligibleAmount)<1000}
             onPress={() => {
-              navigation.navigate(`EWA_OFFER`);
+              navigation.navigate("EWA_OFFER");
             }}
           />
           <View
@@ -111,7 +95,7 @@ const EWA = () => {
             <Text style={{ fontSize: 16, color: "#597E8D", marginTop: "10%" }}>
               Your past draws
             </Text>
-            <DataCard data={ewaHistoricalSlice} />
+            <Offers data={ewaHistoricalSlice} />
           </View>
           <View style={checkBox.padding}></View>
         </ScrollView>

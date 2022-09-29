@@ -36,22 +36,20 @@ const Agreement = () => {
   const bankSlice = useSelector((state) => state.bank);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
 
-  const [loanAmount, setLoanAmount] = useState(ewaLiveSlice?.loanAmount);
-  const [fees, setFees] = useState(ewaLiveSlice?.fees);
-  const [netDisbursementAmount, setNetDisbursementAmount] = useState(Math.round((loanAmount * (1 - (fees / 100)) + 1) / 10 ) * 10 - 1);
+  const [netDisbursementAmount, setNetDisbursementAmount] = useState();
   const [processingFees, setProcessingFees] = useState();
 
   useEffect(() => {
-    setNetDisbursementAmount(Math.round((loanAmount * (1 - (fees / 100)) + 1) / 10 ) * 10 - 1);
-    setProcessingFees(loanAmount - netDisbursementAmount);
-  }, [loanAmount, fees]);
+    setProcessingFees(Math.round(((loanAmount * fees / 100) + 1) / 10 ) * 10 - 1);
+    setNetDisbursementAmount(loanAmount - processingFees);
+  }, [ewaLiveSlice]);
 
   const profileData = [
     { subTitle: "Name", value: aadhaarSlice?.data?.name },
     { subTitle: "PAN Number", value: panSlice?.number },
     { subTitle: "Date of Birth", value: aadhaarSlice?.data?.date_of_birth },
   ];
-
+  
   const bankData = [
     { subTitle: "Bank Name", value: bankSlice?.data?.bankName },
     { subTitle: "Branch", value: bankSlice?.data?.branchName },
@@ -71,7 +69,7 @@ const Agreement = () => {
   }
 
   const data = [
-    { subTitle: "Loan Amount", value: "₹" + loanAmount },
+    { subTitle: "Loan Amount", value: "₹" + ewaLiveSlice?.loanAmount },
     {
       subTitle: "Processing Fees *",
       value: "₹" + processingFees,
@@ -122,7 +120,7 @@ const Agreement = () => {
     })
     .then((response) => {
       console.log("ewaAgreementPush response.data: ", response.data);
-      navigation.navigate("EWA_DISBURSEMENT", {offerId: ewaLiveSlice?.offerId});
+      navigation.navigate("EWA_DISBURSEMENT", {offer: ewaLiveSlice});
       setLoading(false);
     })
     .catch((error) => {
