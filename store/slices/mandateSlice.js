@@ -5,6 +5,8 @@ const initialState = {
   deviceIp: "",
   deviceId: "",
   verifyMsg: "",
+  customerId: "",
+  orderId: "",
   verifyStatus: "PENDING",
   verifyTimestamp: "",
 };
@@ -34,6 +36,12 @@ const mandateSlice = createSlice({
     addType(state, action) {
       state.data.type = action.payload;
     },
+    addCustomerId(state, action) {
+      state.data.customerId = action.payload;
+    },
+    addOrderId(state, action) {
+      state.orderId = action.payload;
+    },
     resetMandate(state, action) {
       if (!action.payload) {
         Object.assign(state, initialState);
@@ -52,6 +60,8 @@ export const {
   addVerifyStatus,
   addVerifyTimestamp,
   addType,
+  addOrderId,
+  addCustomerId,
   resetMandate,
 } = mandateSlice.actions;
 
