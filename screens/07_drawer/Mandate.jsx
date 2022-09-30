@@ -31,9 +31,7 @@ const Mandate = () => {
           ))}
         </>
       ) : (
-        <>
-          <Form />
-        </>
+        <Form />
       )}
     </View>
   );
