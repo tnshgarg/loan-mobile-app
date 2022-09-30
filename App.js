@@ -20,6 +20,7 @@ Crashes.setListener({
 });
 Analytics.startSession();
 let codePushOptions = {
+  deploymentKey: "NVWL2F2UKSif5SJWBOWtkSyPC3aRIYXM_adgy",
   checkFrequency: codePush.CheckFrequency.ON_APP_START,
   mandatoryInstallMode: codePush.InstallMode.IMMEDIATE, //InstallMode.ON_NEXT_RESUME to have minimum background duration effect
 };

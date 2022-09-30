@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/core";
 import { Text, TouchableOpacity, View } from "react-native";
 import { card } from "../styles";
 
-export default HomeCard = (props) => {
+const MessageCard = (props) => {
 
   const navigation = useNavigation();
   
@@ -32,3 +32,5 @@ export default HomeCard = (props) => {
     </View>
   );
 };
+
+export default MessageCard;

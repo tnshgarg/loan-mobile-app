@@ -4,14 +4,15 @@ import { useDispatch } from "react-redux";
 import BottomTabNav from "../../components/BottomTabNav";
 import Benefits from "./Benefits/Benefits";
 import Documents from "./Documents/Documents";
-import HomeMain from "./HomeMain";
+import HomeView from "./HomeView";
+
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import EWA from "./Money/EWA/EWA";
 
 const Home = () => {
   const dispatch = useDispatch();
   const tabs = [
-    { name: "Home", component: HomeMain },
+    { name: "Home", component: HomeView },
     { name: "Documents", component: Documents },
     { name: "Benefits", component: Benefits },
     { name: "Money", component: EWA },
