@@ -1,16 +1,17 @@
+import { useState, useEffect } from "react";
 import { AppBar, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import { useState, useEffect } from "react";
 import { SafeAreaView, View, Text, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import CollapsibleCard from "../../../../components/CollapsibleCard";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import CheckBox from "@react-native-community/checkbox";
 import { styles, checkBox, ewa } from "../../../../styles";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { ewaAgreementPush } from "../../../../helpers/BackendPush";
+import { addNetDisbursementAmount, addProcessingFees } from "../../../../store/slices/ewaLiveSlice";
 
 const Agreement = () => {
 
@@ -25,6 +26,7 @@ const Agreement = () => {
     DeviceIp = ipv4Address;
   });
   
+  const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const [confirm, setConfirm] = useState(false);
@@ -36,15 +38,24 @@ const Agreement = () => {
   const bankSlice = useSelector((state) => state.bank);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
 
-  const [loanAmount, setLoanAmount] = useState(ewaLiveSlice?.loanAmount);
-  const [fees, setFees] = useState(ewaLiveSlice?.fees);
-  const [netDisbursementAmount, setNetDisbursementAmount] = useState(Math.round((loanAmount * (1 - (fees / 100)) + 1) / 10 ) * 10 - 1);
+  const [netDisbursementAmount, setNetDisbursementAmount] = useState();
   const [processingFees, setProcessingFees] = useState();
 
+  const [apr, setApr] = useState();
+
   useEffect(() => {
-    setNetDisbursementAmount(Math.round((loanAmount * (1 - (fees / 100)) + 1) / 10 ) * 10 - 1);
-    setProcessingFees(loanAmount - netDisbursementAmount);
-  }, [loanAmount, fees]);
+    setProcessingFees(Math.round(((ewaLiveSlice?.loanAmount * ewaLiveSlice?.fees / 100) + 1) / 10 ) * 10 - 1);
+  }, [ewaLiveSlice]);
+
+  useEffect(() => {
+    dispatch(addProcessingFees(processingFees));
+    setNetDisbursementAmount(ewaLiveSlice?.loanAmount - processingFees);
+  }, [processingFees]);
+
+  useEffect(() => {
+    dispatch(addNetDisbursementAmount(netDisbursementAmount));
+    setApr(APR());
+  }, [netDisbursementAmount]);
 
   const profileData = [
     { subTitle: "Name", value: aadhaarSlice?.data?.name },
@@ -65,13 +76,12 @@ const Agreement = () => {
     var dueDate = new Date(dueDateComponents[2], parseInt(dueDateComponents[1])-1, dueDateComponents[0]);
     var timeDiff = dueDate.getTime() - today.getTime();
     var daysDiff = parseInt(timeDiff / (1000 * 3600 * 24));
-    // console.log(dueDate, today, timeDiff, daysDiff);
-    var apr = ewaLiveSlice?.fees*(365/daysDiff);
+    var apr = 100*(processingFees/ewaLiveSlice?.loanAmount)*(365/daysDiff);
     return apr.toFixed(2);
   }
 
   const data = [
-    { subTitle: "Loan Amount", value: "₹" + loanAmount },
+    { subTitle: "Loan Amount", value: "₹" + ewaLiveSlice?.loanAmount },
     {
       subTitle: "Processing Fees *",
       value: "₹" + processingFees,
@@ -85,11 +95,10 @@ const Agreement = () => {
   ];
 
   const unipeEmployeeId = useSelector((state) => state.auth.id);
-  const offerId = useSelector((state) => state.ewaLive.offerId);
 
   useEffect(() => {
     ewaAgreementPush({
-      offerId: offerId,
+      offerId: ewaLiveSlice?.offerId,
       unipeEmployeeId: unipeEmployeeId,
       status: "INPROGRESS",
       timestamp: Date.now(),
@@ -108,7 +117,7 @@ const Agreement = () => {
   function handleAgreement() {
     setLoading(true);
     ewaAgreementPush({
-      offerId: offerId,
+      offerId: ewaLiveSlice?.offerId,
       unipeEmployeeId: unipeEmployeeId,
       status: "CONFIRMED",
       timestamp: Date.now(),
@@ -117,12 +126,12 @@ const Agreement = () => {
       bankAccountNumber: bankSlice?.data?.accountNumber,
       dueDate: ewaLiveSlice?.dueDate,
       processingFees: processingFees,
-      loanAmount: loanAmount,
+      loanAmount: ewaLiveSlice?.loanAmount,
       netDisbursementAmount: netDisbursementAmount,
     })
     .then((response) => {
       console.log("ewaAgreementPush response.data: ", response.data);
-      navigation.navigate("EWA_DISBURSEMENT", {offerId: ewaLiveSlice?.offerId});
+      navigation.navigate("EWA_DISBURSEMENT", {offer: ewaLiveSlice});
       setLoading(false);
     })
     .catch((error) => {
@@ -193,7 +202,7 @@ const Agreement = () => {
         <View style={checkBox.padding}></View>
         <Text style={{ marginLeft: "6%", fontSize: 6, marginTop: "25%" }}>
           * Disbursement will be reconciled in your next payroll {"\n"}
-          * Annual Percentage Rate @{APR()}%
+          * Annual Percentage Rate @ {apr} %
         </Text>
       </ScrollView>
     </SafeAreaView>

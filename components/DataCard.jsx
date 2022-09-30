@@ -1,32 +1,32 @@
 import React from "react";
-import { View, Text } from "react-native";
-import {format} from 'date-fns';
+import { View, Text, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/core";
+import { format } from "date-fns";
 import { datacard } from "../styles";
 
-const COLOR_MAP = {"Missed": "red", "Due": "orange", "Paid": "green"};
+const COLOR_MAP = { Missed: "red", Due: "orange", Paid: "green" };
 
-const StatusCard = ({offerType}) => {
-
+const StatusCard = ({ offerType }) => {
   return (
     <View
       style={{
         borderRadius: 3,
         borderColor: COLOR_MAP[offerType],
         borderWidth: 1,
-        paddingHorizontal: "4%",
-        justifyContent: "flex-end",
+        paddingHorizontal: "10%",
         alignSelf: "center",
         backgroundColor: "rgba(183, 65, 44, 0.08)",
       }}
     >
-      <Text style={{ color: COLOR_MAP[offerType] }}>{offerType}</Text>
-    </View> 
+      <Text style={{ color: COLOR_MAP[offerType], fontWeight: "bold" }}>
+        {offerType}
+      </Text>
+    </View>
   );
-  
-}
+};
 
-const ParentCard = ({offer, index}) => {
-
+const OfferCard = ({ offer }) => {
+  const navigation = useNavigation();
   var offerType = "Missed";
   var amount = offer.eligibleAmount;
   var timestamp = new Date(offer.updatedAt);
@@ -45,46 +45,40 @@ const ParentCard = ({offer, index}) => {
   var month = format(timestamp, "MMM");
 
   return (
-    <View style={datacard.card} key={index}>
-      <View
-        style={{
-          backgroundColor: "#DDE5E5",
-          paddingHorizontal: "3%",
-          borderRadius: 8,
-          justifyContent: "flex-start",
-          alignSelf: "center",
-        }}
-      >
-        <Text style={{ color: "#597E8D", alignSelf: "center" }}>
-          {day}
-        </Text>
-        <Text style={{ color: "#597E8D", alignSelf: "center" }}>
-          {month}
-        </Text>
+    <TouchableOpacity onPress={() => {if(offerType !== "Missed") {navigation.navigate("EWA_DISBURSEMENT", {offer: offer})}}}>
+      <View style={datacard.card}>
+        <View
+          style={{
+            backgroundColor: "#DDE5E5",
+            paddingHorizontal: "3%",
+            borderRadius: 8,
+            justifyContent: "flex-start",
+            alignSelf: "center",
+          }}
+        >
+          <Text style={{ color: "#597E8D", alignSelf: "center" }}>{day}</Text>
+          <Text style={{ color: "#597E8D", alignSelf: "center" }}>{month}</Text>
+        </View>
+        <View style={{ flexDirection: "column", marginLeft: "10%" }}>
+          <Text style={datacard.cardTitle}>₹{amount}</Text>
+          <Text style={{ color: "#597E8D" }}>Due date {offer.dueDate}</Text>
+        </View>
+        <View style={{ flex: 1, alignSelf: "center", marginLeft: "10%" }}>
+          <StatusCard offerType={offerType} />
+        </View>
       </View>
-      <View style={{ flexDirection: "column" }}>
-        <Text style={datacard.cardTitle}>₹{amount}</Text>
-        {
-          offerType === "Due" &&
-          <Text style={{ color: "#597E8D" }}>Due date {offer.dueDate}</Text> 
-        }
-      </View>
-      <StatusCard offerType={offerType} />
-    </View>
+    </TouchableOpacity>
   );
+};
 
-}
-
-const DataCard = (props) => {
-
+const Offers = (props) => {
   return (
     <>
       {props.data.map((offer, index) => (
-        <ParentCard offer={offer} index={index} />
+        <OfferCard offer={offer} key={index} />
       ))}
     </>
   );
-
 };
 
-export default DataCard;
+export default Offers;

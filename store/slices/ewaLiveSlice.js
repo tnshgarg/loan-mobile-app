@@ -3,10 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   offerId: "",
   dueDate: "",
-  eligibleAmount: 1000,
+  eligibleAmount: 0,
   fees: 5,
   loanAmount: "",
   stage: "",
+  netDisbursementAmount: 0,
+  processingFees: 0,
 };
 
 const ewaLiveSlice = createSlice({
@@ -31,6 +33,12 @@ const ewaLiveSlice = createSlice({
     addStage(state, action) {
       state.stage = action.payload;
     },
+    addNetDisbursementAmount(state, action) {
+      state.netDisbursementAmount = action.payload;
+    },
+    addProcessingFees(state, action) {
+      state.processingFees = action.payload;
+    },
     resetEwaLive(state, action) {
       if (!action.payload) {
         Object.assign(state, initialState);
@@ -49,6 +57,8 @@ export const {
   addLoanAmount,
   addStage,
   addStatus,
+  addNetDisbursementAmount,
+  addProcessingFees,
   resetEwaLive,
 } = ewaLiveSlice.actions;
 

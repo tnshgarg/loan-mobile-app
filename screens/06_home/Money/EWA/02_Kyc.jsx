@@ -31,11 +31,12 @@ const KYC = () => {
   const data = useSelector((state) => state.aadhaar.data);
   const number = useSelector((state) => state.aadhaar.number);
   const unipeEmployeeId = useSelector((state) => state.auth.id);
-  const offerId = useSelector((state) => state.ewaLive.offerId);
+
+  const ewaLiveSlice = useSelector((state) => state.ewaLive);
   
   useEffect(() => {
     ewaKycPush({
-      offerId: offerId, 
+      offerId: ewaLiveSlice?.offerId, 
       unipeEmployeeId: unipeEmployeeId,
       status: "INPROGRESS",
       timestamp: Date.now(),
@@ -54,7 +55,7 @@ const KYC = () => {
   function handleKyc() {
     setLoading(true);
     ewaKycPush({
-      offerId: offerId,
+      offerId: ewaLiveSlice?.offerId,
       unipeEmployeeId: unipeEmployeeId,
       status: "CONFIRMED",
       timestamp: Date.now(),

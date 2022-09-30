@@ -7,27 +7,36 @@ import CollapsibleCard from "../../../../components/CollapsibleCard";
 import { ewa, styles } from "../../../../styles";
 import { useSelector } from "react-redux";
 
-const Disbursement = () => {
+const Disbursement = ({route, navigation}) => {
 
-  const navigation = useNavigation();
+  // console.log("route.params: ", route.params);
+
+  const {offer} = route.params;
   
   const bankSlice = useSelector((state) => state.bank);
-  const ewaLiveSlice = useSelector((state) => state.ewaLive);
   
+  const [processingFees, setProcessingFees] = useState();
   const [netDisbursementAmount, setNetDisbursementAmount] = useState();
   const [dueDate, setDueDate] = useState();
 
+  useEffect(() => {
+    console.log("disbursement offer: ", offer);
+    setProcessingFees(Math.round(((offer?.loanAmount * offer?.fees / 100) + 1) / 10 ) * 10 - 1);
+    setNetDisbursementAmount(offer?.netDisbursementAmount);
+    setDueDate(offer?.dueDate);
+  }, [offer]);
 
   useEffect(() => {
-    setNetDisbursementAmount(Math.round((ewaLiveSlice?.loanAmount * (1 - (ewaLiveSlice?.fees / 100)) + 1) / 10 ) * 10 - 1);
-    setDueDate(ewaLiveSlice?.dueDate);
-  }, [ewaLiveSlice]);
+    setNetDisbursementAmount(offer?.loanAmount - processingFees);
+  }, [processingFees]);
 
   const data = [
+    { subTitle: "Loan Amount ", value: "₹" + offer?.loanAmount },
     { subTitle: "Net Disbursement Amount ", value: "₹" + netDisbursementAmount },
     { subTitle: "Disbursement Bank Account Number", value: bankSlice?.data?.accountNumber },
     { subTitle: "Due Date", value: dueDate },
     { subTitle: "Loan Account Number", value: ""},
+    { subTitle: "Disbursement Satus", value: "INPROGRESS"},
   ];
 
   return (
