@@ -3,7 +3,7 @@ import { SafeAreaView, Text, View, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { checkBox, styles } from "../../../../styles";
 import PrimaryButton from "../../../../components/PrimaryButton";
-import HomeMain from "../../HomeMain";
+import KycCheckCard from "../../../../components/KycCheckCard";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import DataCard from "../../../../components/DataCard";
 import { getBackendData } from "../../../../services/employees/employeeServices";
@@ -127,7 +127,7 @@ const EWA = () => {
           >
             You are not eligible for Advanced Salary.
           </Text>
-          <HomeMain />
+          <KycCheckCard />
         </>
       )}
     </SafeAreaView>
