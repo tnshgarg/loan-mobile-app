@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableHighlight } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { format } from "date-fns";
 import { datacard } from "../styles";
@@ -45,14 +45,7 @@ const OfferCard = ({ offer }) => {
   var month = format(timestamp, "MMM");
 
   return (
-    <TouchableHighlight
-      onPress={() =>
-        navigation.navigate("EWA_DISBURSEMENT", {
-          offerId: offer.offerId,
-          live: false,
-        })
-      }
-    >
+    <TouchableOpacity onPress={() => {if(offerType !== "Missed") {navigation.navigate("EWA_DISBURSEMENT", {offer: offer})}}}>
       <View style={datacard.card}>
         <View
           style={{
@@ -74,7 +67,7 @@ const OfferCard = ({ offer }) => {
           <StatusCard offerType={offerType} />
         </View>
       </View>
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 };
 

@@ -55,7 +55,7 @@ const KYC = () => {
   function handleKyc() {
     setLoading(true);
     ewaKycPush({
-      offerId: offerId,
+      offerId: ewaLiveSlice?.offerId,
       unipeEmployeeId: unipeEmployeeId,
       status: "CONFIRMED",
       timestamp: Date.now(),
