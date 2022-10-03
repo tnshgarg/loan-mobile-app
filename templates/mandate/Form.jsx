@@ -20,6 +20,7 @@ import {
   addVerifyTimestamp,
 } from "../../store/slices/mandateSlice";
 import { bankform } from "../../styles";
+import { showToast } from "../../components/Toast";
 import RazorpayCheckout from "react-native-razorpay";
 import {
   createCustomer,
@@ -166,6 +167,7 @@ const Form = (props) => {
                 extCustomerId: customerId,
               });
               setBackendPush(true);
+              showToast("Mandate Verified Successfully");
             })
             .catch((err) => {
               console.log(err);
