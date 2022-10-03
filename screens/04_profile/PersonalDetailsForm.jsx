@@ -31,7 +31,9 @@ export default PersonalDetailsForm = () => {
     profileSlice?.qualification
   );
   const [altMobile, setAltMobile] = useState(profileSlice?.altMobile);
-  const [email, setEmail] = useState(panSlice?.data?.email || profileSlice?.email );
+  const [email, setEmail] = useState(
+    panSlice?.data?.email || profileSlice?.email
+  );
   const [motherName, setMotherName] = useState(profileSlice?.motherName);
 
   useEffect(() => {
@@ -64,7 +66,7 @@ export default PersonalDetailsForm = () => {
     } else {
       setNext(false);
     }
-  }, [maritalStatus, qualification]);
+  }, [maritalStatus, qualification, motherName, email]);
 
   const qualifications = [
     "10th Pass",
