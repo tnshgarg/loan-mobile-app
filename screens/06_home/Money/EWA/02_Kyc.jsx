@@ -104,6 +104,7 @@ const KYC = () => {
 
       <PrimaryButton
         title={loading ? "Verifying" : "Continue"}
+        color="#2CB77C"
         uppercase={false}
         disabled={loading}
         onPress={() => {

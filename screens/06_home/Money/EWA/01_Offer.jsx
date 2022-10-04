@@ -232,6 +232,7 @@ const Offer = () => {
       </View>
       <PrimaryButton
         title={loading ? "Processing" : "Continue"}
+        color="#2CB77C"
         uppercase={false}
         disabled={loading || !consent || !validAmount}
         onPress={() => {

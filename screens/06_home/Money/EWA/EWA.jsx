@@ -84,6 +84,7 @@ const EWA = () => {
           </View>
           <PrimaryButton
             title="Get money now"
+            color="#2CB77C"
             uppercase={false}
             // disabled={parseInt(ewaLiveSlice?.eligibleAmount)<1000}
             onPress={() => {

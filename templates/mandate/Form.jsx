@@ -203,6 +203,7 @@ const Form = (props) => {
     return (
       <PrimaryButton
         title="Proceed"
+        color="#2CB77C"
         uppercase={false}
         onPress={() => {
           setType("NETBANKING");
@@ -232,6 +233,7 @@ const Form = (props) => {
     return (
       <PrimaryButton
         title="Proceed"
+        color="#2CB77C"
         uppercase={false}
         onPress={() => {
           setType("UPI");
@@ -256,6 +258,7 @@ const Form = (props) => {
     return (
       <PrimaryButton
         title="Proceed"
+        color="#2CB77C"
         uppercase={false}
         onPress={() => {
           setType("DEBITCARD");

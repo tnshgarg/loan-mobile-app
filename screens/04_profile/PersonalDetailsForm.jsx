@@ -125,7 +125,7 @@ export default PersonalDetailsForm = () => {
                     }
                     title={item}
                     type="solid"
-                    color="#4E46F1"
+                    color="#2CB77C"
                     onPress={() => setMaritalStatus(item)}
                   />
                 );
@@ -167,7 +167,7 @@ export default PersonalDetailsForm = () => {
               title="Continue"
               type="solid"
               uppercase={false}
-              color="#4E46F1"
+              color="#2CB77C"
               disabled={!next}
               onPress={() => {
                 navigation.navigate("PersonalImage");

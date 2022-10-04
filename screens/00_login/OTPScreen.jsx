@@ -19,6 +19,7 @@ import {
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/PrimaryButton";
+import SVGImg from '../../assets/UnipeLogo.svg';
 import { styles } from "../../styles";
 
 export default OTPScreen = () => {
@@ -67,9 +68,8 @@ export default OTPScreen = () => {
               />
             )}
           </View>
-          <Image
+          <SVGImg
             style={styles.logo}
-            source={require("../../assets/unipe-Thumbnail.png")}
           />
           <Text style={styles.headline}>
             {" "}
@@ -156,7 +156,7 @@ export default OTPScreen = () => {
             uppercase={false}
             title="Verify"
             type="solid"
-            color="#4E46F1"
+            color="#2CB77C"
             disabled={!next}
             onPress={() => {
               setNext(false);

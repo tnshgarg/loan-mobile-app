@@ -194,6 +194,7 @@ const Agreement = () => {
         <PrimaryButton
           title={loading ? "Booking" : "Finish"}
           uppercase={false}
+          color="#2CB77C"
           onPress={() => {
             handleAgreement();
           }}

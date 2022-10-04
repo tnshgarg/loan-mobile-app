@@ -54,7 +54,7 @@ export const styles = StyleSheet.create({
     width: 320,
     height: 60,
     fontSize: 20,
-    backgroundColor: "#4E46F1",
+    backgroundColor: "#2CB77C",
     borderRadius: 6,
   },
   PrimaryButton: {
@@ -106,7 +106,7 @@ export const styles = StyleSheet.create({
     width: 320,
     height: 60,
     fontSize: 20,
-    backgroundColor: "#4E46F1",
+    backgroundColor: "#2CB77C",
     borderRadius: 6,
   },
 });
@@ -131,7 +131,7 @@ export const progressBar = StyleSheet.create({
   },
   progressBar: {
     width: "100%",
-    color: "#4E46F1",
+    color: "#2CB77C",
   },
   progressNos: {
     marginLeft: 8,
