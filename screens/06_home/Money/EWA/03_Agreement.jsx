@@ -11,10 +11,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { ewaAgreementPush } from "../../../../helpers/BackendPush";
-import { addNetDisbursementAmount, addProcessingFees } from "../../../../store/slices/ewaLiveSlice";
+import {
+  addNetDisbursementAmount,
+  addProcessingFees,
+} from "../../../../store/slices/ewaLiveSlice";
+import { COLORS } from "../../../../constants/Theme";
 
 const Agreement = () => {
-
   let DeviceId = 0;
   let DeviceIp = 0;
 
@@ -25,7 +28,7 @@ const Agreement = () => {
   NetworkInfo.getIPV4Address().then((ipv4Address) => {
     DeviceIp = ipv4Address;
   });
-  
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -44,7 +47,13 @@ const Agreement = () => {
   const [apr, setApr] = useState();
 
   useEffect(() => {
-    setProcessingFees(Math.round(((ewaLiveSlice?.loanAmount * ewaLiveSlice?.fees / 100) + 1) / 10 ) * 10 - 1);
+    setProcessingFees(
+      Math.round(
+        ((ewaLiveSlice?.loanAmount * ewaLiveSlice?.fees) / 100 + 1) / 10
+      ) *
+        10 -
+        1
+    );
   }, [ewaLiveSlice]);
 
   useEffect(() => {
@@ -73,12 +82,17 @@ const Agreement = () => {
   const APR = () => {
     var today = new Date();
     var dueDateComponents = ewaLiveSlice.dueDate.split("/");
-    var dueDate = new Date(dueDateComponents[2], parseInt(dueDateComponents[1])-1, dueDateComponents[0]);
+    var dueDate = new Date(
+      dueDateComponents[2],
+      parseInt(dueDateComponents[1]) - 1,
+      dueDateComponents[0]
+    );
     var timeDiff = dueDate.getTime() - today.getTime();
     var daysDiff = parseInt(timeDiff / (1000 * 3600 * 24));
-    var apr = 100*(processingFees/ewaLiveSlice?.loanAmount)*(365/daysDiff);
+    var apr =
+      100 * (processingFees / ewaLiveSlice?.loanAmount) * (365 / daysDiff);
     return apr.toFixed(2);
-  }
+  };
 
   const data = [
     { subTitle: "Loan Amount", value: "₹" + ewaLiveSlice?.loanAmount },
@@ -88,8 +102,7 @@ const Agreement = () => {
     },
     {
       subTitle: "Net Disbursement Amount *",
-      value:
-        "₹" + netDisbursementAmount,
+      value: "₹" + netDisbursementAmount,
     },
     { subTitle: "Due Date", value: ewaLiveSlice?.dueDate },
   ];
@@ -105,13 +118,13 @@ const Agreement = () => {
       ipAddress: DeviceIp,
       deviceId: DeviceId,
     })
-    .then((response) => {
-      console.log("ewaAgreementPush response.data: ", response.data);
-    })
-    .catch((error) => {
-      console.log("ewaAgreementPush error: ", error);
-      Alert.alert("An Error occured", error);
-    });
+      .then((response) => {
+        console.log("ewaAgreementPush response.data: ", response.data);
+      })
+      .catch((error) => {
+        console.log("ewaAgreementPush error: ", error);
+        Alert.alert("An Error occured", error);
+      });
   }, []);
 
   function handleAgreement() {
@@ -129,22 +142,22 @@ const Agreement = () => {
       loanAmount: ewaLiveSlice?.loanAmount,
       netDisbursementAmount: netDisbursementAmount,
     })
-    .then((response) => {
-      console.log("ewaAgreementPush response.data: ", response.data);
-      navigation.navigate("EWA_DISBURSEMENT", {offer: ewaLiveSlice});
-      setLoading(false);
-    })
-    .catch((error) => {
-      console.log("ewaAgreementPush error: ", error);
-      Alert.alert("An Error occured", error);
-    });
+      .then((response) => {
+        console.log("ewaAgreementPush response.data: ", response.data);
+        navigation.navigate("EWA_DISBURSEMENT", { offer: ewaLiveSlice });
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("ewaAgreementPush error: ", error);
+        Alert.alert("An Error occured", error);
+      });
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <AppBar
         title="Agreement"
-        color="#4E46F1"
+        color={COLORS.primary}
         leading={
           <IconButton
             icon={<Icon name="arrow-left" size={20} color="white" />}
@@ -174,7 +187,7 @@ const Agreement = () => {
         <View style={{ flexDirection: "row", marginTop: 10 }}>
           <CheckBox
             style={ewa.checkBox}
-            tintColors={{ true: "#4E46F1" }}
+            tintColors={{ true: COLORS.primary }}
             value={confirm}
             onValueChange={setConfirm}
           />
@@ -183,7 +196,7 @@ const Agreement = () => {
         <View style={{ flexDirection: "row" }}>
           <CheckBox
             style={ewa.checkBox}
-            tintColors={{ true: "#4E46F1" }}
+            tintColors={{ true: COLORS.primary }}
             value={consent}
             onValueChange={setConsent}
           />
@@ -201,8 +214,8 @@ const Agreement = () => {
         />
         <View style={checkBox.padding}></View>
         <Text style={{ marginLeft: "6%", fontSize: 6, marginTop: "25%" }}>
-          * Disbursement will be reconciled in your next payroll {"\n"}
-          * Annual Percentage Rate @ {apr} %
+          * Disbursement will be reconciled in your next payroll {"\n"}* Annual
+          Percentage Rate @ {apr} %
         </Text>
       </ScrollView>
     </SafeAreaView>

@@ -8,6 +8,7 @@ import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import PanFormTemplate from "../../templates/pan/Form";
+import { COLORS } from "../../constants/Theme";
 
 export default PanForm = () => {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ export default PanForm = () => {
       <SafeAreaView style={styles.container}>
         <AppBar
           title="PAN Verification"
-          color="#4E46F1"
+          color={COLORS.primary}
           leading={
             <IconButton
               icon={<Icon name="arrow-back" size={20} color="white" />}

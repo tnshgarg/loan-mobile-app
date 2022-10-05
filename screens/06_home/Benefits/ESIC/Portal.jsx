@@ -8,6 +8,7 @@ import { addESICPortal } from "../../../../store/slices/esicSlice";
 import { bankform, form } from "../../../../styles";
 import { showToast } from "../../../../components/Toast";
 import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
+import { COLORS } from "../../../../constants/Theme";
 
 export default Portal = () => {
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ export default Portal = () => {
           uppercase={false}
           title="Continue"
           type="solid"
-          color="#4E46F1"
+          color={COLORS.primary}
           style={form.nextButton}
           onPress={() => {
             portalPush({ id: id, ipNumber: ipNumber });

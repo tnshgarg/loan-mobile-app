@@ -5,6 +5,7 @@ import { View } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { useSelector } from "react-redux";
 import { progressBar, stepIndicatorStyles } from "../styles";
+import { COLORS } from "../constants/Theme";
 
 export default ProgressBarTop = (props) => {
   const navigation = useNavigation();
@@ -17,7 +18,7 @@ export default ProgressBarTop = (props) => {
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
       name: "feed",
-      color: stepStatus === "finished" ? "green" : "#4E46F1",
+      color: stepStatus === "finished" ? "green" : COLORS.primary,
       size: 15,
     };
     switch (position) {
@@ -27,7 +28,7 @@ export default ProgressBarTop = (props) => {
           ? aadhaarStatus == "SUCCESS"
             ? (iconConfig.color = "green")
             : (iconConfig.color = "red")
-          : "#4E46F1";
+          : COLORS.primary;
 
         break;
       }
@@ -37,7 +38,7 @@ export default ProgressBarTop = (props) => {
           ? panStatus == "SUCCESS"
             ? (iconConfig.color = "green")
             : (iconConfig.color = "red")
-          : "#4E46F1";
+          : COLORS.primary;
         break;
       }
       case 2: {
@@ -46,16 +47,16 @@ export default ProgressBarTop = (props) => {
           ? bankStatus == "SUCCESS"
             ? (iconConfig.color = "green")
             : (iconConfig.color = "red")
-          : "#4E46F1";
+          : COLORS.primary;
         break;
       }
       case 3: {
         iconConfig.name = "library-add-check";
         stepStatus == "finished"
-        ? mandateStatus == "SUCCESS"
-          ? (iconConfig.color = "green")
-          : (iconConfig.color = "red")
-        : "#4E46F1";
+          ? mandateStatus == "SUCCESS"
+            ? (iconConfig.color = "green")
+            : (iconConfig.color = "red")
+          : COLORS.primary;
         break;
       }
       case 4: {

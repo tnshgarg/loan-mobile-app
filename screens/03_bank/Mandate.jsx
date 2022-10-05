@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native";
 import { useDispatch } from "react-redux";
 import ProgressBarTop from "../../components/ProgressBarTop";
+import { COLORS } from "../../constants/Theme";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import Form from "../../templates/mandate/Form";
@@ -18,7 +19,7 @@ const Mandate = () => {
     <SafeAreaView style={styles.container}>
       <AppBar
         title="Mandate Confirmation"
-        color="#4E46F1"
+        color={COLORS.primary}
         leading={
           <IconButton
             icon={<Icon name="arrow-back" size={20} color="white" />}
@@ -33,7 +34,7 @@ const Mandate = () => {
         }
       />
       <ProgressBarTop step={3} />
-      <Form type="Onboarding"/>
+      <Form type="Onboarding" />
     </SafeAreaView>
   );
 };

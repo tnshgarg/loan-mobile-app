@@ -20,6 +20,7 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/PrimaryButton";
 import { styles } from "../../styles";
+import { COLORS } from "../../constants/Theme";
 
 export default OTPScreen = () => {
   const dispatch = useDispatch();
@@ -52,12 +53,16 @@ export default OTPScreen = () => {
           <View style={styles.otpback}>
             {back ? (
               <IconButton
-                icon={<Icon name="arrow-back" size={30} color="#4E46F1" />}
+                icon={
+                  <Icon name="arrow-back" size={30} color={COLORS.primary} />
+                }
                 onPress={() => navigation.navigate("Login")}
               />
             ) : (
               <IconButton
-                icon={<Icon name="arrow-back" size={30} color="#808080" />}
+                icon={
+                  <Icon name="arrow-back" size={30} color={COLORS.primary} />
+                }
                 onPress={() =>
                   Alert.alert(
                     "OTP Timer",
@@ -79,14 +84,14 @@ export default OTPScreen = () => {
               <Icon
                 name="edit"
                 size={12}
-                color="#4E46F1"
+                color={COLORS.primary}
                 onPress={() => navigation.navigate("Login")}
               />
             ) : (
               <Icon
                 name="edit"
                 size={12}
-                color="#808080"
+                color={COLORS.gray}
                 onPress={() =>
                   Alert.alert(
                     "OTP Timer",
@@ -113,7 +118,7 @@ export default OTPScreen = () => {
             size={20}
             style={{ marginTop: 20 }}
             digitStyle={{ backgroundColor: "#FFF" }}
-            digitTxtStyle={{ color: "#4E46F1" }}
+            digitTxtStyle={{ color: COLORS.primary }}
             timeToShow={["M", "S"]}
             timeLabels={{ m: "MM", s: "SS" }}
             onChange={(time) => {
@@ -156,7 +161,7 @@ export default OTPScreen = () => {
             uppercase={false}
             title="Verify"
             type="solid"
-            color="#4E46F1"
+            color={COLORS.primary}
             disabled={!next}
             onPress={() => {
               setNext(false);
@@ -164,9 +169,13 @@ export default OTPScreen = () => {
                 .then((res) => {
                   if (res["response"]["status"] === "success") {
                     if (onboarded) {
-                      navigation.navigate("BackendSync", {"destination": "Home"});
+                      navigation.navigate("BackendSync", {
+                        destination: "Home",
+                      });
                     } else {
-                      navigation.navigate("BackendSync", {"destination": "Welcome"});
+                      navigation.navigate("BackendSync", {
+                        destination: "Welcome",
+                      });
                     }
                     dispatch(resetTimer());
                   } else {

@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Text, TextInput, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { showToast } from "../../../../components/Toast";
+import { COLORS } from "../../../../constants/Theme";
 import { relationPush } from "../../../../helpers/BackendPush";
 import relations from "../../../../helpers/RelationData";
 import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
@@ -12,10 +13,9 @@ import { addESICFamilyDetails } from "../../../../store/slices/esicSlice";
 import { bankform, form } from "../../../../styles";
 
 export default Relation = () => {
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  
+
   const id = useSelector((state) => state.auth.id);
   const [fatherHusbandRelation, setRelation] = useState(
     useSelector((state) => state.esic.familyDetails.fatherHusband.relation)
@@ -119,7 +119,7 @@ export default Relation = () => {
           uppercase={false}
           title="Continue"
           type="solid"
-          color="#4E46F1"
+          color={COLORS.primary}
           style={form.nextButton}
           onPress={() => {
             relationPush({

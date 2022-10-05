@@ -13,10 +13,9 @@ import { ewaOfferPush } from "../../../../helpers/BackendPush";
 import { bankform, checkBox, styles, welcome } from "../../../../styles";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
-
+import { COLORS } from "../../../../constants/Theme";
 
 const Offer = () => {
-  
   let DeviceId = 0;
   let DeviceIp = 0;
 
@@ -33,9 +32,9 @@ const Offer = () => {
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [validAmount, setValidAmount] = useState(true);
-  
+
   const unipeEmployeeId = useSelector((state) => state.auth.id);
-  
+
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const offerId = useSelector((state) => state.ewaLive.offerId);
   const eligibleAmount = useSelector((state) => state.ewaLive.eligibleAmount);
@@ -50,13 +49,13 @@ const Offer = () => {
       ipAddress: DeviceIp,
       deviceId: DeviceId,
     })
-    .then((response) => {
-      console.log("ewaOfferPush response.data: ", response.data);
-    })
-    .catch((error) => {
-      console.log("ewaOfferPush error: ", error);
-      Alert.alert("An Error occured", error);
-    });;
+      .then((response) => {
+        console.log("ewaOfferPush response.data: ", response.data);
+      })
+      .catch((error) => {
+        console.log("ewaOfferPush error: ", error);
+        Alert.alert("An Error occured", error);
+      });
   }, []);
 
   function handleAmount() {
@@ -71,20 +70,20 @@ const Offer = () => {
         deviceId: DeviceId,
         loanAmount: parseInt(amount),
       })
-      .then((response) => {
-        console.log("ewaOfferPush response.data: ", response.data);
-        navigation.navigate("EWA_KYC");
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("ewaOfferPush error: ", error);
-        Alert.alert("An Error occured", error);
-      });
+        .then((response) => {
+          console.log("ewaOfferPush response.data: ", response.data);
+          navigation.navigate("EWA_KYC");
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("ewaOfferPush error: ", error);
+          Alert.alert("An Error occured", error);
+        });
     }
   }
 
   useEffect(() => {
-    if ( parseInt(amount) > 999 ) {
+    if (parseInt(amount) > 999) {
       setValidAmount(true);
       dispatch(addLoanAmount(parseInt(amount)));
     } else {
@@ -105,11 +104,7 @@ const Offer = () => {
     <MaterialIcons {...getStepIndicatorIconConfig(params)} />
   );
 
-  const data = [
-    "KYC",
-    "Agreement",
-    "Money In Account",
-  ];
+  const data = ["KYC", "Agreement", "Money In Account"];
 
   const stepIndicatorStyles = {
     stepIndicatorSize: 30,
@@ -139,7 +134,7 @@ const Offer = () => {
     <SafeAreaView style={styles.container}>
       <AppBar
         title="On Demand Salary"
-        color="#4E46F1"
+        color={COLORS.primary}
         leading={
           <IconButton
             icon={<Icon name="arrow-left" size={20} color="white" />}
@@ -169,7 +164,12 @@ const Offer = () => {
             alignSelf: "center",
           }}
         >
-          <Icon name="currency-inr" color="green" size={32} style={{marginTop: 8, marginRight: 10}}/>
+          <Icon
+            name="currency-inr"
+            color="green"
+            size={32}
+            style={{ marginTop: 8, marginRight: 10 }}
+          />
           <TextInput
             style={{
               flex: 1,
@@ -224,7 +224,7 @@ const Offer = () => {
           value={consent}
           onValueChange={setConsent}
           style={checkBox.checkBox}
-          tintColors={{ true: "#4E46F1" }}
+          tintColors={{ true: COLORS.primary }}
         />
         <Text style={checkBox.checkBoxText}>
           I agree to the Terms and Conditions.

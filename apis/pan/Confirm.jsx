@@ -22,7 +22,7 @@ const PanConfirmApi = (props) => {
   const panSlice = useSelector((state) => state.pan);
   const [verifyMsg, setVerifyMsg] = useState(panSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(panSlice?.verifyStatus);
-  
+
   useEffect(() => {
     dispatch(addVerifyMsg(verifyMsg));
   }, [verifyMsg]);
@@ -65,13 +65,13 @@ const PanConfirmApi = (props) => {
           flex: 1,
         }}
       >
-        <FuzzyCheck name={data["name"]} step="PAN"/>
+        <FuzzyCheck name={data["name"]} step="PAN" />
         <Button
           title="No"
           type="solid"
           uppercase={false}
           style={form.noButton}
-          color="#EB5757"
+          color={COLORS.warning}
           onPress={() => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
@@ -90,7 +90,7 @@ const PanConfirmApi = (props) => {
           type="solid"
           uppercase={false}
           style={form.yesButton}
-          color="#4E46F1"
+          color={COLORS.primary}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");

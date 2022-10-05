@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/PrimaryButton";
 import ProgressBarTop from "../../components/ProgressBarTop";
 import RNIPPhotoCapture from "../../components/RNIPPhotoCapture";
+import { COLORS } from "../../constants/Theme";
 import { profileBackendPush } from "../../helpers/BackendPush";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { addPhoto } from "../../store/slices/profileSlice";
@@ -20,11 +21,13 @@ export default PersonalImage = () => {
 
   const id = useSelector((state) => state.auth.id);
   const profileSlice = useSelector((state) => state.profile);
-  const [image, setImage] = useState(useSelector((state) => state.profile.photo));
+  const [image, setImage] = useState(
+    useSelector((state) => state.profile.photo)
+  );
   useEffect(() => {
     dispatch(addCurrentScreen("PersonalImage"));
   }, []);
-  
+
   useEffect(() => {
     setImage(profileSlice.photo);
   }, [profileSlice.photo]);
@@ -59,7 +62,7 @@ export default PersonalImage = () => {
       <SafeAreaView style={styles.container}>
         <AppBar
           title="Photo"
-          color="#4E46F1"
+          color={COLORS.primary}
           leading={
             <IconButton
               icon={<Icon name="arrow-back" size={20} color="white" />}
@@ -99,7 +102,7 @@ export default PersonalImage = () => {
             title="Finish"
             type="solid"
             uppercase={false}
-            color="#4E46F1"
+            color={COLORS.primary}
             disabled={!next}
             onPress={() => {
               profileBackendPush({

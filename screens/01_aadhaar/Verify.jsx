@@ -7,7 +7,7 @@ import ProgressBarTop from "../../components/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import AadhaarVerifyTemplate from "../../templates/aadhaar/Verify";
-
+import { COLORS } from "../../constants/Theme";
 
 const AadhaarVerify = () => {
   const dispatch = useDispatch();
@@ -44,10 +44,10 @@ const AadhaarVerify = () => {
     <SafeAreaView style={styles.container}>
       <AppBar
         title="Aadhaar OTP Verification"
-        color="#4E46F1"
+        color={COLORS.primary}
         leading={
           <IconButton
-            icon={<Icon name="arrow-back" size={20} color="white" />}
+            icon={<Icon name="arrow-back" size={20} color={COLORS.white} />}
             onPress={() => BackAlert()}
             disabled={backDisabled}
           />

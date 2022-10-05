@@ -7,10 +7,9 @@ import ProgressBarTop from "../../components/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import AadhaarFormTemplate from "../../templates/aadhaar/Form";
 import { styles } from "../../styles";
-
+import { COLORS } from "../../constants/Theme";
 
 const AadhaarForm = () => {
-  
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -45,10 +44,10 @@ const AadhaarForm = () => {
       <SafeAreaView style={styles.container}>
         <AppBar
           title="Aadhaar Verification"
-          color="#4E46F1"
+          color={COLORS.primary}
           leading={
             <IconButton
-              icon={<Icon name="arrow-back" size={20} color="white" />}
+              icon={<Icon name="arrow-back" size={20} color={COLORS.white} />}
               onPress={() => {
                 backAlert();
               }}
@@ -56,7 +55,9 @@ const AadhaarForm = () => {
           }
           trailing={
             <IconButton
-              icon={<Icon name="arrow-forward" size={20} color="white" />}
+              icon={
+                <Icon name="arrow-forward" size={20} color={COLORS.white} />
+              }
               onPress={() => {
                 SkipAadhaar();
               }}

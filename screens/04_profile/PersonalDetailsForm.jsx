@@ -16,6 +16,7 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { bankform, form, styles } from "../../styles";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import PrimaryButton from "../../components/PrimaryButton";
+import { COLORS } from "../../constants/Theme";
 export default PersonalDetailsForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -31,7 +32,9 @@ export default PersonalDetailsForm = () => {
     profileSlice?.qualification
   );
   const [altMobile, setAltMobile] = useState(profileSlice?.altMobile);
-  const [email, setEmail] = useState(panSlice?.data?.email || profileSlice?.email );
+  const [email, setEmail] = useState(
+    panSlice?.data?.email || profileSlice?.email
+  );
   const [motherName, setMotherName] = useState(profileSlice?.motherName);
 
   useEffect(() => {
@@ -81,7 +84,7 @@ export default PersonalDetailsForm = () => {
       <SafeAreaView style={styles.container}>
         <AppBar
           title="Setup Profile"
-          color="#4E46F1"
+          color={COLORS.primary}
           leading={
             <IconButton
               icon={<Icon name="arrow-back" size={20} color="white" />}
@@ -123,7 +126,7 @@ export default PersonalDetailsForm = () => {
                     }
                     title={item}
                     type="solid"
-                    color="#4E46F1"
+                    color={COLORS.primary}
                     onPress={() => setMaritalStatus(item)}
                   />
                 );
@@ -165,7 +168,7 @@ export default PersonalDetailsForm = () => {
               title="Continue"
               type="solid"
               uppercase={false}
-              color="#4E46F1"
+              color={COLORS.primary}
               disabled={!next}
               onPress={() => {
                 navigation.navigate("PersonalImage");

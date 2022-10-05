@@ -1,8 +1,7 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-
+import { COLORS } from "../constants/Theme";
 
 const TopTabNav = (props) => {
-
   const Tab = createMaterialTopTabNavigator();
   const hide = { display: "none", backgroundColor: "white" };
   const show = { backgroundColor: "white" };
@@ -22,7 +21,7 @@ const TopTabNav = (props) => {
         tabBarScrollEnabled: true,
         swipeEnabled: !props.hide,
         lazy: true,
-        tabBarIndicatorStyle: { backgroundColor: "#4E46F1" },
+        tabBarIndicatorStyle: { backgroundColor: COLORS.primary },
       }}
     >
       {props.tabs.map((tab, index) => {

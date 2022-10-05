@@ -8,11 +8,11 @@ import KYCScreen from "../screens/07_drawer/KYCScreen";
 import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import { Image } from "react-native";
 import { nav } from "../styles";
+import { COLORS } from "../constants/Theme";
 
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
-  
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawer {...props} />}
@@ -22,7 +22,7 @@ const DrawerNavigator = () => {
         activeTintColor: "#e91e63",
         itemStyle: { marginVertical: 5 },
         headerShown: true,
-        drawerActiveBackgroundColor: "#4E46F1",
+        drawerActiveBackgroundColor: COLORS.primary,
         drawerActiveTintColor: "white",
         header: ({ navigation }) => (
           <AppBar

@@ -5,6 +5,7 @@ import {
 
 import { Image, Text, View } from "react-native";
 import { useSelector } from "react-redux";
+import { COLORS } from "../constants/Theme";
 import Logout from "./Logout";
 
 export default CustomDrawer = (props) => {
@@ -17,7 +18,7 @@ export default CustomDrawer = (props) => {
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView
         {...props}
-        contentContainerStyle={{ backgroundColor: "#4E46F1" }}
+        contentContainerStyle={{ backgroundColor: COLORS.primary }}
       >
         <View style={{ padding: 20 }}>
           <Image

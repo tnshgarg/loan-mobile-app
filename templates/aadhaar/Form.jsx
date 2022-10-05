@@ -9,7 +9,7 @@ import { bankform, checkBox, form } from "../../styles";
 
 import AadhaarOtpApi from "../../apis/aadhaar/Otp";
 import { addNumber } from "../../store/slices/aadhaarSlice";
-
+import { COLORS } from "../../constants/Theme";
 
 const AadhaarFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const AadhaarFormTemplate = (props) => {
       setValidNumber(false);
     }
   }, [number]);
-  
+
   return (
     <>
       <KeyboardAvoidingWrapper>
@@ -49,7 +49,7 @@ const AadhaarFormTemplate = (props) => {
           ) : null}
 
           <View style={bankform.infoCard}>
-            <Icon name="info-outline" size={20} color="#4E46F1" />
+            <Icon name="info-outline" size={20} color={COLORS.primary} />
             <Text style={bankform.infoText}>
               My Mobile number is linked with AADHAAR on which you can receive
               the OTP.
@@ -61,7 +61,7 @@ const AadhaarFormTemplate = (props) => {
               value={consent}
               onValueChange={setConsent}
               style={checkBox.checkBox}
-              tintColors={{ true: "#4E46F1" }}
+              tintColors={{ true: COLORS.primary }}
             />
             <Text style={checkBox.checkBoxText}>
               I agree with the KYC registration Terms and Conditions to verifiy
@@ -75,7 +75,6 @@ const AadhaarFormTemplate = (props) => {
             disabled={!validNumber || !consent}
             type={props?.route?.params?.type || ""}
           />
-
         </View>
       </KeyboardAvoidingWrapper>
     </>

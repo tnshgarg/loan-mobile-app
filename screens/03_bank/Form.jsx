@@ -4,10 +4,10 @@ import React, { useEffect } from "react";
 import { Alert, SafeAreaView } from "react-native";
 import { useDispatch } from "react-redux";
 import ProgressBarTop from "../../components/ProgressBarTop";
+import { COLORS } from "../../constants/Theme";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import BankFormTemplate from "../../templates/bank/Form";
-
 
 const BankForm = () => {
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ const BankForm = () => {
       <SafeAreaView style={styles.container}>
         <AppBar
           title="Bank Details"
-          color="#4E46F1"
+          color={COLORS.primary}
           leading={
             <IconButton
               icon={<Icon name="arrow-back" size={20} color="white" />}
@@ -55,7 +55,6 @@ const BankForm = () => {
         <ProgressBarTop step={2} />
 
         <BankFormTemplate />
-        
       </SafeAreaView>
     </>
   );

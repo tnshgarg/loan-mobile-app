@@ -61,7 +61,7 @@ const PanFormTemplate = (props) => {
           </View>
 
           <View style={bankform.infoCard}>
-            <Icon name="info-outline" size={20} color="#4E46F1" />
+            <Icon name="info-outline" size={20} color={COLORS.primary} />
             <Text style={bankform.infoText}>
               PAN is required to verify name and date of birth.
             </Text>
@@ -72,7 +72,7 @@ const PanFormTemplate = (props) => {
               value={consent}
               onValueChange={setConsent}
               style={checkBox.checkBox}
-              tintColors={{ true: "#4E46F1" }}
+              tintColors={{ true: COLORS.primary }}
             />
             <Text style={checkBox.checkBoxText}>
               I agree with the KYC registration Terms and Conditions to verifiy

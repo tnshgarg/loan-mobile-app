@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { COLORS } from "./constants/Theme";
 
 export const styles = StyleSheet.create({
   container: {
@@ -32,7 +33,7 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   resendText: {
-    color: "#4E46F1",
+    color: COLORS.primary,
     alignSelf: "center",
     marginTop: 30,
     fontSize: 16,
@@ -54,7 +55,7 @@ export const styles = StyleSheet.create({
     width: 320,
     height: 60,
     fontSize: 20,
-    backgroundColor: "#4E46F1",
+    backgroundColor: COLORS.primary,
     borderRadius: 6,
   },
   PrimaryButton: {
@@ -88,7 +89,7 @@ export const styles = StyleSheet.create({
   },
   termsText: {
     fontWeight: "bold",
-    color: "#4E46F1",
+    color: COLORS.primary,
   },
   otpreadtxt: {
     marginLeft: 40,
@@ -106,7 +107,7 @@ export const styles = StyleSheet.create({
     width: 320,
     height: 60,
     fontSize: 20,
-    backgroundColor: "#4E46F1",
+    backgroundColor: COLORS.primary,
     borderRadius: 6,
   },
 });
@@ -121,7 +122,7 @@ export const buttons = StyleSheet.create({
     fontSize: 20,
   },
   FAB: {
-    backgroundColor: "#4E46F1",
+    backgroundColor: COLORS.primary,
   },
 });
 
@@ -131,7 +132,7 @@ export const progressBar = StyleSheet.create({
   },
   progressBar: {
     width: "100%",
-    color: "#4E46F1",
+    color: COLORS.primary,
   },
   progressNos: {
     marginLeft: 8,
@@ -241,7 +242,7 @@ export const form = StyleSheet.create({
   AadharLinkedStatus: {
     marginTop: 30,
     alignSelf: "center",
-    color: "#4E46F1",
+    color: COLORS.primary,
     width: 300,
     textDecorationLine: "underline",
     fontWeight: "bold",
@@ -343,7 +344,7 @@ export const bankform = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Roboto",
   },
-  asterisk: { fontWeight: "bold", color: "#4E46F1" },
+  asterisk: { fontWeight: "bold", color: COLORS.primary },
 });
 
 export const homeCard = StyleSheet.create({
@@ -365,14 +366,14 @@ export const homeCard = StyleSheet.create({
   },
   downloadIcon: {
     marginTop: 30,
-    color: "#4E46F1",
+    color: COLORS.primary,
   },
   downloadText: {
     marginTop: 30,
     fontSize: 12,
     fontFamily: "Roboto",
     fontWeight: "bold",
-    color: "#4E46F1",
+    color: COLORS.primary,
   },
 });
 
@@ -414,7 +415,7 @@ export const Camera = StyleSheet.create({
   },
   capture: {
     flex: 0,
-    backgroundColor: "#4E46F1",
+    backgroundColor: COLORS.primary,
     borderRadius: 10,
     padding: 15,
     paddingHorizontal: 20,
@@ -424,7 +425,7 @@ export const Camera = StyleSheet.create({
   wait: {
     flex: 1,
     width: "100%",
-    backgroundColor: "#4E46F1",
+    backgroundColor: COLORS.primary,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -509,7 +510,7 @@ export const esic = StyleSheet.create({
   CollapseTitle: {
     marginLeft: 34,
     marginTop: 20,
-    color: "#4E46F1",
+    color: COLORS.primary,
     fontSize: 14,
     fontFamily: "Roboto",
   },
@@ -517,7 +518,7 @@ export const esic = StyleSheet.create({
 
 export const license = StyleSheet.create({
   authority: {
-    color: "#4E46F1",
+    color: COLORS.primary,
     marginLeft: "20%",
     fontSize: 12,
     fontFamily: "Roboto",
@@ -617,23 +618,23 @@ export const stepIndicatorStyles = {
   currentStepIndicatorSize: 30,
   separatorStrokeWidth: 2,
   currentStepStrokeWidth: 3,
-  stepStrokeCurrentColor: "#4E46F1",
+  stepStrokeCurrentColor: COLORS.primary,
   stepStrokeWidth: 3,
   separatorStrokeFinishedWidth: 4,
-  stepStrokeFinishedColor: "#4E46F1",
+  stepStrokeFinishedColor: COLORS.primary,
   stepStrokeUnFinishedColor: "#aaaaaa",
-  separatorFinishedColor: "#4E46F1",
+  separatorFinishedColor: COLORS.primary,
   separatorUnFinishedColor: "#aaaaaa",
   stepIndicatorFinishedColor: "#E5EAF7",
   stepIndicatorUnFinishedColor: "#ffffff",
   stepIndicatorCurrentColor: "#ffffff",
   stepIndicatorLabelFontSize: 14,
   currentStepIndicatorLabelFontSize: 14,
-  stepIndicatorLabelCurrentColor: "#4E46F1",
-  stepIndicatorLabelFinishedColor: "#4E46F1",
+  stepIndicatorLabelCurrentColor: COLORS.primary,
+  stepIndicatorLabelFinishedColor: COLORS.primary,
   stepIndicatorLabelUnFinishedColor: "#aaaaaa",
   labelColor: "#999999",
   labelSize: 14,
-  currentStepLabelColor: "#4E46F1",
+  currentStepLabelColor: COLORS.primary,
   labelAlign: "flex-start",
 };

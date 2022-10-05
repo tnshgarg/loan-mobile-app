@@ -9,10 +9,9 @@ import { useSelector } from "react-redux";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { ewaKycPush } from "../../../../helpers/BackendPush";
 import { form, styles } from "../../../../styles";
-
+import { COLORS } from "../../../../constants/Theme";
 
 const KYC = () => {
-
   let DeviceId = 0;
   let DeviceIp = 0;
 
@@ -27,29 +26,29 @@ const KYC = () => {
   const navigation = useNavigation();
 
   const [loading, setLoading] = useState(false);
-  
+
   const data = useSelector((state) => state.aadhaar.data);
   const number = useSelector((state) => state.aadhaar.number);
   const unipeEmployeeId = useSelector((state) => state.auth.id);
 
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
-  
+
   useEffect(() => {
     ewaKycPush({
-      offerId: ewaLiveSlice?.offerId, 
+      offerId: ewaLiveSlice?.offerId,
       unipeEmployeeId: unipeEmployeeId,
       status: "INPROGRESS",
       timestamp: Date.now(),
       ipAddress: DeviceIp,
       deviceId: DeviceId,
     })
-    .then((response) => {
-      console.log("ewaKycPush response.data: ", response.data);
-    })
-    .catch((error) => {
-      console.log("ewaKycPush error: ", error);
-      Alert.alert("An Error occured", error);
-    });
+      .then((response) => {
+        console.log("ewaKycPush response.data: ", response.data);
+      })
+      .catch((error) => {
+        console.log("ewaKycPush error: ", error);
+        Alert.alert("An Error occured", error);
+      });
   }, []);
 
   function handleKyc() {
@@ -62,22 +61,22 @@ const KYC = () => {
       ipAddress: DeviceIp,
       deviceId: DeviceId,
     })
-    .then((response) => {
-      console.log("ewaKycPush response.data: ", response.data);
-      navigation.navigate("EWA_AGREEMENT");
-      setLoading(false);
-    })
-    .catch((error) => {
-      console.log("ewaKycPush error: ", error);
-      Alert.alert("An Error occured", error);
-    });
+      .then((response) => {
+        console.log("ewaKycPush response.data: ", response.data);
+        navigation.navigate("EWA_AGREEMENT");
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("ewaKycPush error: ", error);
+        Alert.alert("An Error occured", error);
+      });
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <AppBar
         title="KYC"
-        color="#4E46F1"
+        color={COLORS.primary}
         leading={
           <IconButton
             icon={<Icon name="arrow-left" size={20} color="white" />}

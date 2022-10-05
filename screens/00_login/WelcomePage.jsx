@@ -5,6 +5,7 @@ import { Image, SafeAreaView, Text, View } from "react-native";
 import StepIndicator from "react-native-step-indicator";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/PrimaryButton";
+import { COLORS } from "../../constants/Theme";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { checkBox, stepIndicatorStyles, styles, welcome } from "../../styles";
 
@@ -16,11 +17,11 @@ export default WelcomePage = () => {
   useEffect(() => {
     dispatch(addCurrentScreen("Welcome"));
   }, []);
-  
+
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
       name: "feed",
-      color: stepStatus === "finished" ? "#ffffff" : "#4E46F1",
+      color: stepStatus === "finished" ? COLORS.white : COLORS.primary,
       size: 15,
     };
     switch (position) {
@@ -36,7 +37,7 @@ export default WelcomePage = () => {
         iconConfig.name = "payment";
         break;
       }
-      case 3:{
+      case 3: {
         iconConfig.name = "library-add-check";
         break;
       }
