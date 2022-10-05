@@ -24,6 +24,9 @@ const EWA = () => {
   );
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
+  const mandateVerifyStatus = useSelector(
+    (state) => state.mandate.verifyStatus
+  );
   const panMisMatch = useSelector((state) => state.pan.misMatch);
   const bankMisMatch = useSelector((state) => state.bank.misMatch);
 
@@ -50,7 +53,8 @@ const EWA = () => {
     <SafeAreaView style={styles.container}>
       {aadhaarVerifyStatus === "SUCCESS" &&
       panVerifyStatus === "SUCCESS" &&
-      bankVerifyStatus === "SUCCESS" ? (
+      bankVerifyStatus === "SUCCESS" &&
+      mandateVerifyStatus === "SUCCESS" ? (
         // panMisMatch < 20 &&
         // bankMisMatch < 20 ? (
 
