@@ -105,7 +105,7 @@ export default LoginScreen = () => {
             .catch((error) => {
               setLoading(false);
               console.log(error);
-              Alert("Error", "Something is Wrong");
+              Alert("Error", error);
             });
         } else {
           setLoading(false);
