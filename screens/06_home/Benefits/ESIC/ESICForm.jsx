@@ -15,7 +15,7 @@ export default ESICForm = () => {
     { name: "Nominee Address", component: NomineeAddress },
   ];
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <TopTabNav tabs={tabs} hide={false} />
     </SafeAreaView>
   );

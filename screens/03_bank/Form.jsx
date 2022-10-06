@@ -33,7 +33,7 @@ const BankForm = () => {
 
   return (
     <>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, { padding: 0 }]}>
         <AppBar
           title="Bank Details"
           color={COLORS.primary}

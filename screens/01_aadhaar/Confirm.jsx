@@ -30,7 +30,7 @@ const AadhaarConfirm = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <AppBar
         title="Aadhaar Data Confirmation"
         color={COLORS.primary}

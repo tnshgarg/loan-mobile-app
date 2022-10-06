@@ -31,7 +31,7 @@ export default PanForm = () => {
 
   return (
     <>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, { padding: 0 }]}>
         <AppBar
           title="PAN Verification"
           color={COLORS.primary}

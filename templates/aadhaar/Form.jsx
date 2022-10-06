@@ -5,11 +5,12 @@ import { Text, TextInput, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import { bankform, checkBox, form } from "../../styles";
+import { bankform, checkBox, form, styles } from "../../styles";
 
 import AadhaarOtpApi from "../../apis/aadhaar/Otp";
 import { addNumber } from "../../store/slices/aadhaarSlice";
 import { COLORS } from "../../constants/Theme";
+import InfoCard from "../../components/atoms/InfoCard";
 
 const AadhaarFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -33,8 +34,8 @@ const AadhaarFormTemplate = (props) => {
   return (
     <>
       <KeyboardAvoidingWrapper>
-        <View>
-          <Text style={form.formHeader}>Aadhaar Verification</Text>
+        <View style={styles.container}>
+          {/* <Text style={form.formHeader}>Aadhaar Verification</Text> */}
           <Text style={form.formLabel}>Enter AADHAAR Number</Text>
           <TextInput
             style={form.formTextInput}
@@ -48,13 +49,11 @@ const AadhaarFormTemplate = (props) => {
             <Text style={bankform.formatmsg}>Invalid AADHAAR Number.</Text>
           ) : null}
 
-          <View style={bankform.infoCard}>
-            <Icon name="info-outline" size={20} color={COLORS.primary} />
-            <Text style={bankform.infoText}>
-              My Mobile number is linked with AADHAAR on which you can receive
-              the OTP.
-            </Text>
-          </View>
+          <InfoCard
+            info={
+              "My Mobile number is linked to my Aadhar card & I can receive the OTP on my Aadhar Linked Mobile Number"
+            }
+          />
 
           <View style={{ flexDirection: "row" }}>
             <CheckBox

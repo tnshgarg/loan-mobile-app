@@ -47,7 +47,7 @@ const EWA = () => {
   }, [isFocused, id]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       {aadhaarVerifyStatus === "SUCCESS" &&
       panVerifyStatus === "SUCCESS" &&
       bankVerifyStatus === "SUCCESS" ? (

@@ -71,7 +71,7 @@ export default WelcomePage = () => {
 
   return (
     <>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, { padding: 0 }]}>
         <Image
           style={styles.logo}
           source={require("../../assets/unipe-Thumbnail.png")}
@@ -96,7 +96,6 @@ export default WelcomePage = () => {
             navigation.navigate("AadhaarForm");
           }}
         />
-        <View style={checkBox.padding}></View>
       </SafeAreaView>
     </>
   );

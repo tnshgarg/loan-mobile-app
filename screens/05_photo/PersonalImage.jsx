@@ -59,7 +59,7 @@ export default PersonalImage = () => {
 
   return (
     <>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, { padding: 0 }]}>
         <AppBar
           title="Photo"
           color={COLORS.primary}

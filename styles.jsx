@@ -1,10 +1,12 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "./constants/Theme";
+import { COLORS, FONTS } from "./constants/Theme";
 
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     height: "100%",
+    flex: 1,
+    padding: 15,
   },
   logo: {
     alignSelf: "center",
@@ -13,22 +15,21 @@ export const styles = StyleSheet.create({
     height: 87,
   },
   headline: {
-    fontSize: 16,
-    color: "#230C45",
-    marginLeft: 55,
-    marginTop: 40,
+    marginTop: 30,
     fontFamily: "Roboto",
+    ...FONTS.h3,
+    color: COLORS.black,
+    textAlign: "center",
   },
   fieldLabel: {
     fontSize: 14,
     fontFamily: "Noto Sans",
     marginTop: 60,
-    marginLeft: 40,
+
     color: "#020614",
   },
   textInput: {
-    marginLeft: 40,
-    width: "80%",
+    width: "100%",
     height: 50,
     borderBottomWidth: 1,
   },
@@ -76,23 +77,20 @@ export const styles = StyleSheet.create({
     backgroundColor: "white",
     width: 50,
     borderRadius: 40,
-    marginLeft: 10,
+
     marginTop: 20,
   },
   dataUseText: {
-    marginLeft: 40,
-    marginRight: 20,
     marginTop: 20,
-    fontSize: 14,
-    fontFamily: "Roboto",
-    color: "gray",
+    ...FONTS.body4,
+    color: COLORS.gray,
+    textAlign: "center",
   },
   termsText: {
     fontWeight: "bold",
     color: COLORS.primary,
   },
   otpreadtxt: {
-    marginLeft: 40,
     marginRight: 20,
     marginTop: 20,
     color: "gray",
@@ -143,19 +141,16 @@ export const progressBar = StyleSheet.create({
 
 export const form = StyleSheet.create({
   formHeader: {
-    marginLeft: 30,
     marginTop: 10,
     color: "black",
-    fontSize: 18,
+    ...FONTS.h3,
   },
   formLabel: {
-    marginLeft: 34,
     marginTop: 30,
     color: "grey",
   },
   formTextInput: {
-    marginLeft: 34,
-    width: "80%",
+    width: "100%",
     height: 50,
     borderBottomWidth: 1,
   },
@@ -166,7 +161,7 @@ export const form = StyleSheet.create({
   },
   chosenButton: {
     padding: 2,
-    marginLeft: 34,
+
     marginTop: 20,
     width: 140,
     height: 40,
@@ -174,7 +169,7 @@ export const form = StyleSheet.create({
   },
   choiceButton: {
     padding: 2,
-    marginLeft: 34,
+
     marginTop: 20,
     width: 140,
     height: 40,
@@ -213,7 +208,7 @@ export const form = StyleSheet.create({
   },
   yesButton: {
     padding: 10,
-    marginLeft: 40,
+
     marginTop: 20,
     width: 150,
     height: 60,
@@ -252,7 +247,6 @@ export const form = StyleSheet.create({
     marginTop: 10,
   },
   year: {
-    marginLeft: 34,
     height: 40,
     width: 40,
     textAlign: "center",
@@ -270,11 +264,9 @@ export const form = StyleSheet.create({
 
 export const checkBox = StyleSheet.create({
   checkBox: {
-    marginLeft: 34,
     marginTop: 30,
   },
   checkBoxText: {
-    marginLeft: 10,
     marginRight: 40,
     marginTop: 30,
     fontSize: 14,
@@ -287,20 +279,17 @@ export const checkBox = StyleSheet.create({
 
 export const bankform = StyleSheet.create({
   formtitle: {
-    marginLeft: 34,
     marginTop: 20,
     color: "#828282",
     fontSize: 14,
     fontFamily: "Roboto",
   },
   formatmsg: {
-    marginLeft: 34,
     color: "red",
     fontSize: 12,
   },
   formInput: {
-    marginLeft: 34,
-    width: "80%",
+    width: "100%",
     height: 40,
     borderBottomWidth: 1,
   },
@@ -317,7 +306,7 @@ export const bankform = StyleSheet.create({
   },
   infoCard: {
     backgroundColor: "rgba(78, 70, 241, 0.1)",
-    width: "85%",
+    width: "100%",
     marginLeft: 30,
     marginTop: 20,
     padding: 10,
@@ -338,7 +327,6 @@ export const bankform = StyleSheet.create({
     fontFamily: "Roboto",
   },
   subTitle: {
-    marginLeft: 34,
     marginTop: 20,
     color: "#828282",
     fontSize: 16,
@@ -459,7 +447,6 @@ export const Camera = StyleSheet.create({
 
 export const welcome = StyleSheet.create({
   title: {
-    marginLeft: 34,
     marginTop: 20,
     color: "black",
     fontSize: 14,
@@ -476,10 +463,9 @@ export const welcome = StyleSheet.create({
   subTitle: {
     marginTop: 20,
     alignSelf: "center",
-    justifyContent: "center",
     color: "black",
-    fontSize: 18,
-    fontFamily: "Roboto",
+    ...FONTS.h3,
+    textAlign: "center",
   },
   steps: { alignSelf: "center", flex: 1 },
 });
@@ -508,7 +494,6 @@ export const selfie = StyleSheet.create({
 
 export const esic = StyleSheet.create({
   CollapseTitle: {
-    marginLeft: 34,
     marginTop: 20,
     color: COLORS.primary,
     fontSize: 14,
@@ -556,11 +541,9 @@ export const ewa = StyleSheet.create({
     marginTop: "-8%",
   },
   checkBox: {
-    marginLeft: 34,
     marginTop: 10,
   },
   checkBoxText: {
-    marginLeft: 10,
     marginRight: 40,
     marginTop: 10,
     fontSize: 14,

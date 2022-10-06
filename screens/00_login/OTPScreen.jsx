@@ -47,7 +47,7 @@ export default OTPScreen = () => {
   }, [otp]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <KeyboardAvoidingWrapper>
         <View style={styles.container}>
           <View style={styles.otpback}>

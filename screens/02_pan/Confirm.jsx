@@ -30,7 +30,7 @@ export default PanConfirm = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <AppBar
         title="PAN Confirmation"
         color={COLORS.primary}

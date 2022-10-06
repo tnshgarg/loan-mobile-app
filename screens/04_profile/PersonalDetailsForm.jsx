@@ -81,7 +81,7 @@ export default PersonalDetailsForm = () => {
 
   return (
     <>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, { padding: 0 }]}>
         <AppBar
           title="Setup Profile"
           color={COLORS.primary}

@@ -12,7 +12,7 @@ const DocumentsView = () => {
   ];
   return (
     <>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, { padding: 0 }]}>
         <View style={docSearch.searchBar}>
           <Icon style={docSearch.searchIcon} name="search" size={30} />
           <TextInput style={docSearch.searchInput} placeholder="Search" />
