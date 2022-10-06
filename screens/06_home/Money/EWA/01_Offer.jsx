@@ -16,7 +16,6 @@ import { NetworkInfo } from "react-native-network-info";
 
 
 const Offer = () => {
-  
   let DeviceId = 0;
   let DeviceIp = 0;
 
@@ -29,7 +28,7 @@ const Offer = () => {
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
+  const pastOffers = useSelector((state) => state.ewaHistorical);
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [validAmount, setValidAmount] = useState(true);
@@ -73,7 +72,7 @@ const Offer = () => {
       })
       .then((response) => {
         console.log("ewaOfferPush response.data: ", response.data);
-        navigation.navigate("EWA_KYC");
+        {pastOffers ? navigation.navigate("EWA_AGREEMENT"):navigation.navigate("EWA_KYC")};
         setLoading(false);
       })
       .catch((error) => {
