@@ -14,7 +14,7 @@ const HomeView = () => {
   const message = [
     aadhaarStatus != "SUCCESS" ? "AADHAAR" : null,
     bankStatus != "SUCCESS" ? "BANK" : null,
-    mandateStatus != "SUCCESS" ? "Mandate" : null,
+    mandateStatus != "SUCCESS" ? "MANDATE" : null,
     panStatus != "SUCCESS" ? "PAN" : null,
   ];
 
