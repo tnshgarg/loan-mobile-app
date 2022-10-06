@@ -99,16 +99,17 @@ export default PersonalDetailsForm = () => {
             <Text style={form.formLabel}>
               Select Education <Text style={bankform.asterisk}>*</Text>
             </Text>
-            <Picker
-              selectedValue={qualification}
-              style={form.picker}
-              onValueChange={(itemValue) => setQualification(itemValue)}
-              prompt="Educational Qualification"
-            >
-              {qualifications.map((item, index) => {
-                return <Picker.Item label={item} value={item} key={index} />;
-              })}
-            </Picker>
+            <View style={form.picker}>
+              <Picker
+                selectedValue={qualification}
+                onValueChange={(itemValue) => setQualification(itemValue)}
+                prompt="Educational Qualification"
+              >
+                {qualifications.map((item, index) => {
+                  return <Picker.Item label={item} value={item} key={index} />;
+                })}
+              </Picker>
+            </View>
             <Text style={form.formLabel}>
               Marital Status <Text style={bankform.asterisk}>*</Text>
             </Text>

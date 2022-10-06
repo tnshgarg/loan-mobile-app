@@ -159,9 +159,9 @@ export const form = StyleSheet.create({
     borderBottomWidth: 1,
   },
   picker: {
-    marginLeft: 25,
-    marginTop: 20,
-    borderBottomWidth: 2,
+    marginLeft: 34,
+    width: "79%",
+    borderBottomWidth: 1,
   },
   chosenButton: {
     padding: 2,
