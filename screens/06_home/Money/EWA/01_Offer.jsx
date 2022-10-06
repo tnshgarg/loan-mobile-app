@@ -4,19 +4,17 @@ import { AppBar, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, SafeAreaView, Text, TextInput, View } from "react-native";
-import StepIndicator from "react-native-step-indicator";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { useSelector, useDispatch } from "react-redux";
-import PrimaryButton from "../../../../components/PrimaryButton";
-import { addLoanAmount } from "../../../../store/slices/ewaLiveSlice";
-import { ewaOfferPush } from "../../../../helpers/BackendPush";
-import { bankform, checkBox, styles, welcome } from "../../../../styles";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
-
+import StepIndicator from "react-native-step-indicator";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { useDispatch, useSelector } from "react-redux";
+import PrimaryButton from "../../../../components/PrimaryButton";
+import { ewaOfferPush } from "../../../../helpers/BackendPush";
+import { addLoanAmount } from "../../../../store/slices/ewaLiveSlice";
+import { bankform, checkBox, styles, welcome } from "../../../../styles";
 
 const Offer = () => {
-  
   let DeviceId = 0;
   let DeviceIp = 0;
 
@@ -32,15 +30,13 @@ const Offer = () => {
 
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
+
   const [validAmount, setValidAmount] = useState(true);
-  
   const unipeEmployeeId = useSelector((state) => state.auth.id);
-  
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const offerId = useSelector((state) => state.ewaLive.offerId);
   const eligibleAmount = useSelector((state) => state.ewaLive.eligibleAmount);
   const [amount, setAmount] = useState(ewaLiveSlice?.eligibleAmount.toString());
-
   useEffect(() => {
     ewaOfferPush({
       offerId: offerId,
@@ -50,13 +46,13 @@ const Offer = () => {
       ipAddress: DeviceIp,
       deviceId: DeviceId,
     })
-    .then((response) => {
-      console.log("ewaOfferPush response.data: ", response.data);
-    })
-    .catch((error) => {
-      console.log("ewaOfferPush error: ", error);
-      Alert.alert("An Error occured", error);
-    });;
+      .then((response) => {
+        console.log("ewaOfferPush response.data: ", response.data);
+      })
+      .catch((error) => {
+        console.log("ewaOfferPush error: ", error);
+        Alert.alert("An Error occured", error);
+      });
   }, []);
 
   function handleAmount() {
@@ -71,20 +67,20 @@ const Offer = () => {
         deviceId: DeviceId,
         loanAmount: parseInt(amount),
       })
-      .then((response) => {
-        console.log("ewaOfferPush response.data: ", response.data);
-        navigation.navigate("EWA_KYC");
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("ewaOfferPush error: ", error);
-        Alert.alert("An Error occured", error);
-      });
+        .then((response) => {
+          console.log("ewaOfferPush response.data: ", response.data);
+          navigation.navigate("EWA_KYC");
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("ewaOfferPush error: ", error);
+          Alert.alert("An Error occured", error);
+        });
     }
   }
 
   useEffect(() => {
-    if ( parseInt(amount) > 999 ) {
+    if (parseInt(amount) > 999) {
       setValidAmount(true);
       dispatch(addLoanAmount(parseInt(amount)));
     } else {
@@ -105,11 +101,7 @@ const Offer = () => {
     <MaterialIcons {...getStepIndicatorIconConfig(params)} />
   );
 
-  const data = [
-    "KYC",
-    "Agreement",
-    "Money In Account",
-  ];
+  const data = ["KYC", "Agreement", "Money In Account"];
 
   const stepIndicatorStyles = {
     stepIndicatorSize: 30,
@@ -169,7 +161,12 @@ const Offer = () => {
             alignSelf: "center",
           }}
         >
-          <Icon name="currency-inr" color="green" size={32} style={{marginTop: 8, marginRight: 10}}/>
+          <Icon
+            name="currency-inr"
+            color="green"
+            size={32}
+            style={{ marginTop: 8, marginRight: 10 }}
+          />
           <TextInput
             style={{
               flex: 1,
