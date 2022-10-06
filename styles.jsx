@@ -1,9 +1,9 @@
 import { StyleSheet } from "react-native";
-import { COLORS, FONTS } from "./constants/Theme";
+import { COLORS, FONTS, SIZES } from "./constants/Theme";
 
 export const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: COLORS.white,
     height: "100%",
     flex: 1,
     padding: 15,
@@ -16,17 +16,14 @@ export const styles = StyleSheet.create({
   },
   headline: {
     marginTop: 30,
-    fontFamily: "Roboto",
     ...FONTS.h3,
     color: COLORS.black,
     textAlign: "center",
   },
   fieldLabel: {
-    fontSize: 14,
-    fontFamily: "Noto Sans",
+    ...FONTS.body4,
     marginTop: 60,
-
-    color: "#020614",
+    color: COLORS.black,
   },
   textInput: {
     width: "100%",
@@ -37,10 +34,8 @@ export const styles = StyleSheet.create({
     color: COLORS.primary,
     alignSelf: "center",
     marginTop: 30,
-    fontSize: 16,
-    fontFamily: "Roboto",
+    ...FONTS.h3,
     textDecorationLine: "underline",
-    fontWeight: "bold",
   },
   otpInput: {
     alignSelf: "center",
@@ -74,7 +69,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
   },
   otpback: {
-    backgroundColor: "white",
+    backgroundColor: COLORS.white,
     width: 50,
     borderRadius: 40,
 
@@ -93,10 +88,8 @@ export const styles = StyleSheet.create({
   otpreadtxt: {
     marginRight: 20,
     marginTop: 20,
-    color: "gray",
-    fontSize: 14,
-    fontFamily: "Roboto",
-    fontWeight: "bold",
+    color: COLORS.gray,
+    ...FONTS.h4,
   },
   LoadingButton: {
     padding: 10,
@@ -135,19 +128,19 @@ export const progressBar = StyleSheet.create({
   progressNos: {
     marginLeft: 8,
     marginTop: -3,
-    color: "grey",
+    color: COLORS.gray,
   },
 });
 
 export const form = StyleSheet.create({
   formHeader: {
     marginTop: 10,
-    color: "black",
+    color: COLORS.black,
     ...FONTS.h3,
   },
   formLabel: {
     marginTop: 30,
-    color: "grey",
+    color: COLORS.gray,
   },
   formTextInput: {
     width: "100%",
@@ -174,7 +167,7 @@ export const form = StyleSheet.create({
     width: 140,
     height: 40,
     fontSize: 20,
-    backgroundColor: "grey",
+    backgroundColor: COLORS.gray,
   },
   nextButton: {
     padding: 5,
@@ -185,30 +178,26 @@ export const form = StyleSheet.create({
     fontSize: 20,
   },
   OtpAwaitMsg: {
-    color: "#230C45",
+    color: COLORS.secondary,
     alignSelf: "center",
     textAlign: "center",
     marginTop: 20,
-    fontSize: 16,
-    fontFamily: "Roboto",
+    ...FONTS.body3,
   },
   userData: {
-    color: "#230C45",
+    color: COLORS.secondary,
     marginLeft: 55,
     marginTop: 10,
-    fontSize: 16,
-    fontFamily: "Roboto",
+    ...FONTS.body3,
   },
   aadharConfirmText: {
-    color: "#230C45",
+    color: COLORS.secondary,
     marginLeft: 69,
     marginTop: 10,
-    fontSize: 16,
-    fontFamily: "Roboto",
+    ...FONTS.body3,
   },
   yesButton: {
     padding: 10,
-
     marginTop: 20,
     width: 150,
     height: 60,
@@ -231,8 +220,7 @@ export const form = StyleSheet.create({
     marginBottom: 20,
     marginTop: 20,
     alignSelf: "center",
-    fontSize: 16,
-    fontFamily: "Roboto",
+    ...FONTS.body3,
   },
   AadharLinkedStatus: {
     marginTop: 30,
@@ -270,7 +258,7 @@ export const checkBox = StyleSheet.create({
     marginRight: 40,
     marginTop: 30,
     fontSize: 14,
-    color: "#828282",
+    color: COLORS.gray,
   },
   padding: {
     marginTop: 30,
@@ -280,13 +268,12 @@ export const checkBox = StyleSheet.create({
 export const bankform = StyleSheet.create({
   formtitle: {
     marginTop: 20,
-    color: "#828282",
-    fontSize: 14,
-    fontFamily: "Roboto",
+    color: COLORS.gray,
+    ...FONTS.body4,
   },
   formatmsg: {
-    color: "red",
-    fontSize: 12,
+    color: COLORS.warning,
+    ...FONTS.body4,
   },
   formInput: {
     width: "100%",
@@ -316,21 +303,20 @@ export const bankform = StyleSheet.create({
   },
   infoText: {
     width: "93%",
-    color: "#333333",
+    color: COLORS.darkGray,
     paddingLeft: 7,
   },
   Maintitle: {
     marginLeft: 30,
     marginTop: 10,
-    color: "black",
+    color: COLORS.black,
     fontSize: 18,
     fontFamily: "Roboto",
   },
   subTitle: {
     marginTop: 20,
-    color: "#828282",
-    fontSize: 16,
-    fontFamily: "Roboto",
+    color: COLORS.gray,
+    ...FONTS.body3,
   },
   asterisk: { fontWeight: "bold", color: COLORS.primary },
 });
@@ -344,13 +330,10 @@ export const homeCard = StyleSheet.create({
     marginRight: 10,
   },
   title: {
-    fontSize: 16,
-    fontFamily: "Roboto",
-    fontWeight: "bold",
+    ...FONTS.h3,
   },
   subtitle: {
-    fontSize: 12,
-    fontFamily: "Roboto",
+    ...FONTS.body4,
   },
   downloadIcon: {
     marginTop: 30,
@@ -358,9 +341,7 @@ export const homeCard = StyleSheet.create({
   },
   downloadText: {
     marginTop: 30,
-    fontSize: 12,
-    fontFamily: "Roboto",
-    fontWeight: "bold",
+    ...FONTS.h4,
     color: COLORS.primary,
   },
 });
@@ -394,7 +375,7 @@ export const Camera = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "black",
+    backgroundColor: COLORS.black,
   },
   preview: {
     flex: 1,
@@ -422,7 +403,7 @@ export const Camera = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
-    color: "#fff",
+    color: COLORS.white,
   },
   back: {
     backgroundColor: "rgba(78, 70, 241, 0.9)",
@@ -448,22 +429,19 @@ export const Camera = StyleSheet.create({
 export const welcome = StyleSheet.create({
   title: {
     marginTop: 20,
-    color: "black",
-    fontSize: 14,
-    fontFamily: "Roboto",
+    color: COLORS.black,
+    ...FONTS.body4,
   },
   mainTitle: {
     marginTop: 20,
     marginLeft: 30,
-    color: "black",
-    fontWeight: "bold",
-    fontSize: 22,
-    fontFamily: "Roboto",
+    color: COLORS.black,
+    ...FONTS.h2,
   },
   subTitle: {
     marginTop: 20,
     alignSelf: "center",
-    color: "black",
+    color: COLORS.black,
     ...FONTS.h3,
     textAlign: "center",
   },
@@ -496,8 +474,7 @@ export const esic = StyleSheet.create({
   CollapseTitle: {
     marginTop: 20,
     color: COLORS.primary,
-    fontSize: 14,
-    fontFamily: "Roboto",
+    ...FONTS.body4,
   },
 });
 
@@ -505,20 +482,17 @@ export const license = StyleSheet.create({
   authority: {
     color: COLORS.primary,
     marginLeft: "20%",
-    fontSize: 12,
-    fontFamily: "Roboto",
+    ...FONTS.body4,
   },
   valid: {
     color: "green",
     marginLeft: "10%",
-    fontSize: 12,
-    fontFamily: "Roboto",
+    ...FONTS.body4,
   },
   invalid: {
     color: "red",
     marginLeft: "20%",
-    fontSize: 12,
-    fontFamily: "Roboto",
+    ...FONTS.body4,
   },
 });
 
@@ -530,7 +504,7 @@ export const ewa = StyleSheet.create({
     marginTop: 20,
     alignSelf: "center",
     width: "90%",
-    backgroundColor: "#F2F4FB",
+    backgroundColor: COLORS.white,
     padding: "2%",
     borderRadius: 4,
   },
@@ -546,8 +520,7 @@ export const ewa = StyleSheet.create({
   checkBoxText: {
     marginRight: 40,
     marginTop: 10,
-    fontSize: 14,
-    color: "#828282",
+    color: COLORS.gray,
   },
 });
 
@@ -561,9 +534,8 @@ export const card = StyleSheet.create({
     fontSize: 16,
   },
   alertText: {
-    color: "black",
-    fontSize: 14,
-    fontWeight: "bold",
+    color: COLORS.black,
+    ...FONTS.h4,
     textDecorationLine: "underline",
     paddingLeft: 10,
     paddingTop: 10,
@@ -582,9 +554,8 @@ export const datacard = StyleSheet.create({
     justifyContent: "space-between",
   },
   cardTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#270949",
+    ...FONTS.body3,
+    color: COLORS.secondary,
   },
 });
 
@@ -605,18 +576,18 @@ export const stepIndicatorStyles = {
   stepStrokeWidth: 3,
   separatorStrokeFinishedWidth: 4,
   stepStrokeFinishedColor: COLORS.primary,
-  stepStrokeUnFinishedColor: "#aaaaaa",
+  stepStrokeUnFinishedColor: COLORS.lightGray,
   separatorFinishedColor: COLORS.primary,
-  separatorUnFinishedColor: "#aaaaaa",
-  stepIndicatorFinishedColor: "#E5EAF7",
-  stepIndicatorUnFinishedColor: "#ffffff",
-  stepIndicatorCurrentColor: "#ffffff",
-  stepIndicatorLabelFontSize: 14,
-  currentStepIndicatorLabelFontSize: 14,
+  separatorUnFinishedColor: COLORS.lightGray,
+  stepIndicatorFinishedColor: COLORS.lightGray,
+  stepIndicatorUnFinishedColor: COLORS.white,
+  stepIndicatorCurrentColor: COLORS.white,
+  stepIndicatorLabelFontSize: SIZES.body3,
+  currentStepIndicatorLabelFontSize: SIZES.body3,
   stepIndicatorLabelCurrentColor: COLORS.primary,
   stepIndicatorLabelFinishedColor: COLORS.primary,
-  stepIndicatorLabelUnFinishedColor: "#aaaaaa",
-  labelColor: "#999999",
+  stepIndicatorLabelUnFinishedColor: COLORS.lightGray,
+  labelColor: COLORS.gray,
   labelSize: 14,
   currentStepLabelColor: COLORS.primary,
   labelAlign: "flex-start",

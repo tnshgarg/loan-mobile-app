@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native";
 import { useDispatch } from "react-redux";
-import BottomTabNav from "../../components/BottomTabNav";
+import BottomTabNav from "../../navigators/BottomTabNav";
 import Benefits from "./Benefits/Benefits";
 import Documents from "./Documents/Documents";
 import HomeView from "./HomeView";

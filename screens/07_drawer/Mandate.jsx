@@ -3,7 +3,7 @@ import React from "react";
 import DetailItem from "./DetailItem";
 import { useSelector } from "react-redux";
 import PanFormTemplate from "../../templates/pan/Form";
-import TopTabNav from "../../components/TopTabNav";
+import TopTabNav from "../../navigators/TopTabNav";
 import PanConfirmApi from "../../apis/pan/Confirm";
 import Form from "../../templates/mandate/Form";
 

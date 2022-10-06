@@ -10,6 +10,7 @@ import { getBackendData } from "../../../../services/employees/employeeServices"
 import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
 import { addOffers } from "../../../../store/slices/ewaHistoricalSlice";
 import DataCard from "../../../../components/DataCard";
+import { FONTS } from "../../../../constants/Theme";
 
 const EWA = () => {
   const dispatch = useDispatch();
@@ -75,8 +76,7 @@ const EWA = () => {
               style={{
                 alignSelf: "center",
                 color: "green",
-                fontWeight: "bold",
-                fontSize: 36,
+                ...FONTS.h1,
               }}
             >
               ₹ {ewaLiveSlice?.eligibleAmount}

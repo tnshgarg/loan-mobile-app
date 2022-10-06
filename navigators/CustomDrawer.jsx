@@ -5,8 +5,8 @@ import {
 
 import { Image, Text, View } from "react-native";
 import { useSelector } from "react-redux";
-import { COLORS } from "../constants/Theme";
-import Logout from "./Logout";
+import { COLORS, FONTS } from "../constants/Theme";
+import Logout from "../components/Logout";
 
 export default CustomDrawer = (props) => {
   const image = useSelector((state) => state.profile.photo);
@@ -34,16 +34,17 @@ export default CustomDrawer = (props) => {
           />
           <Text
             style={{
-              color: "white",
-              fontSize: 18,
+              color: COLORS.white,
               paddingTop: 10,
-              fontWeight: "bold",
+              ...FONTS.h3,
             }}
           >
             {name ? name : "User"}
           </Text>
         </View>
-        <View style={{ flex: 1, backgroundColor: "white", paddingTop: 10 }}>
+        <View
+          style={{ flex: 1, backgroundColor: COLORS.white, paddingTop: 10 }}
+        >
           <DrawerItemList {...props} />
         </View>
       </DrawerContentScrollView>

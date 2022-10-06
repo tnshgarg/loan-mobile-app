@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/core";
 import { Alert, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../../../components/PrimaryButton";
-import TopTabNav from "../../../../components/TopTabNav";
+import TopTabNav from "../../../../navigators/TopTabNav";
 import { form, license, styles } from "../../../../styles";
 import DetailItem from "../../../07_drawer/DetailItem";
 import Confirm from "./Confirm";
@@ -75,9 +75,9 @@ const License = () => {
 
           {data?.validity?.transport ? (
             <>
-             <DetailItem
+              <DetailItem
                 label="Expiry date"
-                value= {data?.validity?.transport?.expiry_date}
+                value={data?.validity?.transport?.expiry_date}
                 divider={true}
               />
               <View style={{ flexDirection: "row" }}>

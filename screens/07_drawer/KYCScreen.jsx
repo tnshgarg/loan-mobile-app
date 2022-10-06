@@ -1,5 +1,5 @@
 import React from "react";
-import TopTabNav from "../../components/TopTabNav";
+import TopTabNav from "../../navigators/TopTabNav";
 import Mandate from "./Mandate";
 import Aadhaar from "./Aadhaar";
 import Bank from "./Bank";
@@ -10,11 +10,9 @@ const KYCScreen = () => {
     { name: "AADHAAR", component: Aadhaar },
     { name: "PAN", component: Pan },
     { name: "BANK", component: Bank },
-    { name: "MANDATE", component:  Mandate },
+    { name: "MANDATE", component: Mandate },
   ];
-  return (
-    <TopTabNav tabs={tabs} hide={false}/>
-  );
+  return <TopTabNav tabs={tabs} hide={false} />;
 };
 
 export default KYCScreen;
