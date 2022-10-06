@@ -172,12 +172,12 @@ const Form = (props) => {
             .catch((err) => {
               console.log(err);
             });
-
-          setBackendPush(true);
           {
             props?.type == "Onboarding"
               ? navigation.navigate("PersonalDetailsForm")
-              : null;
+              : navigation.navigate("KYC", {
+                  screen: "MANDATE",
+                });
           }
         })
         .catch((error) => {
