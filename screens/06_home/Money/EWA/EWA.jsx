@@ -17,7 +17,6 @@ const EWA = () => {
   const navigation = useNavigation();
 
   const [id, setId] = useState(useSelector((state) => state.auth.id));
-
   const name = useSelector((state) => state.aadhaar.data.name);
   const aadhaarVerifyStatus = useSelector(
     (state) => state.aadhaar.verifyStatus
@@ -90,7 +89,7 @@ const EWA = () => {
             title="Get money now"
             color="#2CB77C"
             uppercase={false}
-            // disabled={parseInt(ewaLiveSlice?.eligibleAmount)<1000}
+            disabled={parseInt(ewaLiveSlice?.eligibleAmount) < 1000}
             onPress={() => {
               navigation.navigate("EWA_OFFER");
             }}

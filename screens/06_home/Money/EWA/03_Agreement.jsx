@@ -149,7 +149,7 @@ const Agreement = () => {
           <IconButton
             icon={<Icon name="arrow-left" size={20} color="white" />}
             onPress={() => {
-              navigation.navigate("EWA_KYC");
+              navigation.goBack();
             }}
           />
         }
