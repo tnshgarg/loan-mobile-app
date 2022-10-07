@@ -153,8 +153,6 @@ const Form = (props) => {
       };
       RazorpayCheckout.open(options)
         .then((data) => {
-          setVerifyMsg("");
-          setVerifyStatus("SUCCESS");
           getToken({ paymentId: data.razorpay_payment_id })
             .then((token) => {
               console.log("getToken", token.data);
@@ -166,22 +164,23 @@ const Form = (props) => {
                 extPaymentSignature: data.razorpay_signature,
                 extCustomerId: customerId,
               });
+              setVerifyMsg("");
+              setVerifyStatus("SUCCESS");
               setBackendPush(true);
               showToast("Mandate Verified Successfully");
+              props?.type == "Onboarding"
+                ? navigation.navigate("PersonalDetailsForm")
+                : null;
             })
             .catch((err) => {
               console.log(err);
             });
-          {
-            props?.type == "Onboarding"
-              ? navigation.navigate("PersonalDetailsForm")
-              : navigation.navigate("KYC", {
-                  screen: "MANDATE",
-                });
-          }
         })
         .catch((error) => {
           alert(`Error: ${error.code} | ${error.description}`);
+          setVerifyMsg(error.description);
+          setVerifyStatus("ERROR");
+          setBackendPush(true);
           setOrderId("");
         });
     }
