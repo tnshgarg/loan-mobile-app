@@ -17,6 +17,7 @@ const FormInput = ({
   autoCompleteType = "off",
   autoCapitalize = "none",
   errorMsg = "",
+  disabled,
 }) => {
   return (
     <View style={{ ...containerStyle }}>
@@ -50,6 +51,7 @@ const FormInput = ({
           autoCompleteType={autoCompleteType}
           autoCapitalize={autoCapitalize}
           onChangeText={(value) => onChange(value)}
+          editable={!disabled}
         />
         {appendComponent}
       </View>

@@ -137,6 +137,7 @@ export const form = StyleSheet.create({
     marginTop: 10,
     color: COLORS.black,
     ...FONTS.h3,
+    textAlign: "center",
   },
   formLabel: {
     marginTop: 30,

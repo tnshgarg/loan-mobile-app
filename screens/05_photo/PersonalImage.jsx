@@ -117,7 +117,6 @@ export default PersonalImage = () => {
               navigation.navigate("Home");
             }}
           />
-          <View style={checkBox.padding}></View>
         </ScrollView>
       </SafeAreaView>
     </>
