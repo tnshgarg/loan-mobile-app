@@ -119,7 +119,7 @@ export default Relation = () => {
           uppercase={false}
           title="Continue"
           type="solid"
-          color="#4E46F1"
+          color="#2CB77C"
           style={form.nextButton}
           onPress={() => {
             relationPush({

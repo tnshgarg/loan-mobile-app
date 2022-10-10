@@ -32,15 +32,14 @@ import KYC from "../screens/06_home/Money/EWA/02_Kyc";
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
 
-  const initialRoute = useSelector((state) => state.navigation.currentScreen);
+  let initialRoute = useSelector((state) => state.navigation.currentScreen);
 
   console.log("STAGE: ", STAGE);
   console.log("initialRoute: ", initialRoute);
+  STAGE === "dev" ? (initialRoute = "DevMenu") : null;
 
   return (
-    <Stack.Navigator
-      initialRouteName={STAGE === "dev" ? "DevMenu" : initialRoute}
-    >
+    <Stack.Navigator initialRouteName={initialRoute}>
       <Stack.Screen
         name="DevMenu"
         component={DevMenu}

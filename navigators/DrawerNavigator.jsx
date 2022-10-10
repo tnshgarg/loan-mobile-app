@@ -6,7 +6,7 @@ import CustomDrawer from "../components/CustomDrawer";
 import Profile from "../screens/07_drawer/Profile";
 import KYCScreen from "../screens/07_drawer/KYCScreen";
 import { AppBar, Icon, IconButton } from "@react-native-material/core";
-import { Image } from "react-native";
+import SVGImg from '../assets/UnipeLogo.svg';
 import { nav } from "../styles";
 
 const Drawer = createDrawerNavigator();
@@ -27,9 +27,8 @@ const DrawerNavigator = () => {
         header: ({ navigation }) => (
           <AppBar
             title={
-              <Image
+              <SVGImg
                 style={nav.titleLogo}
-                source={require("../assets/unipe-Thumbnail.png")}
               />
             }
             centerTitle={true}
