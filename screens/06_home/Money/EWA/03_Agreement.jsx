@@ -27,39 +27,26 @@ import Modal from "react-native-modal";
 import { AntDesign } from "react-native-vector-icons";
 import { useWindowDimensions } from "react-native";
 import RenderHtml from "react-native-render-html";
+import { format } from "date-fns";
 import agreement from "../../../../templates/docs/LiquidLoansLoanAgreement";
 
 const Agreement = () => {
-  const { width } = useWindowDimensions();
-  const panName = useSelector((state) => state.pan.data?.["name"]);
-  const aadhaarAddress = useSelector((state) => state.aadhaar.data?.address);
-  const email = useSelector((state) => state.profile?.email);
-  const mobile = useSelector((state) => state.auth.phoneNumber);
-  const loanAmount = useSelector((state) => state.ewaLive.loanAmount);
-  const accountNumber = useSelector((state) => state.bank.data.accountNumber);
-  const ifsc = useSelector((state) => state.bank.data.ifsc);
-
-  let DeviceId = 0;
-  let DeviceIp = 0;
-
-  getUniqueId().then((id) => {
-    DeviceId = id;
-  });
-
-  NetworkInfo.getIPV4Address().then((ipv4Address) => {
-    DeviceIp = ipv4Address;
-  });
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const { width } = useWindowDimensions();
+
+  const [fetched, setFetched] = useState(false);
+  const [deviceId, setDeviceId] = useState(0);
+  const [ipAddress, setIpAdress] = useState(0);
 
   const [confirm, setConfirm] = useState(false);
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const aadhaarSlice = useSelector((state) => state.aadhaar);
-  const panSlice = useSelector((state) => state.pan);
   const bankSlice = useSelector((state) => state.bank);
+  const panSlice = useSelector((state) => state.pan);
+  const profileSlice = useSelector((state) => state.profile);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
 
   const [netDisbursementAmount, setNetDisbursementAmount] = useState();
@@ -69,30 +56,41 @@ const Agreement = () => {
   const [apr, setApr] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const todayDate = format(Date(), "dd")+"/"+format(Date(), "mm")+"/"+format(Date(), "yyyy");
+
   function ValueEntry(text) {
-    text.data = text.data.replace(/\{todayDate\}/g, "date");
-    text.data = text.data.replace(/\{panName\}/g, panName);
-    text.data = text.data.replace(/\{aadhaarAddress\}/g, aadhaarAddress);
-    text.data = text.data.replace(/\{email\}/g, email);
-    text.data = text.data.replace(/\{mobile\}/g, mobile);
+    text.data = text.data.replace(/\{todayDate\}/g, todayDate);
+    text.data = text.data.replace(/\{panName\}/g, panSlice?.data?.name );
+    text.data = text.data.replace(/\{aadhaarAddress\}/g, aadhaarSlice?.data?.address);
+    text.data = text.data.replace(/\{email\}/g, profileSlice?.email);
+    text.data = text.data.replace(/\{mobile\}/g, profileSlice?.phoneNumber);
     text.data = text.data.replace(
       /\{applicationNumber\}/g,
       "applicationNumber"
-    );
-    text.data = text.data.replace(/\{loanAmount\}/g, loanAmount);
+    ); // TODO: LAN number
+    text.data = text.data.replace(/\{loanAmount\}/g, ewaLiveSlice?.loanAmount);
     text.data = text.data.replace(/\{processingFees\}/g, processingFees);
-    text.data = text.data.replace(/\{accountNumber\}/g, accountNumber);
-    text.data = text.data.replace(/\{ifsc\}/g, ifsc);
+    text.data = text.data.replace(/\{accountNumber\}/g, bankSlice?.data?.accountNumber);
+    text.data = text.data.replace(/\{ifsc\}/g, bankSlice?.data?.ifsc);
   }
 
   useEffect(() => {
-    setProcessingFees(
-      Math.round(
-        ((ewaLiveSlice?.loanAmount * ewaLiveSlice?.fees) / 100 + 1) / 10
-      ) *
-        10 -
-        1
-    );
+    getUniqueId().then((id) => {
+      setDeviceId(id);
+    });
+    NetworkInfo.getIPV4Address().then((ipv4Address) => {
+      setIpAdress(ipv4Address);
+    });
+  }, []);
+
+  useEffect(() => {
+    if(deviceId!==0 && ipAddress!==0) {
+      setFetched(true);
+    }
+  }, [deviceId, ipAddress]);
+
+  useEffect(() => {
+    setProcessingFees(Math.round(((ewaLiveSlice?.loanAmount * ewaLiveSlice?.fees / 100) + 1) / 10 ) * 10 - 1);
   }, [ewaLiveSlice]);
 
   useEffect(() => {
@@ -149,14 +147,15 @@ const Agreement = () => {
   const unipeEmployeeId = useSelector((state) => state.auth.id);
 
   useEffect(() => {
-    ewaAgreementPush({
-      offerId: ewaLiveSlice?.offerId,
-      unipeEmployeeId: unipeEmployeeId,
-      status: "INPROGRESS",
-      timestamp: Date.now(),
-      ipAddress: DeviceIp,
-      deviceId: DeviceId,
-    })
+    if (fetched) {
+      ewaAgreementPush({
+        offerId: ewaLiveSlice?.offerId,
+        unipeEmployeeId: unipeEmployeeId,
+        status: "INPROGRESS",
+        timestamp: Date.now(),
+        ipAddress: ipAddress,
+        deviceId: deviceId,
+      })
       .then((response) => {
         console.log("ewaAgreementPush response.data: ", response.data);
       })
@@ -164,7 +163,8 @@ const Agreement = () => {
         console.log("ewaAgreementPush error: ", error);
         Alert.alert("An Error occured", error);
       });
-  }, []);
+    }
+  }, [fetched]);
 
   function handleAgreement() {
     setLoading(true);
@@ -173,8 +173,8 @@ const Agreement = () => {
       unipeEmployeeId: unipeEmployeeId,
       status: "CONFIRMED",
       timestamp: Date.now(),
-      ipAddress: DeviceIp,
-      deviceId: DeviceId,
+      ipAddress: ipAddress,
+      deviceId: deviceId,
       bankAccountNumber: bankSlice?.data?.accountNumber,
       dueDate: ewaLiveSlice?.dueDate,
       processingFees: processingFees,

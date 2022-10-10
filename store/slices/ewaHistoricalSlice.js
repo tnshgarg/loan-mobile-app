@@ -7,7 +7,7 @@ const ewaHistoricalSlice = createSlice({
   initialState: initialState,
   reducers: {
     addOffers(state, action) {
-      return action.payload;
+      Object.assign(state, action.payload);
     },
   },
 });

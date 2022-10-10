@@ -1,5 +1,4 @@
 import { AppBar, IconButton } from "@react-native-material/core";
-import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { SafeAreaView, Image } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -8,9 +7,6 @@ import { ewa, styles } from "../../../../styles";
 import { useSelector } from "react-redux";
 
 const Disbursement = ({route, navigation}) => {
-
-  // console.log("route.params: ", route.params);
-
   const {offer} = route.params;
   
   const bankSlice = useSelector((state) => state.bank);
