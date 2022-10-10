@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { SafeAreaView, Text, View, ScrollView } from "react-native";
+import { SafeAreaView, Text, View, ScrollView, Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { checkBox, styles } from "../../../../styles";
+import { checkBox, nav, styles } from "../../../../styles";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import KycCheckCard from "../../../../components/KycCheckCard";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
@@ -10,6 +10,7 @@ import { getBackendData } from "../../../../services/employees/employeeServices"
 import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
 import { addOffers } from "../../../../store/slices/ewaHistoricalSlice";
 import DataCard from "../../../../components/DataCard";
+import { AppBar, Icon, IconButton } from "@react-native-material/core";
 
 const EWA = () => {
   const dispatch = useDispatch();
@@ -48,6 +49,27 @@ const EWA = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <AppBar
+        title={
+          <Image
+            style={nav.titleLogo}
+            source={require("../../../../assets/unipe-Thumbnail.png")}
+          />
+        }
+        centerTitle={true}
+        contentContainerStyle={nav.navbar}
+        color="#ffffff"
+        leading={
+          <IconButton
+            icon={<Icon name="menu" size={30} />}
+            onPress={() => {
+              console.log("Menu");
+              navigation.toggleDrawer();
+            }}
+          />
+        }
+        trailing={<IconButton icon={<Icon name="more-vert" size={30} />} />}
+      />
       {aadhaarVerifyStatus === "SUCCESS" &&
       panVerifyStatus === "SUCCESS" &&
       bankVerifyStatus === "SUCCESS" ? (

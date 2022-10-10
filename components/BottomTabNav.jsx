@@ -1,6 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Icon  from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default BottomTabNav = (props) => {
   const bottomTab = createBottomTabNavigator();
@@ -15,7 +15,9 @@ export default BottomTabNav = (props) => {
               iconName = focused ? "home" : "home-outline";
               break;
             case "Documents":
-              iconName = focused ? "clipboard-account" : "clipboard-account-outline";
+              iconName = focused
+                ? "clipboard-account"
+                : "clipboard-account-outline";
               break;
             case "Benefits":
               iconName = focused ? "plus-thick" : "plus-outline";

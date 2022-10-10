@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SafeAreaView } from "react-native";
+import { Image, SafeAreaView } from "react-native";
 import { useDispatch } from "react-redux";
 import BottomTabNav from "../../components/BottomTabNav";
 import Benefits from "./Benefits/Benefits";
@@ -8,6 +8,9 @@ import HomeView from "./HomeView";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import EWA from "./Money/EWA/EWA";
+import EWANavigator from "../../navigators/EWANavigator";
+import { AppBar, Icon, IconButton } from "@react-native-material/core";
+import { nav } from "../../styles";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -15,7 +18,7 @@ const Home = () => {
     { name: "Home", component: HomeView },
     { name: "Documents", component: Documents },
     { name: "Benefits", component: Benefits },
-    { name: "Money", component: EWA },
+    { name: "Money", component: EWANavigator },
   ];
 
   useEffect(() => {

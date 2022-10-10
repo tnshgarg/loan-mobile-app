@@ -12,7 +12,6 @@ import { nav } from "../styles";
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
-  
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawer {...props} />}
@@ -55,6 +54,7 @@ const DrawerNavigator = () => {
           drawerIcon: ({ color }) => (
             <Ionicons name="home" color={color} size={20} />
           ),
+          headerShown: false,
         }}
         name="DrawerHome"
         component={Home}
