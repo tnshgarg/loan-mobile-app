@@ -198,26 +198,30 @@ const Form = (props) => {
     return <Icon1 name="smart-card" size={24} color="#FF6700" />;
   };
 
-  const NetBankbutton = () => {
+  const BankingButton = (type) => {
     return (
       <PrimaryButton
         title="Proceed"
         color="#2CB77C"
         uppercase={false}
         onPress={() => {
-          setType("NETBANKING");
+          setType(type);
           setVerifyStatus("PENDING");
           setVerifyMsg("To be confirmed by user");
           setTimestamp(Date.now());
           setBackendPush(true);
-          createNetBankingOrder({
+          let func =0;
+          type === "NETBANKING"
+            ? (func = createNetBankingOrder)
+            : (func = createDebitOrder);
+          func({
             customerId: customerId,
             accountHolderName: name,
             accountNumber: number,
             ifsc: ifsc,
           })
             .then((res) => {
-              console.log("Netbanking", res.data);
+              console.log(type, res.data);
               setOrderId(res.data.id);
             })
             .catch((error) => {
@@ -226,6 +230,12 @@ const Form = (props) => {
         }}
       />
     );
+  };
+  const NetBankbutton = () => {
+    return BankingButton("NETBANKING");
+  };
+  const Debitbutton = () => {
+    return BankingButton("DEBITCARD");
   };
 
   const Upibutton = () => {
@@ -243,36 +253,6 @@ const Form = (props) => {
           createUpiOrder({ customerId: customerId })
             .then((res) => {
               console.log("UPI", res.data);
-              setOrderId(res.data.id);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-        }}
-      />
-    );
-  };
-
-  const Debitbutton = () => {
-    return (
-      <PrimaryButton
-        title="Proceed"
-        color="#2CB77C"
-        uppercase={false}
-        onPress={() => {
-          setType("DEBITCARD");
-          setVerifyStatus("PENDING");
-          setVerifyMsg("To be confirmed by user");
-          setTimestamp(Date.now());
-          setBackendPush(true);
-          createDebitOrder({
-            customerId: customerId,
-            accountHolderName: name,
-            accountNumber: number,
-            ifsc: ifsc,
-          })
-            .then((res) => {
-              console.log("DebitCard", res.data);
               setOrderId(res.data.id);
             })
             .catch(function (error) {

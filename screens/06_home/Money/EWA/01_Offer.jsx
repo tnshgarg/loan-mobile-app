@@ -4,15 +4,15 @@ import { AppBar, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, SafeAreaView, Text, TextInput, View } from "react-native";
-import StepIndicator from "react-native-step-indicator";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { useSelector, useDispatch } from "react-redux";
-import PrimaryButton from "../../../../components/PrimaryButton";
-import { addLoanAmount } from "../../../../store/slices/ewaLiveSlice";
-import { ewaOfferPush } from "../../../../helpers/BackendPush";
-import { bankform, checkBox, styles, welcome } from "../../../../styles";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
+import StepIndicator from "react-native-step-indicator";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { useDispatch, useSelector } from "react-redux";
+import PrimaryButton from "../../../../components/PrimaryButton";
+import { ewaOfferPush } from "../../../../helpers/BackendPush";
+import { addLoanAmount } from "../../../../store/slices/ewaLiveSlice";
+import { bankform, checkBox, styles, welcome } from "../../../../styles";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -24,15 +24,14 @@ const Offer = () => {
 
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
+
   const [validAmount, setValidAmount] = useState(true);
-
+  
   const unipeEmployeeId = useSelector((state) => state.auth.id);
-
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const offerId = useSelector((state) => state.ewaLive.offerId);
   const eligibleAmount = useSelector((state) => state.ewaLive.eligibleAmount);
   const [amount, setAmount] = useState(ewaLiveSlice?.eligibleAmount.toString());
-
   useEffect(() => {
     getUniqueId().then((id) => {
       setDeviceId(id);
@@ -82,11 +81,7 @@ const Offer = () => {
       })
         .then((response) => {
           console.log("ewaOfferPush response.data: ", response.data);
-          {
-            pastOffers
-              ? navigation.navigate("EWA_AGREEMENT")
-              : navigation.navigate("EWA_KYC");
-          }
+          navigation.navigate("EWA_KYC");
           setLoading(false);
         })
         .catch((error) => {
