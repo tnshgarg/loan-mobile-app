@@ -20,6 +20,7 @@ import {
   addVerifyTimestamp,
 } from "../../store/slices/mandateSlice";
 import { bankform } from "../../styles";
+import { showToast } from "../../components/Toast";
 import RazorpayCheckout from "react-native-razorpay";
 import {
   createCustomer,
@@ -152,8 +153,6 @@ const Form = (props) => {
       };
       RazorpayCheckout.open(options)
         .then((data) => {
-          setVerifyMsg("");
-          setVerifyStatus("SUCCESS");
           getToken({ paymentId: data.razorpay_payment_id })
             .then((token) => {
               console.log("getToken", token.data);
@@ -165,21 +164,23 @@ const Form = (props) => {
                 extPaymentSignature: data.razorpay_signature,
                 extCustomerId: customerId,
               });
+              setVerifyMsg("");
+              setVerifyStatus("SUCCESS");
               setBackendPush(true);
+              showToast("Mandate Verified Successfully");
+              props?.type == "Onboarding"
+                ? navigation.navigate("PersonalDetailsForm")
+                : null;
             })
             .catch((err) => {
               console.log(err);
             });
-
-          setBackendPush(true);
-          {
-            props?.type == "Onboarding"
-              ? navigation.navigate("PersonalDetailsForm")
-              : null;
-          }
         })
         .catch((error) => {
           alert(`Error: ${error.code} | ${error.description}`);
+          setVerifyMsg(error.description);
+          setVerifyStatus("ERROR");
+          setBackendPush(true);
           setOrderId("");
         });
     }
@@ -201,6 +202,7 @@ const Form = (props) => {
     return (
       <PrimaryButton
         title="Proceed"
+        color="#2CB77C"
         uppercase={false}
         onPress={() => {
           setType("NETBANKING");
@@ -230,6 +232,7 @@ const Form = (props) => {
     return (
       <PrimaryButton
         title="Proceed"
+        color="#2CB77C"
         uppercase={false}
         onPress={() => {
           setType("UPI");
@@ -254,6 +257,7 @@ const Form = (props) => {
     return (
       <PrimaryButton
         title="Proceed"
+        color="#2CB77C"
         uppercase={false}
         onPress={() => {
           setType("DEBITCARD");

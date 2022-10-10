@@ -21,7 +21,7 @@ export default NomineeAddress = () => {
           uppercase={false}
           title="Finish"
           type="solid"
-          color="#4E46F1"
+          color="#2CB77C"
           style={form.nextButton}
           onPress={() => {
             {

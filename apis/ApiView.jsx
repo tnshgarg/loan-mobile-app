@@ -10,7 +10,7 @@ const ApiView = (props) => {
       title={loading ? "Verifying" : title || "Continue"}
       uppercase={false}
       type="solid"
-      color="#4E46F1"
+      color="#2CB77C"
       style={style}
       disabled={loading || disabled}
       onPress={() => {

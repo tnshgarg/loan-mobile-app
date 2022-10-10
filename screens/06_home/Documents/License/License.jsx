@@ -97,6 +97,7 @@ const License = () => {
             <PrimaryButton
               style={{ marginTop: 20 }}
               title="Update"
+              color="#2CB77C"
               onPress={() =>
                 Alert.alert(
                   "The License Details are not editable, please ask your employer to update"

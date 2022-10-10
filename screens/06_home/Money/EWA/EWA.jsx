@@ -17,13 +17,15 @@ const EWA = () => {
   const navigation = useNavigation();
 
   const [id, setId] = useState(useSelector((state) => state.auth.id));
-
   const name = useSelector((state) => state.aadhaar.data.name);
   const aadhaarVerifyStatus = useSelector(
     (state) => state.aadhaar.verifyStatus
   );
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
+  const mandateVerifyStatus = useSelector(
+    (state) => state.mandate.verifyStatus
+  );
   const panMisMatch = useSelector((state) => state.pan.misMatch);
   const bankMisMatch = useSelector((state) => state.bank.misMatch);
 
@@ -50,7 +52,8 @@ const EWA = () => {
     <SafeAreaView style={styles.container}>
       {aadhaarVerifyStatus === "SUCCESS" &&
       panVerifyStatus === "SUCCESS" &&
-      bankVerifyStatus === "SUCCESS" ? (
+      bankVerifyStatus === "SUCCESS" &&
+      mandateVerifyStatus === "SUCCESS" ? (
         // panMisMatch < 20 &&
         // bankMisMatch < 20 ? (
 
@@ -84,8 +87,9 @@ const EWA = () => {
           </View>
           <PrimaryButton
             title="Get money now"
+            color="#2CB77C"
             uppercase={false}
-            // disabled={parseInt(ewaLiveSlice?.eligibleAmount)<1000}
+            disabled={parseInt(ewaLiveSlice?.eligibleAmount) < 1000}
             onPress={() => {
               navigation.navigate("EWA_OFFER");
             }}
