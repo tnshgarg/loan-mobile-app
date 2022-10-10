@@ -31,7 +31,9 @@ export default PersonalDetailsForm = () => {
     profileSlice?.qualification
   );
   const [altMobile, setAltMobile] = useState(profileSlice?.altMobile);
-  const [email, setEmail] = useState(panSlice?.data?.email || profileSlice?.email );
+  const [email, setEmail] = useState(
+    panSlice?.data?.email || profileSlice?.email
+  );
   const [motherName, setMotherName] = useState(profileSlice?.motherName);
 
   useEffect(() => {
@@ -64,7 +66,7 @@ export default PersonalDetailsForm = () => {
     } else {
       setNext(false);
     }
-  }, [maritalStatus, qualification]);
+  }, [maritalStatus, qualification, motherName, email]);
 
   const qualifications = [
     "10th Pass",
@@ -97,16 +99,17 @@ export default PersonalDetailsForm = () => {
             <Text style={form.formLabel}>
               Select Education <Text style={bankform.asterisk}>*</Text>
             </Text>
-            <Picker
-              selectedValue={qualification}
-              style={form.picker}
-              onValueChange={(itemValue) => setQualification(itemValue)}
-              prompt="Educational Qualification"
-            >
-              {qualifications.map((item, index) => {
-                return <Picker.Item label={item} value={item} key={index} />;
-              })}
-            </Picker>
+            <View style={form.picker}>
+              <Picker
+                selectedValue={qualification}
+                onValueChange={(itemValue) => setQualification(itemValue)}
+                prompt="Educational Qualification"
+              >
+                {qualifications.map((item, index) => {
+                  return <Picker.Item label={item} value={item} key={index} />;
+                })}
+              </Picker>
+            </View>
             <Text style={form.formLabel}>
               Marital Status <Text style={bankform.asterisk}>*</Text>
             </Text>
@@ -123,7 +126,7 @@ export default PersonalDetailsForm = () => {
                     }
                     title={item}
                     type="solid"
-                    color="#4E46F1"
+                    color="#2CB77C"
                     onPress={() => setMaritalStatus(item)}
                   />
                 );
@@ -165,7 +168,7 @@ export default PersonalDetailsForm = () => {
               title="Continue"
               type="solid"
               uppercase={false}
-              color="#4E46F1"
+              color="#2CB77C"
               disabled={!next}
               onPress={() => {
                 navigation.navigate("PersonalImage");

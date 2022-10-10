@@ -99,7 +99,7 @@ export default PersonalImage = () => {
             title="Finish"
             type="solid"
             uppercase={false}
-            color="#4E46F1"
+            color="#2CB77C"
             disabled={!next}
             onPress={() => {
               profileBackendPush({

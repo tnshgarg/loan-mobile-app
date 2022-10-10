@@ -27,11 +27,12 @@ const Offer = () => {
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
+  const pastOffers = useSelector((state) => state.ewaHistorical);
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const [validAmount, setValidAmount] = useState(true);
+  
   const unipeEmployeeId = useSelector((state) => state.auth.id);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const offerId = useSelector((state) => state.ewaLive.offerId);
@@ -80,7 +81,7 @@ const Offer = () => {
   }
 
   useEffect(() => {
-    if (parseInt(amount) > 999) {
+    if (parseInt(amount) > 999 && parseInt(amount) <= eligibleAmount) {
       setValidAmount(true);
       dispatch(addLoanAmount(parseInt(amount)));
     } else {
@@ -229,6 +230,7 @@ const Offer = () => {
       </View>
       <PrimaryButton
         title={loading ? "Processing" : "Continue"}
+        color="#2CB77C"
         uppercase={false}
         disabled={loading || !consent || !validAmount}
         onPress={() => {

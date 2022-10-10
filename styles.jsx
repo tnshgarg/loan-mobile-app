@@ -7,26 +7,26 @@ export const styles = StyleSheet.create({
   },
   logo: {
     alignSelf: "center",
-    marginTop: 30,
-    width: 250,
-    height: 87,
+    marginTop: "10%",
+    width: "auto",
+    height: "auto",
   },
   headline: {
     fontSize: 16,
     color: "#230C45",
-    marginLeft: 55,
-    marginTop: 40,
+    alignSelf: "center",
+    marginTop: "12%",
     fontFamily: "Roboto",
   },
   fieldLabel: {
     fontSize: 14,
     fontFamily: "Noto Sans",
-    marginTop: 60,
-    marginLeft: 40,
+    marginTop: "18%",
+    marginLeft: "10%",
     color: "#020614",
   },
   textInput: {
-    marginLeft: 40,
+    marginLeft: "10%",
     width: "80%",
     height: 50,
     borderBottomWidth: 1,
@@ -54,7 +54,7 @@ export const styles = StyleSheet.create({
     width: 320,
     height: 60,
     fontSize: 20,
-    backgroundColor: "#4E46F1",
+    backgroundColor: "#2CB77C",
     borderRadius: 6,
   },
   PrimaryButton: {
@@ -106,7 +106,7 @@ export const styles = StyleSheet.create({
     width: 320,
     height: 60,
     fontSize: 20,
-    backgroundColor: "#4E46F1",
+    backgroundColor: "#2CB77C",
     borderRadius: 6,
   },
 });
@@ -131,7 +131,7 @@ export const progressBar = StyleSheet.create({
   },
   progressBar: {
     width: "100%",
-    color: "#4E46F1",
+    color: "#2CB77C",
   },
   progressNos: {
     marginLeft: 8,
@@ -159,9 +159,9 @@ export const form = StyleSheet.create({
     borderBottomWidth: 1,
   },
   picker: {
-    marginLeft: 25,
-    marginTop: 20,
-    borderBottomWidth: 2,
+    marginLeft: 34,
+    width: "79%",
+    borderBottomWidth: 1,
   },
   chosenButton: {
     padding: 2,

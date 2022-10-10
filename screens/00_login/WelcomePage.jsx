@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/PrimaryButton";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { checkBox, stepIndicatorStyles, styles, welcome } from "../../styles";
+import SVGImg from "../../assets/UnipeLogo.svg";
 
 export default WelcomePage = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ export default WelcomePage = () => {
   useEffect(() => {
     dispatch(addCurrentScreen("Welcome"));
   }, []);
-  
+
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
       name: "feed",
@@ -36,7 +37,7 @@ export default WelcomePage = () => {
         iconConfig.name = "payment";
         break;
       }
-      case 3:{
+      case 3: {
         iconConfig.name = "library-add-check";
         break;
       }
@@ -71,10 +72,7 @@ export default WelcomePage = () => {
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <Image
-          style={styles.logo}
-          source={require("../../assets/unipe-Thumbnail.png")}
-        />
+        <SVGImg style={styles.logo} />
         <Text style={welcome.subTitle}>
           Let’s start onboarding process by {"\n"} verifying below documents.
         </Text>
@@ -90,6 +88,7 @@ export default WelcomePage = () => {
         </View>
         <PrimaryButton
           title="Welcome!"
+          color="#2CB77C"
           uppercase={false}
           onPress={() => {
             navigation.navigate("AadhaarForm");

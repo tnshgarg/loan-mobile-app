@@ -104,7 +104,7 @@ const AadhaarConfirmApi = (props) => {
           type="solid"
           uppercase={false}
           style={form.yesButton}
-          color="#4E46F1"
+          color="#2CB77C"
           onPress={() => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");
