@@ -1,4 +1,4 @@
-import { SafeAreaView, Text } from "react-native";
+import { SafeAreaView } from "react-native";
 import { useSelector } from "react-redux";
 import { styles } from "../../styles";
 import { allAreNull } from "../../helpers/nullCheck";
@@ -14,7 +14,7 @@ const HomeView = () => {
   const message = [
     aadhaarStatus != "SUCCESS" ? "AADHAAR" : null,
     bankStatus != "SUCCESS" ? "BANK" : null,
-    mandateStatus != "SUCCESS" ? "Mandate" : null,
+    mandateStatus != "SUCCESS" ? "MANDATE" : null,
     panStatus != "SUCCESS" ? "PAN" : null,
   ];
 

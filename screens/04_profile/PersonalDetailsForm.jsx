@@ -69,7 +69,7 @@ export default PersonalDetailsForm = () => {
     } else {
       setNext(false);
     }
-  }, [maritalStatus, qualification]);
+  }, [maritalStatus, qualification, motherName, email]);
 
   const qualifications = [
     "10th Pass",

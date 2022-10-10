@@ -27,6 +27,7 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
 import { COLORS } from "../../constants/Theme";
+import SVGImg from '../../assets/UnipeLogo.svg';
 
 export default LoginScreen = () => {
   SplashScreen.hide();
@@ -127,9 +128,8 @@ export default LoginScreen = () => {
     <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <KeyboardAvoidingWrapper>
         <View>
-          <Image
+          <SVGImg
             style={styles.logo}
-            source={require("../../assets/unipe-Thumbnail.png")}
           />
           <Text style={styles.headline}>
             Please enter your mobile number to login:

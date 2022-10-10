@@ -8,6 +8,7 @@ import PrimaryButton from "../../components/PrimaryButton";
 import { COLORS } from "../../constants/Theme";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { checkBox, stepIndicatorStyles, styles, welcome } from "../../styles";
+import SVGImg from "../../assets/UnipeLogo.svg";
 
 export default WelcomePage = () => {
   const dispatch = useDispatch();
@@ -72,10 +73,7 @@ export default WelcomePage = () => {
   return (
     <>
       <SafeAreaView style={[styles.container, { paddingBottom: 40 }]}>
-        <Image
-          style={styles.logo}
-          source={require("../../assets/unipe-Thumbnail.png")}
-        />
+        <SVGImg style={styles.logo} />
         <Text style={welcome.subTitle}>
           Let’s start onboarding process by {"\n"} verifying below documents.
         </Text>
@@ -91,6 +89,7 @@ export default WelcomePage = () => {
         </View>
         <PrimaryButton
           title="Welcome!"
+          color="#2CB77C"
           uppercase={false}
           onPress={() => {
             navigation.navigate("AadhaarForm");

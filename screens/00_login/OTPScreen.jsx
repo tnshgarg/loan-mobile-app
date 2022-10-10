@@ -19,6 +19,7 @@ import {
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/PrimaryButton";
+import SVGImg from '../../assets/UnipeLogo.svg';
 import { styles } from "../../styles";
 import { COLORS } from "../../constants/Theme";
 
@@ -72,9 +73,8 @@ export default OTPScreen = () => {
               />
             )}
           </View>
-          <Image
+          <SVGImg
             style={styles.logo}
-            source={require("../../assets/unipe-Thumbnail.png")}
           />
           <Text style={styles.headline}>
             {" "}

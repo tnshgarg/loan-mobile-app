@@ -13,7 +13,7 @@ const Mandate = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   useEffect(() => {
-    dispatch(addCurrentScreen("BankForm"));
+    dispatch(addCurrentScreen("Mandate"));
   }, []);
   return (
     <SafeAreaView style={[styles.container, { padding: 0 }]}>

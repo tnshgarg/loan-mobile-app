@@ -10,9 +10,9 @@ export const styles = StyleSheet.create({
   },
   logo: {
     alignSelf: "center",
-    marginTop: 30,
-    width: 250,
-    height: 87,
+    marginTop: "10%",
+    width: "auto",
+    height: "auto",
   },
   headline: {
     marginTop: 30,
@@ -149,9 +149,9 @@ export const form = StyleSheet.create({
     borderBottomWidth: 1,
   },
   picker: {
-    marginLeft: 25,
-    marginTop: 20,
-    borderBottomWidth: 2,
+    marginLeft: 34,
+    width: "79%",
+    borderBottomWidth: 1,
   },
   chosenButton: {
     padding: 2,
@@ -253,13 +253,15 @@ export const form = StyleSheet.create({
 
 export const checkBox = StyleSheet.create({
   checkBox: {
+    marginLeft: 34,
     marginTop: 30,
   },
   checkBoxText: {
+    marginLeft: 10,
     marginRight: 40,
     marginTop: 30,
     fontSize: 14,
-    color: COLORS.gray,
+    color: "#828282",
   },
   padding: {
     marginTop: 30,

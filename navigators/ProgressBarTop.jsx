@@ -18,7 +18,7 @@ export default ProgressBarTop = (props) => {
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
       name: "feed",
-      color: stepStatus === "finished" ? "green" : COLORS.primary,
+      color: stepStatus === "finished" ? COLORS.primary : COLORS.primaryPending,
       size: 15,
     };
     switch (position) {
@@ -26,7 +26,7 @@ export default ProgressBarTop = (props) => {
         iconConfig.name = "perm-identity";
         stepStatus == "finished"
           ? aadhaarStatus == "SUCCESS"
-            ? (iconConfig.color = "green")
+            ? (iconConfig.color = COLORS.primary)
             : (iconConfig.color = "red")
           : COLORS.primary;
 
@@ -36,7 +36,7 @@ export default ProgressBarTop = (props) => {
         iconConfig.name = "mood";
         stepStatus == "finished"
           ? panStatus == "SUCCESS"
-            ? (iconConfig.color = "green")
+            ? (iconConfig.color = COLORS.primary)
             : (iconConfig.color = "red")
           : COLORS.primary;
         break;
@@ -45,7 +45,7 @@ export default ProgressBarTop = (props) => {
         iconConfig.name = "payment";
         stepStatus == "finished"
           ? bankStatus == "SUCCESS"
-            ? (iconConfig.color = "green")
+            ? (iconConfig.color = COLORS.primary)
             : (iconConfig.color = "red")
           : COLORS.primary;
         break;
@@ -53,10 +53,10 @@ export default ProgressBarTop = (props) => {
       case 3: {
         iconConfig.name = "library-add-check";
         stepStatus == "finished"
-          ? mandateStatus == "SUCCESS"
-            ? (iconConfig.color = "green")
-            : (iconConfig.color = "red")
-          : COLORS.primary;
+        ? mandateStatus == "SUCCESS"
+          ? (iconConfig.color = COLORS.primary)
+          : (iconConfig.color = "red")
+        : COLORS.primaryPending;
         break;
       }
       case 4: {
