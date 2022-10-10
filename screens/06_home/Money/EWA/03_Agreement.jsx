@@ -56,7 +56,8 @@ const Agreement = () => {
   const [apr, setApr] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const todayDate = format(Date(), "dd")+"/"+format(Date(), "mm")+"/"+format(Date(), "yyyy");
+  var today = new Date();
+  const todayDate = today.getDate() +'/' + (today.getMonth() + 1) + '/' + today.getFullYear();
 
   function ValueEntry(text) {
     text.data = text.data.replace(/\{todayDate\}/g, todayDate);
