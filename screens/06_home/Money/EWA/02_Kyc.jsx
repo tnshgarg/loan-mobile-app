@@ -12,45 +12,53 @@ import { form, styles } from "../../../../styles";
 
 
 const KYC = () => {
-
-  let DeviceId = 0;
-  let DeviceIp = 0;
-
-  getUniqueId().then((id) => {
-    DeviceId = id;
-  });
-
-  NetworkInfo.getIPV4Address().then((ipv4Address) => {
-    DeviceIp = ipv4Address;
-  });
-
   const navigation = useNavigation();
 
-  const [loading, setLoading] = useState(false);
+  const [fetched, setFetched] = useState(false);
+  const [deviceId, setDeviceId] = useState(0);
+  const [ipAddress, setIpAdress] = useState(0);
   
+  const [loading, setLoading] = useState(false);
   const data = useSelector((state) => state.aadhaar.data);
   const number = useSelector((state) => state.aadhaar.number);
   const unipeEmployeeId = useSelector((state) => state.auth.id);
 
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
-  
+
   useEffect(() => {
-    ewaKycPush({
-      offerId: ewaLiveSlice?.offerId, 
-      unipeEmployeeId: unipeEmployeeId,
-      status: "INPROGRESS",
-      timestamp: Date.now(),
-      ipAddress: DeviceIp,
-      deviceId: DeviceId,
-    })
-    .then((response) => {
-      console.log("ewaKycPush response.data: ", response.data);
-    })
-    .catch((error) => {
-      console.log("ewaKycPush error: ", error);
-      Alert.alert("An Error occured", error);
+    getUniqueId().then((id) => {
+      setDeviceId(id);
+    });
+    NetworkInfo.getIPV4Address().then((ipv4Address) => {
+      setIpAdress(ipv4Address);
     });
   }, []);
+
+  useEffect(() => {
+    if(deviceId!==0 && ipAddress!==0) {
+      setFetched(true);
+    }
+  }, [deviceId, ipAddress]);
+  
+  useEffect(() => {
+    if (fetched) {
+      ewaKycPush({
+        offerId: ewaLiveSlice?.offerId, 
+        unipeEmployeeId: unipeEmployeeId,
+        status: "INPROGRESS",
+        timestamp: Date.now(),
+        ipAddress: ipAddress,
+        deviceId: deviceId,
+      })
+      .then((response) => {
+        console.log("ewaKycPush response.data: ", response.data);
+      })
+      .catch((error) => {
+        console.log("ewaKycPush error: ", error);
+        Alert.alert("An Error occured", error);
+      });
+    }
+  }, [fetched]);
 
   function handleKyc() {
     setLoading(true);
@@ -59,8 +67,8 @@ const KYC = () => {
       unipeEmployeeId: unipeEmployeeId,
       status: "CONFIRMED",
       timestamp: Date.now(),
-      ipAddress: DeviceIp,
-      deviceId: DeviceId,
+      ipAddress: ipAddress,
+      deviceId: deviceId,
     })
     .then((response) => {
       console.log("ewaKycPush response.data: ", response.data);

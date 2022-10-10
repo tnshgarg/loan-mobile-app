@@ -15,19 +15,13 @@ import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 
 const Offer = () => {
-  let DeviceId = 0;
-  let DeviceIp = 0;
-
-  getUniqueId().then((id) => {
-    DeviceId = id;
-  });
-  NetworkInfo.getIPV4Address().then((ipv4Address) => {
-    DeviceIp = ipv4Address;
-  });
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const pastOffers = useSelector((state) => state.ewaHistorical);
+
+  const [fetched, setFetched] = useState(false);
+  const [deviceId, setDeviceId] = useState(0);
+  const [ipAddress, setIpAdress] = useState(0);
+
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [validAmount, setValidAmount] = useState(true);
@@ -40,22 +34,39 @@ const Offer = () => {
   const [amount, setAmount] = useState(ewaLiveSlice?.eligibleAmount.toString());
 
   useEffect(() => {
-    ewaOfferPush({
-      offerId: offerId,
-      unipeEmployeeId: unipeEmployeeId,
-      status: "INPROGRESS",
-      timestamp: Date.now(),
-      ipAddress: DeviceIp,
-      deviceId: DeviceId,
-    })
+    getUniqueId().then((id) => {
+      setDeviceId(id);
+    });
+    NetworkInfo.getIPV4Address().then((ipv4Address) => {
+      setIpAdress(ipv4Address);
+    });
+  }, []);
+
+  useEffect(() => {
+    if(deviceId!==0 && ipAddress!==0) {
+      setFetched(true);
+    }
+  }, [deviceId, ipAddress]);
+
+  useEffect(() => {
+    if (fetched) {
+      ewaOfferPush({
+        offerId: offerId,
+        unipeEmployeeId: unipeEmployeeId,
+        status: "INPROGRESS",
+        timestamp: Date.now(),
+        ipAddress: ipAddress,
+        deviceId: deviceId,
+      })
       .then((response) => {
         console.log("ewaOfferPush response.data: ", response.data);
       })
       .catch((error) => {
         console.log("ewaOfferPush error: ", error);
         Alert.alert("An Error occured", error);
-      });
-  }, []);
+      });;
+    }
+  }, [fetched]);
 
   function handleAmount() {
     setLoading(true);
@@ -65,8 +76,8 @@ const Offer = () => {
         unipeEmployeeId: unipeEmployeeId,
         status: "CONFIRMED",
         timestamp: Date.now(),
-        ipAddress: DeviceIp,
-        deviceId: DeviceId,
+        ipAddress: ipAddress,
+        deviceId: deviceId,
         loanAmount: parseInt(amount),
       })
         .then((response) => {
