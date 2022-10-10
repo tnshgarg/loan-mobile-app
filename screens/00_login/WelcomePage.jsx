@@ -1,7 +1,7 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
-import { Image, SafeAreaView, Text, View } from "react-native";
+import { Image, SafeAreaView, ScrollView, Text, View } from "react-native";
 import StepIndicator from "react-native-step-indicator";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/PrimaryButton";
@@ -71,7 +71,7 @@ export default WelcomePage = () => {
 
   return (
     <>
-      <SafeAreaView style={[styles.container, { padding: 0 }]}>
+      <SafeAreaView style={[styles.container, { paddingBottom: 40 }]}>
         <Image
           style={styles.logo}
           source={require("../../assets/unipe-Thumbnail.png")}

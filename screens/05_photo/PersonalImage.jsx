@@ -59,17 +59,17 @@ export default PersonalImage = () => {
 
   return (
     <>
-      <SafeAreaView style={[styles.container, { padding: 0 }]}>
-        <AppBar
-          title="Photo"
-          color={COLORS.primary}
-          leading={
-            <IconButton
-              icon={<Icon name="arrow-back" size={20} color="white" />}
-              onPress={() => navigation.navigate("PersonalDetailsForm")}
-            />
-          }
-        />
+      <AppBar
+        title="Photo"
+        color={COLORS.primary}
+        leading={
+          <IconButton
+            icon={<Icon name="arrow-back" size={20} color="white" />}
+            onPress={() => navigation.navigate("PersonalDetailsForm")}
+          />
+        }
+      />
+      <SafeAreaView style={[styles.container, { paddingVertical: 0 }]}>
         <ProgressBarTop step={5} />
         <ScrollView keyboardShouldPersistTaps="handled">
           <Text style={form.formHeader}>

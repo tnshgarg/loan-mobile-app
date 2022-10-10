@@ -145,45 +145,56 @@ export default LoginScreen = () => {
             maxLength={13}
             placeholder="9999999999"
           />
-          <Text style={styles.dataUseText}>
-            This number will be used for all communication. You shall receive an
-            SMS with code for verification. By continuing, you agree to our{" "}
-            <Text
-              onPress={() =>
-                Linking.openURL("https://policies.google.com/terms?hl=en-US")
-              }
-              style={styles.termsText}
-            >
-              Terms of Service
-            </Text>{" "}
-            &{" "}
-            <Text
-              onPress={() =>
-                Linking.openURL("https://policies.google.com/privacy?hl=en-US")
-              }
-              style={styles.termsText}
-            >
-              Privacy Policy
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "flex-end",
+              alignSelf: "flex-end",
+              height: "100%",
+            }}
+          >
+            <Text style={styles.dataUseText}>
+              This number will be used for all communication. You shall receive
+              an SMS with code for verification. By continuing, you agree to our{" "}
+              <Text
+                onPress={() =>
+                  Linking.openURL("https://policies.google.com/terms?hl=en-US")
+                }
+                style={styles.termsText}
+              >
+                Terms of Service
+              </Text>{" "}
+              &{" "}
+              <Text
+                onPress={() =>
+                  Linking.openURL(
+                    "https://policies.google.com/privacy?hl=en-US"
+                  )
+                }
+                style={styles.termsText}
+              >
+                Privacy Policy
+              </Text>
             </Text>
-          </Text>
-          {!loading ? (
-            <>
-              <PrimaryButton
-                uppercase={false}
-                title="Continue"
-                type="solid"
-                color={COLORS.primary}
-                disabled={!next}
-                onPress={() => signIn()}
-              />
-            </>
-          ) : (
-            <TouchableOpacity>
-              <View style={styles.LoadingButton}>
-                <ActivityIndicator size="large" color="white" />
-              </View>
-            </TouchableOpacity>
-          )}
+            {!loading ? (
+              <>
+                <PrimaryButton
+                  uppercase={false}
+                  title="Continue"
+                  type="solid"
+                  color={COLORS.primary}
+                  disabled={!next}
+                  onPress={() => signIn()}
+                />
+              </>
+            ) : (
+              <TouchableOpacity>
+                <View style={styles.LoadingButton}>
+                  <ActivityIndicator size="large" color="white" />
+                </View>
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
       </KeyboardAvoidingWrapper>
     </SafeAreaView>

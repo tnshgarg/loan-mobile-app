@@ -66,7 +66,7 @@ const PanFormTemplate = (props) => {
             info={"PAN is required to verify name and date of birth."}
           />
 
-          <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: "row", width: "100%" }}>
             <CheckBox
               value={consent}
               onValueChange={setConsent}

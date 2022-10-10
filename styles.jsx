@@ -57,7 +57,7 @@ export const styles = StyleSheet.create({
   PrimaryButton: {
     alignSelf: "center",
     marginTop: 20,
-    width: 320,
+    width: "100%",
     height: 60,
     fontSize: 20,
   },
@@ -174,7 +174,7 @@ export const form = StyleSheet.create({
     padding: 5,
     alignSelf: "center",
     marginTop: 20,
-    width: 320,
+    width: "100%",
     height: 50,
     fontSize: 20,
   },
@@ -232,7 +232,7 @@ export const form = StyleSheet.create({
     fontWeight: "bold",
   },
   forgotText: {
-    marginLeft: "70%",
+    marginLeft: "77%",
     marginTop: 10,
   },
   year: {
@@ -504,10 +504,11 @@ export const ewa = StyleSheet.create({
   loanCard: {
     marginTop: 20,
     alignSelf: "center",
-    width: "90%",
-    backgroundColor: COLORS.white,
-    padding: "2%",
-    borderRadius: 4,
+    width: "100%",
+    backgroundColor: COLORS.lightgray_01,
+    paddingVertical: "4%",
+    paddingHorizontal: "3%",
+    borderRadius: 10,
   },
   successImg: {
     alignSelf: "center",
