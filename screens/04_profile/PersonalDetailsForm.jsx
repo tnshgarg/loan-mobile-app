@@ -154,7 +154,9 @@ export default PersonalDetailsForm = () => {
               textContentType="telephoneNumber"
               placeholder="XXXXXXXXXX"
             />
-            <Text style={form.formLabel}>Enter your Email ID</Text>
+            <Text style={form.formLabel}>
+              Enter your Email ID<Text style={bankform.asterisk}>*</Text>
+            </Text>
             <TextInput
               style={form.formTextInput}
               value={email}
