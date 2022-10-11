@@ -7,12 +7,8 @@ const DocumentsView = () => {
     <SafeAreaView style={styles.container}>
       <View style={{ alignSelf: "center", marginTop: "20%" }}>
         <Text style={{ fontSize: 20, alignSelf: "center" }}>
-          ✨Somethings Cooking✨
+          More Details Coming Soon
         </Text>
-        <Image
-          style={{ width: 300, height: "70%" }}
-          source={require("../../assets/cooking.gif")}
-        />
       </View>
     </SafeAreaView>
   );
