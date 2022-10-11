@@ -48,6 +48,7 @@ const Form = (props) => {
   const dispatch = useDispatch();
   const employeeId = useSelector((state) => state.auth.id);
   const mandateSlice = useSelector((state) => state.mandate);
+  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
   const [timestamp, setTimestamp] = useState(mandateSlice?.verifyTimestamp);
 
   const [name, setName] = useState(
@@ -210,7 +211,7 @@ const Form = (props) => {
           setVerifyMsg("To be confirmed by user");
           setTimestamp(Date.now());
           setBackendPush(true);
-          let func =0;
+          let func = 0;
           type === "NETBANKING"
             ? (func = createNetBankingOrder)
             : (func = createDebitOrder);
@@ -265,54 +266,62 @@ const Form = (props) => {
 
   return (
     <KeyboardAvoidingWrapper>
-      <ScrollView>
-        <Text style={bankform.formtitle}>Account Holder Name</Text>
-        <TextInput
-          style={bankform.formInput}
-          autoCapitalize="words"
-          value={name}
-          onChangeText={setName}
-          editable={false}
-          required
-        />
-        <Text style={bankform.formtitle}>Bank Account Number</Text>
-        <TextInput
-          style={bankform.formInput}
-          autoCapitalize="words"
-          value={number}
-          onChangeText={setNumber}
-          editable={false}
-          required
-        />
-        <Text style={bankform.formtitle}>IFSC</Text>
-        <TextInput
-          style={bankform.formInput}
-          autoCapitalize="characters"
-          value={ifsc}
-          onChangeText={setIfsc}
-          editable={false}
-          required
-        />
-        <CollapsibleCard
-          title="Net Banking "
-          TitleIcon={netIcon}
-          isClosed={true}
-          Component={NetBankbutton}
-        />
-        <CollapsibleCard
-          title="UPI "
-          TitleIcon={upiIcon}
-          isClosed={true}
-          Component={Upibutton}
-        />
-        <CollapsibleCard
-          title="Debit Card "
-          TitleIcon={debitIcon}
-          isClosed={true}
-          Component={Debitbutton}
-        />
-        <View style={bankform.padding}></View>
-      </ScrollView>
+      {bankVerifyStatus === "PENDING" ? (
+        <View style={{ alignSelf: "center", marginTop: "20%" }}>
+          <Text style={{ fontSize: 20, alignSelf: "center" }}>
+            Verifying Bank Details is a requirement to register Mandate
+          </Text>
+        </View>
+      ) : (
+        <ScrollView>
+          <Text style={bankform.formtitle}>Account Holder Name</Text>
+          <TextInput
+            style={bankform.formInput}
+            autoCapitalize="words"
+            value={name}
+            onChangeText={setName}
+            editable={false}
+            required
+          />
+          <Text style={bankform.formtitle}>Bank Account Number</Text>
+          <TextInput
+            style={bankform.formInput}
+            autoCapitalize="words"
+            value={number}
+            onChangeText={setNumber}
+            editable={false}
+            required
+          />
+          <Text style={bankform.formtitle}>IFSC</Text>
+          <TextInput
+            style={bankform.formInput}
+            autoCapitalize="characters"
+            value={ifsc}
+            onChangeText={setIfsc}
+            editable={false}
+            required
+          />
+          <CollapsibleCard
+            title="Net Banking "
+            TitleIcon={netIcon}
+            isClosed={true}
+            Component={NetBankbutton}
+          />
+          <CollapsibleCard
+            title="UPI "
+            TitleIcon={upiIcon}
+            isClosed={true}
+            Component={Upibutton}
+          />
+          <CollapsibleCard
+            title="Debit Card "
+            TitleIcon={debitIcon}
+            isClosed={true}
+            Component={Debitbutton}
+          />
+          <View style={bankform.padding}></View>
+        </ScrollView>
+      )}
     </KeyboardAvoidingWrapper>
   );
 };
