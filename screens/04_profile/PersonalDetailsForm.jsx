@@ -1,7 +1,7 @@
 import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { SafeAreaView, Text, TextInput, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import ProgressBarTop from "../../components/ProgressBarTop";
@@ -16,7 +16,8 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { bankform, form, styles } from "../../styles";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import PrimaryButton from "../../components/PrimaryButton";
-export default PersonalDetailsForm = () => {
+
+const PersonalDetailsForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -182,3 +183,5 @@ export default PersonalDetailsForm = () => {
     </>
   );
 };
+
+export default PersonalDetailsForm;
