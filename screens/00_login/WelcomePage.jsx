@@ -1,4 +1,4 @@
-import { AntDesign, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
 import { SafeAreaView, Text, View } from "react-native";
@@ -25,12 +25,12 @@ export default WelcomePage = () => {
     };
     switch (position) {
       case 0: {
-        iconConfig.name = "smart-card-outline";
+        iconConfig.name = "card-account-details-outline";
         return <MaterialCommunityIcons {...iconConfig} />
       }
       case 1: {
-        iconConfig.name = "idcard";
-        return <AntDesign {...iconConfig} />
+        iconConfig.name = "smart-card-outline";
+        return <MaterialCommunityIcons {...iconConfig} />
       }
       case 2: {
         iconConfig.name = "bank-outline";
@@ -41,8 +41,8 @@ export default WelcomePage = () => {
         return <MaterialCommunityIcons {...iconConfig} />
       }
       case 4: {
-        iconConfig.name = "profile";
-        return <AntDesign {...iconConfig} />
+        iconConfig.name = "file-document-outline";
+        return <MaterialCommunityIcons {...iconConfig} />
       }
       case 5: {
         iconConfig.name = "camera-outline";

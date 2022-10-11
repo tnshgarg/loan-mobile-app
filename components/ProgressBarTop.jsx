@@ -1,5 +1,5 @@
 import StepIndicator from "react-native-step-indicator";
-import { AntDesign, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import { View } from "react-native";
 import { useNavigation } from "@react-navigation/core";
@@ -27,8 +27,9 @@ export default ProgressBarTop = (props) => {
             ? (iconConfig.color = "#2CB77C")
             : (iconConfig.color = "red")
           : "#4E46F1";
-        iconConfig.name = "smart-card-outline";
+        iconConfig.name = "card-account-details-outline";
         return <MaterialCommunityIcons {...iconConfig} />
+        
       }
       case 1: {
         stepStatus == "finished"
@@ -36,8 +37,8 @@ export default ProgressBarTop = (props) => {
             ? (iconConfig.color = "#2CB77C")
             : (iconConfig.color = "red")
           : "#4E46F1";
-        iconConfig.name = "idcard";
-        return <AntDesign {...iconConfig} />
+        iconConfig.name = "smart-card-outline";
+        return <MaterialCommunityIcons {...iconConfig} />
       }
       case 2: {
         stepStatus == "finished"
@@ -58,8 +59,8 @@ export default ProgressBarTop = (props) => {
         return <MaterialCommunityIcons {...iconConfig} />
       }
       case 4: {
-        iconConfig.name = "profile";
-        return <AntDesign {...iconConfig} />
+        iconConfig.name = "file-document-outline";
+        return <MaterialCommunityIcons {...iconConfig} />
       }
       case 5: {
         iconConfig.name = "camera-outline";
