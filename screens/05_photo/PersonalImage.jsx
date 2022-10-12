@@ -70,7 +70,7 @@ const PersonalImage = () => {
         }
       />
       <SafeAreaView style={[styles.container, { paddingVertical: 0 }]}>
-        <ProgressBarTop step={5} />
+        <ProgressBarTop step={1} />
         <ScrollView keyboardShouldPersistTaps="handled">
           <Text style={form.formHeader}>
             Upload your Passport size photo or capture your selfie.
@@ -114,7 +114,7 @@ const PersonalImage = () => {
                 motherName: profileSlice?.motherName,
                 photo: profileSlice?.photo,
               });
-              navigation.navigate("Home");
+              navigation.navigate("AadhaarForm");
             }}
           />
         </ScrollView>

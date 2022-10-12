@@ -27,7 +27,6 @@ const PersonalDetailsForm = () => {
 
   const [next, setNext] = useState(false);
 
-  const panSlice = useSelector((state) => state.pan);
   const profileSlice = useSelector((state) => state.profile);
   const [maritalStatus, setMaritalStatus] = useState(
     profileSlice?.maritalStatus
@@ -36,9 +35,7 @@ const PersonalDetailsForm = () => {
     profileSlice?.qualification
   );
   const [altMobile, setAltMobile] = useState(profileSlice?.altMobile);
-  const [email, setEmail] = useState(
-    panSlice?.data?.email || profileSlice?.email
-  );
+  const [email, setEmail] = useState(profileSlice?.email);
   const [motherName, setMotherName] = useState(profileSlice?.motherName);
 
   useEffect(() => {
@@ -97,7 +94,7 @@ const PersonalDetailsForm = () => {
           }
         />
 
-        <ProgressBarTop step={4} />
+        <ProgressBarTop step={0} />
         <Text style={form.formHeader}>Employee basic details</Text>
         <KeyboardAvoidingWrapper>
           <View>

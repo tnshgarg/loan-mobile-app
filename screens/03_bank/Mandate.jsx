@@ -26,7 +26,7 @@ const Mandate = () => {
         leading={
           <IconButton
             icon={<Icon name="arrow-back" size={20} color="white" />}
-            onPress={() => navigation.navigate("BankForm")}
+            onPress={() => navigation.navigate("Home")}
           />
         }
         /*
@@ -38,7 +38,7 @@ const Mandate = () => {
         }
         */
       />
-      <ProgressBarTop step={3} />
+      <ProgressBarTop step={5} />
       <Form type="Onboarding" />
     </SafeAreaView>
   );
