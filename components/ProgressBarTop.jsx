@@ -1,5 +1,5 @@
 import StepIndicator from "react-native-step-indicator";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import { View } from "react-native";
 import { useNavigation } from "@react-navigation/core";
@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { progressBar, stepIndicatorStyles } from "../styles";
 
 export default ProgressBarTop = (props) => {
+
   const navigation = useNavigation();
 
   const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);
@@ -16,64 +17,64 @@ export default ProgressBarTop = (props) => {
 
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
-      name: "feed",
       color: stepStatus === "finished" ? "#2CB77C" : "#4E46F1",
       size: 15,
     };
     switch (position) {
       case 0: {
-        iconConfig.name = "perm-identity";
         stepStatus == "finished"
           ? aadhaarStatus == "SUCCESS"
             ? (iconConfig.color = "#2CB77C")
             : (iconConfig.color = "red")
           : "#4E46F1";
-
-        break;
+        iconConfig.name = "card-account-details-outline";
+        return <MaterialCommunityIcons {...iconConfig} />
+        
       }
       case 1: {
-        iconConfig.name = "mood";
         stepStatus == "finished"
           ? panStatus == "SUCCESS"
             ? (iconConfig.color = "#2CB77C")
             : (iconConfig.color = "red")
           : "#4E46F1";
-        break;
+        iconConfig.name = "smart-card-outline";
+        return <MaterialCommunityIcons {...iconConfig} />
       }
       case 2: {
-        iconConfig.name = "payment";
         stepStatus == "finished"
           ? bankStatus == "SUCCESS"
             ? (iconConfig.color = "#2CB77C")
             : (iconConfig.color = "red")
           : "#4E46F1";
-        break;
+        iconConfig.name = "bank-outline";
+        return <MaterialCommunityIcons {...iconConfig} />
       }
       case 3: {
-        iconConfig.name = "library-add-check";
         stepStatus == "finished"
         ? mandateStatus == "SUCCESS"
           ? (iconConfig.color = "#2CB77C")
           : (iconConfig.color = "red")
         : "#4E46F1";
-        break;
+        iconConfig.name = "bank-check";
+        return <MaterialCommunityIcons {...iconConfig} />
       }
       case 4: {
-        iconConfig.name = "info-outline";
-        break;
+        iconConfig.name = "file-document-outline";
+        return <MaterialCommunityIcons {...iconConfig} />
       }
       case 5: {
-        iconConfig.name = "camera-front";
-        break;
+        iconConfig.name = "camera-outline";
+        return <MaterialCommunityIcons {...iconConfig} />
       }
       default: {
-        break;
+        iconConfig.name = "info-outline";
+        return <MaterialIcons {...iconConfig} />
       }
     }
-    return iconConfig;
   };
+
   const renderStepIndicator = (params) => (
-    <MaterialIcons {...getStepIndicatorIconConfig(params)} />
+    getStepIndicatorIconConfig(params)
   );
 
   const onStepPress = (position) => {
@@ -102,6 +103,7 @@ export default ProgressBarTop = (props) => {
     }
     navigation.navigate(step);
   };
+
   return (
     <View style={progressBar.progressView}>
       <StepIndicator
@@ -109,14 +111,14 @@ export default ProgressBarTop = (props) => {
         customStyles={stepIndicatorStyles}
         currentPosition={props.step}
         labels={[
-          "Aadhaar Card",
-          "PAN Card",
-          "Bank Account",
+          "Aadhaar",
+          "PAN",
+          "Bank",
           "Mandate",
           "Profile",
           "Photo",
         ]}
-        onPress={onStepPress}
+        // onPress={onStepPress}
         renderStepIndicator={renderStepIndicator}
       />
     </View>
