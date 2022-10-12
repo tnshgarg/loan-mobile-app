@@ -16,7 +16,7 @@ const CollapsibleCard = ({
   return (
     <View style={ewa.loanCard}>
       <View style={{ flexDirection: "row", width: "100%" }}>
-        <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+        <Text style={{ fontWeight: "bold", fontSize: 16 }}>
           {title}
           {TitleIcon ? <TitleIcon /> : null}
         </Text>
