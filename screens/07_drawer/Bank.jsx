@@ -4,11 +4,12 @@ import DetailItem from "./DetailItem";
 import { useSelector } from "react-redux";
 import BankFormTemplate from "../../templates/bank/Form";
 import BankConfirmApi from "../../apis/bank/Confirm";
-import TopTabNav from "../../components/TopTabNav";
-
+import TopTabNav from "../../navigators/TopTabNav";
 
 const Bank = () => {
-  const accountHolderName = useSelector((state) => state.bank.data.accountHolderName);
+  const accountHolderName = useSelector(
+    (state) => state.bank.data.accountHolderName
+  );
   const accountNumber = useSelector((state) => state.bank.data.accountNumber);
   const ifsc = useSelector((state) => state.bank.data.ifsc);
   const upi = useSelector((state) => state.bank.data.upi);
@@ -37,7 +38,6 @@ const Bank = () => {
     },
   ];
 
-
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       {verifyStatus == "SUCCESS" ? (
@@ -47,7 +47,7 @@ const Bank = () => {
               key={index}
               label={item.label}
               value={item.value || "Not Provided"}
-              divider={item?.divider??true}
+              divider={item?.divider ?? true}
             />
           ))}
         </>

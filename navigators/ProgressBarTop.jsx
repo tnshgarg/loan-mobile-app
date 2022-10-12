@@ -5,6 +5,7 @@ import { View } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { useSelector } from "react-redux";
 import { progressBar, stepIndicatorStyles } from "../styles";
+import { COLORS } from "../constants/Theme";
 
 export default ProgressBarTop = (props) => {
 
@@ -24,7 +25,7 @@ export default ProgressBarTop = (props) => {
       case 0: {
         stepStatus == "finished"
           ? aadhaarStatus == "SUCCESS"
-            ? (iconConfig.color = "#2CB77C")
+            ? (iconConfig.color = COLORS.primary)
             : (iconConfig.color = "red")
           : "#4E46F1";
         iconConfig.name = "card-account-details-outline";
@@ -34,7 +35,7 @@ export default ProgressBarTop = (props) => {
       case 1: {
         stepStatus == "finished"
           ? panStatus == "SUCCESS"
-            ? (iconConfig.color = "#2CB77C")
+            ? (iconConfig.color = COLORS.primary)
             : (iconConfig.color = "red")
           : "#4E46F1";
         iconConfig.name = "smart-card-outline";
@@ -43,7 +44,7 @@ export default ProgressBarTop = (props) => {
       case 2: {
         stepStatus == "finished"
           ? bankStatus == "SUCCESS"
-            ? (iconConfig.color = "#2CB77C")
+            ? (iconConfig.color = COLORS.primary)
             : (iconConfig.color = "red")
           : "#4E46F1";
         iconConfig.name = "bank-outline";
@@ -52,7 +53,7 @@ export default ProgressBarTop = (props) => {
       case 3: {
         stepStatus == "finished"
         ? mandateStatus == "SUCCESS"
-          ? (iconConfig.color = "#2CB77C")
+          ? (iconConfig.color = COLORS.primary)
           : (iconConfig.color = "red")
         : "#4E46F1";
         iconConfig.name = "bank-check";

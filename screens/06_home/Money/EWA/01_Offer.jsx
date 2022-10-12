@@ -13,6 +13,7 @@ import PrimaryButton from "../../../../components/PrimaryButton";
 import { ewaOfferPush } from "../../../../helpers/BackendPush";
 import { addLoanAmount } from "../../../../store/slices/ewaLiveSlice";
 import { bankform, checkBox, styles, welcome } from "../../../../styles";
+import { COLORS } from "../../../../constants/Theme";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const Offer = () => {
   const [loading, setLoading] = useState(false);
 
   const [validAmount, setValidAmount] = useState(true);
-  
+
   const unipeEmployeeId = useSelector((state) => state.auth.id);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const offerId = useSelector((state) => state.ewaLive.offerId);
@@ -140,10 +141,10 @@ const Offer = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <AppBar
         title="On Demand Salary"
-        color="#4E46F1"
+        color={COLORS.primary}
         leading={
           <IconButton
             icon={<Icon name="arrow-left" size={20} color="white" />}
@@ -233,7 +234,7 @@ const Offer = () => {
           value={consent}
           onValueChange={setConsent}
           style={checkBox.checkBox}
-          tintColors={{ true: "#4E46F1" }}
+          tintColors={{ true: COLORS.primary }}
         />
         <Text style={checkBox.checkBoxText}>
           I agree to the Terms and Conditions.
@@ -241,7 +242,7 @@ const Offer = () => {
       </View>
       <PrimaryButton
         title={loading ? "Processing" : "Continue"}
-        color="#2CB77C"
+        color={COLORS.primary}
         uppercase={false}
         disabled={loading || !consent || !validAmount}
         onPress={() => {

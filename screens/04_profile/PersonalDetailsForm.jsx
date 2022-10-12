@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { SafeAreaView, Text, TextInput, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import ProgressBarTop from "../../components/ProgressBarTop";
+import ProgressBarTop from "../../navigators/ProgressBarTop";
 import {
   addAltMobile,
   addQualification,
@@ -16,6 +16,10 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { bankform, form, styles } from "../../styles";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import PrimaryButton from "../../components/PrimaryButton";
+import { COLORS } from "../../constants/Theme";
+import FormInput from "../../components/atoms/FormInput";
+import DropDownForm from "../../components/molecules/DropDownForm";
+
 
 const PersonalDetailsForm = () => {
   const dispatch = useDispatch();
@@ -81,10 +85,10 @@ const PersonalDetailsForm = () => {
 
   return (
     <>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, { padding: 0 }]}>
         <AppBar
           title="Setup Profile"
-          color="#4E46F1"
+          color={COLORS.primary}
           leading={
             <IconButton
               icon={<Icon name="arrow-back" size={20} color="white" />}
@@ -97,86 +101,53 @@ const PersonalDetailsForm = () => {
         <Text style={form.formHeader}>Employee basic details</Text>
         <KeyboardAvoidingWrapper>
           <View>
-            <Text style={form.formLabel}>
-              Select Education <Text style={bankform.asterisk}>*</Text>
-            </Text>
-            <View style={form.picker}>
-              <Picker
-                selectedValue={qualification}
-                onValueChange={(itemValue) => setQualification(itemValue)}
-                prompt="Educational Qualification"
-              >
-                {qualifications.map((item, index) => {
-                  return <Picker.Item label={item} value={item} key={index} />;
-                })}
-              </Picker>
-            </View>
-            <Text style={form.formLabel}>
-              Marital Status <Text style={bankform.asterisk}>*</Text>
-            </Text>
-            <View style={styles.flexrow}>
-              {maritalStatuses.map((item, index) => {
-                return (
-                  <Button
-                    key={index}
-                    uppercase={false}
-                    style={
-                      maritalStatus == item
-                        ? form.chosenButton
-                        : form.choiceButton
-                    }
-                    title={item}
-                    type="solid"
-                    color="#2CB77C"
-                    onPress={() => setMaritalStatus(item)}
-                  />
-                );
-              })}
-            </View>
-            <Text style={form.formLabel}>
-              Mother's Name<Text style={bankform.asterisk}>*</Text>
-            </Text>
-            <TextInput
-              style={form.formTextInput}
-              value={motherName}
-              onChangeText={setMotherName}
-              placeholder="Enter Mother's Name"
-              autoCapitalize="words"
+            <DropDownForm
+              placeholder={"Select Education*"}
+              containerStyle={{ marginVertical: 10 }}
+              value={qualification}
+              setValue={setQualification}
+              data={qualifications}
             />
-            <Text style={form.formLabel}>
-              Enter your alternate mobile number
-            </Text>
-            <TextInput
-              style={form.formTextInput}
-              value={altMobile}
-              onChangeText={setAltMobile}
+            <DropDownForm
+              placeholder={"Select Maritial Status*"}
+              containerStyle={{ marginVertical: 10 }}
+              value={maritalStatus}
+              setValue={setMaritalStatus}
+              data={maritalStatuses}
+            />
+            <FormInput
+              placeholder={"Mother's Name*"}
+              containerStyle={{ marginVertical: 10 }}
+              value={motherName}
+              onChange={setMotherName}
+            />
+            <FormInput
+              placeholder={"Alternate Phone Number"}
+              containerStyle={{ marginVertical: 10 }}
               autoCompleteType="tel"
               keyboardType="phone-pad"
-              textContentType="telephoneNumber"
-              placeholder="XXXXXXXXXX"
+              value={altMobile}
+              onChange={setAltMobile}
             />
-            <Text style={form.formLabel}>Enter your Email ID</Text>
-            <TextInput
-              style={form.formTextInput}
-              value={email}
-              onChangeText={setEmail}
+            <FormInput
+              placeholder={"Email Address"}
+              containerStyle={{ marginVertical: 10 }}
               autoCompleteType="email"
               keyboardType="email-address"
-              placeholder="Enter Email"
+              value={email}
+              onChange={setEmail}
             />
 
             <PrimaryButton
               title="Continue"
               type="solid"
               uppercase={false}
-              color="#2CB77C"
+              color={COLORS.primary}
               disabled={!next}
               onPress={() => {
                 navigation.navigate("PersonalImage");
               }}
             />
-
-            <View style={bankform.padding}></View>
           </View>
         </KeyboardAvoidingWrapper>
       </SafeAreaView>

@@ -1,12 +1,13 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
-import { SafeAreaView, Text, View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import StepIndicator from "react-native-step-indicator";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/PrimaryButton";
+import { COLORS } from "../../constants/Theme";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { checkBox, stepIndicatorStyles, styles, welcome } from "../../styles";
+import { stepIndicatorStyles, styles, welcome } from "../../styles";
 import SVGImg from "../../assets/UnipeLogo.svg";
 
 export default WelcomePage = () => {
@@ -20,8 +21,8 @@ export default WelcomePage = () => {
 
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
-      color: stepStatus === "finished" ? "#ffffff" : "#4E46F1",
-      size: 16,
+      color: stepStatus === "finished" ? COLORS.white : COLORS.primary,
+      size: 15,
     };
     switch (position) {
       case 0: {
@@ -70,7 +71,7 @@ export default WelcomePage = () => {
 
   return (
     <>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, { paddingBottom: 40 }]}>
         <SVGImg style={styles.logo} />
         <View style={welcome.steps}>
           <StepIndicator
@@ -90,7 +91,6 @@ export default WelcomePage = () => {
             navigation.navigate("AadhaarForm");
           }}
         />
-        <View style={checkBox.padding}></View>
       </SafeAreaView>
     </>
   );

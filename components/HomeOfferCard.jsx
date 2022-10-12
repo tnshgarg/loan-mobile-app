@@ -2,6 +2,7 @@ import { useIsFocused, useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { COLORS, FONTS } from "../constants/Theme";
 import { getBackendData } from "../services/employees/employeeServices";
 import { addOffers } from "../store/slices/ewaHistoricalSlice";
 import { resetEwaLive } from "../store/slices/ewaLiveSlice";
@@ -49,9 +50,8 @@ const HomeOfferCard = () => {
       >
         <Text
           style={{
-            color: "black",
-            fontWeight: "bold",
-            fontSize: 20,
+            color: COLORS.black,
+            ...FONTS.h3,
             marginTop: "2%",
             alignSelf: "center",
           }}
@@ -61,8 +61,7 @@ const HomeOfferCard = () => {
         <Text
           style={{
             color: "green",
-            fontWeight: "bold",
-            fontSize: 36,
+            ...FONTS.h1,
             marginTop: "4%",
             alignSelf: "center",
           }}
@@ -72,8 +71,7 @@ const HomeOfferCard = () => {
         <Text
           style={{
             color: "purple",
-            fontWeight: "bold",
-            fontSize: 18,
+            ...FONTS.h3,
             marginTop: "2%",
             alignSelf: "center",
           }}

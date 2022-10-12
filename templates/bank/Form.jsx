@@ -5,6 +5,8 @@ import { Text, TextInput, View } from "react-native";
 import { Popable } from "react-native-popable";
 import { useDispatch, useSelector } from "react-redux";
 import BankVerifyApi from "../../apis/bank/Verify";
+import InfoCard from "../../components/atoms/InfoCard";
+import { COLORS } from "../../constants/Theme";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
   addAccountHolderName,
@@ -69,17 +71,12 @@ const BankFormTemplate = (props) => {
     <>
       <KeyboardAvoidingWrapper>
         <View>
-          <Text style={bankform.Maintitle}>Bank Details Verification</Text>
-          <View style={bankform.infoCard}>
-            <Icon name="info-outline" size={20} color="#4E46F1" />
-            <Text style={bankform.infoText}>
-              We will use this bank account / UPI ID to deposit your salary
-              every month, Please ensure the bank account belongs to you.
-              {"\n"}
-              We will also deposit INR 1 to your account for verification make
-              sure you enter the correct account details.
-            </Text>
-          </View>
+          {/* <Text style={bankform.Maintitle}>Bank Details Verification</Text> */}
+          <InfoCard
+            info={
+              "We will use this bank account / UPI ID to deposit your salary every month, Please ensure the bank account belongs to you.\nWe will also deposit INR 1 to your account for verification make sure you enter the correct account details."
+            }
+          />
           <Text style={bankform.subTitle}>Enter your Bank Details</Text>
 
           <Text style={bankform.formtitle}>
@@ -166,7 +163,7 @@ const BankFormTemplate = (props) => {
               value={consent}
               onValueChange={setConsent}
               style={checkBox.checkBox}
-              tintColors={{ true: "#4E46F1" }}
+              tintColors={{ true: COLORS.primary }}
             />
             <Text style={checkBox.checkBoxText}>
               I agree with the KYC registration Terms and Conditions to verifiy

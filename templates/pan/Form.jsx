@@ -9,6 +9,8 @@ import { bankform, checkBox, form, styles } from "../../styles";
 
 import PanVerifyApi from "../../apis/pan/Verify";
 import { addNumber } from "../../store/slices/panSlice";
+import { COLORS } from "../../constants/Theme";
+import InfoCard from "../../components/atoms/InfoCard";
 
 const PanFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -60,19 +62,16 @@ const PanFormTemplate = (props) => {
             </Text>
           </View>
 
-          <View style={bankform.infoCard}>
-            <Icon name="info-outline" size={20} color="#4E46F1" />
-            <Text style={bankform.infoText}>
-              PAN is required to verify name and date of birth.
-            </Text>
-          </View>
+          <InfoCard
+            info={"PAN is required to verify name and date of birth."}
+          />
 
-          <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: "row", width: "100%" }}>
             <CheckBox
               value={consent}
               onValueChange={setConsent}
               style={checkBox.checkBox}
-              tintColors={{ true: "#4E46F1" }}
+              tintColors={{ true: COLORS.primary }}
             />
             <Text style={checkBox.checkBoxText}>
               I agree with the KYC registration Terms and Conditions to verifiy

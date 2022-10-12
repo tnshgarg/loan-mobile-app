@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { addressPush } from "../../../../helpers/BackendPush";
 import { showToast } from "../../../../components/Toast";
 import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
+import { COLORS } from "../../../../constants/Theme";
 
 export default EmployeeAddress = () => {
   const navigation = useNavigation();
@@ -25,7 +26,7 @@ export default EmployeeAddress = () => {
           uppercase={false}
           title="Continue"
           type="solid"
-          color="#2CB77C"
+          color={COLORS.primary}
           style={form.nextButton}
           onPress={() => {
             addressPush({

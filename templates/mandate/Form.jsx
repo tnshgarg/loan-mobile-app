@@ -149,7 +149,7 @@ const Form = (props) => {
           email: email,
           contact: phoneNumber,
         },
-        theme: { color: "#4E46F1" },
+        theme: { color: COLORS.primary },
       };
       RazorpayCheckout.open(options)
         .then((data) => {

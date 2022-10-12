@@ -1,8 +1,8 @@
 import React from "react";
 import { Button } from "@react-native-material/core";
+import { COLORS } from "../constants/Theme";
 
 const ApiView = (props) => {
-
   const { disabled, goForFetch, loading, style, title } = props;
 
   return (
@@ -10,7 +10,7 @@ const ApiView = (props) => {
       title={loading ? "Verifying" : title || "Continue"}
       uppercase={false}
       type="solid"
-      color="#2CB77C"
+      color={COLORS.primary}
       style={style}
       disabled={loading || disabled}
       onPress={() => {
