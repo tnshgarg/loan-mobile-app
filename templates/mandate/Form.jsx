@@ -30,6 +30,7 @@ import {
   getToken,
 } from "../../services/mandate/Razorpay/services";
 import { RZP_TEST_KEY_ID } from "@env";
+import { COLORS } from "../../constants/Theme";
 
 const Form = (props) => {
   const navigation = useNavigation();
