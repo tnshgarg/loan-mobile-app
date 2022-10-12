@@ -1,5 +1,6 @@
 import { View, Text } from "react-native";
 import React from "react";
+import { COLORS, FONTS } from "../../constants/Theme";
 
 const DetailItem = ({ label, value, divider }) => {
   return (
@@ -8,18 +9,15 @@ const DetailItem = ({ label, value, divider }) => {
       {value == "Not Provided" ? (
         <Text
           style={{
-            fontSize: 16,
-            fontWeight: "bold",
+            ...FONTS.h3,
             paddingTop: 8,
-            color: "gray",
+            color: COLORS.gray,
           }}
         >
           {value}
         </Text>
       ) : (
-        <Text style={{ fontSize: 16, fontWeight: "bold", paddingTop: 8 }}>
-          {value}
-        </Text>
+        <Text style={{ ...FONTS.h3, paddingTop: 8 }}>{value}</Text>
       )}
       {divider && (
         <View

@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { ewaKycPush } from "../../../../helpers/BackendPush";
 import { form, styles } from "../../../../styles";
-
+import { COLORS } from "../../../../constants/Theme";
 
 const KYC = () => {
   const navigation = useNavigation();
@@ -70,22 +70,22 @@ const KYC = () => {
       ipAddress: ipAddress,
       deviceId: deviceId,
     })
-    .then((response) => {
-      console.log("ewaKycPush response.data: ", response.data);
-      navigation.navigate("EWA_AGREEMENT");
-      setLoading(false);
-    })
-    .catch((error) => {
-      console.log("ewaKycPush error: ", error);
-      Alert.alert("An Error occured", error);
-    });
+      .then((response) => {
+        console.log("ewaKycPush response.data: ", response.data);
+        navigation.navigate("EWA_AGREEMENT");
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("ewaKycPush error: ", error);
+        Alert.alert("An Error occured", error);
+      });
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <AppBar
         title="KYC"
-        color="#4E46F1"
+        color={COLORS.primary}
         leading={
           <IconButton
             icon={<Icon name="arrow-left" size={20} color="white" />}
@@ -112,7 +112,7 @@ const KYC = () => {
 
       <PrimaryButton
         title={loading ? "Verifying" : "Continue"}
-        color="#2CB77C"
+        color={COLORS.primary}
         uppercase={false}
         disabled={loading}
         onPress={() => {

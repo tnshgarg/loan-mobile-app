@@ -10,6 +10,7 @@ import { getBackendData } from "../../../../services/employees/employeeServices"
 import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
 import { addOffers } from "../../../../store/slices/ewaHistoricalSlice";
 import DataCard from "../../../../components/DataCard";
+import { COLORS, FONTS } from "../../../../constants/Theme";
 
 const EWA = () => {
   const dispatch = useDispatch();
@@ -55,7 +56,7 @@ const EWA = () => {
   }, [isFocused, id]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       {aadhaarVerifyStatus === "SUCCESS" &&
       panVerifyStatus === "SUCCESS" &&
       bankVerifyStatus === "SUCCESS" &&
@@ -84,8 +85,7 @@ const EWA = () => {
               style={{
                 alignSelf: "center",
                 color: "green",
-                fontWeight: "bold",
-                fontSize: 36,
+                ...FONTS.h1,
               }}
             >
               ₹ {ewaLiveSlice?.eligibleAmount}
@@ -93,7 +93,7 @@ const EWA = () => {
           </View>
           <PrimaryButton
             title={!fetched || parseInt(ewaLiveSlice?.eligibleAmount)<1000 ? "No Active Offer" : "Get Money Now"}
-            color="#2CB77C"
+            color={COLORS.primary}
             uppercase={false}
             disabled={!fetched || parseInt(ewaLiveSlice?.eligibleAmount)<1000}
             onPress={() => {

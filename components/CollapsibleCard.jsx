@@ -15,11 +15,13 @@ const CollapsibleCard = ({
   const [isCollapsed, setIsCollapsed] = useState(isClosed);
   return (
     <View style={ewa.loanCard}>
-      <View style={{ flexDirection: "row", width: "100%" }}>
-        <Text style={{ fontWeight: "bold", fontSize: 16 }}>
-          {title}
+      <View
+        style={{ flexDirection: "row", width: "100%", alignItems: "center" }}
+      >
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Text style={{ fontWeight: "bold", fontSize: 16, paddingRight: 5 }}>{title}</Text>
           {TitleIcon ? <TitleIcon /> : null}
-        </Text>
+        </View>
         <Icon
           name={
             isCollapsed
