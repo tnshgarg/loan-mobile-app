@@ -8,6 +8,7 @@ import { bankform, form } from "../../styles";
 import Fetch from "../../apis/license/Fetch";
 import DateEntry from "../../components/DateEntry";
 import { addNumber } from "../../store/slices/licenseSlice";
+import { COLORS } from "../../constants/Theme";
 
 const LicenseFormTemplate = () => {
   const dispatch = useDispatch();

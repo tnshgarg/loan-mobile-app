@@ -9,12 +9,10 @@ import { resetPan } from "../store/slices/panSlice";
 import { resetProfile } from "../store/slices/profileSlice";
 import { resetLicense } from "../store/slices/licenseSlice";
 import { resetMandate } from "../store/slices/mandateSlice";
-import { SvgUri } from 'react-native-svg';
 
 const BackendSync = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
   const id = useSelector((state) => state.auth.id);
 
   useEffect(() => {

@@ -80,7 +80,7 @@ const BankFormTemplate = (props) => {
           <Text style={bankform.subTitle}>Enter your Bank Details</Text>
 
           <Text style={bankform.formtitle}>
-            Account Holder Name*
+            Account Holder Name<Text style={bankform.asterisk}>*</Text>
             <Popable
               content={
                 "Refer to your Bank Passbook or Cheque book for the exact Name mentioned in your bank records"
@@ -99,7 +99,7 @@ const BankFormTemplate = (props) => {
           />
 
           <Text style={bankform.formtitle}>
-            Bank Account Number*
+            Bank Account Number<Text style={bankform.asterisk}>*</Text>
             <Popable
               content={
                 "Refer to your Bank Passbook or Cheque book to get the Bank Account Number."
@@ -121,7 +121,7 @@ const BankFormTemplate = (props) => {
           ) : null}
 
           <Text style={bankform.formtitle}>
-            IFSC Code*
+            IFSC Code<Text style={bankform.asterisk}>*</Text>
             <Popable
               content={
                 "You can find the IFSC code on the cheque book or bank passbook that is provided by the bank"
@@ -174,7 +174,7 @@ const BankFormTemplate = (props) => {
           <BankVerifyApi
             data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}
             style={form.nextButton}
-            disabled={!ifscNext || !accNumNext || !consent}
+            disabled={!ifscNext || !accNumNext || !consent || !accountHolderName}
             type={props?.route?.params?.type || ""}
           />
 

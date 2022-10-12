@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/licenseSlice";
 import { licenseBackendPush } from "../../helpers/BackendPush";
 import { form, license, styles, selfie } from "../../styles";
+import { COLORS } from "../../constants/Theme";
 
 export default Confirm = () => {
   const dispatch = useDispatch();

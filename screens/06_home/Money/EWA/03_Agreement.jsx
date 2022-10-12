@@ -47,6 +47,7 @@ const Agreement = () => {
   const bankSlice = useSelector((state) => state.bank);
   const panSlice = useSelector((state) => state.pan);
   const profileSlice = useSelector((state) => state.profile);
+  const authSlice = useSelector((state) => state.auth);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
 
   const [netDisbursementAmount, setNetDisbursementAmount] = useState();
@@ -63,7 +64,7 @@ const Agreement = () => {
     text.data = text.data.replace(/\{panName\}/g, panSlice?.data?.name);
     text.data = text.data.replace(/\{aadhaarAddress\}/g, aadhaarSlice?.data?.address);
     text.data = text.data.replace(/\{email\}/g, profileSlice?.email);
-    text.data = text.data.replace(/\{mobile\}/g, profileSlice?.phoneNumber);
+    text.data = text.data.replace(/\{mobile\}/g, authSlice?.phoneNumber);
     text.data = text.data.replace(
       /\{applicationNumber\}/g,
       "applicationNumber"
