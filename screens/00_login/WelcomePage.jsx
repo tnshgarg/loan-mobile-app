@@ -71,31 +71,29 @@ export default WelcomePage = () => {
   ];
 
   return (
-    <>
-      <SafeAreaView style={[styles.container, { paddingBottom: 40 }]}>
-        <SVGImg style={styles.logo} />
-        <Text style={welcome.subTitle}>
-          Let’s start onboarding process by {"\n"} verifying below documents.
-        </Text>
-        <View style={welcome.steps}>
-          <StepIndicator
-            customStyles={stepIndicatorStyles}
-            stepCount={6}
-            direction="vertical"
-            renderStepIndicator={renderStepIndicator}
-            currentPosition={0}
-            labels={data}
-          />
-        </View>
-        <PrimaryButton
-          title="Welcome!"
-          color="#2CB77C"
-          uppercase={false}
-          onPress={() => {
-            navigation.navigate("AadhaarForm");
-          }}
+    <SafeAreaView style={[styles.container, { padding: 15 }]}>
+      {/* <SVGImg style={styles.logo} /> */}
+      <Text style={welcome.subTitle}>
+        Let’s start onboarding process by {"\n"} verifying below documents.
+      </Text>
+      <View style={welcome.steps}>
+        <StepIndicator
+          customStyles={stepIndicatorStyles}
+          stepCount={6}
+          direction="vertical"
+          renderStepIndicator={renderStepIndicator}
+          currentPosition={0}
+          labels={data}
         />
-      </SafeAreaView>
-    </>
+      </View>
+      <PrimaryButton
+        title="Welcome!"
+        color={COLORS.primary}
+        uppercase={false}
+        onPress={() => {
+          navigation.navigate("AadhaarForm");
+        }}
+      />
+    </SafeAreaView>
   );
 };

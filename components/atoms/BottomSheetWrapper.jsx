@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
     //flex: 0.35,
     backgroundColor: COLORS.white,
     justifyContent: "flex-start",
-    alignItems: "center",
     padding: 15,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,

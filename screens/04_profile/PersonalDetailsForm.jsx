@@ -89,7 +89,7 @@ export default PersonalDetailsForm = () => {
           color={COLORS.primary}
           leading={
             <IconButton
-              icon={<Icon name="arrow-back" size={20} color="white" />}
+              icon={<Icon name="arrow-back" size={20} color={COLORS.white} />}
               onPress={() => navigation.navigate("BankForm")}
             />
           }

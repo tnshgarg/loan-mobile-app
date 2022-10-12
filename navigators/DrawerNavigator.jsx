@@ -6,7 +6,7 @@ import Home from "../screens/06_home/Home";
 import Profile from "../screens/07_drawer/Profile";
 import KYCScreen from "../screens/07_drawer/KYCScreen";
 import { AppBar, Icon, IconButton } from "@react-native-material/core";
-import SVGImg from '../assets/UnipeLogo.svg';
+import SVGImg from "../assets/UnipeLogo.svg";
 import { nav } from "../styles";
 import { COLORS } from "../constants/Theme";
 import CustomDrawer from "./CustomDrawer";
@@ -27,11 +27,11 @@ const DrawerNavigator = () => {
         drawerActiveTintColor: "white",
         header: ({ navigation }) => (
           <AppBar
-            title={
-              <SVGImg
-                style={nav.titleLogo}
-              />
-            }
+            // title={
+            //   <SVGImg
+            //     style={nav.titleLogo}
+            //   />
+            // }
             centerTitle={true}
             contentContainerStyle={nav.navbar}
             color="#ffffff"

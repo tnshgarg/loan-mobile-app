@@ -36,11 +36,11 @@ const PrimaryButton = ({
         title={title}
         color={color}
         type={type}
-        style={styles.ContinueButton}
+        style={styles.btn}
         disabled={disabled}
         contentContainerStyle={styles.ButtonContainer}
         onPress={onPress}
-        titleStyle={[styles.continueButtonText, titleStyle]}
+        titleStyle={[styles.btnText, titleStyle]}
         {...otherProps}
       />
     </View>

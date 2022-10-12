@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
   header: {
     ...FONTS.h3,
     marginBottom: 10,
+    alignSelf: "center",
   },
   listItem: {
     flexDirection: "row",

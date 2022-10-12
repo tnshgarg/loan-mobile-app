@@ -45,7 +45,6 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   ContinueButton: {
-    padding: 10,
     alignSelf: "center",
     marginTop: 20,
     width: 320,
@@ -60,6 +59,17 @@ export const styles = StyleSheet.create({
     width: "100%",
     height: 60,
     fontSize: 20,
+  },
+  btn: {
+    marginTop: 20,
+    width: "100%",
+    height: 50,
+    backgroundColor: COLORS.primary,
+    borderRadius: 6,
+  },
+  btnText: {
+    ...FONTS.h3,
+    color: COLORS.white,
   },
   ButtonContainer: {
     width: "100%",
@@ -253,7 +263,6 @@ export const form = StyleSheet.create({
 
 export const checkBox = StyleSheet.create({
   checkBox: {
-    marginLeft: 34,
     marginTop: 30,
   },
   checkBoxText: {
@@ -442,7 +451,6 @@ export const welcome = StyleSheet.create({
     ...FONTS.h2,
   },
   subTitle: {
-    marginTop: 20,
     alignSelf: "center",
     color: COLORS.black,
     ...FONTS.h3,
