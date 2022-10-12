@@ -53,6 +53,7 @@ const AadhaarForm = () => {
               }}
             />
           }
+          /*
           trailing={
             <IconButton
               icon={
@@ -63,6 +64,7 @@ const AadhaarForm = () => {
               }}
             />
           }
+          */
         />
 
         <ProgressBarTop step={0} />

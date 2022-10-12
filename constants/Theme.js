@@ -5,6 +5,20 @@ const { width, height } = Dimensions.get("window");
 export const COLORS = {
   primaryPending: "#4E46F1",
   primary: "#2CB77C",
+  button: {
+    disabled: {
+      background: "",
+      text: "",
+    },
+    disabled: {
+      background: "",
+      text: "",
+    },
+  },
+  appBar: {
+    background: "#2CB77C",
+    text: "",
+  },
   secondary: "#230C45",
   warning: "#EB5757",
   darkGray: "#333333",

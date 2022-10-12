@@ -1,6 +1,6 @@
-import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
+import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Image, SafeAreaView, ScrollView, Text, View } from "react-native";
 import * as ImagePicker from "react-native-image-picker";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +13,7 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { addPhoto } from "../../store/slices/profileSlice";
 import { checkBox, form, selfie, styles } from "../../styles";
 
-export default PersonalImage = () => {
+const PersonalImage = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -122,3 +122,5 @@ export default PersonalImage = () => {
     </>
   );
 };
+
+export default PersonalImage;

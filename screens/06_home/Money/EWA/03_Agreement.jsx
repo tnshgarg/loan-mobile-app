@@ -27,7 +27,6 @@ import Modal from "react-native-modal";
 import { AntDesign } from "react-native-vector-icons";
 import { useWindowDimensions } from "react-native";
 import RenderHtml from "react-native-render-html";
-import { format } from "date-fns";
 import agreement from "../../../../templates/docs/LiquidLoansLoanAgreement";
 import { COLORS } from "../../../../constants/Theme";
 

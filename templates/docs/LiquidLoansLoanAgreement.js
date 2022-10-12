@@ -1,7 +1,7 @@
 import {LL_IMG_TOKEN} from "@env";
 const agreement = {
   html: `
-<img src="http://raw.githubusercontent.com/pay-rocket/employee-app/html_loan_agreement/assets/LiquiLoansLogo.jpeg?token=${LL_IMG_TOKEN}" width="200" height="200"/>
+<img src="https://freopay.com/wp-content/uploads/2022/04/Liquiloans-logo-for-FP.png" width="200" height="200"/>
 <p>Ref: Digital Credit Facility (Application number) Date: <span>{todayDate}</span> </p>
 
 

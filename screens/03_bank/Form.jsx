@@ -1,6 +1,6 @@
 import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Alert, SafeAreaView } from "react-native";
 import { useDispatch } from "react-redux";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
@@ -43,6 +43,7 @@ const BankForm = () => {
               onPress={() => navigation.navigate("PanForm")}
             />
           }
+          /*
           trailing={
             <IconButton
               icon={<Icon name="arrow-forward" size={20} color="white" />}
@@ -51,6 +52,7 @@ const BankForm = () => {
               }}
             />
           }
+          */
         />
         <ProgressBarTop step={2} />
 

@@ -99,6 +99,7 @@ export default LoginScreen = () => {
             .then((result) => {
               console.log("sendSmsVerification result: ", result);
               if (result["response"]["status"] === "success") {
+                setLoading(false);
                 navigation.navigate("Otp");
               } else {
                 setLoading(false);
