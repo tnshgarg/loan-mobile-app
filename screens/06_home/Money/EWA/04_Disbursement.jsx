@@ -13,7 +13,7 @@ const Disbursement = ({route, navigation}) => {
   const bankSlice = useSelector((state) => state.bank);
 
   const [processingFees, setProcessingFees] = useState();
-  const [netDisbursementAmount, setNetDisbursementAmount] = useState();
+  const [netAmount, setNetDisbursementAmount] = useState();
   const [dueDate, setDueDate] = useState();
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const Disbursement = ({route, navigation}) => {
     setProcessingFees(
       Math.round(((offer?.loanAmount * offer?.fees) / 100 + 1) / 10) * 10 - 1
     );
-    setNetDisbursementAmount(offer?.netDisbursementAmount);
+    setNetDisbursementAmount(offer?.netAmount);
     setDueDate(offer?.dueDate);
   }, [offer]);
 
@@ -33,7 +33,7 @@ const Disbursement = ({route, navigation}) => {
     { subTitle: "Loan Amount ", value: "₹" + offer?.loanAmount },
     {
       subTitle: "Net Disbursement Amount ",
-      value: "₹" + netDisbursementAmount,
+      value: "₹" + netAmount,
     },
     {
       subTitle: "Disbursement Bank Account Number",
