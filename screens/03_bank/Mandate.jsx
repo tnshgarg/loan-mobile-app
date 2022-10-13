@@ -26,7 +26,7 @@ const Mandate = () => {
         leading={
           <IconButton
             icon={<Icon name="arrow-back" size={20} color="white" />}
-            onPress={() => navigation.navigate("Home")}
+            onPress={() => navigation.navigate("BankForm")}
           />
         }
         /*
