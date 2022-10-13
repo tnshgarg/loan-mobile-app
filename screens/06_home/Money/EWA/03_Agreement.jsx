@@ -27,8 +27,8 @@ import Modal from "react-native-modal";
 import { AntDesign } from "react-native-vector-icons";
 import { useWindowDimensions } from "react-native";
 import RenderHtml from "react-native-render-html";
-import { format } from "date-fns";
 import agreement from "../../../../templates/docs/LiquidLoansLoanAgreement";
+import { COLORS } from "../../../../constants/Theme";
 
 const Agreement = () => {
   const dispatch = useDispatch();
@@ -47,6 +47,7 @@ const Agreement = () => {
   const bankSlice = useSelector((state) => state.bank);
   const panSlice = useSelector((state) => state.pan);
   const profileSlice = useSelector((state) => state.profile);
+  const authSlice = useSelector((state) => state.auth);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
 
   const [netDisbursementAmount, setNetDisbursementAmount] = useState();
@@ -56,15 +57,14 @@ const Agreement = () => {
   const [apr, setApr] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  var today = new Date();
-  const todayDate = today.getDate() +'/' + (today.getMonth() + 1) + '/' + today.getFullYear();
+  const today = new Date();
 
   function ValueEntry(text) {
-    text.data = text.data.replace(/\{todayDate\}/g, todayDate);
-    text.data = text.data.replace(/\{panName\}/g, panSlice?.data?.name );
+    text.data = text.data.replace(/\{todayDate\}/g, today.getDate()+"/"+(today.getMonth()+1)+"/"+today.getFullYear());
+    text.data = text.data.replace(/\{panName\}/g, panSlice?.data?.name);
     text.data = text.data.replace(/\{aadhaarAddress\}/g, aadhaarSlice?.data?.address);
     text.data = text.data.replace(/\{email\}/g, profileSlice?.email);
-    text.data = text.data.replace(/\{mobile\}/g, profileSlice?.phoneNumber);
+    text.data = text.data.replace(/\{mobile\}/g, authSlice?.phoneNumber);
     text.data = text.data.replace(
       /\{applicationNumber\}/g,
       "applicationNumber"
@@ -91,7 +91,13 @@ const Agreement = () => {
   }, [deviceId, ipAddress]);
 
   useEffect(() => {
-    setProcessingFees(Math.round(((ewaLiveSlice?.loanAmount * ewaLiveSlice?.fees / 100) + 1) / 10 ) * 10 - 1);
+    setProcessingFees(
+      Math.round(
+        ((ewaLiveSlice?.loanAmount * ewaLiveSlice?.fees) / 100 + 1) / 10
+      ) *
+        10 -
+        1
+    );
   }, [ewaLiveSlice]);
 
   useEffect(() => {
@@ -194,10 +200,10 @@ const Agreement = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <AppBar
         title="Agreement"
-        color="#4E46F1"
+        color={COLORS.primary}
         leading={
           <IconButton
             icon={<Icon name="arrow-left" size={20} color="white" />}
@@ -227,7 +233,7 @@ const Agreement = () => {
         <View style={{ flexDirection: "row", marginTop: 10 }}>
           <CheckBox
             style={ewa.checkBox}
-            tintColors={{ true: "#4E46F1" }}
+            tintColors={{ true: COLORS.primary }}
             value={confirm}
             onValueChange={setConfirm}
           />
@@ -236,7 +242,7 @@ const Agreement = () => {
         <View style={{ flexDirection: "row" }}>
           <CheckBox
             style={ewa.checkBox}
-            tintColors={{ true: "#4E46F1" }}
+            tintColors={{ true: COLORS.primary }}
             value={consent}
             onValueChange={setConsent}
           />

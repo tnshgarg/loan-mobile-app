@@ -3,12 +3,10 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Image, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addVerifyMsg,
-  addVerifyStatus,
-} from "../../store/slices/licenseSlice";
+import { addVerifyMsg, addVerifyStatus } from "../../store/slices/licenseSlice";
 import { licenseBackendPush } from "../../helpers/BackendPush";
 import { form, license, styles, selfie } from "../../styles";
+import { COLORS } from "../../constants/Theme";
 
 export default Confirm = () => {
   const dispatch = useDispatch();
@@ -130,7 +128,7 @@ export default Confirm = () => {
           type="solid"
           uppercase={false}
           style={form.noButton}
-          color="#EB5757"
+          color={COLORS.warning}
           onPress={() => {
             setVerifyMsg("Rejected by User");
             navigation.navigate("Documents", {
@@ -146,7 +144,7 @@ export default Confirm = () => {
           type="solid"
           uppercase={false}
           style={form.yesButton}
-          color="#2CB77C"
+          color={COLORS.primary}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");

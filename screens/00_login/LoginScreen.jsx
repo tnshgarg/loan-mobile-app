@@ -26,6 +26,8 @@ import {
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
+import { COLORS } from "../../constants/Theme";
+import SVGImg from "../../assets/UnipeLogo.svg";
 
 export default LoginScreen = () => {
   SplashScreen.hide();
@@ -97,6 +99,7 @@ export default LoginScreen = () => {
             .then((result) => {
               console.log("sendSmsVerification result: ", result);
               if (result["response"]["status"] === "success") {
+                setLoading(false);
                 navigation.navigate("Otp");
               } else {
                 setLoading(false);
@@ -123,7 +126,7 @@ export default LoginScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <KeyboardAvoidingWrapper>
         <View>
           <Image
@@ -144,45 +147,56 @@ export default LoginScreen = () => {
             maxLength={13}
             placeholder="9999999999"
           />
-          <Text style={styles.dataUseText}>
-            This number will be used for all communication. You shall receive an
-            SMS with code for verification. By continuing, you agree to our{" "}
-            <Text
-              onPress={() =>
-                Linking.openURL("https://policies.google.com/terms?hl=en-US")
-              }
-              style={styles.termsText}
-            >
-              Terms of Service
-            </Text>{" "}
-            &{" "}
-            <Text
-              onPress={() =>
-                Linking.openURL("https://policies.google.com/privacy?hl=en-US")
-              }
-              style={styles.termsText}
-            >
-              Privacy Policy
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "flex-end",
+              alignSelf: "flex-end",
+              height: "100%",
+            }}
+          >
+            <Text style={styles.dataUseText}>
+              This number will be used for all communication. You shall receive
+              an SMS with code for verification. By continuing, you agree to our{" "}
+              <Text
+                onPress={() =>
+                  Linking.openURL("https://policies.google.com/terms?hl=en-US")
+                }
+                style={styles.termsText}
+              >
+                Terms of Service
+              </Text>{" "}
+              &{" "}
+              <Text
+                onPress={() =>
+                  Linking.openURL(
+                    "https://policies.google.com/privacy?hl=en-US"
+                  )
+                }
+                style={styles.termsText}
+              >
+                Privacy Policy
+              </Text>
             </Text>
-          </Text>
-          {!loading ? (
-            <>
-              <PrimaryButton
-                uppercase={false}
-                title="Continue"
-                type="solid"
-                color="#4E46F1"
-                disabled={!next}
-                onPress={() => signIn()}
-              />
-            </>
-          ) : (
-            <TouchableOpacity>
-              <View style={styles.LoadingButton}>
-                <ActivityIndicator size="large" color="white" />
-              </View>
-            </TouchableOpacity>
-          )}
+            {!loading ? (
+              <>
+                <PrimaryButton
+                  uppercase={false}
+                  title="Continue"
+                  type="solid"
+                  color={COLORS.primary}
+                  disabled={!next}
+                  onPress={() => signIn()}
+                />
+              </>
+            ) : (
+              <TouchableOpacity>
+                <View style={styles.LoadingButton}>
+                  <ActivityIndicator size="large" color="white" />
+                </View>
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
       </KeyboardAvoidingWrapper>
     </SafeAreaView>
