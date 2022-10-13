@@ -2,11 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   maritalStatus: "",
-  qualification: "",
+  qualification: "Graduate",
   altMobile: "",
   email: "",
   photo: "",
-  motherName: ""
+  motherName: "",
 };
 
 const profileSlice = createSlice({
@@ -32,7 +32,7 @@ const profileSlice = createSlice({
       state.motherName = action.payload;
     },
     resetProfile(state, action) {
-      if (!action.payload) {
+      if (!action.payload || Object.keys(action.payload).length === 0) {
         Object.assign(state, initialState);
       } else {
         Object.assign(state, action.payload);
@@ -48,7 +48,7 @@ export const {
   addMaritalStatus,
   addPhoto,
   resetProfile,
-  addMotherName
+  addMotherName,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

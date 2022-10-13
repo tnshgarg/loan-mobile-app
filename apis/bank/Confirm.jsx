@@ -3,14 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Text, View } from "react-native";
 import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import {
-  addVerifyMsg,
-  addVerifyStatus,
-} from "../../store/slices/bankSlice";
+import { addVerifyMsg, addVerifyStatus } from "../../store/slices/bankSlice";
 import { bankBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
+import { COLORS } from "../../constants/Theme";
 import FuzzyCheck from "../../components/FuzzyCheck";
-
 
 const BankConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -54,7 +51,9 @@ const BankConfirmApi = (props) => {
       <Text style={form.userData}>Bank Name: {data?.bankName}</Text>
       <Text style={form.userData}>Branch Name: {data?.branchName}</Text>
       <Text style={form.userData}>Branch City: {data?.branchCity}</Text>
-      <Text style={form.userData}>AccountHolderName: {data?.accountHolderName}</Text>
+      <Text style={form.userData}>
+        AccountHolderName: {data?.accountHolderName}
+      </Text>
       <Text style={form.userData}>AccountNumber: {data?.accountNumber}</Text>
       <Text style={form.userData}>IFSC: {data?.ifsc}</Text>
       <Text style={form.userData}>UPI: {data?.upi}</Text>
@@ -71,7 +70,7 @@ const BankConfirmApi = (props) => {
           type="solid"
           uppercase={false}
           style={form.noButton}
-          color="#EB5757"
+          color={COLORS.warning}
           onPress={() => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
@@ -88,13 +87,13 @@ const BankConfirmApi = (props) => {
             }
           }}
         />
-        <FuzzyCheck name={data?.accountHolderName} step="Bank Account"/>
+        <FuzzyCheck name={data?.accountHolderName} step="Bank Account" />
         <Button
           title="Yes"
           type="solid"
           uppercase={false}
           style={form.yesButton}
-          color="#4E46F1"
+          color={COLORS.primary}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");

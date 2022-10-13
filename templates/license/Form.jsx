@@ -8,6 +8,7 @@ import { bankform, form } from "../../styles";
 import Fetch from "../../apis/license/Fetch";
 import DateEntry from "../../components/DateEntry";
 import { addNumber } from "../../store/slices/licenseSlice";
+import { COLORS } from "../../constants/Theme";
 
 const LicenseFormTemplate = () => {
   const dispatch = useDispatch();
@@ -39,7 +40,6 @@ const LicenseFormTemplate = () => {
           value={number}
           onChangeText={setNumber}
           placeholder="Enter License Number"
-          
         />
         {number && !validNumber ? (
           <Text style={bankform.formatmsg}>Invalid License Number.</Text>
@@ -50,7 +50,7 @@ const LicenseFormTemplate = () => {
           setval={setDob}
         />
         <View style={bankform.infoCard}>
-          <Icon name="info-outline" size={20} color="#4E46F1" />
+          <Icon name="info-outline" size={20} color={COLORS.primary} />
           <Text style={bankform.infoText}>
             License is needed to verify your eligibility to operate heavy
             machinery.

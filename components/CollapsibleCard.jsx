@@ -4,15 +4,24 @@ import Collapsible from "react-native-collapsible";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { bankform, ewa } from "../styles";
 
-const CollapsibleCard = ({ title, TitleIcon, data, isClosed, info ,Component}) => {
+const CollapsibleCard = ({
+  title,
+  TitleIcon,
+  data,
+  isClosed,
+  info,
+  Component,
+}) => {
   const [isCollapsed, setIsCollapsed] = useState(isClosed);
   return (
     <View style={ewa.loanCard}>
-      <View style={{ flexDirection: "row", width: "100%" }}>
-        <Text style={{ fontWeight: "bold" }}>
-          {title}
+      <View
+        style={{ flexDirection: "row", width: "100%", alignItems: "center" }}
+      >
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Text style={{ fontWeight: "bold", fontSize: 16, paddingRight: 5 }}>{title}</Text>
           {TitleIcon ? <TitleIcon /> : null}
-        </Text>
+        </View>
         <Icon
           name={
             isCollapsed
@@ -33,7 +42,9 @@ const CollapsibleCard = ({ title, TitleIcon, data, isClosed, info ,Component}) =
             key={index}
           >
             <Text>{item.subTitle}</Text>
-            <Text style={{ marginLeft: "auto" }}>{item.value}</Text>
+            <Text style={{ marginLeft: "auto", fontSize: 14 }}>
+              {item.value}
+            </Text>
           </View>
         ))}
         {info ? (

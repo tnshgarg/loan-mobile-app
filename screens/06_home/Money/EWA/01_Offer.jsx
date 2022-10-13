@@ -4,60 +4,69 @@ import { AppBar, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, SafeAreaView, Text, TextInput, View } from "react-native";
-import StepIndicator from "react-native-step-indicator";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { useSelector, useDispatch } from "react-redux";
-import PrimaryButton from "../../../../components/PrimaryButton";
-import { addLoanAmount } from "../../../../store/slices/ewaLiveSlice";
-import { ewaOfferPush } from "../../../../helpers/BackendPush";
-import { bankform, checkBox, styles, welcome } from "../../../../styles";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
-
+import StepIndicator from "react-native-step-indicator";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { useDispatch, useSelector } from "react-redux";
+import PrimaryButton from "../../../../components/PrimaryButton";
+import { ewaOfferPush } from "../../../../helpers/BackendPush";
+import { addLoanAmount } from "../../../../store/slices/ewaLiveSlice";
+import { bankform, checkBox, styles, welcome } from "../../../../styles";
+import { COLORS } from "../../../../constants/Theme";
 
 const Offer = () => {
-  
-  let DeviceId = 0;
-  let DeviceIp = 0;
-
-  getUniqueId().then((id) => {
-    DeviceId = id;
-  });
-  NetworkInfo.getIPV4Address().then((ipv4Address) => {
-    DeviceIp = ipv4Address;
-  });
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
+  const [fetched, setFetched] = useState(false);
+  const [deviceId, setDeviceId] = useState(0);
+  const [ipAddress, setIpAdress] = useState(0);
+
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
+
   const [validAmount, setValidAmount] = useState(true);
-  
+
   const unipeEmployeeId = useSelector((state) => state.auth.id);
-  
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const offerId = useSelector((state) => state.ewaLive.offerId);
   const eligibleAmount = useSelector((state) => state.ewaLive.eligibleAmount);
   const [amount, setAmount] = useState(ewaLiveSlice?.eligibleAmount.toString());
+  useEffect(() => {
+    getUniqueId().then((id) => {
+      setDeviceId(id);
+    });
+    NetworkInfo.getIPV4Address().then((ipv4Address) => {
+      setIpAdress(ipv4Address);
+    });
+  }, []);
 
   useEffect(() => {
-    ewaOfferPush({
-      offerId: offerId,
-      unipeEmployeeId: unipeEmployeeId,
-      status: "INPROGRESS",
-      timestamp: Date.now(),
-      ipAddress: DeviceIp,
-      deviceId: DeviceId,
-    })
-    .then((response) => {
-      console.log("ewaOfferPush response.data: ", response.data);
-    })
-    .catch((error) => {
-      console.log("ewaOfferPush error: ", error);
-      Alert.alert("An Error occured", error);
-    });;
-  }, []);
+    if(deviceId!==0 && ipAddress!==0) {
+      setFetched(true);
+    }
+  }, [deviceId, ipAddress]);
+
+  useEffect(() => {
+    if (fetched) {
+      ewaOfferPush({
+        offerId: offerId,
+        unipeEmployeeId: unipeEmployeeId,
+        status: "INPROGRESS",
+        timestamp: Date.now(),
+        ipAddress: ipAddress,
+        deviceId: deviceId,
+      })
+      .then((response) => {
+        console.log("ewaOfferPush response.data: ", response.data);
+      })
+      .catch((error) => {
+        console.log("ewaOfferPush error: ", error);
+        Alert.alert("An Error occured", error);
+      });;
+    }
+  }, [fetched]);
 
   function handleAmount() {
     setLoading(true);
@@ -67,24 +76,24 @@ const Offer = () => {
         unipeEmployeeId: unipeEmployeeId,
         status: "CONFIRMED",
         timestamp: Date.now(),
-        ipAddress: DeviceIp,
-        deviceId: DeviceId,
+        ipAddress: ipAddress,
+        deviceId: deviceId,
         loanAmount: parseInt(amount),
       })
-      .then((response) => {
-        console.log("ewaOfferPush response.data: ", response.data);
-        navigation.navigate("EWA_KYC");
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("ewaOfferPush error: ", error);
-        Alert.alert("An Error occured", error);
-      });
+        .then((response) => {
+          console.log("ewaOfferPush response.data: ", response.data);
+          navigation.navigate("EWA_KYC");
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("ewaOfferPush error: ", error);
+          Alert.alert("An Error occured", error);
+        });
     }
   }
 
   useEffect(() => {
-    if ( parseInt(amount) > 999 ) {
+    if (parseInt(amount) > 999 && parseInt(amount) <= eligibleAmount) {
       setValidAmount(true);
       dispatch(addLoanAmount(parseInt(amount)));
     } else {
@@ -105,11 +114,7 @@ const Offer = () => {
     <MaterialIcons {...getStepIndicatorIconConfig(params)} />
   );
 
-  const data = [
-    "KYC",
-    "Agreement",
-    "Money In Account",
-  ];
+  const data = ["KYC", "Agreement", "Money In Account"];
 
   const stepIndicatorStyles = {
     stepIndicatorSize: 30,
@@ -136,10 +141,10 @@ const Offer = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <AppBar
         title="On Demand Salary"
-        color="#4E46F1"
+        color={COLORS.primary}
         leading={
           <IconButton
             icon={<Icon name="arrow-left" size={20} color="white" />}
@@ -169,7 +174,12 @@ const Offer = () => {
             alignSelf: "center",
           }}
         >
-          <Icon name="currency-inr" color="green" size={32} style={{marginTop: 8, marginRight: 10}}/>
+          <Icon
+            name="currency-inr"
+            color="green"
+            size={32}
+            style={{ marginTop: 8, marginRight: 10 }}
+          />
           <TextInput
             style={{
               flex: 1,
@@ -224,7 +234,7 @@ const Offer = () => {
           value={consent}
           onValueChange={setConsent}
           style={checkBox.checkBox}
-          tintColors={{ true: "#4E46F1" }}
+          tintColors={{ true: COLORS.primary }}
         />
         <Text style={checkBox.checkBoxText}>
           I agree to the Terms and Conditions.
@@ -232,6 +242,7 @@ const Offer = () => {
       </View>
       <PrimaryButton
         title={loading ? "Processing" : "Continue"}
+        color={COLORS.primary}
         uppercase={false}
         disabled={loading || !consent || !validAmount}
         onPress={() => {

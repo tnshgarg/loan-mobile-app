@@ -7,7 +7,7 @@ const initialState = {
   fees: 5,
   loanAmount: "",
   stage: "",
-  netDisbursementAmount: 0,
+  netAmount: 0,
   processingFees: 0,
 };
 
@@ -33,14 +33,14 @@ const ewaLiveSlice = createSlice({
     addStage(state, action) {
       state.stage = action.payload;
     },
-    addNetDisbursementAmount(state, action) {
-      state.netDisbursementAmount = action.payload;
+    addNetAmount(state, action) {
+      state.netAmount = action.payload;
     },
     addProcessingFees(state, action) {
       state.processingFees = action.payload;
     },
     resetEwaLive(state, action) {
-      if (!action.payload) {
+      if (!action.payload || Object.keys(action.payload).length === 0) {
         Object.assign(state, initialState);
       } else {
         Object.assign(state, action.payload);
@@ -57,7 +57,7 @@ export const {
   addLoanAmount,
   addStage,
   addStatus,
-  addNetDisbursementAmount,
+  addNetAmount,
   addProcessingFees,
   resetEwaLive,
 } = ewaLiveSlice.actions;

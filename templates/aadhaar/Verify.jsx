@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/core";
 import { setAadhaarTimer } from "../../store/slices/timerSlice";
 import AadhaarOtpApi from "../../apis/aadhaar/Otp";
 import { form, styles } from "../../styles";
+import { COLORS } from "../../constants/Theme";
 
 const AadhaarVerifyTemplate = (props) => {
   const dispatch = useDispatch();
@@ -57,7 +58,7 @@ const AadhaarVerifyTemplate = (props) => {
           }}
           style={{ marginTop: 20 }}
           digitStyle={{ backgroundColor: "#FFF" }}
-          digitTxtStyle={{ color: "#4E46F1" }}
+          digitTxtStyle={{ color: COLORS.primary }}
           timeToShow={["M", "S"]}
           timeLabels={{ m: "MM", s: "SS" }}
           onChange={(time) => {
@@ -65,13 +66,13 @@ const AadhaarVerifyTemplate = (props) => {
           }}
         />
         {resend ? (
-            <AadhaarOtpApi
-              data={{ aadhaar_number: number, consent: "Y" }}
-              style={form.nextButton}
-              disabled={!resend}
-              title="Resend"
-              type={props?.route?.params?.type || ""}
-            />
+          <AadhaarOtpApi
+            data={{ aadhaar_number: number, consent: "Y" }}
+            style={form.nextButton}
+            disabled={!resend}
+            title="Resend"
+            type={props?.route?.params?.type || ""}
+          />
         ) : null}
         <AadhaarVerifyApi
           data={{ otp: otp, include_xml: true, share_code: 5934 }}

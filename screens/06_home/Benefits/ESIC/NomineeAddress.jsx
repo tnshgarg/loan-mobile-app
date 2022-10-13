@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { addressPush } from "../../../../helpers/BackendPush";
 import { showToast } from "../../../../components/Toast";
 import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
+import { COLORS } from "../../../../constants/Theme";
 
 export default NomineeAddress = () => {
   const navigation = useNavigation();
@@ -21,7 +22,7 @@ export default NomineeAddress = () => {
           uppercase={false}
           title="Finish"
           type="solid"
-          color="#4E46F1"
+          color={COLORS.primary}
           style={form.nextButton}
           onPress={() => {
             {

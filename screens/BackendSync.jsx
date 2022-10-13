@@ -13,7 +13,6 @@ import { resetMandate } from "../store/slices/mandateSlice";
 const BackendSync = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
   const id = useSelector((state) => state.auth.id);
 
   useEffect(() => {

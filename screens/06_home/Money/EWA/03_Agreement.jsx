@@ -1,50 +1,103 @@
-import { useState, useEffect } from "react";
+import CheckBox from "@react-native-community/checkbox";
 import { AppBar, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import { SafeAreaView, View, Text, ScrollView } from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import CollapsibleCard from "../../../../components/CollapsibleCard";
-import PrimaryButton from "../../../../components/PrimaryButton";
-import CheckBox from "@react-native-community/checkbox";
-import { styles, checkBox, ewa } from "../../../../styles";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import {
+  Alert,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+  Dimensions,
+  Pressable
+} from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { useDispatch, useSelector } from "react-redux";
+import CollapsibleCard from "../../../../components/CollapsibleCard";
+import PrimaryButton from "../../../../components/PrimaryButton";
 import { ewaAgreementPush } from "../../../../helpers/BackendPush";
-import { addNetDisbursementAmount, addProcessingFees } from "../../../../store/slices/ewaLiveSlice";
+import {
+  addNetAmount,
+  addProcessingFees,
+} from "../../../../store/slices/ewaLiveSlice";
+import { checkBox, ewa, styles } from "../../../../styles";
+import Modal from "react-native-modal";
+import { AntDesign } from "react-native-vector-icons";
+import { useWindowDimensions } from "react-native";
+import RenderHtml from "react-native-render-html";
+import agreement from "../../../../templates/docs/LiquidLoansLoanAgreement";
+import { COLORS } from "../../../../constants/Theme";
 
 const Agreement = () => {
-
-  let DeviceId = 0;
-  let DeviceIp = 0;
-
-  getUniqueId().then((id) => {
-    DeviceId = id;
-  });
-
-  NetworkInfo.getIPV4Address().then((ipv4Address) => {
-    DeviceIp = ipv4Address;
-  });
-  
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const { width } = useWindowDimensions();
+
+  const [fetched, setFetched] = useState(false);
+  const [deviceId, setDeviceId] = useState(0);
+  const [ipAddress, setIpAdress] = useState(0);
 
   const [confirm, setConfirm] = useState(false);
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const aadhaarSlice = useSelector((state) => state.aadhaar);
-  const panSlice = useSelector((state) => state.pan);
   const bankSlice = useSelector((state) => state.bank);
+  const panSlice = useSelector((state) => state.pan);
+  const profileSlice = useSelector((state) => state.profile);
+  const authSlice = useSelector((state) => state.auth);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
 
-  const [netDisbursementAmount, setNetDisbursementAmount] = useState();
-  const [processingFees, setProcessingFees] = useState();
-
+  const [netAmount, setNetDisbursementAmount] = useState();
+  const [processingFees, setProcessingFees] = useState(
+    useSelector((state) => state.ewaLive.processingFees)
+  );
   const [apr, setApr] = useState();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const today = new Date();
+
+  function ValueEntry(text) {
+    text.data = text.data.replace(/\{todayDate\}/g, today.getDate()+"/"+(today.getMonth()+1)+"/"+today.getFullYear());
+    text.data = text.data.replace(/\{panName\}/g, panSlice?.data?.name);
+    text.data = text.data.replace(/\{aadhaarAddress\}/g, aadhaarSlice?.data?.address);
+    text.data = text.data.replace(/\{email\}/g, profileSlice?.email);
+    text.data = text.data.replace(/\{mobile\}/g, authSlice?.phoneNumber);
+    text.data = text.data.replace(
+      /\{applicationNumber\}/g,
+      "applicationNumber"
+    ); // TODO: LAN number
+    text.data = text.data.replace(/\{loanAmount\}/g, ewaLiveSlice?.loanAmount);
+    text.data = text.data.replace(/\{processingFees\}/g, processingFees);
+    text.data = text.data.replace(/\{accountNumber\}/g, bankSlice?.data?.accountNumber);
+    text.data = text.data.replace(/\{ifsc\}/g, bankSlice?.data?.ifsc);
+  }
 
   useEffect(() => {
-    setProcessingFees(Math.round(((ewaLiveSlice?.loanAmount * ewaLiveSlice?.fees / 100) + 1) / 10 ) * 10 - 1);
+    getUniqueId().then((id) => {
+      setDeviceId(id);
+    });
+    NetworkInfo.getIPV4Address().then((ipv4Address) => {
+      setIpAdress(ipv4Address);
+    });
+  }, []);
+
+  useEffect(() => {
+    if(deviceId!==0 && ipAddress!==0) {
+      setFetched(true);
+    }
+  }, [deviceId, ipAddress]);
+
+  useEffect(() => {
+    setProcessingFees(
+      Math.round(
+        ((ewaLiveSlice?.loanAmount * ewaLiveSlice?.fees) / 100 + 1) / 10
+      ) *
+        10 -
+        1
+    );
   }, [ewaLiveSlice]);
 
   useEffect(() => {
@@ -53,9 +106,9 @@ const Agreement = () => {
   }, [processingFees]);
 
   useEffect(() => {
-    dispatch(addNetDisbursementAmount(netDisbursementAmount));
+    dispatch(addNetAmount(netAmount));
     setApr(APR());
-  }, [netDisbursementAmount]);
+  }, [netAmount]);
 
   const profileData = [
     { subTitle: "Name", value: aadhaarSlice?.data?.name },
@@ -73,12 +126,17 @@ const Agreement = () => {
   const APR = () => {
     var today = new Date();
     var dueDateComponents = ewaLiveSlice.dueDate.split("/");
-    var dueDate = new Date(dueDateComponents[2], parseInt(dueDateComponents[1])-1, dueDateComponents[0]);
+    var dueDate = new Date(
+      dueDateComponents[2],
+      parseInt(dueDateComponents[1]) - 1,
+      dueDateComponents[0]
+    );
     var timeDiff = dueDate.getTime() - today.getTime();
     var daysDiff = parseInt(timeDiff / (1000 * 3600 * 24));
-    var apr = 100*(processingFees/ewaLiveSlice?.loanAmount)*(365/daysDiff);
+    var apr =
+      100 * (processingFees / ewaLiveSlice?.loanAmount) * (365 / daysDiff);
     return apr.toFixed(2);
-  }
+  };
 
   const data = [
     { subTitle: "Loan Amount", value: "₹" + ewaLiveSlice?.loanAmount },
@@ -88,8 +146,7 @@ const Agreement = () => {
     },
     {
       subTitle: "Net Disbursement Amount *",
-      value:
-        "₹" + netDisbursementAmount,
+      value: "₹" + netAmount,
     },
     { subTitle: "Due Date", value: ewaLiveSlice?.dueDate },
   ];
@@ -97,22 +154,24 @@ const Agreement = () => {
   const unipeEmployeeId = useSelector((state) => state.auth.id);
 
   useEffect(() => {
-    ewaAgreementPush({
-      offerId: ewaLiveSlice?.offerId,
-      unipeEmployeeId: unipeEmployeeId,
-      status: "INPROGRESS",
-      timestamp: Date.now(),
-      ipAddress: DeviceIp,
-      deviceId: DeviceId,
-    })
-    .then((response) => {
-      console.log("ewaAgreementPush response.data: ", response.data);
-    })
-    .catch((error) => {
-      console.log("ewaAgreementPush error: ", error);
-      Alert.alert("An Error occured", error);
-    });
-  }, []);
+    if (fetched) {
+      ewaAgreementPush({
+        offerId: ewaLiveSlice?.offerId,
+        unipeEmployeeId: unipeEmployeeId,
+        status: "INPROGRESS",
+        timestamp: Date.now(),
+        ipAddress: ipAddress,
+        deviceId: deviceId,
+      })
+      .then((response) => {
+        console.log("ewaAgreementPush response.data: ", response.data);
+      })
+      .catch((error) => {
+        console.log("ewaAgreementPush error: ", error);
+        Alert.alert("An Error occured", error);
+      });
+    }
+  }, [fetched]);
 
   function handleAgreement() {
     setLoading(true);
@@ -121,35 +180,35 @@ const Agreement = () => {
       unipeEmployeeId: unipeEmployeeId,
       status: "CONFIRMED",
       timestamp: Date.now(),
-      ipAddress: DeviceIp,
-      deviceId: DeviceId,
+      ipAddress: ipAddress,
+      deviceId: deviceId,
       bankAccountNumber: bankSlice?.data?.accountNumber,
       dueDate: ewaLiveSlice?.dueDate,
       processingFees: processingFees,
       loanAmount: ewaLiveSlice?.loanAmount,
-      netDisbursementAmount: netDisbursementAmount,
+      netAmount: netAmount,
     })
-    .then((response) => {
-      console.log("ewaAgreementPush response.data: ", response.data);
-      navigation.navigate("EWA_DISBURSEMENT", {offer: ewaLiveSlice});
-      setLoading(false);
-    })
-    .catch((error) => {
-      console.log("ewaAgreementPush error: ", error);
-      Alert.alert("An Error occured", error);
-    });
+      .then((response) => {
+        console.log("ewaAgreementPush response.data: ", response.data);
+        navigation.navigate("EWA_DISBURSEMENT", { offer: ewaLiveSlice });
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("ewaAgreementPush error: ", error);
+        Alert.alert("An Error occured", error);
+      });
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <AppBar
         title="Agreement"
-        color="#4E46F1"
+        color={COLORS.primary}
         leading={
           <IconButton
             icon={<Icon name="arrow-left" size={20} color="white" />}
             onPress={() => {
-              navigation.navigate("EWA_KYC");
+              navigation.goBack();
             }}
           />
         }
@@ -174,7 +233,7 @@ const Agreement = () => {
         <View style={{ flexDirection: "row", marginTop: 10 }}>
           <CheckBox
             style={ewa.checkBox}
-            tintColors={{ true: "#4E46F1" }}
+            tintColors={{ true: COLORS.primary }}
             value={confirm}
             onValueChange={setConfirm}
           />
@@ -183,17 +242,25 @@ const Agreement = () => {
         <View style={{ flexDirection: "row" }}>
           <CheckBox
             style={ewa.checkBox}
-            tintColors={{ true: "#4E46F1" }}
+            tintColors={{ true: COLORS.primary }}
             value={consent}
             onValueChange={setConsent}
           />
           <Text style={ewa.checkBoxText}>
-            I agree to the Terms and Conditions.
+            I agree to the{" "}
+            <Text
+              style={styles.termsText}
+              onPress={() => setIsModalVisible(true)}
+            >
+              Terms and Conditions
+            </Text>
+            .
           </Text>
         </View>
         <PrimaryButton
           title={loading ? "Booking" : "Finish"}
           uppercase={false}
+          color="#2CB77C"
           onPress={() => {
             handleAgreement();
           }}
@@ -201,10 +268,51 @@ const Agreement = () => {
         />
         <View style={checkBox.padding}></View>
         <Text style={{ marginLeft: "6%", fontSize: 6, marginTop: "25%" }}>
-          * Disbursement will be reconciled in your next payroll {"\n"}
-          * Annual Percentage Rate @ {apr} %
+          * Disbursement will be reconciled in your next payroll {"\n"}* Annual
+          Percentage Rate @ {apr} %
         </Text>
       </ScrollView>
+      <Modal
+        isVisible={isModalVisible}
+        style={{
+          width: Dimensions.get("window").width,
+          height: Dimensions.get("window").height,
+        }}
+      >
+        <Pressable
+          onPress={() => setIsModalVisible(false)}
+          style={{
+            position: "absolute",
+            top: 30,
+            right: 50,
+            zIndex: 999,
+          }}
+        >
+          <AntDesign name="closesquareo" size={24} color="black" />
+        </Pressable>
+        <View
+          style={{
+            height: Dimensions.get("window").height - 100,
+            width: Dimensions.get("window").width - 40,
+            backgroundColor: "white",
+            borderRadius: 5,
+          }}
+        >
+          <ScrollView style={{ padding: "5%" }}>
+            <RenderHtml
+              contentWidth={width}
+              source={agreement}
+              enableExperimentalMarginCollapsing={true}
+              renderersProps={{
+                img: {
+                  enableExperimentalPercentWidth: true,
+                },
+              }}
+              domVisitors={{ onText: ValueEntry }}
+            />
+          </ScrollView>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };

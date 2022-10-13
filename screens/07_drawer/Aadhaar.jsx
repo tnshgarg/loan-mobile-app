@@ -1,12 +1,11 @@
 import { View } from "react-native";
 import { useSelector } from "react-redux";
 import DetailItem from "./DetailItem";
-import TopTabNav from "../../components/TopTabNav";
+import TopTabNav from "../../navigators/TopTabNav";
 import AadhaarFormTemplate from "../../templates/aadhaar/Form";
 import AadhaarVerifyTemplate from "../../templates/aadhaar/Verify";
 import AadhaarConfirmApi from "../../apis/aadhaar/Confirm";
 import { styles } from "../../styles";
-
 
 const Aadhaar = () => {
   const number = useSelector((state) => state.aadhaar.number);
@@ -55,7 +54,7 @@ const Aadhaar = () => {
               key={index}
               label={item.label}
               value={item.value || "Not Provided"}
-              divider={item?.divider??true}
+              divider={item?.divider ?? true}
             />
           ))}
         </>

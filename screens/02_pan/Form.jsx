@@ -3,11 +3,12 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect } from "react";
 import { Alert, SafeAreaView } from "react-native";
 import { useDispatch } from "react-redux";
-import ProgressBarTop from "../../components/ProgressBarTop";
+import ProgressBarTop from "../../navigators/ProgressBarTop";
 import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import PanFormTemplate from "../../templates/pan/Form";
+import { COLORS } from "../../constants/Theme";
 
 export default PanForm = () => {
   const dispatch = useDispatch();
@@ -30,10 +31,10 @@ export default PanForm = () => {
 
   return (
     <>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, { padding: 0 }]}>
         <AppBar
           title="PAN Verification"
-          color="#4E46F1"
+          color={COLORS.primary}
           leading={
             <IconButton
               icon={<Icon name="arrow-back" size={20} color="white" />}
