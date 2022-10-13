@@ -129,10 +129,7 @@ export default LoginScreen = () => {
     <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <KeyboardAvoidingWrapper>
         <View>
-          <Image
-            style={styles.logo}
-            source={require("../../assets/unipe-Thumbnail.png")}
-          />
+          <SVGImg style={styles.logo} />
           <Text style={styles.headline}>
             Please enter your mobile number to login:
           </Text>
