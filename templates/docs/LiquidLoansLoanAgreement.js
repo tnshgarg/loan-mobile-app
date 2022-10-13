@@ -1,4 +1,3 @@
-import {LL_IMG_TOKEN} from "@env";
 const agreement = {
   html: `
 <img src="https://freopay.com/wp-content/uploads/2022/04/Liquiloans-logo-for-FP.png" width="200" height="200"/>
