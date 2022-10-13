@@ -19,7 +19,7 @@ import CollapsibleCard from "../../../../components/CollapsibleCard";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { ewaAgreementPush } from "../../../../helpers/BackendPush";
 import {
-  addNetDisbursementAmount,
+  addNetAmount,
   addProcessingFees,
 } from "../../../../store/slices/ewaLiveSlice";
 import { checkBox, ewa, styles } from "../../../../styles";
@@ -50,7 +50,7 @@ const Agreement = () => {
   const authSlice = useSelector((state) => state.auth);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
 
-  const [netDisbursementAmount, setNetDisbursementAmount] = useState();
+  const [netAmount, setNetDisbursementAmount] = useState();
   const [processingFees, setProcessingFees] = useState(
     useSelector((state) => state.ewaLive.processingFees)
   );
@@ -106,9 +106,9 @@ const Agreement = () => {
   }, [processingFees]);
 
   useEffect(() => {
-    dispatch(addNetDisbursementAmount(netDisbursementAmount));
+    dispatch(addNetAmount(netAmount));
     setApr(APR());
-  }, [netDisbursementAmount]);
+  }, [netAmount]);
 
   const profileData = [
     { subTitle: "Name", value: aadhaarSlice?.data?.name },
@@ -146,7 +146,7 @@ const Agreement = () => {
     },
     {
       subTitle: "Net Disbursement Amount *",
-      value: "₹" + netDisbursementAmount,
+      value: "₹" + netAmount,
     },
     { subTitle: "Due Date", value: ewaLiveSlice?.dueDate },
   ];
@@ -186,7 +186,7 @@ const Agreement = () => {
       dueDate: ewaLiveSlice?.dueDate,
       processingFees: processingFees,
       loanAmount: ewaLiveSlice?.loanAmount,
-      netDisbursementAmount: netDisbursementAmount,
+      netAmount: netAmount,
     })
       .then((response) => {
         console.log("ewaAgreementPush response.data: ", response.data);
