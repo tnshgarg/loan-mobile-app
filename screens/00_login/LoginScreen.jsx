@@ -18,11 +18,14 @@ import SplashScreen from "react-native-splash-screen";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { putBackendData } from "../../services/employees/employeeServices";
 import { sendSmsVerification } from "../../services/otp/Gupshup/services";
-import { addId, addOnboarded, addPhoneNumber } from "../../store/slices/authSlice";
+import {
+  addId,
+  addOnboarded,
+  addPhoneNumber,
+} from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
-import SVGImg from '../../assets/UnipeLogo.svg';
 
 export default LoginScreen = () => {
   SplashScreen.hide();
@@ -32,12 +35,12 @@ export default LoginScreen = () => {
 
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState(false);
-  
+
   const authSlice = useSelector((state) => state.auth);
   const [id, setId] = useState(authSlice?.id);
   const [onboarded, setOnboarded] = useState(authSlice?.onboarded);
   const [phoneNumber, setPhoneNumber] = useState(authSlice?.phoneNumber);
-  
+
   var phone_number = "";
 
   useEffect(() => {
@@ -84,7 +87,7 @@ export default LoginScreen = () => {
     setLoading(true);
     dispatch(resetTimer());
     var fullPhoneNumber = `+91${phoneNumber}`;
-    putBackendData({ document: {number: fullPhoneNumber}, xpath: "mobile" })
+    putBackendData({ document: { number: fullPhoneNumber }, xpath: "mobile" })
       .then((res) => {
         console.log("LoginScreen res.data: ", res.data);
         if (res.data.status === 200) {
@@ -123,8 +126,9 @@ export default LoginScreen = () => {
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingWrapper>
         <View>
-          <SVGImg
+          <Image
             style={styles.logo}
+            source={require("../../assets/unipe-Thumbnail.png")}
           />
           <Text style={styles.headline}>
             Please enter your mobile number to login:
@@ -167,7 +171,7 @@ export default LoginScreen = () => {
                 uppercase={false}
                 title="Continue"
                 type="solid"
-                color="#2CB77C"
+                color="#4E46F1"
                 disabled={!next}
                 onPress={() => signIn()}
               />
