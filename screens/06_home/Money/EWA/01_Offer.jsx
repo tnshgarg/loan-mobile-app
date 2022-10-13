@@ -1,6 +1,5 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import CheckBox from "@react-native-community/checkbox";
-import { AppBar, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, SafeAreaView, Text, TextInput, View } from "react-native";
@@ -14,6 +13,7 @@ import { ewaOfferPush } from "../../../../helpers/BackendPush";
 import { addLoanAmount } from "../../../../store/slices/ewaLiveSlice";
 import { bankform, checkBox, styles, welcome } from "../../../../styles";
 import { COLORS } from "../../../../constants/Theme";
+import Header from "../../../../components/atoms/Header";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -43,7 +43,7 @@ const Offer = () => {
   }, []);
 
   useEffect(() => {
-    if(deviceId!==0 && ipAddress!==0) {
+    if (deviceId !== 0 && ipAddress !== 0) {
       setFetched(true);
     }
   }, [deviceId, ipAddress]);
@@ -58,13 +58,13 @@ const Offer = () => {
         ipAddress: ipAddress,
         deviceId: deviceId,
       })
-      .then((response) => {
-        console.log("ewaOfferPush response.data: ", response.data);
-      })
-      .catch((error) => {
-        console.log("ewaOfferPush error: ", error);
-        Alert.alert("An Error occured", error);
-      });;
+        .then((response) => {
+          console.log("ewaOfferPush response.data: ", response.data);
+        })
+        .catch((error) => {
+          console.log("ewaOfferPush error: ", error);
+          Alert.alert("An Error occured", error);
+        });
     }
   }, [fetched]);
 
@@ -142,17 +142,9 @@ const Offer = () => {
 
   return (
     <SafeAreaView style={[styles.container, { padding: 0 }]}>
-      <AppBar
+      <Header
         title="On Demand Salary"
-        color={COLORS.primary}
-        leading={
-          <IconButton
-            icon={<Icon name="arrow-left" size={20} color="white" />}
-            onPress={() => {
-              navigation.navigate("Home");
-            }}
-          />
-        }
+        onLeftIconPress={() => navigation.navigate("Home")}
       />
       <View
         style={{

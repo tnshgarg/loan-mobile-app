@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { Alert, SafeAreaView, ScrollView } from "react-native";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
@@ -9,6 +8,7 @@ import { styles } from "../../styles";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import AadhaarConfirmApi from "../../apis/aadhaar/Confirm";
 import { COLORS } from "../../constants/Theme";
+import Header from "../../components/atoms/Header";
 
 const AadhaarConfirm = () => {
   const dispatch = useDispatch();
@@ -31,15 +31,9 @@ const AadhaarConfirm = () => {
 
   return (
     <SafeAreaView style={[styles.container, { padding: 0 }]}>
-      <AppBar
+      <Header
         title="Aadhaar Data Confirmation"
-        color={COLORS.primary}
-        leading={
-          <IconButton
-            icon={<Icon name="arrow-back" size={20} color="white" />}
-            onPress={() => backAlert()}
-          />
-        }
+        onLeftIconPress={() => backAlert()}
       />
 
       <ProgressBarTop step={0} />

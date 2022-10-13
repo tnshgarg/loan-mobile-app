@@ -1,4 +1,4 @@
-import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
+import { Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useCallback, useEffect, useState } from "react";
 import { Image, SafeAreaView, ScrollView, Text, View } from "react-native";
@@ -12,6 +12,7 @@ import { profileBackendPush } from "../../helpers/BackendPush";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { addPhoto } from "../../store/slices/profileSlice";
 import { checkBox, form, selfie, styles } from "../../styles";
+import Header from "../../components/atoms/Header";
 
 export default PersonalImage = () => {
   const dispatch = useDispatch();
@@ -58,20 +59,14 @@ export default PersonalImage = () => {
   }, []);
 
   return (
-    <>
-      <AppBar
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+      <Header
         title="Photo"
-        color={COLORS.primary}
-        leading={
-          <IconButton
-            icon={<Icon name="arrow-back" size={20} color="white" />}
-            onPress={() => navigation.navigate("PersonalDetailsForm")}
-          />
-        }
+        onLeftIconPress={() => navigation.navigate("PersonalDetailsForm")}
       />
-      <SafeAreaView style={[styles.container, { paddingVertical: 0 }]}>
-        <ProgressBarTop step={5} />
-        <ScrollView keyboardShouldPersistTaps="handled">
+      <ProgressBarTop step={5} />
+      <ScrollView keyboardShouldPersistTaps="handled">
+        <View style={styles.container}>
           <Text style={form.formHeader}>
             Upload your Passport size photo or capture your selfie.
           </Text>
@@ -117,8 +112,8 @@ export default PersonalImage = () => {
               navigation.navigate("Home");
             }}
           />
-        </ScrollView>
-      </SafeAreaView>
-    </>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };

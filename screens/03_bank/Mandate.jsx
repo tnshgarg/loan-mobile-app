@@ -1,4 +1,3 @@
-import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native";
@@ -8,6 +7,7 @@ import { COLORS } from "../../constants/Theme";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import Form from "../../templates/mandate/Form";
+import Header from "../../components/atoms/Header";
 
 const Mandate = () => {
   const dispatch = useDispatch();
@@ -17,21 +17,10 @@ const Mandate = () => {
   }, []);
   return (
     <SafeAreaView style={[styles.container, { padding: 0 }]}>
-      <AppBar
+      <Header
         title="Mandate Confirmation"
-        color={COLORS.primary}
-        leading={
-          <IconButton
-            icon={<Icon name="arrow-back" size={20} color="white" />}
-            onPress={() => navigation.navigate("BankForm")}
-          />
-        }
-        trailing={
-          <IconButton
-            icon={<Icon name="arrow-forward" size={20} color="white" />}
-            onPress={() => navigation.navigate("PersonalDetailsForm")}
-          />
-        }
+        onLeftIconPress={() => navigation.navigate("BankForm")}
+        onRightIconPress={() => navigation.navigate("PersonalDetailsForm")}
       />
       <ProgressBarTop step={3} />
       <Form type="Onboarding" />

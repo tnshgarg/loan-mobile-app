@@ -1,4 +1,3 @@
-import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
 import { Alert, SafeAreaView } from "react-native";
@@ -8,6 +7,7 @@ import { COLORS } from "../../constants/Theme";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import BankFormTemplate from "../../templates/bank/Form";
+import Header from "../../components/atoms/Header";
 
 const BankForm = () => {
   const dispatch = useDispatch();
@@ -34,23 +34,10 @@ const BankForm = () => {
   return (
     <>
       <SafeAreaView style={[styles.container, { padding: 0 }]}>
-        <AppBar
+        <Header
           title="Bank Details"
-          color={COLORS.primary}
-          leading={
-            <IconButton
-              icon={<Icon name="arrow-back" size={20} color="white" />}
-              onPress={() => navigation.navigate("PanForm")}
-            />
-          }
-          trailing={
-            <IconButton
-              icon={<Icon name="arrow-forward" size={20} color="white" />}
-              onPress={() => {
-                SkipBank();
-              }}
-            />
-          }
+          onLeftIconPress={() => navigation.navigate("PanForm")}
+          onRightIconPress={() => SkipBank()}
         />
         <ProgressBarTop step={2} />
 

@@ -29,6 +29,7 @@ import { styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import SVGImg from "../../assets/UnipeLogo.svg";
 import FormInput from "../../components/atoms/FormInput";
+import { PRIVACY_POLICY, TERMS_OF_SERVICE } from "../../constants/Strings";
 
 export default LoginScreen = () => {
   SplashScreen.hide();
@@ -129,9 +130,7 @@ export default LoginScreen = () => {
     <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <KeyboardAvoidingWrapper>
         <View>
-          {/* <SVGImg
-            style={styles.logo}
-          /> */}
+          <SVGImg style={styles.logo} />
 
           <Text style={styles.headline}>
             Please enter your mobile number to login:
@@ -144,6 +143,7 @@ export default LoginScreen = () => {
             keyboardType="phone-pad"
             value={phoneNumber}
             onChange={setPhoneNumber}
+            autoFocus={true}
             prependComponent={
               <Text
                 style={{ ...FONTS.h4, color: COLORS.black, paddingRight: 10 }}
@@ -157,18 +157,14 @@ export default LoginScreen = () => {
             This number will be used for all communication. You shall receive an
             SMS with code for verification. By continuing, you agree to our{" "}
             <Text
-              onPress={() =>
-                Linking.openURL("https://policies.google.com/terms?hl=en-US")
-              }
+              onPress={() => Linking.openURL(TERMS_OF_SERVICE)}
               style={styles.termsText}
             >
               Terms of Service
             </Text>{" "}
             &{" "}
             <Text
-              onPress={() =>
-                Linking.openURL("https://policies.google.com/privacy?hl=en-US")
-              }
+              onPress={() => Linking.openURL(PRIVACY_POLICY)}
               style={styles.termsText}
             >
               Privacy Policy

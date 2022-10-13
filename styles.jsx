@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
   },
   logo: {
     alignSelf: "center",
-    marginTop: "10%",
+    // marginTop: "10%",
     width: "auto",
     height: "auto",
   },
@@ -242,8 +242,10 @@ export const form = StyleSheet.create({
     fontWeight: "bold",
   },
   forgotText: {
-    marginLeft: "77%",
     marginTop: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
   year: {
     height: 40,
@@ -327,8 +329,9 @@ export const bankform = StyleSheet.create({
   },
   subTitle: {
     marginTop: 20,
-    color: COLORS.gray,
-    ...FONTS.body3,
+    color: COLORS.black,
+    ...FONTS.h3,
+    alignSelf: "center",
   },
   asterisk: { fontWeight: "bold", color: COLORS.primary },
 });
@@ -591,7 +594,7 @@ export const stepIndicatorStyles = {
   stepStrokeUnFinishedColor: COLORS.lightGray,
   separatorFinishedColor: COLORS.primary,
   separatorUnFinishedColor: COLORS.lightGray,
-  stepIndicatorFinishedColor: COLORS.lightGray,
+  stepIndicatorFinishedColor: COLORS.primary,
   stepIndicatorUnFinishedColor: COLORS.white,
   stepIndicatorCurrentColor: COLORS.white,
   stepIndicatorLabelFontSize: SIZES.body3,
@@ -600,7 +603,7 @@ export const stepIndicatorStyles = {
   stepIndicatorLabelFinishedColor: COLORS.primary,
   stepIndicatorLabelUnFinishedColor: COLORS.lightGray,
   labelColor: COLORS.gray,
-  labelSize: 14,
+  labelSize: SIZES.body4,
   currentStepLabelColor: COLORS.primary,
   labelAlign: "flex-start",
 };

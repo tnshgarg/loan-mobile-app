@@ -71,9 +71,9 @@ export default WelcomePage = () => {
   ];
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 15 }]}>
-      {/* <SVGImg style={styles.logo} /> */}
-      <Text style={welcome.subTitle}>
+    <SafeAreaView style={[styles.container, { padding: 10 }]}>
+      <SVGImg style={styles.logo} />
+      <Text style={styles.headline}>
         Let’s start onboarding process by {"\n"} verifying below documents.
       </Text>
       <View style={welcome.steps}>

@@ -11,6 +11,7 @@ import AadhaarOtpApi from "../../apis/aadhaar/Otp";
 import { addNumber } from "../../store/slices/aadhaarSlice";
 import { COLORS } from "../../constants/Theme";
 import InfoCard from "../../components/atoms/InfoCard";
+import FormInput from "../../components/atoms/FormInput";
 
 const AadhaarFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -32,51 +33,50 @@ const AadhaarFormTemplate = (props) => {
   }, [number]);
 
   return (
-    <>
-      <KeyboardAvoidingWrapper>
-        <View style={styles.container}>
-          {/* <Text style={form.formHeader}>Aadhaar Verification</Text> */}
-          <Text style={form.formLabel}>Enter AADHAAR Number</Text>
-          <TextInput
-            style={form.formTextInput}
-            value={number}
-            onChangeText={setNumber}
-            // placeholder="1234123412341234"
-            maxLength={12}
-            numeric
-          />
-          {number && !validNumber ? (
-            <Text style={bankform.formatmsg}>Invalid AADHAAR Number.</Text>
-          ) : null}
+    <KeyboardAvoidingWrapper>
+      <View style={[styles.container, { padding: 0 }]}>
+        {/* <Text style={form.formHeader}>Aadhaar Verification</Text> */}
+        <FormInput
+          placeholder={"Enter AADHAAR Number"}
+          containerStyle={{ marginVertical: 10 }}
+          keyboardType="phone-pad"
+          value={number}
+          onChange={setNumber}
+          maxLength={12}
+          numeric
+        />
 
-          <InfoCard
-            info={
-              "My Mobile number is linked to my Aadhar card & I can receive the OTP on my Aadhar Linked Mobile Number"
-            }
-          />
+        {number && !validNumber ? (
+          <Text style={bankform.formatmsg}>Invalid AADHAAR Number.</Text>
+        ) : null}
 
-          <View style={{ flexDirection: "row" }}>
-            <CheckBox
-              value={consent}
-              onValueChange={setConsent}
-              style={checkBox.checkBox}
-              tintColors={{ true: COLORS.primary }}
-            />
-            <Text style={checkBox.checkBoxText}>
-              I agree with the KYC registration Terms and Conditions to verifiy
-              my identity.
-            </Text>
-          </View>
+        <InfoCard
+          info={
+            "My Mobile number is linked to my Aadhar card & I can receive the OTP on my Aadhar Linked Mobile Number"
+          }
+        />
 
-          <AadhaarOtpApi
-            data={{ aadhaar_number: number, consent: "Y" }}
-            style={form.nextButton}
-            disabled={!validNumber || !consent}
-            type={props?.route?.params?.type || ""}
+        <View style={{ flexDirection: "row" }}>
+          <CheckBox
+            value={consent}
+            onValueChange={setConsent}
+            style={checkBox.checkBox}
+            tintColors={{ true: COLORS.primary }}
           />
+          <Text style={checkBox.checkBoxText}>
+            I agree with the KYC registration Terms and Conditions to verifiy my
+            identity.
+          </Text>
         </View>
-      </KeyboardAvoidingWrapper>
-    </>
+
+        <AadhaarOtpApi
+          data={{ aadhaar_number: number, consent: "Y" }}
+          style={styles.btn}
+          disabled={!validNumber || !consent}
+          type={props?.route?.params?.type || ""}
+        />
+      </View>
+    </KeyboardAvoidingWrapper>
   );
 };
 

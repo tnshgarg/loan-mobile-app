@@ -8,6 +8,7 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import AadhaarVerifyTemplate from "../../templates/aadhaar/Verify";
 import { COLORS } from "../../constants/Theme";
+import Header from "../../components/atoms/Header";
 
 const AadhaarVerify = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const AadhaarVerify = () => {
     }
   }, [countDownTime]);
 
-  const BackAlert = () => {
+  const backAlert = () => {
     Alert.alert(
       "Do you want to go back ?",
       "If you go back you will have to wait 10 minutes. Continue if you want to edit your Aadhaar number.",
@@ -42,20 +43,13 @@ const AadhaarVerify = () => {
 
   return (
     <SafeAreaView style={[styles.container, { padding: 0 }]}>
-      <AppBar
+      <Header
         title="Aadhaar OTP Verification"
-        color={COLORS.primary}
-        leading={
-          <IconButton
-            icon={<Icon name="arrow-back" size={20} color={COLORS.white} />}
-            onPress={() => BackAlert()}
-            disabled={backDisabled}
-          />
-        }
+        onLeftIconPress={() => (backDisabled ? null : backAlert())}
       />
 
       <ProgressBarTop step={0} />
-      <AadhaarVerifyTemplate function={BackAlert} />
+      <AadhaarVerifyTemplate function={backAlert} />
     </SafeAreaView>
   );
 };

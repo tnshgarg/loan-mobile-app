@@ -1,4 +1,3 @@
-import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
@@ -19,6 +18,7 @@ import PrimaryButton from "../../components/PrimaryButton";
 import { COLORS } from "../../constants/Theme";
 import FormInput from "../../components/atoms/FormInput";
 import DropDownForm from "../../components/molecules/DropDownForm";
+import Header from "../../components/atoms/Header";
 export default PersonalDetailsForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -84,15 +84,9 @@ export default PersonalDetailsForm = () => {
   return (
     <>
       <SafeAreaView style={[styles.container, { padding: 0 }]}>
-        <AppBar
+        <Header
           title="Setup Profile"
-          color={COLORS.primary}
-          leading={
-            <IconButton
-              icon={<Icon name="arrow-back" size={20} color={COLORS.white} />}
-              onPress={() => navigation.navigate("BankForm")}
-            />
-          }
+          onLeftIconPress={() => navigation.navigate("BankForm")}
         />
 
         <ProgressBarTop step={4} />

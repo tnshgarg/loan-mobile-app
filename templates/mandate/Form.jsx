@@ -30,6 +30,7 @@ import {
   getToken,
 } from "../../services/mandate/Razorpay/services";
 import { RZP_TEST_KEY_ID } from "@env";
+import FormInput from "../../components/atoms/FormInput";
 
 const Form = (props) => {
   const navigation = useNavigation();
@@ -210,7 +211,7 @@ const Form = (props) => {
           setVerifyMsg("To be confirmed by user");
           setTimestamp(Date.now());
           setBackendPush(true);
-          let func =0;
+          let func = 0;
           type === "NETBANKING"
             ? (func = createNetBankingOrder)
             : (func = createDebitOrder);
@@ -266,33 +267,34 @@ const Form = (props) => {
   return (
     <KeyboardAvoidingWrapper>
       <ScrollView>
-        <Text style={bankform.formtitle}>Account Holder Name</Text>
-        <TextInput
-          style={bankform.formInput}
+        <FormInput
+          placeholder={"Account Holder Name"}
+          containerStyle={{ marginVertical: 10 }}
           autoCapitalize="words"
           value={name}
-          onChangeText={setName}
-          editable={false}
+          onChange={setName}
+          disabled={true}
           required
         />
-        <Text style={bankform.formtitle}>Bank Account Number</Text>
-        <TextInput
-          style={bankform.formInput}
+        <FormInput
+          placeholder={"Bank Account Number"}
+          containerStyle={{ marginVertical: 10 }}
           autoCapitalize="words"
           value={number}
-          onChangeText={setNumber}
-          editable={false}
+          onChange={setNumber}
+          disabled={true}
           required
         />
-        <Text style={bankform.formtitle}>IFSC</Text>
-        <TextInput
-          style={bankform.formInput}
-          autoCapitalize="characters"
+        <FormInput
+          placeholder={"IFSC"}
+          containerStyle={{ marginVertical: 10 }}
+          autoCapitalize="words"
           value={ifsc}
-          onChangeText={setIfsc}
-          editable={false}
+          onChange={setIfsc}
+          disabled={true}
           required
         />
+
         <CollapsibleCard
           title="Net Banking "
           TitleIcon={netIcon}

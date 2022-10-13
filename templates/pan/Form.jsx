@@ -11,6 +11,7 @@ import PanVerifyApi from "../../apis/pan/Verify";
 import { addNumber } from "../../store/slices/panSlice";
 import { COLORS } from "../../constants/Theme";
 import InfoCard from "../../components/atoms/InfoCard";
+import FormInput from "../../components/atoms/FormInput";
 
 const PanFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -35,14 +36,12 @@ const PanFormTemplate = (props) => {
     <>
       <KeyboardAvoidingWrapper>
         <View>
-          <Text style={form.formHeader}>PAN Verification</Text>
-          <Text style={form.formLabel}>Enter PAN Number</Text>
-          <TextInput
-            style={form.formTextInput}
+          <FormInput
+            placeholder={"Enter PAN Number"}
+            containerStyle={{ marginVertical: 10 }}
             autoCapitalize="characters"
             value={number}
-            onChangeText={setNumber}
-            // placeholder="AAAAA1234A"
+            onChange={setNumber}
             maxLength={10}
           />
           {number && !validNumber ? (

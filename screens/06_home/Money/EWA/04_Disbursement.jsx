@@ -1,4 +1,3 @@
-import { AppBar, IconButton } from "@react-native-material/core";
 import { useEffect, useState } from "react";
 import { SafeAreaView, Image } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -6,10 +5,11 @@ import CollapsibleCard from "../../../../components/CollapsibleCard";
 import { ewa, styles } from "../../../../styles";
 import { useSelector } from "react-redux";
 import { COLORS } from "../../../../constants/Theme";
+import Header from "../../../../components/atoms/Header";
 
-const Disbursement = ({route, navigation}) => {
-  const {offer} = route.params;
-  
+const Disbursement = ({ route, navigation }) => {
+  const { offer } = route.params;
+
   const bankSlice = useSelector((state) => state.bank);
 
   const [processingFees, setProcessingFees] = useState();
@@ -46,17 +46,9 @@ const Disbursement = ({route, navigation}) => {
 
   return (
     <SafeAreaView style={[styles.container, { padding: 0 }]}>
-      <AppBar
+      <Header
         title="Money Transfer"
-        color={COLORS.primary}
-        leading={
-          <IconButton
-            icon={<Icon name="arrow-left" size={20} color="white" />}
-            onPress={() => {
-              navigation.navigate("Home");
-            }}
-          />
-        }
+        onLeftIconPress={() => navigation.navigate("Home")}
       />
       <Image
         style={ewa.successImg}

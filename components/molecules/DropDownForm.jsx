@@ -17,22 +17,23 @@ const DropDownForm = ({
   const [visible, setVisible] = useState(false);
   return (
     <>
-      <FormInput
-        containerStyle={{ ...containerStyle }}
-        placeholder={placeholder}
-        value={value}
-        disabled={true}
-        appendComponent={
-          <IconButton
-            icon={
-              <Icon name="keyboard-arrow-down" size={24} color={COLORS.gray} />
-            }
-            onPress={() => {
-              setVisible(true);
-            }}
-          />
-        }
-      />
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => {
+          setVisible(true);
+        }}
+      >
+        <FormInput
+          containerStyle={{ ...containerStyle }}
+          placeholder={placeholder}
+          value={value}
+          disabled={true}
+          appendComponent={
+            <Icon name="keyboard-arrow-down" size={24} color={COLORS.gray} />
+          }
+        />
+      </TouchableOpacity>
+
       <BottomSheetWrapper open={visible} setOpen={setVisible}>
         <Text style={styles.header}>{placeholder}</Text>
 
