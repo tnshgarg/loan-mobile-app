@@ -38,7 +38,7 @@ const Mandate = () => {
         }
         */
       />
-      <ProgressBarTop step={3} />
+      <ProgressBarTop step={5} />
       <Form type="Onboarding" />
     </SafeAreaView>
   );

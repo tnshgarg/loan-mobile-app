@@ -54,7 +54,7 @@ const AadhaarVerify = () => {
         }
       />
 
-      <ProgressBarTop step={0} />
+      <ProgressBarTop step={2} />
       <AadhaarVerifyTemplate function={BackAlert} />
     </SafeAreaView>
   );

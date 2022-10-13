@@ -67,7 +67,7 @@ const AadhaarForm = () => {
           */
         />
 
-        <ProgressBarTop step={0} />
+        <ProgressBarTop step={2} />
         <AadhaarFormTemplate />
       </SafeAreaView>
     </>

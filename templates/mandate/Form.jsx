@@ -171,7 +171,7 @@ const Form = (props) => {
               setBackendPush(true);
               showToast("Mandate Verified Successfully");
               props?.type == "Onboarding"
-                ? navigation.navigate("PersonalDetailsForm")
+                ? navigation.navigate("Home")
                 : null;
             })
             .catch((err) => {
