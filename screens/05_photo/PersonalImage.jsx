@@ -1,10 +1,7 @@
-import { Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { useCallback, useEffect, useState } from "react";
 import { Image, SafeAreaView, ScrollView, Text, View } from "react-native";
 import { Icon, IconButton } from "@react-native-material/core";
-import { useNavigation } from "@react-navigation/core";
-import { useCallback, useEffect, useState } from "react";
 import * as ImagePicker from "react-native-image-picker";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/PrimaryButton";

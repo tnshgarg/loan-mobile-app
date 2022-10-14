@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -33,8 +33,6 @@ import { WebView } from "react-native-webview";
 import privacyPolicy from "../../templates/docs/PrivacyPolicy.js";
 import termsOfUse from "../../templates/docs/TermsOfUse.js";
 import { AntDesign } from "react-native-vector-icons";
-import { COLORS } from "../../constants/Theme";
-import SVGImg from "../../assets/UnipeLogo.svg";
 
 export default LoginScreen = () => {
   SplashScreen.hide();
