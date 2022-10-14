@@ -3,7 +3,15 @@ import CheckBox from "@react-native-community/checkbox";
 import { AppBar, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, SafeAreaView, Text, TextInput, View } from "react-native";
+import {
+  Alert,
+  SafeAreaView,
+  Text,
+  TextInput,
+  View,
+  Dimensions,
+  Pressable,
+} from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import StepIndicator from "react-native-step-indicator";
@@ -13,6 +21,10 @@ import PrimaryButton from "../../../../components/PrimaryButton";
 import { ewaOfferPush } from "../../../../helpers/BackendPush";
 import { addLoanAmount } from "../../../../store/slices/ewaLiveSlice";
 import { bankform, checkBox, styles, welcome } from "../../../../styles";
+import Modal from "react-native-modal";
+import { WebView } from "react-native-webview";
+import TnC from "../../../../templates/docs/EWATnC.js";
+import { AntDesign } from "react-native-vector-icons";
 import { COLORS } from "../../../../constants/Theme";
 
 const Offer = () => {
@@ -32,6 +44,8 @@ const Offer = () => {
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const offerId = useSelector((state) => state.ewaLive.offerId);
   const eligibleAmount = useSelector((state) => state.ewaLive.eligibleAmount);
+  const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
+    useState(false);
   const [amount, setAmount] = useState(ewaLiveSlice?.eligibleAmount.toString());
   useEffect(() => {
     getUniqueId().then((id) => {
@@ -43,7 +57,7 @@ const Offer = () => {
   }, []);
 
   useEffect(() => {
-    if(deviceId!==0 && ipAddress!==0) {
+    if (deviceId !== 0 && ipAddress !== 0) {
       setFetched(true);
     }
   }, [deviceId, ipAddress]);
@@ -58,13 +72,13 @@ const Offer = () => {
         ipAddress: ipAddress,
         deviceId: deviceId,
       })
-      .then((response) => {
-        console.log("ewaOfferPush response.data: ", response.data);
-      })
-      .catch((error) => {
-        console.log("ewaOfferPush error: ", error);
-        Alert.alert("An Error occured", error);
-      });;
+        .then((response) => {
+          console.log("ewaOfferPush response.data: ", response.data);
+        })
+        .catch((error) => {
+          console.log("ewaOfferPush error: ", error);
+          Alert.alert("An Error occured", error);
+        });
     }
   }, [fetched]);
 
@@ -237,7 +251,14 @@ const Offer = () => {
           tintColors={{ true: COLORS.primary }}
         />
         <Text style={checkBox.checkBoxText}>
-          I agree to the Terms and Conditions.
+          I agree to the 
+          <Text
+            onPress={() => setIsTermsOfUseModalVisible(true)}
+            style={styles.termsText}
+          >
+            {" "} Terms and Conditions
+          </Text>
+          .
         </Text>
       </View>
       <PrimaryButton
@@ -250,6 +271,40 @@ const Offer = () => {
         }}
       />
       <View style={bankform.padding}></View>
+      <Modal
+        isVisible={isTermsOfUseModalVisible}
+        style={{
+          width: Dimensions.get("window").width,
+          height: Dimensions.get("window").height,
+        }}
+      >
+        <Pressable
+          onPress={() => setIsTermsOfUseModalVisible(false)}
+          style={{
+            position: "absolute",
+            top: 30,
+            right: 50,
+            zIndex: 999,
+          }}
+        >
+          <AntDesign name="closesquareo" size={24} color="black" />
+        </Pressable>
+        <View
+          style={{
+            height: Dimensions.get("window").height - 100,
+            width: Dimensions.get("window").width - 40,
+            backgroundColor: "white",
+            borderRadius: 5,
+          }}
+        >
+          <WebView
+            style={{ flex: 1 }}
+            containerStyle={{ padding: 10 }}
+            originWhitelist={["*"]}
+            source={{ html: TnC }}
+          />
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
