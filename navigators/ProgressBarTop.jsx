@@ -1,6 +1,5 @@
 import StepIndicator from "react-native-step-indicator";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import React from "react";
 import { View } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { useSelector } from "react-redux";
@@ -18,7 +17,7 @@ export default ProgressBarTop = (props) => {
 
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
-      color: stepStatus === "finished" ? COLORS.primary : COLOR.primaryPending,
+      color: stepStatus === "finished" ? COLORS.primary : COLORS.primaryPending,
       size: 15,
     };
     switch (position) {
@@ -38,7 +37,6 @@ export default ProgressBarTop = (props) => {
           : COLORS.primaryPending;
         iconConfig.name = "card-account-details-outline";
         return <MaterialCommunityIcons {...iconConfig} />
-        
       }
       case 3: {
         stepStatus == "finished"

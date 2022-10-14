@@ -1,14 +1,10 @@
-import { Icon } from "@react-native-material/core";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import { bankform, checkBox, form, styles } from "../../styles";
-
+import { bankform, styles } from "../../styles";
 import AadhaarOtpApi from "../../apis/aadhaar/Otp";
 import { addNumber } from "../../store/slices/aadhaarSlice";
-import { COLORS } from "../../constants/Theme";
 import InfoCard from "../../components/atoms/InfoCard";
 import FormInput from "../../components/atoms/FormInput";
 import Checkbox from "../../components/atoms/Checkbox";

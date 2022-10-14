@@ -7,7 +7,6 @@ import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import PanFormTemplate from "../../templates/pan/Form";
-import { COLORS } from "../../constants/Theme";
 import Header from "../../components/atoms/Header";
 
 export default PanForm = () => {
