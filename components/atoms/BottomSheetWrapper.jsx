@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import Modal from "react-native-modal";
 
-import { COLORS } from "../../constants/Theme";
+import { COLORS, SIZES } from "../../constants/Theme";
 
 const BottomSheetWrapper = ({ open, setOpen, children }) => {
   return (
@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     width: "100%",
+    maxHeight: SIZES.height * 0.75,
   },
 });
 

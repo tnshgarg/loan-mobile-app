@@ -1,4 +1,10 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import React from "react";
 import FormInput from "../atoms/FormInput";
 import { Icon, IconButton } from "@react-native-material/core";
@@ -36,27 +42,28 @@ const DropDownForm = ({
 
       <BottomSheetWrapper open={visible} setOpen={setVisible}>
         <Text style={styles.header}>{placeholder}</Text>
-
-        {data.map((item, index) => (
-          <View style={styles.container}>
-            <TouchableOpacity
-              style={styles.listItem}
-              activeOpacity={0.7}
-              onPress={() => setValue(item)}
-            >
-              <Icon
-                name={
-                  value == item
-                    ? "radio-button-checked"
-                    : "radio-button-unchecked"
-                }
-                size={24}
-                color={value == item ? COLORS.primary : COLORS.gray}
-              />
-              <Text style={styles.listText}>{item}</Text>
-            </TouchableOpacity>
-          </View>
-        ))}
+        <ScrollView>
+          {data.map((item, index) => (
+            <View style={styles.container} key={index}>
+              <TouchableOpacity
+                style={styles.listItem}
+                activeOpacity={0.7}
+                onPress={() => setValue(item)}
+              >
+                <Icon
+                  name={
+                    value == item
+                      ? "radio-button-checked"
+                      : "radio-button-unchecked"
+                  }
+                  size={24}
+                  color={value == item ? COLORS.primary : COLORS.gray}
+                />
+                <Text style={styles.listText}>{item}</Text>
+              </TouchableOpacity>
+            </View>
+          ))}
+        </ScrollView>
         <PrimaryButton
           title="Done"
           type="solid"

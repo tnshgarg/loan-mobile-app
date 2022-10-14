@@ -1,7 +1,7 @@
 import CheckBox from "@react-native-community/checkbox";
 import { Icon } from "@react-native-material/core";
 import { useEffect, useState } from "react";
-import { Linking, Text, TextInput, View } from "react-native";
+import { Linking, Text, View } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";

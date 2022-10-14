@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Text, TextInput, View } from "react-native";
+import { Text, View } from "react-native";
 import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { portalPush } from "../../../../helpers/BackendPush";
@@ -9,6 +9,7 @@ import { bankform, form } from "../../../../styles";
 import { showToast } from "../../../../components/Toast";
 import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
 import { COLORS } from "../../../../constants/Theme";
+import FormInput from "../../../../components/atoms/FormInput";
 
 export default Portal = () => {
   const dispatch = useDispatch();
@@ -25,11 +26,11 @@ export default Portal = () => {
   return (
     <KeyboardAvoidingWrapper>
       <View>
-        <Text style={bankform.formtitle}>IP Number</Text>
-        <TextInput
-          style={bankform.formInput}
+        <FormInput
+          placeholder={"IP Number"}
+          containerStyle={{ marginVertical: 10 }}
           value={ipNumber}
-          onChangeText={setIpNumber}
+          onChange={setIpNumber}
         />
         <Button
           uppercase={false}

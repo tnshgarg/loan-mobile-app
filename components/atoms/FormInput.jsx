@@ -23,6 +23,7 @@ const FormInput = ({
   autoFocus,
   required,
   letterSpacing,
+  textAlign,
 }) => {
   return (
     <View style={{ ...containerStyle }}>
@@ -62,6 +63,7 @@ const FormInput = ({
           autoFocus={autoFocus}
           required={required}
           letterSpacing={letterSpacing}
+          textAlign={textAlign}
         />
         {appendComponent}
       </View>

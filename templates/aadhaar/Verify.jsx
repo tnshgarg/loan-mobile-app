@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import CountDown from "react-native-countdown-component";
 import { useDispatch, useSelector } from "react-redux";
 import AadhaarVerifyApi from "../../apis/aadhaar/Verify";
@@ -13,7 +7,7 @@ import { useNavigation } from "@react-navigation/core";
 import { setAadhaarTimer } from "../../store/slices/timerSlice";
 import AadhaarOtpApi from "../../apis/aadhaar/Otp";
 import { form, styles } from "../../styles";
-import { COLORS } from "../../constants/Theme";
+import { COLORS, SIZES } from "../../constants/Theme";
 import FormInput from "../../components/atoms/FormInput";
 
 const AadhaarVerifyTemplate = (props) => {
@@ -36,22 +30,20 @@ const AadhaarVerifyTemplate = (props) => {
         <Text style={form.OtpAwaitMsg}>
           Enter 6 digit OTP sent to your Aadhaar registered mobile number
         </Text>
-        <TextInput
-          style={styles.otpInput}
-          letterSpacing={23}
-          maxLength={6}
-          numeric
-          value={otp}
-          onChangeText={setOtp}
-          keyboardType="numeric"
-        />
+
         <FormInput
-          containerStyle={{ marginVertical: 10 }}
+          containerStyle={{
+            marginTop: 30,
+            width: SIZES.width * 0.6,
+            alignSelf: "center",
+          }}
           letterSpacing={20}
           value={otp}
           onChange={setOtp}
           maxLength={6}
           keyboardType="numeric"
+          placeholder={"******"}
+          textAlign={"center"}
         />
 
         <CountDown

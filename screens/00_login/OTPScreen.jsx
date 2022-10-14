@@ -1,14 +1,7 @@
 import { Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import {
-  Alert,
-  Image,
-  SafeAreaView,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { Alert, Image, SafeAreaView, Text, View } from "react-native";
 import CountDown from "react-native-countdown-component";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
@@ -19,9 +12,10 @@ import {
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/PrimaryButton";
-import SVGImg from '../../assets/UnipeLogo.svg';
+import SVGImg from "../../assets/UnipeLogo.svg";
 import { styles } from "../../styles";
 import { COLORS } from "../../constants/Theme";
+import FormInput from "../../components/atoms/FormInput";
 
 export default OTPScreen = () => {
   const dispatch = useDispatch();
@@ -73,9 +67,7 @@ export default OTPScreen = () => {
               />
             )}
           </View>
-          <SVGImg
-            style={styles.logo}
-          />
+          <SVGImg style={styles.logo} />
           <Text style={styles.headline}>
             {" "}
             Please wait, we will auto verify the OTP {"\n"} sent to{" "}
@@ -101,15 +93,22 @@ export default OTPScreen = () => {
               />
             )}
           </Text>
-          <TextInput
-            style={styles.otpInput}
-            letterSpacing={23}
-            maxLength={6}
-            numeric
+          <FormInput
+            containerStyle={{
+              marginTop: 30,
+
+              width: SIZES.width * 0.6,
+              alignSelf: "center",
+            }}
+            letterSpacing={20}
             value={otp}
-            onChangeText={setOtp}
+            onChange={setOtp}
+            maxLength={6}
             keyboardType="numeric"
+            placeholder={"******"}
+            textAlign={"center"}
           />
+
           <CountDown
             until={countDownTime}
             onFinish={() => {

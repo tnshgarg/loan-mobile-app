@@ -209,14 +209,12 @@ export const form = StyleSheet.create({
   },
   yesButton: {
     padding: 10,
-    marginTop: 20,
     width: SIZES.width / 2.3,
     height: 50,
     backgroundColor: COLORS.primaryBackground,
   },
   noButton: {
     padding: 10,
-    marginTop: 20,
     width: SIZES.width / 2.3,
     height: 50,
     backgroundColor: COLORS.warningBackground,
