@@ -1,14 +1,10 @@
-import { Button, Icon, IconButton } from "@react-native-material/core";
+import { Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import React, { useCallback, useEffect, useState } from "react";
-import {
-  Image,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { useCallback, useEffect, useState } from "react";
+import { Image, SafeAreaView, ScrollView, Text, View } from "react-native";
+import { Icon, IconButton } from "@react-native-material/core";
+import { useNavigation } from "@react-navigation/core";
+import { useCallback, useEffect, useState } from "react";
 import * as ImagePicker from "react-native-image-picker";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/PrimaryButton";
@@ -21,7 +17,7 @@ import { addPhoto } from "../../store/slices/profileSlice";
 import { form, selfie, styles } from "../../styles";
 import Header from "../../components/atoms/Header";
 
-export default PersonalImage = () => {
+const PersonalImage = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -71,9 +67,8 @@ export default PersonalImage = () => {
         title="Photo"
         onLeftIconPress={() => navigation.navigate("PersonalDetailsForm")}
       />
-      <ProgressBarTop step={5} />
-      <ScrollView keyboardShouldPersistTaps="handled">
-        <View style={styles.container}>
+        <ProgressBarTop step={1} />
+        <ScrollView keyboardShouldPersistTaps="handled">
           <Text style={form.formHeader}>
             Upload your Passport size photo or capture your selfie.
           </Text>
@@ -107,7 +102,7 @@ export default PersonalImage = () => {
             <RNIPPhotoCapture />
           </View>
           <PrimaryButton
-            title="Finish"
+            title="Continue"
             type="solid"
             uppercase={false}
             color={COLORS.primary}
@@ -122,11 +117,12 @@ export default PersonalImage = () => {
                 motherName: profileSlice?.motherName,
                 photo: profileSlice?.photo,
               });
-              navigation.navigate("Home");
+              navigation.navigate("AadhaarForm");
             }}
           />
-        </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
+
+export default PersonalImage;

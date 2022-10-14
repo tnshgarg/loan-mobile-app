@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { SafeAreaView } from "react-native";
 import { useDispatch } from "react-redux";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
@@ -10,19 +10,21 @@ import Form from "../../templates/mandate/Form";
 import Header from "../../components/atoms/Header";
 
 const Mandate = () => {
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
   useEffect(() => {
     dispatch(addCurrentScreen("Mandate"));
   }, []);
+  
   return (
     <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <Header
         title="Mandate Confirmation"
         onLeftIconPress={() => navigation.navigate("BankForm")}
-        onRightIconPress={() => navigation.navigate("PersonalDetailsForm")}
       />
-      <ProgressBarTop step={3} />
+      <ProgressBarTop step={5} />
       <Form type="Onboarding" />
     </SafeAreaView>
   );

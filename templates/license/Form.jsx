@@ -1,7 +1,6 @@
-import { Button, Icon } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { bankform, form } from "../../styles";
@@ -9,7 +8,6 @@ import Fetch from "../../apis/license/Fetch";
 import DateEntry from "../../components/DateEntry";
 import { addNumber } from "../../store/slices/licenseSlice";
 import FormInput from "../../components/atoms/FormInput";
-import { COLORS } from "../../constants/Theme";
 import InfoCard from "../../components/atoms/InfoCard";
 
 const LicenseFormTemplate = () => {

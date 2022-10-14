@@ -40,15 +40,15 @@ const AadhaarForm = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
-      <Header
-        title="Aadhaar Verification"
-        onLeftIconPress={() => backAlert()}
-      />
+      <SafeAreaView style={[styles.container, { padding: 0 }]}>
+        <Header
+          title="Aadhaar Verification"
+          onLeftIconPress={() => backAlert()}
+        />
 
-      <ProgressBarTop step={0} />
-      <AadhaarFormTemplate />
-    </SafeAreaView>
+        <ProgressBarTop step={2} />
+        <AadhaarFormTemplate />
+      </SafeAreaView>
   );
 };
 

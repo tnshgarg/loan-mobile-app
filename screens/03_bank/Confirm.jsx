@@ -35,7 +35,7 @@ const BankConfirm = () => {
         onLeftIconPress={() => backAlert()}
         title="Bank Details Confirmation"
       />
-      <ProgressBarTop step={2} />
+      <ProgressBarTop step={4} />
       <ScrollView keyboardShouldPersistTaps="handled">
         <BankConfirmApi />
       </ScrollView>

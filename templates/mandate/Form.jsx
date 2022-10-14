@@ -31,6 +31,7 @@ import {
 } from "../../services/mandate/Razorpay/services";
 import { RZP_TEST_KEY_ID } from "@env";
 import FormInput from "../../components/atoms/FormInput";
+import { COLORS } from "../../constants/Theme";
 
 const Form = (props) => {
   const navigation = useNavigation();
@@ -49,6 +50,7 @@ const Form = (props) => {
   const dispatch = useDispatch();
   const employeeId = useSelector((state) => state.auth.id);
   const mandateSlice = useSelector((state) => state.mandate);
+  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
   const [timestamp, setTimestamp] = useState(mandateSlice?.verifyTimestamp);
 
   const [name, setName] = useState(
@@ -67,7 +69,7 @@ const Form = (props) => {
   const [backendPush, setBackendPush] = useState(false);
   const [orderId, setOrderId] = useState(mandateSlice?.orderId);
   const [customerId, setCustomerId] = useState(mandateSlice?.customerId);
-  const email = useSelector((state) => state.profile.email);
+  const email = useSelector((state) => state.pan.data.email || state.profile.email);
   const phoneNumber = useSelector((state) => state.auth.phoneNumber);
 
   useEffect(() => {
@@ -156,6 +158,7 @@ const Form = (props) => {
         .then((data) => {
           getToken({ paymentId: data.razorpay_payment_id })
             .then((token) => {
+              // TODO: check response status code
               console.log("getToken", token.data);
               setData({
                 type: type,
@@ -170,7 +173,7 @@ const Form = (props) => {
               setBackendPush(true);
               showToast("Mandate Verified Successfully");
               props?.type == "Onboarding"
-                ? navigation.navigate("PersonalDetailsForm")
+                ? navigation.navigate("Home")
                 : null;
             })
             .catch((err) => {
@@ -178,6 +181,7 @@ const Form = (props) => {
             });
         })
         .catch((error) => {
+          console.log(error);
           alert(`Error: ${error.code} | ${error.description}`);
           setVerifyMsg(error.description);
           setVerifyStatus("ERROR");
@@ -266,55 +270,63 @@ const Form = (props) => {
 
   return (
     <KeyboardAvoidingWrapper>
-      <ScrollView>
-        <FormInput
-          placeholder={"Account Holder Name"}
-          containerStyle={{ marginVertical: 10 }}
-          autoCapitalize="words"
-          value={name}
-          onChange={setName}
-          disabled={true}
-          required
-        />
-        <FormInput
-          placeholder={"Bank Account Number"}
-          containerStyle={{ marginVertical: 10 }}
-          autoCapitalize="words"
-          value={number}
-          onChange={setNumber}
-          disabled={true}
-          required
-        />
-        <FormInput
-          placeholder={"IFSC"}
-          containerStyle={{ marginVertical: 10 }}
-          autoCapitalize="words"
-          value={ifsc}
-          onChange={setIfsc}
-          disabled={true}
-          required
-        />
+      {bankVerifyStatus === "PENDING" ? (
+        <View style={{ alignSelf: "center", marginTop: "20%" }}>
+          <Text style={{ fontSize: 20, alignSelf: "center" }}>
+            Verifying Bank Details is a requirement to register Mandate
+          </Text>
+        </View>
+      ) : (
+        <ScrollView>
+          <FormInput
+            placeholder={"Account Holder Name"}
+            containerStyle={{ marginVertical: 10 }}
+            autoCapitalize="words"
+            value={name}
+            onChange={setName}
+            disabled={true}
+            required
+          />
+          <FormInput
+            placeholder={"Bank Account Number"}
+            containerStyle={{ marginVertical: 10 }}
+            autoCapitalize="words"
+            value={number}
+            onChange={setNumber}
+            disabled={true}
+            required
+          />
+          <FormInput
+            placeholder={"IFSC"}
+            containerStyle={{ marginVertical: 10 }}
+            autoCapitalize="words"
+            value={ifsc}
+            onChange={setIfsc}
+            disabled={true}
+            required
+          />
 
-        <CollapsibleCard
-          title="Net Banking "
-          TitleIcon={netIcon}
-          isClosed={true}
-          Component={NetBankbutton}
-        />
-        <CollapsibleCard
-          title="UPI "
-          TitleIcon={upiIcon}
-          isClosed={true}
-          Component={Upibutton}
-        />
-        <CollapsibleCard
-          title="Debit Card "
-          TitleIcon={debitIcon}
-          isClosed={true}
-          Component={Debitbutton}
-        />
-        <View style={bankform.padding}></View>
-      </ScrollView>
+          <CollapsibleCard
+            title="Net Banking "
+            TitleIcon={netIcon}
+            isClosed={true}
+            Component={NetBankbutton}
+          />
+          <CollapsibleCard
+            title="UPI "
+            TitleIcon={upiIcon}
+            isClosed={true}
+            Component={Upibutton}
+          />
+          <CollapsibleCard
+            title="Debit Card "
+            TitleIcon={debitIcon}
+            isClosed={true}
+            Component={Debitbutton}
+          />
+          <View style={bankform.padding}></View>
+        </ScrollView>
+      )}
     </KeyboardAvoidingWrapper>
   );
 };

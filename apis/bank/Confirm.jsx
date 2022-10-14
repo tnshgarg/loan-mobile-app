@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/core";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/bankSlice";
 import { bankBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
+import { COLORS } from "../../constants/Theme";
 import FuzzyCheck from "../../components/FuzzyCheck";
 
 const BankConfirmApi = (props) => {

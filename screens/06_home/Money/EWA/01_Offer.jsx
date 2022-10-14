@@ -1,7 +1,15 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, SafeAreaView, Text, TextInput, View } from "react-native";
+import {
+  Alert,
+  SafeAreaView,
+  Text,
+  TextInput,
+  View,
+  Dimensions,
+  Pressable,
+} from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import StepIndicator from "react-native-step-indicator";
@@ -11,6 +19,10 @@ import PrimaryButton from "../../../../components/PrimaryButton";
 import { ewaOfferPush } from "../../../../helpers/BackendPush";
 import { addLoanAmount } from "../../../../store/slices/ewaLiveSlice";
 import { bankform, checkBox, styles, welcome } from "../../../../styles";
+import Modal from "react-native-modal";
+import { WebView } from "react-native-webview";
+import TnC from "../../../../templates/docs/EWATnC.js";
+import { AntDesign } from "react-native-vector-icons";
 import { COLORS } from "../../../../constants/Theme";
 import Header from "../../../../components/atoms/Header";
 import Checkbox from "../../../../components/atoms/Checkbox";
@@ -32,7 +44,10 @@ const Offer = () => {
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const offerId = useSelector((state) => state.ewaLive.offerId);
   const eligibleAmount = useSelector((state) => state.ewaLive.eligibleAmount);
+  const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
+    useState(false);
   const [amount, setAmount] = useState(ewaLiveSlice?.eligibleAmount.toString());
+  
   useEffect(() => {
     getUniqueId().then((id) => {
       setDeviceId(id);
@@ -221,12 +236,30 @@ const Offer = () => {
           labels={data}
         />
       </View>
-
-      <Checkbox
+      
+      {/* <Checkbox
         text={"I agree to the Terms and Conditions."}
         value={consent}
         setValue={setConsent}
-      />
+      /> */}
+      <View style={{ flexDirection: "row" }}>
+        <CheckBox
+          value={consent}
+          onValueChange={setConsent}
+          style={checkBox.checkBox}
+          tintColors={{ true: COLORS.primary }}
+        />
+        <Text style={checkBox.checkBoxText}>
+          I agree to the 
+          <Text
+            onPress={() => setIsTermsOfUseModalVisible(true)}
+            style={styles.termsText}
+          >
+            {" "} Terms and Conditions
+          </Text>
+          .
+        </Text>
+      </View>
       <PrimaryButton
         title={loading ? "Processing" : "Continue"}
         color={COLORS.primary}
@@ -237,6 +270,40 @@ const Offer = () => {
         }}
       />
       <View style={bankform.padding}></View>
+      <Modal
+        isVisible={isTermsOfUseModalVisible}
+        style={{
+          width: Dimensions.get("window").width,
+          height: Dimensions.get("window").height,
+        }}
+      >
+        <Pressable
+          onPress={() => setIsTermsOfUseModalVisible(false)}
+          style={{
+            position: "absolute",
+            top: 30,
+            right: 50,
+            zIndex: 999,
+          }}
+        >
+          <AntDesign name="closesquareo" size={24} color="black" />
+        </Pressable>
+        <View
+          style={{
+            height: Dimensions.get("window").height - 100,
+            width: Dimensions.get("window").width - 40,
+            backgroundColor: "white",
+            borderRadius: 5,
+          }}
+        >
+          <WebView
+            style={{ flex: 1 }}
+            containerStyle={{ padding: 10 }}
+            originWhitelist={["*"]}
+            source={{ html: TnC }}
+          />
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };

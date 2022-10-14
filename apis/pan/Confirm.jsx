@@ -6,6 +6,7 @@ import { Button } from "@react-native-material/core";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/panSlice";
 import { panBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
+import { COLORS } from "../../constants/Theme";
 import FuzzyCheck from "../../components/FuzzyCheck";
 
 const PanConfirmApi = (props) => {

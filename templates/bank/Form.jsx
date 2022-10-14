@@ -1,13 +1,10 @@
-import { Icon } from "@react-native-material/core";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
-import { Popable } from "react-native-popable";
 import { useDispatch, useSelector } from "react-redux";
 import BankVerifyApi from "../../apis/bank/Verify";
 import Checkbox from "../../components/atoms/Checkbox";
 import InfoCard from "../../components/atoms/InfoCard";
 import PopableInput from "../../components/molecules/PopableInput";
-import { COLORS } from "../../constants/Theme";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
   addAccountHolderName,
@@ -137,7 +134,7 @@ const BankFormTemplate = (props) => {
           <BankVerifyApi
             data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}
             style={form.nextButton}
-            disabled={!ifscNext || !accNumNext || !consent}
+            disabled={!ifscNext || !accNumNext || !consent || !accountHolderName}
             type={props?.route?.params?.type || ""}
           />
 

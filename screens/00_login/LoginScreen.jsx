@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
-  Image,
-  Linking,
   Text,
   TouchableOpacity,
   View,
   SafeAreaView,
+  Dimensions,
+  Pressable,
 } from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,14 +25,19 @@ import {
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
+import Modal from "react-native-modal";
 import { COLORS, FONTS } from "../../constants/Theme";
 import SVGImg from "../../assets/UnipeLogo.svg";
 import FormInput from "../../components/atoms/FormInput";
-import { PRIVACY_POLICY, TERMS_OF_SERVICE } from "../../constants/Strings";
+import { WebView } from "react-native-webview";
+import privacyPolicy from "../../templates/docs/PrivacyPolicy.js";
+import termsOfUse from "../../templates/docs/TermsOfUse.js";
+import { AntDesign } from "react-native-vector-icons";
+import { COLORS } from "../../constants/Theme";
+import SVGImg from "../../assets/UnipeLogo.svg";
 
 export default LoginScreen = () => {
   SplashScreen.hide();
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -43,6 +48,10 @@ export default LoginScreen = () => {
   const [id, setId] = useState(authSlice?.id);
   const [onboarded, setOnboarded] = useState(authSlice?.onboarded);
   const [phoneNumber, setPhoneNumber] = useState(authSlice?.phoneNumber);
+
+  const [isPrivacyModalVisible, setIsPrivacyModalVisible] = useState(false);
+  const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
+    useState(false);
 
   var phone_number = "";
 
@@ -100,6 +109,7 @@ export default LoginScreen = () => {
             .then((result) => {
               console.log("sendSmsVerification result: ", result);
               if (result["response"]["status"] === "success") {
+                setLoading(false);
                 navigation.navigate("Otp");
               } else {
                 setLoading(false);
@@ -156,14 +166,14 @@ export default LoginScreen = () => {
             This number will be used for all communication. You shall receive an
             SMS with code for verification. By continuing, you agree to our{" "}
             <Text
-              onPress={() => Linking.openURL(TERMS_OF_SERVICE)}
+              onPress={() => setIsTermsOfUseModalVisible(true)}
               style={styles.termsText}
             >
               Terms of Service
             </Text>{" "}
             &{" "}
             <Text
-              onPress={() => Linking.openURL(PRIVACY_POLICY)}
+              onPress={() => setIsPrivacyModalVisible(true)}
               style={styles.termsText}
             >
               Privacy Policy
@@ -189,6 +199,75 @@ export default LoginScreen = () => {
           )}
         </View>
       </KeyboardAvoidingWrapper>
+
+      <Modal
+        isVisible={isPrivacyModalVisible}
+        style={{
+          width: Dimensions.get("window").width,
+          height: Dimensions.get("window").height,
+        }}
+      >
+        <Pressable
+          onPress={() => setIsPrivacyModalVisible(false)}
+          style={{
+            position: "absolute",
+            top: 30,
+            right: 50,
+            zIndex: 999,
+          }}
+        >
+          <AntDesign name="closesquareo" size={24} color="black" />
+        </Pressable>
+        <View
+          style={{
+            height: Dimensions.get("window").height - 100,
+            width: Dimensions.get("window").width - 40,
+            backgroundColor: "white",
+            borderRadius: 5,
+          }}
+        >
+          <WebView
+            style={{ flex: 1 }}
+            containerStyle={{ padding: 10 }}
+            originWhitelist={["*"]}
+            source={{ html: privacyPolicy }}
+          />
+        </View>
+      </Modal>
+      <Modal
+        isVisible={isTermsOfUseModalVisible}
+        style={{
+          width: Dimensions.get("window").width,
+          height: Dimensions.get("window").height,
+        }}
+      >
+        <Pressable
+          onPress={() => setIsTermsOfUseModalVisible(false)}
+          style={{
+            position: "absolute",
+            top: 30,
+            right: 50,
+            zIndex: 999,
+          }}
+        >
+          <AntDesign name="closesquareo" size={24} color="black" />
+        </Pressable>
+        <View
+          style={{
+            height: Dimensions.get("window").height - 100,
+            width: Dimensions.get("window").width - 40,
+            backgroundColor: "white",
+            borderRadius: 5,
+          }}
+        >
+          <WebView
+            style={{ flex: 1 }}
+            containerStyle={{ padding: 10 }}
+            originWhitelist={["*"]}
+            source={{ html: termsOfUse }}
+          />
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };

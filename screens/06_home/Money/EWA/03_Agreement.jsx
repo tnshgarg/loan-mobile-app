@@ -18,7 +18,7 @@ import CollapsibleCard from "../../../../components/CollapsibleCard";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { ewaAgreementPush } from "../../../../helpers/BackendPush";
 import {
-  addNetDisbursementAmount,
+  addNetAmount,
   addProcessingFees,
 } from "../../../../store/slices/ewaLiveSlice";
 import { checkBox, ewa, styles } from "../../../../styles";
@@ -26,12 +26,13 @@ import Modal from "react-native-modal";
 import { AntDesign } from "react-native-vector-icons";
 import { useWindowDimensions } from "react-native";
 import RenderHtml from "react-native-render-html";
-import { format } from "date-fns";
 import agreement from "../../../../templates/docs/LiquidLoansLoanAgreement";
 import { COLORS } from "../../../../constants/Theme";
 import Header from "../../../../components/atoms/Header";
 
+
 const Agreement = () => {
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { width } = useWindowDimensions();
@@ -48,14 +49,17 @@ const Agreement = () => {
   const bankSlice = useSelector((state) => state.bank);
   const panSlice = useSelector((state) => state.pan);
   const profileSlice = useSelector((state) => state.profile);
+  const authSlice = useSelector((state) => state.auth);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
 
-  const [netDisbursementAmount, setNetDisbursementAmount] = useState();
+  const [netAmount, setNetAmount] = useState();
   const [processingFees, setProcessingFees] = useState(
     useSelector((state) => state.ewaLive.processingFees)
   );
   const [apr, setApr] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const [loanAccountNumber, setLoanAccountNumber] = useState("LQLXXXXX");
 
   const today = new Date();
 
@@ -70,11 +74,8 @@ const Agreement = () => {
       aadhaarSlice?.data?.address
     );
     text.data = text.data.replace(/\{email\}/g, profileSlice?.email);
-    text.data = text.data.replace(/\{mobile\}/g, profileSlice?.phoneNumber);
-    text.data = text.data.replace(
-      /\{applicationNumber\}/g,
-      "applicationNumber"
-    ); // TODO: LAN number
+    text.data = text.data.replace(/\{mobile\}/g, authSlice?.phoneNumber);
+    text.data = text.data.replace(/\{loanAccountNumber\}/g, loanAccountNumber); // TODO: Generate LAN number
     text.data = text.data.replace(/\{loanAmount\}/g, ewaLiveSlice?.loanAmount);
     text.data = text.data.replace(/\{processingFees\}/g, processingFees);
     text.data = text.data.replace(
@@ -111,13 +112,13 @@ const Agreement = () => {
 
   useEffect(() => {
     dispatch(addProcessingFees(processingFees));
-    setNetDisbursementAmount(ewaLiveSlice?.loanAmount - processingFees);
+    setNetAmount(ewaLiveSlice?.loanAmount - processingFees);
   }, [processingFees]);
 
   useEffect(() => {
-    dispatch(addNetDisbursementAmount(netDisbursementAmount));
+    dispatch(addNetAmount(netAmount));
     setApr(APR());
-  }, [netDisbursementAmount]);
+  }, [netAmount]);
 
   const profileData = [
     { subTitle: "Name", value: aadhaarSlice?.data?.name },
@@ -155,7 +156,7 @@ const Agreement = () => {
     },
     {
       subTitle: "Net Disbursement Amount *",
-      value: "₹" + netDisbursementAmount,
+      value: "₹" + netAmount,
     },
     { subTitle: "Due Date", value: ewaLiveSlice?.dueDate },
   ];
@@ -195,7 +196,8 @@ const Agreement = () => {
       dueDate: ewaLiveSlice?.dueDate,
       processingFees: processingFees,
       loanAmount: ewaLiveSlice?.loanAmount,
-      netDisbursementAmount: netDisbursementAmount,
+      netAmount: netAmount,
+      loanAccountNumber: loanAccountNumber,
     })
       .then((response) => {
         console.log("ewaAgreementPush response.data: ", response.data);

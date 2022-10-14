@@ -1,5 +1,5 @@
 import StepIndicator from "react-native-step-indicator";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import { View } from "react-native";
 import { useNavigation } from "@react-navigation/core";
@@ -8,6 +8,7 @@ import { progressBar, stepIndicatorStyles } from "../styles";
 import { COLORS } from "../constants/Theme";
 
 export default ProgressBarTop = (props) => {
+
   const navigation = useNavigation();
 
   const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);
@@ -17,63 +18,64 @@ export default ProgressBarTop = (props) => {
 
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
-      name: "feed",
+      color: stepStatus === "finished" ? COLORS.primary : COLOR.primaryPending,
       size: 15,
     };
     switch (position) {
       case 0: {
-        iconConfig.name = "perm-identity";
+        iconConfig.name = "file-document-outline";
+        return <MaterialCommunityIcons {...iconConfig} />
+      }
+      case 1: {
+        iconConfig.name = "camera-outline";
+        return <MaterialCommunityIcons {...iconConfig} />
+      }
+      case 2: {
         stepStatus == "finished"
           ? aadhaarStatus == "SUCCESS"
             ? (iconConfig.color = COLORS.primary)
             : (iconConfig.color = COLORS.white)
-          : COLORS.primary;
-
-        break;
+          : COLORS.primaryPending;
+        iconConfig.name = "card-account-details-outline";
+        return <MaterialCommunityIcons {...iconConfig} />
+        
       }
-      case 1: {
-        iconConfig.name = "mood";
+      case 3: {
         stepStatus == "finished"
           ? panStatus == "SUCCESS"
             ? (iconConfig.color = COLORS.primary)
             : (iconConfig.color = COLORS.white)
-          : COLORS.primary;
-        break;
+          : COLORS.primaryPending;
+        iconConfig.name = "smart-card-outline";
+        return <MaterialCommunityIcons {...iconConfig} />
       }
-      case 2: {
-        iconConfig.name = "payment";
+      case 4: {
         stepStatus == "finished"
           ? bankStatus == "SUCCESS"
             ? (iconConfig.color = COLORS.primary)
             : (iconConfig.color = COLORS.white)
-          : COLORS.primary;
-        break;
-      }
-      case 3: {
-        iconConfig.name = "library-add-check";
-        stepStatus == "finished"
-          ? mandateStatus == "SUCCESS"
-            ? (iconConfig.color = COLORS.primary)
-            : (iconConfig.color = COLORS.white)
           : COLORS.primaryPending;
-        break;
-      }
-      case 4: {
-        iconConfig.name = "info-outline";
-        break;
+        iconConfig.name = "bank-outline";
+        return <MaterialCommunityIcons {...iconConfig} />
       }
       case 5: {
-        iconConfig.name = "camera-front";
-        break;
+        stepStatus == "finished"
+        ? mandateStatus == "SUCCESS"
+          ? (iconConfig.color = COLORS.primary)
+          : (iconConfig.color = COLORS.white)
+        : COLORS.primaryPending;
+        iconConfig.name = "bank-check";
+        return <MaterialCommunityIcons {...iconConfig} />
       }
       default: {
-        break;
+        iconConfig.name = "info-outline";
+        return <MaterialIcons {...iconConfig} />
       }
     }
-    return iconConfig;
   };
+
   const renderStepIndicator = (params) => (
-    <MaterialIcons {...getStepIndicatorIconConfig(params)} />
+    getStepIndicatorIconConfig(params)
   );
 
   const onStepPress = (position) => {
@@ -102,6 +104,7 @@ export default ProgressBarTop = (props) => {
     }
     navigation.navigate(step);
   };
+
   return (
     <View style={progressBar.progressView}>
       <StepIndicator
@@ -109,14 +112,14 @@ export default ProgressBarTop = (props) => {
         customStyles={stepIndicatorStyles}
         currentPosition={props.step}
         labels={[
-          "Aadhaar Card",
-          "PAN Card",
-          "Bank Account",
-          "Mandate",
           "Profile",
           "Photo",
+          "Aadhaar",
+          "PAN",
+          "Bank",
+          "Mandate",
         ]}
-        onPress={onStepPress}
+        // onPress={onStepPress}
         renderStepIndicator={renderStepIndicator}
       />
     </View>

@@ -61,7 +61,7 @@ export default OTPScreen = () => {
                 onPress={() =>
                   Alert.alert(
                     "OTP Timer",
-                    "You must wait for 30 seconds to resend otp"
+                    "You must wait for 2 minutes to resend OTP."
                   )
                 }
               />
@@ -87,7 +87,7 @@ export default OTPScreen = () => {
                 onPress={() =>
                   Alert.alert(
                     "OTP Timer",
-                    "You must wait for 2 minutes to edit number"
+                    "You must wait for 2 minutes to edit number."
                   )
                 }
               />

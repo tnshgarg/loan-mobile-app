@@ -1,47 +1,63 @@
 import { useEffect, useState } from "react";
 import { SafeAreaView, Image } from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import CollapsibleCard from "../../../../components/CollapsibleCard";
 import { ewa, styles } from "../../../../styles";
 import { useSelector } from "react-redux";
-import { COLORS } from "../../../../constants/Theme";
 import Header from "../../../../components/atoms/Header";
+import { getBackendData } from "../../../../services/employees/employeeServices";
 
 const Disbursement = ({ route, navigation }) => {
   const { offer } = route.params;
 
   const bankSlice = useSelector((state) => state.bank);
+  
+  const [loanAmount, setLoanAmount] = useState(offer?.loanAmount);
+  const [netAmount, setNetAmount] = useState(offer?.netAmount);
+  const [bankAccountNumber, setBankAccountNumber] = useState(bankSlice?.data?.accountNumber);
+  const [dueDate, setDueDate] = useState(offer?.dueDate);
+  const [loanAccountNumber, setLoanAccountNumber] = useState("");
+  const [status, setStatus] = useState("");
+  
+  const [processingFees, setProcessingFees] = useState("");
 
-  const [processingFees, setProcessingFees] = useState();
-  const [netDisbursementAmount, setNetDisbursementAmount] = useState();
-  const [dueDate, setDueDate] = useState();
+  useEffect(() => {
+    getBackendData({ params: { offerId: offer.offerId }, xpath: "ewa/disbursement" })
+      .then((response) => {
+        if (response.data.status === 200) {
+          console.log("ewaDisbursementFetch response.data: ", response.data);
+          setLoanAmount(response.data.body.loanAmount);
+          setNetAmount(response.data.body.netAmount);
+          setBankAccountNumber(response.data.body.bankAccountNumber);
+          setDueDate(response.data.body.dueDate);
+          setLoanAccountNumber(response.data.body.loanAccountNumber);
+          setStatus(response.data.body.status);
+        }
+      })
+      .catch((error) => {
+        console.log("ewaDisbursementFetch error: ", error);
+      });
+  }, []);
 
   useEffect(() => {
     console.log("disbursement offer: ", offer);
     setProcessingFees(
       Math.round(((offer?.loanAmount * offer?.fees) / 100 + 1) / 10) * 10 - 1
     );
-    setNetDisbursementAmount(offer?.netDisbursementAmount);
+    setNetAmount(offer?.netAmount);
     setDueDate(offer?.dueDate);
   }, [offer]);
 
   useEffect(() => {
-    setNetDisbursementAmount(offer?.loanAmount - processingFees);
+    setNetAmount(offer?.loanAmount - processingFees);
   }, [processingFees]);
 
   const data = [
-    { subTitle: "Loan Amount ", value: "₹" + offer?.loanAmount },
-    {
-      subTitle: "Net Disbursement Amount ",
-      value: "₹" + netDisbursementAmount,
-    },
-    {
-      subTitle: "Disbursement Bank Account Number",
-      value: bankSlice?.data?.accountNumber,
-    },
+    { subTitle: "Loan Amount ", value: "₹" + loanAmount },
+    { subTitle: "Net Transfer Amount ", value: "₹" + netAmount },
+    { subTitle: "Bank Account Number", value: bankAccountNumber },
     { subTitle: "Due Date", value: dueDate },
-    { subTitle: "Loan Account Number", value: "" },
-    { subTitle: "Disbursement Satus", value: "INPROGRESS" },
+    { subTitle: "Loan Account Number", value: loanAccountNumber },
+    { subTitle: "Transfer Satus", value: status },
   ];
 
   return (

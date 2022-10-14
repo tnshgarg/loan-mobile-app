@@ -6,12 +6,12 @@ const ewaHistoricalSlice = createSlice({
   name: "ewaHistorical",
   initialState: initialState,
   reducers: {
-    addOffers(state, action) {
-      Object.assign(state, action.payload);
+    resetEwaHistorical(state, action) {
+      return [...action.payload];
     },
   },
 });
 
-export const { addOffers } = ewaHistoricalSlice.actions;
+export const { resetEwaHistorical } = ewaHistoricalSlice.actions;
 
 export default ewaHistoricalSlice.reducer;

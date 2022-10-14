@@ -1,6 +1,5 @@
-import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
@@ -12,20 +11,21 @@ import {
   addMaritalStatus,
 } from "../../store/slices/profileSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { bankform, form, styles } from "../../styles";
+import { form, styles } from "../../styles";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import PrimaryButton from "../../components/PrimaryButton";
 import { COLORS } from "../../constants/Theme";
 import FormInput from "../../components/atoms/FormInput";
 import DropDownForm from "../../components/molecules/DropDownForm";
 import Header from "../../components/atoms/Header";
-export default PersonalDetailsForm = () => {
+
+
+const PersonalDetailsForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const [next, setNext] = useState(false);
 
-  const panSlice = useSelector((state) => state.pan);
   const profileSlice = useSelector((state) => state.profile);
   const [maritalStatus, setMaritalStatus] = useState(
     profileSlice?.maritalStatus
@@ -34,9 +34,7 @@ export default PersonalDetailsForm = () => {
     profileSlice?.qualification
   );
   const [altMobile, setAltMobile] = useState(profileSlice?.altMobile);
-  const [email, setEmail] = useState(
-    panSlice?.data?.email || profileSlice?.email
-  );
+  const [email, setEmail] = useState(profileSlice?.email);
   const [motherName, setMotherName] = useState(profileSlice?.motherName);
 
   useEffect(() => {
@@ -89,7 +87,7 @@ export default PersonalDetailsForm = () => {
           onLeftIconPress={() => navigation.navigate("BankForm")}
         />
 
-        <ProgressBarTop step={4} />
+        <ProgressBarTop step={0} />
         <Text style={form.formHeader}>Employee basic details</Text>
         <KeyboardAvoidingWrapper>
           <View>
@@ -129,7 +127,6 @@ export default PersonalDetailsForm = () => {
               value={email}
               onChange={setEmail}
             />
-
             <PrimaryButton
               title="Continue"
               type="solid"
@@ -146,3 +143,5 @@ export default PersonalDetailsForm = () => {
     </>
   );
 };
+
+export default PersonalDetailsForm;

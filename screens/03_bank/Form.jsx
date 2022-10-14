@@ -1,9 +1,8 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Alert, SafeAreaView } from "react-native";
 import { useDispatch } from "react-redux";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
-import { COLORS } from "../../constants/Theme";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import BankFormTemplate from "../../templates/bank/Form";
@@ -37,9 +36,8 @@ const BankForm = () => {
         <Header
           title="Bank Details"
           onLeftIconPress={() => navigation.navigate("PanForm")}
-          onRightIconPress={() => SkipBank()}
         />
-        <ProgressBarTop step={2} />
+        <ProgressBarTop step={4} />
 
         <BankFormTemplate />
       </SafeAreaView>

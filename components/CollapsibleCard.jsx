@@ -20,7 +20,7 @@ const CollapsibleCard = ({
         style={{ flexDirection: "row", width: "100%", alignItems: "center" }}
       >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Text style={{ fontWeight: "bold", paddingRight: 5 }}>{title}</Text>
+          <Text style={{ fontWeight: "bold", fontSize: 16, paddingRight: 5 }}>{title}</Text>
           {TitleIcon ? <TitleIcon /> : null}
         </View>
         <Icon
@@ -43,7 +43,9 @@ const CollapsibleCard = ({
             key={index}
           >
             <Text>{item.subTitle}</Text>
-            <Text style={{ marginLeft: "auto" }}>{item.value}</Text>
+            <Text style={{ marginLeft: "auto", fontSize: 14 }}>
+              {item.value}
+            </Text>
           </View>
         ))}
         {info ? (
