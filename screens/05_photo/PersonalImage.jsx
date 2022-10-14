@@ -99,7 +99,7 @@ const PersonalImage = () => {
             <RNIPPhotoCapture />
           </View>
           <PrimaryButton
-            title="Finish"
+            title="Continue"
             type="solid"
             uppercase={false}
             color={COLORS.primary}
