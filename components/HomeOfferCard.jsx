@@ -4,7 +4,7 @@ import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS, FONTS } from "../constants/Theme";
 import { getBackendData } from "../services/employees/employeeServices";
-import { addOffers } from "../store/slices/ewaHistoricalSlice";
+import { resetEwaHistorical } from "../store/slices/ewaHistoricalSlice";
 import { resetEwaLive } from "../store/slices/ewaLiveSlice";
 
 const HomeOfferCard = () => {
@@ -20,9 +20,9 @@ const HomeOfferCard = () => {
       getBackendData({ params: { unipeEmployeeId: id }, xpath: "ewa/offers" })
         .then((response) => {
           if (response.data.status === 200) {
-            dispatch(resetEwaLive(response.data.body.live));
-            dispatch(addOffers(response.data.body.past));
             console.log("ewaOffersFetch response.data: ", response.data);
+            dispatch(resetEwaLive(response.data.body.live));
+            dispatch(resetEwaHistorical(response.data.body.past));
           }
         })
         .catch((error) => {

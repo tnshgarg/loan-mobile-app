@@ -134,7 +134,6 @@ const PersonalDetailsForm = () => {
               value={email}
               onChange={setEmail}
             />
-
             <PrimaryButton
               title="Continue"
               type="solid"

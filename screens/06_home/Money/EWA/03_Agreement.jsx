@@ -30,7 +30,9 @@ import RenderHtml from "react-native-render-html";
 import agreement from "../../../../templates/docs/LiquidLoansLoanAgreement";
 import { COLORS } from "../../../../constants/Theme";
 
+
 const Agreement = () => {
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { width } = useWindowDimensions();
@@ -50,12 +52,14 @@ const Agreement = () => {
   const authSlice = useSelector((state) => state.auth);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
 
-  const [netAmount, setNetDisbursementAmount] = useState();
+  const [netAmount, setNetAmount] = useState();
   const [processingFees, setProcessingFees] = useState(
     useSelector((state) => state.ewaLive.processingFees)
   );
   const [apr, setApr] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const [loanAccountNumber, setLoanAccountNumber] = useState("LQLXXXXX");
 
   const today = new Date();
 
@@ -65,10 +69,7 @@ const Agreement = () => {
     text.data = text.data.replace(/\{aadhaarAddress\}/g, aadhaarSlice?.data?.address);
     text.data = text.data.replace(/\{email\}/g, profileSlice?.email);
     text.data = text.data.replace(/\{mobile\}/g, authSlice?.phoneNumber);
-    text.data = text.data.replace(
-      /\{applicationNumber\}/g,
-      "applicationNumber"
-    ); // TODO: LAN number
+    text.data = text.data.replace(/\{loanAccountNumber\}/g, loanAccountNumber); // TODO: Generate LAN number
     text.data = text.data.replace(/\{loanAmount\}/g, ewaLiveSlice?.loanAmount);
     text.data = text.data.replace(/\{processingFees\}/g, processingFees);
     text.data = text.data.replace(/\{accountNumber\}/g, bankSlice?.data?.accountNumber);
@@ -102,7 +103,7 @@ const Agreement = () => {
 
   useEffect(() => {
     dispatch(addProcessingFees(processingFees));
-    setNetDisbursementAmount(ewaLiveSlice?.loanAmount - processingFees);
+    setNetAmount(ewaLiveSlice?.loanAmount - processingFees);
   }, [processingFees]);
 
   useEffect(() => {
@@ -187,6 +188,7 @@ const Agreement = () => {
       processingFees: processingFees,
       loanAmount: ewaLiveSlice?.loanAmount,
       netAmount: netAmount,
+      loanAccountNumber: loanAccountNumber,
     })
       .then((response) => {
         console.log("ewaAgreementPush response.data: ", response.data);

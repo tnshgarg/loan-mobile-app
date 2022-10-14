@@ -47,6 +47,7 @@ const Offer = () => {
   const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
     useState(false);
   const [amount, setAmount] = useState(ewaLiveSlice?.eligibleAmount.toString());
+  
   useEffect(() => {
     getUniqueId().then((id) => {
       setDeviceId(id);
