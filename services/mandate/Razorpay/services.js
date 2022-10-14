@@ -42,7 +42,7 @@ const createDebitOrder = ({
         beneficiary_name: accountHolderName,
         account_number: accountNumber,
         account_type: "savings",
-        ifsc_code: "HDFC0000001",
+        ifsc_code: ifsc,
       },
     },
   });
@@ -77,7 +77,7 @@ const createNetBankingOrder = ({
         beneficiary_name: accountHolderName,
         account_number: accountNumber,
         account_type: "savings",
-        ifsc_code: "HDFC0000001", // ifsc,
+        ifsc_code: ifsc, // ifsc,
       },
       expire_at: 2147483647,
     },
