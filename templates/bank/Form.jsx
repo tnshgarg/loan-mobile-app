@@ -1,10 +1,10 @@
-import CheckBox from "@react-native-community/checkbox";
 import { Icon } from "@react-native-material/core";
 import { useEffect, useState } from "react";
 import { Text, TextInput, View } from "react-native";
 import { Popable } from "react-native-popable";
 import { useDispatch, useSelector } from "react-redux";
 import BankVerifyApi from "../../apis/bank/Verify";
+import Checkbox from "../../components/atoms/Checkbox";
 import InfoCard from "../../components/atoms/InfoCard";
 import PopableInput from "../../components/molecules/PopableInput";
 import { COLORS } from "../../constants/Theme";
@@ -126,18 +126,13 @@ const BankFormTemplate = (props) => {
             }
           />
 
-          <View style={{ flexDirection: "row" }}>
-            <CheckBox
-              value={consent}
-              onValueChange={setConsent}
-              style={checkBox.checkBox}
-              tintColors={{ true: COLORS.primary }}
-            />
-            <Text style={checkBox.checkBoxText}>
-              I agree with the KYC registration Terms and Conditions to verifiy
-              my identity.
-            </Text>
-          </View>
+          <Checkbox
+            text={
+              "I agree with the KYC registration Terms and Conditions to verifiy my identity."
+            }
+            value={consent}
+            setValue={setConsent}
+          />
 
           <BankVerifyApi
             data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}

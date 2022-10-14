@@ -210,16 +210,16 @@ export const form = StyleSheet.create({
   yesButton: {
     padding: 10,
     marginTop: 20,
-    width: 150,
-    height: 60,
-    fontSize: 20,
+    width: SIZES.width / 2.3,
+    height: 50,
+    backgroundColor: COLORS.primaryBackground,
   },
   noButton: {
     padding: 10,
     marginTop: 20,
-    width: 150,
-    height: 60,
-    fontSize: 20,
+    width: SIZES.width / 2.3,
+    height: 50,
+    backgroundColor: COLORS.warningBackground,
   },
   aadharimg: {
     alignSelf: "center",
@@ -476,11 +476,17 @@ export const selfie = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 30,
   },
-  selfie: {
+  selfieContainer: {
     marginTop: 20,
+    width: "100%",
+    height: SIZES.width * 0.6,
+    backgroundColor: COLORS.lightgray_01,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  selfie: {
     alignSelf: "center",
-    height: 300,
-    width: 300,
   },
 });
 

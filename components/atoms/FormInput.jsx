@@ -22,6 +22,7 @@ const FormInput = ({
   numeric,
   autoFocus,
   required,
+  letterSpacing,
 }) => {
   return (
     <View style={{ ...containerStyle }}>
@@ -60,6 +61,7 @@ const FormInput = ({
           numeric={numeric}
           autoFocus={autoFocus}
           required={required}
+          letterSpacing={letterSpacing}
         />
         {appendComponent}
       </View>

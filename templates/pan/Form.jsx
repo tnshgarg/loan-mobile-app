@@ -12,6 +12,7 @@ import { addNumber } from "../../store/slices/panSlice";
 import { COLORS } from "../../constants/Theme";
 import InfoCard from "../../components/atoms/InfoCard";
 import FormInput from "../../components/atoms/FormInput";
+import Checkbox from "../../components/atoms/Checkbox";
 
 const PanFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -65,18 +66,13 @@ const PanFormTemplate = (props) => {
             info={"PAN is required to verify name and date of birth."}
           />
 
-          <View style={{ flexDirection: "row", width: "100%" }}>
-            <CheckBox
-              value={consent}
-              onValueChange={setConsent}
-              style={checkBox.checkBox}
-              tintColors={{ true: COLORS.primary }}
-            />
-            <Text style={checkBox.checkBoxText}>
-              I agree with the KYC registration Terms and Conditions to verifiy
-              my identity.
-            </Text>
-          </View>
+          <Checkbox
+            text={
+              "I agree with the KYC registration Terms and Conditions to verifiy my identity."
+            }
+            value={consent}
+            setValue={setConsent}
+          />
 
           <PanVerifyApi
             data={{ pan_number: number, consent: "Y" }}

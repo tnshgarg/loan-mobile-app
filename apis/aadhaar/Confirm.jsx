@@ -10,7 +10,7 @@ import {
 } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
-import { COLORS } from "../../constants/Theme";
+import { COLORS, FONTS } from "../../constants/Theme";
 
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -83,7 +83,7 @@ const AadhaarConfirmApi = (props) => {
           type="solid"
           uppercase={false}
           style={form.noButton}
-          color={COLORS.warning}
+          titleStyle={{ ...FONTS.h3, color: COLORS.warning }}
           onPress={() => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
@@ -105,7 +105,7 @@ const AadhaarConfirmApi = (props) => {
           type="solid"
           uppercase={false}
           style={form.yesButton}
-          color={COLORS.primary}
+          titleStyle={{ ...FONTS.h3, color: COLORS.primary }}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");

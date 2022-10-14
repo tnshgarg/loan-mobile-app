@@ -4,7 +4,7 @@ import { COLORS, FONTS } from "../../constants/Theme";
 
 const DetailItem = ({ label, value, divider }) => {
   return (
-    <View style={{ paddingTop: 15, paddingHorizontal: 20 }}>
+    <View style={{ paddingTop: 15 }}>
       <Text style={{ fontSize: 14 }}>{label}</Text>
       {value == "Not Provided" ? (
         <Text

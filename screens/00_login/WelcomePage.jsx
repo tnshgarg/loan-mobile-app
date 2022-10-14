@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/PrimaryButton";
 import { COLORS } from "../../constants/Theme";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { checkBox, stepIndicatorStyles, styles, welcome } from "../../styles";
+import { stepIndicatorStyles, styles, welcome } from "../../styles";
 import SVGImg from "../../assets/UnipeLogo.svg";
 
 export default WelcomePage = () => {

@@ -14,6 +14,7 @@ import { setAadhaarTimer } from "../../store/slices/timerSlice";
 import AadhaarOtpApi from "../../apis/aadhaar/Otp";
 import { form, styles } from "../../styles";
 import { COLORS } from "../../constants/Theme";
+import FormInput from "../../components/atoms/FormInput";
 
 const AadhaarVerifyTemplate = (props) => {
   const dispatch = useDispatch();
@@ -42,6 +43,14 @@ const AadhaarVerifyTemplate = (props) => {
           numeric
           value={otp}
           onChangeText={setOtp}
+          keyboardType="numeric"
+        />
+        <FormInput
+          containerStyle={{ marginVertical: 10 }}
+          letterSpacing={20}
+          value={otp}
+          onChange={setOtp}
+          maxLength={6}
           keyboardType="numeric"
         />
 

@@ -6,7 +6,6 @@ import {
   Image,
   Linking,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
   SafeAreaView,

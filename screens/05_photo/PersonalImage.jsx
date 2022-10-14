@@ -1,7 +1,14 @@
 import { Button, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import React, { useCallback, useEffect, useState } from "react";
-import { Image, SafeAreaView, ScrollView, Text, View } from "react-native";
+import {
+  Image,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import * as ImagePicker from "react-native-image-picker";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/PrimaryButton";
@@ -11,7 +18,7 @@ import { COLORS } from "../../constants/Theme";
 import { profileBackendPush } from "../../helpers/BackendPush";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { addPhoto } from "../../store/slices/profileSlice";
-import { checkBox, form, selfie, styles } from "../../styles";
+import { form, selfie, styles } from "../../styles";
 import Header from "../../components/atoms/Header";
 
 export default PersonalImage = () => {
@@ -76,14 +83,20 @@ export default PersonalImage = () => {
               style={selfie.selfie}
             />
           ) : (
-            <Icon
-              name="perm-identity"
-              size={300}
-              color="grey"
-              style={selfie.selfie}
-            />
+            <View style={selfie.selfieContainer}>
+              <Icon
+                name="perm-identity"
+                size={200}
+                color={COLORS.lightGray}
+                style={selfie.selfie}
+              />
+            </View>
           )}
           <View style={{ flexDirection: "row", alignSelf: "center" }}>
+            {/* <TouchableOpacity>
+              <Icon name="image-search" size={30} color="black" />
+              <Text>Gallery</Text>
+            </TouchableOpacity> */}
             <IconButton
               icon={<Icon name="image-search" size={30} color="black" />}
               style={selfie.uploadButton}

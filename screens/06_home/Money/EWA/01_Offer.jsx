@@ -1,5 +1,4 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import CheckBox from "@react-native-community/checkbox";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, SafeAreaView, Text, TextInput, View } from "react-native";
@@ -14,6 +13,7 @@ import { addLoanAmount } from "../../../../store/slices/ewaLiveSlice";
 import { bankform, checkBox, styles, welcome } from "../../../../styles";
 import { COLORS } from "../../../../constants/Theme";
 import Header from "../../../../components/atoms/Header";
+import Checkbox from "../../../../components/atoms/Checkbox";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -221,17 +221,12 @@ const Offer = () => {
           labels={data}
         />
       </View>
-      <View style={{ flexDirection: "row" }}>
-        <CheckBox
-          value={consent}
-          onValueChange={setConsent}
-          style={checkBox.checkBox}
-          tintColors={{ true: COLORS.primary }}
-        />
-        <Text style={checkBox.checkBoxText}>
-          I agree to the Terms and Conditions.
-        </Text>
-      </View>
+
+      <Checkbox
+        text={"I agree to the Terms and Conditions."}
+        value={consent}
+        setValue={setConsent}
+      />
       <PrimaryButton
         title={loading ? "Processing" : "Continue"}
         color={COLORS.primary}
