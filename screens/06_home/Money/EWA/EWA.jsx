@@ -8,8 +8,7 @@ import { useIsFocused, useNavigation } from "@react-navigation/core";
 import Offers from "../../../../components/DataCard";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
-import { addOffers } from "../../../../store/slices/ewaHistoricalSlice";
-import DataCard from "../../../../components/DataCard";
+import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import { COLORS, FONTS } from "../../../../constants/Theme";
 
 const EWA = () => {
@@ -37,19 +36,24 @@ const EWA = () => {
 
   useEffect(() => {
     console.log("ewaLiveSlice: ", ewaLiveSlice);
+    console.log("ewaHistoricalSlice: ", ewaHistoricalSlice);
     console.log("ewaOffersFetch unipeEmployeeId:", id);
     if (isFocused && id) {
       getBackendData({ params: { unipeEmployeeId: id }, xpath: "ewa/offers" })
         .then((response) => {
           if (response.data.status === 200) {
-            console.log("response.data.body.live: ", response.data.body.live);
-            dispatch(resetEwaLive(response.data.body.live));
-            dispatch(addOffers(response.data.body.past));
             console.log("ewaOffersFetch response.data: ", response.data);
+            dispatch(resetEwaLive(response.data.body.live));
+            dispatch(resetEwaHistorical(response.data.body.past));
             setFetched(true);
+          } else {
+            dispatch(resetEwaLive());
+            dispatch(resetEwaHistorical());
           }
         })
         .catch((error) => {
+          dispatch(resetEwaLive());
+          dispatch(resetEwaHistorical());
           console.log("ewaOffersFetch error: ", error);
         });
     }

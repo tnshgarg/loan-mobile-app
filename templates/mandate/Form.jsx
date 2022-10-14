@@ -68,7 +68,7 @@ const Form = (props) => {
   const [backendPush, setBackendPush] = useState(false);
   const [orderId, setOrderId] = useState(mandateSlice?.orderId);
   const [customerId, setCustomerId] = useState(mandateSlice?.customerId);
-  const email = useSelector((state) => state.profile.email);
+  const email = useSelector((state) => state.pan.data.email || state.profile.email);
   const phoneNumber = useSelector((state) => state.auth.phoneNumber);
 
   useEffect(() => {
@@ -157,6 +157,7 @@ const Form = (props) => {
         .then((data) => {
           getToken({ paymentId: data.razorpay_payment_id })
             .then((token) => {
+              // TODO: check response status code
               console.log("getToken", token.data);
               setData({
                 type: type,
@@ -179,6 +180,7 @@ const Form = (props) => {
             });
         })
         .catch((error) => {
+          console.log(error);
           alert(`Error: ${error.code} | ${error.description}`);
           setVerifyMsg(error.description);
           setVerifyStatus("ERROR");
