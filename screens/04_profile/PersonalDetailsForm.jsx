@@ -84,7 +84,7 @@ const PersonalDetailsForm = () => {
       <SafeAreaView style={[styles.container, { padding: 0 }]}>
         <Header
           title="Setup Profile"
-          onLeftIconPress={() => navigation.navigate("BankForm")}
+          onLeftIconPress={() => navigation.navigate("Login")}
         />
 
         <ProgressBarTop step={0} />
