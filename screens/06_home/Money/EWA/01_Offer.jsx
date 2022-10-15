@@ -26,6 +26,7 @@ import { AntDesign } from "react-native-vector-icons";
 import { COLORS } from "../../../../constants/Theme";
 import Header from "../../../../components/atoms/Header";
 import Checkbox from "../../../../components/atoms/Checkbox";
+import CheckBox from "@react-native-community/checkbox";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ const Offer = () => {
   const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
     useState(false);
   const [amount, setAmount] = useState(ewaLiveSlice?.eligibleAmount.toString());
-  
+
   useEffect(() => {
     getUniqueId().then((id) => {
       setDeviceId(id);
@@ -161,18 +162,7 @@ const Offer = () => {
         title="On Demand Salary"
         onLeftIconPress={() => navigation.navigate("Home")}
       />
-      <View
-        style={{
-          backgroundColor: "#E5EAF7",
-          width: "85%",
-          height: "20%",
-          alignSelf: "center",
-          marginTop: 10,
-          borderRadius: 10,
-          paddingTop: 18,
-          paddingBottom: 18,
-        }}
-      >
+      <View style={styles.container}>
         <View
           style={{
             flexDirection: "row",
@@ -201,75 +191,76 @@ const Offer = () => {
             onChangeText={setAmount}
             isFocused={true}
           />
+
+          <Text
+            style={{
+              fontSize: 14,
+              alignSelf: "center",
+              color: "#0D2A4E",
+              marginTop: 10,
+            }}
+          >
+            You can choose between 1000 to {eligibleAmount}
+          </Text>
         </View>
 
         <Text
           style={{
-            fontSize: 14,
+            fontSize: 20,
             alignSelf: "center",
+            fontWeight: "bold",
             color: "#0D2A4E",
             marginTop: 10,
           }}
         >
-          You can choose between 1000 to {eligibleAmount}
+          Steps to Cash
         </Text>
-      </View>
+        <View style={welcome.steps}>
+          <StepIndicator
+            customStyles={stepIndicatorStyles}
+            stepCount={3}
+            direction="vertical"
+            currentPosition={5}
+            renderStepIndicator={renderStepIndicator}
+            labels={data}
+          />
+        </View>
 
-      <Text
-        style={{
-          fontSize: 20,
-          alignSelf: "center",
-          fontWeight: "bold",
-          color: "#0D2A4E",
-          marginTop: 10,
-        }}
-      >
-        Steps to Cash
-      </Text>
-      <View style={welcome.steps}>
-        <StepIndicator
-          customStyles={stepIndicatorStyles}
-          stepCount={3}
-          direction="vertical"
-          currentPosition={5}
-          renderStepIndicator={renderStepIndicator}
-          labels={data}
-        />
-      </View>
-      
-      {/* <Checkbox
+        {/* <Checkbox
         text={"I agree to the Terms and Conditions."}
         value={consent}
         setValue={setConsent}
       /> */}
-      <View style={{ flexDirection: "row" }}>
-        <CheckBox
-          value={consent}
-          onValueChange={setConsent}
-          style={checkBox.checkBox}
-          tintColors={{ true: COLORS.primary }}
-        />
-        <Text style={checkBox.checkBoxText}>
-          I agree to the 
-          <Text
-            onPress={() => setIsTermsOfUseModalVisible(true)}
-            style={styles.termsText}
-          >
-            {" "} Terms and Conditions
+        <View style={{ flexDirection: "row" }}>
+          <CheckBox
+            value={consent}
+            onValueChange={setConsent}
+            style={checkBox.checkBox}
+            tintColors={{ true: COLORS.primary }}
+          />
+          <Text style={checkBox.checkBoxText}>
+            I agree to the
+            <Text
+              onPress={() => setIsTermsOfUseModalVisible(true)}
+              style={styles.termsText}
+            >
+              {" "}
+              Terms and Conditions
+            </Text>
+            .
           </Text>
-          .
-        </Text>
+        </View>
+        <PrimaryButton
+          title={loading ? "Processing" : "Continue"}
+          color={COLORS.primary}
+          uppercase={false}
+          disabled={loading || !consent || !validAmount}
+          onPress={() => {
+            handleAmount();
+          }}
+        />
       </View>
-      <PrimaryButton
-        title={loading ? "Processing" : "Continue"}
-        color={COLORS.primary}
-        uppercase={false}
-        disabled={loading || !consent || !validAmount}
-        onPress={() => {
-          handleAmount();
-        }}
-      />
-      <View style={bankform.padding}></View>
+
       <Modal
         isVisible={isTermsOfUseModalVisible}
         style={{
