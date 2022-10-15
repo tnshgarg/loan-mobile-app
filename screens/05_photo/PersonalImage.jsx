@@ -64,7 +64,8 @@ const PersonalImage = () => {
         title="Photo"
         onLeftIconPress={() => navigation.navigate("PersonalDetailsForm")}
       />
-        <ProgressBarTop step={1} />
+      <ProgressBarTop step={1} />
+      <View style={styles.container}>
         <ScrollView keyboardShouldPersistTaps="handled">
           <Text style={form.formHeader}>
             Upload your Passport size photo or capture your selfie.
@@ -117,7 +118,8 @@ const PersonalImage = () => {
               navigation.navigate("AadhaarForm");
             }}
           />
-      </ScrollView>
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
