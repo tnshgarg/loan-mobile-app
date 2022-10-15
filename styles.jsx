@@ -485,6 +485,10 @@ export const selfie = StyleSheet.create({
   },
   selfie: {
     alignSelf: "center",
+    width: "100%",
+    height: SIZES.width * 0.6,
+    borderRadius: 10,
+    marginTop: 20,
   },
 });
 

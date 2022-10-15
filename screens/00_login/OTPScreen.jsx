@@ -14,7 +14,7 @@ import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/PrimaryButton";
 import SVGImg from "../../assets/UnipeLogo.svg";
 import { styles } from "../../styles";
-import { COLORS } from "../../constants/Theme";
+import { COLORS, SIZES } from "../../constants/Theme";
 import FormInput from "../../components/atoms/FormInput";
 
 export default OTPScreen = () => {
