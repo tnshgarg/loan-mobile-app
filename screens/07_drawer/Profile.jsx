@@ -23,9 +23,8 @@ const Profile = () => {
         <DetailItem
           label="Full Name"
           value={fullName || "Not Provided"}
-          divider
         />
-        <DetailItem label="Email Id" value={email || "Not Provided"} divider />
+        <DetailItem label="Email Id" value={email || "Not Provided"} />
         <DetailItem label="Mobile Number" value={mobile || "Not Provided"} />
         <DetailItem
           label="Alternate Mobile Number"

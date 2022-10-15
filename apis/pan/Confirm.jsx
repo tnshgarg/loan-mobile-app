@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { Button } from "@react-native-material/core";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/panSlice";
 import { panBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
 import { COLORS } from "../../constants/Theme";
+import CollapsibleCard from "../../components/CollapsibleCard";
 import FuzzyCheck from "../../components/FuzzyCheck";
 
 const PanConfirmApi = (props) => {
@@ -47,16 +48,27 @@ const PanConfirmApi = (props) => {
     }
   }, [backendPush]);
 
+  const cardData = () => {
+    var res = [
+      { subTitle: "Number", value: number },
+      { subTitle: "Name", value: data?.name },
+      { subTitle: "Date of Birth", value: data?.date_of_birth },
+      { subTitle: "Gender", value: data?.gender },
+    ];
+    if(data["email"]) {
+      res.push({ subTitle: "Email", value: data?.email });
+    }
+    return res;
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={form.OtpAwaitMsg}>Are these your PAN details ?{"\n"}</Text>
-      <Text style={form.userData}>Number: {number}</Text>
-      <Text style={form.userData}>Name: {data["name"]}</Text>
-      <Text style={form.userData}>Date of Birth: {data["date_of_birth"]}</Text>
-      <Text style={form.userData}>Gender: {data["gender"]}</Text>
-      {data["email"] && (
-        <Text style={form.userData}>Email: {data["email"]}</Text>
-      )}
+
+      <CollapsibleCard
+        data={cardData()}
+        title="Are these your PAN details ?"
+        isClosed={false}
+      />
 
       <View
         style={{

@@ -78,7 +78,7 @@ export default WelcomePage = () => {
           stepCount={6}
           direction="vertical"
           renderStepIndicator={renderStepIndicator}
-          currentPosition={0}
+          currentPosition={-1}
           labels={data}
         />
       </View>

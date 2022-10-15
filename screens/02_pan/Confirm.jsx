@@ -7,7 +7,6 @@ import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import PanConfirmApi from "../../apis/pan/Confirm";
-import { COLORS } from "../../constants/Theme";
 import Header from "../../components/atoms/Header";
 
 export default PanConfirm = () => {

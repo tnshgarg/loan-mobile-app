@@ -44,6 +44,7 @@ const AadhaarVerifyTemplate = (props) => {
           keyboardType="numeric"
           placeholder={"******"}
           textAlign={"center"}
+          autoFocus={true}
         />
 
         <CountDown
