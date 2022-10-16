@@ -7,6 +7,7 @@ import { addVerifyMsg, addVerifyStatus } from "../../store/slices/bankSlice";
 import { bankBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
 import { COLORS } from "../../constants/Theme";
+import CollapsibleCard from "../../components/CollapsibleCard";
 import FuzzyCheck from "../../components/FuzzyCheck";
 
 const BankConfirmApi = (props) => {
@@ -45,18 +46,28 @@ const BankConfirmApi = (props) => {
     }
   }, [backendPush]);
 
+  const cardData = () => {
+    var res = [
+      { subTitle: "Bank Name", value: data?.bankName },
+      { subTitle: "Branch Name", value: data?.branchName },
+      { subTitle: "Branch City", value: data?.branchCity },
+      { subTitle: "AccountHolderName", value: data?.accountHolderName },
+      { subTitle: "AccountNumber", value: data?.accountNumber },
+      { subTitle: "IFSC", value: data?.ifsc },
+      { subTitle: "UPI", value: data?.upi },
+    ];
+    return res;
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={form.OtpAwaitMsg}>Are these your Bank details ?{"\n"}</Text>
-      <Text style={form.userData}>Bank Name: {data?.bankName}</Text>
-      <Text style={form.userData}>Branch Name: {data?.branchName}</Text>
-      <Text style={form.userData}>Branch City: {data?.branchCity}</Text>
-      <Text style={form.userData}>
-        AccountHolderName: {data?.accountHolderName}
-      </Text>
-      <Text style={form.userData}>AccountNumber: {data?.accountNumber}</Text>
-      <Text style={form.userData}>IFSC: {data?.ifsc}</Text>
-      <Text style={form.userData}>UPI: {data?.upi}</Text>
+
+      <CollapsibleCard
+        data={cardData()}
+        title="Are these your Bank details ?"
+        isClosed={false}
+      />
+
       <View
         style={{
           alignSelf: "center",

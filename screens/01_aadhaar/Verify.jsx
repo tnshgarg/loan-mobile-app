@@ -22,7 +22,7 @@ const AadhaarVerify = () => {
   }, []);
 
   useEffect(() => {
-    if (countDownTime < 2) {
+    if (countDownTime < 10) {
       setBackDisabled(false);
     }
   }, [countDownTime]);
