@@ -96,10 +96,12 @@ const EWA = () => {
             </Text>
           </View>
           <PrimaryButton
-            title={!fetched || parseInt(ewaLiveSlice?.eligibleAmount)<1000 ? "No Active Offer" : "Get Money Now"}
-            color={COLORS.primary}
-            uppercase={false}
-            disabled={!fetched || parseInt(ewaLiveSlice?.eligibleAmount)<1000}
+            title={
+              !fetched || parseInt(ewaLiveSlice?.eligibleAmount) < 1000
+                ? "No Active Offer"
+                : "Get Money Now"
+            }
+            disabled={!fetched || parseInt(ewaLiveSlice?.eligibleAmount) < 1000}
             onPress={() => {
               navigation.navigate("EWA_OFFER");
             }}

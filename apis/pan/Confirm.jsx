@@ -55,15 +55,14 @@ const PanConfirmApi = (props) => {
       { subTitle: "Date of Birth", value: data?.date_of_birth },
       { subTitle: "Gender", value: data?.gender },
     ];
-    if(data["email"]) {
+    if (data["email"]) {
       res.push({ subTitle: "Email", value: data?.email });
     }
     return res;
-  }
+  };
 
   return (
     <View style={styles.container}>
-
       <CollapsibleCard
         data={cardData()}
         title="Are these your PAN details ?"
@@ -72,10 +71,10 @@ const PanConfirmApi = (props) => {
 
       <View
         style={{
-          alignSelf: "center",
           flexDirection: "row",
           justifyContent: "space-between",
-          flex: 1,
+          alignItems: "center",
+          marginTop: 20,
         }}
       >
         <FuzzyCheck name={data["name"]} step="PAN" />

@@ -16,6 +16,7 @@ import SVGImg from "../../assets/UnipeLogo.svg";
 import { styles } from "../../styles";
 import { COLORS, SIZES } from "../../constants/Theme";
 import FormInput from "../../components/atoms/FormInput";
+import Header from "../../components/atoms/Header";
 
 export default OTPScreen = () => {
   const dispatch = useDispatch();
@@ -43,30 +44,19 @@ export default OTPScreen = () => {
 
   return (
     <SafeAreaView style={[styles.container, { padding: 0 }]}>
+      <Header
+        //title="Otp"
+        onLeftIconPress={() =>
+          back
+            ? navigation.navigate("Login")
+            : Alert.alert(
+                "OTP Timer",
+                "You must wait for 2 minutes to resend OTP."
+              )
+        }
+      />
       <KeyboardAvoidingWrapper>
-        <View style={styles.container}>
-          <View style={styles.otpback}>
-            {back ? (
-              <IconButton
-                icon={
-                  <Icon name="arrow-back" size={30} color={COLORS.primary} />
-                }
-                onPress={() => navigation.navigate("Login")}
-              />
-            ) : (
-              <IconButton
-                icon={
-                  <Icon name="arrow-back" size={30} color={COLORS.primary} />
-                }
-                onPress={() =>
-                  Alert.alert(
-                    "OTP Timer",
-                    "You must wait for 2 minutes to resend OTP."
-                  )
-                }
-              />
-            )}
-          </View>
+        <View style={[styles.container, { padding: 0 }]}>
           <SVGImg style={styles.logo} />
           <Text style={styles.headline}>
             {" "}
@@ -157,10 +147,7 @@ export default OTPScreen = () => {
             App
           </Text>
           <PrimaryButton
-            uppercase={false}
             title="Verify"
-            type="solid"
-            color={COLORS.primary}
             disabled={!next}
             onPress={() => {
               setNext(false);

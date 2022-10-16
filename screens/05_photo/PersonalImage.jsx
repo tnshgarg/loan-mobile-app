@@ -71,10 +71,13 @@ const PersonalImage = () => {
             Upload your Passport size photo or capture your selfie.
           </Text>
           {image ? (
-            <Image
-              source={{ uri: `data:image/jpeg;base64,${image}` }}
-              style={selfie.selfie}
-            />
+            <View style={selfie.selfieContainer}>
+              <Image
+                source={{ uri: `data:image/jpeg;base64,${image}` }}
+                style={[selfie.selfie, { width: "100%" }]}
+                resizeMode="cover"
+              />
+            </View>
           ) : (
             <View style={selfie.selfieContainer}>
               <Icon
@@ -101,9 +104,6 @@ const PersonalImage = () => {
           </View>
           <PrimaryButton
             title="Continue"
-            type="solid"
-            uppercase={false}
-            color={COLORS.primary}
             disabled={!next}
             onPress={() => {
               profileBackendPush({

@@ -30,9 +30,7 @@ import agreement from "../../../../templates/docs/LiquidLoansLoanAgreement";
 import { COLORS } from "../../../../constants/Theme";
 import Header from "../../../../components/atoms/Header";
 
-
 const Agreement = () => {
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { width } = useWindowDimensions();
@@ -259,8 +257,6 @@ const Agreement = () => {
         </View>
         <PrimaryButton
           title={loading ? "Booking" : "Finish"}
-          uppercase={false}
-          color="#2CB77C"
           onPress={() => {
             handleAgreement();
           }}

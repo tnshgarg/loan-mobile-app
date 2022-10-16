@@ -57,11 +57,10 @@ const BankConfirmApi = (props) => {
       { subTitle: "UPI", value: data?.upi },
     ];
     return res;
-  }
+  };
 
   return (
     <View style={styles.container}>
-
       <CollapsibleCard
         data={cardData()}
         title="Are these your Bank details ?"
@@ -70,10 +69,10 @@ const BankConfirmApi = (props) => {
 
       <View
         style={{
-          alignSelf: "center",
           flexDirection: "row",
           justifyContent: "space-between",
-          flex: 1,
+          alignItems: "center",
+          marginTop: 20,
         }}
       >
         <Button

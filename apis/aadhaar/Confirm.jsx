@@ -64,11 +64,10 @@ const AadhaarConfirmApi = (props) => {
       { subTitle: "Address", value: data?.address },
     ];
     return res;
-  }
+  };
 
   return (
     <View style={styles.container}>
-
       <CollapsibleCard
         data={cardData()}
         title="Are these your AADHAAR details ?"

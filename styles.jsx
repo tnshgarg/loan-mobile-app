@@ -96,10 +96,10 @@ export const styles = StyleSheet.create({
     color: COLORS.primary,
   },
   otpreadtxt: {
-    marginRight: 20,
     marginTop: 20,
     color: COLORS.gray,
     ...FONTS.h4,
+    textAlign: "center",
   },
   LoadingButton: {
     padding: 10,
@@ -208,16 +208,21 @@ export const form = StyleSheet.create({
     ...FONTS.body3,
   },
   yesButton: {
-    padding: 10,
-    width: SIZES.width / 2.3,
+    flex: 1,
     height: 50,
     backgroundColor: COLORS.primaryBackground,
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 10,
   },
   noButton: {
-    padding: 10,
-    width: SIZES.width / 2.3,
+    flex: 1,
+    width: SIZES.width / 2.5,
     height: 50,
     backgroundColor: COLORS.warningBackground,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
   },
   aadharimg: {
     alignSelf: "center",
@@ -485,10 +490,8 @@ export const selfie = StyleSheet.create({
   },
   selfie: {
     alignSelf: "center",
-    width: "100%",
-    height: SIZES.width * 0.6,
+    height: "100%",
     borderRadius: 10,
-    marginTop: 20,
   },
 });
 

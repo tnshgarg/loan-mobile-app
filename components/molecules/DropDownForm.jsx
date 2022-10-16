@@ -66,9 +66,6 @@ const DropDownForm = ({
         </ScrollView>
         <PrimaryButton
           title="Done"
-          type="solid"
-          uppercase={false}
-          color={COLORS.primary}
           disabled={!value}
           onPress={() => {
             setVisible(false);

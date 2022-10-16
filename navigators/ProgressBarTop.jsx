@@ -23,7 +23,7 @@ export default ProgressBarTop = (props) => {
       case 0: {
         stepStatus == "finished"
           ? aadhaarStatus == "SUCCESS"
-            ? (iconConfig.color = COLORS.primary)
+            ? (iconConfig.color = COLORS.warning)
             : (iconConfig.color = COLORS.white)
           : COLORS.gray;
         iconConfig.name = "file-document-outline";
@@ -32,7 +32,7 @@ export default ProgressBarTop = (props) => {
       case 1: {
         stepStatus == "finished"
           ? aadhaarStatus == "SUCCESS"
-            ? (iconConfig.color = COLORS.primary)
+            ? (iconConfig.color = COLORS.warning)
             : (iconConfig.color = COLORS.white)
           : COLORS.gray;
         iconConfig.name = "camera-outline";
@@ -41,7 +41,7 @@ export default ProgressBarTop = (props) => {
       case 2: {
         stepStatus == "finished"
           ? aadhaarStatus == "SUCCESS"
-            ? (iconConfig.color = COLORS.primary)
+            ? (iconConfig.color = COLORS.warning)
             : (iconConfig.color = COLORS.white)
           : COLORS.gray;
         iconConfig.name = "card-account-details-outline";
@@ -50,7 +50,7 @@ export default ProgressBarTop = (props) => {
       case 3: {
         stepStatus == "finished"
           ? panStatus == "SUCCESS"
-            ? (iconConfig.color = COLORS.primary)
+            ? (iconConfig.color = COLORS.warning)
             : (iconConfig.color = COLORS.white)
           : COLORS.gray;
         iconConfig.name = "smart-card-outline";
@@ -59,7 +59,7 @@ export default ProgressBarTop = (props) => {
       case 4: {
         stepStatus == "finished"
           ? bankStatus == "SUCCESS"
-            ? (iconConfig.color = COLORS.primary)
+            ? (iconConfig.color = COLORS.warning)
             : (iconConfig.color = COLORS.white)
           : COLORS.gray;
         iconConfig.name = "bank-outline";
@@ -68,7 +68,7 @@ export default ProgressBarTop = (props) => {
       case 5: {
         stepStatus == "finished"
           ? mandateStatus == "SUCCESS"
-            ? (iconConfig.color = COLORS.primary)
+            ? (iconConfig.color = COLORS.warning)
             : (iconConfig.color = COLORS.white)
           : COLORS.gray;
         iconConfig.name = "bank-check";

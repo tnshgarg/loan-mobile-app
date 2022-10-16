@@ -20,10 +20,7 @@ const Profile = () => {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <SafeAreaView style={[styles.container, { paddingVertical: 0 }]}>
-        <DetailItem
-          label="Full Name"
-          value={fullName || "Not Provided"}
-        />
+        <DetailItem label="Full Name" value={fullName || "Not Provided"} />
         <DetailItem label="Email Id" value={email || "Not Provided"} />
         <DetailItem label="Mobile Number" value={mobile || "Not Provided"} />
         <DetailItem
@@ -42,7 +39,7 @@ const Profile = () => {
           style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}
         >
           <PrimaryButton
-            style={{ marginTop: 20 }}
+            containerStyle={{ marginTop: 20 }}
             title="Update"
             onPress={() =>
               Alert.alert(

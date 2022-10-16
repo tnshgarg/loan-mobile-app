@@ -69,7 +69,9 @@ const Form = (props) => {
   const [backendPush, setBackendPush] = useState(false);
   const [orderId, setOrderId] = useState(mandateSlice?.orderId);
   const [customerId, setCustomerId] = useState(mandateSlice?.customerId);
-  const email = useSelector((state) => state.pan.data.email || state.profile.email);
+  const email = useSelector(
+    (state) => state.pan.data.email || state.profile.email
+  );
   const phoneNumber = useSelector((state) => state.auth.phoneNumber);
 
   useEffect(() => {
@@ -172,9 +174,7 @@ const Form = (props) => {
               setVerifyStatus("SUCCESS");
               setBackendPush(true);
               showToast("Mandate Verified Successfully");
-              props?.type == "Onboarding"
-                ? navigation.navigate("Home")
-                : null;
+              props?.type == "Onboarding" ? navigation.navigate("Home") : null;
             })
             .catch((err) => {
               console.log(err);
@@ -207,8 +207,6 @@ const Form = (props) => {
     return (
       <PrimaryButton
         title="Proceed"
-        color="#2CB77C"
-        uppercase={false}
         onPress={() => {
           setType(type);
           setVerifyStatus("PENDING");
@@ -247,8 +245,6 @@ const Form = (props) => {
     return (
       <PrimaryButton
         title="Proceed"
-        color="#2CB77C"
-        uppercase={false}
         onPress={() => {
           setType("UPI");
           setVerifyStatus("PENDING");

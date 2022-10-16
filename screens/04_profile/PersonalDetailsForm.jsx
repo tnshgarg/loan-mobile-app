@@ -19,7 +19,6 @@ import FormInput from "../../components/atoms/FormInput";
 import DropDownForm from "../../components/molecules/DropDownForm";
 import Header from "../../components/atoms/Header";
 
-
 const PersonalDetailsForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -129,9 +128,6 @@ const PersonalDetailsForm = () => {
             />
             <PrimaryButton
               title="Continue"
-              type="solid"
-              uppercase={false}
-              color={COLORS.primary}
               disabled={!next}
               onPress={() => {
                 navigation.navigate("PersonalImage");

@@ -151,6 +151,7 @@ export default LoginScreen = () => {
             value={phoneNumber}
             onChange={setPhoneNumber}
             autoFocus={true}
+            maxLength={10}
             prependComponent={
               <Text
                 style={{ ...FONTS.h4, color: COLORS.black, paddingRight: 10 }}
@@ -177,24 +178,12 @@ export default LoginScreen = () => {
               Privacy Policy
             </Text>
           </Text>
-          {!loading ? (
-            <>
-              <PrimaryButton
-                uppercase={false}
-                title="Continue"
-                type="solid"
-                color={COLORS.primary}
-                disabled={!next}
-                onPress={() => signIn()}
-              />
-            </>
-          ) : (
-            <TouchableOpacity>
-              <View style={styles.LoadingButton}>
-                <ActivityIndicator size="large" color="white" />
-              </View>
-            </TouchableOpacity>
-          )}
+          <PrimaryButton
+            title="Continue"
+            disabled={!next}
+            loading={loading}
+            onPress={() => signIn()}
+          />
         </View>
       </KeyboardAvoidingWrapper>
 
