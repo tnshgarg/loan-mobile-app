@@ -90,8 +90,10 @@ const AadhaarVerifyApi = (props) => {
           if (responseJson["status"] == "200") {
             switch (responseJson["data"]["code"]) {
               case "1002":
-                const names = ["house", "street", "locality", "district", "state", "pincode"];
-                responseJson["data"]["aadhaar_data"]["address"] = names.map(k => responseJson["data"]["aadhaar_data"][k]).join(", ");
+                const names = ["house", "street", "locality", "sub_district", "district", "state", "pincode"];
+                responseJson["data"]["aadhaar_data"]["address"] = names
+                  .filter(k => responseJson["data"]["aadhaar_data"][k])
+                  .map(k => responseJson["data"]["aadhaar_data"][k]).join(", ");
                 console.log("AADHAAR fetched data: ", responseJson);
                 setData(responseJson["data"]["aadhaar_data"]);
                 setVerifyMsg("OTP validated by User");
