@@ -1,10 +1,8 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import {
-  ActivityIndicator,
   Alert,
   Text,
-  TouchableOpacity,
   View,
   SafeAreaView,
   Dimensions,

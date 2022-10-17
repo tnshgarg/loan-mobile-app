@@ -9,7 +9,6 @@ import { bankform, checkBox, form, styles } from "../../styles";
 
 import PanVerifyApi from "../../apis/pan/Verify";
 import { addNumber } from "../../store/slices/panSlice";
-import { COLORS } from "../../constants/Theme";
 import InfoCard from "../../components/atoms/InfoCard";
 import FormInput from "../../components/atoms/FormInput";
 import Checkbox from "../../components/atoms/Checkbox";

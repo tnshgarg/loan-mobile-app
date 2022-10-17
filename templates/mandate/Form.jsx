@@ -302,7 +302,7 @@ const Form = (props) => {
             required
           />
 
-          <CollapsibleCard
+          {/* <CollapsibleCard
             title="Net Banking "
             TitleIcon={netIcon}
             isClosed={true}
@@ -313,7 +313,7 @@ const Form = (props) => {
             TitleIcon={upiIcon}
             isClosed={true}
             Component={Upibutton}
-          />
+          /> */}
           <CollapsibleCard
             title="Debit Card "
             TitleIcon={debitIcon}
