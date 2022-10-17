@@ -26,6 +26,7 @@ import { WebView } from "react-native-webview";
 import TnC from "../../../../templates/docs/EWATnC.js";
 import { AntDesign } from "react-native-vector-icons";
 import { COLORS } from "../../../../constants/Theme";
+import { STAGE } from "@env";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -62,6 +63,19 @@ const Offer = () => {
       setFetched(true);
     }
   }, [deviceId, ipAddress]);
+
+  useEffect(() => {
+    if (parseInt(amount) <= eligibleAmount) {
+      if ((STAGE!=="prod") || (STAGE==="prod" && parseInt(amount) > 999)) {
+        setValidAmount(true);
+        dispatch(addLoanAmount(parseInt(amount)));
+      } else {
+        setValidAmount("false");
+      }
+    } else {
+      setValidAmount("false");
+    }
+  }, [amount]);
 
   useEffect(() => {
     if (fetched) {
@@ -106,15 +120,6 @@ const Offer = () => {
         });
     }
   }
-
-  useEffect(() => {
-    if (parseInt(amount) > 999 && parseInt(amount) <= eligibleAmount) {
-      setValidAmount(true);
-      dispatch(addLoanAmount(parseInt(amount)));
-    } else {
-      setValidAmount(false);
-    }
-  }, [amount]);
 
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {

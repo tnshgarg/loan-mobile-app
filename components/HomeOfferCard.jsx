@@ -1,6 +1,6 @@
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView, Text, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS, FONTS } from "../constants/Theme";
 import { getBackendData } from "../services/employees/employeeServices";
@@ -36,7 +36,7 @@ const HomeOfferCard = () => {
       <TouchableOpacity
         activeOpacity={0.8}
         style={{
-          backgroundColor: "rgba(0,200,0,0.3)",
+          backgroundColor: "rgba(0,200,0,0.1)",
           borderWidth: 1,
           borderColor: "green",
           height: "auto",
