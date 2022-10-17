@@ -59,28 +59,6 @@ export default OTPScreen = () => {
       />
       <KeyboardAvoidingWrapper>
         <View style={styles.container}>
-          <View style={styles.otpback}>
-            {back ? (
-              <IconButton
-                icon={
-                  <Icon name="arrow-back" size={30} color={COLORS.primary} />
-                }
-                onPress={() => navigation.navigate("Login")}
-              />
-            ) : (
-              <IconButton
-                icon={
-                  <Icon name="arrow-back" size={30} color={COLORS.primary} />
-                }
-                onPress={() => {
-                  Alert.alert(
-                    "OTP Timer",
-                    "You must wait for 2 minutes to resend OTP."
-                  );
-                }}
-              />
-            )}
-          </View>
           <SVGImg style={styles.logo} />
           <Text style={styles.headline}>
             {" "}

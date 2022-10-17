@@ -1,39 +1,34 @@
 import { useNavigation } from "@react-navigation/core";
+import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import {
-  Alert,
-  Text,
-  View,
-  SafeAreaView,
-  Dimensions,
-  Pressable,
+  Alert, Dimensions,
+  Pressable, SafeAreaView, Text,
+  View
 } from "react-native";
+import Modal from "react-native-modal";
 import SmsRetriever from "react-native-sms-retriever";
-import { useDispatch, useSelector } from "react-redux";
-import PrimaryButton from "../../components/PrimaryButton";
 import SplashScreen from "react-native-splash-screen";
+import { AntDesign } from "react-native-vector-icons";
+import { WebView } from "react-native-webview";
+import { useDispatch, useSelector } from "react-redux";
+import SVGImg from "../../assets/UnipeLogo.svg";
+import FormInput from "../../components/atoms/FormInput";
+import PrimaryButton from "../../components/PrimaryButton";
+import { COLORS, FONTS } from "../../constants/Theme";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { putBackendData } from "../../services/employees/employeeServices";
 import { sendSmsVerification } from "../../services/otp/Gupshup/services";
 import {
   addId,
   addOnboarded,
-  addPhoneNumber,
+  addPhoneNumber
 } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
-import Modal from "react-native-modal";
-import { COLORS, FONTS } from "../../constants/Theme";
-import SVGImg from "../../assets/UnipeLogo.svg";
-import FormInput from "../../components/atoms/FormInput";
-import { WebView } from "react-native-webview";
 import privacyPolicy from "../../templates/docs/PrivacyPolicy.js";
 import termsOfUse from "../../templates/docs/TermsOfUse.js";
-import { AntDesign } from "react-native-vector-icons";
-import { COLORS } from "../../constants/Theme";
-import SVGImg from "../../assets/UnipeLogo.svg";
-import Analytics from "appcenter-analytics";
 
 export default LoginScreen = () => {
   SplashScreen.hide();
