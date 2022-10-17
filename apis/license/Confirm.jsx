@@ -7,7 +7,6 @@ import { addVerifyMsg, addVerifyStatus } from "../../store/slices/licenseSlice";
 import { licenseBackendPush } from "../../helpers/BackendPush";
 import { form, license, styles, selfie } from "../../styles";
 import { COLORS } from "../../constants/Theme";
-import { useSelector } from "react-redux";
 import Analytics from 'appcenter-analytics';
 
 export default Confirm = () => {

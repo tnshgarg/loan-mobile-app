@@ -26,7 +26,7 @@ const PersonalDetailsForm = () => {
   const navigation = useNavigation();
 
   const [next, setNext] = useState(false);
-
+  const id = useSelector((state) => state.auth.id);
   const profileSlice = useSelector((state) => state.profile);
   const [maritalStatus, setMaritalStatus] = useState(
     profileSlice?.maritalStatus
@@ -142,7 +142,7 @@ const PersonalDetailsForm = () => {
               disabled={!next}
               onPress={() => {
                 Analytics.trackEvent("Personal Details Form", {
-                  userId: useSelector((state) => state.auth.id),
+                  userId: id,
                 });
                 navigation.navigate("PersonalImage");
               }}

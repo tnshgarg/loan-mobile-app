@@ -107,7 +107,7 @@ const PersonalImage = () => {
             disabled={!next}
             onPress={() => {
               Analytics.trackEvent("Personal Image + Details Completion", {
-                userId: useSelector((state) => state.auth.id),
+                userId: id,
               });
               profileBackendPush({
                 id: id,
