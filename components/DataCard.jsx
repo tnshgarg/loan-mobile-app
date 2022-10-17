@@ -74,11 +74,9 @@ const OfferCard = ({ offer }) => {
 const Offers = (props) => {
   return (
     <ScrollView style={{paddingRight: "7%", height: "63%", marginTop: "1.5%", borderWidth: 2, borderStyle: 'solid', borderColor: '#597E8D'}}>
-      {/* <View contentContainerStyle={{borderTopWidth: 10, borderStyle: 'solid', borderColor: '#597E8D'}}> */}
         {props.data.map((offer, index) => (
           <OfferCard offer={offer} key={index} />
         ))}
-      {/* </View> */}
     </ScrollView>
   );
 };
