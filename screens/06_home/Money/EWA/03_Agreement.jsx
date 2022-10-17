@@ -21,7 +21,9 @@ import { ewaAgreementPush } from "../../../../helpers/BackendPush";
 import {
   addNetAmount,
   addProcessingFees,
+  resetEwaLive
 } from "../../../../store/slices/ewaLiveSlice";
+import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import { checkBox, ewa, styles } from "../../../../styles";
 import Modal from "react-native-modal";
 import { AntDesign } from "react-native-vector-icons";
@@ -193,6 +195,8 @@ const Agreement = () => {
       .then((response) => {
         console.log("ewaAgreementPush response.data: ", response.data);
         navigation.navigate("EWA_DISBURSEMENT", { offer: ewaLiveSlice });
+        dispatch(resetEwaLive());
+        dispatch(resetEwaHistorical([]));
         setLoading(false);
       })
       .catch((error) => {
