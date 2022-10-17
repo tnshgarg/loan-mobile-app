@@ -21,7 +21,7 @@ export default WelcomePage = () => {
 
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
-      color: stepStatus === "finished" ? COLORS.white : COLORS.primary,
+      color: stepStatus === "finished" ? COLORS.white : COLORS.primaryPending,
       size: 15,
     };
     switch (position) {

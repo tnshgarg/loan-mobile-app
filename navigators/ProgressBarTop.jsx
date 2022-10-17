@@ -22,55 +22,51 @@ export default ProgressBarTop = (props) => {
     switch (position) {
       case 0: {
         stepStatus == "finished"
-          ? aadhaarStatus == "SUCCESS"
-            ? (iconConfig.color = COLORS.warning)
-            : (iconConfig.color = COLORS.white)
-          : COLORS.gray;
+          ? iconConfig.color = COLORS.white
+          : iconConfig.color = COLORS.primaryPending;
         iconConfig.name = "file-document-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
       case 1: {
         stepStatus == "finished"
-          ? aadhaarStatus == "SUCCESS"
-            ? (iconConfig.color = COLORS.warning)
-            : (iconConfig.color = COLORS.white)
-          : COLORS.gray;
+          ? iconConfig.color = COLORS.white
+          : iconConfig.color = COLORS.primaryPending;
         iconConfig.name = "camera-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
       case 2: {
         stepStatus == "finished"
           ? aadhaarStatus == "SUCCESS"
-            ? (iconConfig.color = COLORS.warning)
-            : (iconConfig.color = COLORS.white)
-          : COLORS.gray;
+            ? (iconConfig.color = COLORS.white)
+            : (iconConfig.color = COLORS.warning)
+          : iconConfig.color = COLORS.primaryPending;
         iconConfig.name = "card-account-details-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
       case 3: {
         stepStatus == "finished"
           ? panStatus == "SUCCESS"
-            ? (iconConfig.color = COLORS.warning)
-            : (iconConfig.color = COLORS.white)
-          : COLORS.gray;
+            ? (iconConfig.color = COLORS.white)
+            : (iconConfig.color = COLORS.warning)
+          : iconConfig.color = COLORS.primaryPending;
         iconConfig.name = "smart-card-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
       case 4: {
         stepStatus == "finished"
           ? bankStatus == "SUCCESS"
-            ? (iconConfig.color = COLORS.warning)
-            : (iconConfig.color = COLORS.white)
-          : COLORS.gray;
+            ? (iconConfig.color = COLORS.white)
+            : (iconConfig.color = COLORS.warning)
+          : iconConfig.color = COLORS.primaryPending;
         iconConfig.name = "bank-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
       case 5: {
         stepStatus == "finished"
           ? mandateStatus == "SUCCESS"
-            ? (iconConfig.color = COLORS.warning)
-            : (iconConfig.color = COLORS.white)
-          : COLORS.gray;
+            ? (iconConfig.color = COLORS.white)
+            : (iconConfig.color = COLORS.warning)
+          : iconConfig.color = COLORS.primaryPending;
         iconConfig.name = "bank-check";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
