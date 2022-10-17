@@ -37,6 +37,7 @@ const EWA = () => {
   const ewaHistoricalSlice = useSelector((state) => state.ewaHistorical);
 
   useEffect(() => {
+    console.log(fetched, STAGE, ewaLiveSlice);
     if (fetched) {
       if ((STAGE !== "prod") || (STAGE === "prod" && parseInt(ewaLiveSlice?.eligibleAmount)>=1000)) {
         setEligible(true);
@@ -110,10 +111,10 @@ const EWA = () => {
             </Text>
           </View>
           <PrimaryButton
-            title={eligible ? "No Active Offer" : "Get Money Now"}
+            title={!eligible ? "No Active Offer" : "Get Money Now"}
             color={COLORS.primary}
             uppercase={false}
-            disabled={eligible}
+            disabled={!eligible}
             onPress={() => {
               navigation.navigate("EWA_OFFER");
             }}

@@ -95,12 +95,7 @@ const Agreement = () => {
 
   useEffect(() => {
     setProcessingFees(
-      Math.round(
-        ((ewaLiveSlice?.loanAmount * ewaLiveSlice?.fees) / 100 + 1) / 10
-      ) *
-        10 -
-        1
-    );
+      Math.round(((((ewaLiveSlice?.loanAmount * ewaLiveSlice?.fees) / 100) + 1) / 10) * 10) - 1);
   }, [ewaLiveSlice]);
 
   useEffect(() => {
