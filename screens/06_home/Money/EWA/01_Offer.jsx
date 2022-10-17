@@ -66,7 +66,7 @@ const Offer = () => {
 
   useEffect(() => {
     if (parseInt(amount) <= eligibleAmount) {
-      if ((STAGE!=="prod") || (STAGE==="prod" && parseInt(amount) > 999)) {
+      if (STAGE !== "prod" || (STAGE === "prod" && parseInt(amount) > 999)) {
         setValidAmount(true);
         dispatch(addLoanAmount(parseInt(amount)));
       } else {
@@ -167,35 +167,36 @@ const Offer = () => {
         onLeftIconPress={() => navigation.navigate("Home")}
       />
       <View style={styles.container}>
-        <View
-          style={{
-            flexDirection: "row",
-            width: "50%",
-            paddingBottom: 10,
-            alignSelf: "center",
-          }}
-        >
-          <Icon
-            name="currency-inr"
-            color="green"
-            size={32}
-            style={{ marginTop: 8, marginRight: 10 }}
-          />
-          <TextInput
+        <View style={{ flexDirection: "column" }}>
+          <View
             style={{
-              flex: 1,
-              fontSize: 32,
-              color: "green",
-              borderWidth: 1,
-              width: 5,
+              flexDirection: "row",
+              width: "50%",
+              paddingBottom: 10,
+              alignSelf: "center",
             }}
-            keyboardType="numeric"
-            textAlign={"center"}
-            value={amount}
-            onChangeText={setAmount}
-            isFocused={true}
-          />
+          >
+            <Icon
+              name="currency-inr"
+              color="green"
+              size={32}
+              style={{ marginTop: 8, marginRight: 10 }}
+            />
 
+            <TextInput
+              style={{
+                fontSize: 32,
+                color: "green",
+                borderWidth: 1,
+                width: "60%",
+              }}
+              keyboardType="numeric"
+              textAlign={"center"}
+              value={amount}
+              onChangeText={setAmount}
+              isFocused={true}
+            />
+          </View>
           <Text
             style={{
               fontSize: 14,

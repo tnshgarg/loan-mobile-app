@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/core";
-import { Image, SafeAreaView, Text } from "react-native";
+import { Image, SafeAreaView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -87,28 +87,29 @@ const KYC = () => {
         title="KYC"
         onLeftIconPress={() => navigation.navigate("EWA_OFFER")}
       />
-      <Text style={form.OtpAwaitMsg}>
-        Are these your AADHAAR details ?{"\n"}
-      </Text>
-      <Image
-        source={{
-          uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
-        }}
-        style={form.aadharimg}
-      />
-      <Text style={form.userData}>Number: {number}</Text>
-      <Text style={form.userData}>Name: {data.name}</Text>
-      <Text style={form.userData}>Date of Birth: {data.date_of_birth}</Text>
-      <Text style={form.userData}>Gender: {data.gender}</Text>
-      <Text style={form.userData}>Address: {data.address}</Text>
-
-      <PrimaryButton
-        title={loading ? "Verifying" : "Continue"}
-        disabled={loading}
-        onPress={() => {
-          handleKyc();
-        }}
-      />
+      <View style={styles.container}>
+        <Text style={form.OtpAwaitMsg}>
+          Are these your AADHAAR details ?{"\n"}
+        </Text>
+        <Image
+          source={{
+            uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
+          }}
+          style={form.aadharimg}
+        />
+        <Text style={form.userData}>Number: {number}</Text>
+        <Text style={form.userData}>Name: {data.name}</Text>
+        <Text style={form.userData}>Date of Birth: {data.date_of_birth}</Text>
+        <Text style={form.userData}>Gender: {data.gender}</Text>
+        <Text style={form.userData}>Address: {data.address}</Text>
+        <PrimaryButton
+          title={loading ? "Verifying" : "Continue"}
+          disabled={loading}
+          onPress={() => {
+            handleKyc();
+          }}
+        />
+      </View>
     </SafeAreaView>
   );
 };

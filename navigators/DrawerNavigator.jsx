@@ -27,11 +27,10 @@ const DrawerNavigator = () => {
         drawerActiveTintColor: "white",
         header: ({ navigation }) => (
           <AppBar
-            // title={
-            //   <SVGImg
-            //     style={nav.titleLogo}
-            //   />
-            // }
+            title={
+              <SVGImg
+              />
+            }
             centerTitle={true}
             contentContainerStyle={nav.navbar}
             color="#ffffff"

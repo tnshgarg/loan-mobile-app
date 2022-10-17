@@ -211,6 +211,7 @@ const Agreement = () => {
     <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <Header title="Agreement" onLeftIconPress={() => navigation.goBack()} />
       <ScrollView>
+      <View style={styles.container}>
         <CollapsibleCard
           data={data}
           title="Loan Details"
@@ -266,6 +267,7 @@ const Agreement = () => {
           * Disbursement will be reconciled in your next payroll {"\n"}* Annual
           Percentage Rate @ {apr} %
         </Text>
+        </View>
       </ScrollView>
       <Modal
         isVisible={isModalVisible}

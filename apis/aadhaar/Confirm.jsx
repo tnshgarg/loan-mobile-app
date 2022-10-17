@@ -94,7 +94,10 @@ const AadhaarConfirmApi = (props) => {
           type="solid"
           uppercase={false}
           style={form.noButton}
+          color={COLORS.warning}
           titleStyle={{ ...FONTS.h3, color: COLORS.warning }}
+          pressableContainerStyle={{ width: "100%" }}
+          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
@@ -116,7 +119,10 @@ const AadhaarConfirmApi = (props) => {
           type="solid"
           uppercase={false}
           style={form.yesButton}
+          color={COLORS.primary}
           titleStyle={{ ...FONTS.h3, color: COLORS.primary }}
+          pressableContainerStyle={{ width: "100%" }}
+          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");

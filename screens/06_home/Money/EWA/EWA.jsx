@@ -39,7 +39,10 @@ const EWA = () => {
   useEffect(() => {
     console.log(fetched, STAGE, ewaLiveSlice);
     if (fetched) {
-      if ((STAGE !== "prod") || (STAGE === "prod" && parseInt(ewaLiveSlice?.eligibleAmount)>=1000)) {
+      if (
+        STAGE !== "prod" ||
+        (STAGE === "prod" && parseInt(ewaLiveSlice?.eligibleAmount) >= 1000)
+      ) {
         setEligible(true);
       } else {
         setEligible(false);
@@ -47,7 +50,7 @@ const EWA = () => {
     } else {
       setEligible(false);
     }
-  }, [ewaLiveSlice, fetched])
+  }, [ewaLiveSlice, fetched]);
 
   useEffect(() => {
     console.log("ewaLiveSlice: ", ewaLiveSlice);
@@ -75,7 +78,7 @@ const EWA = () => {
   }, [isFocused, id]);
 
   return (
-    <SafeAreaView style={[styles.container]}>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       {aadhaarVerifyStatus === "SUCCESS" &&
       panVerifyStatus === "SUCCESS" &&
       bankVerifyStatus === "SUCCESS" &&
@@ -110,13 +113,16 @@ const EWA = () => {
               ₹ {ewaLiveSlice?.eligibleAmount}
             </Text>
           </View>
-          <PrimaryButton
-            title={!eligible ? "No Active Offer" : "Get Money Now"}
-            disabled={!eligible}
-            onPress={() => {
-              navigation.navigate("EWA_OFFER");
-            }}
-          />
+          <View style={{marginHorizontal:"10%"}}>
+            <PrimaryButton
+              title={!eligible ? "No Active Offer" : "Get Money Now"}
+              disabled={!eligible}
+              onPress={() => {
+                navigation.navigate("EWA_OFFER");
+              }}
+            />
+          </View>
+
           <View
             style={{
               marginHorizontal: 20,
