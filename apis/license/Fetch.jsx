@@ -11,6 +11,7 @@ import {
 import { licenseBackendPush } from "../../helpers/BackendPush";
 import ApiView from "../ApiView";
 import { OG_API_TEST_KEY } from "@env";
+import Analytics from 'appcenter-analytics';
 
 export default Fetch = (props) => {
   const dispatch = useDispatch();
@@ -80,6 +81,7 @@ export default Fetch = (props) => {
             switch (responseJson["data"]["code"]) {
               case "1000":
                 setData(responseJson["data"]["driving_license_data"]);
+                Analytics.trackEvent('LicenseInfo Fetched', { Category: 'Onboarding', userId: id});
                 setVerifyMsg("To be confirmed by User");
                 setVerifyStatus("PENDING");
                 setVerifyTimestamp(responseJson["timestamp"]);
@@ -94,6 +96,7 @@ export default Fetch = (props) => {
 
               case "1001":
                 setVerifyMsg(responseJson["data"]["message"]);
+                Analytics.trackEvent('LicenseInfo not Fetched', { Category: 'Onboarding', userId: id, error:responseJson["data"]["message"]});
                 setVerifyStatus("ERROR");
                 setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
@@ -101,16 +104,19 @@ export default Fetch = (props) => {
             }
           } else if (responseJson["error"]) {
             setVerifyMsg(responseJson["error"]["message"]);
+            Analytics.trackEvent('LicenseInfo not Fetched', { Category: 'Onboarding', userId: id, error:responseJson["error"]["message"]});
             setVerifyStatus("ERROR");
             setBackendPush(true);
             Alert.alert("Error", responseJson["error"]["message"]);
           } else {
             Alert.alert("Error", responseJson["message"]);
+            Analytics.trackEvent('LicenseInfo not Fetched', { Category: 'Onboarding', userId: id, error:responseJson["message"]});
             setVerifyMsg(responseJson["message"]);
             setVerifyStatus("ERROR");
           }
         } catch (error) {
           console.log("Error: ", error);
+          Analytics.trackEvent('LicenseInfo not Fetched', { Category: 'Onboarding', userId: id, error:error});
           setVerifyMsg(error);
           setVerifyStatus("ERROR");
           setBackendPush(true);
@@ -119,6 +125,7 @@ export default Fetch = (props) => {
       })
       .catch((error) => {
         Alert.alert("Error", error);
+        Analytics.trackEvent('LicenseInfo not Fetched', { Category: 'Onboarding', userId: id, error:error});
         console.log("Error: ", error);
         setVerifyMsg(error);
         setVerifyStatus("ERROR");

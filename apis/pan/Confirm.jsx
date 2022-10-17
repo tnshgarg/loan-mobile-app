@@ -8,6 +8,7 @@ import { panBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
 import { COLORS } from "../../constants/Theme";
 import FuzzyCheck from "../../components/FuzzyCheck";
+import Analytics from 'appcenter-analytics';
 
 const PanConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -76,6 +77,7 @@ const PanConfirmApi = (props) => {
           onPress={() => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
+            Analytics.trackEvent('PanInfo unConfirmed', { Category: 'Onboarding', userId: id, error:"Rejected by User" });
             setBackendPush(true);
             {
               props?.route?.params?.type == "KYC"
@@ -94,6 +96,7 @@ const PanConfirmApi = (props) => {
           color={COLORS.primary}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
+            Analytics.trackEvent('PanInfo Confirmed', { Category: 'Onboarding', userId: id});
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
             {

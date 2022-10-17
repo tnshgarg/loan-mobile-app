@@ -31,6 +31,7 @@ import {
 } from "../../services/mandate/Razorpay/services";
 import { RZP_TEST_KEY_ID } from "@env";
 import { COLORS } from "../../constants/Theme";
+import Analytics from 'appcenter-analytics';
 
 const Form = (props) => {
   const navigation = useNavigation();
@@ -130,8 +131,10 @@ const Form = (props) => {
         .then((res) => {
           console.log("createCustomer", res.data);
           setCustomerId(res.data.id);
+          Analytics.trackEvent('Mandate Customer Created', { Category: 'Onboarding', userId: employeeId});
         })
         .catch(function (error) {
+          Analytics.trackEvent('Mandate Customer Creation failed', { Category: 'Onboarding', userId: employeeId, error: error });
           console.log(error);
         });
     }
@@ -170,19 +173,22 @@ const Form = (props) => {
               setVerifyMsg("");
               setVerifyStatus("SUCCESS");
               setBackendPush(true);
+              Analytics.trackEvent('Mandate token retrieved', { Category: 'Onboarding', userId: employeeId});
               showToast("Mandate Verified Successfully");
               props?.type == "Onboarding"
                 ? navigation.navigate("Home")
                 : null;
             })
-            .catch((err) => {
-              console.log(err);
+            .catch((error) => {
+              console.log(error);
+              Analytics.trackEvent('Mandate token retrieval failed', { Category: 'Onboarding', userId: employeeId, error: error.description });
             });
         })
         .catch((error) => {
           console.log(error);
           alert(`Error: ${error.code} | ${error.description}`);
           setVerifyMsg(error.description);
+          Analytics.trackEvent('Mandate Registration failed', { Category: 'Onboarding', userId: employeeId, error: error.description });
           setVerifyStatus("ERROR");
           setBackendPush(true);
           setOrderId("");
@@ -213,6 +219,7 @@ const Form = (props) => {
           setVerifyStatus("PENDING");
           setVerifyMsg("To be confirmed by user");
           setTimestamp(Date.now());
+          Analytics.trackEvent(`${type} Mandate Initiated`, { Category: 'Onboarding', userId: employeeId});
           setBackendPush(true);
           let func = 0;
           type === "NETBANKING"
@@ -252,6 +259,7 @@ const Form = (props) => {
           setType("UPI");
           setVerifyStatus("PENDING");
           setVerifyMsg("To be confirmed by user");
+          Analytics.trackEvent('UPI Mandate Initiated', { Category: 'Onboarding', userId: employeeId});
           setTimestamp(Date.now());
           setBackendPush(true);
           createUpiOrder({ customerId: customerId })

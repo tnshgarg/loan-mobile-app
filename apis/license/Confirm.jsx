@@ -7,6 +7,8 @@ import { addVerifyMsg, addVerifyStatus } from "../../store/slices/licenseSlice";
 import { licenseBackendPush } from "../../helpers/BackendPush";
 import { form, license, styles, selfie } from "../../styles";
 import { COLORS } from "../../constants/Theme";
+import { useSelector } from "react-redux";
+import Analytics from 'appcenter-analytics';
 
 export default Confirm = () => {
   const dispatch = useDispatch();
@@ -131,6 +133,7 @@ export default Confirm = () => {
           color={COLORS.warning}
           onPress={() => {
             setVerifyMsg("Rejected by User");
+            Analytics.trackEvent('LicenseInfo unConfirmed', { Category: 'Onboarding', userId: id, error:"Rejected by User" });
             navigation.navigate("Documents", {
               screen: "Driving License",
               params: {
@@ -147,6 +150,7 @@ export default Confirm = () => {
           color={COLORS.primary}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
+            Analytics.trackEvent('LicenseInfo Confirmed', { Category: 'Onboarding', userId: id});
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
             navigation.navigate("Documents", {

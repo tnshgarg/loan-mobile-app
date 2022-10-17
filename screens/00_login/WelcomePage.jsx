@@ -9,6 +9,7 @@ import { COLORS } from "../../constants/Theme";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { stepIndicatorStyles, styles, welcome } from "../../styles";
 import SVGImg from "../../assets/UnipeLogo.svg";
+import Analytics from 'appcenter-analytics';
 
 export default WelcomePage = () => {
   const dispatch = useDispatch();
@@ -88,6 +89,7 @@ export default WelcomePage = () => {
           color="#2CB77C"
           uppercase={false}
           onPress={() => {
+            Analytics.trackEvent('Welcome Screen', { Category: 'Onboarding', userId: id});
             navigation.navigate("PersonalDetailsForm");
           }}
         />

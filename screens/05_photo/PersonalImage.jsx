@@ -12,6 +12,7 @@ import { profileBackendPush } from "../../helpers/BackendPush";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { addPhoto } from "../../store/slices/profileSlice";
 import { checkBox, form, selfie, styles } from "../../styles";
+import Analytics from "appcenter-analytics";
 
 const PersonalImage = () => {
   const dispatch = useDispatch();
@@ -105,6 +106,9 @@ const PersonalImage = () => {
             color={COLORS.primary}
             disabled={!next}
             onPress={() => {
+              Analytics.trackEvent("Personal Image + Details Completion", {
+                userId: useSelector((state) => state.auth.id),
+              });
               profileBackendPush({
                 id: id,
                 maritalStatus: profileSlice?.maritalStatus,

@@ -19,7 +19,7 @@ import PrimaryButton from "../../components/PrimaryButton";
 import { COLORS } from "../../constants/Theme";
 import FormInput from "../../components/atoms/FormInput";
 import DropDownForm from "../../components/molecules/DropDownForm";
-
+import Analytics from "appcenter-analytics";
 
 const PersonalDetailsForm = () => {
   const dispatch = useDispatch();
@@ -141,6 +141,9 @@ const PersonalDetailsForm = () => {
               color={COLORS.primary}
               disabled={!next}
               onPress={() => {
+                Analytics.trackEvent("Personal Details Form", {
+                  userId: useSelector((state) => state.auth.id),
+                });
                 navigation.navigate("PersonalImage");
               }}
             />

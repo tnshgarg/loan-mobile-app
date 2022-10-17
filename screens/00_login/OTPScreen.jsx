@@ -20,6 +20,7 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/PrimaryButton";
 import SVGImg from '../../assets/UnipeLogo.svg';
+import Analytics from 'appcenter-analytics';
 import { styles } from "../../styles";
 import { COLORS } from "../../constants/Theme";
 
@@ -31,6 +32,7 @@ export default OTPScreen = () => {
   const [next, setNext] = useState(false);
   const [back, setBack] = useState(false);
 
+  const id = useSelector((state) => state.auth.id);
   const countDownTime = useSelector((state) => state.timer.login);
   const phoneNumber = useSelector((state) => state.auth.phoneNumber);
   const onboarded = useSelector((state) => state.auth.onboarded);
@@ -64,12 +66,13 @@ export default OTPScreen = () => {
                 icon={
                   <Icon name="arrow-back" size={30} color={COLORS.primary} />
                 }
-                onPress={() =>
+                onPress={() =>{
+                  Analytics.trackEvent('User tried to resend otp early', { Category: 'Onboarding', userId: id})
                   Alert.alert(
                     "OTP Timer",
                     "You must wait for 2 minutes to resend OTP."
                   )
-                }
+                }}
               />
             )}
           </View>
@@ -135,8 +138,10 @@ export default OTPScreen = () => {
                       setOtp("");
                       setBack(false);
                       dispatch(resetTimer());
+                      Analytics.trackEvent('Otp resent successfully', { Category: 'Onboarding', userId: id})
                       Alert.alert("OTP resent successfully");
                     } else {
+                      Analytics.trackEvent('Otp not resent', { Category: 'Onboarding', userId: id , error: result["response"]["details"]});
                       Alert.alert(
                         res["response"]["status"],
                         res["response"]["details"]
@@ -145,6 +150,7 @@ export default OTPScreen = () => {
                   })
                   .catch((error) => {
                     console.log(error);
+                    Analytics.trackEvent('Otp not resent', { Category: 'Onboarding', userId: id , error: error});
                     Alert.alert("Error", error);
                   });
               }}
@@ -168,17 +174,21 @@ export default OTPScreen = () => {
               checkVerification(phoneNumber, otp)
                 .then((res) => {
                   if (res["response"]["status"] === "success") {
+                    Analytics.trackEvent('Otp verified successfully', { Category: 'Onboarding', userId: id})
                     if (onboarded) {
+                      Analytics.trackEvent('User Already Onboarded', { Category: 'Onboarding', userId: id})
                       navigation.navigate("BackendSync", {
                         destination: "Home",
                       });
                     } else {
+                      Analytics.trackEvent('User Starts Onboarding', { Category: 'Onboarding', userId: id})
                       navigation.navigate("BackendSync", {
                         destination: "Welcome",
                       });
                     }
                     dispatch(resetTimer());
                   } else {
+                    Analytics.trackEvent('Otp Incorrect', { Category: 'Onboarding', userId: id , error: result["response"]["details"]});
                     Alert.alert(
                       res["response"]["status"],
                       res["response"]["details"]
@@ -187,6 +197,7 @@ export default OTPScreen = () => {
                 })
                 .catch((error) => {
                   console.log(error);
+                  Analytics.trackEvent('Otp not resent', { Category: 'Onboarding', userId: id , error: error});
                   Alert.alert("Error", error);
                 });
             }}
