@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import messaging from "@react-native-firebase/messaging";
-import notifee from "@notifee/react-native";
+import axios from "axios";
+import { store } from "../../store/store";
 
 export async function requestUserPermission() {
   const authorizationStatus = await messaging().requestPermission();
@@ -18,8 +19,22 @@ export const getFcmToken = async () => {
   if (!fcmToken) {
     try {
       const fcmToken = await messaging().getToken();
+      const data = {
+        // unipeEmployeeId: store.getState().auth.id,
+        unipeEmployeeId: "123412341234123412341234",
+        token: fcmToken,
+        lastUpdated: new Date().getTime(),
+      };
       if (fcmToken) {
         console.log(fcmToken, "new generated FCM token");
+        axios({
+          method: "post",
+          url: "https://wq1kbvpl4b.execute-api.ap-south-1.amazonaws.com/dev/employee/fcm",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          data: JSON.stringify(data),
+        });
         await AsyncStorage.setItem("fcmToken", fcmToken);
         await messaging().subscribeToTopic("initial-users");
       }
@@ -54,18 +69,21 @@ export const notificationListener = async () => {
     });
 };
 
-export function onMessageReceived(message) {
-  const { type, timestamp } = message.data;
-
-  if (type === "order_shipped") {
-    notifee.displayNotification({
-      title: "Your order has been shipped",
-      body: `Your order was shipped at ${new Date(
-        Number(timestamp)
-      ).toString()}!`,
-      android: {
-        channelId: "orders",
-      },
-    });
-  }
-}
+// export function subscribeTokenToTopic(token, topic) {
+//   fetch(`https://iid.googleapis.com/iid/v1/${token}/rel/topics/${topic}`, {
+//     method: "POST",
+//     headers: new Headers({
+//       Authorization: `key=AAAAFZwEI68:APA91bHm_VKOs0ZqhB5ioYLj3a6mj6_KIezTOakwpjx4c2wQ4uMotTscXvkDCFj4_zpchfQOCeYB25UON_U0_mVATfHk4d_FQEPeQ2gJgxYWwmxZ-zz-ItUpzPyGVBcoE_elw1zRP5gY`,
+//     }),
+//   })
+//     .then((response) => {
+//       if (response.status < 200 || response.status >= 400) {
+//         console.log(response.status, response);
+//       }
+//       console.log(`"${topic}" is subscribed`);
+//     })
+//     .catch((error) => {
+//       console.error(error.result);
+//     });
+//   return true;
+// }

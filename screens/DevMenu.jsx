@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import DevMenuButton from "../components/DevMenuButton";
 import PushNotification from "react-native-push-notification";
 import { useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default DevMenu = () => {
   const navigation = useNavigation();

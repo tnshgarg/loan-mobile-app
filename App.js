@@ -12,6 +12,7 @@ import { store, persistor } from "./store/store";
 import codePush from "react-native-code-push";
 import Crashes from "appcenter-crashes";
 import Analytics from "appcenter-analytics";
+import messaging from "@react-native-firebase/messaging";
 import {
   notificationListener,
   requestUserPermission,
@@ -32,9 +33,12 @@ let codePushOptions = {
 const App = () => {
   SplashScreen.hide();
 
-  useEffect(() => {
+  useEffect(async () => {
     requestUserPermission();
     notificationListener();
+    // subscribeTokenToTopic(AsyncStorage.getItem("fcmToken"), "item1");
+    messaging().subscribeToTopic("item1");
+    messaging().subscribeToTopic("item2");
   }, []);
 
   return (
