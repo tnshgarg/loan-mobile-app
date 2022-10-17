@@ -1,7 +1,10 @@
-import { View } from "react-native";
-import React from "react";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  TouchableOpacity
+} from "react-native";
 import { Button } from "@react-native-material/core";
-import { styles } from "../styles";
+import { COLORS, FONTS } from "../constants/Theme";
 
 /**
  *
@@ -18,33 +21,51 @@ import { styles } from "../styles";
  */
 
 const PrimaryButton = ({
-  title,
-  color,
+  containerStyle,
   disabled,
-  type,
-  uppercase,
+  loading,
+  title,
   titleStyle,
-  style,
-  wrapperStyle,
   onPress,
-  otherProps,
 }) => {
-  return (
-    <View style={wrapperStyle}>
-      <Button
-        uppercase={uppercase}
-        title={title}
-        color={color}
-        type={type}
-        style={styles.ContinueButton}
-        disabled={disabled}
-        contentContainerStyle={styles.ButtonContainer}
-        onPress={onPress}
-        titleStyle={[styles.continueButtonText, titleStyle]}
-        {...otherProps}
-      />
-    </View>
+  return !loading ? (
+    <Button
+      uppercase={false}
+      title={title}
+      titleStyle={[styles.btnText, { ...titleStyle }]}
+      type="solid"
+      style={[styles.button, { ...containerStyle }]}
+      disabled={disabled}
+      onPress={onPress}
+      color={disabled ? COLORS.gray : COLORS.primary}
+      pressableContainerStyle={{ width: "100%" }}
+      contentContainerStyle={{ width: "100%", height: "100%" }}
+    />
+  ) : (
+    <TouchableOpacity style={[styles.button, styles.loadingButton]} disabled>
+      <ActivityIndicator size="large" color="white" />
+    </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  button: {
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 30,
+    width: "100%",
+    height: 50,
+  },
+  loadingButton: {
+    backgroundColor: COLORS.primary,
+    padding: 10,
+    borderRadius: 5,
+  },
+  btnText: {
+    color: COLORS.white,
+    ...FONTS.h3,
+  },
+});
 
 export default PrimaryButton;

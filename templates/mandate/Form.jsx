@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
-import { ScrollView, Text, TextInput, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import Icon1 from "react-native-vector-icons/MaterialCommunityIcons";
@@ -30,6 +30,7 @@ import {
   getToken,
 } from "../../services/mandate/Razorpay/services";
 import { RZP_TEST_KEY_ID } from "@env";
+import FormInput from "../../components/atoms/FormInput";
 import { COLORS } from "../../constants/Theme";
 
 const Form = (props) => {
@@ -68,7 +69,9 @@ const Form = (props) => {
   const [backendPush, setBackendPush] = useState(false);
   const [orderId, setOrderId] = useState(mandateSlice?.orderId);
   const [customerId, setCustomerId] = useState(mandateSlice?.customerId);
-  const email = useSelector((state) => state.pan.data.email || state.profile.email);
+  const email = useSelector(
+    (state) => state.pan.data.email || state.profile.email
+  );
   const phoneNumber = useSelector((state) => state.auth.phoneNumber);
 
   useEffect(() => {
@@ -171,9 +174,7 @@ const Form = (props) => {
               setVerifyStatus("SUCCESS");
               setBackendPush(true);
               showToast("Mandate Verified Successfully");
-              props?.type == "Onboarding"
-                ? navigation.navigate("Home")
-                : null;
+              props?.type == "Onboarding" ? navigation.navigate("Home") : null;
             })
             .catch((err) => {
               console.log(err);
@@ -206,8 +207,6 @@ const Form = (props) => {
     return (
       <PrimaryButton
         title="Proceed"
-        color="#2CB77C"
-        uppercase={false}
         onPress={() => {
           setType(type);
           setVerifyStatus("PENDING");
@@ -246,8 +245,6 @@ const Form = (props) => {
     return (
       <PrimaryButton
         title="Proceed"
-        color="#2CB77C"
-        uppercase={false}
         onPress={() => {
           setType("UPI");
           setVerifyStatus("PENDING");
@@ -277,34 +274,35 @@ const Form = (props) => {
         </View>
       ) : (
         <ScrollView>
-          <Text style={bankform.formtitle}>Account Holder Name</Text>
-          <TextInput
-            style={bankform.formInput}
+          <FormInput
+            placeholder={"Account Holder Name"}
+            containerStyle={{ marginVertical: 10 }}
             autoCapitalize="words"
             value={name}
-            onChangeText={setName}
-            editable={false}
+            onChange={setName}
+            disabled={true}
             required
           />
-          <Text style={bankform.formtitle}>Bank Account Number</Text>
-          <TextInput
-            style={bankform.formInput}
+          <FormInput
+            placeholder={"Bank Account Number"}
+            containerStyle={{ marginVertical: 10 }}
             autoCapitalize="words"
             value={number}
-            onChangeText={setNumber}
-            editable={false}
+            onChange={setNumber}
+            disabled={true}
             required
           />
-          <Text style={bankform.formtitle}>IFSC</Text>
-          <TextInput
-            style={bankform.formInput}
-            autoCapitalize="characters"
+          <FormInput
+            placeholder={"IFSC"}
+            containerStyle={{ marginVertical: 10 }}
+            autoCapitalize="words"
             value={ifsc}
-            onChangeText={setIfsc}
-            editable={false}
+            onChange={setIfsc}
+            disabled={true}
             required
           />
-          <CollapsibleCard
+
+          {/* <CollapsibleCard
             title="Net Banking "
             TitleIcon={netIcon}
             isClosed={true}
@@ -315,7 +313,7 @@ const Form = (props) => {
             TitleIcon={upiIcon}
             isClosed={true}
             Component={Upibutton}
-          />
+          /> */}
           <CollapsibleCard
             title="Debit Card "
             TitleIcon={debitIcon}

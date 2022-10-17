@@ -1,13 +1,8 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
-  ActivityIndicator,
   Alert,
-  Image,
-  Linking,
   Text,
-  TextInput,
-  TouchableOpacity,
   View,
   SafeAreaView,
   Dimensions,
@@ -29,12 +24,13 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
 import Modal from "react-native-modal";
+import { COLORS, FONTS } from "../../constants/Theme";
+import SVGImg from "../../assets/UnipeLogo.svg";
+import FormInput from "../../components/atoms/FormInput";
 import { WebView } from "react-native-webview";
 import privacyPolicy from "../../templates/docs/PrivacyPolicy.js";
 import termsOfUse from "../../templates/docs/TermsOfUse.js";
 import { AntDesign } from "react-native-vector-icons";
-import { COLORS } from "../../constants/Theme";
-import SVGImg from "../../assets/UnipeLogo.svg";
 
 export default LoginScreen = () => {
   SplashScreen.hide();
@@ -140,64 +136,52 @@ export default LoginScreen = () => {
       <KeyboardAvoidingWrapper>
         <View>
           <SVGImg style={styles.logo} />
+
           <Text style={styles.headline}>
             Please enter your mobile number to login:
           </Text>
-          <Text style={styles.fieldLabel}>Mobile Number</Text>
-          <TextInput
-            style={styles.textInput}
-            value={phoneNumber}
-            onChangeText={setPhoneNumber}
+
+          <FormInput
+            placeholder="Enter mobile number"
+            containerStyle={{ marginVertical: 30 }}
             autoCompleteType="tel"
             keyboardType="phone-pad"
-            textContentType="telephoneNumber"
-            maxLength={13}
-            placeholder="9999999999"
-          />
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "flex-end",
-              alignSelf: "flex-end",
-              height: "100%",
-            }}
-          >
-            <Text style={styles.dataUseText}>
-              This number will be used for all communication. You shall receive
-              an SMS with code for verification. By continuing, you agree to our{" "}
+            value={phoneNumber}
+            onChange={setPhoneNumber}
+            autoFocus={true}
+            maxLength={10}
+            prependComponent={
               <Text
-                onPress={() => setIsTermsOfUseModalVisible(true)}
-                style={styles.termsText}
+                style={{ ...FONTS.h4, color: COLORS.black, paddingRight: 10 }}
               >
-                Terms of Service
-              </Text>{" "}
-              &{" "}
-              <Text
-                onPress={() => setIsPrivacyModalVisible(true)}
-                style={styles.termsText}
-              >
-                Privacy Policy
+                +91
               </Text>
+            }
+          />
+
+          <Text style={styles.dataUseText}>
+            This number will be used for all communication. You shall receive an
+            SMS with code for verification. By continuing, you agree to our{" "}
+            <Text
+              onPress={() => setIsTermsOfUseModalVisible(true)}
+              style={styles.termsText}
+            >
+              Terms of Service
+            </Text>{" "}
+            &{" "}
+            <Text
+              onPress={() => setIsPrivacyModalVisible(true)}
+              style={styles.termsText}
+            >
+              Privacy Policy
             </Text>
-            {!loading ? (
-              <>
-                <PrimaryButton
-                  uppercase={false}
-                  title="Continue"
-                  type="solid"
-                  color={COLORS.primary}
-                  disabled={!next}
-                  onPress={() => signIn()}
-                />
-              </>
-            ) : (
-              <TouchableOpacity>
-                <View style={styles.LoadingButton}>
-                  <ActivityIndicator size="large" color="white" />
-                </View>
-              </TouchableOpacity>
-            )}
-          </View>
+          </Text>
+          <PrimaryButton
+            title="Continue"
+            disabled={!next}
+            loading={loading}
+            onPress={() => signIn()}
+          />
         </View>
       </KeyboardAvoidingWrapper>
 

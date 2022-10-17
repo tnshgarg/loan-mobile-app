@@ -15,9 +15,15 @@ const FormInput = ({
   secureTextEntry,
   keyboardType = "default",
   autoCompleteType = "off",
-  autoCapitalize = "none",
+  autoCapitalize,
   errorMsg = "",
   disabled,
+  maxLength,
+  numeric,
+  autoFocus,
+  required,
+  letterSpacing,
+  textAlign,
 }) => {
   return (
     <View style={{ ...containerStyle }}>
@@ -52,6 +58,12 @@ const FormInput = ({
           autoCapitalize={autoCapitalize}
           onChangeText={(value) => onChange(value)}
           editable={!disabled}
+          maxLength={maxLength}
+          numeric={numeric}
+          autoFocus={autoFocus}
+          required={required}
+          letterSpacing={letterSpacing}
+          textAlign={textAlign}
         />
         {appendComponent}
       </View>

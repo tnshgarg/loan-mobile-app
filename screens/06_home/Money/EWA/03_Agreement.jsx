@@ -1,5 +1,4 @@
 import CheckBox from "@react-native-community/checkbox";
-import { AppBar, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import {
@@ -9,7 +8,7 @@ import {
   Text,
   View,
   Dimensions,
-  Pressable
+  Pressable,
 } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
@@ -31,10 +30,9 @@ import { useWindowDimensions } from "react-native";
 import RenderHtml from "react-native-render-html";
 import agreement from "../../../../templates/docs/LiquidLoansLoanAgreement";
 import { COLORS } from "../../../../constants/Theme";
-
+import Header from "../../../../components/atoms/Header";
 
 const Agreement = () => {
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { width } = useWindowDimensions();
@@ -66,15 +64,24 @@ const Agreement = () => {
   const today = new Date();
 
   function ValueEntry(text) {
-    text.data = text.data.replace(/\{todayDate\}/g, today.getDate()+"/"+(today.getMonth()+1)+"/"+today.getFullYear());
+    text.data = text.data.replace(
+      /\{todayDate\}/g,
+      today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear()
+    );
     text.data = text.data.replace(/\{panName\}/g, panSlice?.data?.name);
-    text.data = text.data.replace(/\{aadhaarAddress\}/g, aadhaarSlice?.data?.address);
+    text.data = text.data.replace(
+      /\{aadhaarAddress\}/g,
+      aadhaarSlice?.data?.address
+    );
     text.data = text.data.replace(/\{email\}/g, profileSlice?.email);
     text.data = text.data.replace(/\{mobile\}/g, authSlice?.phoneNumber);
     text.data = text.data.replace(/\{loanAccountNumber\}/g, loanAccountNumber); // TODO: Generate LAN number
     text.data = text.data.replace(/\{loanAmount\}/g, ewaLiveSlice?.loanAmount);
     text.data = text.data.replace(/\{processingFees\}/g, processingFees);
-    text.data = text.data.replace(/\{accountNumber\}/g, bankSlice?.data?.accountNumber);
+    text.data = text.data.replace(
+      /\{accountNumber\}/g,
+      bankSlice?.data?.accountNumber
+    );
     text.data = text.data.replace(/\{ifsc\}/g, bankSlice?.data?.ifsc);
   }
 
@@ -88,7 +95,7 @@ const Agreement = () => {
   }, []);
 
   useEffect(() => {
-    if(deviceId!==0 && ipAddress!==0) {
+    if (deviceId !== 0 && ipAddress !== 0) {
       setFetched(true);
     }
   }, [deviceId, ipAddress]);
@@ -161,13 +168,13 @@ const Agreement = () => {
         ipAddress: ipAddress,
         deviceId: deviceId,
       })
-      .then((response) => {
-        console.log("ewaAgreementPush response.data: ", response.data);
-      })
-      .catch((error) => {
-        console.log("ewaAgreementPush error: ", error);
-        Alert.alert("An Error occured", error);
-      });
+        .then((response) => {
+          console.log("ewaAgreementPush response.data: ", response.data);
+        })
+        .catch((error) => {
+          console.log("ewaAgreementPush error: ", error);
+          Alert.alert("An Error occured", error);
+        });
     }
   }, [fetched]);
 
@@ -202,19 +209,9 @@ const Agreement = () => {
 
   return (
     <SafeAreaView style={[styles.container, { padding: 0 }]}>
-      <AppBar
-        title="Agreement"
-        color={COLORS.primary}
-        leading={
-          <IconButton
-            icon={<Icon name="arrow-left" size={20} color="white" />}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          />
-        }
-      />
+      <Header title="Agreement" onLeftIconPress={() => navigation.goBack()} />
       <ScrollView>
+      <View style={styles.container}>
         <CollapsibleCard
           data={data}
           title="Loan Details"
@@ -260,8 +257,6 @@ const Agreement = () => {
         </View>
         <PrimaryButton
           title={loading ? "Booking" : "Finish"}
-          uppercase={false}
-          color="#2CB77C"
           onPress={() => {
             handleAgreement();
           }}
@@ -272,6 +267,7 @@ const Agreement = () => {
           * Disbursement will be reconciled in your next payroll {"\n"}* Annual
           Percentage Rate @ {apr} %
         </Text>
+        </View>
       </ScrollView>
       <Modal
         isVisible={isModalVisible}

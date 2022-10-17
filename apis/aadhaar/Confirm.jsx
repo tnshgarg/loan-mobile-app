@@ -10,7 +10,8 @@ import {
 } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
-import { COLORS } from "../../constants/Theme";
+import CollapsibleCard from "../../components/CollapsibleCard";
+import { COLORS, FONTS } from "../../constants/Theme";
 
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -54,28 +55,38 @@ const AadhaarConfirmApi = (props) => {
     }
   }, [backendPush]);
 
+  const cardData = () => {
+    var res = [
+      { subTitle: "Number", value: number },
+      { subTitle: "Name", value: data?.name },
+      { subTitle: "Date of Birth", value: data?.date_of_birth },
+      { subTitle: "Gender", value: data?.gender },
+      { subTitle: "Address", value: data?.address },
+    ];
+    return res;
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={form.OtpAwaitMsg}>
-        Are these your AADHAAR details ?{"\n"}
-      </Text>
+      <CollapsibleCard
+        data={cardData()}
+        title="Are these your AADHAAR details ?"
+        isClosed={false}
+      />
+
       <Image
         source={{
           uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
         }}
         style={form.aadharimg}
       />
-      <Text style={form.userData}>Number: {number}</Text>
-      <Text style={form.userData}>Name: {data["name"]}</Text>
-      <Text style={form.userData}>Date of Birth: {data["date_of_birth"]}</Text>
-      <Text style={form.userData}>Gender: {data["gender"]}</Text>
 
       <View
         style={{
-          alignSelf: "center",
           flexDirection: "row",
           justifyContent: "space-between",
-          flex: 1,
+          alignItems: "center",
+          marginTop: 20,
         }}
       >
         <Button
@@ -84,6 +95,9 @@ const AadhaarConfirmApi = (props) => {
           uppercase={false}
           style={form.noButton}
           color={COLORS.warning}
+          titleStyle={{ ...FONTS.h3, color: COLORS.warning }}
+          pressableContainerStyle={{ width: "100%" }}
+          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
@@ -106,6 +120,9 @@ const AadhaarConfirmApi = (props) => {
           uppercase={false}
           style={form.yesButton}
           color={COLORS.primary}
+          titleStyle={{ ...FONTS.h3, color: COLORS.primary }}
+          pressableContainerStyle={{ width: "100%" }}
+          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");

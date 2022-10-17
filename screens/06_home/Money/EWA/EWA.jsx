@@ -9,7 +9,7 @@ import Offers from "../../../../components/DataCard";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
-import { COLORS, FONTS } from "../../../../constants/Theme";
+import { FONTS } from "../../../../constants/Theme";
 import { STAGE } from "@env";
 
 const EWA = () => {
@@ -39,7 +39,10 @@ const EWA = () => {
   useEffect(() => {
     console.log(fetched, STAGE, ewaLiveSlice);
     if (fetched) {
-      if ((STAGE !== "prod") || (STAGE === "prod" && parseInt(ewaLiveSlice?.eligibleAmount)>=1000)) {
+      if (
+        STAGE !== "prod" ||
+        (STAGE === "prod" && parseInt(ewaLiveSlice?.eligibleAmount) >= 1000)
+      ) {
         setEligible(true);
       } else {
         setEligible(false);
@@ -47,7 +50,7 @@ const EWA = () => {
     } else {
       setEligible(false);
     }
-  }, [ewaLiveSlice, fetched])
+  }, [ewaLiveSlice, fetched]);
 
   useEffect(() => {
     console.log("ewaLiveSlice: ", ewaLiveSlice);
@@ -110,15 +113,16 @@ const EWA = () => {
               ₹ {ewaLiveSlice?.eligibleAmount}
             </Text>
           </View>
-          <PrimaryButton
-            title={!eligible ? "No Active Offer" : "Get Money Now"}
-            color={COLORS.primary}
-            uppercase={false}
-            disabled={!eligible}
-            onPress={() => {
-              navigation.navigate("EWA_OFFER");
-            }}
-          />
+          <View style={{marginHorizontal:"10%"}}>
+            <PrimaryButton
+              title={!eligible ? "No Active Offer" : "Get Money Now"}
+              disabled={!eligible}
+              onPress={() => {
+                navigation.navigate("EWA_OFFER");
+              }}
+            />
+          </View>
+
           <View
             style={{
               marginHorizontal: 20,

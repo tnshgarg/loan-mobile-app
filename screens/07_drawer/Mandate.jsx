@@ -3,6 +3,7 @@ import { Alert, View } from "react-native";
 import { useSelector } from "react-redux";
 import Form from "../../templates/mandate/Form";
 import DetailItem from "./DetailItem";
+import { styles } from "../../styles";
 
 const Mandate = () => {
   const mandate = useSelector((state) => state.mandate);
@@ -20,7 +21,7 @@ const Mandate = () => {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <View style={styles.container}>
       {verifyStatus === "SUCCESS" ? Alert.alert("Mandate Verified Successfully") : null}
       {verifyStatus == "SUCCESS" && time ? (
         <>

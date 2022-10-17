@@ -7,3 +7,7 @@ export const OTP_SUBTITLE =
   "Sit back & relax while we fetch the OTP & log you inside the Unipe App";
 export const WELCOME_TITLE =
   "Let’s start onboarding process by verifying below documents.";
+
+//Important URLs
+export const TERMS_OF_SERVICE = "https://policies.google.com/terms?hl=en-US";
+export const PRIVACY_POLICY = "https://policies.google.com/privacy?hl=en-US";

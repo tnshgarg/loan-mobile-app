@@ -1,12 +1,10 @@
-import CheckBox from "@react-native-community/checkbox";
-import { Icon } from "@react-native-material/core";
 import { useEffect, useState } from "react";
-import { Text, TextInput, View } from "react-native";
-import { Popable } from "react-native-popable";
+import { Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import BankVerifyApi from "../../apis/bank/Verify";
+import Checkbox from "../../components/atoms/Checkbox";
 import InfoCard from "../../components/atoms/InfoCard";
-import { COLORS } from "../../constants/Theme";
+import PopableInput from "../../components/molecules/PopableInput";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
   addAccountHolderName,
@@ -79,97 +77,59 @@ const BankFormTemplate = (props) => {
           />
           <Text style={bankform.subTitle}>Enter your Bank Details</Text>
 
-          <Text style={bankform.formtitle}>
-            Account Holder Name<Text style={bankform.asterisk}>*</Text>
-            <Popable
-              content={
-                "Refer to your Bank Passbook or Cheque book for the exact Name mentioned in your bank records"
-              }
-              position="right"
-              caret={false}
-            >
-              <Icon name="info-outline" size={20} color="grey" />
-            </Popable>
-          </Text>
-          <TextInput
-            style={bankform.formInput}
+          <PopableInput
+            placeholder={"Account Holder Name*"}
             value={accountHolderName}
-            onChangeText={setAccountHolderName}
+            onChange={setAccountHolderName}
             autoCapitalize="characters"
+            content={
+              "Refer to your Bank Passbook or Cheque book for the exact Name mentioned in your bank records"
+            }
           />
 
-          <Text style={bankform.formtitle}>
-            Bank Account Number<Text style={bankform.asterisk}>*</Text>
-            <Popable
-              content={
-                "Refer to your Bank Passbook or Cheque book to get the Bank Account Number."
-              }
-              position="right"
-              caret={false}
-            >
-              <Icon name="info-outline" size={20} color="grey" />
-            </Popable>
-          </Text>
-          <TextInput
-            style={bankform.formInput}
+          <PopableInput
+            placeholder={"Bank Account Number*"}
             value={accountNumber}
-            onChangeText={setAccountNumber}
+            onChange={setAccountNumber}
             autoCapitalize="characters"
+            content={
+              "Refer to your Bank Passbook or Cheque book to get the Bank Account Number."
+            }
           />
           {accountNumber && !accNumNext ? (
             <Text style={bankform.formatmsg}>Incorrect Format</Text>
           ) : null}
 
-          <Text style={bankform.formtitle}>
-            IFSC Code<Text style={bankform.asterisk}>*</Text>
-            <Popable
-              content={
-                "You can find the IFSC code on the cheque book or bank passbook that is provided by the bank"
-              }
-              position="right"
-              caret={false}
-            >
-              <Icon name="info-outline" size={20} color="grey" />
-            </Popable>
-          </Text>
-          <TextInput
-            style={bankform.formInput}
+          <PopableInput
+            placeholder={"IFSC Code*"}
             value={ifsc}
-            onChangeText={setIfsc}
+            onChange={setIfsc}
             autoCapitalize="characters"
+            content={
+              "You can find the IFSC code on the cheque book or bank passbook that is provided by the bank"
+            }
           />
+
           {ifsc && !ifscNext ? (
             <Text style={bankform.formatmsg}>Incorrect Format</Text>
           ) : null}
-          <Text style={bankform.formtitle}>
-            UPI ID
-            <Popable
-              content={
-                "There are lots of UPI apps available like Phonepe, Amazon Pay, Paytm, Bhim, Mobikwik etc. from where you can fetch your UPI ID."
-              }
-              position="right"
-              caret={false}
-            >
-              <Icon name="info-outline" size={20} color="grey" />
-            </Popable>
-          </Text>
-          <TextInput
-            style={bankform.formInput}
+
+          <PopableInput
+            placeholder={"UPI ID"}
             value={upi}
-            onChangeText={setUpi}
+            onChange={setUpi}
+            content={
+              "There are lots of UPI apps available like Phonepe, Amazon Pay, Paytm, Bhim, Mobikwik etc. from where you can fetch your UPI ID."
+            }
           />
-          <View style={{ flexDirection: "row" }}>
-            <CheckBox
-              value={consent}
-              onValueChange={setConsent}
-              style={checkBox.checkBox}
-              tintColors={{ true: COLORS.primary }}
-            />
-            <Text style={checkBox.checkBoxText}>
-              I agree with the KYC registration Terms and Conditions to verifiy
-              my identity.
-            </Text>
-          </View>
+
+          <Checkbox
+            text={
+              "I agree with the KYC registration Terms and Conditions to verifiy my identity."
+            }
+            value={consent}
+            setValue={setConsent}
+          />
 
           <BankVerifyApi
             data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}
