@@ -1,6 +1,7 @@
 import { View, Text } from "react-native";
 import StepIndicator from "react-native-step-indicator";
 import React from "react";
+import { MaterialIcons } from "@expo/vector-icons";
 import { COLORS, SIZES, FONTS } from "../../constants/Theme";
 
 const StepsIndicator = ({
@@ -36,6 +37,46 @@ const StepsIndicator = ({
     currentStepLabelColor: COLORS.primary,
     labelAlign: "flex-start",
   };
+  const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
+    const iconConfig = {
+      name: "feed",
+      color: stepStatus === "finished" ? "#ffffff" : "#4E46F1",
+      size: 15,
+    };
+    switch (position) {
+      case 0: {
+        iconConfig.name = "smartphone";
+        break;
+      }
+      case 1: {
+        iconConfig.name = "perm-identity";
+        break;
+      }
+      case 2: {
+        iconConfig.name = "mood";
+        break;
+      }
+      case 3: {
+        iconConfig.name = "payment";
+        break;
+      }
+      case 4: {
+        iconConfig.name = "info-outline";
+        break;
+      }
+      case 5: {
+        iconConfig.name = "camera-front";
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+    return iconConfig;
+  };
+  const renderStepIndicator = (params) => (
+    <MaterialIcons {...getStepIndicatorIconConfig(params)} />
+  );
   return (
     <StepIndicator
       customStyles={{ ...stepIndicatorStyles, ...styles }}

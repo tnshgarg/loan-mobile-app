@@ -28,6 +28,7 @@ import Mandate from "../screens/03_bank/Mandate";
 import Agreement from "../screens/06_home/Money/EWA/03_Agreement";
 import Disbursement from "../screens/06_home/Money/EWA/04_Disbursement";
 import KYC from "../screens/06_home/Money/EWA/02_Kyc";
+import License from "../screens/06_home/Documents/License/License";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();

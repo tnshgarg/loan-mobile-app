@@ -1,5 +1,5 @@
 import axios from "axios";
-import { RZP_TEST_AUTH } from "@env";
+import { RZP_TEST_AUTH, STAGE } from "@env";
 
 const createCustomer = ({ name, email, phoneNumber }) => {
   var data = JSON.stringify({
@@ -42,7 +42,7 @@ const createDebitOrder = ({
         beneficiary_name: accountHolderName,
         account_number: accountNumber,
         account_type: "savings",
-        ifsc_code: "HDFC0000001",
+        ifsc_code: STAGE === "dev" ? "HDFC0000001" : ifsc,
       },
     },
   });
@@ -77,7 +77,7 @@ const createNetBankingOrder = ({
         beneficiary_name: accountHolderName,
         account_number: accountNumber,
         account_type: "savings",
-        ifsc_code: "HDFC0000001", // ifsc,
+        ifsc_code: STAGE === "dev" ? "HDFC0000001" : ifsc,
       },
       expire_at: 2147483647,
     },

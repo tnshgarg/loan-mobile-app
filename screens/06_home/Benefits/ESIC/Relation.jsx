@@ -2,12 +2,17 @@ import { Button } from "@react-native-material/core";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
-import { Text, TextInput, View } from "react-native";
+import { Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import FormInput from "../../../../components/atoms/FormInput";
+import DropDownForm from "../../../../components/molecules/DropDownForm";
 import { showToast } from "../../../../components/Toast";
-import { COLORS } from "../../../../constants/Theme";
+import { COLORS, FONTS } from "../../../../constants/Theme";
 import { relationPush } from "../../../../helpers/BackendPush";
-import relations from "../../../../helpers/RelationData";
+import {
+  nomineeRelations,
+  employeeRelations,
+} from "../../../../helpers/RelationData";
 import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
 import { addESICFamilyDetails } from "../../../../store/slices/esicSlice";
 import { bankform, form } from "../../../../styles";
@@ -73,54 +78,42 @@ export default Relation = () => {
   return (
     <KeyboardAvoidingWrapper>
       <View>
-        <Text style={bankform.formtitle}>Father's / Husband's Name *</Text>
-        <TextInput
-          style={bankform.formInput}
+        <FormInput
+          placeholder={"Father's / Husband's Name*"}
+          containerStyle={{ marginVertical: 10 }}
           value={fatherHusbandName}
-          onChangeText={setRelationName}
+          onChange={setRelationName}
         />
 
-        <Text style={bankform.formtitle}>
-          Relation with Employee (Father/Husband) *
-        </Text>
-        <Picker
-          style={form.picker}
-          prompt="Relation with Employee (Father/Husband) *"
-          selectedValue={fatherHusbandRelation}
-          onValueChange={setRelation}
-        >
-          <Picker.Item label="Father" value="Father" />
-          <Picker.Item label="Husband" value="Husband" />
-        </Picker>
-
-        <Text style={bankform.formtitle}>
-          Name of Nominee (As per Aadhaar card) *
-        </Text>
-        <TextInput
-          style={bankform.formInput}
+        <DropDownForm
+          placeholder={"Relation with Employee (Father/Husband)*"}
+          containerStyle={{ marginVertical: 10 }}
+          value={fatherHusbandRelation}
+          setValue={setRelation}
+          data={employeeRelations}
+        />
+        <FormInput
+          placeholder={"Name of Nominee (As per Aadhaar card)*"}
+          containerStyle={{ marginVertical: 10 }}
           value={nomineeName}
-          onChangeText={setNomineeName}
+          onChange={setNomineeName}
         />
 
-        <Text style={bankform.formtitle}>
-          Nominee Relationship with Employee *
-        </Text>
-        <Picker
-          style={form.picker}
-          prompt="Nominee Relationship with Employee *"
-          selectedValue={nomineeRelation}
-          onValueChange={setNomineeRelation}
-        >
-          {relations.map((value, index) => {
-            return <Picker.Item label={value} value={value} key={index} />;
-          })}
-        </Picker>
+        <DropDownForm
+          placeholder={"Nominee Relationship with Employee*"}
+          containerStyle={{ marginVertical: 10 }}
+          value={nomineeRelation}
+          setValue={setNomineeRelation}
+          data={nomineeRelations}
+        />
+
         <Button
           uppercase={false}
           title="Continue"
           type="solid"
           color={COLORS.primary}
           style={form.nextButton}
+          titleStyle={{ ...FONTS.h3, color: COLORS.white }}
           onPress={() => {
             relationPush({
               id: id,
@@ -145,7 +138,6 @@ export default Relation = () => {
             });
           }}
         />
-        <View style={bankform.padding}></View>
       </View>
     </KeyboardAvoidingWrapper>
   );

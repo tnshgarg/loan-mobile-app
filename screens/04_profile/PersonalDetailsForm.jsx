@@ -1,8 +1,6 @@
-import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
-import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { SafeAreaView, Text, TextInput, View } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
 import {
@@ -13,13 +11,13 @@ import {
   addMaritalStatus,
 } from "../../store/slices/profileSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { bankform, form, styles } from "../../styles";
+import { form, styles } from "../../styles";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import PrimaryButton from "../../components/PrimaryButton";
-import { COLORS } from "../../constants/Theme";
 import FormInput from "../../components/atoms/FormInput";
 import DropDownForm from "../../components/molecules/DropDownForm";
 import Analytics from "appcenter-analytics";
+import Header from "../../components/atoms/Header";
 
 const PersonalDetailsForm = () => {
   const dispatch = useDispatch();
@@ -83,15 +81,9 @@ const PersonalDetailsForm = () => {
   return (
     <>
       <SafeAreaView style={[styles.container, { padding: 0 }]}>
-        <AppBar
+        <Header
           title="Setup Profile"
-          color={COLORS.primary}
-          leading={
-            <IconButton
-              icon={<Icon name="arrow-back" size={20} color="white" />}
-              onPress={() => navigation.navigate("BankForm")}
-            />
-          }
+          onLeftIconPress={() => navigation.navigate("Login")}
         />
 
         <ProgressBarTop step={0} />
@@ -136,9 +128,6 @@ const PersonalDetailsForm = () => {
             />
             <PrimaryButton
               title="Continue"
-              type="solid"
-              uppercase={false}
-              color={COLORS.primary}
               disabled={!next}
               onPress={() => {
                 Analytics.trackEvent("PersonalDetailsForm-PushData-Success", {

@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { Alert, SafeAreaView, ScrollView } from "react-native";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
@@ -8,7 +7,7 @@ import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import PanConfirmApi from "../../apis/pan/Confirm";
-import { COLORS } from "../../constants/Theme";
+import Header from "../../components/atoms/Header";
 
 export default PanConfirm = () => {
   const dispatch = useDispatch();
@@ -31,16 +30,7 @@ export default PanConfirm = () => {
 
   return (
     <SafeAreaView style={[styles.container, { padding: 0 }]}>
-      <AppBar
-        title="PAN Confirmation"
-        color={COLORS.primary}
-        leading={
-          <IconButton
-            icon={<Icon name="arrow-back" size={20} color="white" />}
-            onPress={() => backAlert()}
-          />
-        }
-      />
+      <Header title="PAN Confirmation" onLeftIconPress={() => backAlert()} />
 
       <ProgressBarTop step={3} />
 

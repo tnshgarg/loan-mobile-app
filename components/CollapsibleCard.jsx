@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Text, View } from "react-native";
 import Collapsible from "react-native-collapsible";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { COLORS } from "../constants/Theme";
 import { bankform, ewa } from "../styles";
 
 const CollapsibleCard = ({
@@ -29,7 +30,7 @@ const CollapsibleCard = ({
               : "arrow-up-drop-circle-outline"
           }
           size={24}
-          color="green"
+          color={COLORS.primary}
           style={{ marginLeft: "auto" }}
           onPress={() => setIsCollapsed(!isCollapsed)}
         />

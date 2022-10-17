@@ -1,13 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Alert, SafeAreaView } from "react-native";
-import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import AadhaarFormTemplate from "../../templates/aadhaar/Form";
 import { styles } from "../../styles";
-import { COLORS } from "../../constants/Theme";
+import Header from "../../components/atoms/Header";
 
 const AadhaarForm = () => {
   const dispatch = useDispatch();
@@ -34,43 +33,21 @@ const AadhaarForm = () => {
       "If you go back your Mobile Number Verification will have to be redone.",
       [
         { text: "No", onPress: () => null, style: "cancel" },
-        { text: "Yes", onPress: () => navigation.navigate("Login") },
+        { text: "Yes", onPress: () => navigation.navigate("PersonalImage") },
       ]
     );
   };
 
   return (
-    <>
       <SafeAreaView style={[styles.container, { padding: 0 }]}>
-        <AppBar
+        <Header
           title="Aadhaar Verification"
-          color={COLORS.primary}
-          leading={
-            <IconButton
-              icon={<Icon name="arrow-back" size={20} color={COLORS.white} />}
-              onPress={() => {
-                backAlert();
-              }}
-            />
-          }
-          /*
-          trailing={
-            <IconButton
-              icon={
-                <Icon name="arrow-forward" size={20} color={COLORS.white} />
-              }
-              onPress={() => {
-                SkipAadhaar();
-              }}
-            />
-          }
-          */
+          onLeftIconPress={() => backAlert()}
         />
 
         <ProgressBarTop step={2} />
         <AadhaarFormTemplate />
       </SafeAreaView>
-    </>
   );
 };
 

@@ -1,30 +1,33 @@
-import { AppBar, IconButton } from "@react-native-material/core";
-import { useEffect, useState } from "react";
-import { SafeAreaView, Image } from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import CollapsibleCard from "../../../../components/CollapsibleCard";
-import { ewa, styles } from "../../../../styles";
-import { useSelector } from "react-redux";
-import { COLORS } from "../../../../constants/Theme";
-import { getBackendData } from "../../../../services/employees/employeeServices";
 import Analytics from "appcenter-analytics";
+import { useEffect, useState } from "react";
+import { Image, SafeAreaView, View } from "react-native";
+import { useSelector } from "react-redux";
+import Header from "../../../../components/atoms/Header";
+import CollapsibleCard from "../../../../components/CollapsibleCard";
+import { getBackendData } from "../../../../services/employees/employeeServices";
+import { ewa, styles } from "../../../../styles";
 
-const Disbursement = ({route, navigation}) => {
-  const {offer} = route.params;
-  
+const Disbursement = ({ route, navigation }) => {
+  const { offer } = route.params;
+
   const bankSlice = useSelector((state) => state.bank);
-  
+
   const [loanAmount, setLoanAmount] = useState(offer?.loanAmount);
   const [netAmount, setNetAmount] = useState(offer?.netAmount);
-  const [bankAccountNumber, setBankAccountNumber] = useState(bankSlice?.data?.accountNumber);
+  const [bankAccountNumber, setBankAccountNumber] = useState(
+    bankSlice?.data?.accountNumber
+  );
   const [dueDate, setDueDate] = useState(offer?.dueDate);
   const [loanAccountNumber, setLoanAccountNumber] = useState("");
   const [status, setStatus] = useState("");
-  
+
   const [processingFees, setProcessingFees] = useState("");
 
   useEffect(() => {
-    getBackendData({ params: { offerId: offer.offerId }, xpath: "ewa/disbursement" })
+    getBackendData({
+      params: { offerId: offer.offerId },
+      xpath: "ewa/disbursement",
+    })
       .then((response) => {
         if (response.data.status === 200) {
           Analytics.trackEvent(`EwaDisbursement-KYC-Success`, {
@@ -72,28 +75,22 @@ const Disbursement = ({route, navigation}) => {
 
   return (
     <SafeAreaView style={[styles.container, { padding: 0 }]}>
-      <AppBar
+      <Header
         title="Money Transfer"
-        color={COLORS.primary}
-        leading={
-          <IconButton
-            icon={<Icon name="arrow-left" size={20} color="white" />}
-            onPress={() => {
-              navigation.navigate("Home");
-            }}
-          />
-        }
+        onLeftIconPress={() => navigation.navigate("Home")}
       />
       <Image
         style={ewa.successImg}
         source={require("../../../../assets/animatedsuccess.gif")}
       />
-      <CollapsibleCard
-        data={data}
-        title="Loan Details"
-        isClosed={false}
-        info="Disbursement will be reconciled in your next payroll"
-      />
+      <View style={styles.container}>
+        <CollapsibleCard
+          data={data}
+          title="Loan Details"
+          isClosed={false}
+          info="Disbursement will be reconciled in your next payroll"
+        />
+      </View>
 
       {/* 
       // checkout flow

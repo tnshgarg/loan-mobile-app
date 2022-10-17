@@ -83,8 +83,8 @@ const PanVerifyApi = (props) => {
               case "1000":
                 const names = ["first", "middle", "last"];
                 responseJson["data"]["pan_data"]["name"] = names
-                  .map((k) => responseJson["data"]["pan_data"][`${k}_name`])
-                  .join(" ");
+                  .filter(k => responseJson["data"]["pan_data"][`${k}_name`])
+                  .map((k) => responseJson["data"]["pan_data"][`${k}_name`]).join(" ");
                 console.log("PAN fetched data: ", responseJson);
                 setData(responseJson["data"]["pan_data"]);
                 setVerifyMsg("To be confirmed by User");

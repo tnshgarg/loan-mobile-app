@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import PanFormTemplate from "../../templates/pan/Form";
 import TopTabNav from "../../navigators/TopTabNav";
 import PanConfirmApi from "../../apis/pan/Confirm";
+import { styles } from "../../styles";
 
 const Pan = () => {
   const data = useSelector((state) => state.pan.data);
@@ -41,7 +42,7 @@ const Pan = () => {
   ];
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <View style={styles.container}>
       {verifyStatus == "SUCCESS" ? (
         <>
           {dataDetails.map((item, index) => (

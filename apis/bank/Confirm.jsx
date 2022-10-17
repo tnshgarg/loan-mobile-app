@@ -6,7 +6,8 @@ import { useNavigation } from "@react-navigation/core";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/bankSlice";
 import { bankBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
-import { COLORS } from "../../constants/Theme";
+import { COLORS, FONTS } from "../../constants/Theme";
+import CollapsibleCard from "../../components/CollapsibleCard";
 import FuzzyCheck from "../../components/FuzzyCheck";
 import Analytics from "appcenter-analytics";
 
@@ -46,24 +47,33 @@ const BankConfirmApi = (props) => {
     }
   }, [backendPush]);
 
+  const cardData = () => {
+    var res = [
+      { subTitle: "Bank Name", value: data?.bankName },
+      { subTitle: "Branch Name", value: data?.branchName },
+      { subTitle: "Branch City", value: data?.branchCity },
+      { subTitle: "AccountHolderName", value: data?.accountHolderName },
+      { subTitle: "AccountNumber", value: data?.accountNumber },
+      { subTitle: "IFSC", value: data?.ifsc },
+      { subTitle: "UPI", value: data?.upi },
+    ];
+    return res;
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={form.OtpAwaitMsg}>Are these your Bank details ?{"\n"}</Text>
-      <Text style={form.userData}>Bank Name: {data?.bankName}</Text>
-      <Text style={form.userData}>Branch Name: {data?.branchName}</Text>
-      <Text style={form.userData}>Branch City: {data?.branchCity}</Text>
-      <Text style={form.userData}>
-        AccountHolderName: {data?.accountHolderName}
-      </Text>
-      <Text style={form.userData}>AccountNumber: {data?.accountNumber}</Text>
-      <Text style={form.userData}>IFSC: {data?.ifsc}</Text>
-      <Text style={form.userData}>UPI: {data?.upi}</Text>
+      <CollapsibleCard
+        data={cardData()}
+        title="Are these your Bank details ?"
+        isClosed={false}
+      />
+
       <View
         style={{
-          alignSelf: "center",
           flexDirection: "row",
           justifyContent: "space-between",
-          flex: 1,
+          alignItems: "center",
+          marginTop: 20,
         }}
       >
         <Button
@@ -72,6 +82,9 @@ const BankConfirmApi = (props) => {
           uppercase={false}
           style={form.noButton}
           color={COLORS.warning}
+          titleStyle={{ ...FONTS.h3, color: COLORS.warning }}
+          pressableContainerStyle={{ width: "100%" }}
+          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
@@ -99,6 +112,9 @@ const BankConfirmApi = (props) => {
           uppercase={false}
           style={form.yesButton}
           color={COLORS.primary}
+          titleStyle={{ ...FONTS.h3, color: COLORS.primary }}
+          pressableContainerStyle={{ width: "100%" }}
+          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");

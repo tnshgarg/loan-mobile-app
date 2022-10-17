@@ -7,7 +7,7 @@ import { Image, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import { COLORS, FONTS } from "../constants/Theme";
 import Logout from "../components/Logout";
-
+import SVGImg from '../assets/UnipeLogo.svg';
 export default CustomDrawer = (props) => {
   const image = useSelector((state) => state.profile.photo);
   const name = useSelector(

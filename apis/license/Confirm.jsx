@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/licenseSlice";
 import { licenseBackendPush } from "../../helpers/BackendPush";
 import { form, license, styles, selfie } from "../../styles";
-import { COLORS } from "../../constants/Theme";
+import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
 
 export default Confirm = () => {
@@ -118,10 +118,10 @@ export default Confirm = () => {
 
       <View
         style={{
-          alignSelf: "center",
           flexDirection: "row",
           justifyContent: "space-between",
-          flex: 1,
+          alignItems: "center",
+          marginTop: 20,
         }}
       >
         <Button
@@ -130,6 +130,9 @@ export default Confirm = () => {
           uppercase={false}
           style={form.noButton}
           color={COLORS.warning}
+          titleStyle={{ ...FONTS.h3, color: COLORS.warning }}
+          pressableContainerStyle={{ width: "100%" }}
+          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Rejected by User");
             Analytics.trackEvent("LicenseConfirm-InfoConfirm-Error", {
@@ -150,6 +153,9 @@ export default Confirm = () => {
           uppercase={false}
           style={form.yesButton}
           color={COLORS.primary}
+          titleStyle={{ ...FONTS.h3, color: COLORS.primary }}
+          pressableContainerStyle={{ width: "100%" }}
+          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
             Analytics.trackEvent("LicenseConfirm-InfoConfirm-Success", {

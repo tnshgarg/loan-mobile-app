@@ -14,13 +14,14 @@ const InfoCard = ({ info }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "rgba(78, 70, 241, 0.1)",
+    backgroundColor: COLORS.primaryBackground,
     width: "100%",
     marginTop: 20,
     padding: 10,
     flex: 0,
     flexDirection: "row",
     alignItems: "flex-start",
+    borderRadius: 5,
   },
   text: { paddingLeft: 10, ...FONTS.body4, color: COLORS.black, flex: 1 },
 });

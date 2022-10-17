@@ -1,38 +1,34 @@
 import CheckBox from "@react-native-community/checkbox";
-import { AppBar, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
+import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import {
-  Alert,
-  SafeAreaView,
+  Alert, Dimensions,
+  Pressable, SafeAreaView,
   ScrollView,
-  Text,
-  View,
-  Dimensions,
-  Pressable
+  Text, useWindowDimensions, View
 } from "react-native";
 import { getUniqueId } from "react-native-device-info";
+import Modal from "react-native-modal";
 import { NetworkInfo } from "react-native-network-info";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import RenderHtml from "react-native-render-html";
+import { AntDesign } from "react-native-vector-icons";
 import { useDispatch, useSelector } from "react-redux";
+import Header from "../../../../components/atoms/Header";
 import CollapsibleCard from "../../../../components/CollapsibleCard";
 import PrimaryButton from "../../../../components/PrimaryButton";
+import { COLORS } from "../../../../constants/Theme";
 import { ewaAgreementPush } from "../../../../helpers/BackendPush";
+import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import {
   addNetAmount,
   addProcessingFees,
+  resetEwaLive
 } from "../../../../store/slices/ewaLiveSlice";
 import { checkBox, ewa, styles } from "../../../../styles";
-import Modal from "react-native-modal";
-import { AntDesign } from "react-native-vector-icons";
-import { useWindowDimensions } from "react-native";
-import RenderHtml from "react-native-render-html";
 import agreement from "../../../../templates/docs/LiquidLoansLoanAgreement";
-import { COLORS } from "../../../../constants/Theme";
-import Analytics from "appcenter-analytics";
 
 const Agreement = () => {
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { width } = useWindowDimensions();
@@ -64,15 +60,24 @@ const Agreement = () => {
   const today = new Date();
 
   function ValueEntry(text) {
-    text.data = text.data.replace(/\{todayDate\}/g, today.getDate()+"/"+(today.getMonth()+1)+"/"+today.getFullYear());
+    text.data = text.data.replace(
+      /\{todayDate\}/g,
+      today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear()
+    );
     text.data = text.data.replace(/\{panName\}/g, panSlice?.data?.name);
-    text.data = text.data.replace(/\{aadhaarAddress\}/g, aadhaarSlice?.data?.address);
+    text.data = text.data.replace(
+      /\{aadhaarAddress\}/g,
+      aadhaarSlice?.data?.address
+    );
     text.data = text.data.replace(/\{email\}/g, profileSlice?.email);
     text.data = text.data.replace(/\{mobile\}/g, authSlice?.phoneNumber);
     text.data = text.data.replace(/\{loanAccountNumber\}/g, loanAccountNumber); // TODO: Generate LAN number
     text.data = text.data.replace(/\{loanAmount\}/g, ewaLiveSlice?.loanAmount);
     text.data = text.data.replace(/\{processingFees\}/g, processingFees);
-    text.data = text.data.replace(/\{accountNumber\}/g, bankSlice?.data?.accountNumber);
+    text.data = text.data.replace(
+      /\{accountNumber\}/g,
+      bankSlice?.data?.accountNumber
+    );
     text.data = text.data.replace(/\{ifsc\}/g, bankSlice?.data?.ifsc);
   }
 
@@ -86,19 +91,14 @@ const Agreement = () => {
   }, []);
 
   useEffect(() => {
-    if(deviceId!==0 && ipAddress!==0) {
+    if (deviceId !== 0 && ipAddress !== 0) {
       setFetched(true);
     }
   }, [deviceId, ipAddress]);
 
   useEffect(() => {
     setProcessingFees(
-      Math.round(
-        ((ewaLiveSlice?.loanAmount * ewaLiveSlice?.fees) / 100 + 1) / 10
-      ) *
-        10 -
-        1
-    );
+      Math.round(((((ewaLiveSlice?.loanAmount * ewaLiveSlice?.fees) / 100) + 1) / 10) * 10) - 1);
   }, [ewaLiveSlice]);
 
   useEffect(() => {
@@ -164,13 +164,13 @@ const Agreement = () => {
         ipAddress: ipAddress,
         deviceId: deviceId,
       })
-      .then((response) => {
-        console.log("ewaAgreementPush response.data: ", response.data);
-      })
-      .catch((error) => {
-        console.log("ewaAgreementPush error: ", error);
-        Alert.alert("An Error occured", error);
-      });
+        .then((response) => {
+          console.log("ewaAgreementPush response.data: ", response.data);
+        })
+        .catch((error) => {
+          console.log("ewaAgreementPush error: ", error);
+          Alert.alert("An Error occured", error);
+        });
     }
   }, [fetched]);
 
@@ -196,6 +196,8 @@ const Agreement = () => {
         Analytics.trackEvent(`EwaAgreement-AgreementPush-Success`, {
           userId: unipeEmployeeId,
         });
+        dispatch(resetEwaLive());
+        dispatch(resetEwaHistorical([]));
         setLoading(false);
       })
       .catch((error) => {
@@ -210,19 +212,9 @@ const Agreement = () => {
 
   return (
     <SafeAreaView style={[styles.container, { padding: 0 }]}>
-      <AppBar
-        title="Agreement"
-        color={COLORS.primary}
-        leading={
-          <IconButton
-            icon={<Icon name="arrow-left" size={20} color="white" />}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          />
-        }
-      />
+      <Header title="Agreement" onLeftIconPress={() => navigation.goBack()} />
       <ScrollView>
+      <View style={styles.container}>
         <CollapsibleCard
           data={data}
           title="Loan Details"
@@ -268,8 +260,6 @@ const Agreement = () => {
         </View>
         <PrimaryButton
           title={loading ? "Booking" : "Finish"}
-          uppercase={false}
-          color="#2CB77C"
           onPress={() => {
             handleAgreement();
           }}
@@ -280,6 +270,7 @@ const Agreement = () => {
           * Disbursement will be reconciled in your next payroll {"\n"}* Annual
           Percentage Rate @ {apr} %
         </Text>
+        </View>
       </ScrollView>
       <Modal
         isVisible={isModalVisible}

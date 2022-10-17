@@ -9,7 +9,7 @@ import { COLORS } from "../../constants/Theme";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { stepIndicatorStyles, styles, welcome } from "../../styles";
 import SVGImg from "../../assets/UnipeLogo.svg";
-import Analytics from 'appcenter-analytics';
+import Analytics from "appcenter-analytics";
 
 export default WelcomePage = () => {
   const dispatch = useDispatch();
@@ -22,44 +22,42 @@ export default WelcomePage = () => {
 
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
-      color: stepStatus === "finished" ? COLORS.white : COLORS.primary,
+      color: stepStatus === "finished" ? COLORS.white : COLORS.primaryPending,
       size: 15,
     };
     switch (position) {
       case 0: {
         iconConfig.name = "file-document-outline";
-        return <MaterialCommunityIcons {...iconConfig} />
+        return <MaterialCommunityIcons {...iconConfig} />;
       }
       case 1: {
         iconConfig.name = "camera-outline";
-        return <MaterialCommunityIcons {...iconConfig} />
+        return <MaterialCommunityIcons {...iconConfig} />;
       }
       case 2: {
         iconConfig.name = "card-account-details-outline";
-        return <MaterialCommunityIcons {...iconConfig} />
+        return <MaterialCommunityIcons {...iconConfig} />;
       }
       case 3: {
         iconConfig.name = "smart-card-outline";
-        return <MaterialCommunityIcons {...iconConfig} />
+        return <MaterialCommunityIcons {...iconConfig} />;
       }
       case 4: {
         iconConfig.name = "bank-outline";
-        return <MaterialCommunityIcons {...iconConfig} />
+        return <MaterialCommunityIcons {...iconConfig} />;
       }
       case 5: {
         iconConfig.name = "bank-check";
-        return <MaterialCommunityIcons {...iconConfig} />
+        return <MaterialCommunityIcons {...iconConfig} />;
       }
       default: {
         iconConfig.name = "info-outline";
-        return <MaterialIcons {...iconConfig} />
+        return <MaterialIcons {...iconConfig} />;
       }
     }
   };
 
-  const renderStepIndicator = (params) => (
-    getStepIndicatorIconConfig(params)
-  );
+  const renderStepIndicator = (params) => getStepIndicatorIconConfig(params);
 
   const data = [
     "Profile",
@@ -89,7 +87,13 @@ export default WelcomePage = () => {
           color="#2CB77C"
           uppercase={false}
           onPress={() => {
-            Analytics.trackEvent('WelcomeScreen', { userId: id})
+            Analytics.trackEvent("WelcomeScreen", { userId: id });
+            navigation.navigate("PersonalDetailsForm");
+          }}
+        />
+        <PrimaryButton
+          title="Start Onboarding"
+          onPress={() => {
             navigation.navigate("PersonalDetailsForm");
           }}
         />

@@ -9,7 +9,8 @@ import Offers from "../../../../components/DataCard";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
-import { COLORS, FONTS } from "../../../../constants/Theme";
+import { FONTS } from "../../../../constants/Theme";
+import { STAGE } from "@env";
 
 const EWA = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ const EWA = () => {
   const navigation = useNavigation();
 
   const [fetched, setFetched] = useState(false);
+  const [eligible, setEligible] = useState(false);
 
   const id = useSelector((state) => state.auth.id);
   const aadhaarName = useSelector((state) => state.aadhaar.data.name);
@@ -33,6 +35,22 @@ const EWA = () => {
 
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const ewaHistoricalSlice = useSelector((state) => state.ewaHistorical);
+
+  useEffect(() => {
+    console.log(fetched, STAGE, ewaLiveSlice);
+    if (fetched) {
+      if (
+        STAGE !== "prod" ||
+        (STAGE === "prod" && parseInt(ewaLiveSlice?.eligibleAmount) >= 1000)
+      ) {
+        setEligible(true);
+      } else {
+        setEligible(false);
+      }
+    } else {
+      setEligible(false);
+    }
+  }, [ewaLiveSlice, fetched]);
 
   useEffect(() => {
     console.log("ewaLiveSlice: ", ewaLiveSlice);
@@ -95,15 +113,16 @@ const EWA = () => {
               ₹ {ewaLiveSlice?.eligibleAmount}
             </Text>
           </View>
-          <PrimaryButton
-            title={!fetched || parseInt(ewaLiveSlice?.eligibleAmount)<1000 ? "No Active Offer" : "Get Money Now"}
-            color={COLORS.primary}
-            uppercase={false}
-            disabled={!fetched || parseInt(ewaLiveSlice?.eligibleAmount)<1000}
-            onPress={() => {
-              navigation.navigate("EWA_OFFER");
-            }}
-          />
+          <View style={{marginHorizontal:"10%"}}>
+            <PrimaryButton
+              title={!eligible ? "No Active Offer" : "Get Money Now"}
+              disabled={!eligible}
+              onPress={() => {
+                navigation.navigate("EWA_OFFER");
+              }}
+            />
+          </View>
+
           <View
             style={{
               marginHorizontal: 20,

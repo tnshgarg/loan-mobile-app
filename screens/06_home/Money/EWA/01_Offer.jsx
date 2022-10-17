@@ -1,32 +1,31 @@
+import { STAGE } from "@env";
 import { MaterialIcons } from "@expo/vector-icons";
 import CheckBox from "@react-native-community/checkbox";
-import { AppBar, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
+import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import {
-  Alert,
-  SafeAreaView,
+  Alert, Dimensions,
+  Pressable, SafeAreaView,
   Text,
   TextInput,
-  View,
-  Dimensions,
-  Pressable,
+  View
 } from "react-native";
 import { getUniqueId } from "react-native-device-info";
+import Modal from "react-native-modal";
 import { NetworkInfo } from "react-native-network-info";
 import StepIndicator from "react-native-step-indicator";
+import { AntDesign } from "react-native-vector-icons";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { WebView } from "react-native-webview";
 import { useDispatch, useSelector } from "react-redux";
+import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/PrimaryButton";
+import { COLORS } from "../../../../constants/Theme";
 import { ewaOfferPush } from "../../../../helpers/BackendPush";
 import { addLoanAmount } from "../../../../store/slices/ewaLiveSlice";
-import { bankform, checkBox, styles, welcome } from "../../../../styles";
-import Modal from "react-native-modal";
-import { WebView } from "react-native-webview";
+import { checkBox, styles, welcome } from "../../../../styles";
 import TnC from "../../../../templates/docs/EWATnC.js";
-import { AntDesign } from "react-native-vector-icons";
-import { COLORS } from "../../../../constants/Theme";
-import Analytics from "appcenter-analytics";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -48,7 +47,7 @@ const Offer = () => {
   const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
     useState(false);
   const [amount, setAmount] = useState(ewaLiveSlice?.eligibleAmount.toString());
-  
+
   useEffect(() => {
     getUniqueId().then((id) => {
       setDeviceId(id);
@@ -63,6 +62,19 @@ const Offer = () => {
       setFetched(true);
     }
   }, [deviceId, ipAddress]);
+
+  useEffect(() => {
+    if (parseInt(amount) <= eligibleAmount) {
+      if (STAGE !== "prod" || (STAGE === "prod" && parseInt(amount) > 999)) {
+        setValidAmount(true);
+        dispatch(addLoanAmount(parseInt(amount)));
+      } else {
+        setValidAmount("false");
+      }
+    } else {
+      setValidAmount("false");
+    }
+  }, [amount]);
 
   useEffect(() => {
     if (fetched) {
@@ -115,15 +127,6 @@ const Offer = () => {
     }
   }
 
-  useEffect(() => {
-    if (parseInt(amount) > 999 && parseInt(amount) <= eligibleAmount) {
-      setValidAmount(true);
-      dispatch(addLoanAmount(parseInt(amount)));
-    } else {
-      setValidAmount(false);
-    }
-  }, [amount]);
-
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
       color: "white",
@@ -165,121 +168,108 @@ const Offer = () => {
 
   return (
     <SafeAreaView style={[styles.container, { padding: 0 }]}>
-      <AppBar
+      <Header
         title="On Demand Salary"
-        color={COLORS.primary}
-        leading={
-          <IconButton
-            icon={<Icon name="arrow-left" size={20} color="white" />}
-            onPress={() => {
-              navigation.navigate("Home");
-            }}
-          />
-        }
+        onLeftIconPress={() => navigation.navigate("Home")}
       />
-      <View
-        style={{
-          backgroundColor: "#E5EAF7",
-          width: "85%",
-          height: "20%",
-          alignSelf: "center",
-          marginTop: 10,
-          borderRadius: 10,
-          paddingTop: 18,
-          paddingBottom: 18,
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            width: "50%",
-            paddingBottom: 10,
-            alignSelf: "center",
-          }}
-        >
-          <Icon
-            name="currency-inr"
-            color="green"
-            size={32}
-            style={{ marginTop: 8, marginRight: 10 }}
-          />
-          <TextInput
+      <View style={styles.container}>
+        <View style={{ flexDirection: "column" }}>
+          <View
             style={{
-              flex: 1,
-              fontSize: 32,
-              color: "green",
-              borderWidth: 1,
-              width: 5,
+              flexDirection: "row",
+              width: "50%",
+              paddingBottom: 10,
+              alignSelf: "center",
             }}
-            keyboardType="numeric"
-            textAlign={"center"}
-            value={amount}
-            onChangeText={setAmount}
-            isFocused={true}
-          />
+          >
+            <Icon
+              name="currency-inr"
+              color="green"
+              size={32}
+              style={{ marginTop: 8, marginRight: 10 }}
+            />
+
+            <TextInput
+              style={{
+                fontSize: 32,
+                color: "green",
+                borderWidth: 1,
+                width: "60%",
+              }}
+              keyboardType="numeric"
+              textAlign={"center"}
+              value={amount}
+              onChangeText={setAmount}
+              isFocused={true}
+            />
+          </View>
+          <Text
+            style={{
+              fontSize: 14,
+              alignSelf: "center",
+              color: "#0D2A4E",
+              marginTop: 10,
+            }}
+          >
+            You can choose between 1000 to {eligibleAmount}
+          </Text>
         </View>
 
         <Text
           style={{
-            fontSize: 14,
+            fontSize: 20,
             alignSelf: "center",
+            fontWeight: "bold",
             color: "#0D2A4E",
             marginTop: 10,
           }}
         >
-          You can choose between 1000 to {eligibleAmount}
+          Steps to Cash
         </Text>
+        <View style={welcome.steps}>
+          <StepIndicator
+            customStyles={stepIndicatorStyles}
+            stepCount={3}
+            direction="vertical"
+            currentPosition={5}
+            renderStepIndicator={renderStepIndicator}
+            labels={data}
+          />
+        </View>
+
+        {/* <Checkbox
+        text={"I agree to the Terms and Conditions."}
+        value={consent}
+        setValue={setConsent}
+      /> */}
+        <View style={{ flexDirection: "row" }}>
+          <CheckBox
+            value={consent}
+            onValueChange={setConsent}
+            style={checkBox.checkBox}
+            tintColors={{ true: COLORS.primary }}
+          />
+          <Text style={checkBox.checkBoxText}>
+            I agree to the
+            <Text
+              onPress={() => setIsTermsOfUseModalVisible(true)}
+              style={styles.termsText}
+            >
+              {" "}
+              Terms and Conditions
+            </Text>
+            .
+          </Text>
+        </View>
+        <PrimaryButton
+          title={loading ? "Processing" : "Continue"}
+          disabled={loading || !consent || !validAmount}
+          onPress={() => {
+            handleAmount();
+          }}
+        />
       </View>
 
-      <Text
-        style={{
-          fontSize: 20,
-          alignSelf: "center",
-          fontWeight: "bold",
-          color: "#0D2A4E",
-          marginTop: 10,
-        }}
-      >
-        Steps to Cash
-      </Text>
-      <View style={welcome.steps}>
-        <StepIndicator
-          customStyles={stepIndicatorStyles}
-          stepCount={3}
-          direction="vertical"
-          currentPosition={5}
-          renderStepIndicator={renderStepIndicator}
-          labels={data}
-        />
-      </View>
-      <View style={{ flexDirection: "row" }}>
-        <CheckBox
-          value={consent}
-          onValueChange={setConsent}
-          style={checkBox.checkBox}
-          tintColors={{ true: COLORS.primary }}
-        />
-        <Text style={checkBox.checkBoxText}>
-          I agree to the 
-          <Text
-            onPress={() => setIsTermsOfUseModalVisible(true)}
-            style={styles.termsText}
-          >
-            {" "} Terms and Conditions
-          </Text>
-          .
-        </Text>
-      </View>
-      <PrimaryButton
-        title={loading ? "Processing" : "Continue"}
-        color={COLORS.primary}
-        uppercase={false}
-        disabled={loading || !consent || !validAmount}
-        onPress={() => {
-          handleAmount();
-        }}
-      />
-      <View style={bankform.padding}></View>
       <Modal
         isVisible={isTermsOfUseModalVisible}
         style={{
