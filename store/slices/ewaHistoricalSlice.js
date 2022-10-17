@@ -7,7 +7,11 @@ const ewaHistoricalSlice = createSlice({
   initialState: initialState,
   reducers: {
     resetEwaHistorical(state, action) {
-      return [...action.payload];
+      if (!action.payload || action.payload.length === 0) {
+        return initialState;
+      } else {
+        return [...action.payload];
+      }
     },
   },
 });

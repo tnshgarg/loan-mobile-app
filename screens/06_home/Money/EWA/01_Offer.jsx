@@ -18,15 +18,15 @@ import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { ewaOfferPush } from "../../../../helpers/BackendPush";
 import { addLoanAmount } from "../../../../store/slices/ewaLiveSlice";
-import { bankform, checkBox, styles, welcome } from "../../../../styles";
+import { checkBox, styles, welcome } from "../../../../styles";
 import Modal from "react-native-modal";
 import { WebView } from "react-native-webview";
 import TnC from "../../../../templates/docs/EWATnC.js";
 import { AntDesign } from "react-native-vector-icons";
 import { COLORS } from "../../../../constants/Theme";
 import Header from "../../../../components/atoms/Header";
-import Checkbox from "../../../../components/atoms/Checkbox";
 import CheckBox from "@react-native-community/checkbox";
+import { STAGE } from "@env";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -63,6 +63,19 @@ const Offer = () => {
       setFetched(true);
     }
   }, [deviceId, ipAddress]);
+
+  useEffect(() => {
+    if (parseInt(amount) <= eligibleAmount) {
+      if ((STAGE!=="prod") || (STAGE==="prod" && parseInt(amount) > 999)) {
+        setValidAmount(true);
+        dispatch(addLoanAmount(parseInt(amount)));
+      } else {
+        setValidAmount("false");
+      }
+    } else {
+      setValidAmount("false");
+    }
+  }, [amount]);
 
   useEffect(() => {
     if (fetched) {
@@ -107,15 +120,6 @@ const Offer = () => {
         });
     }
   }
-
-  useEffect(() => {
-    if (parseInt(amount) > 999 && parseInt(amount) <= eligibleAmount) {
-      setValidAmount(true);
-      dispatch(addLoanAmount(parseInt(amount)));
-    } else {
-      setValidAmount(false);
-    }
-  }, [amount]);
 
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
