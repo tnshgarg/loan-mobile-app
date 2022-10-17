@@ -1,6 +1,5 @@
 import axios from "axios";
-import { RZP_TEST_AUTH } from "@env";
-import { STAGE } from "@env";
+import { RZP_TEST_AUTH, STAGE } from "@env";
 
 const createCustomer = ({ name, email, phoneNumber }) => {
   var data = JSON.stringify({
