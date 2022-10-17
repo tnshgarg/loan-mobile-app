@@ -89,7 +89,7 @@ export default WelcomePage = () => {
           color="#2CB77C"
           uppercase={false}
           onPress={() => {
-            Analytics.trackEvent('Welcome Screen', { Category: 'Onboarding', userId: id});
+            Analytics.trackEvent('WelcomeScreen', { userId: id})
             navigation.navigate("PersonalDetailsForm");
           }}
         />

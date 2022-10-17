@@ -67,7 +67,6 @@ export default OTPScreen = () => {
                   <Icon name="arrow-back" size={30} color={COLORS.primary} />
                 }
                 onPress={() =>{
-                  Analytics.trackEvent('User tried to resend otp early', { Category: 'Onboarding', userId: id})
                   Alert.alert(
                     "OTP Timer",
                     "You must wait for 2 minutes to resend OTP."
@@ -138,10 +137,10 @@ export default OTPScreen = () => {
                       setOtp("");
                       setBack(false);
                       dispatch(resetTimer());
-                      Analytics.trackEvent('Otp resent successfully', { Category: 'Onboarding', userId: id})
+                      Analytics.trackEvent('OtpScreen-OtpResend-Success', { userId: id})
                       Alert.alert("OTP resent successfully");
                     } else {
-                      Analytics.trackEvent('Otp not resent', { Category: 'Onboarding', userId: id , error: result["response"]["details"]});
+                      Analytics.trackEvent('OtpScreen-OtpResend-Error', { userId: id , error: result["response"]["details"]});
                       Alert.alert(
                         res["response"]["status"],
                         res["response"]["details"]
@@ -150,7 +149,7 @@ export default OTPScreen = () => {
                   })
                   .catch((error) => {
                     console.log(error);
-                    Analytics.trackEvent('Otp not resent', { Category: 'Onboarding', userId: id , error: error});
+                    Analytics.trackEvent('OtpScreen-OtpResend-Error', { userId: id , error: error});
                     Alert.alert("Error", error);
                   });
               }}
@@ -174,21 +173,21 @@ export default OTPScreen = () => {
               checkVerification(phoneNumber, otp)
                 .then((res) => {
                   if (res["response"]["status"] === "success") {
-                    Analytics.trackEvent('Otp verified successfully', { Category: 'Onboarding', userId: id})
+                    Analytics.trackEvent('OtpScreen-OtpVerification-Success', { userId: id})
                     if (onboarded) {
-                      Analytics.trackEvent('User Already Onboarded', { Category: 'Onboarding', userId: id})
+                      Analytics.trackEvent('OtpScreen-OnboardingStatus-Success', { userId: id})
                       navigation.navigate("BackendSync", {
                         destination: "Home",
                       });
                     } else {
-                      Analytics.trackEvent('User Starts Onboarding', { Category: 'Onboarding', userId: id})
+                      Analytics.trackEvent('OtpScreen-OnboardingStatus-Pending', { userId: id})
                       navigation.navigate("BackendSync", {
                         destination: "Welcome",
                       });
                     }
                     dispatch(resetTimer());
                   } else {
-                    Analytics.trackEvent('Otp Incorrect', { Category: 'Onboarding', userId: id , error: result["response"]["details"]});
+                    Analytics.trackEvent('OtpScreen-OtpVerification-Error', { userId: id , error: result["response"]["details"]});
                     Alert.alert(
                       res["response"]["status"],
                       res["response"]["details"]
@@ -197,7 +196,7 @@ export default OTPScreen = () => {
                 })
                 .catch((error) => {
                   console.log(error);
-                  Analytics.trackEvent('Otp not resent', { Category: 'Onboarding', userId: id , error: error});
+                  Analytics.trackEvent('OtpScreen-OtpVerification-Error', { userId: id , error: error});
                   Alert.alert("Error", error);
                 });
             }}

@@ -31,7 +31,7 @@ import {
 } from "../../services/mandate/Razorpay/services";
 import { RZP_TEST_KEY_ID } from "@env";
 import { COLORS } from "../../constants/Theme";
-import Analytics from 'appcenter-analytics';
+import Analytics from "appcenter-analytics";
 
 const Form = (props) => {
   const navigation = useNavigation();
@@ -69,7 +69,9 @@ const Form = (props) => {
   const [backendPush, setBackendPush] = useState(false);
   const [orderId, setOrderId] = useState(mandateSlice?.orderId);
   const [customerId, setCustomerId] = useState(mandateSlice?.customerId);
-  const email = useSelector((state) => state.pan.data.email || state.profile.email);
+  const email = useSelector(
+    (state) => state.pan.data.email || state.profile.email
+  );
   const phoneNumber = useSelector((state) => state.auth.phoneNumber);
 
   useEffect(() => {
@@ -131,10 +133,15 @@ const Form = (props) => {
         .then((res) => {
           console.log("createCustomer", res.data);
           setCustomerId(res.data.id);
-          Analytics.trackEvent('Mandate Customer Created', { Category: 'Onboarding', userId: employeeId});
+          Analytics.trackEvent("Mandate-CustomerCreation-Success", {
+            userId: employeeId,
+          });
         })
         .catch(function (error) {
-          Analytics.trackEvent('Mandate Customer Creation failed', { Category: 'Onboarding', userId: employeeId, error: error });
+          Analytics.trackEvent("Mandate-CustomerCreation-Error", {
+            userId: employeeId,
+            error: error,
+          });
           console.log(error);
         });
     }
@@ -173,22 +180,28 @@ const Form = (props) => {
               setVerifyMsg("");
               setVerifyStatus("SUCCESS");
               setBackendPush(true);
-              Analytics.trackEvent('Mandate token retrieved', { Category: 'Onboarding', userId: employeeId});
+              Analytics.trackEvent("Mandate-Registration-Success", {
+                userId: employeeId,
+              });
               showToast("Mandate Verified Successfully");
-              props?.type == "Onboarding"
-                ? navigation.navigate("Home")
-                : null;
+              props?.type == "Onboarding" ? navigation.navigate("Home") : null;
             })
             .catch((error) => {
               console.log(error);
-              Analytics.trackEvent('Mandate token retrieval failed', { Category: 'Onboarding', userId: employeeId, error: error.description });
+              Analytics.trackEvent("Mandate-getToken-Error", {
+                userId: employeeId,
+                error: error.description,
+              });
             });
         })
         .catch((error) => {
           console.log(error);
           alert(`Error: ${error.code} | ${error.description}`);
           setVerifyMsg(error.description);
-          Analytics.trackEvent('Mandate Registration failed', { Category: 'Onboarding', userId: employeeId, error: error.description });
+          Analytics.trackEvent("Mandate-Registration-Error", {
+            userId: employeeId,
+            error: error.description,
+          });
           setVerifyStatus("ERROR");
           setBackendPush(true);
           setOrderId("");
@@ -219,7 +232,9 @@ const Form = (props) => {
           setVerifyStatus("PENDING");
           setVerifyMsg("To be confirmed by user");
           setTimestamp(Date.now());
-          Analytics.trackEvent(`${type} Mandate Initiated`, { Category: 'Onboarding', userId: employeeId});
+          Analytics.trackEvent(`Mandate-${type}Mandate-Pending`, {
+            userId: employeeId,
+          });
           setBackendPush(true);
           let func = 0;
           type === "NETBANKING"
@@ -234,9 +249,16 @@ const Form = (props) => {
             .then((res) => {
               console.log(type, res.data);
               setOrderId(res.data.id);
+              Analytics.trackEvent(`Mandate-${type}Mandate-Success`, {
+                userId: employeeId,
+              });
             })
             .catch((error) => {
               console.log(error);
+              Analytics.trackEvent(`Mandate-${type}Mandate-Error`, {
+                userId: employeeId,
+                error: error,
+              });
             });
         }}
       />
@@ -259,16 +281,25 @@ const Form = (props) => {
           setType("UPI");
           setVerifyStatus("PENDING");
           setVerifyMsg("To be confirmed by user");
-          Analytics.trackEvent('UPI Mandate Initiated', { Category: 'Onboarding', userId: employeeId});
+          Analytics.trackEvent(`Mandate-${type}Mandate-Pending`, {
+            userId: employeeId,
+          });
           setTimestamp(Date.now());
           setBackendPush(true);
           createUpiOrder({ customerId: customerId })
             .then((res) => {
               console.log("UPI", res.data);
               setOrderId(res.data.id);
+              Analytics.trackEvent(`Mandate-${type}Mandate-Success`, {
+                userId: employeeId,
+              });
             })
             .catch(function (error) {
               console.log(error);
+              Analytics.trackEvent(`Mandate-${type}Mandate-Error`, {
+                userId: employeeId,
+                error: error,
+              });
             });
         }}
       />

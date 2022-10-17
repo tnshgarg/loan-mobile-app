@@ -11,7 +11,7 @@ import {
 import { bankform, form, styles } from "../../styles";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import { COLORS } from "../../constants/Theme";
-import Analytics from 'appcenter-analytics';
+import Analytics from "appcenter-analytics";
 
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -88,7 +88,10 @@ const AadhaarConfirmApi = (props) => {
           onPress={() => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
-            Analytics.trackEvent('Aadhaar unConfirmed', { Category: 'Onboarding', userId: id, error:"Rejected by User" });
+            Analytics.trackEvent("AadhaarConfirm-InfoConfirm-Error", {
+              userId: id,
+              error: "Rejected by User",
+            });
             setBackendPush(true);
             {
               props?.route?.params?.type == "KYC"
@@ -110,7 +113,9 @@ const AadhaarConfirmApi = (props) => {
           color={COLORS.primary}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
-            Analytics.trackEvent('Aadhaar Confirmed', { Category: 'Onboarding', userId: id});
+            Analytics.trackEvent("AadhaarConfirm-InfoConfirm-Success", {
+              userId: id,
+            });
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
             {

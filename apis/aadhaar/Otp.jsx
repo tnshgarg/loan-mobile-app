@@ -13,7 +13,7 @@ import { KYC_AADHAAR_GENERATE_OTP_API_URL } from "../../services/employees/endpo
 import ApiView from "../ApiView";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import { resetTimer } from "../../store/slices/timerSlice";
-import Analytics from 'appcenter-analytics';
+import Analytics from "appcenter-analytics";
 
 const AadhaarOtpApi = (props) => {
   const dispatch = useDispatch();
@@ -50,7 +50,10 @@ const AadhaarOtpApi = (props) => {
   }, [verifyTimestamp]);
 
   useEffect(() => {
-    console.log("KYC_AADHAAR_GENERATE_OTP_API_URL: ", KYC_AADHAAR_GENERATE_OTP_API_URL);
+    console.log(
+      "KYC_AADHAAR_GENERATE_OTP_API_URL: ",
+      KYC_AADHAAR_GENERATE_OTP_API_URL
+    );
     console.log("AadhaarOtpApi aadhaarSlice: ", aadhaarSlice);
     if (backendPush) {
       aadhaarBackendPush({
@@ -92,7 +95,9 @@ const AadhaarOtpApi = (props) => {
                 setBackendPush(true);
                 setVerifyTimestamp(responseJson["timestamp"]);
                 dispatch(resetTimer());
-                Analytics.trackEvent('Aadhaar Otp sent', { Category: 'Onboarding', userId: id});
+                Analytics.trackEvent("AadhaarOtp-OtpSent-Success", {
+                  userId: id,
+                });
                 {
                   props.type == "KYC"
                     ? navigation.navigate("KYC", {
@@ -106,7 +111,10 @@ const AadhaarOtpApi = (props) => {
                 break;
               default:
                 setVerifyMsg(responseJson["data"]["message"]);
-                Analytics.trackEvent('Aadhaar otp not sent', { Category: 'Onboarding', userId: id, error:responseJson["data"]["message"]});
+                Analytics.trackEvent("AadhaarOtp-OtpSent-Error", {
+                  userId: id,
+                  error: responseJson["data"]["message"],
+                });
                 setVerifyStatus("ERROR");
                 setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
@@ -114,20 +122,29 @@ const AadhaarOtpApi = (props) => {
             }
           } else if (responseJson?.error?.message) {
             setVerifyMsg(responseJson["error"]["message"]);
-            Analytics.trackEvent('Aadhaar otp not sent', { Category: 'Onboarding', userId: id, error:responseJson["error"]["message"]});
+            Analytics.trackEvent("AadhaarOtp-OtpSent-Error", {
+              userId: id,
+              error: responseJson["error"]["message"],
+            });
             setVerifyStatus("ERROR");
             setBackendPush(true);
             Alert.alert("Error", responseJson["error"]["message"]);
           } else {
             setVerifyMsg(responseJson["message"]);
-            Analytics.trackEvent('Aadhaar otp not sent', { Category: 'Onboarding', userId: id, error:responseJson["message"]});
+            Analytics.trackEvent("AadhaarOtp-OtpSent-Error", {
+              userId: id,
+              error: responseJson["message"],
+            });
             setVerifyStatus("ERROR");
             setBackendPush(true);
             Alert.alert("Error", responseJson["message"]);
           }
         } catch (error) {
           console.log("Error: ", error);
-          Analytics.trackEvent('Aadhaar otp not sent', { Category: 'Onboarding', userId: id, error:error});
+          Analytics.trackEvent("AadhaarOtp-OtpSent-Error", {
+            userId: id,
+            error: error,
+          });
           setVerifyMsg(error);
           setVerifyStatus("ERROR");
           setBackendPush(true);
@@ -138,7 +155,10 @@ const AadhaarOtpApi = (props) => {
         setVerifyMsg(error);
         setVerifyStatus("ERROR");
         setBackendPush(true);
-        Analytics.trackEvent('Aadhaar otp not sent', { Category: 'Onboarding', userId: id, error:error});
+        Analytics.trackEvent("AadhaarOtp-OtpSent-Error", {
+          userId: id,
+          error: error,
+        });
         Alert.alert("Error", error);
       });
   };

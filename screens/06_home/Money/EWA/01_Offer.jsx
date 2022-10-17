@@ -26,6 +26,7 @@ import { WebView } from "react-native-webview";
 import TnC from "../../../../templates/docs/EWATnC.js";
 import { AntDesign } from "react-native-vector-icons";
 import { COLORS } from "../../../../constants/Theme";
+import Analytics from "appcenter-analytics";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -97,11 +98,18 @@ const Offer = () => {
       })
         .then((response) => {
           console.log("ewaOfferPush response.data: ", response.data);
+          Analytics.trackEvent(`EwaOffer-OfferPush-Success`, {
+            userId: unipeEmployeeId,
+          });
           navigation.navigate("EWA_KYC");
           setLoading(false);
         })
         .catch((error) => {
           console.log("ewaOfferPush error: ", error);
+          Analytics.trackEvent(`EwaOffer-OfferPush-Error`, {
+            userId: unipeEmployeeId,
+            error:error
+          });
           Alert.alert("An Error occured", error);
         });
     }

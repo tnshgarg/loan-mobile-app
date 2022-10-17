@@ -35,7 +35,7 @@ import termsOfUse from "../../templates/docs/TermsOfUse.js";
 import { AntDesign } from "react-native-vector-icons";
 import { COLORS } from "../../constants/Theme";
 import SVGImg from "../../assets/UnipeLogo.svg";
-import Analytics from 'appcenter-analytics';
+import Analytics from "appcenter-analytics";
 
 export default LoginScreen = () => {
   SplashScreen.hide();
@@ -104,7 +104,9 @@ export default LoginScreen = () => {
       .then((res) => {
         console.log("LoginScreen res.data: ", res.data);
         if (res.data.status === 200) {
-          Analytics.trackEvent('User is Registered', { Category: 'Onboarding', userId: res.data.body.id});
+          Analytics.trackEvent(`LoginScreen-UserRegistration-Success`, {
+            userId: res.data.body.id,
+          });
           setId(res.data.body.id);
           setOnboarded(res.data.body.onboarded);
           sendSmsVerification(phoneNumber)
@@ -112,11 +114,16 @@ export default LoginScreen = () => {
               console.log("sendSmsVerification result: ", result);
               if (result["response"]["status"] === "success") {
                 setLoading(false);
-                Analytics.trackEvent('Otp Sent', { Category: 'Onboarding', userId: id});
+                Analytics.trackEvent("LoginScreen-OtpDelivery-Success", {
+                  userId: id,
+                });
                 navigation.navigate("Otp");
               } else {
                 setLoading(false);
-                Analytics.trackEvent('Otp not sent', { Category: 'Onboarding', userId: id , error: result["response"]["details"]});
+                Analytics.trackEvent("LoginScreen-OtpDelivery-Error", {
+                  userId: id,
+                  error: result["response"]["details"],
+                });
                 Alert.alert(
                   result["response"]["status"],
                   result["response"]["details"]
@@ -126,18 +133,27 @@ export default LoginScreen = () => {
             .catch((error) => {
               setLoading(false);
               console.log(error);
-              Analytics.trackEvent('Otp not sent', { Category: 'Onboarding', userId: id , error: error});
+              Analytics.trackEvent("LoginScreen-OtpDelivery-Error", {
+                userId: id,
+                error: error,
+              });
               Alert("Error", "Something is Wrong");
             });
         } else {
           setLoading(false);
-          Analytics.trackEvent('User not allowed to access', { Category: 'Onboarding', phoneNumber: phoneNumber, error: res.data["message"]});
+          Analytics.trackEvent("LoginScreen-UserRegistration-Error", {
+            phoneNumber: phoneNumber,
+            error: res.data["message"],
+          });
           Alert.alert("Error", res.data["message"]);
         }
       })
       .catch((error) => {
         setLoading(false);
-        Analytics.trackEvent('User not allowed to access', { Category: 'Onboarding', phoneNumber: phoneNumber, error: error});
+        Analytics.trackEvent("LoginScreen-UserRegistration-Error", {
+          phoneNumber: phoneNumber,
+          error: error,
+        });
         console.log(error);
       });
   };

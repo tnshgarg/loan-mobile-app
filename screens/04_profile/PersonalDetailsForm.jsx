@@ -141,7 +141,7 @@ const PersonalDetailsForm = () => {
               color={COLORS.primary}
               disabled={!next}
               onPress={() => {
-                Analytics.trackEvent("Personal Details Form", {
+                Analytics.trackEvent("PersonalDetailsForm-PushData-Success", {
                   userId: id,
                 });
                 navigation.navigate("PersonalImage");

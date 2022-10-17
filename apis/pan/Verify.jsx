@@ -12,7 +12,7 @@ import {
 import { KYC_PAN_VERIFY_API_URL } from "../../services/employees/endpoints";
 import { panBackendPush } from "../../helpers/BackendPush";
 import ApiView from "../ApiView";
-import Analytics from 'appcenter-analytics';
+import Analytics from "appcenter-analytics";
 
 const PanVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -90,7 +90,9 @@ const PanVerifyApi = (props) => {
                 setVerifyMsg("To be confirmed by User");
                 setVerifyStatus("PENDING");
                 setVerifyTimestamp(responseJson["timestamp"]);
-                Analytics.trackEvent('PanInfo Fetched', { Category: 'Onboarding', userId: id });
+                Analytics.trackEvent("PanVerify-getPanData-Success", {
+                  userId: id,
+                });
                 setBackendPush(true);
                 {
                   props.type == "KYC"
@@ -105,20 +107,29 @@ const PanVerifyApi = (props) => {
                 break;
               default:
                 setVerifyMsg(responseJson["data"]["message"]);
-                Analytics.trackEvent('PanInfo not Fetched', { Category: 'Onboarding', userId: id ,error:responseJson["data"]["message"]});
+                Analytics.trackEvent("PanVerify-getPanData-Error", {
+                  userId: id,
+                  error: responseJson["data"]["message"],
+                });
                 setVerifyStatus("ERROR");
                 setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
             }
           } else if (responseJson?.error?.message) {
             setVerifyMsg(responseJson["error"]["message"]);
-            Analytics.trackEvent('PanInfo not Fetched', { Category: 'Onboarding', userId: id ,error:responseJson["error"]["message"]});
+            Analytics.trackEvent("PanVerify-getPanData-Error", {
+              userId: id,
+              error: responseJson["error"]["message"],
+            });
             setVerifyStatus("ERROR");
             setBackendPush(true);
             Alert.alert("Error", responseJson["error"]["message"]);
           } else {
             setVerifyMsg(responseJson["message"]);
-            Analytics.trackEvent('PanInfo not Fetched', { Category: 'Onboarding', userId: id ,error:responseJson["message"]});
+            Analytics.trackEvent("PanVerify-getPanData-Error", {
+              userId: id,
+              error: responseJson["message"],
+            });
             setVerifyStatus("ERROR");
             setBackendPush(true);
             Alert.alert("Error", responseJson["message"]);
@@ -126,7 +137,10 @@ const PanVerifyApi = (props) => {
         } catch (error) {
           console.log("Error: ", error);
           setVerifyMsg(error);
-          Analytics.trackEvent('PanInfo not Fetched', { Category: 'Onboarding', userId: id ,error:error});
+          Analytics.trackEvent("PanVerify-getPanData-Error", {
+            userId: id,
+            error: error,
+          });
           setVerifyStatus("ERROR");
           setBackendPush(true);
           Alert.alert("Error", error);
@@ -135,7 +149,10 @@ const PanVerifyApi = (props) => {
       .catch((error) => {
         console.log("Error: ", error);
         setVerifyMsg(error);
-        Analytics.trackEvent('PanInfo not Fetched', { Category: 'Onboarding', userId: id ,error:error});
+        Analytics.trackEvent("PanVerify-getPanData-Error", {
+          userId: id,
+          error: error,
+        });
         setVerifyStatus("ERROR");
         setBackendPush(true);
         Alert.alert("Error", error);

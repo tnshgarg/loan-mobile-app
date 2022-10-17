@@ -50,9 +50,20 @@ const PersonalImage = () => {
     ImagePicker.launchImageLibrary(options, (response) => {
       if (response.didCancel) {
         console.log("User cancelled image picker");
+        Analytics.trackEvent("PersonalImage-getImage-Error", {
+          userId: id,
+          error:"User cancelled image picker",
+        });
       } else if (response.error) {
         console.log("ImagePicker Error: ", response.error);
+        Analytics.trackEvent("PersonalImage-getImage-Error", {
+          userId: id,
+          error:response.error,
+        });
       } else {
+        Analytics.trackEvent("PersonalImage-getImage-Success", {
+          userId: id,
+        });
         dispatch(addPhoto(response?.assets[0]?.base64));
       }
     });
@@ -106,9 +117,6 @@ const PersonalImage = () => {
             color={COLORS.primary}
             disabled={!next}
             onPress={() => {
-              Analytics.trackEvent("Personal Image + Details Completion", {
-                userId: id,
-              });
               profileBackendPush({
                 id: id,
                 maritalStatus: profileSlice?.maritalStatus,

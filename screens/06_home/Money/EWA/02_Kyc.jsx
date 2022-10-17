@@ -10,6 +10,7 @@ import PrimaryButton from "../../../../components/PrimaryButton";
 import { ewaKycPush } from "../../../../helpers/BackendPush";
 import { form, styles } from "../../../../styles";
 import { COLORS } from "../../../../constants/Theme";
+import Analytics from "appcenter-analytics";
 
 const KYC = () => {
   const navigation = useNavigation();
@@ -73,11 +74,18 @@ const KYC = () => {
       .then((response) => {
         console.log("ewaKycPush response.data: ", response.data);
         navigation.navigate("EWA_AGREEMENT");
+        Analytics.trackEvent(`EwaKyc-KYC-Success`, {
+          userId: unipeEmployeeId,
+        });
         setLoading(false);
       })
       .catch((error) => {
         console.log("ewaKycPush error: ", error);
         Alert.alert("An Error occured", error);
+        Analytics.trackEvent(`EwaKyc-KYC-Success`, {
+          userId: unipeEmployeeId,
+          error: error,
+        });
       });
   }
 

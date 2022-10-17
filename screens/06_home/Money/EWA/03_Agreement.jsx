@@ -29,7 +29,7 @@ import { useWindowDimensions } from "react-native";
 import RenderHtml from "react-native-render-html";
 import agreement from "../../../../templates/docs/LiquidLoansLoanAgreement";
 import { COLORS } from "../../../../constants/Theme";
-
+import Analytics from "appcenter-analytics";
 
 const Agreement = () => {
 
@@ -193,10 +193,17 @@ const Agreement = () => {
       .then((response) => {
         console.log("ewaAgreementPush response.data: ", response.data);
         navigation.navigate("EWA_DISBURSEMENT", { offer: ewaLiveSlice });
+        Analytics.trackEvent(`EwaAgreement-AgreementPush-Success`, {
+          userId: unipeEmployeeId,
+        });
         setLoading(false);
       })
       .catch((error) => {
         console.log("ewaAgreementPush error: ", error);
+        Analytics.trackEvent(`EwaAgreement-AgreementPush-Error`, {
+          userId: unipeEmployeeId,
+          error: error,
+        });
         Alert.alert("An Error occured", error);
       });
   }

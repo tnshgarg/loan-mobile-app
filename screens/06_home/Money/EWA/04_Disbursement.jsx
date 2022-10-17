@@ -7,7 +7,7 @@ import { ewa, styles } from "../../../../styles";
 import { useSelector } from "react-redux";
 import { COLORS } from "../../../../constants/Theme";
 import { getBackendData } from "../../../../services/employees/employeeServices";
-
+import Analytics from "appcenter-analytics";
 
 const Disbursement = ({route, navigation}) => {
   const {offer} = route.params;
@@ -27,6 +27,9 @@ const Disbursement = ({route, navigation}) => {
     getBackendData({ params: { offerId: offer.offerId }, xpath: "ewa/disbursement" })
       .then((response) => {
         if (response.data.status === 200) {
+          Analytics.trackEvent(`EwaDisbursement-KYC-Success`, {
+            userId: unipeEmployeeId,
+          });
           console.log("ewaDisbursementFetch response.data: ", response.data);
           setLoanAmount(response.data.body.loanAmount);
           setNetAmount(response.data.body.netAmount);
@@ -38,6 +41,10 @@ const Disbursement = ({route, navigation}) => {
       })
       .catch((error) => {
         console.log("ewaDisbursementFetch error: ", error);
+        Analytics.trackEvent(`EwaDisbursement-KYC-Error`, {
+          userId: unipeEmployeeId,
+          error: error,
+        });
       });
   }, []);
 

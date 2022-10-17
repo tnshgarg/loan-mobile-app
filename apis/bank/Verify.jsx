@@ -119,7 +119,7 @@ const BankVerifyApi = (props) => {
                 setVerifyMsg("To be confirmed by User");
                 setVerifyStatus("PENDING");
                 setVerifyTimestamp(responseJson["timestamp"]);
-                Analytics.trackEvent("BankInfo retrived", {
+                Analytics.trackEvent("BankVerify-getBankData-Success", {
                   Category: "Onboarding",
                   userId: id,
                 });
@@ -137,7 +137,7 @@ const BankVerifyApi = (props) => {
                 break;
               default:
                 setVerifyMsg(responseJson["data"]["message"]);
-                Analytics.trackEvent("BankInfo not Retrieved", {
+                Analytics.trackEvent("BankVerify-getBankData-Error", {
                   Category: "Onboarding",
                   userId: id,
                   error: responseJson["data"]["message"],
@@ -151,7 +151,7 @@ const BankVerifyApi = (props) => {
             setVerifyStatus("ERROR");
             if (responseJson["error"]) {
               setVerifyMsg(responseJson["error"]);
-              Analytics.trackEvent("BankInfo not Retrieved", {
+              Analytics.trackEvent("BankVerify-getBankData-Error", {
                 Category: "Onboarding",
                 userId: id,
                 error: responseJson["error"]["metadata"]["fields"]
@@ -168,7 +168,10 @@ const BankVerifyApi = (props) => {
               );
             } else {
               setVerifyMsg(responseJson["messsage"]);
-              Analytics.trackEvent('BankInfo not Retrieved', { Category: 'Onboarding', userId: id, error:responseJson["messsage"]});
+              Analytics.trackEvent("BankVerify-getBankData-Error", {
+                userId: id,
+                error: responseJson["messsage"],
+              });
               setVerifyStatus("ERROR");
               setBackendPush(true);
               Alert.alert("Error", responseJson["message"]);
@@ -176,7 +179,10 @@ const BankVerifyApi = (props) => {
           }
         } catch (error) {
           console.log("Error: ", error);
-          Analytics.trackEvent('BankInfo not Retrieved', { Category: 'Onboarding', userId: id, error:error});
+          Analytics.trackEvent("BankVerify-getBankData-Error", {
+            userId: id,
+            error: error,
+          });
           setVerifyMsg(error);
           setVerifyStatus("ERROR");
           setBackendPush(true);
@@ -186,7 +192,10 @@ const BankVerifyApi = (props) => {
       })
       .catch((error) => {
         console.log("Error: ", error);
-        Analytics.trackEvent('BankInfo not Retrieved', { Category: 'Onboarding', userId: id, error:error});
+        Analytics.trackEvent("BankVerify-getBankData-Error", {
+          userId: id,
+          error: error,
+        });
         setVerifyMsg(error);
         setVerifyStatus("ERROR");
         setBackendPush(true);
