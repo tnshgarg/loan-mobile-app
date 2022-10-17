@@ -34,7 +34,6 @@ const App = () => {
   SplashScreen.hide();
 
   useEffect(async () => {
-    requestUserPermission();
     notificationListener();
     // subscribeTokenToTopic(AsyncStorage.getItem("fcmToken"), "item1");
     messaging().subscribeToTopic("item1");

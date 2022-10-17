@@ -20,8 +20,8 @@ export const getFcmToken = async () => {
     try {
       const fcmToken = await messaging().getToken();
       const data = {
-        // unipeEmployeeId: store.getState().auth.id,
-        unipeEmployeeId: "123412341234123412341234",
+        unipeEmployeeId: store.getState().auth.id,
+        // unipeEmployeeId: "123412341234123412341234",
         token: fcmToken,
         lastUpdated: new Date().getTime(),
       };
