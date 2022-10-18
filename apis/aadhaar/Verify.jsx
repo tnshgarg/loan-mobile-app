@@ -12,7 +12,7 @@ import {
 import { KYC_AADHAAR_SUBMIT_OTP_API_URL } from "../../services/employees/endpoints";
 import ApiView from "../ApiView";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
-
+import Analytics from "appcenter-analytics";
 
 const AadhaarVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -28,7 +28,9 @@ const AadhaarVerifyApi = (props) => {
   const [data, setData] = useState(aadhaarSlice?.data);
   const [verifyMsg, setVerifyMsg] = useState(aadhaarSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(aadhaarSlice?.verifyStatus);
-  const [verifyTimestamp, setVerifyTimestamp] = useState(aadhaarSlice?.verifyTimestamp);
+  const [verifyTimestamp, setVerifyTimestamp] = useState(
+    aadhaarSlice?.verifyTimestamp
+  );
 
   useEffect(() => {
     dispatch(addData(data));
@@ -90,15 +92,27 @@ const AadhaarVerifyApi = (props) => {
           if (responseJson["status"] == "200") {
             switch (responseJson["data"]["code"]) {
               case "1002":
-                const names = ["house", "street", "locality", "sub_district", "district", "state", "pincode"];
+                const names = [
+                  "house",
+                  "street",
+                  "locality",
+                  "sub_district",
+                  "district",
+                  "state",
+                  "pincode",
+                ];
                 responseJson["data"]["aadhaar_data"]["address"] = names
                   .filter(k => responseJson["data"]["aadhaar_data"][k])
-                  .map(k => responseJson["data"]["aadhaar_data"][k]).join(", ");
+                  .map((k) => responseJson["data"]["aadhaar_data"][k])
+                  .join(", ");
                 console.log("AADHAAR fetched data: ", responseJson);
                 setData(responseJson["data"]["aadhaar_data"]);
                 setVerifyMsg("OTP validated by User");
                 setVerifyStatus("PENDING");
                 setVerifyTimestamp(responseJson["timestamp"]);
+                Analytics.trackEvent("Aadhaar|Verify|Success", {
+                  userId: id,
+                });
                 setBackendPush(true);
                 {
                   props.type == "KYC"
@@ -113,23 +127,39 @@ const AadhaarVerifyApi = (props) => {
                 break;
               default:
                 setVerifyMsg(responseJson["data"]["message"]);
+                Analytics.trackEvent("Aadhaar|Verify|Error", {
+                  userId: id,
+                  error: responseJson["data"]["message"],
+                });
                 setVerifyStatus("ERROR");
                 setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
             }
           } else if (responseJson?.error?.message) {
             setVerifyMsg(responseJson["error"]["message"]);
+            Analytics.trackEvent("Aadhaar|Verify|Error", {
+              userId: id,
+              error: responseJson["error"]["message"],
+            });
             setVerifyStatus("ERROR");
             setBackendPush(true);
             Alert.alert("Error", responseJson["error"]["message"]);
           } else {
             setVerifyMsg(responseJson["message"]);
+            Analytics.trackEvent("Aadhaar|Verify|Error", {
+              userId: id,
+              error: responseJson["message"],
+            });
             setVerifyStatus("ERROR");
             setBackendPush(true);
             Alert.alert("Error", responseJson["message"]);
           }
         } catch (error) {
           console.log("Error: ", error);
+          Analytics.trackEvent("Aadhaar|Verify|Error", {
+            userId: id,
+            error: error,
+          });
           setVerifyMsg(error);
           setVerifyStatus("ERROR");
           setBackendPush(true);
@@ -138,6 +168,10 @@ const AadhaarVerifyApi = (props) => {
       })
       .catch((error) => {
         setVerifyMsg(error);
+        Analytics.trackEvent("Aadhaar|Verify|Error", {
+          userId: id,
+          error: error,
+        });
         setVerifyStatus("ERROR");
         setBackendPush(true);
         Alert.alert("Error", error);

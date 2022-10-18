@@ -1,32 +1,31 @@
+import { STAGE } from "@env";
 import { MaterialIcons } from "@expo/vector-icons";
+import CheckBox from "@react-native-community/checkbox";
 import { useNavigation } from "@react-navigation/core";
+import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import {
-  Alert,
-  SafeAreaView,
+  Alert, Dimensions,
+  Pressable, SafeAreaView,
   Text,
   TextInput,
-  View,
-  Dimensions,
-  Pressable,
+  View
 } from "react-native";
 import { getUniqueId } from "react-native-device-info";
+import Modal from "react-native-modal";
 import { NetworkInfo } from "react-native-network-info";
 import StepIndicator from "react-native-step-indicator";
+import { AntDesign } from "react-native-vector-icons";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { WebView } from "react-native-webview";
 import { useDispatch, useSelector } from "react-redux";
+import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/PrimaryButton";
+import { COLORS } from "../../../../constants/Theme";
 import { ewaOfferPush } from "../../../../helpers/BackendPush";
 import { addLoanAmount } from "../../../../store/slices/ewaLiveSlice";
 import { checkBox, styles, welcome } from "../../../../styles";
-import Modal from "react-native-modal";
-import { WebView } from "react-native-webview";
 import TnC from "../../../../templates/docs/EWATnC.js";
-import { AntDesign } from "react-native-vector-icons";
-import { COLORS } from "../../../../constants/Theme";
-import Header from "../../../../components/atoms/Header";
-import CheckBox from "@react-native-community/checkbox";
-import { STAGE } from "@env";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -111,11 +110,18 @@ const Offer = () => {
       })
         .then((response) => {
           console.log("ewaOfferPush response.data: ", response.data);
-          navigation.navigate("EWA_KYC");
+          Analytics.trackEvent("Ewa|OfferPush|Success", {
+            userId: unipeEmployeeId,
+          });
           setLoading(false);
+          navigation.navigate("EWA_KYC");
         })
         .catch((error) => {
           console.log("ewaOfferPush error: ", error);
+          Analytics.trackEvent("Ewa|OfferPush|Error", {
+            userId: unipeEmployeeId,
+            error: error
+          });
           Alert.alert("An Error occured", error);
           setLoading(false);
         });

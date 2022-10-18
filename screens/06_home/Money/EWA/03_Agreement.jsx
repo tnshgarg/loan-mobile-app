@@ -1,36 +1,32 @@
 import CheckBox from "@react-native-community/checkbox";
 import { useNavigation } from "@react-navigation/core";
+import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import {
-  Alert,
-  SafeAreaView,
+  Alert, Dimensions,
+  Pressable, SafeAreaView,
   ScrollView,
-  Text,
-  View,
-  Dimensions,
-  Pressable,
+  Text, useWindowDimensions, View
 } from "react-native";
 import { getUniqueId } from "react-native-device-info";
+import Modal from "react-native-modal";
 import { NetworkInfo } from "react-native-network-info";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import RenderHtml from "react-native-render-html";
+import { AntDesign } from "react-native-vector-icons";
 import { useDispatch, useSelector } from "react-redux";
+import Header from "../../../../components/atoms/Header";
 import CollapsibleCard from "../../../../components/CollapsibleCard";
 import PrimaryButton from "../../../../components/PrimaryButton";
+import { COLORS } from "../../../../constants/Theme";
 import { ewaAgreementPush } from "../../../../helpers/BackendPush";
+import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import {
   addNetAmount,
   addProcessingFees,
   resetEwaLive
 } from "../../../../store/slices/ewaLiveSlice";
-import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import { checkBox, ewa, styles } from "../../../../styles";
-import Modal from "react-native-modal";
-import { AntDesign } from "react-native-vector-icons";
-import { useWindowDimensions } from "react-native";
-import RenderHtml from "react-native-render-html";
 import agreement from "../../../../templates/docs/LiquidLoansLoanAgreement";
-import { COLORS } from "../../../../constants/Theme";
-import Header from "../../../../components/atoms/Header";
 
 const Agreement = () => {
   const dispatch = useDispatch();
@@ -195,12 +191,19 @@ const Agreement = () => {
       .then((response) => {
         console.log("ewaAgreementPush response.data: ", response.data);
         navigation.navigate("EWA_DISBURSEMENT", { offer: ewaLiveSlice });
+        Analytics.trackEvent("Ewa|Agreement|Success", {
+          userId: unipeEmployeeId,
+        });
         dispatch(resetEwaLive());
         dispatch(resetEwaHistorical([]));
         setLoading(false);
       })
       .catch((error) => {
         console.log("ewaAgreementPush error: ", error);
+        Analytics.trackEvent("Ewa|Agreement|Error", {
+          userId: unipeEmployeeId,
+          error: error,
+        });
         Alert.alert("An Error occured", error);
         setLoading(false);
       });

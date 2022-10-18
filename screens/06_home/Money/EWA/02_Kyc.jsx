@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/core";
+import Analytics from "appcenter-analytics";
+import { useEffect, useState } from "react";
 import { Image, SafeAreaView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useSelector } from "react-redux";
+import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { ewaKycPush } from "../../../../helpers/BackendPush";
 import { form, styles } from "../../../../styles";
-import { COLORS } from "../../../../constants/Theme";
-import Header from "../../../../components/atoms/Header";
+
 
 const KYC = () => {
   const navigation = useNavigation();
@@ -72,12 +72,19 @@ const KYC = () => {
     })
       .then((response) => {
         console.log("ewaKycPush response.data: ", response.data);
-        navigation.navigate("EWA_AGREEMENT");
+        Analytics.trackEvent("Ewa|Kyc|Success", {
+          userId: unipeEmployeeId,
+        });
         setLoading(false);
+        navigation.navigate("EWA_AGREEMENT");
       })
       .catch((error) => {
         console.log("ewaKycPush error: ", error);
         Alert.alert("An Error occured", error);
+        Analytics.trackEvent("Ewa|Kyc|Error", {
+          userId: unipeEmployeeId,
+          error: error,
+        });
         setLoading(false);
       });
   }

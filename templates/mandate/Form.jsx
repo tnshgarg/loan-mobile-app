@@ -10,8 +10,6 @@ import PrimaryButton from "../../components/PrimaryButton";
 import { mandatePush } from "../../helpers/BackendPush";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
-  addDeviceId,
-  addDeviceIp,
   addType,
   addVerifyMsg,
   addVerifyStatus,
@@ -32,22 +30,16 @@ import {
 import { RZP_TEST_KEY_ID } from "@env";
 import FormInput from "../../components/atoms/FormInput";
 import { COLORS } from "../../constants/Theme";
+import Analytics from "appcenter-analytics";
 
 const Form = (props) => {
-  const navigation = useNavigation();
-  const [deviceId, setDeviceId] = useState(
-    useSelector((state) => state.mandate.deviceId)
-  );
-  const [deviceIp, setDeviceIp] = useState(
-    useSelector((state) => state.mandate.deviceIp)
-  );
-  getUniqueId().then((id) => {
-    setDeviceId(id);
-  });
-  NetworkInfo.getIPV4Address().then((ipv4Address) => {
-    setDeviceIp(ipv4Address);
-  });
+
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  const [deviceId, setDeviceId] = useState(0);
+  const [ipAddress, setIpAdress] = useState(0);
+  
   const employeeId = useSelector((state) => state.auth.id);
   const mandateSlice = useSelector((state) => state.mandate);
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
@@ -75,6 +67,15 @@ const Form = (props) => {
   const phoneNumber = useSelector((state) => state.auth.phoneNumber);
 
   useEffect(() => {
+    getUniqueId().then((id) => {
+      setDeviceId(id);
+    });
+    NetworkInfo.getIPV4Address().then((ipv4Address) => {
+      setIpAdress(ipv4Address);
+    });
+  }, []);
+
+  useEffect(() => {
     dispatch(addOrderId(orderId));
   }, [orderId]);
 
@@ -91,14 +92,6 @@ const Form = (props) => {
   }, [type]);
 
   useEffect(() => {
-    dispatch(addDeviceId(deviceId));
-  }, [deviceId]);
-
-  useEffect(() => {
-    dispatch(addDeviceIp(deviceIp));
-  }, [deviceIp]);
-
-  useEffect(() => {
     dispatch(addVerifyTimestamp(timestamp));
   }, [timestamp]);
 
@@ -112,7 +105,7 @@ const Form = (props) => {
       console.log("Mandate Slice", mandateSlice);
       mandatePush({
         unipeEmployeeId: employeeId,
-        ipAddress: deviceIp,
+        ipAddress: ipAddress,
         deviceId: deviceId,
         data: data,
         verifyMsg: verifyMsg,
@@ -133,8 +126,15 @@ const Form = (props) => {
         .then((res) => {
           console.log("createCustomer", res.data);
           setCustomerId(res.data.id);
+          Analytics.trackEvent("Mandate|CreateCustomer|Success", {
+            userId: employeeId,
+          });
         })
         .catch(function (error) {
+          Analytics.trackEvent("Mandate|CreateCustomer|Error", {
+            userId: employeeId,
+            error: error,
+          });
           console.log(error);
         });
     }
@@ -156,6 +156,7 @@ const Form = (props) => {
         },
         theme: { color: COLORS.primary },
       };
+
       RazorpayCheckout.open(options)
         .then((data) => {
           getToken({ paymentId: data.razorpay_payment_id })
@@ -173,17 +174,28 @@ const Form = (props) => {
               setVerifyMsg("");
               setVerifyStatus("SUCCESS");
               setBackendPush(true);
+              Analytics.trackEvent("Mandate|GetToken|Success", {
+                userId: employeeId,
+              });
               showToast("Mandate Verified Successfully");
               props?.type == "Onboarding" ? navigation.navigate("Home") : null;
             })
-            .catch((err) => {
-              console.log(err);
+            .catch((error) => {
+              console.log(error);
+              Analytics.trackEvent("Mandate|GetToken|Error", {
+                userId: employeeId,
+                error: error.description,
+              });
             });
         })
         .catch((error) => {
           console.log(error);
           alert(`Error: ${error.code} | ${error.description}`);
           setVerifyMsg(error.description);
+          Analytics.trackEvent("Mandate|Register|Error", {
+            userId: employeeId,
+            error: error.description,
+          });
           setVerifyStatus("ERROR");
           setBackendPush(true);
           setOrderId("");
@@ -212,6 +224,9 @@ const Form = (props) => {
           setVerifyStatus("PENDING");
           setVerifyMsg("To be confirmed by user");
           setTimestamp(Date.now());
+          Analytics.trackEvent(`Mandate|${type}|Pending`, {
+            userId: employeeId,
+          });
           setBackendPush(true);
           let func = 0;
           type === "NETBANKING"
@@ -226,9 +241,16 @@ const Form = (props) => {
             .then((res) => {
               console.log(type, res.data);
               setOrderId(res.data.id);
+              Analytics.trackEvent(`Mandate|${type}|Success`, {
+                userId: employeeId,
+              });
             })
             .catch((error) => {
               console.log(error);
+              Analytics.trackEvent(`Mandate|${type}|Error`, {
+                userId: employeeId,
+                error: error,
+              });
             });
         }}
       />
@@ -249,15 +271,25 @@ const Form = (props) => {
           setType("UPI");
           setVerifyStatus("PENDING");
           setVerifyMsg("To be confirmed by user");
+          Analytics.trackEvent(`Mandate|${type}|Pending`, {
+            userId: employeeId,
+          });
           setTimestamp(Date.now());
-          setBackendPush(true);
+          setBackendPush(true);s
           createUpiOrder({ customerId: customerId })
             .then((res) => {
               console.log("UPI", res.data);
               setOrderId(res.data.id);
+              Analytics.trackEvent(`Mandate|${type}|Success`, {
+                userId: employeeId,
+              });
             })
             .catch(function (error) {
               console.log(error);
+              Analytics.trackEvent(`Mandate|${type}|Error`, {
+                userId: employeeId,
+                error: error,
+              });
             });
         }}
       />

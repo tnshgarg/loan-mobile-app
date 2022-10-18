@@ -13,12 +13,14 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/PrimaryButton";
 import SVGImg from "../../assets/UnipeLogo.svg";
+import Analytics from "appcenter-analytics";
 import { styles } from "../../styles";
 import { COLORS, SIZES } from "../../constants/Theme";
 import FormInput from "../../components/atoms/FormInput";
 import Header from "../../components/atoms/Header";
 
-export default OTPScreen = () => {
+
+const OTPScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -26,6 +28,7 @@ export default OTPScreen = () => {
   const [next, setNext] = useState(false);
   const [back, setBack] = useState(false);
 
+  const id = useSelector((state) => state.auth.id);
   const countDownTime = useSelector((state) => state.timer.login);
   const phoneNumber = useSelector((state) => state.auth.phoneNumber);
   const onboarded = useSelector((state) => state.auth.onboarded);
@@ -56,7 +59,7 @@ export default OTPScreen = () => {
         }
       />
       <KeyboardAvoidingWrapper>
-        <View style={[styles.container, { padding: 0 }]}>
+        <View style={styles.container}>
           <SVGImg style={styles.logo} />
           <Text style={styles.headline}>
             {" "}
@@ -124,8 +127,15 @@ export default OTPScreen = () => {
                       setOtp("");
                       setBack(false);
                       dispatch(resetTimer());
+                      Analytics.trackEvent("OTPScreen|SendSms|Success", {
+                        userId: id,
+                      });
                       Alert.alert("OTP resent successfully");
                     } else {
+                      Analytics.trackEvent("OTPScreen|SendSms|Error", {
+                        userId: id,
+                        error: result["response"]["details"],
+                      });
                       Alert.alert(
                         res["response"]["status"],
                         res["response"]["details"]
@@ -134,6 +144,10 @@ export default OTPScreen = () => {
                   })
                   .catch((error) => {
                     console.log(error);
+                    Analytics.trackEvent("OTPScreen|SendSms|Error", {
+                      userId: id,
+                      error: error,
+                    });
                     Alert.alert("Error", error);
                   });
               }}
@@ -154,6 +168,9 @@ export default OTPScreen = () => {
               checkVerification(phoneNumber, otp)
                 .then((res) => {
                   if (res["response"]["status"] === "success") {
+                    Analytics.trackEvent("OTPScreen|Check|Success", {
+                      userId: id,
+                    });
                     if (onboarded) {
                       navigation.navigate("BackendSync", {
                         destination: "Home",
@@ -165,6 +182,10 @@ export default OTPScreen = () => {
                     }
                     dispatch(resetTimer());
                   } else {
+                    Analytics.trackEvent("OTPScreen|Check|Error", {
+                      userId: id,
+                      error: result["response"]["details"],
+                    });
                     Alert.alert(
                       res["response"]["status"],
                       res["response"]["details"]
@@ -173,6 +194,10 @@ export default OTPScreen = () => {
                 })
                 .catch((error) => {
                   console.log(error);
+                  Analytics.trackEvent("OTPScreen|Check|Error", {
+                    userId: id,
+                    error: error,
+                  });
                   Alert.alert("Error", error);
                 });
             }}
@@ -182,3 +207,5 @@ export default OTPScreen = () => {
     </SafeAreaView>
   );
 };
+
+export default OTPScreen;

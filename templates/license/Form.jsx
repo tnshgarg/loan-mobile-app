@@ -4,7 +4,7 @@ import { Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { bankform, form } from "../../styles";
-import Fetch from "../../apis/license/Fetch";
+import Verify from "../../apis/license/Verify";
 import DateEntry from "../../components/DateEntry";
 import { addNumber } from "../../store/slices/licenseSlice";
 import FormInput from "../../components/atoms/FormInput";

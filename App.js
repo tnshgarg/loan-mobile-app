@@ -11,14 +11,12 @@ import StackNavigator from "./navigators/StackNavigator";
 import { store, persistor } from "./store/store";
 import codePush from "react-native-code-push";
 import Crashes from "appcenter-crashes";
-import Analytics from "appcenter-analytics";
 
 Crashes.setListener({
   shouldProcess: function (report) {
     return true; // return true if the crash report should be processed, otherwise false.
   },
 });
-Analytics.startSession();
 let codePushOptions = {
   deploymentKey: "NVWL2F2UKSif5SJWBOWtkSyPC3aRIYXM_adgy",
   checkFrequency: codePush.CheckFrequency.ON_APP_START,
