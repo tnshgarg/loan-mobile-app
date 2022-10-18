@@ -85,6 +85,7 @@ const KYC = () => {
           userId: unipeEmployeeId,
           error: error,
         });
+        setLoading(false);
       });
   }
 

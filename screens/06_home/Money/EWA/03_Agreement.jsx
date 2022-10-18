@@ -55,8 +55,6 @@ const Agreement = () => {
   const [apr, setApr] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const [loanAccountNumber, setLoanAccountNumber] = useState(ewaLiveSlice?.offerId);
-
   const today = new Date();
 
   function ValueEntry(text) {
@@ -71,7 +69,7 @@ const Agreement = () => {
     );
     text.data = text.data.replace(/\{email\}/g, profileSlice?.email);
     text.data = text.data.replace(/\{mobile\}/g, authSlice?.phoneNumber);
-    text.data = text.data.replace(/\{loanAccountNumber\}/g, loanAccountNumber); // TODO: Generate LAN number
+    text.data = text.data.replace(/\{loanAccountNumber\}/g, ewaLiveSlice?.offerId);
     text.data = text.data.replace(/\{loanAmount\}/g, ewaLiveSlice?.loanAmount);
     text.data = text.data.replace(/\{processingFees\}/g, processingFees);
     text.data = text.data.replace(
@@ -207,6 +205,7 @@ const Agreement = () => {
           error: error,
         });
         Alert.alert("An Error occured", error);
+        setLoading(false);
       });
   }
 

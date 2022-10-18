@@ -123,6 +123,7 @@ const Offer = () => {
             error: error
           });
           Alert.alert("An Error occured", error);
+          setLoading(false);
         });
     }
   }
@@ -199,8 +200,8 @@ const Offer = () => {
               keyboardType="numeric"
               textAlign={"center"}
               value={amount}
+              autoFocus={true}
               onChangeText={setAmount}
-              isFocused={true}
             />
           </View>
           <Text
