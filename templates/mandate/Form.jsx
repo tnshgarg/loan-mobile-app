@@ -134,12 +134,12 @@ const Form = (props) => {
         .then((res) => {
           console.log("createCustomer", res.data);
           setCustomerId(res.data.id);
-          Analytics.trackEvent("Mandate-CustomerCreation-Success", {
+          Analytics.trackEvent("Mandate|CreateCustomer|Success", {
             userId: employeeId,
           });
         })
         .catch(function (error) {
-          Analytics.trackEvent("Mandate-CustomerCreation-Error", {
+          Analytics.trackEvent("Mandate|CreateCustomer|Error", {
             userId: employeeId,
             error: error,
           });
@@ -181,7 +181,7 @@ const Form = (props) => {
               setVerifyMsg("");
               setVerifyStatus("SUCCESS");
               setBackendPush(true);
-              Analytics.trackEvent("Mandate-Registration-Success", {
+              Analytics.trackEvent("Mandate|Register|Success", {
                 userId: employeeId,
               });
               showToast("Mandate Verified Successfully");
@@ -189,7 +189,7 @@ const Form = (props) => {
             })
             .catch((error) => {
               console.log(error);
-              Analytics.trackEvent("Mandate-getToken-Error", {
+              Analytics.trackEvent("Mandate|GetToken|Success", {
                 userId: employeeId,
                 error: error.description,
               });
@@ -199,7 +199,7 @@ const Form = (props) => {
           console.log(error);
           alert(`Error: ${error.code} | ${error.description}`);
           setVerifyMsg(error.description);
-          Analytics.trackEvent("Mandate-Registration-Error", {
+          Analytics.trackEvent("Mandate|Register|Error", {
             userId: employeeId,
             error: error.description,
           });
@@ -248,13 +248,13 @@ const Form = (props) => {
             .then((res) => {
               console.log(type, res.data);
               setOrderId(res.data.id);
-              Analytics.trackEvent(`Mandate-${type}Mandate-Success`, {
+              Analytics.trackEvent(`Mandate|${type}|Success`, {
                 userId: employeeId,
               });
             })
             .catch((error) => {
               console.log(error);
-              Analytics.trackEvent(`Mandate-${type}Mandate-Error`, {
+              Analytics.trackEvent(`Mandate|${type}|Error`, {
                 userId: employeeId,
                 error: error,
               });
@@ -278,11 +278,11 @@ const Form = (props) => {
           setType("UPI");
           setVerifyStatus("PENDING");
           setVerifyMsg("To be confirmed by user");
-          Analytics.trackEvent(`Mandate-${type}Mandate-Pending`, {
+          Analytics.trackEvent("Mandate|${type}|Pending", {
             userId: employeeId,
           });
           setTimestamp(Date.now());
-          setBackendPush(true);
+          setBackendPush(true);s
           createUpiOrder({ customerId: customerId })
             .then((res) => {
               console.log("UPI", res.data);

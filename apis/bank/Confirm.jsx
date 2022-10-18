@@ -89,7 +89,7 @@ const BankConfirmApi = (props) => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
             setBackendPush(true);
-            Analytics.trackEvent("BankConfirm-InfoConfirm-Error", {
+            Analytics.trackEvent("Bank|Confirm|Error", {
               userId: id,
               error: "Rejected by User",
             });
@@ -119,7 +119,7 @@ const BankConfirmApi = (props) => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
-            Analytics.trackEvent("BankConfirm-InfoConfirm-Success", {
+            Analytics.trackEvent("Bank|Confirm|Success", {
               userId: id,
             });
             {

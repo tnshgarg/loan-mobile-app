@@ -135,7 +135,7 @@ export default Confirm = () => {
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Rejected by User");
-            Analytics.trackEvent("LicenseConfirm-InfoConfirm-Error", {
+            Analytics.trackEvent("Licence|Confirm|Error", {
               userId: id,
               error: "Rejected by User",
             });
@@ -158,7 +158,7 @@ export default Confirm = () => {
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
-            Analytics.trackEvent("LicenseConfirm-InfoConfirm-Success", {
+            Analytics.trackEvent("Licence|Confirm|Success", {
               userId: id,
             });
             setVerifyStatus("SUCCESS");

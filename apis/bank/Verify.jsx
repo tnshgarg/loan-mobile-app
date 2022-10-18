@@ -119,7 +119,7 @@ const BankVerifyApi = (props) => {
                 setVerifyMsg("To be confirmed by User");
                 setVerifyStatus("PENDING");
                 setVerifyTimestamp(responseJson["timestamp"]);
-                Analytics.trackEvent("BankVerify-getBankData-Success", {
+                Analytics.trackEvent("Bank|Verify|Success", {
                   Category: "Onboarding",
                   userId: id,
                 });
@@ -137,7 +137,7 @@ const BankVerifyApi = (props) => {
                 break;
               default:
                 setVerifyMsg(responseJson["data"]["message"]);
-                Analytics.trackEvent("BankVerify-getBankData-Error", {
+                Analytics.trackEvent("Bank|Verify|Error", {
                   Category: "Onboarding",
                   userId: id,
                   error: responseJson["data"]["message"],
@@ -151,7 +151,7 @@ const BankVerifyApi = (props) => {
             setVerifyStatus("ERROR");
             if (responseJson["error"]) {
               setVerifyMsg(responseJson["error"]);
-              Analytics.trackEvent("BankVerify-getBankData-Error", {
+              Analytics.trackEvent("Bank|Verify|Error", {
                 Category: "Onboarding",
                 userId: id,
                 error: responseJson["error"]["metadata"]["fields"]
@@ -168,7 +168,7 @@ const BankVerifyApi = (props) => {
               );
             } else {
               setVerifyMsg(responseJson["messsage"]);
-              Analytics.trackEvent("BankVerify-getBankData-Error", {
+              Analytics.trackEvent("Bank|Verify|Error", {
                 userId: id,
                 error: responseJson["messsage"],
               });
@@ -179,7 +179,7 @@ const BankVerifyApi = (props) => {
           }
         } catch (error) {
           console.log("Error: ", error);
-          Analytics.trackEvent("BankVerify-getBankData-Error", {
+          Analytics.trackEvent("Bank|Verify|Error", {
             userId: id,
             error: error,
           });
@@ -192,7 +192,7 @@ const BankVerifyApi = (props) => {
       })
       .catch((error) => {
         console.log("Error: ", error);
-        Analytics.trackEvent("BankVerify-getBankData-Error", {
+        Analytics.trackEvent("Bank|Verify|Error", {
           userId: id,
           error: error,
         });

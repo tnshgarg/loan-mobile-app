@@ -11,6 +11,7 @@ import CollapsibleCard from "../../components/CollapsibleCard";
 import FuzzyCheck from "../../components/FuzzyCheck";
 import Analytics from "appcenter-analytics";
 
+
 const PanConfirmApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -91,7 +92,7 @@ const PanConfirmApi = (props) => {
           onPress={() => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
-            Analytics.trackEvent("PanConfirm-InfoConfirm-Error", {
+            Analytics.trackEvent("Pan|Confirm|Error", {
               userId: id,
               error: "Rejected by User",
             });
@@ -116,7 +117,7 @@ const PanConfirmApi = (props) => {
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
-            Analytics.trackEvent("PanConfirm-InfoConfirm-Success", {
+            Analytics.trackEvent("Pan|Confirm|Success", {
               userId: id,
             });
             setVerifyStatus("SUCCESS");

@@ -90,7 +90,7 @@ const PanVerifyApi = (props) => {
                 setVerifyMsg("To be confirmed by User");
                 setVerifyStatus("PENDING");
                 setVerifyTimestamp(responseJson["timestamp"]);
-                Analytics.trackEvent("PanVerify-getPanData-Success", {
+                Analytics.trackEvent("Pan|Verify|Success", {
                   userId: id,
                 });
                 setBackendPush(true);
@@ -107,7 +107,7 @@ const PanVerifyApi = (props) => {
                 break;
               default:
                 setVerifyMsg(responseJson["data"]["message"]);
-                Analytics.trackEvent("PanVerify-getPanData-Error", {
+                Analytics.trackEvent("Pan|Verify|Error", {
                   userId: id,
                   error: responseJson["data"]["message"],
                 });
@@ -117,7 +117,7 @@ const PanVerifyApi = (props) => {
             }
           } else if (responseJson?.error?.message) {
             setVerifyMsg(responseJson["error"]["message"]);
-            Analytics.trackEvent("PanVerify-getPanData-Error", {
+            Analytics.trackEvent("Pan|Verify|Error", {
               userId: id,
               error: responseJson["error"]["message"],
             });
@@ -126,7 +126,7 @@ const PanVerifyApi = (props) => {
             Alert.alert("Error", responseJson["error"]["message"]);
           } else {
             setVerifyMsg(responseJson["message"]);
-            Analytics.trackEvent("PanVerify-getPanData-Error", {
+            Analytics.trackEvent("Pan|Verify|Error", {
               userId: id,
               error: responseJson["message"],
             });
@@ -137,7 +137,7 @@ const PanVerifyApi = (props) => {
         } catch (error) {
           console.log("Error: ", error);
           setVerifyMsg(error);
-          Analytics.trackEvent("PanVerify-getPanData-Error", {
+          Analytics.trackEvent("Pan|Verify|Error", {
             userId: id,
             error: error,
           });
@@ -149,7 +149,7 @@ const PanVerifyApi = (props) => {
       .catch((error) => {
         console.log("Error: ", error);
         setVerifyMsg(error);
-        Analytics.trackEvent("PanVerify-getPanData-Error", {
+        Analytics.trackEvent("Pan|Verify|Error", {
           userId: id,
           error: error,
         });

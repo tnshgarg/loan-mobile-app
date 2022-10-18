@@ -126,12 +126,12 @@ export default OTPScreen = () => {
                       setOtp("");
                       setBack(false);
                       dispatch(resetTimer());
-                      Analytics.trackEvent("OtpScreen-OtpResend-Success", {
+                      Analytics.trackEvent("OtpScreen|SendSms|Success", {
                         userId: id,
                       });
                       Alert.alert("OTP resent successfully");
                     } else {
-                      Analytics.trackEvent("OtpScreen-OtpResend-Error", {
+                      Analytics.trackEvent("OtpScreen|SendSms|Error", {
                         userId: id,
                         error: result["response"]["details"],
                       });
@@ -143,7 +143,7 @@ export default OTPScreen = () => {
                   })
                   .catch((error) => {
                     console.log(error);
-                    Analytics.trackEvent("OtpScreen-OtpResend-Error", {
+                    Analytics.trackEvent("OtpScreen|SendSms|Error", {
                       userId: id,
                       error: error,
                     });
@@ -167,12 +167,12 @@ export default OTPScreen = () => {
               checkVerification(phoneNumber, otp)
                 .then((res) => {
                   if (res["response"]["status"] === "success") {
-                    Analytics.trackEvent("OtpScreen-OtpVerification-Success", {
+                    Analytics.trackEvent("OtpScreen|Check|Success", {
                       userId: id,
                     });
                     if (onboarded) {
                       Analytics.trackEvent(
-                        "OtpScreen-OnboardingStatus-Success",
+                        "OtpScreen|Check|Success",
                         { userId: id }
                       );
                       navigation.navigate("BackendSync", {
@@ -180,7 +180,7 @@ export default OTPScreen = () => {
                       });
                     } else {
                       Analytics.trackEvent(
-                        "OtpScreen-OnboardingStatus-Pending",
+                        "OtpScreen|Check|Pending",
                         { userId: id }
                       );
                       navigation.navigate("BackendSync", {
@@ -189,7 +189,7 @@ export default OTPScreen = () => {
                     }
                     dispatch(resetTimer());
                   } else {
-                    Analytics.trackEvent("OtpScreen-OtpVerification-Error", {
+                    Analytics.trackEvent("OtpScreen|Check|Error", {
                       userId: id,
                       error: result["response"]["details"],
                     });
@@ -201,7 +201,7 @@ export default OTPScreen = () => {
                 })
                 .catch((error) => {
                   console.log(error);
-                  Analytics.trackEvent("OtpScreen-OtpVerification-Error", {
+                  Analytics.trackEvent("OtpScreen|Check|Error", {
                     userId: id,
                     error: error,
                   });

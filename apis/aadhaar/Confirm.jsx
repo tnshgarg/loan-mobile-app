@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { Text, View, Image } from "react-native";
+import { View, Image } from "react-native";
 import { Button } from "@react-native-material/core";
 import {
   addVerifyMsg,
@@ -13,6 +13,7 @@ import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
 import CollapsibleCard from "../../components/CollapsibleCard";
+
 
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -102,7 +103,7 @@ const AadhaarConfirmApi = (props) => {
           onPress={() => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
-            Analytics.trackEvent("AadhaarConfirm-InfoConfirm-Error", {
+            Analytics.trackEvent("Aadhaar|Confirm|Error", {
               userId: id,
               error: "Rejected by User",
             });
@@ -130,7 +131,7 @@ const AadhaarConfirmApi = (props) => {
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
-            Analytics.trackEvent("AadhaarConfirm-InfoConfirm-Success", {
+            Analytics.trackEvent("Aadhaar|Confirm|Success", {
               userId: id,
             });
             setVerifyStatus("SUCCESS");

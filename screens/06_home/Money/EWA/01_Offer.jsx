@@ -110,7 +110,7 @@ const Offer = () => {
       })
         .then((response) => {
           console.log("ewaOfferPush response.data: ", response.data);
-          Analytics.trackEvent(`EwaOffer-OfferPush-Success`, {
+          Analytics.trackEvent("Ewa|OfferPush|Success", {
             userId: unipeEmployeeId,
           });
           navigation.navigate("EWA_KYC");
@@ -118,9 +118,9 @@ const Offer = () => {
         })
         .catch((error) => {
           console.log("ewaOfferPush error: ", error);
-          Analytics.trackEvent(`EwaOffer-OfferPush-Error`, {
+          Analytics.trackEvent("Ewa|OfferPush|Error", {
             userId: unipeEmployeeId,
-            error:error
+            error: error
           });
           Alert.alert("An Error occured", error);
         });

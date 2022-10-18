@@ -15,6 +15,7 @@ import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import { resetTimer } from "../../store/slices/timerSlice";
 import Analytics from "appcenter-analytics";
 
+
 const AadhaarOtpApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -95,7 +96,7 @@ const AadhaarOtpApi = (props) => {
                 setBackendPush(true);
                 setVerifyTimestamp(responseJson["timestamp"]);
                 dispatch(resetTimer());
-                Analytics.trackEvent("AadhaarOtp-OtpSent-Success", {
+                Analytics.trackEvent("Aadhaar|Otp|Success", {
                   userId: id,
                 });
                 {
@@ -111,7 +112,7 @@ const AadhaarOtpApi = (props) => {
                 break;
               default:
                 setVerifyMsg(responseJson["data"]["message"]);
-                Analytics.trackEvent("AadhaarOtp-OtpSent-Error", {
+                Analytics.trackEvent("Aadhaar|Otp|Error", {
                   userId: id,
                   error: responseJson["data"]["message"],
                 });
@@ -122,7 +123,7 @@ const AadhaarOtpApi = (props) => {
             }
           } else if (responseJson?.error?.message) {
             setVerifyMsg(responseJson["error"]["message"]);
-            Analytics.trackEvent("AadhaarOtp-OtpSent-Error", {
+            Analytics.trackEvent("Aadhaar|Otp|Error", {
               userId: id,
               error: responseJson["error"]["message"],
             });
@@ -131,7 +132,7 @@ const AadhaarOtpApi = (props) => {
             Alert.alert("Error", responseJson["error"]["message"]);
           } else {
             setVerifyMsg(responseJson["message"]);
-            Analytics.trackEvent("AadhaarOtp-OtpSent-Error", {
+            Analytics.trackEvent("Aadhaar|Otp|Error", {
               userId: id,
               error: responseJson["message"],
             });
@@ -141,7 +142,7 @@ const AadhaarOtpApi = (props) => {
           }
         } catch (error) {
           console.log("Error: ", error);
-          Analytics.trackEvent("AadhaarOtp-OtpSent-Error", {
+          Analytics.trackEvent("Aadhaar|Otp|Error", {
             userId: id,
             error: error,
           });
@@ -155,7 +156,7 @@ const AadhaarOtpApi = (props) => {
         setVerifyMsg(error);
         setVerifyStatus("ERROR");
         setBackendPush(true);
-        Analytics.trackEvent("AadhaarOtp-OtpSent-Error", {
+        Analytics.trackEvent("Aadhaar|Otp|Error", {
           userId: id,
           error: error,
         });

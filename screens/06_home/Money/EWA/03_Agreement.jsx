@@ -55,7 +55,7 @@ const Agreement = () => {
   const [apr, setApr] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const [loanAccountNumber, setLoanAccountNumber] = useState("LQLXXXXX");
+  const [loanAccountNumber, setLoanAccountNumber] = useState(ewaLiveSlice?.offerId);
 
   const today = new Date();
 
@@ -188,12 +188,12 @@ const Agreement = () => {
       processingFees: processingFees,
       loanAmount: ewaLiveSlice?.loanAmount,
       netAmount: netAmount,
-      loanAccountNumber: loanAccountNumber,
+      loanAccountNumber: ewaLiveSlice?.offerId,
     })
       .then((response) => {
         console.log("ewaAgreementPush response.data: ", response.data);
         navigation.navigate("EWA_DISBURSEMENT", { offer: ewaLiveSlice });
-        Analytics.trackEvent(`EwaAgreement-AgreementPush-Success`, {
+        Analytics.trackEvent("Ewa|Agreement|Success", {
           userId: unipeEmployeeId,
         });
         dispatch(resetEwaLive());
@@ -202,7 +202,7 @@ const Agreement = () => {
       })
       .catch((error) => {
         console.log("ewaAgreementPush error: ", error);
-        Analytics.trackEvent(`EwaAgreement-AgreementPush-Error`, {
+        Analytics.trackEvent("Ewa|Agreement|Error", {
           userId: unipeEmployeeId,
           error: error,
         });

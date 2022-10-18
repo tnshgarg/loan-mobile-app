@@ -13,7 +13,8 @@ import ApiView from "../ApiView";
 import { OG_API_TEST_KEY } from "@env";
 import Analytics from "appcenter-analytics";
 
-export default Fetch = (props) => {
+
+const Verify = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -81,7 +82,7 @@ export default Fetch = (props) => {
             switch (responseJson["data"]["code"]) {
               case "1000":
                 setData(responseJson["data"]["driving_license_data"]);
-                Analytics.trackEvent("LicenseFetch-getLicenseData-Success", {
+                Analytics.trackEvent("Licence|Verify|Success", {
                   userId: id,
                 });
                 setVerifyMsg("To be confirmed by User");
@@ -98,7 +99,7 @@ export default Fetch = (props) => {
 
               case "1001":
                 setVerifyMsg(responseJson["data"]["message"]);
-                Analytics.trackEvent("LicenseFetch-getLicenseData-Error", {
+                Analytics.trackEvent("Licence|Verify|Error", {
                   userId: id,
                   error: responseJson["data"]["message"],
                 });
@@ -109,7 +110,7 @@ export default Fetch = (props) => {
             }
           } else if (responseJson["error"]) {
             setVerifyMsg(responseJson["error"]["message"]);
-            Analytics.trackEvent("LicenseFetch-getLicenseData-Error", {
+            Analytics.trackEvent("Licence|Verify|Error", {
               userId: id,
               error: responseJson["error"]["message"],
             });
@@ -118,7 +119,7 @@ export default Fetch = (props) => {
             Alert.alert("Error", responseJson["error"]["message"]);
           } else {
             Alert.alert("Error", responseJson["message"]);
-            Analytics.trackEvent("LicenseFetch-getLicenseData-Error", {
+            Analytics.trackEvent("Licence|Verify|Error", {
               userId: id,
               error: responseJson["message"],
             });
@@ -127,7 +128,7 @@ export default Fetch = (props) => {
           }
         } catch (error) {
           console.log("Error: ", error);
-          Analytics.trackEvent("LicenseFetch-getLicenseData-Error", {
+          Analytics.trackEvent("Licence|Verify|Error", {
             userId: id,
             error: error,
           });
@@ -139,7 +140,7 @@ export default Fetch = (props) => {
       })
       .catch((error) => {
         Alert.alert("Error", error);
-        Analytics.trackEvent("LicenseFetch-getLicenseData-Error", {
+        Analytics.trackEvent("Licence|Verify|Error", {
           userId: id,
           error: error,
         });
@@ -158,3 +159,5 @@ export default Fetch = (props) => {
     />
   );
 };
+
+export default Verify;

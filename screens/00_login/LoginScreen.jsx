@@ -97,7 +97,7 @@ export default LoginScreen = () => {
       .then((res) => {
         console.log("LoginScreen res.data: ", res.data);
         if (res.data.status === 200) {
-          Analytics.trackEvent(`LoginScreen-UserRegistration-Success`, {
+          Analytics.trackEvent(`LoginScreen|signIn|Success`, {
             userId: res.data.body.id,
           });
           setId(res.data.body.id);
@@ -107,13 +107,13 @@ export default LoginScreen = () => {
               console.log("sendSmsVerification result: ", result);
               if (result["response"]["status"] === "success") {
                 setLoading(false);
-                Analytics.trackEvent("LoginScreen-OtpDelivery-Success", {
+                Analytics.trackEvent("LoginScreen|SendSms|Success", {
                   userId: id,
                 });
                 navigation.navigate("Otp");
               } else {
                 setLoading(false);
-                Analytics.trackEvent("LoginScreen-OtpDelivery-Error", {
+                Analytics.trackEvent("LoginScreen|SendSms|Error", {
                   userId: id,
                   error: result["response"]["details"],
                 });
@@ -126,7 +126,7 @@ export default LoginScreen = () => {
             .catch((error) => {
               setLoading(false);
               console.log(error);
-              Analytics.trackEvent("LoginScreen-OtpDelivery-Error", {
+              Analytics.trackEvent("LoginScreen|SendSms|Error", {
                 userId: id,
                 error: error,
               });
@@ -134,7 +134,7 @@ export default LoginScreen = () => {
             });
         } else {
           setLoading(false);
-          Analytics.trackEvent("LoginScreen-UserRegistration-Error", {
+          Analytics.trackEvent("LoginScreen|SignIn|Error", {
             phoneNumber: phoneNumber,
             error: res.data["message"],
           });
@@ -143,7 +143,7 @@ export default LoginScreen = () => {
       })
       .catch((error) => {
         setLoading(false);
-        Analytics.trackEvent("LoginScreen-UserRegistration-Error", {
+        Analytics.trackEvent("LoginScreen|SignIn|Error", {
           phoneNumber: phoneNumber,
           error: error,
         });

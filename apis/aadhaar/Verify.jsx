@@ -96,11 +96,13 @@ const AadhaarVerifyApi = (props) => {
                   "house",
                   "street",
                   "locality",
+                  "sub_district",
                   "district",
                   "state",
                   "pincode",
                 ];
                 responseJson["data"]["aadhaar_data"]["address"] = names
+                  .filter(k => responseJson["data"]["aadhaar_data"][k])
                   .map((k) => responseJson["data"]["aadhaar_data"][k])
                   .join(", ");
                 console.log("AADHAAR fetched data: ", responseJson);
@@ -108,7 +110,7 @@ const AadhaarVerifyApi = (props) => {
                 setVerifyMsg("OTP validated by User");
                 setVerifyStatus("PENDING");
                 setVerifyTimestamp(responseJson["timestamp"]);
-                Analytics.trackEvent("AadhaarVerify-OtpVerification-Success", {
+                Analytics.trackEvent("Aadhaar|Verify|Success", {
                   userId: id,
                 });
                 setBackendPush(true);
@@ -125,7 +127,7 @@ const AadhaarVerifyApi = (props) => {
                 break;
               default:
                 setVerifyMsg(responseJson["data"]["message"]);
-                Analytics.trackEvent("AadhaarVerify-OtpVerification-Error", {
+                Analytics.trackEvent("Aadhaar|Verify|Error", {
                   userId: id,
                   error: responseJson["data"]["message"],
                 });
@@ -135,7 +137,7 @@ const AadhaarVerifyApi = (props) => {
             }
           } else if (responseJson?.error?.message) {
             setVerifyMsg(responseJson["error"]["message"]);
-            Analytics.trackEvent("AadhaarVerify-OtpVerification-Error", {
+            Analytics.trackEvent("Aadhaar|Verify|Error", {
               userId: id,
               error: responseJson["error"]["message"],
             });
@@ -144,7 +146,7 @@ const AadhaarVerifyApi = (props) => {
             Alert.alert("Error", responseJson["error"]["message"]);
           } else {
             setVerifyMsg(responseJson["message"]);
-            Analytics.trackEvent("AadhaarVerify-OtpVerification-Error", {
+            Analytics.trackEvent("Aadhaar|Verify|Error", {
               userId: id,
               error: responseJson["message"],
             });
@@ -154,7 +156,7 @@ const AadhaarVerifyApi = (props) => {
           }
         } catch (error) {
           console.log("Error: ", error);
-          Analytics.trackEvent("AadhaarVerify-OtpVerification-Error", {
+          Analytics.trackEvent("Aadhaar|Verify|Error", {
             userId: id,
             error: error,
           });
@@ -166,7 +168,7 @@ const AadhaarVerifyApi = (props) => {
       })
       .catch((error) => {
         setVerifyMsg(error);
-        Analytics.trackEvent("AadhaarVerify-OtpVerification-Error", {
+        Analytics.trackEvent("Aadhaar|Verify|Error", {
           userId: id,
           error: error,
         });

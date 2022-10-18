@@ -51,18 +51,18 @@ const PersonalImage = () => {
     ImagePicker.launchImageLibrary(options, (response) => {
       if (response.didCancel) {
         console.log("User cancelled image picker");
-        Analytics.trackEvent("PersonalImage-getImage-Error", {
+        Analytics.trackEvent("PersonalImage|Pick|Error", {
           userId: id,
           error:"User cancelled image picker",
         });
       } else if (response.error) {
         console.log("ImagePicker Error: ", response.error);
-        Analytics.trackEvent("PersonalImage-getImage-Error", {
+        Analytics.trackEvent("PersonalImage|Pick|Error", {
           userId: id,
           error:response.error,
         });
       } else {
-        Analytics.trackEvent("PersonalImage-getImage-Success", {
+        Analytics.trackEvent("PersonalImage|Pick|Success", {
           userId: id,
         });
         dispatch(addPhoto(response?.assets[0]?.base64));

@@ -130,7 +130,7 @@ const PersonalDetailsForm = () => {
               title="Continue"
               disabled={!next}
               onPress={() => {
-                Analytics.trackEvent("PersonalDetailsForm-PushData-Success", {
+                Analytics.trackEvent("PersonalDetailsForm|PushData|Success", {
                   userId: id,
                 });
                 navigation.navigate("PersonalImage");
