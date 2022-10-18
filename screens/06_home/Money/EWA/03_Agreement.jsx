@@ -59,8 +59,6 @@ const Agreement = () => {
   const [apr, setApr] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const [loanAccountNumber, setLoanAccountNumber] = useState("LQLXXXXX");
-
   const today = new Date();
 
   function ValueEntry(text) {
@@ -75,7 +73,7 @@ const Agreement = () => {
     );
     text.data = text.data.replace(/\{email\}/g, profileSlice?.email);
     text.data = text.data.replace(/\{mobile\}/g, authSlice?.phoneNumber);
-    text.data = text.data.replace(/\{loanAccountNumber\}/g, loanAccountNumber); // TODO: Generate LAN number
+    text.data = text.data.replace(/\{loanAccountNumber\}/g, ewaLiveSlice?.offerId);
     text.data = text.data.replace(/\{loanAmount\}/g, ewaLiveSlice?.loanAmount);
     text.data = text.data.replace(/\{processingFees\}/g, processingFees);
     text.data = text.data.replace(
@@ -192,7 +190,7 @@ const Agreement = () => {
       processingFees: processingFees,
       loanAmount: ewaLiveSlice?.loanAmount,
       netAmount: netAmount,
-      loanAccountNumber: loanAccountNumber,
+      loanAccountNumber: ewaLiveSlice?.offerId,
     })
       .then((response) => {
         console.log("ewaAgreementPush response.data: ", response.data);
@@ -204,6 +202,7 @@ const Agreement = () => {
       .catch((error) => {
         console.log("ewaAgreementPush error: ", error);
         Alert.alert("An Error occured", error);
+        setLoading(false);
       });
   }
 

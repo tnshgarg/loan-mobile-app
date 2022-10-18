@@ -37,7 +37,6 @@ const EWA = () => {
   const ewaHistoricalSlice = useSelector((state) => state.ewaHistorical);
 
   useEffect(() => {
-    console.log(fetched, STAGE, ewaLiveSlice);
     if (fetched) {
       if (
         STAGE !== "prod" ||

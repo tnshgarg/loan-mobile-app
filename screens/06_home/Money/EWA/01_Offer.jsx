@@ -117,6 +117,7 @@ const Offer = () => {
         .catch((error) => {
           console.log("ewaOfferPush error: ", error);
           Alert.alert("An Error occured", error);
+          setLoading(false);
         });
     }
   }

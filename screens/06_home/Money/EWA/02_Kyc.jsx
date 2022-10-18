@@ -78,6 +78,7 @@ const KYC = () => {
       .catch((error) => {
         console.log("ewaKycPush error: ", error);
         Alert.alert("An Error occured", error);
+        setLoading(false);
       });
   }
 
