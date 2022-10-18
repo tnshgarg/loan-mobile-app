@@ -30,7 +30,7 @@ const Disbursement = ({ route, navigation }) => {
     })
       .then((response) => {
         if (response.data.status === 200) {
-          Analytics.trackEvent(`Ewa|Disbursement|Success`, {
+          Analytics.trackEvent("Ewa|Disbursement|Success", {
             userId: unipeEmployeeId,
           });
           console.log("ewaDisbursementFetch response.data: ", response.data);
@@ -44,7 +44,7 @@ const Disbursement = ({ route, navigation }) => {
       })
       .catch((error) => {
         console.log("ewaDisbursementFetch error: ", error);
-        Analytics.trackEvent(`Ewa|Disbursement|Error`, {
+        Analytics.trackEvent("Ewa|Disbursement|Error", {
           userId: unipeEmployeeId,
           error: error,
         });
@@ -54,7 +54,7 @@ const Disbursement = ({ route, navigation }) => {
   useEffect(() => {
     console.log("disbursement offer: ", offer);
     setProcessingFees(
-      Math.round(((offer?.loanAmount * offer?.fees) / 100 + 1) / 10) * 10 - 1
+      Math.round(((((offer?.loanAmount * offer?.fees) / 100 + 1) / 10) * 10) - 1)
     );
     setNetAmount(offer?.netAmount);
     setDueDate(offer?.dueDate);
