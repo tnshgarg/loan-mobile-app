@@ -113,8 +113,8 @@ const Offer = () => {
           Analytics.trackEvent("Ewa|OfferPush|Success", {
             userId: unipeEmployeeId,
           });
-          navigation.navigate("EWA_KYC");
           setLoading(false);
+          navigation.navigate("EWA_KYC");
         })
         .catch((error) => {
           console.log("ewaOfferPush error: ", error);

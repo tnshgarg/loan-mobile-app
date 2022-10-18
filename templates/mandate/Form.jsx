@@ -10,8 +10,6 @@ import PrimaryButton from "../../components/PrimaryButton";
 import { mandatePush } from "../../helpers/BackendPush";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
-  addDeviceId,
-  addDeviceIp,
   addType,
   addVerifyMsg,
   addVerifyStatus,
@@ -35,20 +33,13 @@ import { COLORS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
 
 const Form = (props) => {
-  const navigation = useNavigation();
-  const [deviceId, setDeviceId] = useState(
-    useSelector((state) => state.mandate.deviceId)
-  );
-  const [deviceIp, setDeviceIp] = useState(
-    useSelector((state) => state.mandate.deviceIp)
-  );
-  getUniqueId().then((id) => {
-    setDeviceId(id);
-  });
-  NetworkInfo.getIPV4Address().then((ipv4Address) => {
-    setDeviceIp(ipv4Address);
-  });
+
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  const [deviceId, setDeviceId] = useState(0);
+  const [ipAddress, setIpAdress] = useState(0);
+  
   const employeeId = useSelector((state) => state.auth.id);
   const mandateSlice = useSelector((state) => state.mandate);
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
@@ -76,6 +67,15 @@ const Form = (props) => {
   const phoneNumber = useSelector((state) => state.auth.phoneNumber);
 
   useEffect(() => {
+    getUniqueId().then((id) => {
+      setDeviceId(id);
+    });
+    NetworkInfo.getIPV4Address().then((ipv4Address) => {
+      setIpAdress(ipv4Address);
+    });
+  }, []);
+
+  useEffect(() => {
     dispatch(addOrderId(orderId));
   }, [orderId]);
 
@@ -92,14 +92,6 @@ const Form = (props) => {
   }, [type]);
 
   useEffect(() => {
-    dispatch(addDeviceId(deviceId));
-  }, [deviceId]);
-
-  useEffect(() => {
-    dispatch(addDeviceIp(deviceIp));
-  }, [deviceIp]);
-
-  useEffect(() => {
     dispatch(addVerifyTimestamp(timestamp));
   }, [timestamp]);
 
@@ -113,7 +105,7 @@ const Form = (props) => {
       console.log("Mandate Slice", mandateSlice);
       mandatePush({
         unipeEmployeeId: employeeId,
-        ipAddress: deviceIp,
+        ipAddress: ipAddress,
         deviceId: deviceId,
         data: data,
         verifyMsg: verifyMsg,
@@ -164,6 +156,7 @@ const Form = (props) => {
         },
         theme: { color: COLORS.primary },
       };
+
       RazorpayCheckout.open(options)
         .then((data) => {
           getToken({ paymentId: data.razorpay_payment_id })
@@ -181,7 +174,7 @@ const Form = (props) => {
               setVerifyMsg("");
               setVerifyStatus("SUCCESS");
               setBackendPush(true);
-              Analytics.trackEvent("Mandate|Register|Success", {
+              Analytics.trackEvent("Mandate|GetToken|Success", {
                 userId: employeeId,
               });
               showToast("Mandate Verified Successfully");
@@ -189,7 +182,7 @@ const Form = (props) => {
             })
             .catch((error) => {
               console.log(error);
-              Analytics.trackEvent("Mandate|GetToken|Success", {
+              Analytics.trackEvent("Mandate|GetToken|Error", {
                 userId: employeeId,
                 error: error.description,
               });
@@ -231,7 +224,7 @@ const Form = (props) => {
           setVerifyStatus("PENDING");
           setVerifyMsg("To be confirmed by user");
           setTimestamp(Date.now());
-          Analytics.trackEvent(`Mandate-${type}Mandate-Pending`, {
+          Analytics.trackEvent(`Mandate|${type}|Pending`, {
             userId: employeeId,
           });
           setBackendPush(true);
@@ -278,7 +271,7 @@ const Form = (props) => {
           setType("UPI");
           setVerifyStatus("PENDING");
           setVerifyMsg("To be confirmed by user");
-          Analytics.trackEvent("Mandate|${type}|Pending", {
+          Analytics.trackEvent(`Mandate|${type}|Pending`, {
             userId: employeeId,
           });
           setTimestamp(Date.now());
@@ -287,13 +280,13 @@ const Form = (props) => {
             .then((res) => {
               console.log("UPI", res.data);
               setOrderId(res.data.id);
-              Analytics.trackEvent(`Mandate-${type}Mandate-Success`, {
+              Analytics.trackEvent(`Mandate|${type}|Success`, {
                 userId: employeeId,
               });
             })
             .catch(function (error) {
               console.log(error);
-              Analytics.trackEvent(`Mandate-${type}Mandate-Error`, {
+              Analytics.trackEvent(`Mandate|${type}|Error`, {
                 userId: employeeId,
                 error: error,
               });

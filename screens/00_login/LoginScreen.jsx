@@ -97,7 +97,7 @@ export default LoginScreen = () => {
       .then((res) => {
         console.log("LoginScreen res.data: ", res.data);
         if (res.data.status === 200) {
-          Analytics.trackEvent(`LoginScreen|signIn|Success`, {
+          Analytics.trackEvent(`LoginScreen|SignIn|Success`, {
             userId: res.data.body.id,
           });
           setId(res.data.body.id);

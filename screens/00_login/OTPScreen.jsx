@@ -19,7 +19,8 @@ import { COLORS, SIZES } from "../../constants/Theme";
 import FormInput from "../../components/atoms/FormInput";
 import Header from "../../components/atoms/Header";
 
-export default OTPScreen = () => {
+
+const OTPScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -126,12 +127,12 @@ export default OTPScreen = () => {
                       setOtp("");
                       setBack(false);
                       dispatch(resetTimer());
-                      Analytics.trackEvent("OtpScreen|SendSms|Success", {
+                      Analytics.trackEvent("OTPScreen|SendSms|Success", {
                         userId: id,
                       });
                       Alert.alert("OTP resent successfully");
                     } else {
-                      Analytics.trackEvent("OtpScreen|SendSms|Error", {
+                      Analytics.trackEvent("OTPScreen|SendSms|Error", {
                         userId: id,
                         error: result["response"]["details"],
                       });
@@ -143,7 +144,7 @@ export default OTPScreen = () => {
                   })
                   .catch((error) => {
                     console.log(error);
-                    Analytics.trackEvent("OtpScreen|SendSms|Error", {
+                    Analytics.trackEvent("OTPScreen|SendSms|Error", {
                       userId: id,
                       error: error,
                     });
@@ -167,29 +168,21 @@ export default OTPScreen = () => {
               checkVerification(phoneNumber, otp)
                 .then((res) => {
                   if (res["response"]["status"] === "success") {
-                    Analytics.trackEvent("OtpScreen|Check|Success", {
+                    Analytics.trackEvent("OTPScreen|Check|Success", {
                       userId: id,
                     });
                     if (onboarded) {
-                      Analytics.trackEvent(
-                        "OtpScreen|Check|Success",
-                        { userId: id }
-                      );
                       navigation.navigate("BackendSync", {
                         destination: "Home",
                       });
                     } else {
-                      Analytics.trackEvent(
-                        "OtpScreen|Check|Pending",
-                        { userId: id }
-                      );
                       navigation.navigate("BackendSync", {
                         destination: "Welcome",
                       });
                     }
                     dispatch(resetTimer());
                   } else {
-                    Analytics.trackEvent("OtpScreen|Check|Error", {
+                    Analytics.trackEvent("OTPScreen|Check|Error", {
                       userId: id,
                       error: result["response"]["details"],
                     });
@@ -201,7 +194,7 @@ export default OTPScreen = () => {
                 })
                 .catch((error) => {
                   console.log(error);
-                  Analytics.trackEvent("OtpScreen|Check|Error", {
+                  Analytics.trackEvent("OTPScreen|Check|Error", {
                     userId: id,
                     error: error,
                   });
@@ -214,3 +207,5 @@ export default OTPScreen = () => {
     </SafeAreaView>
   );
 };
+
+export default OTPScreen;

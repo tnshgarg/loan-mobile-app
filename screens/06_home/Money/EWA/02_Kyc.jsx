@@ -72,16 +72,16 @@ const KYC = () => {
     })
       .then((response) => {
         console.log("ewaKycPush response.data: ", response.data);
-        navigation.navigate("EWA_AGREEMENT");
-        Analytics.trackEvent(`Ewa|Kyc|Success`, {
+        Analytics.trackEvent("Ewa|Kyc|Success", {
           userId: unipeEmployeeId,
         });
         setLoading(false);
+        navigation.navigate("EWA_AGREEMENT");
       })
       .catch((error) => {
         console.log("ewaKycPush error: ", error);
         Alert.alert("An Error occured", error);
-        Analytics.trackEvent(`Ewa|Kyc|Success`, {
+        Analytics.trackEvent("Ewa|Kyc|Error", {
           userId: unipeEmployeeId,
           error: error,
         });

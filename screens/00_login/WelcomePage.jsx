@@ -11,9 +11,11 @@ import { stepIndicatorStyles, styles, welcome } from "../../styles";
 import SVGImg from "../../assets/UnipeLogo.svg";
 import Analytics from "appcenter-analytics";
 
-export default WelcomePage = () => {
+
+const WelcomePage = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
   const id = useSelector((state) => state.auth.id);
 
   useEffect(() => {
@@ -101,3 +103,5 @@ export default WelcomePage = () => {
     </>
   );
 };
+
+export default WelcomePage;
