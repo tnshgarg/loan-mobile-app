@@ -54,7 +54,7 @@ const LicenseFormTemplate = () => {
           }
         />
 
-        <Fetch
+        <Verify
           url={"https://api.gridlines.io/dl-api/fetch"}
           data={{
             driving_license_number: number,
