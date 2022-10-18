@@ -1,9 +1,9 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import { bankform, form } from "../../styles";
+import { bankform, form, styles } from "../../styles";
 import Fetch from "../../apis/license/Fetch";
 import DateEntry from "../../components/DateEntry";
 import { addNumber } from "../../store/slices/licenseSlice";
@@ -31,41 +31,43 @@ const LicenseFormTemplate = () => {
   }, [number]);
 
   return (
-    <KeyboardAvoidingWrapper>
-      <View>
-        <FormInput
-          placeholder={"Enter License Number"}
-          containerStyle={{ marginVertical: 10 }}
-          value={number}
-          onChange={setNumber}
-          autoCapitalize="characters"
-        />
-        {number && !validNumber ? (
-          <Text style={bankform.formatmsg}>Invalid License Number.</Text>
-        ) : null}
-        <DateEntry
-          title="Date of birth as recorded in License"
-          val={dob}
-          setval={setDob}
-        />
-        <InfoCard
-          info={
-            "License is needed to verify your eligibility to operate heavy machinery."
-          }
-        />
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+      <KeyboardAvoidingWrapper>
+        <View>
+          <FormInput
+            placeholder={"Enter License Number"}
+            containerStyle={{ marginVertical: 10 }}
+            value={number}
+            onChange={setNumber}
+            autoCapitalize="characters"
+          />
+          {number && !validNumber ? (
+            <Text style={bankform.formatmsg}>Invalid License Number.</Text>
+          ) : null}
+          <DateEntry
+            title="Date of birth as recorded in License"
+            val={dob}
+            setval={setDob}
+          />
+          <InfoCard
+            info={
+              "License is needed to verify your eligibility to operate heavy machinery."
+            }
+          />
 
-        <Fetch
-          url={"https://api.gridlines.io/dl-api/fetch"}
-          data={{
-            driving_license_number: number,
-            date_of_birth: dob,
-            consent: "Y",
-          }}
-          style={form.nextButton}
-          disabled={!validNumber}
-        />
-      </View>
-    </KeyboardAvoidingWrapper>
+          <Fetch
+            url={"https://api.gridlines.io/dl-api/fetch"}
+            data={{
+              driving_license_number: number,
+              date_of_birth: dob,
+              consent: "Y",
+            }}
+            style={form.nextButton}
+            disabled={!validNumber}
+          />
+        </View>
+      </KeyboardAvoidingWrapper>
+    </SafeAreaView>
   );
 };
 

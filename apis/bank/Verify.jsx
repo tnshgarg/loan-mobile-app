@@ -15,6 +15,7 @@ import {
 import { KYC_BANK_VERIFY_API_URL } from "../../services/employees/endpoints";
 import { bankBackendPush } from "../../helpers/BackendPush";
 import ApiView from "../ApiView";
+import PrimaryButton from "../../components/PrimaryButton";
 
 const BankVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -31,7 +32,9 @@ const BankVerifyApi = (props) => {
   const [bankName, setBankName] = useState(bankSlice?.data?.bankName);
   const [branchName, setBranchName] = useState(bankSlice?.data?.bankBranch);
   const [branchCity, setBranchCity] = useState(bankSlice?.data?.branchCity);
-  const [accountHolderName, setAccountHolderName] = useState(bankSlice?.data?.accountHolderName);
+  const [accountHolderName, setAccountHolderName] = useState(
+    bankSlice?.data?.accountHolderName
+  );
   const [verifyMsg, setVerifyMsg] = useState(bankSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
   const [verifyTimestamp, setVerifyTimestamp] = useState(
@@ -172,11 +175,13 @@ const BankVerifyApi = (props) => {
       });
   };
   return (
-    <ApiView
-      disabled={props.disabled}
+    <PrimaryButton
+      title={loading ? "Verifying" : "Continue"}
+      disabled={loading}
       loading={loading}
-      goForFetch={goForFetch}
-      style={props.style}
+      onPress={() => {
+        goForFetch();
+      }}
     />
   );
 };

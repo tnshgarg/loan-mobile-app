@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import BankFormTemplate from "../../templates/bank/Form";
 import BankConfirmApi from "../../apis/bank/Confirm";
 import TopTabNav from "../../navigators/TopTabNav";
+import { styles } from "../../styles";
 
 const Bank = () => {
   const accountHolderName = useSelector(
@@ -39,7 +40,7 @@ const Bank = () => {
   ];
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <View style={[styles.container, { padding: 0 }]}>
       {verifyStatus == "SUCCESS" ? (
         <>
           {data.map((item, index) => (

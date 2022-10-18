@@ -13,6 +13,7 @@ import { KYC_AADHAAR_GENERATE_OTP_API_URL } from "../../services/employees/endpo
 import ApiView from "../ApiView";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import { resetTimer } from "../../store/slices/timerSlice";
+import PrimaryButton from "../../components/PrimaryButton";
 
 const AadhaarOtpApi = (props) => {
   const dispatch = useDispatch();
@@ -49,7 +50,10 @@ const AadhaarOtpApi = (props) => {
   }, [verifyTimestamp]);
 
   useEffect(() => {
-    console.log("KYC_AADHAAR_GENERATE_OTP_API_URL: ", KYC_AADHAAR_GENERATE_OTP_API_URL);
+    console.log(
+      "KYC_AADHAAR_GENERATE_OTP_API_URL: ",
+      KYC_AADHAAR_GENERATE_OTP_API_URL
+    );
     console.log("AadhaarOtpApi aadhaarSlice: ", aadhaarSlice);
     if (backendPush) {
       aadhaarBackendPush({
@@ -136,12 +140,13 @@ const AadhaarOtpApi = (props) => {
       });
   };
   return (
-    <ApiView
-      disabled={props.disabled}
+    <PrimaryButton
+      title={loading ? "Verifying" : props.title || "Continue"}
+      disabled={loading}
       loading={loading}
-      title={props.title}
-      goForFetch={goForFetch}
-      style={props.style}
+      onPress={() => {
+        goForFetch();
+      }}
     />
   );
 };

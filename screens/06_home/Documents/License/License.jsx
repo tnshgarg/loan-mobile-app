@@ -44,7 +44,7 @@ const License = () => {
   ];
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { padding: 0 }]}>
       {verifyStatus == "SUCCESS" ? (
         <>
           {dataDetails.map((item, index) => (

@@ -12,7 +12,7 @@ import {
 import { KYC_AADHAAR_SUBMIT_OTP_API_URL } from "../../services/employees/endpoints";
 import ApiView from "../ApiView";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
-
+import PrimaryButton from "../../components/PrimaryButton";
 
 const AadhaarVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -28,7 +28,9 @@ const AadhaarVerifyApi = (props) => {
   const [data, setData] = useState(aadhaarSlice?.data);
   const [verifyMsg, setVerifyMsg] = useState(aadhaarSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(aadhaarSlice?.verifyStatus);
-  const [verifyTimestamp, setVerifyTimestamp] = useState(aadhaarSlice?.verifyTimestamp);
+  const [verifyTimestamp, setVerifyTimestamp] = useState(
+    aadhaarSlice?.verifyTimestamp
+  );
 
   useEffect(() => {
     dispatch(addData(data));
@@ -90,8 +92,17 @@ const AadhaarVerifyApi = (props) => {
           if (responseJson["status"] == "200") {
             switch (responseJson["data"]["code"]) {
               case "1002":
-                const names = ["house", "street", "locality", "district", "state", "pincode"];
-                responseJson["data"]["aadhaar_data"]["address"] = names.map(k => responseJson["data"]["aadhaar_data"][k]).join(", ");
+                const names = [
+                  "house",
+                  "street",
+                  "locality",
+                  "district",
+                  "state",
+                  "pincode",
+                ];
+                responseJson["data"]["aadhaar_data"]["address"] = names
+                  .map((k) => responseJson["data"]["aadhaar_data"][k])
+                  .join(", ");
                 console.log("AADHAAR fetched data: ", responseJson);
                 setData(responseJson["data"]["aadhaar_data"]);
                 setVerifyMsg("OTP validated by User");
@@ -143,11 +154,13 @@ const AadhaarVerifyApi = (props) => {
   };
 
   return (
-    <ApiView
-      disabled={props.disabled}
+    <PrimaryButton
+      title={loading ? "Verifying" : "Continue"}
+      disabled={loading}
       loading={loading}
-      goForFetch={goForFetch}
-      style={props.style}
+      onPress={() => {
+        goForFetch();
+      }}
     />
   );
 };

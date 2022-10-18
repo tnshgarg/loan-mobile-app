@@ -12,6 +12,7 @@ import {
 import { KYC_PAN_VERIFY_API_URL } from "../../services/employees/endpoints";
 import { panBackendPush } from "../../helpers/BackendPush";
 import ApiView from "../ApiView";
+import PrimaryButton from "../../components/PrimaryButton";
 
 const PanVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -136,11 +137,13 @@ const PanVerifyApi = (props) => {
   };
 
   return (
-    <ApiView
-      disabled={props.disabled}
+    <PrimaryButton
+      title={loading ? "Verifying" : "Continue"}
+      disabled={loading}
       loading={loading}
-      goForFetch={goForFetch}
-      style={props.style}
+      onPress={() => {
+        goForFetch();
+      }}
     />
   );
 };

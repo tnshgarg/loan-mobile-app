@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { SafeAreaView, ScrollView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import Icon1 from "react-native-vector-icons/MaterialCommunityIcons";
@@ -19,7 +19,7 @@ import {
   addCustomerId,
   addVerifyTimestamp,
 } from "../../store/slices/mandateSlice";
-import { bankform } from "../../styles";
+import { bankform, styles } from "../../styles";
 import { showToast } from "../../components/Toast";
 import RazorpayCheckout from "react-native-razorpay";
 import {
@@ -265,65 +265,67 @@ const Form = (props) => {
   };
 
   return (
-    <KeyboardAvoidingWrapper>
-      {bankVerifyStatus === "PENDING" ? (
-        <View style={{ alignSelf: "center", marginTop: "20%" }}>
-          <Text style={{ fontSize: 20, alignSelf: "center" }}>
-            Verifying Bank Details is a requirement to register Mandate
-          </Text>
-        </View>
-      ) : (
-        <ScrollView>
-          <FormInput
-            placeholder={"Account Holder Name"}
-            containerStyle={{ marginVertical: 10 }}
-            autoCapitalize="words"
-            value={name}
-            onChange={setName}
-            disabled={true}
-            required
-          />
-          <FormInput
-            placeholder={"Bank Account Number"}
-            containerStyle={{ marginVertical: 10 }}
-            autoCapitalize="words"
-            value={number}
-            onChange={setNumber}
-            disabled={true}
-            required
-          />
-          <FormInput
-            placeholder={"IFSC"}
-            containerStyle={{ marginVertical: 10 }}
-            autoCapitalize="words"
-            value={ifsc}
-            onChange={setIfsc}
-            disabled={true}
-            required
-          />
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+      <KeyboardAvoidingWrapper>
+        {bankVerifyStatus === "PENDING" ? (
+          <View style={{ alignSelf: "center", marginTop: "20%" }}>
+            <Text style={{ fontSize: 20, alignSelf: "center" }}>
+              Verifying Bank Details is a requirement to register Mandate
+            </Text>
+          </View>
+        ) : (
+          <ScrollView>
+            <FormInput
+              placeholder={"Account Holder Name"}
+              containerStyle={{ marginVertical: 10 }}
+              autoCapitalize="words"
+              value={name}
+              onChange={setName}
+              disabled={true}
+              required
+            />
+            <FormInput
+              placeholder={"Bank Account Number"}
+              containerStyle={{ marginVertical: 10 }}
+              autoCapitalize="words"
+              value={number}
+              onChange={setNumber}
+              disabled={true}
+              required
+            />
+            <FormInput
+              placeholder={"IFSC"}
+              containerStyle={{ marginVertical: 10 }}
+              autoCapitalize="words"
+              value={ifsc}
+              onChange={setIfsc}
+              disabled={true}
+              required
+            />
 
-          <CollapsibleCard
-            title="Net Banking "
-            TitleIcon={netIcon}
-            isClosed={true}
-            Component={NetBankbutton}
-          />
-          <CollapsibleCard
-            title="UPI "
-            TitleIcon={upiIcon}
-            isClosed={true}
-            Component={Upibutton}
-          />
-          <CollapsibleCard
-            title="Debit Card "
-            TitleIcon={debitIcon}
-            isClosed={true}
-            Component={Debitbutton}
-          />
-          <View style={bankform.padding}></View>
-        </ScrollView>
-      )}
-    </KeyboardAvoidingWrapper>
+            <CollapsibleCard
+              title="Net Banking "
+              TitleIcon={netIcon}
+              isClosed={true}
+              Component={NetBankbutton}
+            />
+            <CollapsibleCard
+              title="UPI "
+              TitleIcon={upiIcon}
+              isClosed={true}
+              Component={Upibutton}
+            />
+            <CollapsibleCard
+              title="Debit Card "
+              TitleIcon={debitIcon}
+              isClosed={true}
+              Component={Debitbutton}
+            />
+            <View style={bankform.padding}></View>
+          </ScrollView>
+        )}
+      </KeyboardAvoidingWrapper>
+    </SafeAreaView>
   );
 };
 

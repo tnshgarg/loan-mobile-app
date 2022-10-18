@@ -11,6 +11,7 @@ import {
 import { licenseBackendPush } from "../../helpers/BackendPush";
 import ApiView from "../ApiView";
 import { OG_API_TEST_KEY } from "@env";
+import PrimaryButton from "../../components/PrimaryButton";
 
 export default Fetch = (props) => {
   const dispatch = useDispatch();
@@ -126,11 +127,13 @@ export default Fetch = (props) => {
   };
 
   return (
-    <ApiView
-      disabled={props.disabled}
+    <PrimaryButton
+      title={loading ? "Verifying" : "Continue"}
+      disabled={loading}
       loading={loading}
-      goForFetch={goForFetch}
-      style={props.style}
+      onPress={() => {
+        goForFetch();
+      }}
     />
   );
 };

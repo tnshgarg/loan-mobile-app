@@ -134,11 +134,11 @@ const BankFormTemplate = (props) => {
           <BankVerifyApi
             data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}
             style={form.nextButton}
-            disabled={!ifscNext || !accNumNext || !consent || !accountHolderName}
+            disabled={
+              !ifscNext || !accNumNext || !consent || !accountHolderName
+            }
             type={props?.route?.params?.type || ""}
           />
-
-          <View style={bankform.padding}></View>
         </View>
       </KeyboardAvoidingWrapper>
     </>
