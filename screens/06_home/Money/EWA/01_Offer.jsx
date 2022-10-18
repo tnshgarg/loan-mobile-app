@@ -194,8 +194,8 @@ const Offer = () => {
               keyboardType="numeric"
               textAlign={"center"}
               value={amount}
+              autoFocus={true}
               onChangeText={setAmount}
-              isFocused={true}
             />
           </View>
           <Text
