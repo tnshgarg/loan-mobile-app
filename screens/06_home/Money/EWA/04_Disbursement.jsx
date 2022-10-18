@@ -11,7 +11,7 @@ const Disbursement = ({ route, navigation }) => {
   const { offer } = route.params;
 
   const bankSlice = useSelector((state) => state.bank);
-
+  const unipeEmployeeId = useSelector((state) => state.auth.id);
   const [loanAmount, setLoanAmount] = useState(offer?.loanAmount);
   const [netAmount, setNetAmount] = useState(offer?.netAmount);
   const [bankAccountNumber, setBankAccountNumber] = useState(
