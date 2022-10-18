@@ -9,10 +9,13 @@ import { COLORS } from "../../constants/Theme";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { stepIndicatorStyles, styles, welcome } from "../../styles";
 import SVGImg from "../../assets/UnipeLogo.svg";
+import Analytics from "appcenter-analytics";
 
-export default WelcomePage = () => {
+
+const WelcomePage = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
   const id = useSelector((state) => state.auth.id);
 
   useEffect(() => {
@@ -68,24 +71,37 @@ export default WelcomePage = () => {
   ];
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 10 }]}>
-      <SVGImg style={styles.logo} />
-      <View style={welcome.steps}>
-        <StepIndicator
-          customStyles={stepIndicatorStyles}
-          stepCount={6}
-          direction="vertical"
-          renderStepIndicator={renderStepIndicator}
-          currentPosition={-1}
-          labels={data}
+    <>
+      <SafeAreaView style={[styles.container, { paddingBottom: 40 }]}>
+        <SVGImg style={styles.logo} />
+        <View style={welcome.steps}>
+          <StepIndicator
+            customStyles={stepIndicatorStyles}
+            stepCount={6}
+            direction="vertical"
+            renderStepIndicator={renderStepIndicator}
+            currentPosition={-1}
+            labels={data}
+          />
+        </View>
+        <PrimaryButton
+          title="Start Onboarding"
+          color="#2CB77C"
+          uppercase={false}
+          onPress={() => {
+            Analytics.trackEvent("WelcomePage", { userId: id });
+            navigation.navigate("PersonalDetailsForm");
+          }}
         />
-      </View>
-      <PrimaryButton
-        title="Start Onboarding"
-        onPress={() => {
-          navigation.navigate("PersonalDetailsForm");
-        }}
-      />
-    </SafeAreaView>
+        <PrimaryButton
+          title="Start Onboarding"
+          onPress={() => {
+            navigation.navigate("PersonalDetailsForm");
+          }}
+        />
+      </SafeAreaView>
+    </>
   );
 };
+
+export default WelcomePage;

@@ -9,6 +9,8 @@ import { bankform, form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import CollapsibleCard from "../../components/CollapsibleCard";
 import FuzzyCheck from "../../components/FuzzyCheck";
+import Analytics from "appcenter-analytics";
+
 
 const PanConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -90,6 +92,10 @@ const PanConfirmApi = (props) => {
           onPress={() => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
+            Analytics.trackEvent("Pan|Confirm|Error", {
+              userId: id,
+              error: "Rejected by User",
+            });
             setBackendPush(true);
             {
               props?.route?.params?.type == "KYC"
@@ -111,6 +117,9 @@ const PanConfirmApi = (props) => {
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
+            Analytics.trackEvent("Pan|Confirm|Success", {
+              userId: id,
+            });
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
             {

@@ -1,10 +1,11 @@
+import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
-import { SafeAreaView, Image, View } from "react-native";
-import CollapsibleCard from "../../../../components/CollapsibleCard";
-import { ewa, styles } from "../../../../styles";
+import { Image, SafeAreaView, View } from "react-native";
 import { useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
+import CollapsibleCard from "../../../../components/CollapsibleCard";
 import { getBackendData } from "../../../../services/employees/employeeServices";
+import { ewa, styles } from "../../../../styles";
 
 const Disbursement = ({ route, navigation }) => {
   const { offer } = route.params;
@@ -29,6 +30,9 @@ const Disbursement = ({ route, navigation }) => {
     })
       .then((response) => {
         if (response.data.status === 200) {
+          Analytics.trackEvent(`Ewa|Disbursement|Success`, {
+            userId: unipeEmployeeId,
+          });
           console.log("ewaDisbursementFetch response.data: ", response.data);
           setLoanAmount(response.data.body.loanAmount);
           setNetAmount(response.data.body.netAmount);
@@ -40,6 +44,10 @@ const Disbursement = ({ route, navigation }) => {
       })
       .catch((error) => {
         console.log("ewaDisbursementFetch error: ", error);
+        Analytics.trackEvent(`Ewa|Disbursement|Error`, {
+          userId: unipeEmployeeId,
+          error: error,
+        });
       });
   }, []);
 

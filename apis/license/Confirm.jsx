@@ -7,6 +7,7 @@ import { addVerifyMsg, addVerifyStatus } from "../../store/slices/licenseSlice";
 import { licenseBackendPush } from "../../helpers/BackendPush";
 import { form, license, styles, selfie } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
+import Analytics from "appcenter-analytics";
 
 export default Confirm = () => {
   const dispatch = useDispatch();
@@ -134,6 +135,10 @@ export default Confirm = () => {
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Rejected by User");
+            Analytics.trackEvent("Licence|Confirm|Error", {
+              userId: id,
+              error: "Rejected by User",
+            });
             navigation.navigate("Documents", {
               screen: "Driving License",
               params: {
@@ -153,6 +158,9 @@ export default Confirm = () => {
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
+            Analytics.trackEvent("Licence|Confirm|Success", {
+              userId: id,
+            });
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
             navigation.navigate("Documents", {

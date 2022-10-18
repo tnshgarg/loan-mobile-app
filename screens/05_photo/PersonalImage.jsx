@@ -1,18 +1,19 @@
+import { Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
+import Analytics from "appcenter-analytics";
 import { useCallback, useEffect, useState } from "react";
 import { Image, SafeAreaView, ScrollView, Text, View } from "react-native";
-import { Icon, IconButton } from "@react-native-material/core";
 import * as ImagePicker from "react-native-image-picker";
 import { useDispatch, useSelector } from "react-redux";
+import Header from "../../components/atoms/Header";
 import PrimaryButton from "../../components/PrimaryButton";
-import ProgressBarTop from "../../navigators/ProgressBarTop";
 import RNIPPhotoCapture from "../../components/RNIPPhotoCapture";
 import { COLORS } from "../../constants/Theme";
 import { profileBackendPush } from "../../helpers/BackendPush";
+import ProgressBarTop from "../../navigators/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { addPhoto } from "../../store/slices/profileSlice";
 import { form, selfie, styles } from "../../styles";
-import Header from "../../components/atoms/Header";
 
 const PersonalImage = () => {
   const dispatch = useDispatch();
@@ -50,9 +51,20 @@ const PersonalImage = () => {
     ImagePicker.launchImageLibrary(options, (response) => {
       if (response.didCancel) {
         console.log("User cancelled image picker");
+        Analytics.trackEvent("PersonalImage|Pick|Error", {
+          userId: id,
+          error:"User cancelled image picker",
+        });
       } else if (response.error) {
         console.log("ImagePicker Error: ", response.error);
+        Analytics.trackEvent("PersonalImage|Pick|Error", {
+          userId: id,
+          error:response.error,
+        });
       } else {
+        Analytics.trackEvent("PersonalImage|Pick|Success", {
+          userId: id,
+        });
         dispatch(addPhoto(response?.assets[0]?.base64));
       }
     });

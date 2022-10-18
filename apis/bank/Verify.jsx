@@ -15,6 +15,7 @@ import {
 import { KYC_BANK_VERIFY_API_URL } from "../../services/employees/endpoints";
 import { bankBackendPush } from "../../helpers/BackendPush";
 import ApiView from "../ApiView";
+import Analytics from "appcenter-analytics";
 
 const BankVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -31,7 +32,9 @@ const BankVerifyApi = (props) => {
   const [bankName, setBankName] = useState(bankSlice?.data?.bankName);
   const [branchName, setBranchName] = useState(bankSlice?.data?.bankBranch);
   const [branchCity, setBranchCity] = useState(bankSlice?.data?.branchCity);
-  const [accountHolderName, setAccountHolderName] = useState(bankSlice?.data?.accountHolderName);
+  const [accountHolderName, setAccountHolderName] = useState(
+    bankSlice?.data?.accountHolderName
+  );
   const [verifyMsg, setVerifyMsg] = useState(bankSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
   const [verifyTimestamp, setVerifyTimestamp] = useState(
@@ -116,6 +119,10 @@ const BankVerifyApi = (props) => {
                 setVerifyMsg("To be confirmed by User");
                 setVerifyStatus("PENDING");
                 setVerifyTimestamp(responseJson["timestamp"]);
+                Analytics.trackEvent("Bank|Verify|Success", {
+                  Category: "Onboarding",
+                  userId: id,
+                });
                 setBackendPush(true);
                 {
                   props.type == "KYC"
@@ -130,6 +137,11 @@ const BankVerifyApi = (props) => {
                 break;
               default:
                 setVerifyMsg(responseJson["data"]["message"]);
+                Analytics.trackEvent("Bank|Verify|Error", {
+                  Category: "Onboarding",
+                  userId: id,
+                  error: responseJson["data"]["message"],
+                });
                 setVerifyStatus("ERROR");
                 setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
@@ -139,6 +151,13 @@ const BankVerifyApi = (props) => {
             setVerifyStatus("ERROR");
             if (responseJson["error"]) {
               setVerifyMsg(responseJson["error"]);
+              Analytics.trackEvent("Bank|Verify|Error", {
+                Category: "Onboarding",
+                userId: id,
+                error: responseJson["error"]["metadata"]["fields"]
+                  .map((item, value) => item["message"])
+                  .join("\n"),
+              });
               setVerifyStatus("ERROR");
               setBackendPush(true);
               Alert.alert(
@@ -149,6 +168,10 @@ const BankVerifyApi = (props) => {
               );
             } else {
               setVerifyMsg(responseJson["messsage"]);
+              Analytics.trackEvent("Bank|Verify|Error", {
+                userId: id,
+                error: responseJson["messsage"],
+              });
               setVerifyStatus("ERROR");
               setBackendPush(true);
               Alert.alert("Error", responseJson["message"]);
@@ -156,6 +179,10 @@ const BankVerifyApi = (props) => {
           }
         } catch (error) {
           console.log("Error: ", error);
+          Analytics.trackEvent("Bank|Verify|Error", {
+            userId: id,
+            error: error,
+          });
           setVerifyMsg(error);
           setVerifyStatus("ERROR");
           setBackendPush(true);
@@ -165,6 +192,10 @@ const BankVerifyApi = (props) => {
       })
       .catch((error) => {
         console.log("Error: ", error);
+        Analytics.trackEvent("Bank|Verify|Error", {
+          userId: id,
+          error: error,
+        });
         setVerifyMsg(error);
         setVerifyStatus("ERROR");
         setBackendPush(true);
