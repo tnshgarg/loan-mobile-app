@@ -18,7 +18,7 @@ const Profile = () => {
   const qualification = profile?.qualification;
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <View style={styles.container}>
       <SafeAreaView style={[styles.container, { paddingVertical: 0 }]}>
         <DetailItem label="Full Name" value={fullName || "Not Provided"} />
         <DetailItem label="Email Id" value={email || "Not Provided"} />
