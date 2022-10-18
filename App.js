@@ -18,7 +18,7 @@ Crashes.setListener({
   },
 });
 let codePushOptions = {
-  deploymentKey: "NVWL2F2UKSif5SJWBOWtkSyPC3aRIYXM_adgy",
+  deploymentKey: "djFugZgAXYEhRWZ_kKmXFQulkJSDB9Wegnb5M",
   checkFrequency: codePush.CheckFrequency.ON_APP_START,
   mandatoryInstallMode: codePush.InstallMode.IMMEDIATE, //InstallMode.ON_NEXT_RESUME to have minimum background duration effect
 };

@@ -93,12 +93,6 @@ const WelcomePage = () => {
             navigation.navigate("PersonalDetailsForm");
           }}
         />
-        <PrimaryButton
-          title="Start Onboarding"
-          onPress={() => {
-            navigation.navigate("PersonalDetailsForm");
-          }}
-        />
       </SafeAreaView>
     </>
   );
