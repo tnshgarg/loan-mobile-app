@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, View } from "react-native";
+import { Alert, SafeAreaView, View } from "react-native";
 import { useSelector } from "react-redux";
 import Form from "../../templates/mandate/Form";
 import DetailItem from "./DetailItem";
@@ -20,10 +20,12 @@ const Mandate = () => {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
-      {verifyStatus === "SUCCESS" ? Alert.alert("Mandate Verified Successfully") : null}
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+      {verifyStatus === "SUCCESS"
+        ? Alert.alert("Mandate Verified Successfully")
+        : null}
       {verifyStatus == "SUCCESS" && time ? (
-        <>
+        <View style={styles.container}>
           {dataDetails.map((item, index) => (
             <DetailItem
               key={index}
@@ -32,11 +34,11 @@ const Mandate = () => {
               divider
             />
           ))}
-        </>
+        </View>
       ) : (
         <Form />
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 

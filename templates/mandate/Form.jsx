@@ -274,7 +274,7 @@ const Form = (props) => {
             </Text>
           </View>
         ) : (
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <FormInput
               placeholder={"Account Holder Name"}
               containerStyle={{ marginVertical: 10 }}

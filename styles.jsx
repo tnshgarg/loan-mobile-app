@@ -331,7 +331,7 @@ export const bankform = StyleSheet.create({
     fontFamily: "Roboto",
   },
   subTitle: {
-    marginTop: 20,
+    marginTop: 10,
     color: COLORS.black,
     ...FONTS.h3,
     alignSelf: "center",
@@ -537,8 +537,9 @@ export const ewa = StyleSheet.create({
   successImg: {
     alignSelf: "center",
     height: "43%",
-    width: "100%",
-    marginTop: "-8%",
+    //width: "100%",
+    margin: -15,
+    marginBottom: 5,
   },
   checkBox: {
     marginTop: 10,
@@ -571,12 +572,12 @@ export const card = StyleSheet.create({
 export const datacard = StyleSheet.create({
   card: {
     alignSelf: "center",
-    marginTop: "3%",
+    marginVertical: "2%",
     padding: "3%",
-    width: "95%",
-    borderRadius: 4,
+    width: "100%",
+    borderRadius: 5,
     flexDirection: "row",
-    backgroundColor: "rgba(228, 238, 240, 0.4)",
+    backgroundColor: COLORS.lightgray_01,
     justifyContent: "space-between",
   },
   cardTitle: {

@@ -20,7 +20,7 @@ const Checkbox = ({ value, setValue, text }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    alignItems: "flex-start",
+    alignItems: "center",
     marginVertical: 10,
   },
   title: {

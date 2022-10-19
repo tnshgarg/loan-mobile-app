@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SafeAreaView, Image } from "react-native";
+import { SafeAreaView, Image, View } from "react-native";
 import CollapsibleCard from "../../../../components/CollapsibleCard";
 import { ewa, styles } from "../../../../styles";
 import { useSelector } from "react-redux";
@@ -10,18 +10,23 @@ const Disbursement = ({ route, navigation }) => {
   const { offer } = route.params;
 
   const bankSlice = useSelector((state) => state.bank);
-  
+
   const [loanAmount, setLoanAmount] = useState(offer?.loanAmount);
   const [netAmount, setNetAmount] = useState(offer?.netAmount);
-  const [bankAccountNumber, setBankAccountNumber] = useState(bankSlice?.data?.accountNumber);
+  const [bankAccountNumber, setBankAccountNumber] = useState(
+    bankSlice?.data?.accountNumber
+  );
   const [dueDate, setDueDate] = useState(offer?.dueDate);
   const [loanAccountNumber, setLoanAccountNumber] = useState("");
   const [status, setStatus] = useState("");
-  
+
   const [processingFees, setProcessingFees] = useState("");
 
   useEffect(() => {
-    getBackendData({ params: { offerId: offer.offerId }, xpath: "ewa/disbursement" })
+    getBackendData({
+      params: { offerId: offer.offerId },
+      xpath: "ewa/disbursement",
+    })
       .then((response) => {
         if (response.data.status === 200) {
           console.log("ewaDisbursementFetch response.data: ", response.data);
@@ -66,18 +71,19 @@ const Disbursement = ({ route, navigation }) => {
         title="Money Transfer"
         onLeftIconPress={() => navigation.navigate("Home")}
       />
-      <Image
-        style={ewa.successImg}
-        source={require("../../../../assets/animatedsuccess.gif")}
-      />
-      <CollapsibleCard
-        data={data}
-        title="Loan Details"
-        isClosed={false}
-        info="Disbursement will be reconciled in your next payroll"
-      />
+      <View style={styles.container}>
+        <Image
+          style={ewa.successImg}
+          source={require("../../../../assets/animatedsuccess.gif")}
+        />
+        <CollapsibleCard
+          data={data}
+          title="Loan Details"
+          isClosed={false}
+          info="Disbursement will be reconciled in your next payroll"
+        />
 
-      {/* 
+        {/* 
       // checkout flow
       <PrimaryButton
         title="Thank You"
@@ -86,6 +92,7 @@ const Disbursement = ({ route, navigation }) => {
           navigation.navigate("Home");
         }}
       /> */}
+      </View>
     </SafeAreaView>
   );
 };

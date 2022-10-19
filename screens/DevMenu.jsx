@@ -21,7 +21,7 @@ export default DevMenu = () => {
   ];
 
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         {screens.map((screen, index) => (
           <DevMenuButton

@@ -60,7 +60,7 @@ const EWA = () => {
   }, [isFocused, id]);
 
   return (
-    <SafeAreaView style={[styles.container]}>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       {aadhaarVerifyStatus === "SUCCESS" &&
       panVerifyStatus === "SUCCESS" &&
       bankVerifyStatus === "SUCCESS" &&
@@ -68,7 +68,7 @@ const EWA = () => {
         // panMisMatch < 20 &&
         // bankMisMatch < 20 ? (
 
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View
             style={{
               alignSelf: "center",
@@ -77,9 +77,9 @@ const EWA = () => {
             <Text
               style={{
                 fontSize: 20,
-                marginTop: "8%",
-                marginBottom: "8%",
-                color: "#597E8D",
+                marginTop: "5%",
+                marginBottom: "5%",
+                color: COLORS.gray,
                 letterSpacing: 0.5,
               }}
             >
@@ -88,8 +88,8 @@ const EWA = () => {
             <Text
               style={{
                 alignSelf: "center",
-                color: "green",
-                ...FONTS.h1,
+                color: COLORS.primary,
+                ...FONTS.h2,
               }}
             >
               ₹ {ewaLiveSlice?.eligibleAmount}
@@ -111,19 +111,18 @@ const EWA = () => {
               marginHorizontal: 20,
             }}
           >
-            <Text style={{ fontSize: 16, color: "#597E8D", marginTop: "10%" }}>
+            <Text style={{ color: COLORS.gray, ...FONTS.h3, marginTop: "10%" }}>
               Your past draws
             </Text>
             <Offers data={ewaHistoricalSlice} />
           </View>
-          <View style={checkBox.padding}></View>
         </ScrollView>
       ) : (
         <>
           <Text
             style={{
-              color: "red",
-              fontWeight: "bold",
+              color: COLORS.warning,
+              ...FONTS.h3,
               alignSelf: "center",
               marginTop: 20,
             }}

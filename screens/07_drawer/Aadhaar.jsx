@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import { useSelector } from "react-redux";
 import DetailItem from "./DetailItem";
 import TopTabNav from "../../navigators/TopTabNav";
@@ -46,9 +46,9 @@ const Aadhaar = () => {
   ];
 
   return (
-    <View style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       {verifyStatus == "SUCCESS" ? (
-        <>
+        <View style={styles.container}>
           {dataDetails.map((item, index) => (
             <DetailItem
               key={index}
@@ -57,11 +57,11 @@ const Aadhaar = () => {
               divider={item?.divider ?? true}
             />
           ))}
-        </>
+        </View>
       ) : (
         <TopTabNav tabs={tabs} hide={true} />
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 

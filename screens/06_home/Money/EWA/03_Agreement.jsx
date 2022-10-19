@@ -29,6 +29,7 @@ import RenderHtml from "react-native-render-html";
 import agreement from "../../../../templates/docs/LiquidLoansLoanAgreement";
 import { COLORS } from "../../../../constants/Theme";
 import Header from "../../../../components/atoms/Header";
+import Checkbox from "../../../../components/atoms/Checkbox";
 
 const Agreement = () => {
   const dispatch = useDispatch();
@@ -211,104 +212,104 @@ const Agreement = () => {
   return (
     <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <Header title="Agreement" onLeftIconPress={() => navigation.goBack()} />
-      <ScrollView>
-        <CollapsibleCard
-          data={data}
-          title="Loan Details"
-          isClosed={false}
-          // info="Disbursed amount will be adjusted in your next salary."
-        />
-        <CollapsibleCard
-          title="Personal Details"
-          isClosed={false}
-          data={profileData}
-        />
-        <CollapsibleCard
-          title="Bank Details"
-          isClosed={false}
-          data={bankData}
-        />
-        <View style={{ flexDirection: "row", marginTop: 10 }}>
-          <CheckBox
-            style={ewa.checkBox}
-            tintColors={{ true: COLORS.primary }}
+      <View style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <CollapsibleCard
+            data={data}
+            title="Loan Details"
+            isClosed={false}
+            // info="Disbursed amount will be adjusted in your next salary."
+          />
+          <CollapsibleCard
+            title="Personal Details"
+            isClosed={false}
+            data={profileData}
+          />
+          <CollapsibleCard
+            title="Bank Details"
+            isClosed={false}
+            data={bankData}
+          />
+
+          <Checkbox
+            text={"I confirm the above details."}
             value={confirm}
-            onValueChange={setConfirm}
+            setValue={setConfirm}
           />
-          <Text style={ewa.checkBoxText}>I confirm the above details.</Text>
-        </View>
-        <View style={{ flexDirection: "row" }}>
-          <CheckBox
-            style={ewa.checkBox}
-            tintColors={{ true: COLORS.primary }}
-            value={consent}
-            onValueChange={setConsent}
-          />
-          <Text style={ewa.checkBoxText}>
-            I agree to the{" "}
-            <Text
-              style={styles.termsText}
-              onPress={() => setIsModalVisible(true)}
-            >
-              Terms and Conditions
-            </Text>
-            .
-          </Text>
-        </View>
-        <PrimaryButton
-          title={loading ? "Booking" : "Finish"}
-          onPress={() => {
-            handleAgreement();
-          }}
-          disabled={!confirm || !consent || loading}
-        />
-        <View style={checkBox.padding}></View>
-        <Text style={{ marginLeft: "6%", fontSize: 6, marginTop: "25%" }}>
-          * Disbursement will be reconciled in your next payroll {"\n"}* Annual
-          Percentage Rate @ {apr} %
-        </Text>
-      </ScrollView>
-      <Modal
-        isVisible={isModalVisible}
-        style={{
-          width: Dimensions.get("window").width,
-          height: Dimensions.get("window").height,
-        }}
-      >
-        <Pressable
-          onPress={() => setIsModalVisible(false)}
-          style={{
-            position: "absolute",
-            top: 30,
-            right: 50,
-            zIndex: 999,
-          }}
-        >
-          <AntDesign name="closesquareo" size={24} color="black" />
-        </Pressable>
-        <View
-          style={{
-            height: Dimensions.get("window").height - 100,
-            width: Dimensions.get("window").width - 40,
-            backgroundColor: "white",
-            borderRadius: 5,
-          }}
-        >
-          <ScrollView style={{ padding: "5%" }}>
-            <RenderHtml
-              contentWidth={width}
-              source={agreement}
-              enableExperimentalMarginCollapsing={true}
-              renderersProps={{
-                img: {
-                  enableExperimentalPercentWidth: true,
-                },
-              }}
-              domVisitors={{ onText: ValueEntry }}
+
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <CheckBox
+              style={ewa.checkBox}
+              tintColors={{ true: COLORS.primary }}
+              value={consent}
+              onValueChange={setConsent}
             />
-          </ScrollView>
-        </View>
-      </Modal>
+            <Text style={ewa.checkBoxText}>
+              I agree to the{" "}
+              <Text
+                style={styles.termsText}
+                onPress={() => setIsModalVisible(true)}
+              >
+                Terms and Conditions
+              </Text>
+              .
+            </Text>
+          </View>
+          <PrimaryButton
+            title={loading ? "Booking" : "Finish"}
+            onPress={() => {
+              handleAgreement();
+            }}
+            disabled={!confirm || !consent || loading}
+          />
+          <View style={checkBox.padding}></View>
+          <Text style={{ marginLeft: "6%", fontSize: 6, marginTop: "25%" }}>
+            * Disbursement will be reconciled in your next payroll {"\n"}*
+            Annual Percentage Rate @ {apr} %
+          </Text>
+        </ScrollView>
+        <Modal
+          isVisible={isModalVisible}
+          style={{
+            width: Dimensions.get("window").width,
+            height: Dimensions.get("window").height,
+          }}
+        >
+          <Pressable
+            onPress={() => setIsModalVisible(false)}
+            style={{
+              position: "absolute",
+              top: 30,
+              right: 50,
+              zIndex: 999,
+            }}
+          >
+            <AntDesign name="closesquareo" size={24} color="black" />
+          </Pressable>
+          <View
+            style={{
+              height: Dimensions.get("window").height - 100,
+              width: Dimensions.get("window").width - 40,
+              backgroundColor: "white",
+              borderRadius: 5,
+            }}
+          >
+            <ScrollView style={{ padding: "5%" }}>
+              <RenderHtml
+                contentWidth={width}
+                source={agreement}
+                enableExperimentalMarginCollapsing={true}
+                renderersProps={{
+                  img: {
+                    enableExperimentalPercentWidth: true,
+                  },
+                }}
+                domVisitors={{ onText: ValueEntry }}
+              />
+            </ScrollView>
+          </View>
+        </Modal>
+      </View>
     </SafeAreaView>
   );
 };

@@ -231,7 +231,7 @@ const Offer = () => {
         value={consent}
         setValue={setConsent}
       /> */}
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
           <CheckBox
             value={consent}
             onValueChange={setConsent}
