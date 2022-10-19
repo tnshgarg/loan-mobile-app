@@ -1,8 +1,7 @@
 import {
   ActivityIndicator,
   StyleSheet,
-  TouchableOpacity,
-  View,
+  TouchableOpacity
 } from "react-native";
 import { Button } from "@react-native-material/core";
 import { COLORS, FONTS } from "../constants/Theme";

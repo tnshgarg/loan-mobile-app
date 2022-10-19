@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { Text, View, Image } from "react-native";
+import { View, Image } from "react-native";
 import { Button } from "@react-native-material/core";
 import {
   addVerifyMsg,
@@ -10,8 +10,10 @@ import {
 } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
-import CollapsibleCard from "../../components/CollapsibleCard";
 import { COLORS, FONTS } from "../../constants/Theme";
+import Analytics from "appcenter-analytics";
+import CollapsibleCard from "../../components/CollapsibleCard";
+
 
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -94,11 +96,18 @@ const AadhaarConfirmApi = (props) => {
           type="solid"
           uppercase={false}
           style={form.noButton}
+          color={COLORS.warning}
           titleStyle={{ ...FONTS.h3, color: COLORS.warning }}
+          pressableContainerStyle={{ width: "100%" }}
+          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
             setBackendPush(true);
+            Analytics.trackEvent("Aadhaar|Confirm|Error", {
+              userId: id,
+              error: "Rejected by User",
+            });
             {
               props?.route?.params?.type == "KYC"
                 ? navigation.navigate("KYC", {
@@ -116,11 +125,17 @@ const AadhaarConfirmApi = (props) => {
           type="solid"
           uppercase={false}
           style={form.yesButton}
+          color={COLORS.primary}
           titleStyle={{ ...FONTS.h3, color: COLORS.primary }}
+          pressableContainerStyle={{ width: "100%" }}
+          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
+            Analytics.trackEvent("Aadhaar|Confirm|Success", {
+              userId: id,
+            });
             {
               props?.route?.params?.type == "KYC"
                 ? navigation.navigate("KYC", {

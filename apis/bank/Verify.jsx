@@ -14,8 +14,8 @@ import {
 } from "../../store/slices/bankSlice";
 import { KYC_BANK_VERIFY_API_URL } from "../../services/employees/endpoints";
 import { bankBackendPush } from "../../helpers/BackendPush";
-import ApiView from "../ApiView";
 import PrimaryButton from "../../components/PrimaryButton";
+import Analytics from "appcenter-analytics";
 
 const BankVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -120,6 +120,10 @@ const BankVerifyApi = (props) => {
                 setVerifyStatus("PENDING");
                 setVerifyTimestamp(responseJson["timestamp"]);
                 setBackendPush(true);
+                Analytics.trackEvent("Bank|Verify|Success", {
+                  Category: "Onboarding",
+                  userId: id,
+                });
                 {
                   props.type == "KYC"
                     ? navigation.navigate("KYC", {
@@ -136,6 +140,11 @@ const BankVerifyApi = (props) => {
                 setVerifyStatus("ERROR");
                 setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
+                Analytics.trackEvent("Bank|Verify|Error", {
+                  Category: "Onboarding",
+                  userId: id,
+                  error: responseJson["data"]["message"],
+                });
                 break;
             }
           } else {
@@ -147,31 +156,49 @@ const BankVerifyApi = (props) => {
               Alert.alert(
                 "Error",
                 responseJson["error"]["metadata"]["fields"]
-                  .map((item, value) => item["message"])
+                  .map((item) => item["message"])
                   .join("\n")
               );
+              Analytics.trackEvent("Bank|Verify|Error", {
+                Category: "Onboarding",
+                userId: id,
+                error: responseJson["error"]["metadata"]["fields"]
+                  .map((item) => item["message"])
+                  .join("\n"),
+              });
             } else {
               setVerifyMsg(responseJson["messsage"]);
               setVerifyStatus("ERROR");
               setBackendPush(true);
               Alert.alert("Error", responseJson["message"]);
+              Analytics.trackEvent("Bank|Verify|Error", {
+                userId: id,
+                error: responseJson["messsage"],
+              });
             }
           }
         } catch (error) {
-          console.log("Error: ", error);
-          setVerifyMsg(error);
+          console.log("Try Catch Error: ", error.toString());
+          setVerifyMsg(error.toString());
           setVerifyStatus("ERROR");
           setBackendPush(true);
-          Alert.alert("Error", error);
+          Alert.alert("Error", error.toString());
+          Analytics.trackEvent("Bank|Verify|Error", {
+            userId: id,
+            error: error.toString(),
+          });
         }
-        setBackendPush(true);
       })
       .catch((error) => {
-        console.log("Error: ", error);
-        setVerifyMsg(error);
+        console.log("Fetch Catch Error: ", error.toString());
+        setVerifyMsg(error.toString());
         setVerifyStatus("ERROR");
         setBackendPush(true);
-        Alert.alert("Error", error);
+        Alert.alert("Error", error.toString());
+        Analytics.trackEvent("Bank|Verify|Error", {
+          userId: id,
+          error: error.toString(),
+        });
       });
   };
   return (

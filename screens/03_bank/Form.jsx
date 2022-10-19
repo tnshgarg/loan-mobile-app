@@ -24,7 +24,7 @@ const BankForm = () => {
         { text: "No", onPress: () => null, style: "cancel" },
         {
           text: "Yes",
-          onPress: () => navigation.navigate("PersonalDetailsForm"),
+          onPress: () => navigation.navigate("Mandate"),
         },
       ]
     );

@@ -33,7 +33,7 @@ const AadhaarForm = () => {
       "If you go back your Mobile Number Verification will have to be redone.",
       [
         { text: "No", onPress: () => null, style: "cancel" },
-        { text: "Yes", onPress: () => navigation.navigate("PersonalDetailsForm") },
+        { text: "Yes", onPress: () => navigation.navigate("PersonalImage") },
       ]
     );
   };

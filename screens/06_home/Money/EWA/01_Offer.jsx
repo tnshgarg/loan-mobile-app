@@ -1,32 +1,31 @@
+import { STAGE } from "@env";
 import { MaterialIcons } from "@expo/vector-icons";
+import CheckBox from "@react-native-community/checkbox";
 import { useNavigation } from "@react-navigation/core";
+import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import {
-  Alert,
-  SafeAreaView,
+  Alert, Dimensions,
+  Pressable, SafeAreaView,
   Text,
   TextInput,
-  View,
-  Dimensions,
-  Pressable,
+  View
 } from "react-native";
 import { getUniqueId } from "react-native-device-info";
+import Modal from "react-native-modal";
 import { NetworkInfo } from "react-native-network-info";
 import StepIndicator from "react-native-step-indicator";
+import { AntDesign } from "react-native-vector-icons";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { WebView } from "react-native-webview";
 import { useDispatch, useSelector } from "react-redux";
+import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/PrimaryButton";
+import { COLORS } from "../../../../constants/Theme";
 import { ewaOfferPush } from "../../../../helpers/BackendPush";
 import { addLoanAmount } from "../../../../store/slices/ewaLiveSlice";
-import { bankform, checkBox, styles, welcome } from "../../../../styles";
-import Modal from "react-native-modal";
-import { WebView } from "react-native-webview";
+import { checkBox, styles, welcome } from "../../../../styles";
 import TnC from "../../../../templates/docs/EWATnC.js";
-import { AntDesign } from "react-native-vector-icons";
-import { COLORS } from "../../../../constants/Theme";
-import Header from "../../../../components/atoms/Header";
-import Checkbox from "../../../../components/atoms/Checkbox";
-import CheckBox from "@react-native-community/checkbox";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -65,6 +64,19 @@ const Offer = () => {
   }, [deviceId, ipAddress]);
 
   useEffect(() => {
+    if (parseInt(amount) <= eligibleAmount) {
+      if (STAGE !== "prod" || (STAGE === "prod" && parseInt(amount) > 999)) {
+        setValidAmount(true);
+        dispatch(addLoanAmount(parseInt(amount)));
+      } else {
+        setValidAmount("false");
+      }
+    } else {
+      setValidAmount("false");
+    }
+  }, [amount]);
+
+  useEffect(() => {
     if (fetched) {
       ewaOfferPush({
         offerId: offerId,
@@ -98,24 +110,23 @@ const Offer = () => {
       })
         .then((response) => {
           console.log("ewaOfferPush response.data: ", response.data);
-          navigation.navigate("EWA_KYC");
           setLoading(false);
+          navigation.navigate("EWA_KYC");
+          Analytics.trackEvent("Ewa|OfferPush|Success", {
+            userId: unipeEmployeeId,
+          });
         })
         .catch((error) => {
           console.log("ewaOfferPush error: ", error);
+          setLoading(false);
           Alert.alert("An Error occured", error);
+          Analytics.trackEvent("Ewa|OfferPush|Error", {
+            userId: unipeEmployeeId,
+            error: error
+          });
         });
     }
   }
-
-  useEffect(() => {
-    if (parseInt(amount) > 999 && parseInt(amount) <= eligibleAmount) {
-      setValidAmount(true);
-      dispatch(addLoanAmount(parseInt(amount)));
-    } else {
-      setValidAmount(false);
-    }
-  }, [amount]);
 
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
@@ -163,35 +174,36 @@ const Offer = () => {
         onLeftIconPress={() => navigation.navigate("Home")}
       />
       <View style={styles.container}>
-        <View
-          style={{
-            flexDirection: "row",
-            width: "50%",
-            paddingBottom: 10,
-            alignSelf: "center",
-          }}
-        >
-          <Icon
-            name="currency-inr"
-            color="green"
-            size={32}
-            style={{ marginTop: 8, marginRight: 10 }}
-          />
-          <TextInput
+        <View style={{ flexDirection: "column" }}>
+          <View
             style={{
-              flex: 1,
-              fontSize: 32,
-              color: "green",
-              borderWidth: 1,
-              width: 5,
+              flexDirection: "row",
+              width: "50%",
+              paddingBottom: 10,
+              alignSelf: "center",
             }}
-            keyboardType="numeric"
-            textAlign={"center"}
-            value={amount}
-            onChangeText={setAmount}
-            isFocused={true}
-          />
+          >
+            <Icon
+              name="currency-inr"
+              color="green"
+              size={32}
+              style={{ marginTop: 8, marginRight: 10 }}
+            />
 
+            <TextInput
+              style={{
+                fontSize: 32,
+                color: "green",
+                borderWidth: 1,
+                width: "60%",
+              }}
+              keyboardType="numeric"
+              textAlign={"center"}
+              value={amount}
+              autoFocus={true}
+              onChangeText={setAmount}
+            />
+          </View>
           <Text
             style={{
               fontSize: 14,

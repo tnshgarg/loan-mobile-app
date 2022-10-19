@@ -2,11 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   data: { type: "" },
-  deviceIp: "",
-  deviceId: "",
-  verifyMsg: "",
   customerId: "",
   orderId: "",
+  verifyMsg: "",
   verifyStatus: "PENDING",
   verifyTimestamp: "",
 };
@@ -17,12 +15,6 @@ const mandateSlice = createSlice({
   reducers: {
     addData(state, action) {
       state.data = action.payload;
-    },
-    addDeviceId(state, action) {
-      state.deviceId = action.payload;
-    },
-    addDeviceIp(state, action) {
-      state.deviceIp = action.payload;
     },
     addVerifyMsg(state, action) {
       state.verifyMsg = action.payload;
@@ -54,8 +46,6 @@ const mandateSlice = createSlice({
 
 export const {
   addData,
-  addDeviceId,
-  addDeviceIp,
   addVerifyMsg,
   addVerifyStatus,
   addVerifyTimestamp,

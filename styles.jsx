@@ -4,9 +4,8 @@ import { COLORS, FONTS, SIZES } from "./constants/Theme";
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.white,
-    height: "100%",
     flex: 1,
-    padding: 15,
+    padding: "1%",
   },
   logo: {
     alignSelf: "center",

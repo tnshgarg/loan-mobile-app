@@ -1,38 +1,34 @@
 import { useNavigation } from "@react-navigation/core";
+import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import {
-  ActivityIndicator,
-  Alert,
-  Text,
-  TouchableOpacity,
-  View,
-  SafeAreaView,
-  Dimensions,
-  Pressable,
+  Alert, Dimensions,
+  Pressable, SafeAreaView, Text,
+  View
 } from "react-native";
+import Modal from "react-native-modal";
 import SmsRetriever from "react-native-sms-retriever";
-import { useDispatch, useSelector } from "react-redux";
-import PrimaryButton from "../../components/PrimaryButton";
 import SplashScreen from "react-native-splash-screen";
+import { AntDesign } from "react-native-vector-icons";
+import { WebView } from "react-native-webview";
+import { useDispatch, useSelector } from "react-redux";
+import SVGImg from "../../assets/UnipeLogo.svg";
+import FormInput from "../../components/atoms/FormInput";
+import PrimaryButton from "../../components/PrimaryButton";
+import { COLORS, FONTS } from "../../constants/Theme";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { putBackendData } from "../../services/employees/employeeServices";
 import { sendSmsVerification } from "../../services/otp/Gupshup/services";
 import {
   addId,
   addOnboarded,
-  addPhoneNumber,
+  addPhoneNumber
 } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
-import Modal from "react-native-modal";
-import { COLORS, FONTS } from "../../constants/Theme";
-import SVGImg from "../../assets/UnipeLogo.svg";
-import FormInput from "../../components/atoms/FormInput";
-import { WebView } from "react-native-webview";
 import privacyPolicy from "../../templates/docs/PrivacyPolicy.js";
 import termsOfUse from "../../templates/docs/TermsOfUse.js";
-import { AntDesign } from "react-native-vector-icons";
 
 export default LoginScreen = () => {
   SplashScreen.hide();
@@ -101,6 +97,9 @@ export default LoginScreen = () => {
       .then((res) => {
         console.log("LoginScreen res.data: ", res.data);
         if (res.data.status === 200) {
+          Analytics.trackEvent(`LoginScreen|SignIn|Success`, {
+            userId: res.data.body.id,
+          });
           setId(res.data.body.id);
           setOnboarded(res.data.body.onboarded);
           sendSmsVerification(phoneNumber)
@@ -108,9 +107,16 @@ export default LoginScreen = () => {
               console.log("sendSmsVerification result: ", result);
               if (result["response"]["status"] === "success") {
                 setLoading(false);
+                Analytics.trackEvent("LoginScreen|SendSms|Success", {
+                  userId: id,
+                });
                 navigation.navigate("Otp");
               } else {
                 setLoading(false);
+                Analytics.trackEvent("LoginScreen|SendSms|Error", {
+                  userId: id,
+                  error: result["response"]["details"],
+                });
                 Alert.alert(
                   result["response"]["status"],
                   result["response"]["details"]
@@ -120,15 +126,27 @@ export default LoginScreen = () => {
             .catch((error) => {
               setLoading(false);
               console.log(error);
+              Analytics.trackEvent("LoginScreen|SendSms|Error", {
+                userId: id,
+                error: error,
+              });
               Alert("Error", "Something is Wrong");
             });
         } else {
           setLoading(false);
+          Analytics.trackEvent("LoginScreen|SignIn|Error", {
+            phoneNumber: phoneNumber,
+            error: res.data["message"],
+          });
           Alert.alert("Error", res.data["message"]);
         }
       })
       .catch((error) => {
         setLoading(false);
+        Analytics.trackEvent("LoginScreen|SignIn|Error", {
+          phoneNumber: phoneNumber,
+          error: error,
+        });
         console.log(error);
       });
   };

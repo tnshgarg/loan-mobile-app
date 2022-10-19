@@ -1,11 +1,12 @@
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView, Text, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS, FONTS } from "../constants/Theme";
 import { getBackendData } from "../services/employees/employeeServices";
 import { resetEwaHistorical } from "../store/slices/ewaHistoricalSlice";
 import { resetEwaLive } from "../store/slices/ewaLiveSlice";
+
 
 const HomeOfferCard = () => {
   const dispatch = useDispatch();

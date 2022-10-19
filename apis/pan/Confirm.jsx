@@ -6,9 +6,11 @@ import { Button } from "@react-native-material/core";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/panSlice";
 import { panBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
-import { COLORS } from "../../constants/Theme";
+import { COLORS, FONTS } from "../../constants/Theme";
 import CollapsibleCard from "../../components/CollapsibleCard";
 import FuzzyCheck from "../../components/FuzzyCheck";
+import Analytics from "appcenter-analytics";
+
 
 const PanConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -84,10 +86,17 @@ const PanConfirmApi = (props) => {
           uppercase={false}
           style={form.noButton}
           color={COLORS.warning}
+          titleStyle={{ ...FONTS.h3, color: COLORS.warning }}
+          pressableContainerStyle={{ width: "100%" }}
+          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
             setBackendPush(true);
+            Analytics.trackEvent("Pan|Confirm|Error", {
+              userId: id,
+              error: "Rejected by User",
+            });
             {
               props?.route?.params?.type == "KYC"
                 ? navigation.navigate("KYC", {
@@ -103,10 +112,16 @@ const PanConfirmApi = (props) => {
           uppercase={false}
           style={form.yesButton}
           color={COLORS.primary}
+          titleStyle={{ ...FONTS.h3, color: COLORS.primary }}
+          pressableContainerStyle={{ width: "100%" }}
+          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
+            Analytics.trackEvent("Pan|Confirm|Success", {
+              userId: id,
+            });
             {
               props?.route?.params?.type == "KYC"
                 ? navigation.navigate("KYC", {

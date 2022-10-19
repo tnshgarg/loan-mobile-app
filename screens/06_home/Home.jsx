@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SafeAreaView } from "react-native";
 import { useDispatch } from "react-redux";
 import BottomTabNav from "../../navigators/BottomTabNav";
 import Benefits from "./Benefits/Benefits";
 import Documents from "./Documents/Documents";
 import HomeView from "./HomeView";
-import SVGImg from "../../assets/UnipeLogo.svg";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import EWA from "./Money/EWA/EWA";
 

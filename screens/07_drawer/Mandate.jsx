@@ -3,6 +3,7 @@ import { Alert, SafeAreaView, View } from "react-native";
 import { useSelector } from "react-redux";
 import Form from "../../templates/mandate/Form";
 import DetailItem from "./DetailItem";
+import { styles } from "../../styles";
 
 const Mandate = () => {
   const mandate = useSelector((state) => state.mandate);

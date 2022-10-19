@@ -14,9 +14,9 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { form, styles } from "../../styles";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import PrimaryButton from "../../components/PrimaryButton";
-import { COLORS } from "../../constants/Theme";
 import FormInput from "../../components/atoms/FormInput";
 import DropDownForm from "../../components/molecules/DropDownForm";
+import Analytics from "appcenter-analytics";
 import Header from "../../components/atoms/Header";
 
 const PersonalDetailsForm = () => {
@@ -24,7 +24,7 @@ const PersonalDetailsForm = () => {
   const navigation = useNavigation();
 
   const [next, setNext] = useState(false);
-
+  const id = useSelector((state) => state.auth.id);
   const profileSlice = useSelector((state) => state.profile);
   const [maritalStatus, setMaritalStatus] = useState(
     profileSlice?.maritalStatus
@@ -130,6 +130,9 @@ const PersonalDetailsForm = () => {
               title="Continue"
               disabled={!next}
               onPress={() => {
+                Analytics.trackEvent("PersonalDetailsForm|PushData|Success", {
+                  userId: id,
+                });
                 navigation.navigate("PersonalImage");
               }}
             />
