@@ -1,4 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
+import CheckBox from "@react-native-community/checkbox";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import {
@@ -238,7 +239,7 @@ const Agreement = () => {
             setValue={setConfirm}
           />
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Checkbox
+            <CheckBox
               style={ewa.checkBox}
               tintColors={{ true: COLORS.primary }}
               value={consent}

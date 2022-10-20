@@ -9,7 +9,7 @@ import Offers from "../../../../components/DataCard";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
-import { FONTS } from "../../../../constants/Theme";
+import { COLORS, FONTS } from "../../../../constants/Theme";
 import { STAGE } from "@env";
 
 
@@ -121,8 +121,8 @@ const EWA = () => {
               />
             </View>
 
-            <View style={{padding: "1%"}}>
-              <Text style={{ ...FONTS.h3, paddingLeft: "1.5%", color: COLORS.gray, marginTop: "5%", fontWeight: 'bold' }}>
+            <View style={{padding: "1.5%"}}>
+              <Text style={{ ...FONTS.h2, paddingLeft: "1.5%", color: COLORS.gray, marginTop: "5%", fontWeight: 'bold' }}>
                 Your past draws
               </Text>
               <Offers data={ewaHistoricalSlice} />
