@@ -9,12 +9,11 @@ import {
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/aadhaarSlice";
-import { KYC_AADHAAR_GENERATE_OTP_API_URL } from "../../services/employees/endpoints";
-import ApiView from "../ApiView";
+import { KYC_AADHAAR_GENERATE_OTP_API_URL } from "../../services/constants";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import { resetTimer } from "../../store/slices/timerSlice";
+import PrimaryButton from "../../components/PrimaryButton";
 import Analytics from "appcenter-analytics";
-
 
 const AadhaarOtpApi = (props) => {
   const dispatch = useDispatch();
@@ -164,12 +163,13 @@ const AadhaarOtpApi = (props) => {
       });
   };
   return (
-    <ApiView
-      disabled={props.disabled}
+    <PrimaryButton
+      title={loading ? "Verifying" : props.title || "Continue"}
+      disabled={loading}
       loading={loading}
-      title={props.title}
-      goForFetch={goForFetch}
-      style={props.style}
+      onPress={() => {
+        goForFetch();
+      }}
     />
   );
 };

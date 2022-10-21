@@ -7,6 +7,7 @@ import { getBackendData } from "../services/employees/employeeServices";
 import { resetEwaHistorical } from "../store/slices/ewaHistoricalSlice";
 import { resetEwaLive } from "../store/slices/ewaLiveSlice";
 
+
 const HomeOfferCard = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -36,14 +37,13 @@ const HomeOfferCard = () => {
       <TouchableOpacity
         activeOpacity={0.8}
         style={{
-          backgroundColor: "rgba(0,200,0,0.1)",
+          backgroundColor: COLORS.primaryBackground,
           borderWidth: 1,
-          borderColor: "green",
+          borderColor: COLORS.primary,
           height: "auto",
-          width: "80%",
-          padding: 10,
-          borderRadius: 10,
-          marginTop: "10%",
+          width: "100%",
+          padding: 15,
+          borderRadius: 5,
           alignSelf: "center",
         }}
         onPress={() => navigation.navigate("Money")}
@@ -60,9 +60,9 @@ const HomeOfferCard = () => {
         </Text>
         <Text
           style={{
-            color: "green",
+            color: COLORS.primary,
             ...FONTS.h1,
-            marginTop: "4%",
+            marginVertical: "3%",
             alignSelf: "center",
           }}
         >
@@ -70,9 +70,8 @@ const HomeOfferCard = () => {
         </Text>
         <Text
           style={{
-            color: "purple",
+            color: COLORS.black,
             ...FONTS.h3,
-            marginTop: "2%",
             alignSelf: "center",
           }}
         >

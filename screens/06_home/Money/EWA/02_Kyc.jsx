@@ -9,7 +9,7 @@ import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { ewaKycPush } from "../../../../helpers/BackendPush";
 import { form, styles } from "../../../../styles";
-
+import CollapsibleCard from "../../../../components/CollapsibleCard";
 
 const KYC = () => {
   const navigation = useNavigation();
@@ -72,22 +72,36 @@ const KYC = () => {
     })
       .then((response) => {
         console.log("ewaKycPush response.data: ", response.data);
+        setLoading(false);
         Analytics.trackEvent("Ewa|Kyc|Success", {
           userId: unipeEmployeeId,
         });
-        setLoading(false);
         navigation.navigate("EWA_AGREEMENT");
       })
       .catch((error) => {
         console.log("ewaKycPush error: ", error);
+        setLoading(false);
         Alert.alert("An Error occured", error);
         Analytics.trackEvent("Ewa|Kyc|Error", {
           userId: unipeEmployeeId,
           error: error,
         });
-        setLoading(false);
       });
   }
+
+  const kycData = [
+    { subTitle: "Number", value: number },
+    {
+      subTitle: "Name",
+      value: data.name,
+    },
+    {
+      subTitle: "Date of Birth",
+      value: data.date_of_birth,
+    },
+    { subTitle: "Gender", value: data.gender },
+    { subTitle: "Address", value: data.address },
+  ];
 
   return (
     <SafeAreaView style={[styles.container, { padding: 0 }]}>
@@ -105,11 +119,8 @@ const KYC = () => {
           }}
           style={form.aadharimg}
         />
-        <Text style={form.userData}>Number: {number}</Text>
-        <Text style={form.userData}>Name: {data.name}</Text>
-        <Text style={form.userData}>Date of Birth: {data.date_of_birth}</Text>
-        <Text style={form.userData}>Gender: {data.gender}</Text>
-        <Text style={form.userData}>Address: {data.address}</Text>
+        <CollapsibleCard title="KYC Details" isClosed={false} data={kycData} />
+
         <PrimaryButton
           title={loading ? "Verifying" : "Continue"}
           disabled={loading}

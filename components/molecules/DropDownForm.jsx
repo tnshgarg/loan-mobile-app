@@ -42,9 +42,9 @@ const DropDownForm = ({
 
       <BottomSheetWrapper open={visible} setOpen={setVisible}>
         <Text style={styles.header}>{placeholder}</Text>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           {data.map((item, index) => (
-            <View style={styles.container} key={index}>
+            <View style={styles.container} key={item}>
               <TouchableOpacity
                 style={styles.listItem}
                 activeOpacity={0.7}

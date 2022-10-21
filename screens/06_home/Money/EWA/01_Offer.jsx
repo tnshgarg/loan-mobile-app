@@ -110,20 +110,20 @@ const Offer = () => {
       })
         .then((response) => {
           console.log("ewaOfferPush response.data: ", response.data);
+          setLoading(false);
+          navigation.navigate("EWA_KYC");
           Analytics.trackEvent("Ewa|OfferPush|Success", {
             userId: unipeEmployeeId,
           });
-          setLoading(false);
-          navigation.navigate("EWA_KYC");
         })
         .catch((error) => {
           console.log("ewaOfferPush error: ", error);
+          setLoading(false);
+          Alert.alert("An Error occured", error);
           Analytics.trackEvent("Ewa|OfferPush|Error", {
             userId: unipeEmployeeId,
             error: error
           });
-          Alert.alert("An Error occured", error);
-          setLoading(false);
         });
     }
   }
@@ -243,7 +243,7 @@ const Offer = () => {
         value={consent}
         setValue={setConsent}
       /> */}
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
           <CheckBox
             value={consent}
             onValueChange={setConsent}

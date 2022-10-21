@@ -3,10 +3,9 @@ import { useEffect } from "react";
 import { SafeAreaView } from "react-native";
 import { useDispatch } from "react-redux";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
-import { COLORS } from "../../constants/Theme";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
-import Form from "../../templates/mandate/Form";
+import MandateFormTemplate from "../../templates/mandate/Form";
 import Header from "../../components/atoms/Header";
 
 const Mandate = () => {
@@ -25,7 +24,7 @@ const Mandate = () => {
         onLeftIconPress={() => navigation.navigate("BankForm")}
       />
       <ProgressBarTop step={5} />
-      <Form type="Onboarding" />
+      <MandateFormTemplate type="Onboarding" />
     </SafeAreaView>
   );
 };

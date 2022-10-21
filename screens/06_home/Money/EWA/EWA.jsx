@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { SafeAreaView, Text, View, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { checkBox, styles } from "../../../../styles";
+import { styles } from "../../../../styles";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import KycCheckCard from "../../../../components/KycCheckCard";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
@@ -9,8 +9,9 @@ import Offers from "../../../../components/DataCard";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
-import { FONTS } from "../../../../constants/Theme";
+import { COLORS, FONTS } from "../../../../constants/Theme";
 import { STAGE } from "@env";
+
 
 const EWA = () => {
   const dispatch = useDispatch();
@@ -94,7 +95,7 @@ const EWA = () => {
                   fontSize: 20,
                   marginTop: "5%",
                   marginBottom: "5%",
-                  color: "#597E8D",
+                  color: COLORS.gray,
                   letterSpacing: 0.2,
                 }}
               >
@@ -103,8 +104,8 @@ const EWA = () => {
               <Text
                 style={{
                   alignSelf: "center",
-                  color: "green",
-                  ...FONTS.h1,
+                  color: COLORS.primary,
+                  ...FONTS.h2,
                 }}
               >
                 ₹ {ewaLiveSlice?.eligibleAmount}
@@ -120,8 +121,8 @@ const EWA = () => {
               />
             </View>
 
-            <View style={{padding: "1%"}}>
-              <Text style={{ ...FONTS.h2, paddingLeft: "1.5%", color: "#597E8D", marginTop: "5%", fontWeight: 'bold' }}>
+            <View style={{padding: "1.5%"}}>
+              <Text style={{ ...FONTS.h2, paddingLeft: "1.5%", color: COLORS.gray, marginTop: "5%", fontWeight: 'bold' }}>
                 Your past draws
               </Text>
               <Offers data={ewaHistoricalSlice} />
@@ -131,8 +132,8 @@ const EWA = () => {
           <View style={[styles.container, { padding: 0 }]}>
             <Text
               style={{
-                color: "red",
-                fontWeight: "bold",
+                color: COLORS.warning,
+                ...FONTS.h3,
                 alignSelf: "center",
                 marginTop: "5%",
               }}

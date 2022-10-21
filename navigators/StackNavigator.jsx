@@ -28,7 +28,7 @@ import Mandate from "../screens/03_bank/Mandate";
 import Agreement from "../screens/06_home/Money/EWA/03_Agreement";
 import Disbursement from "../screens/06_home/Money/EWA/04_Disbursement";
 import KYC from "../screens/06_home/Money/EWA/02_Kyc";
-import License from "../screens/06_home/Documents/License/License";
+
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -37,7 +37,7 @@ const StackNavigator = () => {
 
   console.log("STAGE: ", STAGE);
   console.log("initialRoute: ", initialRoute);
-  
+
   STAGE === "dev" ? (initialRoute = "DevMenu") : null;
   console.log("initialRoute: ", initialRoute);
 
