@@ -81,6 +81,7 @@ const BankFormTemplate = (props) => {
             placeholder={"Account Holder Name*"}
             value={accountHolderName}
             onChange={setAccountHolderName}
+            autoFocus={true}
             autoCapitalize="characters"
             content={
               "Refer to your Bank Passbook or Cheque book for the exact Name mentioned in your bank records"

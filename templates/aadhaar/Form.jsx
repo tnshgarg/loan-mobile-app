@@ -36,6 +36,7 @@ const AadhaarFormTemplate = (props) => {
           placeholder={"Enter AADHAAR Number"}
           containerStyle={{ marginVertical: 10 }}
           keyboardType="phone-pad"
+          autoFocus={true}
           value={number}
           onChange={setNumber}
           maxLength={12}

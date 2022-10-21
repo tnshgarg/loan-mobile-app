@@ -41,6 +41,7 @@ const PanFormTemplate = (props) => {
             containerStyle={{ marginVertical: 10 }}
             autoCapitalize="characters"
             value={number}
+            autoFocus={true}
             onChange={setNumber}
             maxLength={10}
           />
