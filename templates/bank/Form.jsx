@@ -21,13 +21,14 @@ const BankFormTemplate = (props) => {
   const [ifscNext, setIfscNext] = useState(false);
   const [consent, setConsent] = useState(false);
 
+  const aadhaarSlice = useSelector((state) => state.aadhaar);
   const bankSlice = useSelector((state) => state.bank);
   const [ifsc, setIfsc] = useState(bankSlice?.data?.ifsc);
   const [accountNumber, setAccountNumber] = useState(
     bankSlice?.data?.accountNumber
   );
   const [accountHolderName, setAccountHolderName] = useState(
-    bankSlice?.data?.accountHolderName
+    aadhaarSlice?.data.name || bankSlice?.data?.accountHolderName
   );
   const [upi, setUpi] = useState(bankSlice?.data?.upi);
 
@@ -135,7 +136,9 @@ const BankFormTemplate = (props) => {
           <BankVerifyApi
             data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}
             style={form.nextButton}
-            disabled={!ifscNext || !accNumNext || !consent || !accountHolderName}
+            disabled={
+              !ifscNext || !accNumNext || !consent || !accountHolderName
+            }
             type={props?.route?.params?.type || ""}
           />
 
