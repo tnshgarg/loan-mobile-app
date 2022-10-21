@@ -12,6 +12,7 @@ export default RNIPPhotoCapture = () => {
     const options = {
       saveToPhotos: true,
       mediaType: "photo",
+      quality : 0.5,
       includeBase64: true,
       cameraType: "front",
     };
