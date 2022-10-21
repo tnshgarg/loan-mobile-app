@@ -21,7 +21,7 @@ const Bank = () => {
     { label: "Account Holder Name", value: accountHolderName },
     { label: "IFSC Code", value: ifsc },
     { label: "UPI Id", value: upi },
-    { label: "Verify Status", value: verifyStatus, divider: false },
+    { label: "Verify Status", value: verifyStatus },
   ];
 
   const tabs = [

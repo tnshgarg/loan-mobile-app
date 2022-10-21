@@ -12,7 +12,6 @@ import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice"
 import { COLORS, FONTS } from "../../../../constants/Theme";
 import { STAGE } from "@env";
 
-
 const EWA = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -78,72 +77,75 @@ const EWA = () => {
   }, [isFocused, id]);
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
-
-      { 
-        aadhaarVerifyStatus === "SUCCESS" &&
-        panVerifyStatus === "SUCCESS" &&
-        bankVerifyStatus === "SUCCESS" &&
-        mandateVerifyStatus === "SUCCESS" 
+    <SafeAreaView style={[styles.container]}>
+      {aadhaarVerifyStatus === "SUCCESS" &&
+      panVerifyStatus === "SUCCESS" &&
+      bankVerifyStatus === "SUCCESS" &&
+      mandateVerifyStatus === "SUCCESS" ? (
         // panMisMatch < 20 &&
-        // bankMisMatch < 20 
-        ? (
-          <>
-            <View style={{alignSelf: "center"}}>
-              <Text
-                style={{
-                  fontSize: 20,
-                  marginTop: "5%",
-                  marginBottom: "5%",
-                  color: COLORS.gray,
-                  letterSpacing: 0.2,
-                }}
-              >
-                {aadhaarName} get on demand salary
-              </Text>
-              <Text
-                style={{
-                  alignSelf: "center",
-                  color: COLORS.primary,
-                  ...FONTS.h2,
-                }}
-              >
-                ₹ {ewaLiveSlice?.eligibleAmount}
-              </Text>
-            </View>
-            <View style={{marginHorizontal:"10%"}}>
-              <PrimaryButton
-                title={!eligible ? "No Active Offer" : "Get Money Now"}
-                disabled={!eligible}
-                onPress={() => {
-                  navigation.navigate("EWA_OFFER");
-                }}
-              />
-            </View>
+        // bankMisMatch < 20
+        <>
+          <Text
+            style={{
+              fontSize: 20,
+              marginTop: "5%",
+              marginBottom: "5%",
+              color: COLORS.gray,
+              letterSpacing: 0.2,
+              alignSelf: "center",
+            }}
+          >
+            {aadhaarName} get on demand salary
+          </Text>
+          <Text
+            style={{
+              alignSelf: "center",
+              color: COLORS.primary,
+              ...FONTS.h2,
+            }}
+          >
+            ₹ {ewaLiveSlice?.eligibleAmount}
+          </Text>
 
-            <View style={{padding: "1.5%"}}>
-              <Text style={{ ...FONTS.h2, paddingLeft: "1.5%", color: COLORS.gray, marginTop: "5%", fontWeight: 'bold' }}>
-                Your past draws
-              </Text>
-              <Offers data={ewaHistoricalSlice} />
-            </View>
-          </>
-        ) : (
-          <View style={[styles.container, { padding: 0 }]}>
+          <View style={{ marginHorizontal: "10%" }}>
+            <PrimaryButton
+              title={!eligible ? "No Active Offer" : "Get Money Now"}
+              disabled={!eligible}
+              onPress={() => {
+                navigation.navigate("EWA_OFFER");
+              }}
+            />
+          </View>
+
+          <View style={{ padding: "1.5%" }}>
             <Text
               style={{
-                color: COLORS.warning,
                 ...FONTS.h3,
-                alignSelf: "center",
+                color: COLORS.gray,
                 marginTop: "5%",
+                fontWeight: "bold",
               }}
             >
-              You are not eligible for Advanced Salary.
+              Your past draws
             </Text>
-            <KycCheckCard />
+            <Offers data={ewaHistoricalSlice} />
           </View>
-        )
-      }
+        </>
+      ) : (
+        <View style={[styles.container, { padding: 0 }]}>
+          <Text
+            style={{
+              color: COLORS.warning,
+              ...FONTS.h3,
+              alignSelf: "center",
+              marginTop: "5%",
+            }}
+          >
+            You are not eligible for Advanced Salary.
+          </Text>
+          <KycCheckCard />
+        </View>
+      )}
     </SafeAreaView>
   );
 };

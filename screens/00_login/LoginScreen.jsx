@@ -2,9 +2,12 @@ import { useNavigation } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import {
-  Alert, Dimensions,
-  Pressable, SafeAreaView, Text,
-  View
+  Alert,
+  Dimensions,
+  Pressable,
+  SafeAreaView,
+  Text,
+  View,
 } from "react-native";
 import Modal from "react-native-modal";
 import SmsRetriever from "react-native-sms-retriever";
@@ -22,7 +25,7 @@ import { sendSmsVerification } from "../../services/otp/Gupshup/services";
 import {
   addId,
   addOnboarded,
-  addPhoneNumber
+  addPhoneNumber,
 } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
@@ -176,17 +179,17 @@ export default LoginScreen = () => {
                   alignItems: "center",
                   justifyContent: "center",
                   borderRightWidth: 1,
-                  borderColor: COLORS.black,
+                  borderColor: COLORS.gray,
                   marginRight: 10,
                   height: "80%",
                 }}
               >
                 <Text
                   style={{
-                    ...FONTS.h4,
+                    ...FONTS.h3,
                     color: COLORS.black,
                     paddingRight: 10,
-                    fontWeight: "900",
+                    fontWeight: "bold",
                   }}
                 >
                   +91

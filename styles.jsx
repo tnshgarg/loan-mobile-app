@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.white,
     flex: 1,
-    padding: "1%",
+    padding: "4%",
   },
   logo: {
     alignSelf: "center",
@@ -541,11 +541,11 @@ export const ewa = StyleSheet.create({
     marginBottom: 5,
   },
   checkBox: {
-    marginTop: 10,
+    //marginTop: 10,
   },
   checkBoxText: {
-    marginRight: 40,
-    marginTop: 10,
+    //marginRight: 40,
+    marginLeft: 5,
     color: COLORS.gray,
   },
 });

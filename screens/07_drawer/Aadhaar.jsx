@@ -20,7 +20,7 @@ const Aadhaar = () => {
     { label: "Date of Birth", value: dob },
     { label: "Aadhaar Number", value: number },
     { label: "Address", value: address },
-    { label: "Verify Status", value: verifyStatus, divider: false },
+    { label: "Verify Status", value: verifyStatus },
   ];
 
   const tabs = [

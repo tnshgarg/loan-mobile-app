@@ -32,7 +32,6 @@ const Profile = () => {
     {
       label: "Marital Status",
       value: maritalStatus || "Not Provided",
-      divider: false,
     },
   ];
 
