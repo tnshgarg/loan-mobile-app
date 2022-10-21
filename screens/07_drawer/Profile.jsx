@@ -38,14 +38,16 @@ const Profile = () => {
   return (
     <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <View style={styles.container}>
-        {dataDetails.map((item, index) => (
-          <DetailItem
-            key={index}
-            label={item.label}
-            value={item.value || "Not Provided"}
-            divider
-          />
-        ))}
+        <View style={styles.card}>
+          {dataDetails.map((item, index) => (
+            <DetailItem
+              key={index}
+              label={item.label}
+              value={item.value || "Not Provided"}
+              divider={item.divider}
+            />
+          ))}
+        </View>
 
         <View
           style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}

@@ -110,6 +110,14 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     borderRadius: 6,
   },
+  card: {
+    padding: 10,
+    borderWidth: 0.5,
+    borderColor: COLORS.lightGray,
+    borderRadius: 5,
+    elevation: 2,
+    backgroundColor: COLORS.white,
+  },
 });
 
 export const buttons = StyleSheet.create({
