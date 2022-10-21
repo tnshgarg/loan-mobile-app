@@ -24,7 +24,7 @@ import {
   createOrder,
   getToken,
 } from "../../services/mandate/Razorpay/services";
-import { RZP_KEY_ID } from "@env";
+import { RZP_KEY_ID } from "../../services/constants";
 import FormInput from "../../components/atoms/FormInput";
 import { COLORS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
@@ -38,18 +38,18 @@ const MandateFormTemplate = (props) => {
   const [ipAddress, setIpAdress] = useState(0);
   const [backendPush, setBackendPush] = useState(false);
 
-  const employeeId = useSelector((state) => state.auth.id);
-  const phoneNumber = useSelector((state) => state.auth.phoneNumber);
-  const email = useSelector((state) => state.pan.data.email || state.profile.email);
-  const accountHolderName = useSelector((state) => state.bank.data.accountHolderName);
-  const accountNumber = useSelector((state) => state.bank.data.accountNumber);
-  const ifsc = useSelector((state) => state.bank.data.ifsc);
+  const employeeId = useSelector((state) => state.auth?.id);
+  const phoneNumber = useSelector((state) => state.auth?.phoneNumber);
+  const email = useSelector((state) => state.pan?.data?.email || state.profile?.email);
+  const accountHolderName = useSelector((state) => state.bank?.data?.accountHolderName);
+  const accountNumber = useSelector((state) => state.bank?.data?.accountNumber);
+  const ifsc = useSelector((state) => state.bank?.data?.ifsc);
 
   const mandateSlice = useSelector((state) => state.mandate);
-  const [authType, setAuthType] = useState(mandateSlice?.data.authType);
-  const [customerId, setCustomerId] = useState(mandateSlice?.data.extCustomerId);
+  const [authType, setAuthType] = useState(mandateSlice?.data?.authType);
+  const [customerId, setCustomerId] = useState();
   const [data, setData] = useState(mandateSlice?.data);
-  const [orderId, setOrderId] = useState(mandateSlice?.data.extOrderId);
+  const [orderId, setOrderId] = useState();
   const [verifyMsg, setVerifyMsg] = useState(mandateSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(mandateSlice?.verifyStatus);
   const [verifyTimestamp, setVerifyTimestamp] = useState(mandateSlice?.verifyTimestamp);
@@ -101,6 +101,7 @@ const MandateFormTemplate = (props) => {
   }, [backendPush]);
 
   useEffect(() => {
+    console.log("createCustomer customerId: ", customerId, !customerId);
     if (!customerId) {
       try {
         createCustomer({
@@ -135,68 +136,71 @@ const MandateFormTemplate = (props) => {
   }, [customerId]);
 
   useEffect(() => {
-    var options = {
-      description: "Unipe Mandate Verification",
-      name: "Unipe",
-      key: RZP_KEY_ID,
-      order_id: orderId,
-      customer_id: customerId,
-      recurring: "1",
-      prefill: {
-        name: accountHolderName,
-        email: email,
-        contact: phoneNumber,
-      },
-      theme: { color: COLORS.primary },
-    };
+    console.log("createMandate orderId: ", orderId, !orderId);
+    if (orderId) {
+      var options = {
+        description: "Unipe Mandate Verification",
+        name: "Unipe",
+        key: RZP_KEY_ID,
+        order_id: orderId,
+        customer_id: customerId,
+        recurring: "1",
+        prefill: {
+          name: accountHolderName,
+          email: email,
+          contact: phoneNumber,
+        },
+        theme: { color: COLORS.primary },
+      };
 
-    RazorpayCheckout.open(options)
-      .then((data) => {
-        getToken({ paymentId: data.razorpay_payment_id })
-          .then((token) => {
-            // TODO: check response status code
-            console.log("mandate token.data: ", token.data);
-            setData({
-              authType: authType,
-              extTokenId: token.data.token_id,
-              extOrderId: orderId,
-              extPaymentId: data.razorpay_payment_id,
-              extPaymentSignature: data.razorpay_signature,
-              extCustomerId: customerId,
+      RazorpayCheckout.open(options)
+        .then((data) => {
+          getToken({ paymentId: data.razorpay_payment_id })
+            .then((token) => {
+              // TODO: check response status code
+              console.log("mandate token.data: ", token.data);
+              setData({
+                authType: authType,
+                extTokenId: token.data.token_id,
+                extOrderId: orderId,
+                extPaymentId: data.razorpay_payment_id,
+                extPaymentSignature: data.razorpay_signature,
+                extCustomerId: customerId,
+              });
+              setVerifyMsg("Mandate Verified Successfully");
+              setVerifyStatus("SUCCESS");
+              setVerifyTimestamp(Date.now());
+              setBackendPush(true);
+              showToast("Mandate Verified Successfully");
+              Analytics.trackEvent("Mandate|GetToken|Success", {
+                userId: employeeId,
+              });
+              props?.type === "Onboarding" ? navigation.navigate("Home") : null;
+            })
+            .catch((error) => {
+              console.log("mandate error:", error.description);
+              setVerifyMsg(error.description);
+              setVerifyStatus("ERROR");
+              setBackendPush(true);
+              Alert.alert("Error", error.description);
+              Analytics.trackEvent("Mandate|GetToken|Error", {
+                userId: employeeId,
+                error: error.description,
+              });
             });
-            setVerifyMsg("Mandate Verified Successfully");
-            setVerifyStatus("SUCCESS");
-            setVerifyTimestamp(Date.now());
-            setBackendPush(true);
-            showToast("Mandate Verified Successfully");
-            Analytics.trackEvent("Mandate|GetToken|Success", {
-              userId: employeeId,
-            });
-            props?.type === "Onboarding" ? navigation.navigate("Home") : null;
-          })
-          .catch((error) => {
-            console.log("mandate error:", error.description);
-            setVerifyMsg(error.description);
-            setVerifyStatus("ERROR");
-            setBackendPush(true);
-            Alert.alert("Error", error.description);
-            Analytics.trackEvent("Mandate|GetToken|Error", {
-              userId: employeeId,
-              error: error.description,
-            });
+        })
+        .catch((error) => {
+          console.log("mandate error:", error.description);
+          setVerifyMsg(error.description);
+          setVerifyStatus("ERROR");
+          setBackendPush(true);
+          Alert.alert("Error", error.description);
+          Analytics.trackEvent("Mandate|Register|Error", {
+            userId: employeeId,
+            error: error.description,
           });
-      })
-      .catch((error) => {
-        console.log("mandate error:", error.description);
-        setVerifyMsg(error.description);
-        setVerifyStatus("ERROR");
-        setBackendPush(true);
-        Alert.alert("Error", error.description);
-        Analytics.trackEvent("Mandate|Register|Error", {
-          userId: employeeId,
-          error: error.description,
         });
-      });
+    }
   }, [orderId]);
 
   const debitIcon = () => {
@@ -213,7 +217,7 @@ const MandateFormTemplate = (props) => {
 
   const ProceedButton = ({authType}) => {
     setAuthType(authType);
-    setVerifyMsg("Creating Order");
+    setVerifyMsg(`Mandate|CreateOrder|${authType} PENDING`);
     setVerifyStatus("PENDING");
     setBackendPush(true);
     createOrder({
@@ -225,6 +229,7 @@ const MandateFormTemplate = (props) => {
     })
       .then((res) => {
         console.log(`Mandate|CreateOrder|${authType} res.data:`, res.data);
+        setVerifyMsg(`Mandate|CreateOrder|${authType} SUCCESS`);
         setOrderId(res.data.id);
         Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Success`, {
           userId: employeeId,
@@ -232,6 +237,9 @@ const MandateFormTemplate = (props) => {
       })
       .catch((error) => {
         console.log(`Mandate|CreateOrder|${authType} error:`, error.toString());
+        setVerifyMsg(`Mandate|CreateOrder|${authType} ERROR ${error}`);
+        setVerifyStatus("ERROR");
+        setBackendPush(true);
         Alert.alert("Error", error.toString());
         Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Error`, {
           userId: employeeId,

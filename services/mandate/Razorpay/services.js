@@ -1,8 +1,7 @@
 import axios from "axios";
-import { RZP_AUTH } from "@env";
+import { RZP_AUTH } from "../../constants";
 
 const createCustomer = ({ name, email, contact }) => {
-  console.log("createCustomer");
   var data = JSON.stringify({
     name: name,
     email: email,
@@ -45,7 +44,7 @@ const createOrder = ({
     });
   } else {
     var data = JSON.stringify({
-      amount: 0,
+      amount: 100,
       currency: "INR",
       payment_capture: true,
       method: "emandate",
