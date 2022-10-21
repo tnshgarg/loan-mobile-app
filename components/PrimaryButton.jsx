@@ -39,7 +39,7 @@ const PrimaryButton = ({
       onPress={onPress}
       color={disabled ? COLORS.gray : COLORS.primary}
       pressableContainerStyle={{ width: "100%" }}
-      contentContainerStyle={{ width: "100%", height: "100%" }}
+      contentContainerStyle={{ height: "100%" }}
     />
   ) : (
     <TouchableOpacity style={[styles.button, styles.loadingButton]} disabled>
@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: "5%",
-    width: "100%",
+    marginTop: 30,
+    //width: "100%",
     height: 50,
   },
   loadingButton: {

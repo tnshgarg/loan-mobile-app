@@ -135,6 +135,7 @@ export default Confirm = () => {
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Rejected by User");
+            setVerifyStatus("ERROR");
             Analytics.trackEvent("Licence|Confirm|Error", {
               userId: id,
               error: "Rejected by User",
@@ -158,11 +159,11 @@ export default Confirm = () => {
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
+            setVerifyStatus("SUCCESS");
+            setBackendPush(true);
             Analytics.trackEvent("Licence|Confirm|Success", {
               userId: id,
             });
-            setVerifyStatus("SUCCESS");
-            setBackendPush(true);
             navigation.navigate("Documents", {
               screen: "Driving License",
             });

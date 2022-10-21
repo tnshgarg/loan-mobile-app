@@ -12,6 +12,7 @@ const CollapsibleCard = ({
   isClosed,
   info,
   Component,
+  ComponentProps,
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(isClosed);
   return (
@@ -36,7 +37,7 @@ const CollapsibleCard = ({
         />
       </View>
       <Collapsible collapsed={isCollapsed}>
-        {Component ? <Component /> : null}
+        {Component ? <Component {...ComponentProps} /> : null}
         {data?.map((item, index) => (
           <View
             style={{ flexDirection: "row", width: "100%", marginTop: 5 }}

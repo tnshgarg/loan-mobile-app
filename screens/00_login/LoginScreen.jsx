@@ -171,11 +171,27 @@ export default LoginScreen = () => {
             autoFocus={true}
             maxLength={10}
             prependComponent={
-              <Text
-                style={{ ...FONTS.h4, color: COLORS.black, paddingRight: 10 }}
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRightWidth: 1,
+                  borderColor: COLORS.black,
+                  marginRight: 10,
+                  height: "80%",
+                }}
               >
-                +91
-              </Text>
+                <Text
+                  style={{
+                    ...FONTS.h4,
+                    color: COLORS.black,
+                    paddingRight: 10,
+                    fontWeight: "900",
+                  }}
+                >
+                  +91
+                </Text>
+              </View>
             }
           />
 

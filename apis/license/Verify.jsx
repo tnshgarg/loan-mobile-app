@@ -9,8 +9,8 @@ import {
   addVerifyTimestamp,
 } from "../../store/slices/licenseSlice";
 import { licenseBackendPush } from "../../helpers/BackendPush";
-import ApiView from "../ApiView";
 import { OG_API_TEST_KEY } from "@env";
+import PrimaryButton from "../../components/PrimaryButton";
 import Analytics from "appcenter-analytics";
 
 
@@ -82,13 +82,13 @@ const Verify = (props) => {
             switch (responseJson["data"]["code"]) {
               case "1000":
                 setData(responseJson["data"]["driving_license_data"]);
-                Analytics.trackEvent("Licence|Verify|Success", {
-                  userId: id,
-                });
                 setVerifyMsg("To be confirmed by User");
                 setVerifyStatus("PENDING");
                 setVerifyTimestamp(responseJson["timestamp"]);
                 setBackendPush(true);
+                Analytics.trackEvent("Licence|Verify|Success", {
+                  userId: id,
+                });
                 navigation.navigate("Documents", {
                   screen: "Driving License",
                   params: {
@@ -99,63 +99,66 @@ const Verify = (props) => {
 
               case "1001":
                 setVerifyMsg(responseJson["data"]["message"]);
+                setVerifyStatus("ERROR");
+                setBackendPush(true);
+                Alert.alert("Error", responseJson["data"]["message"]);
                 Analytics.trackEvent("Licence|Verify|Error", {
                   userId: id,
                   error: responseJson["data"]["message"],
                 });
-                setVerifyStatus("ERROR");
-                setBackendPush(true);
-                Alert.alert("Error", responseJson["data"]["message"]);
                 break;
             }
           } else if (responseJson["error"]) {
             setVerifyMsg(responseJson["error"]["message"]);
+            setVerifyStatus("ERROR");
+            setBackendPush(true);
+            Alert.alert("Error", responseJson["error"]["message"]);
             Analytics.trackEvent("Licence|Verify|Error", {
               userId: id,
               error: responseJson["error"]["message"],
             });
-            setVerifyStatus("ERROR");
-            setBackendPush(true);
-            Alert.alert("Error", responseJson["error"]["message"]);
           } else {
+            setVerifyMsg(responseJson["message"]);
+            setVerifyStatus("ERROR");
             Alert.alert("Error", responseJson["message"]);
             Analytics.trackEvent("Licence|Verify|Error", {
               userId: id,
               error: responseJson["message"],
             });
-            setVerifyMsg(responseJson["message"]);
-            setVerifyStatus("ERROR");
           }
         } catch (error) {
-          console.log("Error: ", error);
-          Analytics.trackEvent("Licence|Verify|Error", {
-            userId: id,
-            error: error,
-          });
-          setVerifyMsg(error);
+          console.log("Try Catch Error: ", error.toString());
+          setVerifyMsg(error.toString());
           setVerifyStatus("ERROR");
           setBackendPush(true);
-          Alert.alert("Error", error);
+          Alert.alert("Error", error.toString());
+          Analytics.trackEvent("Licence|Verify|Error", {
+            userId: id,
+            error: error.toString(),
+          });
         }
       })
       .catch((error) => {
-        Alert.alert("Error", error);
+        console.log("Fetch Catch Error: ", error.toString());
+        setVerifyMsg(error.toString());
+        setVerifyStatus("ERROR");
+        setBackendPush(true);
+        Alert.alert("Error", error.toString());
         Analytics.trackEvent("Licence|Verify|Error", {
           userId: id,
-          error: error,
+          error: error.toString(),
         });
-        console.log("Error: ", error);
-        setVerifyMsg(error);
-        setVerifyStatus("ERROR");
       });
   };
 
   return (
-    <ApiView
-      disabled={props.disabled}
+    <PrimaryButton
+      title={loading ? "Verifying" : "Continue"}
+      disabled={loading}
       loading={loading}
-      goForFetch={goForFetch}
-      style={props.style}
+      onPress={() => {
+        goForFetch();
+      }}
     />
   );
 };

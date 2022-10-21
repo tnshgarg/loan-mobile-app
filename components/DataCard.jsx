@@ -3,8 +3,13 @@ import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { format } from "date-fns";
 import { datacard } from "../styles";
+import { COLORS } from "../constants/Theme";
 
-const COLOR_MAP = { Missed: "red", Due: "orange", Paid: "green" };
+const COLOR_MAP = {
+  Missed: COLORS.warning,
+  Due: "orange",
+  Paid: COLORS.primary,
+};
 
 const StatusCard = ({ offerType }) => {
   return (
@@ -45,23 +50,33 @@ const OfferCard = ({ offer }) => {
   var month = format(timestamp, "MMM");
 
   return (
-    <TouchableOpacity onLongPress={() => {if(offerType !== "Missed") {navigation.navigate("EWA_DISBURSEMENT", {offer: offer})}}}>
+    <TouchableOpacity
+      onLongPress={() => {
+        if (offerType !== "Missed") {
+          navigation.navigate("EWA_DISBURSEMENT", { offer: offer });
+        }
+      }}
+    >
       <View style={datacard.card}>
         <View
           style={{
-            backgroundColor: "#DDE5E5",
+            //backgroundColor: COLORS.white,
+            borderWidth: 1,
+            borderColor: COLORS.primary,
             paddingHorizontal: "3%",
-            borderRadius: 8,
+            borderRadius: 5,
+            padding: 3,
             justifyContent: "flex-start",
             alignSelf: "center",
+            alignItems: "center",
           }}
         >
-          <Text style={{ color: "#597E8D", alignSelf: "center" }}>{day}</Text>
-          <Text style={{ color: "#597E8D", alignSelf: "center" }}>{month}</Text>
+          <Text style={{ color: COLORS.primary }}>{day}</Text>
+          <Text style={{ color: COLORS.primary }}>{month}</Text>
         </View>
         <View style={{ flexDirection: "column", marginLeft: "10%" }}>
           <Text style={datacard.cardTitle}>₹{amount}</Text>
-          <Text style={{ color: "#597E8D" }}>Due date {offer.dueDate}</Text>
+          <Text style={{ color: COLORS.gray }}>Due date {offer.dueDate}</Text>
         </View>
         <View style={{ flex: 1, alignSelf: "center", marginLeft: "10%" }}>
           <StatusCard offerType={offerType} />

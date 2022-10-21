@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import React from "react";
 import DetailItem from "./DetailItem";
 import { useSelector } from "react-redux";
@@ -42,9 +42,9 @@ const Pan = () => {
   ];
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       {verifyStatus == "SUCCESS" ? (
-        <>
+        <View style={styles.container}>
           {dataDetails.map((item, index) => (
             <DetailItem
               key={index}
@@ -53,13 +53,13 @@ const Pan = () => {
               divider
             />
           ))}
-        </>
+        </View>
       ) : (
         <>
           <TopTabNav tabs={tabs} hide={true} />
         </>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
