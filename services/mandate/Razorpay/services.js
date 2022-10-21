@@ -1,6 +1,6 @@
 import axios from "axios";
 import { RZP_AUTH } from "../../constants";
-
+import { STAGE } from "@env";
 const createCustomer = ({ name, email, contact }) => {
   var data = JSON.stringify({
     name: name,
@@ -44,7 +44,7 @@ const createOrder = ({
     });
   } else {
     var data = JSON.stringify({
-      amount: 100,
+      amount: 0,
       currency: "INR",
       payment_capture: true,
       method: "emandate",
@@ -56,12 +56,14 @@ const createOrder = ({
         bank_account: {
           account_number: accountNumber,
           account_type: "savings",
-          ifsc_code: ifsc,
+          ifsc_code: STAGE == "dev" ? "HDFC0000001" : ifsc,
           beneficiary_name: accountHolderName,
         },
       },
     });
   }
+  console.log(STAGE);
+  console.log(data);
   var config = {
     method: "post",
     url: "https://api.razorpay.com/v1/orders",
