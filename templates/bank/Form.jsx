@@ -12,7 +12,7 @@ import {
   addIfsc,
   addUpi,
 } from "../../store/slices/bankSlice";
-import { bankform, checkBox, form } from "../../styles";
+import { bankform, form } from "../../styles";
 
 const BankFormTemplate = (props) => {
   const dispatch = useDispatch();

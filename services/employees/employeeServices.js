@@ -1,5 +1,5 @@
 import axios from "axios";
-import { EMPLOYEE_API_URL } from "./endpoints";
+import { EMPLOYEE_API_URL } from "../constants";
 
 export const putBackendData = (props) => {
   var data = JSON.stringify(props.document);

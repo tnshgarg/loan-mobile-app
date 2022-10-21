@@ -1,9 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  data: { type: "" },
-  customerId: "",
-  orderId: "",
+  data: { authType: "", extCustomerId: "", extOrderId: "" },
   verifyMsg: "",
   verifyStatus: "PENDING",
   verifyTimestamp: "",
@@ -25,14 +23,11 @@ const mandateSlice = createSlice({
     addVerifyTimestamp(state, action) {
       state.verifyTimestamp = action.payload;
     },
-    addType(state, action) {
-      state.data.type = action.payload;
-    },
     addCustomerId(state, action) {
-      state.data.customerId = action.payload;
+      state.data.extCustomerId = action.payload;
     },
     addOrderId(state, action) {
-      state.orderId = action.payload;
+      state.data.extOrderId = action.payload;
     },
     resetMandate(state, action) {
       if (!action.payload || Object.keys(action.payload).length === 0) {
@@ -49,7 +44,6 @@ export const {
   addVerifyMsg,
   addVerifyStatus,
   addVerifyTimestamp,
-  addType,
   addOrderId,
   addCustomerId,
   resetMandate,
