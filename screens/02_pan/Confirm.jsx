@@ -1,7 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { Alert, SafeAreaView, ScrollView } from "react-native";
+import {
+  Alert,
+  SafeAreaView,
+  ScrollView,
+  BackHandler,
+} from "react-native";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
 import { styles } from "../../styles";
 
@@ -15,6 +20,29 @@ export default PanConfirm = () => {
 
   useEffect(() => {
     dispatch(addCurrentScreen("PanConfirm"));
+  }, []);
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert(
+        "Do you want to go back ?",
+        "If you go back you will have to redo pan verification. Continue if you want to edit your pan number.",
+        [
+          { text: "No", onPress: () => null, style: "cancel" },
+          {
+            text: "Yes",
+            onPress: () => navigation.navigate("PanForm"),
+          },
+        ]
+      );
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
   }, []);
 
   const backAlert = () => {

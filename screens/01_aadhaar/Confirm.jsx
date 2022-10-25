@@ -1,7 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { Alert, SafeAreaView, ScrollView } from "react-native";
+import {
+  Alert,
+  SafeAreaView,
+  ScrollView,
+  BackHandler,
+} from "react-native";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
 import { styles } from "../../styles";
 
@@ -28,6 +33,20 @@ const AadhaarConfirm = () => {
       ]
     );
   };
+
+  useEffect(() => {
+    const backAction = () => {
+      backAlert();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <SafeAreaView style={[styles.container, { padding: 0 }]}>

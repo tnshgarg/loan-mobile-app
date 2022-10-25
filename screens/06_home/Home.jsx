@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, BackHandler, Alert } from "react-native";
 import { useDispatch } from "react-redux";
 import BottomTabNav from "../../navigators/BottomTabNav";
 import Benefits from "./Benefits/Benefits";
@@ -19,6 +19,27 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(addCurrentScreen("Home"));
+  }, []);
+
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert("Hold on!", "Are you sure you want to exit the app?", [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel",
+        },
+        { text: "YES", onPress: () => BackHandler.exitApp() },
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
   }, []);
 
   return (

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, Alert, BackHandler, View } from "react-native";
 import CountDown from "react-native-countdown-component";
 import { useDispatch, useSelector } from "react-redux";
 import AadhaarVerifyApi from "../../apis/aadhaar/Verify";
@@ -23,6 +23,30 @@ const AadhaarVerifyTemplate = (props) => {
   useEffect(() => {
     setValidOtp(otp.length === 6);
   }, [otp]);
+
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert(
+        "Do you want to go back ?",
+        "If you go back you will have to wait 10 minutes. Continue if you want to edit your Aadhaar number.",
+        [
+          { text: "No", onPress: () => null, style: "cancel" },
+          {
+            text: "Yes",
+            onPress: () => navigation.navigate("AadhaarForm"),
+          },
+        ]
+      );
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
