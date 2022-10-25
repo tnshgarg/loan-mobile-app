@@ -1,4 +1,5 @@
-import { SafeAreaView } from "react-native";
+import { useEffect } from "react";
+import { SafeAreaView, BackHandler, Alert } from "react-native";
 import { useSelector } from "react-redux";
 import { styles } from "../../styles";
 import { allAreNull } from "../../helpers/nullCheck";
@@ -17,6 +18,26 @@ const HomeView = () => {
     mandateStatus != "SUCCESS" ? "MANDATE" : null,
     panStatus != "SUCCESS" ? "PAN" : null,
   ];
+  useEffect(() => {
+    const backAction = () => {
+      // Alert.alert("Hold on!", "Are you sure you want to exit the app?", [
+      //   {
+      //     text: "Cancel",
+      //     onPress: () => null,
+      //     style: "cancel",
+      //   },
+      //   { text: "YES", onPress: () => BackHandler.exitApp() },
+      // ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+      
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <>
