@@ -108,12 +108,13 @@ apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
  * Upload all the APKs to the Play Store and people will download
  * the correct one based on the CPU architecture of their device.
  */
-def enableSeparateBuildPerCPUArchitecture = false
+def enableSeparateBuildPerCPUArchitecture = true
 
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = (findProperty('android.enableProguardInReleaseBuilds') ?: false).toBoolean()
+// def enableProguardInReleaseBuilds = (findProperty('android.enableProguardInReleaseBuilds') ?: false).toBoolean()
+def enableProguardInReleaseBuilds =true
 
 /**
  * The preferred build flavor of JavaScriptCore.
@@ -184,7 +185,8 @@ android {
             }
             if (!enableSeparateBuildPerCPUArchitecture) {
                 ndk {
-                    abiFilters (*reactNativeArchitectures())
+                    // abiFilters (*reactNativeArchitectures())
+                    abiFilters "armeabi-v7a","x86"
                 }
             }
         }
@@ -235,7 +237,7 @@ android {
         abi {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
-            universalApk false  // If true, also generate a universal APK
+            universalApk true  // If true, also generate a universal APK
             include (*reactNativeArchitectures())
         }
     }
