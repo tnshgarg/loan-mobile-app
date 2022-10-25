@@ -13,7 +13,6 @@ import { OG_API_TEST_KEY } from "@env";
 import PrimaryButton from "../../components/PrimaryButton";
 import Analytics from "appcenter-analytics";
 
-
 const Verify = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -154,7 +153,7 @@ const Verify = (props) => {
   return (
     <PrimaryButton
       title={loading ? "Verifying" : "Continue"}
-      disabled={loading}
+      disabled={props.disabled}
       loading={loading}
       onPress={() => {
         goForFetch();

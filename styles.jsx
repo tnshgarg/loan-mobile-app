@@ -113,7 +113,7 @@ export const styles = StyleSheet.create({
   card: {
     padding: 10,
     borderWidth: 0.5,
-    borderColor: COLORS.lightGray,
+    borderColor: COLORS.lightgray_01,
     borderRadius: 5,
     elevation: 2,
     backgroundColor: COLORS.white,

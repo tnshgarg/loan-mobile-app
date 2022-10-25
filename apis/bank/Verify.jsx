@@ -204,7 +204,7 @@ const BankVerifyApi = (props) => {
   return (
     <PrimaryButton
       title={loading ? "Verifying" : "Continue"}
-      disabled={loading}
+      disabled={props.disabled}
       loading={loading}
       onPress={() => {
         goForFetch();

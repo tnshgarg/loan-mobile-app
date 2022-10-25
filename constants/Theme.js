@@ -25,7 +25,7 @@ export const COLORS = {
   warningBackground: "#feedee",
   darkGray: "#333333",
   gray: "#808080",
-  lightGray: "#F2F2F2",
+  lightGray: "#aaaaaa",
   black: "#000000",
   white: "#FFFFFF",
   lightgray_01: "#f1f1f1",
