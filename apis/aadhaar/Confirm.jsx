@@ -103,11 +103,11 @@ const AadhaarConfirmApi = (props) => {
           onPress={() => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
+            setBackendPush(true);
             Analytics.trackEvent("Aadhaar|Confirm|Error", {
               userId: id,
               error: "Rejected by User",
             });
-            setBackendPush(true);
             {
               props?.route?.params?.type == "KYC"
                 ? navigation.navigate("KYC", {
@@ -131,11 +131,11 @@ const AadhaarConfirmApi = (props) => {
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
+            setVerifyStatus("SUCCESS");
+            setBackendPush(true);
             Analytics.trackEvent("Aadhaar|Confirm|Success", {
               userId: id,
             });
-            setVerifyStatus("SUCCESS");
-            setBackendPush(true);
             {
               props?.route?.params?.type == "KYC"
                 ? navigation.navigate("KYC", {

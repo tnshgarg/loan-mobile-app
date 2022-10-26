@@ -20,7 +20,7 @@ const HomeView = () => {
 
   return (
     <>
-      <SafeAreaView style={[styles.container, { padding: 0 }]}>
+      <SafeAreaView style={[styles.container]}>
         <KycCheckCard />
         {allAreNull(message) ? <HomeOfferCard /> : null}
       </SafeAreaView>

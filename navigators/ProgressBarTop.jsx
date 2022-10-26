@@ -22,15 +22,15 @@ export default ProgressBarTop = (props) => {
     switch (position) {
       case 0: {
         stepStatus == "finished"
-          ? iconConfig.color = COLORS.white
-          : iconConfig.color = COLORS.primaryPending;
+          ? (iconConfig.color = COLORS.white)
+          : (iconConfig.color = COLORS.primaryPending);
         iconConfig.name = "file-document-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
       case 1: {
         stepStatus == "finished"
-          ? iconConfig.color = COLORS.white
-          : iconConfig.color = COLORS.primaryPending;
+          ? (iconConfig.color = COLORS.white)
+          : (iconConfig.color = COLORS.primaryPending);
         iconConfig.name = "camera-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
@@ -39,7 +39,7 @@ export default ProgressBarTop = (props) => {
           ? aadhaarStatus == "SUCCESS"
             ? (iconConfig.color = COLORS.white)
             : (iconConfig.color = COLORS.warning)
-          : iconConfig.color = COLORS.primaryPending;
+          : (iconConfig.color = COLORS.primaryPending);
         iconConfig.name = "card-account-details-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
@@ -48,7 +48,7 @@ export default ProgressBarTop = (props) => {
           ? panStatus == "SUCCESS"
             ? (iconConfig.color = COLORS.white)
             : (iconConfig.color = COLORS.warning)
-          : iconConfig.color = COLORS.primaryPending;
+          : (iconConfig.color = COLORS.primaryPending);
         iconConfig.name = "smart-card-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
@@ -57,7 +57,7 @@ export default ProgressBarTop = (props) => {
           ? bankStatus == "SUCCESS"
             ? (iconConfig.color = COLORS.white)
             : (iconConfig.color = COLORS.warning)
-          : iconConfig.color = COLORS.primaryPending;
+          : (iconConfig.color = COLORS.primaryPending);
         iconConfig.name = "bank-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
@@ -66,7 +66,7 @@ export default ProgressBarTop = (props) => {
           ? mandateStatus == "SUCCESS"
             ? (iconConfig.color = COLORS.white)
             : (iconConfig.color = COLORS.warning)
-          : iconConfig.color = COLORS.primaryPending;
+          : (iconConfig.color = COLORS.primaryPending);
         iconConfig.name = "bank-check";
         return <MaterialCommunityIcons {...iconConfig} />;
       }

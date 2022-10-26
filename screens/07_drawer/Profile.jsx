@@ -17,24 +17,38 @@ const Profile = () => {
   const maritalStatus = profile?.maritalStatus;
   const qualification = profile?.qualification;
 
+  const dataDetails = [
+    { label: "Full Name", value: fullName || "Not Provided" },
+    { label: "Email Id", value: email || "Not Provided" },
+    { label: "Mobile Number", value: mobile || "Not Provided" },
+    {
+      label: "Alternate Mobile Number",
+      value: alternateMobile || "Not Provided",
+    },
+    {
+      label: "Educational Qualification",
+      value: qualification || "Not Provided",
+    },
+    {
+      label: "Marital Status",
+      value: maritalStatus || "Not Provided",
+    },
+  ];
+
   return (
-    <View style={styles.container}>
-      <SafeAreaView style={[styles.container, { paddingVertical: 0 }]}>
-        <DetailItem label="Full Name" value={fullName || "Not Provided"} />
-        <DetailItem label="Email Id" value={email || "Not Provided"} />
-        <DetailItem label="Mobile Number" value={mobile || "Not Provided"} />
-        <DetailItem
-          label="Alternate Mobile Number"
-          value={alternateMobile || "Not Provided"}
-        />
-        <DetailItem
-          label="Educational Qualification"
-          value={qualification || "Not Provided"}
-        />
-        <DetailItem
-          label="Marital Status"
-          value={maritalStatus || "Not Provided"}
-        />
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+      <View style={styles.container}>
+        <View style={styles.card}>
+          {dataDetails.map((item, index) => (
+            <DetailItem
+              key={index}
+              label={item.label}
+              value={item.value || "Not Provided"}
+              divider={item.divider}
+            />
+          ))}
+        </View>
+
         <View
           style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}
         >
@@ -48,8 +62,8 @@ const Profile = () => {
             }
           />
         </View>
-      </SafeAreaView>
-    </View>
+      </View>
+    </SafeAreaView>
   );
 };
 

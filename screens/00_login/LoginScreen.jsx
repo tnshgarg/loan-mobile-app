@@ -2,9 +2,12 @@ import { useNavigation } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import {
-  Alert, Dimensions,
-  Pressable, SafeAreaView, Text,
-  View
+  Alert,
+  Dimensions,
+  Pressable,
+  SafeAreaView,
+  Text,
+  View,
 } from "react-native";
 import Modal from "react-native-modal";
 import SmsRetriever from "react-native-sms-retriever";
@@ -14,6 +17,7 @@ import { WebView } from "react-native-webview";
 import { useDispatch, useSelector } from "react-redux";
 import SVGImg from "../../assets/UnipeLogo.svg";
 import FormInput from "../../components/atoms/FormInput";
+import TermsAndPrivacyModal from "../../components/molecules/TermsAndPrivacyModal";
 import PrimaryButton from "../../components/PrimaryButton";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
@@ -22,7 +26,7 @@ import { sendSmsVerification } from "../../services/otp/Gupshup/services";
 import {
   addId,
   addOnboarded,
-  addPhoneNumber
+  addPhoneNumber,
 } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
@@ -171,11 +175,27 @@ export default LoginScreen = () => {
             autoFocus={true}
             maxLength={10}
             prependComponent={
-              <Text
-                style={{ ...FONTS.h4, color: COLORS.black, paddingRight: 10 }}
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRightWidth: 1,
+                  borderColor: COLORS.gray,
+                  marginRight: 10,
+                  height: "80%",
+                }}
               >
-                +91
-              </Text>
+                <Text
+                  style={{
+                    ...FONTS.h3,
+                    color: COLORS.black,
+                    paddingRight: 10,
+                    fontWeight: "bold",
+                  }}
+                >
+                  +91
+                </Text>
+              </View>
             }
           />
 
@@ -205,74 +225,21 @@ export default LoginScreen = () => {
         </View>
       </KeyboardAvoidingWrapper>
 
-      <Modal
-        isVisible={isPrivacyModalVisible}
-        style={{
-          width: Dimensions.get("window").width,
-          height: Dimensions.get("window").height,
-        }}
-      >
-        <Pressable
-          onPress={() => setIsPrivacyModalVisible(false)}
-          style={{
-            position: "absolute",
-            top: 30,
-            right: 50,
-            zIndex: 999,
-          }}
-        >
-          <AntDesign name="closesquareo" size={24} color="black" />
-        </Pressable>
-        <View
-          style={{
-            height: Dimensions.get("window").height - 100,
-            width: Dimensions.get("window").width - 40,
-            backgroundColor: "white",
-            borderRadius: 5,
-          }}
-        >
-          <WebView
-            style={{ flex: 1 }}
-            containerStyle={{ padding: 10 }}
-            originWhitelist={["*"]}
-            source={{ html: privacyPolicy }}
-          />
-        </View>
-      </Modal>
-      <Modal
-        isVisible={isTermsOfUseModalVisible}
-        style={{
-          width: Dimensions.get("window").width,
-          height: Dimensions.get("window").height,
-        }}
-      >
-        <Pressable
-          onPress={() => setIsTermsOfUseModalVisible(false)}
-          style={{
-            position: "absolute",
-            top: 30,
-            right: 50,
-            zIndex: 999,
-          }}
-        >
-          <AntDesign name="closesquareo" size={24} color="black" />
-        </Pressable>
-        <View
-          style={{
-            height: Dimensions.get("window").height - 100,
-            width: Dimensions.get("window").width - 40,
-            backgroundColor: "white",
-            borderRadius: 5,
-          }}
-        >
-          <WebView
-            style={{ flex: 1 }}
-            containerStyle={{ padding: 10 }}
-            originWhitelist={["*"]}
-            source={{ html: termsOfUse }}
-          />
-        </View>
-      </Modal>
+      {isTermsOfUseModalVisible && (
+        <TermsAndPrivacyModal
+          isVisible={isTermsOfUseModalVisible}
+          setIsVisible={setIsTermsOfUseModalVisible}
+          data={termsOfUse}
+        />
+      )}
+
+      {isPrivacyModalVisible && (
+        <TermsAndPrivacyModal
+          isVisible={isPrivacyModalVisible}
+          setIsVisible={setIsPrivacyModalVisible}
+          data={privacyPolicy}
+        />
+      )}
     </SafeAreaView>
   );
 };

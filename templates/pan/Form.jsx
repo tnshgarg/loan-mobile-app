@@ -1,7 +1,7 @@
 import CheckBox from "@react-native-community/checkbox";
 import { Icon } from "@react-native-material/core";
 import { useEffect, useState } from "react";
-import { Linking, Text, View } from "react-native";
+import { Linking, SafeAreaView, Text, View } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
@@ -33,7 +33,7 @@ const PanFormTemplate = (props) => {
   }, [number]);
 
   return (
-    <>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <KeyboardAvoidingWrapper>
         <View>
           <FormInput
@@ -41,6 +41,7 @@ const PanFormTemplate = (props) => {
             containerStyle={{ marginVertical: 10 }}
             autoCapitalize="characters"
             value={number}
+            autoFocus={true}
             onChange={setNumber}
             maxLength={10}
           />
@@ -81,7 +82,7 @@ const PanFormTemplate = (props) => {
           />
         </View>
       </KeyboardAvoidingWrapper>
-    </>
+    </SafeAreaView>
   );
 };
 

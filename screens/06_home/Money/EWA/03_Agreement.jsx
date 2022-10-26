@@ -1,5 +1,5 @@
-import CheckBox from "@react-native-community/checkbox";
 import { useNavigation } from "@react-navigation/core";
+import CheckBox from "@react-native-community/checkbox";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import {
@@ -27,6 +27,7 @@ import {
 } from "../../../../store/slices/ewaLiveSlice";
 import { checkBox, ewa, styles } from "../../../../styles";
 import agreement from "../../../../templates/docs/LiquidLoansLoanAgreement";
+import Checkbox from "../../../../components/atoms/Checkbox";
 
 const Agreement = () => {
   const dispatch = useDispatch();
@@ -192,72 +193,69 @@ const Agreement = () => {
       .then((response) => {
         console.log("ewaAgreementPush response.data: ", response.data);
         navigation.navigate("EWA_DISBURSEMENT", { offer: ewaLiveSlice });
-        Analytics.trackEvent("Ewa|Agreement|Success", {
-          userId: unipeEmployeeId,
-        });
         dispatch(resetEwaLive());
         dispatch(resetEwaHistorical([]));
         setLoading(false);
+        Analytics.trackEvent("Ewa|Agreement|Success", {
+          userId: unipeEmployeeId,
+        });
       })
       .catch((error) => {
         console.log("ewaAgreementPush error: ", error);
+        setLoading(false);
+        Alert.alert("An Error occured", error);
         Analytics.trackEvent("Ewa|Agreement|Error", {
           userId: unipeEmployeeId,
           error: error,
         });
-        Alert.alert("An Error occured", error);
-        setLoading(false);
       });
   }
 
   return (
     <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <Header title="Agreement" onLeftIconPress={() => navigation.goBack()} />
-      <ScrollView>
       <View style={styles.container}>
-        <CollapsibleCard
-          data={data}
-          title="Loan Details"
-          isClosed={false}
-          // info="Disbursed amount will be adjusted in your next salary."
-        />
-        <CollapsibleCard
-          title="Personal Details"
-          isClosed={false}
-          data={profileData}
-        />
-        <CollapsibleCard
-          title="Bank Details"
-          isClosed={false}
-          data={bankData}
-        />
-        <View style={{ flexDirection: "row", marginTop: 10 }}>
-          <CheckBox
-            style={ewa.checkBox}
-            tintColors={{ true: COLORS.primary }}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <CollapsibleCard
+            data={data}
+            title="Loan Details"
+            isClosed={false}
+            // info="Disbursed amount will be adjusted in your next salary."
+          />
+          <CollapsibleCard
+            title="Personal Details"
+            isClosed={false}
+            data={profileData}
+          />
+          <CollapsibleCard
+            title="Bank Details"
+            isClosed={false}
+            data={bankData}
+          />
+        
+          <Checkbox
+            text={"I confirm the above details."}
             value={confirm}
-            onValueChange={setConfirm}
+            setValue={setConfirm}
           />
-          <Text style={ewa.checkBoxText}>I confirm the above details.</Text>
-        </View>
-        <View style={{ flexDirection: "row" }}>
-          <CheckBox
-            style={ewa.checkBox}
-            tintColors={{ true: COLORS.primary }}
-            value={consent}
-            onValueChange={setConsent}
-          />
-          <Text style={ewa.checkBoxText}>
-            I agree to the{" "}
-            <Text
-              style={styles.termsText}
-              onPress={() => setIsModalVisible(true)}
-            >
-              Terms and Conditions
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <CheckBox
+              style={ewa.checkBox}
+              tintColors={{ true: COLORS.primary }}
+              value={consent}
+              onValueChange={setConsent}
+            />
+            <Text style={ewa.checkBoxText}>
+              I agree to the{" "}
+              <Text
+                style={styles.termsText}
+                onPress={() => setIsModalVisible(true)}
+              >
+                Terms and Conditions
+              </Text>
+              .
             </Text>
-            .
-          </Text>
-        </View>
+          </View>
         <PrimaryButton
           title={loading ? "Booking" : "Finish"}
           onPress={() => {
@@ -266,11 +264,10 @@ const Agreement = () => {
           disabled={!confirm || !consent || loading}
         />
         <View style={checkBox.padding}></View>
-        <Text style={{ marginLeft: "6%", fontSize: 6, marginTop: "25%" }}>
-          * Disbursement will be reconciled in your next payroll {"\n"}* Annual
-          Percentage Rate @ {apr} %
-        </Text>
-        </View>
+          <Text style={{ marginLeft: "6%", fontSize: 6, marginTop: "25%" }}>
+            * Disbursement will be reconciled in your next payroll {"\n"}* Annual
+            Percentage Rate @ {apr} %
+          </Text>
       </ScrollView>
       <Modal
         isVisible={isModalVisible}
@@ -310,9 +307,10 @@ const Agreement = () => {
               }}
               domVisitors={{ onText: ValueEntry }}
             />
-          </ScrollView>
-        </View>
-      </Modal>
+            </ScrollView>
+          </View>
+        </Modal>
+      </View>
     </SafeAreaView>
   );
 };

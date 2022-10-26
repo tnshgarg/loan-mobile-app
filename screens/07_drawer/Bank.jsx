@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import React from "react";
 import DetailItem from "./DetailItem";
 import { useSelector } from "react-redux";
@@ -21,7 +21,7 @@ const Bank = () => {
     { label: "Account Holder Name", value: accountHolderName },
     { label: "IFSC Code", value: ifsc },
     { label: "UPI Id", value: upi },
-    { label: "Verify Status", value: verifyStatus, divider: false },
+    { label: "Verify Status", value: verifyStatus },
   ];
 
   const tabs = [
@@ -40,22 +40,24 @@ const Bank = () => {
   ];
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       {verifyStatus == "SUCCESS" ? (
-        <>
-          {data.map((item, index) => (
-            <DetailItem
-              key={index}
-              label={item.label}
-              value={item.value || "Not Provided"}
-              divider={item?.divider ?? true}
-            />
-          ))}
-        </>
+        <View style={styles.container}>
+          <View style={styles.card}>
+            {data.map((item, index) => (
+              <DetailItem
+                key={index}
+                label={item.label}
+                value={item.value || "Not Provided"}
+                divider={item?.divider}
+              />
+            ))}
+          </View>
+        </View>
       ) : (
         <TopTabNav tabs={tabs} hide={true} />
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 

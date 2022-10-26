@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SafeAreaView } from "react-native";
 import { useDispatch } from "react-redux";
 import BottomTabNav from "../../navigators/BottomTabNav";
@@ -22,11 +22,9 @@ const Home = () => {
   }, []);
 
   return (
-    <>
-      <SafeAreaView style={{ flex: 1 }}>
-        <BottomTabNav tabs={tabs} />
-      </SafeAreaView>
-    </>
+    <SafeAreaView style={{ flex: 1 }}>
+      <BottomTabNav tabs={tabs} />
+    </SafeAreaView>
   );
 };
 

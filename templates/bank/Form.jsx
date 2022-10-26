@@ -12,7 +12,7 @@ import {
   addIfsc,
   addUpi,
 } from "../../store/slices/bankSlice";
-import { bankform, checkBox, form } from "../../styles";
+import { bankform, form } from "../../styles";
 
 const BankFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -21,13 +21,14 @@ const BankFormTemplate = (props) => {
   const [ifscNext, setIfscNext] = useState(false);
   const [consent, setConsent] = useState(false);
 
+  const aadhaarSlice = useSelector((state) => state.aadhaar);
   const bankSlice = useSelector((state) => state.bank);
   const [ifsc, setIfsc] = useState(bankSlice?.data?.ifsc);
   const [accountNumber, setAccountNumber] = useState(
     bankSlice?.data?.accountNumber
   );
   const [accountHolderName, setAccountHolderName] = useState(
-    bankSlice?.data?.accountHolderName
+    aadhaarSlice?.data.name || bankSlice?.data?.accountHolderName
   );
   const [upi, setUpi] = useState(bankSlice?.data?.upi);
 
@@ -69,12 +70,6 @@ const BankFormTemplate = (props) => {
     <>
       <KeyboardAvoidingWrapper>
         <View>
-          {/* <Text style={bankform.Maintitle}>Bank Details Verification</Text> */}
-          <InfoCard
-            info={
-              "We will use this bank account / UPI ID to deposit your salary every month, Please ensure the bank account belongs to you.\nWe will also deposit INR 1 to your account for verification make sure you enter the correct account details."
-            }
-          />
           <Text style={bankform.subTitle}>Enter your Bank Details</Text>
 
           <PopableInput
@@ -91,6 +86,7 @@ const BankFormTemplate = (props) => {
             placeholder={"Bank Account Number*"}
             value={accountNumber}
             onChange={setAccountNumber}
+            autoFocus={true}
             autoCapitalize="characters"
             content={
               "Refer to your Bank Passbook or Cheque book to get the Bank Account Number."
@@ -123,6 +119,12 @@ const BankFormTemplate = (props) => {
             }
           />
 
+          <InfoCard
+            info={
+              "We will use this bank account / UPI ID to deposit your salary every month, Please ensure the bank account belongs to you.\nWe will also deposit INR 1 to your account for verification make sure you enter the correct account details."
+            }
+          />
+
           <Checkbox
             text={
               "I agree with the KYC registration Terms and Conditions to verifiy my identity."
@@ -134,11 +136,11 @@ const BankFormTemplate = (props) => {
           <BankVerifyApi
             data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}
             style={form.nextButton}
-            disabled={!ifscNext || !accNumNext || !consent || !accountHolderName}
+            disabled={
+              !ifscNext || !accNumNext || !consent || !accountHolderName
+            }
             type={props?.route?.params?.type || ""}
           />
-
-          <View style={bankform.padding}></View>
         </View>
       </KeyboardAvoidingWrapper>
     </>
