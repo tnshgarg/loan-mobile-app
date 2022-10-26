@@ -23,6 +23,7 @@ import { WebView } from "react-native-webview";
 import { useDispatch, useSelector } from "react-redux";
 import FormInput from "../../../../components/atoms/FormInput";
 import Header from "../../../../components/atoms/Header";
+import TermsAndPrivacyModal from "../../../../components/molecules/TermsAndPrivacyModal";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { COLORS, FONTS } from "../../../../constants/Theme";
 import { ewaOfferPush } from "../../../../helpers/BackendPush";
@@ -237,40 +238,13 @@ const Offer = () => {
         />
       </View>
 
-      <Modal
-        isVisible={isTermsOfUseModalVisible}
-        style={{
-          width: Dimensions.get("window").width,
-          height: Dimensions.get("window").height,
-        }}
-      >
-        <Pressable
-          onPress={() => setIsTermsOfUseModalVisible(false)}
-          style={{
-            position: "absolute",
-            top: 30,
-            right: 50,
-            zIndex: 999,
-          }}
-        >
-          <AntDesign name="closesquareo" size={24} color="black" />
-        </Pressable>
-        <View
-          style={{
-            height: Dimensions.get("window").height - 100,
-            width: Dimensions.get("window").width - 40,
-            backgroundColor: "white",
-            borderRadius: 5,
-          }}
-        >
-          <WebView
-            style={{ flex: 1 }}
-            containerStyle={{ padding: 10 }}
-            originWhitelist={["*"]}
-            source={{ html: TnC }}
-          />
-        </View>
-      </Modal>
+      {isTermsOfUseModalVisible && (
+        <TermsAndPrivacyModal
+          isVisible={isTermsOfUseModalVisible}
+          setIsVisible={setIsTermsOfUseModalVisible}
+          data={TnC}
+        />
+      )}
     </SafeAreaView>
   );
 };

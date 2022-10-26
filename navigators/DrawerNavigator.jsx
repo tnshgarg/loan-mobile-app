@@ -1,8 +1,6 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons, Octicons } from "react-native-vector-icons";
-
 import Home from "../screens/06_home/Home";
-
 import Profile from "../screens/07_drawer/Profile";
 import KYCScreen from "../screens/07_drawer/KYCScreen";
 import { AppBar, Icon, IconButton } from "@react-native-material/core";
@@ -27,10 +25,7 @@ const DrawerNavigator = () => {
         drawerActiveTintColor: "white",
         header: ({ navigation }) => (
           <AppBar
-            title={
-              <SVGImg
-              />
-            }
+            title={<SVGImg />}
             centerTitle={true}
             contentContainerStyle={nav.navbar}
             color="#ffffff"
@@ -96,30 +91,6 @@ const DrawerNavigator = () => {
           ),
         }}
         name="DrawerSettings"
-        component={Home}
-      />
-      <Drawer.Screen
-        options={{
-          drawerLabel: "Privacy Policy",
-          drawerIcon: ({ color }) => (
-            <Ionicons name="lock-closed-outline" color={color} size={20} />
-          ),
-        }}
-        name="DrawerPrivacyPolicy"
-        component={Home}
-      />
-      <Drawer.Screen
-        options={{
-          drawerLabel: "Terms & Conditions",
-          drawerIcon: ({ color }) => (
-            <Ionicons
-              name="ios-shield-checkmark-outline"
-              color={color}
-              size={20}
-            />
-          ),
-        }}
-        name="DrawerTermsConditions"
         component={Home}
       />
     </Drawer.Navigator>
