@@ -9,7 +9,7 @@ import { COLORS } from "../../constants/Theme";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { stepIndicatorStyles, styles, welcome } from "../../styles";
 import SVGImg from "../../assets/UnipeLogo.svg";
-import Analytics from "appcenter-analytics";
+import { requestUserPermission } from "../../services/notifications/notificationService";
 
 
 const WelcomePage = () => {
@@ -89,6 +89,7 @@ const WelcomePage = () => {
           color="#2CB77C"
           uppercase={false}
           onPress={() => {
+            requestUserPermission();
             Analytics.trackEvent("WelcomePage", { userId: id });
             navigation.navigate("PersonalDetailsForm");
           }}

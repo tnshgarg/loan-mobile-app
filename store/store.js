@@ -16,6 +16,7 @@ import timerSlice from "./slices/timerSlice";
 
 import ewaLiveSlice from "./slices/ewaLiveSlice";
 import ewaHistoricalSlice from "./slices/ewaHistoricalSlice";
+import notificationSlice from "./slices/notificationSlice";
 
 const persistConfig = {
   key: "root",
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
   timer: timerSlice,
   ewaLive: ewaLiveSlice,
   ewaHistorical: ewaHistoricalSlice,
+  notification: notificationSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
