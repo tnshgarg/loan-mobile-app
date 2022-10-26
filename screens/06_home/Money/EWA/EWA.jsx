@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SafeAreaView, Text, View, ScrollView } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { styles } from "../../../../styles";
 import PrimaryButton from "../../../../components/PrimaryButton";

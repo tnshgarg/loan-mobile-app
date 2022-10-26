@@ -27,7 +27,7 @@ import {
 } from "../../../../store/slices/ewaLiveSlice";
 import { checkBox, ewa, styles } from "../../../../styles";
 import agreement from "../../../../templates/docs/LiquidLoansLoanAgreement";
-import Checkbox from "../../../../components/atoms/Checkbox";
+
 
 const Agreement = () => {
   const dispatch = useDispatch();
@@ -37,8 +37,7 @@ const Agreement = () => {
   const [fetched, setFetched] = useState(false);
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
-
-  const [confirm, setConfirm] = useState(false);
+  
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -232,12 +231,7 @@ const Agreement = () => {
             isClosed={false}
             data={bankData}
           />
-        
-          <Checkbox
-            text={"I confirm the above details."}
-            value={confirm}
-            setValue={setConfirm}
-          />
+
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <CheckBox
               style={ewa.checkBox}
@@ -246,7 +240,7 @@ const Agreement = () => {
               onValueChange={setConsent}
             />
             <Text style={ewa.checkBoxText}>
-              I agree to the{" "}
+              I confirm the above details and agree to {" "}
               <Text
                 style={styles.termsText}
                 onPress={() => setIsModalVisible(true)}
@@ -258,10 +252,11 @@ const Agreement = () => {
           </View>
         <PrimaryButton
           title={loading ? "Booking" : "Finish"}
+          disabled={!consent}
+          loading={loading}
           onPress={() => {
             handleAgreement();
           }}
-          disabled={!confirm || !consent || loading}
         />
         <View style={checkBox.padding}></View>
           <Text style={{ marginLeft: "6%", fontSize: 6, marginTop: "25%" }}>

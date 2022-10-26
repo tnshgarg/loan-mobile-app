@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.white,
     flex: 1,
-    padding: "4%",
+    padding: "3%",
   },
   logo: {
     alignSelf: "center",
@@ -377,7 +377,7 @@ export const nav = StyleSheet.create({
     height: 80,
   },
   navbar: {
-    height: 80,
+    height: 60,
   },
 });
 
@@ -469,7 +469,7 @@ export const welcome = StyleSheet.create({
     ...FONTS.h3,
     textAlign: "center",
   },
-  steps: { alignSelf: "center", flex: 1 },
+  steps: { flex: 1 },
 });
 
 export const selfie = StyleSheet.create({
@@ -533,11 +533,11 @@ export const ewa = StyleSheet.create({
     marginTop: 10,
   },
   loanCard: {
-    marginTop: 20,
+    marginTop: 10,
     alignSelf: "center",
     width: "100%",
     backgroundColor: COLORS.lightgray_01,
-    paddingVertical: "4%",
+    paddingVertical: "2%",
     paddingHorizontal: "3%",
     borderRadius: 10,
   },

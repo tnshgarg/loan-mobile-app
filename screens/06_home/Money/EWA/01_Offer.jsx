@@ -6,20 +6,14 @@ import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import {
   Alert,
-  Dimensions,
-  Pressable,
   SafeAreaView,
   Text,
-  TextInput,
   View,
 } from "react-native";
 import { getUniqueId } from "react-native-device-info";
-import Modal from "react-native-modal";
 import { NetworkInfo } from "react-native-network-info";
 import StepIndicator from "react-native-step-indicator";
-import { AntDesign } from "react-native-vector-icons";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { WebView } from "react-native-webview";
 import { useDispatch, useSelector } from "react-redux";
 import FormInput from "../../../../components/atoms/FormInput";
 import Header from "../../../../components/atoms/Header";
@@ -156,7 +150,7 @@ const Offer = () => {
     <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <Header
         title="On Demand Salary"
-        onLeftIconPress={() => navigation.navigate("Home")}
+        onLeftIconPress={() => navigation.navigate("EWA")}
       />
       <View style={styles.container}>
         <FormInput
@@ -198,7 +192,7 @@ const Offer = () => {
           <StepIndicator
             customStyles={stepIndicatorStyles}
             stepCount={3}
-            direction="vertical"
+            // direction="horizontal"
             currentPosition={5}
             renderStepIndicator={renderStepIndicator}
             labels={data}
@@ -232,6 +226,7 @@ const Offer = () => {
         <PrimaryButton
           title={loading ? "Processing" : "Continue"}
           disabled={loading || !consent || !validAmount}
+          loading={loading}
           onPress={() => {
             handleAmount();
           }}
