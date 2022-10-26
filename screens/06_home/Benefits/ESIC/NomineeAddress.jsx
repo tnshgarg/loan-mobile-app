@@ -16,7 +16,7 @@ export default NomineeAddress = () => {
   const id = useSelector((state) => state.auth.id);
   const address = useSelector((state) => state.esic.address);
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <View>
           <AddressDropdown type={"nominee"} />

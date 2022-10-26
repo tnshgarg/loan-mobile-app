@@ -25,7 +25,7 @@ export default Portal = () => {
   }, [ipNumber]);
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <View>
           <FormInput

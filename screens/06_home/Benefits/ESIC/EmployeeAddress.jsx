@@ -19,7 +19,7 @@ export default EmployeeAddress = () => {
   const address = useSelector((state) => state.esic.address);
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <View>
           <AddressDropdown type={"present"} />

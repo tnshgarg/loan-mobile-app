@@ -42,7 +42,7 @@ const AadhaarVerify = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <Header
         title="Aadhaar OTP Verification"
         onLeftIconPress={() => (backDisabled ? null : backAlert())}

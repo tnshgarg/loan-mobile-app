@@ -33,13 +33,12 @@ import { COLORS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
 
 const Form = (props) => {
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
-  
+
   const employeeId = useSelector((state) => state.auth.id);
   const mandateSlice = useSelector((state) => state.mandate);
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
@@ -275,7 +274,8 @@ const Form = (props) => {
             userId: employeeId,
           });
           setTimestamp(Date.now());
-          setBackendPush(true);s
+          setBackendPush(true);
+          s;
           createUpiOrder({ customerId: customerId })
             .then((res) => {
               console.log("UPI", res.data);
@@ -297,7 +297,7 @@ const Form = (props) => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         {bankVerifyStatus === "PENDING" ? (
           <View style={{ alignSelf: "center", marginTop: "20%" }}>

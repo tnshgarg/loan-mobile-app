@@ -104,7 +104,7 @@ const KYC = () => {
   ];
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <Header
         title="KYC"
         onLeftIconPress={() => navigation.navigate("EWA_OFFER")}

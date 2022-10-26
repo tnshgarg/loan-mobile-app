@@ -32,7 +32,7 @@ const BankForm = () => {
 
   return (
     <>
-      <SafeAreaView style={[styles.container, { padding: 0 }]}>
+      <SafeAreaView style={styles.safeContainer}>
         <Header
           title="Bank Details"
           onLeftIconPress={() => navigation.navigate("PanForm")}

@@ -77,7 +77,7 @@ export default Relation = () => {
   }, [nomineeName]);
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <View>
           <FormInput

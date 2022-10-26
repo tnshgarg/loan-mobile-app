@@ -30,7 +30,7 @@ const BankConfirm = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <Header
         onLeftIconPress={() => backAlert()}
         title="Bank Details Confirmation"

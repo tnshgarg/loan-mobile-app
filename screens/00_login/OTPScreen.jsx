@@ -19,7 +19,6 @@ import { COLORS, SIZES } from "../../constants/Theme";
 import FormInput from "../../components/atoms/FormInput";
 import Header from "../../components/atoms/Header";
 
-
 const OTPScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -46,7 +45,7 @@ const OTPScreen = () => {
   }, [otp]);
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <Header
         //title="Otp"
         onLeftIconPress={() =>

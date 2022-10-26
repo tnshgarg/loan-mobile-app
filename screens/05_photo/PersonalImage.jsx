@@ -53,13 +53,13 @@ const PersonalImage = () => {
         console.log("User cancelled image picker");
         Analytics.trackEvent("PersonalImage|Pick|Error", {
           userId: id,
-          error:"User cancelled image picker",
+          error: "User cancelled image picker",
         });
       } else if (response.error) {
         console.log("ImagePicker Error: ", response.error);
         Analytics.trackEvent("PersonalImage|Pick|Error", {
           userId: id,
-          error:response.error,
+          error: response.error,
         });
       } else {
         Analytics.trackEvent("PersonalImage|Pick|Success", {
@@ -71,7 +71,7 @@ const PersonalImage = () => {
   }, []);
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <Header
         title="Photo"
         onLeftIconPress={() => navigation.navigate("PersonalDetailsForm")}
