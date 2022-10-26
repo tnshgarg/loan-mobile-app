@@ -37,7 +37,7 @@ const BankForm = () => {
           title="Bank Details"
           onLeftIconPress={() => navigation.navigate("PanForm")}
         />
-        <ProgressBarTop step={4} />
+        <ProgressBarTop step={3} />
 
         <BankFormTemplate />
       </SafeAreaView>

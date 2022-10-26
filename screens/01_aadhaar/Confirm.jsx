@@ -36,7 +36,7 @@ const AadhaarConfirm = () => {
         onLeftIconPress={() => backAlert()}
       />
 
-      <ProgressBarTop step={2} />
+      <ProgressBarTop step={1} />
 
       <ScrollView keyboardShouldPersistTaps="handled">
         <AadhaarConfirmApi />

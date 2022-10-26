@@ -11,7 +11,6 @@ import { stepIndicatorStyles, styles, welcome } from "../../styles";
 import SVGImg from "../../assets/UnipeLogo.svg";
 import Analytics from "appcenter-analytics";
 
-
 const WelcomePage = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -32,10 +31,10 @@ const WelcomePage = () => {
         iconConfig.name = "file-document-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
-      case 1: {
-        iconConfig.name = "camera-outline";
-        return <MaterialCommunityIcons {...iconConfig} />;
-      }
+      // case 1: {
+      //   iconConfig.name = "camera-outline";
+      //   return <MaterialCommunityIcons {...iconConfig} />;
+      // }
       case 2: {
         iconConfig.name = "card-account-details-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
@@ -63,7 +62,7 @@ const WelcomePage = () => {
 
   const data = [
     "Profile",
-    "Photo",
+    // "Photo",
     "Aadhaar",
     "PAN",
     "Bank Account",
@@ -77,7 +76,7 @@ const WelcomePage = () => {
         <View style={welcome.steps}>
           <StepIndicator
             customStyles={stepIndicatorStyles}
-            stepCount={6}
+            stepCount={5}
             direction="vertical"
             renderStepIndicator={renderStepIndicator}
             currentPosition={-1}
@@ -86,8 +85,6 @@ const WelcomePage = () => {
         </View>
         <PrimaryButton
           title="Start Onboarding"
-          color="#2CB77C"
-          uppercase={false}
           onPress={() => {
             Analytics.trackEvent("WelcomePage", { userId: id });
             navigation.navigate("PersonalDetailsForm");

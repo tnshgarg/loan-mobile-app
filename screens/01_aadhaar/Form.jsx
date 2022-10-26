@@ -45,7 +45,7 @@ const AadhaarForm = () => {
         onLeftIconPress={() => backAlert()}
       />
 
-      <ProgressBarTop step={2} />
+      <ProgressBarTop step={1} />
       <AadhaarFormTemplate />
     </SafeAreaView>
   );

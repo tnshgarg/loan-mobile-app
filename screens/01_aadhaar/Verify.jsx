@@ -48,7 +48,7 @@ const AadhaarVerify = () => {
         onLeftIconPress={() => (backDisabled ? null : backAlert())}
       />
 
-      <ProgressBarTop step={2} />
+      <ProgressBarTop step={1} />
       <AadhaarVerifyTemplate function={backAlert} />
     </SafeAreaView>
   );

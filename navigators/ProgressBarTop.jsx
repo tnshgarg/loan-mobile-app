@@ -27,13 +27,13 @@ export default ProgressBarTop = (props) => {
         iconConfig.name = "file-document-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
-      case 1: {
-        stepStatus == "finished"
-          ? (iconConfig.color = COLORS.white)
-          : (iconConfig.color = COLORS.primaryPending);
-        iconConfig.name = "camera-outline";
-        return <MaterialCommunityIcons {...iconConfig} />;
-      }
+      // case 1: {
+      //   stepStatus == "finished"
+      //     ? (iconConfig.color = COLORS.white)
+      //     : (iconConfig.color = COLORS.primaryPending);
+      //   iconConfig.name = "camera-outline";
+      //   return <MaterialCommunityIcons {...iconConfig} />;
+      // }
       case 2: {
         stepStatus == "finished"
           ? aadhaarStatus == "SUCCESS"
@@ -109,10 +109,17 @@ export default ProgressBarTop = (props) => {
   return (
     <View style={progressBar.progressView}>
       <StepIndicator
-        stepCount={6}
+        stepCount={5}
         customStyles={stepIndicatorStyles}
         currentPosition={props.step}
-        labels={["Profile", "Photo", "Aadhaar", "PAN", "Bank", "Mandate"]}
+        labels={[
+          "Profile",
+          //"Photo",
+          "Aadhaar",
+          "PAN",
+          "Bank",
+          "Mandate",
+        ]}
         // onPress={onStepPress}
         renderStepIndicator={renderStepIndicator}
       />

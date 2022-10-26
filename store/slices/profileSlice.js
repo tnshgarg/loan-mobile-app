@@ -25,9 +25,9 @@ const profileSlice = createSlice({
     addMaritalStatus(state, action) {
       state.maritalStatus = action.payload;
     },
-    addPhoto(state, action) {
-      state.photo = action.payload;
-    },
+    // addPhoto(state, action) {
+    //   state.photo = action.payload;
+    // },
     addMotherName(state, action) {
       state.motherName = action.payload;
     },
@@ -46,7 +46,7 @@ export const {
   addQualification,
   addEmail,
   addMaritalStatus,
-  addPhoto,
+  //addPhoto,
   resetProfile,
   addMotherName,
 } = profileSlice.actions;
