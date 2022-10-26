@@ -75,16 +75,6 @@ const DrawerNavigator = () => {
       />
       <Drawer.Screen
         options={{
-          drawerLabel: "Support",
-          drawerIcon: ({ color }) => (
-            <Ionicons name="chatbox-outline" color={color} size={20} />
-          ),
-        }}
-        name="DrawerSupport"
-        component={Home}
-      />
-      <Drawer.Screen
-        options={{
           drawerLabel: "Settings",
           drawerIcon: ({ color }) => (
             <Ionicons name="settings" color={color} size={20} />
