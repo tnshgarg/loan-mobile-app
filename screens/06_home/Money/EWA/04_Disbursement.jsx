@@ -78,7 +78,7 @@ const Disbursement = ({ route, navigation }) => {
     <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <Header
         title="Money Transfer"
-        onLeftIconPress={() => navigation.navigate("Home")}
+        onLeftIconPress={() => navigation.navigate("EWA")}
       />
       <View style={styles.container}>
         <Image
