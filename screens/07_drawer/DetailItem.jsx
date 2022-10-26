@@ -4,20 +4,20 @@ import { COLORS, FONTS } from "../../constants/Theme";
 
 const DetailItem = ({ label, value, divider }) => {
   return (
-    <View style={{ paddingTop: 15, paddingHorizontal: 20 }}>
-      <Text style={{ fontSize: 14 }}>{label}</Text>
+    <View style={{ paddingVertical: 10 }}>
+      <Text style={{ ...FONTS.h4, fontWeight: "bold" }}>{label}</Text>
       {value == "Not Provided" ? (
         <Text
           style={{
-            ...FONTS.h3,
-            paddingTop: 8,
+            ...FONTS.h5,
+            paddingVertical: 5,
             color: COLORS.gray,
           }}
         >
           {value}
         </Text>
       ) : (
-        <Text style={{ ...FONTS.h3, paddingTop: 8 }}>{value}</Text>
+        <Text style={{ ...FONTS.h5, paddingTop: 8 }}>{value}</Text>
       )}
       {divider && (
         <View

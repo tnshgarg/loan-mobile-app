@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Text, View } from "react-native";
 import Collapsible from "react-native-collapsible";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { COLORS } from "../constants/Theme";
 import { bankform, ewa } from "../styles";
 
 const CollapsibleCard = ({
@@ -11,6 +12,7 @@ const CollapsibleCard = ({
   isClosed,
   info,
   Component,
+  ComponentProps,
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(isClosed);
   return (
@@ -29,13 +31,13 @@ const CollapsibleCard = ({
               : "arrow-up-drop-circle-outline"
           }
           size={24}
-          color="green"
+          color={COLORS.primary}
           style={{ marginLeft: "auto" }}
           onPress={() => setIsCollapsed(!isCollapsed)}
         />
       </View>
       <Collapsible collapsed={isCollapsed}>
-        {Component ? <Component /> : null}
+        {Component ? <Component {...ComponentProps} /> : null}
         {data?.map((item, index) => (
           <View
             style={{ flexDirection: "row", width: "100%", marginTop: 5 }}

@@ -1,8 +1,6 @@
-import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
-import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { SafeAreaView, Text, TextInput, View } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
 import {
@@ -13,21 +11,20 @@ import {
   addMaritalStatus,
 } from "../../store/slices/profileSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { bankform, form, styles } from "../../styles";
+import { form, styles } from "../../styles";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import PrimaryButton from "../../components/PrimaryButton";
-import { COLORS } from "../../constants/Theme";
 import FormInput from "../../components/atoms/FormInput";
 import DropDownForm from "../../components/molecules/DropDownForm";
-
+import Analytics from "appcenter-analytics";
+import Header from "../../components/atoms/Header";
 
 const PersonalDetailsForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const [next, setNext] = useState(false);
-
-  const panSlice = useSelector((state) => state.pan);
+  const id = useSelector((state) => state.auth.id);
   const profileSlice = useSelector((state) => state.profile);
   const [maritalStatus, setMaritalStatus] = useState(
     profileSlice?.maritalStatus
@@ -36,9 +33,7 @@ const PersonalDetailsForm = () => {
     profileSlice?.qualification
   );
   const [altMobile, setAltMobile] = useState(profileSlice?.altMobile);
-  const [email, setEmail] = useState(
-    panSlice?.data?.email || profileSlice?.email
-  );
+  const [email, setEmail] = useState(profileSlice?.email);
   const [motherName, setMotherName] = useState(profileSlice?.motherName);
 
   useEffect(() => {
@@ -86,18 +81,12 @@ const PersonalDetailsForm = () => {
   return (
     <>
       <SafeAreaView style={[styles.container, { padding: 0 }]}>
-        <AppBar
+        <Header
           title="Setup Profile"
-          color={COLORS.primary}
-          leading={
-            <IconButton
-              icon={<Icon name="arrow-back" size={20} color="white" />}
-              onPress={() => navigation.navigate("BankForm")}
-            />
-          }
+          onLeftIconPress={() => navigation.navigate("Login")}
         />
 
-        <ProgressBarTop step={4} />
+        <ProgressBarTop step={0} />
         <Text style={form.formHeader}>Employee basic details</Text>
         <KeyboardAvoidingWrapper>
           <View>
@@ -137,15 +126,15 @@ const PersonalDetailsForm = () => {
               value={email}
               onChange={setEmail}
             />
-
             <PrimaryButton
               title="Continue"
-              type="solid"
-              uppercase={false}
-              color={COLORS.primary}
               disabled={!next}
               onPress={() => {
-                navigation.navigate("PersonalImage");
+                Analytics.trackEvent("PersonalDetailsForm|PushData|Success", {
+                  userId: id,
+                });
+                //navigation.navigate("PersonalImage");
+                navigation.navigate("AadhaarForm");
               }}
             />
           </View>

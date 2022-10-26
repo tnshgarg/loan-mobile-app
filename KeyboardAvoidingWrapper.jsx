@@ -17,7 +17,7 @@ export const KeyboardAvoidingWrapper = ({ children }) => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? -64 : 0}
       >
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             {children}
           </TouchableWithoutFeedback>

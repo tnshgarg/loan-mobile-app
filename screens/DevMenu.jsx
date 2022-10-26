@@ -11,12 +11,12 @@ export default DevMenu = () => {
   const screens = [
     { title: "Welcome", name: "Welcome" },
     { title: "Login", name: "Login" },
+    { title: "Profile", name: "PersonalDetailsForm" },
+    { title: "Photo", name: "PersonalImage" },
     { title: "AADHAAR", name: "AadhaarForm" },
     { title: "PAN", name: "PanForm" },
     { title: "BANK", name: "BankForm" },
     { title: "Mandate", name: "Mandate" },
-    { title: "Profile", name: "PersonalDetailsForm" },
-    { title: "Photo", name: "PersonalImage" },
     { title: "Home", name: "Home" },
     { title: "KYC Details", name: "KYC" },
     { title: "Profile Details", name: "Profile" },
@@ -44,7 +44,7 @@ export default DevMenu = () => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         {screens.map((screen, index) => (
           <DevMenuButton

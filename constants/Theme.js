@@ -5,6 +5,7 @@ const { width, height } = Dimensions.get("window");
 export const COLORS = {
   primaryPending: "#4E46F1",
   primary: "#2CB77C",
+  primaryBackground: "#D5F9EA",
   button: {
     disabled: {
       background: "",
@@ -20,7 +21,8 @@ export const COLORS = {
     text: "",
   },
   secondary: "#230C45",
-  warning: "#EB5757",
+  warning: "#f56a6a",
+  warningBackground: "#feedee",
   darkGray: "#333333",
   gray: "#808080",
   lightGray: "#aaaaaa",

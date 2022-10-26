@@ -9,9 +9,10 @@ import {
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/panSlice";
-import { KYC_PAN_VERIFY_API_URL } from "../../services/employees/endpoints";
+import { KYC_PAN_VERIFY_API_URL } from "../../services/constants";
 import { panBackendPush } from "../../helpers/BackendPush";
-import ApiView from "../ApiView";
+import PrimaryButton from "../../components/PrimaryButton";
+import Analytics from "appcenter-analytics";
 
 const PanVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -46,7 +47,7 @@ const PanVerifyApi = (props) => {
   }, [verifyTimestamp]);
 
   useEffect(() => {
-    console.log("PanVerifyApi panSlice: ", panSlice);
+    console.log("PanVerifyApi backendPush panSlice: ", backendPush, panSlice);
     if (backendPush) {
       panBackendPush({
         id: id,
@@ -57,8 +58,8 @@ const PanVerifyApi = (props) => {
         verifyTimestamp: verifyTimestamp,
       });
       setBackendPush(false);
-      setLoading(false);
     }
+    setLoading(false);
   }, [backendPush]);
 
   const goForFetch = () => {
@@ -82,6 +83,7 @@ const PanVerifyApi = (props) => {
               case "1000":
                 const names = ["first", "middle", "last"];
                 responseJson["data"]["pan_data"]["name"] = names
+                  .filter((k) => responseJson["data"]["pan_data"][`${k}_name`])
                   .map((k) => responseJson["data"]["pan_data"][`${k}_name`])
                   .join(" ");
                 console.log("PAN fetched data: ", responseJson);
@@ -90,6 +92,9 @@ const PanVerifyApi = (props) => {
                 setVerifyStatus("PENDING");
                 setVerifyTimestamp(responseJson["timestamp"]);
                 setBackendPush(true);
+                Analytics.trackEvent("Pan|Verify|Success", {
+                  userId: id,
+                });
                 {
                   props.type == "KYC"
                     ? navigation.navigate("KYC", {
@@ -103,44 +108,66 @@ const PanVerifyApi = (props) => {
                 break;
               default:
                 setVerifyMsg(responseJson["data"]["message"]);
+                Analytics.trackEvent("Pan|Verify|Error", {
+                  userId: id,
+                  error: responseJson["data"]["message"],
+                });
                 setVerifyStatus("ERROR");
                 setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
             }
           } else if (responseJson?.error?.message) {
             setVerifyMsg(responseJson["error"]["message"]);
+            Analytics.trackEvent("Pan|Verify|Error", {
+              userId: id,
+              error: responseJson["error"]["message"],
+            });
             setVerifyStatus("ERROR");
             setBackendPush(true);
             Alert.alert("Error", responseJson["error"]["message"]);
           } else {
             setVerifyMsg(responseJson["message"]);
+            Analytics.trackEvent("Pan|Verify|Error", {
+              userId: id,
+              error: responseJson["message"],
+            });
             setVerifyStatus("ERROR");
             setBackendPush(true);
             Alert.alert("Error", responseJson["message"]);
           }
         } catch (error) {
-          console.log("Error: ", error);
-          setVerifyMsg(error);
+          console.log("Try Catch Error: ", error.toString());
+          setVerifyMsg(error.toString());
+          Analytics.trackEvent("Pan|Verify|Error", {
+            userId: id,
+            error: error.toString(),
+          });
           setVerifyStatus("ERROR");
           setBackendPush(true);
-          Alert.alert("Error", error);
+          Alert.alert("Error", error.toString());
         }
       })
       .catch((error) => {
-        console.log("Error: ", error);
-        setVerifyMsg(error);
+        console.log("Fetch Catch Error: ", error.toString());
+        setVerifyMsg(error.toString());
         setVerifyStatus("ERROR");
         setBackendPush(true);
-        Alert.alert("Error", error);
+        Alert.alert("Error", error.toString());
+        Analytics.trackEvent("Pan|Verify|Error", {
+          userId: id,
+          error: error.toString(),
+        });
       });
   };
 
   return (
-    <ApiView
+    <PrimaryButton
+      title={loading ? "Verifying" : "Continue"}
       disabled={props.disabled}
       loading={loading}
-      goForFetch={goForFetch}
-      style={props.style}
+      onPress={() => {
+        goForFetch();
+      }}
     />
   );
 };

@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { SafeAreaView, Text, View, ScrollView } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { checkBox, styles } from "../../../../styles";
+import { styles } from "../../../../styles";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import KycCheckCard from "../../../../components/KycCheckCard";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import Offers from "../../../../components/DataCard";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
-import { addOffers } from "../../../../store/slices/ewaHistoricalSlice";
-import DataCard from "../../../../components/DataCard";
+import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import { COLORS, FONTS } from "../../../../constants/Theme";
+import { STAGE } from "@env";
 
 const EWA = () => {
   const dispatch = useDispatch();
@@ -18,6 +18,7 @@ const EWA = () => {
   const navigation = useNavigation();
 
   const [fetched, setFetched] = useState(false);
+  const [eligible, setEligible] = useState(false);
 
   const id = useSelector((state) => state.auth.id);
   const aadhaarName = useSelector((state) => state.aadhaar.data.name);
@@ -36,96 +37,114 @@ const EWA = () => {
   const ewaHistoricalSlice = useSelector((state) => state.ewaHistorical);
 
   useEffect(() => {
+    if (fetched) {
+      if (
+        STAGE !== "prod" ||
+        (STAGE === "prod" && parseInt(ewaLiveSlice?.eligibleAmount) >= 1000)
+      ) {
+        setEligible(true);
+      } else {
+        setEligible(false);
+      }
+    } else {
+      setEligible(false);
+    }
+  }, [ewaLiveSlice, fetched]);
+
+  useEffect(() => {
     console.log("ewaLiveSlice: ", ewaLiveSlice);
+    console.log("ewaHistoricalSlice: ", ewaHistoricalSlice);
     console.log("ewaOffersFetch unipeEmployeeId:", id);
     if (isFocused && id) {
       getBackendData({ params: { unipeEmployeeId: id }, xpath: "ewa/offers" })
         .then((response) => {
           if (response.data.status === 200) {
-            console.log("response.data.body.live: ", response.data.body.live);
-            dispatch(resetEwaLive(response.data.body.live));
-            dispatch(addOffers(response.data.body.past));
             console.log("ewaOffersFetch response.data: ", response.data);
+            dispatch(resetEwaLive(response.data.body.live));
+            dispatch(resetEwaHistorical(response.data.body.past));
             setFetched(true);
+          } else {
+            dispatch(resetEwaLive());
+            dispatch(resetEwaHistorical());
           }
         })
         .catch((error) => {
+          dispatch(resetEwaLive());
+          dispatch(resetEwaHistorical());
           console.log("ewaOffersFetch error: ", error);
         });
     }
   }, [isFocused, id]);
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={[styles.container]}>
       {aadhaarVerifyStatus === "SUCCESS" &&
       panVerifyStatus === "SUCCESS" &&
       bankVerifyStatus === "SUCCESS" &&
       mandateVerifyStatus === "SUCCESS" ? (
         // panMisMatch < 20 &&
-        // bankMisMatch < 20 ? (
-
-        <ScrollView>
-          <View
+        // bankMisMatch < 20
+        <>
+          <Text
             style={{
+              fontSize: 20,
+              marginTop: "5%",
+              marginBottom: "5%",
+              color: COLORS.gray,
+              letterSpacing: 0.2,
               alignSelf: "center",
             }}
           >
-            <Text
-              style={{
-                fontSize: 20,
-                marginTop: "8%",
-                marginBottom: "8%",
-                color: "#597E8D",
-                letterSpacing: 0.5,
-              }}
-            >
-              {aadhaarName} get on demand salary
-            </Text>
-            <Text
-              style={{
-                alignSelf: "center",
-                color: "green",
-                ...FONTS.h1,
-              }}
-            >
-              ₹ {ewaLiveSlice?.eligibleAmount}
-            </Text>
-          </View>
-          <PrimaryButton
-            title={!fetched || parseInt(ewaLiveSlice?.eligibleAmount)<1000 ? "No Active Offer" : "Get Money Now"}
-            color={COLORS.primary}
-            uppercase={false}
-            disabled={!fetched || parseInt(ewaLiveSlice?.eligibleAmount)<1000}
-            onPress={() => {
-              navigation.navigate("EWA_OFFER");
-            }}
-          />
-          <View
+            {aadhaarName} get on demand salary
+          </Text>
+          <Text
             style={{
-              marginHorizontal: 20,
+              alignSelf: "center",
+              color: COLORS.primary,
+              ...FONTS.h2,
             }}
           >
-            <Text style={{ fontSize: 16, color: "#597E8D", marginTop: "10%" }}>
+            ₹ {ewaLiveSlice?.eligibleAmount}
+          </Text>
+
+          <View style={{ marginHorizontal: "10%" }}>
+            <PrimaryButton
+              title={!eligible ? "No Active Offer" : "Get Money Now"}
+              disabled={!eligible}
+              onPress={() => {
+                navigation.navigate("EWA_OFFER");
+              }}
+            />
+          </View>
+
+          <View style={{ padding: "1.5%" }}>
+            <Text
+              style={{
+                ...FONTS.h3,
+                color: COLORS.gray,
+                marginTop: "5%",
+                fontWeight: "bold",
+              }}
+            >
               Your past draws
             </Text>
             <Offers data={ewaHistoricalSlice} />
           </View>
-          <View style={checkBox.padding}></View>
-        </ScrollView>
+        </>
       ) : (
-        <>
+        <View style={[styles.container, { padding: 0 }]}>
           <Text
             style={{
-              color: "red",
-              fontWeight: "bold",
+              color: COLORS.warning,
+              ...FONTS.h3,
               alignSelf: "center",
-              marginTop: 20,
+              marginTop: "5%",
             }}
           >
             You are not eligible for Advanced Salary.
           </Text>
           <KycCheckCard />
-        </>
+        </View>
       )}
     </SafeAreaView>
   );

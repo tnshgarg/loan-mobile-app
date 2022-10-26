@@ -4,10 +4,8 @@ import LicenseFormTemplate from "../../../../templates/license/Form";
 
 export default LicenseForm = () => {
   return (
-    <>
-      <SafeAreaView style={[styles.container, { padding: 0 }]}>
-        <LicenseFormTemplate />
-      </SafeAreaView>
-    </>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+      <LicenseFormTemplate />
+    </SafeAreaView>
   );
 };

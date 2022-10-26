@@ -4,13 +4,12 @@ import { COLORS, FONTS, SIZES } from "./constants/Theme";
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.white,
-    height: "100%",
     flex: 1,
-    padding: 15,
+    padding: "3%",
   },
   logo: {
     alignSelf: "center",
-    marginTop: "10%",
+    // marginTop: "10%",
     width: "auto",
     height: "auto",
   },
@@ -45,7 +44,6 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   ContinueButton: {
-    padding: 10,
     alignSelf: "center",
     marginTop: 20,
     width: 320,
@@ -60,6 +58,17 @@ export const styles = StyleSheet.create({
     width: "100%",
     height: 60,
     fontSize: 20,
+  },
+  btn: {
+    marginTop: 20,
+    width: "100%",
+    height: 50,
+    backgroundColor: COLORS.primary,
+    borderRadius: 6,
+  },
+  btnText: {
+    ...FONTS.h3,
+    color: COLORS.white,
   },
   ButtonContainer: {
     width: "100%",
@@ -86,10 +95,10 @@ export const styles = StyleSheet.create({
     color: COLORS.primary,
   },
   otpreadtxt: {
-    marginRight: 20,
     marginTop: 20,
     color: COLORS.gray,
     ...FONTS.h4,
+    textAlign: "center",
   },
   LoadingButton: {
     padding: 10,
@@ -100,6 +109,14 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     backgroundColor: COLORS.primary,
     borderRadius: 6,
+  },
+  card: {
+    padding: 10,
+    borderWidth: 0.5,
+    borderColor: COLORS.lightgray_01,
+    borderRadius: 5,
+    elevation: 2,
+    backgroundColor: COLORS.white,
   },
 });
 
@@ -198,18 +215,21 @@ export const form = StyleSheet.create({
     ...FONTS.body3,
   },
   yesButton: {
-    padding: 10,
-    marginTop: 20,
-    width: 150,
-    height: 60,
-    fontSize: 20,
+    flex: 1,
+    height: 50,
+    backgroundColor: COLORS.primaryBackground,
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 10,
   },
   noButton: {
-    padding: 10,
-    marginTop: 20,
-    width: 150,
-    height: 60,
-    fontSize: 20,
+    flex: 1,
+    width: SIZES.width / 2.5,
+    height: 50,
+    backgroundColor: COLORS.warningBackground,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
   },
   aadharimg: {
     alignSelf: "center",
@@ -232,8 +252,10 @@ export const form = StyleSheet.create({
     fontWeight: "bold",
   },
   forgotText: {
-    marginLeft: "77%",
     marginTop: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
   year: {
     height: 40,
@@ -253,7 +275,6 @@ export const form = StyleSheet.create({
 
 export const checkBox = StyleSheet.create({
   checkBox: {
-    marginLeft: 34,
     marginTop: 30,
   },
   checkBoxText: {
@@ -317,9 +338,10 @@ export const bankform = StyleSheet.create({
     fontFamily: "Roboto",
   },
   subTitle: {
-    marginTop: 20,
-    color: COLORS.gray,
-    ...FONTS.body3,
+    marginTop: 10,
+    color: COLORS.black,
+    ...FONTS.h3,
+    alignSelf: "center",
   },
   asterisk: { fontWeight: "bold", color: COLORS.primary },
 });
@@ -355,7 +377,7 @@ export const nav = StyleSheet.create({
     height: 80,
   },
   navbar: {
-    height: 80,
+    height: 60,
   },
 });
 
@@ -442,13 +464,12 @@ export const welcome = StyleSheet.create({
     ...FONTS.h2,
   },
   subTitle: {
-    marginTop: 20,
     alignSelf: "center",
     color: COLORS.black,
     ...FONTS.h3,
     textAlign: "center",
   },
-  steps: { alignSelf: "center", flex: 1 },
+  steps: { flex: 1 },
 });
 
 export const selfie = StyleSheet.create({
@@ -465,11 +486,19 @@ export const selfie = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 30,
   },
-  selfie: {
+  selfieContainer: {
     marginTop: 20,
+    width: "100%",
+    height: SIZES.width * 0.6,
+    backgroundColor: COLORS.lightgray_01,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  selfie: {
     alignSelf: "center",
-    height: 300,
-    width: 300,
+    height: "100%",
+    borderRadius: 10,
   },
 });
 
@@ -504,26 +533,27 @@ export const ewa = StyleSheet.create({
     marginTop: 10,
   },
   loanCard: {
-    marginTop: 20,
+    marginTop: 10,
     alignSelf: "center",
     width: "100%",
     backgroundColor: COLORS.lightgray_01,
-    paddingVertical: "4%",
+    paddingVertical: "2%",
     paddingHorizontal: "3%",
     borderRadius: 10,
   },
   successImg: {
     alignSelf: "center",
     height: "43%",
-    width: "100%",
-    marginTop: "-8%",
+    //width: "100%",
+    margin: -15,
+    marginBottom: 5,
   },
   checkBox: {
-    marginTop: 10,
+    //marginTop: 10,
   },
   checkBoxText: {
-    marginRight: 40,
-    marginTop: 10,
+    //marginRight: 40,
+    marginLeft: 5,
     color: COLORS.gray,
   },
 });
@@ -549,12 +579,12 @@ export const card = StyleSheet.create({
 export const datacard = StyleSheet.create({
   card: {
     alignSelf: "center",
-    marginTop: "3%",
+    marginVertical: "2%",
     padding: "3%",
-    width: "95%",
-    borderRadius: 4,
+    width: "100%",
+    borderRadius: 5,
     flexDirection: "row",
-    backgroundColor: "rgba(228, 238, 240, 0.4)",
+    backgroundColor: COLORS.lightgray_01,
     justifyContent: "space-between",
   },
   cardTitle: {
@@ -583,7 +613,7 @@ export const stepIndicatorStyles = {
   stepStrokeUnFinishedColor: COLORS.lightGray,
   separatorFinishedColor: COLORS.primary,
   separatorUnFinishedColor: COLORS.lightGray,
-  stepIndicatorFinishedColor: COLORS.lightGray,
+  stepIndicatorFinishedColor: COLORS.primary,
   stepIndicatorUnFinishedColor: COLORS.white,
   stepIndicatorCurrentColor: COLORS.white,
   stepIndicatorLabelFontSize: SIZES.body3,
@@ -592,7 +622,7 @@ export const stepIndicatorStyles = {
   stepIndicatorLabelFinishedColor: COLORS.primary,
   stepIndicatorLabelUnFinishedColor: COLORS.lightGray,
   labelColor: COLORS.gray,
-  labelSize: 14,
+  labelSize: SIZES.body4,
   currentStepLabelColor: COLORS.primary,
   labelAlign: "flex-start",
 };

@@ -44,7 +44,7 @@ const License = () => {
   ];
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { padding: 0 }]}>
       {verifyStatus == "SUCCESS" ? (
         <>
           {dataDetails.map((item, index) => (
@@ -95,9 +95,8 @@ const License = () => {
             style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}
           >
             <PrimaryButton
-              style={{ marginTop: 20 }}
+              containerStyle={{ marginTop: 20 }}
               title="Update"
-              color="#2CB77C"
               onPress={() =>
                 Alert.alert(
                   "The License Details are not editable, please ask your employer to update"

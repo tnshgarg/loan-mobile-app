@@ -1,16 +1,13 @@
-import CheckBox from "@react-native-community/checkbox";
-import { Icon } from "@react-native-material/core";
 import { useEffect, useState } from "react";
-import { Text, TextInput, View } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import { bankform, checkBox, form, styles } from "../../styles";
-
+import { bankform, styles } from "../../styles";
 import AadhaarOtpApi from "../../apis/aadhaar/Otp";
 import { addNumber } from "../../store/slices/aadhaarSlice";
-import { COLORS } from "../../constants/Theme";
 import InfoCard from "../../components/atoms/InfoCard";
+import FormInput from "../../components/atoms/FormInput";
+import Checkbox from "../../components/atoms/Checkbox";
 
 const AadhaarFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -32,19 +29,21 @@ const AadhaarFormTemplate = (props) => {
   }, [number]);
 
   return (
-    <>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <KeyboardAvoidingWrapper>
-        <View style={styles.container}>
+        <View style={[styles.container, { padding: 0 }]}>
           {/* <Text style={form.formHeader}>Aadhaar Verification</Text> */}
-          <Text style={form.formLabel}>Enter AADHAAR Number</Text>
-          <TextInput
-            style={form.formTextInput}
+          <FormInput
+            placeholder={"Enter AADHAAR Number"}
+            containerStyle={{ marginVertical: 10 }}
+            keyboardType="phone-pad"
+            autoFocus={true}
             value={number}
-            onChangeText={setNumber}
-            // placeholder="1234123412341234"
+            onChange={setNumber}
             maxLength={12}
             numeric
           />
+          
           {number && !validNumber ? (
             <Text style={bankform.formatmsg}>Invalid AADHAAR Number.</Text>
           ) : null}
@@ -55,28 +54,23 @@ const AadhaarFormTemplate = (props) => {
             }
           />
 
-          <View style={{ flexDirection: "row" }}>
-            <CheckBox
-              value={consent}
-              onValueChange={setConsent}
-              style={checkBox.checkBox}
-              tintColors={{ true: COLORS.primary }}
-            />
-            <Text style={checkBox.checkBoxText}>
-              I agree with the KYC registration Terms and Conditions to verifiy
-              my identity.
-            </Text>
-          </View>
+          <Checkbox
+            text={
+              "I agree with the KYC registration Terms and Conditions to verifiy my identity."
+            }
+            value={consent}
+            setValue={setConsent}
+          />
 
           <AadhaarOtpApi
             data={{ aadhaar_number: number, consent: "Y" }}
-            style={form.nextButton}
+            style={styles.btn}
             disabled={!validNumber || !consent}
             type={props?.route?.params?.type || ""}
           />
         </View>
       </KeyboardAvoidingWrapper>
-    </>
+    </SafeAreaView>
   );
 };
 

@@ -1,4 +1,3 @@
-import {LL_IMG_TOKEN} from "@env";
 const agreement = {
   html: `
 <img src="https://freopay.com/wp-content/uploads/2022/04/Liquiloans-logo-for-FP.png" width="200" height="200"/>
@@ -12,9 +11,9 @@ const agreement = {
 
 <p>Dear Sir/Madam,</p>
 
-<p>Re: Sanction of Digital Credit Facility through Unipe to You Application no: <span>{applicationNumber}</span> Dated: <span>{todayDate}</span>	</p>
+<p>Re: Sanction of Digital Credit Facility through Unipe to You Application no: <span>{loanAccountNumber}</span> Dated: <span>{todayDate}</span>	</p>
 
-<p>We are pleased to inform you that on the basis of information submitted online by you via our Approved Digital Platform, <strong>Unipe </strong>for a Credit Facility of <span>{loanAmount}</span> vide application no. <strong><span>{applicationNumber}</span></strong><strong>, </strong>the same is approved, subject to your acceptance/complying with the terms and conditions as stated herein below:</p>
+<p>We are pleased to inform you that on the basis of information submitted online by you via our Approved Digital Platform, <strong>Unipe </strong>for a Credit Facility of <span>{loanAmount}</span> vide application no. <strong><span>{loanAccountNumber}</span></strong><strong>, </strong>the same is approved, subject to your acceptance/complying with the terms and conditions as stated herein below:</p>
 
 
 <table style="border: 1px solid black; border-collapse: collapse;">
@@ -161,7 +160,7 @@ const agreement = {
 
 
 
-<p><strong>Facility	Agreement <span>{applicationNumber}</span></strong></p>
+<p><strong>Facility	Agreement <span>{loanAccountNumber}</span></strong></p>
 
 
 <p>This <strong>FACILITY AGREEMENT </strong>made at Mumbai, Maharashtra on the date <span>{todayDate}</span> hereto (the "Agreement")</p>
@@ -173,7 +172,7 @@ const agreement = {
 <p>AND</p>
 
 <p>Name of Borrower: <span>{panName}</span></p>
-<p>Facility Number:	<strong><span>{applicationNumber}</span></strong></p>
+<p>Facility Number:	<strong><span>{loanAccountNumber}</span></strong></p>
 
 <p>PAN Number: <span>{panName}</span></p>
 

@@ -1,4 +1,3 @@
-import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect } from "react";
 import { Alert, SafeAreaView } from "react-native";
@@ -8,7 +7,7 @@ import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import PanFormTemplate from "../../templates/pan/Form";
-import { COLORS } from "../../constants/Theme";
+import Header from "../../components/atoms/Header";
 
 export default PanForm = () => {
   const dispatch = useDispatch();
@@ -32,27 +31,13 @@ export default PanForm = () => {
   return (
     <>
       <SafeAreaView style={[styles.container, { padding: 0 }]}>
-        <AppBar
+        <Header
           title="PAN Verification"
-          color={COLORS.primary}
-          leading={
-            <IconButton
-              icon={<Icon name="arrow-back" size={20} color="white" />}
-              // TODO: Conditional if Aadhaar verified or not
-              onPress={() => navigation.navigate("AadhaarConfirm")}
-            />
-          }
-          trailing={
-            <IconButton
-              icon={<Icon name="arrow-forward" size={20} color="white" />}
-              onPress={() => {
-                SkipPAN();
-              }}
-            />
-          }
+          onLeftIconPress={() => navigation.navigate("AadhaarConfirm")}
+          onRightIconPress={() => SkipPAN()}
         />
 
-        <ProgressBarTop step={1} />
+        <ProgressBarTop step={3} />
         <PanFormTemplate />
       </SafeAreaView>
     </>
