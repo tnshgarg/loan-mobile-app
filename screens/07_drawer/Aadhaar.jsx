@@ -1,12 +1,11 @@
-import { View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import { useSelector } from "react-redux";
 import DetailItem from "./DetailItem";
-import TopTabNav from "../../components/TopTabNav";
+import TopTabNav from "../../navigators/TopTabNav";
 import AadhaarFormTemplate from "../../templates/aadhaar/Form";
 import AadhaarVerifyTemplate from "../../templates/aadhaar/Verify";
 import AadhaarConfirmApi from "../../apis/aadhaar/Confirm";
 import { styles } from "../../styles";
-
 
 const Aadhaar = () => {
   const number = useSelector((state) => state.aadhaar.number);
@@ -21,7 +20,7 @@ const Aadhaar = () => {
     { label: "Date of Birth", value: dob },
     { label: "Aadhaar Number", value: number },
     { label: "Address", value: address },
-    { label: "Verify Status", value: verifyStatus, divider: false },
+    { label: "Verify Status", value: verifyStatus },
   ];
 
   const tabs = [
@@ -47,22 +46,24 @@ const Aadhaar = () => {
   ];
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       {verifyStatus == "SUCCESS" ? (
-        <>
-          {dataDetails.map((item, index) => (
-            <DetailItem
-              key={index}
-              label={item.label}
-              value={item.value || "Not Provided"}
-              divider={item?.divider??true}
-            />
-          ))}
-        </>
+        <View style={styles.container}>
+          <View style={styles.card}>
+            {dataDetails.map((item, index) => (
+              <DetailItem
+                key={index}
+                label={item.label}
+                value={item.value || "Not Provided"}
+                divider={item?.divider}
+              />
+            ))}
+          </View>
+        </View>
       ) : (
         <TopTabNav tabs={tabs} hide={true} />
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 

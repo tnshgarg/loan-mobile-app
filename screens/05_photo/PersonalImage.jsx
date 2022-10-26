@@ -1,18 +1,21 @@
-import { AppBar, Button, Icon, IconButton } from "@react-native-material/core";
+import { Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import React, { useCallback, useEffect, useState } from "react";
+import Analytics from "appcenter-analytics";
+import { useCallback, useEffect, useState } from "react";
 import { Image, SafeAreaView, ScrollView, Text, View } from "react-native";
 import * as ImagePicker from "react-native-image-picker";
 import { useDispatch, useSelector } from "react-redux";
+import Header from "../../components/atoms/Header";
 import PrimaryButton from "../../components/PrimaryButton";
-import ProgressBarTop from "../../components/ProgressBarTop";
 import RNIPPhotoCapture from "../../components/RNIPPhotoCapture";
+import { COLORS } from "../../constants/Theme";
 import { profileBackendPush } from "../../helpers/BackendPush";
+import ProgressBarTop from "../../navigators/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { addPhoto } from "../../store/slices/profileSlice";
-import { checkBox, form, selfie, styles } from "../../styles";
+import { form, selfie, styles } from "../../styles";
 
-export default PersonalImage = () => {
+const PersonalImage = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -20,11 +23,13 @@ export default PersonalImage = () => {
 
   const id = useSelector((state) => state.auth.id);
   const profileSlice = useSelector((state) => state.profile);
-  const [image, setImage] = useState(useSelector((state) => state.profile.photo));
+  const [image, setImage] = useState(
+    useSelector((state) => state.profile.photo)
+  );
   useEffect(() => {
     dispatch(addCurrentScreen("PersonalImage"));
   }, []);
-  
+
   useEffect(() => {
     setImage(profileSlice.photo);
   }, [profileSlice.photo]);
@@ -46,46 +51,60 @@ export default PersonalImage = () => {
     ImagePicker.launchImageLibrary(options, (response) => {
       if (response.didCancel) {
         console.log("User cancelled image picker");
+        Analytics.trackEvent("PersonalImage|Pick|Error", {
+          userId: id,
+          error:"User cancelled image picker",
+        });
       } else if (response.error) {
         console.log("ImagePicker Error: ", response.error);
+        Analytics.trackEvent("PersonalImage|Pick|Error", {
+          userId: id,
+          error:response.error,
+        });
       } else {
+        Analytics.trackEvent("PersonalImage|Pick|Success", {
+          userId: id,
+        });
         dispatch(addPhoto(response?.assets[0]?.base64));
       }
     });
   }, []);
 
   return (
-    <>
-      <SafeAreaView style={styles.container}>
-        <AppBar
-          title="Photo"
-          color="#4E46F1"
-          leading={
-            <IconButton
-              icon={<Icon name="arrow-back" size={20} color="white" />}
-              onPress={() => navigation.navigate("PersonalDetailsForm")}
-            />
-          }
-        />
-        <ProgressBarTop step={5} />
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+      <Header
+        title="Photo"
+        onLeftIconPress={() => navigation.navigate("PersonalDetailsForm")}
+      />
+      <ProgressBarTop step={1} />
+      <View style={styles.container}>
         <ScrollView keyboardShouldPersistTaps="handled">
           <Text style={form.formHeader}>
             Upload your Passport size photo or capture your selfie.
           </Text>
           {image ? (
-            <Image
-              source={{ uri: `data:image/jpeg;base64,${image}` }}
-              style={selfie.selfie}
-            />
+            <View style={selfie.selfieContainer}>
+              <Image
+                source={{ uri: `data:image/jpeg;base64,${image}` }}
+                style={[selfie.selfie, { width: "100%" }]}
+                resizeMode="cover"
+              />
+            </View>
           ) : (
-            <Icon
-              name="perm-identity"
-              size={300}
-              color="grey"
-              style={selfie.selfie}
-            />
+            <View style={selfie.selfieContainer}>
+              <Icon
+                name="perm-identity"
+                size={200}
+                color={COLORS.lightGray}
+                style={selfie.selfie}
+              />
+            </View>
           )}
           <View style={{ flexDirection: "row", alignSelf: "center" }}>
+            {/* <TouchableOpacity>
+              <Icon name="image-search" size={30} color="black" />
+              <Text>Gallery</Text>
+            </TouchableOpacity> */}
             <IconButton
               icon={<Icon name="image-search" size={30} color="black" />}
               style={selfie.uploadButton}
@@ -96,10 +115,7 @@ export default PersonalImage = () => {
             <RNIPPhotoCapture />
           </View>
           <PrimaryButton
-            title="Finish"
-            type="solid"
-            uppercase={false}
-            color="#4E46F1"
+            title="Continue"
             disabled={!next}
             onPress={() => {
               profileBackendPush({
@@ -111,12 +127,13 @@ export default PersonalImage = () => {
                 motherName: profileSlice?.motherName,
                 photo: profileSlice?.photo,
               });
-              navigation.navigate("Home");
+              navigation.navigate("AadhaarForm");
             }}
           />
-          <View style={checkBox.padding}></View>
         </ScrollView>
-      </SafeAreaView>
-    </>
+      </View>
+    </SafeAreaView>
   );
 };
+
+export default PersonalImage;

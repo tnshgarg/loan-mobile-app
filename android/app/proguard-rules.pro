@@ -10,5 +10,5 @@
 # react-native-reanimated
 -keep class com.swmansion.reanimated.** { *; }
 -keep class com.facebook.react.turbomodule.** { *; }
-
+-keep public class com.horcrux.svg.** {*;}
 # Add any project specific keep options here:

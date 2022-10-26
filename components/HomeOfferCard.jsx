@@ -1,10 +1,12 @@
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView, Text, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { COLORS, FONTS } from "../constants/Theme";
 import { getBackendData } from "../services/employees/employeeServices";
-import { addOffers } from "../store/slices/ewaHistoricalSlice";
+import { resetEwaHistorical } from "../store/slices/ewaHistoricalSlice";
 import { resetEwaLive } from "../store/slices/ewaLiveSlice";
+
 
 const HomeOfferCard = () => {
   const dispatch = useDispatch();
@@ -19,9 +21,9 @@ const HomeOfferCard = () => {
       getBackendData({ params: { unipeEmployeeId: id }, xpath: "ewa/offers" })
         .then((response) => {
           if (response.data.status === 200) {
-            dispatch(resetEwaLive(response.data.body.live));
-            dispatch(addOffers(response.data.body.past));
             console.log("ewaOffersFetch response.data: ", response.data);
+            dispatch(resetEwaLive(response.data.body.live));
+            dispatch(resetEwaHistorical(response.data.body.past));
           }
         })
         .catch((error) => {
@@ -35,23 +37,21 @@ const HomeOfferCard = () => {
       <TouchableOpacity
         activeOpacity={0.8}
         style={{
-          backgroundColor: "rgba(0,200,0,0.3)",
+          backgroundColor: COLORS.primaryBackground,
           borderWidth: 1,
-          borderColor: "green",
+          borderColor: COLORS.primary,
           height: "auto",
-          width: "80%",
-          padding: 10,
-          borderRadius: 10,
-          marginTop: "10%",
+          width: "100%",
+          padding: 15,
+          borderRadius: 5,
           alignSelf: "center",
         }}
         onPress={() => navigation.navigate("Money")}
       >
         <Text
           style={{
-            color: "black",
-            fontWeight: "bold",
-            fontSize: 20,
+            color: COLORS.black,
+            ...FONTS.h3,
             marginTop: "2%",
             alignSelf: "center",
           }}
@@ -60,10 +60,9 @@ const HomeOfferCard = () => {
         </Text>
         <Text
           style={{
-            color: "green",
-            fontWeight: "bold",
-            fontSize: 36,
-            marginTop: "4%",
+            color: COLORS.primary,
+            ...FONTS.h1,
+            marginVertical: "3%",
             alignSelf: "center",
           }}
         >
@@ -71,10 +70,8 @@ const HomeOfferCard = () => {
         </Text>
         <Text
           style={{
-            color: "purple",
-            fontWeight: "bold",
-            fontSize: 18,
-            marginTop: "2%",
+            color: COLORS.black,
+            ...FONTS.h3,
             alignSelf: "center",
           }}
         >

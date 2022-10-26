@@ -1,10 +1,11 @@
-import { View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import React from "react";
 import DetailItem from "./DetailItem";
 import { useSelector } from "react-redux";
 import PanFormTemplate from "../../templates/pan/Form";
-import TopTabNav from "../../components/TopTabNav";
+import TopTabNav from "../../navigators/TopTabNav";
 import PanConfirmApi from "../../apis/pan/Confirm";
+import { styles } from "../../styles";
 
 const Pan = () => {
   const data = useSelector((state) => state.pan.data);
@@ -41,24 +42,26 @@ const Pan = () => {
   ];
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       {verifyStatus == "SUCCESS" ? (
-        <>
-          {dataDetails.map((item, index) => (
-            <DetailItem
-              key={index}
-              label={item.label}
-              value={item.value || "Not Provided"}
-              divider
-            />
-          ))}
-        </>
+        <View style={styles.container}>
+          <View style={styles.card}>
+            {dataDetails.map((item, index) => (
+              <DetailItem
+                key={index}
+                label={item.label}
+                value={item.value || "Not Provided"}
+                divider={item.divider}
+              />
+            ))}
+          </View>
+        </View>
       ) : (
         <>
           <TopTabNav tabs={tabs} hide={true} />
         </>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 

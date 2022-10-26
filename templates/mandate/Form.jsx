@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
-import { ScrollView, Text, TextInput, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Alert, SafeAreaView, ScrollView, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import Icon1 from "react-native-vector-icons/MaterialCommunityIcons";
@@ -10,180 +10,212 @@ import PrimaryButton from "../../components/PrimaryButton";
 import { mandatePush } from "../../helpers/BackendPush";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
-  addDeviceId,
-  addDeviceIp,
-  addType,
+  addCustomerId,
+  addData,
+  addOrderId,
   addVerifyMsg,
   addVerifyStatus,
-  addOrderId,
-  addCustomerId,
   addVerifyTimestamp,
 } from "../../store/slices/mandateSlice";
-import { bankform } from "../../styles";
+import { styles } from "../../styles";
+import { showToast } from "../../components/Toast";
 import RazorpayCheckout from "react-native-razorpay";
 import {
   createCustomer,
-  createNetBankingOrder,
-  createUpiOrder,
-  createDebitOrder,
+  createOrder,
   getToken,
 } from "../../services/mandate/Razorpay/services";
-import { RZP_TEST_KEY_ID } from "@env";
+import { RZP_KEY_ID } from "../../services/constants";
+import FormInput from "../../components/atoms/FormInput";
+import { COLORS } from "../../constants/Theme";
+import Analytics from "appcenter-analytics";
 
-const Form = (props) => {
-  const navigation = useNavigation();
-  const [deviceId, setDeviceId] = useState(
-    useSelector((state) => state.mandate.deviceId)
-  );
-  const [deviceIp, setDeviceIp] = useState(
-    useSelector((state) => state.mandate.deviceIp)
-  );
-  getUniqueId().then((id) => {
-    setDeviceId(id);
-  });
-  NetworkInfo.getIPV4Address().then((ipv4Address) => {
-    setDeviceIp(ipv4Address);
-  });
+const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
-  const employeeId = useSelector((state) => state.auth.id);
-  const mandateSlice = useSelector((state) => state.mandate);
-  const [timestamp, setTimestamp] = useState(mandateSlice?.verifyTimestamp);
+  const navigation = useNavigation();
 
-  const [name, setName] = useState(
-    useSelector((state) => state.bank.data.accountHolderName)
-  );
-  const [number, setNumber] = useState(
-    useSelector((state) => state.bank.data.accountNumber)
-  );
-  const [ifsc, setIfsc] = useState(
-    useSelector((state) => state.bank.data.ifsc)
-  );
-  const [verifyStatus, setVerifyStatus] = useState(mandateSlice?.verifyStatus);
-  const [verifyMsg, setVerifyMsg] = useState(mandateSlice?.verifyMsg);
-  const [data, setData] = useState(mandateSlice?.data);
-  const [type, setType] = useState(mandateSlice?.data.type);
+  const [deviceId, setDeviceId] = useState(0);
+  const [ipAddress, setIpAdress] = useState(0);
   const [backendPush, setBackendPush] = useState(false);
-  const [orderId, setOrderId] = useState(mandateSlice?.orderId);
-  const [customerId, setCustomerId] = useState(mandateSlice?.customerId);
-  const email = useSelector((state) => state.profile.email);
-  const phoneNumber = useSelector((state) => state.auth.phoneNumber);
+
+  const employeeId = useSelector((state) => state.auth?.id);
+  const phoneNumber = useSelector((state) => state.auth?.phoneNumber);
+  const email = useSelector(
+    (state) => state.pan?.data?.email || state.profile?.email
+  );
+  const accountHolderName = useSelector(
+    (state) => state.bank?.data?.accountHolderName
+  );
+  const accountNumber = useSelector((state) => state.bank?.data?.accountNumber);
+  const ifsc = useSelector((state) => state.bank?.data?.ifsc);
+
+  const mandateSlice = useSelector((state) => state.mandate);
+  const [authType, setAuthType] = useState(mandateSlice?.data?.authType);
+  const [customerId, setCustomerId] = useState();
+  const [data, setData] = useState(mandateSlice?.data);
+  const [orderId, setOrderId] = useState();
+  const [verifyMsg, setVerifyMsg] = useState(mandateSlice?.verifyMsg);
+  const [verifyStatus, setVerifyStatus] = useState(mandateSlice?.verifyStatus);
+  const [verifyTimestamp, setVerifyTimestamp] = useState(
+    mandateSlice?.verifyTimestamp
+  );
 
   useEffect(() => {
-    dispatch(addOrderId(orderId));
-  }, [orderId]);
+    console.log("mandateSlice: ", mandateSlice);
+    getUniqueId().then((id) => {
+      setDeviceId(id);
+    });
+    NetworkInfo.getIPV4Address().then((ipv4Address) => {
+      setIpAdress(ipv4Address);
+    });
+  }, []);
 
   useEffect(() => {
     dispatch(addCustomerId(customerId));
   }, [customerId]);
 
   useEffect(() => {
-    dispatch(addVerifyStatus(verifyStatus));
-  }, [verifyStatus]);
-
-  useEffect(() => {
-    dispatch(addType(type));
-  }, [type]);
-
-  useEffect(() => {
-    dispatch(addDeviceId(deviceId));
-  }, [deviceId]);
-
-  useEffect(() => {
-    dispatch(addDeviceIp(deviceIp));
-  }, [deviceIp]);
-
-  useEffect(() => {
-    dispatch(addVerifyTimestamp(timestamp));
-  }, [timestamp]);
+    dispatch(addOrderId(orderId));
+  }, [orderId]);
 
   useEffect(() => {
     dispatch(addVerifyMsg(verifyMsg));
   }, [verifyMsg]);
 
   useEffect(() => {
-    setTimestamp(Date.now());
+    dispatch(addVerifyStatus(verifyStatus));
+  }, [verifyStatus]);
+
+  useEffect(() => {
+    dispatch(addVerifyTimestamp(verifyTimestamp));
+  }, [verifyTimestamp]);
+
+  useEffect(() => {
+    dispatch(addData(data));
+  }, [data]);
+
+  useEffect(() => {
     if (backendPush) {
-      console.log("Mandate Slice", mandateSlice);
+      console.log("mandateSlice: ", mandateSlice);
       mandatePush({
         unipeEmployeeId: employeeId,
-        ipAddress: deviceIp,
+        ipAddress: ipAddress,
         deviceId: deviceId,
         data: data,
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
-        verifyTimestamp: timestamp,
+        verifyTimestamp: verifyTimestamp,
       });
       setBackendPush(false);
     }
   }, [backendPush]);
 
   useEffect(() => {
+    console.log("createCustomer customerId: ", customerId, !customerId);
     if (!customerId) {
-      createCustomer({
-        name: name,
-        email: email,
-        phoneNumber: phoneNumber,
-      })
-        .then((res) => {
-          console.log("createCustomer", res.data);
-          setCustomerId(res.data.id);
+      try {
+        createCustomer({
+          name: accountHolderName,
+          email: email,
+          contact: phoneNumber,
         })
-        .catch(function (error) {
-          console.log(error);
+          .then((res) => {
+            console.log("createCustomer res.data: ", res.data);
+            setCustomerId(res.data.id);
+            Analytics.trackEvent("Mandate|CreateCustomer|Success", {
+              userId: employeeId,
+            });
+          })
+          .catch((error) => {
+            console.log("createCustomer Catch Error: ", error.toString());
+            Alert.alert("Error", error.toString());
+            Analytics.trackEvent("Mandate|CreateCustomer|Error", {
+              userId: employeeId,
+              error: error.toString(),
+            });
+          });
+      } catch (error) {
+        console.log("createCustomer Try Catch Error: ", error.toString());
+        Alert.alert("Error", error.toString());
+        Analytics.trackEvent("Mandate|CreateCustomer|Error", {
+          userId: employeeId,
+          error: error.toString(),
         });
+      }
     }
   }, [customerId]);
 
   useEffect(() => {
+    console.log("createMandate orderId: ", orderId, !orderId);
     if (orderId) {
       var options = {
         description: "Unipe Mandate Verification",
         name: "Unipe",
-        key: RZP_TEST_KEY_ID,
+        key: RZP_KEY_ID,
         order_id: orderId,
         customer_id: customerId,
         recurring: "1",
         prefill: {
-          name: name,
+          name: accountHolderName,
           email: email,
           contact: phoneNumber,
         },
-        theme: { color: "#4E46F1" },
+        theme: { color: COLORS.primary },
       };
+
       RazorpayCheckout.open(options)
         .then((data) => {
-          setVerifyMsg("");
-          setVerifyStatus("SUCCESS");
           getToken({ paymentId: data.razorpay_payment_id })
             .then((token) => {
-              console.log("getToken", token.data);
+              // TODO: check response status code
+              console.log("mandate token.data: ", token.data);
               setData({
-                type: type,
+                authType: authType,
                 extTokenId: token.data.token_id,
                 extOrderId: orderId,
                 extPaymentId: data.razorpay_payment_id,
                 extPaymentSignature: data.razorpay_signature,
                 extCustomerId: customerId,
               });
+              setVerifyMsg("Mandate Verified Successfully");
+              setVerifyStatus("SUCCESS");
+              setVerifyTimestamp(Date.now());
               setBackendPush(true);
+              showToast("Mandate Verified Successfully");
+              Analytics.trackEvent("Mandate|GetToken|Success", {
+                userId: employeeId,
+              });
+              props?.type === "Onboarding" ? navigation.navigate("Home") : null;
             })
-            .catch((err) => {
-              console.log(err);
+            .catch((error) => {
+              console.log("mandate error:", error.description);
+              setVerifyMsg(error.description);
+              setVerifyStatus("ERROR");
+              setBackendPush(true);
+              Alert.alert("Error", error.description);
+              Analytics.trackEvent("Mandate|GetToken|Error", {
+                userId: employeeId,
+                error: error.description,
+              });
             });
-
-          setBackendPush(true);
-          {
-            props?.type == "Onboarding"
-              ? navigation.navigate("PersonalDetailsForm")
-              : null;
-          }
         })
         .catch((error) => {
-          alert(`Error: ${error.code} | ${error.description}`);
-          setOrderId("");
+          console.log("mandate error:", error.description);
+          setVerifyMsg(error.description);
+          setVerifyStatus("ERROR");
+          setBackendPush(true);
+          Alert.alert("Error", error.description);
+          Analytics.trackEvent("Mandate|Register|Error", {
+            userId: employeeId,
+            error: error.description,
+          });
         });
     }
   }, [orderId]);
+
+  const debitIcon = () => {
+    return <Icon1 name="smart-card" size={24} color="#FF6700" />;
+  };
 
   const netIcon = () => {
     return <Icon1 name="passport" size={24} color="#FF6700" />;
@@ -193,144 +225,86 @@ const Form = (props) => {
     return <Icon1 name="wallet" size={24} color="#FF6700" />;
   };
 
-  const debitIcon = () => {
-    return <Icon1 name="smart-card" size={24} color="#FF6700" />;
-  };
-
-  const NetBankbutton = () => {
-    return (
-      <PrimaryButton
-        title="Proceed"
-        uppercase={false}
-        onPress={() => {
-          setType("NETBANKING");
-          setVerifyStatus("PENDING");
-          setVerifyMsg("To be confirmed by user");
-          setTimestamp(Date.now());
-          setBackendPush(true);
-          createNetBankingOrder({
-            customerId: customerId,
-            accountHolderName: name,
-            accountNumber: number,
-            ifsc: ifsc,
-          })
-            .then((res) => {
-              console.log("Netbanking", res.data);
-              setOrderId(res.data.id);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        }}
-      />
-    );
-  };
-
-  const Upibutton = () => {
-    return (
-      <PrimaryButton
-        title="Proceed"
-        uppercase={false}
-        onPress={() => {
-          setType("UPI");
-          setVerifyStatus("PENDING");
-          setVerifyMsg("To be confirmed by user");
-          setTimestamp(Date.now());
-          setBackendPush(true);
-          createUpiOrder({ customerId: customerId })
-            .then((res) => {
-              console.log("UPI", res.data);
-              setOrderId(res.data.id);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-        }}
-      />
-    );
-  };
-
-  const Debitbutton = () => {
-    return (
-      <PrimaryButton
-        title="Proceed"
-        uppercase={false}
-        onPress={() => {
-          setType("DEBITCARD");
-          setVerifyStatus("PENDING");
-          setVerifyMsg("To be confirmed by user");
-          setTimestamp(Date.now());
-          setBackendPush(true);
-          createDebitOrder({
-            customerId: customerId,
-            accountHolderName: name,
-            accountNumber: number,
-            ifsc: ifsc,
-          })
-            .then((res) => {
-              console.log("DebitCard", res.data);
-              setOrderId(res.data.id);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-        }}
-      />
-    );
+  const ProceedButton = ({ authType }) => {
+    setAuthType(authType);
+    setVerifyMsg(`Mandate|CreateOrder|${authType} PENDING`);
+    setVerifyStatus("PENDING");
+    setBackendPush(true);
+    createOrder({
+      authType: authType,
+      customerId: customerId,
+      accountHolderName: accountHolderName,
+      accountNumber: accountNumber,
+      ifsc: ifsc,
+    })
+      .then((res) => {
+        console.log(`Mandate|CreateOrder|${authType} res.data:`, res.data);
+        setVerifyMsg(`Mandate|CreateOrder|${authType} SUCCESS`);
+        setOrderId(res.data.id);
+        Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Success`, {
+          userId: employeeId,
+        });
+      })
+      .catch((error) => {
+        console.log(`Mandate|CreateOrder|${authType} error:`, error.toString());
+        setVerifyMsg(`Mandate|CreateOrder|${authType} ERROR ${error}`);
+        setVerifyStatus("ERROR");
+        setBackendPush(true);
+        Alert.alert("Error", error.toString());
+        Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Error`, {
+          userId: employeeId,
+          error: error.toString(),
+        });
+      });
   };
 
   return (
-    <KeyboardAvoidingWrapper>
-      <ScrollView>
-        <Text style={bankform.formtitle}>Account Holder Name</Text>
-        <TextInput
-          style={bankform.formInput}
-          autoCapitalize="words"
-          value={name}
-          onChangeText={setName}
-          editable={false}
-          required
-        />
-        <Text style={bankform.formtitle}>Bank Account Number</Text>
-        <TextInput
-          style={bankform.formInput}
-          autoCapitalize="words"
-          value={number}
-          onChangeText={setNumber}
-          editable={false}
-          required
-        />
-        <Text style={bankform.formtitle}>IFSC</Text>
-        <TextInput
-          style={bankform.formInput}
-          autoCapitalize="characters"
-          value={ifsc}
-          onChangeText={setIfsc}
-          editable={false}
-          required
-        />
-        <CollapsibleCard
-          title="Net Banking "
-          TitleIcon={netIcon}
-          isClosed={true}
-          Component={NetBankbutton}
-        />
-        <CollapsibleCard
-          title="UPI "
-          TitleIcon={upiIcon}
-          isClosed={true}
-          Component={Upibutton}
-        />
-        <CollapsibleCard
-          title="Debit Card "
-          TitleIcon={debitIcon}
-          isClosed={true}
-          Component={Debitbutton}
-        />
-        <View style={bankform.padding}></View>
-      </ScrollView>
-    </KeyboardAvoidingWrapper>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+      <KeyboardAvoidingWrapper>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <FormInput
+            placeholder={"Account Holder Name"}
+            containerStyle={{ marginVertical: 10 }}
+            autoCapitalize="words"
+            value={accountHolderName}
+            disabled={true}
+          />
+          <FormInput
+            placeholder={"Bank Account Number"}
+            containerStyle={{ marginVertical: 10 }}
+            autoCapitalize="words"
+            value={accountNumber}
+            disabled={true}
+          />
+          <FormInput
+            placeholder={"IFSC"}
+            containerStyle={{ marginVertical: 10 }}
+            autoCapitalize="words"
+            value={ifsc}
+            disabled={true}
+          />
+          <PrimaryButton
+            title="Debit Card"
+            onPress={() => {
+              ProceedButton({ authType: "debitcard" });
+            }}
+          />
+          <PrimaryButton
+            title="Net Banking"
+            onPress={() => {
+              ProceedButton({ authType: "netbanking" });
+            }}
+          />
+          <PrimaryButton
+            title="UPI"
+            onPress={() => {
+              ProceedButton({ authType: "upi" });
+            }}
+          />
+        </ScrollView>
+      </KeyboardAvoidingWrapper>
+    </SafeAreaView>
   );
 };
 
-export default Form;
+export default MandateFormTemplate;

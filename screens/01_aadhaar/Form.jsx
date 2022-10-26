@@ -1,16 +1,14 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Alert, SafeAreaView } from "react-native";
-import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import ProgressBarTop from "../../components/ProgressBarTop";
+import ProgressBarTop from "../../navigators/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import AadhaarFormTemplate from "../../templates/aadhaar/Form";
 import { styles } from "../../styles";
-
+import Header from "../../components/atoms/Header";
 
 const AadhaarForm = () => {
-  
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -35,39 +33,21 @@ const AadhaarForm = () => {
       "If you go back your Mobile Number Verification will have to be redone.",
       [
         { text: "No", onPress: () => null, style: "cancel" },
-        { text: "Yes", onPress: () => navigation.navigate("Login") },
+        { text: "Yes", onPress: () => navigation.navigate("AadhaarForm") },
       ]
     );
   };
 
   return (
-    <>
-      <SafeAreaView style={styles.container}>
-        <AppBar
-          title="Aadhaar Verification"
-          color="#4E46F1"
-          leading={
-            <IconButton
-              icon={<Icon name="arrow-back" size={20} color="white" />}
-              onPress={() => {
-                backAlert();
-              }}
-            />
-          }
-          trailing={
-            <IconButton
-              icon={<Icon name="arrow-forward" size={20} color="white" />}
-              onPress={() => {
-                SkipAadhaar();
-              }}
-            />
-          }
-        />
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+      <Header
+        title="Aadhaar Verification"
+        onLeftIconPress={() => backAlert()}
+      />
 
-        <ProgressBarTop step={0} />
-        <AadhaarFormTemplate />
-      </SafeAreaView>
-    </>
+      <ProgressBarTop step={2} />
+      <AadhaarFormTemplate />
+    </SafeAreaView>
   );
 };
 

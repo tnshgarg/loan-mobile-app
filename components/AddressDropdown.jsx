@@ -1,10 +1,12 @@
 import { Picker } from "@react-native-picker/picker";
 import React, { useEffect, useState } from "react";
-import { Text, TextInput } from "react-native";
+import { Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import { addESICAddress } from "../store/slices/esicSlice";
 import { bankform, form } from "../styles";
+import FormInput from "./atoms/FormInput";
+import DropDownForm from "./molecules/DropDownForm";
 const customData = require("../assets/state_districts.json");
 
 export default AddressDropdown = (props) => {
@@ -55,7 +57,6 @@ export default AddressDropdown = (props) => {
     );
   }, [district]);
 
-
   useEffect(() => {
     if (geoState) {
       setDistricts(customData[geoState]);
@@ -77,39 +78,33 @@ export default AddressDropdown = (props) => {
 
   return (
     <>
-      <Text style={bankform.formtitle}>{title} Street</Text>
-      <TextInput
-        style={bankform.formInput}
+      <FormInput
+        placeholder={title + " Street"}
+        containerStyle={{ marginVertical: 10 }}
         value={street}
-        onChangeText={setStreet}
+        onChange={setStreet}
       />
-      <Text style={bankform.formtitle}>{title} State</Text>
-      <Picker
-        style={form.picker}
-        prompt="Select State"
-        selectedValue={geoState}
-        onValueChange={setGeoState}
-      >
-        {states.map((value, index) => {
-          return <Picker.Item label={value} value={value} key={index} />;
-        })}
-      </Picker>
-      <Text style={bankform.formtitle}>{title} District</Text>
-      <Picker
-        style={form.picker}
-        prompt="Select District"
-        selectedValue={district}
-        onValueChange={setDistrict}
-      >
-        {districts.map((value, index) => {
-          return <Picker.Item label={value} value={value} key={index} />;
-        })}
-      </Picker>
-      <Text style={bankform.formtitle}>{title} Pincode</Text>
-      <TextInput
-        style={bankform.formInput}
+      <DropDownForm
+        placeholder={title + " State"}
+        containerStyle={{ marginVertical: 10 }}
+        value={geoState}
+        setValue={setGeoState}
+        data={states}
+      />
+
+      <DropDownForm
+        placeholder={title + " District"}
+        containerStyle={{ marginVertical: 10 }}
+        value={district}
+        setValue={setDistrict}
+        data={districts}
+      />
+
+      <FormInput
+        placeholder={title + " Pincode"}
+        containerStyle={{ marginVertical: 10 }}
         value={pincode}
-        onChangeText={setPincode}
+        onChange={setPincode}
       />
     </>
   );

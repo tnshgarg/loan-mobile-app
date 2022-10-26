@@ -1,44 +1,40 @@
 import { StyleSheet } from "react-native";
+import { COLORS, FONTS, SIZES } from "./constants/Theme";
 
 export const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
-    height: "100%",
+    backgroundColor: COLORS.white,
+    flex: 1,
+    padding: "4%",
   },
   logo: {
     alignSelf: "center",
-    marginTop: 30,
-    width: 250,
-    height: 87,
+    // marginTop: "10%",
+    width: "auto",
+    height: "auto",
   },
   headline: {
-    fontSize: 16,
-    color: "#230C45",
-    marginLeft: 55,
-    marginTop: 40,
-    fontFamily: "Roboto",
+    marginTop: 30,
+    ...FONTS.h3,
+    color: COLORS.black,
+    textAlign: "center",
   },
   fieldLabel: {
-    fontSize: 14,
-    fontFamily: "Noto Sans",
+    ...FONTS.body4,
     marginTop: 60,
-    marginLeft: 40,
-    color: "#020614",
+    color: COLORS.black,
   },
   textInput: {
-    marginLeft: 40,
-    width: "80%",
+    width: "100%",
     height: 50,
     borderBottomWidth: 1,
   },
   resendText: {
-    color: "#4E46F1",
+    color: COLORS.primary,
     alignSelf: "center",
     marginTop: 30,
-    fontSize: 16,
-    fontFamily: "Roboto",
+    ...FONTS.h3,
     textDecorationLine: "underline",
-    fontWeight: "bold",
   },
   otpInput: {
     alignSelf: "center",
@@ -48,21 +44,31 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   ContinueButton: {
-    padding: 10,
     alignSelf: "center",
     marginTop: 20,
     width: 320,
     height: 60,
     fontSize: 20,
-    backgroundColor: "#4E46F1",
+    backgroundColor: COLORS.primary,
     borderRadius: 6,
   },
   PrimaryButton: {
     alignSelf: "center",
     marginTop: 20,
-    width: 320,
+    width: "100%",
     height: 60,
     fontSize: 20,
+  },
+  btn: {
+    marginTop: 20,
+    width: "100%",
+    height: 50,
+    backgroundColor: COLORS.primary,
+    borderRadius: 6,
+  },
+  btnText: {
+    ...FONTS.h3,
+    color: COLORS.white,
   },
   ButtonContainer: {
     width: "100%",
@@ -72,32 +78,27 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
   },
   otpback: {
-    backgroundColor: "white",
+    backgroundColor: COLORS.white,
     width: 50,
     borderRadius: 40,
-    marginLeft: 10,
+
     marginTop: 20,
   },
   dataUseText: {
-    marginLeft: 40,
-    marginRight: 20,
     marginTop: 20,
-    fontSize: 14,
-    fontFamily: "Roboto",
-    color: "gray",
+    ...FONTS.body4,
+    color: COLORS.gray,
+    textAlign: "center",
   },
   termsText: {
     fontWeight: "bold",
-    color: "#4E46F1",
+    color: COLORS.primary,
   },
   otpreadtxt: {
-    marginLeft: 40,
-    marginRight: 20,
     marginTop: 20,
-    color: "gray",
-    fontSize: 14,
-    fontFamily: "Roboto",
-    fontWeight: "bold",
+    color: COLORS.gray,
+    ...FONTS.h4,
+    textAlign: "center",
   },
   LoadingButton: {
     padding: 10,
@@ -106,8 +107,16 @@ export const styles = StyleSheet.create({
     width: 320,
     height: 60,
     fontSize: 20,
-    backgroundColor: "#4E46F1",
+    backgroundColor: COLORS.primary,
     borderRadius: 6,
+  },
+  card: {
+    padding: 10,
+    borderWidth: 0.5,
+    borderColor: COLORS.lightgray_01,
+    borderRadius: 5,
+    elevation: 2,
+    backgroundColor: COLORS.white,
   },
 });
 
@@ -121,7 +130,7 @@ export const buttons = StyleSheet.create({
     fontSize: 20,
   },
   FAB: {
-    backgroundColor: "#4E46F1",
+    backgroundColor: COLORS.primary,
   },
 });
 
@@ -131,41 +140,39 @@ export const progressBar = StyleSheet.create({
   },
   progressBar: {
     width: "100%",
-    color: "#4E46F1",
+    color: COLORS.primary,
   },
   progressNos: {
     marginLeft: 8,
     marginTop: -3,
-    color: "grey",
+    color: COLORS.gray,
   },
 });
 
 export const form = StyleSheet.create({
   formHeader: {
-    marginLeft: 30,
     marginTop: 10,
-    color: "black",
-    fontSize: 18,
+    color: COLORS.black,
+    ...FONTS.h3,
+    textAlign: "center",
   },
   formLabel: {
-    marginLeft: 34,
     marginTop: 30,
-    color: "grey",
+    color: COLORS.gray,
   },
   formTextInput: {
-    marginLeft: 34,
-    width: "80%",
+    width: "100%",
     height: 50,
     borderBottomWidth: 1,
   },
   picker: {
-    marginLeft: 25,
-    marginTop: 20,
-    borderBottomWidth: 2,
+    marginLeft: 34,
+    width: "79%",
+    borderBottomWidth: 1,
   },
   chosenButton: {
     padding: 2,
-    marginLeft: 34,
+
     marginTop: 20,
     width: 140,
     height: 40,
@@ -173,57 +180,56 @@ export const form = StyleSheet.create({
   },
   choiceButton: {
     padding: 2,
-    marginLeft: 34,
+
     marginTop: 20,
     width: 140,
     height: 40,
     fontSize: 20,
-    backgroundColor: "grey",
+    backgroundColor: COLORS.gray,
   },
   nextButton: {
     padding: 5,
     alignSelf: "center",
     marginTop: 20,
-    width: 320,
+    width: "100%",
     height: 50,
     fontSize: 20,
   },
   OtpAwaitMsg: {
-    color: "#230C45",
+    color: COLORS.secondary,
     alignSelf: "center",
     textAlign: "center",
     marginTop: 20,
-    fontSize: 16,
-    fontFamily: "Roboto",
+    ...FONTS.body3,
   },
   userData: {
-    color: "#230C45",
+    color: COLORS.secondary,
     marginLeft: 55,
     marginTop: 10,
-    fontSize: 16,
-    fontFamily: "Roboto",
+    ...FONTS.body3,
   },
   aadharConfirmText: {
-    color: "#230C45",
+    color: COLORS.secondary,
     marginLeft: 69,
     marginTop: 10,
-    fontSize: 16,
-    fontFamily: "Roboto",
+    ...FONTS.body3,
   },
   yesButton: {
-    padding: 10,
-    marginLeft: 40,
-    marginTop: 20,
-    width: 150,
-    height: 60,
-    fontSize: 20,
+    flex: 1,
+    height: 50,
+    backgroundColor: COLORS.primaryBackground,
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 10,
   },
   noButton: {
-    padding: 10,
-    marginTop: 20,
-    width: 150,
-    height: 60,
-    fontSize: 20,
+    flex: 1,
+    width: SIZES.width / 2.5,
+    height: 50,
+    backgroundColor: COLORS.warningBackground,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
   },
   aadharimg: {
     alignSelf: "center",
@@ -235,23 +241,23 @@ export const form = StyleSheet.create({
     marginBottom: 20,
     marginTop: 20,
     alignSelf: "center",
-    fontSize: 16,
-    fontFamily: "Roboto",
+    ...FONTS.body3,
   },
   AadharLinkedStatus: {
     marginTop: 30,
     alignSelf: "center",
-    color: "#4E46F1",
+    color: COLORS.primary,
     width: 300,
     textDecorationLine: "underline",
     fontWeight: "bold",
   },
   forgotText: {
-    marginLeft: "70%",
     marginTop: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
   year: {
-    marginLeft: 34,
     height: 40,
     width: 40,
     textAlign: "center",
@@ -269,7 +275,6 @@ export const form = StyleSheet.create({
 
 export const checkBox = StyleSheet.create({
   checkBox: {
-    marginLeft: 34,
     marginTop: 30,
   },
   checkBoxText: {
@@ -286,20 +291,16 @@ export const checkBox = StyleSheet.create({
 
 export const bankform = StyleSheet.create({
   formtitle: {
-    marginLeft: 34,
     marginTop: 20,
-    color: "#828282",
-    fontSize: 14,
-    fontFamily: "Roboto",
+    color: COLORS.gray,
+    ...FONTS.body4,
   },
   formatmsg: {
-    marginLeft: 34,
-    color: "red",
-    fontSize: 12,
+    color: COLORS.warning,
+    ...FONTS.body4,
   },
   formInput: {
-    marginLeft: 34,
-    width: "80%",
+    width: "100%",
     height: 40,
     borderBottomWidth: 1,
   },
@@ -316,7 +317,7 @@ export const bankform = StyleSheet.create({
   },
   infoCard: {
     backgroundColor: "rgba(78, 70, 241, 0.1)",
-    width: "85%",
+    width: "100%",
     marginLeft: 30,
     marginTop: 20,
     padding: 10,
@@ -326,24 +327,23 @@ export const bankform = StyleSheet.create({
   },
   infoText: {
     width: "93%",
-    color: "#333333",
+    color: COLORS.darkGray,
     paddingLeft: 7,
   },
   Maintitle: {
     marginLeft: 30,
     marginTop: 10,
-    color: "black",
+    color: COLORS.black,
     fontSize: 18,
     fontFamily: "Roboto",
   },
   subTitle: {
-    marginLeft: 34,
-    marginTop: 20,
-    color: "#828282",
-    fontSize: 16,
-    fontFamily: "Roboto",
+    marginTop: 10,
+    color: COLORS.black,
+    ...FONTS.h3,
+    alignSelf: "center",
   },
-  asterisk: { fontWeight: "bold", color: "#4E46F1" },
+  asterisk: { fontWeight: "bold", color: COLORS.primary },
 });
 
 export const homeCard = StyleSheet.create({
@@ -355,24 +355,19 @@ export const homeCard = StyleSheet.create({
     marginRight: 10,
   },
   title: {
-    fontSize: 16,
-    fontFamily: "Roboto",
-    fontWeight: "bold",
+    ...FONTS.h3,
   },
   subtitle: {
-    fontSize: 12,
-    fontFamily: "Roboto",
+    ...FONTS.body4,
   },
   downloadIcon: {
     marginTop: 30,
-    color: "#4E46F1",
+    color: COLORS.primary,
   },
   downloadText: {
     marginTop: 30,
-    fontSize: 12,
-    fontFamily: "Roboto",
-    fontWeight: "bold",
-    color: "#4E46F1",
+    ...FONTS.h4,
+    color: COLORS.primary,
   },
 });
 
@@ -405,7 +400,7 @@ export const Camera = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "black",
+    backgroundColor: COLORS.black,
   },
   preview: {
     flex: 1,
@@ -414,7 +409,7 @@ export const Camera = StyleSheet.create({
   },
   capture: {
     flex: 0,
-    backgroundColor: "#4E46F1",
+    backgroundColor: COLORS.primary,
     borderRadius: 10,
     padding: 15,
     paddingHorizontal: 20,
@@ -424,7 +419,7 @@ export const Camera = StyleSheet.create({
   wait: {
     flex: 1,
     width: "100%",
-    backgroundColor: "#4E46F1",
+    backgroundColor: COLORS.primary,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -433,7 +428,7 @@ export const Camera = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
-    color: "#fff",
+    color: COLORS.white,
   },
   back: {
     backgroundColor: "rgba(78, 70, 241, 0.9)",
@@ -458,27 +453,21 @@ export const Camera = StyleSheet.create({
 
 export const welcome = StyleSheet.create({
   title: {
-    marginLeft: 34,
     marginTop: 20,
-    color: "black",
-    fontSize: 14,
-    fontFamily: "Roboto",
+    color: COLORS.black,
+    ...FONTS.body4,
   },
   mainTitle: {
     marginTop: 20,
     marginLeft: 30,
-    color: "black",
-    fontWeight: "bold",
-    fontSize: 22,
-    fontFamily: "Roboto",
+    color: COLORS.black,
+    ...FONTS.h2,
   },
   subTitle: {
-    marginTop: 20,
     alignSelf: "center",
-    justifyContent: "center",
-    color: "black",
-    fontSize: 18,
-    fontFamily: "Roboto",
+    color: COLORS.black,
+    ...FONTS.h3,
+    textAlign: "center",
   },
   steps: { alignSelf: "center", flex: 1 },
 });
@@ -497,42 +486,45 @@ export const selfie = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 30,
   },
-  selfie: {
+  selfieContainer: {
     marginTop: 20,
+    width: "100%",
+    height: SIZES.width * 0.6,
+    backgroundColor: COLORS.lightgray_01,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  selfie: {
     alignSelf: "center",
-    height: 300,
-    width: 300,
+    height: "100%",
+    borderRadius: 10,
   },
 });
 
 export const esic = StyleSheet.create({
   CollapseTitle: {
-    marginLeft: 34,
     marginTop: 20,
-    color: "#4E46F1",
-    fontSize: 14,
-    fontFamily: "Roboto",
+    color: COLORS.primary,
+    ...FONTS.body4,
   },
 });
 
 export const license = StyleSheet.create({
   authority: {
-    color: "#4E46F1",
+    color: COLORS.primary,
     marginLeft: "20%",
-    fontSize: 12,
-    fontFamily: "Roboto",
+    ...FONTS.body4,
   },
   valid: {
     color: "green",
     marginLeft: "10%",
-    fontSize: 12,
-    fontFamily: "Roboto",
+    ...FONTS.body4,
   },
   invalid: {
     color: "red",
     marginLeft: "20%",
-    fontSize: 12,
-    fontFamily: "Roboto",
+    ...FONTS.body4,
   },
 });
 
@@ -543,27 +535,26 @@ export const ewa = StyleSheet.create({
   loanCard: {
     marginTop: 20,
     alignSelf: "center",
-    width: "90%",
-    backgroundColor: "#F2F4FB",
-    padding: "2%",
-    borderRadius: 4,
+    width: "100%",
+    backgroundColor: COLORS.lightgray_01,
+    paddingVertical: "4%",
+    paddingHorizontal: "3%",
+    borderRadius: 10,
   },
   successImg: {
     alignSelf: "center",
     height: "43%",
-    width: "100%",
-    marginTop: "-8%",
+    //width: "100%",
+    margin: -15,
+    marginBottom: 5,
   },
   checkBox: {
-    marginLeft: 34,
-    marginTop: 10,
+    //marginTop: 10,
   },
   checkBoxText: {
-    marginLeft: 10,
-    marginRight: 40,
-    marginTop: 10,
-    fontSize: 14,
-    color: "#828282",
+    //marginRight: 40,
+    marginLeft: 5,
+    color: COLORS.gray,
   },
 });
 
@@ -577,9 +568,8 @@ export const card = StyleSheet.create({
     fontSize: 16,
   },
   alertText: {
-    color: "black",
-    fontSize: 14,
-    fontWeight: "bold",
+    color: COLORS.black,
+    ...FONTS.h4,
     textDecorationLine: "underline",
     paddingLeft: 10,
     paddingTop: 10,
@@ -589,18 +579,17 @@ export const card = StyleSheet.create({
 export const datacard = StyleSheet.create({
   card: {
     alignSelf: "center",
-    marginTop: "3%",
+    marginVertical: "2%",
     padding: "3%",
-    width: "95%",
-    borderRadius: 4,
+    width: "100%",
+    borderRadius: 5,
     flexDirection: "row",
-    backgroundColor: "rgba(228, 238, 240, 0.4)",
+    backgroundColor: COLORS.lightgray_01,
     justifyContent: "space-between",
   },
   cardTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#270949",
+    ...FONTS.body3,
+    color: COLORS.secondary,
   },
 });
 
@@ -617,23 +606,23 @@ export const stepIndicatorStyles = {
   currentStepIndicatorSize: 30,
   separatorStrokeWidth: 2,
   currentStepStrokeWidth: 3,
-  stepStrokeCurrentColor: "#4E46F1",
+  stepStrokeCurrentColor: COLORS.primary,
   stepStrokeWidth: 3,
   separatorStrokeFinishedWidth: 4,
-  stepStrokeFinishedColor: "#4E46F1",
-  stepStrokeUnFinishedColor: "#aaaaaa",
-  separatorFinishedColor: "#4E46F1",
-  separatorUnFinishedColor: "#aaaaaa",
-  stepIndicatorFinishedColor: "#E5EAF7",
-  stepIndicatorUnFinishedColor: "#ffffff",
-  stepIndicatorCurrentColor: "#ffffff",
-  stepIndicatorLabelFontSize: 14,
-  currentStepIndicatorLabelFontSize: 14,
-  stepIndicatorLabelCurrentColor: "#4E46F1",
-  stepIndicatorLabelFinishedColor: "#4E46F1",
-  stepIndicatorLabelUnFinishedColor: "#aaaaaa",
-  labelColor: "#999999",
-  labelSize: 14,
-  currentStepLabelColor: "#4E46F1",
+  stepStrokeFinishedColor: COLORS.primary,
+  stepStrokeUnFinishedColor: COLORS.lightGray,
+  separatorFinishedColor: COLORS.primary,
+  separatorUnFinishedColor: COLORS.lightGray,
+  stepIndicatorFinishedColor: COLORS.primary,
+  stepIndicatorUnFinishedColor: COLORS.white,
+  stepIndicatorCurrentColor: COLORS.white,
+  stepIndicatorLabelFontSize: SIZES.body3,
+  currentStepIndicatorLabelFontSize: SIZES.body3,
+  stepIndicatorLabelCurrentColor: COLORS.primary,
+  stepIndicatorLabelFinishedColor: COLORS.primary,
+  stepIndicatorLabelUnFinishedColor: COLORS.lightGray,
+  labelColor: COLORS.gray,
+  labelSize: SIZES.body4,
+  currentStepLabelColor: COLORS.primary,
   labelAlign: "flex-start",
 };

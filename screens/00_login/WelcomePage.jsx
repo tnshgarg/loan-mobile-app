@@ -1,102 +1,101 @@
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
-import { Image, SafeAreaView, Text, View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import StepIndicator from "react-native-step-indicator";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/PrimaryButton";
+import { COLORS } from "../../constants/Theme";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { checkBox, stepIndicatorStyles, styles, welcome } from "../../styles";
+import { stepIndicatorStyles, styles, welcome } from "../../styles";
+import SVGImg from "../../assets/UnipeLogo.svg";
+import Analytics from "appcenter-analytics";
 
-export default WelcomePage = () => {
+
+const WelcomePage = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
   const id = useSelector((state) => state.auth.id);
 
   useEffect(() => {
     dispatch(addCurrentScreen("Welcome"));
   }, []);
-  
+
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
-      name: "feed",
-      color: stepStatus === "finished" ? "#ffffff" : "#4E46F1",
+      color: stepStatus === "finished" ? COLORS.white : COLORS.primaryPending,
       size: 15,
     };
     switch (position) {
       case 0: {
-        iconConfig.name = "perm-identity";
-        break;
+        iconConfig.name = "file-document-outline";
+        return <MaterialCommunityIcons {...iconConfig} />;
       }
       case 1: {
-        iconConfig.name = "mood";
-        break;
+        iconConfig.name = "camera-outline";
+        return <MaterialCommunityIcons {...iconConfig} />;
       }
       case 2: {
-        iconConfig.name = "payment";
-        break;
+        iconConfig.name = "card-account-details-outline";
+        return <MaterialCommunityIcons {...iconConfig} />;
       }
-      case 3:{
-        iconConfig.name = "library-add-check";
-        break;
+      case 3: {
+        iconConfig.name = "smart-card-outline";
+        return <MaterialCommunityIcons {...iconConfig} />;
       }
       case 4: {
-        iconConfig.name = "info-outline";
-        break;
+        iconConfig.name = "bank-outline";
+        return <MaterialCommunityIcons {...iconConfig} />;
       }
       case 5: {
-        iconConfig.name = "camera-front";
-        break;
+        iconConfig.name = "bank-check";
+        return <MaterialCommunityIcons {...iconConfig} />;
       }
       default: {
-        break;
+        iconConfig.name = "info-outline";
+        return <MaterialIcons {...iconConfig} />;
       }
     }
-    return iconConfig;
   };
 
-  const renderStepIndicator = (params) => (
-    <MaterialIcons {...getStepIndicatorIconConfig(params)} />
-  );
+  const renderStepIndicator = (params) => getStepIndicatorIconConfig(params);
 
   const data = [
-    "Aadhaar Card",
-    "PAN Card",
-    "Bank Account",
-    "Mandate",
     "Profile",
     "Photo",
+    "Aadhaar",
+    "PAN",
+    "Bank Account",
+    "Mandate",
   ];
 
   return (
     <>
-      <SafeAreaView style={styles.container}>
-        <Image
-          style={styles.logo}
-          source={require("../../assets/unipe-Thumbnail.png")}
-        />
-        <Text style={welcome.subTitle}>
-          Let’s start onboarding process by {"\n"} verifying below documents.
-        </Text>
+      <SafeAreaView style={[styles.container, { paddingBottom: 40 }]}>
+        <SVGImg style={styles.logo} />
         <View style={welcome.steps}>
           <StepIndicator
             customStyles={stepIndicatorStyles}
             stepCount={6}
             direction="vertical"
             renderStepIndicator={renderStepIndicator}
-            currentPosition={0}
+            currentPosition={-1}
             labels={data}
           />
         </View>
         <PrimaryButton
-          title="Welcome!"
+          title="Start Onboarding"
+          color="#2CB77C"
           uppercase={false}
           onPress={() => {
-            navigation.navigate("AadhaarForm");
+            Analytics.trackEvent("WelcomePage", { userId: id });
+            navigation.navigate("PersonalDetailsForm");
           }}
         />
-        <View style={checkBox.padding}></View>
       </SafeAreaView>
     </>
   );
 };
+
+export default WelcomePage;

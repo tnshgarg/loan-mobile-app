@@ -1,7 +1,7 @@
 import CheckBox from "@react-native-community/checkbox";
 import { Icon } from "@react-native-material/core";
 import { useEffect, useState } from "react";
-import { Linking, Text, TextInput, View } from "react-native";
+import { Linking, SafeAreaView, Text, View } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
@@ -9,6 +9,9 @@ import { bankform, checkBox, form, styles } from "../../styles";
 
 import PanVerifyApi from "../../apis/pan/Verify";
 import { addNumber } from "../../store/slices/panSlice";
+import InfoCard from "../../components/atoms/InfoCard";
+import FormInput from "../../components/atoms/FormInput";
+import Checkbox from "../../components/atoms/Checkbox";
 
 const PanFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -30,17 +33,16 @@ const PanFormTemplate = (props) => {
   }, [number]);
 
   return (
-    <>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <KeyboardAvoidingWrapper>
         <View>
-          <Text style={form.formHeader}>PAN Verification</Text>
-          <Text style={form.formLabel}>Enter PAN Number</Text>
-          <TextInput
-            style={form.formTextInput}
+          <FormInput
+            placeholder={"Enter PAN Number"}
+            containerStyle={{ marginVertical: 10 }}
             autoCapitalize="characters"
             value={number}
-            onChangeText={setNumber}
-            // placeholder="AAAAA1234A"
+            autoFocus={true}
+            onChange={setNumber}
             maxLength={10}
           />
           {number && !validNumber ? (
@@ -60,25 +62,17 @@ const PanFormTemplate = (props) => {
             </Text>
           </View>
 
-          <View style={bankform.infoCard}>
-            <Icon name="info-outline" size={20} color="#4E46F1" />
-            <Text style={bankform.infoText}>
-              PAN is required to verify name and date of birth.
-            </Text>
-          </View>
+          <InfoCard
+            info={"PAN is required to verify name and date of birth."}
+          />
 
-          <View style={{ flexDirection: "row" }}>
-            <CheckBox
-              value={consent}
-              onValueChange={setConsent}
-              style={checkBox.checkBox}
-              tintColors={{ true: "#4E46F1" }}
-            />
-            <Text style={checkBox.checkBoxText}>
-              I agree with the KYC registration Terms and Conditions to verifiy
-              my identity.
-            </Text>
-          </View>
+          <Checkbox
+            text={
+              "I agree with the KYC registration Terms and Conditions to verifiy my identity."
+            }
+            value={consent}
+            setValue={setConsent}
+          />
 
           <PanVerifyApi
             data={{ pan_number: number, consent: "Y" }}
@@ -88,7 +82,7 @@ const PanFormTemplate = (props) => {
           />
         </View>
       </KeyboardAvoidingWrapper>
-    </>
+    </SafeAreaView>
   );
 };
 

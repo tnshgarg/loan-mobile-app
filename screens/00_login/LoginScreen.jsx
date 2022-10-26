@@ -1,42 +1,56 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
+import Analytics from "appcenter-analytics";
+import { useEffect, useState } from "react";
 import {
-  ActivityIndicator,
   Alert,
-  Image,
-  Linking,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+  Dimensions,
+  Pressable,
   SafeAreaView,
+  Text,
+  View,
 } from "react-native";
+import Modal from "react-native-modal";
 import SmsRetriever from "react-native-sms-retriever";
-import { useDispatch, useSelector } from "react-redux";
-import PrimaryButton from "../../components/PrimaryButton";
 import SplashScreen from "react-native-splash-screen";
+import { AntDesign } from "react-native-vector-icons";
+import { WebView } from "react-native-webview";
+import { useDispatch, useSelector } from "react-redux";
+import SVGImg from "../../assets/UnipeLogo.svg";
+import FormInput from "../../components/atoms/FormInput";
+import TermsAndPrivacyModal from "../../components/molecules/TermsAndPrivacyModal";
+import PrimaryButton from "../../components/PrimaryButton";
+import { COLORS, FONTS } from "../../constants/Theme";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { putBackendData } from "../../services/employees/employeeServices";
 import { sendSmsVerification } from "../../services/otp/Gupshup/services";
-import { addId, addOnboarded, addPhoneNumber } from "../../store/slices/authSlice";
+import {
+  addId,
+  addOnboarded,
+  addPhoneNumber,
+} from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
+import privacyPolicy from "../../templates/docs/PrivacyPolicy.js";
+import termsOfUse from "../../templates/docs/TermsOfUse.js";
 
 export default LoginScreen = () => {
   SplashScreen.hide();
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState(false);
-  
+
   const authSlice = useSelector((state) => state.auth);
   const [id, setId] = useState(authSlice?.id);
   const [onboarded, setOnboarded] = useState(authSlice?.onboarded);
   const [phoneNumber, setPhoneNumber] = useState(authSlice?.phoneNumber);
-  
+
+  const [isPrivacyModalVisible, setIsPrivacyModalVisible] = useState(false);
+  const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
+    useState(false);
+
   var phone_number = "";
 
   useEffect(() => {
@@ -83,19 +97,30 @@ export default LoginScreen = () => {
     setLoading(true);
     dispatch(resetTimer());
     var fullPhoneNumber = `+91${phoneNumber}`;
-    putBackendData({ document: {number: fullPhoneNumber}, xpath: "mobile" })
+    putBackendData({ document: { number: fullPhoneNumber }, xpath: "mobile" })
       .then((res) => {
         console.log("LoginScreen res.data: ", res.data);
         if (res.data.status === 200) {
+          Analytics.trackEvent(`LoginScreen|SignIn|Success`, {
+            userId: res.data.body.id,
+          });
           setId(res.data.body.id);
           setOnboarded(res.data.body.onboarded);
           sendSmsVerification(phoneNumber)
             .then((result) => {
               console.log("sendSmsVerification result: ", result);
               if (result["response"]["status"] === "success") {
+                setLoading(false);
+                Analytics.trackEvent("LoginScreen|SendSms|Success", {
+                  userId: id,
+                });
                 navigation.navigate("Otp");
               } else {
                 setLoading(false);
+                Analytics.trackEvent("LoginScreen|SendSms|Error", {
+                  userId: id,
+                  error: result["response"]["details"],
+                });
                 Alert.alert(
                   result["response"]["status"],
                   result["response"]["details"]
@@ -105,82 +130,116 @@ export default LoginScreen = () => {
             .catch((error) => {
               setLoading(false);
               console.log(error);
+              Analytics.trackEvent("LoginScreen|SendSms|Error", {
+                userId: id,
+                error: error,
+              });
               Alert("Error", "Something is Wrong");
             });
         } else {
           setLoading(false);
+          Analytics.trackEvent("LoginScreen|SignIn|Error", {
+            phoneNumber: phoneNumber,
+            error: res.data["message"],
+          });
           Alert.alert("Error", res.data["message"]);
         }
       })
       .catch((error) => {
         setLoading(false);
+        Analytics.trackEvent("LoginScreen|SignIn|Error", {
+          phoneNumber: phoneNumber,
+          error: error,
+        });
         console.log(error);
       });
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
       <KeyboardAvoidingWrapper>
         <View>
-          <Image
-            style={styles.logo}
-            source={require("../../assets/unipe-Thumbnail.png")}
-          />
+          <SVGImg style={styles.logo} />
+
           <Text style={styles.headline}>
             Please enter your mobile number to login:
           </Text>
-          <Text style={styles.fieldLabel}>Mobile Number</Text>
-          <TextInput
-            style={styles.textInput}
-            value={phoneNumber}
-            onChangeText={setPhoneNumber}
+
+          <FormInput
+            placeholder="Enter mobile number"
+            containerStyle={{ marginVertical: 30 }}
             autoCompleteType="tel"
             keyboardType="phone-pad"
-            textContentType="telephoneNumber"
-            maxLength={13}
-            placeholder="9999999999"
+            value={phoneNumber}
+            onChange={setPhoneNumber}
+            autoFocus={true}
+            maxLength={10}
+            prependComponent={
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRightWidth: 1,
+                  borderColor: COLORS.gray,
+                  marginRight: 10,
+                  height: "80%",
+                }}
+              >
+                <Text
+                  style={{
+                    ...FONTS.h3,
+                    color: COLORS.black,
+                    paddingRight: 10,
+                    fontWeight: "bold",
+                  }}
+                >
+                  +91
+                </Text>
+              </View>
+            }
           />
+
           <Text style={styles.dataUseText}>
             This number will be used for all communication. You shall receive an
             SMS with code for verification. By continuing, you agree to our{" "}
             <Text
-              onPress={() =>
-                Linking.openURL("https://policies.google.com/terms?hl=en-US")
-              }
+              onPress={() => setIsTermsOfUseModalVisible(true)}
               style={styles.termsText}
             >
               Terms of Service
             </Text>{" "}
             &{" "}
             <Text
-              onPress={() =>
-                Linking.openURL("https://policies.google.com/privacy?hl=en-US")
-              }
+              onPress={() => setIsPrivacyModalVisible(true)}
               style={styles.termsText}
             >
               Privacy Policy
             </Text>
           </Text>
-          {!loading ? (
-            <>
-              <PrimaryButton
-                uppercase={false}
-                title="Continue"
-                type="solid"
-                color="#4E46F1"
-                disabled={!next}
-                onPress={() => signIn()}
-              />
-            </>
-          ) : (
-            <TouchableOpacity>
-              <View style={styles.LoadingButton}>
-                <ActivityIndicator size="large" color="white" />
-              </View>
-            </TouchableOpacity>
-          )}
+          <PrimaryButton
+            title="Continue"
+            disabled={!next}
+            loading={loading}
+            onPress={() => signIn()}
+          />
         </View>
       </KeyboardAvoidingWrapper>
+
+      {isTermsOfUseModalVisible && (
+        <TermsAndPrivacyModal
+          isVisible={isTermsOfUseModalVisible}
+          setIsVisible={setIsTermsOfUseModalVisible}
+          data={termsOfUse}
+        />
+      )}
+
+      {isPrivacyModalVisible && (
+        <TermsAndPrivacyModal
+          isVisible={isPrivacyModalVisible}
+          setIsVisible={setIsPrivacyModalVisible}
+          data={privacyPolicy}
+        />
+      )}
     </SafeAreaView>
   );
 };

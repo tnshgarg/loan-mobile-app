@@ -1,13 +1,12 @@
-import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Alert, SafeAreaView } from "react-native";
 import { useDispatch } from "react-redux";
-import ProgressBarTop from "../../components/ProgressBarTop";
+import ProgressBarTop from "../../navigators/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import BankFormTemplate from "../../templates/bank/Form";
-
+import Header from "../../components/atoms/Header";
 
 const BankForm = () => {
   const dispatch = useDispatch();
@@ -25,7 +24,7 @@ const BankForm = () => {
         { text: "No", onPress: () => null, style: "cancel" },
         {
           text: "Yes",
-          onPress: () => navigation.navigate("PersonalDetailsForm"),
+          onPress: () => navigation.navigate("Mandate"),
         },
       ]
     );
@@ -33,29 +32,14 @@ const BankForm = () => {
 
   return (
     <>
-      <SafeAreaView style={styles.container}>
-        <AppBar
+      <SafeAreaView style={[styles.container, { padding: 0 }]}>
+        <Header
           title="Bank Details"
-          color="#4E46F1"
-          leading={
-            <IconButton
-              icon={<Icon name="arrow-back" size={20} color="white" />}
-              onPress={() => navigation.navigate("PanForm")}
-            />
-          }
-          trailing={
-            <IconButton
-              icon={<Icon name="arrow-forward" size={20} color="white" />}
-              onPress={() => {
-                SkipBank();
-              }}
-            />
-          }
+          onLeftIconPress={() => navigation.navigate("PanForm")}
         />
-        <ProgressBarTop step={2} />
+        <ProgressBarTop step={4} />
 
         <BankFormTemplate />
-        
       </SafeAreaView>
     </>
   );

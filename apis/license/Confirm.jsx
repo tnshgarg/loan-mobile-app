@@ -3,12 +3,11 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Image, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addVerifyMsg,
-  addVerifyStatus,
-} from "../../store/slices/licenseSlice";
+import { addVerifyMsg, addVerifyStatus } from "../../store/slices/licenseSlice";
 import { licenseBackendPush } from "../../helpers/BackendPush";
 import { form, license, styles, selfie } from "../../styles";
+import { COLORS, FONTS } from "../../constants/Theme";
+import Analytics from "appcenter-analytics";
 
 export default Confirm = () => {
   const dispatch = useDispatch();
@@ -119,10 +118,10 @@ export default Confirm = () => {
 
       <View
         style={{
-          alignSelf: "center",
           flexDirection: "row",
           justifyContent: "space-between",
-          flex: 1,
+          alignItems: "center",
+          marginTop: 20,
         }}
       >
         <Button
@@ -130,9 +129,17 @@ export default Confirm = () => {
           type="solid"
           uppercase={false}
           style={form.noButton}
-          color="#EB5757"
+          color={COLORS.warning}
+          titleStyle={{ ...FONTS.h3, color: COLORS.warning }}
+          pressableContainerStyle={{ width: "100%" }}
+          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Rejected by User");
+            setVerifyStatus("ERROR");
+            Analytics.trackEvent("Licence|Confirm|Error", {
+              userId: id,
+              error: "Rejected by User",
+            });
             navigation.navigate("Documents", {
               screen: "Driving License",
               params: {
@@ -146,11 +153,17 @@ export default Confirm = () => {
           type="solid"
           uppercase={false}
           style={form.yesButton}
-          color="#4E46F1"
+          color={COLORS.primary}
+          titleStyle={{ ...FONTS.h3, color: COLORS.primary }}
+          pressableContainerStyle={{ width: "100%" }}
+          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
+            Analytics.trackEvent("Licence|Confirm|Success", {
+              userId: id,
+            });
             navigation.navigate("Documents", {
               screen: "Driving License",
             });
