@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.white,
     flex: 1,
-    padding: "1%",
+    padding: "4%",
   },
   logo: {
     alignSelf: "center",
@@ -109,6 +109,14 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     backgroundColor: COLORS.primary,
     borderRadius: 6,
+  },
+  card: {
+    padding: 10,
+    borderWidth: 0.5,
+    borderColor: COLORS.lightgray_01,
+    borderRadius: 5,
+    elevation: 2,
+    backgroundColor: COLORS.white,
   },
 });
 
@@ -541,11 +549,11 @@ export const ewa = StyleSheet.create({
     marginBottom: 5,
   },
   checkBox: {
-    marginTop: 10,
+    //marginTop: 10,
   },
   checkBoxText: {
-    marginRight: 40,
-    marginTop: 10,
+    //marginRight: 40,
+    marginLeft: 5,
     color: COLORS.gray,
   },
 });

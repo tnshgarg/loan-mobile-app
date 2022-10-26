@@ -102,7 +102,7 @@ const AadhaarVerifyApi = (props) => {
                   "pincode",
                 ];
                 responseJson["data"]["aadhaar_data"]["address"] = names
-                  .filter(k => responseJson["data"]["aadhaar_data"][k])
+                  .filter((k) => responseJson["data"]["aadhaar_data"][k])
                   .map((k) => responseJson["data"]["aadhaar_data"][k])
                   .join(", ");
                 console.log("AADHAAR fetched data: ", responseJson);
@@ -156,25 +156,25 @@ const AadhaarVerifyApi = (props) => {
           }
         } catch (error) {
           console.log("Try Catch Error: ", error.toString());
-          setVerifyMsg( error.toString());
+          setVerifyMsg(error.toString());
           setVerifyStatus("ERROR");
           setBackendPush(true);
-          Alert.alert("Error",  error.toString());
+          Alert.alert("Error", error.toString());
           Analytics.trackEvent("Aadhaar|Verify|Error", {
             userId: id,
-            error:  error.toString(),
+            error: error.toString(),
           });
         }
       })
       .catch((error) => {
         console.log("Fetch Catch Error: ", error.toString());
-        setVerifyMsg( error.toString());
+        setVerifyMsg(error.toString());
         setVerifyStatus("ERROR");
         setBackendPush(true);
-        Alert.alert("Error",  error.toString());
+        Alert.alert("Error", error.toString());
         Analytics.trackEvent("Aadhaar|Verify|Error", {
           userId: id,
-          error:  error.toString(),
+          error: error.toString(),
         });
       });
   };
@@ -182,7 +182,7 @@ const AadhaarVerifyApi = (props) => {
   return (
     <PrimaryButton
       title={loading ? "Verifying" : "Continue"}
-      disabled={loading}
+      disabled={props.disabled}
       loading={loading}
       onPress={() => {
         goForFetch();

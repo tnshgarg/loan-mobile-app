@@ -133,7 +133,8 @@ const PersonalDetailsForm = () => {
                 Analytics.trackEvent("PersonalDetailsForm|PushData|Success", {
                   userId: id,
                 });
-                navigation.navigate("PersonalImage");
+                //navigation.navigate("PersonalImage");
+                navigation.navigate("AadhaarForm");
               }}
             />
           </View>

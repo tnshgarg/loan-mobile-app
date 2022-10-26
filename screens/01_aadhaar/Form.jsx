@@ -33,21 +33,21 @@ const AadhaarForm = () => {
       "If you go back your Mobile Number Verification will have to be redone.",
       [
         { text: "No", onPress: () => null, style: "cancel" },
-        { text: "Yes", onPress: () => navigation.navigate("PersonalImage") },
+        { text: "Yes", onPress: () => navigation.navigate("AadhaarForm") },
       ]
     );
   };
 
   return (
-      <SafeAreaView style={[styles.container, { padding: 0 }]}>
-        <Header
-          title="Aadhaar Verification"
-          onLeftIconPress={() => backAlert()}
-        />
+    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+      <Header
+        title="Aadhaar Verification"
+        onLeftIconPress={() => backAlert()}
+      />
 
-        <ProgressBarTop step={2} />
-        <AadhaarFormTemplate />
-      </SafeAreaView>
+      <ProgressBarTop step={2} />
+      <AadhaarFormTemplate />
+    </SafeAreaView>
   );
 };
 

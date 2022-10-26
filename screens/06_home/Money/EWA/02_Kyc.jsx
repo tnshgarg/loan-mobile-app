@@ -123,7 +123,7 @@ const KYC = () => {
 
         <PrimaryButton
           title={loading ? "Verifying" : "Continue"}
-          disabled={loading}
+          disabled={props.disabled}
           onPress={() => {
             handleKyc();
           }}

@@ -165,7 +165,7 @@ const AadhaarOtpApi = (props) => {
   return (
     <PrimaryButton
       title={loading ? "Verifying" : props.title || "Continue"}
-      disabled={loading}
+      disabled={props.disabled}
       loading={loading}
       onPress={() => {
         goForFetch();
