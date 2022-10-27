@@ -1,7 +1,7 @@
-import { Icon, IconButton } from "@react-native-material/core";
+import { Icon } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, Image, SafeAreaView, Text, View } from "react-native";
+import { Alert, SafeAreaView, Text, View } from "react-native";
 import CountDown from "react-native-countdown-component";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
@@ -18,7 +18,6 @@ import { styles } from "../../styles";
 import { COLORS, SIZES } from "../../constants/Theme";
 import FormInput from "../../components/atoms/FormInput";
 import Header from "../../components/atoms/Header";
-
 
 const OTPScreen = () => {
   const dispatch = useDispatch();
@@ -46,7 +45,7 @@ const OTPScreen = () => {
   }, [otp]);
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <Header
         //title="Otp"
         onLeftIconPress={() =>

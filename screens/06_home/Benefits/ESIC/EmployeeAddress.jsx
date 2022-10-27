@@ -1,15 +1,11 @@
-import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import React from "react";
-
 import { SafeAreaView, View } from "react-native";
 import AddressDropdown from "../../../../components/AddressDropdown";
-import { bankform, form, styles } from "../../../../styles";
+import { styles } from "../../../../styles";
 import { useSelector } from "react-redux";
 import { addressPush } from "../../../../helpers/BackendPush";
 import { showToast } from "../../../../components/Toast";
 import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
-import { COLORS } from "../../../../constants/Theme";
 import PrimaryButton from "../../../../components/PrimaryButton";
 
 export default EmployeeAddress = () => {
@@ -19,7 +15,7 @@ export default EmployeeAddress = () => {
   const address = useSelector((state) => state.esic.address);
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <View>
           <AddressDropdown type={"present"} />

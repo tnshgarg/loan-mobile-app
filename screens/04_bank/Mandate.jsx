@@ -17,7 +17,7 @@ const Mandate = () => {
   }, []);
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <Header
         title="Mandate Confirmation"
         onLeftIconPress={() => navigation.navigate("BankForm")}

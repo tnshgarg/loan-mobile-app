@@ -30,7 +30,7 @@ const AadhaarForm = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <Header
         title="Aadhaar Verification"
         onLeftIconPress={() => backAlert()}

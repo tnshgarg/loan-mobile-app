@@ -29,7 +29,7 @@ const AadhaarConfirm = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <Header
         title="Aadhaar Data Confirmation"
         onLeftIconPress={() => backAlert()}

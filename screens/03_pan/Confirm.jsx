@@ -29,7 +29,7 @@ export default PanConfirm = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <Header title="PAN Confirmation" onLeftIconPress={() => backAlert()} />
       <ProgressBarTop step={2} />
       <ScrollView keyboardShouldPersistTaps="handled">

@@ -1,5 +1,4 @@
 import { View, Text } from "react-native";
-import React from "react";
 import { COLORS, FONTS } from "../../constants/Theme";
 
 const DetailItem = ({ label, value, divider }) => {

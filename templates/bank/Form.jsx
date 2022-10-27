@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import BankVerifyApi from "../../apis/bank/Verify";
 import Checkbox from "../../components/atoms/Checkbox";
@@ -67,7 +67,7 @@ const BankFormTemplate = (props) => {
   }, [ifsc]);
 
   return (
-    <>
+    <SafeAreaView>
       <KeyboardAvoidingWrapper>
         <View>
           <Text style={bankform.subTitle}>Enter your Bank Details</Text>
@@ -143,7 +143,7 @@ const BankFormTemplate = (props) => {
           />
         </View>
       </KeyboardAvoidingWrapper>
-    </>
+    </SafeAreaView>
   );
 };
 

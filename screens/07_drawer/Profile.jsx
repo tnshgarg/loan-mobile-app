@@ -1,5 +1,4 @@
-import { View, Text, Alert } from "react-native";
-import React from "react";
+import { View, Alert } from "react-native";
 import DetailItem from "./DetailItem";
 import PrimaryButton from "../../components/PrimaryButton";
 import { useSelector } from "react-redux";
@@ -36,7 +35,7 @@ const Profile = () => {
   ];
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <View style={styles.container}>
         <View style={styles.card}>
           {dataDetails.map((item, index) => (

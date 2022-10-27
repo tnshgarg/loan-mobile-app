@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SafeAreaView, Text, View } from "react-native";
-import { Button } from "@react-native-material/core";
+import { SafeAreaView, View } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { portalPush } from "../../../../helpers/BackendPush";
 import { addESICPortal } from "../../../../store/slices/esicSlice";
-import { bankform, form, styles } from "../../../../styles";
+import { bankform, styles } from "../../../../styles";
 import { showToast } from "../../../../components/Toast";
 import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
-import { COLORS } from "../../../../constants/Theme";
 import FormInput from "../../../../components/atoms/FormInput";
 import PrimaryButton from "../../../../components/PrimaryButton";
 
@@ -25,7 +23,7 @@ export default Portal = () => {
   }, [ipNumber]);
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <View>
           <FormInput

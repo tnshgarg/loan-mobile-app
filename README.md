@@ -1,6 +1,7 @@
 # employee-app
 
 ## Install and run on android
+
 ```
 cd employee-app
 npm install
@@ -13,8 +14,8 @@ npx react-native start --reset-cache
 npx react-native run-android
 ```
 
-
 ## Gradle
+
 ```
 # cleanup
 cd android && ./gradlew clean
@@ -24,9 +25,8 @@ cd android && ./gradlew assembleRelease
 
 ```
 
-
-
 ## Install and run on ios
+
 ```
 npm install -g react-native-cli
 cd employee-app
@@ -34,9 +34,9 @@ npm install
 react-native run-ios
 ```
 
-
 ## Build Strategies
-` STAGE = "dev" | "test" | "prod" `
+
+`STAGE = "dev" | "test" | "prod"`
 
 ```
 start:dev
