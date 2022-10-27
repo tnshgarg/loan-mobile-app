@@ -7,6 +7,10 @@ export const styles = StyleSheet.create({
     flex: 1,
     padding: "3%",
   },
+  safeContainer: {
+    backgroundColor: COLORS.white,
+    flex: 1,
+  },
   logo: {
     alignSelf: "center",
     // marginTop: "10%",

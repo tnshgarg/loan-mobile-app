@@ -1,5 +1,4 @@
-import React from "react";
-import { Image, View, SafeAreaView, Text } from "react-native";
+import { View, SafeAreaView, Text } from "react-native";
 import { styles } from "../../styles";
 
 const DocumentsView = () => {

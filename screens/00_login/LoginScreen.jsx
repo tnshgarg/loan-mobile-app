@@ -151,7 +151,7 @@ export default LoginScreen = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <View>
           <SVGImg style={styles.logo} />

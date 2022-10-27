@@ -147,7 +147,7 @@ const Offer = () => {
   const data = ["KYC", "Agreement", "Money In Account"];
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <Header
         title="On Demand Salary"
         onLeftIconPress={() => navigation.navigate("EWA")}

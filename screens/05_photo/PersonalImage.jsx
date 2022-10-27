@@ -71,7 +71,7 @@ const PersonalImage = () => {
   }, []);
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <Header
         title="Photo"
         onLeftIconPress={() => navigation.navigate("PersonalDetailsForm")}

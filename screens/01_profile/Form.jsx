@@ -97,67 +97,66 @@ const ProfileForm = () => {
   const maritalStatuses = ["Unmarried", "Married"];
 
   return (
-    <>
-      <SafeAreaView style={[styles.container, { padding: 0 }]}>
-        <Header
-          title="Setup Profile"
-          onLeftIconPress={() => navigation.navigate("Login")}
-        />
-        <ProgressBarTop step={0} />
-        <Text style={form.formHeader}>Employee basic details</Text>
-        <KeyboardAvoidingWrapper>
-          <View>
-            <DropDownForm
-              placeholder={"Select Education*"}
-              containerStyle={{ marginVertical: 10 }}
-              value={qualification}
-              setValue={setQualification}
-              data={qualifications}
-            />
-            <DropDownForm
-              placeholder={"Select Maritial Status*"}
-              containerStyle={{ marginVertical: 10 }}
-              value={maritalStatus}
-              setValue={setMaritalStatus}
-              data={maritalStatuses}
-            />
-            <FormInput
-              placeholder={"Mother's Name*"}
-              containerStyle={{ marginVertical: 10 }}
-              value={motherName}
-              onChange={setMotherName}
-            />
-            <FormInput
-              placeholder={"Alternate Phone Number"}
-              containerStyle={{ marginVertical: 10 }}
-              autoCompleteType="tel"
-              keyboardType="phone-pad"
-              value={altMobile}
-              onChange={setAltMobile}
-            />
-            <FormInput
-              placeholder={"Email Address"}
-              containerStyle={{ marginVertical: 10 }}
-              autoCompleteType="email"
-              keyboardType="email-address"
-              value={email}
-              onChange={setEmail}
-            />
-            <PrimaryButton
-              title="Continue"
-              disabled={!next}
-              onPress={() => {
-                setBackendPush(true);
-                Analytics.trackEvent("ProfileForm|PushData|Success", {
-                  userId: id,
-                });
-                navigation.navigate("AadhaarForm");
-              }}
-            />
-          </View>
-        </KeyboardAvoidingWrapper>
-      </SafeAreaView>
-    </>
+    <SafeAreaView style={styles.safeContainer}>
+      <Header
+        title="Setup Profile"
+        onLeftIconPress={() => navigation.navigate("Login")}
+      />
+
+      <ProgressBarTop step={0} />
+      <Text style={form.formHeader}>Employee basic details</Text>
+      <KeyboardAvoidingWrapper>
+        <View>
+          <DropDownForm
+            placeholder={"Select Education*"}
+            containerStyle={{ marginVertical: 10 }}
+            value={qualification}
+            setValue={setQualification}
+            data={qualifications}
+          />
+          <DropDownForm
+            placeholder={"Select Maritial Status*"}
+            containerStyle={{ marginVertical: 10 }}
+            value={maritalStatus}
+            setValue={setMaritalStatus}
+            data={maritalStatuses}
+          />
+          <FormInput
+            placeholder={"Mother's Name*"}
+            containerStyle={{ marginVertical: 10 }}
+            value={motherName}
+            onChange={setMotherName}
+          />
+          <FormInput
+            placeholder={"Alternate Phone Number"}
+            containerStyle={{ marginVertical: 10 }}
+            autoCompleteType="tel"
+            keyboardType="phone-pad"
+            value={altMobile}
+            onChange={setAltMobile}
+          />
+          <FormInput
+            placeholder={"Email Address"}
+            containerStyle={{ marginVertical: 10 }}
+            autoCompleteType="email"
+            keyboardType="email-address"
+            value={email}
+            onChange={setEmail}
+          />
+          <PrimaryButton
+            title="Continue"
+            disabled={!next}
+            onPress={() => {
+              setBackendPush(true);
+              Analytics.trackEvent("ProfileForm|PushData|Success", {
+                userId: id,
+              });
+              navigation.navigate("AadhaarForm");
+            }}
+          />
+        </View>
+      </KeyboardAvoidingWrapper>
+    </SafeAreaView>
   );
 };
 

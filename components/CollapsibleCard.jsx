@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Text, View } from "react-native";
 import Collapsible from "react-native-collapsible";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { COLORS } from "../constants/Theme";
+import { COLORS, FONTS } from "../constants/Theme";
 import { bankform, ewa } from "../styles";
 
 const CollapsibleCard = ({
@@ -21,7 +21,9 @@ const CollapsibleCard = ({
         style={{ flexDirection: "row", width: "100%", alignItems: "center" }}
       >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Text style={{ fontWeight: "bold", fontSize: 16, paddingRight: 5 }}>{title}</Text>
+          <Text style={{ fontWeight: "bold", fontSize: 16, paddingRight: 5 }}>
+            {title}
+          </Text>
           {TitleIcon ? <TitleIcon /> : null}
         </View>
         <Icon
@@ -40,11 +42,29 @@ const CollapsibleCard = ({
         {Component ? <Component {...ComponentProps} /> : null}
         {data?.map((item, index) => (
           <View
-            style={{ flexDirection: "row", width: "100%", marginTop: 5 }}
+            style={{
+              flexDirection: "row",
+              width: "100%",
+              marginTop: 5,
+              justifyContent: "space-between",
+            }}
             key={index}
           >
-            <Text>{item.subTitle}</Text>
-            <Text style={{ marginLeft: "auto", fontSize: 14 }}>
+            <Text
+              style={{
+                ...FONTS.h4,
+                flex: 1,
+              }}
+            >
+              {item.subTitle}
+            </Text>
+            <Text
+              style={{
+                ...FONTS.body4,
+                flex: 1,
+                textAlign: "right",
+              }}
+            >
               {item.value}
             </Text>
           </View>
