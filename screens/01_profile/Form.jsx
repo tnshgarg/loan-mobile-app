@@ -10,6 +10,7 @@ import {
   addMotherName,
   addMaritalStatus,
 } from "../../store/slices/profileSlice";
+import { profileBackendPush } from "../../helpers/BackendPush";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { form, styles } from "../../styles";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
@@ -22,6 +23,8 @@ import Header from "../../components/atoms/Header";
 const ProfileForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  const [backendPush, setBackendPush] = useState(false);
 
   const [next, setNext] = useState(false);
   const id = useSelector((state) => state.auth.id);
@@ -67,6 +70,21 @@ const ProfileForm = () => {
       setNext(false);
     }
   }, [maritalStatus, qualification, motherName, email]);
+
+  useEffect(() => {
+    console.log("ProfileForm profileSlice: ", profileSlice);
+    if (backendPush) {
+      profileBackendPush({
+        id: id,
+        maritalStatus: maritalStatus,
+        qualification: qualification,
+        altMobile: altMobile,
+        email: email,
+        motherName: motherName,
+      });
+      setBackendPush(false);
+    }
+  }, [backendPush]);
 
   const qualifications = [
     "10th Pass",
@@ -129,8 +147,8 @@ const ProfileForm = () => {
               title="Continue"
               disabled={!next}
               onPress={() => {
-                // TODO: backendPush data
-                Analytics.trackEvent("PersonalDetailsForm|PushData|Success", {
+                setBackendPush(true);
+                Analytics.trackEvent("ProfileForm|PushData|Success", {
                   userId: id,
                 });
                 navigation.navigate("AadhaarForm");
