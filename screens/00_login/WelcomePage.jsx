@@ -10,6 +10,7 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { stepIndicatorStyles, styles, welcome } from "../../styles";
 import SVGImg from "../../assets/UnipeLogo.svg";
 import { requestUserPermission } from "../../services/notifications/notificationService";
+import Analytics from "appcenter-analytics";
 
 const WelcomePage = () => {
 

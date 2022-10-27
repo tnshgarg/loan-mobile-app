@@ -80,6 +80,7 @@ const DrawerNavigator = () => {
           drawerIcon: ({ color }) => (
             <Ionicons name="settings" color={color} size={20} />
           ),
+          headerShown:false
         }}
         name="DrawerSettings"
         component={Home}
