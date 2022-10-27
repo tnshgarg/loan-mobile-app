@@ -1,11 +1,9 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, SafeAreaView, ScrollView, View } from "react-native";
+import { Alert, SafeAreaView, ScrollView } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
-import Icon1 from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
-import CollapsibleCard from "../../components/CollapsibleCard";
 import PrimaryButton from "../../components/PrimaryButton";
 import { mandatePush } from "../../helpers/BackendPush";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
@@ -213,18 +211,6 @@ const MandateFormTemplate = (props) => {
     }
   }, [orderId]);
 
-  const debitIcon = () => {
-    return <Icon1 name="smart-card" size={24} color="#FF6700" />;
-  };
-
-  const netIcon = () => {
-    return <Icon1 name="passport" size={24} color="#FF6700" />;
-  };
-
-  const upiIcon = () => {
-    return <Icon1 name="wallet" size={24} color="#FF6700" />;
-  };
-
   const ProceedButton = ({ authType }) => {
     setAuthType(authType);
     setVerifyMsg(`Mandate|CreateOrder|${authType} PENDING`);
@@ -247,7 +233,7 @@ const MandateFormTemplate = (props) => {
       })
       .catch((error) => {
         console.log(`Mandate|CreateOrder|${authType} error:`, error.toString());
-        setVerifyMsg(`Mandate|CreateOrder|${authType} ERROR ${error}`);
+        setVerifyMsg(`Mandate|CreateOrder|${authType} ERROR ${error.toString()}`);
         setVerifyStatus("ERROR");
         setBackendPush(true);
         Alert.alert("Error", error.toString());

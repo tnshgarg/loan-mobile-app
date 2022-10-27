@@ -1,16 +1,14 @@
-import { useNavigation } from "@react-navigation/core";
 import { Alert, Text, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import TopTabNav from "../../../../navigators/TopTabNav";
-import { form, license, styles } from "../../../../styles";
+import { license, styles } from "../../../../styles";
 import DetailItem from "../../../07_drawer/DetailItem";
 import Confirm from "./Confirm";
 import Form from "./Form";
 
 const License = () => {
-  const dispatch = useDispatch();
-  const navigation = useNavigation();
+
   const data = useSelector((state) => state.license.data);
   const number = useSelector((state) => state.license.number);
 

@@ -5,7 +5,6 @@ const initialState = {
   qualification: "Graduate",
   altMobile: "",
   email: "",
-  photo: "",
   motherName: "",
 };
 
@@ -25,9 +24,6 @@ const profileSlice = createSlice({
     addMaritalStatus(state, action) {
       state.maritalStatus = action.payload;
     },
-    addPhoto(state, action) {
-      state.photo = action.payload;
-    },
     addMotherName(state, action) {
       state.motherName = action.payload;
     },
@@ -46,7 +42,6 @@ export const {
   addQualification,
   addEmail,
   addMaritalStatus,
-  addPhoto,
   resetProfile,
   addMotherName,
 } = profileSlice.actions;
