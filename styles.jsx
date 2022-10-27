@@ -18,53 +18,21 @@ export const styles = StyleSheet.create({
     height: "auto",
   },
   headline: {
-    marginTop: 30,
+    marginTop: "10%",
     ...FONTS.h3,
     color: COLORS.black,
     textAlign: "center",
   },
-  fieldLabel: {
-    ...FONTS.body4,
-    marginTop: 60,
-    color: COLORS.black,
-  },
-  textInput: {
-    width: "100%",
-    height: 50,
-    borderBottomWidth: 1,
-  },
+
   resendText: {
     color: COLORS.primary,
     alignSelf: "center",
-    marginTop: 30,
+    marginTop: "10%",
     ...FONTS.h3,
     textDecorationLine: "underline",
   },
-  otpInput: {
-    alignSelf: "center",
-    marginTop: 40,
-    width: "49%",
-    height: 50,
-    borderBottomWidth: 1,
-  },
-  ContinueButton: {
-    alignSelf: "center",
-    marginTop: 20,
-    width: 320,
-    height: 60,
-    fontSize: 20,
-    backgroundColor: COLORS.primary,
-    borderRadius: 6,
-  },
-  PrimaryButton: {
-    alignSelf: "center",
-    marginTop: 20,
-    width: "100%",
-    height: 60,
-    fontSize: 20,
-  },
   btn: {
-    marginTop: 20,
+    marginTop: "8%",
     width: "100%",
     height: 50,
     backgroundColor: COLORS.primary,
@@ -78,18 +46,8 @@ export const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-  flexrow: {
-    flexDirection: "row",
-  },
-  otpback: {
-    backgroundColor: COLORS.white,
-    width: 50,
-    borderRadius: 40,
-
-    marginTop: 20,
-  },
   dataUseText: {
-    marginTop: 20,
+    marginTop: "8%",
     ...FONTS.body4,
     color: COLORS.gray,
     textAlign: "center",
@@ -99,20 +57,10 @@ export const styles = StyleSheet.create({
     color: COLORS.primary,
   },
   otpreadtxt: {
-    marginTop: 20,
+    marginTop: "8%",
     color: COLORS.gray,
     ...FONTS.h4,
     textAlign: "center",
-  },
-  LoadingButton: {
-    padding: 10,
-    alignSelf: "center",
-    marginTop: 20,
-    width: 320,
-    height: 60,
-    fontSize: 20,
-    backgroundColor: COLORS.primary,
-    borderRadius: 6,
   },
   card: {
     padding: 10,
@@ -124,72 +72,24 @@ export const styles = StyleSheet.create({
   },
 });
 
-export const buttons = StyleSheet.create({
-  ContinueButton: {
-    padding: 10,
-    alignSelf: "center",
-    marginTop: 50,
-    width: 320,
-    height: 60,
-    fontSize: 20,
-  },
-  FAB: {
-    backgroundColor: COLORS.primary,
-  },
-});
+export const buttons = StyleSheet.create({});
 
 export const progressBar = StyleSheet.create({
   progressView: {
-    marginTop: 20,
-  },
-  progressBar: {
-    width: "100%",
-    color: COLORS.primary,
-  },
-  progressNos: {
-    marginLeft: 8,
-    marginTop: -3,
-    color: COLORS.gray,
+    marginTop: "8%",
   },
 });
 
 export const form = StyleSheet.create({
   formHeader: {
-    marginTop: 10,
+    marginTop: "5%",
     color: COLORS.black,
     ...FONTS.h3,
     textAlign: "center",
   },
   formLabel: {
-    marginTop: 30,
+    marginTop: "10%",
     color: COLORS.gray,
-  },
-  formTextInput: {
-    width: "100%",
-    height: 50,
-    borderBottomWidth: 1,
-  },
-  picker: {
-    marginLeft: 34,
-    width: "79%",
-    borderBottomWidth: 1,
-  },
-  chosenButton: {
-    padding: 2,
-
-    marginTop: 20,
-    width: 140,
-    height: 40,
-    fontSize: 20,
-  },
-  choiceButton: {
-    padding: 2,
-
-    marginTop: 20,
-    width: 140,
-    height: 40,
-    fontSize: 20,
-    backgroundColor: COLORS.gray,
   },
   nextButton: {
     padding: 5,
@@ -203,7 +103,7 @@ export const form = StyleSheet.create({
     color: COLORS.secondary,
     alignSelf: "center",
     textAlign: "center",
-    marginTop: 20,
+    marginTop: "8%",
     ...FONTS.body3,
   },
   userData: {
@@ -212,16 +112,11 @@ export const form = StyleSheet.create({
     marginTop: 10,
     ...FONTS.body3,
   },
-  aadharConfirmText: {
-    color: COLORS.secondary,
-    marginLeft: 69,
-    marginTop: 10,
-    ...FONTS.body3,
-  },
   yesButton: {
     flex: 1,
     height: 50,
     backgroundColor: COLORS.primaryBackground,
+    width: SIZES.width / 2.5,
     alignItems: "center",
     justifyContent: "center",
     marginLeft: 10,
@@ -241,22 +136,8 @@ export const form = StyleSheet.create({
     width: 200,
     height: 200,
   },
-  aadhaarOr: {
-    marginBottom: 20,
-    marginTop: 20,
-    alignSelf: "center",
-    ...FONTS.body3,
-  },
-  AadharLinkedStatus: {
-    marginTop: 30,
-    alignSelf: "center",
-    color: COLORS.primary,
-    width: 300,
-    textDecorationLine: "underline",
-    fontWeight: "bold",
-  },
   forgotText: {
-    marginTop: 10,
+    marginTop: "5%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
@@ -473,7 +354,7 @@ export const welcome = StyleSheet.create({
     ...FONTS.h3,
     textAlign: "center",
   },
-  steps: { flex: 1, alignSelf:"center" },
+  steps: { flex: 1, alignSelf: "center" },
 });
 
 export const selfie = StyleSheet.create({
