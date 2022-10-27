@@ -12,6 +12,7 @@ import SVGImg from "../../assets/UnipeLogo.svg";
 import Analytics from "appcenter-analytics";
 
 const WelcomePage = () => {
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -31,23 +32,19 @@ const WelcomePage = () => {
         iconConfig.name = "file-document-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
-      // case 1: {
-      //   iconConfig.name = "camera-outline";
-      //   return <MaterialCommunityIcons {...iconConfig} />;
-      // }
-      case 2: {
+      case 1: {
         iconConfig.name = "card-account-details-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
-      case 3: {
+      case 2: {
         iconConfig.name = "smart-card-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
-      case 4: {
+      case 3: {
         iconConfig.name = "bank-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
-      case 5: {
+      case 4: {
         iconConfig.name = "bank-check";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
@@ -62,10 +59,9 @@ const WelcomePage = () => {
 
   const data = [
     "Profile",
-    // "Photo",
     "Aadhaar",
     "PAN",
-    "Bank Account",
+    "Bank",
     "Mandate",
   ];
 
@@ -87,7 +83,7 @@ const WelcomePage = () => {
           title="Start Onboarding"
           onPress={() => {
             Analytics.trackEvent("WelcomePage", { userId: id });
-            navigation.navigate("PersonalDetailsForm");
+            navigation.navigate("ProfileForm");
           }}
         />
       </SafeAreaView>

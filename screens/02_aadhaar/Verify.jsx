@@ -47,7 +47,6 @@ const AadhaarVerify = () => {
         title="Aadhaar OTP Verification"
         onLeftIconPress={() => (backDisabled ? null : backAlert())}
       />
-
       <ProgressBarTop step={1} />
       <AadhaarVerifyTemplate function={backAlert} />
     </SafeAreaView>

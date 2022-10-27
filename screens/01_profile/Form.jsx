@@ -19,7 +19,7 @@ import DropDownForm from "../../components/molecules/DropDownForm";
 import Analytics from "appcenter-analytics";
 import Header from "../../components/atoms/Header";
 
-const PersonalDetailsForm = () => {
+const ProfileForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -37,7 +37,7 @@ const PersonalDetailsForm = () => {
   const [motherName, setMotherName] = useState(profileSlice?.motherName);
 
   useEffect(() => {
-    dispatch(addCurrentScreen("PersonalDetailsForm"));
+    dispatch(addCurrentScreen("ProfileForm"));
   }, []);
 
   useEffect(() => {
@@ -85,7 +85,6 @@ const PersonalDetailsForm = () => {
           title="Setup Profile"
           onLeftIconPress={() => navigation.navigate("Login")}
         />
-
         <ProgressBarTop step={0} />
         <Text style={form.formHeader}>Employee basic details</Text>
         <KeyboardAvoidingWrapper>
@@ -130,10 +129,10 @@ const PersonalDetailsForm = () => {
               title="Continue"
               disabled={!next}
               onPress={() => {
+                // TODO: backendPush data
                 Analytics.trackEvent("PersonalDetailsForm|PushData|Success", {
                   userId: id,
                 });
-                //navigation.navigate("PersonalImage");
                 navigation.navigate("AadhaarForm");
               }}
             />
@@ -144,4 +143,4 @@ const PersonalDetailsForm = () => {
   );
 };
 
-export default PersonalDetailsForm;
+export default ProfileForm;

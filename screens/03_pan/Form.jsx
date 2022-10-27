@@ -36,7 +36,6 @@ export default PanForm = () => {
           onLeftIconPress={() => navigation.navigate("AadhaarConfirm")}
           onRightIconPress={() => SkipPAN()}
         />
-
         <ProgressBarTop step={2} />
         <PanFormTemplate />
       </SafeAreaView>

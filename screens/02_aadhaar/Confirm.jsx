@@ -7,7 +7,6 @@ import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import AadhaarConfirmApi from "../../apis/aadhaar/Confirm";
-import { COLORS } from "../../constants/Theme";
 import Header from "../../components/atoms/Header";
 
 const AadhaarConfirm = () => {
@@ -35,9 +34,7 @@ const AadhaarConfirm = () => {
         title="Aadhaar Data Confirmation"
         onLeftIconPress={() => backAlert()}
       />
-
       <ProgressBarTop step={1} />
-
       <ScrollView keyboardShouldPersistTaps="handled">
         <AadhaarConfirmApi />
       </ScrollView>
