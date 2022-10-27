@@ -9,7 +9,7 @@ import {
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/aadhaarSlice";
-import { KYC_AADHAAR_GENERATE_OTP_API_URL } from "../../services/employees/endpoints";
+import { KYC_AADHAAR_GENERATE_OTP_API_URL } from "../../services/constants";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import { resetTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/PrimaryButton";
@@ -50,10 +50,6 @@ const AadhaarOtpApi = (props) => {
   }, [verifyTimestamp]);
 
   useEffect(() => {
-    console.log(
-      "KYC_AADHAAR_GENERATE_OTP_API_URL: ",
-      KYC_AADHAAR_GENERATE_OTP_API_URL
-    );
     console.log("AadhaarOtpApi aadhaarSlice: ", aadhaarSlice);
     if (backendPush) {
       aadhaarBackendPush({

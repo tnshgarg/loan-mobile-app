@@ -12,7 +12,7 @@ import {
   addIfsc,
   addUpi,
 } from "../../store/slices/bankSlice";
-import { bankform, checkBox, form } from "../../styles";
+import { bankform, form } from "../../styles";
 
 const BankFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -21,13 +21,14 @@ const BankFormTemplate = (props) => {
   const [ifscNext, setIfscNext] = useState(false);
   const [consent, setConsent] = useState(false);
 
+  const aadhaarSlice = useSelector((state) => state.aadhaar);
   const bankSlice = useSelector((state) => state.bank);
   const [ifsc, setIfsc] = useState(bankSlice?.data?.ifsc);
   const [accountNumber, setAccountNumber] = useState(
     bankSlice?.data?.accountNumber
   );
   const [accountHolderName, setAccountHolderName] = useState(
-    bankSlice?.data?.accountHolderName
+    aadhaarSlice?.data.name || bankSlice?.data?.accountHolderName
   );
   const [upi, setUpi] = useState(bankSlice?.data?.upi);
 
@@ -85,6 +86,7 @@ const BankFormTemplate = (props) => {
             placeholder={"Bank Account Number*"}
             value={accountNumber}
             onChange={setAccountNumber}
+            autoFocus={true}
             autoCapitalize="characters"
             content={
               "Refer to your Bank Passbook or Cheque book to get the Bank Account Number."

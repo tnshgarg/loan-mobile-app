@@ -9,7 +9,7 @@ import {
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/aadhaarSlice";
-import { KYC_AADHAAR_SUBMIT_OTP_API_URL } from "../../services/employees/endpoints";
+import { KYC_AADHAAR_SUBMIT_OTP_API_URL } from "../../services/constants";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import PrimaryButton from "../../components/PrimaryButton";
 import Analytics from "appcenter-analytics";

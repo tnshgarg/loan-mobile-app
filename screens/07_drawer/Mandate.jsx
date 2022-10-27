@@ -1,19 +1,20 @@
-import React, { useState } from "react";
-import { Alert, SafeAreaView, View } from "react-native";
+import { React, useState } from "react";
+import { SafeAreaView, View } from "react-native";
 import { useSelector } from "react-redux";
-import Form from "../../templates/mandate/Form";
+import MandateFormTemplate from "../../templates/mandate/Form";
 import DetailItem from "./DetailItem";
 import { styles } from "../../styles";
 
 const Mandate = () => {
-  const mandate = useSelector((state) => state.mandate);
-  const verifyStatus = mandate?.verifyStatus;
-  const type = mandate?.data?.type;
+  const mandateSlice = useSelector((state) => state.mandate);
+  const authType = mandateSlice?.data?.authType;
+  const verifyStatus = mandateSlice?.verifyStatus;
   const [time, setTime] = useState(false);
   const dataDetails = [
-    { label: "Mandate Type", value: type },
+    { label: "Mandate Type", value: authType },
     { label: "Verify Status", value: verifyStatus },
   ];
+
   if (verifyStatus === "SUCCESS") {
     setTimeout(() => {
       setTime(true);
@@ -22,9 +23,6 @@ const Mandate = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      {verifyStatus === "SUCCESS"
-        ? Alert.alert("Mandate Verified Successfully")
-        : null}
       {verifyStatus == "SUCCESS" && time ? (
         <View style={styles.container}>
           <View style={styles.card}>
@@ -39,7 +37,7 @@ const Mandate = () => {
           </View>
         </View>
       ) : (
-        <Form />
+        <MandateFormTemplate />
       )}
     </SafeAreaView>
   );

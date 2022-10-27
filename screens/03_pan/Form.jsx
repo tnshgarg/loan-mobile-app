@@ -36,7 +36,7 @@ export default PanForm = () => {
         onRightIconPress={() => SkipPAN()}
       />
 
-      <ProgressBarTop step={3} />
+      <ProgressBarTop step={2} />
       <PanFormTemplate />
     </SafeAreaView>
   );

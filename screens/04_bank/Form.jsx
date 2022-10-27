@@ -3,30 +3,31 @@ import { useEffect } from "react";
 import { SafeAreaView } from "react-native";
 import { useDispatch } from "react-redux";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
-import { COLORS } from "../../constants/Theme";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
-import Form from "../../templates/mandate/Form";
+import BankFormTemplate from "../../templates/bank/Form";
 import Header from "../../components/atoms/Header";
 
-const Mandate = () => {
+const BankForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   useEffect(() => {
-    dispatch(addCurrentScreen("Mandate"));
+    dispatch(addCurrentScreen("BankForm"));
   }, []);
 
   return (
-    <SafeAreaView style={styles.safeContainer}>
-      <Header
-        title="Mandate Confirmation"
-        onLeftIconPress={() => navigation.navigate("BankForm")}
-      />
-      <ProgressBarTop step={5} />
-      <Form type="Onboarding" />
-    </SafeAreaView>
+    <>
+      <SafeAreaView style={styles.safeContainer}>
+        <Header
+          title="Bank Details"
+          onLeftIconPress={() => navigation.navigate("PanForm")}
+        />
+        <ProgressBarTop step={3} />
+        <BankFormTemplate />
+      </SafeAreaView>
+    </>
   );
 };
 
-export default Mandate;
+export default BankForm;

@@ -12,7 +12,7 @@ import {
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/bankSlice";
-import { KYC_BANK_VERIFY_API_URL } from "../../services/employees/endpoints";
+import { KYC_BANK_VERIFY_API_URL } from "../../services/constants";
 import { bankBackendPush } from "../../helpers/BackendPush";
 import PrimaryButton from "../../components/PrimaryButton";
 import Analytics from "appcenter-analytics";

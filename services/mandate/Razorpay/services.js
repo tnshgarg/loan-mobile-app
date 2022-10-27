@@ -1,11 +1,11 @@
 import axios from "axios";
-import { RZP_TEST_AUTH, STAGE } from "@env";
-
-const createCustomer = ({ name, email, phoneNumber }) => {
+import { RZP_AUTH } from "../../constants";
+import { STAGE } from "@env";
+const createCustomer = ({ name, email, contact }) => {
   var data = JSON.stringify({
     name: name,
     email: email,
-    contact: phoneNumber,
+    contact: contact,
     fail_existing: "0",
   });
 
@@ -14,7 +14,7 @@ const createCustomer = ({ name, email, phoneNumber }) => {
     url: "https://api.razorpay.com/v1/customers",
     headers: {
       "Content-Type": "application/json",
-      Authorization: RZP_TEST_AUTH,
+      Authorization: RZP_AUTH,
     },
     data: data,
   };
@@ -22,99 +22,54 @@ const createCustomer = ({ name, email, phoneNumber }) => {
   return axios(config);
 };
 
-const createDebitOrder = ({
+const createOrder = ({
+  authType,
   customerId,
   accountHolderName,
   accountNumber,
   ifsc,
 }) => {
-  var data = JSON.stringify({
-    amount: 0,
-    currency: "INR",
-    method: "emandate",
-    payment_capture: "1",
-    customer_id: customerId,
-    token: {
-      auth_type: "debitcard",
-      max_amount: 10000000,
-      expire_at: 2147483647,
-      bank_account: {
-        beneficiary_name: accountHolderName,
-        account_number: accountNumber,
-        account_type: "savings",
-        ifsc_code: STAGE === "dev" ? "HDFC0000001" : ifsc,
+  console.log("createOrder");
+  if (authType === "upi") {
+    var data = JSON.stringify({
+      amount: 100,
+      currency: "INR",
+      customer_id: customerId,
+      method: "upi",
+      token: {
+        max_amount: 500000,
+        expire_at: 4102444799,
+        frequency: "as_presented",
       },
-    },
-  });
-  var config = {
-    method: "post",
-    url: "https://api.razorpay.com/v1/orders",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: RZP_TEST_AUTH,
-    },
-    data: data,
-  };
-  return axios(config);
-};
-
-const createNetBankingOrder = ({
-  customerId,
-  accountHolderName,
-  accountNumber,
-  ifsc,
-}) => {
-  var data = JSON.stringify({
-    amount: 100,
-    currency: "INR",
-    method: "emandate",
-    payment_capture: true,
-    customer_id: customerId,
-    token: {
-      auth_type: "netbanking",
-      max_amount: 10000000,
-      bank_account: {
-        beneficiary_name: accountHolderName,
-        account_number: accountNumber,
-        account_type: "savings",
-        ifsc_code: STAGE === "dev" ? "HDFC0000001" : ifsc,
+    });
+  } else {
+    var data = JSON.stringify({
+      amount: 0,
+      currency: "INR",
+      payment_capture: true,
+      method: "emandate",
+      customer_id: customerId,
+      token: {
+        auth_type: authType,
+        max_amount: 100000000,
+        expire_at: 4102444799,
+        bank_account: {
+          account_number: accountNumber,
+          account_type: "savings",
+          ifsc_code: STAGE === "dev" ? "HDFC0000001" : ifsc,
+          beneficiary_name: accountHolderName,
+        },
       },
-      expire_at: 2147483647,
-    },
-  });
-
+    });
+  }
+  console.log(STAGE);
+  console.log(data);
   var config = {
     method: "post",
     url: "https://api.razorpay.com/v1/orders",
     headers: {
       "Content-Type": "application/json",
-      Authorization: RZP_TEST_AUTH,
-    },
-    data: data,
-  };
-
-  return axios(config);
-};
-
-const createUpiOrder = ({ customerId }) => {
-  var data = JSON.stringify({
-    amount: 100,
-    currency: "INR",
-    customer_id: customerId,
-    method: "upi",
-    payment_capture: 1,
-    token: {
-      max_amount: 10000000,
-      expire_at: 2709971120,
-    },
-  });
-
-  var config = {
-    method: "post",
-    url: "https://api.razorpay.com/v1/orders",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: RZP_TEST_AUTH,
+      Authorization: RZP_AUTH,
     },
     data: data,
   };
@@ -126,7 +81,7 @@ const getToken = ({ paymentId }) => {
     method: "get",
     url: `https://api.razorpay.com/v1/payments/${paymentId}`,
     headers: {
-      Authorization: RZP_TEST_AUTH,
+      Authorization: RZP_AUTH,
     },
   };
 
@@ -134,9 +89,7 @@ const getToken = ({ paymentId }) => {
 };
 
 module.exports = {
-  getToken,
   createCustomer,
-  createDebitOrder,
-  createNetBankingOrder,
-  createUpiOrder,
+  createOrder,
+  getToken,
 };

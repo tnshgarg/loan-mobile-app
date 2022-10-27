@@ -1,4 +1,6 @@
 apply plugin: "com.android.application"
+apply plugin: 'com.google.gms.google-services'
+
 
 // project.ext.envConfigFiles = [
 //   devstart: ".env.dev",
@@ -113,7 +115,8 @@ def enableSeparateBuildPerCPUArchitecture = false
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = (findProperty('android.enableProguardInReleaseBuilds') ?: false).toBoolean()
+// def enableProguardInReleaseBuilds = (findProperty('android.enableProguardInReleaseBuilds') ?: false).toBoolean()
+def enableProguardInReleaseBuilds =true
 
 /**
  * The preferred build flavor of JavaScriptCore.
@@ -185,6 +188,7 @@ android {
             if (!enableSeparateBuildPerCPUArchitecture) {
                 ndk {
                     abiFilters (*reactNativeArchitectures())
+                    // abiFilters "armeabi-v7a","x86"
                 }
             }
         }
@@ -314,6 +318,8 @@ dependencies {
     implementation project(':react-native-splash-screen')
     implementation 'com.facebook.fresco:fresco:2.0.0'
     implementation 'com.facebook.fresco:animated-gif:2.6.0'
+     implementation 'com.google.firebase:firebase-analytics:17.3.0'
+implementation project(':react-native-push-notification')
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {

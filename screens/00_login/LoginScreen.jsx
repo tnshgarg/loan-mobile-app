@@ -3,17 +3,12 @@ import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import {
   Alert,
-  Dimensions,
-  Pressable,
   SafeAreaView,
   Text,
   View,
 } from "react-native";
-import Modal from "react-native-modal";
 import SmsRetriever from "react-native-sms-retriever";
 import SplashScreen from "react-native-splash-screen";
-import { AntDesign } from "react-native-vector-icons";
-import { WebView } from "react-native-webview";
 import { useDispatch, useSelector } from "react-redux";
 import SVGImg from "../../assets/UnipeLogo.svg";
 import FormInput from "../../components/atoms/FormInput";
@@ -31,6 +26,8 @@ import {
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
+import { COLORS } from "../../constants/Theme";
+import SVGImg from "../../assets/UnipeLogo.svg";
 import privacyPolicy from "../../templates/docs/PrivacyPolicy.js";
 import termsOfUse from "../../templates/docs/TermsOfUse.js";
 
@@ -160,7 +157,6 @@ export default LoginScreen = () => {
       <KeyboardAvoidingWrapper>
         <View>
           <SVGImg style={styles.logo} />
-
           <Text style={styles.headline}>
             Please enter your mobile number to login:
           </Text>

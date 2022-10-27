@@ -10,6 +10,7 @@ import {
   addMotherName,
   addMaritalStatus,
 } from "../../store/slices/profileSlice";
+import { profileBackendPush } from "../../helpers/BackendPush";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { form, styles } from "../../styles";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
@@ -19,9 +20,11 @@ import DropDownForm from "../../components/molecules/DropDownForm";
 import Analytics from "appcenter-analytics";
 import Header from "../../components/atoms/Header";
 
-const PersonalDetailsForm = () => {
+const ProfileForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  const [backendPush, setBackendPush] = useState(false);
 
   const [next, setNext] = useState(false);
   const id = useSelector((state) => state.auth.id);
@@ -37,7 +40,7 @@ const PersonalDetailsForm = () => {
   const [motherName, setMotherName] = useState(profileSlice?.motherName);
 
   useEffect(() => {
-    dispatch(addCurrentScreen("PersonalDetailsForm"));
+    dispatch(addCurrentScreen("ProfileForm"));
   }, []);
 
   useEffect(() => {
@@ -67,6 +70,21 @@ const PersonalDetailsForm = () => {
       setNext(false);
     }
   }, [maritalStatus, qualification, motherName, email]);
+
+  useEffect(() => {
+    console.log("ProfileForm profileSlice: ", profileSlice);
+    if (backendPush) {
+      profileBackendPush({
+        id: id,
+        maritalStatus: maritalStatus,
+        qualification: qualification,
+        altMobile: altMobile,
+        email: email,
+        motherName: motherName,
+      });
+      setBackendPush(false);
+    }
+  }, [backendPush]);
 
   const qualifications = [
     "10th Pass",
@@ -129,10 +147,10 @@ const PersonalDetailsForm = () => {
             title="Continue"
             disabled={!next}
             onPress={() => {
-              Analytics.trackEvent("PersonalDetailsForm|PushData|Success", {
+              setBackendPush(true);
+              Analytics.trackEvent("ProfileForm|PushData|Success", {
                 userId: id,
               });
-              //navigation.navigate("PersonalImage");
               navigation.navigate("AadhaarForm");
             }}
           />
@@ -142,4 +160,4 @@ const PersonalDetailsForm = () => {
   );
 };
 
-export default PersonalDetailsForm;
+export default ProfileForm;

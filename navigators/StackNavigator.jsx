@@ -2,32 +2,30 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import DevMenu from "../screens/DevMenu";
 import LoginScreen from "../screens/00_login/LoginScreen";
 import OTPScreen from "../screens/00_login/OTPScreen";
 import WelcomePage from "../screens/00_login/WelcomePage";
-import AadhaarConfirm from "../screens/01_aadhaar/Confirm";
-import AadhaarForm from "../screens/01_aadhaar/Form";
-import AadhaarVerify from "../screens/01_aadhaar/Verify";
-import PanForm from "../screens/02_pan/Form";
-import PanConfirm from "../screens/02_pan/Confirm";
-import BankForm from "../screens/03_bank/Form";
-import PersonalDetailsForm from "../screens/04_profile/PersonalDetailsForm";
-import PersonalImage from "../screens/05_photo/PersonalImage";
-import DevMenu from "../screens/DevMenu";
+import ProfileForm from "../screens/01_profile/Form";
+import AadhaarConfirm from "../screens/02_aadhaar/Confirm";
+import AadhaarForm from "../screens/02_aadhaar/Form";
+import AadhaarVerify from "../screens/02_aadhaar/Verify";
+import PanConfirm from "../screens/03_pan/Confirm";
+import PanForm from "../screens/03_pan/Form";
+import BankConfirm from "../screens/04_bank/Confirm";
+import BankForm from "../screens/04_bank/Form";
+import Mandate from "../screens/04_bank/Mandate";
 import BackendSync from "../screens/BackendSync";
-import RNPhotoCapture from "../components/RNPhotoCapture";
 import DrawerNavigator from "./DrawerNavigator";
 
 import { STAGE } from "@env";
 import KYCScreen from "../screens/07_drawer/KYCScreen";
 import Profile from "../screens/07_drawer/Profile";
-import BankConfirm from "../screens/03_bank/Confirm";
-import Offer from "../screens/06_home/Money/EWA/01_Offer";
 import EWA from "../screens/06_home/Money/EWA/EWA";
-import Mandate from "../screens/03_bank/Mandate";
+import Offer from "../screens/06_home/Money/EWA/01_Offer";
+import KYC from "../screens/06_home/Money/EWA/02_Kyc";
 import Agreement from "../screens/06_home/Money/EWA/03_Agreement";
 import Disbursement from "../screens/06_home/Money/EWA/04_Disbursement";
-import KYC from "../screens/06_home/Money/EWA/02_Kyc";
 
 
 const StackNavigator = () => {
@@ -80,8 +78,8 @@ const StackNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="PersonalDetailsForm"
-        component={PersonalDetailsForm}
+        name="ProfileForm"
+        component={ProfileForm}
         options={{
           headerShown: false,
           header: null,
@@ -90,14 +88,6 @@ const StackNavigator = () => {
       <Stack.Screen
         name="AadhaarForm"
         component={AadhaarForm}
-        options={{
-          headerShown: false,
-          header: null,
-        }}
-      />
-      <Stack.Screen
-        name="RNPhotoCapture"
-        component={RNPhotoCapture}
         options={{
           headerShown: false,
           header: null,
@@ -161,14 +151,6 @@ const StackNavigator = () => {
       <Stack.Screen
         name="Home"
         component={DrawerNavigator}
-        options={{
-          headerShown: false,
-          header: null,
-        }}
-      />
-      <Stack.Screen
-        name="PersonalImage"
-        component={PersonalImage}
         options={{
           headerShown: false,
           header: null,

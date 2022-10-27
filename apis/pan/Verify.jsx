@@ -9,7 +9,7 @@ import {
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/panSlice";
-import { KYC_PAN_VERIFY_API_URL } from "../../services/employees/endpoints";
+import { KYC_PAN_VERIFY_API_URL } from "../../services/constants";
 import { panBackendPush } from "../../helpers/BackendPush";
 import PrimaryButton from "../../components/PrimaryButton";
 import Analytics from "appcenter-analytics";
