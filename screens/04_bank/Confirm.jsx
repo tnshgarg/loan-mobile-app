@@ -7,7 +7,6 @@ import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import BankConfirmApi from "../../apis/bank/Confirm";
-import { COLORS } from "../../constants/Theme";
 import Header from "../../components/atoms/Header";
 
 const BankConfirm = () => {

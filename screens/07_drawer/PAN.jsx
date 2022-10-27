@@ -1,5 +1,4 @@
 import { SafeAreaView, View } from "react-native";
-import React from "react";
 import DetailItem from "./DetailItem";
 import { useSelector } from "react-redux";
 import PanFormTemplate from "../../templates/pan/Form";

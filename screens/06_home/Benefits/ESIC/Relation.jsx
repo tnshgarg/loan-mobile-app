@@ -1,14 +1,11 @@
-import { Button } from "@react-native-material/core";
-import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
-import { SafeAreaView, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { SafeAreaView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import FormInput from "../../../../components/atoms/FormInput";
 import DropDownForm from "../../../../components/molecules/DropDownForm";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { showToast } from "../../../../components/Toast";
-import { COLORS, FONTS } from "../../../../constants/Theme";
 import { relationPush } from "../../../../helpers/BackendPush";
 import {
   nomineeRelations,
@@ -16,7 +13,7 @@ import {
 } from "../../../../helpers/RelationData";
 import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
 import { addESICFamilyDetails } from "../../../../store/slices/esicSlice";
-import { bankform, form, styles } from "../../../../styles";
+import { styles } from "../../../../styles";
 
 export default Relation = () => {
   const dispatch = useDispatch();

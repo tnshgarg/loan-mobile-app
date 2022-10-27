@@ -1,17 +1,15 @@
 import { View, ScrollView } from "react-native";
-import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import DevMenuButton from "../components/DevMenuButton";
 import PushNotification from "react-native-push-notification";
 import { useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default DevMenu = () => {
   const navigation = useNavigation();
   const screens = [
     { title: "Welcome", name: "Welcome" },
     { title: "Login", name: "Login" },
-    { title: "Profile", name: "PersonalDetailsForm" },
+    { title: "Profile", name: "PofileForm" },
     { title: "Photo", name: "PersonalImage" },
     { title: "AADHAAR", name: "AadhaarForm" },
     { title: "PAN", name: "PanForm" },

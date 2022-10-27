@@ -1,5 +1,4 @@
-import { View, Text, Alert } from "react-native";
-import React from "react";
+import { View, Alert } from "react-native";
 import DetailItem from "./DetailItem";
 import PrimaryButton from "../../components/PrimaryButton";
 import { useSelector } from "react-redux";
