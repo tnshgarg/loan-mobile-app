@@ -26,8 +26,6 @@ import {
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
-import { COLORS } from "../../constants/Theme";
-import SVGImg from "../../assets/UnipeLogo.svg";
 import privacyPolicy from "../../templates/docs/PrivacyPolicy.js";
 import termsOfUse from "../../templates/docs/TermsOfUse.js";
 
