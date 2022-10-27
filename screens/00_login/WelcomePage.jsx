@@ -12,6 +12,7 @@ import { stepIndicatorStyles, styles, welcome } from "../../styles";
 import SVGImg from "../../assets/UnipeLogo.svg";
 import { requestUserPermission } from "../../services/notifications/notificationService";
 
+
 const WelcomePage = () => {
 
   const dispatch = useDispatch();
