@@ -18,7 +18,7 @@ const WelcomePage = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const id = useSelector((state) => state.auth.id);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
   useEffect(() => {
     dispatch(addCurrentScreen("Welcome"));
@@ -85,7 +85,7 @@ const WelcomePage = () => {
           title="Start Onboarding"
           onPress={() => {
             requestUserPermission();
-            Analytics.trackEvent("WelcomePage", { userId: id });
+            Analytics.trackEvent("WelcomePage", { unipeEmployeeId: unipeEmployeeId });
             navigation.navigate("ProfileForm");
           }}
         />

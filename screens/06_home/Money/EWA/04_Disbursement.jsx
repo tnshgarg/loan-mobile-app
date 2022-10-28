@@ -8,30 +8,32 @@ import Header from "../../../../components/atoms/Header";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 
 const Disbursement = ({ route, navigation }) => {
-  const { offer } = route.params;
 
-  const bankSlice = useSelector((state) => state.bank);
-  const unipeEmployeeId = useSelector((state) => state.auth.id);
+  const { offer } = route.params;
+  const [dueDate, setDueDate] = useState(offer?.dueDate);
   const [loanAmount, setLoanAmount] = useState(offer?.loanAmount);
   const [netAmount, setNetAmount] = useState(offer?.netAmount);
+
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const bankSlice = useSelector((state) => state.bank);
   const [bankAccountNumber, setBankAccountNumber] = useState(
     bankSlice?.data?.accountNumber
   );
-  const [dueDate, setDueDate] = useState(offer?.dueDate);
   const [loanAccountNumber, setLoanAccountNumber] = useState("");
   const [status, setStatus] = useState("");
-
   const [processingFees, setProcessingFees] = useState("");
 
   useEffect(() => {
     getBackendData({
-      params: { offerId: offer.offerId },
+      params: { offerId: offer?.offerId },
       xpath: "ewa/disbursement",
+      token: token,
     })
       .then((response) => {
         if (response.data.status === 200) {
           Analytics.trackEvent("Ewa|Disbursement|Success", {
-            userId: unipeEmployeeId,
+            unipeEmployeeId: unipeEmployeeId,
           });
           console.log("ewaDisbursementFetch response.data: ", response.data);
           setLoanAmount(response.data.body.loanAmount);
@@ -43,10 +45,10 @@ const Disbursement = ({ route, navigation }) => {
         }
       })
       .catch((error) => {
-        console.log("ewaDisbursementFetch error: ", error);
+        console.log("ewaDisbursementFetch error: ", error.toString());
         Analytics.trackEvent("Ewa|Disbursement|Error", {
-          userId: unipeEmployeeId,
-          error: error,
+          unipeEmployeeId: unipeEmployeeId,
+          error: error.toString(),
         });
       });
   }, []);

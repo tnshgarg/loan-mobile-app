@@ -45,6 +45,8 @@ const Agreement = () => {
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const bankSlice = useSelector((state) => state.bank);
   const panSlice = useSelector((state) => state.pan);
@@ -162,24 +164,25 @@ const Agreement = () => {
     { subTitle: "Due Date", value: ewaLiveSlice?.dueDate },
   ];
 
-  const unipeEmployeeId = useSelector((state) => state.auth.id);
-
   useEffect(() => {
     if (fetched) {
       ewaAgreementPush({
-        offerId: ewaLiveSlice?.offerId,
-        unipeEmployeeId: unipeEmployeeId,
-        status: "INPROGRESS",
-        timestamp: Date.now(),
-        ipAddress: ipAddress,
-        deviceId: deviceId,
+        data: {
+          offerId: ewaLiveSlice?.offerId,
+          unipeEmployeeId: unipeEmployeeId,
+          status: "INPROGRESS",
+          timestamp: Date.now(),
+          ipAddress: ipAddress,
+          deviceId: deviceId,
+        },
+        token: token,
       })
         .then((response) => {
           console.log("ewaAgreementPush response.data: ", response.data);
         })
         .catch((error) => {
-          console.log("ewaAgreementPush error: ", error);
-          Alert.alert("An Error occured", error);
+          console.log("ewaAgreementPush error: ", error.toString());
+          Alert.alert("An Error occured", error.toString());
         });
     }
   }, [fetched]);
@@ -187,18 +190,21 @@ const Agreement = () => {
   function handleAgreement() {
     setLoading(true);
     ewaAgreementPush({
-      offerId: ewaLiveSlice?.offerId,
-      unipeEmployeeId: unipeEmployeeId,
-      status: "CONFIRMED",
-      timestamp: Date.now(),
-      ipAddress: ipAddress,
-      deviceId: deviceId,
-      bankAccountNumber: bankSlice?.data?.accountNumber,
-      dueDate: ewaLiveSlice?.dueDate,
-      processingFees: processingFees,
-      loanAmount: ewaLiveSlice?.loanAmount,
-      netAmount: netAmount,
-      loanAccountNumber: ewaLiveSlice?.offerId,
+      data: {
+        offerId: ewaLiveSlice?.offerId,
+        unipeEmployeeId: unipeEmployeeId,
+        status: "CONFIRMED",
+        timestamp: Date.now(),
+        ipAddress: ipAddress,
+        deviceId: deviceId,
+        bankAccountNumber: bankSlice?.data?.accountNumber,
+        dueDate: ewaLiveSlice?.dueDate,
+        processingFees: processingFees,
+        loanAmount: ewaLiveSlice?.loanAmount,
+        netAmount: netAmount,
+        loanAccountNumber: ewaLiveSlice?.offerId,
+      },
+      token: token,
     })
       .then((response) => {
         console.log("ewaAgreementPush response.data: ", response.data);
@@ -207,16 +213,16 @@ const Agreement = () => {
         dispatch(resetEwaHistorical([]));
         setLoading(false);
         Analytics.trackEvent("Ewa|Agreement|Success", {
-          userId: unipeEmployeeId,
+          unipeEmployeeId: unipeEmployeeId,
         });
       })
       .catch((error) => {
-        console.log("ewaAgreementPush error: ", error);
+        console.log("ewaAgreementPush error: ", error.toString());
         setLoading(false);
-        Alert.alert("An Error occured", error);
+        Alert.alert("An Error occured", error.toString());
         Analytics.trackEvent("Ewa|Agreement|Error", {
-          userId: unipeEmployeeId,
-          error: error,
+          unipeEmployeeId: unipeEmployeeId,
+          error: error.toString(),
         });
       });
   }
