@@ -36,6 +36,7 @@ const MandateFormTemplate = (props) => {
   const [ipAddress, setIpAdress] = useState(0);
   const [backendPush, setBackendPush] = useState(false);
 
+  const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
   const phoneNumber = useSelector((state) => state.auth?.phoneNumber);
   const email = useSelector(
@@ -96,13 +97,16 @@ const MandateFormTemplate = (props) => {
     if (backendPush) {
       console.log("mandateSlice: ", mandateSlice);
       mandatePush({
-        unipeEmployeeId: unipeEmployeeId,
-        ipAddress: ipAddress,
-        deviceId: deviceId,
-        data: data,
-        verifyMsg: verifyMsg,
-        verifyStatus: verifyStatus,
-        verifyTimestamp: verifyTimestamp,
+        data: {
+          unipeEmployeeId: unipeEmployeeId,
+          ipAddress: ipAddress,
+          deviceId: deviceId,
+          data: data,
+          verifyMsg: verifyMsg,
+          verifyStatus: verifyStatus,
+          verifyTimestamp: verifyTimestamp,
+        },
+        token: token,
       });
       setBackendPush(false);
     }

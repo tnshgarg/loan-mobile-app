@@ -98,7 +98,7 @@ const LoginScreen = () => {
     setLoading(true);
     dispatch(resetTimer());
     var fullPhoneNumber = `+91${phoneNumber}`;
-    putBackendData({ document: { number: fullPhoneNumber }, xpath: "mobile", token: token })
+    putBackendData({ data: { number: fullPhoneNumber }, xpath: "mobile", token: token })
       .then((res) => {
         console.log("LoginScreen res.data: ", res.data);
         if (res.data.status === 200) {
