@@ -1,33 +1,23 @@
 import NetInfo from "@react-native-community/netinfo";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 
 const OfflineAlert = ({ children }) => {
   const [isConnected, setIsConnected] = useState(true);
   const [unsubscribe, setUnsubscribe] = useState(null);
 
-  const isMounted = useRef(false);
-  useEffect(() => {
-    isMounted.current = true;
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
+  const handleConnectivityChange = (connection) => {
+    setIsConnected(connection?.isConnected && connection?.isInternetReachable);
+    console.log("isConnected", connection?.isConnected);
+    console.log("isInternetReachable", connection?.isInternetReachable);
+    console.log("isConnected", connection);
+  };
 
   useEffect(() => {
-    if (isMounted.current) {
-      const unsub = NetInfo.addEventListener((networkState) => {
-        if (networkState.isConnected && networkState.isInternetReachable) {
-          setIsConnected(true);
-          console.log("isConnected: ", networkState);
-        } else {
-          setIsConnected(false);
-        }
-        setUnsubscribe(unsub);
-      });
-    } else {
-      unsubscribe();
-    }
+    const unsub = NetInfo.addEventListener(handleConnectivityChange);
+    return () => {
+      unsub();
+    };
   }, []);
 
   return (
