@@ -1,10 +1,10 @@
 import NetInfo from "@react-native-community/netinfo";
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Alert, Modal, Text, TouchableOpacity, View } from "react-native";
+import { AddListener } from "../helpers/InternetCheck";
 
 const OfflineAlert = ({ children }) => {
   const [isConnected, setIsConnected] = useState(true);
-  const [unsubscribe, setUnsubscribe] = useState(null);
 
   const handleConnectivityChange = (connection) => {
     setIsConnected(connection?.isConnected && connection?.isInternetReachable);
@@ -14,7 +14,7 @@ const OfflineAlert = ({ children }) => {
   };
 
   useEffect(() => {
-    const unsub = NetInfo.addEventListener(handleConnectivityChange);
+    const unsub = AddListener(handleConnectivityChange);
     return () => {
       unsub();
     };
@@ -26,19 +26,39 @@ const OfflineAlert = ({ children }) => {
         <>{children}</>
       ) : (
         <>
-          <View
-            style={{
-              height: "3%",
-              zindex: 10,
-              backgroundColor: "#f56a6a",
-            }}
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={true}
+            style={{ height: "3%"}}
           >
-            <View style={{ justifyContent: "center", flex: 1 }}>
-              <Text style={{ alignSelf: "center" }}>
-                No Internet Connection
-              </Text>
-            </View>
-          </View>
+            <TouchableOpacity
+              onPress={() => {
+                Alert.alert(
+                  "Your Device seems to have lost internet connectivity",
+                  "Please note that you cannot proceed without an internet connection",
+                  [
+                    { text: "Ok", onPress: () => null, style: "cancel" },
+                    {
+                      text: "refresh",
+                      onPress: () => NetInfo.refresh(),
+                    },
+                  ]
+                );
+              }}
+              style={{
+                height: "3%",
+                backgroundColor: "#f56a6a",
+              }}
+            >
+              <View style={{ justifyContent: "center", flex: 1 }}>
+                <Text style={{ alignSelf: "center" }}>
+                  No Internet Connection
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </Modal>
+
           {children}
         </>
       )}
