@@ -91,6 +91,20 @@ export const form = StyleSheet.create({
     marginTop: "10%",
     color: COLORS.gray,
   },
+  otpContainer: {
+    width: "100%",
+    alignSelf: "center",
+    height: 50,
+    marginTop: "10%",
+  },
+  otpCell: {
+    width: 50,
+    height: 50,
+    borderRadius: 5,
+    backgroundColor: COLORS.lightgray_01,
+    color: COLORS.black,
+    ...FONTS.h3,
+  },
   nextButton: {
     padding: 5,
     alignSelf: "center",
@@ -189,6 +203,7 @@ export const bankform = StyleSheet.create({
     height: 40,
     borderBottomWidth: 1,
   },
+
   nextButton: {
     padding: 10,
     alignSelf: "center",

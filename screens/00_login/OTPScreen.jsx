@@ -5,6 +5,7 @@ import { Alert, SafeAreaView, Text, View } from "react-native";
 import CountDown from "react-native-countdown-component";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
+import OTPInputView from "@twotalltotems/react-native-otp-input";
 import {
   checkVerification,
   sendSmsVerification,
@@ -14,7 +15,7 @@ import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/PrimaryButton";
 import SVGImg from "../../assets/UnipeLogo.svg";
 import Analytics from "appcenter-analytics";
-import { styles } from "../../styles";
+import { styles, form } from "../../styles";
 import { COLORS, SIZES } from "../../constants/Theme";
 import FormInput from "../../components/atoms/FormInput";
 import Header from "../../components/atoms/Header";
@@ -85,21 +86,14 @@ const OTPScreen = () => {
               />
             )}
           </Text>
-          <FormInput
-            containerStyle={{
-              marginTop: 30,
-
-              width: SIZES.width * 0.6,
-              alignSelf: "center",
+          <OTPInputView
+            pinCount={6}
+            autoFocusOnLoad
+            style={form.otpContainer}
+            codeInputFieldStyle={form.otpCell}
+            onCodeFilled={(code) => {
+              setOtp(code);
             }}
-            letterSpacing={20}
-            autoFocus={true}
-            value={otp}
-            onChange={setOtp}
-            maxLength={6}
-            keyboardType="numeric"
-            placeholder={"******"}
-            textAlign={"center"}
           />
 
           <CountDown
