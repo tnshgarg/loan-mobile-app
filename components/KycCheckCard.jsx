@@ -17,16 +17,14 @@ const KycCheckCard = () => {
   ];
 
   return (
-    <>
-      <SafeAreaView>
-        {!allAreNull(message) ? (
-          <MessageCard
-            title="Following pending steps need to be completed in order to receive advance salary."
-            message={message}
-          />
-        ) : null}
-      </SafeAreaView>
-    </>
+    <SafeAreaView>
+      {!allAreNull(message) ? (
+        <MessageCard
+          title="Following pending steps need to be completed in order to receive advance salary."
+          message={message}
+        />
+      ) : null}
+    </SafeAreaView>
   );
 };
 

@@ -29,7 +29,7 @@ const AadhaarFormTemplate = (props) => {
   }, [number]);
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <View style={[styles.container, { padding: 0 }]}>
           {/* <Text style={form.formHeader}>Aadhaar Verification</Text> */}

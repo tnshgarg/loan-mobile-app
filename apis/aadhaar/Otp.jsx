@@ -50,10 +50,6 @@ const AadhaarOtpApi = (props) => {
   }, [verifyTimestamp]);
 
   useEffect(() => {
-    console.log(
-      "KYC_AADHAAR_GENERATE_OTP_API_URL: ",
-      KYC_AADHAAR_GENERATE_OTP_API_URL
-    );
     console.log("AadhaarOtpApi aadhaarSlice: ", aadhaarSlice);
     if (backendPush) {
       aadhaarBackendPush({
@@ -165,7 +161,7 @@ const AadhaarOtpApi = (props) => {
   return (
     <PrimaryButton
       title={loading ? "Verifying" : props.title || "Continue"}
-      disabled={loading}
+      disabled={props.disabled}
       loading={loading}
       onPress={() => {
         goForFetch();

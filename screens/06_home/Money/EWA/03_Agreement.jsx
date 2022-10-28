@@ -3,10 +3,14 @@ import CheckBox from "@react-native-community/checkbox";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import {
-  Alert, Dimensions,
-  Pressable, SafeAreaView,
+  Alert,
+  Dimensions,
+  Pressable,
+  SafeAreaView,
   ScrollView,
-  Text, useWindowDimensions, View
+  Text,
+  useWindowDimensions,
+  View,
 } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import Modal from "react-native-modal";
@@ -23,11 +27,11 @@ import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice"
 import {
   addNetAmount,
   addProcessingFees,
-  resetEwaLive
+  resetEwaLive,
 } from "../../../../store/slices/ewaLiveSlice";
 import { checkBox, ewa, styles } from "../../../../styles";
 import agreement from "../../../../templates/docs/LiquidLoansLoanAgreement";
-import Checkbox from "../../../../components/atoms/Checkbox";
+
 
 const Agreement = () => {
   const dispatch = useDispatch();
@@ -37,8 +41,7 @@ const Agreement = () => {
   const [fetched, setFetched] = useState(false);
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
-
-  const [confirm, setConfirm] = useState(false);
+  
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -70,7 +73,10 @@ const Agreement = () => {
     );
     text.data = text.data.replace(/\{email\}/g, profileSlice?.email);
     text.data = text.data.replace(/\{mobile\}/g, authSlice?.phoneNumber);
-    text.data = text.data.replace(/\{loanAccountNumber\}/g, ewaLiveSlice?.offerId);
+    text.data = text.data.replace(
+      /\{loanAccountNumber\}/g,
+      ewaLiveSlice?.offerId
+    );
     text.data = text.data.replace(/\{loanAmount\}/g, ewaLiveSlice?.loanAmount);
     text.data = text.data.replace(/\{processingFees\}/g, processingFees);
     text.data = text.data.replace(
@@ -97,7 +103,11 @@ const Agreement = () => {
 
   useEffect(() => {
     setProcessingFees(
-      Math.round((((((ewaLiveSlice?.loanAmount * ewaLiveSlice?.fees) / 100) + 1) / 10) * 10) - 1)
+      Math.round(
+        (((ewaLiveSlice?.loanAmount * ewaLiveSlice?.fees) / 100 + 1) / 10) *
+          10 -
+          1
+      )
     );
   }, [ewaLiveSlice]);
 
@@ -212,7 +222,7 @@ const Agreement = () => {
   }
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <Header title="Agreement" onLeftIconPress={() => navigation.goBack()} />
       <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -232,12 +242,7 @@ const Agreement = () => {
             isClosed={false}
             data={bankData}
           />
-        
-          <Checkbox
-            text={"I confirm the above details."}
-            value={confirm}
-            setValue={setConfirm}
-          />
+
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <CheckBox
               style={ewa.checkBox}
@@ -246,7 +251,7 @@ const Agreement = () => {
               onValueChange={setConsent}
             />
             <Text style={ewa.checkBoxText}>
-              I agree to the{" "}
+              I confirm the above details and agree to {" "}
               <Text
                 style={styles.termsText}
                 onPress={() => setIsModalVisible(true)}
@@ -258,55 +263,56 @@ const Agreement = () => {
           </View>
         <PrimaryButton
           title={loading ? "Booking" : "Finish"}
+          disabled={!consent}
+          loading={loading}
           onPress={() => {
             handleAgreement();
           }}
-          disabled={!confirm || !consent || loading}
         />
         <View style={checkBox.padding}></View>
           <Text style={{ marginLeft: "6%", fontSize: 6, marginTop: "25%" }}>
-            * Disbursement will be reconciled in your next payroll {"\n"}* Annual
-            Percentage Rate @ {apr} %
+            * Disbursement will be reconciled in your next payroll {"\n"}*
+            Annual Percentage Rate @ {apr} %
           </Text>
-      </ScrollView>
-      <Modal
-        isVisible={isModalVisible}
-        style={{
-          width: Dimensions.get("window").width,
-          height: Dimensions.get("window").height,
-        }}
-      >
-        <Pressable
-          onPress={() => setIsModalVisible(false)}
+        </ScrollView>
+        <Modal
+          isVisible={isModalVisible}
           style={{
-            position: "absolute",
-            top: 30,
-            right: 50,
-            zIndex: 999,
+            width: Dimensions.get("window").width,
+            height: Dimensions.get("window").height,
           }}
         >
-          <AntDesign name="closesquareo" size={24} color="black" />
-        </Pressable>
-        <View
-          style={{
-            height: Dimensions.get("window").height - 100,
-            width: Dimensions.get("window").width - 40,
-            backgroundColor: "white",
-            borderRadius: 5,
-          }}
-        >
-          <ScrollView style={{ padding: "5%" }}>
-            <RenderHtml
-              contentWidth={width}
-              source={agreement}
-              enableExperimentalMarginCollapsing={true}
-              renderersProps={{
-                img: {
-                  enableExperimentalPercentWidth: true,
-                },
-              }}
-              domVisitors={{ onText: ValueEntry }}
-            />
+          <Pressable
+            onPress={() => setIsModalVisible(false)}
+            style={{
+              position: "absolute",
+              top: 30,
+              right: 50,
+              zIndex: 999,
+            }}
+          >
+            <AntDesign name="closesquareo" size={24} color="black" />
+          </Pressable>
+          <View
+            style={{
+              height: Dimensions.get("window").height - 100,
+              width: Dimensions.get("window").width - 40,
+              backgroundColor: "white",
+              borderRadius: 5,
+            }}
+          >
+            <ScrollView style={{ padding: "5%" }}>
+              <RenderHtml
+                contentWidth={width}
+                source={agreement}
+                enableExperimentalMarginCollapsing={true}
+                renderersProps={{
+                  img: {
+                    enableExperimentalPercentWidth: true,
+                  },
+                }}
+                domVisitors={{ onText: ValueEntry }}
+              />
             </ScrollView>
           </View>
         </Modal>

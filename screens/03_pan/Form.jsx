@@ -29,17 +29,15 @@ export default PanForm = () => {
   };
 
   return (
-    <>
-      <SafeAreaView style={[styles.container, { padding: 0 }]}>
-        <Header
-          title="PAN Verification"
-          onLeftIconPress={() => navigation.navigate("AadhaarConfirm")}
-          onRightIconPress={() => SkipPAN()}
-        />
+    <SafeAreaView style={styles.safeContainer}>
+      <Header
+        title="PAN Verification"
+        onLeftIconPress={() => navigation.navigate("AadhaarConfirm")}
+        onRightIconPress={() => SkipPAN()}
+      />
 
-        <ProgressBarTop step={3} />
-        <PanFormTemplate />
-      </SafeAreaView>
-    </>
+      <ProgressBarTop step={2} />
+      <PanFormTemplate />
+    </SafeAreaView>
   );
 };

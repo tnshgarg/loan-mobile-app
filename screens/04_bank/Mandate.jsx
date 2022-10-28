@@ -9,21 +9,20 @@ import MandateFormTemplate from "../../templates/mandate/Form";
 import Header from "../../components/atoms/Header";
 
 const Mandate = () => {
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   useEffect(() => {
     dispatch(addCurrentScreen("Mandate"));
   }, []);
-  
+
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <Header
         title="Mandate Confirmation"
         onLeftIconPress={() => navigation.navigate("BankForm")}
       />
-      <ProgressBarTop step={5} />
+      <ProgressBarTop step={4} />
       <MandateFormTemplate type="Onboarding" />
     </SafeAreaView>
   );

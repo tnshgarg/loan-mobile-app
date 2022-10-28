@@ -28,24 +28,20 @@ const PrimaryButton = ({
   titleStyle,
   onPress,
 }) => {
-  return !loading ? (
+  return  (
     <Button
       uppercase={false}
       title={title}
       titleStyle={[styles.btnText, { ...titleStyle }]}
       type="solid"
       style={[styles.button, { ...containerStyle }]}
-      disabled={disabled}
+      disabled={disabled || loading}
       onPress={onPress}
-      color={disabled ? COLORS.gray : COLORS.primary}
+      color={disabled || loading ? COLORS.gray : COLORS.primary}
       pressableContainerStyle={{ width: "100%" }}
       contentContainerStyle={{ height: "100%" }}
     />
-  ) : (
-    <TouchableOpacity style={[styles.button, styles.loadingButton]} disabled>
-      <ActivityIndicator size="large" color="white" />
-    </TouchableOpacity>
-  );
+  )
 };
 
 const styles = StyleSheet.create({
@@ -53,7 +49,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 30,
+    marginTop: 20,
     //width: "100%",
     height: 50,
   },

@@ -1,4 +1,4 @@
-import { Icon, IconButton } from "@react-native-material/core";
+import { Icon } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
@@ -65,7 +65,7 @@ const OTPScreen = () => {
   }, [back]);
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <Header
         //title="Otp"
         onLeftIconPress={() =>

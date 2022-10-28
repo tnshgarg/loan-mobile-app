@@ -1,30 +1,34 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { Alert, SafeAreaView, ScrollView, BackHandler } from "react-native";
+import {
+  Alert,
+  SafeAreaView,
+  ScrollView,
+  BackHandler,
+} from "react-native";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
 import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import BankConfirmApi from "../../apis/bank/Confirm";
-import { COLORS } from "../../constants/Theme";
+import AadhaarConfirmApi from "../../apis/aadhaar/Confirm";
 import Header from "../../components/atoms/Header";
 
-const BankConfirm = () => {
+const AadhaarConfirm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   useEffect(() => {
-    dispatch(addCurrentScreen("BankConfirm"));
+    dispatch(addCurrentScreen("AadhaarConfirm"));
   }, []);
 
   const backAlert = () => {
     Alert.alert(
       "Do you want to go back ?",
-      "If you go back your Bank Verification will have to be redone. Continue only if you want to edit your Bank Account Details.",
+      "If you go back your AADHAAR Verification will have to be redone. Continue if you want to edit your Aadhaar number.",
       [
         { text: "No", onPress: () => null, style: "cancel" },
-        { text: "Yes", onPress: () => navigation.navigate("BankForm") },
+        { text: "Yes", onPress: () => navigation.navigate("AadhaarVerify") },
       ]
     );
   };
@@ -42,18 +46,19 @@ const BankConfirm = () => {
 
     return () => backHandler.remove();
   }, []);
+
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <Header
+        title="Aadhaar Data Confirmation"
         onLeftIconPress={() => backAlert()}
-        title="Bank Details Confirmation"
       />
-      <ProgressBarTop step={4} />
+      <ProgressBarTop step={1} />
       <ScrollView keyboardShouldPersistTaps="handled">
-        <BankConfirmApi />
+        <AadhaarConfirmApi />
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default BankConfirm;
+export default AadhaarConfirm;

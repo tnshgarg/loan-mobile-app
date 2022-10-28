@@ -20,7 +20,7 @@ const Aadhaar = () => {
     { label: "Date of Birth", value: dob },
     { label: "Aadhaar Number", value: number },
     { label: "Address", value: address },
-    { label: "Verify Status", value: verifyStatus, divider: false },
+    { label: "Verify Status", value: verifyStatus },
   ];
 
   const tabs = [
@@ -46,17 +46,19 @@ const Aadhaar = () => {
   ];
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       {verifyStatus == "SUCCESS" ? (
         <View style={styles.container}>
-          {dataDetails.map((item, index) => (
-            <DetailItem
-              key={index}
-              label={item.label}
-              value={item.value || "Not Provided"}
-              divider={item?.divider ?? true}
-            />
-          ))}
+          <View style={styles.card}>
+            {dataDetails.map((item, index) => (
+              <DetailItem
+                key={index}
+                label={item.label}
+                value={item.value || "Not Provided"}
+                divider={item?.divider}
+              />
+            ))}
+          </View>
         </View>
       ) : (
         <TopTabNav tabs={tabs} hide={true} />

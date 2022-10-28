@@ -5,7 +5,11 @@ export const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.white,
     flex: 1,
-    padding: "1%",
+    padding: "3%",
+  },
+  safeContainer: {
+    backgroundColor: COLORS.white,
+    flex: 1,
   },
   logo: {
     alignSelf: "center",
@@ -109,6 +113,14 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     backgroundColor: COLORS.primary,
     borderRadius: 6,
+  },
+  card: {
+    padding: 10,
+    borderWidth: 0.5,
+    borderColor: COLORS.lightgray_01,
+    borderRadius: 5,
+    elevation: 2,
+    backgroundColor: COLORS.white,
   },
 });
 
@@ -369,7 +381,7 @@ export const nav = StyleSheet.create({
     height: 80,
   },
   navbar: {
-    height: 80,
+    height: 60,
   },
 });
 
@@ -461,7 +473,7 @@ export const welcome = StyleSheet.create({
     ...FONTS.h3,
     textAlign: "center",
   },
-  steps: { alignSelf: "center", flex: 1 },
+  steps: { flex: 1, alignSelf:"center" },
 });
 
 export const selfie = StyleSheet.create({
@@ -525,11 +537,11 @@ export const ewa = StyleSheet.create({
     marginTop: 10,
   },
   loanCard: {
-    marginTop: 20,
+    marginTop: 10,
     alignSelf: "center",
     width: "100%",
     backgroundColor: COLORS.lightgray_01,
-    paddingVertical: "4%",
+    paddingVertical: "2%",
     paddingHorizontal: "3%",
     borderRadius: 10,
   },
@@ -541,11 +553,11 @@ export const ewa = StyleSheet.create({
     marginBottom: 5,
   },
   checkBox: {
-    marginTop: 10,
+    //marginTop: 10,
   },
   checkBoxText: {
-    marginRight: 40,
-    marginTop: 10,
+    //marginRight: 40,
+    marginLeft: 5,
     color: COLORS.gray,
   },
 });

@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import { Alert, SafeAreaView } from "react-native";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import AadhaarVerifyTemplate from "../../templates/aadhaar/Verify";
-import { COLORS } from "../../constants/Theme";
 import Header from "../../components/atoms/Header";
 
 const AadhaarVerify = () => {
@@ -42,13 +40,12 @@ const AadhaarVerify = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <Header
         title="Aadhaar OTP Verification"
         onLeftIconPress={() => (backDisabled ? null : backAlert())}
       />
-
-      <ProgressBarTop step={2} />
+      <ProgressBarTop step={1} />
       <AadhaarVerifyTemplate function={backAlert} />
     </SafeAreaView>
   );
