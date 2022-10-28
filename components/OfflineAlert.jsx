@@ -28,7 +28,7 @@ const OfflineAlert = ({ children }) => {
     } else {
       unsubscribe();
     }
-  }, [isMounted]);
+  }, []);
 
   return (
     <>
