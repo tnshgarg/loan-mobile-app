@@ -81,7 +81,9 @@ const OfflineAlert = ({ children }) => {
                   Go to Settings-&gt; Wifi-&gt; Switch wifi on and connect to a
                   known network
                 </Text>
-                <Text style={{ alignSelf: "center" }}>-OR-{"\n"}</Text>
+                <Text style={{ alignSelf: "center", marginTop: "5%" }}>
+                  -OR-{"\n"}
+                </Text>
                 <Text>
                   Go to Settings-&gt; Data Usage-&gt; Switch on Mobile
                   Data/Cellular Data -&gt; Switch mobile data on
