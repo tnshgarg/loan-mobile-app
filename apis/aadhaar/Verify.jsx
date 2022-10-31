@@ -21,7 +21,8 @@ const AadhaarVerifyApi = (props) => {
   const [loading, setLoading] = useState(false);
   const [backendPush, setBackendPush] = useState(false);
 
-  const id = useSelector((state) => state.auth.id);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const token = useSelector((state) => state.auth.token);
   const submitOTPtxnId = useSelector((state) => state.aadhaar.submitOTPtxnId);
 
   const aadhaarSlice = useSelector((state) => state.aadhaar);
