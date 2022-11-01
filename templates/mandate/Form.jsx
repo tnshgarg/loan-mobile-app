@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, SafeAreaView, ScrollView } from "react-native";
+import { Alert, SafeAreaView, ScrollView, Text } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +15,7 @@ import {
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/mandateSlice";
-import { styles } from "../../styles";
+import { styles, bankform } from "../../styles";
 import { showToast } from "../../components/Toast";
 import RazorpayCheckout from "react-native-razorpay";
 import {
@@ -46,6 +46,7 @@ const MandateFormTemplate = (props) => {
   );
   const accountNumber = useSelector((state) => state.bank?.data?.accountNumber);
   const ifsc = useSelector((state) => state.bank?.data?.ifsc);
+  const bankVerifyStatus = useSelector((state) => state.bank?.verifyStatus);
 
   const mandateSlice = useSelector((state) => state.mandate);
   const [authType, setAuthType] = useState(mandateSlice?.data?.authType);
@@ -233,7 +234,9 @@ const MandateFormTemplate = (props) => {
       })
       .catch((error) => {
         console.log(`Mandate|CreateOrder|${authType} error:`, error.toString());
-        setVerifyMsg(`Mandate|CreateOrder|${authType} ERROR ${error.toString()}`);
+        setVerifyMsg(
+          `Mandate|CreateOrder|${authType} ERROR ${error.toString()}`
+        );
         setVerifyStatus("ERROR");
         setBackendPush(true);
         Alert.alert("Error", error.toString());
@@ -246,49 +249,67 @@ const MandateFormTemplate = (props) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <KeyboardAvoidingWrapper>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <FormInput
-            placeholder={"Account Holder Name"}
-            containerStyle={{ marginVertical: 10 }}
-            autoCapitalize="words"
-            value={accountHolderName}
-            disabled={true}
-          />
-          <FormInput
-            placeholder={"Bank Account Number"}
-            containerStyle={{ marginVertical: 10 }}
-            autoCapitalize="words"
-            value={accountNumber}
-            disabled={true}
-          />
-          <FormInput
-            placeholder={"IFSC"}
-            containerStyle={{ marginVertical: 10 }}
-            autoCapitalize="words"
-            value={ifsc}
-            disabled={true}
-          />
+      {bankVerifyStatus === "SUCCESS" ? (
+        <KeyboardAvoidingWrapper>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <FormInput
+              placeholder={"Account Holder Name"}
+              containerStyle={{ marginVertical: 10 }}
+              autoCapitalize="words"
+              value={accountHolderName}
+              disabled={true}
+            />
+            <FormInput
+              placeholder={"Bank Account Number"}
+              containerStyle={{ marginVertical: 10 }}
+              autoCapitalize="words"
+              value={accountNumber}
+              disabled={true}
+            />
+            <FormInput
+              placeholder={"IFSC"}
+              containerStyle={{ marginVertical: 10 }}
+              autoCapitalize="words"
+              value={ifsc}
+              disabled={true}
+            />
+            <PrimaryButton
+              title="Debit Card"
+              onPress={() => {
+                ProceedButton({ authType: "debitcard" });
+              }}
+            />
+            <PrimaryButton
+              title="Net Banking"
+              onPress={() => {
+                ProceedButton({ authType: "netbanking" });
+              }}
+            />
+            <PrimaryButton
+              title="UPI"
+              onPress={() => {
+                ProceedButton({ authType: "upi" });
+              }}
+            />
+          </ScrollView>
+        </KeyboardAvoidingWrapper>
+      ) : (
+        <>
+          <Text style={bankform.subTitle}>
+            Please verify your Bank Information first
+          </Text>
           <PrimaryButton
-            title="Debit Card"
+            title="Verify Bank Info Now"
             onPress={() => {
-              ProceedButton({ authType: "debitcard" });
+              props?.route?.params?.type
+                ? navigation.navigate("KYC", {
+                    screen: "BANK",
+                  })
+                : navigation.navigate("BankForm");
             }}
           />
-          <PrimaryButton
-            title="Net Banking"
-            onPress={() => {
-              ProceedButton({ authType: "netbanking" });
-            }}
-          />
-          <PrimaryButton
-            title="UPI"
-            onPress={() => {
-              ProceedButton({ authType: "upi" });
-            }}
-          />
-        </ScrollView>
-      </KeyboardAvoidingWrapper>
+        </>
+      )}
     </SafeAreaView>
   );
 };
