@@ -12,9 +12,7 @@ import { stepIndicatorStyles, styles, welcome } from "../../styles";
 import SVGImg from "../../assets/UnipeLogo.svg";
 import { requestUserPermission } from "../../services/notifications/notificationService";
 
-
 const WelcomePage = () => {
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -59,17 +57,11 @@ const WelcomePage = () => {
 
   const renderStepIndicator = (params) => getStepIndicatorIconConfig(params);
 
-  const data = [
-    "Profile",
-    "Aadhaar",
-    "PAN",
-    "Bank",
-    "Mandate",
-  ];
+  const data = ["Profile", "Aadhaar", "PAN", "Bank", "Mandate"];
 
   return (
     <>
-      <SafeAreaView style={[styles.container, { paddingBottom: 40 }]}>
+      <SafeAreaView style={[styles.container]}>
         <SVGImg style={styles.logo} />
         <View style={welcome.steps}>
           <StepIndicator

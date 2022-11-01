@@ -1,14 +1,14 @@
-import { StyleSheet } from "react-native";
 import { COLORS, FONTS, SIZES } from "./constants/Theme";
+import EStyleSheet from "react-native-extended-stylesheet";
 
-export const styles = StyleSheet.create({
+export const styles = EStyleSheet.create({
   container: {
-    backgroundColor: COLORS.white,
+    backgroundColor: "$white",
     flex: 1,
     padding: "3%",
   },
   safeContainer: {
-    backgroundColor: COLORS.white,
+    backgroundColor: "$white",
     flex: 1,
   },
   logo: {
@@ -18,51 +18,19 @@ export const styles = StyleSheet.create({
     height: "auto",
   },
   headline: {
-    marginTop: 30,
+    marginTop: "20rem",
     ...FONTS.h3,
     color: COLORS.black,
     textAlign: "center",
   },
-  fieldLabel: {
-    ...FONTS.body4,
-    marginTop: 60,
-    color: COLORS.black,
-  },
-  textInput: {
-    width: "100%",
-    height: 50,
-    borderBottomWidth: 1,
-  },
   resendText: {
     color: COLORS.primary,
     alignSelf: "center",
-    marginTop: 30,
+    marginTop: "20rem",
     ...FONTS.h3,
     textDecorationLine: "underline",
   },
-  otpInput: {
-    alignSelf: "center",
-    marginTop: 40,
-    width: "49%",
-    height: 50,
-    borderBottomWidth: 1,
-  },
-  ContinueButton: {
-    alignSelf: "center",
-    marginTop: 20,
-    width: 320,
-    height: 60,
-    fontSize: 20,
-    backgroundColor: COLORS.primary,
-    borderRadius: 6,
-  },
-  PrimaryButton: {
-    alignSelf: "center",
-    marginTop: 20,
-    width: "100%",
-    height: 60,
-    fontSize: 20,
-  },
+
   btn: {
     marginTop: 20,
     width: "100%",
@@ -104,16 +72,6 @@ export const styles = StyleSheet.create({
     ...FONTS.h4,
     textAlign: "center",
   },
-  LoadingButton: {
-    padding: 10,
-    alignSelf: "center",
-    marginTop: 20,
-    width: 320,
-    height: 60,
-    fontSize: 20,
-    backgroundColor: COLORS.primary,
-    borderRadius: 6,
-  },
   card: {
     padding: 10,
     borderWidth: 0.5,
@@ -124,7 +82,7 @@ export const styles = StyleSheet.create({
   },
 });
 
-export const buttons = StyleSheet.create({
+export const buttons = EStyleSheet.create({
   ContinueButton: {
     padding: 10,
     alignSelf: "center",
@@ -138,7 +96,7 @@ export const buttons = StyleSheet.create({
   },
 });
 
-export const progressBar = StyleSheet.create({
+export const progressBar = EStyleSheet.create({
   progressView: {
     marginTop: 20,
   },
@@ -153,7 +111,7 @@ export const progressBar = StyleSheet.create({
   },
 });
 
-export const form = StyleSheet.create({
+export const form = EStyleSheet.create({
   formHeader: {
     marginTop: 10,
     color: COLORS.black,
@@ -277,7 +235,7 @@ export const form = StyleSheet.create({
   hypen: { alignSelf: "center", fontSize: 30 },
 });
 
-export const checkBox = StyleSheet.create({
+export const checkBox = EStyleSheet.create({
   checkBox: {
     marginTop: 30,
   },
@@ -293,7 +251,7 @@ export const checkBox = StyleSheet.create({
   },
 });
 
-export const bankform = StyleSheet.create({
+export const bankform = EStyleSheet.create({
   formtitle: {
     marginTop: 20,
     color: COLORS.gray,
@@ -342,7 +300,7 @@ export const bankform = StyleSheet.create({
     fontFamily: "Roboto",
   },
   subTitle: {
-    marginTop: 10,
+    marginTop: 20,
     color: COLORS.black,
     ...FONTS.h3,
     alignSelf: "center",
@@ -350,7 +308,7 @@ export const bankform = StyleSheet.create({
   asterisk: { fontWeight: "bold", color: COLORS.primary },
 });
 
-export const homeCard = StyleSheet.create({
+export const homeCard = EStyleSheet.create({
   card: {
     marginTop: 20,
     width: 170,
@@ -375,17 +333,17 @@ export const homeCard = StyleSheet.create({
   },
 });
 
-export const nav = StyleSheet.create({
+export const nav = EStyleSheet.create({
   titleLogo: {
     width: 160,
     height: 80,
   },
   navbar: {
-    height: 60,
+    height: 80,
   },
 });
 
-export const docSearch = StyleSheet.create({
+export const docSearch = EStyleSheet.create({
   searchBar: {
     marginLeft: 20,
     flexDirection: "row",
@@ -400,7 +358,7 @@ export const docSearch = StyleSheet.create({
     textAlignVertical: "center",
   },
 });
-export const Camera = StyleSheet.create({
+export const Camera = EStyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
@@ -455,7 +413,7 @@ export const Camera = StyleSheet.create({
   },
 });
 
-export const welcome = StyleSheet.create({
+export const welcome = EStyleSheet.create({
   title: {
     marginTop: 20,
     color: COLORS.black,
@@ -473,10 +431,10 @@ export const welcome = StyleSheet.create({
     ...FONTS.h3,
     textAlign: "center",
   },
-  steps: { flex: 1, alignSelf:"center" },
+  steps: { alignSelf: "center", flex: 1 },
 });
 
-export const selfie = StyleSheet.create({
+export const selfie = EStyleSheet.create({
   uploadButton: {
     marginTop: 20,
     borderWidth: 2,
@@ -506,7 +464,7 @@ export const selfie = StyleSheet.create({
   },
 });
 
-export const esic = StyleSheet.create({
+export const esic = EStyleSheet.create({
   CollapseTitle: {
     marginTop: 20,
     color: COLORS.primary,
@@ -514,7 +472,7 @@ export const esic = StyleSheet.create({
   },
 });
 
-export const license = StyleSheet.create({
+export const license = EStyleSheet.create({
   authority: {
     color: COLORS.primary,
     marginLeft: "20%",
@@ -532,37 +490,36 @@ export const license = StyleSheet.create({
   },
 });
 
-export const ewa = StyleSheet.create({
+export const ewa = EStyleSheet.create({
   padding: {
     marginTop: 10,
   },
   loanCard: {
-    marginTop: 10,
+    marginTop: 20,
     alignSelf: "center",
     width: "100%",
     backgroundColor: COLORS.lightgray_01,
-    paddingVertical: "2%",
+    paddingVertical: "4%",
     paddingHorizontal: "3%",
     borderRadius: 10,
   },
   successImg: {
     alignSelf: "center",
     height: "43%",
-    //width: "100%",
-    margin: -15,
-    marginBottom: 5,
+    width: "100%",
+    marginTop: "-8%",
   },
   checkBox: {
-    //marginTop: 10,
+    marginTop: 10,
   },
   checkBoxText: {
-    //marginRight: 40,
-    marginLeft: 5,
+    marginRight: 40,
+    marginTop: 10,
     color: COLORS.gray,
   },
 });
 
-export const card = StyleSheet.create({
+export const card = EStyleSheet.create({
   alertCard: {
     marginTop: 20,
     padding: 10,
@@ -580,15 +537,15 @@ export const card = StyleSheet.create({
   },
 });
 
-export const datacard = StyleSheet.create({
+export const datacard = EStyleSheet.create({
   card: {
     alignSelf: "center",
-    marginVertical: "2%",
+    marginTop: "3%",
     padding: "3%",
-    width: "100%",
-    borderRadius: 5,
+    width: "95%",
+    borderRadius: 4,
     flexDirection: "row",
-    backgroundColor: COLORS.lightgray_01,
+    backgroundColor: "rgba(228, 238, 240, 0.4)",
     justifyContent: "space-between",
   },
   cardTitle: {
@@ -597,7 +554,7 @@ export const datacard = StyleSheet.create({
   },
 });
 
-export const dev = StyleSheet.create({
+export const dev = EStyleSheet.create({
   title: {
     alignSelf: "center",
     marginTop: 20,

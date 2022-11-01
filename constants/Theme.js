@@ -1,6 +1,25 @@
-import { Dimensions } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 
 const { width, height } = Dimensions.get("window");
+
+EStyleSheet.build({
+  $rem: width / 380,
+  $primaryPending: "#4E46F1",
+  $primary: "#2CB77C",
+  $primaryBackground: "#D5F9EA",
+  $appBarBackground: "#2CB77C",
+  $appBarText: "",
+  $secondary: "#230C45",
+  $warning: "#f56a6a",
+  $warningBackground: "#feedee",
+  $darkGray: "#333333",
+  $gray: "#808080",
+  $lightGray: "#aaaaaa",
+  $black: "#000000",
+  $white: "#FFFFFF",
+  $lightgray_01: "#f1f1f1",
+});
 
 export const COLORS = {
   primaryPending: "#4E46F1",
