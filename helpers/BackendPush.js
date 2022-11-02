@@ -1,7 +1,7 @@
 import { putBackendData } from "../services/employees/employeeServices";
 
 export const aadhaarBackendPush = (payload) => {
-  putBackendData({ document: payload, xpath: "aadhaar" })
+  putBackendData({ data: payload.data, xpath: "aadhaar", token: payload.token })
     .then((response) => {
       console.log("aadhaarBackendPush response: ", response);
     })
@@ -11,7 +11,7 @@ export const aadhaarBackendPush = (payload) => {
 };
 
 export const bankBackendPush = (payload) => {
-  putBackendData({ document: payload, xpath: "bank" })
+  putBackendData({ data: payload.data, xpath: "bank", token: payload.token })
     .then((response) => {
       console.log("bankBackendPush response: ", response);
     })
@@ -21,7 +21,11 @@ export const bankBackendPush = (payload) => {
 };
 
 export const licenseBackendPush = (payload) => {
-  putBackendData({ document: payload, xpath: "driving-license" })
+  putBackendData({
+    data: payload.data,
+    xpath: "driving-license",
+    token: payload.token,
+  })
     .then((response) => {
       console.log("licenseBackendPush response: ", response);
     })
@@ -31,7 +35,7 @@ export const licenseBackendPush = (payload) => {
 };
 
 export const panBackendPush = (payload) => {
-  putBackendData({ document: payload, xpath: "pan" })
+  putBackendData({ data: payload.data, xpath: "pan", token: payload.token })
     .then((response) => {
       console.log("panBackendPush response: ", response);
     })
@@ -41,7 +45,7 @@ export const panBackendPush = (payload) => {
 };
 
 export const profileBackendPush = (payload) => {
-  putBackendData({ document: payload, xpath: "profile" })
+  putBackendData({ data: payload.data, xpath: "profile", token: payload.token })
     .then((response) => {
       console.log("profileBackendPush response: ", response);
     })
@@ -51,7 +55,11 @@ export const profileBackendPush = (payload) => {
 };
 
 export const relationPush = (payload) => {
-  putBackendData({ document: payload, xpath: "esic/relation" })
+  putBackendData({
+    data: payload.data,
+    xpath: "esic/relation",
+    token: payload.token,
+  })
     .then((response) => {
       console.log("relationPush response: ", response);
     })
@@ -61,7 +69,11 @@ export const relationPush = (payload) => {
 };
 
 export const addressPush = (payload) => {
-  putBackendData({ document: payload, xpath: "esic/address" })
+  putBackendData({
+    data: payload.data,
+    xpath: "esic/address",
+    token: payload.token,
+  })
     .then((response) => {
       console.log("addressPush response: ", response);
     })
@@ -71,7 +83,11 @@ export const addressPush = (payload) => {
 };
 
 export const portalPush = (payload) => {
-  putBackendData({ document: payload, xpath: "esic/portal" })
+  putBackendData({
+    data: payload.data,
+    xpath: "esic/portal",
+    token: payload.token,
+  })
     .then((response) => {
       console.log("portalPush response: ", response);
     })
@@ -80,16 +96,8 @@ export const portalPush = (payload) => {
     });
 };
 
-export const ewaOfferPush = (payload) => {
-  return putBackendData({ document: payload, xpath: "ewa/offer" });
-};
-
-export const ewaKycPush = (payload) => {
-  return putBackendData({ document: payload, xpath: "ewa/kyc" });
-};
-
 export const mandatePush = (payload) => {
-  putBackendData({ document: payload, xpath: "mandate" })
+  putBackendData({ data: payload.data, xpath: "mandate", token: payload.token })
     .then((response) => {
       console.log("mandatePush response: ", response.data);
     })
@@ -98,6 +106,26 @@ export const mandatePush = (payload) => {
     });
 };
 
+export const ewaOfferPush = (payload) => {
+  return putBackendData({
+    data: payload.data,
+    xpath: "ewa/offer",
+    token: payload.token,
+  });
+};
+
+export const ewaKycPush = (payload) => {
+  return putBackendData({
+    data: payload.data,
+    xpath: "ewa/kyc",
+    token: payload.token,
+  });
+};
+
 export const ewaAgreementPush = (payload) => {
-  return putBackendData({ document: payload, xpath: "ewa/agreement" });
+  return putBackendData({
+    data: payload.data,
+    xpath: "ewa/agreement",
+    token: payload.token,
+  });
 };

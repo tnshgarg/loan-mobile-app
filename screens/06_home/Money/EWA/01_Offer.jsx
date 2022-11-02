@@ -38,12 +38,13 @@ const Offer = () => {
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
 
-  const [consent, setConsent] = useState(false);
+  const [consent, setConsent] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const [validAmount, setValidAmount] = useState(true);
 
-  const unipeEmployeeId = useSelector((state) => state.auth.id);
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const offerId = useSelector((state) => state.ewaLive.offerId);
   const eligibleAmount = useSelector((state) => state.ewaLive.eligibleAmount);
@@ -82,19 +83,22 @@ const Offer = () => {
   useEffect(() => {
     if (fetched) {
       ewaOfferPush({
-        offerId: offerId,
-        unipeEmployeeId: unipeEmployeeId,
-        status: "INPROGRESS",
-        timestamp: Date.now(),
-        ipAddress: ipAddress,
-        deviceId: deviceId,
+        data: {
+          offerId: offerId,
+          unipeEmployeeId: unipeEmployeeId,
+          status: "INPROGRESS",
+          timestamp: Date.now(),
+          ipAddress: ipAddress,
+          deviceId: deviceId,
+        },
+        token: token,
       })
         .then((response) => {
           console.log("ewaOfferPush response.data: ", response.data);
         })
         .catch((error) => {
-          console.log("ewaOfferPush error: ", error);
-          Alert.alert("An Error occured", error);
+          console.log("ewaOfferPush error: ", error.toString());
+          Alert.alert("An Error occured", error.toString());
         });
     }
   }, [fetched]);
@@ -103,29 +107,32 @@ const Offer = () => {
     setLoading(true);
     if (validAmount) {
       ewaOfferPush({
-        offerId: offerId,
-        unipeEmployeeId: unipeEmployeeId,
-        status: "CONFIRMED",
-        timestamp: Date.now(),
-        ipAddress: ipAddress,
-        deviceId: deviceId,
-        loanAmount: parseInt(amount),
+        data: {
+          offerId: offerId,
+          unipeEmployeeId: unipeEmployeeId,
+          status: "CONFIRMED",
+          timestamp: Date.now(),
+          ipAddress: ipAddress,
+          deviceId: deviceId,
+          loanAmount: parseInt(amount),
+        },
+        token: token,
       })
         .then((response) => {
           console.log("ewaOfferPush response.data: ", response.data);
           setLoading(false);
           navigation.navigate("EWA_KYC");
           Analytics.trackEvent("Ewa|OfferPush|Success", {
-            userId: unipeEmployeeId,
+            unipeEmployeeId: unipeEmployeeId,
           });
         })
         .catch((error) => {
-          console.log("ewaOfferPush error: ", error);
+          console.log("ewaOfferPush error: ", error.toString());
           setLoading(false);
-          Alert.alert("An Error occured", error);
+          Alert.alert("An Error occured", error.toString());
           Analytics.trackEvent("Ewa|OfferPush|Error", {
-            userId: unipeEmployeeId,
-            error: error,
+            unipeEmployeeId: unipeEmployeeId,
+            error: error.toString(),
           });
         });
     }

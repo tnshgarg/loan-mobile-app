@@ -1,12 +1,10 @@
-import { Picker } from "@react-native-picker/picker";
-import React, { useEffect, useState } from "react";
-import { Text } from "react-native";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { addESICAddress } from "../store/slices/esicSlice";
-import { bankform, form } from "../styles";
 import FormInput from "./atoms/FormInput";
 import DropDownForm from "./molecules/DropDownForm";
+
 const customData = require("../assets/state_districts.json");
 
 export default AddressDropdown = (props) => {

@@ -36,7 +36,8 @@ const MandateFormTemplate = (props) => {
   const [ipAddress, setIpAdress] = useState(0);
   const [backendPush, setBackendPush] = useState(false);
 
-  const employeeId = useSelector((state) => state.auth?.id);
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
   const phoneNumber = useSelector((state) => state.auth?.phoneNumber);
   const email = useSelector(
     (state) => state.pan?.data?.email || state.profile?.email
@@ -96,13 +97,16 @@ const MandateFormTemplate = (props) => {
     if (backendPush) {
       console.log("mandateSlice: ", mandateSlice);
       mandatePush({
-        unipeEmployeeId: employeeId,
-        ipAddress: ipAddress,
-        deviceId: deviceId,
-        data: data,
-        verifyMsg: verifyMsg,
-        verifyStatus: verifyStatus,
-        verifyTimestamp: verifyTimestamp,
+        data: {
+          unipeEmployeeId: unipeEmployeeId,
+          ipAddress: ipAddress,
+          deviceId: deviceId,
+          data: data,
+          verifyMsg: verifyMsg,
+          verifyStatus: verifyStatus,
+          verifyTimestamp: verifyTimestamp,
+        },
+        token: token,
       });
       setBackendPush(false);
     }
@@ -121,14 +125,14 @@ const MandateFormTemplate = (props) => {
             console.log("createCustomer res.data: ", res.data);
             setCustomerId(res.data.id);
             Analytics.trackEvent("Mandate|CreateCustomer|Success", {
-              userId: employeeId,
+              unipeEmployeeId: unipeEmployeeId,
             });
           })
           .catch((error) => {
             console.log("createCustomer Catch Error: ", error.toString());
             Alert.alert("Error", error.toString());
             Analytics.trackEvent("Mandate|CreateCustomer|Error", {
-              userId: employeeId,
+              unipeEmployeeId: unipeEmployeeId,
               error: error.toString(),
             });
           });
@@ -136,7 +140,7 @@ const MandateFormTemplate = (props) => {
         console.log("createCustomer Try Catch Error: ", error.toString());
         Alert.alert("Error", error.toString());
         Analytics.trackEvent("Mandate|CreateCustomer|Error", {
-          userId: employeeId,
+          unipeEmployeeId: unipeEmployeeId,
           error: error.toString(),
         });
       }
@@ -181,7 +185,7 @@ const MandateFormTemplate = (props) => {
               setBackendPush(true);
               showToast("Mandate Verified Successfully");
               Analytics.trackEvent("Mandate|GetToken|Success", {
-                userId: employeeId,
+                unipeEmployeeId: unipeEmployeeId,
               });
               props?.type === "Onboarding" ? navigation.navigate("Home") : null;
             })
@@ -192,7 +196,7 @@ const MandateFormTemplate = (props) => {
               setBackendPush(true);
               Alert.alert("Error", error.description);
               Analytics.trackEvent("Mandate|GetToken|Error", {
-                userId: employeeId,
+                unipeEmployeeId: unipeEmployeeId,
                 error: error.description,
               });
             });
@@ -204,7 +208,7 @@ const MandateFormTemplate = (props) => {
           setBackendPush(true);
           Alert.alert("Error", error.description);
           Analytics.trackEvent("Mandate|Register|Error", {
-            userId: employeeId,
+            unipeEmployeeId: unipeEmployeeId,
             error: error.description,
           });
         });
@@ -228,7 +232,7 @@ const MandateFormTemplate = (props) => {
         setVerifyMsg(`Mandate|CreateOrder|${authType} SUCCESS`);
         setOrderId(res.data.id);
         Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Success`, {
-          userId: employeeId,
+          unipeEmployeeId: unipeEmployeeId,
         });
       })
       .catch((error) => {
@@ -238,7 +242,7 @@ const MandateFormTemplate = (props) => {
         setBackendPush(true);
         Alert.alert("Error", error.toString());
         Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Error`, {
-          userId: employeeId,
+          unipeEmployeeId: unipeEmployeeId,
           error: error.toString(),
         });
       });

@@ -21,7 +21,8 @@ const AadhaarConfirmApi = (props) => {
 
   const [backendPush, setBackendPush] = useState(false);
 
-  const id = useSelector((state) => state.auth.id);
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const data = useSelector((state) => state.aadhaar.data);
   const number = useSelector((state) => state.aadhaar.number);
   const verifyTimestamp = useSelector((state) => state.aadhaar.verifyTimestamp);
@@ -46,12 +47,15 @@ const AadhaarConfirmApi = (props) => {
     console.log("AadhaarConfirmApi aadhaarSlice: ", aadhaarSlice);
     if (backendPush) {
       aadhaarBackendPush({
-        id: id,
-        data: data,
-        number: number,
-        verifyMsg: verifyMsg,
-        verifyStatus: verifyStatus,
-        verifyTimestamp: verifyTimestamp,
+        data: {
+          unipeEmployeeId: unipeEmployeeId,
+          data: data,
+          number: number,
+          verifyMsg: verifyMsg,
+          verifyStatus: verifyStatus,
+          verifyTimestamp: verifyTimestamp,
+        },
+        token: token,
       });
       setBackendPush(false);
     }
@@ -105,7 +109,7 @@ const AadhaarConfirmApi = (props) => {
             setVerifyStatus("ERROR");
             setBackendPush(true);
             Analytics.trackEvent("Aadhaar|Confirm|Error", {
-              userId: id,
+              unipeEmployeeId: unipeEmployeeId,
               error: "Rejected by User",
             });
             {
@@ -134,7 +138,7 @@ const AadhaarConfirmApi = (props) => {
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
             Analytics.trackEvent("Aadhaar|Confirm|Success", {
-              userId: id,
+              unipeEmployeeId: unipeEmployeeId,
             });
             {
               props?.route?.params?.type == "KYC"

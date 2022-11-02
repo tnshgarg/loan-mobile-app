@@ -20,7 +20,8 @@ const EWA = () => {
   const [fetched, setFetched] = useState(false);
   const [eligible, setEligible] = useState(false);
 
-  const id = useSelector((state) => state.auth.id);
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const aadhaarName = useSelector((state) => state.aadhaar.data.name);
   const aadhaarVerifyStatus = useSelector(
     (state) => state.aadhaar.verifyStatus
@@ -54,9 +55,9 @@ const EWA = () => {
   useEffect(() => {
     console.log("ewaLiveSlice: ", ewaLiveSlice);
     console.log("ewaHistoricalSlice: ", ewaHistoricalSlice);
-    console.log("ewaOffersFetch unipeEmployeeId:", id);
-    if (isFocused && id) {
-      getBackendData({ params: { unipeEmployeeId: id }, xpath: "ewa/offers" })
+    console.log("ewaOffersFetch unipeEmployeeId:", unipeEmployeeId);
+    if (isFocused && unipeEmployeeId) {
+      getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "ewa/offers", token: token })
         .then((response) => {
           if (response.data.status === 200) {
             console.log("ewaOffersFetch response.data: ", response.data);
@@ -71,10 +72,10 @@ const EWA = () => {
         .catch((error) => {
           dispatch(resetEwaLive());
           dispatch(resetEwaHistorical());
-          console.log("ewaOffersFetch error: ", error);
+          console.log("ewaOffersFetch error: ", error.toString());
         });
     }
-  }, [isFocused, id]);
+  }, [isFocused, unipeEmployeeId]);
 
   return (
     <SafeAreaView style={[styles.container]}>

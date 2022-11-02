@@ -18,12 +18,12 @@ const PanConfirmApi = (props) => {
 
   const [backendPush, setBackendPush] = useState(false);
 
-  const id = useSelector((state) => state.auth.id);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const token = useSelector((state) => state.auth.token);
+  const panSlice = useSelector((state) => state.pan);
   const data = useSelector((state) => state.pan.data);
   const number = useSelector((state) => state.pan.number);
   const verifyTimestamp = useSelector((state) => state.pan.verifyTimestamp);
-
-  const panSlice = useSelector((state) => state.pan);
   const [verifyMsg, setVerifyMsg] = useState(panSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(panSlice?.verifyStatus);
 
@@ -39,12 +39,15 @@ const PanConfirmApi = (props) => {
     console.log(backendPush);
     if (backendPush) {
       panBackendPush({
-        id: id,
-        data: data,
-        number: number,
-        verifyMsg: verifyMsg,
-        verifyStatus: verifyStatus,
-        verifyTimestamp: verifyTimestamp,
+        data: {
+          unipeEmployeeId: unipeEmployeeId,
+          data: data,
+          number: number,
+          verifyMsg: verifyMsg,
+          verifyStatus: verifyStatus,
+          verifyTimestamp: verifyTimestamp,
+        },
+        token: token,
       });
       setBackendPush(false);
     }
@@ -94,7 +97,7 @@ const PanConfirmApi = (props) => {
             setVerifyStatus("ERROR");
             setBackendPush(true);
             Analytics.trackEvent("Pan|Confirm|Error", {
-              userId: id,
+              unipeEmployeeId: unipeEmployeeId,
               error: "Rejected by User",
             });
             {
@@ -120,7 +123,7 @@ const PanConfirmApi = (props) => {
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
             Analytics.trackEvent("Pan|Confirm|Success", {
-              userId: id,
+              unipeEmployeeId: unipeEmployeeId,
             });
             {
               props?.route?.params?.type == "KYC"
