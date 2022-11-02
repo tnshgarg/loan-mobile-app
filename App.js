@@ -12,9 +12,7 @@ import { store, persistor } from "./store/store";
 import codePush from "react-native-code-push";
 import Crashes from "appcenter-crashes";
 import messaging from "@react-native-firebase/messaging";
-import {
-  notificationListener,
-} from "./services/notifications/notificationService";
+import { notificationListener } from "./services/notifications/notificationService";
 
 Crashes.setListener({
   shouldProcess: function (report) {
@@ -24,8 +22,8 @@ Crashes.setListener({
 let codePushOptions = {
   deploymentKey: "djFugZgAXYEhRWZ_kKmXFQulkJSDB9Wegnb5M",
   checkFrequency: codePush.CheckFrequency.ON_APP_START,
-  mandatoryInstallMode: codePush.InstallMode.IMMEDIATE, 
-  updateDialog: true,//InstallMode.ON_NEXT_RESUME to have minimum background duration effect
+  mandatoryInstallMode: codePush.InstallMode.IMMEDIATE,
+  updateDialog: true, //InstallMode.ON_NEXT_RESUME to have minimum background duration effect
 };
 
 const App = () => {
