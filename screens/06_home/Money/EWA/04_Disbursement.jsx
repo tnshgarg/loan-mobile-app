@@ -26,22 +26,22 @@ const Disbursement = ({ route, navigation }) => {
 
   useEffect(() => {
     getBackendData({
-      params: { offerId: offer?.offerId },
+      params: { offerId: offer?.offerId,  unipeEmployeeId: unipeEmployeeId },
       xpath: "ewa/disbursement",
       token: token,
     })
       .then((response) => {
+        console.log("ewaDisbursementFetch response.data: ", response.data);
         if (response.data.status === 200) {
-          Analytics.trackEvent("Ewa|Disbursement|Success", {
-            unipeEmployeeId: unipeEmployeeId,
-          });
-          console.log("ewaDisbursementFetch response.data: ", response.data);
           setLoanAmount(response.data.body.loanAmount);
           setNetAmount(response.data.body.netAmount);
           setBankAccountNumber(response.data.body.bankAccountNumber);
           setDueDate(response.data.body.dueDate);
           setLoanAccountNumber(response.data.body.loanAccountNumber);
           setStatus(response.data.body.status);
+          Analytics.trackEvent("Ewa|Disbursement|Success", {
+            unipeEmployeeId: unipeEmployeeId,
+          });
         }
       })
       .catch((error) => {

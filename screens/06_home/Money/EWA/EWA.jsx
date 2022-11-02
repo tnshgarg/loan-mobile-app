@@ -67,6 +67,7 @@ const EWA = () => {
           } else {
             dispatch(resetEwaLive());
             dispatch(resetEwaHistorical());
+            console.log("ewaOffersFetch error: ", response.data);
           }
         })
         .catch((error) => {
