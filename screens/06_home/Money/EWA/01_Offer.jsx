@@ -162,15 +162,15 @@ const Offer = () => {
       <View style={styles.container}>
         <FormInput
           placeholder="Enter amount"
-          containerStyle={{ marginVertical: 20 }}
-          inputStyle={{ ...FONTS.h2 }}
+          containerStyle={{ marginVertical: 10, marginHorizontal: 50 }}
+          inputStyle={{ ...FONTS.h2, width: 20 }}
           keyboardType="numeric"
           value={amount}
           onChange={setAmount}
           autoFocus={true}
           maxLength={10}
           prependComponent={
-            <Icon name="currency-inr" color="green" size={32} />
+            <Icon name="currency-inr" color="green" size={25} />
           }
         />
 
@@ -179,7 +179,6 @@ const Offer = () => {
             alignSelf: "center",
             ...FONTS.body4,
             color: COLORS.gray,
-            marginTop: -10,
           }}
         >
           You can choose between 1000 to {eligibleAmount}
@@ -190,7 +189,7 @@ const Offer = () => {
             alignSelf: "center",
             ...FONTS.h3,
             color: COLORS.black,
-            marginTop: 20,
+            marginVertical: 20,
           }}
         >
           Steps to Cash
@@ -206,11 +205,6 @@ const Offer = () => {
           />
         </View>
 
-        {/* <Checkbox
-        text={"I agree to the Terms and Conditions."}
-        value={consent}
-        setValue={setConsent}
-      /> */}
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <CheckBox
             value={consent}

@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.white,
     flex: 1,
-    padding: "3%",
+    padding: "2%",
   },
   safeContainer: {
     backgroundColor: COLORS.white,
@@ -203,7 +203,7 @@ export const form = StyleSheet.create({
     color: COLORS.secondary,
     alignSelf: "center",
     textAlign: "center",
-    marginTop: 20,
+    marginTop: 10,
     ...FONTS.body3,
   },
   userData: {
@@ -237,9 +237,9 @@ export const form = StyleSheet.create({
   },
   aadharimg: {
     alignSelf: "center",
-    marginTop: 20,
-    width: 200,
-    height: 200,
+    marginTop: 10,
+    width: 150,
+    height: 150,
   },
   aadhaarOr: {
     marginBottom: 20,
@@ -473,7 +473,7 @@ export const welcome = StyleSheet.create({
     ...FONTS.h3,
     textAlign: "center",
   },
-  steps: { flex: 1, alignSelf:"center" },
+  steps: { flex: 1 },
 });
 
 export const selfie = StyleSheet.create({

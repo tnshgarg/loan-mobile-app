@@ -42,7 +42,7 @@ const Agreement = () => {
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
   
-  const [consent, setConsent] = useState(false);
+  const [consent, setConsent] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const token = useSelector((state) => state.auth.token);
@@ -158,7 +158,7 @@ const Agreement = () => {
       value: "₹" + processingFees,
     },
     {
-      subTitle: "Net Disbursement Amount *",
+      subTitle: "Disbursement Amount *",
       value: "₹" + netAmount,
     },
     { subTitle: "Due Date", value: ewaLiveSlice?.dueDate },
@@ -249,7 +249,7 @@ const Agreement = () => {
             data={bankData}
           />
 
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View style={{ flexDirection: "row", alignItems: "center", marginVertical: 10 }}>
             <CheckBox
               style={ewa.checkBox}
               tintColors={{ true: COLORS.primary }}
