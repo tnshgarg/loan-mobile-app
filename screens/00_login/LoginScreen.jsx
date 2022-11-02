@@ -1,5 +1,5 @@
-import { useNavigation } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
+import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import {
   Alert,
@@ -19,9 +19,10 @@ import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { putBackendData } from "../../services/employees/employeeServices";
 import { sendSmsVerification } from "../../services/otp/Gupshup/services";
 import {
-  addId,
   addOnboarded,
   addPhoneNumber,
+  addToken,
+  addUnipeEmployeeId,
 } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
@@ -29,7 +30,9 @@ import { styles } from "../../styles";
 import privacyPolicy from "../../templates/docs/PrivacyPolicy.js";
 import termsOfUse from "../../templates/docs/TermsOfUse.js";
 
-export default LoginScreen = () => {
+
+const LoginScreen = () => {
+
   SplashScreen.hide();
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -38,23 +41,22 @@ export default LoginScreen = () => {
   const [next, setNext] = useState(false);
 
   const authSlice = useSelector((state) => state.auth);
-  const [id, setId] = useState(authSlice?.id);
   const [onboarded, setOnboarded] = useState(authSlice?.onboarded);
   const [phoneNumber, setPhoneNumber] = useState(authSlice?.phoneNumber);
+  const [token, setToken] = useState(authSlice?.token);
+  const [unipeEmployeeId, setUnipeEmployeeId] = useState(authSlice?.unipeEmployeeId);
 
   const [isPrivacyModalVisible, setIsPrivacyModalVisible] = useState(false);
   const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
     useState(false);
-
-  var phone_number = "";
 
   useEffect(() => {
     dispatch(addCurrentScreen("Login"));
   }, []);
 
   useEffect(() => {
-    dispatch(addId(id));
-  }, [id]);
+    dispatch(addToken(token));
+  }, [token]);
 
   useEffect(() => {
     dispatch(addOnboarded(onboarded));
@@ -63,6 +65,10 @@ export default LoginScreen = () => {
   useEffect(() => {
     dispatch(addPhoneNumber(phoneNumber));
   }, [phoneNumber]);
+
+  useEffect(() => {
+    dispatch(addUnipeEmployeeId(unipeEmployeeId));
+  }, [unipeEmployeeId]);
 
   useEffect(() => {
     var phoneno = /^[0-9]{10}$/gm;
@@ -77,10 +83,10 @@ export default LoginScreen = () => {
 
   const onPhoneNumberPressed = async () => {
     try {
-      phone_number = await SmsRetriever.requestPhoneNumber();
-      setPhoneNumber(phone_number.replace("+91", ""));
+      var phoneNumber = await SmsRetriever.requestPhoneNumber();
+      setPhoneNumber(phoneNumber.replace("+91", ""));
     } catch (error) {
-      console.log(JSON.stringify(error));
+      console.log("Error while fetching phoneNumber: ", error.toString());
     }
   };
 
@@ -92,28 +98,29 @@ export default LoginScreen = () => {
     setLoading(true);
     dispatch(resetTimer());
     var fullPhoneNumber = `+91${phoneNumber}`;
-    putBackendData({ document: { number: fullPhoneNumber }, xpath: "mobile" })
+    putBackendData({ data: { number: fullPhoneNumber }, xpath: "mobile", token: token })
       .then((res) => {
         console.log("LoginScreen res.data: ", res.data);
         if (res.data.status === 200) {
-          Analytics.trackEvent(`LoginScreen|SignIn|Success`, {
-            userId: res.data.body.id,
-          });
-          setId(res.data.body.id);
           setOnboarded(res.data.body.onboarded);
+          setToken(res.data.body.token)
+          setUnipeEmployeeId(res.data.body.unipeEmployeeId);
+          Analytics.trackEvent(`LoginScreen|SignIn|Success`, {
+            unipeEmployeeId: res.data.body.id,
+          });
           sendSmsVerification(phoneNumber)
             .then((result) => {
               console.log("sendSmsVerification result: ", result);
               if (result["response"]["status"] === "success") {
                 setLoading(false);
                 Analytics.trackEvent("LoginScreen|SendSms|Success", {
-                  userId: id,
+                  unipeEmployeeId: unipeEmployeeId,
                 });
                 navigation.navigate("Otp");
               } else {
                 setLoading(false);
                 Analytics.trackEvent("LoginScreen|SendSms|Error", {
-                  userId: id,
+                  unipeEmployeeId: unipeEmployeeId,
                   error: result["response"]["details"],
                 });
                 Alert.alert(
@@ -123,13 +130,13 @@ export default LoginScreen = () => {
               }
             })
             .catch((error) => {
+              console.log("sendSmsVerification result: ", error.toString());
               setLoading(false);
-              console.log(error);
               Analytics.trackEvent("LoginScreen|SendSms|Error", {
-                userId: id,
-                error: error,
+                unipeEmployeeId: unipeEmployeeId,
+                error: error.toString(),
               });
-              Alert("Error", "Something is Wrong");
+              Alert("Error", error.toString());
             });
         } else {
           setLoading(false);
@@ -141,12 +148,12 @@ export default LoginScreen = () => {
         }
       })
       .catch((error) => {
+        console.log("LoginScreen res.data: ", error.toString());
         setLoading(false);
         Analytics.trackEvent("LoginScreen|SignIn|Error", {
           phoneNumber: phoneNumber,
-          error: error,
+          error: error.toString(),
         });
-        console.log(error);
       });
   };
 
@@ -184,10 +191,10 @@ export default LoginScreen = () => {
                     ...FONTS.h3,
                     color: COLORS.black,
                     paddingRight: 10,
-                    fontWeight: "bold",
+                    // fontWeight: "bold",
                   }}
                 >
-                  +91
+                  + 91
                 </Text>
               </View>
             }
@@ -237,3 +244,5 @@ export default LoginScreen = () => {
     </SafeAreaView>
   );
 };
+
+export default LoginScreen;

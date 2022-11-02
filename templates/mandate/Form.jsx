@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, SafeAreaView, ScrollView } from "react-native";
+import { Alert, SafeAreaView, ScrollView, Text } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +15,7 @@ import {
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/mandateSlice";
-import { styles } from "../../styles";
+import { styles, bankform } from "../../styles";
 import { showToast } from "../../components/Toast";
 import RazorpayCheckout from "react-native-razorpay";
 import {
@@ -36,7 +36,8 @@ const MandateFormTemplate = (props) => {
   const [ipAddress, setIpAdress] = useState(0);
   const [backendPush, setBackendPush] = useState(false);
 
-  const employeeId = useSelector((state) => state.auth?.id);
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
   const phoneNumber = useSelector((state) => state.auth?.phoneNumber);
   const email = useSelector(
     (state) => state.pan?.data?.email || state.profile?.email
@@ -46,6 +47,7 @@ const MandateFormTemplate = (props) => {
   );
   const accountNumber = useSelector((state) => state.bank?.data?.accountNumber);
   const ifsc = useSelector((state) => state.bank?.data?.ifsc);
+  const bankVerifyStatus = useSelector((state) => state.bank?.verifyStatus);
 
   const mandateSlice = useSelector((state) => state.mandate);
   const [authType, setAuthType] = useState(mandateSlice?.data?.authType);
@@ -96,13 +98,16 @@ const MandateFormTemplate = (props) => {
     if (backendPush) {
       console.log("mandateSlice: ", mandateSlice);
       mandatePush({
-        unipeEmployeeId: employeeId,
-        ipAddress: ipAddress,
-        deviceId: deviceId,
-        data: data,
-        verifyMsg: verifyMsg,
-        verifyStatus: verifyStatus,
-        verifyTimestamp: verifyTimestamp,
+        data: {
+          unipeEmployeeId: unipeEmployeeId,
+          ipAddress: ipAddress,
+          deviceId: deviceId,
+          data: data,
+          verifyMsg: verifyMsg,
+          verifyStatus: verifyStatus,
+          verifyTimestamp: verifyTimestamp,
+        },
+        token: token,
       });
       setBackendPush(false);
     }
@@ -121,14 +126,14 @@ const MandateFormTemplate = (props) => {
             console.log("createCustomer res.data: ", res.data);
             setCustomerId(res.data.id);
             Analytics.trackEvent("Mandate|CreateCustomer|Success", {
-              userId: employeeId,
+              unipeEmployeeId: unipeEmployeeId,
             });
           })
           .catch((error) => {
             console.log("createCustomer Catch Error: ", error.toString());
             Alert.alert("Error", error.toString());
             Analytics.trackEvent("Mandate|CreateCustomer|Error", {
-              userId: employeeId,
+              unipeEmployeeId: unipeEmployeeId,
               error: error.toString(),
             });
           });
@@ -136,7 +141,7 @@ const MandateFormTemplate = (props) => {
         console.log("createCustomer Try Catch Error: ", error.toString());
         Alert.alert("Error", error.toString());
         Analytics.trackEvent("Mandate|CreateCustomer|Error", {
-          userId: employeeId,
+          unipeEmployeeId: unipeEmployeeId,
           error: error.toString(),
         });
       }
@@ -181,7 +186,7 @@ const MandateFormTemplate = (props) => {
               setBackendPush(true);
               showToast("Mandate Verified Successfully");
               Analytics.trackEvent("Mandate|GetToken|Success", {
-                userId: employeeId,
+                unipeEmployeeId: unipeEmployeeId,
               });
               props?.type === "Onboarding" ? navigation.navigate("Home") : null;
             })
@@ -192,7 +197,7 @@ const MandateFormTemplate = (props) => {
               setBackendPush(true);
               Alert.alert("Error", error.description);
               Analytics.trackEvent("Mandate|GetToken|Error", {
-                userId: employeeId,
+                unipeEmployeeId: unipeEmployeeId,
                 error: error.description,
               });
             });
@@ -204,7 +209,7 @@ const MandateFormTemplate = (props) => {
           setBackendPush(true);
           Alert.alert("Error", error.description);
           Analytics.trackEvent("Mandate|Register|Error", {
-            userId: employeeId,
+            unipeEmployeeId: unipeEmployeeId,
             error: error.description,
           });
         });
@@ -228,17 +233,19 @@ const MandateFormTemplate = (props) => {
         setVerifyMsg(`Mandate|CreateOrder|${authType} SUCCESS`);
         setOrderId(res.data.id);
         Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Success`, {
-          userId: employeeId,
+          unipeEmployeeId: unipeEmployeeId,
         });
       })
       .catch((error) => {
         console.log(`Mandate|CreateOrder|${authType} error:`, error.toString());
-        setVerifyMsg(`Mandate|CreateOrder|${authType} ERROR ${error.toString()}`);
+        setVerifyMsg(
+          `Mandate|CreateOrder|${authType} ERROR ${error.toString()}`
+        );
         setVerifyStatus("ERROR");
         setBackendPush(true);
         Alert.alert("Error", error.toString());
         Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Error`, {
-          userId: employeeId,
+          unipeEmployeeId: unipeEmployeeId,
           error: error.toString(),
         });
       });
@@ -246,49 +253,67 @@ const MandateFormTemplate = (props) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <KeyboardAvoidingWrapper>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <FormInput
-            placeholder={"Account Holder Name"}
-            containerStyle={{ marginVertical: 10 }}
-            autoCapitalize="words"
-            value={accountHolderName}
-            disabled={true}
-          />
-          <FormInput
-            placeholder={"Bank Account Number"}
-            containerStyle={{ marginVertical: 10 }}
-            autoCapitalize="words"
-            value={accountNumber}
-            disabled={true}
-          />
-          <FormInput
-            placeholder={"IFSC"}
-            containerStyle={{ marginVertical: 10 }}
-            autoCapitalize="words"
-            value={ifsc}
-            disabled={true}
-          />
+      {bankVerifyStatus === "SUCCESS" ? (
+        <KeyboardAvoidingWrapper>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <FormInput
+              placeholder={"Account Holder Name"}
+              containerStyle={{ marginVertical: 10 }}
+              autoCapitalize="words"
+              value={accountHolderName}
+              disabled={true}
+            />
+            <FormInput
+              placeholder={"Bank Account Number"}
+              containerStyle={{ marginVertical: 10 }}
+              autoCapitalize="words"
+              value={accountNumber}
+              disabled={true}
+            />
+            <FormInput
+              placeholder={"IFSC"}
+              containerStyle={{ marginVertical: 10 }}
+              autoCapitalize="words"
+              value={ifsc}
+              disabled={true}
+            />
+            <PrimaryButton
+              title="Debit Card"
+              onPress={() => {
+                ProceedButton({ authType: "debitcard" });
+              }}
+            />
+            <PrimaryButton
+              title="Net Banking"
+              onPress={() => {
+                ProceedButton({ authType: "netbanking" });
+              }}
+            />
+            <PrimaryButton
+              title="UPI"
+              onPress={() => {
+                ProceedButton({ authType: "upi" });
+              }}
+            />
+          </ScrollView>
+        </KeyboardAvoidingWrapper>
+      ) : (
+        <>
+          <Text style={bankform.subTitle}>
+            Please verify your Bank Information first
+          </Text>
           <PrimaryButton
-            title="Debit Card"
+            title="Verify Bank Info Now"
             onPress={() => {
-              ProceedButton({ authType: "debitcard" });
+              props?.route?.params?.type
+                ? navigation.navigate("KYC", {
+                    screen: "BANK",
+                  })
+                : navigation.navigate("BankForm");
             }}
           />
-          <PrimaryButton
-            title="Net Banking"
-            onPress={() => {
-              ProceedButton({ authType: "netbanking" });
-            }}
-          />
-          <PrimaryButton
-            title="UPI"
-            onPress={() => {
-              ProceedButton({ authType: "upi" });
-            }}
-          />
-        </ScrollView>
-      </KeyboardAvoidingWrapper>
+        </>
+      )}
     </SafeAreaView>
   );
 };

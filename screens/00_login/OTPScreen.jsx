@@ -27,11 +27,11 @@ const OTPScreen = () => {
   const [next, setNext] = useState(false);
   const [back, setBack] = useState(false);
 
-  const id = useSelector((state) => state.auth.id);
   const countDownTime = useSelector((state) => state.timer.login);
-  const phoneNumber = useSelector((state) => state.auth.phoneNumber);
   const onboarded = useSelector((state) => state.auth.onboarded);
-
+  const phoneNumber = useSelector((state) => state.auth.phoneNumber);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  
   useEffect(() => {
     dispatch(addCurrentScreen("Otp"));
   }, []);
@@ -148,12 +148,12 @@ const OTPScreen = () => {
                       setBack(false);
                       dispatch(resetTimer());
                       Analytics.trackEvent("OTPScreen|SendSms|Success", {
-                        userId: id,
+                        unipeEmployeeId: unipeEmployeeId,
                       });
                       Alert.alert("OTP resent successfully");
                     } else {
                       Analytics.trackEvent("OTPScreen|SendSms|Error", {
-                        userId: id,
+                        unipeEmployeeId: unipeEmployeeId,
                         error: result["response"]["details"],
                       });
                       Alert.alert(
@@ -163,12 +163,12 @@ const OTPScreen = () => {
                     }
                   })
                   .catch((error) => {
-                    console.log(error);
+                    console.log(error.toString());
                     Analytics.trackEvent("OTPScreen|SendSms|Error", {
-                      userId: id,
-                      error: error,
+                      unipeEmployeeId: unipeEmployeeId,
+                      error: error.toString(),
                     });
-                    Alert.alert("Error", error);
+                    Alert.alert("Error", error.toString());
                   });
               }}
             >
@@ -189,7 +189,7 @@ const OTPScreen = () => {
                 .then((res) => {
                   if (res["response"]["status"] === "success") {
                     Analytics.trackEvent("OTPScreen|Check|Success", {
-                      userId: id,
+                      unipeEmployeeId: unipeEmployeeId,
                     });
                     if (onboarded) {
                       navigation.navigate("BackendSync", {
@@ -203,7 +203,7 @@ const OTPScreen = () => {
                     dispatch(resetTimer());
                   } else {
                     Analytics.trackEvent("OTPScreen|Check|Error", {
-                      userId: id,
+                      unipeEmployeeId: unipeEmployeeId,
                       error: result["response"]["details"],
                     });
                     Alert.alert(
@@ -213,12 +213,12 @@ const OTPScreen = () => {
                   }
                 })
                 .catch((error) => {
-                  console.log(error);
+                  console.log(error.toString());
                   Analytics.trackEvent("OTPScreen|Check|Error", {
-                    userId: id,
-                    error: error,
+                    unipeEmployeeId: unipeEmployeeId,
+                    error: error.toString(),
                   });
-                  Alert.alert("Error", error);
+                  Alert.alert("Error", error.toString());
                 });
             }}
           />

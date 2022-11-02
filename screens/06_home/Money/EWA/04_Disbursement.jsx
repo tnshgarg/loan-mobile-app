@@ -8,45 +8,47 @@ import Header from "../../../../components/atoms/Header";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 
 const Disbursement = ({ route, navigation }) => {
-  const { offer } = route.params;
 
-  const bankSlice = useSelector((state) => state.bank);
-  const unipeEmployeeId = useSelector((state) => state.auth.id);
+  const { offer } = route.params;
+  const [dueDate, setDueDate] = useState(offer?.dueDate);
   const [loanAmount, setLoanAmount] = useState(offer?.loanAmount);
   const [netAmount, setNetAmount] = useState(offer?.netAmount);
+
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const bankSlice = useSelector((state) => state.bank);
   const [bankAccountNumber, setBankAccountNumber] = useState(
     bankSlice?.data?.accountNumber
   );
-  const [dueDate, setDueDate] = useState(offer?.dueDate);
   const [loanAccountNumber, setLoanAccountNumber] = useState("");
   const [status, setStatus] = useState("");
-
   const [processingFees, setProcessingFees] = useState("");
 
   useEffect(() => {
     getBackendData({
-      params: { offerId: offer.offerId },
+      params: { offerId: offer?.offerId,  unipeEmployeeId: unipeEmployeeId },
       xpath: "ewa/disbursement",
+      token: token,
     })
       .then((response) => {
+        console.log("ewaDisbursementFetch response.data: ", response.data);
         if (response.data.status === 200) {
-          Analytics.trackEvent("Ewa|Disbursement|Success", {
-            userId: unipeEmployeeId,
-          });
-          console.log("ewaDisbursementFetch response.data: ", response.data);
           setLoanAmount(response.data.body.loanAmount);
           setNetAmount(response.data.body.netAmount);
           setBankAccountNumber(response.data.body.bankAccountNumber);
           setDueDate(response.data.body.dueDate);
           setLoanAccountNumber(response.data.body.loanAccountNumber);
           setStatus(response.data.body.status);
+          Analytics.trackEvent("Ewa|Disbursement|Success", {
+            unipeEmployeeId: unipeEmployeeId,
+          });
         }
       })
       .catch((error) => {
-        console.log("ewaDisbursementFetch error: ", error);
+        console.log("ewaDisbursementFetch error: ", error.toString());
         Analytics.trackEvent("Ewa|Disbursement|Error", {
-          userId: unipeEmployeeId,
-          error: error,
+          unipeEmployeeId: unipeEmployeeId,
+          error: error.toString(),
         });
       });
   }, []);
