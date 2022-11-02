@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/core";
-import { format } from "date-fns";
 import { datacard } from "../styles";
 import { COLORS } from "../constants/Theme";
 
@@ -34,7 +33,8 @@ const OfferCard = ({ offer }) => {
   const navigation = useNavigation();
   var offerType = "Missed";
   var amount = offer.eligibleAmount;
-  var timestamp = new Date(offer.updatedAt);
+  console.log(offer.updatedAt);
+  var timestamp = new Date((offer.updatedAt).split(" ")[0]) // this seems to help create the Date object properly atleast (split)
 
   if (offer.paid) {
     offerType = "Paid";
@@ -46,8 +46,10 @@ const OfferCard = ({ offer }) => {
     timestamp = new Date(offer.availedAt);
   }
 
-  var day = format(timestamp, "dd");
-  var month = format(timestamp, "MMM");
+  var timestampString = timestamp.toDateString();
+
+  var day = timestampString.split(" ")[2];
+  var month = timestampString.split(" ")[1];
 
   return (
     <TouchableOpacity
