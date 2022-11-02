@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect } from "react";
-import { Alert, SafeAreaView } from "react-native";
+import { Alert, SafeAreaView, BackHandler } from "react-native";
 import { useDispatch } from "react-redux";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
 import { styles } from "../../styles";
@@ -27,6 +27,30 @@ export default PanForm = () => {
       ]
     );
   };
+
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert(
+        "Do you want to go back ?",
+        "If you go back you will have to redo Aadhaar verification. Continue if you want to edit your Aadhaar Details.",
+        [
+          { text: "No", onPress: () => null, style: "cancel" },
+          {
+            text: "Yes",
+            onPress: () => navigation.navigate("PanForm"),
+          },
+        ]
+      );
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.removeEventListener();
+  }, []);
 
   return (
     <SafeAreaView style={styles.safeContainer}>

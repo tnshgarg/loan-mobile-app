@@ -42,7 +42,7 @@ export default PanConfirm = () => {
       backAction
     );
 
-    return () => backHandler.remove();
+    return () => backHandler.removeEventListener();
   }, []);
 
   const backAlert = () => {

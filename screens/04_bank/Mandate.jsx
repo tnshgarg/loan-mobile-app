@@ -16,6 +16,31 @@ const Mandate = () => {
     dispatch(addCurrentScreen("Mandate"));
   }, []);
 
+  const backAlert = () => {
+    Alert.alert(
+      "Do you want to go back ?",
+      "If you go back your Bank Verification will have to be redone. Continue only if you want to edit your Bank Account Details.",
+      [
+        { text: "No", onPress: () => null, style: "cancel" },
+        { text: "Yes", onPress: () => navigation.navigate("BankForm") },
+      ]
+    );
+  };
+
+  useEffect(() => {
+    const backAction = () => {
+      backAlert();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.removeEventListener();
+  }, []);
+  
   return (
     <SafeAreaView style={styles.safeContainer}>
       <Header

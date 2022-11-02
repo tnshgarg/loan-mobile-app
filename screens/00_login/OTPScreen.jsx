@@ -61,7 +61,7 @@ const OTPScreen = () => {
       backAction
     );
 
-    return () => backHandler.remove();
+    return () => backHandler.removeEventListener();
   }, [back]);
 
   return (

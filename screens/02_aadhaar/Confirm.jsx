@@ -44,7 +44,7 @@ const AadhaarConfirm = () => {
       backAction
     );
 
-    return () => backHandler.remove();
+    return () => backHandler.removeEventListener();
   }, []);
 
   return (

@@ -39,8 +39,9 @@ const BankConfirm = () => {
       backAction
     );
 
-    return () => backHandler.remove();
+    return () => backHandler.removeEventListener();
   }, []);
+  
   return (
     <SafeAreaView style={styles.safeContainer}>
       <Header
