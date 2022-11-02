@@ -5,8 +5,11 @@ import { styles } from "../../styles";
 import { allAreNull } from "../../helpers/nullCheck";
 import KycCheckCard from "../../components/KycCheckCard";
 import HomeOfferCard from "../../components/HomeOfferCard";
+import { useNavigation } from "@react-navigation/core";
 
 const HomeView = () => {
+  const navigation = useNavigation();
+  
   const bankStatus = useSelector((state) => state.bank.verifyStatus);
   const panStatus = useSelector((state) => state.pan.verifyStatus);
   const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);
