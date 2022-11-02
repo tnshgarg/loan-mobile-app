@@ -39,11 +39,11 @@ const OfferCard = ({ offer }) => {
   if (offer.paid) {
     offerType = "Paid";
     amount = offer.loanAmount;
-    timestamp = new Date(offer.availedAt);
+    timestamp = new Date((offer.updatedAt).split(" ")[0]);
   } else if (offer.availed) {
     offerType = "Due";
     amount = offer.loanAmount;
-    timestamp = new Date(offer.availedAt);
+    timestamp = new Date((offer.updatedAt).split(" ")[0]);
   }
 
   var timestampString = timestamp.toDateString();
