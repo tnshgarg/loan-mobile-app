@@ -5,7 +5,6 @@ import { Alert, SafeAreaView, Text, View } from "react-native";
 import CountDown from "react-native-countdown-component";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import OTPInputView from "@twotalltotems/react-native-otp-input";
 import {
   checkVerification,
   sendSmsVerification,
@@ -86,14 +85,22 @@ const OTPScreen = () => {
               />
             )}
           </Text>
-          <OTPInputView
-            pinCount={6}
-            autoFocusOnLoad
-            style={form.otpContainer}
-            codeInputFieldStyle={form.otpCell}
-            onCodeFilled={(code) => {
-              setOtp(code);
+          <FormInput
+            //selection={{ start: 0 }}
+            containerStyle={{
+              marginTop: 30,
+
+              width: SIZES.width * 0.6,
+              alignSelf: "center",
             }}
+            letterSpacing={SIZES.width * 0.0699}
+            autoFocus={true}
+            value={otp}
+            onChange={setOtp}
+            maxLength={6}
+            keyboardType="numeric"
+            placeholder={"******"}
+            //textAlign={"center"}
           />
 
           <CountDown

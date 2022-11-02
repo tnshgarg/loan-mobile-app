@@ -26,7 +26,6 @@
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.2",
     "@reduxjs/toolkit": "^1.8.3",
-    "@twotalltotems/react-native-otp-input": "^1.3.11",
     "appcenter": "4.4.5",
     "appcenter-analytics": "4.4.5",
     "appcenter-crashes": "4.4.5",

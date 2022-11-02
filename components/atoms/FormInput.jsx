@@ -24,6 +24,7 @@ const FormInput = ({
   required,
   letterSpacing,
   textAlign,
+  selection,
 }) => {
   return (
     <View style={{ ...containerStyle }}>
@@ -64,6 +65,7 @@ const FormInput = ({
           required={required}
           letterSpacing={letterSpacing}
           textAlign={textAlign}
+          selection={selection}
         />
         {appendComponent}
       </View>
