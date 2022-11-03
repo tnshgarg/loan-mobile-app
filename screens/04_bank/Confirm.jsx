@@ -26,6 +26,7 @@ const BankConfirm = () => {
         { text: "Yes", onPress: () => navigation.navigate("BankForm") },
       ]
     );
+    return true;
   };
 
   useEffect(() => {
