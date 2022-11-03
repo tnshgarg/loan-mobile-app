@@ -84,7 +84,7 @@ const WelcomePage = () => {
     <>
       <SafeAreaView style={[styles.container, { paddingBottom: 40 }]}>
         <SVGImg style={styles.logo} />
-        <View style={welcome.steps}>
+        <View style={[welcome.steps,{alignSelf: "center"}]}>
           <StepIndicator
             customStyles={stepIndicatorStyles}
             stepCount={5}

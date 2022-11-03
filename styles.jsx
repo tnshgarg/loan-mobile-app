@@ -473,7 +473,7 @@ export const welcome = StyleSheet.create({
     ...FONTS.h3,
     textAlign: "center",
   },
-  steps: { flex: 1 },
+  steps: { flex: 1},
 });
 
 export const selfie = StyleSheet.create({
