@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
-import { Image, SafeAreaView, Text, View } from "react-native";
+import { BackHandler, Image, SafeAreaView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useSelector } from "react-redux";
@@ -40,6 +40,16 @@ const KYC = () => {
       setFetched(true);
     }
   }, [deviceId, ipAddress]);
+
+  const backAction = () => {
+    navigation.navigate("EWA_OFFER");
+    return true;
+  };
+  
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
 
   useEffect(() => {
     if (fetched) {
@@ -114,7 +124,7 @@ const KYC = () => {
     <SafeAreaView style={styles.safeContainer}>
       <Header
         title="KYC"
-        onLeftIconPress={() => navigation.navigate("EWA_OFFER")}
+        onLeftIconPress={() => backAction()}
       />
       <View style={styles.container}>
         <Text style={form.OtpAwaitMsg}>

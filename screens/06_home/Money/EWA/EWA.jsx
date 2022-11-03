@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SafeAreaView, Text, View } from "react-native";
+import { BackHandler, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { styles } from "../../../../styles";
 import PrimaryButton from "../../../../components/PrimaryButton";
@@ -13,6 +13,7 @@ import { COLORS, FONTS } from "../../../../constants/Theme";
 import { STAGE } from "@env";
 
 const EWA = () => {
+
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const navigation = useNavigation();
@@ -36,6 +37,16 @@ const EWA = () => {
 
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const ewaHistoricalSlice = useSelector((state) => state.ewaHistorical);
+
+  const backAction = () => {
+    navigation.navigate("EWA", { replace: true });
+    return true;
+  };
+  
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
 
   useEffect(() => {
     if (fetched) {

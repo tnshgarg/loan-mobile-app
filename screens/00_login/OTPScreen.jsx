@@ -1,7 +1,7 @@
 import { Icon } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, SafeAreaView, Text, View } from "react-native";
+import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import CountDown from "react-native-countdown-component";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
@@ -44,18 +44,31 @@ const OTPScreen = () => {
     }
   }, [otp]);
 
+  const backAction = () => {
+    if (!back) {
+      Alert.alert(
+        "OTP Timer",
+        "You must wait for 2 minutes to resend OTP."
+      );
+    } else {
+      Alert.alert("Hold on!", "Are you sure you want to Logout?", [
+        { text: "No", onPress: () => null, style: "cancel" },
+        { text: "Yes", onPress: () => navigation.navigate("Login") }
+      ]);
+    }
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       <Header
-        //title="Otp"
-        onLeftIconPress={() =>
-          back
-            ? navigation.navigate("Login")
-            : Alert.alert(
-                "OTP Timer",
-                "You must wait for 2 minutes to resend OTP."
-              )
-        }
+        title="OTP"
+        onLeftIconPress={() => backAction()}
       />
       <KeyboardAvoidingWrapper>
         <View style={styles.container}>

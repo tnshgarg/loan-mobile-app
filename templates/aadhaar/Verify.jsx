@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import CountDown from "react-native-countdown-component";
 import { useDispatch, useSelector } from "react-redux";
 import AadhaarVerifyApi from "../../apis/aadhaar/Verify";
@@ -11,6 +11,7 @@ import { COLORS, SIZES } from "../../constants/Theme";
 import FormInput from "../../components/atoms/FormInput";
 
 const AadhaarVerifyTemplate = (props) => {
+  
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [resend, setResend] = useState(false);

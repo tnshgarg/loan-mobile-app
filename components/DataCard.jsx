@@ -33,8 +33,7 @@ const OfferCard = ({ offer }) => {
   const navigation = useNavigation();
   var offerType = "Missed";
   var amount = offer.eligibleAmount;
-  console.log(offer.updatedAt);
-  var date = new Date(offer.updatedAt.split(" ")[0]) // this seems to help create the Date object properly atleast (split)
+  var date = new Date(offer.updatedAt.split(" ")[0]);
 
   if (offer.paid) {
     offerType = "Paid";
@@ -45,7 +44,7 @@ const OfferCard = ({ offer }) => {
     amount = offer.loanAmount;
     date = new Date(offer.availedAt.split(" ")[0]);
   }
-
+  
   var dateString = date.toDateString();
   var day = dateString.split(" ")[2];
   var month = dateString.split(" ")[1];

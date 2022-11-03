@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { SafeAreaView, Text, View } from "react-native";
+import { SafeAreaView, Text, View, BackHandler, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
 import {
@@ -30,8 +30,12 @@ const ProfileForm = () => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
   const profileSlice = useSelector((state) => state.profile);
-  const [maritalStatus, setMaritalStatus] = useState(profileSlice?.maritalStatus);
-  const [qualification, setQualification] = useState(profileSlice?.qualification);
+  const [maritalStatus, setMaritalStatus] = useState(
+    profileSlice?.maritalStatus
+  );
+  const [qualification, setQualification] = useState(
+    profileSlice?.qualification
+  );
   const [altMobile, setAltMobile] = useState(profileSlice?.altMobile);
   const [email, setEmail] = useState(profileSlice?.email);
   const [motherName, setMotherName] = useState(profileSlice?.motherName);
@@ -80,7 +84,7 @@ const ProfileForm = () => {
           email: email,
           motherName: motherName,
         },
-        token: token
+        token: token,
       });
       setBackendPush(false);
     }
@@ -96,12 +100,23 @@ const ProfileForm = () => {
 
   const maritalStatuses = ["Unmarried", "Married"];
 
+  const backAction = () => {
+    Alert.alert("Hold on!", "Are you sure you want to go back?", [
+      { text: "No", onPress: () => null, style: "cancel" },
+      { text: "Yes", onPress: () => navigation.navigate("Welcome") },
+    ]);
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
-        title="Setup Profile"
-        onLeftIconPress={() => navigation.navigate("Login")}
-      />
+      <Header title="Setup Profile" onLeftIconPress={() => backAction()} />
 
       <ProgressBarTop step={0} />
       <Text style={form.formHeader}>Employee basic details</Text>
