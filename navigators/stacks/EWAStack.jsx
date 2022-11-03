@@ -13,7 +13,10 @@ const EWAStack = () => {
 
   return (
     <OfflineAlert>
-      <Stack.Navigator initialRouteName={"EWA"}>
+      <Stack.Navigator
+        screenOptions={{ animation: "slide_from_right" }}
+        initialRouteName={"EWA"}
+      >
         <Stack.Screen
           name="EWA"
           component={EWA}
