@@ -14,7 +14,7 @@ import {
 } from "../../store/slices/bankSlice";
 import { KYC_BANK_VERIFY_API_URL } from "../../services/constants";
 import { bankBackendPush } from "../../helpers/BackendPush";
-import PrimaryButton from "../../components/PrimaryButton";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
 
 const BankVerifyApi = (props) => {

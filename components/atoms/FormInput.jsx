@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { View, Text, TextInput } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 
 const FormInput = ({
@@ -71,15 +72,15 @@ const FormInput = ({
   );
 };
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   inputHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 5,
+    marginBottom: "5rem",
   },
   inputContainer: {
     flexDirection: "row",
-    height: 50,
+    height: SIZES.btnHeight,
     //paddingHorizontal: SIZES.padding,
     alignItems: "center",
     borderRadius: 5,
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     borderWidth: 1.5,
     borderColor: COLORS.lightGray,
-    paddingHorizontal: 10,
+    paddingHorizontal: "10rem",
   },
 });
 

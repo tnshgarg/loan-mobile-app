@@ -4,7 +4,7 @@ import { Alert, SafeAreaView, ScrollView } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
-import PrimaryButton from "../../components/PrimaryButton";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { mandatePush } from "../../helpers/BackendPush";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
@@ -233,7 +233,9 @@ const MandateFormTemplate = (props) => {
       })
       .catch((error) => {
         console.log(`Mandate|CreateOrder|${authType} error:`, error.toString());
-        setVerifyMsg(`Mandate|CreateOrder|${authType} ERROR ${error.toString()}`);
+        setVerifyMsg(
+          `Mandate|CreateOrder|${authType} ERROR ${error.toString()}`
+        );
         setVerifyStatus("ERROR");
         setBackendPush(true);
         Alert.alert("Error", error.toString());

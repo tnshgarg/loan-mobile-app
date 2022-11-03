@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { styles } from "../../../../styles";
-import PrimaryButton from "../../../../components/PrimaryButton";
+import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import KycCheckCard from "../../../../components/KycCheckCard";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import Offers from "../../../../components/DataCard";

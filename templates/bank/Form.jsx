@@ -135,7 +135,6 @@ const BankFormTemplate = (props) => {
 
           <BankVerifyApi
             data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}
-            style={form.nextButton}
             disabled={
               !ifscNext || !accNumNext || !consent || !accountHolderName
             }

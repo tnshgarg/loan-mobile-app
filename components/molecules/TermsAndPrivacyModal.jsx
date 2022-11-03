@@ -1,4 +1,5 @@
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, Pressable } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import React from "react";
 import { COLORS, SIZES } from "../../constants/Theme";
 import { AntDesign } from "react-native-vector-icons";
@@ -31,7 +32,7 @@ const TermsAndPrivacyModal = ({ isVisible, setIsVisible, data }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     height: SIZES.height - 100,
     width: SIZES.width - 40,

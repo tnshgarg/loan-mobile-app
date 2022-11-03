@@ -76,7 +76,6 @@ const PanFormTemplate = (props) => {
 
           <PanVerifyApi
             data={{ pan_number: number, consent: "Y" }}
-            style={form.nextButton}
             disabled={!validNumber || !consent}
             type={props?.route?.params?.type || ""}
           />

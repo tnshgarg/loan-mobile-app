@@ -1,6 +1,6 @@
 import { Alert, Text, View } from "react-native";
 import { useSelector } from "react-redux";
-import PrimaryButton from "../../../../components/PrimaryButton";
+import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import TopTabNav from "../../../../navigators/TopTabNav";
 import { license, styles } from "../../../../styles";
 import DetailItem from "../../../07_drawer/DetailItem";
@@ -8,7 +8,6 @@ import Confirm from "./Confirm";
 import Form from "./Form";
 
 const License = () => {
-
   const data = useSelector((state) => state.license.data);
   const number = useSelector((state) => state.license.number);
 

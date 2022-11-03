@@ -1,4 +1,3 @@
-import { Icon } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, SafeAreaView, Text, View } from "react-native";
@@ -11,13 +10,14 @@ import {
 } from "../../services/otp/Gupshup/services";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
-import PrimaryButton from "../../components/PrimaryButton";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
 import SVGImg from "../../assets/UnipeLogo.svg";
 import Analytics from "appcenter-analytics";
 import { styles } from "../../styles";
 import { COLORS, SIZES } from "../../constants/Theme";
 import FormInput from "../../components/atoms/FormInput";
 import Header from "../../components/atoms/Header";
+import { AppBar, Icon, IconButton } from "@react-native-material/core";
 
 const OTPScreen = () => {
   const dispatch = useDispatch();
@@ -46,7 +46,19 @@ const OTPScreen = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
+      <IconButton
+        icon={<Icon name="arrow-back" size={20} color={COLORS.primary} />}
+        style={styles.otpback}
+        onPress={() => {
+          back
+            ? navigation.navigate("Login")
+            : Alert.alert(
+                "OTP Timer",
+                "You must wait for 2 minutes to resend OTP."
+              );
+        }}
+      />
+      {/* <Header
         //title="Otp"
         onLeftIconPress={() =>
           back
@@ -56,7 +68,7 @@ const OTPScreen = () => {
                 "You must wait for 2 minutes to resend OTP."
               )
         }
-      />
+      /> */}
       <KeyboardAvoidingWrapper>
         <View style={styles.container}>
           <SVGImg style={styles.logo} />
