@@ -3,7 +3,7 @@ import { putBackendData } from "../services/employees/employeeServices";
 export const aadhaarBackendPush = (payload) => {
   putBackendData({ data: payload.data, xpath: "aadhaar", token: payload.token })
     .then((response) => {
-      console.log("aadhaarBackendPush response: ", response);
+      console.log("aadhaarBackendPush response: ", response.data);
     })
     .catch((error) => {
       console.log("aadhaarBackendPush error: ", error);
@@ -13,7 +13,7 @@ export const aadhaarBackendPush = (payload) => {
 export const bankBackendPush = (payload) => {
   putBackendData({ data: payload.data, xpath: "bank", token: payload.token })
     .then((response) => {
-      console.log("bankBackendPush response: ", response);
+      console.log("bankBackendPush response: ", response.data);
     })
     .catch((error) => {
       console.log("bankBackendPush error: ", error);
@@ -27,7 +27,7 @@ export const licenseBackendPush = (payload) => {
     token: payload.token,
   })
     .then((response) => {
-      console.log("licenseBackendPush response: ", response);
+      console.log("licenseBackendPush response: ", response.data);
     })
     .catch((error) => {
       console.log("licenseBackendPush error: ", error);
@@ -37,7 +37,7 @@ export const licenseBackendPush = (payload) => {
 export const panBackendPush = (payload) => {
   putBackendData({ data: payload.data, xpath: "pan", token: payload.token })
     .then((response) => {
-      console.log("panBackendPush response: ", response);
+      console.log("panBackendPush response: ", response.data);
     })
     .catch((error) => {
       console.log("panBackendPush error: ", error);
@@ -47,7 +47,7 @@ export const panBackendPush = (payload) => {
 export const profileBackendPush = (payload) => {
   putBackendData({ data: payload.data, xpath: "profile", token: payload.token })
     .then((response) => {
-      console.log("profileBackendPush response: ", response);
+      console.log("profileBackendPush response: ", response.data);
     })
     .catch((error) => {
       console.log("profileBackendPush error: ", error);
@@ -61,7 +61,7 @@ export const relationPush = (payload) => {
     token: payload.token,
   })
     .then((response) => {
-      console.log("relationPush response: ", response);
+      console.log("relationPush response: ", response.data);
     })
     .catch((error) => {
       console.log("relationPush error: ", error);
@@ -75,7 +75,7 @@ export const addressPush = (payload) => {
     token: payload.token,
   })
     .then((response) => {
-      console.log("addressPush response: ", response);
+      console.log("addressPush response: ", response.data);
     })
     .catch((error) => {
       console.log("addressPush error: ", error);
@@ -89,7 +89,7 @@ export const portalPush = (payload) => {
     token: payload.token,
   })
     .then((response) => {
-      console.log("portalPush response: ", response);
+      console.log("portalPush response: ", response.data);
     })
     .catch((error) => {
       console.log("portalPush error: ", error);
