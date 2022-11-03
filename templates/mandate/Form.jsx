@@ -308,8 +308,11 @@ const MandateFormTemplate = (props) => {
             title="Verify Bank Info Now"
             onPress={() => {
               props?.route?.params?.type
-                ? navigation.navigate("KYC", {
-                    screen: "BANK",
+                ? navigation.navigate("HomeStack", {
+                    screen: "KYC",
+                    params: {
+                      screen: "BANK",
+                    },
                   })
                 : navigation.navigate("BankForm");
             }}

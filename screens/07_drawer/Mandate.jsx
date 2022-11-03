@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import MandateFormTemplate from "../../templates/mandate/Form";
 import DetailItem from "./DetailItem";
 import { styles } from "../../styles";
+import TopTabNav from "../../navigators/TopTabNav";
 
 const Mandate = () => {
   const mandateSlice = useSelector((state) => state.mandate);
@@ -20,6 +21,14 @@ const Mandate = () => {
       setTime(true);
     }, 2000);
   }
+  const tabs = [
+    {
+      name: "Mandate",
+      component: MandateFormTemplate,
+      initialParams: { type: "KYC" },
+      disable: true,
+    },
+  ];
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
@@ -37,7 +46,8 @@ const Mandate = () => {
           </View>
         </View>
       ) : (
-        <MandateFormTemplate />
+        // <MandateFormTemplate type="KYC" />
+        <TopTabNav tabs={tabs} hide={true} />
       )}
     </SafeAreaView>
   );
