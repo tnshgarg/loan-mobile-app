@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SafeAreaView, Text, View } from "react-native";
+import { BackHandler, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { styles } from "../../../../styles";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
@@ -13,6 +13,7 @@ import { COLORS, FONTS } from "../../../../constants/Theme";
 import { STAGE } from "@env";
 
 const EWA = () => {
+
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const navigation = useNavigation();
@@ -20,7 +21,8 @@ const EWA = () => {
   const [fetched, setFetched] = useState(false);
   const [eligible, setEligible] = useState(false);
 
-  const id = useSelector((state) => state.auth.id);
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const aadhaarName = useSelector((state) => state.aadhaar.data.name);
   const aadhaarVerifyStatus = useSelector(
     (state) => state.aadhaar.verifyStatus
@@ -35,6 +37,16 @@ const EWA = () => {
 
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const ewaHistoricalSlice = useSelector((state) => state.ewaHistorical);
+
+  const backAction = () => {
+    navigation.navigate("EWA", { replace: true });
+    return true;
+  };
+  
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
 
   useEffect(() => {
     if (fetched) {
@@ -54,9 +66,9 @@ const EWA = () => {
   useEffect(() => {
     console.log("ewaLiveSlice: ", ewaLiveSlice);
     console.log("ewaHistoricalSlice: ", ewaHistoricalSlice);
-    console.log("ewaOffersFetch unipeEmployeeId:", id);
-    if (isFocused && id) {
-      getBackendData({ params: { unipeEmployeeId: id }, xpath: "ewa/offers" })
+    console.log("ewaOffersFetch unipeEmployeeId:", unipeEmployeeId);
+    if (isFocused && unipeEmployeeId) {
+      getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "ewa/offers", token: token })
         .then((response) => {
           if (response.data.status === 200) {
             console.log("ewaOffersFetch response.data: ", response.data);
@@ -66,15 +78,16 @@ const EWA = () => {
           } else {
             dispatch(resetEwaLive());
             dispatch(resetEwaHistorical());
+            console.log("ewaOffersFetch error: ", response.data);
           }
         })
         .catch((error) => {
           dispatch(resetEwaLive());
           dispatch(resetEwaHistorical());
-          console.log("ewaOffersFetch error: ", error);
+          console.log("ewaOffersFetch error: ", error.toString());
         });
     }
-  }, [isFocused, id]);
+  }, [isFocused, unipeEmployeeId]);
 
   return (
     <SafeAreaView style={[styles.container]}>

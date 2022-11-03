@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
-import { Image, SafeAreaView, Text, View } from "react-native";
+import { BackHandler, Image, SafeAreaView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useSelector } from "react-redux";
@@ -19,10 +19,11 @@ const KYC = () => {
   const [ipAddress, setIpAdress] = useState(0);
 
   const [loading, setLoading] = useState(false);
+
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const data = useSelector((state) => state.aadhaar.data);
   const number = useSelector((state) => state.aadhaar.number);
-  const unipeEmployeeId = useSelector((state) => state.auth.id);
-
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
 
   useEffect(() => {
@@ -40,22 +41,35 @@ const KYC = () => {
     }
   }, [deviceId, ipAddress]);
 
+  const backAction = () => {
+    navigation.navigate("EWA_OFFER");
+    return true;
+  };
+  
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
   useEffect(() => {
     if (fetched) {
       ewaKycPush({
-        offerId: ewaLiveSlice?.offerId,
-        unipeEmployeeId: unipeEmployeeId,
-        status: "INPROGRESS",
-        timestamp: Date.now(),
-        ipAddress: ipAddress,
-        deviceId: deviceId,
+        data: {
+          offerId: ewaLiveSlice?.offerId,
+          unipeEmployeeId: unipeEmployeeId,
+          status: "INPROGRESS",
+          timestamp: Date.now(),
+          ipAddress: ipAddress,
+          deviceId: deviceId,
+        },
+        token: token,
       })
         .then((response) => {
           console.log("ewaKycPush response.data: ", response.data);
         })
         .catch((error) => {
-          console.log("ewaKycPush error: ", error);
-          Alert.alert("An Error occured", error);
+          console.log("ewaKycPush error: ", error.toString());
+          Alert.alert("An Error occured", error.toString());
         });
     }
   }, [fetched]);
@@ -63,28 +77,31 @@ const KYC = () => {
   function handleKyc() {
     setLoading(true);
     ewaKycPush({
-      offerId: ewaLiveSlice?.offerId,
-      unipeEmployeeId: unipeEmployeeId,
-      status: "CONFIRMED",
-      timestamp: Date.now(),
-      ipAddress: ipAddress,
-      deviceId: deviceId,
+      data: {
+        offerId: ewaLiveSlice?.offerId,
+        unipeEmployeeId: unipeEmployeeId,
+        status: "CONFIRMED",
+        timestamp: Date.now(),
+        ipAddress: ipAddress,
+        deviceId: deviceId,
+      },
+      token: token,
     })
       .then((response) => {
         console.log("ewaKycPush response.data: ", response.data);
         setLoading(false);
         Analytics.trackEvent("Ewa|Kyc|Success", {
-          userId: unipeEmployeeId,
+          unipeEmployeeId: unipeEmployeeId,
         });
         navigation.navigate("EWA_AGREEMENT");
       })
       .catch((error) => {
-        console.log("ewaKycPush error: ", error);
+        console.log("ewaKycPush error: ", error.toString());
         setLoading(false);
-        Alert.alert("An Error occured", error);
+        Alert.alert("An Error occured", error.toString());
         Analytics.trackEvent("Ewa|Kyc|Error", {
-          userId: unipeEmployeeId,
-          error: error,
+          unipeEmployeeId: unipeEmployeeId,
+          error: error.toString(),
         });
       });
   }
@@ -107,7 +124,7 @@ const KYC = () => {
     <SafeAreaView style={styles.safeContainer}>
       <Header
         title="KYC"
-        onLeftIconPress={() => navigation.navigate("EWA_OFFER")}
+        onLeftIconPress={() => backAction()}
       />
       <View style={styles.container}>
         <Text style={form.OtpAwaitMsg}>

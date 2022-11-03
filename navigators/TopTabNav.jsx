@@ -11,7 +11,7 @@ const TopTabNav = (props) => {
       screenOptions={{
         tabBarLabelStyle: {
           ...FONTS.body4,
-          textTransform: "capitalize",
+          textTransform: "uppercase",
         },
         //tabBarItemStyle: { width: 100 },
         tabBarStyle: props.hide ? hide : show,

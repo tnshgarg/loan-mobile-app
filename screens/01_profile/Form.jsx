@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { SafeAreaView, Text, View } from "react-native";
+import { SafeAreaView, Text, View, BackHandler, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
 import {
@@ -24,10 +24,11 @@ const ProfileForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
+  const [next, setNext] = useState(false);
   const [backendPush, setBackendPush] = useState(false);
 
-  const [next, setNext] = useState(false);
-  const id = useSelector((state) => state.auth.id);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const token = useSelector((state) => state.auth.token);
   const profileSlice = useSelector((state) => state.profile);
   const [maritalStatus, setMaritalStatus] = useState(
     profileSlice?.maritalStatus
@@ -75,12 +76,15 @@ const ProfileForm = () => {
     console.log("ProfileForm profileSlice: ", profileSlice);
     if (backendPush) {
       profileBackendPush({
-        id: id,
-        maritalStatus: maritalStatus,
-        qualification: qualification,
-        altMobile: altMobile,
-        email: email,
-        motherName: motherName,
+        data: {
+          unipeEmployeeId: unipeEmployeeId,
+          maritalStatus: maritalStatus,
+          qualification: qualification,
+          altMobile: altMobile,
+          email: email,
+          motherName: motherName,
+        },
+        token: token,
       });
       setBackendPush(false);
     }
@@ -96,12 +100,23 @@ const ProfileForm = () => {
 
   const maritalStatuses = ["Unmarried", "Married"];
 
+  const backAction = () => {
+    Alert.alert("Hold on!", "Are you sure you want to go back?", [
+      { text: "No", onPress: () => null, style: "cancel" },
+      { text: "Yes", onPress: () => navigation.navigate("Welcome") },
+    ]);
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
-        title="Setup Profile"
-        onLeftIconPress={() => navigation.navigate("Login")}
-      />
+      <Header title="Setup Profile" onLeftIconPress={() => backAction()} />
 
       <ProgressBarTop step={0} />
       <Text style={form.formHeader}>Employee basic details</Text>
@@ -149,7 +164,7 @@ const ProfileForm = () => {
             onPress={() => {
               setBackendPush(true);
               Analytics.trackEvent("ProfileForm|PushData|Success", {
-                userId: id,
+                unipeEmployeeId: unipeEmployeeId,
               });
               navigation.navigate("AadhaarForm");
             }}

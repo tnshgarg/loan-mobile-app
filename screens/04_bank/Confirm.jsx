@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { Alert, SafeAreaView, ScrollView } from "react-native";
+import { Alert, SafeAreaView, ScrollView, BackHandler } from "react-native";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
 import { styles } from "../../styles";
 
@@ -17,7 +17,7 @@ const BankConfirm = () => {
     dispatch(addCurrentScreen("BankConfirm"));
   }, []);
 
-  const backAlert = () => {
+  const backAction = () => {
     Alert.alert(
       "Do you want to go back ?",
       "If you go back your Bank Verification will have to be redone. Continue only if you want to edit your Bank Account Details.",
@@ -26,12 +26,18 @@ const BankConfirm = () => {
         { text: "Yes", onPress: () => navigation.navigate("BankForm") },
       ]
     );
+    return true;
   };
 
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+  
   return (
     <SafeAreaView style={styles.safeContainer}>
       <Header
-        onLeftIconPress={() => backAlert()}
+        onLeftIconPress={() => backAction()}
         title="Bank Details Confirmation"
       />
       <ProgressBarTop step={3} />

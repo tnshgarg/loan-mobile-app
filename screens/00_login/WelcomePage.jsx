@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect } from "react";
-import { SafeAreaView, View } from "react-native";
+import { Alert, BackHandler, SafeAreaView, View } from "react-native";
 import StepIndicator from "react-native-step-indicator";
 import { useDispatch, useSelector } from "react-redux";
 import Analytics from "appcenter-analytics";
@@ -16,10 +16,23 @@ const WelcomePage = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const id = useSelector((state) => state.auth.id);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
   useEffect(() => {
     dispatch(addCurrentScreen("Welcome"));
+  }, []);
+
+  const backAction = () => {
+    Alert.alert("Hold on!", "Are you sure you want to Logout?", [
+      { text: "No", onPress: () => null, style: "cancel" },
+      { text: "Yes", onPress: () => navigation.navigate("Login") }
+    ]);
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
@@ -63,7 +76,7 @@ const WelcomePage = () => {
     <>
       <SafeAreaView style={[styles.container]}>
         <SVGImg style={styles.logo} />
-        <View style={welcome.steps}>
+        <View style={[welcome.steps,{alignSelf: "center"}]}>
           <StepIndicator
             customStyles={stepIndicatorStyles}
             stepCount={5}
@@ -77,7 +90,7 @@ const WelcomePage = () => {
           title="Start Onboarding"
           onPress={() => {
             requestUserPermission();
-            Analytics.trackEvent("WelcomePage", { userId: id });
+            Analytics.trackEvent("WelcomePage", { unipeEmployeeId: unipeEmployeeId });
             navigation.navigate("ProfileForm");
           }}
         />

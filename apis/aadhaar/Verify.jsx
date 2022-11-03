@@ -21,7 +21,8 @@ const AadhaarVerifyApi = (props) => {
   const [loading, setLoading] = useState(false);
   const [backendPush, setBackendPush] = useState(false);
 
-  const id = useSelector((state) => state.auth.id);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const token = useSelector((state) => state.auth.token);
   const submitOTPtxnId = useSelector((state) => state.aadhaar.submitOTPtxnId);
 
   const aadhaarSlice = useSelector((state) => state.aadhaar);
@@ -52,12 +53,15 @@ const AadhaarVerifyApi = (props) => {
     console.log("AadhaarVerifyApi aadhaarSlice : ", aadhaarSlice);
     if (backendPush) {
       aadhaarBackendPush({
-        id: id,
-        data: data,
-        number: aadhaarSlice?.number,
-        verifyMsg: verifyMsg,
-        verifyStatus: verifyStatus,
-        verifyTimestamp: verifyTimestamp,
+        data: {
+          unipeEmployeeId: unipeEmployeeId,
+          data: data,
+          number: aadhaarSlice?.number,
+          verifyMsg: verifyMsg,
+          verifyStatus: verifyStatus,
+          verifyTimestamp: verifyTimestamp,
+        },
+        token: token,
       });
       setBackendPush(false);
       setLoading(false);
@@ -112,7 +116,7 @@ const AadhaarVerifyApi = (props) => {
                 setVerifyTimestamp(responseJson["timestamp"]);
                 setBackendPush(true);
                 Analytics.trackEvent("Aadhaar|Verify|Success", {
-                  userId: id,
+                  unipeEmployeeId: unipeEmployeeId,
                 });
                 {
                   props.type == "KYC"
@@ -131,7 +135,7 @@ const AadhaarVerifyApi = (props) => {
                 setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
                 Analytics.trackEvent("Aadhaar|Verify|Error", {
-                  userId: id,
+                  unipeEmployeeId: unipeEmployeeId,
                   error: responseJson["data"]["message"],
                 });
             }
@@ -141,7 +145,7 @@ const AadhaarVerifyApi = (props) => {
             setBackendPush(true);
             Alert.alert("Error", responseJson["error"]["message"]);
             Analytics.trackEvent("Aadhaar|Verify|Error", {
-              userId: id,
+              unipeEmployeeId: unipeEmployeeId,
               error: responseJson["error"]["message"],
             });
           } else {
@@ -150,7 +154,7 @@ const AadhaarVerifyApi = (props) => {
             setBackendPush(true);
             Alert.alert("Error", responseJson["message"]);
             Analytics.trackEvent("Aadhaar|Verify|Error", {
-              userId: id,
+              unipeEmployeeId: unipeEmployeeId,
               error: responseJson["message"],
             });
           }
@@ -161,7 +165,7 @@ const AadhaarVerifyApi = (props) => {
           setBackendPush(true);
           Alert.alert("Error", error.toString());
           Analytics.trackEvent("Aadhaar|Verify|Error", {
-            userId: id,
+            unipeEmployeeId: unipeEmployeeId,
             error: error.toString(),
           });
         }
@@ -173,7 +177,7 @@ const AadhaarVerifyApi = (props) => {
         setBackendPush(true);
         Alert.alert("Error", error.toString());
         Analytics.trackEvent("Aadhaar|Verify|Error", {
-          userId: id,
+          unipeEmployeeId: unipeEmployeeId,
           error: error.toString(),
         });
       });

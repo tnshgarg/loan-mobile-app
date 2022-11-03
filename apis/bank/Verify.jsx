@@ -24,11 +24,12 @@ const BankVerifyApi = (props) => {
 
   const [loading, setLoading] = useState(false);
   const [backendPush, setBackendPush] = useState(false);
-
-  const id = useSelector((state) => state.auth.id);
-  const data = useSelector((state) => state.bank.data);
+  
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
   const bankSlice = useSelector((state) => state.bank);
+  const data = useSelector((state) => state.bank.data);
   const [bankName, setBankName] = useState(bankSlice?.data?.bankName);
   const [branchName, setBranchName] = useState(bankSlice?.data?.bankBranch);
   const [branchCity, setBranchCity] = useState(bankSlice?.data?.branchCity);
@@ -73,11 +74,14 @@ const BankVerifyApi = (props) => {
     console.log("BankVerifyApi bankSlice : ", bankSlice);
     if (backendPush) {
       bankBackendPush({
-        id: id,
-        data: data,
-        verifyStatus: verifyStatus,
-        verifyMsg: verifyMsg,
-        verifyTimestamp: verifyTimestamp,
+        data: {
+          unipeEmployeeId: unipeEmployeeId,
+          data: data,
+          verifyStatus: verifyStatus,
+          verifyMsg: verifyMsg,
+          verifyTimestamp: verifyTimestamp,
+        },
+        token: token,
       });
       setBackendPush(false);
       setLoading(false);
@@ -122,7 +126,7 @@ const BankVerifyApi = (props) => {
                 setBackendPush(true);
                 Analytics.trackEvent("Bank|Verify|Success", {
                   Category: "Onboarding",
-                  userId: id,
+                  unipeEmployeeId: unipeEmployeeId,
                 });
                 {
                   props.type == "KYC"
@@ -142,7 +146,7 @@ const BankVerifyApi = (props) => {
                 Alert.alert("Error", responseJson["data"]["message"]);
                 Analytics.trackEvent("Bank|Verify|Error", {
                   Category: "Onboarding",
-                  userId: id,
+                  unipeEmployeeId: unipeEmployeeId,
                   error: responseJson["data"]["message"],
                 });
                 break;
@@ -161,7 +165,7 @@ const BankVerifyApi = (props) => {
               );
               Analytics.trackEvent("Bank|Verify|Error", {
                 Category: "Onboarding",
-                userId: id,
+                unipeEmployeeId: unipeEmployeeId,
                 error: responseJson["error"]["metadata"]["fields"]
                   .map((item) => item["message"])
                   .join("\n"),
@@ -172,7 +176,7 @@ const BankVerifyApi = (props) => {
               setBackendPush(true);
               Alert.alert("Error", responseJson["message"]);
               Analytics.trackEvent("Bank|Verify|Error", {
-                userId: id,
+                unipeEmployeeId: unipeEmployeeId,
                 error: responseJson["messsage"],
               });
             }
@@ -184,7 +188,7 @@ const BankVerifyApi = (props) => {
           setBackendPush(true);
           Alert.alert("Error", error.toString());
           Analytics.trackEvent("Bank|Verify|Error", {
-            userId: id,
+            unipeEmployeeId: unipeEmployeeId,
             error: error.toString(),
           });
         }
@@ -196,7 +200,7 @@ const BankVerifyApi = (props) => {
         setBackendPush(true);
         Alert.alert("Error", error.toString());
         Analytics.trackEvent("Bank|Verify|Error", {
-          userId: id,
+          unipeEmployeeId: unipeEmployeeId,
           error: error.toString(),
         });
       });
