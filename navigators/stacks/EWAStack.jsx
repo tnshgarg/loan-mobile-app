@@ -12,48 +12,46 @@ const EWAStack = () => {
   const Stack = createNativeStackNavigator();
 
   return (
-    <OfflineAlert>
-      <Stack.Navigator
-        screenOptions={{ animation: "slide_from_right" }}
-        initialRouteName={"EWA"}
-      >
-        <Stack.Screen
-          name="EWA"
-          component={EWA}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="EWA_OFFER"
-          component={Offer}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="EWA_KYC"
-          component={KYC}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="EWA_AGREEMENT"
-          component={Agreement}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="EWA_DISBURSEMENT"
-          component={Disbursement}
-          options={{
-            headerShown: false,
-          }}
-        />
-      </Stack.Navigator>
-    </OfflineAlert>
+    <Stack.Navigator
+      screenOptions={{ animation: "slide_from_right" }}
+      initialRouteName={"EWA"}
+    >
+      <Stack.Screen
+        name="EWA"
+        component={EWA}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="EWA_OFFER"
+        component={Offer}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="EWA_KYC"
+        component={KYC}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="EWA_AGREEMENT"
+        component={Agreement}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="EWA_DISBURSEMENT"
+        component={Disbursement}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
   );
 };
 
