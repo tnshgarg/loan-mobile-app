@@ -12,7 +12,7 @@ import {
   addIfsc,
   addUpi,
 } from "../../store/slices/bankSlice";
-import { bankform, form } from "../../styles";
+import { bankform, form, styles } from "../../styles";
 
 const BankFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -67,7 +67,7 @@ const BankFormTemplate = (props) => {
   }, [ifsc]);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <View>
           <Text style={bankform.subTitle}>Enter your Bank Details</Text>

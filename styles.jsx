@@ -120,6 +120,7 @@ export const form = EStyleSheet.create({
     backgroundColor: COLORS.primaryBackground,
     alignItems: "center",
     justifyContent: "center",
+    marginLeft: "10rem",
   },
   noButton: {
     flex: 1,
@@ -128,6 +129,7 @@ export const form = EStyleSheet.create({
     backgroundColor: COLORS.warningBackground,
     alignItems: "center",
     justifyContent: "center",
+    marginRight: "10rem",
   },
   aadharimg: {
     alignSelf: "center",
