@@ -1,6 +1,6 @@
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
-import { SafeAreaView, Image, View } from "react-native";
+import { BackHandler, SafeAreaView, Image, View } from "react-native";
 import CollapsibleCard from "../../../../components/CollapsibleCard";
 import { ewa, styles } from "../../../../styles";
 import { useSelector } from "react-redux";
@@ -23,6 +23,16 @@ const Disbursement = ({ route, navigation }) => {
   const [loanAccountNumber, setLoanAccountNumber] = useState("");
   const [status, setStatus] = useState("");
   const [processingFees, setProcessingFees] = useState("");
+
+  const backAction = () => {
+    navigation.navigate("EWA");
+    return true;
+  };
+  
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
 
   useEffect(() => {
     getBackendData({
@@ -79,7 +89,7 @@ const Disbursement = ({ route, navigation }) => {
     <SafeAreaView style={styles.safeContainer}>
       <Header
         title="Money Transfer"
-        onLeftIconPress={() => navigation.navigate("EWA")}
+        onLeftIconPress={() => backAction()}
       />
       <View style={styles.container}>
         <Image
@@ -92,16 +102,6 @@ const Disbursement = ({ route, navigation }) => {
           isClosed={false}
           info="Disbursement will be reconciled in your next payroll"
         />
-
-        {/* 
-        // checkout flow
-        <PrimaryButton
-          title="Thank You"
-          uppercase={false}
-          onPress={() => {
-            navigation.navigate("Home");
-          }}
-        /> */}
       </View>
     </SafeAreaView>
   );

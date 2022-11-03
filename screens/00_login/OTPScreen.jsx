@@ -44,38 +44,31 @@ const OTPScreen = () => {
     }
   }, [otp]);
 
+  const backAction = () => {
+    if (!back) {
+      Alert.alert(
+        "OTP Timer",
+        "You must wait for 2 minutes to resend OTP."
+      );
+    } else {
+      Alert.alert("Hold on!", "Are you sure you want to Logout?", [
+        { text: "No", onPress: () => null, style: "cancel" },
+        { text: "Yes", onPress: () => navigation.navigate("Login") }
+      ]);
+    }
+    return true;
+  };
+
   useEffect(() => {
-    const backAction = () => {
-      console.log("back pressed",back);
-      back
-        ? navigation.navigate("Login")
-        : Alert.alert(
-            "OTP Timer",
-            "You must wait for 2 minutes to resend OTP."
-          );
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      backAction
-    );
-
-    return () => backHandler.removeEventListener();
-  }, [back]);
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
 
   return (
     <SafeAreaView style={styles.safeContainer}>
       <Header
-        //title="Otp"
-        onLeftIconPress={() =>
-          back
-            ? navigation.navigate("Login")
-            : Alert.alert(
-                "OTP Timer",
-                "You must wait for 2 minutes to resend OTP."
-              )
-        }
+        title="OTP"
+        onLeftIconPress={() => backAction()}
       />
       <KeyboardAvoidingWrapper>
         <View style={styles.container}>

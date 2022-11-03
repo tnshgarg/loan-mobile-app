@@ -96,11 +96,24 @@ const ProfileForm = () => {
 
   const maritalStatuses = ["Unmarried", "Married"];
 
+  const backAction = () => {
+    Alert.alert("Hold on!", "Are you sure you want to go back?", [
+      { text: "No", onPress: () => null, style: "cancel" },
+      { text: "Yes", onPress: () => navigation.navigate("Welcome") }
+    ]);
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       <Header
         title="Setup Profile"
-        onLeftIconPress={() => navigation.navigate("Login")}
+        onLeftIconPress={() => backAction()}
       />
 
       <ProgressBarTop step={0} />

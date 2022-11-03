@@ -17,7 +17,7 @@ const BankConfirm = () => {
     dispatch(addCurrentScreen("BankConfirm"));
   }, []);
 
-  const backAlert = () => {
+  const backAction = () => {
     Alert.alert(
       "Do you want to go back ?",
       "If you go back your Bank Verification will have to be redone. Continue only if you want to edit your Bank Account Details.",
@@ -29,23 +29,14 @@ const BankConfirm = () => {
   };
 
   useEffect(() => {
-    const backAction = () => {
-      backAlert();
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      backAction
-    );
-
-    return () => backHandler.removeEventListener();
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
   
   return (
     <SafeAreaView style={styles.safeContainer}>
       <Header
-        onLeftIconPress={() => backAlert()}
+        onLeftIconPress={() => backAction()}
         title="Bank Details Confirmation"
       />
       <ProgressBarTop step={3} />

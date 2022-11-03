@@ -6,6 +6,7 @@ import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import {
   Alert,
+  BackHandler,
   SafeAreaView,
   Text,
   View,
@@ -66,6 +67,16 @@ const Offer = () => {
       setFetched(true);
     }
   }, [deviceId, ipAddress]);
+
+  const backAction = () => {
+    navigation.navigate("EWA");
+    return true;
+  };
+  
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
 
   useEffect(() => {
     if (parseInt(amount) <= eligibleAmount) {
@@ -157,7 +168,7 @@ const Offer = () => {
     <SafeAreaView style={styles.safeContainer}>
       <Header
         title="On Demand Salary"
-        onLeftIconPress={() => navigation.navigate("EWA")}
+        onLeftIconPress={() => backAction()}
       />
       <View style={styles.container}>
         <FormInput

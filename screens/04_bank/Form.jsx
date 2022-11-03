@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect } from "react";
-import { SafeAreaView, Alert, BackHandler } from "react-native";
+import { Alert, BackHandler, SafeAreaView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
@@ -11,15 +11,17 @@ import Header from "../../components/atoms/Header";
 const BankForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
+
   useEffect(() => {
     dispatch(addCurrentScreen("BankForm"));
   }, []);
 
-  const backAlert = () => {
+  const backAction = () => {
     Alert.alert(
-      "Do you want to go back ?",
-      "If you go back your PAN Verification will have to be redone. Continue only if you want to edit your PAN Details.",
+      "Hold on!",
+      "If you go back your PAN Verification will have to be redone. Continue only if you want to edit your PAN number.",
       [
         { text: "No", onPress: () => null, style: "cancel" },
         {
@@ -32,20 +34,12 @@ const BankForm = () => {
         },
       ]
     );
+    return true;
   };
 
   useEffect(() => {
-    const backAction = () => {
-      backAlert();
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      backAction
-    );
-
-    return () => backHandler.removeEventListener();
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   return (
@@ -53,7 +47,7 @@ const BankForm = () => {
       <SafeAreaView style={styles.safeContainer}>
         <Header
           title="Bank Details"
-          onLeftIconPress={() => navigation.navigate("PanForm")}
+          onLeftIconPress={() => backAction()}
         />
         <ProgressBarTop step={3} />
         <BankFormTemplate />

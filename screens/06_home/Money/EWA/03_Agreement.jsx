@@ -4,6 +4,7 @@ import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import {
   Alert,
+  BackHandler,
   Dimensions,
   Pressable,
   SafeAreaView,
@@ -102,6 +103,16 @@ const Agreement = () => {
       setFetched(true);
     }
   }, [deviceId, ipAddress]);
+
+  const backAction = () => {
+    navigation.navigate("EWA_KYC");
+    return true;
+  };
+  
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
 
   useEffect(() => {
     setProcessingFees(
@@ -229,7 +240,10 @@ const Agreement = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header title="Agreement" onLeftIconPress={() => navigation.goBack()} />
+      <Header 
+        title="Agreement" 
+        onLeftIconPress={() => backAction()} 
+      />
       <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <CollapsibleCard

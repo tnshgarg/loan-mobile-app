@@ -3,6 +3,7 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import {
   Alert,
+  BackHandler,
   SafeAreaView,
   Text,
   View,
@@ -92,6 +93,19 @@ const LoginScreen = () => {
 
   useEffect(() => {
     onPhoneNumberPressed();
+  }, []);
+
+  const backAction = () => {
+    Alert.alert("Hold on!", "Are you sure you want to go back?", [
+      { text: "No", onPress: () => null, style: "cancel" },
+      { text: "Yes", onPress: () => BackHandler.exitApp() }
+    ]);
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   const signIn = () => {

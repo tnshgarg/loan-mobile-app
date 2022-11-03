@@ -21,31 +21,8 @@ export default PanConfirm = () => {
   useEffect(() => {
     dispatch(addCurrentScreen("PanConfirm"));
   }, []);
-  useEffect(() => {
-    const backAction = () => {
-      Alert.alert(
-        "Do you want to go back ?",
-        "If you go back you will have to redo pan verification. Continue if you want to edit your pan number.",
-        [
-          { text: "No", onPress: () => null, style: "cancel" },
-          {
-            text: "Yes",
-            onPress: () => navigation.navigate("PanForm"),
-          },
-        ]
-      );
-      return true;
-    };
 
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      backAction
-    );
-
-    return () => backHandler.removeEventListener();
-  }, []);
-
-  const backAlert = () => {
+  const backAction = () => {
     Alert.alert(
       "Do you want to go back ?",
       "If you go back your PAN Verification will have to be redone. Continue if you want to edit your PAN number.",
@@ -54,11 +31,20 @@ export default PanConfirm = () => {
         { text: "Yes", onPress: () => navigation.navigate("PanForm") },
       ]
     );
+    return true;
   };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header title="PAN Confirmation" onLeftIconPress={() => backAlert()} />
+      <Header 
+        title="PAN Data Confirmation" 
+        onLeftIconPress={() => backAction()} 
+      />
       <ProgressBarTop step={2} />
       <ScrollView keyboardShouldPersistTaps="handled">
         <PanConfirmApi />

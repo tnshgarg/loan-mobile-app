@@ -17,10 +17,10 @@ export default PanForm = () => {
     dispatch(addCurrentScreen("PanForm"));
   }, []);
 
-  const SkipPAN = () => {
+  const skipPAN = () => {
     Alert.alert(
       "PAN KYC Required",
-      `If you want to receive advance salary, PAN KYC is required.`,
+      "If you want to receive advance salary, PAN KYC is required.",
       [
         { text: "No", onPress: () => null, style: "cancel" },
         { text: "Yes", onPress: () => navigation.navigate("BankForm") },
@@ -28,38 +28,30 @@ export default PanForm = () => {
     );
   };
 
-  useEffect(() => {
-    const backAction = () => {
-      Alert.alert(
-        "Do you want to go back ?",
-        "If you go back you will have to redo Aadhaar verification. Continue if you want to edit your Aadhaar Details.",
-        [
-          { text: "No", onPress: () => null, style: "cancel" },
-          {
-            text: "Yes",
-            onPress: () => navigation.navigate("PanForm"),
-          },
-        ]
-      );
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      backAction
+  const backAction = () => {
+    Alert.alert(
+      "Hold on!",
+      "If you go back your Aadhaar Verification will have to be redone. Continue only if you want to edit your Aadhaar number.",
+      [
+        { text: "No", onPress: () => null, style: "cancel" },
+        { text: "Yes", onPress: () => navigation.navigate("AadhaarConfirm") },
+      ]
     );
+    return true;
+  };
 
-    return () => backHandler.removeEventListener();
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   return (
     <SafeAreaView style={styles.safeContainer}>
       <Header
         title="PAN Verification"
-        onLeftIconPress={() => navigation.navigate("AadhaarConfirm")}
-        onRightIconPress={() => SkipPAN()}
+        onLeftIconPress={() => backAction()}
+        onRightIconPress={() => skipPAN()}
       />
-
       <ProgressBarTop step={2} />
       <PanFormTemplate />
     </SafeAreaView>

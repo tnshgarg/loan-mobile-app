@@ -1,15 +1,12 @@
-import { useEffect } from "react";
-import { SafeAreaView, BackHandler, Alert } from "react-native";
+import { SafeAreaView } from "react-native";
 import { useSelector } from "react-redux";
 import { styles } from "../../styles";
 import { allAreNull } from "../../helpers/nullCheck";
 import KycCheckCard from "../../components/KycCheckCard";
 import HomeOfferCard from "../../components/HomeOfferCard";
-import { useNavigation } from "@react-navigation/core";
 
 const HomeView = () => {
-  const navigation = useNavigation();
-  
+
   const bankStatus = useSelector((state) => state.bank.verifyStatus);
   const panStatus = useSelector((state) => state.pan.verifyStatus);
   const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);
@@ -21,19 +18,6 @@ const HomeView = () => {
     mandateStatus != "SUCCESS" ? "MANDATE" : null,
     panStatus != "SUCCESS" ? "PAN" : null,
   ];
-  useEffect(() => {
-    const backAction = () => {
-      navigation.navigate("Home", { replace: true });
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      backAction
-    );
-
-    return () => backHandler.removeEventListener();
-  }, []);
 
   return (
     <>

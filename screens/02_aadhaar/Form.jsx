@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Alert, SafeAreaView } from "react-native";
+import { Alert, BackHandler, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
@@ -18,22 +18,24 @@ const AadhaarForm = () => {
     dispatch(addCurrentScreen("AadhaarForm"));
   }, []);
 
-  const backAlert = () => {
-    Alert.alert(
-      "Do you want to go back ?",
-      "If you go back your Mobile Number Verification will have to be redone.",
-      [
-        { text: "No", onPress: () => null, style: "cancel" },
-        { text: "Yes", onPress: () => navigation.navigate("ProfileForm") },
-      ]
-    );
+  const backAction = () => {
+    Alert.alert("Hold on!", "Are you sure you want to go back?", [
+      { text: "No", onPress: () => null, style: "cancel" },
+      { text: "Yes", onPress: () => navigation.navigate("ProfileForm") },
+    ]);
+    return true;
   };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
 
   return (
     <SafeAreaView style={styles.safeContainer}>
       <Header
         title="Aadhaar Verification"
-        onLeftIconPress={() => backAlert()}
+        onLeftIconPress={() => backAction()}
       />
       <ProgressBarTop step={1} />
       <AadhaarFormTemplate />

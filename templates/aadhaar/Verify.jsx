@@ -11,6 +11,7 @@ import { COLORS, SIZES } from "../../constants/Theme";
 import FormInput from "../../components/atoms/FormInput";
 
 const AadhaarVerifyTemplate = (props) => {
+  
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [resend, setResend] = useState(false);
@@ -23,8 +24,6 @@ const AadhaarVerifyTemplate = (props) => {
   useEffect(() => {
     setValidOtp(otp.length === 6);
   }, [otp]);
-
-  
 
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
