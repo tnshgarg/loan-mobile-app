@@ -7,18 +7,18 @@ import { useEffect } from "react";
 export default DevMenu = () => {
   const navigation = useNavigation();
   const screens = [
-    { title: "Welcome", name: "Welcome" },
-    { title: "Login", name: "Login" },
-    { title: "Profile", name: "ProfileForm" },
-    { title: "Photo", name: "PersonalImage" },
-    { title: "AADHAAR", name: "AadhaarForm" },
-    { title: "PAN", name: "PanForm" },
-    { title: "BANK", name: "BankForm" },
-    { title: "Mandate", name: "Mandate" },
-    { title: "Home", name: "Home" },
-    { title: "KYC Details", name: "KYC" },
-    { title: "Profile Details", name: "Profile" },
-    { title: "EWA", name: "EWA_OFFER" },
+    { title: "Welcome", stack: "OnboardingStack", name: "Welcome" },
+    { title: "Login", stack: "OnboardingStack", name: "Login" },
+    { title: "Profile", stack: "OnboardingStack", name: "ProfileForm" },
+    { title: "Photo", stack: "OnboardingStack", name: "PersonalImage" },
+    { title: "AADHAAR", stack: "OnboardingStack", name: "AadhaarForm" },
+    { title: "PAN", stack: "OnboardingStack", name: "PanForm" },
+    { title: "BANK", stack: "OnboardingStack", name: "BankForm" },
+    { title: "Mandate", stack: "OnboardingStack", name: "Mandate" },
+    { title: "Home", stack: "HomeStack", name: "Home" },
+    { title: "KYC Details", stack: "HomeStack", name: "KYC" },
+    { title: "Profile Details", stack: "HomeStack", name: "Profile" },
+    { title: "EWA", stack: "EWAStack", name: "EWA_OFFER" },
   ];
 
   const createChannels = () => {
@@ -49,7 +49,9 @@ export default DevMenu = () => {
             key={index}
             style={{ marginTop: 20 }}
             title={screen.title}
-            onPress={() => navigation.navigate(screen.name)}
+            onPress={() =>
+              navigation.navigate(screen.stack, { screen: screen.name })
+            }
           />
         ))}
         <DevMenuButton

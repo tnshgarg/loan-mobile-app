@@ -21,7 +21,10 @@ const OnboardingStack = () => {
   const Stack = createNativeStackNavigator();
 
   return (
-    <Stack.Navigator initialRouteName={"Login"}>
+    <Stack.Navigator
+      screenOptions={{ animation: "slide_from_right" }}
+      initialRouteName={"Login"}
+    >
       <Stack.Screen
         name="DevMenu"
         component={DevMenu}
@@ -49,6 +52,7 @@ const OnboardingStack = () => {
         component={BackendSync}
         options={{
           headerShown: false,
+          animation: "default",
         }}
       />
       <Stack.Screen
@@ -80,6 +84,7 @@ const OnboardingStack = () => {
         options={{
           headerShown: false,
           header: null,
+          animation: "simple_push",
         }}
       />
       <Stack.Screen
@@ -88,6 +93,7 @@ const OnboardingStack = () => {
         options={{
           headerShown: false,
           header: null,
+          animation: "simple_push",
         }}
       />
       <Stack.Screen
@@ -104,6 +110,7 @@ const OnboardingStack = () => {
         options={{
           headerShown: false,
           header: null,
+          animation: "simple_push",
         }}
       />
       <Stack.Screen
@@ -120,6 +127,7 @@ const OnboardingStack = () => {
         options={{
           headerShown: false,
           header: null,
+          animation: "simple_push",
         }}
       />
       <Stack.Screen

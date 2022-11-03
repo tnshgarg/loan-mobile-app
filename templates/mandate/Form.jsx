@@ -188,7 +188,9 @@ const MandateFormTemplate = (props) => {
               Analytics.trackEvent("Mandate|GetToken|Success", {
                 unipeEmployeeId: unipeEmployeeId,
               });
-              props?.type === "Onboarding" ? navigation.navigate("Home") : null;
+              props?.type === "Onboarding"
+                ? navigation.replace("HomeStack")
+                : null;
             })
             .catch((error) => {
               console.log("mandate error:", error.description);
