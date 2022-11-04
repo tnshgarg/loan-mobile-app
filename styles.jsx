@@ -5,7 +5,7 @@ export const styles = EStyleSheet.create({
   container: {
     backgroundColor: "$white",
     flex: 1,
-    padding: "15rem",
+    padding: "10rem",
   },
   safeContainer: {
     backgroundColor: "$white",
@@ -101,28 +101,6 @@ export const form = EStyleSheet.create({
     marginTop: "30rem",
     color: COLORS.gray,
   },
-  otpContainer: {
-    width: "100%",
-    alignSelf: "center",
-    height: 50,
-    marginTop: "10%",
-  },
-  otpCell: {
-    width: 50,
-    height: 50,
-    borderRadius: 5,
-    backgroundColor: COLORS.lightgray_01,
-    color: COLORS.black,
-    ...FONTS.h3,
-  },
-  nextButton: {
-    padding: 5,
-    alignSelf: "center",
-    marginTop: 20,
-    width: "100%",
-    height: 50,
-    fontSize: 20,
-  },
   OtpAwaitMsg: {
     color: COLORS.secondary,
     alignSelf: "center",
@@ -156,8 +134,8 @@ export const form = EStyleSheet.create({
   aadharimg: {
     alignSelf: "center",
     marginTop: "20rem",
-    width: SIZES.width * 0.6,
-    height: SIZES.width * 0.6,
+    width: SIZES.width * 0.3,
+    height: SIZES.width * 0.3,
   },
 
   forgotText: {
@@ -209,19 +187,6 @@ export const bankform = EStyleSheet.create({
     color: COLORS.warning,
     ...FONTS.body4,
   },
-  formInput: {
-    width: "100%",
-    height: 40,
-    borderBottomWidth: 1,
-  },
-  nextButton: {
-    padding: 10,
-    alignSelf: "center",
-    marginTop: 40,
-    width: 320,
-    height: 60,
-    fontSize: 20,
-  },
   padding: {
     marginTop: "30rem",
   },
@@ -236,7 +201,7 @@ export const bankform = EStyleSheet.create({
 
 export const nav = EStyleSheet.create({
   navbar: {
-    height: 80,
+    height: "50rem",
   },
 });
 
@@ -357,10 +322,10 @@ export const license = EStyleSheet.create({
 
 export const ewa = EStyleSheet.create({
   padding: {
-    marginTop: "10rem",
+    marginTop: "5rem",
   },
   loanCard: {
-    marginTop: "20rem",
+    marginTop: "10rem",
     alignSelf: "center",
     width: "100%",
     backgroundColor: COLORS.lightgray_01,
