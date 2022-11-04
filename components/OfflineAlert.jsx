@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Alert, Modal, Text, TouchableOpacity, View } from "react-native";
 import { AddListener } from "../helpers/InternetCheck";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { showToast } from "./Toast";
+import { showToast } from "./atoms/Toast";
 const OfflineAlert = ({ children }) => {
   const [isConnected, setIsConnected] = useState(true);
 

@@ -2,11 +2,10 @@ import { SafeAreaView } from "react-native";
 import { useSelector } from "react-redux";
 import { styles } from "../../styles";
 import { allAreNull } from "../../helpers/nullCheck";
-import KycCheckCard from "../../components/KycCheckCard";
+import KycCheckCard from "../../components/molecules/KycCheckCard";
 import HomeOfferCard from "../../components/HomeOfferCard";
 
 const HomeView = () => {
-
   const bankStatus = useSelector((state) => state.bank.verifyStatus);
   const panStatus = useSelector((state) => state.pan.verifyStatus);
   const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);

@@ -16,7 +16,7 @@ import {
   addVerifyTimestamp,
 } from "../../store/slices/mandateSlice";
 import { styles, bankform } from "../../styles";
-import { showToast } from "../../components/Toast";
+import { showToast } from "../../components/atoms/Toast";
 import RazorpayCheckout from "react-native-razorpay";
 import {
   createCustomer,

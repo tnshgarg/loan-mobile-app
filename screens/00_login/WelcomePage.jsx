@@ -25,14 +25,15 @@ const WelcomePage = () => {
   const backAction = () => {
     Alert.alert("Hold on!", "Are you sure you want to Logout?", [
       { text: "No", onPress: () => null, style: "cancel" },
-      { text: "Yes", onPress: () => navigation.navigate("Login") }
+      { text: "Yes", onPress: () => navigation.navigate("Login") },
     ]);
     return true;
   };
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
@@ -73,29 +74,29 @@ const WelcomePage = () => {
   const data = ["Profile", "Aadhaar", "PAN", "Bank", "Mandate"];
 
   return (
-    <>
-      <SafeAreaView style={[styles.container]}>
-        <SVGImg style={styles.logo} />
-        <View style={[welcome.steps,{alignSelf: "center"}]}>
-          <StepIndicator
-            customStyles={stepIndicatorStyles}
-            stepCount={5}
-            direction="vertical"
-            renderStepIndicator={renderStepIndicator}
-            currentPosition={-1}
-            labels={data}
-          />
-        </View>
-        <PrimaryButton
-          title="Start Onboarding"
-          onPress={() => {
-            requestUserPermission();
-            Analytics.trackEvent("WelcomePage", { unipeEmployeeId: unipeEmployeeId });
-            navigation.navigate("ProfileForm");
-          }}
+    <SafeAreaView style={[styles.container]}>
+      <SVGImg style={styles.logo} />
+      <View style={[welcome.steps, { alignSelf: "center" }]}>
+        <StepIndicator
+          customStyles={stepIndicatorStyles}
+          stepCount={5}
+          direction="vertical"
+          renderStepIndicator={renderStepIndicator}
+          currentPosition={-1}
+          labels={data}
         />
-      </SafeAreaView>
-    </>
+      </View>
+      <PrimaryButton
+        title="Start Onboarding"
+        onPress={() => {
+          requestUserPermission();
+          Analytics.trackEvent("WelcomePage", {
+            unipeEmployeeId: unipeEmployeeId,
+          });
+          navigation.navigate("ProfileForm");
+        }}
+      />
+    </SafeAreaView>
   );
 };
 
