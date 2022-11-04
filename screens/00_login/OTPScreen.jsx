@@ -173,7 +173,7 @@ const OTPScreen = () => {
                     });
                     if (onboarded) {
                       navigation.navigate("BackendSync", {
-                        destination: "Home",
+                        destination: "HomeStack",
                       });
                     } else {
                       navigation.navigate("BackendSync", {
