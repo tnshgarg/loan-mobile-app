@@ -262,7 +262,7 @@ const Agreement = () => {
             data={bankData}
           />
 
-          <View style={{ flexDirection: "row", alignItems: "center", marginVertical: 10 }}>
+          <View style={{ flexDirection: "row", alignItems: "center", marginVertical: 5 }}>
             <CheckBox
               style={ewa.checkBox}
               tintColors={{ true: COLORS.primary }}

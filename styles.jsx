@@ -5,7 +5,7 @@ export const styles = EStyleSheet.create({
   container: {
     backgroundColor: "$white",
     flex: 1,
-    padding: "15rem",
+    padding: "10rem",
   },
   safeContainer: {
     backgroundColor: "$white",
@@ -134,8 +134,8 @@ export const form = EStyleSheet.create({
   aadharimg: {
     alignSelf: "center",
     marginTop: "20rem",
-    width: SIZES.width * 0.6,
-    height: SIZES.width * 0.6,
+    width: SIZES.width * 0.3,
+    height: SIZES.width * 0.3,
   },
 
   forgotText: {
@@ -201,7 +201,7 @@ export const bankform = EStyleSheet.create({
 
 export const nav = EStyleSheet.create({
   navbar: {
-    height: 80,
+    height: "50rem",
   },
 });
 
@@ -322,10 +322,10 @@ export const license = EStyleSheet.create({
 
 export const ewa = EStyleSheet.create({
   padding: {
-    marginTop: "10rem",
+    marginTop: "5rem",
   },
   loanCard: {
-    marginTop: "20rem",
+    marginTop: "10rem",
     alignSelf: "center",
     width: "100%",
     backgroundColor: COLORS.lightgray_01,
