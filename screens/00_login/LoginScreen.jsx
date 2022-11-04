@@ -25,7 +25,7 @@ import {
   addToken,
   addUnipeEmployeeId,
 } from "../../store/slices/authSlice";
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { addCurrentScreen ,addCurrentStack} from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
 import privacyPolicy from "../../templates/docs/PrivacyPolicy.js";
@@ -52,6 +52,7 @@ const LoginScreen = () => {
     useState(false);
 
   useEffect(() => {
+    dispatch(addCurrentStack("OnboardingStack"));
     dispatch(addCurrentScreen("Login"));
   }, []);
 
