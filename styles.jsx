@@ -261,7 +261,7 @@ export const Camera = EStyleSheet.create({
 });
 
 export const welcome = EStyleSheet.create({
-  steps: { alignSelf: "center", flex: 1 },
+  steps: { flex: 1 },
 });
 
 export const selfie = EStyleSheet.create({

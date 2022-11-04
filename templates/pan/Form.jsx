@@ -12,7 +12,7 @@ import { addNumber } from "../../store/slices/panSlice";
 import InfoCard from "../../components/atoms/InfoCard";
 import FormInput from "../../components/atoms/FormInput";
 import Checkbox from "../../components/atoms/Checkbox";
-import PrimaryButton from "../../components/PrimaryButton";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { useNavigation } from "@react-navigation/core";
 
 const PanFormTemplate = (props) => {
