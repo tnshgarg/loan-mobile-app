@@ -7,7 +7,7 @@ import BottomTabNav from "../../navigators/BottomTabNav";
 import Benefits from "./Benefits/Benefits";
 import Documents from "./Documents/Documents";
 import HomeView from "./HomeView";
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { addCurrentScreen,addCurrentStack } from "../../store/slices/navigationSlice";
 import EWANavigator from "../../navigators/EWANavigator";
 
 const Home = () => {
@@ -23,6 +23,7 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(addCurrentScreen("Home"));
+    dispatch(addCurrentStack("HomeStack"));
   }, []);
 
   const backAction = () => {

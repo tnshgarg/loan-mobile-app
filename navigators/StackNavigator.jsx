@@ -15,10 +15,11 @@ import BenefitsStack from "./stacks/BenefitsStack";
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
 
-  var initialRoute = useSelector((state) => state.navigation.currentScreen);
-
+  var initialRoute = useSelector((state) => state.navigation.currentStack);
+  var initialScreen = useSelector((state) => state.navigation.currentScreen);
   console.log("STAGE: ", STAGE);
   console.log("initialRoute: ", initialRoute);
+  console.log("currentScreen: ",initialScreen );
 
   STAGE === "dev" ? (initialRoute = "DevMenu") : null;
   console.log("initialRoute: ", initialRoute);
