@@ -33,7 +33,7 @@ export default Logout = () => {
         dispatch(resetLicense());
         dispatch(resetTimer());
         
-        navigation.navigate("Login");
+        navigation.navigate("OnboardingStack", { screen: "Login" })
       }}
       style={{
         flexDirection: "row",

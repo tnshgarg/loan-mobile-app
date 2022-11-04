@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { STAGE } from "@env";
 
 import DevMenu from "../../screens/DevMenu";
 import LoginScreen from "../../screens/00_login/LoginScreen";
@@ -19,11 +20,15 @@ import BackendSync from "../../screens/BackendSync";
 
 const OnboardingStack = () => {
   const Stack = createNativeStackNavigator();
+  var initialRoute = useSelector((state) => state.navigation.currentScreen);
+  
+  STAGE === "dev" ? (initialRoute = "DevMenu") : null;
+  console.log("initialRoute: ", initialRoute);
 
   return (
     <Stack.Navigator
       screenOptions={{ animation: "slide_from_right" }}
-      initialRouteName={"Login"}
+      initialRouteName={initialRoute}
     >
       <Stack.Screen
         name="DevMenu"

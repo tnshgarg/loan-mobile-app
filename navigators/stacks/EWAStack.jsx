@@ -1,20 +1,25 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { STAGE } from "@env";
+import { useSelector } from "react-redux";
 
 import EWA from "../../screens/06_home/Money/EWA/EWA";
 import Offer from "../../screens/06_home/Money/EWA/01_Offer";
 import KYC from "../../screens/06_home/Money/EWA/02_Kyc";
 import Agreement from "../../screens/06_home/Money/EWA/03_Agreement";
 import Disbursement from "../../screens/06_home/Money/EWA/04_Disbursement";
-import OfflineAlert from "../../components/OfflineAlert";
 
 const EWAStack = () => {
   const Stack = createNativeStackNavigator();
+  var initialRoute = useSelector((state) => state.navigation.currentScreen);
+  
+  STAGE === "dev" ? (initialRoute = "DevMenu") : null;
+  console.log("initialRoute: ", initialRoute);
 
   return (
     <Stack.Navigator
       screenOptions={{ animation: "slide_from_right" }}
-      initialRouteName={"EWA"}
+      initialRouteName={initialRoute}
     >
       <Stack.Screen
         name="EWA"
