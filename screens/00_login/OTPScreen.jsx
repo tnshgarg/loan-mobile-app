@@ -13,7 +13,7 @@ import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import SVGImg from "../../assets/UnipeLogo.svg";
 import Analytics from "appcenter-analytics";
-import { styles } from "../../styles";
+import { styles, form } from "../../styles";
 import { COLORS, SIZES } from "../../constants/Theme";
 import FormInput from "../../components/atoms/FormInput";
 import Header from "../../components/atoms/Header";
@@ -99,20 +99,21 @@ const OTPScreen = () => {
             )}
           </Text>
           <FormInput
+            //selection={{ start: 0 }}
             containerStyle={{
               marginTop: 30,
 
               width: SIZES.width * 0.6,
               alignSelf: "center",
             }}
-            letterSpacing={20}
+            letterSpacing={SIZES.width * 0.0699}
             autoFocus={true}
             value={otp}
             onChange={setOtp}
             maxLength={6}
             keyboardType="numeric"
             placeholder={"******"}
-            textAlign={"center"}
+            //textAlign={"center"}
           />
 
           <CountDown

@@ -101,6 +101,28 @@ export const form = EStyleSheet.create({
     marginTop: "30rem",
     color: COLORS.gray,
   },
+  otpContainer: {
+    width: "100%",
+    alignSelf: "center",
+    height: 50,
+    marginTop: "10%",
+  },
+  otpCell: {
+    width: 50,
+    height: 50,
+    borderRadius: 5,
+    backgroundColor: COLORS.lightgray_01,
+    color: COLORS.black,
+    ...FONTS.h3,
+  },
+  nextButton: {
+    padding: 5,
+    alignSelf: "center",
+    marginTop: 20,
+    width: "100%",
+    height: 50,
+    fontSize: 20,
+  },
   OtpAwaitMsg: {
     color: COLORS.secondary,
     alignSelf: "center",
@@ -186,6 +208,19 @@ export const bankform = EStyleSheet.create({
   formatmsg: {
     color: COLORS.warning,
     ...FONTS.body4,
+  },
+  formInput: {
+    width: "100%",
+    height: 40,
+    borderBottomWidth: 1,
+  },
+  nextButton: {
+    padding: 10,
+    alignSelf: "center",
+    marginTop: 40,
+    width: 320,
+    height: 60,
+    fontSize: 20,
   },
   padding: {
     marginTop: "30rem",
