@@ -1,14 +1,14 @@
 import { useNavigation } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
-import { BackHandler, Image, SafeAreaView, Text, View } from "react-native";
+import { BackHandler, Image, SafeAreaView, Text, ScrollView, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { ewaKycPush } from "../../../../helpers/BackendPush";
-import { form, styles } from "../../../../styles";
+import { form, styles,checkBox } from "../../../../styles";
 import CollapsibleCard from "../../../../components/CollapsibleCard";
 
 const KYC = () => {
@@ -126,7 +126,7 @@ const KYC = () => {
         title="KYC"
         onLeftIconPress={() => backAction()}
       />
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Text style={form.OtpAwaitMsg}>
           Are these your AADHAAR details ?{"\n"}
         </Text>
@@ -146,7 +146,8 @@ const KYC = () => {
             handleKyc();
           }}
         />
-      </View>
+        <View style={checkBox.padding}></View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

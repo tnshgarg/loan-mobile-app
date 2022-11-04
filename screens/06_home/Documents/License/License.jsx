@@ -1,8 +1,9 @@
-import { Alert, Text, View } from "react-native";
+import { Alert, Text, View, SafeAreaView } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import TopTabNav from "../../../../navigators/TopTabNav";
-import { license, styles } from "../../../../styles";
+import { license, styles, checkBox } from "../../../../styles";
 import DetailItem from "../../../07_drawer/DetailItem";
 import Confirm from "./Confirm";
 import Form from "./Form";
@@ -41,55 +42,60 @@ const License = () => {
   ];
 
   return (
-    <View style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       {verifyStatus == "SUCCESS" ? (
-        <>
-          {dataDetails.map((item, index) => (
-            <DetailItem
-              key={index}
-              label={item.label}
-              value={item.value || "Not Provided"}
-              divider={item?.divider ?? true}
-            />
-          ))}
-          {data?.validity?.non_transport ? (
-            <>
+        <ScrollView>
+          <View style={styles.card}>
+            {dataDetails.map((item, index) => (
               <DetailItem
-                label="Expiry date"
-                value={data?.validity?.non_transport?.expiry_date}
-                divider={false}
+                key={index}
+                label={item.label}
+                value={item.value || "Not Provided"}
+                divider={item?.divider ?? true}
               />
-              <View style={{ flexDirection: "row" }}>
-                <Text style={license.authority}>Non-Transport</Text>
-                {isDateValid(data?.validity?.non_transport?.expiry_date) ? (
-                  <Text style={license.valid}>Valid</Text>
-                ) : (
-                  <Text style={license.invalid}>Invalid</Text>
-                )}
-              </View>
-            </>
-          ) : null}
+            ))}
+            {data?.validity?.non_transport ? (
+              <>
+                <DetailItem
+                  label="Expiry date"
+                  value={data?.validity?.non_transport?.expiry_date}
+                  divider={false}
+                />
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={license.authority}>Non-Transport</Text>
+                  {isDateValid(data?.validity?.non_transport?.expiry_date) ? (
+                    <Text style={license.valid}>Valid</Text>
+                  ) : (
+                    <Text style={license.invalid}>Invalid</Text>
+                  )}
+                </View>
+              </>
+            ) : null}
 
-          {data?.validity?.transport ? (
-            <>
-              <DetailItem
-                label="Expiry date"
-                value={data?.validity?.transport?.expiry_date}
-                divider={true}
-              />
-              <View style={{ flexDirection: "row" }}>
-                <Text style={license.authority}>Transport</Text>
-                {isDateValid(data?.validity?.transport?.expiry_date) ? (
-                  <Text style={license.valid}>Valid</Text>
-                ) : (
-                  <Text style={license.invalid}>Invalid</Text>
-                )}
-              </View>
-            </>
-          ) : null}
-
+            {data?.validity?.transport ? (
+              <>
+                <DetailItem
+                  label="Expiry date"
+                  value={data?.validity?.transport?.expiry_date}
+                  divider={true}
+                />
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={license.authority}>Transport</Text>
+                  {isDateValid(data?.validity?.transport?.expiry_date) ? (
+                    <Text style={license.valid}>Valid</Text>
+                  ) : (
+                    <Text style={license.invalid}>Invalid</Text>
+                  )}
+                </View>
+              </>
+            ) : null}
+          </View>
           <View
-            style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}
+            style={{
+              flex: 1,
+              justifyContent: "flex-end",
+              paddingBottom: 20,
+            }}
           >
             <PrimaryButton
               containerStyle={{ marginTop: 20 }}
@@ -101,11 +107,12 @@ const License = () => {
               }
             />
           </View>
-        </>
+          <View style={checkBox.padding}></View>
+        </ScrollView>
       ) : (
         <TopTabNav tabs={tabs} hide={true} />
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
