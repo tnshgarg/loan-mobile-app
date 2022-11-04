@@ -21,7 +21,7 @@ import { AntDesign } from "react-native-vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import CollapsibleCard from "../../../../components/CollapsibleCard";
-import PrimaryButton from "../../../../components/PrimaryButton";
+import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { COLORS } from "../../../../constants/Theme";
 import { ewaAgreementPush } from "../../../../helpers/BackendPush";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
@@ -32,7 +32,6 @@ import {
 } from "../../../../store/slices/ewaLiveSlice";
 import { checkBox, ewa, styles } from "../../../../styles";
 import agreement from "../../../../templates/docs/LiquidLoansLoanAgreement";
-
 
 const Agreement = () => {
   const dispatch = useDispatch();
@@ -271,7 +270,7 @@ const Agreement = () => {
               onValueChange={setConsent}
             />
             <Text style={ewa.checkBoxText}>
-              I confirm the above details and agree to {" "}
+              I confirm the above details and agree to{" "}
               <Text
                 style={styles.termsText}
                 onPress={() => setIsModalVisible(true)}
@@ -281,15 +280,15 @@ const Agreement = () => {
               .
             </Text>
           </View>
-        <PrimaryButton
-          title={loading ? "Booking" : "Finish"}
-          disabled={!consent}
-          loading={loading}
-          onPress={() => {
-            handleAgreement();
-          }}
-        />
-        <View style={checkBox.padding}></View>
+          <PrimaryButton
+            title={loading ? "Booking" : "Finish"}
+            disabled={!consent}
+            loading={loading}
+            onPress={() => {
+              handleAgreement();
+            }}
+          />
+          <View style={checkBox.padding}></View>
           <Text style={{ marginLeft: "6%", fontSize: 6, marginTop: "25%" }}>
             * Disbursement will be reconciled in your next payroll {"\n"}*
             Annual Percentage Rate @ {apr} %

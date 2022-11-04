@@ -5,7 +5,7 @@ import BankVerifyApi from "../../apis/bank/Verify";
 import Checkbox from "../../components/atoms/Checkbox";
 import InfoCard from "../../components/atoms/InfoCard";
 import PopableInput from "../../components/molecules/PopableInput";
-import PrimaryButton from "../../components/PrimaryButton";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
   addAccountHolderName,
@@ -17,11 +17,13 @@ import { useNavigation } from "@react-navigation/core";
 import { bankform, form, styles } from "../../styles";
 
 const BankFormTemplate = (props) => {
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
   const [accNumNext, setAccNumNext] = useState(false);
+  const [consent, setConsent] = useState(true);
   const [ifscNext, setIfscNext] = useState(false);
-  const [consent, setConsent] = useState(false);
 
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const bankSlice = useSelector((state) => state.bank);
@@ -141,7 +143,6 @@ const BankFormTemplate = (props) => {
 
             <BankVerifyApi
               data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}
-              style={form.nextButton}
               disabled={
                 !ifscNext || !accNumNext || !consent || !accountHolderName
               }

@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import { Icon } from "@react-native-material/core";
 import React from "react";
 import { COLORS, FONTS } from "../../constants/Theme";
@@ -12,18 +13,18 @@ const InfoCard = ({ info }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     backgroundColor: COLORS.primaryBackground,
     width: "100%",
-    marginTop: 20,
-    padding: 10,
+    marginTop: "20rem",
+    padding: "10rem",
     flex: 0,
     flexDirection: "row",
     alignItems: "flex-start",
     borderRadius: 5,
   },
-  text: { paddingLeft: 10, ...FONTS.body4, color: COLORS.black, flex: 1 },
+  text: { paddingLeft: "10rem", ...FONTS.body4, color: COLORS.black, flex: 1 },
 });
 
 export default InfoCard;

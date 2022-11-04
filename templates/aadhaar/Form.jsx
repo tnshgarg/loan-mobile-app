@@ -12,7 +12,7 @@ import Checkbox from "../../components/atoms/Checkbox";
 const AadhaarFormTemplate = (props) => {
   const dispatch = useDispatch();
 
-  const [consent, setConsent] = useState(false);
+  const [consent, setConsent] = useState(true);
   const [validNumber, setValidNumber] = useState(true);
 
   const aadhaarSlice = useSelector((state) => state.aadhaar);

@@ -6,7 +6,7 @@ import { Image, SafeAreaView, ScrollView, Text, View } from "react-native";
 import * as ImagePicker from "react-native-image-picker";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../components/atoms/Header";
-import PrimaryButton from "../../components/PrimaryButton";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
 import RNIPPhotoCapture from "../../components/RNIPPhotoCapture";
 import { COLORS } from "../../constants/Theme";
 import { profileBackendPush } from "../../helpers/BackendPush";

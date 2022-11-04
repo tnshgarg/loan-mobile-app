@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { addressPush } from "../../../../helpers/BackendPush";
 import { showToast } from "../../../../components/Toast";
 import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
-import PrimaryButton from "../../../../components/PrimaryButton";
+import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 
 export default NomineeAddress = () => {
   const navigation = useNavigation();

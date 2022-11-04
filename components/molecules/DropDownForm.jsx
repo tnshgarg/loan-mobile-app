@@ -1,17 +1,12 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import React from "react";
+import EStyleSheet from "react-native-extended-stylesheet";
 import FormInput from "../atoms/FormInput";
 import { Icon, IconButton } from "@react-native-material/core";
 import { COLORS, FONTS } from "../../constants/Theme";
 import BottomSheetWrapper from "../atoms/BottomSheetWrapper";
 import { useState } from "react";
-import PrimaryButton from "../PrimaryButton";
+import PrimaryButton from "../atoms/PrimaryButton";
 
 const DropDownForm = ({
   data,
@@ -76,25 +71,25 @@ const DropDownForm = ({
   );
 };
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     width: "100%",
     flexDirection: "column",
   },
   header: {
     ...FONTS.h3,
-    marginBottom: 10,
+    marginBottom: "10rem",
     alignSelf: "center",
   },
   listItem: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 15,
+    paddingVertical: "15rem",
   },
   listText: {
     ...FONTS.h3,
     flex: 1,
-    marginLeft: 10,
+    marginLeft: "10rem",
   },
 });
 

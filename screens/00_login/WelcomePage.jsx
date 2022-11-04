@@ -5,16 +5,14 @@ import { Alert, BackHandler, SafeAreaView, View } from "react-native";
 import StepIndicator from "react-native-step-indicator";
 import { useDispatch, useSelector } from "react-redux";
 import Analytics from "appcenter-analytics";
-import PrimaryButton from "../../components/PrimaryButton";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { COLORS } from "../../constants/Theme";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { stepIndicatorStyles, styles, welcome } from "../../styles";
 import SVGImg from "../../assets/UnipeLogo.svg";
 import { requestUserPermission } from "../../services/notifications/notificationService";
 
-
 const WelcomePage = () => {
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -72,17 +70,11 @@ const WelcomePage = () => {
 
   const renderStepIndicator = (params) => getStepIndicatorIconConfig(params);
 
-  const data = [
-    "Profile",
-    "Aadhaar",
-    "PAN",
-    "Bank",
-    "Mandate",
-  ];
+  const data = ["Profile", "Aadhaar", "PAN", "Bank", "Mandate"];
 
   return (
     <>
-      <SafeAreaView style={[styles.container, { paddingBottom: 40 }]}>
+      <SafeAreaView style={[styles.container]}>
         <SVGImg style={styles.logo} />
         <View style={[welcome.steps,{alignSelf: "center"}]}>
           <StepIndicator

@@ -8,7 +8,7 @@ import { bankform, styles } from "../../../../styles";
 import { showToast } from "../../../../components/Toast";
 import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
 import FormInput from "../../../../components/atoms/FormInput";
-import PrimaryButton from "../../../../components/PrimaryButton";
+import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 
 export default Portal = () => {
   const dispatch = useDispatch();

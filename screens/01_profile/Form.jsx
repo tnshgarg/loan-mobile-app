@@ -14,7 +14,7 @@ import { profileBackendPush } from "../../helpers/BackendPush";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { form, styles } from "../../styles";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import PrimaryButton from "../../components/PrimaryButton";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
 import FormInput from "../../components/atoms/FormInput";
 import DropDownForm from "../../components/molecules/DropDownForm";
 import Analytics from "appcenter-analytics";

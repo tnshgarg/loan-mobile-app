@@ -1,4 +1,3 @@
-import { Icon } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
@@ -11,13 +10,14 @@ import {
 } from "../../services/otp/Gupshup/services";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
-import PrimaryButton from "../../components/PrimaryButton";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
 import SVGImg from "../../assets/UnipeLogo.svg";
 import Analytics from "appcenter-analytics";
 import { styles } from "../../styles";
 import { COLORS, SIZES } from "../../constants/Theme";
 import FormInput from "../../components/atoms/FormInput";
 import Header from "../../components/atoms/Header";
+import { AppBar, Icon, IconButton } from "@react-native-material/core";
 
 const OTPScreen = () => {
   const dispatch = useDispatch();

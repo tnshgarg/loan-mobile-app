@@ -71,7 +71,6 @@ const AadhaarVerifyTemplate = (props) => {
         {resend ? (
           <AadhaarOtpApi
             data={{ aadhaar_number: number, consent: "Y" }}
-            style={form.nextButton}
             disabled={!resend}
             title="Resend"
             type={props?.route?.params?.type || ""}
@@ -79,7 +78,6 @@ const AadhaarVerifyTemplate = (props) => {
         ) : null}
         <AadhaarVerifyApi
           data={{ otp: otp, include_xml: true, share_code: 5934 }}
-          style={form.nextButton}
           disabled={!validOtp}
           type={props?.route?.params?.type || ""}
         />

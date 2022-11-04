@@ -4,7 +4,7 @@ import { SafeAreaView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import FormInput from "../../../../components/atoms/FormInput";
 import DropDownForm from "../../../../components/molecules/DropDownForm";
-import PrimaryButton from "../../../../components/PrimaryButton";
+import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { showToast } from "../../../../components/Toast";
 import { relationPush } from "../../../../helpers/BackendPush";
 import {

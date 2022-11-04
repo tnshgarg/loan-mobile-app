@@ -1,6 +1,6 @@
 import { View, Alert } from "react-native";
 import DetailItem from "./DetailItem";
-import PrimaryButton from "../../components/PrimaryButton";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { useSelector } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "../../styles";
