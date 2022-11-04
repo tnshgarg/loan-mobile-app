@@ -1,53 +1,64 @@
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
-import { SafeAreaView, Image, View } from "react-native";
+import { BackHandler, SafeAreaView, Image, View } from "react-native";
 import CollapsibleCard from "../../../../components/CollapsibleCard";
 import { ewa, styles } from "../../../../styles";
 import { useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 
-
 const Disbursement = ({ route, navigation }) => {
-  const { offer } = route.params;
 
-  const bankSlice = useSelector((state) => state.bank);
-  const unipeEmployeeId = useSelector((state) => state.auth.id);
+  const { offer } = route.params;
+  const [dueDate, setDueDate] = useState(offer?.dueDate);
   const [loanAmount, setLoanAmount] = useState(offer?.loanAmount);
   const [netAmount, setNetAmount] = useState(offer?.netAmount);
+
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const bankSlice = useSelector((state) => state.bank);
   const [bankAccountNumber, setBankAccountNumber] = useState(
     bankSlice?.data?.accountNumber
   );
-  const [dueDate, setDueDate] = useState(offer?.dueDate);
   const [loanAccountNumber, setLoanAccountNumber] = useState("");
   const [status, setStatus] = useState("");
-
   const [processingFees, setProcessingFees] = useState("");
+
+  const backAction = () => {
+    navigation.navigate("EWA");
+    return true;
+  };
+  
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
 
   useEffect(() => {
     getBackendData({
-      params: { offerId: offer.offerId },
+      params: { offerId: offer?.offerId,  unipeEmployeeId: unipeEmployeeId },
       xpath: "ewa/disbursement",
+      token: token,
     })
       .then((response) => {
+        console.log("ewaDisbursementFetch response.data: ", response.data);
         if (response.data.status === 200) {
-          Analytics.trackEvent("Ewa|Disbursement|Success", {
-            userId: unipeEmployeeId,
-          });
-          console.log("ewaDisbursementFetch response.data: ", response.data);
           setLoanAmount(response.data.body.loanAmount);
           setNetAmount(response.data.body.netAmount);
           setBankAccountNumber(response.data.body.bankAccountNumber);
           setDueDate(response.data.body.dueDate);
           setLoanAccountNumber(response.data.body.loanAccountNumber);
           setStatus(response.data.body.status);
+          Analytics.trackEvent("Ewa|Disbursement|Success", {
+            unipeEmployeeId: unipeEmployeeId,
+          });
         }
       })
       .catch((error) => {
-        console.log("ewaDisbursementFetch error: ", error);
+        console.log("ewaDisbursementFetch error: ", error.toString());
         Analytics.trackEvent("Ewa|Disbursement|Error", {
-          userId: unipeEmployeeId,
-          error: error,
+          unipeEmployeeId: unipeEmployeeId,
+          error: error.toString(),
         });
       });
   }, []);
@@ -55,7 +66,7 @@ const Disbursement = ({ route, navigation }) => {
   useEffect(() => {
     console.log("disbursement offer: ", offer);
     setProcessingFees(
-      Math.round(((((offer?.loanAmount * offer?.fees) / 100 + 1) / 10) * 10) - 1)
+      Math.round((((offer?.loanAmount * offer?.fees) / 100 + 1) / 10) * 10 - 1)
     );
     setNetAmount(offer?.netAmount);
     setDueDate(offer?.dueDate);
@@ -75,10 +86,10 @@ const Disbursement = ({ route, navigation }) => {
   ];
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <Header
         title="Money Transfer"
-        onLeftIconPress={() => navigation.navigate("Home")}
+        onLeftIconPress={() => backAction()}
       />
       <View style={styles.container}>
         <Image
@@ -91,16 +102,6 @@ const Disbursement = ({ route, navigation }) => {
           isClosed={false}
           info="Disbursement will be reconciled in your next payroll"
         />
-
-        {/* 
-        // checkout flow
-        <PrimaryButton
-          title="Thank You"
-          uppercase={false}
-          onPress={() => {
-            navigation.navigate("Home");
-          }}
-        /> */}
       </View>
     </SafeAreaView>
   );

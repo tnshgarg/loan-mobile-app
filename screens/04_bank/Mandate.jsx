@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect } from "react";
-import { SafeAreaView } from "react-native";
+import { Alert, BackHandler, SafeAreaView } from "react-native";
 import { useDispatch } from "react-redux";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
@@ -9,21 +9,37 @@ import MandateFormTemplate from "../../templates/mandate/Form";
 import Header from "../../components/atoms/Header";
 
 const Mandate = () => {
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   useEffect(() => {
     dispatch(addCurrentScreen("Mandate"));
   }, []);
+
+  const backAction = () => {
+    Alert.alert(
+      "Hold on!",
+      "If you go back your Bank Verification will have to be redone. Continue only if you want to edit your Bank Account Details.",
+      [
+        { text: "No", onPress: () => null, style: "cancel" },
+        { text: "Yes", onPress: () => navigation.navigate("BankConfirm") },
+      ]
+    );
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
   
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <Header
         title="Mandate Confirmation"
-        onLeftIconPress={() => navigation.navigate("BankForm")}
+        onLeftIconPress={() => backAction()}
       />
-      <ProgressBarTop step={5} />
+      <ProgressBarTop step={4} />
       <MandateFormTemplate type="Onboarding" />
     </SafeAreaView>
   );

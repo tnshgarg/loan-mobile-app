@@ -14,7 +14,7 @@ export default LicenseConfirm = () => {
   }, []);
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <ScrollView keyboardShouldPersistTaps="handled">
         <Confirm />
         <View style={bankform.padding}></View>

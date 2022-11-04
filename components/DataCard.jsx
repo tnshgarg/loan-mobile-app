@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/core";
-import { format } from "date-fns";
 import { datacard } from "../styles";
 import { COLORS } from "../constants/Theme";
 
@@ -34,23 +33,25 @@ const OfferCard = ({ offer }) => {
   const navigation = useNavigation();
   var offerType = "Missed";
   var amount = offer.eligibleAmount;
-  var timestamp = new Date(offer.updatedAt);
+  var date = new Date(offer.updatedAt.split(" ")[0]);
 
   if (offer.paid) {
     offerType = "Paid";
     amount = offer.loanAmount;
-    timestamp = new Date(offer.availedAt);
+    date = new Date(offer.availedAt.split(" ")[0]);
   } else if (offer.availed) {
     offerType = "Due";
     amount = offer.loanAmount;
-    timestamp = new Date(offer.availedAt);
+    date = new Date(offer.availedAt.split(" ")[0]);
   }
-
-  var day = format(timestamp, "dd");
-  var month = format(timestamp, "MMM");
+  
+  var dateString = date.toDateString();
+  var day = dateString.split(" ")[2];
+  var month = dateString.split(" ")[1];
 
   return (
     <TouchableOpacity
+      activeOpacity={0.8}
       onLongPress={() => {
         if (offerType !== "Missed") {
           navigation.navigate("EWA_DISBURSEMENT", { offer: offer });
@@ -88,10 +89,13 @@ const OfferCard = ({ offer }) => {
 
 const Offers = (props) => {
   return (
-    <ScrollView style={{ height: "63%", marginTop: "1.5%", borderWidth: 2, borderStyle: 'solid', borderColor: '#597E8D'}}>
-        {props.data.map((offer, index) => (
-          <OfferCard offer={offer} key={index} />
-        ))}
+    <ScrollView
+      style={{ height: "63%", marginTop: "1.5%" }}
+      showsVerticalScrollIndicator={false}
+    >
+      {props.data.map((offer, index) => (
+        <OfferCard offer={offer} key={index} />
+      ))}
     </ScrollView>
   );
 };

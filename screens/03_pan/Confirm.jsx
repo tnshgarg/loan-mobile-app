@@ -1,7 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { Alert, SafeAreaView, ScrollView } from "react-native";
+import {
+  Alert,
+  SafeAreaView,
+  ScrollView,
+  BackHandler,
+} from "react-native";
 import ProgressBarTop from "../../navigators/ProgressBarTop";
 import { styles } from "../../styles";
 
@@ -17,7 +22,7 @@ export default PanConfirm = () => {
     dispatch(addCurrentScreen("PanConfirm"));
   }, []);
 
-  const backAlert = () => {
+  const backAction = () => {
     Alert.alert(
       "Do you want to go back ?",
       "If you go back your PAN Verification will have to be redone. Continue if you want to edit your PAN number.",
@@ -26,14 +31,21 @@ export default PanConfirm = () => {
         { text: "Yes", onPress: () => navigation.navigate("PanForm") },
       ]
     );
+    return true;
   };
 
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
-      <Header title="PAN Confirmation" onLeftIconPress={() => backAlert()} />
-
-      <ProgressBarTop step={3} />
-
+    <SafeAreaView style={styles.safeContainer}>
+      <Header 
+        title="PAN Data Confirmation" 
+        onLeftIconPress={() => backAction()} 
+      />
+      <ProgressBarTop step={2} />
       <ScrollView keyboardShouldPersistTaps="handled">
         <PanConfirmApi />
       </ScrollView>

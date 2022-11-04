@@ -21,7 +21,8 @@ const PanVerifyApi = (props) => {
   const [loading, setLoading] = useState(false);
   const [backendPush, setBackendPush] = useState(false);
 
-  const id = useSelector((state) => state.auth.id);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const token = useSelector((state) => state.auth.token);
   const panSlice = useSelector((state) => state.pan);
   const [data, setData] = useState(panSlice?.data);
   const [verifyMsg, setVerifyMsg] = useState(panSlice?.verifyMsg);
@@ -50,12 +51,15 @@ const PanVerifyApi = (props) => {
     console.log("PanVerifyApi backendPush panSlice: ", backendPush, panSlice);
     if (backendPush) {
       panBackendPush({
-        id: id,
-        data: data,
-        number: panSlice?.number,
-        verifyMsg: verifyMsg,
-        verifyStatus: verifyStatus,
-        verifyTimestamp: verifyTimestamp,
+        data: {
+          unipeEmployeeId: unipeEmployeeId,
+          data: data,
+          number: panSlice?.number,
+          verifyMsg: verifyMsg,
+          verifyStatus: verifyStatus,
+          verifyTimestamp: verifyTimestamp,
+        },
+        token: token,
       });
       setBackendPush(false);
     }
@@ -83,8 +87,9 @@ const PanVerifyApi = (props) => {
               case "1000":
                 const names = ["first", "middle", "last"];
                 responseJson["data"]["pan_data"]["name"] = names
-                  .filter(k => responseJson["data"]["pan_data"][`${k}_name`])
-                  .map((k) => responseJson["data"]["pan_data"][`${k}_name`]).join(" ");
+                  .filter((k) => responseJson["data"]["pan_data"][`${k}_name`])
+                  .map((k) => responseJson["data"]["pan_data"][`${k}_name`])
+                  .join(" ");
                 console.log("PAN fetched data: ", responseJson);
                 setData(responseJson["data"]["pan_data"]);
                 setVerifyMsg("To be confirmed by User");
@@ -92,7 +97,7 @@ const PanVerifyApi = (props) => {
                 setVerifyTimestamp(responseJson["timestamp"]);
                 setBackendPush(true);
                 Analytics.trackEvent("Pan|Verify|Success", {
-                  userId: id,
+                  unipeEmployeeId: unipeEmployeeId,
                 });
                 {
                   props.type == "KYC"
@@ -108,7 +113,7 @@ const PanVerifyApi = (props) => {
               default:
                 setVerifyMsg(responseJson["data"]["message"]);
                 Analytics.trackEvent("Pan|Verify|Error", {
-                  userId: id,
+                  unipeEmployeeId: unipeEmployeeId,
                   error: responseJson["data"]["message"],
                 });
                 setVerifyStatus("ERROR");
@@ -118,7 +123,7 @@ const PanVerifyApi = (props) => {
           } else if (responseJson?.error?.message) {
             setVerifyMsg(responseJson["error"]["message"]);
             Analytics.trackEvent("Pan|Verify|Error", {
-              userId: id,
+              unipeEmployeeId: unipeEmployeeId,
               error: responseJson["error"]["message"],
             });
             setVerifyStatus("ERROR");
@@ -127,7 +132,7 @@ const PanVerifyApi = (props) => {
           } else {
             setVerifyMsg(responseJson["message"]);
             Analytics.trackEvent("Pan|Verify|Error", {
-              userId: id,
+              unipeEmployeeId: unipeEmployeeId,
               error: responseJson["message"],
             });
             setVerifyStatus("ERROR");
@@ -138,7 +143,7 @@ const PanVerifyApi = (props) => {
           console.log("Try Catch Error: ", error.toString());
           setVerifyMsg(error.toString());
           Analytics.trackEvent("Pan|Verify|Error", {
-            userId: id,
+            unipeEmployeeId: unipeEmployeeId,
             error: error.toString(),
           });
           setVerifyStatus("ERROR");
@@ -153,7 +158,7 @@ const PanVerifyApi = (props) => {
         setBackendPush(true);
         Alert.alert("Error", error.toString());
         Analytics.trackEvent("Pan|Verify|Error", {
-          userId: id,
+          unipeEmployeeId: unipeEmployeeId,
           error: error.toString(),
         });
       });
@@ -162,7 +167,7 @@ const PanVerifyApi = (props) => {
   return (
     <PrimaryButton
       title={loading ? "Verifying" : "Continue"}
-      disabled={loading}
+      disabled={props.disabled}
       loading={loading}
       onPress={() => {
         goForFetch();

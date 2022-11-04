@@ -56,7 +56,7 @@ const createOrder = ({
         bank_account: {
           account_number: accountNumber,
           account_type: "savings",
-          ifsc_code: STAGE == "dev" ? "HDFC0000001" : ifsc,
+          ifsc_code: STAGE === "dev" ? "HDFC0000001" : ifsc,
           beneficiary_name: accountHolderName,
         },
       },

@@ -20,19 +20,19 @@ export default RNIPPhotoCapture = () => {
       if (response.didCancel) {
         console.log("User cancelled camera");
         Analytics.trackEvent("PersonalImage|Camera|Error", {
-          userId: id,
+          unipeEmployeeId id,
           error: "User cancelled camera",
         });
       } else if (response.error) {
         console.log("ImagePicker Error: ", response.error);
         Analytics.trackEvent("PersonalImage|Camera|Error", {
-          userId: id,
+          unipeEmployeeId id,
           error: response.error,
         });
       } else {
         dispatch(addPhoto(response?.assets[0]?.base64));
         Analytics.trackEvent("PersonalImage|Camera|Success", {
-          userId: id,
+          unipeEmployeeId id,
         });
       }
     });

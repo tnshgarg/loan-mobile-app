@@ -1,5 +1,4 @@
-import { View, Text, Alert } from "react-native";
-import React from "react";
+import { View, Alert } from "react-native";
 import DetailItem from "./DetailItem";
 import PrimaryButton from "../../components/PrimaryButton";
 import { useSelector } from "react-redux";
@@ -32,21 +31,22 @@ const Profile = () => {
     {
       label: "Marital Status",
       value: maritalStatus || "Not Provided",
-      divider: false,
     },
   ];
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <View style={styles.container}>
-        {dataDetails.map((item, index) => (
-          <DetailItem
-            key={index}
-            label={item.label}
-            value={item.value || "Not Provided"}
-            divider
-          />
-        ))}
+        <View style={styles.card}>
+          {dataDetails.map((item, index) => (
+            <DetailItem
+              key={index}
+              label={item.label}
+              value={item.value || "Not Provided"}
+              divider={item.divider}
+            />
+          ))}
+        </View>
 
         <View
           style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}

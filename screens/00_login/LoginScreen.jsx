@@ -1,28 +1,29 @@
-import { useNavigation } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
+import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import {
-  Alert, Dimensions,
-  Pressable, SafeAreaView, Text,
-  View
+  Alert,
+  BackHandler,
+  SafeAreaView,
+  Text,
+  View,
 } from "react-native";
-import Modal from "react-native-modal";
 import SmsRetriever from "react-native-sms-retriever";
 import SplashScreen from "react-native-splash-screen";
-import { AntDesign } from "react-native-vector-icons";
-import { WebView } from "react-native-webview";
 import { useDispatch, useSelector } from "react-redux";
 import SVGImg from "../../assets/UnipeLogo.svg";
 import FormInput from "../../components/atoms/FormInput";
+import TermsAndPrivacyModal from "../../components/molecules/TermsAndPrivacyModal";
 import PrimaryButton from "../../components/PrimaryButton";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { putBackendData } from "../../services/employees/employeeServices";
 import { sendSmsVerification } from "../../services/otp/Gupshup/services";
 import {
-  addId,
   addOnboarded,
-  addPhoneNumber
+  addPhoneNumber,
+  addToken,
+  addUnipeEmployeeId,
 } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
@@ -30,7 +31,9 @@ import { styles } from "../../styles";
 import privacyPolicy from "../../templates/docs/PrivacyPolicy.js";
 import termsOfUse from "../../templates/docs/TermsOfUse.js";
 
-export default LoginScreen = () => {
+
+const LoginScreen = () => {
+
   SplashScreen.hide();
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -39,23 +42,22 @@ export default LoginScreen = () => {
   const [next, setNext] = useState(false);
 
   const authSlice = useSelector((state) => state.auth);
-  const [id, setId] = useState(authSlice?.id);
   const [onboarded, setOnboarded] = useState(authSlice?.onboarded);
   const [phoneNumber, setPhoneNumber] = useState(authSlice?.phoneNumber);
+  const [token, setToken] = useState(authSlice?.token);
+  const [unipeEmployeeId, setUnipeEmployeeId] = useState(authSlice?.unipeEmployeeId);
 
   const [isPrivacyModalVisible, setIsPrivacyModalVisible] = useState(false);
   const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
     useState(false);
-
-  var phone_number = "";
 
   useEffect(() => {
     dispatch(addCurrentScreen("Login"));
   }, []);
 
   useEffect(() => {
-    dispatch(addId(id));
-  }, [id]);
+    dispatch(addToken(token));
+  }, [token]);
 
   useEffect(() => {
     dispatch(addOnboarded(onboarded));
@@ -64,6 +66,10 @@ export default LoginScreen = () => {
   useEffect(() => {
     dispatch(addPhoneNumber(phoneNumber));
   }, [phoneNumber]);
+
+  useEffect(() => {
+    dispatch(addUnipeEmployeeId(unipeEmployeeId));
+  }, [unipeEmployeeId]);
 
   useEffect(() => {
     var phoneno = /^[0-9]{10}$/gm;
@@ -78,10 +84,10 @@ export default LoginScreen = () => {
 
   const onPhoneNumberPressed = async () => {
     try {
-      phone_number = await SmsRetriever.requestPhoneNumber();
-      setPhoneNumber(phone_number.replace("+91", ""));
+      var phoneNumber = await SmsRetriever.requestPhoneNumber();
+      setPhoneNumber(phoneNumber.replace("+91", ""));
     } catch (error) {
-      console.log(JSON.stringify(error));
+      console.log("Error while fetching phoneNumber: ", error.toString());
     }
   };
 
@@ -89,32 +95,46 @@ export default LoginScreen = () => {
     onPhoneNumberPressed();
   }, []);
 
+  const backAction = () => {
+    Alert.alert("Hold on!", "Are you sure you want to go back?", [
+      { text: "No", onPress: () => null, style: "cancel" },
+      { text: "Yes", onPress: () => BackHandler.exitApp() }
+    ]);
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
   const signIn = () => {
     setLoading(true);
     dispatch(resetTimer());
     var fullPhoneNumber = `+91${phoneNumber}`;
-    putBackendData({ document: { number: fullPhoneNumber }, xpath: "mobile" })
+    putBackendData({ data: { number: fullPhoneNumber }, xpath: "mobile", token: token })
       .then((res) => {
         console.log("LoginScreen res.data: ", res.data);
         if (res.data.status === 200) {
-          Analytics.trackEvent(`LoginScreen|SignIn|Success`, {
-            userId: res.data.body.id,
-          });
-          setId(res.data.body.id);
           setOnboarded(res.data.body.onboarded);
+          setToken(res.data.body.token)
+          setUnipeEmployeeId(res.data.body.unipeEmployeeId);
+          Analytics.trackEvent(`LoginScreen|SignIn|Success`, {
+            unipeEmployeeId: res.data.body.id,
+          });
           sendSmsVerification(phoneNumber)
             .then((result) => {
               console.log("sendSmsVerification result: ", result);
               if (result["response"]["status"] === "success") {
                 setLoading(false);
                 Analytics.trackEvent("LoginScreen|SendSms|Success", {
-                  userId: id,
+                  unipeEmployeeId: unipeEmployeeId,
                 });
                 navigation.navigate("Otp");
               } else {
                 setLoading(false);
                 Analytics.trackEvent("LoginScreen|SendSms|Error", {
-                  userId: id,
+                  unipeEmployeeId: unipeEmployeeId,
                   error: result["response"]["details"],
                 });
                 Alert.alert(
@@ -124,13 +144,13 @@ export default LoginScreen = () => {
               }
             })
             .catch((error) => {
+              console.log("sendSmsVerification result: ", error.toString());
               setLoading(false);
-              console.log(error);
               Analytics.trackEvent("LoginScreen|SendSms|Error", {
-                userId: id,
-                error: error,
+                unipeEmployeeId: unipeEmployeeId,
+                error: error.toString(),
               });
-              Alert("Error", "Something is Wrong");
+              Alert("Error", error.toString());
             });
         } else {
           setLoading(false);
@@ -142,21 +162,20 @@ export default LoginScreen = () => {
         }
       })
       .catch((error) => {
+        console.log("LoginScreen res.data: ", error.toString());
         setLoading(false);
         Analytics.trackEvent("LoginScreen|SignIn|Error", {
           phoneNumber: phoneNumber,
-          error: error,
+          error: error.toString(),
         });
-        console.log(error);
       });
   };
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <View>
           <SVGImg style={styles.logo} />
-
           <Text style={styles.headline}>
             Please enter your mobile number to login:
           </Text>
@@ -176,20 +195,20 @@ export default LoginScreen = () => {
                   alignItems: "center",
                   justifyContent: "center",
                   borderRightWidth: 1,
-                  borderColor: COLORS.black,
+                  borderColor: COLORS.gray,
                   marginRight: 10,
                   height: "80%",
                 }}
               >
                 <Text
                   style={{
-                    ...FONTS.h4,
+                    ...FONTS.h3,
                     color: COLORS.black,
                     paddingRight: 10,
-                    fontWeight: "900",
+                    // fontWeight: "bold",
                   }}
                 >
-                  +91
+                  + 91
                 </Text>
               </View>
             }
@@ -221,74 +240,23 @@ export default LoginScreen = () => {
         </View>
       </KeyboardAvoidingWrapper>
 
-      <Modal
-        isVisible={isPrivacyModalVisible}
-        style={{
-          width: Dimensions.get("window").width,
-          height: Dimensions.get("window").height,
-        }}
-      >
-        <Pressable
-          onPress={() => setIsPrivacyModalVisible(false)}
-          style={{
-            position: "absolute",
-            top: 30,
-            right: 50,
-            zIndex: 999,
-          }}
-        >
-          <AntDesign name="closesquareo" size={24} color="black" />
-        </Pressable>
-        <View
-          style={{
-            height: Dimensions.get("window").height - 100,
-            width: Dimensions.get("window").width - 40,
-            backgroundColor: "white",
-            borderRadius: 5,
-          }}
-        >
-          <WebView
-            style={{ flex: 1 }}
-            containerStyle={{ padding: 10 }}
-            originWhitelist={["*"]}
-            source={{ html: privacyPolicy }}
-          />
-        </View>
-      </Modal>
-      <Modal
-        isVisible={isTermsOfUseModalVisible}
-        style={{
-          width: Dimensions.get("window").width,
-          height: Dimensions.get("window").height,
-        }}
-      >
-        <Pressable
-          onPress={() => setIsTermsOfUseModalVisible(false)}
-          style={{
-            position: "absolute",
-            top: 30,
-            right: 50,
-            zIndex: 999,
-          }}
-        >
-          <AntDesign name="closesquareo" size={24} color="black" />
-        </Pressable>
-        <View
-          style={{
-            height: Dimensions.get("window").height - 100,
-            width: Dimensions.get("window").width - 40,
-            backgroundColor: "white",
-            borderRadius: 5,
-          }}
-        >
-          <WebView
-            style={{ flex: 1 }}
-            containerStyle={{ padding: 10 }}
-            originWhitelist={["*"]}
-            source={{ html: termsOfUse }}
-          />
-        </View>
-      </Modal>
+      {isTermsOfUseModalVisible && (
+        <TermsAndPrivacyModal
+          isVisible={isTermsOfUseModalVisible}
+          setIsVisible={setIsTermsOfUseModalVisible}
+          data={termsOfUse}
+        />
+      )}
+
+      {isPrivacyModalVisible && (
+        <TermsAndPrivacyModal
+          isVisible={isPrivacyModalVisible}
+          setIsVisible={setIsPrivacyModalVisible}
+          data={privacyPolicy}
+        />
+      )}
     </SafeAreaView>
   );
 };
+
+export default LoginScreen;

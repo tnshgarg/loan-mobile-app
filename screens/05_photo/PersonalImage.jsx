@@ -52,18 +52,18 @@ const PersonalImage = () => {
       if (response.didCancel) {
         console.log("User cancelled image picker");
         Analytics.trackEvent("PersonalImage|Pick|Error", {
-          userId: id,
-          error:"User cancelled image picker",
+          unipeEmployeeId id,
+          error: "User cancelled image picker",
         });
       } else if (response.error) {
         console.log("ImagePicker Error: ", response.error);
         Analytics.trackEvent("PersonalImage|Pick|Error", {
-          userId: id,
-          error:response.error,
+          unipeEmployeeId id,
+          error: response.error,
         });
       } else {
         Analytics.trackEvent("PersonalImage|Pick|Success", {
-          userId: id,
+          unipeEmployeeId id,
         });
         dispatch(addPhoto(response?.assets[0]?.base64));
       }
@@ -71,7 +71,7 @@ const PersonalImage = () => {
   }, []);
 
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <Header
         title="Photo"
         onLeftIconPress={() => navigation.navigate("PersonalDetailsForm")}

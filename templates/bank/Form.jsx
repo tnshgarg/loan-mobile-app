@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import BankVerifyApi from "../../apis/bank/Verify";
 import Checkbox from "../../components/atoms/Checkbox";
 import InfoCard from "../../components/atoms/InfoCard";
 import PopableInput from "../../components/molecules/PopableInput";
+import PrimaryButton from "../../components/PrimaryButton";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
   addAccountHolderName,
@@ -12,11 +13,12 @@ import {
   addIfsc,
   addUpi,
 } from "../../store/slices/bankSlice";
-import { bankform, form } from "../../styles";
+import { useNavigation } from "@react-navigation/core";
+import { bankform, form, styles } from "../../styles";
 
 const BankFormTemplate = (props) => {
   const dispatch = useDispatch();
-
+  const navigation = useNavigation();
   const [accNumNext, setAccNumNext] = useState(false);
   const [ifscNext, setIfscNext] = useState(false);
   const [consent, setConsent] = useState(false);
@@ -31,6 +33,9 @@ const BankFormTemplate = (props) => {
     aadhaarSlice?.data.name || bankSlice?.data?.accountHolderName
   );
   const [upi, setUpi] = useState(bankSlice?.data?.upi);
+  const aadhaarVerifyStatus = useSelector(
+    (state) => state.aadhaar.verifyStatus
+  );
 
   useEffect(() => {
     dispatch(addAccountHolderName(accountHolderName));
@@ -67,83 +72,101 @@ const BankFormTemplate = (props) => {
   }, [ifsc]);
 
   return (
-    <>
-      <KeyboardAvoidingWrapper>
-        <View>
-          <Text style={bankform.subTitle}>Enter your Bank Details</Text>
+    <SafeAreaView style={styles.safeContainer}>
+      {aadhaarVerifyStatus === "SUCCESS" ? (
+        <KeyboardAvoidingWrapper>
+          <View>
+            <Text style={bankform.subTitle}>Enter your Bank Details</Text>
 
-          <PopableInput
-            placeholder={"Account Holder Name*"}
-            value={accountHolderName}
-            onChange={setAccountHolderName}
-            autoCapitalize="characters"
-            content={
-              "Refer to your Bank Passbook or Cheque book for the exact Name mentioned in your bank records"
-            }
+            <PopableInput
+              placeholder={"Account Holder Name*"}
+              value={accountHolderName}
+              onChange={setAccountHolderName}
+              autoCapitalize="characters"
+              content={
+                "Refer to your Bank Passbook or Cheque book for the exact Name mentioned in your bank records"
+              }
+            />
+
+            <PopableInput
+              placeholder={"Bank Account Number*"}
+              value={accountNumber}
+              onChange={setAccountNumber}
+              autoFocus={true}
+              autoCapitalize="characters"
+              content={
+                "Refer to your Bank Passbook or Cheque book to get the Bank Account Number."
+              }
+            />
+            {accountNumber && !accNumNext ? (
+              <Text style={bankform.formatmsg}>Incorrect Format</Text>
+            ) : null}
+
+            <PopableInput
+              placeholder={"IFSC Code*"}
+              value={ifsc}
+              onChange={setIfsc}
+              autoCapitalize="characters"
+              content={
+                "You can find the IFSC code on the cheque book or bank passbook that is provided by the bank"
+              }
+            />
+
+            {ifsc && !ifscNext ? (
+              <Text style={bankform.formatmsg}>Incorrect Format</Text>
+            ) : null}
+
+            <PopableInput
+              placeholder={"UPI ID"}
+              value={upi}
+              onChange={setUpi}
+              content={
+                "There are lots of UPI apps available like Phonepe, Amazon Pay, Paytm, Bhim, Mobikwik etc. from where you can fetch your UPI ID."
+              }
+            />
+
+            <InfoCard
+              info={
+                "We will use this bank account / UPI ID to deposit your salary every month, Please ensure the bank account belongs to you.\nWe will also deposit INR 1 to your account for verification make sure you enter the correct account details."
+              }
+            />
+
+            <Checkbox
+              text={
+                "I agree with the KYC registration Terms and Conditions to verifiy my identity."
+              }
+              value={consent}
+              setValue={setConsent}
+            />
+
+            <BankVerifyApi
+              data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}
+              style={form.nextButton}
+              disabled={
+                !ifscNext || !accNumNext || !consent || !accountHolderName
+              }
+              type={props?.route?.params?.type || ""}
+            />
+          </View>
+        </KeyboardAvoidingWrapper>
+      ) : (
+        <>
+          <Text style={bankform.subTitle}>
+            Please verify your aadhaar first
+          </Text>
+          <PrimaryButton
+            title="Verify Aadhaar Now"
+            onPress={() => {
+              props?.route?.params?.type
+                ? navigation.navigate("KYC", {
+                    screen: "AADHAAR",
+                  })
+                : navigation.navigate("AadhaarForm");
+            }}
           />
-
-          <PopableInput
-            placeholder={"Bank Account Number*"}
-            value={accountNumber}
-            onChange={setAccountNumber}
-            autoFocus={true}
-            autoCapitalize="characters"
-            content={
-              "Refer to your Bank Passbook or Cheque book to get the Bank Account Number."
-            }
-          />
-          {accountNumber && !accNumNext ? (
-            <Text style={bankform.formatmsg}>Incorrect Format</Text>
-          ) : null}
-
-          <PopableInput
-            placeholder={"IFSC Code*"}
-            value={ifsc}
-            onChange={setIfsc}
-            autoCapitalize="characters"
-            content={
-              "You can find the IFSC code on the cheque book or bank passbook that is provided by the bank"
-            }
-          />
-
-          {ifsc && !ifscNext ? (
-            <Text style={bankform.formatmsg}>Incorrect Format</Text>
-          ) : null}
-
-          <PopableInput
-            placeholder={"UPI ID"}
-            value={upi}
-            onChange={setUpi}
-            content={
-              "There are lots of UPI apps available like Phonepe, Amazon Pay, Paytm, Bhim, Mobikwik etc. from where you can fetch your UPI ID."
-            }
-          />
-
-          <InfoCard
-            info={
-              "We will use this bank account / UPI ID to deposit your salary every month, Please ensure the bank account belongs to you.\nWe will also deposit INR 1 to your account for verification make sure you enter the correct account details."
-            }
-          />
-
-          <Checkbox
-            text={
-              "I agree with the KYC registration Terms and Conditions to verifiy my identity."
-            }
-            value={consent}
-            setValue={setConsent}
-          />
-
-          <BankVerifyApi
-            data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}
-            style={form.nextButton}
-            disabled={
-              !ifscNext || !accNumNext || !consent || !accountHolderName
-            }
-            type={props?.route?.params?.type || ""}
-          />
-        </View>
-      </KeyboardAvoidingWrapper>
-    </>
+        </>
+      )}
+    </SafeAreaView>
   );
 };
 

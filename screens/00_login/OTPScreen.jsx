@@ -1,7 +1,7 @@
-import { Icon, IconButton } from "@react-native-material/core";
+import { Icon } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, Image, SafeAreaView, Text, View } from "react-native";
+import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import CountDown from "react-native-countdown-component";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
@@ -19,7 +19,6 @@ import { COLORS, SIZES } from "../../constants/Theme";
 import FormInput from "../../components/atoms/FormInput";
 import Header from "../../components/atoms/Header";
 
-
 const OTPScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -28,11 +27,11 @@ const OTPScreen = () => {
   const [next, setNext] = useState(false);
   const [back, setBack] = useState(false);
 
-  const id = useSelector((state) => state.auth.id);
   const countDownTime = useSelector((state) => state.timer.login);
-  const phoneNumber = useSelector((state) => state.auth.phoneNumber);
   const onboarded = useSelector((state) => state.auth.onboarded);
-
+  const phoneNumber = useSelector((state) => state.auth.phoneNumber);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  
   useEffect(() => {
     dispatch(addCurrentScreen("Otp"));
   }, []);
@@ -45,18 +44,31 @@ const OTPScreen = () => {
     }
   }, [otp]);
 
+  const backAction = () => {
+    if (!back) {
+      Alert.alert(
+        "OTP Timer",
+        "You must wait for 2 minutes to resend OTP."
+      );
+    } else {
+      Alert.alert("Hold on!", "Are you sure you want to Logout?", [
+        { text: "No", onPress: () => null, style: "cancel" },
+        { text: "Yes", onPress: () => navigation.navigate("Login") }
+      ]);
+    }
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <Header
-        //title="Otp"
-        onLeftIconPress={() =>
-          back
-            ? navigation.navigate("Login")
-            : Alert.alert(
-                "OTP Timer",
-                "You must wait for 2 minutes to resend OTP."
-              )
-        }
+        title="OTP"
+        onLeftIconPress={() => backAction()}
       />
       <KeyboardAvoidingWrapper>
         <View style={styles.container}>
@@ -129,12 +141,12 @@ const OTPScreen = () => {
                       setBack(false);
                       dispatch(resetTimer());
                       Analytics.trackEvent("OTPScreen|SendSms|Success", {
-                        userId: id,
+                        unipeEmployeeId: unipeEmployeeId,
                       });
                       Alert.alert("OTP resent successfully");
                     } else {
                       Analytics.trackEvent("OTPScreen|SendSms|Error", {
-                        userId: id,
+                        unipeEmployeeId: unipeEmployeeId,
                         error: result["response"]["details"],
                       });
                       Alert.alert(
@@ -144,12 +156,12 @@ const OTPScreen = () => {
                     }
                   })
                   .catch((error) => {
-                    console.log(error);
+                    console.log(error.toString());
                     Analytics.trackEvent("OTPScreen|SendSms|Error", {
-                      userId: id,
-                      error: error,
+                      unipeEmployeeId: unipeEmployeeId,
+                      error: error.toString(),
                     });
-                    Alert.alert("Error", error);
+                    Alert.alert("Error", error.toString());
                   });
               }}
             >
@@ -170,7 +182,7 @@ const OTPScreen = () => {
                 .then((res) => {
                   if (res["response"]["status"] === "success") {
                     Analytics.trackEvent("OTPScreen|Check|Success", {
-                      userId: id,
+                      unipeEmployeeId: unipeEmployeeId,
                     });
                     if (onboarded) {
                       navigation.navigate("BackendSync", {
@@ -184,7 +196,7 @@ const OTPScreen = () => {
                     dispatch(resetTimer());
                   } else {
                     Analytics.trackEvent("OTPScreen|Check|Error", {
-                      userId: id,
+                      unipeEmployeeId: unipeEmployeeId,
                       error: result["response"]["details"],
                     });
                     Alert.alert(
@@ -194,12 +206,12 @@ const OTPScreen = () => {
                   }
                 })
                 .catch((error) => {
-                  console.log(error);
+                  console.log(error.toString());
                   Analytics.trackEvent("OTPScreen|Check|Error", {
-                    userId: id,
-                    error: error,
+                    unipeEmployeeId: unipeEmployeeId,
+                    error: error.toString(),
                   });
-                  Alert.alert("Error", error);
+                  Alert.alert("Error", error.toString());
                 });
             }}
           />

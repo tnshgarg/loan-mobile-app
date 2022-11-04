@@ -11,11 +11,11 @@ export default ESICForm = () => {
   const tabs = [
     { name: "Portal", component: Portal },
     { name: "Family Details", component: Relation },
-    { name: "Employee Address", component: EmployeeAddress },
+    { name: "Your Address", component: EmployeeAddress },
     { name: "Nominee Address", component: NomineeAddress },
   ];
   return (
-    <SafeAreaView style={[styles.container, { padding: 0 }]}>
+    <SafeAreaView style={styles.safeContainer}>
       <TopTabNav tabs={tabs} hide={false} />
     </SafeAreaView>
   );

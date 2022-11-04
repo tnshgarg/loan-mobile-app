@@ -13,7 +13,6 @@ import { OG_API_TEST_KEY } from "@env";
 import PrimaryButton from "../../components/PrimaryButton";
 import Analytics from "appcenter-analytics";
 
-
 const Verify = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -21,7 +20,9 @@ const Verify = (props) => {
   const [loading, setLoading] = useState(false);
   const [backendPush, setBackendPush] = useState(false);
 
-  const id = useSelector((state) => state.auth.id);
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  
   const licenseSlice = useSelector((state) => state.license);
   const [data, setData] = useState(licenseSlice?.data);
   const [verifyMsg, setVerifyMsg] = useState(licenseSlice?.verifyMsg);
@@ -50,12 +51,15 @@ const Verify = (props) => {
     console.log("licenseSlice : ", licenseSlice);
     if (backendPush) {
       licenseBackendPush({
-        id: id,
-        data: data,
-        number: licenseSlice?.number,
-        verifyMsg: verifyMsg,
-        verifyStatus: verifyStatus,
-        verifyTimestamp: verifyTimestamp,
+        data: {
+          id: id,
+          data: data,
+          number: licenseSlice?.number,
+          verifyMsg: verifyMsg,
+          verifyStatus: verifyStatus,
+          verifyTimestamp: verifyTimestamp,
+        },
+        token: token,
       });
       setBackendPush(false);
       setLoading(false);
@@ -87,7 +91,7 @@ const Verify = (props) => {
                 setVerifyTimestamp(responseJson["timestamp"]);
                 setBackendPush(true);
                 Analytics.trackEvent("Licence|Verify|Success", {
-                  userId: id,
+                  unipeEmployeeId: unipeEmployeeId,
                 });
                 navigation.navigate("Documents", {
                   screen: "Driving License",
@@ -103,7 +107,7 @@ const Verify = (props) => {
                 setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
                 Analytics.trackEvent("Licence|Verify|Error", {
-                  userId: id,
+                  unipeEmployeeId: unipeEmployeeId,
                   error: responseJson["data"]["message"],
                 });
                 break;
@@ -114,7 +118,7 @@ const Verify = (props) => {
             setBackendPush(true);
             Alert.alert("Error", responseJson["error"]["message"]);
             Analytics.trackEvent("Licence|Verify|Error", {
-              userId: id,
+              unipeEmployeeId: unipeEmployeeId,
               error: responseJson["error"]["message"],
             });
           } else {
@@ -122,7 +126,7 @@ const Verify = (props) => {
             setVerifyStatus("ERROR");
             Alert.alert("Error", responseJson["message"]);
             Analytics.trackEvent("Licence|Verify|Error", {
-              userId: id,
+              unipeEmployeeId: unipeEmployeeId,
               error: responseJson["message"],
             });
           }
@@ -133,7 +137,7 @@ const Verify = (props) => {
           setBackendPush(true);
           Alert.alert("Error", error.toString());
           Analytics.trackEvent("Licence|Verify|Error", {
-            userId: id,
+            unipeEmployeeId: unipeEmployeeId,
             error: error.toString(),
           });
         }
@@ -145,7 +149,7 @@ const Verify = (props) => {
         setBackendPush(true);
         Alert.alert("Error", error.toString());
         Analytics.trackEvent("Licence|Verify|Error", {
-          userId: id,
+          unipeEmployeeId: unipeEmployeeId,
           error: error.toString(),
         });
       });
@@ -154,7 +158,7 @@ const Verify = (props) => {
   return (
     <PrimaryButton
       title={loading ? "Verifying" : "Continue"}
-      disabled={loading}
+      disabled={props.disabled}
       loading={loading}
       onPress={() => {
         goForFetch();

@@ -1,25 +1,40 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect } from "react";
-import { SafeAreaView, View } from "react-native";
+import { useEffect } from "react";
+import { Alert, BackHandler, SafeAreaView, View } from "react-native";
 import StepIndicator from "react-native-step-indicator";
 import { useDispatch, useSelector } from "react-redux";
+import Analytics from "appcenter-analytics";
 import PrimaryButton from "../../components/PrimaryButton";
 import { COLORS } from "../../constants/Theme";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { stepIndicatorStyles, styles, welcome } from "../../styles";
 import SVGImg from "../../assets/UnipeLogo.svg";
-import Analytics from "appcenter-analytics";
+import { requestUserPermission } from "../../services/notifications/notificationService";
 
 
 const WelcomePage = () => {
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const id = useSelector((state) => state.auth.id);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
   useEffect(() => {
     dispatch(addCurrentScreen("Welcome"));
+  }, []);
+
+  const backAction = () => {
+    Alert.alert("Hold on!", "Are you sure you want to Logout?", [
+      { text: "No", onPress: () => null, style: "cancel" },
+      { text: "Yes", onPress: () => navigation.navigate("Login") }
+    ]);
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
@@ -33,22 +48,18 @@ const WelcomePage = () => {
         return <MaterialCommunityIcons {...iconConfig} />;
       }
       case 1: {
-        iconConfig.name = "camera-outline";
-        return <MaterialCommunityIcons {...iconConfig} />;
-      }
-      case 2: {
         iconConfig.name = "card-account-details-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
-      case 3: {
+      case 2: {
         iconConfig.name = "smart-card-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
-      case 4: {
+      case 3: {
         iconConfig.name = "bank-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
-      case 5: {
+      case 4: {
         iconConfig.name = "bank-check";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
@@ -63,10 +74,9 @@ const WelcomePage = () => {
 
   const data = [
     "Profile",
-    "Photo",
     "Aadhaar",
     "PAN",
-    "Bank Account",
+    "Bank",
     "Mandate",
   ];
 
@@ -74,10 +84,10 @@ const WelcomePage = () => {
     <>
       <SafeAreaView style={[styles.container, { paddingBottom: 40 }]}>
         <SVGImg style={styles.logo} />
-        <View style={welcome.steps}>
+        <View style={[welcome.steps,{alignSelf: "center"}]}>
           <StepIndicator
             customStyles={stepIndicatorStyles}
-            stepCount={6}
+            stepCount={5}
             direction="vertical"
             renderStepIndicator={renderStepIndicator}
             currentPosition={-1}
@@ -86,11 +96,10 @@ const WelcomePage = () => {
         </View>
         <PrimaryButton
           title="Start Onboarding"
-          color="#2CB77C"
-          uppercase={false}
           onPress={() => {
-            Analytics.trackEvent("WelcomePage", { userId: id });
-            navigation.navigate("PersonalDetailsForm");
+            requestUserPermission();
+            Analytics.trackEvent("WelcomePage", { unipeEmployeeId: unipeEmployeeId });
+            navigation.navigate("ProfileForm");
           }}
         />
       </SafeAreaView>
