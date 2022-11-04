@@ -6,6 +6,7 @@ import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import {
   Alert,
+  BackHandler,
   SafeAreaView,
   Text,
   View,
@@ -18,7 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import FormInput from "../../../../components/atoms/FormInput";
 import Header from "../../../../components/atoms/Header";
 import TermsAndPrivacyModal from "../../../../components/molecules/TermsAndPrivacyModal";
-import PrimaryButton from "../../../../components/PrimaryButton";
+import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { COLORS, FONTS } from "../../../../constants/Theme";
 import { ewaOfferPush } from "../../../../helpers/BackendPush";
 import { addLoanAmount } from "../../../../store/slices/ewaLiveSlice";
@@ -38,12 +39,13 @@ const Offer = () => {
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
 
-  const [consent, setConsent] = useState(false);
+  const [consent, setConsent] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const [validAmount, setValidAmount] = useState(true);
 
-  const unipeEmployeeId = useSelector((state) => state.auth.id);
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const offerId = useSelector((state) => state.ewaLive.offerId);
   const eligibleAmount = useSelector((state) => state.ewaLive.eligibleAmount);
@@ -66,6 +68,16 @@ const Offer = () => {
     }
   }, [deviceId, ipAddress]);
 
+  const backAction = () => {
+    navigation.navigate("EWA");
+    return true;
+  };
+  
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
   useEffect(() => {
     if (parseInt(amount) <= eligibleAmount) {
       if (STAGE !== "prod" || (STAGE === "prod" && parseInt(amount) > 999)) {
@@ -82,19 +94,22 @@ const Offer = () => {
   useEffect(() => {
     if (fetched) {
       ewaOfferPush({
-        offerId: offerId,
-        unipeEmployeeId: unipeEmployeeId,
-        status: "INPROGRESS",
-        timestamp: Date.now(),
-        ipAddress: ipAddress,
-        deviceId: deviceId,
+        data: {
+          offerId: offerId,
+          unipeEmployeeId: unipeEmployeeId,
+          status: "INPROGRESS",
+          timestamp: Date.now(),
+          ipAddress: ipAddress,
+          deviceId: deviceId,
+        },
+        token: token,
       })
         .then((response) => {
           console.log("ewaOfferPush response.data: ", response.data);
         })
         .catch((error) => {
-          console.log("ewaOfferPush error: ", error);
-          Alert.alert("An Error occured", error);
+          console.log("ewaOfferPush error: ", error.toString());
+          Alert.alert("An Error occured", error.toString());
         });
     }
   }, [fetched]);
@@ -103,29 +118,32 @@ const Offer = () => {
     setLoading(true);
     if (validAmount) {
       ewaOfferPush({
-        offerId: offerId,
-        unipeEmployeeId: unipeEmployeeId,
-        status: "CONFIRMED",
-        timestamp: Date.now(),
-        ipAddress: ipAddress,
-        deviceId: deviceId,
-        loanAmount: parseInt(amount),
+        data: {
+          offerId: offerId,
+          unipeEmployeeId: unipeEmployeeId,
+          status: "CONFIRMED",
+          timestamp: Date.now(),
+          ipAddress: ipAddress,
+          deviceId: deviceId,
+          loanAmount: parseInt(amount),
+        },
+        token: token,
       })
         .then((response) => {
           console.log("ewaOfferPush response.data: ", response.data);
           setLoading(false);
           navigation.navigate("EWA_KYC");
           Analytics.trackEvent("Ewa|OfferPush|Success", {
-            userId: unipeEmployeeId,
+            unipeEmployeeId: unipeEmployeeId,
           });
         })
         .catch((error) => {
-          console.log("ewaOfferPush error: ", error);
+          console.log("ewaOfferPush error: ", error.toString());
           setLoading(false);
-          Alert.alert("An Error occured", error);
+          Alert.alert("An Error occured", error.toString());
           Analytics.trackEvent("Ewa|OfferPush|Error", {
-            userId: unipeEmployeeId,
-            error: error,
+            unipeEmployeeId: unipeEmployeeId,
+            error: error.toString(),
           });
         });
     }
@@ -150,20 +168,20 @@ const Offer = () => {
     <SafeAreaView style={styles.safeContainer}>
       <Header
         title="On Demand Salary"
-        onLeftIconPress={() => navigation.navigate("EWA")}
+        onLeftIconPress={() => backAction()}
       />
       <View style={styles.container}>
         <FormInput
           placeholder="Enter amount"
-          containerStyle={{ marginVertical: 20 }}
-          inputStyle={{ ...FONTS.h2 }}
+          containerStyle={{ marginVertical: 10, marginHorizontal: 50 }}
+          inputStyle={{ ...FONTS.h2, width: 20 }}
           keyboardType="numeric"
           value={amount}
           onChange={setAmount}
           autoFocus={true}
           maxLength={10}
           prependComponent={
-            <Icon name="currency-inr" color="green" size={32} />
+            <Icon name="currency-inr" color="green" size={25} />
           }
         />
 
@@ -172,7 +190,6 @@ const Offer = () => {
             alignSelf: "center",
             ...FONTS.body4,
             color: COLORS.gray,
-            marginTop: -10,
           }}
         >
           You can choose between 1000 to {eligibleAmount}
@@ -183,7 +200,7 @@ const Offer = () => {
             alignSelf: "center",
             ...FONTS.h3,
             color: COLORS.black,
-            marginTop: 20,
+            marginVertical: 20,
           }}
         >
           Steps to Cash
@@ -199,11 +216,6 @@ const Offer = () => {
           />
         </View>
 
-        {/* <Checkbox
-        text={"I agree to the Terms and Conditions."}
-        value={consent}
-        setValue={setConsent}
-      /> */}
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <CheckBox
             value={consent}

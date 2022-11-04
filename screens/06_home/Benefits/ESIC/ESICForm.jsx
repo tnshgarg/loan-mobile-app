@@ -11,7 +11,7 @@ export default ESICForm = () => {
   const tabs = [
     { name: "Portal", component: Portal },
     { name: "Family Details", component: Relation },
-    { name: "Employee Address", component: EmployeeAddress },
+    { name: "Your Address", component: EmployeeAddress },
     { name: "Nominee Address", component: NomineeAddress },
   ];
   return (

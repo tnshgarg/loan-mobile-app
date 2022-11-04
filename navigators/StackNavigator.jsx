@@ -26,7 +26,7 @@ import Offer from "../screens/06_home/Money/EWA/01_Offer";
 import KYC from "../screens/06_home/Money/EWA/02_Kyc";
 import Agreement from "../screens/06_home/Money/EWA/03_Agreement";
 import Disbursement from "../screens/06_home/Money/EWA/04_Disbursement";
-
+import OfflineAlert from "../components/OfflineAlert";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -40,175 +40,177 @@ const StackNavigator = () => {
   console.log("initialRoute: ", initialRoute);
 
   return (
-    <Stack.Navigator initialRouteName={initialRoute}>
-      <Stack.Screen
-        name="DevMenu"
-        component={DevMenu}
-        options={{
-          headerShown: false,
-          header: null,
-        }}
-      />
-      <Stack.Screen
-        name="Login"
-        component={LoginScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="Otp"
-        component={OTPScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="BackendSync"
-        component={BackendSync}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="Welcome"
-        component={WelcomePage}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="ProfileForm"
-        component={ProfileForm}
-        options={{
-          headerShown: false,
-          header: null,
-        }}
-      />
-      <Stack.Screen
-        name="AadhaarForm"
-        component={AadhaarForm}
-        options={{
-          headerShown: false,
-          header: null,
-        }}
-      />
-      <Stack.Screen
-        name="AadhaarVerify"
-        component={AadhaarVerify}
-        options={{
-          headerShown: false,
-          header: null,
-        }}
-      />
-      <Stack.Screen
-        name="AadhaarConfirm"
-        component={AadhaarConfirm}
-        options={{
-          headerShown: false,
-          header: null,
-        }}
-      />
-      <Stack.Screen
-        name="PanForm"
-        component={PanForm}
-        options={{
-          headerShown: false,
-          header: null,
-        }}
-      />
-      <Stack.Screen
-        name="PanConfirm"
-        component={PanConfirm}
-        options={{
-          headerShown: false,
-          header: null,
-        }}
-      />
-      <Stack.Screen
-        name="BankForm"
-        component={BankForm}
-        options={{
-          headerShown: false,
-          header: null,
-        }}
-      />
-      <Stack.Screen
-        name="BankConfirm"
-        component={BankConfirm}
-        options={{
-          headerShown: false,
-          header: null,
-        }}
-      />
-      <Stack.Screen
-        name="Mandate"
-        component={Mandate}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="Home"
-        component={DrawerNavigator}
-        options={{
-          headerShown: false,
-          header: null,
-        }}
-      />
-      <Stack.Screen
-        name="KYC"
-        component={KYCScreen}
-        options={{
-          headerShown: true,
-          headerTitle: "KYC Details",
-          headerShadowVisible: false,
-        }}
-      />
-      <Stack.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          headerShown: true,
-          headerTitle: "Profile Details",
-        }}
-      />
-      <Stack.Screen
-        name="EWA"
-        component={EWA}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="EWA_OFFER"
-        component={Offer}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="EWA_KYC"
-        component={KYC}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="EWA_AGREEMENT"
-        component={Agreement}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="EWA_DISBURSEMENT"
-        component={Disbursement}
-        options={{
-          headerShown: false,
-        }}
-      />
-    </Stack.Navigator>
+    <OfflineAlert>
+      <Stack.Navigator initialRouteName={initialRoute}>
+        <Stack.Screen
+          name="DevMenu"
+          component={DevMenu}
+          options={{
+            headerShown: false,
+            header: null,
+          }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Otp"
+          component={OTPScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="BackendSync"
+          component={BackendSync}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Welcome"
+          component={WelcomePage}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="ProfileForm"
+          component={ProfileForm}
+          options={{
+            headerShown: false,
+            header: null,
+          }}
+        />
+        <Stack.Screen
+          name="AadhaarForm"
+          component={AadhaarForm}
+          options={{
+            headerShown: false,
+            header: null,
+          }}
+        />
+        <Stack.Screen
+          name="AadhaarVerify"
+          component={AadhaarVerify}
+          options={{
+            headerShown: false,
+            header: null,
+          }}
+        />
+        <Stack.Screen
+          name="AadhaarConfirm"
+          component={AadhaarConfirm}
+          options={{
+            headerShown: false,
+            header: null,
+          }}
+        />
+        <Stack.Screen
+          name="PanForm"
+          component={PanForm}
+          options={{
+            headerShown: false,
+            header: null,
+          }}
+        />
+        <Stack.Screen
+          name="PanConfirm"
+          component={PanConfirm}
+          options={{
+            headerShown: false,
+            header: null,
+          }}
+        />
+        <Stack.Screen
+          name="BankForm"
+          component={BankForm}
+          options={{
+            headerShown: false,
+            header: null,
+          }}
+        />
+        <Stack.Screen
+          name="BankConfirm"
+          component={BankConfirm}
+          options={{
+            headerShown: false,
+            header: null,
+          }}
+        />
+        <Stack.Screen
+          name="Mandate"
+          component={Mandate}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Home"
+          component={DrawerNavigator}
+          options={{
+            headerShown: false,
+            header: null,
+          }}
+        />
+        <Stack.Screen
+          name="KYC"
+          component={KYCScreen}
+          options={{
+            headerShown: true,
+            headerTitle: "KYC Details",
+            headerShadowVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            headerShown: true,
+            headerTitle: "Profile Details",
+          }}
+        />
+        <Stack.Screen
+          name="EWA"
+          component={EWA}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="EWA_OFFER"
+          component={Offer}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="EWA_KYC"
+          component={KYC}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="EWA_AGREEMENT"
+          component={Agreement}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="EWA_DISBURSEMENT"
+          component={Disbursement}
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Stack.Navigator>
+    </OfflineAlert>
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import CountDown from "react-native-countdown-component";
 import { useDispatch, useSelector } from "react-redux";
 import AadhaarVerifyApi from "../../apis/aadhaar/Verify";
@@ -11,6 +11,7 @@ import { COLORS, SIZES } from "../../constants/Theme";
 import FormInput from "../../components/atoms/FormInput";
 
 const AadhaarVerifyTemplate = (props) => {
+  
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [resend, setResend] = useState(false);
@@ -70,7 +71,6 @@ const AadhaarVerifyTemplate = (props) => {
         {resend ? (
           <AadhaarOtpApi
             data={{ aadhaar_number: number, consent: "Y" }}
-            style={form.nextButton}
             disabled={!resend}
             title="Resend"
             type={props?.route?.params?.type || ""}
@@ -78,7 +78,6 @@ const AadhaarVerifyTemplate = (props) => {
         ) : null}
         <AadhaarVerifyApi
           data={{ otp: otp, include_xml: true, share_code: 5934 }}
-          style={form.nextButton}
           disabled={!validOtp}
           type={props?.route?.params?.type || ""}
         />

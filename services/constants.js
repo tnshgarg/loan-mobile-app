@@ -1,6 +1,5 @@
 import {
   STAGE,
-  EMPLOYEE_API_BASE_URL,
   KYC_API_BASE_URL,
   KYC_MOCK_API_BASE_URL,
   RZP_PROD_AUTH,
@@ -9,7 +8,7 @@ import {
   RZP_TEST_KEY_ID,
 } from "@env";
 
-export const EMPLOYEE_API_URL = `${EMPLOYEE_API_BASE_URL}/${STAGE}/employee`;
+export const EMPLOYEE_API_URL = `https://api-${STAGE}.unipe.co/employee`;
 
 export const KYC_API_URL =
   STAGE === "dev" ? KYC_MOCK_API_BASE_URL : KYC_API_BASE_URL;

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
-import { SafeAreaView } from "react-native";
+import { BackHandler, SafeAreaView } from "react-native";
 import { useDispatch } from "react-redux";
+import { useNavigation } from "@react-navigation/core";
 import TopAppBar from "../../components/molecules/TopAppBar";
 import BottomTabNav from "../../navigators/BottomTabNav";
 import Benefits from "./Benefits/Benefits";
@@ -11,6 +12,7 @@ import EWANavigator from "../../navigators/EWANavigator";
 
 const Home = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const tabs = [
     { name: "Home", component: HomeView },
@@ -21,6 +23,16 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(addCurrentScreen("Home"));
+  }, []);
+
+  const backAction = () => {
+    navigation.navigate("Home", { replace: true });
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   return (

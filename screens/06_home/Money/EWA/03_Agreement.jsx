@@ -4,6 +4,7 @@ import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import {
   Alert,
+  BackHandler,
   Dimensions,
   Pressable,
   SafeAreaView,
@@ -20,7 +21,7 @@ import { AntDesign } from "react-native-vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import CollapsibleCard from "../../../../components/CollapsibleCard";
-import PrimaryButton from "../../../../components/PrimaryButton";
+import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { COLORS } from "../../../../constants/Theme";
 import { ewaAgreementPush } from "../../../../helpers/BackendPush";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
@@ -32,7 +33,6 @@ import {
 import { checkBox, ewa, styles } from "../../../../styles";
 import agreement from "../../../../templates/docs/LiquidLoansLoanAgreement";
 
-
 const Agreement = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -42,9 +42,11 @@ const Agreement = () => {
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
   
-  const [consent, setConsent] = useState(false);
+  const [consent, setConsent] = useState(true);
   const [loading, setLoading] = useState(false);
 
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const bankSlice = useSelector((state) => state.bank);
   const panSlice = useSelector((state) => state.pan);
@@ -101,6 +103,16 @@ const Agreement = () => {
     }
   }, [deviceId, ipAddress]);
 
+  const backAction = () => {
+    navigation.navigate("EWA_KYC");
+    return true;
+  };
+  
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
   useEffect(() => {
     setProcessingFees(
       Math.round(
@@ -156,30 +168,31 @@ const Agreement = () => {
       value: "₹" + processingFees,
     },
     {
-      subTitle: "Net Disbursement Amount *",
+      subTitle: "Disbursement Amount *",
       value: "₹" + netAmount,
     },
     { subTitle: "Due Date", value: ewaLiveSlice?.dueDate },
   ];
 
-  const unipeEmployeeId = useSelector((state) => state.auth.id);
-
   useEffect(() => {
     if (fetched) {
       ewaAgreementPush({
-        offerId: ewaLiveSlice?.offerId,
-        unipeEmployeeId: unipeEmployeeId,
-        status: "INPROGRESS",
-        timestamp: Date.now(),
-        ipAddress: ipAddress,
-        deviceId: deviceId,
+        data: {
+          offerId: ewaLiveSlice?.offerId,
+          unipeEmployeeId: unipeEmployeeId,
+          status: "INPROGRESS",
+          timestamp: Date.now(),
+          ipAddress: ipAddress,
+          deviceId: deviceId,
+        },
+        token: token,
       })
         .then((response) => {
           console.log("ewaAgreementPush response.data: ", response.data);
         })
         .catch((error) => {
-          console.log("ewaAgreementPush error: ", error);
-          Alert.alert("An Error occured", error);
+          console.log("ewaAgreementPush error: ", error.toString());
+          Alert.alert("An Error occured", error.toString());
         });
     }
   }, [fetched]);
@@ -187,18 +200,21 @@ const Agreement = () => {
   function handleAgreement() {
     setLoading(true);
     ewaAgreementPush({
-      offerId: ewaLiveSlice?.offerId,
-      unipeEmployeeId: unipeEmployeeId,
-      status: "CONFIRMED",
-      timestamp: Date.now(),
-      ipAddress: ipAddress,
-      deviceId: deviceId,
-      bankAccountNumber: bankSlice?.data?.accountNumber,
-      dueDate: ewaLiveSlice?.dueDate,
-      processingFees: processingFees,
-      loanAmount: ewaLiveSlice?.loanAmount,
-      netAmount: netAmount,
-      loanAccountNumber: ewaLiveSlice?.offerId,
+      data: {
+        offerId: ewaLiveSlice?.offerId,
+        unipeEmployeeId: unipeEmployeeId,
+        status: "CONFIRMED",
+        timestamp: Date.now(),
+        ipAddress: ipAddress,
+        deviceId: deviceId,
+        bankAccountNumber: bankSlice?.data?.accountNumber,
+        dueDate: ewaLiveSlice?.dueDate,
+        processingFees: processingFees,
+        loanAmount: ewaLiveSlice?.loanAmount,
+        netAmount: netAmount,
+        loanAccountNumber: ewaLiveSlice?.offerId,
+      },
+      token: token,
     })
       .then((response) => {
         console.log("ewaAgreementPush response.data: ", response.data);
@@ -207,23 +223,26 @@ const Agreement = () => {
         dispatch(resetEwaHistorical([]));
         setLoading(false);
         Analytics.trackEvent("Ewa|Agreement|Success", {
-          userId: unipeEmployeeId,
+          unipeEmployeeId: unipeEmployeeId,
         });
       })
       .catch((error) => {
-        console.log("ewaAgreementPush error: ", error);
+        console.log("ewaAgreementPush error: ", error.toString());
         setLoading(false);
-        Alert.alert("An Error occured", error);
+        Alert.alert("An Error occured", error.toString());
         Analytics.trackEvent("Ewa|Agreement|Error", {
-          userId: unipeEmployeeId,
-          error: error,
+          unipeEmployeeId: unipeEmployeeId,
+          error: error.toString(),
         });
       });
   }
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header title="Agreement" onLeftIconPress={() => navigation.goBack()} />
+      <Header 
+        title="Agreement" 
+        onLeftIconPress={() => backAction()} 
+      />
       <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <CollapsibleCard
@@ -243,7 +262,7 @@ const Agreement = () => {
             data={bankData}
           />
 
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View style={{ flexDirection: "row", alignItems: "center", marginVertical: 10 }}>
             <CheckBox
               style={ewa.checkBox}
               tintColors={{ true: COLORS.primary }}
@@ -251,7 +270,7 @@ const Agreement = () => {
               onValueChange={setConsent}
             />
             <Text style={ewa.checkBoxText}>
-              I confirm the above details and agree to {" "}
+              I confirm the above details and agree to{" "}
               <Text
                 style={styles.termsText}
                 onPress={() => setIsModalVisible(true)}
@@ -261,15 +280,15 @@ const Agreement = () => {
               .
             </Text>
           </View>
-        <PrimaryButton
-          title={loading ? "Booking" : "Finish"}
-          disabled={!consent}
-          loading={loading}
-          onPress={() => {
-            handleAgreement();
-          }}
-        />
-        <View style={checkBox.padding}></View>
+          <PrimaryButton
+            title={loading ? "Booking" : "Finish"}
+            disabled={!consent}
+            loading={loading}
+            onPress={() => {
+              handleAgreement();
+            }}
+          />
+          <View style={checkBox.padding}></View>
           <Text style={{ marginLeft: "6%", fontSize: 6, marginTop: "25%" }}>
             * Disbursement will be reconciled in your next payroll {"\n"}*
             Annual Percentage Rate @ {apr} %

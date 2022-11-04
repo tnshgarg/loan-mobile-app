@@ -62,7 +62,6 @@ const LicenseFormTemplate = () => {
               date_of_birth: dob,
               consent: "Y",
             }}
-            style={form.nextButton}
             disabled={!validNumber}
           />
         </View>

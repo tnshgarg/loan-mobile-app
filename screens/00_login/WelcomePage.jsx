@@ -1,27 +1,38 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect } from "react";
-import { SafeAreaView, View } from "react-native";
+import { Alert, BackHandler, SafeAreaView, View } from "react-native";
 import StepIndicator from "react-native-step-indicator";
 import { useDispatch, useSelector } from "react-redux";
 import Analytics from "appcenter-analytics";
-import PrimaryButton from "../../components/PrimaryButton";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { COLORS } from "../../constants/Theme";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { stepIndicatorStyles, styles, welcome } from "../../styles";
 import SVGImg from "../../assets/UnipeLogo.svg";
 import { requestUserPermission } from "../../services/notifications/notificationService";
 
-
 const WelcomePage = () => {
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const id = useSelector((state) => state.auth.id);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
   useEffect(() => {
     dispatch(addCurrentScreen("Welcome"));
+  }, []);
+
+  const backAction = () => {
+    Alert.alert("Hold on!", "Are you sure you want to Logout?", [
+      { text: "No", onPress: () => null, style: "cancel" },
+      { text: "Yes", onPress: () => navigation.navigate("Login") }
+    ]);
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
@@ -59,19 +70,13 @@ const WelcomePage = () => {
 
   const renderStepIndicator = (params) => getStepIndicatorIconConfig(params);
 
-  const data = [
-    "Profile",
-    "Aadhaar",
-    "PAN",
-    "Bank",
-    "Mandate",
-  ];
+  const data = ["Profile", "Aadhaar", "PAN", "Bank", "Mandate"];
 
   return (
     <>
-      <SafeAreaView style={[styles.container, { paddingBottom: 40 }]}>
+      <SafeAreaView style={[styles.container]}>
         <SVGImg style={styles.logo} />
-        <View style={welcome.steps}>
+        <View style={[welcome.steps,{alignSelf: "center"}]}>
           <StepIndicator
             customStyles={stepIndicatorStyles}
             stepCount={5}
@@ -85,7 +90,7 @@ const WelcomePage = () => {
           title="Start Onboarding"
           onPress={() => {
             requestUserPermission();
-            Analytics.trackEvent("WelcomePage", { userId: id });
+            Analytics.trackEvent("WelcomePage", { unipeEmployeeId: unipeEmployeeId });
             navigation.navigate("ProfileForm");
           }}
         />

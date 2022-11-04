@@ -4,7 +4,7 @@ import { SafeAreaView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import FormInput from "../../../../components/atoms/FormInput";
 import DropDownForm from "../../../../components/molecules/DropDownForm";
-import PrimaryButton from "../../../../components/PrimaryButton";
+import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { showToast } from "../../../../components/Toast";
 import { relationPush } from "../../../../helpers/BackendPush";
 import {
@@ -19,7 +19,9 @@ export default Relation = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const id = useSelector((state) => state.auth.id);
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+
   const [fatherHusbandRelation, setRelation] = useState(
     useSelector((state) => state.esic.familyDetails.fatherHusband.relation)
   );
@@ -110,17 +112,23 @@ export default Relation = () => {
             title="Continue"
             onPress={() => {
               relationPush({
-                id: id,
-                type: "fh",
-                relation: fatherHusbandRelation,
-                name: fatherHusbandName,
+                data: {
+                  unipeEmployeeId: unipeEmployeeId,
+                  type: "fh",
+                  relation: fatherHusbandRelation,
+                  name: fatherHusbandName,
+                },
+                token: token,
               });
 
               relationPush({
-                id: id,
-                type: "nominee",
-                relation: nomineeRelation,
-                name: nomineeName,
+                data: {
+                  unipeEmployeeId: unipeEmployeeId,
+                  type: "nominee",
+                  relation: nomineeRelation,
+                  name: nomineeName,
+                },
+                token: token,
               });
 
               showToast("Family details recorded.");

@@ -6,12 +6,16 @@ import { useSelector } from "react-redux";
 import { addressPush } from "../../../../helpers/BackendPush";
 import { showToast } from "../../../../components/Toast";
 import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
-import PrimaryButton from "../../../../components/PrimaryButton";
+import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 
 export default NomineeAddress = () => {
   const navigation = useNavigation();
-  const id = useSelector((state) => state.auth.id);
+
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+
   const address = useSelector((state) => state.esic.address);
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
@@ -20,9 +24,17 @@ export default NomineeAddress = () => {
           <PrimaryButton
             title="Finish"
             onPress={() => {
-              {
-                addressPush({ id: id, type: "nominee", address: address });
-              }
+              addressPush({ 
+                data: {
+                  unipeEmployeeId: unipeEmployeeId, 
+                  type: "nominee",
+                  street: address["nominee"].street,
+                  state: address["nominee"].state,
+                  district: address["nominee"].district,
+                  pin: address["nominee"].pincode,
+                }, 
+                token: token 
+              });
               showToast("Nominee Address details recorded.");
               navigation.navigate("Home");
             }}

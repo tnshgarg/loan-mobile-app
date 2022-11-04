@@ -6,7 +6,7 @@ import { Image, SafeAreaView, ScrollView, Text, View } from "react-native";
 import * as ImagePicker from "react-native-image-picker";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../components/atoms/Header";
-import PrimaryButton from "../../components/PrimaryButton";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
 import RNIPPhotoCapture from "../../components/RNIPPhotoCapture";
 import { COLORS } from "../../constants/Theme";
 import { profileBackendPush } from "../../helpers/BackendPush";
@@ -52,18 +52,18 @@ const PersonalImage = () => {
       if (response.didCancel) {
         console.log("User cancelled image picker");
         Analytics.trackEvent("PersonalImage|Pick|Error", {
-          userId: id,
+          unipeEmployeeId id,
           error: "User cancelled image picker",
         });
       } else if (response.error) {
         console.log("ImagePicker Error: ", response.error);
         Analytics.trackEvent("PersonalImage|Pick|Error", {
-          userId: id,
+          unipeEmployeeId id,
           error: response.error,
         });
       } else {
         Analytics.trackEvent("PersonalImage|Pick|Success", {
-          userId: id,
+          unipeEmployeeId id,
         });
         dispatch(addPhoto(response?.assets[0]?.base64));
       }
