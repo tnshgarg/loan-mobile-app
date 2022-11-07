@@ -1,14 +1,21 @@
 import { useNavigation } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
-import { BackHandler, Image, SafeAreaView, Text, ScrollView, View } from "react-native";
+import {
+  BackHandler,
+  Image,
+  SafeAreaView,
+  Text,
+  ScrollView,
+  View,
+} from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { ewaKycPush } from "../../../../helpers/BackendPush";
-import { form, styles,checkBox } from "../../../../styles";
+import { form, styles, checkBox } from "../../../../styles";
 import CollapsibleCard from "../../../../components/CollapsibleCard";
 
 const KYC = () => {
@@ -45,10 +52,11 @@ const KYC = () => {
     navigation.navigate("EWA_OFFER");
     return true;
   };
-  
+
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   useEffect(() => {
@@ -122,10 +130,7 @@ const KYC = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
-        title="KYC"
-        onLeftIconPress={() => backAction()}
-      />
+      <Header title="KYC" onLeftIconPress={() => backAction()} />
       <ScrollView style={styles.container}>
         <Text style={form.OtpAwaitMsg}>
           Are these your AADHAAR details ?{"\n"}
@@ -133,6 +138,7 @@ const KYC = () => {
         <Image
           source={{
             uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
+            cache: "only-if-cached",
           }}
           style={form.aadharimg}
         />

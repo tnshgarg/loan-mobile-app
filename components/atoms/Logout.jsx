@@ -1,5 +1,4 @@
 import { useNavigation } from "@react-navigation/core";
-import React from "react";
 import { Pressable, Text } from "react-native";
 import { AntDesign } from "react-native-vector-icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,8 +30,8 @@ export default Logout = () => {
         dispatch(resetBank());
         dispatch(resetLicense());
         dispatch(resetTimer());
-
-        navigation.navigate("Login");
+        
+        navigation.navigate("OnboardingStack", { screen: "Login" })
       }}
       style={{
         flexDirection: "row",

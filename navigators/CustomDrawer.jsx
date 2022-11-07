@@ -36,6 +36,7 @@ export default CustomDrawer = (props) => {
             <Image
               source={{
                 uri: `data:image/jpeg;base64,${image}`,
+                cache: "only-if-cached",
               }}
               style={{
                 width: 80,

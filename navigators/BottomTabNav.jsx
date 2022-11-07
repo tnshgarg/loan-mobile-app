@@ -1,4 +1,3 @@
-import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS } from "../constants/Theme";
@@ -32,6 +31,7 @@ export default BottomTabNav = (props) => {
         tabBarActiveTintColor: COLORS.primary,
         tabBarInactiveTintColor: "#4E4E4F",
       })}
+      tabBarOptions={{labelStyle: { fontSize: 15 }}}
     >
       {props.tabs.map((tab, index) => {
         return (

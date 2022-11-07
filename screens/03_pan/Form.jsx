@@ -17,10 +17,10 @@ export default PanForm = () => {
     dispatch(addCurrentScreen("PanForm"));
   }, []);
 
-  const skipPAN = () => {
+  const SkipPAN = () => {
     Alert.alert(
-      "PAN KYC Required",
-      "If you want to receive advance salary, PAN KYC is required.",
+      "Skip PAN Verification",
+      `If you want to receive advance salary, PAN KYC is required. Are you sure, you want to skip this step?`,
       [
         { text: "No", onPress: () => null, style: "cancel" },
         { text: "Yes", onPress: () => navigation.navigate("BankForm") },
@@ -50,7 +50,7 @@ export default PanForm = () => {
       <Header
         title="PAN Verification"
         onLeftIconPress={() => backAction()}
-        onRightIconPress={() => skipPAN()}
+        onRightIconPress={() => SkipPAN()}
       />
       <ProgressBarTop step={2} />
       <PanFormTemplate />

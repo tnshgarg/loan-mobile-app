@@ -14,7 +14,6 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
 import CollapsibleCard from "../../components/CollapsibleCard";
 
-
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -83,6 +82,7 @@ const AadhaarConfirmApi = (props) => {
       <Image
         source={{
           uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
+          cache: "only-if-cached",
         }}
         style={form.aadharimg}
       />
