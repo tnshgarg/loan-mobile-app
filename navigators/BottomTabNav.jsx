@@ -32,7 +32,6 @@ export default BottomTabNav = (props) => {
         tabBarActiveTintColor: COLORS.primary,
         tabBarInactiveTintColor: "#4E4E4F",
       })}
-      tabBarOptions={{ labelStyle: { fontSize: 15 } }}
     >
       {props.tabs.map((tab, index) => {
         return (

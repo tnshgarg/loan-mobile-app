@@ -12,6 +12,7 @@ import { resetPan } from "../../store/slices/panSlice";
 import { resetProfile } from "../../store/slices/profileSlice";
 import { resetLicense } from "../../store/slices/licenseSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
+import { FONTS } from "../../constants/Theme";
 
 export default Logout = () => {
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ export default Logout = () => {
       }}
     >
       <AntDesign name="logout" color="black" size={16} />
-      <Text style={{ fontSize: 16, paddingLeft: 10 }}>Logout</Text>
+      <Text style={{ ...FONTS.body4, paddingLeft: 10 }}>Logout</Text>
     </Pressable>
   );
 };

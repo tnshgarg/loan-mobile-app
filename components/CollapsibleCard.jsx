@@ -61,7 +61,7 @@ const CollapsibleCard = ({
             <Text
               style={{
                 ...FONTS.body4,
-                flex: 1,
+                flex: 2,
                 textAlign: "right",
               }}
             >

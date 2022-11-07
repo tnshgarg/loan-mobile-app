@@ -16,7 +16,7 @@ const DetailItem = ({ label, value, divider }) => {
           {value}
         </Text>
       ) : (
-        <Text style={{ ...FONTS.h5, paddingTop: 8 }}>{value}</Text>
+        <Text style={{ ...FONTS.body4, paddingTop: 8 }}>{value}</Text>
       )}
       {divider && (
         <View
