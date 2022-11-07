@@ -52,18 +52,18 @@ const PersonalImage = () => {
       if (response.didCancel) {
         console.log("User cancelled image picker");
         Analytics.trackEvent("PersonalImage|Pick|Error", {
-          unipeEmployeeId id,
+          unipeEmployeeId: id,
           error: "User cancelled image picker",
         });
       } else if (response.error) {
         console.log("ImagePicker Error: ", response.error);
         Analytics.trackEvent("PersonalImage|Pick|Error", {
-          unipeEmployeeId id,
+          unipeEmployeeId: id,
           error: response.error,
         });
       } else {
         Analytics.trackEvent("PersonalImage|Pick|Success", {
-          unipeEmployeeId id,
+          unipeEmployeeId: id,
         });
         dispatch(addPhoto(response?.assets[0]?.base64));
       }
@@ -85,7 +85,10 @@ const PersonalImage = () => {
           {image ? (
             <View style={selfie.selfieContainer}>
               <Image
-                source={{ uri: `data:image/jpeg;base64,${image}` }}
+                source={{
+                  uri: `data:image/jpeg;base64,${image}`,
+                  cache: "only-if-cached",
+                }}
                 style={[selfie.selfie, { width: "100%" }]}
                 resizeMode="cover"
               />
