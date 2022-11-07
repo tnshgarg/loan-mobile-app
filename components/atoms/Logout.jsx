@@ -11,12 +11,13 @@ import { resetPan } from "../../store/slices/panSlice";
 import { resetProfile } from "../../store/slices/profileSlice";
 import { resetLicense } from "../../store/slices/licenseSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
+import { showToast } from "./Toast";
 
 export default Logout = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
   const store = useSelector((state) => state);
+
   // console.log(store);
   return (
     <Pressable
@@ -30,8 +31,10 @@ export default Logout = () => {
         dispatch(resetBank());
         dispatch(resetLicense());
         dispatch(resetTimer());
-        
-        navigation.navigate("OnboardingStack", { screen: "Login" })
+        showToast("Logging out...");
+        setTimeout(() => {
+          navigation.navigate("OnboardingStack", { screen: "Login" });
+        }, 1000);
       }}
       style={{
         flexDirection: "row",

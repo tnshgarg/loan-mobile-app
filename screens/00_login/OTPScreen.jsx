@@ -148,7 +148,7 @@ const OTPScreen = () => {
                     } else {
                       Analytics.trackEvent("OTPScreen|SendSms|Error", {
                         unipeEmployeeId: unipeEmployeeId,
-                        error: result["response"]["details"],
+                        error: res["response"]["details"],
                       });
                       Alert.alert(
                         res["response"]["status"],
@@ -198,7 +198,7 @@ const OTPScreen = () => {
                   } else {
                     Analytics.trackEvent("OTPScreen|Check|Error", {
                       unipeEmployeeId: unipeEmployeeId,
-                      error: result["response"]["details"],
+                      error: res["response"]["details"],
                     });
                     Alert.alert(
                       res["response"]["status"],
