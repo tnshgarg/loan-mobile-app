@@ -148,7 +148,7 @@ const Agreement = () => {
 
   const APR = () => {
     var today = new Date();
-    var dueDateComponents = ewaLiveSlice.dueDate.split("/");
+    var dueDateComponents = ewaLiveSlice.dueDate.split("-");
     var dueDate = new Date(
       dueDateComponents[2],
       parseInt(dueDateComponents[1]) - 1,
@@ -158,6 +158,7 @@ const Agreement = () => {
     var daysDiff = parseInt(timeDiff / (1000 * 3600 * 24));
     var apr =
       100 * (processingFees / ewaLiveSlice?.loanAmount) * (365 / daysDiff);
+    console.log("APR: ", apr, daysDiff);
     return apr.toFixed(2);
   };
 
