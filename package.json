@@ -8,7 +8,8 @@
     "build:dev": "gulp set --env=dev && cd android && gradlew assembleRelease",
     "build:test": "gulp set --env=test && cd android && gradlew assembleRelease",
     "build:debug": "gulp set --env=test && cd android && gradlew assembleDebug",
-    "build:prod": "gulp set --env=prod && cd android && gradlew bundleRelease"
+    "build:prod": "gulp set --env=prod && cd android && gradlew bundleRelease",
+    "postversion": "react-native-version"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.17.6",
@@ -76,7 +77,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "react-native-svg-transformer": "^1.0.0"
+    "react-native-svg-transformer": "^1.0.0",
+    "react-native-version": "^4.0.0"
   },
   "resolutions": {
     "glob": "7.2.0"
