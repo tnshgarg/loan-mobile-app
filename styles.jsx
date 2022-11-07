@@ -356,6 +356,7 @@ export const card = EStyleSheet.create({
   },
   infoText: {
     ...FONTS.body3,
+    textAlign: "center",
   },
   alertText: {
     color: COLORS.black,
@@ -415,4 +416,5 @@ export const stepIndicatorStyles = {
   labelSize: SIZES.body4,
   currentStepLabelColor: COLORS.primary,
   labelAlign: "flex-start",
+  labelFontFamily: "Montserrat-Regular",
 };

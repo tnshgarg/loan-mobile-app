@@ -85,6 +85,8 @@ const styles = EStyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: "15rem",
+    borderBottomWidth: 1.5,
+    borderColor: COLORS.lightgray_01,
   },
   listText: {
     ...FONTS.body3,

@@ -59,6 +59,7 @@ export default CustomDrawer = (props) => {
           >
             <DrawerItemList {...props} />
             <DrawerItem
+              labelStyle={{ ...FONTS.body4 }}
               icon={({ color, size }) => (
                 <Ionicons name="logo-whatsapp" color={color} size={20} />
               )}
@@ -68,6 +69,7 @@ export default CustomDrawer = (props) => {
               }}
             />
             <DrawerItem
+              labelStyle={{ ...FONTS.body4 }}
               icon={({ color, size }) => (
                 <Ionicons name="lock-closed-outline" color={color} size={20} />
               )}
@@ -77,6 +79,7 @@ export default CustomDrawer = (props) => {
               }}
             />
             <DrawerItem
+              labelStyle={{ ...FONTS.body4 }}
               icon={({ color, size }) => (
                 <Ionicons
                   name="ios-shield-checkmark-outline"
