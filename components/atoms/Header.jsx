@@ -5,7 +5,7 @@ const Header = ({ title, onLeftIconPress, onRightIconPress }) => {
   return (
     <AppBar
       title={title}
-      contentContainerStyle={{height: 40}}
+      contentContainerStyle={{ height: 50 }}
       color={COLORS.primary}
       titleStyle={{ color: COLORS.white }}
       leading={

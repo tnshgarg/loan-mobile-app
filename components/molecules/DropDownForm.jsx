@@ -87,7 +87,7 @@ const styles = EStyleSheet.create({
     paddingVertical: "15rem",
   },
   listText: {
-    ...FONTS.h3,
+    ...FONTS.body3,
     flex: 1,
     marginLeft: "10rem",
   },
