@@ -1,6 +1,5 @@
 import React from "react";
-import { View, ActivityIndicator } from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
+import { View, ActivityIndicator, StyleSheet } from "react-native";
 import Modal from "react-native-modal";
 
 function LoadingComponent({ loaderColor }) {
@@ -41,9 +40,9 @@ function Loading({
 
 export default Loading;
 
-const styles = EStyleSheet.create(() => ({
+const styles = StyleSheet.create(() => ({
   cont: {
-    backgroundColor: "$white",
+    backgroundColor: "white",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

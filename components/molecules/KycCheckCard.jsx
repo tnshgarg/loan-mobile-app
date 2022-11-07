@@ -1,7 +1,7 @@
 import { SafeAreaView, Text } from "react-native";
 import { useSelector } from "react-redux";
-import MessageCard from "./MessageCard";
-import { allAreNull } from "../helpers/nullCheck";
+import MessageCard from "../atoms/MessageCard";
+import { allAreNull } from "../../helpers/nullCheck";
 
 const KycCheckCard = () => {
   const bankStatus = useSelector((state) => state.bank.verifyStatus);

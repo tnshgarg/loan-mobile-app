@@ -1,6 +1,6 @@
 import { View, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import DevMenuButton from "../components/DevMenuButton";
+import DevMenuButton from "../components/atoms/DevMenuButton";
 import PushNotification from "react-native-push-notification";
 import { useEffect } from "react";
 
