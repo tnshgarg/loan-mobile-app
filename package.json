@@ -8,8 +8,7 @@
     "build:dev": "gulp set --env=dev && cd android && gradlew assembleRelease",
     "build:test": "gulp set --env=test && cd android && gradlew assembleRelease",
     "build:debug": "gulp set --env=test && cd android && gradlew assembleDebug",
-    "build:prod": "gulp set --env=prod && cd android && gradlew bundleRelease",
-    "postversion": "react-native-version"
+    "build:prod": "gulp set --env=prod && cd android && gradlew bundleRelease"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.17.6",
@@ -55,10 +54,8 @@
     "react-native-modal": "^13.0.1",
     "react-native-network-info": "^5.2.1",
     "react-native-pager-view": "^6.0.1",
-    "react-native-paper": "^4.12.1",
     "react-native-popable": "^0.4.3",
     "react-native-push-notification": "^8.1.1",
-    "react-native-quick-base64": "^2.0.3",
     "react-native-razorpay": "^2.2.9",
     "react-native-reanimated": "^2.9.1",
     "react-native-render-html": "^6.3.4",
@@ -77,8 +74,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "react-native-svg-transformer": "^1.0.0",
-    "react-native-version": "^4.0.0"
+    "react-native-svg-transformer": "^1.0.0"
   },
   "resolutions": {
     "glob": "7.2.0"
