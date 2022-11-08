@@ -3,7 +3,7 @@ import { BackHandler, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { styles } from "../../../../styles";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
-import KycCheckCard from "../../../../components/KycCheckCard";
+import KycCheckCard from "../../../../components/molecules/KycCheckCard";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import Offers from "../../../../components/DataCard";
 import { getBackendData } from "../../../../services/employees/employeeServices";
@@ -13,7 +13,6 @@ import { COLORS, FONTS } from "../../../../constants/Theme";
 import { STAGE } from "@env";
 
 const EWA = () => {
-
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const navigation = useNavigation();
@@ -42,10 +41,11 @@ const EWA = () => {
     navigation.navigate("EWA", { replace: true });
     return true;
   };
-  
+
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   useEffect(() => {
@@ -68,7 +68,11 @@ const EWA = () => {
     console.log("ewaHistoricalSlice: ", ewaHistoricalSlice);
     console.log("ewaOffersFetch unipeEmployeeId:", unipeEmployeeId);
     if (isFocused && unipeEmployeeId) {
-      getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "ewa/offers", token: token })
+      getBackendData({
+        params: { unipeEmployeeId: unipeEmployeeId },
+        xpath: "ewa/offers",
+        token: token,
+      })
         .then((response) => {
           if (response.data.status === 200) {
             console.log("ewaOffersFetch response.data: ", response.data);

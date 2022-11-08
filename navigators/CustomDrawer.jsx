@@ -8,7 +8,7 @@ import { Image, Linking, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import { COLORS, FONTS } from "../constants/Theme";
 import { Ionicons, Octicons } from "react-native-vector-icons";
-import Logout from "../components/Logout";
+import Logout from "../components/atoms/Logout";
 import SVGImg from "../assets/UnipeLogo.svg";
 import TermsAndPrivacyModal from "../components/molecules/TermsAndPrivacyModal";
 import termsOfUse from "../templates/docs/TermsOfUse";
@@ -36,6 +36,7 @@ export default CustomDrawer = (props) => {
             <Image
               source={{
                 uri: `data:image/jpeg;base64,${image}`,
+                cache: "only-if-cached",
               }}
               style={{
                 width: 80,

@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/core";
 import { portalPush } from "../../../../helpers/BackendPush";
 import { addESICPortal } from "../../../../store/slices/esicSlice";
 import { bankform, styles } from "../../../../styles";
-import { showToast } from "../../../../components/Toast";
+import { showToast } from "../../../../components/atoms/Toast";
 import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
 import FormInput from "../../../../components/atoms/FormInput";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
@@ -13,10 +13,10 @@ import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 export default Portal = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  
+
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  
+
   const [ipNumber, setIpNumber] = useState(
     useSelector((state) => state.esic.portal.ipNumber)
   );
@@ -38,7 +38,10 @@ export default Portal = () => {
           <PrimaryButton
             title="Continue"
             onPress={() => {
-              portalPush({ datat: {unipeEmployeeId: unipeEmployeeId, ipNumber: ipNumber}, token: token });
+              portalPush({
+                data: { unipeEmployeeId: unipeEmployeeId, ipNumber: ipNumber },
+                token: token,
+              });
               showToast("ESIC Portal details recorded.");
               navigation.navigate("Benefits", {
                 screen: "ESIC",

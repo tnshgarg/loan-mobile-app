@@ -151,7 +151,7 @@ const ProfileForm = () => {
             onChange={setAltMobile}
           />
           <FormInput
-            placeholder={"Email Address"}
+            placeholder={"Email Address*"}
             containerStyle={{ marginVertical: 10 }}
             autoCompleteType="email"
             keyboardType="email-address"

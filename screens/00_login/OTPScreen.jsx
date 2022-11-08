@@ -48,7 +48,7 @@ const OTPScreen = () => {
     if (!back) {
       Alert.alert("OTP Timer", "You must wait for 2 minutes to resend OTP.");
     } else {
-      Alert.alert("Hold on!", "Are you sure you want to Logout?", [
+      Alert.alert("Hold on!", "Do you want to update your phone number ?", [
         { text: "No", onPress: () => null, style: "cancel" },
         { text: "Yes", onPress: () => navigation.navigate("Login") },
       ]);
@@ -94,10 +94,8 @@ const OTPScreen = () => {
             )}
           </Text>
           <FormInput
-            //selection={{ start: 0 }}
             containerStyle={{
               marginTop: 30,
-
               width: SIZES.width * 0.6,
               alignSelf: "center",
             }}
@@ -108,7 +106,6 @@ const OTPScreen = () => {
             maxLength={6}
             keyboardType="numeric"
             placeholder={"******"}
-            //textAlign={"center"}
           />
 
           <CountDown
@@ -176,10 +173,8 @@ const OTPScreen = () => {
               setNext(false);
               checkVerification(phoneNumber, otp)
                 .then((res) => {
+                  console.log("res: ", res);
                   if (res["response"]["status"] === "success") {
-                    Analytics.trackEvent("OTPScreen|Check|Success", {
-                      unipeEmployeeId: unipeEmployeeId,
-                    });
                     if (onboarded) {
                       navigation.navigate("BackendSync", {
                         destination: "HomeStack",
@@ -190,24 +185,28 @@ const OTPScreen = () => {
                       });
                     }
                     dispatch(resetTimer());
-                  } else {
-                    Analytics.trackEvent("OTPScreen|Check|Error", {
+                    Analytics.trackEvent("OTPScreen|Check|Success", {
                       unipeEmployeeId: unipeEmployeeId,
                       error: res["response"]["details"],
                     });
+                  } else {
                     Alert.alert(
                       res["response"]["status"],
                       res["response"]["details"]
                     );
+                    Analytics.trackEvent("OTPScreen|Check|Error", {
+                      unipeEmployeeId: unipeEmployeeId,
+                      error: res["response"]["details"],
+                    });
                   }
                 })
                 .catch((error) => {
                   console.log(error.toString());
+                  Alert.alert("Error", error.toString());
                   Analytics.trackEvent("OTPScreen|Check|Error", {
                     unipeEmployeeId: unipeEmployeeId,
                     error: error.toString(),
                   });
-                  Alert.alert("Error", error.toString());
                 });
             }}
           />
