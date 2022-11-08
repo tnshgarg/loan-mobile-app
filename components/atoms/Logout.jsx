@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/core";
 import { Pressable, Text } from "react-native";
 import { AntDesign } from "react-native-vector-icons";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { resetAadhaar } from "../../store/slices/aadhaarSlice";
 import { resetAuth } from "../../store/slices/authSlice";
 import { resetBank } from "../../store/slices/bankSlice";
@@ -15,9 +15,7 @@ import { resetTimer } from "../../store/slices/timerSlice";
 export default Logout = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
-  const store = useSelector((state) => state);
-  // console.log(store);
+  
   return (
     <Pressable
       onPress={() => {
