@@ -11,9 +11,9 @@ const agreement = {
 
 <p>Dear Sir/Madam,</p>
 
-<p>Re: Sanction of Digital Credit Facility through Unipe to You Application no: <span>{loanAccountNumber}</span> Dated: <span>{todayDate}</span>	</p>
+<p>Re: Sanction of Digital Credit Facility through Unipe to You Application no: <span>{unipeEmployeeId}</span> Dated: <span>{todayDate}</span>	</p>
 
-<p>We are pleased to inform you that on the basis of information submitted online by you via our Approved Digital Platform, <strong>Unipe </strong>for a Credit Facility of <span>{loanAmount}</span> vide application no. <strong><span>{loanAccountNumber}</span></strong><strong>, </strong>the same is approved, subject to your acceptance/complying with the terms and conditions as stated herein below:</p>
+<p>We are pleased to inform you that on the basis of information submitted online by you via our Approved Digital Platform, <strong>Unipe </strong>for a Credit Facility of <span>{loanAmount}</span> vide application no. <strong><span>{unipeEmployeeId}</span></strong><strong>, </strong>the same is approved, subject to your acceptance/complying with the terms and conditions as stated herein below:</p>
 
 
 <table style="border: 1px solid black; border-collapse: collapse;">
