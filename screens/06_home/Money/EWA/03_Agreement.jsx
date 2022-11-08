@@ -31,7 +31,7 @@ import {
   resetEwaLive,
 } from "../../../../store/slices/ewaLiveSlice";
 import { checkBox, ewa, styles } from "../../../../styles";
-import agreement from "../../../../templates/docs/LiquidLoansLoanAgreement";
+import agreement from "../../../../templates/docs/LiquiLoansLoanAgreement";
 
 const Agreement = () => {
   const dispatch = useDispatch();
@@ -65,27 +65,28 @@ const Agreement = () => {
 
   function ValueEntry(text) {
     text.data = text.data.replace(
-      /\{todayDate\}/g,
-      today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear()
-    );
-    text.data = text.data.replace(/\{panName\}/g, panSlice?.data?.name);
-    text.data = text.data.replace(
       /\{aadhaarAddress\}/g,
       aadhaarSlice?.data?.address
     );
+    text.data = text.data.replace(
+      /\{accountNumber\}/g,
+      bankSlice?.data?.accountNumber
+    );
     text.data = text.data.replace(/\{email\}/g, profileSlice?.email);
-    text.data = text.data.replace(/\{mobile\}/g, authSlice?.phoneNumber);
+    text.data = text.data.replace(/\{ifsc\}/g, bankSlice?.data?.ifsc);
     text.data = text.data.replace(
       /\{loanAccountNumber\}/g,
       ewaLiveSlice?.offerId
     );
     text.data = text.data.replace(/\{loanAmount\}/g, ewaLiveSlice?.loanAmount);
+    text.data = text.data.replace(/\{mobile\}/g, authSlice?.phoneNumber);
+    text.data = text.data.replace(/\{panName\}/g, panSlice?.data?.name);
     text.data = text.data.replace(/\{processingFees\}/g, processingFees);
     text.data = text.data.replace(
-      /\{accountNumber\}/g,
-      bankSlice?.data?.accountNumber
+      /\{todayDate\}/g,
+      today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear()
     );
-    text.data = text.data.replace(/\{ifsc\}/g, bankSlice?.data?.ifsc);
+    text.data = text.data.replace(/\{unipeEmployeeId\}/g, unipeEmployeeId);
   }
 
   useEffect(() => {
@@ -158,7 +159,7 @@ const Agreement = () => {
     var daysDiff = parseInt(timeDiff / (1000 * 3600 * 24));
     var apr =
       100 * (processingFees / ewaLiveSlice?.loanAmount) * (365 / daysDiff);
-    console.log("APR: ", apr, daysDiff);
+    console.log("APR: ", apr, daysDiff, apr.toFixed(2));
     return apr.toFixed(2);
   };
 
