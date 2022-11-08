@@ -192,6 +192,7 @@ const OTPScreen = () => {
                     dispatch(resetTimer());
                     Analytics.trackEvent("OTPScreen|Check|Success", {
                       unipeEmployeeId: unipeEmployeeId,
+                      error: res["response"]["details"],
                     });
                   } else {
                     Alert.alert(
