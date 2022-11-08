@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start:dev": "gulp set --env=dev && npx react-native run-android",
-    "start:test": "gulp set --env=test && npx react-native run-android",
+    "start:dev": "gulp set --env=dev && npx react-native run-android --active-arch-only",
+    "start:test": "gulp set --env=test && npx react-native run-android --active-arch-only",
     "build:dev": "gulp set --env=dev && cd android && gradlew assembleRelease",
     "build:test": "gulp set --env=test && cd android && gradlew assembleRelease",
     "build:debug": "gulp set --env=test && cd android && gradlew assembleDebug",
