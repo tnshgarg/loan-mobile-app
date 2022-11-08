@@ -61,7 +61,7 @@ export const styles = EStyleSheet.create({
     textAlign: "center",
   },
   termsText: {
-    fontWeight: "bold",
+    ...FONTS.h4,
     color: COLORS.primary,
   },
   otpreadtxt: {
@@ -345,6 +345,7 @@ export const ewa = EStyleSheet.create({
     marginRight: "40rem",
     marginTop: "10rem",
     color: COLORS.gray,
+    ...FONTS.body4,
   },
 });
 

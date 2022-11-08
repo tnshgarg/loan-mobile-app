@@ -1,14 +1,13 @@
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import { BackHandler, SafeAreaView, Image, View } from "react-native";
-import CollapsibleCard from "../../../../components/CollapsibleCard";
+import CollapsibleCard from "../../../../components/molecules/CollapsibleCard";
 import { ewa, styles } from "../../../../styles";
 import { useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 
 const Disbursement = ({ route, navigation }) => {
-
   const { offer } = route.params;
   const [dueDate, setDueDate] = useState(offer?.dueDate);
   const [loanAmount, setLoanAmount] = useState(offer?.loanAmount);
@@ -28,15 +27,16 @@ const Disbursement = ({ route, navigation }) => {
     navigation.navigate("EWA");
     return true;
   };
-  
+
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   useEffect(() => {
     getBackendData({
-      params: { offerId: offer?.offerId,  unipeEmployeeId: unipeEmployeeId },
+      params: { offerId: offer?.offerId, unipeEmployeeId: unipeEmployeeId },
       xpath: "ewa/disbursement",
       token: token,
     })
@@ -87,10 +87,7 @@ const Disbursement = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
-        title="Money Transfer"
-        onLeftIconPress={() => backAction()}
-      />
+      <Header title="Money Transfer" onLeftIconPress={() => backAction()} />
       <View style={styles.container}>
         <Image
           style={ewa.successImg}
