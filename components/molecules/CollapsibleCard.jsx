@@ -52,16 +52,16 @@ const CollapsibleCard = ({
           >
             <Text
               style={{
-                ...FONTS.h4,
+                ...FONTS.h5,
                 flex: 1,
               }}
             >
-              {item.subTitle} :
+              {item.subTitle}
             </Text>
             <Text
               style={{
-                ...FONTS.body4,
-                flex: 2,
+                ...FONTS.body5,
+                flex: 1.5,
                 textAlign: "right",
               }}
             >
@@ -70,7 +70,7 @@ const CollapsibleCard = ({
           </View>
         ))}
         {info ? (
-          <Text style={{ marginTop: 10, ...FONTS.body5 }}>
+          <Text style={{ marginTop: 10 }}>
             <Text style={bankform.asterisk}>*</Text>
             {info}
           </Text>
