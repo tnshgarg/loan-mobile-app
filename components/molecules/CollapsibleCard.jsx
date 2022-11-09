@@ -70,7 +70,7 @@ const CollapsibleCard = ({
           </View>
         ))}
         {info ? (
-          <Text style={{ marginTop: 10 }}>
+          <Text style={{ marginTop: 10, ...FONTS.body5 }}>
             <Text style={bankform.asterisk}>*</Text>
             {info}
           </Text>
