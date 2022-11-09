@@ -373,7 +373,7 @@ export const datacard = EStyleSheet.create({
     alignSelf: "center",
     marginTop: "3%",
     padding: "3%",
-    width: "95%",
+    width: "100%",
     borderRadius: 5,
     flexDirection: "row",
     backgroundColor: "rgba(228, 238, 240, 0.4)",
