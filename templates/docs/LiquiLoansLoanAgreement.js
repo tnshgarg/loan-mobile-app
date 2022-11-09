@@ -1,5 +1,4 @@
-const agreement = {
-  html: `
+const agreement = `
 <img src="https://freopay.com/wp-content/uploads/2022/04/Liquiloans-logo-for-FP.png" width="200" height="200"/>
 <p>Ref: Digital Credit Facility (Application number) Date: <span>{todayDate}</span> </p>
 
@@ -506,7 +505,6 @@ const agreement = {
 <p>The late payment fee is a cumulative charge based on Days past the Due date, as per the table above and is exclusive of interest (if applicable) which may be charged on total outstanding in case the amount remains at default.</p>
 <p>As an example:</p>
 <p><strong>User 1-</strong> Outstanding amount INR 6000, pays post 16 Days past the Due Date, he will be charged a late payment fee of INR 150. </p>
-<p><strong>User 2-</strong> Outstanding amount INR 6000, pays post 65 Days past the Due Date, he will be charged a late payment fee of INR 600. </p>`,
-};
+<p><strong>User 2-</strong> Outstanding amount INR 6000, pays post 65 Days past the Due Date, he will be charged a late payment fee of INR 600. </p>`;
 
 export default agreement;
