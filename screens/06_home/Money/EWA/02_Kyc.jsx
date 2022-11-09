@@ -138,6 +138,7 @@ const KYC = () => {
         <Image
           source={{
             uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
+            cache: "only-if-cached",
           }}
           style={form.aadharimg}
         />

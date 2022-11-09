@@ -20,7 +20,7 @@ export default CustomDrawer = (props) => {
   const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
     useState(false);
 
-  const image = useSelector((state) => state.profile.photo);
+  const image = useSelector((state) => state.aadhaar.data.photo_base64);
   const name = useSelector(
     (state) => state.aadhaar.data?.name || state.pan.data?.name || "User"
   );
@@ -36,6 +36,7 @@ export default CustomDrawer = (props) => {
             <Image
               source={{
                 uri: `data:image/jpeg;base64,${image}`,
+                cache: "only-if-cached",
               }}
               style={{
                 width: 80,

@@ -25,7 +25,7 @@ import {
   addToken,
   addUnipeEmployeeId,
 } from "../../store/slices/authSlice";
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { addCurrentScreen ,addCurrentStack} from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
 import privacyPolicy from "../../templates/docs/PrivacyPolicy.js";
@@ -52,6 +52,7 @@ const LoginScreen = () => {
     useState(false);
 
   useEffect(() => {
+    dispatch(addCurrentStack("OnboardingStack"));
     dispatch(addCurrentScreen("Login"));
   }, []);
 
@@ -119,9 +120,6 @@ const LoginScreen = () => {
           setOnboarded(res.data.body.onboarded);
           setToken(res.data.body.token)
           setUnipeEmployeeId(res.data.body.unipeEmployeeId);
-          Analytics.trackEvent(`LoginScreen|SignIn|Success`, {
-            unipeEmployeeId: res.data.body.id,
-          });
           sendSmsVerification(phoneNumber)
             .then((result) => {
               console.log("sendSmsVerification result: ", result);
@@ -133,32 +131,35 @@ const LoginScreen = () => {
                 navigation.navigate("Otp");
               } else {
                 setLoading(false);
-                Analytics.trackEvent("LoginScreen|SendSms|Error", {
-                  unipeEmployeeId: unipeEmployeeId,
-                  error: result["response"]["details"],
-                });
                 Alert.alert(
                   result["response"]["status"],
                   result["response"]["details"]
                 );
+                Analytics.trackEvent("LoginScreen|SendSms|Error", {
+                  unipeEmployeeId: unipeEmployeeId,
+                  error: result["response"]["details"],
+                });
               }
             })
             .catch((error) => {
               console.log("sendSmsVerification result: ", error.toString());
               setLoading(false);
+              Alert("Error", error.toString());
               Analytics.trackEvent("LoginScreen|SendSms|Error", {
                 unipeEmployeeId: unipeEmployeeId,
                 error: error.toString(),
               });
-              Alert("Error", error.toString());
             });
+          Analytics.trackEvent(`LoginScreen|SignIn|Success`, {
+            unipeEmployeeId: res.data.body.id,
+          });
         } else {
           setLoading(false);
+          Alert.alert("Error", res.data["message"]);
           Analytics.trackEvent("LoginScreen|SignIn|Error", {
             phoneNumber: phoneNumber,
             error: res.data["message"],
           });
-          Alert.alert("Error", res.data["message"]);
         }
       })
       .catch((error) => {

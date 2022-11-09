@@ -12,7 +12,11 @@ import { bankform, form, styles } from "../../styles";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
+<<<<<<< HEAD
 import CollapsibleCard from "../../components/molecules/CollapsibleCard";
+=======
+import CollapsibleCard from "../../components/CollapsibleCard";
+>>>>>>> efd1ec16712819478fae612b8993571e9f97c369
 
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -82,6 +86,7 @@ const AadhaarConfirmApi = (props) => {
       <Image
         source={{
           uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
+          cache: "only-if-cached",
         }}
         style={form.aadharimg}
       />

@@ -29,7 +29,6 @@ export const styles = EStyleSheet.create({
     ...FONTS.h3,
     textDecorationLine: "underline",
   },
-
   btn: {
     marginTop: "20rem",
     width: "100%",

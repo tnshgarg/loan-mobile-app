@@ -159,8 +159,11 @@ const BankFormTemplate = (props) => {
             title="Verify Aadhaar Now"
             onPress={() => {
               props?.route?.params?.type
-                ? navigation.navigate("KYC", {
-                    screen: "AADHAAR",
+                ? navigation.navigate("HomeStack", {
+                    screen: "KYC",
+                    params: {
+                      screen: "AADHAAR",
+                    },
                   })
                 : navigation.navigate("AadhaarForm");
             }}

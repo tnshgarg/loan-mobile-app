@@ -188,7 +188,9 @@ const MandateFormTemplate = (props) => {
               Analytics.trackEvent("Mandate|GetToken|Success", {
                 unipeEmployeeId: unipeEmployeeId,
               });
-              props?.type === "Onboarding" ? navigation.navigate("Home") : null;
+              props?.type === "Onboarding"
+                ? navigation.replace("HomeStack")
+                : null;
             })
             .catch((error) => {
               console.log("mandate error:", error.description);
@@ -306,8 +308,11 @@ const MandateFormTemplate = (props) => {
             title="Verify Bank Info Now"
             onPress={() => {
               props?.route?.params?.type
-                ? navigation.navigate("KYC", {
-                    screen: "BANK",
+                ? navigation.navigate("HomeStack", {
+                    screen: "KYC",
+                    params: {
+                      screen: "BANK",
+                    },
                   })
                 : navigation.navigate("BankForm");
             }}

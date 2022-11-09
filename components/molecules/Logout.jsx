@@ -1,8 +1,7 @@
 import { useNavigation } from "@react-navigation/core";
-import React from "react";
 import { Pressable, Text } from "react-native";
 import { AntDesign } from "react-native-vector-icons";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { resetAadhaar } from "../../store/slices/aadhaarSlice";
 import { resetAuth } from "../../store/slices/authSlice";
 import { resetBank } from "../../store/slices/bankSlice";
@@ -13,13 +12,11 @@ import { resetProfile } from "../../store/slices/profileSlice";
 import { resetLicense } from "../../store/slices/licenseSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { showToast } from "../atoms/Toast";
 
 export default Logout = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
-  const store = useSelector((state) => state);
-  // console.log(store);
   return (
     <Pressable
       onPress={() => {
@@ -32,8 +29,10 @@ export default Logout = () => {
         dispatch(resetBank());
         dispatch(resetLicense());
         dispatch(resetTimer());
-
-        navigation.navigate("Login");
+        showToast("Logging out");
+        setTimeout(() => {
+          navigation.navigate("OnboardingStack", { screen: "Login" });
+        }, 2000);
       }}
       style={{
         flexDirection: "row",

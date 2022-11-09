@@ -1,13 +1,13 @@
-import React from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { datacard } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 
 const COLOR_MAP = {
-  Missed: COLORS.warning,
   Due: "orange",
+  Missed: COLORS.warning,
   Paid: COLORS.primary,
+  Pending: "orange",
 };
 
 const StatusCard = ({ offerType }) => {
@@ -40,8 +40,12 @@ const OfferCard = ({ offer }) => {
     offerType = "Paid";
     amount = offer.loanAmount;
     date = new Date(offer.availedAt.split(" ")[0]);
-  } else if (offer.availed) {
+  } else if (offer.disbursed) {
     offerType = "Due";
+    amount = offer.loanAmount;
+    date = new Date(offer.availedAt.split(" ")[0]);
+  } else if (offer.availed) {
+    offerType = "Pending";
     amount = offer.loanAmount;
     date = new Date(offer.availedAt.split(" ")[0]);
   }

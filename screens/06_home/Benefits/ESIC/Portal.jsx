@@ -39,7 +39,7 @@ export default Portal = () => {
             title="Continue"
             onPress={() => {
               portalPush({
-                datat: { unipeEmployeeId: unipeEmployeeId, ipNumber: ipNumber },
+                data: { unipeEmployeeId: unipeEmployeeId, ipNumber: ipNumber },
                 token: token,
               });
               showToast("ESIC Portal details recorded.");

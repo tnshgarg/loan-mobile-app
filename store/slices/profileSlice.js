@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   maritalStatus: "",
-  qualification: "Graduate",
+  qualification: "",
   altMobile: "",
   email: "",
   motherName: "",
