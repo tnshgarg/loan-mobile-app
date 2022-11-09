@@ -17,13 +17,13 @@ const StatusCard = ({ offerType }) => {
         borderRadius: 3,
         borderColor: COLOR_MAP[offerType],
         borderWidth: 1,
-        paddingHorizontal: "15%",
+        paddingHorizontal: "10%",
         paddingVertical: "3%",
         alignSelf: "center",
         backgroundColor: "rgba(183, 65, 44, 0.08)",
       }}
     >
-      <Text style={{ color: COLOR_MAP[offerType], ...FONTS.h4 }}>
+      <Text style={{ color: COLOR_MAP[offerType], ...FONTS.h5 }}>
         {offerType}
       </Text>
     </View>
