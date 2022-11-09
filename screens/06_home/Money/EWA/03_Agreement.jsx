@@ -32,7 +32,6 @@ import {
 } from "../../../../store/slices/ewaLiveSlice";
 import { checkBox, ewa, styles } from "../../../../styles";
 import agreement from "../../../../templates/docs/LiquiLoansLoanAgreement";
-import TermsAndPrivacyModal from "../../../../components/molecules/TermsAndPrivacyModal";
 
 const Agreement = () => {
   const dispatch = useDispatch();
@@ -301,13 +300,47 @@ const Agreement = () => {
             Annual Percentage Rate @ {apr} %
           </Text>
         </ScrollView>
-        {isModalVisible && (
-          <TermsAndPrivacyModal
-            isVisible={isModalVisible}
-            setIsVisible={setIsModalVisible}
-            data={agreement}
-          />
-        )}
+        <Modal
+          isVisible={isModalVisible}
+          style={{
+            width: Dimensions.get("window").width,
+            height: Dimensions.get("window").height,
+          }}
+        >
+          <Pressable
+            onPress={() => setIsModalVisible(false)}
+            style={{
+              position: "absolute",
+              top: 30,
+              right: 50,
+              zIndex: 999,
+            }}
+          >
+            <AntDesign name="closesquareo" size={24} color="black" />
+          </Pressable>
+          <View
+            style={{
+              height: Dimensions.get("window").height - 100,
+              width: Dimensions.get("window").width - 40,
+              backgroundColor: "white",
+              borderRadius: 5,
+            }}
+          >
+            <ScrollView style={{ padding: "5%" }}>
+              <RenderHtml
+                contentWidth={width}
+                source={agreement}
+                enableExperimentalMarginCollapsing={true}
+                renderersProps={{
+                  img: {
+                    enableExperimentalPercentWidth: true,
+                  },
+                }}
+                domVisitors={{ onText: ValueEntry }}
+              />
+            </ScrollView>
+          </View>
+        </Modal>
       </View>
     </SafeAreaView>
   );
