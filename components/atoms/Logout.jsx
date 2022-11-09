@@ -14,7 +14,7 @@ export default Logout = () => {
         showToast("Logging out");
         setTimeout(() => {
           navigation.navigate("OnboardingStack", { screen: "Login" });
-        }, 0);
+        }, 1000);
       }}
       style={{
         flexDirection: "row",
