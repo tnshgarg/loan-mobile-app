@@ -30,10 +30,7 @@ export default BottomTabNav = (props) => {
           return <Icon name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: COLORS.primary,
-        tabBarInactiveTintColor: "#4E4E4F",
-        tabBarLabelStyle: {
-          fontSize: 14,
-        },
+        tabBarInactiveTintColor: COLORS.gray,
       })}
     >
       {props.tabs.map((tab, index) => {
