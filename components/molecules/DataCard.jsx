@@ -17,8 +17,8 @@ const StatusCard = ({ offerType }) => {
         borderRadius: 3,
         borderColor: COLOR_MAP[offerType],
         borderWidth: 1,
-        paddingHorizontal: "10%",
-        paddingVertical: "3%",
+        paddingHorizontal: "3%",
+        paddingVertical: "2%",
         alignSelf: "center",
         backgroundColor: "rgba(183, 65, 44, 0.08)",
       }}
@@ -80,15 +80,21 @@ const OfferCard = ({ offer }) => {
           <Text style={{ color: COLORS.primary, ...FONTS.h4 }}>{day}</Text>
           <Text style={{ color: COLORS.primary, ...FONTS.h4 }}>{month}</Text>
         </View>
-        <View style={{ flexDirection: "column", marginLeft: "10%" }}>
+        <View
+          style={{
+            flexDirection: "column",
+            marginLeft: "5%",
+
+            flex: 1,
+          }}
+        >
           <Text style={datacard.cardTitle}>₹{amount}</Text>
           <Text style={{ color: COLORS.gray, ...FONTS.body4 }}>
             Due date {offer.dueDate}
           </Text>
         </View>
-        <View style={{ flex: 1, alignSelf: "center", marginLeft: "10%" }}>
-          <StatusCard offerType={offerType} />
-        </View>
+
+        <StatusCard offerType={offerType} />
       </View>
     </TouchableOpacity>
   );
