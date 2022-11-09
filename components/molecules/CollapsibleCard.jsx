@@ -56,7 +56,7 @@ const CollapsibleCard = ({
                 flex: 1,
               }}
             >
-              {item.subTitle}
+              {item.subTitle} :
             </Text>
             <Text
               style={{
