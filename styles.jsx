@@ -100,6 +100,7 @@ export const form = EStyleSheet.create({
   formLabel: {
     marginTop: "30rem",
     color: COLORS.gray,
+    ...FONTS.body4,
   },
   OtpAwaitMsg: {
     color: COLORS.secondary,
@@ -149,12 +150,14 @@ export const form = EStyleSheet.create({
     width: "40rem",
     textAlign: "center",
     borderBottomWidth: 1,
+    ...FONTS.body4,
   },
   monthday: {
     height: "40rem",
     width: "40rem",
     textAlign: "center",
     borderBottomWidth: 1,
+    ...FONTS.body4,
   },
   hypenView: { width: "30rem", alignSelf: "center" },
   hypen: { alignSelf: "center", ...FONTS.h1 },
