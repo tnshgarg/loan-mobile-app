@@ -4,6 +4,8 @@ const initialState = {
   offerId: "",
   dueDate: "",
   eligibleAmount: 0,
+  employerId: "",
+  employmentId: "",
   fees: 5,
   loanAmount: "",
   stage: "",
@@ -15,23 +17,8 @@ const ewaLiveSlice = createSlice({
   name: "ewaLive",
   initialState: initialState,
   reducers: {
-    addOfferId(state, action) {
-      state.offerId = action.payload;
-    },
-    addDueDate(state, action) {
-      state.dueDate = action.payload;
-    },
-    addEligibleAmount(state, action) {
-      state.eligibleAmount = action.payload;
-    },
-    addFees(state, action) {
-      state.fees = action.payload;
-    },
     addLoanAmount(state, action) {
       state.loanAmount = action.payload;
-    },
-    addStage(state, action) {
-      state.stage = action.payload;
     },
     addNetAmount(state, action) {
       state.netAmount = action.payload;
@@ -49,17 +36,7 @@ const ewaLiveSlice = createSlice({
   },
 });
 
-export const {
-  addOfferId,
-  addDueDate,
-  addEligibleAmount,
-  addFees,
-  addLoanAmount,
-  addStage,
-  addStatus,
-  addNetAmount,
-  addProcessingFees,
-  resetEwaLive,
-} = ewaLiveSlice.actions;
+export const { addLoanAmount, addNetAmount, addProcessingFees, resetEwaLive } =
+  ewaLiveSlice.actions;
 
 export default ewaLiveSlice.reducer;
