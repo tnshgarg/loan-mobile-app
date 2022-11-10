@@ -20,7 +20,7 @@ import RenderHtml from "react-native-render-html";
 import { AntDesign } from "react-native-vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
-import CollapsibleCard from "../../../../components/CollapsibleCard";
+import CollapsibleCard from "../../../../components/molecules/CollapsibleCard";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { COLORS } from "../../../../constants/Theme";
 import { ewaAgreementPush } from "../../../../helpers/BackendPush";
@@ -41,7 +41,7 @@ const Agreement = () => {
   const [fetched, setFetched] = useState(false);
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
-  
+
   const [consent, setConsent] = useState(true);
   const [loading, setLoading] = useState(false);
 
@@ -108,10 +108,11 @@ const Agreement = () => {
     navigation.navigate("EWA_KYC");
     return true;
   };
-  
+
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   useEffect(() => {
@@ -241,10 +242,7 @@ const Agreement = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header 
-        title="Agreement" 
-        onLeftIconPress={() => backAction()} 
-      />
+      <Header title="Agreement" onLeftIconPress={() => backAction()} />
       <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <CollapsibleCard
@@ -264,7 +262,13 @@ const Agreement = () => {
             data={bankData}
           />
 
-          <View style={{ flexDirection: "row", alignItems: "center", marginVertical: 5 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginVertical: 5,
+            }}
+          >
             <CheckBox
               style={ewa.checkBox}
               tintColors={{ true: COLORS.primary }}
