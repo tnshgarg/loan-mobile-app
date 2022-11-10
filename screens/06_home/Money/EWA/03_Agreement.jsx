@@ -215,6 +215,8 @@ const Agreement = () => {
         loanAmount: ewaLiveSlice?.loanAmount,
         netAmount: netAmount,
         loanAccountNumber: ewaLiveSlice?.offerId,
+        employerId: ewaLiveSlice?.employerId,
+        employmentId: ewaLiveSlice?.employmentId,
       },
       token: token,
     })
