@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import messaging from "@react-native-firebase/messaging";
 import axios from "axios";
 import { store } from "../../store/store";
+import { version } from "../../package.json";
 
 export async function requestUserPermission() {
   const authorizationStatus = await messaging().requestPermission();
@@ -24,6 +25,7 @@ export const getFcmToken = async () => {
         // unipeEmployeeId: "123412341234123412341234",
         token: fcmToken,
         lastUpdated: new Date().getTime(),
+        appVersion: version,
       };
       if (fcmToken) {
         console.log(fcmToken, "new generated FCM token");
