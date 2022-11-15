@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
+import { Linking } from "react-native";
 import DevMenu from "../screens/DevMenu";
 
 import { STAGE } from "@env";
@@ -15,8 +15,35 @@ import BenefitsStack from "./stacks/BenefitsStack";
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
 
-  var initialRoute = useSelector((state) => state.navigation.currentStack);
+  var [initialRoute, setInitialRoute] = useState(
+    useSelector((state) => state.navigation.currentStack)
+  );
   var initialScreen = useSelector((state) => state.navigation.currentScreen);
+
+  const getUrlAsync = async () => {
+    const initialUrl = await Linking.getInitialURL();
+    const breakpoint = "/";
+    if (initialUrl) {
+      const splitted = initialUrl.split(breakpoint);
+      console.log("initialUrl", splitted);
+      console.log("route", splitted[3]);
+      switch (splitted[3]) {
+        case "Ewa":
+          setInitialRoute("EWAStack");
+          break;
+        case "Home":
+          setInitialRoute("HomeStack");
+          break;
+      }
+    } else {
+      console.log("No intent. User opened App.");
+    }
+  };
+
+  useEffect(() => {
+    getUrlAsync();
+  }, []);
+
   console.log("STAGE: ", STAGE);
   console.log("initialRoute: ", initialRoute);
   console.log("currentScreen: ", initialScreen);
