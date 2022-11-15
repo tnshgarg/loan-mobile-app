@@ -16,6 +16,8 @@ import {
   notificationListener,
   requestUserPermission,
 } from "./services/notifications/notificationService";
+import PushNotification from "react-native-push-notification";
+import messaging from "@react-native-firebase/messaging";
 
 Crashes.setListener({
   shouldProcess: function (report) {

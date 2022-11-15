@@ -4,6 +4,8 @@ import { styles } from "../../styles";
 import { allAreNull } from "../../helpers/nullCheck";
 import KycCheckCard from "../../components/molecules/KycCheckCard";
 import HomeOfferCard from "../../components/molecules/HomeOfferCard";
+import { useEffect } from "react";
+import PushNotification from "react-native-push-notification";
 
 const HomeView = () => {
   const bankStatus = useSelector((state) => state.bank.verifyStatus);
@@ -17,6 +19,11 @@ const HomeView = () => {
     mandateStatus != "SUCCESS" ? "MANDATE" : null,
     panStatus != "SUCCESS" ? "PAN" : null,
   ];
+
+  useEffect(() => {
+    // PushNotification.deleteChannel("Onboarding");
+    PushNotification.cancelAllLocalNotifications();
+  }, []);
 
   return (
     <>
