@@ -3,6 +3,7 @@ import messaging from "@react-native-firebase/messaging";
 import axios from "axios";
 import { store } from "../../store/store";
 import { version } from "../../package.json";
+import * as RootNavigation from "../../navigators/RootNavigation";
 
 export async function requestUserPermission() {
   const authorizationStatus = await messaging().requestPermission();
@@ -50,8 +51,11 @@ export const notificationListener = async () => {
   messaging().onNotificationOpenedApp((remoteMessage) => {
     console.log(
       "Notification caused app to open from background state:",
-      remoteMessage.notification
+      remoteMessage
     );
+    RootNavigation.navigate("HomeStack", {
+      screen: remoteMessage.data.screenName,
+    });
   });
 
   messaging().onMessage(async (remoteMessage) => {
@@ -59,16 +63,21 @@ export const notificationListener = async () => {
   });
 
   // Check whether an initial notification is available
-  messaging()
-    .getInitialNotification()
-    .then((remoteMessage) => {
-      if (remoteMessage) {
-        console.log(
-          "Notification caused app to open from quit state:",
-          remoteMessage.notification
-        );
-      }
-    });
+  setTimeout(() => {
+    messaging()
+      .getInitialNotification()
+      .then((remoteMessage) => {
+        if (remoteMessage) {
+          console.log(
+            "Notification caused app to open from quit state:",
+            remoteMessage.notification
+          );
+          RootNavigation.navigate("HomeStack", {
+            screen: remoteMessage.data.screenName,
+          });
+        }
+      });
+  }, 100);
 };
 
 // export function subscribeTokenToTopic(token, topic) {

@@ -11,6 +11,7 @@ import StackNavigator from "./navigators/StackNavigator";
 import { store, persistor } from "./store/store";
 import codePush from "react-native-code-push";
 import Crashes from "appcenter-crashes";
+import { navigationRef } from "./navigators/RootNavigation";
 import {
   notificationListener,
   requestUserPermission,
@@ -40,7 +41,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <NavigationContainer>
+        <NavigationContainer ref={navigationRef}>
           <SafeAreaProvider style={{ backgroundColor: "white", flex: 1 }}>
             <IconComponentProvider IconComponent={Icon}>
               <StackNavigator />
