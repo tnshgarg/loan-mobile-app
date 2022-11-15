@@ -4,6 +4,7 @@ import axios from "axios";
 import { store } from "../../store/store";
 import { version } from "../../package.json";
 import * as RootNavigation from "../../navigators/RootNavigation";
+import PushNotification from "react-native-push-notification";
 
 export async function requestUserPermission() {
   const authorizationStatus = await messaging().requestPermission();
@@ -59,6 +60,12 @@ export const notificationListener = async () => {
   });
 
   messaging().onMessage(async (remoteMessage) => {
+    PushNotification.localNotification({
+      message: remoteMessage.notification.body,
+      title: remoteMessage.notification.title,
+      // bigPictureUrl: remoteMessage.notification.android.imageUrl,
+      // smallIcon: remoteMessage.notification.android.imageUrl,
+    });
     console.log("Received in Foreground", remoteMessage);
   });
 
