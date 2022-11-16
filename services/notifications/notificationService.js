@@ -63,8 +63,10 @@ export const notificationListener = async () => {
     PushNotification.localNotification({
       message: remoteMessage.notification.body,
       title: remoteMessage.notification.title,
-      // bigPictureUrl: remoteMessage.notification.android.imageUrl,
-      // smallIcon: remoteMessage.notification.android.imageUrl,
+      smallIcon: "ic_notification_fcm_icon",
+      allowWhileIdle: false,
+      channelId: "Foreground",
+      repeatTime: 1,
     });
     console.log("Received in Foreground", remoteMessage);
   });

@@ -66,10 +66,11 @@ const LoginScreen = () => {
     PushNotification.localNotificationSchedule({
       title: "Complete Your Onboarding Steps",
       message: "Complete Your Onboarding Journey to avail your Advanced Salary",
-      date: new Date(Date.now() + 10 * 1000), // {10 seconds}
+      date: new Date(Date.now() + 24 * 60 * 60 * 1000), // {24 hours}
       allowWhileIdle: false,
       channelId: "Onboarding",
       repeatTime: 1,
+      smallIcon: "ic_notification_fcm_icon",
     });
   }, []);
 
