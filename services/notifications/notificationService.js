@@ -90,19 +90,22 @@ export const notificationListener = async () => {
             "Notification caused app to open from quit state:",
             remoteMessage.data
           );
-          switch (remoteMessage.data.type) {
-            case "NEW_EWA_OFFER9":
-              // ||
-              // "EWA_REPAYMENT_REMINDER" ||
-              // "EWA_DISBURSEMENT_SUCCESS"
-              RootNavigation.navigate("EWAStack", {
-                screen: remoteMessage.data.screenName,
-              });
-            default:
-              RootNavigation.navigate("HomeStack", {
-                screen: remoteMessage.data.screenName,
-              });
-          }
+          // switch (remoteMessage.data.type) {
+          // case "NEW_EWA_OFFER9":
+          // ||
+          // "EWA_REPAYMENT_REMINDER" ||
+          // "EWA_DISBURSEMENT_SUCCESS"
+          RootNavigation.navigate("HomeStack", {
+            screen: "DrawerHome",
+            params: {
+              screen: remoteMessage.data.screenName,
+            },
+          });
+          // default:
+          //     RootNavigation.navigate("HomeStack", {
+          //       screen: remoteMessage.data.screenName,
+          //     });
+          // }
         }
       });
   }, 100);
