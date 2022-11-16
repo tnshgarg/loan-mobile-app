@@ -1,6 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import TopAppBar from "../components/molecules/TopAppBar";
 import { COLORS, FONTS } from "../constants/Theme";
 import Benefits from "../screens/06_home/Benefits/Benefits";
 import Documents from "../screens/06_home/Documents/Documents";
@@ -42,7 +41,6 @@ export default BottomTabNav = () => {
         },
         tabBarActiveTintColor: COLORS.primary,
         tabBarInactiveTintColor: COLORS.gray,
-        header: TopAppBar,
       })}
     >
       {tabs.map((tab, index) => {
