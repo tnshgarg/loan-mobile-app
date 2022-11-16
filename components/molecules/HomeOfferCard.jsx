@@ -2,11 +2,11 @@ import { useIsFocused, useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, Text, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { COLORS, FONTS } from "../constants/Theme";
-import { getBackendData } from "../services/employees/employeeServices";
-import { resetEwaHistorical } from "../store/slices/ewaHistoricalSlice";
-import { resetEwaLive } from "../store/slices/ewaLiveSlice";
-
+import { COLORS, FONTS } from "../../constants/Theme";
+import { getBackendData } from "../../services/employees/employeeServices";
+import { resetEwaHistorical } from "../../store/slices/ewaHistoricalSlice";
+import { resetEwaLive } from "../../store/slices/ewaLiveSlice";
+import PrimaryButton from "../atoms/PrimaryButton";
 
 const HomeOfferCard = () => {
   const dispatch = useDispatch();
@@ -52,7 +52,7 @@ const HomeOfferCard = () => {
         <Text
           style={{
             color: COLORS.black,
-            ...FONTS.h3,
+            ...FONTS.body3,
             marginTop: "2%",
             alignSelf: "center",
           }}
@@ -72,12 +72,16 @@ const HomeOfferCard = () => {
         <Text
           style={{
             color: COLORS.black,
-            ...FONTS.h3,
+            ...FONTS.body3,
             alignSelf: "center",
           }}
         >
           Before {ewaLiveSlice.dueDate}
         </Text>
+        <PrimaryButton
+          title={"Withdraw Now"}
+          onPress={() => navigation.navigate("Money")}
+        />
       </TouchableOpacity>
     </SafeAreaView>
   );

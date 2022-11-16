@@ -8,7 +8,7 @@ import { Image, Linking, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import { COLORS, FONTS } from "../constants/Theme";
 import { Ionicons, Octicons } from "react-native-vector-icons";
-import Logout from "../components/atoms/Logout";
+import Logout from "../components/molecules/Logout";
 import SVGImg from "../assets/UnipeLogo.svg";
 import TermsAndPrivacyModal from "../components/molecules/TermsAndPrivacyModal";
 import termsOfUse from "../templates/docs/TermsOfUse";
@@ -60,6 +60,7 @@ export default CustomDrawer = (props) => {
           >
             <DrawerItemList {...props} />
             <DrawerItem
+              labelStyle={{ ...FONTS.body4 }}
               icon={({ color, size }) => (
                 <Ionicons name="logo-whatsapp" color={color} size={20} />
               )}
@@ -69,6 +70,7 @@ export default CustomDrawer = (props) => {
               }}
             />
             <DrawerItem
+              labelStyle={{ ...FONTS.body4 }}
               icon={({ color, size }) => (
                 <Ionicons name="lock-closed-outline" color={color} size={20} />
               )}
@@ -78,6 +80,7 @@ export default CustomDrawer = (props) => {
               }}
             />
             <DrawerItem
+              labelStyle={{ ...FONTS.body4 }}
               icon={({ color, size }) => (
                 <Ionicons
                   name="ios-shield-checkmark-outline"

@@ -11,7 +11,10 @@ import StackNavigator from "./navigators/StackNavigator";
 import { store, persistor } from "./store/store";
 import codePush from "react-native-code-push";
 import Crashes from "appcenter-crashes";
-import { notificationListener } from "./services/notifications/notificationService";
+import {
+  notificationListener,
+  requestUserPermission,
+} from "./services/notifications/notificationService";
 
 Crashes.setListener({
   shouldProcess: function (report) {
@@ -30,6 +33,7 @@ const App = () => {
   SplashScreen.hide();
 
   useEffect(() => {
+    requestUserPermission();
     notificationListener();
   }, []);
 

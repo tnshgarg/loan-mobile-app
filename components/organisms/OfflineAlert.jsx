@@ -3,12 +3,12 @@ import NetInfo, {
 } from "@react-native-community/netinfo";
 import React, { useEffect, useState } from "react";
 import { Alert, Modal, Text, TouchableOpacity, View } from "react-native";
-import { AddListener } from "../helpers/InternetCheck";
+import { AddListener } from "../../helpers/InternetCheck";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { showToast } from "./atoms/Toast";
+import { showToast } from "../atoms/Toast";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { COLORS, FONTS, SIZES } from "../constants/Theme";
-import PrimaryButton from "./atoms/PrimaryButton";
+import { COLORS, FONTS, SIZES } from "../../constants/Theme";
+import PrimaryButton from "../atoms/PrimaryButton";
 const OfflineAlert = ({ children }) => {
   const [isConnected, setIsConnected] = useState(true);
 

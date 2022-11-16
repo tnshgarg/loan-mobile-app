@@ -60,7 +60,7 @@ export const styles = EStyleSheet.create({
     textAlign: "center",
   },
   termsText: {
-    fontWeight: "bold",
+    ...FONTS.h4,
     color: COLORS.primary,
   },
   otpreadtxt: {
@@ -99,6 +99,7 @@ export const form = EStyleSheet.create({
   formLabel: {
     marginTop: "30rem",
     color: COLORS.gray,
+    ...FONTS.body4,
   },
   OtpAwaitMsg: {
     color: COLORS.secondary,
@@ -148,12 +149,14 @@ export const form = EStyleSheet.create({
     width: "40rem",
     textAlign: "center",
     borderBottomWidth: 1,
+    ...FONTS.body4,
   },
   monthday: {
     height: "40rem",
     width: "40rem",
     textAlign: "center",
     borderBottomWidth: 1,
+    ...FONTS.body4,
   },
   hypenView: { width: "30rem", alignSelf: "center" },
   hypen: { alignSelf: "center", ...FONTS.h1 },
@@ -344,6 +347,7 @@ export const ewa = EStyleSheet.create({
     marginRight: "40rem",
     marginTop: "10rem",
     color: COLORS.gray,
+    ...FONTS.body4,
   },
 });
 
@@ -355,6 +359,7 @@ export const card = EStyleSheet.create({
   },
   infoText: {
     ...FONTS.body3,
+    textAlign: "center",
   },
   alertText: {
     color: COLORS.black,
@@ -370,7 +375,7 @@ export const datacard = EStyleSheet.create({
     alignSelf: "center",
     marginTop: "3%",
     padding: "3%",
-    width: "95%",
+    width: "100%",
     borderRadius: 5,
     flexDirection: "row",
     backgroundColor: "rgba(228, 238, 240, 0.4)",
@@ -414,4 +419,5 @@ export const stepIndicatorStyles = {
   labelSize: SIZES.body4,
   currentStepLabelColor: COLORS.primary,
   labelAlign: "flex-start",
+  labelFontFamily: "Montserrat-Regular",
 };

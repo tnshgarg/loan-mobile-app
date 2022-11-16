@@ -6,24 +6,24 @@ import KYCScreen from "../screens/07_drawer/KYCScreen";
 import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import SVGImg from "../assets/UnipeLogo.svg";
 import { nav } from "../styles";
-import { COLORS } from "../constants/Theme";
+import { COLORS, FONTS } from "../constants/Theme";
 import CustomDrawer from "./CustomDrawer";
 
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
-  
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawer {...props} />}
       defaultStatus="closed"
       initialRouteName="DrawerHome"
       screenOptions={{
-        activeTintColor: "#e91e63",
+        //activeTintColor: "#e91e63",
         itemStyle: { marginVertical: 5 },
         headerShown: true,
         drawerActiveBackgroundColor: COLORS.primary,
         drawerActiveTintColor: "white",
+        drawerLabelStyle: { ...FONTS.body4 },
         header: ({ navigation }) => (
           <AppBar
             title={<SVGImg />}
@@ -81,7 +81,7 @@ const DrawerNavigator = () => {
           drawerIcon: ({ color }) => (
             <Ionicons name="settings" color={color} size={20} />
           ),
-          headerShown:false
+          headerShown: false,
         }}
         name="DrawerSettings"
         component={Home}

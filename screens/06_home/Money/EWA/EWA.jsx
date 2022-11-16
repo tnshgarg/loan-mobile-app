@@ -5,7 +5,7 @@ import { styles } from "../../../../styles";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import KycCheckCard from "../../../../components/molecules/KycCheckCard";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
-import Offers from "../../../../components/DataCard";
+import Offers from "../../../../components/molecules/DataCard";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
@@ -104,11 +104,10 @@ const EWA = () => {
         <>
           <Text
             style={{
-              fontSize: 20,
+              ...FONTS.body3,
               marginTop: "5%",
               marginBottom: "5%",
               color: COLORS.gray,
-              letterSpacing: 0.2,
               alignSelf: "center",
             }}
           >
@@ -140,7 +139,6 @@ const EWA = () => {
                 ...FONTS.h3,
                 color: COLORS.gray,
                 marginTop: "5%",
-                fontWeight: "bold",
               }}
             >
               Your past draws

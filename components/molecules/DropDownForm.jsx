@@ -77,17 +77,19 @@ const styles = EStyleSheet.create({
     flexDirection: "column",
   },
   header: {
-    ...FONTS.h3,
+    ...FONTS.h4,
     marginBottom: "10rem",
     alignSelf: "center",
   },
   listItem: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: "15rem",
+    paddingVertical: "10rem",
+    borderBottomWidth: 1.5,
+    borderColor: COLORS.lightgray_01,
   },
   listText: {
-    ...FONTS.h3,
+    ...FONTS.body4,
     flex: 1,
     marginLeft: "10rem",
   },
