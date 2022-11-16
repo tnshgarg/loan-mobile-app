@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Linking } from "react-native";
+
 import DevMenu from "../screens/DevMenu";
-import { addCampaignId } from "../store/slices/authSlice";
-import {
-  addCurrentStack,
-  addCurrentScreen,
-} from "../store/slices/navigationSlice";
 
 import { STAGE } from "@env";
 import OfflineAlert from "../components/organisms/OfflineAlert";
@@ -19,7 +14,6 @@ import BenefitsStack from "./stacks/BenefitsStack";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
-  const dispatch = useDispatch();
 
   var [initialRoute, setInitialRoute] = useState(
     useSelector((state) => state.navigation.currentStack)
@@ -27,52 +21,6 @@ const StackNavigator = () => {
   var [initialScreen, setInitialScreen] = useState(
     useSelector((state) => state.navigation.currentScreen)
   );
-  var [campaignId, setCampaignId] = useState(null);
-
-  useEffect(() => {
-    dispatch(addCampaignId(campaignId));
-  }, [campaignId]);
-
-  useEffect(() => {
-    dispatch(addCurrentStack(initialRoute));
-  }, [initialRoute]);
-
-  useEffect(() => {
-    dispatch(addCurrentScreen(initialScreen));
-  }, [initialScreen]);
-
-  const getUrlAsync = async () => {
-    const initialUrl = await Linking.getInitialURL();
-    const breakpoint = "/";
-    if (initialUrl) {
-      const splitted = initialUrl.split(breakpoint);
-      console.log("initialUrl", splitted);
-      console.log("route", splitted[3]);
-      switch (splitted[3].toLowerCase()) {
-        case "ewa":
-          setInitialRoute("EWAStack");
-          break;
-        case "home":
-          setInitialRoute("HomeStack");
-          break;
-      }
-      switch (splitted[4].toLowerCase()) {
-        case "campaign":
-          console.log("campaignId", splitted[5]);
-          setCampaignId(splitted[5]);
-          break;
-        default:
-          break;
-      }
-    } else {
-      console.log("No intent. User opened App.");
-      setInitialRoute("HomeStack");
-    }
-  };
-
-  useEffect(() => {
-    getUrlAsync();
-  }, []);
 
   console.log("STAGE: ", STAGE);
   console.log("initialRoute: ", initialRoute);
