@@ -1,9 +1,19 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS } from "../constants/Theme";
+import Benefits from "../screens/06_home/Benefits/Benefits";
+import Documents from "../screens/06_home/Documents/Documents";
+import HomeView from "../screens/06_home/HomeView";
+import EWANavigator from "./EWANavigator";
 
-export default BottomTabNav = (props) => {
+export default BottomTabNav = () => {
   const bottomTab = createBottomTabNavigator();
+  const tabs = [
+    { name: "Home", component: HomeView },
+    { name: "Documents", component: Documents },
+    { name: "Benefits", component: Benefits },
+    { name: "Money", component: EWANavigator },
+  ];
   return (
     <bottomTab.Navigator
       screenOptions={({ route }) => ({
@@ -33,7 +43,7 @@ export default BottomTabNav = (props) => {
         tabBarInactiveTintColor: COLORS.gray,
       })}
     >
-      {props.tabs.map((tab, index) => {
+      {tabs.map((tab, index) => {
         return (
           <bottomTab.Screen
             key={index}
