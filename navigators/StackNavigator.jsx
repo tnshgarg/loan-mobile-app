@@ -11,6 +11,7 @@ import HomeStack from "./stacks/HomeStack";
 import EWAStack from "./stacks/EWAStack";
 import DocumentStack from "./stacks/DocumentStack";
 import BenefitsStack from "./stacks/BenefitsStack";
+import DrawerNavigator from "./DrawerNavigator";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -44,7 +45,7 @@ const StackNavigator = () => {
         />
         <Stack.Screen
           name="HomeStack"
-          component={HomeStack}
+          component={DrawerNavigator}
           options={{
             headerShown: false,
           }}
