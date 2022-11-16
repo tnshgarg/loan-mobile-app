@@ -1,6 +1,6 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons, Octicons } from "react-native-vector-icons";
-import Home from "../screens/06_home/Home";
+import Placeholder from "../screens/06_home/Placeholder";
 import Profile from "../screens/07_drawer/Profile";
 import KYCScreen from "../screens/07_drawer/KYCScreen";
 import { AppBar, Icon, IconButton } from "@react-native-material/core";
@@ -83,10 +83,10 @@ const DrawerNavigator = () => {
           drawerIcon: ({ color }) => (
             <Ionicons name="settings" color={color} size={20} />
           ),
-          headerShown: false,
+          headerShown: true,
         }}
         name="DrawerSettings"
-        component={Home}
+        component={Placeholder}
       />
     </Drawer.Navigator>
   );
