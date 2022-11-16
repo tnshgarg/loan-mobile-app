@@ -8,6 +8,8 @@ import SVGImg from "../assets/UnipeLogo.svg";
 import { nav } from "../styles";
 import { COLORS, FONTS } from "../constants/Theme";
 import CustomDrawer from "./CustomDrawer";
+import BottomTabNav from "./BottomTabNav";
+import TopAppBar from "../components/molecules/TopAppBar";
 
 const Drawer = createDrawerNavigator();
 
@@ -18,7 +20,6 @@ const DrawerNavigator = () => {
       defaultStatus="closed"
       initialRouteName="DrawerHome"
       screenOptions={{
-        //activeTintColor: "#e91e63",
         itemStyle: { marginVertical: 5 },
         headerShown: true,
         drawerActiveBackgroundColor: COLORS.primary,
@@ -50,10 +51,11 @@ const DrawerNavigator = () => {
           drawerIcon: ({ color }) => (
             <Ionicons name="home" color={color} size={20} />
           ),
-          headerShown: false,
+          // headerShown: false,
+          header: TopAppBar,
         }}
         name="DrawerHome"
-        component={Home}
+        component={BottomTabNav}
       />
       <Drawer.Screen
         options={{
@@ -62,7 +64,7 @@ const DrawerNavigator = () => {
             <Ionicons name="person-outline" color={color} size={20} />
           ),
         }}
-        name="DrawerProfile"
+        name="Profile"
         component={Profile}
       />
       <Drawer.Screen
@@ -72,7 +74,7 @@ const DrawerNavigator = () => {
             <Octicons name="verified" color={color} size={20} />
           ),
         }}
-        name="DrawerKYC"
+        name="KYC"
         component={KYCScreen}
       />
       <Drawer.Screen

@@ -17,7 +17,6 @@ import { useNavigation } from "@react-navigation/core";
 import { bankform, form, styles } from "../../styles";
 
 const BankFormTemplate = (props) => {
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
 

@@ -120,7 +120,9 @@ const OTPScreen = () => {
             timeToShow={["M", "S"]}
             timeLabels={{ m: "MM", s: "SS" }}
             onChange={(time) => {
-              dispatch(setLoginTimer(time));
+              if (time%5===0) {
+                dispatch(setLoginTimer(time));
+              }
             }}
           />
           {back ? (
@@ -133,28 +135,28 @@ const OTPScreen = () => {
                       setOtp("");
                       setBack(false);
                       dispatch(resetTimer());
+                      Alert.alert("OTP resent successfully");
                       Analytics.trackEvent("OTPScreen|SendSms|Success", {
                         unipeEmployeeId: unipeEmployeeId,
                       });
-                      Alert.alert("OTP resent successfully");
                     } else {
-                      Analytics.trackEvent("OTPScreen|SendSms|Error", {
-                        unipeEmployeeId: unipeEmployeeId,
-                        error: res["response"]["details"],
-                      });
                       Alert.alert(
                         res["response"]["status"],
                         res["response"]["details"]
                       );
+                      Analytics.trackEvent("OTPScreen|SendSms|Error", {
+                        unipeEmployeeId: unipeEmployeeId,
+                        error: res["response"]["details"],
+                      });
                     }
                   })
                   .catch((error) => {
                     console.log(error.toString());
+                    Alert.alert("Error", error.toString());
                     Analytics.trackEvent("OTPScreen|SendSms|Error", {
                       unipeEmployeeId: unipeEmployeeId,
                       error: error.toString(),
                     });
-                    Alert.alert("Error", error.toString());
                   });
               }}
             >
@@ -184,10 +186,9 @@ const OTPScreen = () => {
                         destination: "Welcome",
                       });
                     }
-                    dispatch(resetTimer());
+                    dispatch(setLoginTimer(0));
                     Analytics.trackEvent("OTPScreen|Check|Success", {
                       unipeEmployeeId: unipeEmployeeId,
-                      error: res["response"]["details"],
                     });
                   } else {
                     Alert.alert(

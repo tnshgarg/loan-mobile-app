@@ -14,6 +14,7 @@ import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { putBackendData } from "../../services/employees/employeeServices";
 import { sendSmsVerification } from "../../services/otp/Gupshup/services";
 import {
+  addACTC,
   addOnboarded,
   addPhoneNumber,
   addToken,
@@ -38,6 +39,7 @@ const LoginScreen = () => {
   const [next, setNext] = useState(false);
 
   const authSlice = useSelector((state) => state.auth);
+  const [aCTC, setACTC] = useState(authSlice?.aCTC);
   const [onboarded, setOnboarded] = useState(authSlice?.onboarded);
   const [phoneNumber, setPhoneNumber] = useState(authSlice?.phoneNumber);
   const [token, setToken] = useState(authSlice?.token);
@@ -83,6 +85,10 @@ const LoginScreen = () => {
     dispatch(addToken(token));
   }, [token]);
 
+  useEffect(() => {
+    dispatch(addACTC(aCTC));
+  }, [aCTC]);
+  
   useEffect(() => {
     dispatch(addOnboarded(onboarded));
   }, [onboarded]);
@@ -145,6 +151,7 @@ const LoginScreen = () => {
       .then((res) => {
         console.log("LoginScreen res.data: ", res.data);
         if (res.data.status === 200) {
+          setACTC(res.data.body.aCTC);
           setOnboarded(res.data.body.onboarded);
           setToken(res.data.body.token);
           setUnipeEmployeeId(res.data.body.unipeEmployeeId);
@@ -178,9 +185,6 @@ const LoginScreen = () => {
                 error: error.toString(),
               });
             });
-          Analytics.trackEvent(`LoginScreen|SignIn|Success`, {
-            unipeEmployeeId: res.data.body.id,
-          });
         } else {
           setLoading(false);
           Alert.alert("Error", res.data["message"]);
@@ -193,6 +197,7 @@ const LoginScreen = () => {
       .catch((error) => {
         console.log("LoginScreen res.data: ", error.toString());
         setLoading(false);
+        Alert.alert("Error", error.toString());
         Analytics.trackEvent("LoginScreen|SignIn|Error", {
           phoneNumber: phoneNumber,
           error: error.toString(),

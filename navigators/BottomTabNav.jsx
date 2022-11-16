@@ -7,7 +7,7 @@ import Documents from "../screens/06_home/Documents/Documents";
 import HomeView from "../screens/06_home/HomeView";
 import EWANavigator from "./EWANavigator";
 
-export default BottomTabNav = (props) => {
+export default BottomTabNav = () => {
   const bottomTab = createBottomTabNavigator();
   const tabs = [
     { name: "Home", component: HomeView },

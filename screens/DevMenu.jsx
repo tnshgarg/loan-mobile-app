@@ -14,7 +14,8 @@ export default DevMenu = () => {
     { title: "PAN", stack: "OnboardingStack", name: "PanForm" },
     { title: "BANK", stack: "OnboardingStack", name: "BankForm" },
     { title: "Mandate", stack: "OnboardingStack", name: "Mandate" },
-    { title: "Home", stack: "HomeStack", name: "Home" },
+    { title: "Home", stack: "HomeStack", name: "DrawerHome" },
+    // { title: "Home", stack: "DrawerNavigator", name: "DrawerHome" },
     { title: "KYC Details", stack: "HomeStack", name: "KYC" },
     { title: "Profile Details", stack: "HomeStack", name: "Profile" },
     { title: "EWA", stack: "EWAStack", name: "EWA_OFFER" },
@@ -33,6 +34,23 @@ export default DevMenu = () => {
             }
           />
         ))}
+        <DevMenuButton
+          style={{ marginTop: 20 }}
+          title={"Notification Test"}
+          onPress={() => handleNotification()}
+        />
+        <DevMenuButton
+          style={{ marginTop: 20 }}
+          title={" Drawer Home"}
+          onPress={() =>
+            navigation.navigate("HomeStack", {
+              screen: "DrawerHome",
+              params: {
+                screen: "Documents",
+              },
+            })
+          }
+        />
       </View>
     </ScrollView>
   );

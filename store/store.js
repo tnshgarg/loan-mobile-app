@@ -23,7 +23,7 @@ const persistConfig = {
   storage: AsyncStorage,
 };
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   aadhaar: aadhaarSlice,
   auth: authSlice,
   bank: bankSlice,
@@ -38,6 +38,15 @@ const rootReducer = combineReducers({
   ewaHistorical: ewaHistoricalSlice,
   notification: notificationSlice,
 });
+
+const rootReducer = (state, action) => {
+  console.log("action.type", action.type);
+  if (action.type === "LOGOUT") {
+    AsyncStorage.removeItem("persist:root");
+    return appReducer(undefined, action);
+  }
+  return appReducer(state, action);
+};
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

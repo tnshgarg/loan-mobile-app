@@ -4,14 +4,10 @@ import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import TopAppBar from "../../components/molecules/TopAppBar";
 import BottomTabNav from "../../navigators/BottomTabNav";
-import Benefits from "./Benefits/Benefits";
-import Documents from "./Documents/Documents";
-import HomeView from "./HomeView";
 import {
   addCurrentScreen,
   addCurrentStack,
 } from "../../store/slices/navigationSlice";
-import EWANavigator from "../../navigators/EWANavigator";
 
 const Home = () => {
   const dispatch = useDispatch();
