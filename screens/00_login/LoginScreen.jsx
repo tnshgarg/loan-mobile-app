@@ -1,13 +1,7 @@
 import Analytics from "appcenter-analytics";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import {
-  Alert,
-  BackHandler,
-  SafeAreaView,
-  Text,
-  View,
-} from "react-native";
+import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
 import SplashScreen from "react-native-splash-screen";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,15 +20,17 @@ import {
   addToken,
   addUnipeEmployeeId,
 } from "../../store/slices/authSlice";
-import { addCurrentScreen ,addCurrentStack} from "../../store/slices/navigationSlice";
+import {
+  addCurrentScreen,
+  addCurrentStack,
+} from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
 import privacyPolicy from "../../templates/docs/PrivacyPolicy.js";
 import termsOfUse from "../../templates/docs/TermsOfUse.js";
-
+import PushNotification, { Importance } from "react-native-push-notification";
 
 const LoginScreen = () => {
-
   SplashScreen.hide();
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -47,11 +43,39 @@ const LoginScreen = () => {
   const [onboarded, setOnboarded] = useState(authSlice?.onboarded);
   const [phoneNumber, setPhoneNumber] = useState(authSlice?.phoneNumber);
   const [token, setToken] = useState(authSlice?.token);
-  const [unipeEmployeeId, setUnipeEmployeeId] = useState(authSlice?.unipeEmployeeId);
+  const [unipeEmployeeId, setUnipeEmployeeId] = useState(
+    authSlice?.unipeEmployeeId
+  );
 
   const [isPrivacyModalVisible, setIsPrivacyModalVisible] = useState(false);
   const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
     useState(false);
+
+  useEffect(() => {
+    PushNotification.createChannel(
+      {
+        channelId: "Onboarding",
+        channelName: "OnboardingChannel",
+        channelDescription:
+          "A channel for users who have not completed Onboarding Journey",
+        playSound: false,
+        soundName: "default",
+        importance: Importance.HIGH,
+        vibrate: true,
+      },
+      (created) => console.log(`createChannel returned '${created}'`)
+    );
+    PushNotification.localNotificationSchedule({
+      title: "Complete Your Onboarding Steps",
+      message: "Complete Your Onboarding Journey to avail your Advance Salary",
+      date: new Date(Date.now() + 24 * 60 * 60 * 1000), // {24 hours}
+      allowWhileIdle: false,
+      channelId: "Onboarding",
+      smallIcon: "ic_notification_fcm_icon",
+      repeatType: "day",
+      repeatTime: 2,
+    });
+  }, []);
 
   useEffect(() => {
     dispatch(addCurrentStack("OnboardingStack"));
@@ -65,7 +89,7 @@ const LoginScreen = () => {
   useEffect(() => {
     dispatch(addACTC(aCTC));
   }, [aCTC]);
-  
+
   useEffect(() => {
     dispatch(addOnboarded(onboarded));
   }, [onboarded]);
@@ -105,27 +129,32 @@ const LoginScreen = () => {
   const backAction = () => {
     Alert.alert("Hold on!", "Are you sure you want to go back?", [
       { text: "No", onPress: () => null, style: "cancel" },
-      { text: "Yes", onPress: () => BackHandler.exitApp() }
+      { text: "Yes", onPress: () => BackHandler.exitApp() },
     ]);
     return true;
   };
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   const signIn = () => {
     setLoading(true);
     dispatch(resetTimer());
     var fullPhoneNumber = `+91${phoneNumber}`;
-    putBackendData({ data: { number: fullPhoneNumber }, xpath: "mobile", token: token })
+    putBackendData({
+      data: { number: fullPhoneNumber },
+      xpath: "mobile",
+      token: token,
+    })
       .then((res) => {
         console.log("LoginScreen res.data: ", res.data);
         if (res.data.status === 200) {
           setACTC(res.data.body.aCTC);
           setOnboarded(res.data.body.onboarded);
-          setToken(res.data.body.token)
+          setToken(res.data.body.token);
           setUnipeEmployeeId(res.data.body.unipeEmployeeId);
           sendSmsVerification(phoneNumber)
             .then((result) => {

@@ -3,6 +3,8 @@ import messaging from "@react-native-firebase/messaging";
 import axios from "axios";
 import { store } from "../../store/store";
 import { version } from "../../package.json";
+import * as RootNavigation from "../../navigators/RootNavigation";
+import PushNotification from "react-native-push-notification";
 
 export async function requestUserPermission() {
   const authorizationStatus = await messaging().requestPermission();
@@ -50,25 +52,73 @@ export const notificationListener = async () => {
   messaging().onNotificationOpenedApp((remoteMessage) => {
     console.log(
       "Notification caused app to open from background state:",
-      remoteMessage.notification
+      remoteMessage
     );
+    switch (remoteMessage.data.type) {
+      case "NEW_EWA_OFFER" ||
+        "EWA_REPAYMENT_REMINDER" ||
+        "EWA_DISBURSEMENT_SUCCESS":
+        RootNavigation.navigate("HomeStack", {
+          screen: "DrawerHome",
+          params: {
+            screen: remoteMessage.data.screenName,
+          },
+        });
+      default:
+        RootNavigation.navigate("HomeStack", {
+          screen: "DrawerHome",
+          params: {
+            screen: remoteMessage.data.screenName,
+          },
+        });
+    }
   });
 
   messaging().onMessage(async (remoteMessage) => {
+    PushNotification.localNotification({
+      message: remoteMessage.notification.body,
+      title: remoteMessage.notification.title,
+      smallIcon: "ic_notification_fcm_icon",
+      allowWhileIdle: false,
+      channelId: "Foreground",
+      repeatTime: 1,
+    });
     console.log("Received in Foreground", remoteMessage);
   });
 
   // Check whether an initial notification is available
-  messaging()
-    .getInitialNotification()
-    .then((remoteMessage) => {
-      if (remoteMessage) {
-        console.log(
-          "Notification caused app to open from quit state:",
-          remoteMessage.notification
-        );
-      }
-    });
+  setTimeout(() => {
+    messaging()
+      .getInitialNotification()
+      .then((remoteMessage) => {
+        if (remoteMessage) {
+          console.log(
+            "Notification caused app to open from quit state:",
+            remoteMessage.data
+          );
+          switch (remoteMessage.data.type) {
+            case "NEW_EWA_OFFER" ||
+              "EWA_REPAYMENT_REMINDER" ||
+              "EWA_DISBURSEMENT_SUCCESS":
+              RootNavigation.navigate("HomeStack", {
+                screen: "DrawerHome",
+                params: {
+                  screen: remoteMessage.data.screenName,
+                },
+              });
+              break;
+            default:
+              RootNavigation.navigate("HomeStack", {
+                screen: "DrawerHome",
+                params: {
+                  screen: remoteMessage.data.screenName,
+                },
+              });
+              break;
+          }
+        }
+      });
+  }, 100);
 };
 
 // export function subscribeTokenToTopic(token, topic) {

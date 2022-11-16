@@ -1,11 +1,10 @@
 import { View, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import DevMenuButton from "../components/atoms/DevMenuButton";
-import PushNotification from "react-native-push-notification";
-import { useEffect } from "react";
 
 export default DevMenu = () => {
   const navigation = useNavigation();
+
   const screens = [
     { title: "Welcome", stack: "OnboardingStack", name: "Welcome" },
     { title: "Login", stack: "OnboardingStack", name: "Login" },
@@ -21,26 +20,6 @@ export default DevMenu = () => {
     { title: "Profile Details", stack: "HomeStack", name: "Profile" },
     { title: "EWA", stack: "EWAStack", name: "EWA_OFFER" },
   ];
-
-  const createChannels = () => {
-    PushNotification.createChannel({
-      channelId: "test-channel",
-      channelName: "Test Channel",
-    });
-  };
-
-  useEffect(() => {
-    createChannels();
-  });
-
-  const handleNotification = () => {
-    PushNotification.localNotification({
-      channelId: "test-channel",
-      title: "hello",
-      message: "Hi This is Unipe App",
-      bigText: "You can now avail your EWA worth 30,000 rupees",
-    });
-  };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>

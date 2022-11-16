@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Linking, SafeAreaView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import HomeOfferCard from "../../components/molecules/HomeOfferCard";
+import PushNotification from "react-native-push-notification";
 import KycCheckCard from "../../components/molecules/KycCheckCard";
 import { allAreNull } from "../../helpers/nullCheck";
 import { addCampaignId } from "../../store/slices/authSlice";
@@ -27,6 +28,13 @@ const HomeView = () => {
     mandateStatus != "SUCCESS" ? "MANDATE" : null,
     panStatus != "SUCCESS" ? "PAN" : null,
   ];
+
+  useEffect(() => {
+    // PushNotification.deleteChannel("Onboarding");
+    if (allAreNull(message)) {
+      PushNotification.cancelAllLocalNotifications();
+    }
+  }, []);
 
   var [campaignId, setCampaignId] = useState(null);
 
