@@ -12,13 +12,14 @@ const HomeOfferCard = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const isFocused = useIsFocused();
-  const [id, setId] = useState(useSelector((state) => state.auth.id));
+  
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
 
   useEffect(() => {
-    console.log("ewaOffersFetch unipeEmployeeId:", id);
-    if (isFocused && id) {
-      getBackendData({ params: { unipeEmployeeId: id }, xpath: "ewa/offers" })
+    console.log("ewaOffersFetch unipeEmployeeId:", unipeEmployeeId);
+    if (isFocused && unipeEmployeeId) {
+      getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "ewa/offers" })
         .then((response) => {
           if (response.data.status === 200) {
             console.log("ewaOffersFetch response.data: ", response.data);
@@ -30,7 +31,7 @@ const HomeOfferCard = () => {
           console.log("ewaOffersFetch error: ", error);
         });
     }
-  }, [isFocused, id]);
+  }, [isFocused, unipeEmployeeId]);
 
   return (
     <SafeAreaView>
