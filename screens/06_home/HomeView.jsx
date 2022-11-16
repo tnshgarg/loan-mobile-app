@@ -6,11 +6,16 @@ import HomeOfferCard from "../../components/molecules/HomeOfferCard";
 import KycCheckCard from "../../components/molecules/KycCheckCard";
 import { allAreNull } from "../../helpers/nullCheck";
 import { addCampaignId } from "../../store/slices/authSlice";
+import {
+  addCurrentScreen,
+  addCurrentStack
+} from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 
 const HomeView = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
   const bankStatus = useSelector((state) => state.bank.verifyStatus);
   const panStatus = useSelector((state) => state.pan.verifyStatus);
   const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);
@@ -24,6 +29,11 @@ const HomeView = () => {
   ];
 
   var [campaignId, setCampaignId] = useState(null);
+
+  useEffect(() => {
+    dispatch(addCurrentScreen("Home"));
+    dispatch(addCurrentStack("HomeStack"));
+  }, []);
 
   useEffect(() => {
     dispatch(addCampaignId(campaignId));
