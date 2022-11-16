@@ -106,6 +106,7 @@ export const notificationListener = async () => {
                   screen: remoteMessage.data.screenName,
                 },
               });
+              break;
             default:
               RootNavigation.navigate("HomeStack", {
                 screen: "DrawerHome",
@@ -113,6 +114,7 @@ export const notificationListener = async () => {
                   screen: remoteMessage.data.screenName,
                 },
               });
+              break;
           }
         }
       });
