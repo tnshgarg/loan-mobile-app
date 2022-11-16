@@ -11,7 +11,7 @@ npx react-native start
 npx react-native start --reset-cache
 
 # build and start emulator
-npx react-native run-android
+npx react-native run-android --active-arch-only
 ```
 
 ## Gradle
