@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Linking } from "react-native";
 import DevMenu from "../screens/DevMenu";
+import { addUtm } from "../store/slices/authSlice";
 
 import { STAGE } from "@env";
 import OfflineAlert from "../components/organisms/OfflineAlert";
@@ -14,11 +15,17 @@ import BenefitsStack from "./stacks/BenefitsStack";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
+  const dispatch = useDispatch();
 
   var [initialRoute, setInitialRoute] = useState(
     useSelector((state) => state.navigation.currentStack)
   );
   var initialScreen = useSelector((state) => state.navigation.currentScreen);
+  var [utm, setUtm] = useState(null);
+
+  useEffect(() => {
+    dispatch(addUtm(utm));
+  }, [utm]);
 
   const getUrlAsync = async () => {
     const initialUrl = await Linking.getInitialURL();
@@ -35,6 +42,7 @@ const StackNavigator = () => {
           setInitialRoute("HomeStack");
           break;
       }
+      setUtm(splitted[4]);
     } else {
       console.log("No intent. User opened App.");
     }

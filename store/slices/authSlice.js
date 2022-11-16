@@ -5,6 +5,7 @@ const initialState = {
   phoneNumber: "",
   token: "",
   unipeEmployeeId: "",
+  utm: "",
 };
 
 const authSlice = createSlice({
@@ -23,6 +24,9 @@ const authSlice = createSlice({
     addUnipeEmployeeId(state, action) {
       state.unipeEmployeeId = action.payload;
     },
+    addUtm(state, action) {
+      state.utm = action.payload;
+    },
     resetAuth(state) {
       Object.assign(state, initialState);
     },
@@ -34,6 +38,7 @@ export const {
   addPhoneNumber,
   addToken,
   addUnipeEmployeeId,
+  addUtm,
   resetAuth,
 } = authSlice.actions;
 
