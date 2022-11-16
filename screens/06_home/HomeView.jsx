@@ -11,7 +11,6 @@ import { styles } from "../../styles";
 const HomeView = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-
   const bankStatus = useSelector((state) => state.bank.verifyStatus);
   const panStatus = useSelector((state) => state.pan.verifyStatus);
   const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);

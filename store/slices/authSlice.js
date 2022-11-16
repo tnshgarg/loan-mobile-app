@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  aCTC: "",
   onboarded: false,
   phoneNumber: "",
   token: "",
@@ -12,6 +13,9 @@ const authSlice = createSlice({
   name: "auth",
   initialState: initialState,
   reducers: {
+    addACTC(state, action) {
+      state.aCTC = action.payload;
+    },
     addOnboarded(state, action) {
       state.onboarded = action.payload;
     },
@@ -34,6 +38,7 @@ const authSlice = createSlice({
 });
 
 export const {
+  addACTC,
   addOnboarded,
   addPhoneNumber,
   addToken,

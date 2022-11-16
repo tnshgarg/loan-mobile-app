@@ -36,8 +36,9 @@ const MandateFormTemplate = (props) => {
   const [ipAddress, setIpAdress] = useState(0);
   const [backendPush, setBackendPush] = useState(false);
 
-  const token = useSelector((state) => state.auth.token);
+  const token = useSelector((state) => state.auth?.token);
   const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
+  const aCTC = useSelector((state) => state.auth?.aCTC);
   const phoneNumber = useSelector((state) => state.auth?.phoneNumber);
   const email = useSelector(
     (state) => state.pan?.data?.email || state.profile?.email
@@ -229,6 +230,7 @@ const MandateFormTemplate = (props) => {
       accountHolderName: accountHolderName,
       accountNumber: accountNumber,
       ifsc: ifsc,
+      aCTC: aCTC,
     })
       .then((res) => {
         console.log(`Mandate|CreateOrder|${authType} res.data:`, res.data);
@@ -291,12 +293,12 @@ const MandateFormTemplate = (props) => {
                 ProceedButton({ authType: "netbanking" });
               }}
             />
-            <PrimaryButton
+            {/* <PrimaryButton
               title="UPI"
               onPress={() => {
                 ProceedButton({ authType: "upi" });
               }}
-            />
+            /> */}
           </ScrollView>
         </KeyboardAvoidingWrapper>
       ) : (

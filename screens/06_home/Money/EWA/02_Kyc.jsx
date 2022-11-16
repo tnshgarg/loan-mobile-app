@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { ewaKycPush } from "../../../../helpers/BackendPush";
+import { getBackendData } from "../../../../services/employees/employeeServices";
 import { form, styles, checkBox } from "../../../../styles";
 import CollapsibleCard from "../../../../components/molecules/CollapsibleCard";
 
@@ -25,6 +26,7 @@ const KYC = () => {
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
 
+  const [bureauPass, setBureauPass] = useState("PENDING");
   const [loading, setLoading] = useState(false);
 
   const token = useSelector((state) => state.auth.token);
@@ -58,6 +60,21 @@ const KYC = () => {
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
+
+  useEffect(() => {
+    if (unipeEmployeeId) {
+      getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "bureau", token: token  })
+        .then((response) => {
+          console.log("bureauBackendFetch response.data", response.data);
+          if (response.data.status === 200) {
+            setBureauPass(response.data.body.pass);
+          }
+        })
+        .catch((error) => {
+          console.log("bureauBackendFetch error: ", error);
+        });
+    }
+  }, [unipeEmployeeId]);
 
   useEffect(() => {
     if (fetched) {
@@ -145,8 +162,8 @@ const KYC = () => {
         <CollapsibleCard title="KYC Details" isClosed={false} data={kycData} />
 
         <PrimaryButton
-          title={loading ? "Verifying" : "Continue"}
-          disabled={false}
+          title={bureauPass !== true ? "Checking Bureau" : (loading ? "Verifying" : "Continue")}
+          disabled={bureauPass !== true}
           loading={loading}
           onPress={() => {
             handleKyc();

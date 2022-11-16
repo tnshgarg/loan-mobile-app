@@ -29,6 +29,7 @@ const createOrder = ({
   accountHolderName,
   accountNumber,
   ifsc,
+  aCTC,
 }) => {
   console.log("createOrder");
   if (authType === "upi") {
@@ -52,7 +53,7 @@ const createOrder = ({
       customer_id: customerId,
       token: {
         auth_type: authType,
-        max_amount: 100000000,
+        max_amount: 100 * (parseFloat(aCTC.replace(/[^0-9.]+/g, "")) / 12),
         expire_at: 4102444799,
         bank_account: {
           account_number: accountNumber,
