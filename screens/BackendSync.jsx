@@ -28,15 +28,13 @@ const BackendSync = (props) => {
     if (unipeEmployeeId) {
       getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "aadhaar", token: token  })
         .then((response) => {
+          console.log("aadhaarBackendFetch response.data", response.data);
           if (response.data.status === 200) {
             dispatch(resetAadhaar(response.data.body));
-            console.log("aadhaarBackendFetch response.data", response.data);
-          } else {
-            console.log("aadhaarBackendFetch error: ", error);
           }
         })
         .catch((error) => {
-          console.log("aadhaarBackendFetch error: ", response.data);
+          console.log("aadhaarBackendFetch error: ", error);
         });
     }
   }, [unipeEmployeeId]);
@@ -45,11 +43,9 @@ const BackendSync = (props) => {
     if (unipeEmployeeId) {
       getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "bank", token: token  })
         .then((response) => {
+          console.log("bankBackendFetch response.data", response.data);
           if (response.data.status === 200) {
             dispatch(resetBank(response.data.body));
-            console.log("bankBackendFetch response.data", response.data);
-          } else {
-            console.log("bankBackendFetch error: ", response.data);
           }
         })
         .catch((error) => {
@@ -62,11 +58,9 @@ const BackendSync = (props) => {
     if (unipeEmployeeId) {
       getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "pan", token: token  })
         .then((response) => {
+          console.log("panBackendFetch response.data", response.data);
           if (response.data.status === 200) {
             dispatch(resetPan(response.data.body));
-            console.log("panBackendFetch response.data", response.data);
-          } else {
-            console.log("panBackendFetch error: ", response.data);
           }
         })
         .catch((error) => {
@@ -79,11 +73,9 @@ const BackendSync = (props) => {
     if (unipeEmployeeId) {
       getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "profile", token: token  })
         .then((response) => {
+          console.log("profileBackendFetch response.data", response.data);
           if (response.data.status === 200) {
             dispatch(resetProfile(response.data.body));
-            console.log("profileBackendFetch response.data", response.data);
-          } else {
-            console.log("profileBackendFetch error: ", response.data);
           }
         })
         .catch((error) => {
@@ -96,11 +88,9 @@ const BackendSync = (props) => {
     if (unipeEmployeeId) {
       getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "driving-license", token: token  })
         .then((response) => {
+          console.log("licenseBackendFetch response.data", response.data);
           if (response.data.status === 200) {
             dispatch(resetLicense(response.data.body));
-            console.log("licenseBackendFetch response.data", response.data);
-          } else {
-            console.log("licenseBackendFetch error: ", response.data);
           }
         })
         .catch((error) => {
@@ -113,11 +103,9 @@ const BackendSync = (props) => {
     if (unipeEmployeeId) {
       getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "mandate", token: token  })
         .then((response) => {
+          console.log("mandateFetch response.data", response.data);
           if (response.data.status === 200) {
             dispatch(resetMandate(response.data.body));
-            console.log("mandateFetch response.data", response.data);
-          } else {
-            console.log("mandateFetch error: ", response.data);
           }
         })
         .catch((error) => {
