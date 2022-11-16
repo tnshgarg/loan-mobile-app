@@ -26,7 +26,9 @@ const HomeView = () => {
 
   useEffect(() => {
     // PushNotification.deleteChannel("Onboarding");
-    PushNotification.cancelAllLocalNotifications();
+    if (allAreNull(message)) {
+      PushNotification.cancelAllLocalNotifications();
+    }
   }, []);
 
   var [campaignId, setCampaignId] = useState(null);

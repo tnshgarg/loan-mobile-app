@@ -67,12 +67,13 @@ const LoginScreen = () => {
     );
     PushNotification.localNotificationSchedule({
       title: "Complete Your Onboarding Steps",
-      message: "Complete Your Onboarding Journey to avail your Advanced Salary",
+      message: "Complete Your Onboarding Journey to avail your Advance Salary",
       date: new Date(Date.now() + 24 * 60 * 60 * 1000), // {24 hours}
       allowWhileIdle: false,
       channelId: "Onboarding",
-      repeatTime: 1,
       smallIcon: "ic_notification_fcm_icon",
+      repeatType: "day",
+      repeatTime: 2,
     });
   }, []);
 
@@ -88,7 +89,7 @@ const LoginScreen = () => {
   useEffect(() => {
     dispatch(addACTC(aCTC));
   }, [aCTC]);
-  
+
   useEffect(() => {
     dispatch(addOnboarded(onboarded));
   }, [onboarded]);
