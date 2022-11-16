@@ -20,7 +20,6 @@ const DrawerNavigator = () => {
       defaultStatus="closed"
       initialRouteName="DrawerHome"
       screenOptions={{
-        //activeTintColor: "#e91e63",
         itemStyle: { marginVertical: 5 },
         headerShown: true,
         drawerActiveBackgroundColor: COLORS.primary,

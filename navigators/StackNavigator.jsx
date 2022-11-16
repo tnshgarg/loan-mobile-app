@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -16,8 +16,13 @@ import DrawerNavigator from "./DrawerNavigator";
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
 
-  var initialRoute = useSelector((state) => state.navigation.currentStack);
-  var initialScreen = useSelector((state) => state.navigation.currentScreen);
+  var [initialRoute, setInitialRoute] = useState(
+    useSelector((state) => state.navigation.currentStack)
+  );
+  var [initialScreen, setInitialScreen] = useState(
+    useSelector((state) => state.navigation.currentScreen)
+  );
+
   console.log("STAGE: ", STAGE);
   console.log("initialRoute: ", initialRoute);
   console.log("currentScreen: ", initialScreen);
