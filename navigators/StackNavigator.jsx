@@ -7,7 +7,6 @@ import DevMenu from "../screens/DevMenu";
 import { STAGE } from "@env";
 import OfflineAlert from "../components/organisms/OfflineAlert";
 import OnboardingStack from "./stacks/OnboardingStack";
-import HomeStack from "./stacks/HomeStack";
 import EWAStack from "./stacks/EWAStack";
 import DocumentStack from "./stacks/DocumentStack";
 import BenefitsStack from "./stacks/BenefitsStack";
