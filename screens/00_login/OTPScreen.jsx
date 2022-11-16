@@ -133,28 +133,28 @@ const OTPScreen = () => {
                       setOtp("");
                       setBack(false);
                       dispatch(resetTimer());
+                      Alert.alert("OTP resent successfully");
                       Analytics.trackEvent("OTPScreen|SendSms|Success", {
                         unipeEmployeeId: unipeEmployeeId,
                       });
-                      Alert.alert("OTP resent successfully");
                     } else {
-                      Analytics.trackEvent("OTPScreen|SendSms|Error", {
-                        unipeEmployeeId: unipeEmployeeId,
-                        error: res["response"]["details"],
-                      });
                       Alert.alert(
                         res["response"]["status"],
                         res["response"]["details"]
                       );
+                      Analytics.trackEvent("OTPScreen|SendSms|Error", {
+                        unipeEmployeeId: unipeEmployeeId,
+                        error: res["response"]["details"],
+                      });
                     }
                   })
                   .catch((error) => {
                     console.log(error.toString());
+                    Alert.alert("Error", error.toString());
                     Analytics.trackEvent("OTPScreen|SendSms|Error", {
                       unipeEmployeeId: unipeEmployeeId,
                       error: error.toString(),
                     });
-                    Alert.alert("Error", error.toString());
                   });
               }}
             >
