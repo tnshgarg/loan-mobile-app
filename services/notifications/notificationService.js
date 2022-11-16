@@ -54,9 +54,18 @@ export const notificationListener = async () => {
       "Notification caused app to open from background state:",
       remoteMessage
     );
-    RootNavigation.navigate("EWAStack", {
-      screen: remoteMessage.data.screenName,
-    });
+    switch (remoteMessage.data.type) {
+      case "NEW_EWA_OFFER" ||
+        "EWA_REPAYMENT_REMINDER" ||
+        "EWA_DISBURSEMENT_SUCCESS":
+        RootNavigation.navigate("EWAStack", {
+          screen: remoteMessage.data.screenName,
+        });
+      default:
+        RootNavigation.navigate("HomeStack", {
+          screen: remoteMessage.data.screenName,
+        });
+    }
   });
 
   messaging().onMessage(async (remoteMessage) => {
@@ -79,11 +88,21 @@ export const notificationListener = async () => {
         if (remoteMessage) {
           console.log(
             "Notification caused app to open from quit state:",
-            remoteMessage.notification
+            remoteMessage.data
           );
-          RootNavigation.navigate("EWAStack", {
-            screen: remoteMessage.data.screenName,
-          });
+          switch (remoteMessage.data.type) {
+            case "NEW_EWA_OFFER9":
+              // ||
+              // "EWA_REPAYMENT_REMINDER" ||
+              // "EWA_DISBURSEMENT_SUCCESS"
+              RootNavigation.navigate("EWAStack", {
+                screen: remoteMessage.data.screenName,
+              });
+            default:
+              RootNavigation.navigate("HomeStack", {
+                screen: remoteMessage.data.screenName,
+              });
+          }
         }
       });
   }, 100);
