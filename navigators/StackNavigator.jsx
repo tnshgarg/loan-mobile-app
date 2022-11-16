@@ -3,7 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Linking } from "react-native";
 import DevMenu from "../screens/DevMenu";
-import { addUtm } from "../store/slices/authSlice";
+import { addCampaignId } from "../store/slices/authSlice";
+import {
+  addCurrentStack,
+  addCurrentScreen,
+} from "../store/slices/navigationSlice";
 
 import { STAGE } from "@env";
 import OfflineAlert from "../components/organisms/OfflineAlert";
@@ -20,12 +24,22 @@ const StackNavigator = () => {
   var [initialRoute, setInitialRoute] = useState(
     useSelector((state) => state.navigation.currentStack)
   );
-  var initialScreen = useSelector((state) => state.navigation.currentScreen);
-  var [utm, setUtm] = useState(null);
+  var [initialScreen, setInitialScreen] = useState(
+    useSelector((state) => state.navigation.currentScreen)
+  );
+  var [campaignId, setCampaignId] = useState(null);
 
   useEffect(() => {
-    dispatch(addUtm(utm));
-  }, [utm]);
+    dispatch(addCampaignId(campaignId));
+  }, [campaignId]);
+
+  useEffect(() => {
+    dispatch(addCurrentStack(initialRoute));
+  }, [initialRoute]);
+
+  useEffect(() => {
+    dispatch(addCurrentScreen(initialScreen));
+  }, [initialScreen]);
 
   const getUrlAsync = async () => {
     const initialUrl = await Linking.getInitialURL();
@@ -34,17 +48,25 @@ const StackNavigator = () => {
       const splitted = initialUrl.split(breakpoint);
       console.log("initialUrl", splitted);
       console.log("route", splitted[3]);
-      switch (splitted[3]) {
-        case "Ewa":
+      switch (splitted[3].toLowerCase()) {
+        case "ewa":
           setInitialRoute("EWAStack");
           break;
-        case "Home":
+        case "home":
           setInitialRoute("HomeStack");
           break;
       }
-      setUtm(splitted[4]);
+      switch (splitted[4].toLowerCase()) {
+        case "campaign":
+          console.log("campaignId", splitted[5]);
+          setCampaignId(splitted[5]);
+          break;
+        default:
+          break;
+      }
     } else {
       console.log("No intent. User opened App.");
+      setInitialRoute("HomeStack");
     }
   };
 
