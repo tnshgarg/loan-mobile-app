@@ -230,6 +230,7 @@ const MandateFormTemplate = (props) => {
       accountHolderName: accountHolderName,
       accountNumber: accountNumber,
       ifsc: ifsc,
+      aCTC: aCTC,
     })
       .then((res) => {
         console.log(`Mandate|CreateOrder|${authType} res.data:`, res.data);
