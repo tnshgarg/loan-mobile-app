@@ -54,7 +54,7 @@ export const notificationListener = async () => {
       "Notification caused app to open from background state:",
       remoteMessage
     );
-    RootNavigation.navigate("HomeStack", {
+    RootNavigation.navigate("EWAStack", {
       screen: remoteMessage.data.screenName,
     });
   });
@@ -81,7 +81,7 @@ export const notificationListener = async () => {
             "Notification caused app to open from quit state:",
             remoteMessage.notification
           );
-          RootNavigation.navigate("HomeStack", {
+          RootNavigation.navigate("EWAStack", {
             screen: remoteMessage.data.screenName,
           });
         }
