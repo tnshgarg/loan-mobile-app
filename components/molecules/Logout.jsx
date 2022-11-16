@@ -2,7 +2,8 @@ import { useNavigation } from "@react-navigation/core";
 import { Pressable, Text } from "react-native";
 import { AntDesign } from "react-native-vector-icons";
 import { useDispatch } from "react-redux";
-import { showToast } from "./Toast";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { showToast } from "../atoms/Toast";
 
 export default Logout = () => {
   const dispatch = useDispatch();
@@ -23,8 +24,10 @@ export default Logout = () => {
         paddingVertical: 20,
       }}
     >
-      <AntDesign name="logout" color="black" size={16} />
-      <Text style={{ fontSize: 16, paddingLeft: 10 }}>Logout</Text>
+      <AntDesign name="logout" color={COLORS.warning} size={16} />
+      <Text style={{ ...FONTS.h4, paddingLeft: 10, color: COLORS.warning }}>
+        Logout
+      </Text>
     </Pressable>
   );
 };

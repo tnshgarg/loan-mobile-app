@@ -16,7 +16,7 @@ import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { ewaKycPush } from "../../../../helpers/BackendPush";
 import { form, styles, checkBox } from "../../../../styles";
-import CollapsibleCard from "../../../../components/CollapsibleCard";
+import CollapsibleCard from "../../../../components/molecules/CollapsibleCard";
 
 const KYC = () => {
   const navigation = useNavigation();

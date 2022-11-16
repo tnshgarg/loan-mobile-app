@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Alert } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { setMistmatch as setBankMismatch } from "../store/slices/bankSlice";
-import { setMistmatch as setPanMistach } from "../store/slices/panSlice";
+import { setMistmatch as setBankMismatch } from "../../store/slices/bankSlice";
+import { setMistmatch as setPanMistach } from "../../store/slices/panSlice";
 const fuzz = require("fuzzball");
 
 const FuzzyCheck = (props) => {

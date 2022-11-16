@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { bankform, form, styles } from "../../styles";
 import Verify from "../../apis/license/Verify";
-import DateEntry from "../../components/DateEntry";
+import DateEntry from "../../components/molecules/DateEntry";
 import { addNumber } from "../../store/slices/licenseSlice";
 import FormInput from "../../components/atoms/FormInput";
 import InfoCard from "../../components/atoms/InfoCard";

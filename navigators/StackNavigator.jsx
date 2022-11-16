@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import DevMenu from "../screens/DevMenu";
 
 import { STAGE } from "@env";
-import OfflineAlert from "../components/OfflineAlert";
+import OfflineAlert from "../components/organisms/OfflineAlert";
 import OnboardingStack from "./stacks/OnboardingStack";
 import HomeStack from "./stacks/HomeStack";
 import EWAStack from "./stacks/EWAStack";
@@ -19,7 +19,7 @@ const StackNavigator = () => {
   var initialScreen = useSelector((state) => state.navigation.currentScreen);
   console.log("STAGE: ", STAGE);
   console.log("initialRoute: ", initialRoute);
-  console.log("currentScreen: ",initialScreen );
+  console.log("currentScreen: ", initialScreen);
 
   STAGE === "dev" ? (initialRoute = "DevMenu") : null;
   console.log("initialRoute: ", initialRoute);

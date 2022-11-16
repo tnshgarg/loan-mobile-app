@@ -56,7 +56,7 @@ const styles = EStyleSheet.create({
   },
   btnText: {
     color: COLORS.white,
-    ...FONTS.h3,
+    ...FONTS.h4,
   },
 });
 

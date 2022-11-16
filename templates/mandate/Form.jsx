@@ -291,12 +291,12 @@ const MandateFormTemplate = (props) => {
                 ProceedButton({ authType: "netbanking" });
               }}
             />
-            <PrimaryButton
+            {/* <PrimaryButton
               title="UPI"
               onPress={() => {
                 ProceedButton({ authType: "upi" });
               }}
-            />
+            /> */}
           </ScrollView>
         </KeyboardAvoidingWrapper>
       ) : (
