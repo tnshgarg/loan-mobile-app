@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect } from "react";
 import { Alert, BackHandler, SafeAreaView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import ProgressBarTop from "../../navigators/ProgressBarTop";
+import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import BankFormTemplate from "../../templates/bank/Form";
@@ -49,7 +49,7 @@ const BankForm = () => {
           title="Bank Details"
           onLeftIconPress={() => backAction()}
         />
-        <ProgressBarTop step={3} />
+        <OnboardingProgressBar step={3} />
         <BankFormTemplate />
       </SafeAreaView>
     </>

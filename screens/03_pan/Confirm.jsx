@@ -7,7 +7,7 @@ import {
   ScrollView,
   BackHandler,
 } from "react-native";
-import ProgressBarTop from "../../navigators/ProgressBarTop";
+import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
@@ -45,7 +45,7 @@ export default PanConfirm = () => {
         title="PAN Data Confirmation" 
         onLeftIconPress={() => backAction()} 
       />
-      <ProgressBarTop step={2} />
+      <OnboardingProgressBar step={2} />
       <ScrollView keyboardShouldPersistTaps="handled">
         <PanConfirmApi />
       </ScrollView>

@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { SafeAreaView, Text, View, BackHandler, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import ProgressBarTop from "../../navigators/ProgressBarTop";
+import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import {
   addAltMobile,
   addQualification,
@@ -118,7 +118,7 @@ const ProfileForm = () => {
     <SafeAreaView style={styles.safeContainer}>
       <Header title="Setup Profile" onLeftIconPress={() => backAction()} />
 
-      <ProgressBarTop step={0} />
+      <OnboardingProgressBar step={0} />
       <Text style={form.formHeader}>Employee basic details</Text>
       <KeyboardAvoidingWrapper>
         <View>

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import { Alert, SafeAreaView, ScrollView, BackHandler } from "react-native";
-import ProgressBarTop from "../../navigators/ProgressBarTop";
+import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
@@ -40,9 +40,9 @@ const BankConfirm = () => {
         onLeftIconPress={() => backAction()}
         title="Bank Details Confirmation"
       />
-      <ProgressBarTop step={3} />
+      <OnboardingProgressBar step={3} />
       <ScrollView keyboardShouldPersistTaps="handled">
-        <BankConfirmApi />
+        <BankConfirmApi type="Onboarding" />
       </ScrollView>
     </SafeAreaView>
   );
