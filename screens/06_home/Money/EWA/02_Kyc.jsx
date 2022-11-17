@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import {
+  Alert,
   BackHandler,
   Image,
   SafeAreaView,

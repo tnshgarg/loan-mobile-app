@@ -40,12 +40,8 @@ const MandateFormTemplate = (props) => {
   const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
   const aCTC = useSelector((state) => state.auth?.aCTC);
   const phoneNumber = useSelector((state) => state.auth?.phoneNumber);
-  const email = useSelector(
-    (state) => state.pan?.data?.email || state.profile?.email
-  );
-  const accountHolderName = useSelector(
-    (state) => state.bank?.data?.accountHolderName
-  );
+  const email = useSelector((state) => state.profile?.email || state.pan?.data?.email);
+  const accountHolderName = useSelector((state) => state.bank?.data?.accountHolderName);
   const accountNumber = useSelector((state) => state.bank?.data?.accountNumber);
   const ifsc = useSelector((state) => state.bank?.data?.ifsc);
   const bankVerifyStatus = useSelector((state) => state.bank?.verifyStatus);
