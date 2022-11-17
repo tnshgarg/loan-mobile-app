@@ -27,7 +27,7 @@ const KYC = () => {
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
 
-  const [bureauPass, setBureauPass] = useState("PENDING");
+  const [bureauPass, setBureauPass] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const token = useSelector((state) => state.auth.token);
@@ -64,7 +64,8 @@ const KYC = () => {
 
   useEffect(() => {
     if (unipeEmployeeId) {
-      getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "bureau", token: token  })
+      setTimeout(() => {
+        getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "bureau", token: token  })
         .then((response) => {
           console.log("bureauBackendFetch response.data", response.data);
           if (response.data.status === 200) {
@@ -74,8 +75,8 @@ const KYC = () => {
         .catch((error) => {
           console.log("bureauBackendFetch error: ", error);
         });
-    }
-  }, [unipeEmployeeId]);
+      }, 5000);
+  }}, [unipeEmployeeId]);
 
   useEffect(() => {
     if (fetched) {
@@ -164,7 +165,7 @@ const KYC = () => {
 
         <PrimaryButton
           title={bureauPass !== true ? "Checking Bureau" : (loading ? "Verifying" : "Continue")}
-          disabled={bureauPass !== true}
+          disabled={bureauPass !== true || loading}
           loading={loading}
           onPress={() => {
             handleKyc();
