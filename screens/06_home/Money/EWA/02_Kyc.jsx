@@ -64,8 +64,7 @@ const KYC = () => {
 
   useEffect(() => {
     if (unipeEmployeeId) {
-      setTimeout(() => {
-        getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "bureau", token: token  })
+      getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "bureau", token: token  })
         .then((response) => {
           console.log("bureauBackendFetch response.data", response.data);
           if (response.data.status === 200) {
@@ -75,7 +74,6 @@ const KYC = () => {
         .catch((error) => {
           console.log("bureauBackendFetch error: ", error);
         });
-      }, 5000);
   }}, [unipeEmployeeId]);
 
   useEffect(() => {
