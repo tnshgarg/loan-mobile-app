@@ -15,7 +15,7 @@ import {
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/mandateSlice";
-import { styles, bankform } from "../../styles";
+import { styles } from "../../styles";
 import { showToast } from "../../components/atoms/Toast";
 import RazorpayCheckout from "react-native-razorpay";
 import {
@@ -44,13 +44,12 @@ const MandateFormTemplate = (props) => {
   const accountHolderName = useSelector((state) => state.bank?.data?.accountHolderName);
   const accountNumber = useSelector((state) => state.bank?.data?.accountNumber);
   const ifsc = useSelector((state) => state.bank?.data?.ifsc);
-  const bankVerifyStatus = useSelector((state) => state.bank?.verifyStatus);
 
   const mandateSlice = useSelector((state) => state.mandate);
-  const [authType, setAuthType] = useState(mandateSlice?.data?.authType);
+  const [authType, setAuthType] = useState();
   const [customerId, setCustomerId] = useState();
-  const [data, setData] = useState(mandateSlice?.data);
   const [orderId, setOrderId] = useState();
+  const [data, setData] = useState(mandateSlice?.data);
   const [verifyMsg, setVerifyMsg] = useState(mandateSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(mandateSlice?.verifyStatus);
   const [verifyTimestamp, setVerifyTimestamp] = useState(
@@ -253,70 +252,43 @@ const MandateFormTemplate = (props) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      {bankVerifyStatus === "SUCCESS" ? (
-        <KeyboardAvoidingWrapper>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <FormInput
-              placeholder={"Account Holder Name"}
-              containerStyle={{ marginVertical: 10 }}
-              autoCapitalize="words"
-              value={accountHolderName}
-              disabled={true}
-            />
-            <FormInput
-              placeholder={"Bank Account Number"}
-              containerStyle={{ marginVertical: 10 }}
-              autoCapitalize="words"
-              value={accountNumber}
-              disabled={true}
-            />
-            <FormInput
-              placeholder={"IFSC"}
-              containerStyle={{ marginVertical: 10 }}
-              autoCapitalize="words"
-              value={ifsc}
-              disabled={true}
-            />
-            <PrimaryButton
-              title="Debit Card"
-              onPress={() => {
-                ProceedButton({ authType: "debitcard" });
-              }}
-            />
-            <PrimaryButton
-              title="Net Banking"
-              onPress={() => {
-                ProceedButton({ authType: "netbanking" });
-              }}
-            />
-            {/* <PrimaryButton
-              title="UPI"
-              onPress={() => {
-                ProceedButton({ authType: "upi" });
-              }}
-            /> */}
-          </ScrollView>
-        </KeyboardAvoidingWrapper>
-      ) : (
-        <>
-          <Text style={bankform.subTitle}>
-            Please verify your Bank Information first
-          </Text>
+      <KeyboardAvoidingWrapper>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <FormInput
+            placeholder={"Account Holder Name"}
+            containerStyle={{ marginVertical: 10 }}
+            autoCapitalize="words"
+            value={accountHolderName}
+            disabled={true}
+          />
+          <FormInput
+            placeholder={"Bank Account Number"}
+            containerStyle={{ marginVertical: 10 }}
+            autoCapitalize="words"
+            value={accountNumber}
+            disabled={true}
+          />
+          <FormInput
+            placeholder={"IFSC"}
+            containerStyle={{ marginVertical: 10 }}
+            autoCapitalize="words"
+            value={ifsc}
+            disabled={true}
+          />
           <PrimaryButton
-            title="Verify Bank Info Now"
+            title="Debit Card"
             onPress={() => {
-              props?.route?.params?.type
-                ? navigation.navigate("HomeStack", {
-                    screen: "KYC",
-                    params: {
-                      screen: "BANK",
-                    },
-                  })
-                : navigation.navigate("BankForm");
+              ProceedButton({ authType: "debitcard" });
             }}
           />
-        </>
-      )}
+          <PrimaryButton
+            title="Net Banking"
+            onPress={() => {
+              ProceedButton({ authType: "netbanking" });
+            }}
+          />
+        </ScrollView>
+      </KeyboardAvoidingWrapper>
     </SafeAreaView>
   );
 };

@@ -118,7 +118,7 @@ const KYC = () => {
         Analytics.trackEvent("Ewa|Kyc|Success", {
           unipeEmployeeId: unipeEmployeeId,
         });
-        navigation.navigate("EWA_AGREEMENT");
+        navigation.navigate("EWA_MANDATE");
       })
       .catch((error) => {
         console.log("ewaKycPush error: ", error.toString());

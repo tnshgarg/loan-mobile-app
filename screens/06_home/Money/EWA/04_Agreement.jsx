@@ -105,7 +105,7 @@ const Agreement = () => {
   }, [deviceId, ipAddress]);
 
   const backAction = () => {
-    navigation.navigate("EWA_KYC");
+    navigation.navigate("EWA_MANDATE");
     return true;
   };
 

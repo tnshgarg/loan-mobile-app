@@ -132,7 +132,7 @@ const Offer = () => {
         .then((response) => {
           console.log("ewaOfferPush response.data: ", response.data);
           setLoading(false);
-          navigation.navigate("EWA_KYC");
+          navigation.navigate("EWA_MANDATE");
           Analytics.trackEvent("Ewa|OfferPush|Success", {
             unipeEmployeeId: unipeEmployeeId,
           });
@@ -162,12 +162,12 @@ const Offer = () => {
     <MaterialIcons {...getStepIndicatorIconConfig(params)} />
   );
 
-  const data = ["KYC", "Agreement", "Money In Account"];
+  const data = ["KYC", "Mandate", "Agreement", "Disbursement"];
 
   return (
     <SafeAreaView style={styles.safeContainer}>
       <Header
-        title="On Demand Salary"
+        title="Advance Salary"
         onLeftIconPress={() => backAction()}
       />
       <View style={styles.container}>
@@ -208,7 +208,7 @@ const Offer = () => {
         <View style={welcome.steps}>
           <StepIndicator
             customStyles={stepIndicatorStyles}
-            stepCount={3}
+            stepCount={4}
             // direction="horizontal"
             currentPosition={5}
             renderStepIndicator={renderStepIndicator}
