@@ -15,8 +15,6 @@ const BankConfirmApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const [backendPush, setBackendPush] = useState(false);
-
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const data = useSelector((state) => state.bank.data);
@@ -34,22 +32,25 @@ const BankConfirmApi = (props) => {
     dispatch(addVerifyStatus(verifyStatus));
   }, [verifyStatus]);
 
-  useEffect(() => {
-    console.log("BankConfirmApi bankSlice : ", bankSlice);
-    if (backendPush) {
-      bankBackendPush({
-        data: {
-          unipeEmployeeId: unipeEmployeeId,
-          data: data,
-          verifyMsg: verifyMsg,
-          verifyStatus: verifyStatus,
-          verifyTimestamp: verifyTimestamp,
-        },
-        token: token,
-      });
-      setBackendPush(false);
-    }
-  }, [backendPush]);
+  const backendPush = ({
+    token,
+    unipeEmployeeId,
+    data,
+    verifyTimestamp,
+    verifyMsg,
+    verifyStatus,
+  }) => {
+    bankBackendPush({
+      data: {
+        unipeEmployeeId: unipeEmployeeId,
+        data: data,
+        verifyMsg: verifyMsg,
+        verifyStatus: verifyStatus,
+        verifyTimestamp: verifyTimestamp,
+      },
+      token: token,
+    });
+  };
 
   const cardData = () => {
     var res = [
@@ -92,7 +93,14 @@ const BankConfirmApi = (props) => {
           onPress={() => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
-            setBackendPush(true);
+            backendPush({
+              token: token,
+              unipeEmployeeId: unipeEmployeeId,
+              data: data,
+              verifyTimestamp: verifyTimestamp,
+              verifyMsg: "Rejected by User",
+              verifyStatus: "ERROR",
+            });
             Analytics.trackEvent("Bank|Confirm|Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: "Rejected by User",
@@ -122,7 +130,14 @@ const BankConfirmApi = (props) => {
           onPress={() => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");
-            setBackendPush(true);
+            backendPush({
+              token: token,
+              unipeEmployeeId: unipeEmployeeId,
+              data: data,
+              verifyTimestamp: verifyTimestamp,
+              verifyMsg: "Confirmed by User",
+              verifyStatus: "SUCCESS",
+            });
             Analytics.trackEvent("Bank|Confirm|Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
