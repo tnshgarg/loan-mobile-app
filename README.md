@@ -54,3 +54,14 @@ build:test
 build:prod
 - AAB to be released to PlayStore `prod` STAGE [DB]
 ```
+
+## Code Push
+
+```
+    appcenter codepush release-react -a Unipe/EmployeeApp -d Test 
+    - pushes to test
+    appcenter codepush release-react -a Unipe/EmployeeApp -d Dev
+    - pushes to dev
+    appcenter codepush release-react -a Unipe/EmployeeApp -d Prod
+    - pushes to prod
+```
