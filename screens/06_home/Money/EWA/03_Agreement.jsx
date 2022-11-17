@@ -150,7 +150,7 @@ const Agreement = () => {
 
   const APR = () => {
     var today = new Date();
-    var dueDateComponents = ewaLiveSlice.dueDate.split("-");
+    var dueDateComponents = ewaLiveSlice.dueDate.split("/");
     var dueDate = new Date(
       dueDateComponents[2],
       parseInt(dueDateComponents[1]) - 1,
