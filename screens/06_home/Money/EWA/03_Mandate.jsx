@@ -28,7 +28,7 @@ const Mandate = () => {
         onLeftIconPress={() => backAction()}
       />
       <OnboardingProgressBar step={4} />
-      <MandateFormTemplate type="Onboarding" />
+      <MandateFormTemplate type="EWA" />
     </SafeAreaView>
   );
 };

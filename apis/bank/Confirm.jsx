@@ -102,7 +102,7 @@ const BankConfirmApi = (props) => {
                 ? navigation.navigate("KYC", {
                     screen: "BANK",
                     params: {
-                      screen: "Form", // how is this different from BankForm
+                      screen: "Form",
                     },
                   })
                 : navigation.navigate("BankForm");

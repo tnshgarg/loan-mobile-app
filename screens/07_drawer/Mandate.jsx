@@ -7,20 +7,24 @@ import { styles } from "../../styles";
 import TopTabNav from "../../navigators/TopTabNav";
 
 const Mandate = () => {
-  const mandateSlice = useSelector((state) => state.mandate);
-  const authType = mandateSlice?.data?.authType;
-  const verifyStatus = mandateSlice?.verifyStatus;
+
   const [time, setTime] = useState(false);
-  const dataDetails = [
+
+  const mandateSlice = useSelector((state) => state.mandate);
+  const authType = mandateSlice.data?.authType;
+  const verifyStatus = mandateSlice.verifyStatus;
+
+  const data = [
     { label: "Mandate Type", value: authType },
     { label: "Verify Status", value: verifyStatus },
   ];
 
   if (verifyStatus === "SUCCESS") {
     setTimeout(() => {
-      setTime(true);
+      setTime(true); // why this setTimeOut
     }, 2000);
   }
+
   const tabs = [
     {
       name: "Mandate",
@@ -35,7 +39,7 @@ const Mandate = () => {
       {verifyStatus == "SUCCESS" && time ? (
         <View style={styles.container}>
           <View style={styles.card}>
-            {dataDetails.map((item, index) => (
+            {data.map((item, index) => (
               <DetailItem
                 key={index}
                 label={item.label}

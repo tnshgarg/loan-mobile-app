@@ -184,8 +184,8 @@ const MandateFormTemplate = (props) => {
               Analytics.trackEvent("Mandate|GetToken|Success", {
                 unipeEmployeeId: unipeEmployeeId,
               });
-              props?.type === "Onboarding"
-                ? navigation.replace("HomeStack")
+              props?.type === "EWA"
+                ? navigation.navigate("EWA_AGREEMENT")
                 : null;
             })
             .catch((error) => {
