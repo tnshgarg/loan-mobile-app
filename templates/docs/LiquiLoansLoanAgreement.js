@@ -92,52 +92,33 @@ const agreement = {
 <table style="border: 1px solid black; border-collapse: collapse;">
   <tr>
     <th style="border: 1px solid black; border-collapse: collapse;">Outstanding amount (INR)</th>
-    <th style="border: 1px solid black; border-collapse: collapse;">Due date +15 days</th>
-    <th style="border: 1px solid black; border-collapse: collapse;">Due date +30 days</th>
-    <th style="border: 1px solid black; border-collapse: collapse;">Due date +60 days</th>
-    <th style="border: 1px solid black; border-collapse: collapse;">Due date +90 days</th>
-  </tr>
-  <tr>
-    <td style="border: 1px solid black; border-collapse: collapse;">&lt=1000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
+    <th style="border: 1px solid black; border-collapse: collapse;">Due date + 30 days</th>
+    <th style="border: 1px solid black; border-collapse: collapse;">Due date + 60 days</th>
+    <th style="border: 1px solid black; border-collapse: collapse;">Due date + 90 days</th>
   </tr>
   <tr>
     <td style="border: 1px solid black; border-collapse: collapse;">1001-5000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">150</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">300</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">450</td>
   </tr>
   <tr>
     <td style="border: 1px solid black; border-collapse: collapse;">5001-10,000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">250</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">500</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">750</td>
   </tr>
   <tr>
     <td style="border: 1px solid black; border-collapse: collapse;">10,001-25,000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">350</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">700</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">900</td>
   </tr>
   <tr>
-    <td style="border: 1px solid black; border-collapse: collapse;">25,001-50,000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-  </tr>
-  <tr>
-    <td style="border: 1px solid black; border-collapse: collapse;">&gt50,000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">&gt25,000</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">450</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">900</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">1000</td>
   </tr>
 </table>
 
@@ -454,52 +435,33 @@ const agreement = {
 <table style="border: 1px solid black; border-collapse: collapse;">
   <tr>
     <th style="border: 1px solid black; border-collapse: collapse;">Outstanding amount (INR)</th>
-    <th style="border: 1px solid black; border-collapse: collapse;">Due date +15 days</th>
-    <th style="border: 1px solid black; border-collapse: collapse;">Due date +30 days</th>
-    <th style="border: 1px solid black; border-collapse: collapse;">Due date +60 days</th>
-    <th style="border: 1px solid black; border-collapse: collapse;">Due date +90 days</th>
-  </tr>
-  <tr>
-    <td style="border: 1px solid black; border-collapse: collapse;">&lt=1000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
+    <th style="border: 1px solid black; border-collapse: collapse;">Due date + 30 days</th>
+    <th style="border: 1px solid black; border-collapse: collapse;">Due date + 60 days</th>
+    <th style="border: 1px solid black; border-collapse: collapse;">Due date + 90 days</th>
   </tr>
   <tr>
     <td style="border: 1px solid black; border-collapse: collapse;">1001-5000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">150</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">300</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">450</td>
   </tr>
   <tr>
     <td style="border: 1px solid black; border-collapse: collapse;">5001-10,000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">250</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">500</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">750</td>
   </tr>
   <tr>
     <td style="border: 1px solid black; border-collapse: collapse;">10,001-25,000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">350</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">700</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">900</td>
   </tr>
   <tr>
-    <td style="border: 1px solid black; border-collapse: collapse;">25,001-50,000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-  </tr>
-  <tr>
-    <td style="border: 1px solid black; border-collapse: collapse;">&gt50,000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">&gt25,000</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">450</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">900</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">1000</td>
   </tr>
 </table>
 
