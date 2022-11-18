@@ -29,7 +29,7 @@ const KYC = () => {
 
   const [bureauPass, setBureauPass] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const mandateVerifyStatus= useSelector((state)=>state.mandate.verifyStatus);
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const data = useSelector((state) => state.aadhaar.data);
@@ -118,7 +118,12 @@ const KYC = () => {
         Analytics.trackEvent("Ewa|Kyc|Success", {
           unipeEmployeeId: unipeEmployeeId,
         });
-        navigation.navigate("EWA_MANDATE");
+        if (mandateVerifyStatus === "SUCCESS") {
+          navigation.navigate("EWA_AGREEMENT");
+        }
+        else {
+          navigation.navigate("EWA_MANDATE");
+        }
       })
       .catch((error) => {
         console.log("ewaKycPush error: ", error.toString());
