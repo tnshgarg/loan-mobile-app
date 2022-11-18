@@ -4,18 +4,17 @@ import { AntDesign } from "react-native-vector-icons";
 import { useDispatch } from "react-redux";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { showToast } from "../atoms/Toast";
+import { persistor } from "../../store/store";
 
 export default Logout = () => {
-  const dispatch = useDispatch();
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   return (
     <Pressable
       onPress={() => {
-        dispatch({type: "LOGOUT"});
         showToast("Logging out");
-        setTimeout(() => {
-          navigation.navigate("OnboardingStack", { screen: "Login" });
-        }, 1000);
+        dispatch({ type: "LOGOUT" });
+        // persistor.purge().then(() =>  );
       }}
       style={{
         flexDirection: "row",
