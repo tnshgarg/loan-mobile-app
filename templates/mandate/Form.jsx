@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, SafeAreaView, ScrollView, Text } from "react-native";
+import { Alert, SafeAreaView, ScrollView } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,9 +8,7 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { mandatePush } from "../../helpers/BackendPush";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
-  addCustomerId,
   addData,
-  addOrderId,
   addVerifyMsg,
   addVerifyStatus,
   addVerifyTimestamp,
@@ -49,6 +47,7 @@ const MandateFormTemplate = (props) => {
   const [authType, setAuthType] = useState();
   const [customerId, setCustomerId] = useState();
   const [orderId, setOrderId] = useState();
+  const [active, setActive] = useState(mandateSlice?.active);
   const [data, setData] = useState(mandateSlice?.data);
   const [verifyMsg, setVerifyMsg] = useState(mandateSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(mandateSlice?.verifyStatus);
@@ -67,12 +66,8 @@ const MandateFormTemplate = (props) => {
   }, []);
 
   useEffect(() => {
-    dispatch(addCustomerId(customerId));
-  }, [customerId]);
-
-  useEffect(() => {
-    dispatch(addOrderId(orderId));
-  }, [orderId]);
+    dispatch(addData(data));
+  }, [data]);
 
   useEffect(() => {
     dispatch(addVerifyMsg(verifyMsg));
@@ -85,10 +80,6 @@ const MandateFormTemplate = (props) => {
   useEffect(() => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
-
-  useEffect(() => {
-    dispatch(addData(data));
-  }, [data]);
 
   useEffect(() => {
     if (backendPush) {

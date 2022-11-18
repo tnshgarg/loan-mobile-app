@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  active: false,
   data: {},
   verifyMsg: "",
   verifyStatus: "PENDING",
@@ -11,6 +12,9 @@ const mandateSlice = createSlice({
   name: "mandate",
   initialState: initialState,
   reducers: {
+    addActive(state, action) {
+      state.active = action.payload;
+    },
     addData(state, action) {
       state.data = action.payload;
     },
@@ -34,12 +38,11 @@ const mandateSlice = createSlice({
 });
 
 export const {
+  addActive,
   addData,
   addVerifyMsg,
   addVerifyStatus,
   addVerifyTimestamp,
-  addOrderId,
-  addCustomerId,
   resetMandate,
 } = mandateSlice.actions;
 
