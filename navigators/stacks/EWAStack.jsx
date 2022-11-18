@@ -6,13 +6,14 @@ import { useSelector } from "react-redux";
 import EWA from "../../screens/06_home/Money/EWA/EWA";
 import Offer from "../../screens/06_home/Money/EWA/01_Offer";
 import KYC from "../../screens/06_home/Money/EWA/02_Kyc";
-import Agreement from "../../screens/06_home/Money/EWA/03_Agreement";
-import Disbursement from "../../screens/06_home/Money/EWA/04_Disbursement";
+import Mandate from "../../screens/06_home/Money/EWA/03_Mandate";
+import Agreement from "../../screens/06_home/Money/EWA/04_Agreement";
+import Disbursement from "../../screens/06_home/Money/EWA/05_Disbursement";
 
 const EWAStack = () => {
   const Stack = createNativeStackNavigator();
   var initialRoute = useSelector((state) => state.navigation.currentScreen);
-  
+
   STAGE === "dev" ? (initialRoute = "DevMenu") : null;
   console.log("initialRoute: ", initialRoute);
 
@@ -38,6 +39,13 @@ const EWAStack = () => {
       <Stack.Screen
         name="EWA_KYC"
         component={KYC}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="EWA_MANDATE"
+        component={Mandate}
         options={{
           headerShown: false,
         }}

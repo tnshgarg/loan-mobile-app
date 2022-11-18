@@ -58,10 +58,6 @@ const WelcomePage = () => {
         iconConfig.name = "bank-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
-      case 4: {
-        iconConfig.name = "bank-check";
-        return <MaterialCommunityIcons {...iconConfig} />;
-      }
       default: {
         iconConfig.name = "info-outline";
         return <MaterialIcons {...iconConfig} />;
@@ -71,7 +67,7 @@ const WelcomePage = () => {
 
   const renderStepIndicator = (params) => getStepIndicatorIconConfig(params);
 
-  const data = ["Profile", "Aadhaar", "PAN", "Bank", "Mandate"];
+  const data = ["Profile", "Aadhaar", "PAN", "Bank"];
 
   return (
     <SafeAreaView style={[styles.container]}>
@@ -79,7 +75,7 @@ const WelcomePage = () => {
       <View style={[welcome.steps, { alignSelf: "center" }]}>
         <StepIndicator
           customStyles={stepIndicatorStyles}
-          stepCount={5}
+          stepCount={4}
           direction="vertical"
           renderStepIndicator={renderStepIndicator}
           currentPosition={-1}

@@ -1,11 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Offer from "../screens/06_home/Money/EWA/01_Offer";
 import EWA from "../screens/06_home/Money/EWA/EWA";
-import Agreement from "../screens/06_home/Money/EWA/03_Agreement";
-import Disbursement from "../screens/06_home/Money/EWA/04_Disbursement";
+import Offer from "../screens/06_home/Money/EWA/01_Offer";
 import KYC from "../screens/06_home/Money/EWA/02_Kyc";
+import Mandate from "../screens/06_home/Money/EWA/03_Mandate";
+import Agreement from "../screens/06_home/Money/EWA/04_Agreement";
+import Disbursement from "../screens/06_home/Money/EWA/05_Disbursement";
+
 
 const EWANavigator = () => {
 
@@ -34,6 +36,13 @@ const EWANavigator = () => {
       <Stack.Screen
         name="EWA_KYC"
         component={KYC}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="EWA_MANDATE"
+        component={Mandate}
         options={{
           headerShown: false,
         }}

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Alert, BackHandler, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/core";
-import ProgressBarTop from "../../navigators/ProgressBarTop";
+import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import AadhaarFormTemplate from "../../templates/aadhaar/Form";
 import { styles } from "../../styles";
@@ -37,7 +37,7 @@ const AadhaarForm = () => {
         title="Aadhaar Verification"
         onLeftIconPress={() => backAction()}
       />
-      <ProgressBarTop step={1} />
+      <OnboardingProgressBar step={1} />
       <AadhaarFormTemplate />
     </SafeAreaView>
   );

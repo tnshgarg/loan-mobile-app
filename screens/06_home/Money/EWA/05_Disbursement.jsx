@@ -24,7 +24,10 @@ const Disbursement = ({ route, navigation }) => {
   const [processingFees, setProcessingFees] = useState("");
 
   const backAction = () => {
-    navigation.navigate("EWA");
+    navigation.navigate("HomeStack", {
+      screen: "DrawerHome",
+      params: { screen: "Money" , params :{ screen: "EWA" }},
+    });
     return true;
   };
 
