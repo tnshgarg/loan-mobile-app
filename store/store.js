@@ -43,9 +43,7 @@ const rootReducer = (state, action) => {
   console.log("action.type", action.type);
   if (action.type === "LOGOUT") {
     try {
-      AsyncStorage.clear().then(() => {
-        navigate("OnboardingStack", { screen: "Login" });
-      });
+      AsyncStorage.clear();
     } catch (error) {
       console.error(error);
     }
