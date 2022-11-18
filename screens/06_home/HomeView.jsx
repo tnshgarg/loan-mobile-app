@@ -9,7 +9,7 @@ import { allAreNull } from "../../helpers/nullCheck";
 import { addCampaignId } from "../../store/slices/authSlice";
 import {
   addCurrentScreen,
-  addCurrentStack
+  addCurrentStack,
 } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 
@@ -75,12 +75,11 @@ const HomeView = () => {
   useEffect(() => {
     getUrlAsync();
   }, []);
-
+  console.log("message", message);
   return (
     <>
       <SafeAreaView style={[styles.container]}>
-        <KycCheckCard />
-        {allAreNull(message) ? <HomeOfferCard /> : null}
+        {allAreNull(message) ? <HomeOfferCard /> : <KycCheckCard />}
       </SafeAreaView>
     </>
   );
