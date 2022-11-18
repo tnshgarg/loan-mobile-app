@@ -132,7 +132,7 @@ const Offer = () => {
         .then((response) => {
           console.log("ewaOfferPush response.data: ", response.data);
           setLoading(false);
-          navigation.navigate("EWA_MANDATE");
+          navigation.navigate("EWA_KYC");
           Analytics.trackEvent("Ewa|OfferPush|Success", {
             unipeEmployeeId: unipeEmployeeId,
           });
