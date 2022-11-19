@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { Button } from "@react-native-material/core";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/panSlice";
 import { panBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
-import FuzzyCheck from "../../components/FuzzyCheck";
+import { COLORS, FONTS } from "../../constants/Theme";
+import CollapsibleCard from "../../components/molecules/CollapsibleCard";
+import FuzzyCheck from "../../components/molecules/FuzzyCheck";
+import Analytics from "appcenter-analytics";
 
 const PanConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -14,15 +17,15 @@ const PanConfirmApi = (props) => {
 
   const [backendPush, setBackendPush] = useState(false);
 
-  const id = useSelector((state) => state.auth.id);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const token = useSelector((state) => state.auth.token);
+  const panSlice = useSelector((state) => state.pan);
   const data = useSelector((state) => state.pan.data);
   const number = useSelector((state) => state.pan.number);
   const verifyTimestamp = useSelector((state) => state.pan.verifyTimestamp);
-
-  const panSlice = useSelector((state) => state.pan);
   const [verifyMsg, setVerifyMsg] = useState(panSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(panSlice?.verifyStatus);
-  
+
   useEffect(() => {
     dispatch(addVerifyMsg(verifyMsg));
   }, [verifyMsg]);
@@ -35,47 +38,67 @@ const PanConfirmApi = (props) => {
     console.log(backendPush);
     if (backendPush) {
       panBackendPush({
-        id: id,
-        data: data,
-        number: number,
-        verifyMsg: verifyMsg,
-        verifyStatus: verifyStatus,
-        verifyTimestamp: verifyTimestamp,
+        data: {
+          unipeEmployeeId: unipeEmployeeId,
+          data: data,
+          number: number,
+          verifyMsg: verifyMsg,
+          verifyStatus: verifyStatus,
+          verifyTimestamp: verifyTimestamp,
+        },
+        token: token,
       });
       setBackendPush(false);
     }
   }, [backendPush]);
 
+  const cardData = () => {
+    var res = [
+      { subTitle: "Number", value: number },
+      { subTitle: "Name", value: data?.name },
+      { subTitle: "Date of Birth", value: data?.date_of_birth },
+      { subTitle: "Gender", value: data?.gender },
+    ];
+    if (data["email"]) {
+      res.push({ subTitle: "Email", value: data?.email });
+    }
+    return res;
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={form.OtpAwaitMsg}>Are these your PAN details ?{"\n"}</Text>
-      <Text style={form.userData}>Number: {number}</Text>
-      <Text style={form.userData}>Name: {data["name"]}</Text>
-      <Text style={form.userData}>Date of Birth: {data["date_of_birth"]}</Text>
-      <Text style={form.userData}>Gender: {data["gender"]}</Text>
-      {data["email"] && (
-        <Text style={form.userData}>Email: {data["email"]}</Text>
-      )}
+      <CollapsibleCard
+        data={cardData()}
+        title="Are these your PAN details ?"
+        isClosed={false}
+      />
 
       <View
         style={{
-          alignSelf: "center",
           flexDirection: "row",
           justifyContent: "space-between",
-          flex: 1,
+          alignItems: "center",
+          marginTop: 20,
         }}
       >
-        <FuzzyCheck name={data["name"]} step="PAN"/>
+        <FuzzyCheck name={data["name"]} step="PAN" />
         <Button
           title="No"
           type="solid"
           uppercase={false}
           style={form.noButton}
-          color="#EB5757"
+          color={COLORS.warning}
+          titleStyle={{ ...FONTS.h3, color: COLORS.warning }}
+          pressableContainerStyle={{ width: "100%" }}
+          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
             setBackendPush(true);
+            Analytics.trackEvent("Pan|Confirm|Error", {
+              unipeEmployeeId: unipeEmployeeId,
+              error: "Rejected by User",
+            });
             {
               props?.route?.params?.type == "KYC"
                 ? navigation.navigate("KYC", {
@@ -90,11 +113,17 @@ const PanConfirmApi = (props) => {
           type="solid"
           uppercase={false}
           style={form.yesButton}
-          color="#4E46F1"
+          color={COLORS.primary}
+          titleStyle={{ ...FONTS.h3, color: COLORS.primary }}
+          pressableContainerStyle={{ width: "100%" }}
+          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
+            Analytics.trackEvent("Pan|Confirm|Success", {
+              unipeEmployeeId: unipeEmployeeId,
+            });
             {
               props?.route?.params?.type == "KYC"
                 ? navigation.navigate("KYC", {

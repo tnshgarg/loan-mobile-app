@@ -1,9 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  data: { type: "" },
-  deviceIp: "",
-  deviceId: "",
+  active: false,
+  data: {},
   verifyMsg: "",
   verifyStatus: "PENDING",
   verifyTimestamp: "",
@@ -13,14 +12,11 @@ const mandateSlice = createSlice({
   name: "mandate",
   initialState: initialState,
   reducers: {
+    addActive(state, action) {
+      state.active = action.payload;
+    },
     addData(state, action) {
       state.data = action.payload;
-    },
-    addDeviceId(state, action) {
-      state.deviceId = action.payload;
-    },
-    addDeviceIp(state, action) {
-      state.deviceIp = action.payload;
     },
     addVerifyMsg(state, action) {
       state.verifyMsg = action.payload;
@@ -31,11 +27,8 @@ const mandateSlice = createSlice({
     addVerifyTimestamp(state, action) {
       state.verifyTimestamp = action.payload;
     },
-    addType(state, action) {
-      state.data.type = action.payload;
-    },
     resetMandate(state, action) {
-      if (!action.payload) {
+      if (!action.payload || Object.keys(action.payload).length === 0) {
         Object.assign(state, initialState);
       } else {
         Object.assign(state, action.payload);
@@ -45,13 +38,11 @@ const mandateSlice = createSlice({
 });
 
 export const {
+  addActive,
   addData,
-  addDeviceId,
-  addDeviceIp,
   addVerifyMsg,
   addVerifyStatus,
   addVerifyTimestamp,
-  addType,
   resetMandate,
 } = mandateSlice.actions;
 

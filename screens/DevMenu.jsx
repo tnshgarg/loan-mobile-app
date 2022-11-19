@@ -1,36 +1,55 @@
 import { View, ScrollView } from "react-native";
-import React from "react";
 import { useNavigation } from "@react-navigation/native";
-import DevMenuButton from "../components/DevMenuButton";
+import DevMenuButton from "../components/atoms/DevMenuButton";
 
 export default DevMenu = () => {
   const navigation = useNavigation();
+
   const screens = [
-    { title: "Welcome", name: "Welcome" },
-    { title: "Login", name: "Login" },
-    { title: "AADHAAR", name: "AadhaarForm" },
-    { title: "PAN", name: "PanForm" },
-    { title: "BANK", name: "BankForm" },
-    { title: "Mandate", name: "Mandate" },
-    { title: "Profile", name: "PersonalDetailsForm" },
-    { title: "Photo", name: "PersonalImage" },
-    { title: "Home", name: "Home" },
-    { title: "KYC Details", name: "KYC" },
-    { title: "Profile Details", name: "Profile" },
-    { title: "EWA", name: "EWA_OFFER" },
+    { title: "Welcome", stack: "OnboardingStack", name: "Welcome" },
+    { title: "Login", stack: "OnboardingStack", name: "Login" },
+    { title: "Profile", stack: "OnboardingStack", name: "ProfileForm" },
+    { title: "AADHAAR", stack: "OnboardingStack", name: "AadhaarForm" },
+    { title: "PAN", stack: "OnboardingStack", name: "PanForm" },
+    { title: "BANK", stack: "OnboardingStack", name: "BankForm" },
+    { title: "Mandate", stack: "OnboardingStack", name: "Mandate" },
+    { title: "Home", stack: "HomeStack", name: "DrawerHome" },
+    // { title: "Home", stack: "DrawerNavigator", name: "DrawerHome" },
+    { title: "KYC Details", stack: "HomeStack", name: "KYC" },
+    { title: "Profile Details", stack: "HomeStack", name: "Profile" },
+    { title: "EWA", stack: "EWAStack", name: "EWA_OFFER" },
   ];
 
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         {screens.map((screen, index) => (
           <DevMenuButton
             key={index}
             style={{ marginTop: 20 }}
             title={screen.title}
-            onPress={() => navigation.navigate(screen.name)}
+            onPress={() =>
+              navigation.navigate(screen.stack, { screen: screen.name })
+            }
           />
         ))}
+        <DevMenuButton
+          style={{ marginTop: 20 }}
+          title={"Notification Test"}
+          onPress={() => handleNotification()}
+        />
+        <DevMenuButton
+          style={{ marginTop: 20 }}
+          title={" Drawer Home"}
+          onPress={() =>
+            navigation.navigate("HomeStack", {
+              screen: "DrawerHome",
+              params: {
+                screen: "Documents",
+              },
+            })
+          }
+        />
       </View>
     </ScrollView>
   );

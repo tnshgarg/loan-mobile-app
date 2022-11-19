@@ -1,6 +1,7 @@
 # employee-app
 
 ## Install and run on android
+
 ```
 cd employee-app
 npm install
@@ -10,11 +11,11 @@ npx react-native start
 npx react-native start --reset-cache
 
 # build and start emulator
-npx react-native run-android
+npx react-native run-android --active-arch-only
 ```
 
-
 ## Gradle
+
 ```
 # cleanup
 cd android && ./gradlew clean
@@ -24,9 +25,8 @@ cd android && ./gradlew assembleRelease
 
 ```
 
-
-
 ## Install and run on ios
+
 ```
 npm install -g react-native-cli
 cd employee-app
@@ -34,9 +34,9 @@ npm install
 react-native run-ios
 ```
 
-
 ## Build Strategies
-` STAGE = "dev" | "test" | "prod" `
+
+`STAGE = "dev" | "test" | "prod"`
 
 ```
 start:dev
@@ -53,4 +53,15 @@ build:test
 
 build:prod
 - AAB to be released to PlayStore `prod` STAGE [DB]
+```
+
+## Code Push
+
+```
+    appcenter codepush release-react -a Unipe/EmployeeApp -d Test 
+    - pushes to test
+    appcenter codepush release-react -a Unipe/EmployeeApp -d Dev
+    - pushes to dev
+    appcenter codepush release-react -a Unipe/EmployeeApp -d Prod
+    - pushes to prod
 ```

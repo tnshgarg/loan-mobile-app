@@ -3,12 +3,11 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Image, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addVerifyMsg,
-  addVerifyStatus,
-} from "../../store/slices/licenseSlice";
+import { addVerifyMsg, addVerifyStatus } from "../../store/slices/licenseSlice";
 import { licenseBackendPush } from "../../helpers/BackendPush";
 import { form, license, styles, selfie } from "../../styles";
+import { COLORS, FONTS } from "../../constants/Theme";
+import Analytics from "appcenter-analytics";
 
 export default Confirm = () => {
   const dispatch = useDispatch();
@@ -16,7 +15,8 @@ export default Confirm = () => {
 
   const [backendPush, setBackendPush] = useState(false);
 
-  const id = useSelector((state) => state.auth.id);
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const data = useSelector((state) => state.license.data);
   const number = useSelector((state) => state.license.number);
   const verifyTimestamp = useSelector((state) => state.license.verifyTimestamp);
@@ -38,11 +38,14 @@ export default Confirm = () => {
     console.log("licenseSlice : ", licenseSlice);
     if (backendPush) {
       licenseBackendPush({
-        id: id,
-        data: data,
-        verifyMsg: verifyMsg,
-        verifyStatus: verifyStatus,
-        verifyTimestamp: verifyTimestamp,
+        data: {
+          unipeEmployeeId: unipeEmployeeId,
+          data: data,
+          verifyMsg: verifyMsg,
+          verifyStatus: verifyStatus,
+          verifyTimestamp: verifyTimestamp,
+        },
+        token: token,
       });
     }
     setBackendPush(false);
@@ -61,6 +64,7 @@ export default Confirm = () => {
         <Image
           source={{
             uri: `data:image/jpeg;base64,${data?.photo_base64}`,
+            cache: "only-if-cached",
           }}
           style={form.aadharimg}
         />
@@ -119,10 +123,10 @@ export default Confirm = () => {
 
       <View
         style={{
-          alignSelf: "center",
           flexDirection: "row",
           justifyContent: "space-between",
-          flex: 1,
+          alignItems: "center",
+          marginTop: 20,
         }}
       >
         <Button
@@ -130,9 +134,17 @@ export default Confirm = () => {
           type="solid"
           uppercase={false}
           style={form.noButton}
-          color="#EB5757"
+          color={COLORS.warning}
+          titleStyle={{ ...FONTS.h3, color: COLORS.warning }}
+          pressableContainerStyle={{ width: "100%" }}
+          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Rejected by User");
+            setVerifyStatus("ERROR");
+            Analytics.trackEvent("Licence|Confirm|Error", {
+              unipeEmployeeId: unipeEmployeeId,
+              error: "Rejected by User",
+            });
             navigation.navigate("Documents", {
               screen: "Driving License",
               params: {
@@ -146,11 +158,17 @@ export default Confirm = () => {
           type="solid"
           uppercase={false}
           style={form.yesButton}
-          color="#4E46F1"
+          color={COLORS.primary}
+          titleStyle={{ ...FONTS.h3, color: COLORS.primary }}
+          pressableContainerStyle={{ width: "100%" }}
+          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
+            Analytics.trackEvent("Licence|Confirm|Success", {
+              unipeEmployeeId: unipeEmployeeId,
+            });
             navigation.navigate("Documents", {
               screen: "Driving License",
             });

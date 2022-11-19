@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persistStore, persistReducer } from "redux-persist";
-
+import { navigate } from "../navigators/RootNavigation";
 import aadhaarSlice from "./slices/aadhaarSlice";
 import authSlice from "./slices/authSlice";
 import bankSlice from "./slices/bankSlice";
@@ -16,13 +16,14 @@ import timerSlice from "./slices/timerSlice";
 
 import ewaLiveSlice from "./slices/ewaLiveSlice";
 import ewaHistoricalSlice from "./slices/ewaHistoricalSlice";
+import notificationSlice from "./slices/notificationSlice";
 
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
 };
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   aadhaar: aadhaarSlice,
   auth: authSlice,
   bank: bankSlice,
@@ -35,7 +36,21 @@ const rootReducer = combineReducers({
   timer: timerSlice,
   ewaLive: ewaLiveSlice,
   ewaHistorical: ewaHistoricalSlice,
+  notification: notificationSlice,
 });
+
+const rootReducer = (state, action) => {
+  console.log("action.type", action.type);
+  if (action.type === "LOGOUT") {
+    try {
+      AsyncStorage.clear();
+    } catch (error) {
+      console.error(error);
+    }
+    return appReducer(undefined, action);
+  }
+  return appReducer(state, action);
+};
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

@@ -1,13 +1,14 @@
-import { Button, Icon } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, Text, TextInput, View } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import { bankform, form } from "../../styles";
-import Fetch from "../../apis/license/Fetch";
-import DateEntry from "../../components/DateEntry";
+import { bankform, form, styles } from "../../styles";
+import Verify from "../../apis/license/Verify";
+import DateEntry from "../../components/molecules/DateEntry";
 import { addNumber } from "../../store/slices/licenseSlice";
+import FormInput from "../../components/atoms/FormInput";
+import InfoCard from "../../components/atoms/InfoCard";
 
 const LicenseFormTemplate = () => {
   const dispatch = useDispatch();
@@ -30,45 +31,42 @@ const LicenseFormTemplate = () => {
   }, [number]);
 
   return (
-    <KeyboardAvoidingWrapper>
-      <View>
-        <Text style={form.formLabel}>Enter License Number</Text>
-        <TextInput
-          style={form.formTextInput}
-          autoCapitalize="characters"
-          value={number}
-          onChangeText={setNumber}
-          placeholder="Enter License Number"
-          
-        />
-        {number && !validNumber ? (
-          <Text style={bankform.formatmsg}>Invalid License Number.</Text>
-        ) : null}
-        <DateEntry
-          title="Date of birth as recorded in License"
-          val={dob}
-          setval={setDob}
-        />
-        <View style={bankform.infoCard}>
-          <Icon name="info-outline" size={20} color="#4E46F1" />
-          <Text style={bankform.infoText}>
-            License is needed to verify your eligibility to operate heavy
-            machinery.
-          </Text>
-        </View>
+    <SafeAreaView style={styles.safeContainer}>
+      <KeyboardAvoidingWrapper>
+        <View>
+          <FormInput
+            placeholder={"Enter License Number"}
+            containerStyle={{ marginVertical: 10 }}
+            value={number}
+            onChange={setNumber}
+            autoCapitalize="characters"
+          />
+          {number && !validNumber ? (
+            <Text style={bankform.formatmsg}>Invalid License Number.</Text>
+          ) : null}
+          <DateEntry
+            title="Date of birth as recorded in License"
+            val={dob}
+            setval={setDob}
+          />
+          <InfoCard
+            info={
+              "License is needed to verify your eligibility to operate heavy machinery."
+            }
+          />
 
-        <Fetch
-          url={"https://api.gridlines.io/dl-api/fetch"}
-          data={{
-            driving_license_number: number,
-            date_of_birth: dob,
-            consent: "Y",
-          }}
-          style={form.nextButton}
-          disabled={!validNumber}
-        />
-      </View>
-    </KeyboardAvoidingWrapper>
+          <Verify
+            url={"https://api.gridlines.io/dl-api/fetch"}
+            data={{
+              driving_license_number: number,
+              date_of_birth: dob,
+              consent: "Y",
+            }}
+            disabled={!validNumber}
+          />
+        </View>
+      </KeyboardAvoidingWrapper>
+    </SafeAreaView>
   );
 };
 

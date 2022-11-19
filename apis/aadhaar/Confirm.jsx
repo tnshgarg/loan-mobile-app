@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { Text, View, Image } from "react-native";
+import { View, Image } from "react-native";
 import { Button } from "@react-native-material/core";
 import {
   addVerifyMsg,
@@ -10,6 +10,9 @@ import {
 } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
+import { COLORS, FONTS } from "../../constants/Theme";
+import Analytics from "appcenter-analytics";
+import CollapsibleCard from "../../components/molecules/CollapsibleCard";
 
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -17,7 +20,8 @@ const AadhaarConfirmApi = (props) => {
 
   const [backendPush, setBackendPush] = useState(false);
 
-  const id = useSelector((state) => state.auth.id);
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const data = useSelector((state) => state.aadhaar.data);
   const number = useSelector((state) => state.aadhaar.number);
   const verifyTimestamp = useSelector((state) => state.aadhaar.verifyTimestamp);
@@ -42,39 +46,53 @@ const AadhaarConfirmApi = (props) => {
     console.log("AadhaarConfirmApi aadhaarSlice: ", aadhaarSlice);
     if (backendPush) {
       aadhaarBackendPush({
-        id: id,
-        data: data,
-        number: number,
-        verifyMsg: verifyMsg,
-        verifyStatus: verifyStatus,
-        verifyTimestamp: verifyTimestamp,
+        data: {
+          unipeEmployeeId: unipeEmployeeId,
+          data: data,
+          number: number,
+          verifyMsg: verifyMsg,
+          verifyStatus: verifyStatus,
+          verifyTimestamp: verifyTimestamp,
+        },
+        token: token,
       });
       setBackendPush(false);
     }
   }, [backendPush]);
 
+  const cardData = () => {
+    var res = [
+      { subTitle: "Number", value: number },
+      { subTitle: "Name", value: data?.name },
+      { subTitle: "Date of Birth", value: data?.date_of_birth },
+      { subTitle: "Gender", value: data?.gender },
+      { subTitle: "Address", value: data?.address },
+    ];
+    return res;
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={form.OtpAwaitMsg}>
-        Are these your AADHAAR details ?{"\n"}
-      </Text>
+      <CollapsibleCard
+        data={cardData()}
+        title="Are these your AADHAAR details ?"
+        isClosed={false}
+      />
+
       <Image
         source={{
           uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
+          cache: "only-if-cached",
         }}
         style={form.aadharimg}
       />
-      <Text style={form.userData}>Number: {number}</Text>
-      <Text style={form.userData}>Name: {data["name"]}</Text>
-      <Text style={form.userData}>Date of Birth: {data["date_of_birth"]}</Text>
-      <Text style={form.userData}>Gender: {data["gender"]}</Text>
 
       <View
         style={{
-          alignSelf: "center",
           flexDirection: "row",
           justifyContent: "space-between",
-          flex: 1,
+          alignItems: "center",
+          marginTop: 20,
         }}
       >
         <Button
@@ -82,11 +100,18 @@ const AadhaarConfirmApi = (props) => {
           type="solid"
           uppercase={false}
           style={form.noButton}
-          color="#EB5757"
+          color={COLORS.warning}
+          titleStyle={{ ...FONTS.h3, color: COLORS.warning }}
+          pressableContainerStyle={{ width: "100%" }}
+          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
             setBackendPush(true);
+            Analytics.trackEvent("Aadhaar|Confirm|Error", {
+              unipeEmployeeId: unipeEmployeeId,
+              error: "Rejected by User",
+            });
             {
               props?.route?.params?.type == "KYC"
                 ? navigation.navigate("KYC", {
@@ -104,11 +129,17 @@ const AadhaarConfirmApi = (props) => {
           type="solid"
           uppercase={false}
           style={form.yesButton}
-          color="#4E46F1"
+          color={COLORS.primary}
+          titleStyle={{ ...FONTS.h3, color: COLORS.primary }}
+          pressableContainerStyle={{ width: "100%" }}
+          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
+            Analytics.trackEvent("Aadhaar|Confirm|Success", {
+              unipeEmployeeId: unipeEmployeeId,
+            });
             {
               props?.route?.params?.type == "KYC"
                 ? navigation.navigate("KYC", {

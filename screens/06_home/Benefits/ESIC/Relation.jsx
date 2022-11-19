@@ -1,22 +1,27 @@
-import { Button } from "@react-native-material/core";
-import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
-import { Text, TextInput, View } from "react-native";
+import { useEffect, useState } from "react";
+import { SafeAreaView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { showToast } from "../../../../components/Toast";
+import FormInput from "../../../../components/atoms/FormInput";
+import DropDownForm from "../../../../components/molecules/DropDownForm";
+import PrimaryButton from "../../../../components/atoms/PrimaryButton";
+import { showToast } from "../../../../components/atoms/Toast";
 import { relationPush } from "../../../../helpers/BackendPush";
-import relations from "../../../../helpers/RelationData";
+import {
+  nomineeRelations,
+  employeeRelations,
+} from "../../../../helpers/RelationData";
 import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
 import { addESICFamilyDetails } from "../../../../store/slices/esicSlice";
-import { bankform, form } from "../../../../styles";
+import { styles } from "../../../../styles";
 
 export default Relation = () => {
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  
-  const id = useSelector((state) => state.auth.id);
+
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+
   const [fatherHusbandRelation, setRelation] = useState(
     useSelector((state) => state.esic.familyDetails.fatherHusband.relation)
   );
@@ -71,82 +76,72 @@ export default Relation = () => {
   }, [nomineeName]);
 
   return (
-    <KeyboardAvoidingWrapper>
-      <View>
-        <Text style={bankform.formtitle}>Father's / Husband's Name *</Text>
-        <TextInput
-          style={bankform.formInput}
-          value={fatherHusbandName}
-          onChangeText={setRelationName}
-        />
+    <SafeAreaView style={styles.safeContainer}>
+      <KeyboardAvoidingWrapper>
+        <View>
+          <FormInput
+            placeholder={"Father's / Husband's Name*"}
+            containerStyle={{ marginVertical: 10 }}
+            value={fatherHusbandName}
+            onChange={setRelationName}
+          />
 
-        <Text style={bankform.formtitle}>
-          Relation with Employee (Father/Husband) *
-        </Text>
-        <Picker
-          style={form.picker}
-          prompt="Relation with Employee (Father/Husband) *"
-          selectedValue={fatherHusbandRelation}
-          onValueChange={setRelation}
-        >
-          <Picker.Item label="Father" value="Father" />
-          <Picker.Item label="Husband" value="Husband" />
-        </Picker>
+          <DropDownForm
+            placeholder={"Relation with Employee (Father/Husband)*"}
+            containerStyle={{ marginVertical: 10 }}
+            value={fatherHusbandRelation}
+            setValue={setRelation}
+            data={employeeRelations}
+          />
+          <FormInput
+            placeholder={"Name of Nominee (As per Aadhaar card)*"}
+            containerStyle={{ marginVertical: 10 }}
+            value={nomineeName}
+            onChange={setNomineeName}
+          />
 
-        <Text style={bankform.formtitle}>
-          Name of Nominee (As per Aadhaar card) *
-        </Text>
-        <TextInput
-          style={bankform.formInput}
-          value={nomineeName}
-          onChangeText={setNomineeName}
-        />
+          <DropDownForm
+            placeholder={"Nominee Relationship with Employee*"}
+            containerStyle={{ marginVertical: 10 }}
+            value={nomineeRelation}
+            setValue={setNomineeRelation}
+            data={nomineeRelations}
+          />
 
-        <Text style={bankform.formtitle}>
-          Nominee Relationship with Employee *
-        </Text>
-        <Picker
-          style={form.picker}
-          prompt="Nominee Relationship with Employee *"
-          selectedValue={nomineeRelation}
-          onValueChange={setNomineeRelation}
-        >
-          {relations.map((value, index) => {
-            return <Picker.Item label={value} value={value} key={index} />;
-          })}
-        </Picker>
-        <Button
-          uppercase={false}
-          title="Continue"
-          type="solid"
-          color="#4E46F1"
-          style={form.nextButton}
-          onPress={() => {
-            relationPush({
-              id: id,
-              type: "fh",
-              relation: fatherHusbandRelation,
-              name: fatherHusbandName,
-            });
+          <PrimaryButton
+            title="Continue"
+            onPress={() => {
+              relationPush({
+                data: {
+                  unipeEmployeeId: unipeEmployeeId,
+                  type: "fh",
+                  relation: fatherHusbandRelation,
+                  name: fatherHusbandName,
+                },
+                token: token,
+              });
 
-            relationPush({
-              id: id,
-              type: "nominee",
-              relation: nomineeRelation,
-              name: nomineeName,
-            });
+              relationPush({
+                data: {
+                  unipeEmployeeId: unipeEmployeeId,
+                  type: "nominee",
+                  relation: nomineeRelation,
+                  name: nomineeName,
+                },
+                token: token,
+              });
 
-            showToast("Family details recorded.");
-            navigation.navigate("Benefits", {
-              screen: "ESIC",
-              params: {
-                screen: "Employee Address",
-              },
-            });
-          }}
-        />
-        <View style={bankform.padding}></View>
-      </View>
-    </KeyboardAvoidingWrapper>
+              showToast("Family details recorded.");
+              navigation.navigate("Benefits", {
+                screen: "ESIC",
+                params: {
+                  screen: "Employee Address",
+                },
+              });
+            }}
+          />
+        </View>
+      </KeyboardAvoidingWrapper>
+    </SafeAreaView>
   );
 };

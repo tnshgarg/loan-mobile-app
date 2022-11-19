@@ -1,68 +1,44 @@
-import { StyleSheet } from "react-native";
+import { COLORS, FONTS, SIZES } from "./constants/Theme";
+import EStyleSheet from "react-native-extended-stylesheet";
 
-export const styles = StyleSheet.create({
+export const styles = EStyleSheet.create({
   container: {
-    backgroundColor: "white",
-    height: "100%",
+    backgroundColor: "$white",
+    flex: 1,
+    padding: "10rem",
+  },
+  safeContainer: {
+    backgroundColor: "$white",
+    flex: 1,
   },
   logo: {
     alignSelf: "center",
-    marginTop: 30,
-    width: 250,
-    height: 87,
+    width: "auto",
+    height: "auto",
   },
   headline: {
-    fontSize: 16,
-    color: "#230C45",
-    marginLeft: 55,
-    marginTop: 40,
-    fontFamily: "Roboto",
-  },
-  fieldLabel: {
-    fontSize: 14,
-    fontFamily: "Noto Sans",
-    marginTop: 60,
-    marginLeft: 40,
-    color: "#020614",
-  },
-  textInput: {
-    marginLeft: 40,
-    width: "80%",
-    height: 50,
-    borderBottomWidth: 1,
+    marginTop: "20rem",
+    ...FONTS.h3,
+    color: COLORS.black,
+    textAlign: "center",
   },
   resendText: {
-    color: "#4E46F1",
+    color: COLORS.primary,
     alignSelf: "center",
-    marginTop: 30,
-    fontSize: 16,
-    fontFamily: "Roboto",
+    marginTop: "20rem",
+    ...FONTS.h3,
     textDecorationLine: "underline",
-    fontWeight: "bold",
   },
-  otpInput: {
-    alignSelf: "center",
-    marginTop: 40,
-    width: "49%",
-    height: 50,
-    borderBottomWidth: 1,
-  },
-  ContinueButton: {
-    padding: 10,
-    alignSelf: "center",
-    marginTop: 20,
-    width: 320,
-    height: 60,
-    fontSize: 20,
-    backgroundColor: "#4E46F1",
+  btn: {
+    marginTop: "20rem",
+    width: "100%",
+    height: SIZES.btnHeight,
+    backgroundColor: COLORS.primary,
     borderRadius: 6,
   },
-  PrimaryButton: {
-    alignSelf: "center",
-    marginTop: 20,
-    width: 320,
-    height: 60,
-    fontSize: 20,
+  btnText: {
+    ...FONTS.h3,
+    color: COLORS.white,
   },
   ButtonContainer: {
     width: "100%",
@@ -72,340 +48,170 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
   },
   otpback: {
-    backgroundColor: "white",
-    width: 50,
-    borderRadius: 40,
-    marginLeft: 10,
-    marginTop: 20,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    zIndex: 99,
   },
   dataUseText: {
-    marginLeft: 40,
-    marginRight: 20,
-    marginTop: 20,
-    fontSize: 14,
-    fontFamily: "Roboto",
-    color: "gray",
+    marginTop: "20rem",
+    ...FONTS.body4,
+    color: COLORS.gray,
+    textAlign: "center",
   },
   termsText: {
-    fontWeight: "bold",
-    color: "#4E46F1",
+    ...FONTS.h4,
+    color: COLORS.primary,
   },
   otpreadtxt: {
-    marginLeft: 40,
-    marginRight: 20,
-    marginTop: 20,
-    color: "gray",
-    fontSize: 14,
-    fontFamily: "Roboto",
-    fontWeight: "bold",
+    marginTop: "20rem",
+    color: COLORS.gray,
+    ...FONTS.h4,
+    textAlign: "center",
   },
-  LoadingButton: {
+  card: {
     padding: 10,
-    alignSelf: "center",
-    marginTop: 20,
-    width: 320,
-    height: 60,
-    fontSize: 20,
-    backgroundColor: "#4E46F1",
-    borderRadius: 6,
+    borderWidth: 0.5,
+    borderColor: COLORS.lightgray_01,
+    borderRadius: 5,
+    elevation: 2,
+    backgroundColor: COLORS.white,
   },
 });
 
-export const buttons = StyleSheet.create({
-  ContinueButton: {
-    padding: 10,
-    alignSelf: "center",
-    marginTop: 50,
-    width: 320,
-    height: 60,
-    fontSize: 20,
-  },
-  FAB: {
-    backgroundColor: "#4E46F1",
-  },
-});
-
-export const progressBar = StyleSheet.create({
+export const progressBar = EStyleSheet.create({
   progressView: {
-    marginTop: 20,
+    marginTop: "20rem",
   },
   progressBar: {
     width: "100%",
-    color: "#4E46F1",
-  },
-  progressNos: {
-    marginLeft: 8,
-    marginTop: -3,
-    color: "grey",
+    color: COLORS.primary,
   },
 });
 
-export const form = StyleSheet.create({
+export const form = EStyleSheet.create({
   formHeader: {
-    marginLeft: 30,
-    marginTop: 10,
-    color: "black",
-    fontSize: 18,
+    marginTop: "10rem",
+    color: COLORS.black,
+    ...FONTS.h3,
+    textAlign: "center",
   },
   formLabel: {
-    marginLeft: 34,
-    marginTop: 30,
-    color: "grey",
-  },
-  formTextInput: {
-    marginLeft: 34,
-    width: "80%",
-    height: 50,
-    borderBottomWidth: 1,
-  },
-  picker: {
-    marginLeft: 25,
-    marginTop: 20,
-    borderBottomWidth: 2,
-  },
-  chosenButton: {
-    padding: 2,
-    marginLeft: 34,
-    marginTop: 20,
-    width: 140,
-    height: 40,
-    fontSize: 20,
-  },
-  choiceButton: {
-    padding: 2,
-    marginLeft: 34,
-    marginTop: 20,
-    width: 140,
-    height: 40,
-    fontSize: 20,
-    backgroundColor: "grey",
-  },
-  nextButton: {
-    padding: 5,
-    alignSelf: "center",
-    marginTop: 20,
-    width: 320,
-    height: 50,
-    fontSize: 20,
+    marginTop: "30rem",
+    color: COLORS.gray,
+    ...FONTS.body4,
   },
   OtpAwaitMsg: {
-    color: "#230C45",
+    color: COLORS.secondary,
     alignSelf: "center",
     textAlign: "center",
-    marginTop: 20,
-    fontSize: 16,
-    fontFamily: "Roboto",
+    marginTop: "20rem",
+    ...FONTS.body3,
   },
   userData: {
-    color: "#230C45",
-    marginLeft: 55,
-    marginTop: 10,
-    fontSize: 16,
-    fontFamily: "Roboto",
-  },
-  aadharConfirmText: {
-    color: "#230C45",
-    marginLeft: 69,
-    marginTop: 10,
-    fontSize: 16,
-    fontFamily: "Roboto",
+    color: COLORS.secondary,
+    marginLeft: "30rem",
+    marginTop: "10rem",
+    ...FONTS.body3,
   },
   yesButton: {
-    padding: 10,
-    marginLeft: 40,
-    marginTop: 20,
-    width: 150,
-    height: 60,
-    fontSize: 20,
+    flex: 1,
+    height: SIZES.btnHeight,
+    backgroundColor: COLORS.primaryBackground,
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: "10rem",
   },
   noButton: {
-    padding: 10,
-    marginTop: 20,
-    width: 150,
-    height: 60,
-    fontSize: 20,
+    flex: 1,
+    width: SIZES.width / 2.5,
+    height: SIZES.btnHeight,
+    backgroundColor: COLORS.warningBackground,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: "10rem",
   },
   aadharimg: {
     alignSelf: "center",
-    marginTop: 20,
-    width: 200,
-    height: 200,
+    marginTop: "20rem",
+    width: SIZES.width * 0.3,
+    height: SIZES.width * 0.3,
   },
-  aadhaarOr: {
-    marginBottom: 20,
-    marginTop: 20,
-    alignSelf: "center",
-    fontSize: 16,
-    fontFamily: "Roboto",
-  },
-  AadharLinkedStatus: {
-    marginTop: 30,
-    alignSelf: "center",
-    color: "#4E46F1",
-    width: 300,
-    textDecorationLine: "underline",
-    fontWeight: "bold",
-  },
+
   forgotText: {
-    marginLeft: "70%",
-    marginTop: 10,
+    marginTop: "10rem",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
   year: {
-    marginLeft: 34,
-    height: 40,
-    width: 40,
+    height: "40rem",
+    width: "40rem",
     textAlign: "center",
     borderBottomWidth: 1,
+    ...FONTS.body4,
   },
   monthday: {
-    height: 40,
-    width: 40,
+    height: "40rem",
+    width: "40rem",
     textAlign: "center",
     borderBottomWidth: 1,
+    ...FONTS.body4,
   },
-  hypenView: { width: 30, alignSelf: "center" },
-  hypen: { alignSelf: "center", fontSize: 30 },
+  hypenView: { width: "30rem", alignSelf: "center" },
+  hypen: { alignSelf: "center", ...FONTS.h1 },
 });
 
-export const checkBox = StyleSheet.create({
+export const checkBox = EStyleSheet.create({
   checkBox: {
-    marginLeft: 34,
-    marginTop: 30,
+    marginTop: "30rem",
   },
   checkBoxText: {
-    marginLeft: 10,
-    marginRight: 40,
-    marginTop: 30,
+    marginLeft: "10rem",
+    marginRight: "40rem",
+    marginTop: "30rem",
     fontSize: 14,
-    color: "#828282",
+    color: COLORS.gray,
+    ...FONTS.body4,
   },
   padding: {
-    marginTop: 30,
+    marginTop: "30rem",
   },
 });
 
-export const bankform = StyleSheet.create({
+export const bankform = EStyleSheet.create({
   formtitle: {
-    marginLeft: 34,
-    marginTop: 20,
-    color: "#828282",
-    fontSize: 14,
-    fontFamily: "Roboto",
+    marginTop: "20rem",
+    color: COLORS.gray,
+    ...FONTS.body4,
   },
   formatmsg: {
-    marginLeft: 34,
-    color: "red",
-    fontSize: 12,
-  },
-  formInput: {
-    marginLeft: 34,
-    width: "80%",
-    height: 40,
-    borderBottomWidth: 1,
-  },
-  nextButton: {
-    padding: 10,
-    alignSelf: "center",
-    marginTop: 40,
-    width: 320,
-    height: 60,
-    fontSize: 20,
+    color: COLORS.warning,
+    ...FONTS.body4,
   },
   padding: {
-    marginTop: 30,
-  },
-  infoCard: {
-    backgroundColor: "rgba(78, 70, 241, 0.1)",
-    width: "85%",
-    marginLeft: 30,
-    marginTop: 20,
-    padding: 10,
-    flex: 0,
-    flexDirection: "row",
-    alignItems: "flex-start",
-  },
-  infoText: {
-    width: "93%",
-    color: "#333333",
-    paddingLeft: 7,
-  },
-  Maintitle: {
-    marginLeft: 30,
-    marginTop: 10,
-    color: "black",
-    fontSize: 18,
-    fontFamily: "Roboto",
+    marginTop: "30rem",
   },
   subTitle: {
-    marginLeft: 34,
-    marginTop: 20,
-    color: "#828282",
-    fontSize: 16,
-    fontFamily: "Roboto",
+    marginTop: "20rem",
+    color: COLORS.black,
+    ...FONTS.h3,
+    alignSelf: "center",
   },
-  asterisk: { fontWeight: "bold", color: "#4E46F1" },
+  asterisk: { fontWeight: "bold", color: COLORS.primary },
 });
 
-export const homeCard = StyleSheet.create({
-  card: {
-    marginTop: 20,
-    width: 170,
-    borderWidth: 1,
-    borderRadius: 10,
-    marginRight: 10,
-  },
-  title: {
-    fontSize: 16,
-    fontFamily: "Roboto",
-    fontWeight: "bold",
-  },
-  subtitle: {
-    fontSize: 12,
-    fontFamily: "Roboto",
-  },
-  downloadIcon: {
-    marginTop: 30,
-    color: "#4E46F1",
-  },
-  downloadText: {
-    marginTop: 30,
-    fontSize: 12,
-    fontFamily: "Roboto",
-    fontWeight: "bold",
-    color: "#4E46F1",
-  },
-});
-
-export const nav = StyleSheet.create({
-  titleLogo: {
-    width: 160,
-    height: 80,
-  },
+export const nav = EStyleSheet.create({
   navbar: {
-    height: 80,
+    height: "50rem",
   },
 });
 
-export const docSearch = StyleSheet.create({
-  searchBar: {
-    marginLeft: 20,
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
-  searchIcon: {
-    marginTop: 20,
-  },
-  searchInput: {
-    width: 320,
-    borderBottomWidth: 2,
-    textAlignVertical: "center",
-  },
-});
-export const Camera = StyleSheet.create({
+export const Camera = EStyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "black",
+    backgroundColor: COLORS.black,
   },
   preview: {
     flex: 1,
@@ -414,17 +220,17 @@ export const Camera = StyleSheet.create({
   },
   capture: {
     flex: 0,
-    backgroundColor: "#4E46F1",
+    backgroundColor: COLORS.primary,
     borderRadius: 10,
-    padding: 15,
-    paddingHorizontal: 20,
+    padding: "15rem",
+    paddingHorizontal: "20rem",
     alignSelf: "center",
-    marginTop: 450,
+    marginTop: "450rem",
   },
   wait: {
     flex: 1,
     width: "100%",
-    backgroundColor: "#4E46F1",
+    backgroundColor: COLORS.primary,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -432,23 +238,23 @@ export const Camera = StyleSheet.create({
     flex: 1,
   },
   buttonText: {
-    fontSize: 16,
-    color: "#fff",
+    ...FONTS.body3,
+    color: COLORS.white,
   },
   back: {
     backgroundColor: "rgba(78, 70, 241, 0.9)",
     borderRadius: 30,
-    padding: 10,
+    padding: "10rem",
     alignSelf: "center",
-    marginTop: 10,
-    marginLeft: -300,
+    marginTop: "10rem",
+    marginLeft: "-300rem",
   },
   cameraButton: {
-    marginLeft: 30,
-    marginTop: 20,
+    marginLeft: "30rem",
+    marginTop: "20rem",
     borderWidth: 2,
     borderRadius: 10,
-    paddingHorizontal: 30,
+    paddingHorizontal: "30rem",
   },
   previewImage: {
     height: 200,
@@ -456,97 +262,77 @@ export const Camera = StyleSheet.create({
   },
 });
 
-export const welcome = StyleSheet.create({
-  title: {
-    marginLeft: 34,
-    marginTop: 20,
-    color: "black",
-    fontSize: 14,
-    fontFamily: "Roboto",
-  },
-  mainTitle: {
-    marginTop: 20,
-    marginLeft: 30,
-    color: "black",
-    fontWeight: "bold",
-    fontSize: 22,
-    fontFamily: "Roboto",
-  },
-  subTitle: {
-    marginTop: 20,
-    alignSelf: "center",
-    justifyContent: "center",
-    color: "black",
-    fontSize: 18,
-    fontFamily: "Roboto",
-  },
-  steps: { alignSelf: "center", flex: 1 },
+export const welcome = EStyleSheet.create({
+  steps: { flex: 1 },
 });
 
-export const selfie = StyleSheet.create({
+export const selfie = EStyleSheet.create({
   uploadButton: {
-    marginTop: 20,
+    marginTop: "20rem",
     borderWidth: 2,
     borderRadius: 10,
-    paddingHorizontal: 30,
+    paddingHorizontal: "30rem",
   },
   cameraButton: {
-    marginLeft: 60,
-    marginTop: 20,
+    marginLeft: "60rem",
+    marginTop: "20rem",
     borderWidth: 2,
     borderRadius: 10,
-    paddingHorizontal: 30,
+    paddingHorizontal: "30rem",
+  },
+  selfieContainer: {
+    marginTop: "20rem",
+    width: "100%",
+    height: SIZES.width * 0.6,
+    backgroundColor: COLORS.lightgray_01,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
   },
   selfie: {
-    marginTop: 20,
     alignSelf: "center",
-    height: 300,
-    width: 300,
+    height: "100%",
+    borderRadius: 10,
   },
 });
 
-export const esic = StyleSheet.create({
+export const esic = EStyleSheet.create({
   CollapseTitle: {
-    marginLeft: 34,
-    marginTop: 20,
-    color: "#4E46F1",
-    fontSize: 14,
-    fontFamily: "Roboto",
+    marginTop: "20rem",
+    color: COLORS.primary,
+    ...FONTS.body4,
   },
 });
 
-export const license = StyleSheet.create({
+export const license = EStyleSheet.create({
   authority: {
-    color: "#4E46F1",
-    marginLeft: "20%",
-    fontSize: 12,
-    fontFamily: "Roboto",
+    color: COLORS.primary,
+    marginLeft: "20rem",
+    ...FONTS.body4,
   },
   valid: {
     color: "green",
-    marginLeft: "10%",
-    fontSize: 12,
-    fontFamily: "Roboto",
+    marginLeft: "10rem",
+    ...FONTS.body4,
   },
   invalid: {
     color: "red",
-    marginLeft: "20%",
-    fontSize: 12,
-    fontFamily: "Roboto",
+    marginLeft: "20rem",
+    ...FONTS.body4,
   },
 });
 
-export const ewa = StyleSheet.create({
+export const ewa = EStyleSheet.create({
   padding: {
-    marginTop: 10,
+    marginTop: "5rem",
   },
   loanCard: {
-    marginTop: 20,
+    marginTop: "10rem",
     alignSelf: "center",
-    width: "90%",
-    backgroundColor: "#F2F4FB",
-    padding: "2%",
-    borderRadius: 4,
+    width: "100%",
+    backgroundColor: COLORS.lightgray_01,
+    padding: "15rem",
+    borderRadius: 10,
   },
   successImg: {
     alignSelf: "center",
@@ -555,58 +341,56 @@ export const ewa = StyleSheet.create({
     marginTop: "-8%",
   },
   checkBox: {
-    marginLeft: 34,
-    marginTop: 10,
+    marginTop: "10rem",
   },
   checkBoxText: {
-    marginLeft: 10,
-    marginRight: 40,
-    marginTop: 10,
-    fontSize: 14,
-    color: "#828282",
+    marginRight: "40rem",
+    marginTop: "10rem",
+    color: COLORS.gray,
+    ...FONTS.body4,
   },
 });
 
-export const card = StyleSheet.create({
+export const card = EStyleSheet.create({
   alertCard: {
-    marginTop: 20,
-    padding: 10,
+    marginTop: "20rem",
+    padding: "rem",
     flexDirection: "column",
   },
   infoText: {
-    fontSize: 16,
+    ...FONTS.body3,
+    textAlign: "center",
   },
   alertText: {
-    color: "black",
-    fontSize: 14,
-    fontWeight: "bold",
+    color: COLORS.black,
+    ...FONTS.h4,
     textDecorationLine: "underline",
-    paddingLeft: 10,
-    paddingTop: 10,
+    paddingLeft: "10rem",
+    paddingTop: "10rem",
   },
 });
 
-export const datacard = StyleSheet.create({
+export const datacard = EStyleSheet.create({
   card: {
-    marginTop: 10,
+    alignSelf: "center",
+    marginTop: "3%",
     padding: "3%",
-    width: "85%",
-    borderRadius: 4,
+    width: "100%",
+    borderRadius: 5,
     flexDirection: "row",
     backgroundColor: "rgba(228, 238, 240, 0.4)",
     justifyContent: "space-between",
   },
   cardTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#270949",
+    ...FONTS.body3,
+    color: COLORS.secondary,
   },
 });
 
-export const dev = StyleSheet.create({
+export const dev = EStyleSheet.create({
   title: {
     alignSelf: "center",
-    marginTop: 20,
+    marginTop: "20rem",
     width: "60%",
   },
 });
@@ -616,23 +400,24 @@ export const stepIndicatorStyles = {
   currentStepIndicatorSize: 30,
   separatorStrokeWidth: 2,
   currentStepStrokeWidth: 3,
-  stepStrokeCurrentColor: "#4E46F1",
+  stepStrokeCurrentColor: COLORS.primary,
   stepStrokeWidth: 3,
   separatorStrokeFinishedWidth: 4,
-  stepStrokeFinishedColor: "#4E46F1",
-  stepStrokeUnFinishedColor: "#aaaaaa",
-  separatorFinishedColor: "#4E46F1",
-  separatorUnFinishedColor: "#aaaaaa",
-  stepIndicatorFinishedColor: "#E5EAF7",
-  stepIndicatorUnFinishedColor: "#ffffff",
-  stepIndicatorCurrentColor: "#ffffff",
-  stepIndicatorLabelFontSize: 14,
-  currentStepIndicatorLabelFontSize: 14,
-  stepIndicatorLabelCurrentColor: "#4E46F1",
-  stepIndicatorLabelFinishedColor: "#4E46F1",
-  stepIndicatorLabelUnFinishedColor: "#aaaaaa",
-  labelColor: "#999999",
-  labelSize: 14,
-  currentStepLabelColor: "#4E46F1",
+  stepStrokeFinishedColor: COLORS.primary,
+  stepStrokeUnFinishedColor: COLORS.lightGray,
+  separatorFinishedColor: COLORS.primary,
+  separatorUnFinishedColor: COLORS.lightGray,
+  stepIndicatorFinishedColor: COLORS.primary,
+  stepIndicatorUnFinishedColor: COLORS.white,
+  stepIndicatorCurrentColor: COLORS.white,
+  stepIndicatorLabelFontSize: SIZES.body3,
+  currentStepIndicatorLabelFontSize: SIZES.body3,
+  stepIndicatorLabelCurrentColor: COLORS.primary,
+  stepIndicatorLabelFinishedColor: COLORS.primary,
+  stepIndicatorLabelUnFinishedColor: COLORS.lightGray,
+  labelColor: COLORS.gray,
+  labelSize: SIZES.body4,
+  currentStepLabelColor: COLORS.primary,
   labelAlign: "flex-start",
+  labelFontFamily: "Montserrat-Regular",
 };

@@ -1,26 +1,97 @@
-import { Icon } from "@react-native-material/core";
-import React from "react";
-import { SafeAreaView, ScrollView, TextInput, View } from "react-native";
-import DocumentTile from "../../components/DocumentTile";
-import { docSearch, styles } from "../../styles";
+import { useNavigation } from "@react-navigation/core";
+import React, { useEffect, useState } from "react";
+import { Linking, SafeAreaView } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import HomeOfferCard from "../../components/molecules/HomeOfferCard";
+import PushNotification from "react-native-push-notification";
+import KycCheckCard from "../../components/molecules/KycCheckCard";
+import { allAreNull } from "../../helpers/nullCheck";
+import { addCampaignId } from "../../store/slices/authSlice";
+import {
+  addCurrentScreen,
+  addCurrentStack,
+} from "../../store/slices/navigationSlice";
+import { styles } from "../../styles";
 
-export default HomeView = () => {
-  const documents = [
-    { title: "Document 1", date: "2020-01-01" },
-    { title: "Document 2", date: "2020-01-01" },
-    { title: "Document 3", date: "2020-01-01" },
+import {
+  notificationListener,
+  requestUserPermission,
+} from "../../services/notifications/notificationService";
+
+const HomeView = () => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const bankStatus = useSelector((state) => state.bank.verifyStatus);
+  const panStatus = useSelector((state) => state.pan.verifyStatus);
+  const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);
+
+  const message = [
+    aadhaarStatus != "SUCCESS" ? "AADHAAR" : null,
+    bankStatus != "SUCCESS" ? "BANK" : null,
+    panStatus != "SUCCESS" ? "PAN" : null,
   ];
+
+  useEffect(() => {
+    // PushNotification.deleteChannel("Onboarding");
+    if (allAreNull(message)) {
+      PushNotification.cancelAllLocalNotifications();
+    }
+  }, []);
+
+  var [campaignId, setCampaignId] = useState(null);
+
+  useEffect(() => {
+    dispatch(addCurrentScreen("Home"));
+    dispatch(addCurrentStack("HomeStack"));
+  }, []);
+
+  useEffect(() => {
+    requestUserPermission();
+    notificationListener();
+  }, []);
+
+  useEffect(() => {
+    dispatch(addCampaignId(campaignId));
+  }, [campaignId]);
+
+  const getUrlAsync = async () => {
+    const initialUrl = await Linking.getInitialURL();
+    const breakpoint = "/";
+    if (initialUrl) {
+      const splitted = initialUrl.split(breakpoint);
+      console.log("initialUrl", splitted);
+      console.log("route", splitted[3]);
+      switch (splitted[3].toLowerCase()) {
+        case "ewa":
+          navigation.navigate("Money");
+          break;
+        default:
+          break;
+      }
+      switch (splitted[4].toLowerCase()) {
+        case "campaign":
+          console.log("campaignId", splitted[5]);
+          setCampaignId(splitted[5]);
+          break;
+        default:
+          break;
+      }
+    } else {
+      console.log("No intent. User opened App.");
+    }
+  };
+
+  useEffect(() => {
+    getUrlAsync();
+  }, []);
   return (
     <>
-      <SafeAreaView style={styles.container}>
-        <View style={docSearch.searchBar}>
-          <Icon style={docSearch.searchIcon} name="search" size={30} />
-          <TextInput style={docSearch.searchInput} placeholder="Search" />
-        </View>
-        <ScrollView>
-          <DocumentTile documents={documents} />
-        </ScrollView>
+      <SafeAreaView style={[styles.container]}>
+        {allAreNull(message) ? <HomeOfferCard /> : <KycCheckCard />}
       </SafeAreaView>
     </>
   );
 };
+
+export default HomeView;

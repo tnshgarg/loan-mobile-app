@@ -9,10 +9,11 @@ import {
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/aadhaarSlice";
-import { KYC_AADHAAR_GENERATE_OTP_API_URL } from "../../services/employees/endpoints";
-import ApiView from "../ApiView";
+import { KYC_AADHAAR_GENERATE_OTP_API_URL } from "../../services/constants";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import { resetTimer } from "../../store/slices/timerSlice";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import Analytics from "appcenter-analytics";
 
 const AadhaarOtpApi = (props) => {
   const dispatch = useDispatch();
@@ -21,7 +22,8 @@ const AadhaarOtpApi = (props) => {
   const [loading, setLoading] = useState(false);
   const [backendPush, setBackendPush] = useState(false);
 
-  const id = useSelector((state) => state.auth.id);
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const [submitOTPtxnId, setSubmitOTPtxnId] = useState(
     aadhaarSlice?.submitOTPtxnId
@@ -52,12 +54,15 @@ const AadhaarOtpApi = (props) => {
     console.log("AadhaarOtpApi aadhaarSlice: ", aadhaarSlice);
     if (backendPush) {
       aadhaarBackendPush({
-        id: id,
-        data: aadhaarSlice?.data,
-        number: aadhaarSlice?.number,
-        verifyMsg: verifyMsg,
-        verifyStatus: verifyStatus,
-        verifyTimestamp: verifyTimestamp,
+        data: {
+          unipeEmployeeId: unipeEmployeeId,
+          data: aadhaarSlice?.data,
+          number: aadhaarSlice?.number,
+          verifyMsg: verifyMsg,
+          verifyStatus: verifyStatus,
+          verifyTimestamp: verifyTimestamp,
+        },
+        token: token,
       });
       setBackendPush(false);
       setLoading(false);
@@ -90,6 +95,9 @@ const AadhaarOtpApi = (props) => {
                 setBackendPush(true);
                 setVerifyTimestamp(responseJson["timestamp"]);
                 dispatch(resetTimer());
+                Analytics.trackEvent("Aadhaar|Otp|Success", {
+                  unipeEmployeeId: unipeEmployeeId,
+                });
                 {
                   props.type == "KYC"
                     ? navigation.navigate("KYC", {
@@ -106,6 +114,10 @@ const AadhaarOtpApi = (props) => {
                 setVerifyStatus("ERROR");
                 setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
+                Analytics.trackEvent("Aadhaar|Otp|Error", {
+                  unipeEmployeeId: unipeEmployeeId,
+                  error: responseJson["data"]["message"],
+                });
                 break;
             }
           } else if (responseJson?.error?.message) {
@@ -113,34 +125,52 @@ const AadhaarOtpApi = (props) => {
             setVerifyStatus("ERROR");
             setBackendPush(true);
             Alert.alert("Error", responseJson["error"]["message"]);
+            Analytics.trackEvent("Aadhaar|Otp|Error", {
+              unipeEmployeeId: unipeEmployeeId,
+              error: responseJson["error"]["message"],
+            });
           } else {
             setVerifyMsg(responseJson["message"]);
             setVerifyStatus("ERROR");
             setBackendPush(true);
             Alert.alert("Error", responseJson["message"]);
+            Analytics.trackEvent("Aadhaar|Otp|Error", {
+              unipeEmployeeId: unipeEmployeeId,
+              error: responseJson["message"],
+            });
           }
         } catch (error) {
-          console.log("Error: ", error);
-          setVerifyMsg(error);
+          console.log("Error: ", error.toString());
+          setVerifyMsg(error.toString());
           setVerifyStatus("ERROR");
           setBackendPush(true);
-          Alert.alert("Error", error);
+          Alert.alert("Error", error.toString());
+          Analytics.trackEvent("Aadhaar|Otp|Error", {
+            unipeEmployeeId: unipeEmployeeId,
+            error: error.toString(),
+          });
         }
       })
       .catch((error) => {
-        setVerifyMsg(error);
+        console.log("Error: ", error.toString());
+        setVerifyMsg(error.toString());
         setVerifyStatus("ERROR");
         setBackendPush(true);
-        Alert.alert("Error", error);
+        Alert.alert("Error", error.toString());
+        Analytics.trackEvent("Aadhaar|Otp|Error", {
+          unipeEmployeeId: unipeEmployeeId,
+          error: error.toString(),
+        });
       });
   };
   return (
-    <ApiView
+    <PrimaryButton
+      title={loading ? "Verifying" : props.title || "Continue"}
       disabled={props.disabled}
       loading={loading}
-      title={props.title}
-      goForFetch={goForFetch}
-      style={props.style}
+      onPress={() => {
+        goForFetch();
+      }}
     />
   );
 };

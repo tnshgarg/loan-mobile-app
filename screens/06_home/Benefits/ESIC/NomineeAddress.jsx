@@ -1,38 +1,46 @@
-import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import React from "react";
-import { ScrollView, View } from "react-native";
-import AddressDropdown from "../../../../components/AddressDropdown";
-import { bankform, form, styles } from "../../../../styles";
+import { SafeAreaView, View } from "react-native";
+import AddressDropdown from "../../../../components/molecules/AddressDropdown";
+import { styles } from "../../../../styles";
 import { useSelector } from "react-redux";
 import { addressPush } from "../../../../helpers/BackendPush";
-import { showToast } from "../../../../components/Toast";
+import { showToast } from "../../../../components/atoms/Toast";
 import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
+import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 
 export default NomineeAddress = () => {
   const navigation = useNavigation();
-  const id = useSelector((state) => state.auth.id);
+
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+
   const address = useSelector((state) => state.esic.address);
+
   return (
-    <KeyboardAvoidingWrapper>
-      <View>
-        <AddressDropdown type={"nominee"} />
-        <Button
-          uppercase={false}
-          title="Finish"
-          type="solid"
-          color="#4E46F1"
-          style={form.nextButton}
-          onPress={() => {
-            {
-              addressPush({ id: id, type: "nominee", address: address });
-            }
-            showToast("Nominee Address details recorded.");
-            navigation.navigate("Home");
-          }}
-        />
-        <View style={bankform.padding}></View>
-      </View>
-    </KeyboardAvoidingWrapper>
+    <SafeAreaView style={styles.safeContainer}>
+      <KeyboardAvoidingWrapper>
+        <View>
+          <AddressDropdown type={"nominee"} />
+          <PrimaryButton
+            title="Finish"
+            onPress={() => {
+              addressPush({
+                data: {
+                  unipeEmployeeId: unipeEmployeeId,
+                  type: "nominee",
+                  street: address["nominee"].street,
+                  state: address["nominee"].state,
+                  district: address["nominee"].district,
+                  pin: address["nominee"].pincode,
+                },
+                token: token,
+              });
+              showToast("Nominee Address details recorded.");
+              navigation.navigate("Home");
+            }}
+          />
+        </View>
+      </KeyboardAvoidingWrapper>
+    </SafeAreaView>
   );
 };

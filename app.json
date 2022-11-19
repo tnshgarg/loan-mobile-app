@@ -5,7 +5,13 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "android": {
+      "versionCode": 4
+    },
+    "ios": {
+      "buildNumber": "4"
+    }
   },
   "name": "employee-app"
 }

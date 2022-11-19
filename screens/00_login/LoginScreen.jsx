@@ -1,51 +1,94 @@
+import Analytics from "appcenter-analytics";
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  Alert,
-  Image,
-  Linking,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  SafeAreaView,
-} from "react-native";
+import { useEffect, useState } from "react";
+import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
-import { useDispatch, useSelector } from "react-redux";
-import PrimaryButton from "../../components/PrimaryButton";
 import SplashScreen from "react-native-splash-screen";
+import { useDispatch, useSelector } from "react-redux";
+import SVGImg from "../../assets/UnipeLogo.svg";
+import FormInput from "../../components/atoms/FormInput";
+import TermsAndPrivacyModal from "../../components/molecules/TermsAndPrivacyModal";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import { COLORS, FONTS } from "../../constants/Theme";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { putBackendData } from "../../services/employees/employeeServices";
 import { sendSmsVerification } from "../../services/otp/Gupshup/services";
-import { addId, addOnboarded, addPhoneNumber } from "../../store/slices/authSlice";
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import {
+  addACTC,
+  addOnboarded,
+  addPhoneNumber,
+  addToken,
+  addUnipeEmployeeId,
+} from "../../store/slices/authSlice";
+import {
+  addCurrentScreen,
+  addCurrentStack,
+} from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
+import privacyPolicy from "../../templates/docs/PrivacyPolicy.js";
+import termsOfUse from "../../templates/docs/TermsOfUse.js";
+import PushNotification, { Importance } from "react-native-push-notification";
 
-export default LoginScreen = () => {
+const LoginScreen = () => {
   SplashScreen.hide();
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState(false);
-  
+
   const authSlice = useSelector((state) => state.auth);
-  const [id, setId] = useState(authSlice?.id);
+  const [aCTC, setACTC] = useState(authSlice?.aCTC);
   const [onboarded, setOnboarded] = useState(authSlice?.onboarded);
   const [phoneNumber, setPhoneNumber] = useState(authSlice?.phoneNumber);
-  
-  var phone_number = "";
+  const [token, setToken] = useState(authSlice?.token);
+  const [unipeEmployeeId, setUnipeEmployeeId] = useState(
+    authSlice?.unipeEmployeeId
+  );
+
+  const [isPrivacyModalVisible, setIsPrivacyModalVisible] = useState(false);
+  const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
+    useState(false);
 
   useEffect(() => {
+    PushNotification.createChannel(
+      {
+        channelId: "Onboarding",
+        channelName: "OnboardingChannel",
+        channelDescription:
+          "A channel for users who have not completed Onboarding Journey",
+        playSound: false,
+        soundName: "default",
+        importance: Importance.HIGH,
+        vibrate: true,
+      },
+      (created) => console.log(`createChannel returned '${created}'`)
+    );
+    PushNotification.localNotificationSchedule({
+      title: "Complete Your Onboarding Steps",
+      message: "Complete Your Onboarding Journey to avail your Advance Salary",
+      date: new Date(Date.now() + 24 * 60 * 60 * 1000), // {24 hours}
+      allowWhileIdle: false,
+      channelId: "Onboarding",
+      smallIcon: "ic_notification_fcm_icon",
+      repeatType: "day",
+      repeatTime: 2,
+    });
+  }, []);
+
+  useEffect(() => {
+    dispatch(addCurrentStack("OnboardingStack"));
     dispatch(addCurrentScreen("Login"));
   }, []);
 
   useEffect(() => {
-    dispatch(addId(id));
-  }, [id]);
+    dispatch(addToken(token));
+  }, [token]);
+
+  useEffect(() => {
+    dispatch(addACTC(aCTC));
+  }, [aCTC]);
 
   useEffect(() => {
     dispatch(addOnboarded(onboarded));
@@ -54,6 +97,10 @@ export default LoginScreen = () => {
   useEffect(() => {
     dispatch(addPhoneNumber(phoneNumber));
   }, [phoneNumber]);
+
+  useEffect(() => {
+    dispatch(addUnipeEmployeeId(unipeEmployeeId));
+  }, [unipeEmployeeId]);
 
   useEffect(() => {
     var phoneno = /^[0-9]{10}$/gm;
@@ -68,10 +115,10 @@ export default LoginScreen = () => {
 
   const onPhoneNumberPressed = async () => {
     try {
-      phone_number = await SmsRetriever.requestPhoneNumber();
-      setPhoneNumber(phone_number.replace("+91", ""));
+      var phoneNumber = await SmsRetriever.requestPhoneNumber();
+      setPhoneNumber(phoneNumber.replace("+91", ""));
     } catch (error) {
-      console.log(JSON.stringify(error));
+      console.log("Error while fetching phoneNumber: ", error.toString());
     }
   };
 
@@ -79,20 +126,44 @@ export default LoginScreen = () => {
     onPhoneNumberPressed();
   }, []);
 
+  const backAction = () => {
+    Alert.alert("Hold on!", "Are you sure you want to go back?", [
+      { text: "No", onPress: () => null, style: "cancel" },
+      { text: "Yes", onPress: () => BackHandler.exitApp() },
+    ]);
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
   const signIn = () => {
     setLoading(true);
     dispatch(resetTimer());
     var fullPhoneNumber = `+91${phoneNumber}`;
-    putBackendData({ document: {number: fullPhoneNumber}, xpath: "mobile" })
+    putBackendData({
+      data: { number: fullPhoneNumber },
+      xpath: "mobile",
+      token: token,
+    })
       .then((res) => {
         console.log("LoginScreen res.data: ", res.data);
         if (res.data.status === 200) {
-          setId(res.data.body.id);
+          setACTC(res.data.body.aCTC);
           setOnboarded(res.data.body.onboarded);
+          setToken(res.data.body.token);
+          setUnipeEmployeeId(res.data.body.unipeEmployeeId);
           sendSmsVerification(phoneNumber)
             .then((result) => {
               console.log("sendSmsVerification result: ", result);
               if (result["response"]["status"] === "success") {
+                setLoading(false);
+                Analytics.trackEvent("LoginScreen|SendSms|Success", {
+                  unipeEmployeeId: unipeEmployeeId,
+                });
                 navigation.navigate("Otp");
               } else {
                 setLoading(false);
@@ -100,87 +171,127 @@ export default LoginScreen = () => {
                   result["response"]["status"],
                   result["response"]["details"]
                 );
+                Analytics.trackEvent("LoginScreen|SendSms|Error", {
+                  unipeEmployeeId: unipeEmployeeId,
+                  error: result["response"]["details"],
+                });
               }
             })
             .catch((error) => {
+              console.log("sendSmsVerification result: ", error.toString());
               setLoading(false);
-              console.log(error);
-              Alert("Error", "Something is Wrong");
+              Alert("Error", error.toString());
+              Analytics.trackEvent("LoginScreen|SendSms|Error", {
+                unipeEmployeeId: unipeEmployeeId,
+                error: error.toString(),
+              });
             });
         } else {
           setLoading(false);
           Alert.alert("Error", res.data["message"]);
+          Analytics.trackEvent("LoginScreen|SignIn|Error", {
+            phoneNumber: phoneNumber,
+            error: res.data["message"],
+          });
         }
       })
       .catch((error) => {
+        console.log("LoginScreen res.data: ", error.toString());
         setLoading(false);
-        console.log(error);
+        Alert.alert("Error", error.toString());
+        Analytics.trackEvent("LoginScreen|SignIn|Error", {
+          phoneNumber: phoneNumber,
+          error: error.toString(),
+        });
       });
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <View>
-          <Image
-            style={styles.logo}
-            source={require("../../assets/unipe-Thumbnail.png")}
-          />
+          <SVGImg style={styles.logo} />
           <Text style={styles.headline}>
             Please enter your mobile number to login:
           </Text>
-          <Text style={styles.fieldLabel}>Mobile Number</Text>
-          <TextInput
-            style={styles.textInput}
-            value={phoneNumber}
-            onChangeText={setPhoneNumber}
+
+          <FormInput
+            placeholder="Enter mobile number"
+            containerStyle={{ marginVertical: 30 }}
             autoCompleteType="tel"
             keyboardType="phone-pad"
-            textContentType="telephoneNumber"
-            maxLength={13}
-            placeholder="9999999999"
+            value={phoneNumber}
+            onChange={setPhoneNumber}
+            autoFocus={true}
+            maxLength={10}
+            prependComponent={
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRightWidth: 1,
+                  borderColor: COLORS.gray,
+                  marginRight: 10,
+                  height: "80%",
+                }}
+              >
+                <Text
+                  style={{
+                    ...FONTS.h3,
+                    color: COLORS.black,
+                    paddingRight: 10,
+                    // fontWeight: "bold",
+                  }}
+                >
+                  + 91
+                </Text>
+              </View>
+            }
           />
+
           <Text style={styles.dataUseText}>
             This number will be used for all communication. You shall receive an
             SMS with code for verification. By continuing, you agree to our{" "}
             <Text
-              onPress={() =>
-                Linking.openURL("https://policies.google.com/terms?hl=en-US")
-              }
+              onPress={() => setIsTermsOfUseModalVisible(true)}
               style={styles.termsText}
             >
               Terms of Service
             </Text>{" "}
             &{" "}
             <Text
-              onPress={() =>
-                Linking.openURL("https://policies.google.com/privacy?hl=en-US")
-              }
+              onPress={() => setIsPrivacyModalVisible(true)}
               style={styles.termsText}
             >
               Privacy Policy
             </Text>
           </Text>
-          {!loading ? (
-            <>
-              <PrimaryButton
-                uppercase={false}
-                title="Continue"
-                type="solid"
-                color="#4E46F1"
-                disabled={!next}
-                onPress={() => signIn()}
-              />
-            </>
-          ) : (
-            <TouchableOpacity>
-              <View style={styles.LoadingButton}>
-                <ActivityIndicator size="large" color="white" />
-              </View>
-            </TouchableOpacity>
-          )}
+          <PrimaryButton
+            title="Continue"
+            disabled={!next}
+            loading={loading}
+            onPress={() => signIn()}
+          />
         </View>
       </KeyboardAvoidingWrapper>
+
+      {isTermsOfUseModalVisible && (
+        <TermsAndPrivacyModal
+          isVisible={isTermsOfUseModalVisible}
+          setIsVisible={setIsTermsOfUseModalVisible}
+          data={termsOfUse}
+        />
+      )}
+
+      {isPrivacyModalVisible && (
+        <TermsAndPrivacyModal
+          isVisible={isPrivacyModalVisible}
+          setIsVisible={setIsPrivacyModalVisible}
+          data={privacyPolicy}
+        />
+      )}
     </SafeAreaView>
   );
 };
+
+export default LoginScreen;

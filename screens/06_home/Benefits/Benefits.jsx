@@ -1,12 +1,11 @@
-import React from "react";
-import TopTabNav from "../../../components/TopTabNav";
-import HomeView from "../HomeView";
+import TopTabNav from "../../../navigators/TopTabNav";
+import DocumentsView from "../Documents/DocumentsView";
 import ESICForm from "./ESIC/ESICForm";
 
 export default Benefits = () => {
   const tabs = [
-    { name: "EPFO", component: HomeView },
     { name: "ESIC", component: ESICForm },
+    { name: "EPFO", component: DocumentsView },
   ];
-  return <TopTabNav tabs={tabs} hide={false}/>;
+  return <TopTabNav tabs={tabs} hide={false} />;
 };
