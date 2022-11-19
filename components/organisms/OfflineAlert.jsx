@@ -9,6 +9,7 @@ import { showToast } from "../atoms/Toast";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import PrimaryButton from "../atoms/PrimaryButton";
+
 const OfflineAlert = ({ children }) => {
   const [isConnected, setIsConnected] = useState(true);
 
