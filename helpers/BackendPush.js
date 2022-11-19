@@ -68,6 +68,20 @@ export const relationPush = (payload) => {
     });
 };
 
+export const fcmPush = (payload) => {
+  putBackendData({
+    data: payload.data,
+    xpath: "fcm",
+    token: payload.token,
+  })
+    .then((response) => {
+      console.log("FCMPush response: ", response.data);
+    })
+    .catch((error) => {
+      console.log("FCMPush error: ", error);
+    });
+};
+
 export const addressPush = (payload) => {
   putBackendData({
     data: payload.data,
