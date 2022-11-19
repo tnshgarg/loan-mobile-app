@@ -1,6 +1,5 @@
 import { IconComponentProvider } from "@react-native-material/core";
 import { NavigationContainer } from "@react-navigation/native";
-import { useEffect } from "react";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -12,12 +11,6 @@ import { store, persistor } from "./store/store";
 import codePush from "react-native-code-push";
 import Crashes from "appcenter-crashes";
 import { navigationRef } from "./navigators/RootNavigation";
-import {
-  notificationListener,
-  requestUserPermission,
-} from "./services/notifications/notificationService";
-import PushNotification from "react-native-push-notification";
-import messaging from "@react-native-firebase/messaging";
 
 Crashes.setListener({
   shouldProcess: function (report) {
@@ -34,11 +27,6 @@ let codePushOptions = {
 
 const App = () => {
   SplashScreen.hide();
-
-  useEffect(() => {
-    requestUserPermission();
-    notificationListener();
-  }, []);
 
   return (
     <Provider store={store}>

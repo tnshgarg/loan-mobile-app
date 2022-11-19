@@ -13,6 +13,11 @@ import {
 } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 
+import {
+  notificationListener,
+  requestUserPermission,
+} from "../../services/notifications/notificationService";
+
 const HomeView = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -39,6 +44,11 @@ const HomeView = () => {
   useEffect(() => {
     dispatch(addCurrentScreen("Home"));
     dispatch(addCurrentStack("HomeStack"));
+  }, []);
+
+  useEffect(() => {
+    requestUserPermission();
+    notificationListener();
   }, []);
 
   useEffect(() => {
@@ -75,7 +85,6 @@ const HomeView = () => {
   useEffect(() => {
     getUrlAsync();
   }, []);
-  console.log("message", message);
   return (
     <>
       <SafeAreaView style={[styles.container]}>
