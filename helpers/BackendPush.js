@@ -111,7 +111,7 @@ export const portalPush = (payload) => {
 };
 
 export const mandatePush = (payload) => {
-  putBackendData({ data: payload.data, xpath: "fcm", token: payload.token })
+  putBackendData({ data: payload.data, xpath: "mandate", token: payload.token })
     .then((response) => {
       console.log("mandatePush response: ", response.data);
     })
