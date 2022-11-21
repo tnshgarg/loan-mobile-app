@@ -153,6 +153,19 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
+    flavorDimensions "default"
+	
+	productFlavors {
+        dev {
+            applicationIdSuffix ".dev"
+        }
+        prod {
+        }
+        qa {
+            applicationIdSuffix ".qa"
+        }
+    }
+
     defaultConfig {
         applicationId "com.employeeapp"
         minSdkVersion rootProject.ext.minSdkVersion
