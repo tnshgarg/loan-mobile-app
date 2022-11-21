@@ -3,10 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import { View, Image } from "react-native";
 import { Button } from "@react-native-material/core";
-import {
-  addVerifyMsg,
-  addVerifyStatus,
-} from "../../store/slices/aadhaarSlice";
+import { addVerifyMsg, addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import { COLORS, FONTS } from "../../constants/Theme";
@@ -23,22 +20,9 @@ const AadhaarConfirmApi = (props) => {
   const number = useSelector((state) => state.aadhaar.number);
   const verifyTimestamp = useSelector((state) => state.aadhaar.verifyTimestamp);
 
-  const aadhaarSlice = useSelector((state) => state.aadhaar);
-  const [verifyMsg, setVerifyMsg] = useState(aadhaarSlice?.verifyMsg);
-  const [verifyStatus, setVerifyStatus] = useState(aadhaarSlice?.verifyStatus);
-
-  useEffect(() => {
+  const backendPush = ({ verifyMsg, verifyStatus }) => {
     dispatch(addVerifyMsg(verifyMsg));
-  }, [verifyMsg]);
-
-  useEffect(() => {
     dispatch(addVerifyStatus(verifyStatus));
-  }, [verifyStatus]);
-
-  const backendPush = ({verifyMsg, verifyStatus}) => {
-    console.log("AadhaarConfirmApi aadhaarSlice: ", aadhaarSlice);
-    setVerifyMsg(verifyMsg);
-    setVerifyStatus(verifyStatus);
     aadhaarBackendPush({
       data: {
         unipeEmployeeId: unipeEmployeeId,
@@ -50,7 +34,7 @@ const AadhaarConfirmApi = (props) => {
       },
       token: token,
     });
-  }
+  };
 
   const cardData = () => {
     var res = [
@@ -100,7 +84,7 @@ const AadhaarConfirmApi = (props) => {
             backendPush({
               verifyMsg: "Rejected by User",
               verifyStatus: "ERROR",
-            })
+            });
             Analytics.trackEvent("Aadhaar|Confirm|Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: "Rejected by User",
@@ -130,7 +114,7 @@ const AadhaarConfirmApi = (props) => {
             backendPush({
               verifyMsg: "Confirmed by User",
               verifyStatus: "SUCCESS",
-            })
+            });
             Analytics.trackEvent("Aadhaar|Confirm|Success", {
               unipeEmployeeId: unipeEmployeeId,
             });

@@ -17,25 +17,13 @@ const PanConfirmApi = (props) => {
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
-  const panSlice = useSelector((state) => state.pan);
   const data = useSelector((state) => state.pan.data);
   const number = useSelector((state) => state.pan.number);
   const verifyTimestamp = useSelector((state) => state.pan.verifyTimestamp);
-  const [verifyMsg, setVerifyMsg] = useState(panSlice?.verifyMsg);
-  const [verifyStatus, setVerifyStatus] = useState(panSlice?.verifyStatus);
 
-  useEffect(() => {
+  const backendPush = ({ verifyMsg, verifyStatus }) => {
     dispatch(addVerifyMsg(verifyMsg));
-  }, [verifyMsg]);
-
-  useEffect(() => {
     dispatch(addVerifyStatus(verifyStatus));
-  }, [verifyStatus]);
-
-  const backendPush = ({verifyMsg, verifyStatus}) => {
-    console.log("PanConfirmApi panSlice: ", panSlice);
-    setVerifyMsg(verifyMsg);
-    setVerifyStatus(verifyStatus);
     panBackendPush({
       data: {
         unipeEmployeeId: unipeEmployeeId,
@@ -47,7 +35,7 @@ const PanConfirmApi = (props) => {
       },
       token: token,
     });
-  }
+  };
 
   const cardData = () => {
     var res = [
@@ -92,7 +80,7 @@ const PanConfirmApi = (props) => {
             backendPush({
               verifyMsg: "Rejected by User",
               verifyStatus: "ERROR",
-            })
+            });
             Analytics.trackEvent("Pan|Confirm|Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: "Rejected by User",
@@ -119,7 +107,7 @@ const PanConfirmApi = (props) => {
             backendPush({
               verifyMsg: "Confirmed by User",
               verifyStatus: "SUCCESS",
-            })
+            });
             Analytics.trackEvent("Pan|Confirm|Success", {
               unipeEmployeeId: unipeEmployeeId,
             });

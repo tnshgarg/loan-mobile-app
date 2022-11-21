@@ -20,24 +20,9 @@ const BankConfirmApi = (props) => {
   const data = useSelector((state) => state.bank.data);
   const verifyTimestamp = useSelector((state) => state.bank.verifyTimestamp);
 
-  const bankSlice = useSelector((state) => state.bank);
-  const [verifyMsg, setVerifyMsg] = useState(bankSlice?.verifyMsg);
-  const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
-
-  useEffect(() => {
+  const backendPush = ({ verifyMsg, verifyStatus }) => {
     dispatch(addVerifyMsg(verifyMsg));
-  }, [verifyMsg]);
-
-  useEffect(() => {
     dispatch(addVerifyStatus(verifyStatus));
-  }, [verifyStatus]);
-
-  const backendPush = ({
-    verifyMsg,
-    verifyStatus
-  }) => {
-    setVerifyMsg(verifyMsg);
-    setVerifyStatus(verifyStatus);
     bankBackendPush({
       data: {
         unipeEmployeeId: unipeEmployeeId,
@@ -132,9 +117,9 @@ const BankConfirmApi = (props) => {
                 ? navigation.navigate("KYC", {
                     screen: "BANK",
                   })
-                :  ( props?.type === "Onboarding"
-                      ? navigation.replace("HomeStack")
-                      : null )
+                : props?.type === "Onboarding"
+                ? navigation.replace("HomeStack")
+                : null;
             }
           }}
         />
