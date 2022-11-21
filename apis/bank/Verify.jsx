@@ -23,8 +23,7 @@ const BankVerifyApi = (props) => {
   console.log("Mock api URl", KYC_BANK_VERIFY_API_URL);
 
   const [loading, setLoading] = useState(false);
-  const [backendPush, setBackendPush] = useState(false);
-  
+
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
@@ -70,7 +69,7 @@ const BankVerifyApi = (props) => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
-  const backendPush = ({verifyMsg, verifyStatus, verifyTimestamp}) => {
+  const backendPush = ({ verifyMsg, verifyStatus, verifyTimestamp }) => {
     console.log("BankVerifyApi bankSlice: ", bankSlice);
     setVerifyMsg(verifyMsg);
     setVerifyStatus(verifyStatus);
@@ -86,7 +85,7 @@ const BankVerifyApi = (props) => {
       token: token,
     });
     setLoading(false);
-  }
+  };
 
   const goForFetch = () => {
     setLoading(true);
@@ -121,8 +120,8 @@ const BankVerifyApi = (props) => {
                   responseJson["data"]["bank_account_data"]["name"]
                 );
                 backendPush({
-                  verifyMsg: "To be confirmed by User", 
-                  verifyStatus: "PENDING", 
+                  verifyMsg: "To be confirmed by User",
+                  verifyStatus: "PENDING",
                   verifyTimestamp: responseJson["timestamp"],
                 });
                 Analytics.trackEvent("Bank|Verify|Success", {
@@ -142,8 +141,8 @@ const BankVerifyApi = (props) => {
                 break;
               default:
                 backendPush({
-                  verifyMsg: responseJson["data"]["message"], 
-                  verifyStatus: "ERROR", 
+                  verifyMsg: responseJson["data"]["message"],
+                  verifyStatus: "ERROR",
                   verifyTimestamp: verifyTimestamp,
                 });
                 Alert.alert("Error", responseJson["data"]["message"]);
@@ -157,8 +156,8 @@ const BankVerifyApi = (props) => {
             setVerifyStatus("ERROR");
             if (responseJson["error"]) {
               backendPush({
-                verifyMsg: responseJson["error"], 
-                verifyStatus: "ERROR", 
+                verifyMsg: responseJson["error"],
+                verifyStatus: "ERROR",
                 verifyTimestamp: verifyTimestamp,
               });
               Alert.alert(
@@ -175,8 +174,8 @@ const BankVerifyApi = (props) => {
               });
             } else {
               backendPush({
-                verifyMsg: responseJson["message"], 
-                verifyStatus: "ERROR", 
+                verifyMsg: responseJson["message"],
+                verifyStatus: "ERROR",
                 verifyTimestamp: verifyTimestamp,
               });
               Alert.alert("Error", responseJson["message"]);
@@ -188,8 +187,8 @@ const BankVerifyApi = (props) => {
           }
         } catch (error) {
           backendPush({
-            verifyMsg: error.toString(), 
-            verifyStatus: "ERROR", 
+            verifyMsg: error.toString(),
+            verifyStatus: "ERROR",
             verifyTimestamp: verifyTimestamp,
           });
           Alert.alert("Error", error.toString());
@@ -201,8 +200,8 @@ const BankVerifyApi = (props) => {
       })
       .catch((error) => {
         backendPush({
-          verifyMsg: error.toString(), 
-          verifyStatus: "ERROR", 
+          verifyMsg: error.toString(),
+          verifyStatus: "ERROR",
           verifyTimestamp: verifyTimestamp,
         });
         Alert.alert("Error", error.toString());
