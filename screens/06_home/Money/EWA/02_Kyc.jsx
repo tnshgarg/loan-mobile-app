@@ -1,15 +1,24 @@
 import { useNavigation } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
-import { BackHandler, Image, SafeAreaView, Text, ScrollView, View } from "react-native";
+import {
+  Alert,
+  BackHandler,
+  Image,
+  SafeAreaView,
+  Text,
+  ScrollView,
+  View,
+} from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { ewaKycPush } from "../../../../helpers/BackendPush";
-import { form, styles,checkBox } from "../../../../styles";
-import CollapsibleCard from "../../../../components/CollapsibleCard";
+import { getBackendData } from "../../../../services/employees/employeeServices";
+import { form, styles, checkBox } from "../../../../styles";
+import CollapsibleCard from "../../../../components/molecules/CollapsibleCard";
 
 const KYC = () => {
   const navigation = useNavigation();
@@ -18,8 +27,9 @@ const KYC = () => {
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
 
+  const [bureauPass, setBureauPass] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const mandateVerifyStatus= useSelector((state)=>state.mandate.verifyStatus);
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const data = useSelector((state) => state.aadhaar.data);
@@ -45,11 +55,26 @@ const KYC = () => {
     navigation.navigate("EWA_OFFER");
     return true;
   };
-  
+
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
+
+  useEffect(() => {
+    if (unipeEmployeeId) {
+      getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "bureau", token: token  })
+        .then((response) => {
+          console.log("bureauBackendFetch response.data", response.data);
+          if (response.data.status === 200) {
+            setBureauPass(response.data.body.pass);
+          }
+        })
+        .catch((error) => {
+          console.log("bureauBackendFetch error: ", error);
+        });
+  }}, [unipeEmployeeId]);
 
   useEffect(() => {
     if (fetched) {
@@ -93,7 +118,12 @@ const KYC = () => {
         Analytics.trackEvent("Ewa|Kyc|Success", {
           unipeEmployeeId: unipeEmployeeId,
         });
-        navigation.navigate("EWA_AGREEMENT");
+        if (mandateVerifyStatus === "SUCCESS") {
+          navigation.navigate("EWA_AGREEMENT");
+        }
+        else {
+          navigation.navigate("EWA_MANDATE");
+        }
       })
       .catch((error) => {
         console.log("ewaKycPush error: ", error.toString());
@@ -122,10 +152,7 @@ const KYC = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
-        title="KYC"
-        onLeftIconPress={() => backAction()}
-      />
+      <Header title="KYC" onLeftIconPress={() => backAction()} />
       <ScrollView style={styles.container}>
         <Text style={form.OtpAwaitMsg}>
           Are these your AADHAAR details ?{"\n"}
@@ -133,14 +160,15 @@ const KYC = () => {
         <Image
           source={{
             uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
+            cache: "only-if-cached",
           }}
           style={form.aadharimg}
         />
         <CollapsibleCard title="KYC Details" isClosed={false} data={kycData} />
 
         <PrimaryButton
-          title={loading ? "Verifying" : "Continue"}
-          disabled={false}
+          title={bureauPass !== true ? "Checking Bureau" : (loading ? "Verifying" : "Continue")}
+          disabled={bureauPass !== true || loading}
           loading={loading}
           onPress={() => {
             handleKyc();

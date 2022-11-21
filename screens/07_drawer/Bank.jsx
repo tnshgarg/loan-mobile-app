@@ -26,7 +26,7 @@ const Bank = () => {
 
   const tabs = [
     {
-      name: "Bank Data",
+      name: "Form",
       component: BankFormTemplate,
       initialParams: { type: "KYC" },
       disable: true,

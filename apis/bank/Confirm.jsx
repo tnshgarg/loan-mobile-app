@@ -7,8 +7,8 @@ import { addVerifyMsg, addVerifyStatus } from "../../store/slices/bankSlice";
 import { bankBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
-import CollapsibleCard from "../../components/CollapsibleCard";
-import FuzzyCheck from "../../components/FuzzyCheck";
+import CollapsibleCard from "../../components/molecules/CollapsibleCard";
+import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import Analytics from "appcenter-analytics";
 
 const BankConfirmApi = (props) => {
@@ -102,7 +102,7 @@ const BankConfirmApi = (props) => {
                 ? navigation.navigate("KYC", {
                     screen: "BANK",
                     params: {
-                      screen: "Bank Data",
+                      screen: "Form",
                     },
                   })
                 : navigation.navigate("BankForm");
@@ -131,7 +131,9 @@ const BankConfirmApi = (props) => {
                 ? navigation.navigate("KYC", {
                     screen: "BANK",
                   })
-                : navigation.navigate("Mandate");
+                :  ( props?.type === "Onboarding"
+                      ? navigation.replace("HomeStack")
+                      : null )
             }
           }}
         />

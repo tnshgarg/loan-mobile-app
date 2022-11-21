@@ -3,9 +3,9 @@ import { BackHandler, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { styles } from "../../../../styles";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
-import KycCheckCard from "../../../../components/KycCheckCard";
+import KycCheckCard from "../../../../components/molecules/KycCheckCard";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
-import Offers from "../../../../components/DataCard";
+import Offers from "../../../../components/molecules/DataCard";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
@@ -13,7 +13,6 @@ import { COLORS, FONTS } from "../../../../constants/Theme";
 import { STAGE } from "@env";
 
 const EWA = () => {
-
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const navigation = useNavigation();
@@ -42,10 +41,11 @@ const EWA = () => {
     navigation.navigate("EWA", { replace: true });
     return true;
   };
-  
+
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   useEffect(() => {
@@ -68,7 +68,11 @@ const EWA = () => {
     console.log("ewaHistoricalSlice: ", ewaHistoricalSlice);
     console.log("ewaOffersFetch unipeEmployeeId:", unipeEmployeeId);
     if (isFocused && unipeEmployeeId) {
-      getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "ewa/offers", token: token })
+      getBackendData({
+        params: { unipeEmployeeId: unipeEmployeeId },
+        xpath: "ewa/offers",
+        token: token,
+      })
         .then((response) => {
           if (response.data.status === 200) {
             console.log("ewaOffersFetch response.data: ", response.data);
@@ -93,18 +97,16 @@ const EWA = () => {
     <SafeAreaView style={[styles.container]}>
       {aadhaarVerifyStatus === "SUCCESS" &&
       panVerifyStatus === "SUCCESS" &&
-      bankVerifyStatus === "SUCCESS" &&
-      mandateVerifyStatus === "SUCCESS" ? (
+      bankVerifyStatus === "SUCCESS" ? (
         // panMisMatch < 20 &&
         // bankMisMatch < 20
         <>
           <Text
             style={{
-              fontSize: 20,
+              ...FONTS.body3,
               marginTop: "5%",
               marginBottom: "5%",
               color: COLORS.gray,
-              letterSpacing: 0.2,
               alignSelf: "center",
             }}
           >
@@ -136,7 +138,6 @@ const EWA = () => {
                 ...FONTS.h3,
                 color: COLORS.gray,
                 marginTop: "5%",
-                fontWeight: "bold",
               }}
             >
               Your past draws
@@ -156,7 +157,6 @@ const EWA = () => {
           >
             You are not eligible for Advanced Salary.
           </Text>
-          <KycCheckCard />
         </View>
       )}
     </SafeAreaView>

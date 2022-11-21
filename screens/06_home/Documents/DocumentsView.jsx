@@ -1,11 +1,12 @@
 import { View, SafeAreaView, Text } from "react-native";
+import { FONTS } from "../../../constants/Theme";
 import { styles } from "../../../styles";
 
 const DocumentsView = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ alignSelf: "center", marginTop: "20%" }}>
-        <Text style={{ fontSize: 20, alignSelf: "center" }}>
+        <Text style={{ ...FONTS.h3, alignSelf: "center" }}>
           More Details Coming Soon
         </Text>
       </View>

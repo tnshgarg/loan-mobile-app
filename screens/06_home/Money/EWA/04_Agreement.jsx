@@ -20,7 +20,7 @@ import RenderHtml from "react-native-render-html";
 import { AntDesign } from "react-native-vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
-import CollapsibleCard from "../../../../components/CollapsibleCard";
+import CollapsibleCard from "../../../../components/molecules/CollapsibleCard";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { COLORS } from "../../../../constants/Theme";
 import { ewaAgreementPush } from "../../../../helpers/BackendPush";
@@ -31,7 +31,7 @@ import {
   resetEwaLive,
 } from "../../../../store/slices/ewaLiveSlice";
 import { checkBox, ewa, styles } from "../../../../styles";
-import agreement from "../../../../templates/docs/LiquidLoansLoanAgreement";
+import agreement from "../../../../templates/docs/LiquiLoansLoanAgreement";
 
 const Agreement = () => {
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ const Agreement = () => {
   const [fetched, setFetched] = useState(false);
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
-  
+
   const [consent, setConsent] = useState(true);
   const [loading, setLoading] = useState(false);
 
@@ -53,7 +53,7 @@ const Agreement = () => {
   const profileSlice = useSelector((state) => state.profile);
   const authSlice = useSelector((state) => state.auth);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
-
+  const mandateVerifyStatus= useSelector((state)=>state.mandate.verifyStatus);
   const [netAmount, setNetAmount] = useState();
   const [processingFees, setProcessingFees] = useState(
     useSelector((state) => state.ewaLive.processingFees)
@@ -65,27 +65,28 @@ const Agreement = () => {
 
   function ValueEntry(text) {
     text.data = text.data.replace(
-      /\{todayDate\}/g,
-      today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear()
-    );
-    text.data = text.data.replace(/\{panName\}/g, panSlice?.data?.name);
-    text.data = text.data.replace(
       /\{aadhaarAddress\}/g,
       aadhaarSlice?.data?.address
     );
+    text.data = text.data.replace(
+      /\{accountNumber\}/g,
+      bankSlice?.data?.accountNumber
+    );
     text.data = text.data.replace(/\{email\}/g, profileSlice?.email);
-    text.data = text.data.replace(/\{mobile\}/g, authSlice?.phoneNumber);
+    text.data = text.data.replace(/\{ifsc\}/g, bankSlice?.data?.ifsc);
     text.data = text.data.replace(
       /\{loanAccountNumber\}/g,
       ewaLiveSlice?.offerId
     );
     text.data = text.data.replace(/\{loanAmount\}/g, ewaLiveSlice?.loanAmount);
+    text.data = text.data.replace(/\{mobile\}/g, authSlice?.phoneNumber);
+    text.data = text.data.replace(/\{panName\}/g, panSlice?.data?.name);
     text.data = text.data.replace(/\{processingFees\}/g, processingFees);
     text.data = text.data.replace(
-      /\{accountNumber\}/g,
-      bankSlice?.data?.accountNumber
+      /\{todayDate\}/g,
+      today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear()
     );
-    text.data = text.data.replace(/\{ifsc\}/g, bankSlice?.data?.ifsc);
+    text.data = text.data.replace(/\{unipeEmployeeId\}/g, unipeEmployeeId);
   }
 
   useEffect(() => {
@@ -104,13 +105,19 @@ const Agreement = () => {
   }, [deviceId, ipAddress]);
 
   const backAction = () => {
-    navigation.navigate("EWA_KYC");
+    if (mandateVerifyStatus === "SUCCESS") {
+      navigation.navigate("EWA_KYC");
+    }
+    else {
+      navigation.navigate("EWA_MANDATE");
+    }
     return true;
   };
-  
+
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   useEffect(() => {
@@ -158,6 +165,7 @@ const Agreement = () => {
     var daysDiff = parseInt(timeDiff / (1000 * 3600 * 24));
     var apr =
       100 * (processingFees / ewaLiveSlice?.loanAmount) * (365 / daysDiff);
+    console.log("APR: ", apr, daysDiff, apr.toFixed(2));
     return apr.toFixed(2);
   };
 
@@ -213,6 +221,8 @@ const Agreement = () => {
         loanAmount: ewaLiveSlice?.loanAmount,
         netAmount: netAmount,
         loanAccountNumber: ewaLiveSlice?.offerId,
+        employerId: ewaLiveSlice?.employerId,
+        employmentId: ewaLiveSlice?.employmentId,
       },
       token: token,
     })
@@ -239,10 +249,7 @@ const Agreement = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header 
-        title="Agreement" 
-        onLeftIconPress={() => backAction()} 
-      />
+      <Header title="Agreement" onLeftIconPress={() => backAction()} />
       <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <CollapsibleCard
@@ -262,7 +269,13 @@ const Agreement = () => {
             data={bankData}
           />
 
-          <View style={{ flexDirection: "row", alignItems: "center", marginVertical: 5 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginVertical: 5,
+            }}
+          >
             <CheckBox
               style={ewa.checkBox}
               tintColors={{ true: COLORS.primary }}

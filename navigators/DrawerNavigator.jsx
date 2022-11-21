@@ -1,29 +1,30 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons, Octicons } from "react-native-vector-icons";
-import Home from "../screens/06_home/Home";
+import Placeholder from "../screens/06_home/Placeholder";
 import Profile from "../screens/07_drawer/Profile";
 import KYCScreen from "../screens/07_drawer/KYCScreen";
 import { AppBar, Icon, IconButton } from "@react-native-material/core";
 import SVGImg from "../assets/UnipeLogo.svg";
 import { nav } from "../styles";
-import { COLORS } from "../constants/Theme";
+import { COLORS, FONTS } from "../constants/Theme";
 import CustomDrawer from "./CustomDrawer";
+import BottomTabNav from "./BottomTabNav";
+import TopAppBar from "../components/molecules/TopAppBar";
 
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
-  
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawer {...props} />}
       defaultStatus="closed"
       initialRouteName="DrawerHome"
       screenOptions={{
-        activeTintColor: "#e91e63",
         itemStyle: { marginVertical: 5 },
         headerShown: true,
         drawerActiveBackgroundColor: COLORS.primary,
         drawerActiveTintColor: "white",
+        drawerLabelStyle: { ...FONTS.body4 },
         header: ({ navigation }) => (
           <AppBar
             title={<SVGImg />}
@@ -50,10 +51,11 @@ const DrawerNavigator = () => {
           drawerIcon: ({ color }) => (
             <Ionicons name="home" color={color} size={20} />
           ),
-          headerShown: false,
+          // headerShown: false,
+          header: TopAppBar,
         }}
         name="DrawerHome"
-        component={Home}
+        component={BottomTabNav}
       />
       <Drawer.Screen
         options={{
@@ -62,7 +64,7 @@ const DrawerNavigator = () => {
             <Ionicons name="person-outline" color={color} size={20} />
           ),
         }}
-        name="DrawerProfile"
+        name="Profile"
         component={Profile}
       />
       <Drawer.Screen
@@ -72,7 +74,7 @@ const DrawerNavigator = () => {
             <Octicons name="verified" color={color} size={20} />
           ),
         }}
-        name="DrawerKYC"
+        name="KYC"
         component={KYCScreen}
       />
       <Drawer.Screen
@@ -81,10 +83,10 @@ const DrawerNavigator = () => {
           drawerIcon: ({ color }) => (
             <Ionicons name="settings" color={color} size={20} />
           ),
-          headerShown:false
+          headerShown: true,
         }}
         name="DrawerSettings"
-        component={Home}
+        component={Placeholder}
       />
     </Drawer.Navigator>
   );

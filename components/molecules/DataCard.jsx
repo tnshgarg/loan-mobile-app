@@ -1,13 +1,13 @@
-import React from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/core";
-import { datacard } from "../styles";
-import { COLORS } from "../constants/Theme";
+import { datacard } from "../../styles";
+import { COLORS, FONTS } from "../../constants/Theme";
 
 const COLOR_MAP = {
-  Missed: COLORS.warning,
   Due: "orange",
+  Missed: COLORS.warning,
   Paid: COLORS.primary,
+  Pending: "orange",
 };
 
 const StatusCard = ({ offerType }) => {
@@ -17,12 +17,13 @@ const StatusCard = ({ offerType }) => {
         borderRadius: 3,
         borderColor: COLOR_MAP[offerType],
         borderWidth: 1,
-        paddingHorizontal: "10%",
+        paddingHorizontal: "3%",
+        paddingVertical: "2%",
         alignSelf: "center",
         backgroundColor: "rgba(183, 65, 44, 0.08)",
       }}
     >
-      <Text style={{ color: COLOR_MAP[offerType], fontWeight: "bold" }}>
+      <Text style={{ color: COLOR_MAP[offerType], ...FONTS.h5 }}>
         {offerType}
       </Text>
     </View>
@@ -39,12 +40,16 @@ const OfferCard = ({ offer }) => {
     offerType = "Paid";
     amount = offer.loanAmount;
     date = new Date(offer.availedAt.split(" ")[0]);
-  } else if (offer.availed) {
+  } else if (offer.disbursed) {
     offerType = "Due";
     amount = offer.loanAmount;
     date = new Date(offer.availedAt.split(" ")[0]);
+  } else if (offer.availed) {
+    offerType = "Pending";
+    amount = offer.loanAmount;
+    date = new Date(offer.availedAt.split(" ")[0]);
   }
-  
+
   var dateString = date.toDateString();
   var day = dateString.split(" ")[2];
   var month = dateString.split(" ")[1];
@@ -72,16 +77,24 @@ const OfferCard = ({ offer }) => {
             alignItems: "center",
           }}
         >
-          <Text style={{ color: COLORS.primary }}>{day}</Text>
-          <Text style={{ color: COLORS.primary }}>{month}</Text>
+          <Text style={{ color: COLORS.primary, ...FONTS.h4 }}>{day}</Text>
+          <Text style={{ color: COLORS.primary, ...FONTS.h4 }}>{month}</Text>
         </View>
-        <View style={{ flexDirection: "column", marginLeft: "10%" }}>
+        <View
+          style={{
+            flexDirection: "column",
+            marginLeft: "5%",
+
+            flex: 1,
+          }}
+        >
           <Text style={datacard.cardTitle}>₹{amount}</Text>
-          <Text style={{ color: COLORS.gray }}>Due date {offer.dueDate}</Text>
+          <Text style={{ color: COLORS.gray, ...FONTS.body4 }}>
+            Due date {offer.dueDate}
+          </Text>
         </View>
-        <View style={{ flex: 1, alignSelf: "center", marginLeft: "10%" }}>
-          <StatusCard offerType={offerType} />
-        </View>
+
+        <StatusCard offerType={offerType} />
       </View>
     </TouchableOpacity>
   );

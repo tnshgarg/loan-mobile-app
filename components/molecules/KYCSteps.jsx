@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
-import StepsIndicator from "../atoms/StepsIndicator";
+import StepsIndicator from "./StepsIndicator";
 import { SIZES } from "../../constants/Theme";
 
 const KYCSteps = (props) => {

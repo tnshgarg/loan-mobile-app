@@ -31,7 +31,7 @@ const OTPScreen = () => {
   const onboarded = useSelector((state) => state.auth.onboarded);
   const phoneNumber = useSelector((state) => state.auth.phoneNumber);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  
+
   useEffect(() => {
     dispatch(addCurrentScreen("Otp"));
   }, []);
@@ -46,14 +46,11 @@ const OTPScreen = () => {
 
   const backAction = () => {
     if (!back) {
-      Alert.alert(
-        "OTP Timer",
-        "You must wait for 2 minutes to resend OTP."
-      );
+      Alert.alert("OTP Timer", "You must wait for 2 minutes to resend OTP.");
     } else {
-      Alert.alert("Hold on!", "Are you sure you want to Logout?", [
+      Alert.alert("Hold on!", "Do you want to update your phone number ?", [
         { text: "No", onPress: () => null, style: "cancel" },
-        { text: "Yes", onPress: () => navigation.navigate("Login") }
+        { text: "Yes", onPress: () => navigation.navigate("Login") },
       ]);
     }
     return true;
@@ -61,15 +58,13 @@ const OTPScreen = () => {
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
-        title="OTP"
-        onLeftIconPress={() => backAction()}
-      />
+      <Header title="OTP" onLeftIconPress={() => backAction()} />
       <KeyboardAvoidingWrapper>
         <View style={styles.container}>
           <SVGImg style={styles.logo} />
@@ -99,10 +94,8 @@ const OTPScreen = () => {
             )}
           </Text>
           <FormInput
-            //selection={{ start: 0 }}
             containerStyle={{
               marginTop: 30,
-
               width: SIZES.width * 0.6,
               alignSelf: "center",
             }}
@@ -113,7 +106,6 @@ const OTPScreen = () => {
             maxLength={6}
             keyboardType="numeric"
             placeholder={"******"}
-            //textAlign={"center"}
           />
 
           <CountDown
@@ -128,7 +120,9 @@ const OTPScreen = () => {
             timeToShow={["M", "S"]}
             timeLabels={{ m: "MM", s: "SS" }}
             onChange={(time) => {
-              dispatch(setLoginTimer(time));
+              if (time%5===0) {
+                dispatch(setLoginTimer(time));
+              }
             }}
           />
           {back ? (
@@ -141,28 +135,28 @@ const OTPScreen = () => {
                       setOtp("");
                       setBack(false);
                       dispatch(resetTimer());
+                      Alert.alert("OTP resent successfully");
                       Analytics.trackEvent("OTPScreen|SendSms|Success", {
                         unipeEmployeeId: unipeEmployeeId,
                       });
-                      Alert.alert("OTP resent successfully");
                     } else {
-                      Analytics.trackEvent("OTPScreen|SendSms|Error", {
-                        unipeEmployeeId: unipeEmployeeId,
-                        error: result["response"]["details"],
-                      });
                       Alert.alert(
                         res["response"]["status"],
                         res["response"]["details"]
                       );
+                      Analytics.trackEvent("OTPScreen|SendSms|Error", {
+                        unipeEmployeeId: unipeEmployeeId,
+                        error: res["response"]["details"],
+                      });
                     }
                   })
                   .catch((error) => {
                     console.log(error.toString());
+                    Alert.alert("Error", error.toString());
                     Analytics.trackEvent("OTPScreen|SendSms|Error", {
                       unipeEmployeeId: unipeEmployeeId,
                       error: error.toString(),
                     });
-                    Alert.alert("Error", error.toString());
                   });
               }}
             >
@@ -181,10 +175,8 @@ const OTPScreen = () => {
               setNext(false);
               checkVerification(phoneNumber, otp)
                 .then((res) => {
+                  console.log("res: ", res);
                   if (res["response"]["status"] === "success") {
-                    Analytics.trackEvent("OTPScreen|Check|Success", {
-                      unipeEmployeeId: unipeEmployeeId,
-                    });
                     if (onboarded) {
                       navigation.navigate("BackendSync", {
                         destination: "HomeStack",
@@ -194,25 +186,28 @@ const OTPScreen = () => {
                         destination: "Welcome",
                       });
                     }
-                    dispatch(resetTimer());
-                  } else {
-                    Analytics.trackEvent("OTPScreen|Check|Error", {
+                    dispatch(setLoginTimer(0));
+                    Analytics.trackEvent("OTPScreen|Check|Success", {
                       unipeEmployeeId: unipeEmployeeId,
-                      error: result["response"]["details"],
                     });
+                  } else {
                     Alert.alert(
                       res["response"]["status"],
                       res["response"]["details"]
                     );
+                    Analytics.trackEvent("OTPScreen|Check|Error", {
+                      unipeEmployeeId: unipeEmployeeId,
+                      error: res["response"]["details"],
+                    });
                   }
                 })
                 .catch((error) => {
                   console.log(error.toString());
+                  Alert.alert("Error", error.toString());
                   Analytics.trackEvent("OTPScreen|Check|Error", {
                     unipeEmployeeId: unipeEmployeeId,
                     error: error.toString(),
                   });
-                  Alert.alert("Error", error.toString());
                 });
             }}
           />

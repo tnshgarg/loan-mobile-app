@@ -1,25 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import DevMenu from "../screens/DevMenu";
 
 import { STAGE } from "@env";
-import OfflineAlert from "../components/OfflineAlert";
+import OfflineAlert from "../components/organisms/OfflineAlert";
 import OnboardingStack from "./stacks/OnboardingStack";
-import HomeStack from "./stacks/HomeStack";
 import EWAStack from "./stacks/EWAStack";
 import DocumentStack from "./stacks/DocumentStack";
 import BenefitsStack from "./stacks/BenefitsStack";
+import DrawerNavigator from "./DrawerNavigator";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
 
-  var initialRoute = useSelector((state) => state.navigation.currentStack);
-  var initialScreen = useSelector((state) => state.navigation.currentScreen);
+  var [initialRoute, setInitialRoute] = useState(
+    useSelector((state) => state.navigation.currentStack)
+  );
+  var [initialScreen, setInitialScreen] = useState(
+    useSelector((state) => state.navigation.currentScreen)
+  );
+
   console.log("STAGE: ", STAGE);
   console.log("initialRoute: ", initialRoute);
-  console.log("currentScreen: ",initialScreen );
+  console.log("currentScreen: ", initialScreen);
 
   STAGE === "dev" ? (initialRoute = "DevMenu") : null;
   console.log("initialRoute: ", initialRoute);
@@ -44,7 +49,7 @@ const StackNavigator = () => {
         />
         <Stack.Screen
           name="HomeStack"
-          component={HomeStack}
+          component={DrawerNavigator}
           options={{
             headerShown: false,
           }}

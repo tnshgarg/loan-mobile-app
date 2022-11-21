@@ -1,6 +1,7 @@
 import axios from "axios";
 import { RZP_AUTH } from "../../constants";
 import { STAGE } from "@env";
+
 const createCustomer = ({ name, email, contact }) => {
   var data = JSON.stringify({
     name: name,
@@ -28,6 +29,7 @@ const createOrder = ({
   accountHolderName,
   accountNumber,
   ifsc,
+  aCTC,
 }) => {
   console.log("createOrder");
   if (authType === "upi") {
@@ -38,7 +40,7 @@ const createOrder = ({
       method: "upi",
       token: {
         max_amount: 500000,
-        expire_at: 4102444799,
+        expire_at: 1767223119,
         frequency: "as_presented",
       },
     });
@@ -51,8 +53,10 @@ const createOrder = ({
       customer_id: customerId,
       token: {
         auth_type: authType,
-        max_amount: 100000000,
-        expire_at: 4102444799,
+        max_amount: Math.round(
+          100 * (parseFloat(aCTC.replace(/[^0-9.]+/g, "")) / 12)
+        ),
+        expire_at: 1767223119,
         bank_account: {
           account_number: accountNumber,
           account_type: "savings",
@@ -62,8 +66,8 @@ const createOrder = ({
       },
     });
   }
-  console.log(STAGE);
-  console.log(data);
+  console.log("createorder", data);
+
   var config = {
     method: "post",
     url: "https://api.razorpay.com/v1/orders",

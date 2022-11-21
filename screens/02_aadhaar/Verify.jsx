@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import { Alert, SafeAreaView, BackHandler } from "react-native";
-import ProgressBarTop from "../../navigators/ProgressBarTop";
+import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import AadhaarVerifyTemplate from "../../templates/aadhaar/Verify";
@@ -55,7 +55,7 @@ const AadhaarVerify = () => {
         title="Aadhaar OTP Verification"
         onLeftIconPress={() => backAction()}
       />
-      <ProgressBarTop step={1} />
+      <OnboardingProgressBar step={1} />
       <AadhaarVerifyTemplate function={backAction} />
     </SafeAreaView>
   );

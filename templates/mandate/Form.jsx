@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, SafeAreaView, ScrollView, Text } from "react-native";
+import { Alert, SafeAreaView, ScrollView } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,15 +8,13 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { mandatePush } from "../../helpers/BackendPush";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
-  addCustomerId,
   addData,
-  addOrderId,
   addVerifyMsg,
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/mandateSlice";
-import { styles, bankform } from "../../styles";
-import { showToast } from "../../components/Toast";
+import { styles } from "../../styles";
+import { showToast } from "../../components/atoms/Toast";
 import RazorpayCheckout from "react-native-razorpay";
 import {
   createCustomer,
@@ -36,24 +34,21 @@ const MandateFormTemplate = (props) => {
   const [ipAddress, setIpAdress] = useState(0);
   const [backendPush, setBackendPush] = useState(false);
 
-  const token = useSelector((state) => state.auth.token);
+  const token = useSelector((state) => state.auth?.token);
   const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
+  const aCTC = useSelector((state) => state.auth?.aCTC);
   const phoneNumber = useSelector((state) => state.auth?.phoneNumber);
-  const email = useSelector(
-    (state) => state.pan?.data?.email || state.profile?.email
-  );
-  const accountHolderName = useSelector(
-    (state) => state.bank?.data?.accountHolderName
-  );
+  const email = useSelector((state) => state.profile?.email || state.pan?.data?.email);
+  const accountHolderName = useSelector((state) => state.bank?.data?.accountHolderName);
   const accountNumber = useSelector((state) => state.bank?.data?.accountNumber);
   const ifsc = useSelector((state) => state.bank?.data?.ifsc);
-  const bankVerifyStatus = useSelector((state) => state.bank?.verifyStatus);
 
   const mandateSlice = useSelector((state) => state.mandate);
-  const [authType, setAuthType] = useState(mandateSlice?.data?.authType);
+  const [authType, setAuthType] = useState();
   const [customerId, setCustomerId] = useState();
-  const [data, setData] = useState(mandateSlice?.data);
   const [orderId, setOrderId] = useState();
+  const [active, setActive] = useState(mandateSlice?.active);
+  const [data, setData] = useState(mandateSlice?.data);
   const [verifyMsg, setVerifyMsg] = useState(mandateSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(mandateSlice?.verifyStatus);
   const [verifyTimestamp, setVerifyTimestamp] = useState(
@@ -71,12 +66,8 @@ const MandateFormTemplate = (props) => {
   }, []);
 
   useEffect(() => {
-    dispatch(addCustomerId(customerId));
-  }, [customerId]);
-
-  useEffect(() => {
-    dispatch(addOrderId(orderId));
-  }, [orderId]);
+    dispatch(addData(data));
+  }, [data]);
 
   useEffect(() => {
     dispatch(addVerifyMsg(verifyMsg));
@@ -89,10 +80,6 @@ const MandateFormTemplate = (props) => {
   useEffect(() => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
-
-  useEffect(() => {
-    dispatch(addData(data));
-  }, [data]);
 
   useEffect(() => {
     if (backendPush) {
@@ -188,8 +175,8 @@ const MandateFormTemplate = (props) => {
               Analytics.trackEvent("Mandate|GetToken|Success", {
                 unipeEmployeeId: unipeEmployeeId,
               });
-              props?.type === "Onboarding"
-                ? navigation.replace("HomeStack")
+              props?.type === "EWA"
+                ? navigation.navigate("EWA_AGREEMENT")
                 : null;
             })
             .catch((error) => {
@@ -229,6 +216,7 @@ const MandateFormTemplate = (props) => {
       accountHolderName: accountHolderName,
       accountNumber: accountNumber,
       ifsc: ifsc,
+      aCTC: aCTC,
     })
       .then((res) => {
         console.log(`Mandate|CreateOrder|${authType} res.data:`, res.data);
@@ -255,70 +243,43 @@ const MandateFormTemplate = (props) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      {bankVerifyStatus === "SUCCESS" ? (
-        <KeyboardAvoidingWrapper>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <FormInput
-              placeholder={"Account Holder Name"}
-              containerStyle={{ marginVertical: 10 }}
-              autoCapitalize="words"
-              value={accountHolderName}
-              disabled={true}
-            />
-            <FormInput
-              placeholder={"Bank Account Number"}
-              containerStyle={{ marginVertical: 10 }}
-              autoCapitalize="words"
-              value={accountNumber}
-              disabled={true}
-            />
-            <FormInput
-              placeholder={"IFSC"}
-              containerStyle={{ marginVertical: 10 }}
-              autoCapitalize="words"
-              value={ifsc}
-              disabled={true}
-            />
-            <PrimaryButton
-              title="Debit Card"
-              onPress={() => {
-                ProceedButton({ authType: "debitcard" });
-              }}
-            />
-            <PrimaryButton
-              title="Net Banking"
-              onPress={() => {
-                ProceedButton({ authType: "netbanking" });
-              }}
-            />
-            <PrimaryButton
-              title="UPI"
-              onPress={() => {
-                ProceedButton({ authType: "upi" });
-              }}
-            />
-          </ScrollView>
-        </KeyboardAvoidingWrapper>
-      ) : (
-        <>
-          <Text style={bankform.subTitle}>
-            Please verify your Bank Information first
-          </Text>
+      <KeyboardAvoidingWrapper>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <FormInput
+            placeholder={"Account Holder Name"}
+            containerStyle={{ marginVertical: 10 }}
+            autoCapitalize="words"
+            value={accountHolderName}
+            disabled={true}
+          />
+          <FormInput
+            placeholder={"Bank Account Number"}
+            containerStyle={{ marginVertical: 10 }}
+            autoCapitalize="words"
+            value={accountNumber}
+            disabled={true}
+          />
+          <FormInput
+            placeholder={"IFSC"}
+            containerStyle={{ marginVertical: 10 }}
+            autoCapitalize="words"
+            value={ifsc}
+            disabled={true}
+          />
           <PrimaryButton
-            title="Verify Bank Info Now"
+            title="Debit Card"
             onPress={() => {
-              props?.route?.params?.type
-                ? navigation.navigate("HomeStack", {
-                    screen: "KYC",
-                    params: {
-                      screen: "BANK",
-                    },
-                  })
-                : navigation.navigate("BankForm");
+              ProceedButton({ authType: "debitcard" });
             }}
           />
-        </>
-      )}
+          <PrimaryButton
+            title="Net Banking"
+            onPress={() => {
+              ProceedButton({ authType: "netbanking" });
+            }}
+          />
+        </ScrollView>
+      </KeyboardAvoidingWrapper>
     </SafeAreaView>
   );
 };

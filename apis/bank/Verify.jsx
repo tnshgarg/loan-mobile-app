@@ -18,6 +18,7 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
 
 const BankVerifyApi = (props) => {
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
   console.log("Mock api URl", KYC_BANK_VERIFY_API_URL);
@@ -125,7 +126,6 @@ const BankVerifyApi = (props) => {
                 setVerifyTimestamp(responseJson["timestamp"]);
                 setBackendPush(true);
                 Analytics.trackEvent("Bank|Verify|Success", {
-                  Category: "Onboarding",
                   unipeEmployeeId: unipeEmployeeId,
                 });
                 {
@@ -145,7 +145,6 @@ const BankVerifyApi = (props) => {
                 setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
                 Analytics.trackEvent("Bank|Verify|Error", {
-                  Category: "Onboarding",
                   unipeEmployeeId: unipeEmployeeId,
                   error: responseJson["data"]["message"],
                 });
@@ -164,7 +163,6 @@ const BankVerifyApi = (props) => {
                   .join("\n")
               );
               Analytics.trackEvent("Bank|Verify|Error", {
-                Category: "Onboarding",
                 unipeEmployeeId: unipeEmployeeId,
                 error: responseJson["error"]["metadata"]["fields"]
                   .map((item) => item["message"])

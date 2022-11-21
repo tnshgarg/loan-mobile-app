@@ -2,23 +2,29 @@ import { useIsFocused, useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, Text, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { COLORS, FONTS } from "../constants/Theme";
-import { getBackendData } from "../services/employees/employeeServices";
-import { resetEwaHistorical } from "../store/slices/ewaHistoricalSlice";
-import { resetEwaLive } from "../store/slices/ewaLiveSlice";
-
+import { COLORS, FONTS } from "../../constants/Theme";
+import { getBackendData } from "../../services/employees/employeeServices";
+import { resetEwaHistorical } from "../../store/slices/ewaHistoricalSlice";
+import { resetEwaLive } from "../../store/slices/ewaLiveSlice";
+import PrimaryButton from "../atoms/PrimaryButton";
 
 const HomeOfferCard = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const isFocused = useIsFocused();
-  const [id, setId] = useState(useSelector((state) => state.auth.id));
+
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const token = useSelector((state) => state.auth.token);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
 
   useEffect(() => {
-    console.log("ewaOffersFetch unipeEmployeeId:", id);
-    if (isFocused && id) {
-      getBackendData({ params: { unipeEmployeeId: id }, xpath: "ewa/offers" })
+    console.log("ewaOffersFetch unipeEmployeeId:", unipeEmployeeId);
+    if (isFocused) {
+      getBackendData({
+        params: { unipeEmployeeId: unipeEmployeeId },
+        xpath: "ewa/offers",
+        token: token,
+      })
         .then((response) => {
           if (response.data.status === 200) {
             console.log("ewaOffersFetch response.data: ", response.data);
@@ -30,7 +36,7 @@ const HomeOfferCard = () => {
           console.log("ewaOffersFetch error: ", error);
         });
     }
-  }, [isFocused, id]);
+  }, [isFocused, unipeEmployeeId]);
 
   return (
     <SafeAreaView>
@@ -51,7 +57,7 @@ const HomeOfferCard = () => {
         <Text
           style={{
             color: COLORS.black,
-            ...FONTS.h3,
+            ...FONTS.body3,
             marginTop: "2%",
             alignSelf: "center",
           }}
@@ -71,12 +77,16 @@ const HomeOfferCard = () => {
         <Text
           style={{
             color: COLORS.black,
-            ...FONTS.h3,
+            ...FONTS.body3,
             alignSelf: "center",
           }}
         >
           Before {ewaLiveSlice.dueDate}
         </Text>
+        <PrimaryButton
+          title={"Withdraw Now"}
+          onPress={() => navigation.navigate("Money")}
+        />
       </TouchableOpacity>
     </SafeAreaView>
   );

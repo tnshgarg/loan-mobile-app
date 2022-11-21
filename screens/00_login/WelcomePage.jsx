@@ -25,14 +25,15 @@ const WelcomePage = () => {
   const backAction = () => {
     Alert.alert("Hold on!", "Are you sure you want to Logout?", [
       { text: "No", onPress: () => null, style: "cancel" },
-      { text: "Yes", onPress: () => navigation.navigate("Login") }
+      { text: "Yes", onPress: () => navigation.navigate("Login") },
     ]);
     return true;
   };
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
@@ -57,10 +58,6 @@ const WelcomePage = () => {
         iconConfig.name = "bank-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
-      case 4: {
-        iconConfig.name = "bank-check";
-        return <MaterialCommunityIcons {...iconConfig} />;
-      }
       default: {
         iconConfig.name = "info-outline";
         return <MaterialIcons {...iconConfig} />;
@@ -70,32 +67,32 @@ const WelcomePage = () => {
 
   const renderStepIndicator = (params) => getStepIndicatorIconConfig(params);
 
-  const data = ["Profile", "Aadhaar", "PAN", "Bank", "Mandate"];
+  const data = ["Profile", "Aadhaar", "PAN", "Bank"];
 
   return (
-    <>
-      <SafeAreaView style={[styles.container]}>
-        <SVGImg style={styles.logo} />
-        <View style={[welcome.steps,{alignSelf: "center"}]}>
-          <StepIndicator
-            customStyles={stepIndicatorStyles}
-            stepCount={5}
-            direction="vertical"
-            renderStepIndicator={renderStepIndicator}
-            currentPosition={-1}
-            labels={data}
-          />
-        </View>
-        <PrimaryButton
-          title="Start Onboarding"
-          onPress={() => {
-            requestUserPermission();
-            Analytics.trackEvent("WelcomePage", { unipeEmployeeId: unipeEmployeeId });
-            navigation.navigate("ProfileForm");
-          }}
+    <SafeAreaView style={[styles.container]}>
+      <SVGImg style={styles.logo} />
+      <View style={[welcome.steps, { alignSelf: "center" }]}>
+        <StepIndicator
+          customStyles={stepIndicatorStyles}
+          stepCount={4}
+          direction="vertical"
+          renderStepIndicator={renderStepIndicator}
+          currentPosition={-1}
+          labels={data}
         />
-      </SafeAreaView>
-    </>
+      </View>
+      <PrimaryButton
+        title="Start Onboarding"
+        onPress={() => {
+          requestUserPermission();
+          Analytics.trackEvent("WelcomePage", {
+            unipeEmployeeId: unipeEmployeeId,
+          });
+          navigation.navigate("ProfileForm");
+        }}
+      />
+    </SafeAreaView>
   );
 };
 

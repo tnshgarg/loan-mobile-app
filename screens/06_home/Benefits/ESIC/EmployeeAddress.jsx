@@ -1,10 +1,10 @@
 import { useNavigation } from "@react-navigation/core";
 import { SafeAreaView, View } from "react-native";
-import AddressDropdown from "../../../../components/AddressDropdown";
+import AddressDropdown from "../../../../components/molecules/AddressDropdown";
 import { styles } from "../../../../styles";
 import { useSelector } from "react-redux";
 import { addressPush } from "../../../../helpers/BackendPush";
-import { showToast } from "../../../../components/Toast";
+import { showToast } from "../../../../components/atoms/Toast";
 import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 

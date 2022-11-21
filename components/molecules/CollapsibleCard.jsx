@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Text, View } from "react-native";
 import Collapsible from "react-native-collapsible";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { COLORS, FONTS } from "../constants/Theme";
-import { bankform, ewa } from "../styles";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { bankform, ewa } from "../../styles";
 
 const CollapsibleCard = ({
   title,
@@ -21,7 +21,7 @@ const CollapsibleCard = ({
         style={{ flexDirection: "row", width: "100%", alignItems: "center" }}
       >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Text style={{ fontWeight: "bold", fontSize: 16, paddingRight: 5 }}>
+          <Text style={{ ...FONTS.h4, color: COLORS.primary, paddingRight: 5 }}>
             {title}
           </Text>
           {TitleIcon ? <TitleIcon /> : null}
@@ -52,7 +52,7 @@ const CollapsibleCard = ({
           >
             <Text
               style={{
-                ...FONTS.h4,
+                ...FONTS.h5,
                 flex: 1,
               }}
             >
@@ -60,8 +60,8 @@ const CollapsibleCard = ({
             </Text>
             <Text
               style={{
-                ...FONTS.body4,
-                flex: 1,
+                ...FONTS.body5,
+                flex: 1.5,
                 textAlign: "right",
               }}
             >

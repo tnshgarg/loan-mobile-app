@@ -1,13 +1,7 @@
 import Analytics from "appcenter-analytics";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import {
-  Alert,
-  BackHandler,
-  SafeAreaView,
-  Text,
-  View,
-} from "react-native";
+import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
 import SplashScreen from "react-native-splash-screen";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,20 +14,23 @@ import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { putBackendData } from "../../services/employees/employeeServices";
 import { sendSmsVerification } from "../../services/otp/Gupshup/services";
 import {
+  addACTC,
   addOnboarded,
   addPhoneNumber,
   addToken,
   addUnipeEmployeeId,
 } from "../../store/slices/authSlice";
-import { addCurrentScreen ,addCurrentStack} from "../../store/slices/navigationSlice";
+import {
+  addCurrentScreen,
+  addCurrentStack,
+} from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
 import privacyPolicy from "../../templates/docs/PrivacyPolicy.js";
 import termsOfUse from "../../templates/docs/TermsOfUse.js";
-
+import PushNotification, { Importance } from "react-native-push-notification";
 
 const LoginScreen = () => {
-
   SplashScreen.hide();
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -42,14 +39,43 @@ const LoginScreen = () => {
   const [next, setNext] = useState(false);
 
   const authSlice = useSelector((state) => state.auth);
+  const [aCTC, setACTC] = useState(authSlice?.aCTC);
   const [onboarded, setOnboarded] = useState(authSlice?.onboarded);
   const [phoneNumber, setPhoneNumber] = useState(authSlice?.phoneNumber);
   const [token, setToken] = useState(authSlice?.token);
-  const [unipeEmployeeId, setUnipeEmployeeId] = useState(authSlice?.unipeEmployeeId);
+  const [unipeEmployeeId, setUnipeEmployeeId] = useState(
+    authSlice?.unipeEmployeeId
+  );
 
   const [isPrivacyModalVisible, setIsPrivacyModalVisible] = useState(false);
   const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
     useState(false);
+
+  useEffect(() => {
+    PushNotification.createChannel(
+      {
+        channelId: "Onboarding",
+        channelName: "OnboardingChannel",
+        channelDescription:
+          "A channel for users who have not completed Onboarding Journey",
+        playSound: false,
+        soundName: "default",
+        importance: Importance.HIGH,
+        vibrate: true,
+      },
+      (created) => console.log(`createChannel returned '${created}'`)
+    );
+    PushNotification.localNotificationSchedule({
+      title: "Complete Your Onboarding Steps",
+      message: "Complete Your Onboarding Journey to avail your Advance Salary",
+      date: new Date(Date.now() + 24 * 60 * 60 * 1000), // {24 hours}
+      allowWhileIdle: false,
+      channelId: "Onboarding",
+      smallIcon: "ic_notification_fcm_icon",
+      repeatType: "day",
+      repeatTime: 2,
+    });
+  }, []);
 
   useEffect(() => {
     dispatch(addCurrentStack("OnboardingStack"));
@@ -59,6 +85,10 @@ const LoginScreen = () => {
   useEffect(() => {
     dispatch(addToken(token));
   }, [token]);
+
+  useEffect(() => {
+    dispatch(addACTC(aCTC));
+  }, [aCTC]);
 
   useEffect(() => {
     dispatch(addOnboarded(onboarded));
@@ -99,30 +129,33 @@ const LoginScreen = () => {
   const backAction = () => {
     Alert.alert("Hold on!", "Are you sure you want to go back?", [
       { text: "No", onPress: () => null, style: "cancel" },
-      { text: "Yes", onPress: () => BackHandler.exitApp() }
+      { text: "Yes", onPress: () => BackHandler.exitApp() },
     ]);
     return true;
   };
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   const signIn = () => {
     setLoading(true);
     dispatch(resetTimer());
     var fullPhoneNumber = `+91${phoneNumber}`;
-    putBackendData({ data: { number: fullPhoneNumber }, xpath: "mobile", token: token })
+    putBackendData({
+      data: { number: fullPhoneNumber },
+      xpath: "mobile",
+      token: token,
+    })
       .then((res) => {
         console.log("LoginScreen res.data: ", res.data);
         if (res.data.status === 200) {
+          setACTC(res.data.body.aCTC);
           setOnboarded(res.data.body.onboarded);
-          setToken(res.data.body.token)
+          setToken(res.data.body.token);
           setUnipeEmployeeId(res.data.body.unipeEmployeeId);
-          Analytics.trackEvent(`LoginScreen|SignIn|Success`, {
-            unipeEmployeeId: res.data.body.id,
-          });
           sendSmsVerification(phoneNumber)
             .then((result) => {
               console.log("sendSmsVerification result: ", result);
@@ -134,37 +167,38 @@ const LoginScreen = () => {
                 navigation.navigate("Otp");
               } else {
                 setLoading(false);
-                Analytics.trackEvent("LoginScreen|SendSms|Error", {
-                  unipeEmployeeId: unipeEmployeeId,
-                  error: result["response"]["details"],
-                });
                 Alert.alert(
                   result["response"]["status"],
                   result["response"]["details"]
                 );
+                Analytics.trackEvent("LoginScreen|SendSms|Error", {
+                  unipeEmployeeId: unipeEmployeeId,
+                  error: result["response"]["details"],
+                });
               }
             })
             .catch((error) => {
               console.log("sendSmsVerification result: ", error.toString());
               setLoading(false);
+              Alert("Error", error.toString());
               Analytics.trackEvent("LoginScreen|SendSms|Error", {
                 unipeEmployeeId: unipeEmployeeId,
                 error: error.toString(),
               });
-              Alert("Error", error.toString());
             });
         } else {
           setLoading(false);
+          Alert.alert("Error", res.data["message"]);
           Analytics.trackEvent("LoginScreen|SignIn|Error", {
             phoneNumber: phoneNumber,
             error: res.data["message"],
           });
-          Alert.alert("Error", res.data["message"]);
         }
       })
       .catch((error) => {
         console.log("LoginScreen res.data: ", error.toString());
         setLoading(false);
+        Alert.alert("Error", error.toString());
         Analytics.trackEvent("LoginScreen|SignIn|Error", {
           phoneNumber: phoneNumber,
           error: error.toString(),
