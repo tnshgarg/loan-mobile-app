@@ -27,9 +27,9 @@ const KYC = () => {
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
 
-  const [bureauPass, setBureauPass] = useState("PENDING");
+  const [bureauPass, setBureauPass] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const mandateVerifyStatus= useSelector((state)=>state.mandate.verifyStatus);
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const data = useSelector((state) => state.aadhaar.data);
@@ -74,8 +74,7 @@ const KYC = () => {
         .catch((error) => {
           console.log("bureauBackendFetch error: ", error);
         });
-    }
-  }, [unipeEmployeeId]);
+  }}, [unipeEmployeeId]);
 
   useEffect(() => {
     if (fetched) {
@@ -119,7 +118,12 @@ const KYC = () => {
         Analytics.trackEvent("Ewa|Kyc|Success", {
           unipeEmployeeId: unipeEmployeeId,
         });
-        navigation.navigate("EWA_AGREEMENT");
+        if (mandateVerifyStatus === "SUCCESS") {
+          navigation.navigate("EWA_AGREEMENT");
+        }
+        else {
+          navigation.navigate("EWA_MANDATE");
+        }
       })
       .catch((error) => {
         console.log("ewaKycPush error: ", error.toString());
@@ -164,7 +168,7 @@ const KYC = () => {
 
         <PrimaryButton
           title={bureauPass !== true ? "Checking Bureau" : (loading ? "Verifying" : "Continue")}
-          disabled={bureauPass !== true}
+          disabled={bureauPass !== true || loading}
           loading={loading}
           onPress={() => {
             handleKyc();

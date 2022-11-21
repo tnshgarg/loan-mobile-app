@@ -7,7 +7,7 @@ import {
   ScrollView,
   BackHandler,
 } from "react-native";
-import ProgressBarTop from "../../navigators/ProgressBarTop";
+import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
@@ -45,7 +45,7 @@ const AadhaarConfirm = () => {
         title="Aadhaar Data Confirmation"
         onLeftIconPress={() => backAction()}
       />
-      <ProgressBarTop step={1} />
+      <OnboardingProgressBar step={1} />
       <ScrollView keyboardShouldPersistTaps="handled">
         <AadhaarConfirmApi />
       </ScrollView>

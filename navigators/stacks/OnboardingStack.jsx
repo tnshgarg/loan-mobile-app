@@ -15,7 +15,6 @@ import PanConfirm from "../../screens/03_pan/Confirm";
 import PanForm from "../../screens/03_pan/Form";
 import BankConfirm from "../../screens/04_bank/Confirm";
 import BankForm from "../../screens/04_bank/Form";
-import Mandate from "../../screens/04_bank/Mandate";
 import BackendSync from "../../screens/BackendSync";
 
 const OnboardingStack = () => {
@@ -133,13 +132,6 @@ const OnboardingStack = () => {
           headerShown: false,
           header: null,
           animation: "simple_push",
-        }}
-      />
-      <Stack.Screen
-        name="Mandate"
-        component={Mandate}
-        options={{
-          headerShown: false,
         }}
       />
     </Stack.Navigator>

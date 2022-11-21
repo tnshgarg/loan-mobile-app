@@ -9,7 +9,6 @@ export default DevMenu = () => {
     { title: "Welcome", stack: "OnboardingStack", name: "Welcome" },
     { title: "Login", stack: "OnboardingStack", name: "Login" },
     { title: "Profile", stack: "OnboardingStack", name: "ProfileForm" },
-    { title: "Photo", stack: "OnboardingStack", name: "PersonalImage" },
     { title: "AADHAAR", stack: "OnboardingStack", name: "AadhaarForm" },
     { title: "PAN", stack: "OnboardingStack", name: "PanForm" },
     { title: "BANK", stack: "OnboardingStack", name: "BankForm" },

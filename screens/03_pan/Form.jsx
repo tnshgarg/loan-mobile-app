@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect } from "react";
 import { Alert, SafeAreaView, BackHandler } from "react-native";
 import { useDispatch } from "react-redux";
-import ProgressBarTop from "../../navigators/ProgressBarTop";
+import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
@@ -52,7 +52,7 @@ export default PanForm = () => {
         onLeftIconPress={() => backAction()}
         onRightIconPress={() => SkipPAN()}
       />
-      <ProgressBarTop step={2} />
+      <OnboardingProgressBar step={2} />
       <PanFormTemplate />
     </SafeAreaView>
   );

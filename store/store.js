@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persistStore, persistReducer } from "redux-persist";
-
+import { navigate } from "../navigators/RootNavigation";
 import aadhaarSlice from "./slices/aadhaarSlice";
 import authSlice from "./slices/authSlice";
 import bankSlice from "./slices/bankSlice";
@@ -42,7 +42,11 @@ const appReducer = combineReducers({
 const rootReducer = (state, action) => {
   console.log("action.type", action.type);
   if (action.type === "LOGOUT") {
-    AsyncStorage.removeItem("persist:root");
+    try {
+      AsyncStorage.clear();
+    } catch (error) {
+      console.error(error);
+    }
     return appReducer(undefined, action);
   }
   return appReducer(state, action);

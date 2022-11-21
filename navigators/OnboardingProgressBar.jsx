@@ -5,12 +5,11 @@ import { useSelector } from "react-redux";
 import { progressBar, stepIndicatorStyles } from "../styles";
 import { COLORS } from "../constants/Theme";
 
-export default ProgressBarTop = (props) => {
+export default OnboardingProgressBar = (props) => {
 
   const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);
   const panStatus = useSelector((state) => state.pan.verifyStatus);
   const bankStatus = useSelector((state) => state.bank.verifyStatus);
-  const mandateStatus = useSelector((state) => state.mandate.verifyStatus);
 
   const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
@@ -52,15 +51,6 @@ export default ProgressBarTop = (props) => {
         iconConfig.name = "bank-outline";
         return <MaterialCommunityIcons {...iconConfig} />;
       }
-      case 4: {
-        stepStatus == "finished"
-          ? mandateStatus == "SUCCESS"
-            ? (iconConfig.color = COLORS.white)
-            : (iconConfig.color = COLORS.warning)
-          : (iconConfig.color = COLORS.primaryPending);
-        iconConfig.name = "bank-check";
-        return <MaterialCommunityIcons {...iconConfig} />;
-      }
       default: {
         iconConfig.name = "info-outline";
         return <MaterialIcons {...iconConfig} />;
@@ -73,7 +63,7 @@ export default ProgressBarTop = (props) => {
   return (
     <View style={progressBar.progressView}>
       <StepIndicator
-        stepCount={5}
+        stepCount={4}
         customStyles={stepIndicatorStyles}
         currentPosition={props.step}
         labels={[
@@ -81,7 +71,6 @@ export default ProgressBarTop = (props) => {
           "Aadhaar",
           "PAN",
           "Bank",
-          "Mandate",
         ]}
         renderStepIndicator={renderStepIndicator}
       />

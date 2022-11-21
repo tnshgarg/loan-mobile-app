@@ -18,6 +18,7 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
 
 const BankVerifyApi = (props) => {
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
   console.log("Mock api URl", KYC_BANK_VERIFY_API_URL);
@@ -125,7 +126,6 @@ const BankVerifyApi = (props) => {
                   verifyTimestamp: responseJson["timestamp"],
                 });
                 Analytics.trackEvent("Bank|Verify|Success", {
-                  Category: "Onboarding",
                   unipeEmployeeId: unipeEmployeeId,
                 });
                 {

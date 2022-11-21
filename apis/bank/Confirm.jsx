@@ -102,7 +102,7 @@ const BankConfirmApi = (props) => {
                 ? navigation.navigate("KYC", {
                     screen: "BANK",
                     params: {
-                      screen: "Bank Data",
+                      screen: "Form",
                     },
                   })
                 : navigation.navigate("BankForm");
@@ -132,7 +132,9 @@ const BankConfirmApi = (props) => {
                 ? navigation.navigate("KYC", {
                     screen: "BANK",
                   })
-                : navigation.navigate("Mandate");
+                :  ( props?.type === "Onboarding"
+                      ? navigation.replace("HomeStack")
+                      : null )
             }
           }}
         />

@@ -97,8 +97,7 @@ const EWA = () => {
     <SafeAreaView style={[styles.container]}>
       {aadhaarVerifyStatus === "SUCCESS" &&
       panVerifyStatus === "SUCCESS" &&
-      bankVerifyStatus === "SUCCESS" &&
-      mandateVerifyStatus === "SUCCESS" ? (
+      bankVerifyStatus === "SUCCESS" ? (
         // panMisMatch < 20 &&
         // bankMisMatch < 20
         <>
@@ -158,7 +157,6 @@ const EWA = () => {
           >
             You are not eligible for Advanced Salary.
           </Text>
-          <KycCheckCard />
         </View>
       )}
     </SafeAreaView>

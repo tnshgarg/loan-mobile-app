@@ -92,59 +92,40 @@ const agreement = {
 <table style="border: 1px solid black; border-collapse: collapse;">
   <tr>
     <th style="border: 1px solid black; border-collapse: collapse;">Outstanding amount (INR)</th>
-    <th style="border: 1px solid black; border-collapse: collapse;">Due date +15 days</th>
-    <th style="border: 1px solid black; border-collapse: collapse;">Due date +30 days</th>
-    <th style="border: 1px solid black; border-collapse: collapse;">Due date +60 days</th>
-    <th style="border: 1px solid black; border-collapse: collapse;">Due date +90 days</th>
-  </tr>
-  <tr>
-    <td style="border: 1px solid black; border-collapse: collapse;">&lt=1000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
+    <th style="border: 1px solid black; border-collapse: collapse;">Due date + 30 days</th>
+    <th style="border: 1px solid black; border-collapse: collapse;">Due date + 60 days</th>
+    <th style="border: 1px solid black; border-collapse: collapse;">Due date + 90 days</th>
   </tr>
   <tr>
     <td style="border: 1px solid black; border-collapse: collapse;">1001-5000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">150</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">300</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">450</td>
   </tr>
   <tr>
     <td style="border: 1px solid black; border-collapse: collapse;">5001-10,000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">250</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">500</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">750</td>
   </tr>
   <tr>
     <td style="border: 1px solid black; border-collapse: collapse;">10,001-25,000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">350</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">700</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">900</td>
   </tr>
   <tr>
-    <td style="border: 1px solid black; border-collapse: collapse;">25,001-50,000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-  </tr>
-  <tr>
-    <td style="border: 1px solid black; border-collapse: collapse;">&gt50,000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">&gt25,000</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">450</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">900</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">1000</td>
   </tr>
 </table>
 
 <p>The late payment fee is a cumulative charge based on Days past the Due date, as per the table above and is exclusive of interest (if applicable) which may be charged on total outstanding in case the amount remains at default.</p>
 <p>As an example:</p>
-<p><strong>User 1-</strong> Outstanding amount INR 6000, pays post 16 Days past the Due Date, he will be charged a late payment fee of INR 150. </p>
-<p><strong>User 2-</strong> Outstanding amount INR 6000, pays post 65 Days past the Due Date, he will be charged a late payment fee of INR 600. </p>
+<p><strong>User 1-</strong> Outstanding amount INR 6000, pays post 16 Days past the Due Date, he will be charged a late payment fee of INR 250. </p>
+<p><strong>User 2-</strong> Outstanding amount INR 6000, pays post 65 Days past the Due Date, he will be charged a late payment fee of INR 500. </p>
 
 
 <p>The disbursements under this Facility shall be directly disbursed into your Bank Account No. (<span>{accountNumber}</span>), <span>{ifsc}</span>. disclosed by you in the digital application made via the Unipe Platform, subject to your acceptance of the above terms and conditions, and on execution of the Facility Agreement below, digitally. </p>
@@ -454,59 +435,40 @@ const agreement = {
 <table style="border: 1px solid black; border-collapse: collapse;">
   <tr>
     <th style="border: 1px solid black; border-collapse: collapse;">Outstanding amount (INR)</th>
-    <th style="border: 1px solid black; border-collapse: collapse;">Due date +15 days</th>
-    <th style="border: 1px solid black; border-collapse: collapse;">Due date +30 days</th>
-    <th style="border: 1px solid black; border-collapse: collapse;">Due date +60 days</th>
-    <th style="border: 1px solid black; border-collapse: collapse;">Due date +90 days</th>
-  </tr>
-  <tr>
-    <td style="border: 1px solid black; border-collapse: collapse;">&lt=1000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
+    <th style="border: 1px solid black; border-collapse: collapse;">Due date + 30 days</th>
+    <th style="border: 1px solid black; border-collapse: collapse;">Due date + 60 days</th>
+    <th style="border: 1px solid black; border-collapse: collapse;">Due date + 90 days</th>
   </tr>
   <tr>
     <td style="border: 1px solid black; border-collapse: collapse;">1001-5000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">150</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">300</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">450</td>
   </tr>
   <tr>
     <td style="border: 1px solid black; border-collapse: collapse;">5001-10,000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">250</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">500</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">750</td>
   </tr>
   <tr>
     <td style="border: 1px solid black; border-collapse: collapse;">10,001-25,000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">350</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">700</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">900</td>
   </tr>
   <tr>
-    <td style="border: 1px solid black; border-collapse: collapse;">25,001-50,000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-  </tr>
-  <tr>
-    <td style="border: 1px solid black; border-collapse: collapse;">&gt50,000</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
-    <td style="border: 1px solid black; border-collapse: collapse;">xxxx</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">&gt25,000</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">450</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">900</td>
+    <td style="border: 1px solid black; border-collapse: collapse;">1000</td>
   </tr>
 </table>
 
 <p>The late payment fee is a cumulative charge based on Days past the Due date, as per the table above and is exclusive of interest (if applicable) which may be charged on total outstanding in case the amount remains at default.</p>
 <p>As an example:</p>
-<p><strong>User 1-</strong> Outstanding amount INR 6000, pays post 16 Days past the Due Date, he will be charged a late payment fee of INR 150. </p>
-<p><strong>User 2-</strong> Outstanding amount INR 6000, pays post 65 Days past the Due Date, he will be charged a late payment fee of INR 600. </p>`,
+<p><strong>User 1-</strong> Outstanding amount INR 6000, pays post 16 Days past the Due Date, he will be charged a late payment fee of INR 250. </p>
+<p><strong>User 2-</strong> Outstanding amount INR 6000, pays post 65 Days past the Due Date, he will be charged a late payment fee of INR 500. </p>`,
 };
 
 export default agreement;
