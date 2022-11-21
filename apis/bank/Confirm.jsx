@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/bankSlice";
@@ -33,13 +33,11 @@ const BankConfirmApi = (props) => {
   }, [verifyStatus]);
 
   const backendPush = ({
-    token,
-    unipeEmployeeId,
-    data,
-    verifyTimestamp,
     verifyMsg,
-    verifyStatus,
+    verifyStatus
   }) => {
+    setVerifyMsg(verifyMsg);
+    setVerifyStatus(verifyStatus);
     bankBackendPush({
       data: {
         unipeEmployeeId: unipeEmployeeId,
@@ -91,13 +89,7 @@ const BankConfirmApi = (props) => {
           pressableContainerStyle={{ width: "100%" }}
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
-            setVerifyMsg("Rejected by User");
-            setVerifyStatus("ERROR");
             backendPush({
-              token: token,
-              unipeEmployeeId: unipeEmployeeId,
-              data: data,
-              verifyTimestamp: verifyTimestamp,
               verifyMsg: "Rejected by User",
               verifyStatus: "ERROR",
             });
@@ -128,13 +120,7 @@ const BankConfirmApi = (props) => {
           pressableContainerStyle={{ width: "100%" }}
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
-            setVerifyMsg("Confirmed by User");
-            setVerifyStatus("SUCCESS");
             backendPush({
-              token: token,
-              unipeEmployeeId: unipeEmployeeId,
-              data: data,
-              verifyTimestamp: verifyTimestamp,
               verifyMsg: "Confirmed by User",
               verifyStatus: "SUCCESS",
             });

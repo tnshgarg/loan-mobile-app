@@ -6,7 +6,6 @@ import { Button } from "@react-native-material/core";
 import {
   addVerifyMsg,
   addVerifyStatus,
-  addVerifyTimestamp,
 } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
 import { aadhaarBackendPush } from "../../helpers/BackendPush";
@@ -17,8 +16,6 @@ import CollapsibleCard from "../../components/molecules/CollapsibleCard";
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
-  const [backendPush, setBackendPush] = useState(false);
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -38,27 +35,22 @@ const AadhaarConfirmApi = (props) => {
     dispatch(addVerifyStatus(verifyStatus));
   }, [verifyStatus]);
 
-  useEffect(() => {
-    dispatch(addVerifyTimestamp(verifyTimestamp));
-  }, [verifyTimestamp]);
-
-  useEffect(() => {
+  const backendPush = ({verifyMsg, verifyStatus}) => {
     console.log("AadhaarConfirmApi aadhaarSlice: ", aadhaarSlice);
-    if (backendPush) {
-      aadhaarBackendPush({
-        data: {
-          unipeEmployeeId: unipeEmployeeId,
-          data: data,
-          number: number,
-          verifyMsg: verifyMsg,
-          verifyStatus: verifyStatus,
-          verifyTimestamp: verifyTimestamp,
-        },
-        token: token,
-      });
-      setBackendPush(false);
-    }
-  }, [backendPush]);
+    setVerifyMsg(verifyMsg);
+    setVerifyStatus(verifyStatus);
+    aadhaarBackendPush({
+      data: {
+        unipeEmployeeId: unipeEmployeeId,
+        data: data,
+        number: number,
+        verifyMsg: verifyMsg,
+        verifyStatus: verifyStatus,
+        verifyTimestamp: verifyTimestamp,
+      },
+      token: token,
+    });
+  }
 
   const cardData = () => {
     var res = [
@@ -105,9 +97,10 @@ const AadhaarConfirmApi = (props) => {
           pressableContainerStyle={{ width: "100%" }}
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
-            setVerifyMsg("Rejected by User");
-            setVerifyStatus("ERROR");
-            setBackendPush(true);
+            backendPush({
+              verifyMsg: "Rejected by User",
+              verifyStatus: "ERROR",
+            })
             Analytics.trackEvent("Aadhaar|Confirm|Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: "Rejected by User",
@@ -134,9 +127,10 @@ const AadhaarConfirmApi = (props) => {
           pressableContainerStyle={{ width: "100%" }}
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
-            setVerifyMsg("Confirmed by User");
-            setVerifyStatus("SUCCESS");
-            setBackendPush(true);
+            backendPush({
+              verifyMsg: "Confirmed by User",
+              verifyStatus: "SUCCESS",
+            })
             Analytics.trackEvent("Aadhaar|Confirm|Success", {
               unipeEmployeeId: unipeEmployeeId,
             });

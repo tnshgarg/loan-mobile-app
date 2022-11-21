@@ -70,23 +70,23 @@ const BankVerifyApi = (props) => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
-  useEffect(() => {
-    console.log("BankVerifyApi bankSlice : ", bankSlice);
-    if (backendPush) {
-      bankBackendPush({
-        data: {
-          unipeEmployeeId: unipeEmployeeId,
-          data: data,
-          verifyStatus: verifyStatus,
-          verifyMsg: verifyMsg,
-          verifyTimestamp: verifyTimestamp,
-        },
-        token: token,
-      });
-      setBackendPush(false);
-      setLoading(false);
-    }
-  }, [backendPush]);
+  const backendPush = ({verifyMsg, verifyStatus, verifyTimestamp}) => {
+    console.log("BankVerifyApi bankSlice: ", bankSlice);
+    setVerifyMsg(verifyMsg);
+    setVerifyStatus(verifyStatus);
+    setVerifyTimestamp(verifyTimestamp);
+    bankBackendPush({
+      data: {
+        unipeEmployeeId: unipeEmployeeId,
+        data: data,
+        verifyMsg: verifyMsg,
+        verifyStatus: verifyStatus,
+        verifyTimestamp: verifyTimestamp,
+      },
+      token: token,
+    });
+    setLoading(false);
+  }
 
   const goForFetch = () => {
     setLoading(true);
@@ -120,10 +120,11 @@ const BankVerifyApi = (props) => {
                 setAccountHolderName(
                   responseJson["data"]["bank_account_data"]["name"]
                 );
-                setVerifyMsg("To be confirmed by User");
-                setVerifyStatus("PENDING");
-                setVerifyTimestamp(responseJson["timestamp"]);
-                setBackendPush(true);
+                backendPush({
+                  verifyMsg: "To be confirmed by User", 
+                  verifyStatus: "PENDING", 
+                  verifyTimestamp: responseJson["timestamp"],
+                });
                 Analytics.trackEvent("Bank|Verify|Success", {
                   Category: "Onboarding",
                   unipeEmployeeId: unipeEmployeeId,
@@ -140,12 +141,13 @@ const BankVerifyApi = (props) => {
                 }
                 break;
               default:
-                setVerifyMsg(responseJson["data"]["message"]);
-                setVerifyStatus("ERROR");
-                setBackendPush(true);
+                backendPush({
+                  verifyMsg: responseJson["data"]["message"], 
+                  verifyStatus: "ERROR", 
+                  verifyTimestamp: verifyTimestamp,
+                });
                 Alert.alert("Error", responseJson["data"]["message"]);
                 Analytics.trackEvent("Bank|Verify|Error", {
-                  Category: "Onboarding",
                   unipeEmployeeId: unipeEmployeeId,
                   error: responseJson["data"]["message"],
                 });
@@ -154,9 +156,11 @@ const BankVerifyApi = (props) => {
           } else {
             setVerifyStatus("ERROR");
             if (responseJson["error"]) {
-              setVerifyMsg(responseJson["error"]);
-              setVerifyStatus("ERROR");
-              setBackendPush(true);
+              backendPush({
+                verifyMsg: responseJson["error"], 
+                verifyStatus: "ERROR", 
+                verifyTimestamp: verifyTimestamp,
+              });
               Alert.alert(
                 "Error",
                 responseJson["error"]["metadata"]["fields"]
@@ -164,16 +168,17 @@ const BankVerifyApi = (props) => {
                   .join("\n")
               );
               Analytics.trackEvent("Bank|Verify|Error", {
-                Category: "Onboarding",
                 unipeEmployeeId: unipeEmployeeId,
                 error: responseJson["error"]["metadata"]["fields"]
                   .map((item) => item["message"])
                   .join("\n"),
               });
             } else {
-              setVerifyMsg(responseJson["messsage"]);
-              setVerifyStatus("ERROR");
-              setBackendPush(true);
+              backendPush({
+                verifyMsg: responseJson["message"], 
+                verifyStatus: "ERROR", 
+                verifyTimestamp: verifyTimestamp,
+              });
               Alert.alert("Error", responseJson["message"]);
               Analytics.trackEvent("Bank|Verify|Error", {
                 unipeEmployeeId: unipeEmployeeId,
@@ -182,10 +187,11 @@ const BankVerifyApi = (props) => {
             }
           }
         } catch (error) {
-          console.log("Try Catch Error: ", error.toString());
-          setVerifyMsg(error.toString());
-          setVerifyStatus("ERROR");
-          setBackendPush(true);
+          backendPush({
+            verifyMsg: error.toString(), 
+            verifyStatus: "ERROR", 
+            verifyTimestamp: verifyTimestamp,
+          });
           Alert.alert("Error", error.toString());
           Analytics.trackEvent("Bank|Verify|Error", {
             unipeEmployeeId: unipeEmployeeId,
@@ -194,10 +200,11 @@ const BankVerifyApi = (props) => {
         }
       })
       .catch((error) => {
-        console.log("Fetch Catch Error: ", error.toString());
-        setVerifyMsg(error.toString());
-        setVerifyStatus("ERROR");
-        setBackendPush(true);
+        backendPush({
+          verifyMsg: error.toString(), 
+          verifyStatus: "ERROR", 
+          verifyTimestamp: verifyTimestamp,
+        });
         Alert.alert("Error", error.toString());
         Analytics.trackEvent("Bank|Verify|Error", {
           unipeEmployeeId: unipeEmployeeId,

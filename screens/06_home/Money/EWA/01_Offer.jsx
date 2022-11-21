@@ -42,7 +42,7 @@ const Offer = () => {
   const [consent, setConsent] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const [validAmount, setValidAmount] = useState(true);
+  const [validAmount, setValidAmount] = useState(false);
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -84,10 +84,10 @@ const Offer = () => {
         setValidAmount(true);
         dispatch(addLoanAmount(parseInt(amount)));
       } else {
-        setValidAmount("false");
+        setValidAmount(false);
       }
     } else {
-      setValidAmount("false");
+      setValidAmount(false);
     }
   }, [amount]);
 
