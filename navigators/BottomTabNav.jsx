@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS } from "../constants/Theme";
 import Benefits from "../screens/06_home/Benefits/Benefits";
-import DocumentsView from "../screens/06_home/Documents/DocumentsView";
+import Documents from "../screens/06_home/Documents/Documents";
 import HomeView from "../screens/06_home/HomeView";
 import EWANavigator from "./EWANavigator";
 
@@ -10,7 +10,7 @@ export default BottomTabNav = () => {
   const bottomTab = createBottomTabNavigator();
   const tabs = [
     { name: "Home", component: HomeView },
-    { name: "Documents", component: DocumentsView },
+    { name: "Documents", component: Documents },
     { name: "Benefits", component: Benefits },
     { name: "Money", component: EWANavigator },
   ];
