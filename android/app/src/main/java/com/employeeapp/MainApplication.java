@@ -25,7 +25,9 @@ import java.util.List;
 
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.microsoft.codepush.react.CodePush;
-
+import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.distribute.Distribute;
+import com.microsoft.appcenter.reactnative.shared.AppCenterReactNativeShared;
 public class MainApplication extends Application implements ReactApplication {
   private final ReactNativeHost mReactNativeHost = new ReactNativeHostWrapper(
       this,
@@ -73,8 +75,9 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     // If you opted-in for the New Architecture, we enable the TurboModule system
     ReactFeatureFlags.useTurboModules = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
+    AppCenterReactNativeShared.configureAppCenter(this);
+    AppCenter.start(Distribute.class);
     SoLoader.init(this, /* native exopackage */ false);
-
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
     ApplicationLifecycleDispatcher.onApplicationCreate(this);
   }
