@@ -6,13 +6,13 @@ import Relation from "./Relation";
 import EmployeeAddress from "./EmployeeAddress";
 import NomineeAddress from "./NomineeAddress";
 import { styles } from "../../../../styles";
-
+import DocumentsView from "../../Documents/DocumentsView";
 export default ESICForm = () => {
   const tabs = [
-    { name: "Portal", component: Portal },
-    { name: "Family Details", component: Relation },
-    { name: "Your Address", component: EmployeeAddress },
-    { name: "Nominee Address", component: NomineeAddress },
+    { name: "Portal", component: DocumentsView },
+    { name: "Family Details", component: DocumentsView },
+    { name: "Your Address", component: DocumentsView },
+    { name: "Nominee Address", component: DocumentsView },
   ];
   return (
     <SafeAreaView style={styles.safeContainer}>

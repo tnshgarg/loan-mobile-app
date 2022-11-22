@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/bankSlice";
@@ -15,41 +15,25 @@ const BankConfirmApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const [backendPush, setBackendPush] = useState(false);
-
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const data = useSelector((state) => state.bank.data);
   const verifyTimestamp = useSelector((state) => state.bank.verifyTimestamp);
 
-  const bankSlice = useSelector((state) => state.bank);
-  const [verifyMsg, setVerifyMsg] = useState(bankSlice?.verifyMsg);
-  const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
-
-  useEffect(() => {
+  const backendPush = ({ verifyMsg, verifyStatus }) => {
     dispatch(addVerifyMsg(verifyMsg));
-  }, [verifyMsg]);
-
-  useEffect(() => {
     dispatch(addVerifyStatus(verifyStatus));
-  }, [verifyStatus]);
-
-  useEffect(() => {
-    console.log("BankConfirmApi bankSlice : ", bankSlice);
-    if (backendPush) {
-      bankBackendPush({
-        data: {
-          unipeEmployeeId: unipeEmployeeId,
-          data: data,
-          verifyMsg: verifyMsg,
-          verifyStatus: verifyStatus,
-          verifyTimestamp: verifyTimestamp,
-        },
-        token: token,
-      });
-      setBackendPush(false);
-    }
-  }, [backendPush]);
+    bankBackendPush({
+      data: {
+        unipeEmployeeId: unipeEmployeeId,
+        data: data,
+        verifyMsg: verifyMsg,
+        verifyStatus: verifyStatus,
+        verifyTimestamp: verifyTimestamp,
+      },
+      token: token,
+    });
+  };
 
   const cardData = () => {
     var res = [
@@ -90,9 +74,10 @@ const BankConfirmApi = (props) => {
           pressableContainerStyle={{ width: "100%" }}
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
-            setVerifyMsg("Rejected by User");
-            setVerifyStatus("ERROR");
-            setBackendPush(true);
+            backendPush({
+              verifyMsg: "Rejected by User",
+              verifyStatus: "ERROR",
+            });
             Analytics.trackEvent("Bank|Confirm|Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: "Rejected by User",
@@ -120,9 +105,10 @@ const BankConfirmApi = (props) => {
           pressableContainerStyle={{ width: "100%" }}
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
-            setVerifyMsg("Confirmed by User");
-            setVerifyStatus("SUCCESS");
-            setBackendPush(true);
+            backendPush({
+              verifyMsg: "Confirmed by User",
+              verifyStatus: "SUCCESS",
+            });
             Analytics.trackEvent("Bank|Confirm|Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
@@ -131,9 +117,9 @@ const BankConfirmApi = (props) => {
                 ? navigation.navigate("KYC", {
                     screen: "BANK",
                   })
-                :  ( props?.type === "Onboarding"
-                      ? navigation.replace("HomeStack")
-                      : null )
+                : props?.type === "Onboarding"
+                ? navigation.replace("HomeStack")
+                : null;
             }
           }}
         />

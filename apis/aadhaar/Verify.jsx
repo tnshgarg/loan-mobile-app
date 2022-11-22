@@ -19,7 +19,6 @@ const AadhaarVerifyApi = (props) => {
   const navigation = useNavigation();
 
   const [loading, setLoading] = useState(false);
-  const [backendPush, setBackendPush] = useState(false);
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
@@ -49,24 +48,25 @@ const AadhaarVerifyApi = (props) => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
-  useEffect(() => {
-    console.log("AadhaarVerifyApi aadhaarSlice : ", aadhaarSlice);
-    if (backendPush) {
-      aadhaarBackendPush({
-        data: {
-          unipeEmployeeId: unipeEmployeeId,
-          data: data,
-          number: aadhaarSlice?.number,
-          verifyMsg: verifyMsg,
-          verifyStatus: verifyStatus,
-          verifyTimestamp: verifyTimestamp,
-        },
-        token: token,
-      });
-      setBackendPush(false);
-      setLoading(false);
-    }
-  }, [backendPush]);
+  const backendPush = ({data, verifyMsg, verifyStatus, verifyTimestamp}) => {
+    console.log("AadhaarVerifyApi aadhaarSlice: ", aadhaarSlice);
+    setData(data);
+    setVerifyMsg(verifyMsg);
+    setVerifyStatus(verifyStatus);
+    setVerifyTimestamp(verifyTimestamp);
+    aadhaarBackendPush({
+      data: {
+        unipeEmployeeId: unipeEmployeeId,
+        data: data,
+        number: aadhaarSlice?.number,
+        verifyMsg: verifyMsg,
+        verifyStatus: verifyStatus,
+        verifyTimestamp: verifyTimestamp,
+      },
+      token: token,
+    });
+    setLoading(false);
+  }
 
   const goForFetch = () => {
     setLoading(true);
@@ -110,11 +110,12 @@ const AadhaarVerifyApi = (props) => {
                   .map((k) => responseJson["data"]["aadhaar_data"][k])
                   .join(", ");
                 console.log("AADHAAR fetched data: ", responseJson);
-                setData(responseJson["data"]["aadhaar_data"]);
-                setVerifyMsg("OTP validated by User");
-                setVerifyStatus("PENDING");
-                setVerifyTimestamp(responseJson["timestamp"]);
-                setBackendPush(true);
+                backendPush({
+                  data: responseJson["data"]["aadhaar_data"],
+                  verifyMsg: "OTP validated by User", 
+                  verifyStatus: "PENDING", 
+                  verifyTimestamp: responseJson["timestamp"],
+                });
                 Analytics.trackEvent("Aadhaar|Verify|Success", {
                   unipeEmployeeId: unipeEmployeeId,
                 });
@@ -130,9 +131,12 @@ const AadhaarVerifyApi = (props) => {
                 }
                 break;
               default:
-                setVerifyMsg(responseJson["data"]["message"]);
-                setVerifyStatus("ERROR");
-                setBackendPush(true);
+                backendPush({
+                  data: data,
+                  verifyMsg: responseJson["data"]["message"], 
+                  verifyStatus: "ERROR", 
+                  verifyTimestamp: verifyTimestamp,
+                });
                 Alert.alert("Error", responseJson["data"]["message"]);
                 Analytics.trackEvent("Aadhaar|Verify|Error", {
                   unipeEmployeeId: unipeEmployeeId,
@@ -140,18 +144,24 @@ const AadhaarVerifyApi = (props) => {
                 });
             }
           } else if (responseJson?.error?.message) {
-            setVerifyMsg(responseJson["error"]["message"]);
-            setVerifyStatus("ERROR");
-            setBackendPush(true);
+            backendPush({
+              data: data,
+              verifyMsg: responseJson["error"]["message"], 
+              verifyStatus: "ERROR", 
+              verifyTimestamp: verifyTimestamp,
+            });
             Alert.alert("Error", responseJson["error"]["message"]);
             Analytics.trackEvent("Aadhaar|Verify|Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: responseJson["error"]["message"],
             });
           } else {
-            setVerifyMsg(responseJson["message"]);
-            setVerifyStatus("ERROR");
-            setBackendPush(true);
+            backendPush({
+              data: data,
+              verifyMsg: responseJson["message"], 
+              verifyStatus: "ERROR", 
+              verifyTimestamp: verifyTimestamp,
+            });
             Alert.alert("Error", responseJson["message"]);
             Analytics.trackEvent("Aadhaar|Verify|Error", {
               unipeEmployeeId: unipeEmployeeId,
@@ -159,10 +169,12 @@ const AadhaarVerifyApi = (props) => {
             });
           }
         } catch (error) {
-          console.log("Try Catch Error: ", error.toString());
-          setVerifyMsg(error.toString());
-          setVerifyStatus("ERROR");
-          setBackendPush(true);
+          backendPush({
+            data: data,
+            verifyMsg: error.toString(), 
+            verifyStatus: "ERROR", 
+            verifyTimestamp: verifyTimestamp,
+          });
           Alert.alert("Error", error.toString());
           Analytics.trackEvent("Aadhaar|Verify|Error", {
             unipeEmployeeId: unipeEmployeeId,
@@ -171,10 +183,12 @@ const AadhaarVerifyApi = (props) => {
         }
       })
       .catch((error) => {
-        console.log("Fetch Catch Error: ", error.toString());
-        setVerifyMsg(error.toString());
-        setVerifyStatus("ERROR");
-        setBackendPush(true);
+        backendPush({
+          data: data,
+          verifyMsg: error.toString(), 
+          verifyStatus: "ERROR", 
+          verifyTimestamp: verifyTimestamp,
+        });
         Alert.alert("Error", error.toString());
         Analytics.trackEvent("Aadhaar|Verify|Error", {
           unipeEmployeeId: unipeEmployeeId,

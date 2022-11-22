@@ -15,42 +15,27 @@ const PanConfirmApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const [backendPush, setBackendPush] = useState(false);
-
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
-  const panSlice = useSelector((state) => state.pan);
   const data = useSelector((state) => state.pan.data);
   const number = useSelector((state) => state.pan.number);
   const verifyTimestamp = useSelector((state) => state.pan.verifyTimestamp);
-  const [verifyMsg, setVerifyMsg] = useState(panSlice?.verifyMsg);
-  const [verifyStatus, setVerifyStatus] = useState(panSlice?.verifyStatus);
 
-  useEffect(() => {
+  const backendPush = ({ verifyMsg, verifyStatus }) => {
     dispatch(addVerifyMsg(verifyMsg));
-  }, [verifyMsg]);
-
-  useEffect(() => {
     dispatch(addVerifyStatus(verifyStatus));
-  }, [verifyStatus]);
-
-  useEffect(() => {
-    console.log(backendPush);
-    if (backendPush) {
-      panBackendPush({
-        data: {
-          unipeEmployeeId: unipeEmployeeId,
-          data: data,
-          number: number,
-          verifyMsg: verifyMsg,
-          verifyStatus: verifyStatus,
-          verifyTimestamp: verifyTimestamp,
-        },
-        token: token,
-      });
-      setBackendPush(false);
-    }
-  }, [backendPush]);
+    panBackendPush({
+      data: {
+        unipeEmployeeId: unipeEmployeeId,
+        data: data,
+        number: number,
+        verifyMsg: verifyMsg,
+        verifyStatus: verifyStatus,
+        verifyTimestamp: verifyTimestamp,
+      },
+      token: token,
+    });
+  };
 
   const cardData = () => {
     var res = [
@@ -92,9 +77,10 @@ const PanConfirmApi = (props) => {
           pressableContainerStyle={{ width: "100%" }}
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
-            setVerifyMsg("Rejected by User");
-            setVerifyStatus("ERROR");
-            setBackendPush(true);
+            backendPush({
+              verifyMsg: "Rejected by User",
+              verifyStatus: "ERROR",
+            });
             Analytics.trackEvent("Pan|Confirm|Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: "Rejected by User",
@@ -118,9 +104,10 @@ const PanConfirmApi = (props) => {
           pressableContainerStyle={{ width: "100%" }}
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
-            setVerifyMsg("Confirmed by User");
-            setVerifyStatus("SUCCESS");
-            setBackendPush(true);
+            backendPush({
+              verifyMsg: "Confirmed by User",
+              verifyStatus: "SUCCESS",
+            });
             Analytics.trackEvent("Pan|Confirm|Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
