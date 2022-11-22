@@ -19,7 +19,6 @@ const PanVerifyApi = (props) => {
   const navigation = useNavigation();
 
   const [loading, setLoading] = useState(false);
-  const [backendPush, setBackendPush] = useState(false);
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
@@ -47,24 +46,25 @@ const PanVerifyApi = (props) => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
-  useEffect(() => {
-    console.log("PanVerifyApi backendPush panSlice: ", backendPush, panSlice);
-    if (backendPush) {
-      panBackendPush({
-        data: {
-          unipeEmployeeId: unipeEmployeeId,
-          data: data,
-          number: panSlice?.number,
-          verifyMsg: verifyMsg,
-          verifyStatus: verifyStatus,
-          verifyTimestamp: verifyTimestamp,
-        },
-        token: token,
-      });
-      setBackendPush(false);
-    }
+  const backendPush = ({data, verifyMsg, verifyStatus, verifyTimestamp}) => {
+    console.log("PanVerifyApi panSlice: ", panSlice);
+    setData(data);
+    setVerifyMsg(verifyMsg);
+    setVerifyStatus(verifyStatus);
+    setVerifyTimestamp(verifyTimestamp);
+    panBackendPush({
+      data: {
+        unipeEmployeeId: unipeEmployeeId,
+        data: data,
+        number: panSlice?.number,
+        verifyMsg: verifyMsg,
+        verifyStatus: verifyStatus,
+        verifyTimestamp: verifyTimestamp,
+      },
+      token: token,
+    });
     setLoading(false);
-  }, [backendPush]);
+  }
 
   const goForFetch = () => {
     setLoading(true);
@@ -91,11 +91,12 @@ const PanVerifyApi = (props) => {
                   .map((k) => responseJson["data"]["pan_data"][`${k}_name`])
                   .join(" ");
                 console.log("PAN fetched data: ", responseJson);
-                setData(responseJson["data"]["pan_data"]);
-                setVerifyMsg("To be confirmed by User");
-                setVerifyStatus("PENDING");
-                setVerifyTimestamp(responseJson["timestamp"]);
-                setBackendPush(true);
+                backendPush({
+                  data: responseJson["data"]["pan_data"],
+                  verifyMsg: "To be confirmed by User",
+                  verifyStatus: "PENDING",
+                  verifyTimestamp: responseJson["timestamp"],
+                });
                 Analytics.trackEvent("Pan|Verify|Success", {
                   unipeEmployeeId: unipeEmployeeId,
                 });
@@ -111,51 +112,65 @@ const PanVerifyApi = (props) => {
                 }
                 break;
               default:
-                setVerifyMsg(responseJson["data"]["message"]);
+                backendPush({
+                  data: data,
+                  verifyMsg: responseJson["data"]["message"],
+                  verifyStatus: "ERROR",
+                  verifyTimestamp: verifyTimestamp,
+                });
+                Alert.alert("Error", responseJson["data"]["message"]);
                 Analytics.trackEvent("Pan|Verify|Error", {
                   unipeEmployeeId: unipeEmployeeId,
                   error: responseJson["data"]["message"],
                 });
-                setVerifyStatus("ERROR");
-                setBackendPush(true);
-                Alert.alert("Error", responseJson["data"]["message"]);
             }
           } else if (responseJson?.error?.message) {
-            setVerifyMsg(responseJson["error"]["message"]);
+            backendPush({
+              data: data,
+              verifyMsg: responseJson["error"]["message"],
+              verifyStatus: "ERROR",
+              verifyTimestamp: verifyTimestamp,
+            });
+            Alert.alert("Error", responseJson["error"]["message"]);
             Analytics.trackEvent("Pan|Verify|Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: responseJson["error"]["message"],
             });
-            setVerifyStatus("ERROR");
-            setBackendPush(true);
-            Alert.alert("Error", responseJson["error"]["message"]);
           } else {
-            setVerifyMsg(responseJson["message"]);
+            backendPush({
+              data: data,
+              verifyMsg: responseJson["message"],
+              verifyStatus: "ERROR",
+              verifyTimestamp: verifyTimestamp,
+            });
+            Alert.alert("Error", responseJson["message"]);
             Analytics.trackEvent("Pan|Verify|Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: responseJson["message"],
             });
-            setVerifyStatus("ERROR");
-            setBackendPush(true);
-            Alert.alert("Error", responseJson["message"]);
           }
         } catch (error) {
-          console.log("Try Catch Error: ", error.toString());
-          setVerifyMsg(error.toString());
+          backendPush({
+            data: data,
+            verifyMsg: error.toString(),
+            verifyStatus: "ERROR",
+            verifyTimestamp: verifyTimestamp,
+          });
+          Alert.alert("Error", error.toString());
           Analytics.trackEvent("Pan|Verify|Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: error.toString(),
           });
-          setVerifyStatus("ERROR");
-          setBackendPush(true);
-          Alert.alert("Error", error.toString());
         }
       })
       .catch((error) => {
         console.log("Fetch Catch Error: ", error.toString());
-        setVerifyMsg(error.toString());
-        setVerifyStatus("ERROR");
-        setBackendPush(true);
+        backendPush({
+          data: data,
+          verifyMsg: error.toString(),
+          verifyStatus: "ERROR",
+          verifyTimestamp: verifyTimestamp,
+        });
         Alert.alert("Error", error.toString());
         Analytics.trackEvent("Pan|Verify|Error", {
           unipeEmployeeId: unipeEmployeeId,
