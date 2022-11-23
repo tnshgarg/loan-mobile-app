@@ -18,6 +18,8 @@ import ewaLiveSlice from "./slices/ewaLiveSlice";
 import ewaHistoricalSlice from "./slices/ewaHistoricalSlice";
 import notificationSlice from "./slices/notificationSlice";
 
+import { addLoggedIn } from "./slices/authSlice";
+
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,

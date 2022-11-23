@@ -52,7 +52,7 @@ const HomeOfferCard = () => {
           borderRadius: 5,
           alignSelf: "center",
         }}
-        onPress={() => navigation.navigate("Money")}
+        onPress={() => navigation.navigate("Money", {screen: "EWA"})}
       >
         <Text
           style={{
@@ -85,7 +85,7 @@ const HomeOfferCard = () => {
         </Text>
         <PrimaryButton
           title={"Withdraw Now"}
-          onPress={() => navigation.navigate("Money")}
+          onPress={() => navigation.navigate("Money", {screen: "EWA"})}
         />
       </TouchableOpacity>
     </SafeAreaView>
