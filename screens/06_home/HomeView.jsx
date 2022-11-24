@@ -22,9 +22,9 @@ const HomeView = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
+  const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);
   const bankStatus = useSelector((state) => state.bank.verifyStatus);
   const panStatus = useSelector((state) => state.pan.verifyStatus);
-  const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);
 
   const message = [
     aadhaarStatus != "SUCCESS" ? "AADHAAR" : null,
@@ -37,7 +37,7 @@ const HomeView = () => {
     if (allAreNull(message)) {
       PushNotification.cancelAllLocalNotifications();
     }
-  }, []);
+  }, [aadhaarStatus, bankStatus, panStatus]);
 
   var [campaignId, setCampaignId] = useState(null);
 
@@ -85,6 +85,7 @@ const HomeView = () => {
   useEffect(() => {
     getUrlAsync();
   }, []);
+
   return (
     <>
       <SafeAreaView style={[styles.container]}>
