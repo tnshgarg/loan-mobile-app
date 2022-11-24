@@ -8,6 +8,7 @@ import Header from "../../../../components/atoms/Header";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 import SVGImgFailure from "../../../../assets/ewa_failure.svg";
 import SVGImgSuccess from "../../../../assets/ewa_success.svg";
+import SVGImgPending from "../../../../assets/ewa_pending.svg";
 
 const Disbursement = ({ route, navigation }) => {
   const { offer } = route.params;
@@ -40,7 +41,7 @@ const Disbursement = ({ route, navigation }) => {
       case "FAILURE":
         return <SVGImgFailure />;
       default:
-        return <SVGImgSuccess />; //to be changed to pending Image
+        return <SVGImgPending />;
     }
   };
 
