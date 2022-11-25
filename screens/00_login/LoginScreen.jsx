@@ -113,18 +113,18 @@ const LoginScreen = () => {
     }
   }, [phoneNumber]);
 
-  const onPhoneNumberPressed = async () => {
-    try {
-      var phoneNumber = await SmsRetriever.requestPhoneNumber();
-      setPhoneNumber(phoneNumber.replace("+91", ""));
-    } catch (error) {
-      console.log("Error while fetching phoneNumber: ", error.toString());
-    }
-  };
+  // const onPhoneNumberPressed = async () => {
+  //   try {
+  //     var phoneNumber = await SmsRetriever.requestPhoneNumber();
+  //     setPhoneNumber(phoneNumber.replace("+91", ""));
+  //   } catch (error) {
+  //     console.log("Error while fetching phoneNumber: ", error.toString());
+  //   }
+  // };
 
-  useEffect(() => {
-    onPhoneNumberPressed();
-  }, []);
+  // useEffect(() => {
+  //   onPhoneNumberPressed();
+  // }, []);
 
   const backAction = () => {
     Alert.alert("Hold on!", "Are you sure you want to go back?", [
@@ -207,7 +207,7 @@ const LoginScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.safeContainer}>
+    <SafeAreaView accessibilityLabel="LoginScreen" style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <View>
           <SVGImg style={styles.logo} />
@@ -216,6 +216,8 @@ const LoginScreen = () => {
           </Text>
 
           <FormInput
+            testID="MobileNumber"
+            accessibilityLabel="MobileNumber"
             placeholder="Enter mobile number"
             containerStyle={{ marginVertical: 30 }}
             autoCompleteType="tel"
@@ -255,6 +257,8 @@ const LoginScreen = () => {
             <Text
               onPress={() => setIsTermsOfUseModalVisible(true)}
               style={styles.termsText}
+              testID="TermsModal"
+              accessibilityLabel="TermsModal"
             >
               Terms of Service
             </Text>{" "}
@@ -267,6 +271,7 @@ const LoginScreen = () => {
             </Text>
           </Text>
           <PrimaryButton
+            accessibilityLabel="LoginNextBtn"
             title="Continue"
             disabled={!next}
             loading={loading}

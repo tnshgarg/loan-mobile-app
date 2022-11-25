@@ -26,6 +26,8 @@ const FormInput = ({
   letterSpacing,
   textAlign,
   selection,
+  testID,
+  accessibilityLabel,
 }) => {
   return (
     <View style={{ ...containerStyle }}>
@@ -43,6 +45,7 @@ const FormInput = ({
       <View style={styles.inputContainer}>
         {prependComponent}
         <TextInput
+          testID={testID}
           style={{
             flex: 1,
             ...FONTS.body4,
@@ -67,6 +70,7 @@ const FormInput = ({
           letterSpacing={letterSpacing}
           textAlign={textAlign}
           selection={selection}
+          accessibilityLabel={accessibilityLabel}
         />
         {appendComponent}
       </View>
