@@ -63,10 +63,10 @@ const OTPScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.safeContainer}>
+    <SafeAreaView accessibilityLabel="OtpScreen" style={styles.safeContainer}>
       <Header title="OTP" onLeftIconPress={() => backAction()} />
       <KeyboardAvoidingWrapper>
-        <View style={styles.container}>
+        <View accessibilityLabel="OtpKeyboardView" style={styles.container}>
           <SVGImg style={styles.logo} />
           <Text style={styles.headline}>
             {" "}
@@ -94,6 +94,7 @@ const OTPScreen = () => {
             )}
           </Text>
           <FormInput
+            accessibilityLabel="OtpInput"
             containerStyle={{
               marginTop: 30,
               width: SIZES.width * 0.6,
@@ -120,7 +121,7 @@ const OTPScreen = () => {
             timeToShow={["M", "S"]}
             timeLabels={{ m: "MM", s: "SS" }}
             onChange={(time) => {
-              if (time%5===0) {
+              if (time % 5 === 0) {
                 dispatch(setLoginTimer(time));
               }
             }}
@@ -169,6 +170,7 @@ const OTPScreen = () => {
             App
           </Text>
           <PrimaryButton
+            accessibilityLabel="OtpButton"
             title="Verify"
             disabled={!next}
             onPress={() => {
