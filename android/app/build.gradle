@@ -311,6 +311,8 @@ android {
 }
 
 dependencies {
+    def appCenterSdkVersion = '4.1.0'
+    implementation "com.microsoft.appcenter:appcenter-distribute:${appCenterSdkVersion}"
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.work:work-runtime-ktx:2.8.0-alpha01'
     //noinspection GradleDynamicVersion
