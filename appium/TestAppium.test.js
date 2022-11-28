@@ -14,7 +14,7 @@ beforeAll(async () => {
     capabilities: {
       platformName: "Android",
       platformVersion: "13",
-      appium: { connectHardwareKeyboard: true },
+      // appium: { connectHardwareKeyboard: true },
       automationName: "UiAutomator2",
       appPackage: "com.employeeapp",
       appActivity: ".MainActivity",
@@ -29,27 +29,30 @@ afterAll(async () => {
   }
 });
 test("Login test", async () => {
-  await driver.pause(2000);
+  await driver.pause(10000);
   const devMenuLoginBtn = await driver.$("~Login");
-  devMenuLoginBtn.touchAction({ action: "tap" });
+  await devMenuLoginBtn.touchAction({ action: "tap" });
 
-  await driver.pause(4000);
+  // await driver.pause(4000);
 
+  await driver.$("~MobileNumber").waitForDisplayed({ timeout: 8000 });
   const loginUsernameInput = await driver.$("~MobileNumber");
-  await loginUsernameInput.clearValue();
+  // await loginUsernameInput.clearValue();
   await loginUsernameInput.setValue("9999999999");
 
   // await driver.pause(3000);
 
   await driver.$("~LoginScreen").waitForDisplayed({ timeout: 8000 });
   await driver.$("~LoginScreen").click();
-  // await driver.pause(3000);
+  await driver.pause(3000);
 
+  await driver.$("~LoginNextBtn").waitForDisplayed({ timeout: 8000 });
   const loginNextButton = await driver.$("~LoginNextBtn");
 
   //   await Gestures.checkIfDisplayedWithSwipeUp(loginNextButton, 2);
   //   await driver.pause(3000);
-  loginNextButton.touchAction({ action: "tap" });
+  await loginNextButton.touchAction({ action: "tap" });
+  // await loginNextButton.click();
 
   await driver.pause(6000);
 
@@ -59,17 +62,19 @@ test("Login test", async () => {
   //   await driver.pause(3000);
 
   const OtpInput = await driver.$("~OtpInput");
-  OtpInput.waitForDisplayed({ timeout: 6000 });
+  await OtpInput.waitForDisplayed({ timeout: 6000 });
   await OtpInput.clearValue();
   await OtpInput.setValue("123456");
 
   await driver.pause(3000);
 
-  await driver.$("~OtpKeyboardView").click();
-  await driver.pause(3000);
+  // await driver.$("~OtpKeyboardView").click();
+  // await driver.pause(3000);
 
   const OtpButton = await driver.$("~OtpButton");
-  OtpButton.touchAction({ action: "tap" });
+  // await OtpButton.touchAction({ action: "tap" });
+  // await OtpButton.click();
+  await OtpButton.touchAction({ action: "tap" });
 
   await driver.pause(10000);
   //   await driver.acceptAlert();
