@@ -4,9 +4,9 @@
 	"scripts": {
 		"start:dev": "gulp set --env=dev && npx react-native run-android --variant=devDebug --appIdSuffix=dev",
 		"start:test": "gulp set --env=test && npx react-native run-android --variant=qaDebug --appIdSuffix=qa",
-		"build:dev": "bash ./android/versioning.sh && gulp set --env=dev && cd android && gradlew assembleDevRelease",
-		"build:test": "bash ./android/versioning.sh && gulp set --env=test && cd android && gradlew assembleQaRelease",
-		"build:debug": "bash ./android/versioning.sh && gulp set --env=test && cd android && gradlew assembleQaRelease",
+		"build:dev": "bash ./android/versioning.sh && gulp set --env=dev && cd android && ./gradlew assembleDevRelease",
+		"build:test": "bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
+		"build:debug": "bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
 		"build:prod": "bash ./android/versioning.sh && gulp set --env=prod && cd android && ./gradlew assembleProdRelease"
 	},
 	"dependencies": {
