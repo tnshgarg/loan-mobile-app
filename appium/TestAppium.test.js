@@ -20,28 +20,6 @@ beforeAll(async () => {
       appActivity: ".MainActivity",
       autoGrantPermissions: true,
     },
-    logLevel: "debug",
-    bail: 0,
-    baseUrl: "http://localhost",
-    waitforTimeout: 10000,
-    connectionRetryTimeout: 90000,
-    connectionRetryCount: 3,
-    framework: "mocha",
-    services: [
-      [
-        "appium",
-        {
-          args: {
-            relaxedSecurity: true,
-          },
-          command: "appium",
-        },
-      ],
-    ],
-    mochaOpts: {
-      ui: "bdd",
-      timeout: 60000,
-    },
   });
 });
 
@@ -61,10 +39,11 @@ test("Login test", async () => {
   await loginUsernameInput.clearValue();
   await loginUsernameInput.setValue("9999999999");
 
-  await driver.pause(3000);
+  // await driver.pause(3000);
 
+  await driver.$("~LoginScreen").waitForDisplayed({ timeout: 8000 });
   await driver.$("~LoginScreen").click();
-  await driver.pause(3000);
+  // await driver.pause(3000);
 
   const loginNextButton = await driver.$("~LoginNextBtn");
 
