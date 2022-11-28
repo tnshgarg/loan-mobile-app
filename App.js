@@ -19,7 +19,6 @@ Crashes.setListener({
 });
 
 let codePushOptions = {
-  deploymentKey: "djFugZgAXYEhRWZ_kKmXFQulkJSDB9Wegnb5M",
   checkFrequency: codePush.CheckFrequency.ON_APP_START,
   mandatoryInstallMode: codePush.InstallMode.IMMEDIATE,
   updateDialog: true, //InstallMode.ON_NEXT_RESUME to have minimum background duration effect

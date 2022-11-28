@@ -338,7 +338,6 @@ export const ewa = EStyleSheet.create({
     alignSelf: "center",
     height: "43%",
     width: "100%",
-    marginTop: "-8%",
   },
   checkBox: {
     marginTop: "10rem",
