@@ -11,6 +11,7 @@ import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import { COLORS, FONTS } from "../../../../constants/Theme";
 import { STAGE } from "@env";
+import { getNumberOfDays } from "../../../../helpers/DateFunctions";
 
 const EWA = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const EWA = () => {
 
   const [fetched, setFetched] = useState(false);
   const [eligible, setEligible] = useState(false);
+  const [ewaAccessible,setEwaAccessible] = useState(true);
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -28,9 +30,6 @@ const EWA = () => {
   );
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
-  const mandateVerifyStatus = useSelector(
-    (state) => state.mandate.verifyStatus
-  );
   // const panMisMatch = useSelector((state) => state.pan.misMatch);
   // const bankMisMatch = useSelector((state) => state.bank.misMatch);
 
@@ -76,6 +75,12 @@ const EWA = () => {
         .then((response) => {
           if (response.data.status === 200) {
             console.log("ewaOffersFetch response.data: ", response.data);
+            if (getNumberOfDays(response.data.body.live.dueDate)<=2){
+              setEwaAccessible(false);
+            }
+            else{
+              setEwaAccessible(true);
+            }
             dispatch(resetEwaLive(response.data.body.live));
             dispatch(resetEwaHistorical(response.data.body.past));
             setFetched(true);
@@ -124,8 +129,8 @@ const EWA = () => {
 
           <View style={{ marginHorizontal: "10%" }}>
             <PrimaryButton
-              title={!eligible ? "No Active Offer" : "Get Money Now"}
-              disabled={!eligible}
+              title={!ewaAccessible ? "Offer inactive" : (!eligible ? "No Active Offer" : "Get Money Now")}
+              disabled={!eligible || !ewaAccessible}
               onPress={() => {
                 navigation.navigate("EWA_OFFER");
               }}
