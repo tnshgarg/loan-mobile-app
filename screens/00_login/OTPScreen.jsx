@@ -164,7 +164,7 @@ const OTPScreen = () => {
               Resend
             </Text>
           ) : null}
-          <Text style={styles.otpreadtxt}>
+          <Text accessibilityLabel="OtpText" style={styles.otpreadtxt}>
             {" "}
             Sit back & relax while we fetch the OTP & log you inside the Unipe
             App

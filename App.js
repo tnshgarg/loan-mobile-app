@@ -43,4 +43,5 @@ const App = () => {
   );
 };
 
-export default codePush(codePushOptions)(App);
+// export default codePush(codePushOptions)(App);
+export default App;

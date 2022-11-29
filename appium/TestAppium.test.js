@@ -1,8 +1,6 @@
 import { remote } from "webdriverio";
 import jasmine from "jasmine";
-import Gestures from "./helpers/Gestures";
 
-// eslint-disable-next-line no-undef
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 let driver;
 
@@ -14,7 +12,7 @@ beforeAll(async () => {
     capabilities: {
       platformName: "Android",
       platformVersion: "13",
-      // appium: { connectHardwareKeyboard: true },
+      appium: { connectHardwareKeyboard: true },
       automationName: "UiAutomator2",
       appPackage: "com.employeeapp",
       appActivity: ".MainActivity",
@@ -28,56 +26,66 @@ afterAll(async () => {
     await driver.deleteSession();
   }
 });
-test("Login test", async () => {
-  await driver.pause(10000);
-  const devMenuLoginBtn = await driver.$("~Login");
-  await devMenuLoginBtn.touchAction({ action: "tap" });
 
-  // await driver.pause(4000);
+describe("Login Test", () => {
+  test("InValid Credentials", async () => {
+    // Looks for Login Button in DevMenu Screen
+    await driver.pause(3000);
+    const devMenuLoginBtn = await driver.$("~Login");
+    await devMenuLoginBtn.touchAction({ action: "tap" });
 
-  await driver.$("~MobileNumber").waitForDisplayed({ timeout: 8000 });
-  const loginUsernameInput = await driver.$("~MobileNumber");
-  // await loginUsernameInput.clearValue();
-  await loginUsernameInput.setValue("9999999999");
+    // Looks for Mobile Number TextInput and set value to "9999999998"
+    await driver.$("~MobileNumber").waitForDisplayed({ timeout: 8000 });
+    const loginUsernameInput = await driver.$("~MobileNumber");
+    await loginUsernameInput.setValue("9999999998");
+    await driver.$("~LoginScreen").waitForDisplayed({ timeout: 8000 });
+    await driver.$("~LoginScreen").click();
 
-  // await driver.pause(3000);
+    // Clicks the Login Button
+    await driver.$("~LoginNextBtn").waitForDisplayed({ timeout: 8000 });
+    const loginNextButton = await driver.$("~LoginNextBtn");
+    await loginNextButton.touchAction({ action: "tap" });
 
-  await driver.$("~LoginScreen").waitForDisplayed({ timeout: 8000 });
-  await driver.$("~LoginScreen").click();
-  await driver.pause(3000);
+    await driver.pause(4000);
 
-  await driver.$("~LoginNextBtn").waitForDisplayed({ timeout: 8000 });
-  const loginNextButton = await driver.$("~LoginNextBtn");
+    await driver.acceptAlert();
+  });
 
-  //   await Gestures.checkIfDisplayedWithSwipeUp(loginNextButton, 2);
-  //   await driver.pause(3000);
-  await loginNextButton.touchAction({ action: "tap" });
-  // await loginNextButton.click();
+  test("Correct Credentials", async () => {
+    // Looks for Mobile Number TextInput and set value to "9999999999"
+    await driver.pause(3000);
+    await driver.$("~MobileNumber").waitForDisplayed({ timeout: 8000 });
+    const loginUsernameInput = await driver.$("~MobileNumber");
+    await loginUsernameInput.setValue("9999999999");
+    await driver.$("~LoginScreen").waitForDisplayed({ timeout: 8000 });
+    await driver.$("~LoginScreen").click();
 
-  await driver.pause(6000);
+    // Clicks the Login Button
+    await driver.$("~LoginNextBtn").waitForDisplayed({ timeout: 8000 });
+    const loginNextButton = await driver.$("~LoginNextBtn");
+    await loginNextButton.touchAction({ action: "tap" });
 
-  const OtpScreen = await driver.$("~OtpScreen");
-  await OtpScreen.waitForDisplayed({ timeout: 8000 });
+    // Looks for Otp Screen Render
+    const OtpScreen = await driver.$("~OtpScreen");
+    await OtpScreen.waitForDisplayed({ timeout: 8000 });
 
-  //   await driver.pause(3000);
+    // Looks for Otp Input and sets value to "123456"
+    const OtpInput = await driver.$("~OtpInput");
+    await OtpInput.waitForDisplayed({ timeout: 6000 });
+    await OtpInput.clearValue();
+    await OtpInput.setValue("123456");
+    await driver.$("~OtpText").waitForDisplayed({ timeout: 8000 });
+    await driver.$("~OtpText").click();
 
-  const OtpInput = await driver.$("~OtpInput");
-  await OtpInput.waitForDisplayed({ timeout: 6000 });
-  await OtpInput.clearValue();
-  await OtpInput.setValue("123456");
+    // Taps on Otp Button
+    await driver.$("~OtpButton").waitForDisplayed({ timeout: 8000 });
+    const OtpButton = await driver.$("~OtpButton");
+    await OtpButton.touchAction({ action: "tap" });
 
-  await driver.pause(3000);
-
-  // await driver.$("~OtpKeyboardView").click();
-  // await driver.pause(3000);
-
-  const OtpButton = await driver.$("~OtpButton");
-  // await OtpButton.touchAction({ action: "tap" });
-  // await OtpButton.click();
-  await OtpButton.touchAction({ action: "tap" });
-
-  await driver.pause(10000);
-  //   await driver.acceptAlert();
-
-  //   await driver.pause(10000);
+    // Looks for Welcome Screen Render
+    // await driver.$("~WelcomePage").waitForDisplayed({ timeout: 8000 });
+    // const WelcomeScreen = await driver.$("~WelcomePage");
+    // await WelcomeScreen.waitForDisplayed({ timeout: 8000 });
+    await driver.pause(3000);
+  }, 60000);
 });
