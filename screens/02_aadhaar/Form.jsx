@@ -8,9 +8,7 @@ import AadhaarFormTemplate from "../../templates/aadhaar/Form";
 import { styles } from "../../styles";
 import Header from "../../components/atoms/Header";
 
-
 const AadhaarForm = () => {
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -28,11 +26,12 @@ const AadhaarForm = () => {
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   return (
-    <SafeAreaView style={styles.safeContainer}>
+    <SafeAreaView accessibilityLabel="AadhaarForm" style={styles.safeContainer}>
       <Header
         title="Aadhaar Verification"
         onLeftIconPress={() => backAction()}

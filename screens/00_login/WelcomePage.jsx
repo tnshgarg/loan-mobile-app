@@ -84,6 +84,7 @@ const WelcomePage = () => {
       </View>
       <PrimaryButton
         title="Start Onboarding"
+        accessibilityLabel="WelcomeBtn"
         onPress={() => {
           requestUserPermission();
           Analytics.trackEvent("WelcomePage", {
