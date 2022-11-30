@@ -96,6 +96,7 @@ const BankConfirmApi = (props) => {
         />
         <FuzzyCheck name={data?.accountHolderName} step="Bank Account" />
         <Button
+          accessibilityLabel="BankYesBtn"
           title="Yes"
           type="solid"
           uppercase={false}

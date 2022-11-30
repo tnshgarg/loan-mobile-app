@@ -113,18 +113,18 @@ const LoginScreen = () => {
     }
   }, [phoneNumber]);
 
-  // const onPhoneNumberPressed = async () => {
-  //   try {
-  //     var phoneNumber = await SmsRetriever.requestPhoneNumber();
-  //     setPhoneNumber(phoneNumber.replace("+91", ""));
-  //   } catch (error) {
-  //     console.log("Error while fetching phoneNumber: ", error.toString());
-  //   }
-  // };
+  const onPhoneNumberPressed = async () => {
+    try {
+      var phoneNumber = await SmsRetriever.requestPhoneNumber();
+      setPhoneNumber(phoneNumber.replace("+91", ""));
+    } catch (error) {
+      console.log("Error while fetching phoneNumber: ", error.toString());
+    }
+  };
 
-  // useEffect(() => {
-  //   onPhoneNumberPressed();
-  // }, []);
+  useEffect(() => {
+    onPhoneNumberPressed();
+  }, []);
 
   const backAction = () => {
     Alert.alert("Hold on!", "Are you sure you want to go back?", [

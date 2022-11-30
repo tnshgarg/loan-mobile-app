@@ -18,7 +18,6 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
 
 const BankVerifyApi = (props) => {
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
   console.log("Mock api URl", KYC_BANK_VERIFY_API_URL);
@@ -213,6 +212,7 @@ const BankVerifyApi = (props) => {
   };
   return (
     <PrimaryButton
+      accessibilityLabel={"BankFormBtn"}
       title={loading ? "Verifying" : "Continue"}
       disabled={props.disabled}
       loading={loading}
