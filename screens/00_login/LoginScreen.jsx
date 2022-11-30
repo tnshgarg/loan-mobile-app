@@ -29,7 +29,7 @@ import { styles } from "../../styles";
 import privacyPolicy from "../../templates/docs/PrivacyPolicy.js";
 import termsOfUse from "../../templates/docs/TermsOfUse.js";
 import PushNotification, { Importance } from "react-native-push-notification";
-
+import { STAGE } from "@env";
 const LoginScreen = () => {
   SplashScreen.hide();
   const dispatch = useDispatch();
@@ -123,7 +123,9 @@ const LoginScreen = () => {
   };
 
   useEffect(() => {
-    onPhoneNumberPressed();
+    if (STAGE !== "dev") {
+      onPhoneNumberPressed();
+    }
   }, []);
 
   const backAction = () => {
