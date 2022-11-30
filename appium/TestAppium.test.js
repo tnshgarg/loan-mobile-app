@@ -1,5 +1,6 @@
 import { remote } from "webdriverio";
 import jasmine from "jasmine";
+import { DEV_APP_PATH } from "@env";
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 let driver;
@@ -14,9 +15,11 @@ beforeAll(async () => {
       platformVersion: "13",
       appium: { connectHardwareKeyboard: true },
       automationName: "UiAutomator2",
-      appPackage: "com.employeeapp",
-      appActivity: ".MainActivity",
+      // appPackage: "com.employeeapp.dev",
+      // appActivity: ".MainActivity",
+      // appName: "Unipe Dev",
       autoGrantPermissions: true,
+      app: DEV_APP_PATH,
     },
   });
 });
@@ -337,10 +340,25 @@ describe("Bank Test", () => {
     await driver.$("~IfscCode").setValue("ABCD0200000");
     await driver.$("~UpiId").setValue("abc@xyz");
     await driver.$("~BankFormBtn").touchAction({ action: "tap" });
-    // await driver.pause(4000);
-    // await driver.acceptAlert();
+    await driver.pause(4000);
+    await driver.acceptAlert();
     await driver.$("~BankYesBtn").waitForDisplayed({ timeout: 8000 });
     await driver.$("~BankYesBtn").touchAction({ action: "tap" });
-    await driver.pause(10000);
+  });
+});
+
+describe("Drawer Test", () => {
+  test("Terms and Privacy Modal", async () => {
+    await driver.$("~NavigationDrawer").waitForDisplayed({ timeout: 8000 });
+    await driver.$("~NavigationDrawer").touchAction("tap");
+    await driver.$("~TermsIcon").touchAction("tap");
+    await driver.$("~TermsViewModal").waitForDisplayed({ timeout: 8000 });
+    await driver.$("~CloseButton").touchAction("tap");
+  });
+  test("Terms and Privacy Modal", async () => {
+    await driver.$("~PrivacyIcon").touchAction("tap");
+    await driver.$("~PrivacyViewModal").waitForDisplayed({ timeout: 8000 });
+    await driver.$("~CloseButton").touchAction("tap");
+    await driver.pause(20000);
   });
 });

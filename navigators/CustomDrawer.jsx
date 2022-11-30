@@ -72,7 +72,13 @@ export default CustomDrawer = (props) => {
             <DrawerItem
               labelStyle={{ ...FONTS.body4 }}
               icon={({ color, size }) => (
-                <Ionicons name="lock-closed-outline" color={color} size={20} />
+                <View accessibilityLabel="PrivacyIcon">
+                  <Ionicons
+                    name="lock-closed-outline"
+                    color={color}
+                    size={20}
+                  />
+                </View>
               )}
               label="Privacy Policy"
               onPress={() => {
@@ -82,11 +88,13 @@ export default CustomDrawer = (props) => {
             <DrawerItem
               labelStyle={{ ...FONTS.body4 }}
               icon={({ color, size }) => (
-                <Ionicons
-                  name="ios-shield-checkmark-outline"
-                  color={color}
-                  size={20}
-                />
+                <View accessibilityLabel="TermsIcon">
+                  <Ionicons
+                    name="ios-shield-checkmark-outline"
+                    color={color}
+                    size={20}
+                  />
+                </View>
               )}
               label="Terms & Conditions"
               onPress={() => {
@@ -99,6 +107,7 @@ export default CustomDrawer = (props) => {
       </View>
       {isTermsOfUseModalVisible && (
         <TermsAndPrivacyModal
+          accessibilityLabel="TermsViewModal"
           isVisible={isTermsOfUseModalVisible}
           setIsVisible={setIsTermsOfUseModalVisible}
           data={termsOfUse}
@@ -106,6 +115,7 @@ export default CustomDrawer = (props) => {
       )}
       {isPrivacyModalVisible && (
         <TermsAndPrivacyModal
+          accessibilityLabel="PrivacyViewModal"
           isVisible={isPrivacyModalVisible}
           setIsVisible={setIsPrivacyModalVisible}
           data={privacyPolicy}
