@@ -58,7 +58,7 @@ build:prod
 ## Code Push
 
 ```
-    appcenter codepush release-react -a Unipe/EmployeeApp -d Test 
+    appcenter codepush release-react -a Unipe/EmployeeApp -d Test
     - pushes to test
     appcenter codepush release-react -a Unipe/EmployeeApp -d Dev
     - pushes to dev
