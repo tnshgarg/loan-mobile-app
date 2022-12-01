@@ -27,7 +27,7 @@ const KYC = () => {
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
 
-  const [bureauPass, setBureauPass] = useState(false);
+  const [creditPass, setCreditPass] = useState("PENDING");
   const [loading, setLoading] = useState(false);
   const mandateVerifyStatus= useSelector((state)=>state.mandate.verifyStatus);
   const token = useSelector((state) => state.auth.token);
@@ -64,15 +64,15 @@ const KYC = () => {
 
   useEffect(() => {
     if (unipeEmployeeId) {
-      getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "bureau", token: token  })
+      getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "risk-profile", token: token })
         .then((response) => {
-          console.log("bureauBackendFetch response.data", response.data);
+          console.log("riskProfileBackendFetch response.data", response.data);
           if (response.data.status === 200) {
-            setBureauPass(response.data.body.pass);
+            setCreditPass(response.data.body.pass);
           }
         })
         .catch((error) => {
-          console.log("bureauBackendFetch error: ", error);
+          console.log("riskProfileBackendFetch error: ", error);
         });
   }}, [unipeEmployeeId]);
 
@@ -167,8 +167,8 @@ const KYC = () => {
         <CollapsibleCard title="KYC Details" isClosed={false} data={kycData} />
 
         <PrimaryButton
-          title={bureauPass !== true ? "Checking Bureau" : (loading ? "Verifying" : "Continue")}
-          disabled={bureauPass !== true || loading}
+          title={creditPass === "PENDING" ? "Checking Credit Bureau" : (creditPass === "DECLINED" ? "Credit Declined" : (loading ? "Verifying" : "Continue"))}
+          disabled={creditPass !== "SUCCESS" || loading}
           loading={loading}
           onPress={() => {
             handleKyc();
