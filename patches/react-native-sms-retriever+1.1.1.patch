@@ -15,7 +15,7 @@ index 6a3297f..70a6985 100644
                  final FragmentActivity fragmentActivity = (FragmentActivity) activity;
 -                builder = builder.enableAutoManage(fragmentActivity, mApiClientOnConnectionFailedListener);
 +                Random rand = new Random();
-+                builder = builder.enableAutoManage(fragmentActivity, rand.nextInt(100), mApiClientOnConnectionFailedListener);
++                builder = builder.enableAutoManage(fragmentActivity, rand.nextInt(1000000000), mApiClientOnConnectionFailedListener);
              }
 
              mGoogleApiClient = builder.build();
