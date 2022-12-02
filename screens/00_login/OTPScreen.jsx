@@ -14,7 +14,6 @@ import Analytics from "appcenter-analytics";
 import { styles, form } from "../../styles";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import { Ionicons, MaterialCommunityIcons } from "react-native-vector-icons";
-import LogoHeader from "../../components/atoms/LogoHeader";
 import OtpInput from "../../components/molecules/OtpInput";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
@@ -30,7 +29,6 @@ const OTPScreen = () => {
   const onboarded = useSelector((state) => state.auth.onboarded);
   const phoneNumber = useSelector((state) => state.auth.phoneNumber);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const [timer, setTimer] = useState(120);
 
   useEffect(() => {
     dispatch(addCurrentScreen("Otp"));
@@ -38,19 +36,17 @@ const OTPScreen = () => {
 
   useEffect(() => {
     let interval = setInterval(() => {
-      setTimer((prevTimer) => {
-        if (prevTimer > 0) {
-          dispatch(setLoginTimer(prevTimer));
-          return prevTimer - 1;
-        } else {
-          setBack(true);
-          return prevTimer;
-        }
-      });
+      console.log({ countDownTime });
+
+      if (countDownTime > 0) {
+        dispatch(setLoginTimer(countDownTime - 1));
+      } else {
+        setBack(true);
+      }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [countDownTime]);
 
   useEffect(() => {
     if (otp.length === 6) {
@@ -196,9 +192,9 @@ const OTPScreen = () => {
                 Resend OTP
               </Text>
             ) : (
-              <Text style={{ color: COLORS.lightGray }}>
-                Resend OTP in {Math.trunc(timer / 60)}:
-                {String("0" + (timer % 60)).slice(-2)}
+              <Text style={{ color: COLORS.secondary }}>
+                Resend OTP in {Math.trunc(countDownTime / 60)}:
+                {String("0" + (countDownTime % 60)).slice(-2)}
               </Text>
             )}
           </Text>
