@@ -2,12 +2,13 @@
 	"name": "employee-app",
 	"main": "index.js",
 	"scripts": {
-		"start:dev": "gulp set --env=dev && npx react-native run-android --variant=devDebug --appIdSuffix=dev",
-		"start:test": "gulp set --env=test && npx react-native run-android --variant=qaDebug --appIdSuffix=qa",
-		"build:dev": "bash ./android/versioning.sh && gulp set --env=dev && cd android && ./gradlew assembleDevRelease",
-		"build:test": "bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
-		"build:debug": "bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
-		"build:prod": "bash ./android/versioning.sh && gulp set --env=prod && cd android && ./gradlew assembleProdRelease"
+		"start:dev": "gulp set --env=dev && npx react-native run-android --active-arch-only --variant=devDebug --appIdSuffix=dev",
+		"start:test": "gulp set --env=test && npx react-native run-android --active-arch-only --variant=qaDebug --appIdSuffix=qa",
+		"build:dev": "gulp set --env=dev && bash ./android/versioning.sh && cd android && ./gradlew assembleDevRelease",
+		"build:test": "gulp set --env=test && bash ./android/versioning.sh && cd android && ./gradlew assembleQaRelease",
+		"build:debug": "gulp set --env=test && bash ./android/versioning.sh && cd android && ./gradlew assembleQaRelease",
+		"build:prod": "gulp set --env=prod && bash ./android/versioning.sh && cd android && ./gradlew assembleProdRelease",
+		"postinstall": "patch-package"
 	},
 	"dependencies": {
 		"@react-native-async-storage/async-storage": "^1.17.6",
@@ -37,6 +38,7 @@
 		"gulp-clean": "^0.4.0",
 		"gulp-rename": "^2.0.0",
 		"metro-react-native-babel-preset": "^0.71.3",
+		"patch-package": "^6.5.0",
 		"react": "17.0.2",
 		"react-dom": "17.0.2",
 		"react-native": "0.68.2",
