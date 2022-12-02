@@ -181,7 +181,7 @@ const PanVerifyApi = (props) => {
 
   return (
     <PrimaryButton
-      accessibilityLabel={"PANVerifyBtn"}
+      accessibilityLabel={"PanVerifyBtn"}
       title={loading ? "Verifying" : "Continue"}
       disabled={props.disabled}
       loading={loading}

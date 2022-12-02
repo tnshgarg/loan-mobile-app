@@ -29,11 +29,7 @@ const DropDownForm = ({
           containerStyle={{ ...containerStyle }}
           placeholder={placeholder}
           value={value}
-          accessibilityLabel={
-            accessibilityLabel == "EducationProfile"
-              ? "EducationDropdown"
-              : "MaritalStatusDropdown"
-          }
+          accessibilityLabel={accessibilityLabel}
           disabled={true}
           appendComponent={
             <Icon name="keyboard-arrow-down" size={24} color={COLORS.gray} />

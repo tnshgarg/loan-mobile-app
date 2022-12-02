@@ -123,7 +123,7 @@ const ProfileForm = () => {
       <KeyboardAvoidingWrapper>
         <View>
           <DropDownForm
-            accessibilityLabel="EducationProfile"
+            accessibilityLabel="EducationDropdown"
             placeholder={"Select Education*"}
             containerStyle={{ marginVertical: 10 }}
             value={qualification}
@@ -131,7 +131,7 @@ const ProfileForm = () => {
             data={qualifications}
           />
           <DropDownForm
-            accessibilityLabel="MaritalStatusProfile"
+            accessibilityLabel="MaritalStatusDropdown"
             placeholder={"Select Maritial Status*"}
             containerStyle={{ marginVertical: 10 }}
             value={maritalStatus}
