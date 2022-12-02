@@ -7,7 +7,8 @@
 		"build:dev": "bash ./android/ACFlavours.sh -e dev && bash ./android/versioning.sh && gulp set --env=dev && cd android && ./gradlew assembleDevRelease",
 		"build:test": "bash ./android/ACFlavours.sh -e qa && bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
 		"build:debug": "bash ./android/ACFlavours.sh -e dev && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
-		"build:prod": "bash ./android/ACFlavours.sh -e prod && bash ./android/versioning.sh && gulp set --env=prod && cd android && ./gradlew assembleProdRelease"
+		"build:prod": "bash ./android/ACFlavours.sh -e prod && bash ./android/versioning.sh && gulp set --env=prod && cd android && ./gradlew assembleProdRelease",
+    "postinstall": "patch-package"
 	},
 	"dependencies": {
 		"@react-native-async-storage/async-storage": "^1.17.6",
@@ -37,6 +38,7 @@
 		"gulp-clean": "^0.4.0",
 		"gulp-rename": "^2.0.0",
 		"metro-react-native-babel-preset": "^0.71.3",
+		"patch-package": "^6.5.0",
 		"react": "17.0.2",
 		"react-dom": "17.0.2",
 		"react-native": "0.68.2",
