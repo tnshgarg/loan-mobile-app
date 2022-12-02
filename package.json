@@ -2,12 +2,12 @@
 	"name": "employee-app",
 	"main": "index.js",
 	"scripts": {
-		"start:dev": "gulp set --env=dev && npx react-native run-android --variant=devDebug --appIdSuffix=dev",
-		"start:test": "gulp set --env=test && npx react-native run-android --variant=qaDebug --appIdSuffix=qa",
-		"build:dev": "bash ./android/versioning.sh && gulp set --env=dev && cd android && ./gradlew assembleDevRelease",
-		"build:test": "bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
-		"build:debug": "bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
-		"build:prod": "bash ./android/versioning.sh && gulp set --env=prod && cd android && ./gradlew assembleProdRelease"
+		"start:dev": "bash ./android/ACFlavours.sh -e dev && gulp set --env=dev && npx react-native run-android --variant=devDebug --appIdSuffix=dev",
+		"start:test": "bash ./android/ACFlavours.sh -e qa && gulp set --env=test && npx react-native run-android --variant=qaDebug --appIdSuffix=qa",
+		"build:dev": "bash ./android/ACFlavours.sh -e dev && bash ./android/versioning.sh && gulp set --env=dev && cd android && ./gradlew assembleDevRelease",
+		"build:test": "bash ./android/ACFlavours.sh -e qa && bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
+		"build:debug": "bash ./android/ACFlavours.sh -e dev && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
+		"build:prod": "bash ./android/ACFlavours.sh -e prod && bash ./android/versioning.sh && gulp set --env=prod && cd android && ./gradlew assembleProdRelease"
 	},
 	"dependencies": {
 		"@react-native-async-storage/async-storage": "^1.17.6",
