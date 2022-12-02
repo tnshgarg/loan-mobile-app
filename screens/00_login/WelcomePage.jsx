@@ -1,16 +1,19 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect } from "react";
-import { Alert, BackHandler, SafeAreaView, View } from "react-native";
-import StepIndicator from "react-native-step-indicator";
+import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Analytics from "appcenter-analytics";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { COLORS } from "../../constants/Theme";
+import { COLORS, FONTS } from "../../constants/Theme";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { stepIndicatorStyles, styles, welcome } from "../../styles";
-import SVGImg from "../../assets/UnipeLogo.svg";
+import { styles } from "../../styles";
 import { requestUserPermission } from "../../services/notifications/notificationService";
+import LogoHeader from "../../components/atoms/LogoHeader";
+import ShieldTitle from "../../components/atoms/ShieldTitle";
+import OnDemand from "../../assets/OnDemand.svg";
+import Clock from "../../assets/Clock.svg";
+import InterestFree from "../../assets/InterestFree.svg";
 
 const WelcomePage = () => {
   const dispatch = useDispatch();
@@ -36,62 +39,93 @@ const WelcomePage = () => {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
-  const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
-    const iconConfig = {
-      color: stepStatus === "finished" ? COLORS.white : COLORS.primaryPending,
-      size: 15,
-    };
-    switch (position) {
-      case 0: {
-        iconConfig.name = "file-document-outline";
-        return <MaterialCommunityIcons {...iconConfig} />;
-      }
-      case 1: {
-        iconConfig.name = "card-account-details-outline";
-        return <MaterialCommunityIcons {...iconConfig} />;
-      }
-      case 2: {
-        iconConfig.name = "smart-card-outline";
-        return <MaterialCommunityIcons {...iconConfig} />;
-      }
-      case 3: {
-        iconConfig.name = "bank-outline";
-        return <MaterialCommunityIcons {...iconConfig} />;
-      }
-      default: {
-        iconConfig.name = "info-outline";
-        return <MaterialIcons {...iconConfig} />;
-      }
-    }
-  };
-
-  const renderStepIndicator = (params) => getStepIndicatorIconConfig(params);
-
-  const data = ["Profile", "Aadhaar", "PAN", "Bank"];
+  const data = [
+    {
+      title: "On-demand Salary\n(पाएँ वेतन अपने मनचाहे समय पर)",
+      imageUri: <OnDemand />,
+    },
+    {
+      title: "Interest Free\nशून्य ब्याज दर",
+      imageUri: <Clock />,
+    },
+    {
+      title:
+        "Money in your bank in 5 mins\nसिर्फ़ पाँच मिनट में पैसा आपके बैंक अकाउंट में",
+      imageUri: <InterestFree />,
+    },
+  ];
 
   return (
-    <SafeAreaView style={[styles.container]}>
-      <SVGImg style={styles.logo} />
-      <View style={[welcome.steps, { alignSelf: "center" }]}>
-        <StepIndicator
-          customStyles={stepIndicatorStyles}
-          stepCount={4}
-          direction="vertical"
-          renderStepIndicator={renderStepIndicator}
-          currentPosition={-1}
-          labels={data}
+    <SafeAreaView style={[styles.safeContainer]}>
+      <LogoHeader />
+      <View style={styles.container}>
+        <Text
+          style={{
+            ...FONTS.title,
+            color: COLORS.primary,
+          }}
+        >
+          नमस्ते
+        </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            marginVertical: 20,
+          }}
+        >
+          <View
+            style={{
+              height: 28,
+              width: 28,
+              backgroundColor: COLORS.primary,
+              borderTopRightRadius: 10,
+              borderBottomRightRadius: 10,
+              marginRight: 10,
+              marginLeft: -20,
+            }}
+          />
+          <Text style={{ ...FONTS.h2, color: COLORS.secondary }}>
+            Unipe के साथ पाएँ
+          </Text>
+        </View>
+        {data.map((item, index) => (
+          <View
+            key={index}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "flex-start",
+              marginVertical: 15,
+            }}
+          >
+            {item.imageUri}
+            <Text
+              style={{
+                ...FONTS.body4,
+                color: COLORS.secondary,
+                marginLeft: 30,
+              }}
+            >
+              {item.title}
+            </Text>
+          </View>
+        ))}
+
+        <View style={{ flex: 1 }} />
+        <ShieldTitle title="100% Secure" />
+        <PrimaryButton
+          title="Get Started Now"
+          onPress={() => {
+            requestUserPermission();
+            Analytics.trackEvent("WelcomePage", {
+              unipeEmployeeId: unipeEmployeeId,
+            });
+            navigation.navigate("Login");
+          }}
         />
       </View>
-      <PrimaryButton
-        title="Start Onboarding"
-        onPress={() => {
-          requestUserPermission();
-          Analytics.trackEvent("WelcomePage", {
-            unipeEmployeeId: unipeEmployeeId,
-          });
-          navigation.navigate("ProfileForm");
-        }}
-      />
     </SafeAreaView>
   );
 };

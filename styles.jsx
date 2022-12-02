@@ -17,10 +17,20 @@ export const styles = EStyleSheet.create({
     height: "auto",
   },
   headline: {
-    marginTop: "20rem",
-    ...FONTS.h3,
-    color: COLORS.black,
+    marginTop: "10rem",
+    marginBottom: "5rem",
+    ...FONTS.h2,
+    color: COLORS.secondary,
     textAlign: "center",
+    alignSelf: "center",
+  },
+  subHeadline: {
+    //marginTop: "5rem",
+    ...FONTS.body4,
+    color: COLORS.gray,
+    textAlign: "center",
+    alignSelf: "center",
+    marginBottom: "5rem",
   },
   resendText: {
     color: COLORS.primary,

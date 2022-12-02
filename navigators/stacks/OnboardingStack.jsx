@@ -16,11 +16,12 @@ import PanForm from "../../screens/03_pan/Form";
 import BankConfirm from "../../screens/04_bank/Confirm";
 import BankForm from "../../screens/04_bank/Form";
 import BackendSync from "../../screens/BackendSync";
+import LoginSuccess from "../../screens/00_login/LoginSuccess";
 
 const OnboardingStack = () => {
   const Stack = createNativeStackNavigator();
   var initialRoute = useSelector((state) => state.navigation.currentScreen);
-  
+
   STAGE === "dev" ? (initialRoute = "DevMenu") : null;
   console.log("initialRoute: ", initialRoute);
 
@@ -62,6 +63,13 @@ const OnboardingStack = () => {
       <Stack.Screen
         name="Welcome"
         component={WelcomePage}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="LoginSuccess"
+        component={LoginSuccess}
         options={{
           headerShown: false,
         }}
