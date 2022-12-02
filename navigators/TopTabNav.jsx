@@ -1,4 +1,5 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { View } from "react-native";
 import { COLORS, FONTS } from "../constants/Theme";
 
 const TopTabNav = (props) => {
@@ -30,6 +31,9 @@ const TopTabNav = (props) => {
             name={tab.name}
             component={tab.component}
             initialParams={tab.initialParams}
+            options={{
+              tabBarAccessibilityLabel: tab.name,
+            }}
           />
         );
       })}

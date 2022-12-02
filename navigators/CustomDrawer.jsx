@@ -46,6 +46,7 @@ export default CustomDrawer = (props) => {
               }}
             />
             <Text
+              accessibilityLabel="DrawerName"
               style={{
                 color: COLORS.white,
                 paddingTop: 10,

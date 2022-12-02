@@ -58,10 +58,23 @@ build:prod
 ## Code Push
 
 ```
-    appcenter codepush release-react -a Unipe/EmployeeApp -d Test 
+    appcenter codepush release-react -a Unipe/EmployeeApp -d Test
     - pushes to test
     appcenter codepush release-react -a Unipe/EmployeeApp -d Dev
     - pushes to dev
     appcenter codepush release-react -a Unipe/EmployeeApp -d Prod
     - pushes to prod
+```
+
+## Appium Testing
+
+```
+npm i -g appium
+npm i -g jest
+Install Appium server GUI from https://github.com/appium/appium-desktop/releases/tag/v1.22.3-4
+Install Appium Inspector from https://github.com/appium/appium-inspector/releases
+
+For running tests
+jest appium // in root directory
+
 ```
