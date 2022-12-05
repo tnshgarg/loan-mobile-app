@@ -9,15 +9,6 @@ import { useEffect } from "react";
 const OtpInput = ({ otp, setOtp }) => {
   const inputRef = useRef();
 
-  useEffect(() => {
-    console.log({ otp });
-  }, [otp]);
-  //   setTimeout(() => inputRef.current.focus(), 100);
-
-  const EmptyView = () => {
-    return <View style={styles.empty} />;
-  };
-
   const getNumberView = (val) => {
     return val != "" ? (
       <Text style={{ ...FONTS.h2, color: COLORS.secondary }}>{val}</Text>
@@ -38,9 +29,11 @@ const OtpInput = ({ otp, setOtp }) => {
         </View>
       </TouchableWithoutFeedback>
       <TextInput
+        accessibilityLabel="OtpInput"
         ref={inputRef}
         onLayout={() => inputRef.current.focus()}
         keyboardType="number-pad"
+        value={otp}
         onChange={(event) => {
           console.log(event.nativeEvent.text);
           setOtp(event.nativeEvent.text);
@@ -48,9 +41,11 @@ const OtpInput = ({ otp, setOtp }) => {
         maxLength={6}
         onKeyPress={(keyPress) => console.log(keyPress)}
         style={{
-          opacity: 0,
+          color: COLORS.white,
+          opacity: 0.001,
           position: "absolute",
         }}
+        selectionColor={COLORS.white}
       />
     </>
   );

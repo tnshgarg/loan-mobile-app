@@ -3,10 +3,11 @@ import React from "react";
 import FormInput from "../atoms/FormInput";
 import { COLORS, FONTS } from "../../constants/Theme";
 
-const LoginInput = ({ phoneNumber, setPhoneNumber }) => {
+const LoginInput = ({ phoneNumber, setPhoneNumber, accessibilityLabel }) => {
   return (
     <FormInput
       //placeholder="Enter mobile number"
+      accessibilityLabel={accessibilityLabel}
       containerStyle={{ marginVertical: 15, borderColor: COLORS.primary }}
       autoCompleteType="tel"
       keyboardType="phone-pad"
