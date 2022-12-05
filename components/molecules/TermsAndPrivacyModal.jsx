@@ -6,9 +6,15 @@ import { AntDesign } from "react-native-vector-icons";
 import WebView from "react-native-webview";
 import Modal from "react-native-modal";
 
-const TermsAndPrivacyModal = ({ isVisible, setIsVisible, data }) => {
+const TermsAndPrivacyModal = ({
+  isVisible,
+  setIsVisible,
+  data,
+  accessibilityLabel,
+}) => {
   return (
     <Modal
+      accessibilityLabel={accessibilityLabel}
       isVisible={isVisible}
       style={{
         flex: 1,
@@ -17,6 +23,7 @@ const TermsAndPrivacyModal = ({ isVisible, setIsVisible, data }) => {
       <Pressable
         onPress={() => setIsVisible(false)}
         style={styles.btnContainer}
+        accessibilityLabel="CloseButton"
       >
         <AntDesign name="closesquareo" size={24} color="black" />
       </Pressable>

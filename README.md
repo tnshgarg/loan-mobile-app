@@ -65,3 +65,27 @@ build:prod
     appcenter codepush release-react -a Unipe/EmployeeApp -d Prod
     - pushes to prod
 ```
+
+## Appium Testing
+
+Install
+
+```
+sudo npm i -g appium
+sudo npm i -g jest
+```
+
+Install Appium server GUI from https://github.com/appium/appium-desktop/releases/tag/v1.22.3-4
+Install Appium Inspector from https://github.com/appium/appium-inspector/releases
+
+Pre-requisites
+
+1. set onboarded:false in employements [database]
+2. clean the app storage and cache
+
+For running tests
+
+```
+npx appium
+npx jest appium // in root directory
+```

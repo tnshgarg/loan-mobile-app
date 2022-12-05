@@ -29,7 +29,7 @@ import { styles } from "../../styles";
 import privacyPolicy from "../../templates/docs/PrivacyPolicy.js";
 import termsOfUse from "../../templates/docs/TermsOfUse.js";
 import PushNotification, { Importance } from "react-native-push-notification";
-
+import { STAGE } from "@env";
 const LoginScreen = () => {
   SplashScreen.hide();
   const dispatch = useDispatch();
@@ -123,7 +123,9 @@ const LoginScreen = () => {
   };
 
   useEffect(() => {
-    onPhoneNumberPressed();
+    if (STAGE !== "dev") {
+      onPhoneNumberPressed();
+    }
   }, []);
 
   const backAction = () => {
@@ -207,7 +209,7 @@ const LoginScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.safeContainer}>
+    <SafeAreaView accessibilityLabel="LoginScreen" style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <View>
           <SVGImg style={styles.logo} />
@@ -216,6 +218,8 @@ const LoginScreen = () => {
           </Text>
 
           <FormInput
+            testID="MobileNumber"
+            accessibilityLabel="MobileNumber"
             placeholder="Enter mobile number"
             containerStyle={{ marginVertical: 30 }}
             autoCompleteType="tel"
@@ -255,6 +259,8 @@ const LoginScreen = () => {
             <Text
               onPress={() => setIsTermsOfUseModalVisible(true)}
               style={styles.termsText}
+              testID="TermsModal"
+              accessibilityLabel="TermsModal"
             >
               Terms of Service
             </Text>{" "}
@@ -267,6 +273,7 @@ const LoginScreen = () => {
             </Text>
           </Text>
           <PrimaryButton
+            accessibilityLabel="LoginNextBtn"
             title="Continue"
             disabled={!next}
             loading={loading}

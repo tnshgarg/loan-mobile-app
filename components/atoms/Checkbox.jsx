@@ -9,6 +9,7 @@ const Checkbox = ({ value, setValue, text }) => {
   return (
     <View style={styles.container}>
       <CheckBox
+        accessibilityLabel="CheckBox"
         value={value}
         onValueChange={setValue}
         tintColors={{ true: COLORS.primary }}

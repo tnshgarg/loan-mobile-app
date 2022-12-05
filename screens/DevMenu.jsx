@@ -25,6 +25,7 @@ export default DevMenu = () => {
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         {screens.map((screen, index) => (
           <DevMenuButton
+            accessibilityLabel={screen.title}
             key={index}
             style={{ marginTop: 20 }}
             title={screen.title}

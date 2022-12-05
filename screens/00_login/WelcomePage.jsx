@@ -70,7 +70,7 @@ const WelcomePage = () => {
   const data = ["Profile", "Aadhaar", "PAN", "Bank"];
 
   return (
-    <SafeAreaView style={[styles.container]}>
+    <SafeAreaView accessibilityLabel="WelcomePage" style={[styles.container]}>
       <SVGImg style={styles.logo} />
       <View style={[welcome.steps, { alignSelf: "center" }]}>
         <StepIndicator
@@ -84,6 +84,7 @@ const WelcomePage = () => {
       </View>
       <PrimaryButton
         title="Start Onboarding"
+        accessibilityLabel="WelcomeBtn"
         onPress={() => {
           requestUserPermission();
           Analytics.trackEvent("WelcomePage", {

@@ -46,7 +46,7 @@ const PanVerifyApi = (props) => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
-  const backendPush = ({data, verifyMsg, verifyStatus, verifyTimestamp}) => {
+  const backendPush = ({ data, verifyMsg, verifyStatus, verifyTimestamp }) => {
     console.log("PanVerifyApi panSlice: ", panSlice);
     setData(data);
     setVerifyMsg(verifyMsg);
@@ -64,7 +64,7 @@ const PanVerifyApi = (props) => {
       token: token,
     });
     setLoading(false);
-  }
+  };
 
   const goForFetch = () => {
     setLoading(true);
@@ -181,6 +181,7 @@ const PanVerifyApi = (props) => {
 
   return (
     <PrimaryButton
+      accessibilityLabel={"PanVerifyBtn"}
       title={loading ? "Verifying" : "Continue"}
       disabled={props.disabled}
       loading={loading}
