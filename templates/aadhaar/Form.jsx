@@ -43,14 +43,14 @@ const AadhaarFormTemplate = (props) => {
             maxLength={12}
             numeric
           />
-          
+
           {number && !validNumber ? (
             <Text style={bankform.formatmsg}>Invalid AADHAAR Number.</Text>
           ) : null}
 
           <InfoCard
             info={
-              "My Mobile number is linked to my Aadhar card & I can receive the OTP on my Aadhar Linked Mobile Number"
+              "My Mobile number is linked to my Aadhaar card & I can receive the OTP on my Aadhaar Linked Mobile Number"
             }
           />
 

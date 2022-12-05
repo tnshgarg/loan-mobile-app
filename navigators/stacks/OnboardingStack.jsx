@@ -16,7 +16,7 @@ import PanForm from "../../screens/03_pan/Form";
 import BankConfirm from "../../screens/04_bank/Confirm";
 import BankForm from "../../screens/04_bank/Form";
 import BackendSync from "../../screens/BackendSync";
-import LoginSuccess from "../../screens/00_login/LoginSuccess";
+import Onboarding from "../../screens/00_login/Onboarding";
 
 const OnboardingStack = () => {
   const Stack = createNativeStackNavigator();
@@ -36,6 +36,13 @@ const OnboardingStack = () => {
         options={{
           headerShown: false,
           header: null,
+        }}
+      />
+      <Stack.Screen
+        name="Onboarding"
+        component={Onboarding}
+        options={{
+          headerShown: false,
         }}
       />
       <Stack.Screen
@@ -67,13 +74,7 @@ const OnboardingStack = () => {
           headerShown: false,
         }}
       />
-      <Stack.Screen
-        name="LoginSuccess"
-        component={LoginSuccess}
-        options={{
-          headerShown: false,
-        }}
-      />
+
       <Stack.Screen
         name="ProfileForm"
         component={ProfileForm}

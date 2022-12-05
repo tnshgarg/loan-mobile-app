@@ -220,7 +220,7 @@ const LoginScreen = () => {
         <View>
           <Text style={styles.headline}>Verify your mobile</Text>
           <Text style={styles.subHeadline}>
-            Your mobile number must be linked to your Aadhar
+            Your mobile number must be linked to your Aadhaar
           </Text>
 
           <LoginInput

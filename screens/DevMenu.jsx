@@ -6,6 +6,7 @@ export default DevMenu = () => {
   const navigation = useNavigation();
 
   const screens = [
+    { title: "Onboarding", stack: "OnboardingStack", name: "Onboarding" },
     { title: "Welcome", stack: "OnboardingStack", name: "Welcome" },
     { title: "Login", stack: "OnboardingStack", name: "Login" },
     { title: "Profile", stack: "OnboardingStack", name: "ProfileForm" },
