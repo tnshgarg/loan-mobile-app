@@ -2,8 +2,8 @@
 	"name": "employee-app",
 	"main": "index.js",
 	"scripts": {
-		"start:dev": "gulp set --env=dev && npx react-native run-android --variant=devDebug --appIdSuffix=dev",
-		"start:test": "gulp set --env=test && npx react-native run-android --variant=qaDebug --appIdSuffix=qa",
+		"start:dev": "gulp set --env=dev && npx react-native run-android --variant=devDebug --appIdSuffix=dev --active-arch-only",
+		"start:test": "gulp set --env=test && npx react-native run-android --variant=qaDebug --appIdSuffix=qa --active-arch-only",
 		"build:dev": "bash ./android/versioning.sh && gulp set --env=dev && cd android && ./gradlew assembleDevRelease",
 		"build:test": "bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
 		"build:debug": "bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",

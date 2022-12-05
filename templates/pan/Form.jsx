@@ -44,7 +44,7 @@ const PanFormTemplate = (props) => {
         <KeyboardAvoidingWrapper>
           <View>
             <FormInput
-              accessibilityLabel={"PANInput"}
+              accessibilityLabel={"PanInput"}
               placeholder={"Enter PAN Number"}
               containerStyle={{ marginVertical: 10 }}
               autoCapitalize="characters"

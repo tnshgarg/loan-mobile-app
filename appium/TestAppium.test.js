@@ -188,24 +188,24 @@ describe("Aadhaar Test", () => {
 describe("PAN Test", () => {
   test("PAN does not exist", async () => {
     await driver.pause(3000);
-    await driver.$("~PANInput").waitForDisplayed({ timeout: 8000 });
-    await driver.$("~PANInput").setValue("ABCDE2004F");
+    await driver.$("~PanInput").waitForDisplayed({ timeout: 8000 });
+    await driver.$("~PanInput").setValue("ABCDE2004F");
     await driver.$("~InfoCard").touchAction({ action: "tap" });
     await driver.$("~PanVerifyBtn").touchAction({ action: "tap" });
     await driver.pause(4000);
     await driver.acceptAlert();
   });
   test("Invalid PAN number", async () => {
-    await driver.$("~PANInput").waitForDisplayed({ timeout: 8000 });
-    await driver.$("~PANInput").setValue("ABCDE4000F");
+    await driver.$("~PanInput").waitForDisplayed({ timeout: 8000 });
+    await driver.$("~PanInput").setValue("ABCDE4000F");
     await driver.$("~InfoCard").touchAction({ action: "tap" });
     await driver.$("~PanVerifyBtn").touchAction({ action: "tap" });
     await driver.pause(4000);
     await driver.acceptAlert();
   });
   test("Valid Pan", async () => {
-    await driver.$("~PANInput").waitForDisplayed({ timeout: 8000 });
-    await driver.$("~PANInput").setValue("ABCDE2000F");
+    await driver.$("~PanInput").waitForDisplayed({ timeout: 8000 });
+    await driver.$("~PanInput").setValue("ABCDE2000F");
     await driver.$("~InfoCard").touchAction({ action: "tap" });
     await driver.$("~PanVerifyBtn").touchAction({ action: "tap" });
     await driver.pause(4000);
