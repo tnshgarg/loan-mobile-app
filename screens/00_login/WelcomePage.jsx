@@ -34,8 +34,9 @@ const WelcomePage = () => {
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
+  
   return (
-    <SafeAreaView style={styles.safeContainer}>
+    <SafeAreaView accessibilityLabel="WelcomePage" style={styles.safeContainer}>
       <LogoHeader
         rightIcon={
           <Icon name="help-circle-outline" size={28} color={COLORS.primary} />
@@ -68,6 +69,7 @@ const WelcomePage = () => {
         </Text>
         <PrimaryButton
           title="Start eKYC"
+          accessibilityLabel="WelcomeBtn"
           onPress={() => {
             requestUserPermission();
             Analytics.trackEvent("WelcomePage", {

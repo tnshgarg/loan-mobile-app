@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
@@ -21,6 +21,8 @@ const OTPScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
+  const [verified, setVerified] = useState(false);
+
   const [otp, setOtp] = useState("");
   const [next, setNext] = useState(false);
   const [back, setBack] = useState(false);
@@ -34,10 +36,11 @@ const OTPScreen = () => {
     dispatch(addCurrentScreen("Otp"));
   }, []);
 
-  useEffect(() => {
-    let interval = setInterval(() => {
-      console.log({ countDownTime });
+  let interval;
 
+  useEffect(() => {
+    interval = setInterval(() => {
+      console.log({ countDownTime });
       if (countDownTime > 0) {
         dispatch(setLoginTimer(countDownTime - 1));
       } else {
@@ -45,8 +48,12 @@ const OTPScreen = () => {
       }
     }, 1000);
 
+    if (countDownTime === 0 || verified) {
+      clearInterval(interval);
+    }
+
     return () => clearInterval(interval);
-  }, [countDownTime]);
+  }, [countDownTime, verified]);
 
   useEffect(() => {
     if (otp.length === 6) {
@@ -103,16 +110,14 @@ const OTPScreen = () => {
       .then((res) => {
         console.log("res: ", res);
         if (res["response"]["status"] === "success") {
+          setVerified(true);
           if (onboarded) {
             navigation.navigate("BackendSync", {
               destination: "HomeStack",
             });
           } else {
-            navigation.navigate("BackendSync", {
-              destination: "WelcomePage",
-            });
+            navigation.navigate("Welcome");
           }
-          dispatch(resetTimer());
           Analytics.trackEvent("OTPScreen|Check|Success", {
             unipeEmployeeId: unipeEmployeeId,
             error: res["response"]["details"],
@@ -142,23 +147,10 @@ const OTPScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.safeContainer}>
-      {/* <LogoHeader
-        leftIcon={
-          <Ionicons name="arrow-back" size={28} color={COLORS.primary} />
-        }
-        leftOnPress={backAction}
-        rightIcon={
-          <Ionicons
-            name="help-circle-outline"
-            size={28}
-            color={COLORS.primary}
-          />
-        }
-      /> */}
+    <SafeAreaView accessibilityLabel="OtpScreen" style={styles.safeContainer}>
       <LogoHeaderBack leftOnPress={backAction} />
       <KeyboardAvoidingWrapper>
-        <View style={styles.safeContainer}>
+        <View accessibilityLabel="OtpKeyboardView" style={styles.safeContainer}>
           <Text style={styles.headline}>Verify mobile number</Text>
           <Text style={styles.subHeadline}>
             Please wait, we will auto verify the OTP sent to
@@ -182,7 +174,7 @@ const OTPScreen = () => {
           </Text>
           <OtpInput otp={otp} setOtp={setOtp} />
 
-          <Text style={styles.subHeadline}>
+          <Text style={styles.subHeadline} accessibilityLabel="OtpText">
             Didn’t receive the secure code?{" "}
             {back ? (
               <Text
@@ -199,6 +191,7 @@ const OTPScreen = () => {
             )}
           </Text>
           <PrimaryButton
+            accessibilityLabel="OtpBtn"
             title="Continue"
             disabled={!next}
             onPress={onSubmitOtp}

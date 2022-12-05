@@ -95,6 +95,7 @@ const PanConfirmApi = (props) => {
           }}
         />
         <Button
+          accessibilityLabel="PanYesBtn"
           title="Yes"
           type="solid"
           uppercase={false}

@@ -49,7 +49,7 @@ const AadhaarOtpApi = (props) => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
-  const backendPush = ({verifyMsg, verifyStatus, verifyTimestamp}) => {
+  const backendPush = ({ verifyMsg, verifyStatus, verifyTimestamp }) => {
     console.log("AadhaarOtpApi aadhaarSlice: ", aadhaarSlice);
     setVerifyMsg(verifyMsg);
     setVerifyStatus(verifyStatus);
@@ -66,7 +66,7 @@ const AadhaarOtpApi = (props) => {
       token: token,
     });
     setLoading(false);
-  }
+  };
 
   const goForFetch = () => {
     setLoading(true);
@@ -90,8 +90,8 @@ const AadhaarOtpApi = (props) => {
               case "1001":
                 setSubmitOTPtxnId(responseJson["data"]["transaction_id"]);
                 backendPush({
-                  verifyMsg: "OTP sent to User", 
-                  verifyStatus: "PENDING", 
+                  verifyMsg: "OTP sent to User",
+                  verifyStatus: "PENDING",
                   verifyTimestamp: responseJson["timestamp"],
                 });
                 dispatch(resetTimer());
@@ -111,8 +111,8 @@ const AadhaarOtpApi = (props) => {
                 break;
               default:
                 backendPush({
-                  verifyMsg: responseJson["data"]["message"], 
-                  verifyStatus: "ERROR", 
+                  verifyMsg: responseJson["data"]["message"],
+                  verifyStatus: "ERROR",
                   verifyTimestamp: verifyTimestamp,
                 });
                 Alert.alert("Error", responseJson["data"]["message"]);
@@ -124,8 +124,8 @@ const AadhaarOtpApi = (props) => {
             }
           } else if (responseJson?.error?.message) {
             backendPush({
-              verifyMsg: responseJson["error"]["message"], 
-              verifyStatus: "ERROR", 
+              verifyMsg: responseJson["error"]["message"],
+              verifyStatus: "ERROR",
               verifyTimestamp: verifyTimestamp,
             });
             Alert.alert("Error", responseJson["error"]["message"]);
@@ -135,8 +135,8 @@ const AadhaarOtpApi = (props) => {
             });
           } else {
             backendPush({
-              verifyMsg: responseJson["message"], 
-              verifyStatus: "ERROR", 
+              verifyMsg: responseJson["message"],
+              verifyStatus: "ERROR",
               verifyTimestamp: verifyTimestamp,
             });
             Alert.alert("Error", responseJson["message"]);
@@ -147,8 +147,8 @@ const AadhaarOtpApi = (props) => {
           }
         } catch (error) {
           backendPush({
-            verifyMsg: error.toString(), 
-            verifyStatus: "ERROR", 
+            verifyMsg: error.toString(),
+            verifyStatus: "ERROR",
             verifyTimestamp: verifyTimestamp,
           });
           Alert.alert("Error", error.toString());
@@ -160,8 +160,8 @@ const AadhaarOtpApi = (props) => {
       })
       .catch((error) => {
         backendPush({
-          verifyMsg: error.toString(), 
-          verifyStatus: "ERROR", 
+          verifyMsg: error.toString(),
+          verifyStatus: "ERROR",
           verifyTimestamp: verifyTimestamp,
         });
         Alert.alert("Error", error.toString());
@@ -173,6 +173,7 @@ const AadhaarOtpApi = (props) => {
   };
   return (
     <PrimaryButton
+      accessibilityLabel={"AadhaarOtpBtn"}
       title={loading ? "Verifying" : props.title || "Continue"}
       disabled={props.disabled}
       loading={loading}

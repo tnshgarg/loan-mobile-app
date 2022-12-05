@@ -80,6 +80,7 @@ const BankFormTemplate = (props) => {
             <Text style={bankform.subTitle}>Enter your Bank Details</Text>
 
             <PopableInput
+              accessibilityLabel="AccHolderName"
               placeholder={"Account Holder Name*"}
               value={accountHolderName}
               onChange={setAccountHolderName}
@@ -90,6 +91,7 @@ const BankFormTemplate = (props) => {
             />
 
             <PopableInput
+              accessibilityLabel={"AccNumber"}
               placeholder={"Bank Account Number*"}
               value={accountNumber}
               onChange={setAccountNumber}
@@ -104,6 +106,7 @@ const BankFormTemplate = (props) => {
             ) : null}
 
             <PopableInput
+              accessibilityLabel={"IfscCode"}
               placeholder={"IFSC Code*"}
               value={ifsc}
               onChange={setIfsc}
@@ -118,6 +121,7 @@ const BankFormTemplate = (props) => {
             ) : null}
 
             <PopableInput
+              accessibilityLabel={"UpiId"}
               placeholder={"UPI ID"}
               value={upi}
               onChange={setUpi}

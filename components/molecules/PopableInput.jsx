@@ -13,9 +13,11 @@ const PopableInput = ({
   placeholder,
   autoCapitalize,
   content,
+  accessibilityLabel,
 }) => {
   return (
     <FormInput
+      accessibilityLabel={accessibilityLabel}
       containerStyle={{ ...styles.container, ...containerStyle }}
       placeholder={placeholder}
       value={value}

@@ -101,6 +101,7 @@ const AadhaarConfirmApi = (props) => {
           }}
         />
         <Button
+          accessibilityLabel="YesButton"
           title="Yes"
           type="solid"
           uppercase={false}

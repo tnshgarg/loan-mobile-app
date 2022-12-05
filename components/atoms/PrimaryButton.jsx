@@ -23,9 +23,11 @@ const PrimaryButton = ({
   title,
   titleStyle,
   onPress,
+  accessibilityLabel,
 }) => {
   return (
     <Button
+      accessibilityLabel={accessibilityLabel}
       uppercase={false}
       title={title}
       titleStyle={[styles.btnText, { ...titleStyle }]}

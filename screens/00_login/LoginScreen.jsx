@@ -31,7 +31,7 @@ import AgreementText from "../../components/organisms/AgreementText";
 import privacyPolicy from "../../templates/docs/PrivacyPolicy.js";
 import termsOfUse from "../../templates/docs/TermsOfUse.js";
 import PushNotification, { Importance } from "react-native-push-notification";
-
+import { STAGE } from "@env";
 const LoginScreen = () => {
   SplashScreen.hide();
   const dispatch = useDispatch();
@@ -126,7 +126,9 @@ const LoginScreen = () => {
   };
 
   useEffect(() => {
-    onPhoneNumberPressed();
+    if (STAGE !== "dev") {
+      onPhoneNumberPressed();
+    }
   }, []);
 
   const backAction = () => {
@@ -210,7 +212,7 @@ const LoginScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.safeContainer}>
+    <SafeAreaView accessibilityLabel="LoginScreen" style={styles.safeContainer}>
       <LogoHeader
         rightIcon={
           <Icon name="help-circle-outline" size={28} color={COLORS.primary} />
@@ -224,6 +226,7 @@ const LoginScreen = () => {
           </Text>
 
           <LoginInput
+            accessibilityLabel="MobileNumber"
             phoneNumber={phoneNumber}
             setPhoneNumber={setPhoneNumber}
           />
@@ -237,6 +240,7 @@ const LoginScreen = () => {
 
           <PrimaryButton
             title="Verify"
+            accessibilityLabel="LoginNextBtn"
             disabled={!next}
             loading={loading}
             onPress={() => signIn()}

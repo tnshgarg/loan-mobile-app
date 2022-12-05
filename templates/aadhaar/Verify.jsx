@@ -11,7 +11,6 @@ import { COLORS, SIZES } from "../../constants/Theme";
 import FormInput from "../../components/atoms/FormInput";
 
 const AadhaarVerifyTemplate = (props) => {
-  
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [resend, setResend] = useState(false);
@@ -33,6 +32,7 @@ const AadhaarVerifyTemplate = (props) => {
         </Text>
 
         <FormInput
+          accessibilityLabel={"AadhaarOtpInput"}
           containerStyle={{
             marginTop: 30,
             width: SIZES.width * 0.6,

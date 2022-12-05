@@ -6,7 +6,7 @@ import { COLORS, FONTS } from "../../constants/Theme";
 
 const InfoCard = ({ info }) => {
   return (
-    <View style={styles.container}>
+    <View accessibilityLabel="InfoCard" style={styles.container}>
       <Icon name="info-outline" size={20} color={COLORS.primary} />
       <Text style={styles.text}>{info}</Text>
     </View>

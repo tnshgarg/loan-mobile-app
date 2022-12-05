@@ -18,7 +18,7 @@ import { useNavigation } from "@react-navigation/core";
 const PanFormTemplate = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  
+
   const [consent, setConsent] = useState(true);
   const [validNumber, setValidNumber] = useState(true);
 
@@ -44,6 +44,7 @@ const PanFormTemplate = (props) => {
         <KeyboardAvoidingWrapper>
           <View>
             <FormInput
+              accessibilityLabel={"PanInput"}
               placeholder={"Enter PAN Number"}
               containerStyle={{ marginVertical: 10 }}
               autoCapitalize="characters"

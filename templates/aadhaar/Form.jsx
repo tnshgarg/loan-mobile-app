@@ -34,6 +34,7 @@ const AadhaarFormTemplate = (props) => {
         <View style={[styles.container, { padding: 0 }]}>
           {/* <Text style={form.formHeader}>Aadhaar Verification</Text> */}
           <FormInput
+            accessibilityLabel={"AadhaarInput"}
             placeholder={"Enter AADHAAR Number"}
             containerStyle={{ marginVertical: 10 }}
             keyboardType="phone-pad"
