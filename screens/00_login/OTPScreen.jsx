@@ -109,7 +109,7 @@ const OTPScreen = () => {
             });
           } else {
             navigation.navigate("BackendSync", {
-              destination: "LoginSuccess",
+              destination: "WelcomePage",
             });
           }
           dispatch(resetTimer());
