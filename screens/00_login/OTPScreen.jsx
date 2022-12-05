@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
@@ -22,6 +22,7 @@ const OTPScreen = () => {
   const navigation = useNavigation();
 
   const [verified, setVerified] = useState(false);
+  const inputRef = useRef();
 
   const [otp, setOtp] = useState("");
   const [next, setNext] = useState(false);
@@ -49,9 +50,9 @@ const OTPScreen = () => {
     }, 1000);
 
     if (countDownTime === 0 || verified) {
+      setBack(true);
       clearInterval(interval);
     }
-
     return () => clearInterval(interval);
   }, [countDownTime, verified]);
 
@@ -81,26 +82,34 @@ const OTPScreen = () => {
         if (res["response"]["status"] === "success") {
           setOtp("");
           setBack(false);
-          dispatch(resetTimer());
+          Alert.alert("OTP resent successfully", "",
+            [
+              { text: "Ok",
+                onPress: () => { 
+                  inputRef.current.focus();
+                  dispatch(resetTimer());
+                }
+              },
+            ]
+          );
           Analytics.trackEvent("OTPScreen|SendSms|Success", {
             unipeEmployeeId: unipeEmployeeId,
           });
-          Alert.alert("OTP resent successfully");
         } else {
+          Alert.alert(res["response"]["status"], res["response"]["details"]);
           Analytics.trackEvent("OTPScreen|SendSms|Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: res["response"]["details"],
           });
-          Alert.alert(res["response"]["status"], res["response"]["details"]);
         }
       })
       .catch((error) => {
         console.log(error.toString());
+        Alert.alert("Error", error.toString());
         Analytics.trackEvent("OTPScreen|SendSms|Error", {
           unipeEmployeeId: unipeEmployeeId,
           error: error.toString(),
         });
-        Alert.alert("Error", error.toString());
       });
   };
 
@@ -172,7 +181,7 @@ const OTPScreen = () => {
               }}
             />
           </Text>
-          <OtpInput otp={otp} setOtp={setOtp} />
+          <OtpInput otp={otp} setOtp={setOtp} inputRef={inputRef} />
 
           <Text style={styles.subHeadline} accessibilityLabel="OtpText">
             Didn’t receive the secure code?{" "}

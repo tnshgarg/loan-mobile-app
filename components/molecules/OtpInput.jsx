@@ -6,9 +6,8 @@ import { TextInput } from "react-native";
 import { useRef } from "react";
 import { useEffect } from "react";
 
-const OtpInput = ({ otp, setOtp }) => {
-  const inputRef = useRef();
-
+const OtpInput = ({ otp, setOtp, inputRef }) => {
+  
   const getNumberView = (val) => {
     return val != "" ? (
       <Text style={{ ...FONTS.h2, color: COLORS.secondary }}>{val}</Text>
