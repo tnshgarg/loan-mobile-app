@@ -297,14 +297,13 @@ describe("Bank Test", () => {
     await driver.pause(5000);
     await driver.acceptAlert();
   });
-  test("Valid Account", async () => {
+  test("Valid Account with Name Mismatch Alert", async () => {
     await driver.$("~AccHolderName").waitForDisplayed({ timeout: 8000 });
-    await driver.$("~AccHolderName").setValue("KARAN XXXX");
+    await driver.$("~AccHolderName").setValue("JOHN DOE");
     await driver.$("~AccNumber").setValue("123456789012");
     await driver.$("~IfscCode").setValue("ABCD0200000");
     await driver.$("~UpiId").setValue("abc@xyz");
     await driver.$("~BankFormBtn").touchAction({ action: "tap" });
-    //TODO: Check for Alert
     await driver.pause(5000);
     await driver.acceptAlert();
     await driver.$("~BankYesBtn").waitForDisplayed({ timeout: 8000 });
@@ -321,12 +320,14 @@ describe("Drawer Test", () => {
     await driver.$("~TermsViewModal").waitForDisplayed({ timeout: 8000 });
     await driver.$("~CloseButton").touchAction("tap");
   });
+
   test("Terms and Privacy Modal", async () => {
     await driver.$("~PrivacyIcon").touchAction("tap");
     await driver.$("~PrivacyViewModal").waitForDisplayed({ timeout: 8000 });
     await driver.$("~CloseButton").touchAction("tap");
     await driver.pause(2000);
   });
+
   test("Aadhaar KYC", async () => {
     await driver.$("~NavigationDrawer").waitForDisplayed({ timeout: 8000 });
     await driver.$("~NavigationDrawer").touchAction("tap");

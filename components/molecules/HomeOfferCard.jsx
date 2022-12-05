@@ -7,6 +7,7 @@ import { getBackendData } from "../../services/employees/employeeServices";
 import { resetEwaHistorical } from "../../store/slices/ewaHistoricalSlice";
 import { resetEwaLive } from "../../store/slices/ewaLiveSlice";
 import PrimaryButton from "../atoms/PrimaryButton";
+import { getNumberOfDays } from "../../helpers/DateFunctions";
 
 const HomeOfferCard = () => {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const HomeOfferCard = () => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
+  const [ewaAccessible, setEwaAccessible] = useState(true);
 
   useEffect(() => {
     console.log("ewaOffersFetch unipeEmployeeId:", unipeEmployeeId);
@@ -28,6 +30,11 @@ const HomeOfferCard = () => {
         .then((response) => {
           if (response.data.status === 200) {
             console.log("ewaOffersFetch response.data: ", response.data);
+            if (getNumberOfDays(response.data.body.live.dueDate) <= 3) {
+              setEwaAccessible(false);
+            } else {
+              setEwaAccessible(true);
+            }
             dispatch(resetEwaLive(response.data.body.live));
             dispatch(resetEwaHistorical(response.data.body.past));
           }
@@ -52,7 +59,8 @@ const HomeOfferCard = () => {
           borderRadius: 5,
           alignSelf: "center",
         }}
-        onPress={() => navigation.navigate("Money", {screen: "EWA"})}
+        disabled={!ewaAccessible}
+        onPress={() => navigation.navigate("Money", { screen: "EWA" })}
       >
         <Text
           style={{
@@ -85,7 +93,8 @@ const HomeOfferCard = () => {
         </Text>
         <PrimaryButton
           title={"Withdraw Now"}
-          onPress={() => navigation.navigate("Money", {screen: "EWA"})}
+          onPress={() => navigation.navigate("Money", { screen: "EWA" })}
+          disabled={!ewaAccessible}
         />
       </TouchableOpacity>
     </SafeAreaView>
