@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  active: false,
   data: {},
   verifyMsg: "",
   verifyStatus: "PENDING",
