@@ -6,7 +6,7 @@ import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import AadhaarFormTemplate from "../../templates/aadhaar/Form";
 import { styles } from "../../styles";
-import Header from "../../components/atoms/Header";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
 const AadhaarForm = () => {
   const dispatch = useDispatch();
@@ -31,11 +31,8 @@ const AadhaarForm = () => {
   }, []);
 
   return (
-    <SafeAreaView accessibilityLabel="AadhaarForm" style={styles.safeContainer}>
-      <Header
-        title="Aadhaar Verification"
-        onLeftIconPress={() => backAction()}
-      />
+    <SafeAreaView style={styles.safeContainer}>
+      <LogoHeaderBack leftOnPress={backAction} />
       <OnboardingProgressBar step={1} />
       <AadhaarFormTemplate />
     </SafeAreaView>

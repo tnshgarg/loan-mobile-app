@@ -130,16 +130,15 @@ export const form = EStyleSheet.create({
     backgroundColor: COLORS.primaryBackground,
     alignItems: "center",
     justifyContent: "center",
-    marginLeft: "10rem",
+    marginLeft: "5rem",
   },
   noButton: {
     flex: 1,
-    width: SIZES.width / 2.5,
     height: SIZES.btnHeight,
     backgroundColor: COLORS.warningBackground,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: "10rem",
+    marginRight: "5rem",
   },
   aadharimg: {
     alignSelf: "center",
@@ -149,7 +148,6 @@ export const form = EStyleSheet.create({
   },
 
   forgotText: {
-    marginTop: "10rem",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",

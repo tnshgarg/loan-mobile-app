@@ -4,10 +4,9 @@ import { Alert, SafeAreaView, BackHandler } from "react-native";
 import { useDispatch } from "react-redux";
 import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import { styles } from "../../styles";
-
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import PanFormTemplate from "../../templates/pan/Form";
-import Header from "../../components/atoms/Header";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
 export default PanForm = () => {
   const dispatch = useDispatch();
@@ -42,16 +41,13 @@ export default PanForm = () => {
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
-        title="PAN Verification"
-        onLeftIconPress={() => backAction()}
-        onRightIconPress={() => SkipPAN()}
-      />
+      <LogoHeaderBack leftOnPress={backAction} />
       <OnboardingProgressBar step={2} />
       <PanFormTemplate />
     </SafeAreaView>

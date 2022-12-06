@@ -1,18 +1,13 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import {
-  Alert,
-  SafeAreaView,
-  ScrollView,
-  BackHandler,
-} from "react-native";
+import { Alert, SafeAreaView, ScrollView, BackHandler } from "react-native";
 import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import PanConfirmApi from "../../apis/pan/Confirm";
-import Header from "../../components/atoms/Header";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
 export default PanConfirm = () => {
   const dispatch = useDispatch();
@@ -36,15 +31,13 @@ export default PanConfirm = () => {
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header 
-        title="PAN Data Confirmation" 
-        onLeftIconPress={() => backAction()} 
-      />
+      <LogoHeaderBack leftOnPress={backAction} />
       <OnboardingProgressBar step={2} />
       <ScrollView keyboardShouldPersistTaps="handled">
         <PanConfirmApi />

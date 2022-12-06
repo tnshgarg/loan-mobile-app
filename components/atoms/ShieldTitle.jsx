@@ -18,7 +18,7 @@ const styles = EStyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    widht: "100%",
+    width: "100%",
     marginVertical: "5rem",
   },
   title: {

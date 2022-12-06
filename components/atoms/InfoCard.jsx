@@ -6,7 +6,7 @@ import { COLORS, FONTS } from "../../constants/Theme";
 
 const InfoCard = ({ info }) => {
   return (
-    <View accessibilityLabel="InfoCard" style={styles.container}>
+    <View style={styles.container}>
       <Icon name="info-outline" size={20} color={COLORS.primary} />
       <Text style={styles.text}>{info}</Text>
     </View>
@@ -15,16 +15,16 @@ const InfoCard = ({ info }) => {
 
 const styles = EStyleSheet.create({
   container: {
-    backgroundColor: COLORS.primaryBackground,
+    //backgroundColor: COLORS.primaryBackground,
     width: "100%",
-    marginTop: "20rem",
-    padding: "10rem",
+    marginVertical: "20rem",
+    // padding: "10rem",
     flex: 0,
     flexDirection: "row",
     alignItems: "flex-start",
     borderRadius: 5,
   },
-  text: { paddingLeft: "10rem", ...FONTS.body4, color: COLORS.black, flex: 1 },
+  text: { paddingLeft: "10rem", ...FONTS.body5, color: COLORS.gray, flex: 1 },
 });
 
 export default InfoCard;

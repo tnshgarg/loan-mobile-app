@@ -24,7 +24,7 @@ const PopableInput = ({
       autoCapitalize={autoCapitalize}
       onChange={onChange}
       appendComponent={
-        <Popable content={content} position="left" caret={false}>
+        <Popable content={content} position="left">
           <Icon name="info-outline" size={20} color="grey" />
         </Popable>
       }

@@ -18,7 +18,7 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import FormInput from "../../components/atoms/FormInput";
 import DropDownForm from "../../components/molecules/DropDownForm";
 import Analytics from "appcenter-analytics";
-import Header from "../../components/atoms/Header";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
 const ProfileForm = () => {
   const dispatch = useDispatch();
@@ -115,15 +115,15 @@ const ProfileForm = () => {
   }, []);
 
   return (
-    <SafeAreaView accessibilityLabel="ProfileForm" style={styles.safeContainer}>
-      <Header title="Setup Profile" onLeftIconPress={() => backAction()} />
+    <SafeAreaView style={styles.safeContainer}>
+      <LogoHeaderBack leftOnPress={backAction} />
 
       <OnboardingProgressBar step={0} />
-      <Text style={form.formHeader}>Employee basic details</Text>
+      <Text style={styles.headline}>Tell us about you</Text>
+      <Text style={styles.subHeadline}>(अपनी जानकारी यहाँ भरें)</Text>
       <KeyboardAvoidingWrapper>
         <View>
           <DropDownForm
-            accessibilityLabel="EducationDropdown"
             placeholder={"Select Education*"}
             containerStyle={{ marginVertical: 10 }}
             value={qualification}
@@ -131,7 +131,6 @@ const ProfileForm = () => {
             data={qualifications}
           />
           <DropDownForm
-            accessibilityLabel="MaritalStatusDropdown"
             placeholder={"Select Maritial Status*"}
             containerStyle={{ marginVertical: 10 }}
             value={maritalStatus}
@@ -139,15 +138,13 @@ const ProfileForm = () => {
             data={maritalStatuses}
           />
           <FormInput
-            accessibilityLabel="MotherNameInput"
             placeholder={"Mother's Name*"}
             containerStyle={{ marginVertical: 10 }}
             value={motherName}
             onChange={setMotherName}
           />
           <FormInput
-            accessibilityLabel="AltPhoneNumberInput"
-            placeholder={"Alternate Phone Number"}
+            placeholder={"Your alternate mobile no."}
             containerStyle={{ marginVertical: 10 }}
             autoCompleteType="tel"
             keyboardType="phone-pad"
@@ -155,8 +152,7 @@ const ProfileForm = () => {
             onChange={setAltMobile}
           />
           <FormInput
-            accessibilityLabel="EmailAddressInput"
-            placeholder={"Email Address*"}
+            placeholder={"Your email ID"}
             containerStyle={{ marginVertical: 10 }}
             autoCompleteType="email"
             keyboardType="email-address"
@@ -164,7 +160,6 @@ const ProfileForm = () => {
             onChange={setEmail}
           />
           <PrimaryButton
-            accessibilityLabel={"ProfileBtn"}
             title="Continue"
             disabled={!next}
             onPress={() => {

@@ -65,12 +65,12 @@ const BankConfirmApi = (props) => {
         }}
       >
         <Button
-          title="No"
+          title="Not Me"
           type="solid"
           uppercase={false}
           style={form.noButton}
           color={COLORS.warning}
-          titleStyle={{ ...FONTS.h3, color: COLORS.warning }}
+          titleStyle={{ ...FONTS.h4, color: COLORS.warning }}
           pressableContainerStyle={{ width: "100%" }}
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
@@ -97,12 +97,12 @@ const BankConfirmApi = (props) => {
         <FuzzyCheck name={data?.accountHolderName} step="Bank Account" />
         <Button
           accessibilityLabel="BankYesBtn"
-          title="Yes"
+          title="Yes, that’s me"
           type="solid"
           uppercase={false}
           style={form.yesButton}
           color={COLORS.primary}
-          titleStyle={{ ...FONTS.h3, color: COLORS.primary }}
+          titleStyle={{ ...FONTS.h4, color: COLORS.primary }}
           pressableContainerStyle={{ width: "100%" }}
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {

@@ -7,6 +7,7 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import AadhaarVerifyTemplate from "../../templates/aadhaar/Verify";
 import Header from "../../components/atoms/Header";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
 const AadhaarVerify = () => {
   const dispatch = useDispatch();
@@ -27,10 +28,7 @@ const AadhaarVerify = () => {
 
   const backAction = () => {
     if (back) {
-      Alert.alert(
-        "OTP Timer",
-        "You must wait for 10 minutes to resend OTP."
-      );
+      Alert.alert("OTP Timer", "You must wait for 10 minutes to resend OTP.");
     } else {
       Alert.alert(
         "Hold on!",
@@ -46,15 +44,13 @@ const AadhaarVerify = () => {
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
-  
+
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
-        title="Aadhaar OTP Verification"
-        onLeftIconPress={() => backAction()}
-      />
+      <LogoHeaderBack leftOnPress={backAction} />
       <OnboardingProgressBar step={1} />
       <AadhaarVerifyTemplate function={backAction} />
     </SafeAreaView>
