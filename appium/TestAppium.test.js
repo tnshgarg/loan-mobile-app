@@ -51,6 +51,10 @@ describe("Login Test", () => {
   });
 
   test("Correct Credentials", async () => {
+    // await driver.pause(3000);
+    // const devMenuLoginBtn = await driver.$("~Login");
+    // await devMenuLoginBtn.touchAction({ action: "tap" });
+
     await driver.$("~MobileNumber").waitForDisplayed({ timeout: 8000 });
     const loginUsernameInput = await driver.$("~MobileNumber");
     await loginUsernameInput.setValue("9999999999");
@@ -71,8 +75,8 @@ describe("Login Test", () => {
     await driver.$("~OtpText").waitForDisplayed({ timeout: 8000 });
     await driver.$("~OtpText").click();
 
-    await driver.$("~OtpButton").waitForDisplayed({ timeout: 8000 });
-    const OtpButton = await driver.$("~OtpButton");
+    await driver.$("~OtpBtn").waitForDisplayed({ timeout: 8000 });
+    const OtpButton = await driver.$("~OtpBtn");
     await OtpButton.touchAction({ action: "tap" });
 
     const WelcomeScreen = await driver.$("~WelcomePage");

@@ -51,7 +51,7 @@ const AadhaarFormTemplate = (props) => {
 
           <InfoCard
             info={
-              "My Mobile number is linked to my Aadhar card & I can receive the OTP on my Aadhar Linked Mobile Number"
+              "My Mobile number is linked to my Aadhaar card & I can receive the OTP on my Aadhaar Linked Mobile Number"
             }
           />
 

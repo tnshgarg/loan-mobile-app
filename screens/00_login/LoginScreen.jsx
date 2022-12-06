@@ -5,9 +5,6 @@ import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
 import SplashScreen from "react-native-splash-screen";
 import { useDispatch, useSelector } from "react-redux";
-import SVGImg from "../../assets/UnipeLogo.svg";
-import FormInput from "../../components/atoms/FormInput";
-import TermsAndPrivacyModal from "../../components/molecules/TermsAndPrivacyModal";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
@@ -26,6 +23,11 @@ import {
 } from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
+import LogoHeader from "../../components/atoms/LogoHeader";
+import Icon from "react-native-vector-icons/Ionicons";
+import ShieldTitle from "../../components/atoms/ShieldTitle";
+import LoginInput from "../../components/molecules/LoginInput";
+import AgreementText from "../../components/organisms/AgreementText";
 import privacyPolicy from "../../templates/docs/PrivacyPolicy.js";
 import termsOfUse from "../../templates/docs/TermsOfUse.js";
 import PushNotification, { Importance } from "react-native-push-notification";
@@ -37,6 +39,7 @@ const LoginScreen = () => {
 
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState(false);
+  const [consent, setConsent] = useState(true);
 
   const authSlice = useSelector((state) => state.auth);
   const [aCTC, setACTC] = useState(authSlice?.aCTC);
@@ -210,93 +213,41 @@ const LoginScreen = () => {
 
   return (
     <SafeAreaView accessibilityLabel="LoginScreen" style={styles.safeContainer}>
+      <LogoHeader
+        rightIcon={
+          <Icon name="help-circle-outline" size={28} color={COLORS.primary} />
+        }
+      />
       <KeyboardAvoidingWrapper>
         <View>
-          <SVGImg style={styles.logo} />
-          <Text style={styles.headline}>
-            Please enter your mobile number to login:
+          <Text style={styles.headline}>Verify your mobile</Text>
+          <Text style={styles.subHeadline}>
+            Your mobile number must be linked to your Aadhaar
           </Text>
 
-          <FormInput
-            testID="MobileNumber"
+          <LoginInput
             accessibilityLabel="MobileNumber"
-            placeholder="Enter mobile number"
-            containerStyle={{ marginVertical: 30 }}
-            autoCompleteType="tel"
-            keyboardType="phone-pad"
-            value={phoneNumber}
-            onChange={setPhoneNumber}
-            autoFocus={true}
-            maxLength={10}
-            prependComponent={
-              <View
-                style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRightWidth: 1,
-                  borderColor: COLORS.gray,
-                  marginRight: 10,
-                  height: "80%",
-                }}
-              >
-                <Text
-                  style={{
-                    ...FONTS.h3,
-                    color: COLORS.black,
-                    paddingRight: 10,
-                    // fontWeight: "bold",
-                  }}
-                >
-                  + 91
-                </Text>
-              </View>
-            }
+            phoneNumber={phoneNumber}
+            setPhoneNumber={setPhoneNumber}
           />
 
-          <Text style={styles.dataUseText}>
-            This number will be used for all communication. You shall receive an
-            SMS with code for verification. By continuing, you agree to our{" "}
-            <Text
-              onPress={() => setIsTermsOfUseModalVisible(true)}
-              style={styles.termsText}
-              testID="TermsModal"
-              accessibilityLabel="TermsModal"
-            >
-              Terms of Service
-            </Text>{" "}
-            &{" "}
-            <Text
-              onPress={() => setIsPrivacyModalVisible(true)}
-              style={styles.termsText}
-            >
-              Privacy Policy
-            </Text>
-          </Text>
+          <AgreementText
+            isTermsOfUseModalVisible={isTermsOfUseModalVisible}
+            setIsTermsOfUseModalVisible={setIsTermsOfUseModalVisible}
+            isPrivacyModalVisible={isPrivacyModalVisible}
+            setIsPrivacyModalVisible={setIsPrivacyModalVisible}
+          />
+
           <PrimaryButton
+            title="Verify"
             accessibilityLabel="LoginNextBtn"
-            title="Continue"
             disabled={!next}
             loading={loading}
             onPress={() => signIn()}
           />
+          <ShieldTitle title={"All your details are safe with us"} />
         </View>
       </KeyboardAvoidingWrapper>
-
-      {isTermsOfUseModalVisible && (
-        <TermsAndPrivacyModal
-          isVisible={isTermsOfUseModalVisible}
-          setIsVisible={setIsTermsOfUseModalVisible}
-          data={termsOfUse}
-        />
-      )}
-
-      {isPrivacyModalVisible && (
-        <TermsAndPrivacyModal
-          isVisible={isPrivacyModalVisible}
-          setIsVisible={setIsPrivacyModalVisible}
-          data={privacyPolicy}
-        />
-      )}
     </SafeAreaView>
   );
 };

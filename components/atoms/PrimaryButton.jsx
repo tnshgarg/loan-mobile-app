@@ -48,8 +48,9 @@ const styles = EStyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: "15rem",
-    //width: "100%",
+    width: "100%",
     height: SIZES.btnHeight,
+    borderRadius: 20,
   },
   loadingButton: {
     backgroundColor: COLORS.primary,

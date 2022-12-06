@@ -86,6 +86,7 @@ Pre-requisites
 For running tests
 
 ```
+// in root directory
 npx appium
-npx jest appium // in root directory
+npx jest appium
 ```
