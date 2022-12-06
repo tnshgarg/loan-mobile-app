@@ -5,13 +5,15 @@ import { styles } from "../../../../styles";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import KycCheckCard from "../../../../components/molecules/KycCheckCard";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
-import Offers from "../../../../components/molecules/DataCard";
+import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import { COLORS, FONTS } from "../../../../constants/Theme";
 import { STAGE } from "@env";
 import { getNumberOfDays } from "../../../../helpers/DateFunctions";
+import GetMoneyCard from "../../../../components/molecules/GetMoneyCard";
+import PayMoneyCard from "../../../../components/molecules/PayMoneyCard";
 
 const EWA = () => {
   const dispatch = useDispatch();
@@ -20,7 +22,7 @@ const EWA = () => {
 
   const [fetched, setFetched] = useState(false);
   const [eligible, setEligible] = useState(false);
-  const [ewaAccessible,setEwaAccessible] = useState(true);
+  const [ewaAccessible, setEwaAccessible] = useState(true);
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -75,10 +77,9 @@ const EWA = () => {
         .then((response) => {
           if (response.data.status === 200) {
             console.log("ewaOffersFetch response.data: ", response.data);
-            if (getNumberOfDays(response.data.body.live.dueDate)<=3){
+            if (getNumberOfDays(response.data.body.live.dueDate) <= 3) {
               setEwaAccessible(false);
-            }
-            else{
+            } else {
               setEwaAccessible(true);
             }
             dispatch(resetEwaLive(response.data.body.live));
@@ -106,52 +107,34 @@ const EWA = () => {
         // panMisMatch < 20 &&
         // bankMisMatch < 20
         <>
-          <Text
-            style={{
-              ...FONTS.body3,
-              marginTop: "5%",
-              marginBottom: "5%",
-              color: COLORS.gray,
-              alignSelf: "center",
-            }}
-          >
-            {aadhaarName} get on demand salary
-          </Text>
-          <Text
-            style={{
-              alignSelf: "center",
-              color: COLORS.primary,
-              ...FONTS.h2,
-            }}
-          >
-            ₹ {ewaLiveSlice?.eligibleAmount}
-          </Text>
+          <GetMoneyCard
+            navigation={navigation}
+            eligible={eligible}
+            amount={"₹" + ewaLiveSlice?.eligibleAmount}
+            progress={ewaLiveSlice?.loanAmount / ewaLiveSlice?.eligibleAmount}
+          />
 
-          <View style={{ marginHorizontal: "10%" }}>
-            <PrimaryButton
-              title={!ewaAccessible ? "Offer inactive" : (!eligible ? "No Active Offer" : "Get Money Now")}
-              disabled={!eligible || !ewaAccessible}
-              onPress={() => {
-                navigation.navigate("EWA_OFFER");
-              }}
-            />
-          </View>
+          <PayMoneyCard
+            navigation={navigation}
+            amount={"₹" + ewaLiveSlice?.loanAmount}
+            dueDate={ewaLiveSlice?.dueDate}
+          />
 
           <View style={{ padding: "1.5%" }}>
             <Text
               style={{
-                ...FONTS.h3,
+                ...FONTS.h4,
                 color: COLORS.gray,
                 marginTop: "5%",
               }}
             >
               Your past draws
             </Text>
-            <Offers data={ewaHistoricalSlice} />
+            <PastDrawsCard data={ewaHistoricalSlice} />
           </View>
         </>
       ) : (
-        <View style={[styles.container, { padding: 0 }]}>
+        <View style={[styles.safeContainer]}>
           <Text
             style={{
               color: COLORS.warning,
@@ -162,6 +145,7 @@ const EWA = () => {
           >
             You are not eligible for Advanced Salary.
           </Text>
+          <KycCheckCard />
         </View>
       )}
     </SafeAreaView>
