@@ -4,12 +4,12 @@ import NetInfo, {
 import React, { useEffect, useState } from "react";
 import { Alert, Modal, Text, TouchableOpacity, View } from "react-native";
 import { AddListener } from "../../helpers/InternetCheck";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { showToast } from "../atoms/Toast";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import PrimaryButton from "../atoms/PrimaryButton";
-
+import Offline from "../../assets/Offline.svg";
+import LogoHeader from "../atoms/LogoHeader";
 const OfflineAlert = ({ children }) => {
   const [isConnected, setIsConnected] = useState(true);
 
@@ -34,49 +34,16 @@ const OfflineAlert = ({ children }) => {
       ) : (
         <>
           <Modal animationType="fade" visible={true}>
+            <LogoHeader />
             <View style={styles.modalContainer}>
-              <View style={styles.iconContainer}>
-                <Icon
-                  name="web-refresh"
-                  size={SIZES.width * 0.2}
-                  color={COLORS.warning}
-                  onPress={() => {
-                    NetInfo.refresh();
-                    showToast("Trying to Connect to the internet");
-                  }}
-                />
-              </View>
-              <Text style={styles.title}>
-                You are offline. Please check your internet connection and try
-                again.
-              </Text>
+              <Offline />
+
+              <Text style={styles.title}>No Internet</Text>
 
               <Text style={styles.subtitle}>
-                Do not worry , everything you did till you lost your connection
-                to the internet has been saved!{"\n"}
+                Please check your internet connection
               </Text>
-              <Text style={styles.subtitle}>
-                On recconecting you can continue from right where you left off.
-              </Text>
-              <View style={{ justifyContent: "flex-end", marginTop: "5%" }}>
-                <Text style={styles.subtitle}>
-                  Go to Settings-&gt; Wifi-&gt; Switch wifi on and connect to a
-                  known network
-                </Text>
-                <Text
-                  style={{
-                    alignSelf: "center",
-                    marginTop: "5%",
-                    ...styles.subtitle,
-                  }}
-                >
-                  -OR-{"\n"}
-                </Text>
-                <Text style={styles.subtitle}>
-                  Go to Settings-&gt; Data Usage-&gt; Switch on Mobile
-                  Data/Cellular Data -&gt; Switch mobile data on
-                </Text>
-              </View>
+
               <PrimaryButton
                 title={"Refresh"}
                 onPress={() => {
@@ -113,15 +80,16 @@ const styles = EStyleSheet.create({
     //alignSelf: "center",
   },
   title: {
-    ...FONTS.h4,
-    color: COLORS.warning,
+    ...FONTS.h3,
+    color: COLORS.secondary,
     textAlign: "center",
     //width: "70%",
-    marginVertical: "20rem",
+    marginTop: "20rem",
   },
   subtitle: {
     ...FONTS.body4,
     color: COLORS.gray,
+    marginBottom: "20rem",
     //textAlign: "center",
     //width: "70%",
   },
