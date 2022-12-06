@@ -47,6 +47,7 @@ const PanFormTemplate = (props) => {
             </Text>
             {/* Need to change hindi text over here */}
             <FormInput
+              accessibilityLabel={"PanInput"}
               placeholder={"PAN Number"}
               containerStyle={{ marginVertical: 10 }}
               keyboardType="phone-pad"
