@@ -37,11 +37,20 @@ const BankConfirmApi = (props) => {
 
   const cardData = () => {
     var res = [
+      {
+        subTitle: "AccountHolderName",
+        value: data?.accountHolderName,
+        fullWidth: true,
+      },
+      {
+        subTitle: "AccountNumber",
+        value: data?.accountNumber,
+        fullWidth: true,
+      },
       { subTitle: "Bank Name", value: data?.bankName },
       { subTitle: "Branch Name", value: data?.branchName },
       { subTitle: "Branch City", value: data?.branchCity },
-      { subTitle: "AccountHolderName", value: data?.accountHolderName },
-      { subTitle: "AccountNumber", value: data?.accountNumber },
+
       { subTitle: "IFSC", value: data?.ifsc },
       { subTitle: "UPI", value: data?.upi },
     ];
@@ -50,11 +59,7 @@ const BankConfirmApi = (props) => {
 
   return (
     <View style={styles.container}>
-      <CollapsibleCard
-        data={cardData()}
-        title="Are these your Bank details ?"
-        isClosed={false}
-      />
+      <DetailsCard data={cardData()} />
 
       <View
         style={{

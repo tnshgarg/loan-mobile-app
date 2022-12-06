@@ -17,6 +17,7 @@ export default PanForm = () => {
   }, []);
 
   const SkipPAN = () => {
+    console.log("first");
     Alert.alert(
       "Skip PAN Verification",
       `If you want to receive advance salary, PAN KYC is required. Are you sure, you want to skip this step?`,
@@ -47,7 +48,11 @@ export default PanForm = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <LogoHeaderBack leftOnPress={backAction} />
+      <LogoHeaderBack
+        leftOnPress={backAction}
+        rightOnPress={SkipPAN}
+        skipEnabled={true}
+      />
       <OnboardingProgressBar step={2} />
       <PanFormTemplate />
     </SafeAreaView>

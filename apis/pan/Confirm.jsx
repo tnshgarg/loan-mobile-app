@@ -58,13 +58,7 @@ const PanConfirmApi = (props) => {
       <Text style={styles.subHeadline}>
         क्या ये स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
       </Text>
-      <DetailsCard
-        data={cardData()}
-        imageUri={{
-          uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
-          cache: "only-if-cached",
-        }}
-      />
+      <DetailsCard data={cardData()} />
 
       <View
         style={{
