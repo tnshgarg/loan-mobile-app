@@ -385,7 +385,9 @@ export const datacard = EStyleSheet.create({
     width: "100%",
     borderRadius: 5,
     flexDirection: "row",
-    backgroundColor: "rgba(228, 238, 240, 0.4)",
+    backgroundColor: COLORS.cardBackground,
+    borderWidth: 0.5,
+    borderColor: COLORS.lightGray,
     justifyContent: "space-between",
   },
   cardTitle: {
