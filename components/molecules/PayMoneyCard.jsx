@@ -1,11 +1,96 @@
-import { View, Text } from "react-native";
+import { useIsFocused } from "@react-navigation/core";
+import Analytics from "appcenter-analytics";
+import React, { useEffect, useState } from "react";
+import { Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import React from "react";
-import { COLORS, FONTS } from "../../constants/Theme";
-import PrimaryButton from "../atoms/PrimaryButton";
+import RazorpayCheckout from "react-native-razorpay";
 import { Icon } from "@react-native-material/core";
+import { useSelector } from "react-redux";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { createPaymentOrder } from "../../services/checkout/StandardCheckout";
+import { RZP_KEY_ID } from "../../services/constants";
+import { getBackendData } from "../../services/employees/employeeServices";
+import PrimaryButton from "../atoms/PrimaryButton";
+import { showToast } from "../atoms/Toast";
 
-const PayMoneyCard = ({ info, navigation, dueDate, amount }) => {
+const PayMoneyCard = () => {
+  const isFocused = useIsFocused();
+
+  const phoneNumber = useSelector((state) => state.auth?.phoneNumber);
+  const email = useSelector(
+    (state) => state.profile?.email || state.pan?.data?.email
+  );
+  const accountHolderName = useSelector(
+    (state) => state.bank?.data?.accountHolderName
+  );
+  const extCustomerId = useSelector(
+    (state) => state.mandate.data.extCustomerId
+  );
+  const [repaymentOrderId, setRepaymentOrderId] = useState(null);
+  const [dueDate, setDueDate] = useState(null);
+  const [repaymentAmount, setRepaymentAmount] = useState(null);
+  const [repaymentId, setRepaymentId] = useState(null);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const token = useSelector((state) => state.auth.token);
+
+  useEffect(() => {
+    console.log("createMandate orderId: ", repaymentOrderId, !repaymentOrderId);
+    if (repaymentOrderId) {
+      var options = {
+        description: "Unipe Early Loan Repayment",
+        name: "Unipe",
+        key: RZP_KEY_ID,
+        order_id: repaymentOrderId,
+        customer_id: extCustomerId,
+        prefill: {
+          name: accountHolderName,
+          email: email,
+          contact: phoneNumber,
+        },
+        theme: { color: COLORS.primary },
+      };
+      RazorpayCheckout.open(options)
+        .then((data) => {
+          console.log("RazorpayCheckout data: ", data);
+          Analytics.trackEvent("Ewa|Repayment|Success", {
+            unipeEmployeeId: unipeEmployeeId,
+          });
+          showToast("Loan Payment Successful");
+        })
+        .catch((error) => {
+          console.log("checkout error:", error.description);
+          Analytics.trackEvent("Ewa|Repayment|Error", {
+            unipeEmployeeId: unipeEmployeeId,
+            error: error.toString(),
+          });
+          showToast("Loan Payment Failed. Please try again.");
+        });
+    }
+  }, [repaymentOrderId]);
+
+  useEffect(() => {
+    if (isFocused && unipeEmployeeId) {
+      getBackendData({
+        params: { unipeEmployeeId: unipeEmployeeId },
+        xpath: "ewa/repayment",
+        token: token,
+      })
+        .then((response) => {
+          if (response.data.status === 200) {
+            console.log("ewaRepaymentsFetch response.data: ", response.data);
+            setDueDate(response.data.body.dueDate);
+            setRepaymentAmount(response.data.body.amount);
+            setRepaymentId(response.data.body.repaymentId);
+          } else {
+            console.log("ewaRepaymentsFetch error: ", response.data);
+          }
+        })
+        .catch((error) => {
+          console.log("ewaRepaymentsFetch error: ", error.toString());
+        });
+    }
+  }, [isFocused, unipeEmployeeId]);
+
   return (
     <View style={styles.container}>
       <View style={styles.row}>
@@ -22,14 +107,36 @@ const PayMoneyCard = ({ info, navigation, dueDate, amount }) => {
             <Text
               style={[styles.text, { ...FONTS.h3, color: COLORS.secondary }]}
             >
-              {amount}
+              ₹{repaymentAmount}
             </Text>
           </View>
         </View>
         <PrimaryButton
           title={"Pay now"}
           onPress={() => {
-            navigation.navigate("EWA_OFFER");
+            createPaymentOrder({
+              amount: repaymentAmount,
+              repaymentId: repaymentId,
+            })
+              .then((response) => {
+                if (response.status === 200) {
+                  setRepaymentOrderId(response.data.id);
+                  console.log(
+                    "createRepaymentOrder response.data.body: ",
+                    response.data
+                  );
+                  Analytics.trackEvent("Ewa|RepaymentOrder|Success", {
+                    unipeEmployeeId: unipeEmployeeId,
+                  });
+                }
+              })
+              .catch((error) => {
+                console.log("createRepaymentOrder error: ", error);
+                Analytics.trackEvent("Ewa|Repayment|Error", {
+                  unipeEmployeeId: unipeEmployeeId,
+                  error: error.toString(),
+                });
+              });
           }}
           containerStyle={{ width: null, marginTop: 0, height: 40 }}
           titleStyle={{ ...FONTS.h5 }}

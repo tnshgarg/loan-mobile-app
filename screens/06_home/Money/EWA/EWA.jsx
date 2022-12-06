@@ -110,6 +110,7 @@ const EWA = () => {
           <GetMoneyCard
             navigation={navigation}
             eligible={eligible}
+            ewaAccessible = {ewaAccessible}
             amount={"₹" + ewaLiveSlice?.eligibleAmount}
             progress={ewaLiveSlice?.loanAmount / ewaLiveSlice?.eligibleAmount}
           />
