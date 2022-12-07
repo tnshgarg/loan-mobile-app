@@ -12,6 +12,7 @@ import { RZP_KEY_ID } from "../../services/constants";
 import { getBackendData } from "../../services/employees/employeeServices";
 import PrimaryButton from "../atoms/PrimaryButton";
 import { showToast } from "../atoms/Toast";
+import { getNumberOfDays } from "../../helpers/DateFunctions";
 
 const PayMoneyCard = () => {
   const isFocused = useIsFocused();
@@ -28,6 +29,7 @@ const PayMoneyCard = () => {
   );
   const [repaymentOrderId, setRepaymentOrderId] = useState(null);
   const [dueDate, setDueDate] = useState(null);
+  const [overdueDays, setOverdueDays] = useState(null);
   const [repaymentAmount, setRepaymentAmount] = useState(null);
   const [repaymentId, setRepaymentId] = useState(null);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -78,7 +80,13 @@ const PayMoneyCard = () => {
         .then((response) => {
           if (response.data.status === 200) {
             console.log("ewaRepaymentsFetch response.data: ", response.data);
-            setDueDate(response.data.body.dueDate);
+            setDueDate(response.data.body.dueDate?.split(" ")[0]);
+            setOverdueDays(
+              getNumberOfDays({
+                date: dueDate?.replace(/-/g, "/"),
+                formatted: true,
+              })
+            );
             setRepaymentAmount(response.data.body.amount);
             setRepaymentId(response.data.body.repaymentId);
           } else {
@@ -138,8 +146,7 @@ const PayMoneyCard = () => {
                     error: error.toString(),
                   });
                 });
-            }
-            else{
+            } else {
               showToast("No amount due");
             }
           }}
@@ -147,10 +154,20 @@ const PayMoneyCard = () => {
           titleStyle={{ ...FONTS.h5 }}
         />
       </View>
-      <View style={styles.bottomCard} opactiy={0.3}>
-        <Icon name="info-outline" size={18} color={COLORS.white} />
-        <Text style={[styles.text, { marginLeft: 5 }]}>Due by {dueDate}</Text>
-      </View>
+      {console.log("overdueDays: ", overdueDays)}
+      {overdueDays < 0 ? (
+        <View style={styles.bottomCardOverdue} opactiy={0.3}>
+          <Icon name="info-outline" size={18} color={COLORS.white} />
+          <Text style={[styles.text, { marginLeft: 5 }]}>
+            Your repayment is overdue by {-overdueDays} days
+          </Text>
+        </View>
+      ) : (
+        <View style={styles.bottomCard} opactiy={0.3}>
+          <Icon name="info-outline" size={18} color={COLORS.white} />
+          <Text style={[styles.text, { marginLeft: 5 }]}>Due by {dueDate}</Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -177,6 +194,18 @@ const styles = EStyleSheet.create({
     backgroundColor: COLORS.moneyCardBg,
     borderTopWidth: 1.5,
     borderColor: COLORS.lightGray,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
+    opactiy: 0.5,
+    flexDirection: "row",
+  },
+  bottomCardOverdue: {
+    paddingHorizontal: "15rem",
+    paddingVertical: "10rem",
+    alignItems: "center",
+    backgroundColor: COLORS.warning,
+    borderTopWidth: 1.5,
+    borderColor: COLORS.warningBackground,
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
     opactiy: 0.5,

@@ -30,7 +30,9 @@ const HomeOfferCard = () => {
         .then((response) => {
           if (response.data.status === 200) {
             console.log("ewaOffersFetch response.data: ", response.data);
-            if (getNumberOfDays(response.data.body.live.dueDate) <= 3) {
+            if (
+              getNumberOfDays({ date: response.data.body.live.dueDate }) <= 3
+            ) {
               setEwaAccessible(false);
             } else {
               setEwaAccessible(true);
