@@ -14,17 +14,11 @@ const AadhaarVerify = () => {
   const navigation = useNavigation();
 
   const [back, setBack] = useState(false);
-  const countDownTime = useSelector((state) => state.timer.aadhaar);
+  const inputRef = useRef();
 
   useEffect(() => {
     dispatch(addCurrentScreen("AadhaarVerify"));
   }, []);
-
-  useEffect(() => {
-    if (countDownTime < 1) {
-      setBack(true);
-    }
-  }, [countDownTime]);
 
   const backAction = () => {
     if (back) {
@@ -52,7 +46,12 @@ const AadhaarVerify = () => {
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack leftOnPress={backAction} />
       <OnboardingProgressBar step={1} />
-      <AadhaarVerifyTemplate function={backAction} />
+      <AadhaarVerifyTemplate
+        function={backAction}
+        inputRef={inputRef}
+        back={back}
+        setBack={setBack}
+      />
     </SafeAreaView>
   );
 };

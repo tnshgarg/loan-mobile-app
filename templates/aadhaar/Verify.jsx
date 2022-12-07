@@ -12,7 +12,6 @@ import OtpInput from "../../components/molecules/OtpInput";
 const AadhaarVerifyTemplate = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [resend, setResend] = useState(false);
   const [otp, setOtp] = useState("");
   const [validOtp, setValidOtp] = useState(true);
   const countDownTime = useSelector((state) => state.timer.aadhaar);
@@ -26,7 +25,7 @@ const AadhaarVerifyTemplate = (props) => {
       if (countDownTime > 0) {
         dispatch(setAadhaarTimer(countDownTime - 1));
       } else {
-        setResend(true);
+        props.setBack(true);
       }
     }, 1000);
 
@@ -35,7 +34,7 @@ const AadhaarVerifyTemplate = (props) => {
         navigation.navigate("KYC", {
           screen: "Aadhaar",
         });
-      setResend(true);
+      props.setBack(true);
       clearInterval(interval);
     }
     return () => clearInterval(interval);
@@ -57,15 +56,17 @@ const AadhaarVerifyTemplate = (props) => {
           otp={otp}
           setOtp={setOtp}
           accessibilityLabel={"AadhaarOtpInput"}
+          inputRef={props.inputRef}
         />
 
         <Text style={styles.subHeadline} accessibilityLabel="OtpText">
           Didn’t receive the secure code?{" "}
-          {resend ? (
+          {props.back ? (
             <AadhaarOtpApi
               data={{ aadhaar_number: number, consent: "Y" }}
               type={props?.route?.params?.type || ""}
               textButton={true}
+              inputRef={props.inputRef}
             />
           ) : (
             <Text style={{ color: COLORS.secondary }}>

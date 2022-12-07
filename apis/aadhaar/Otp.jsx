@@ -96,6 +96,7 @@ const AadhaarOtpApi = (props) => {
                   verifyTimestamp: responseJson["timestamp"],
                 });
                 dispatch(resetTimer());
+                props.inputRef.current.focus();
                 Analytics.trackEvent("Aadhaar|Otp|Success", {
                   unipeEmployeeId: unipeEmployeeId,
                 });
