@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import { Alert, SafeAreaView, BackHandler } from "react-native";
 import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import AadhaarVerifyTemplate from "../../templates/aadhaar/Verify";
-import Header from "../../components/atoms/Header";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
 const AadhaarVerify = () => {
@@ -47,7 +46,6 @@ const AadhaarVerify = () => {
       <LogoHeaderBack leftOnPress={backAction} />
       <OnboardingProgressBar step={1} />
       <AadhaarVerifyTemplate
-        function={backAction}
         inputRef={inputRef}
         back={back}
         setBack={setBack}

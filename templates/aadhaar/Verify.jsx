@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import AadhaarVerifyApi from "../../apis/aadhaar/Verify";
-import { useNavigation } from "@react-navigation/core";
 import { setAadhaarTimer } from "../../store/slices/timerSlice";
 import AadhaarOtpApi from "../../apis/aadhaar/Otp";
-import { form, styles } from "../../styles";
-import { COLORS, SIZES } from "../../constants/Theme";
+import { styles } from "../../styles";
+import { COLORS } from "../../constants/Theme";
 import OtpInput from "../../components/molecules/OtpInput";
 
 const AadhaarVerifyTemplate = (props) => {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+  const inputRef = useRef();
+
+  const [resend, setResend] = useState(false);
   const [otp, setOtp] = useState("");
   const [validOtp, setValidOtp] = useState(true);
+
   const countDownTime = useSelector((state) => state.timer.aadhaar);
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const [number, setNumber] = useState(aadhaarSlice?.number);
@@ -30,13 +32,10 @@ const AadhaarVerifyTemplate = (props) => {
     }, 1000);
 
     if (countDownTime === 0 || verified) {
-      props.function ||
-        navigation.navigate("KYC", {
-          screen: "Aadhaar",
-        });
-      props.setBack(true);
+      setResend(true);
       clearInterval(interval);
     }
+    
     return () => clearInterval(interval);
   }, [countDownTime, verified]);
 
@@ -55,6 +54,7 @@ const AadhaarVerifyTemplate = (props) => {
         <OtpInput
           otp={otp}
           setOtp={setOtp}
+          inputRef={inputRef}
           accessibilityLabel={"AadhaarOtpInput"}
           inputRef={props.inputRef}
         />

@@ -140,7 +140,7 @@ const ProfileForm = () => {
             data={maritalStatuses}
           />
           <FormInput
-            ccessibilityLabel="MotherNameInput"
+            accessibilityLabel="MotherNameInput"
             placeholder={"Mother's Name*"}
             containerStyle={{ marginVertical: 10 }}
             value={motherName}
