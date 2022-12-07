@@ -114,29 +114,34 @@ const PayMoneyCard = () => {
         <PrimaryButton
           title={"Pay now"}
           onPress={() => {
-            createPaymentOrder({
-              amount: repaymentAmount,
-              repaymentId: repaymentId,
-            })
-              .then((response) => {
-                if (response.status === 200) {
-                  setRepaymentOrderId(response.data.id);
-                  console.log(
-                    "createRepaymentOrder response.data.body: ",
-                    response.data
-                  );
-                  Analytics.trackEvent("Ewa|RepaymentOrder|Success", {
-                    unipeEmployeeId: unipeEmployeeId,
-                  });
-                }
+            if (repaymentAmount > 0) {
+              createPaymentOrder({
+                amount: repaymentAmount,
+                repaymentId: repaymentId,
               })
-              .catch((error) => {
-                console.log("createRepaymentOrder error: ", error);
-                Analytics.trackEvent("Ewa|Repayment|Error", {
-                  unipeEmployeeId: unipeEmployeeId,
-                  error: error.toString(),
+                .then((response) => {
+                  if (response.status === 200) {
+                    setRepaymentOrderId(response.data.id);
+                    console.log(
+                      "createRepaymentOrder response.data.body: ",
+                      response.data
+                    );
+                    Analytics.trackEvent("Ewa|RepaymentOrder|Success", {
+                      unipeEmployeeId: unipeEmployeeId,
+                    });
+                  }
+                })
+                .catch((error) => {
+                  console.log("createRepaymentOrder error: ", error);
+                  Analytics.trackEvent("Ewa|Repayment|Error", {
+                    unipeEmployeeId: unipeEmployeeId,
+                    error: error.toString(),
+                  });
                 });
-              });
+            }
+            else{
+              showToast("No amount due");
+            }
           }}
           containerStyle={{ width: null, marginTop: 0, height: 40 }}
           titleStyle={{ ...FONTS.h5 }}
