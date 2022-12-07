@@ -39,7 +39,7 @@ const HomeView = () => {
     }
   }, [aadhaarStatus, bankStatus, panStatus]);
 
-  var [campaignId, setCampaignId] = useState(null);
+  var [campaignId, setCampaignId] = useState(useSelector((state) => state.auth.campaignId));
 
   useEffect(() => {
     dispatch(addCurrentScreen("Home"));
@@ -69,7 +69,7 @@ const HomeView = () => {
         default:
           break;
       }
-      switch (splitted[4].toLowerCase()) {
+      switch (splitted[4]?.toLowerCase()) {
         case "campaign":
           console.log("campaignId", splitted[5]);
           setCampaignId(splitted[5]);
@@ -79,6 +79,7 @@ const HomeView = () => {
       }
     } else {
       console.log("No intent. User opened App.");
+      console.log("campaignId", campaignId)
     }
   };
 
