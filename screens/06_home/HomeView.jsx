@@ -64,15 +64,15 @@ const HomeView = () => {
       console.log("route", splitted[3]);
       switch (splitted[3].toLowerCase()) {
         case "ewa":
+          switch (splitted[4]?.toLowerCase()) {
+            case "campaign":
+              console.log("campaignId", splitted[5]);
+              setCampaignId(splitted[5]);
+              break;
+            default:
+              break;
+          }
           navigation.navigate("Money");
-          break;
-        default:
-          break;
-      }
-      switch (splitted[4]?.toLowerCase()) {
-        case "campaign":
-          console.log("campaignId", splitted[5]);
-          setCampaignId(splitted[5]);
           break;
         default:
           break;
