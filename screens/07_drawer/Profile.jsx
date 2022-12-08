@@ -58,9 +58,7 @@ const Profile = ({ navigation }) => {
           ))}
         </View>
 
-        <View
-          style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 20 }}
-        >
+        <View style={{ flex: 1, justifyContent: "flex-end" }}>
           <PrimaryButton
             containerStyle={{ marginTop: 20 }}
             title="Update"

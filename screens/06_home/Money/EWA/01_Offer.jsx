@@ -64,7 +64,12 @@ const Offer = () => {
   }, [deviceId, ipAddress]);
 
   const backAction = () => {
-    navigation.navigate("EWA");
+    navigation.navigate("HomeStack", {
+      screen: "DrawerHome",
+      params: {
+        screen: "Money",
+      },
+    });
     return true;
   };
 
@@ -164,8 +169,8 @@ const Offer = () => {
     <SafeAreaView style={styles.safeContainer}>
       <Header title="Advance Salary" onLeftIconPress={() => backAction()} />
       <View style={styles.container}>
-        <MoneySilder />
-        {/* <FormInput
+        {/* <MoneySilder /> */}
+        <FormInput
           placeholder="Enter amount"
           containerStyle={{ marginVertical: 10, marginHorizontal: 50 }}
           inputStyle={{ ...FONTS.h2, width: 20 }}
@@ -208,7 +213,7 @@ const Offer = () => {
             renderStepIndicator={renderStepIndicator}
             labels={data}
           />
-        </View> */}
+        </View>
 
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <CheckBox

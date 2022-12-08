@@ -16,12 +16,16 @@ import termsOfUse from "../../../templates/docs/TermsOfUse";
 import privacyPolicy from "../../../templates/docs/PrivacyPolicy";
 import TermsAndPrivacyModal from "../../../components/molecules/TermsAndPrivacyModal";
 import { showToast } from "../../../components/atoms/Toast";
+import { useNavigation } from "@react-navigation/native";
+import LogoutModal from "../../../components/organisms/LogoutModal";
 
 const Account = (props) => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const [isPrivacyModalVisible, setIsPrivacyModalVisible] = useState(false);
   const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
     useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const image = useSelector((state) => state.aadhaar.data.photo_base64);
   const name = useSelector(
     (state) => state.aadhaar.data?.name || state.pan.data?.name || "User"
@@ -30,10 +34,10 @@ const Account = (props) => {
   const onLogout = () => {
     showToast("Logging out");
     dispatch({ type: "LOGOUT" });
-    //setModalVisible(true);
+    setModalVisible(true);
     setTimeout(() => {
-      // setModalVisible(false);
-      props.navigation.navigate("OnboardingStack", { screen: "Login" });
+      setModalVisible(false);
+      navigation.navigate("OnboardingStack", { screen: "Login" });
     }, 5000);
   };
   const options = [
@@ -73,7 +77,7 @@ const Account = (props) => {
       title: "Logout",
       subtitle: "Logout from Unipe App",
       iconName: "exit-to-app",
-      action: () => {},
+      action: () => onLogout(),
     },
   ];
 
@@ -180,6 +184,7 @@ const Account = (props) => {
           data={privacyPolicy}
         />
       )}
+      {modalVisible && <LogoutModal modalVisible={modalVisible} />}
     </SafeAreaView>
   );
 };
