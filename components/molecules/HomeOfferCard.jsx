@@ -4,11 +4,10 @@ import { useSelector } from "react-redux";
 import GetMoneyCard from "./GetMoneyCard";
 import PayMoneyCard from "./PayMoneyCard";
 
-const HomeOfferCard = ({ eligible, ewaAccessible }) => {
+const HomeOfferCard = ({ eligible, ewaAccessible, ewaLiveSlice }) => {
   const navigation = useNavigation();
-  const ewaLiveSlice = useSelector((state) => state.ewaLive);
 
-  console.log({ eligible, ewaAccessible });
+  console.log({ ewaLiveSlice });
 
   // return (
   //   <SafeAreaView>
