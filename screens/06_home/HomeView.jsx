@@ -23,6 +23,8 @@ import { COLORS } from "../../constants/Theme";
 import { getBackendData } from "../../services/employees/employeeServices";
 import { resetEwaHistorical } from "../../store/slices/ewaHistoricalSlice";
 import { resetEwaLive } from "../../store/slices/ewaLiveSlice";
+import { getNumberOfDays } from "../../helpers/DateFunctions";
+import { STAGE } from "@env";
 
 const HomeView = () => {
   const navigation = useNavigation();
@@ -174,7 +176,11 @@ const HomeView = () => {
       />
       <View style={styles.container}>
         {allAreNull(message) ? (
-          <HomeOfferCard eligible={eligible} ewaAccessible={ewaAccessible} />
+          <HomeOfferCard
+            eligible={eligible}
+            ewaAccessible={ewaAccessible}
+            ewaLiveSlice={ewaLiveSlice}
+          />
         ) : (
           <KycCheckCard />
         )}
