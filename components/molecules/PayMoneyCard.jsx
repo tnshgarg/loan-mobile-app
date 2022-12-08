@@ -155,19 +155,23 @@ const PayMoneyCard = () => {
         />
       </View>
       {console.log("overdueDays: ", overdueDays)}
-      {overdueDays < 0 ? (
-        <View style={styles.bottomCardOverdue} opactiy={0.3}>
-          <Icon name="info-outline" size={18} color={COLORS.white} />
-          <Text style={[styles.text, { marginLeft: 5 }]}>
-            Your repayment is overdue by {-overdueDays} days
-          </Text>
-        </View>
-      ) : (
-        <View style={styles.bottomCard} opactiy={0.3}>
-          <Icon name="info-outline" size={18} color={COLORS.white} />
-          <Text style={[styles.text, { marginLeft: 5 }]}>Due by {dueDate}</Text>
-        </View>
-      )}
+
+      <View
+        style={[
+          styles.bottomCard,
+          {
+            backgroundColor:
+              overdueDays < 0 ? COLORS.warning : COLORS.moneyCardBg,
+          },
+        ]}
+      >
+        <Icon name="info-outline" size={18} color={COLORS.white} />
+        <Text style={[styles.text, { marginLeft: 5 }]}>
+          {overdueDays < 0
+            ? `Your repayment is overdue by ${-overdueDays} days`
+            : `Due by ${dueDate}`}
+        </Text>
+      </View>
     </View>
   );
 };
@@ -199,19 +203,6 @@ const styles = EStyleSheet.create({
     opactiy: 0.5,
     flexDirection: "row",
   },
-  bottomCardOverdue: {
-    paddingHorizontal: "15rem",
-    paddingVertical: "10rem",
-    alignItems: "center",
-    backgroundColor: COLORS.warning,
-    borderTopWidth: 1.5,
-    borderColor: COLORS.warningBackground,
-    borderBottomLeftRadius: 5,
-    borderBottomRightRadius: 5,
-    opactiy: 0.5,
-    flexDirection: "row",
-  },
-
   col: {
     flexDirection: "column",
     alignItems: "flex-start",

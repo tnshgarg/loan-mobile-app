@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
-import { Linking, SafeAreaView } from "react-native";
+import { Linking, SafeAreaView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import HomeOfferCard from "../../components/molecules/HomeOfferCard";
 import PushNotification from "react-native-push-notification";
@@ -17,6 +17,9 @@ import {
   notificationListener,
   requestUserPermission,
 } from "../../services/notifications/notificationService";
+import LogoHeader from "../../components/atoms/LogoHeader";
+import { MaterialCommunityIcons, Ionicons } from "react-native-vector-icons";
+import { COLORS } from "../../constants/Theme";
 
 const HomeView = () => {
   const navigation = useNavigation();
@@ -87,11 +90,21 @@ const HomeView = () => {
   }, []);
 
   return (
-    <>
-      <SafeAreaView style={[styles.container]}>
+    <SafeAreaView style={styles.safeContainer}>
+      <LogoHeader
+        title={"Home"}
+        rightIcon={
+          <Ionicons
+            name="help-circle-outline"
+            size={28}
+            color={COLORS.primary}
+          />
+        }
+      />
+      <View style={styles.container}>
         {allAreNull(message) ? <HomeOfferCard /> : <KycCheckCard />}
-      </SafeAreaView>
-    </>
+      </View>
+    </SafeAreaView>
   );
 };
 

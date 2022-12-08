@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { BackHandler, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { styles } from "../../../../styles";
-import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import KycCheckCard from "../../../../components/molecules/KycCheckCard";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
@@ -14,6 +13,8 @@ import { STAGE } from "@env";
 import { getNumberOfDays } from "../../../../helpers/DateFunctions";
 import GetMoneyCard from "../../../../components/molecules/GetMoneyCard";
 import PayMoneyCard from "../../../../components/molecules/PayMoneyCard";
+import LogoHeader from "../../../../components/atoms/LogoHeader";
+import { MaterialCommunityIcons, Ionicons } from "react-native-vector-icons";
 
 const EWA = () => {
   const dispatch = useDispatch();
@@ -102,13 +103,24 @@ const EWA = () => {
   }, [isFocused, unipeEmployeeId]);
 
   return (
-    <SafeAreaView style={[styles.container]}>
+    <SafeAreaView style={styles.safeContainer}>
+      <LogoHeader
+        title={"Money"}
+        rightIcon={
+          <Ionicons
+            name="help-circle-outline"
+            size={28}
+            color={COLORS.primary}
+          />
+        }
+      />
+
       {aadhaarVerifyStatus === "SUCCESS" &&
       panVerifyStatus === "SUCCESS" &&
       bankVerifyStatus === "SUCCESS" ? (
         // panMisMatch < 20 &&
         // bankMisMatch < 20
-        <>
+        <View style={styles.container}>
           <GetMoneyCard
             navigation={navigation}
             eligible={eligible}
@@ -135,9 +147,9 @@ const EWA = () => {
             </Text>
             <PastDrawsCard data={ewaHistoricalSlice} />
           </View>
-        </>
+        </View>
       ) : (
-        <View style={[styles.safeContainer]}>
+        <View style={[styles.container]}>
           <Text
             style={{
               color: COLORS.warning,
