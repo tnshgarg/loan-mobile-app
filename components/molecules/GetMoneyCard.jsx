@@ -1,10 +1,8 @@
 import { View, Text } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { Icon } from "@react-native-material/core";
-import React from "react";
 import { COLORS, FONTS } from "../../constants/Theme";
 import PrimaryButton from "../atoms/PrimaryButton";
-import * as Progress from "react-native-progress";
+// import * as Progress from "react-native-progress";
 
 const GetMoneyCard = ({
   navigation,
@@ -19,14 +17,14 @@ const GetMoneyCard = ({
       <Text style={styles.text}>Here is your On-Demand Salary</Text>
 
       <Text style={[styles.text, { ...FONTS.h1 }]}>{amount}</Text>
-      <Progress.Bar
+      {/* <Progress.Bar
         progress={1 - progress}
         width={null}
         borderWidth={0}
         color={COLORS.primary}
         borderRadius={0}
         height={3}
-      />
+      /> */}
       <View
         style={{
           width: "100%",
