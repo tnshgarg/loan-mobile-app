@@ -41,13 +41,13 @@ const Account = (props) => {
       title: "Profile",
       subtitle: "See & edit your profile details",
       iconName: "account-circle-outline",
-      route: "ProfileStack",
+      route: { stack: "AccountStack", screen: "Profile" },
     },
     {
       title: "KYC",
       subtitle: "All your KYC details in one place",
       iconName: "order-bool-ascending-variant",
-      route: "KycStack",
+      route: { stack: "AccountStack", screen: "KYC" },
     },
     {
       title: "Customer Support",
@@ -73,12 +73,13 @@ const Account = (props) => {
       title: "Logout",
       subtitle: "Logout from Unipe App",
       iconName: "exit-to-app",
-      action: () => onLogout(),
+      action: () => {},
     },
   ];
 
   const onPressCard = ({ route, action }) => {
-    if (route) props.navigation.navigate(route);
+    console.log({ route });
+    if (route) props.navigation.navigate(route.stack, { screen: route.screen });
     else action();
   };
   return (

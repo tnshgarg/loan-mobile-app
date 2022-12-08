@@ -14,7 +14,7 @@ export default BottomTabNav = () => {
     { name: "Documents", component: Documents },
     { name: "Benefits", component: Benefits },
     { name: "Money", component: EWANavigator },
-    // { name: "Account", component: Account },
+    { name: "Account", component: Account },
   ];
   return (
     <bottomTab.Navigator

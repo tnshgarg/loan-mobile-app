@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { BackHandler, SafeAreaView, Text, View } from "react-native";
+import {
+  BackHandler,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { styles } from "../../../../styles";
 import KycCheckCard from "../../../../components/molecules/KycCheckCard";
@@ -120,22 +126,22 @@ const EWA = () => {
       bankVerifyStatus === "SUCCESS" ? (
         // panMisMatch < 20 &&
         // bankMisMatch < 20
-        <View style={styles.container}>
-          <GetMoneyCard
-            navigation={navigation}
-            eligible={eligible}
-            ewaAccessible={ewaAccessible}
-            amount={"₹" + ewaLiveSlice?.eligibleAmount}
-            progress={ewaLiveSlice?.loanAmount / ewaLiveSlice?.eligibleAmount}
-          />
+        <ScrollView>
+          <View style={styles.container}>
+            <GetMoneyCard
+              navigation={navigation}
+              eligible={eligible}
+              ewaAccessible={ewaAccessible}
+              amount={"₹" + ewaLiveSlice?.eligibleAmount}
+              progress={ewaLiveSlice?.loanAmount / ewaLiveSlice?.eligibleAmount}
+            />
 
-          <PayMoneyCard
-            navigation={navigation}
-            amount={"₹" + ewaLiveSlice?.loanAmount}
-            dueDate={ewaLiveSlice?.dueDate}
-          />
+            <PayMoneyCard
+              navigation={navigation}
+              amount={"₹" + ewaLiveSlice?.loanAmount}
+              dueDate={ewaLiveSlice?.dueDate}
+            />
 
-          <View style={{ padding: "1.5%" }}>
             <Text
               style={{
                 ...FONTS.h4,
@@ -147,7 +153,7 @@ const EWA = () => {
             </Text>
             <PastDrawsCard data={ewaHistoricalSlice} />
           </View>
-        </View>
+        </ScrollView>
       ) : (
         <View style={[styles.container]}>
           <Text

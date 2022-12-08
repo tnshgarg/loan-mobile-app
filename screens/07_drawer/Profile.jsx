@@ -4,8 +4,9 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { useSelector } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "../../styles";
+import Header from "../../components/atoms/Header";
 
-const Profile = () => {
+const Profile = ({ navigation }) => {
   const aadhaarData = useSelector((state) => state.aadhaar.data);
   const fullName =
     aadhaarData?.["name"] || useSelector((state) => state.pan?.name);
@@ -33,9 +34,18 @@ const Profile = () => {
       value: maritalStatus || "Not Provided",
     },
   ];
-
+  const backAction = () => {
+    navigation.navigate("HomeStack", {
+      screen: "DrawerHome",
+      params: {
+        screen: "Account",
+      },
+    });
+    return true;
+  };
   return (
     <SafeAreaView style={styles.safeContainer}>
+      <Header title="Profile Details" onLeftIconPress={() => backAction()} />
       <View style={styles.container}>
         <View style={styles.card}>
           {dataDetails.map((item, index) => (
