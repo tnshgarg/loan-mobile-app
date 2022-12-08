@@ -13,20 +13,19 @@ const GetMoneyCard = ({
   progress,
   ewaAccessible,
 }) => {
-  console.log(progress);
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Here is your On-Demand Salary</Text>
 
       <Text style={[styles.text, { ...FONTS.h1 }]}>{amount}</Text>
-      <Progress.Bar
+      {/* <Progress.Bar
         progress={1 - progress}
         width={null}
         borderWidth={0}
         color={COLORS.primary}
         borderRadius={0}
         height={3}
-      />
+      /> */}
       <View
         style={{
           width: "100%",
