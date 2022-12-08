@@ -1,9 +1,4 @@
-import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { STAGE } from "@env";
-import { useSelector } from "react-redux";
-
-import Benefits from "../../screens/06_home/Benefits/Benefits";
 import Profile from "../../screens/07_drawer/Profile";
 import KYCScreen from "../../screens/07_drawer/KYCScreen";
 

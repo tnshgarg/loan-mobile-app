@@ -1,22 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  offerId: "",
+  accessible: false,
   dueDate: "",
+  eligible: false,
   eligibleAmount: 0,
   employerId: "",
   employmentId: "",
   fees: 5,
   loanAmount: "",
-  stage: "",
+  offerId: "",
   netAmount: 0,
   processingFees: 0,
+  stage: "",
 };
 
 const ewaLiveSlice = createSlice({
   name: "ewaLive",
   initialState: initialState,
   reducers: {
+    addAccessible(state, action) {
+      state.accessible = action.payload;
+    },
+    addEligible(state, action) {
+      state.eligible = action.payload;
+    },
     addLoanAmount(state, action) {
       state.loanAmount = action.payload;
     },
@@ -36,7 +44,13 @@ const ewaLiveSlice = createSlice({
   },
 });
 
-export const { addLoanAmount, addNetAmount, addProcessingFees, resetEwaLive } =
-  ewaLiveSlice.actions;
+export const {
+  addAccessible,
+  addEligible,
+  addLoanAmount,
+  addNetAmount,
+  addProcessingFees,
+  resetEwaLive,
+} = ewaLiveSlice.actions;
 
 export default ewaLiveSlice.reducer;

@@ -1,6 +1,6 @@
 import { useIsFocused } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import RazorpayCheckout from "react-native-razorpay";
@@ -30,7 +30,7 @@ const PayMoneyCard = () => {
   const [repaymentOrderId, setRepaymentOrderId] = useState(null);
   const [dueDate, setDueDate] = useState(null);
   const [overdueDays, setOverdueDays] = useState(null);
-  const [repaymentAmount, setRepaymentAmount] = useState(null);
+  const [repaymentAmount, setRepaymentAmount] = useState(0);
   const [repaymentId, setRepaymentId] = useState(null);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
@@ -154,7 +154,6 @@ const PayMoneyCard = () => {
           titleStyle={{ ...FONTS.h5 }}
         />
       </View>
-      {console.log("overdueDays: ", overdueDays)}
 
       <View
         style={[
@@ -167,9 +166,17 @@ const PayMoneyCard = () => {
       >
         <Icon name="info-outline" size={18} color={COLORS.white} />
         <Text style={[styles.text, { marginLeft: 5 }]}>
-          {overdueDays < 0
-            ? `Your repayment is overdue by ${-overdueDays} days`
-            : `Due by ${dueDate}`}
+          {
+              overdueDays < 0
+            ? 
+              `Your repayment is overdue by ${-overdueDays} days`
+            : 
+                dueDate !== null
+              ?
+                `Due by ${dueDate}`
+              :
+                `No dues`
+          }
         </Text>
       </View>
     </View>
