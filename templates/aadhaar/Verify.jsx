@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import AadhaarVerifyApi from "../../apis/aadhaar/Verify";
@@ -10,7 +10,6 @@ import OtpInput from "../../components/molecules/OtpInput";
 
 const AadhaarVerifyTemplate = (props) => {
   const dispatch = useDispatch();
-  const inputRef = useRef();
 
   const [resend, setResend] = useState(false);
   const [otp, setOtp] = useState("");
@@ -54,19 +53,19 @@ const AadhaarVerifyTemplate = (props) => {
         <OtpInput
           otp={otp}
           setOtp={setOtp}
-          inputRef={inputRef}
           accessibilityLabel={"AadhaarOtpInput"}
           inputRef={props.inputRef}
         />
 
         <Text style={styles.subHeadline} accessibilityLabel="OtpText">
           Didn’t receive the secure code?{" "}
-          {props.back ? (
+          {resend ? (
             <AadhaarOtpApi
               data={{ aadhaar_number: number, consent: "Y" }}
               type={props?.route?.params?.type || ""}
-              textButton={true}
-              inputRef={props.inputRef}
+              isTextButton={true}
+              textButton="Resend OTP"
+              toggle={setResend}
             />
           ) : (
             <Text style={{ color: COLORS.secondary }}>

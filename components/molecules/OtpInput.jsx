@@ -1,10 +1,6 @@
-import { View, Text, TouchableWithoutFeedback } from "react-native";
-import React from "react";
+import { View, Text, TextInput, TouchableWithoutFeedback } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { COLORS, FONTS, SIZES } from "../../constants/Theme";
-import { TextInput } from "react-native";
-import { useRef } from "react";
-import { useEffect } from "react";
+import { COLORS, FONTS } from "../../constants/Theme";
 
 const OtpInput = ({ otp, setOtp, inputRef, accessibilityLabel }) => {
   const getNumberView = (val) => {

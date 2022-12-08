@@ -199,6 +199,7 @@ describe("PAN Test", () => {
     await driver.pause(4000);
     await driver.acceptAlert();
   });
+
   test("Invalid PAN number", async () => {
     await driver.$("~PanInput").waitForDisplayed({ timeout: 8000 });
     await driver.$("~PanInput").setValue("ABCDE4000F");
@@ -207,6 +208,7 @@ describe("PAN Test", () => {
     await driver.pause(4000);
     await driver.acceptAlert();
   });
+
   test("Valid Pan", async () => {
     await driver.$("~PanInput").waitForDisplayed({ timeout: 8000 });
     await driver.$("~PanInput").setValue("ABCDE2000F");
