@@ -6,7 +6,7 @@ import {
   Image,
   Linking,
 } from "react-native";
-import React, { useState } from "react";
+import { useState } from "react";
 import { styles } from "../../../styles";
 import LogoHeader from "../../../components/atoms/LogoHeader";
 import { MaterialCommunityIcons, Ionicons } from "react-native-vector-icons";

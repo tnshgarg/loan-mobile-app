@@ -1,10 +1,10 @@
 import { useIsFocused, useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Linking, SafeAreaView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import HomeOfferCard from "../../components/molecules/HomeOfferCard";
+import LiveOfferCard from "../../components/organisms/LiveOfferCard";
 import PushNotification from "react-native-push-notification";
-import KycCheckCard from "../../components/molecules/KycCheckCard";
+import MessageCard from "../../components/atoms/MessageCard";
 import { allAreNull } from "../../helpers/nullCheck";
 import { addCampaignId } from "../../store/slices/authSlice";
 import {
@@ -18,49 +18,49 @@ import {
   requestUserPermission,
 } from "../../services/notifications/notificationService";
 import LogoHeader from "../../components/atoms/LogoHeader";
-import { MaterialCommunityIcons, Ionicons } from "react-native-vector-icons";
+import { Ionicons } from "react-native-vector-icons";
 import { COLORS } from "../../constants/Theme";
 import { getBackendData } from "../../services/employees/employeeServices";
 import { resetEwaHistorical } from "../../store/slices/ewaHistoricalSlice";
-import { resetEwaLive } from "../../store/slices/ewaLiveSlice";
+import { addAccessible, addEligible, resetEwaLive } from "../../store/slices/ewaLiveSlice";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
 import { STAGE } from "@env";
 
 const HomeView = () => {
-  const navigation = useNavigation();
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
+  const navigation = useNavigation();
 
-  const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);
-  const bankStatus = useSelector((state) => state.bank.verifyStatus);
-  const panStatus = useSelector((state) => state.pan.verifyStatus);
+  const aadhaarVerifyStatus = useSelector(
+    (state) => state.aadhaar.verifyStatus
+  );
+  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
+  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
 
   const [fetched, setFetched] = useState(false);
-  const [eligible, setEligible] = useState(false);
-  const [ewaAccessible, setEwaAccessible] = useState(true);
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const aadhaarName = useSelector((state) => state.aadhaar.data.name);
 
   // const panMisMatch = useSelector((state) => state.pan.misMatch);
   // const bankMisMatch = useSelector((state) => state.bank.misMatch);
 
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
-  const ewaHistoricalSlice = useSelector((state) => state.ewaHistorical);
+  const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
+  const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
 
-  const message = [
-    aadhaarStatus != "SUCCESS" ? "AADHAAR" : null,
-    bankStatus != "SUCCESS" ? "BANK" : null,
-    panStatus != "SUCCESS" ? "PAN" : null,
+  const verifyStatuses = [
+    aadhaarVerifyStatus != "SUCCESS" ? "AADHAAR" : null,
+    bankVerifyStatus != "SUCCESS" ? "BANK" : null,
+    panVerifyStatus != "SUCCESS" ? "PAN" : null,
   ];
 
   useEffect(() => {
     // PushNotification.deleteChannel("Onboarding");
-    if (allAreNull(message)) {
+    if (allAreNull(verifyStatuses)) {
       PushNotification.cancelAllLocalNotifications();
     }
-  }, [aadhaarStatus, bankStatus, panStatus]);
+  }, [aadhaarVerifyStatus, bankVerifyStatus, panVerifyStatus]);
 
   var [campaignId, setCampaignId] = useState(null);
 
@@ -79,25 +79,28 @@ const HomeView = () => {
   }, [campaignId]);
 
   useEffect(() => {
-    if (fetched) {
-      if (
-        STAGE !== "prod" ||
-        (STAGE === "prod" && parseInt(ewaLiveSlice?.eligibleAmount) >= 1000)
-      ) {
-        console.log("first");
-        setEligible(true);
-      } else {
-        setEligible(false);
-      }
+    dispatch(addEligible(eligible));
+  }, [eligible]);
+
+  useEffect(() => {
+    if (
+      STAGE !== "prod" ||
+      (STAGE === "prod" && parseInt(ewaLiveSlice?.eligibleAmount) >= 1000)
+    ) {
+      setEligible(true);
     } else {
       setEligible(false);
     }
   }, [ewaLiveSlice, fetched]);
 
   useEffect(() => {
-    console.log("ewaLiveSlice: ", ewaLiveSlice);
-    console.log("ewaHistoricalSlice: ", ewaHistoricalSlice);
-    console.log("ewaOffersFetch unipeEmployeeId:", unipeEmployeeId);
+    dispatch(addAccessible(accessible));
+  }, [accessible]);
+
+  useEffect(() => {
+    console.log("Home ewaLiveSlice: ", ewaLiveSlice);
+    // console.log("ewaHistoricalSlice: ", ewaHistoricalSlice);
+    // console.log("HomeView ewaOffersFetch unipeEmployeeId:", unipeEmployeeId);
     if (isFocused && unipeEmployeeId) {
       getBackendData({
         params: { unipeEmployeeId: unipeEmployeeId },
@@ -106,27 +109,26 @@ const HomeView = () => {
       })
         .then((response) => {
           if (response.data.status === 200) {
-            console.log("ewaOffersFetch response.data: ", response.data);
-            if (
-              getNumberOfDays({ date: response.data.body.live.dueDate }) <= 3
-            ) {
-              setEwaAccessible(false);
+            // console.log("HomeView ewaOffersFetch response.data: ", response.data);
+            const closureDays = getNumberOfDays({ date: response.data.body.live.dueDate });
+            if (closureDays <= 3) {
+              setAccessible(false);
             } else {
-              setEwaAccessible(true);
+              setAccessible(true);
             }
             dispatch(resetEwaLive(response.data.body.live));
             dispatch(resetEwaHistorical(response.data.body.past));
             setFetched(true);
           } else {
+            console.log("ewaOffersFetch error: ", response.data);
             dispatch(resetEwaLive());
             dispatch(resetEwaHistorical());
-            console.log("ewaOffersFetch error: ", response.data);
           }
         })
         .catch((error) => {
+          console.log("ewaOffersFetch error: ", error.toString());
           dispatch(resetEwaLive());
           dispatch(resetEwaHistorical());
-          console.log("ewaOffersFetch error: ", error.toString());
         });
     }
   }, [isFocused, unipeEmployeeId]);
@@ -175,15 +177,24 @@ const HomeView = () => {
         }
       />
       <View style={styles.container}>
-        {allAreNull(message) ? (
-          <HomeOfferCard
-            eligible={eligible}
-            ewaAccessible={ewaAccessible}
-            ewaLiveSlice={ewaLiveSlice}
-          />
-        ) : (
-          <KycCheckCard />
-        )}
+        {
+          allAreNull(verifyStatuses)
+          ? 
+          (
+            <LiveOfferCard
+              eligible={eligible}
+              accessible={accessible}
+              ewaLiveSlice={ewaLiveSlice}
+            />
+          ) 
+          : 
+          (
+            <MessageCard
+              title="Following pending steps need to be completed in order to receive advance salary."
+              message={verifyStatuses}
+            />
+          )
+        }
       </View>
     </SafeAreaView>
   );
