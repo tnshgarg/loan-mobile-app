@@ -64,12 +64,7 @@ const Offer = () => {
   }, [deviceId, ipAddress]);
 
   const backAction = () => {
-    navigation.navigate("HomeStack", {
-      screen: "DrawerHome",
-      params: {
-        screen: "Money",
-      },
-    });
+    navigation.navigate("Money", { screen: "EWA" });
     return true;
   };
 
