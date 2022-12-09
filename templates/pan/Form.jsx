@@ -42,10 +42,9 @@ const PanFormTemplate = (props) => {
           <View>
             <Text style={styles.headline}>Enter your PAN number</Text>
             <Text style={styles.subHeadline}>
-              कृपया अपना आधार नम्बर यहाँ भरें ॰ इस आधार नम्बर से जुड़े मोबाइल
-              नम्बर पर हम ओ॰टी॰पी॰ भेजेंगे ॰
+            कृपया अपना पैन नम्बर यहाँ भरें।
             </Text>
-            {/* Need to change hindi text over here */}
+
             <FormInput
               accessibilityLabel={"PanInput"}
               placeholder={"PAN Number"}
