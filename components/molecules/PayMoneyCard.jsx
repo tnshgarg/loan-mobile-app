@@ -101,6 +101,7 @@ const PayMoneyCard = () => {
           });
         });
     } else {
+      setLoading(false);
       showToast("No amount due");
     }
   }
