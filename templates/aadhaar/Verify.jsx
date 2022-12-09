@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import AadhaarVerifyApi from "../../apis/aadhaar/Verify";
-import { useNavigation } from "@react-navigation/core";
 import { setAadhaarTimer } from "../../store/slices/timerSlice";
 import AadhaarOtpApi from "../../apis/aadhaar/Otp";
-import { form, styles } from "../../styles";
-import { COLORS, SIZES } from "../../constants/Theme";
+import { styles } from "../../styles";
+import { COLORS } from "../../constants/Theme";
 import OtpInput from "../../components/molecules/OtpInput";
 
 const AadhaarVerifyTemplate = (props) => {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+
   const [resend, setResend] = useState(false);
   const [otp, setOtp] = useState("");
   const [validOtp, setValidOtp] = useState(true);
+
   const countDownTime = useSelector((state) => state.timer.aadhaar);
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const [number, setNumber] = useState(aadhaarSlice?.number);
@@ -26,18 +26,15 @@ const AadhaarVerifyTemplate = (props) => {
       if (countDownTime > 0) {
         dispatch(setAadhaarTimer(countDownTime - 1));
       } else {
-        setResend(true);
+        props.setBack(true);
       }
     }, 1000);
 
     if (countDownTime === 0 || verified) {
-      props.function ||
-        navigation.navigate("KYC", {
-          screen: "Aadhaar",
-        });
       setResend(true);
       clearInterval(interval);
     }
+    
     return () => clearInterval(interval);
   }, [countDownTime, verified]);
 
@@ -57,6 +54,7 @@ const AadhaarVerifyTemplate = (props) => {
           otp={otp}
           setOtp={setOtp}
           accessibilityLabel={"AadhaarOtpInput"}
+          inputRef={props.inputRef}
         />
 
         <Text style={styles.subHeadline} accessibilityLabel="OtpText">
@@ -65,7 +63,9 @@ const AadhaarVerifyTemplate = (props) => {
             <AadhaarOtpApi
               data={{ aadhaar_number: number, consent: "Y" }}
               type={props?.route?.params?.type || ""}
-              textButton={true}
+              isTextButton={true}
+              textButton="Resend OTP"
+              toggle={setResend}
             />
           ) : (
             <Text style={{ color: COLORS.secondary }}>

@@ -17,6 +17,8 @@ import { getNumberOfDays } from "../../helpers/DateFunctions";
 const PayMoneyCard = () => {
   const isFocused = useIsFocused();
 
+  const [loading, setLoading] = useState(false);
+
   const phoneNumber = useSelector((state) => state.auth?.phoneNumber);
   const email = useSelector(
     (state) => state.profile?.email || state.pan?.data?.email
@@ -24,8 +26,8 @@ const PayMoneyCard = () => {
   const accountHolderName = useSelector(
     (state) => state.bank?.data?.accountHolderName
   );
-  const extCustomerId = useSelector(
-    (state) => state.mandate.data.extCustomerId
+  const customerId = useSelector(
+    (state) => state.mandate.data.customerId
   );
   const [repaymentOrderId, setRepaymentOrderId] = useState(null);
   const [dueDate, setDueDate] = useState(null);
@@ -36,14 +38,14 @@ const PayMoneyCard = () => {
   const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
-    console.log("createMandate orderId: ", repaymentOrderId, !repaymentOrderId);
+    console.log("createRepayment orderId: ", repaymentOrderId, !repaymentOrderId);
     if (repaymentOrderId) {
       var options = {
         description: "Unipe Early Loan Repayment",
         name: "Unipe",
         key: RZP_KEY_ID,
         order_id: repaymentOrderId,
-        customer_id: extCustomerId,
+        customer_id: customerId,
         prefill: {
           name: accountHolderName,
           email: email,
@@ -54,21 +56,54 @@ const PayMoneyCard = () => {
       RazorpayCheckout.open(options)
         .then((data) => {
           console.log("RazorpayCheckout data: ", data);
+          showToast("Loan Payment Successful");
+          setLoading(false);
           Analytics.trackEvent("Ewa|Repayment|Success", {
             unipeEmployeeId: unipeEmployeeId,
           });
-          showToast("Loan Payment Successful");
         })
         .catch((error) => {
           console.log("checkout error:", error.description);
+          showToast("Loan Payment Failed. Please try again.");
+          setLoading(false);
           Analytics.trackEvent("Ewa|Repayment|Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: error.toString(),
           });
-          showToast("Loan Payment Failed. Please try again.");
         });
     }
   }, [repaymentOrderId]);
+
+  const createRepaymentOrder = () => {
+    setLoading(true);
+    if (repaymentAmount > 0) {
+      createPaymentOrder({
+        amount: repaymentAmount,
+        repaymentId: repaymentId,
+      })
+        .then((response) => {
+          if (response.status === 200) {
+            setRepaymentOrderId(response.data.id);
+            console.log(
+              "createRepaymentOrder response.data.body: ",
+              response.data
+            );
+            Analytics.trackEvent("Ewa|RepaymentOrder|Success", {
+              unipeEmployeeId: unipeEmployeeId,
+            });
+          }
+        })
+        .catch((error) => {
+          console.log("createRepaymentOrder error: ", error);
+          Analytics.trackEvent("Ewa|RepaymentOrder|Error", {
+            unipeEmployeeId: unipeEmployeeId,
+            error: error.toString(),
+          });
+        });
+    } else {
+      showToast("No amount due");
+    }
+  }
 
   useEffect(() => {
     if (isFocused && unipeEmployeeId) {
@@ -120,36 +155,9 @@ const PayMoneyCard = () => {
           </View>
         </View>
         <PrimaryButton
-          title={"Pay now"}
-          onPress={() => {
-            if (repaymentAmount > 0) {
-              createPaymentOrder({
-                amount: repaymentAmount,
-                repaymentId: repaymentId,
-              })
-                .then((response) => {
-                  if (response.status === 200) {
-                    setRepaymentOrderId(response.data.id);
-                    console.log(
-                      "createRepaymentOrder response.data.body: ",
-                      response.data
-                    );
-                    Analytics.trackEvent("Ewa|RepaymentOrder|Success", {
-                      unipeEmployeeId: unipeEmployeeId,
-                    });
-                  }
-                })
-                .catch((error) => {
-                  console.log("createRepaymentOrder error: ", error);
-                  Analytics.trackEvent("Ewa|Repayment|Error", {
-                    unipeEmployeeId: unipeEmployeeId,
-                    error: error.toString(),
-                  });
-                });
-            } else {
-              showToast("No amount due");
-            }
-          }}
+          title={loading ? "Verifying" : "Pay now"}
+          onPress={() => createRepaymentOrder()}
+          disabled={loading}
           containerStyle={{ width: null, marginTop: 0, height: 40 }}
           titleStyle={{ ...FONTS.h5 }}
         />

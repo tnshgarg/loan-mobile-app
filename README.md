@@ -22,7 +22,6 @@ cd android && ./gradlew clean
 
 # assemble release for building an APK
 cd android && ./gradlew assembleRelease
-
 ```
 
 ## Install and run on ios
