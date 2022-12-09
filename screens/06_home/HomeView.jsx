@@ -1,6 +1,6 @@
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Linking, SafeAreaView, View } from "react-native";
+import { Linking, SafeAreaView, ScrollView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
 import PushNotification from "react-native-push-notification";
@@ -22,14 +22,22 @@ import { Ionicons } from "react-native-vector-icons";
 import { COLORS } from "../../constants/Theme";
 import { getBackendData } from "../../services/employees/employeeServices";
 import { resetEwaHistorical } from "../../store/slices/ewaHistoricalSlice";
-import { addAccessible, addEligible, resetEwaLive } from "../../store/slices/ewaLiveSlice";
+import {
+  addAccessible,
+  addEligible,
+  resetEwaLive,
+} from "../../store/slices/ewaLiveSlice";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
 import { STAGE } from "@env";
+import { YOUTUBE_EMBED_URL } from "../../constants/Strings";
+import WebView from "react-native-webview";
+import VideoPlayer from "../../components/organisms/VideoPlayer";
 
 const HomeView = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const navigation = useNavigation();
+  const [openPlayer, setOpenPlayer] = useState(false);
 
   const aadhaarVerifyStatus = useSelector(
     (state) => state.aadhaar.verifyStatus
@@ -110,7 +118,9 @@ const HomeView = () => {
         .then((response) => {
           if (response.data.status === 200) {
             // console.log("HomeView ewaOffersFetch response.data: ", response.data);
-            const closureDays = getNumberOfDays({ date: response.data.body.live.dueDate });
+            const closureDays = getNumberOfDays({
+              date: response.data.body.live.dueDate,
+            });
             if (closureDays <= 3) {
               setAccessible(false);
             } else {
@@ -176,26 +186,25 @@ const HomeView = () => {
           />
         }
       />
-      <View style={styles.container}>
-        {
-          allAreNull(verifyStatuses)
-          ? 
-          (
-            <LiveOfferCard
-              eligible={eligible}
-              accessible={accessible}
-              ewaLiveSlice={ewaLiveSlice}
-            />
-          ) 
-          : 
-          (
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+          {allAreNull(verifyStatuses) ? (
+            <>
+              <LiveOfferCard
+                eligible={eligible}
+                accessible={accessible}
+                ewaLiveSlice={ewaLiveSlice}
+              />
+              <VideoPlayer />
+            </>
+          ) : (
             <MessageCard
               title="Following pending steps need to be completed in order to receive advance salary."
               message={verifyStatuses}
             />
-          )
-        }
-      </View>
+          )}
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
