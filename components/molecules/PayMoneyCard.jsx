@@ -17,6 +17,7 @@ import { getNumberOfDays } from "../../helpers/DateFunctions";
 const PayMoneyCard = () => {
   const isFocused = useIsFocused();
 
+  const [inactive, setInactive] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const phoneNumber = useSelector((state) => state.auth?.phoneNumber);
@@ -57,19 +58,19 @@ const PayMoneyCard = () => {
         .then((data) => {
           console.log("RazorpayCheckout data: ", data);
           showToast("Loan Payment Successful");
-          setLoading(false);
           Analytics.trackEvent("Ewa|Repayment|Success", {
             unipeEmployeeId: unipeEmployeeId,
           });
+          setLoading(false);
         })
         .catch((error) => {
           console.log("checkout error:", error.description);
           showToast("Loan Payment Failed. Please try again.");
-          setLoading(false);
           Analytics.trackEvent("Ewa|Repayment|Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: error.toString(),
           });
+          setLoading(false);
         });
     }
   }, [repaymentOrderId]);
@@ -82,6 +83,7 @@ const PayMoneyCard = () => {
         repaymentId: repaymentId,
       })
         .then((response) => {
+          setLoading(false);
           if (response.status === 200) {
             setRepaymentOrderId(response.data.id);
             console.log(
@@ -94,6 +96,7 @@ const PayMoneyCard = () => {
           }
         })
         .catch((error) => {
+          setLoading(false);
           console.log("createRepaymentOrder error: ", error);
           Analytics.trackEvent("Ewa|RepaymentOrder|Error", {
             unipeEmployeeId: unipeEmployeeId,
@@ -105,6 +108,12 @@ const PayMoneyCard = () => {
       showToast("No amount due");
     }
   }
+
+  useEffect(() => {
+    if(repaymentAmount<1) {
+      setInactive(true);
+    }
+  }, [repaymentAmount])
 
   useEffect(() => {
     if (isFocused && unipeEmployeeId) {
@@ -125,6 +134,7 @@ const PayMoneyCard = () => {
             );
             setRepaymentAmount(response.data.body.amount);
             setRepaymentId(response.data.body.repaymentId);
+            setInactive(false);
           } else if (response.data.status === 404) {
             setDueDate(null);
             setRepaymentAmount(0);
@@ -156,13 +166,20 @@ const PayMoneyCard = () => {
             </Text>
           </View>
         </View>
-        <PrimaryButton
-          title={loading ? "Verifying" : "Pay now"}
-          onPress={() => createRepaymentOrder()}
-          disabled={loading}
-          containerStyle={{ width: null, marginTop: 0, height: 40 }}
-          titleStyle={{ ...FONTS.h5 }}
-        />
+        
+        {
+          repaymentAmount>0 
+          ?
+          <PrimaryButton
+            title={inactive || loading ? "Verifying" : "Pay now"}
+            onPress={() => createRepaymentOrder()}
+            disabled={inactive || loading}
+            containerStyle={{ width: null, marginTop: 0, height: 40 }}
+            titleStyle={{ ...FONTS.h5 }}
+          />
+          :
+          null
+        }
       </View>
 
       <View
