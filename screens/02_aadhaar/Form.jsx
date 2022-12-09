@@ -31,7 +31,7 @@ const AadhaarForm = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.safeContainer}>
+    <SafeAreaView style={styles.safeContainer} accessibilityLabel="AadhaarForm">
       <LogoHeaderBack leftOnPress={backAction} />
       <OnboardingProgressBar step={1} />
       <AadhaarFormTemplate />

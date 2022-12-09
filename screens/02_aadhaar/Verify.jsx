@@ -1,30 +1,23 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState, useRef } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import { Alert, SafeAreaView, BackHandler } from "react-native";
 import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import AadhaarVerifyTemplate from "../../templates/aadhaar/Verify";
-import Header from "../../components/atoms/Header";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
 const AadhaarVerify = () => {
   const dispatch = useDispatch();
+  const inputRef = useRef();
   const navigation = useNavigation();
 
   const [back, setBack] = useState(false);
-  const countDownTime = useSelector((state) => state.timer.aadhaar);
 
   useEffect(() => {
     dispatch(addCurrentScreen("AadhaarVerify"));
   }, []);
-
-  useEffect(() => {
-    if (countDownTime < 1) {
-      setBack(true);
-    }
-  }, [countDownTime]);
 
   const backAction = () => {
     if (back) {
@@ -52,7 +45,11 @@ const AadhaarVerify = () => {
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack leftOnPress={backAction} />
       <OnboardingProgressBar step={1} />
-      <AadhaarVerifyTemplate function={backAction} />
+      <AadhaarVerifyTemplate
+        inputRef={inputRef}
+        back={back}
+        setBack={setBack}
+      />
     </SafeAreaView>
   );
 };

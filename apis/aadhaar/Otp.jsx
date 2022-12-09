@@ -71,6 +71,9 @@ const AadhaarOtpApi = (props) => {
 
   const goForFetch = () => {
     setLoading(true);
+    if (props.isTextButton) {
+      props.toggle(false); // setResend(false)
+    }
 
     const options = {
       method: "POST",
@@ -172,9 +175,9 @@ const AadhaarOtpApi = (props) => {
         });
       });
   };
-  return props.textButton ? (
+  return props.isTextButton ? (
     <Text style={{ ...FONTS.h4, color: COLORS.primary }} onPress={goForFetch}>
-      Resend OTP
+      {props.textButton}
     </Text>
   ) : (
     <PrimaryButton

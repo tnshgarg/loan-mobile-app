@@ -50,7 +50,7 @@ export const notificationListener = async () => {
       remoteMessage
     );
     switch (remoteMessage.data.type) {
-      case "EWA_OFFER" ||
+      case "NEW_EWA_OFFER" ||
         "EWA_REPAYMENT_REMINDER" ||
         "EWA_DISBURSEMENT_SUCCESS":
         RootNavigation.navigate("HomeStack", {
@@ -113,5 +113,5 @@ export const notificationListener = async () => {
           }
         }
       });
-  }, 100);
+  }, 800);
 };

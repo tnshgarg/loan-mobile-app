@@ -124,7 +124,9 @@ const OTPScreen = () => {
               destination: "HomeStack",
             });
           } else {
-            navigation.navigate("Welcome");
+            navigation.navigate("BackendSync", {
+              destination: "Welcome",
+            });
           }
           Analytics.trackEvent("OTPScreen|Check|Success", {
             unipeEmployeeId: unipeEmployeeId,

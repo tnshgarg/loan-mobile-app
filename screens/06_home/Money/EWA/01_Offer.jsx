@@ -41,6 +41,7 @@ const Offer = () => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const campaignId = useSelector((state) => state.auth.campaignId);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const offerId = useSelector((state) => state.ewaLive.offerId);
   const eligibleAmount = useSelector((state) => state.ewaLive.eligibleAmount);
@@ -64,12 +65,7 @@ const Offer = () => {
   }, [deviceId, ipAddress]);
 
   const backAction = () => {
-    navigation.navigate("HomeStack", {
-      screen: "DrawerHome",
-      params: {
-        screen: "Money",
-      },
-    });
+    navigation.navigate("Money", { screen: "EWA" });
     return true;
   };
 
@@ -102,6 +98,7 @@ const Offer = () => {
           timestamp: Date.now(),
           ipAddress: ipAddress,
           deviceId: deviceId,
+          campaignId: campaignId,
         },
         token: token,
       })
@@ -127,6 +124,7 @@ const Offer = () => {
           ipAddress: ipAddress,
           deviceId: deviceId,
           loanAmount: parseInt(amount),
+          campaignId: campaignId,
         },
         token: token,
       })

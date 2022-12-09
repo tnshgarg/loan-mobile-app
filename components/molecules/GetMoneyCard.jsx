@@ -37,7 +37,7 @@ const GetMoneyCard = ({
         }
         disabled={!eligible || !accessible}
         onPress={() => {
-          navigation.navigate("EWA_OFFER");
+          navigation.navigate("Money", { screen: "EWA_OFFER" });
         }}
       />
     </View>
