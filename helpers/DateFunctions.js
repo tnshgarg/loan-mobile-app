@@ -1,13 +1,19 @@
-const setFormatDDMMYYYYtoYYYYMMDD = (date, separator = "/") => {
+const setFormatDDMMYYYYtoYYYYMMDD = (date) => {
   const [day, month, year] = date.split("/");
-  const formattedDate =  year + separator + month + separator + day;
+  const formattedDate = year + "/" + month + "/" + day;
   return new Date(formattedDate);
 };
 
-const getNumberOfDays = (date) => {
-  const formattedDate = setFormatDDMMYYYYtoYYYYMMDD(date);
+const getNumberOfDays = ({ date, formatted }) => {
+  var formattedDate = "";
+  if (formatted) {
+    formattedDate = new Date(date);
+  } else {
+    formattedDate = setFormatDDMMYYYYtoYYYYMMDD(date);
+  }
   const endDate = new Date(
-    formattedDate.getTime() + Math.abs(formattedDate.getTimezoneOffset() * 60000)
+    formattedDate.getTime() +
+      Math.abs(formattedDate.getTimezoneOffset() * 60000)
   );
   const dateToday = new Date();
   const oneDay = 1000 * 60 * 60 * 24;

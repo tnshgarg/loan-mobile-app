@@ -70,7 +70,7 @@ export const styles = EStyleSheet.create({
     textAlign: "center",
   },
   termsText: {
-    ...FONTS.h4,
+    ...FONTS.body5,
     color: COLORS.primary,
   },
   otpreadtxt: {
@@ -178,9 +178,8 @@ export const checkBox = EStyleSheet.create({
     marginLeft: "10rem",
     marginRight: "40rem",
     marginTop: "30rem",
-    fontSize: 14,
     color: COLORS.gray,
-    ...FONTS.body4,
+    ...FONTS.body5,
   },
   padding: {
     marginTop: "30rem",
@@ -385,7 +384,9 @@ export const datacard = EStyleSheet.create({
     width: "100%",
     borderRadius: 5,
     flexDirection: "row",
-    backgroundColor: "rgba(228, 238, 240, 0.4)",
+    backgroundColor: COLORS.cardBackground,
+    borderWidth: 0.5,
+    borderColor: COLORS.lightGray,
     justifyContent: "space-between",
   },
   cardTitle: {
