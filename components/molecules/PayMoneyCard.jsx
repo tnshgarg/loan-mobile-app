@@ -113,8 +113,8 @@ const PayMoneyCard = () => {
         token: token,
       })
         .then((response) => {
+          console.log("ewaRepaymentsFetch response.data: ", response.data);
           if (response.data.status === 200) {
-            console.log("ewaRepaymentsFetch response.data: ", response.data);
             setDueDate(response.data.body.dueDate?.split(" ")[0]);
             setOverdueDays(
               getNumberOfDays({
@@ -124,8 +124,9 @@ const PayMoneyCard = () => {
             );
             setRepaymentAmount(response.data.body.amount);
             setRepaymentId(response.data.body.repaymentId);
-          } else {
-            console.log("ewaRepaymentsFetch error: ", response.data);
+          } else if (response.data.status === 404) {
+            setDueDate(null);
+            setRepaymentAmount(0);
           }
         })
         .catch((error) => {
