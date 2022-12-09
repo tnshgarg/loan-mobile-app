@@ -47,6 +47,7 @@ const Agreement = () => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const campaignId = useSelector((state) => state.auth.campaignId);
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const bankSlice = useSelector((state) => state.bank);
   const panSlice = useSelector((state) => state.pan);
@@ -192,6 +193,7 @@ const Agreement = () => {
           timestamp: Date.now(),
           ipAddress: ipAddress,
           deviceId: deviceId,
+          campaignId: campaignId,
         },
         token: token,
       })
@@ -223,6 +225,7 @@ const Agreement = () => {
         loanAccountNumber: ewaLiveSlice?.offerId,
         employerId: ewaLiveSlice?.employerId,
         employmentId: ewaLiveSlice?.employmentId,
+        campaignId: campaignId,
       },
       token: token,
     })
