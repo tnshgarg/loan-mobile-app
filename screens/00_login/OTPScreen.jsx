@@ -1,7 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
-import CountDown from "react-native-countdown-component";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
@@ -11,17 +10,19 @@ import {
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import SVGImg from "../../assets/UnipeLogo.svg";
 import Analytics from "appcenter-analytics";
 import { styles, form } from "../../styles";
-import { COLORS, SIZES } from "../../constants/Theme";
-import FormInput from "../../components/atoms/FormInput";
-import Header from "../../components/atoms/Header";
-import { AppBar, Icon, IconButton } from "@react-native-material/core";
+import { COLORS, FONTS, SIZES } from "../../constants/Theme";
+import { Ionicons, MaterialCommunityIcons } from "react-native-vector-icons";
+import OtpInput from "../../components/molecules/OtpInput";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
 const OTPScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  const [verified, setVerified] = useState(false);
+  const inputRef = useRef();
 
   const [otp, setOtp] = useState("");
   const [next, setNext] = useState(false);
@@ -35,6 +36,25 @@ const OTPScreen = () => {
   useEffect(() => {
     dispatch(addCurrentScreen("Otp"));
   }, []);
+
+  let interval;
+
+  useEffect(() => {
+    interval = setInterval(() => {
+      console.log({ countDownTime });
+      if (countDownTime > 0) {
+        dispatch(setLoginTimer(countDownTime - 1));
+      } else {
+        setBack(true);
+      }
+    }, 1000);
+
+    if (countDownTime === 0 || verified) {
+      setBack(true);
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [countDownTime, verified]);
 
   useEffect(() => {
     if (otp.length === 6) {
@@ -56,6 +76,80 @@ const OTPScreen = () => {
     return true;
   };
 
+  const onResendOtp = () => {
+    sendSmsVerification(phoneNumber)
+      .then((res) => {
+        if (res["response"]["status"] === "success") {
+          setOtp("");
+          setBack(false);
+          Alert.alert("OTP resent successfully", "", [
+            {
+              text: "Ok",
+              onPress: () => {
+                inputRef.current.focus();
+                dispatch(resetTimer());
+              },
+            },
+          ]);
+          Analytics.trackEvent("OTPScreen|SendSms|Success", {
+            unipeEmployeeId: unipeEmployeeId,
+          });
+        } else {
+          Alert.alert(res["response"]["status"], res["response"]["details"]);
+          Analytics.trackEvent("OTPScreen|SendSms|Error", {
+            unipeEmployeeId: unipeEmployeeId,
+            error: res["response"]["details"],
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error.toString());
+        Alert.alert("Error", error.toString());
+        Analytics.trackEvent("OTPScreen|SendSms|Error", {
+          unipeEmployeeId: unipeEmployeeId,
+          error: error.toString(),
+        });
+      });
+  };
+
+  const onSubmitOtp = () => {
+    setNext(false);
+    checkVerification(phoneNumber, otp)
+      .then((res) => {
+        console.log("res: ", res);
+        if (res["response"]["status"] === "success") {
+          setVerified(true);
+          if (onboarded) {
+            navigation.navigate("BackendSync", {
+              destination: "HomeStack",
+            });
+          } else {
+            navigation.navigate("BackendSync", {
+              destination: "Welcome",
+            });
+          }
+          Analytics.trackEvent("OTPScreen|Check|Success", {
+            unipeEmployeeId: unipeEmployeeId,
+            error: res["response"]["details"],
+          });
+        } else {
+          Alert.alert(res["response"]["status"], res["response"]["details"]);
+          Analytics.trackEvent("OTPScreen|Check|Error", {
+            unipeEmployeeId: unipeEmployeeId,
+            error: res["response"]["details"],
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error.toString());
+        Alert.alert("Error", error.toString());
+        Analytics.trackEvent("OTPScreen|Check|Error", {
+          unipeEmployeeId: unipeEmployeeId,
+          error: error.toString(),
+        });
+      });
+  };
+
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
     return () =>
@@ -63,153 +157,59 @@ const OTPScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.safeContainer}>
-      <Header title="OTP" onLeftIconPress={() => backAction()} />
+    <SafeAreaView accessibilityLabel="OtpScreen" style={styles.safeContainer}>
+      <LogoHeaderBack leftOnPress={backAction} />
       <KeyboardAvoidingWrapper>
-        <View style={styles.container}>
-          <SVGImg style={styles.logo} />
-          <Text style={styles.headline}>
-            {" "}
-            Please wait, we will auto verify the OTP {"\n"} sent to{" "}
-            {phoneNumber}
-            {back ? (
-              <Icon
-                name="edit"
-                size={12}
-                color={COLORS.primary}
-                onPress={() => navigation.navigate("Login")}
-              />
-            ) : (
-              <Icon
-                name="edit"
-                size={12}
-                color={COLORS.gray}
-                onPress={() =>
-                  Alert.alert(
-                    "OTP Timer",
-                    "You must wait for 2 minutes to edit number."
-                  )
-                }
-              />
-            )}
+        <View accessibilityLabel="OtpKeyboardView" style={styles.safeContainer}>
+          <Text style={styles.headline}>Verify mobile number</Text>
+          <Text style={styles.subHeadline}>
+            Please wait, we will auto verify the OTP sent to
           </Text>
-          <FormInput
-            containerStyle={{
-              marginTop: 30,
-              width: SIZES.width * 0.6,
-              alignSelf: "center",
-            }}
-            letterSpacing={SIZES.width * 0.0699}
-            autoFocus={true}
-            value={otp}
-            onChange={setOtp}
-            maxLength={6}
-            keyboardType="numeric"
-            placeholder={"******"}
+          <Text style={[styles.headline, { marginTop: 5, ...FONTS.h3 }]}>
+            {phoneNumber}
+
+            <MaterialCommunityIcons
+              name="pencil"
+              size={16}
+              color={back ? COLORS.primary : COLORS.gray}
+              onPress={() => {
+                back
+                  ? navigation.navigate("Login")
+                  : Alert.alert(
+                      "OTP Timer",
+                      "You must wait for 2 minutes to edit number."
+                    );
+              }}
+            />
+          </Text>
+          <OtpInput
+            otp={otp}
+            setOtp={setOtp}
+            inputRef={inputRef}
+            accessibilityLabel="OtpInput"
           />
 
-          <CountDown
-            until={countDownTime}
-            onFinish={() => {
-              setBack(true);
-            }}
-            size={20}
-            style={{ marginTop: 20 }}
-            digitStyle={{ backgroundColor: "#FFF" }}
-            digitTxtStyle={{ color: COLORS.primary }}
-            timeToShow={["M", "S"]}
-            timeLabels={{ m: "MM", s: "SS" }}
-            onChange={(time) => {
-              if (time%5===0) {
-                dispatch(setLoginTimer(time));
-              }
-            }}
-          />
-          {back ? (
-            <Text
-              style={styles.resendText}
-              onPress={() => {
-                sendSmsVerification(phoneNumber)
-                  .then((res) => {
-                    if (res["response"]["status"] === "success") {
-                      setOtp("");
-                      setBack(false);
-                      dispatch(resetTimer());
-                      Alert.alert("OTP resent successfully");
-                      Analytics.trackEvent("OTPScreen|SendSms|Success", {
-                        unipeEmployeeId: unipeEmployeeId,
-                      });
-                    } else {
-                      Alert.alert(
-                        res["response"]["status"],
-                        res["response"]["details"]
-                      );
-                      Analytics.trackEvent("OTPScreen|SendSms|Error", {
-                        unipeEmployeeId: unipeEmployeeId,
-                        error: res["response"]["details"],
-                      });
-                    }
-                  })
-                  .catch((error) => {
-                    console.log(error.toString());
-                    Alert.alert("Error", error.toString());
-                    Analytics.trackEvent("OTPScreen|SendSms|Error", {
-                      unipeEmployeeId: unipeEmployeeId,
-                      error: error.toString(),
-                    });
-                  });
-              }}
-            >
-              Resend
-            </Text>
-          ) : null}
-          <Text style={styles.otpreadtxt}>
-            {" "}
-            Sit back & relax while we fetch the OTP & log you inside the Unipe
-            App
+          <Text style={styles.subHeadline} accessibilityLabel="OtpText">
+            Didn’t receive the secure code?{" "}
+            {back ? (
+              <Text
+                style={{ ...FONTS.h4, color: COLORS.primary }}
+                onPress={onResendOtp}
+              >
+                Resend OTP
+              </Text>
+            ) : (
+              <Text style={{ color: COLORS.secondary }}>
+                Resend OTP in {Math.trunc(countDownTime / 60)}:
+                {String("0" + (countDownTime % 60)).slice(-2)}
+              </Text>
+            )}
           </Text>
           <PrimaryButton
-            title="Verify"
+            accessibilityLabel="OtpBtn"
+            title="Continue"
             disabled={!next}
-            onPress={() => {
-              setNext(false);
-              checkVerification(phoneNumber, otp)
-                .then((res) => {
-                  console.log("res: ", res);
-                  if (res["response"]["status"] === "success") {
-                    if (onboarded) {
-                      navigation.navigate("BackendSync", {
-                        destination: "HomeStack",
-                      });
-                    } else {
-                      navigation.navigate("BackendSync", {
-                        destination: "Welcome",
-                      });
-                    }
-                    dispatch(setLoginTimer(0));
-                    Analytics.trackEvent("OTPScreen|Check|Success", {
-                      unipeEmployeeId: unipeEmployeeId,
-                    });
-                  } else {
-                    Alert.alert(
-                      res["response"]["status"],
-                      res["response"]["details"]
-                    );
-                    Analytics.trackEvent("OTPScreen|Check|Error", {
-                      unipeEmployeeId: unipeEmployeeId,
-                      error: res["response"]["details"],
-                    });
-                  }
-                })
-                .catch((error) => {
-                  console.log(error.toString());
-                  Alert.alert("Error", error.toString());
-                  Analytics.trackEvent("OTPScreen|Check|Error", {
-                    unipeEmployeeId: unipeEmployeeId,
-                    error: error.toString(),
-                  });
-                });
-            }}
+            onPress={onSubmitOtp}
           />
         </View>
       </KeyboardAvoidingWrapper>

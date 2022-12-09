@@ -2,12 +2,14 @@
 	"name": "employee-app",
 	"main": "index.js",
 	"scripts": {
-		"start:dev": "gulp set --env=dev && npx react-native run-android",
-		"start:test": "gulp set --env=test && npx react-native run-android",
-		"build:dev": "bash ./android/versioning.sh && gulp set --env=dev && cd android && gradlew assembleRelease",
-		"build:test": "bash ./android/versioning.sh && gulp set --env=test && cd android && gradlew assembleRelease",
-		"build:debug": "bash ./android/versioning.sh && gulp set --env=test && cd android && gradlew assembleDebug",
-		"build:prod": "bash ./android/versioning.sh && gulp set --env=prod && cd android && gradlew bundleRelease"
+		"start:dev": "bash ./android/ACFlavours.sh -e dev && gulp set --env=dev && npx react-native run-android --active-arch-only --variant=devDebug --appIdSuffix=dev",
+		"start:test": "bash ./android/ACFlavours.sh -e qa && gulp set --env=test && npx react-native run-android --active-arch-only --variant=qaDebug --appIdSuffix=qa",
+		"build:dev": "bash ./android/ACFlavours.sh -e dev && bash ./android/versioning.sh && gulp set --env=dev && cd android && ./gradlew assembleDevRelease",
+		"build:qa": "bash ./android/ACFlavours.sh -e qa && bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
+		"build:demo": "bash ./android/ACFlavours.sh -e demo && bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
+		"build:debug": "bash ./android/ACFlavours.sh -e dev && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
+		"build:prod": "bash ./android/ACFlavours.sh -e prod && bash ./android/versioning.sh && gulp set --env=prod && cd android && ./gradlew assembleProdRelease",
+    	"postinstall": "patch-package"
 	},
 	"dependencies": {
 		"@react-native-async-storage/async-storage": "^1.17.6",
@@ -37,13 +39,13 @@
 		"gulp-clean": "^0.4.0",
 		"gulp-rename": "^2.0.0",
 		"metro-react-native-babel-preset": "^0.71.3",
+		"patch-package": "^6.5.0",
 		"react": "17.0.2",
 		"react-dom": "17.0.2",
 		"react-native": "0.68.2",
 		"react-native-code-push": "^7.0.5",
 		"react-native-collapsible": "^1.6.0",
 		"react-native-config": "^1.4.6",
-		"react-native-countdown-component": "^2.7.1",
 		"react-native-device-info": "^10.2.0",
 		"react-native-dotenv": "^3.3.1",
 		"react-native-extended-stylesheet": "^0.12.0",
@@ -57,7 +59,7 @@
 		"react-native-popable": "^0.4.3",
 		"react-native-push-notification": "^8.1.1",
 		"react-native-quick-base64": "^2.0.3",
-		"react-native-razorpay": "^2.2.9",
+		"react-native-razorpay": "^2.3.0",
 		"react-native-reanimated": "^2.9.1",
 		"react-native-render-html": "^6.3.4",
 		"react-native-safe-area-context": "^4.2.5",
@@ -65,22 +67,33 @@
 		"react-native-sms-retriever": "^1.1.1",
 		"react-native-splash-screen": "^3.3.0",
 		"react-native-step-indicator": "^1.0.3",
-		"react-native-svg": "^13.2.0",
+		"react-native-svg": "^13.6.0",
 		"react-native-tab-view": "^3.1.1",
 		"react-native-vector-icons": "^9.1.0",
 		"react-native-web": "0.17.7",
 		"react-native-webview": "^11.23.1",
+		"react-native-youtube-iframe": "^2.2.2",
 		"react-redux": "^8.0.2",
-		"redux-persist": "^6.0.0"
+		"redux-persist": "^6.0.0",
+		"wd": "^1.14.0"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.12.9",
+		"@testing-library/jest-dom": "^5.16.5",
+		"jasmine": "^4.5.0",
+		"jest": "^29.3.1",
 		"react-native-set-version": "^1.1.2",
-		"react-native-svg-transformer": "^1.0.0"
+		"react-native-svg-transformer": "^1.0.0",
+		"wdio-wait-for": "^3.0.1",
+		"webdriverio": "^7.27.0"
 	},
 	"resolutions": {
 		"glob": "7.2.0"
 	},
 	"private": true,
-	"version": "2022.11.21"
+	"version": "2022.11.23",
+	"jest": {
+		"verbose": true,
+		"testTimeout": 50000
+	}
 }

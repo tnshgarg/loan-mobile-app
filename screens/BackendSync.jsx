@@ -117,6 +117,7 @@ const BackendSync = (props) => {
   return (
     <Image
       source={require("../android/app/src/main/res/drawable/launch_screen.png")}
+      style={{ width: "100%", height: "100%" }}
     />
   );
 };

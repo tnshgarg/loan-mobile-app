@@ -6,6 +6,7 @@ export default DevMenu = () => {
   const navigation = useNavigation();
 
   const screens = [
+    { title: "Onboarding", stack: "OnboardingStack", name: "Onboarding" },
     { title: "Welcome", stack: "OnboardingStack", name: "Welcome" },
     { title: "Login", stack: "OnboardingStack", name: "Login" },
     { title: "Profile", stack: "OnboardingStack", name: "ProfileForm" },
@@ -15,8 +16,8 @@ export default DevMenu = () => {
     { title: "Mandate", stack: "OnboardingStack", name: "Mandate" },
     { title: "Home", stack: "HomeStack", name: "DrawerHome" },
     // { title: "Home", stack: "DrawerNavigator", name: "DrawerHome" },
-    { title: "KYC Details", stack: "HomeStack", name: "KYC" },
-    { title: "Profile Details", stack: "HomeStack", name: "Profile" },
+    { title: "KYC Details", stack: "AccountStack", name: "KYC" },
+    { title: "Profile Details", stack: "AccountStack", name: "Profile" },
     { title: "EWA", stack: "EWAStack", name: "EWA_OFFER" },
   ];
 
@@ -25,6 +26,7 @@ export default DevMenu = () => {
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         {screens.map((screen, index) => (
           <DevMenuButton
+            accessibilityLabel={screen.title}
             key={index}
             style={{ marginTop: 20 }}
             title={screen.title}
@@ -37,6 +39,18 @@ export default DevMenu = () => {
           style={{ marginTop: 20 }}
           title={"Notification Test"}
           onPress={() => handleNotification()}
+        />
+        <DevMenuButton
+          style={{ marginTop: 20 }}
+          title={"Account"}
+          onPress={() =>
+            navigation.navigate("HomeStack", {
+              screen: "DrawerHome",
+              params: {
+                screen: "Account",
+              },
+            })
+          }
         />
         <DevMenuButton
           style={{ marginTop: 20 }}

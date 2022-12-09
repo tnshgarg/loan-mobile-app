@@ -113,5 +113,5 @@ export const notificationListener = async () => {
           }
         }
       });
-  }, 100);
+  }, 800);
 };

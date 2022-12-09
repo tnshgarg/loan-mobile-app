@@ -14,6 +14,7 @@ const DropDownForm = ({
   value,
   setValue,
   placeholder,
+  accessibilityLabel,
 }) => {
   const [visible, setVisible] = useState(false);
   return (
@@ -28,6 +29,7 @@ const DropDownForm = ({
           containerStyle={{ ...containerStyle }}
           placeholder={placeholder}
           value={value}
+          accessibilityLabel={accessibilityLabel}
           disabled={true}
           appendComponent={
             <Icon name="keyboard-arrow-down" size={24} color={COLORS.gray} />
@@ -39,11 +41,16 @@ const DropDownForm = ({
         <Text style={styles.header}>{placeholder}</Text>
         <ScrollView>
           {data.map((item, index) => (
-            <View style={styles.container} key={item}>
+            <View
+              accessibilityLabel="Dropdown"
+              style={styles.container}
+              key={item}
+            >
               <TouchableOpacity
                 style={styles.listItem}
                 activeOpacity={0.7}
                 onPress={() => setValue(item)}
+                accessibilityLabel={data[1]}
               >
                 <Icon
                   name={
@@ -60,6 +67,7 @@ const DropDownForm = ({
           ))}
         </ScrollView>
         <PrimaryButton
+          accessibilityLabel={"DropdownBtn"}
           title="Done"
           disabled={!value}
           onPress={() => {

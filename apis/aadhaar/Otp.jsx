@@ -1,7 +1,7 @@
 import { OG_API_KEY } from "@env";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Alert } from "react-native";
+import { Alert, Text } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import {
   addSubmitOTPtxnId,
@@ -14,6 +14,7 @@ import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import { resetTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
+import { COLORS, FONTS } from "../../constants/Theme";
 
 const AadhaarOtpApi = (props) => {
   const dispatch = useDispatch();
@@ -49,7 +50,7 @@ const AadhaarOtpApi = (props) => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
-  const backendPush = ({verifyMsg, verifyStatus, verifyTimestamp}) => {
+  const backendPush = ({ verifyMsg, verifyStatus, verifyTimestamp }) => {
     console.log("AadhaarOtpApi aadhaarSlice: ", aadhaarSlice);
     setVerifyMsg(verifyMsg);
     setVerifyStatus(verifyStatus);
@@ -66,10 +67,13 @@ const AadhaarOtpApi = (props) => {
       token: token,
     });
     setLoading(false);
-  }
+  };
 
   const goForFetch = () => {
     setLoading(true);
+    if (props.isTextButton) {
+      props.toggle(false); // setResend(false)
+    }
 
     const options = {
       method: "POST",
@@ -90,8 +94,8 @@ const AadhaarOtpApi = (props) => {
               case "1001":
                 setSubmitOTPtxnId(responseJson["data"]["transaction_id"]);
                 backendPush({
-                  verifyMsg: "OTP sent to User", 
-                  verifyStatus: "PENDING", 
+                  verifyMsg: "OTP sent to User",
+                  verifyStatus: "PENDING",
                   verifyTimestamp: responseJson["timestamp"],
                 });
                 dispatch(resetTimer());
@@ -111,8 +115,8 @@ const AadhaarOtpApi = (props) => {
                 break;
               default:
                 backendPush({
-                  verifyMsg: responseJson["data"]["message"], 
-                  verifyStatus: "ERROR", 
+                  verifyMsg: responseJson["data"]["message"],
+                  verifyStatus: "ERROR",
                   verifyTimestamp: verifyTimestamp,
                 });
                 Alert.alert("Error", responseJson["data"]["message"]);
@@ -124,8 +128,8 @@ const AadhaarOtpApi = (props) => {
             }
           } else if (responseJson?.error?.message) {
             backendPush({
-              verifyMsg: responseJson["error"]["message"], 
-              verifyStatus: "ERROR", 
+              verifyMsg: responseJson["error"]["message"],
+              verifyStatus: "ERROR",
               verifyTimestamp: verifyTimestamp,
             });
             Alert.alert("Error", responseJson["error"]["message"]);
@@ -135,8 +139,8 @@ const AadhaarOtpApi = (props) => {
             });
           } else {
             backendPush({
-              verifyMsg: responseJson["message"], 
-              verifyStatus: "ERROR", 
+              verifyMsg: responseJson["message"],
+              verifyStatus: "ERROR",
               verifyTimestamp: verifyTimestamp,
             });
             Alert.alert("Error", responseJson["message"]);
@@ -147,8 +151,8 @@ const AadhaarOtpApi = (props) => {
           }
         } catch (error) {
           backendPush({
-            verifyMsg: error.toString(), 
-            verifyStatus: "ERROR", 
+            verifyMsg: error.toString(),
+            verifyStatus: "ERROR",
             verifyTimestamp: verifyTimestamp,
           });
           Alert.alert("Error", error.toString());
@@ -160,8 +164,8 @@ const AadhaarOtpApi = (props) => {
       })
       .catch((error) => {
         backendPush({
-          verifyMsg: error.toString(), 
-          verifyStatus: "ERROR", 
+          verifyMsg: error.toString(),
+          verifyStatus: "ERROR",
           verifyTimestamp: verifyTimestamp,
         });
         Alert.alert("Error", error.toString());
@@ -171,8 +175,13 @@ const AadhaarOtpApi = (props) => {
         });
       });
   };
-  return (
+  return props.isTextButton ? (
+    <Text style={{ ...FONTS.h4, color: COLORS.primary }} onPress={goForFetch}>
+      {props.textButton}
+    </Text>
+  ) : (
     <PrimaryButton
+      accessibilityLabel={"AadhaarOtpBtn"}
       title={loading ? "Verifying" : props.title || "Continue"}
       disabled={props.disabled}
       loading={loading}

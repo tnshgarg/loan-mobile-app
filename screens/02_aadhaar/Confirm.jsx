@@ -1,18 +1,14 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import {
-  Alert,
-  SafeAreaView,
-  ScrollView,
-  BackHandler,
-} from "react-native";
+import { Alert, SafeAreaView, ScrollView, BackHandler } from "react-native";
 import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import AadhaarConfirmApi from "../../apis/aadhaar/Confirm";
 import Header from "../../components/atoms/Header";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
 const AadhaarConfirm = () => {
   const dispatch = useDispatch();
@@ -36,15 +32,13 @@ const AadhaarConfirm = () => {
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
-        title="Aadhaar Data Confirmation"
-        onLeftIconPress={() => backAction()}
-      />
+      <LogoHeaderBack leftOnPress={backAction} />
       <OnboardingProgressBar step={1} />
       <ScrollView keyboardShouldPersistTaps="handled">
         <AadhaarConfirmApi />

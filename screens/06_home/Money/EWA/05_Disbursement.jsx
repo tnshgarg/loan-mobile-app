@@ -6,6 +6,9 @@ import { ewa, styles } from "../../../../styles";
 import { useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import { getBackendData } from "../../../../services/employees/employeeServices";
+import SVGImgFailure from "../../../../assets/ewa_failure.svg";
+import SVGImgSuccess from "../../../../assets/ewa_success.svg";
+import SVGImgPending from "../../../../assets/ewa_pending.svg";
 
 const Disbursement = ({ route, navigation }) => {
   const { offer } = route.params;
@@ -26,9 +29,20 @@ const Disbursement = ({ route, navigation }) => {
   const backAction = () => {
     navigation.navigate("HomeStack", {
       screen: "DrawerHome",
-      params: { screen: "Money" , params :{ screen: "EWA" }},
+      params: { screen: "Money", params: { screen: "EWA" } },
     });
     return true;
+  };
+
+  const StatusImage = (status) => {
+    switch (status) {
+      case "SUCCESS":
+        return <SVGImgSuccess />;
+      case "FAILURE":
+        return <SVGImgFailure />;
+      default:
+        return <SVGImgPending />;
+    }
   };
 
   useEffect(() => {
@@ -85,17 +99,14 @@ const Disbursement = ({ route, navigation }) => {
     { subTitle: "Bank Account Number", value: bankAccountNumber },
     { subTitle: "Due Date", value: dueDate },
     { subTitle: "Loan Account Number", value: loanAccountNumber },
-    { subTitle: "Transfer Satus", value: status },
+    { subTitle: "Transfer Status", value: status },
   ];
 
   return (
     <SafeAreaView style={styles.safeContainer}>
       <Header title="Money Transfer" onLeftIconPress={() => backAction()} />
       <View style={styles.container}>
-        <Image
-          style={ewa.successImg}
-          source={require("../../../../assets/animatedsuccess.gif")}
-        />
+        {StatusImage(status)}
         <CollapsibleCard
           data={data}
           title="Loan Details"

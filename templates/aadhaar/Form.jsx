@@ -8,6 +8,7 @@ import { addNumber } from "../../store/slices/aadhaarSlice";
 import InfoCard from "../../components/atoms/InfoCard";
 import FormInput from "../../components/atoms/FormInput";
 import Checkbox from "../../components/atoms/Checkbox";
+import { COLORS, FONTS } from "../../constants/Theme";
 
 const AadhaarFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -32,9 +33,14 @@ const AadhaarFormTemplate = (props) => {
     <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <View style={[styles.container, { padding: 0 }]}>
-          {/* <Text style={form.formHeader}>Aadhaar Verification</Text> */}
+          <Text style={styles.headline}>Enter your Aadhaar number</Text>
+          <Text style={styles.subHeadline}>
+            कृपया अपना आधार नम्बर यहाँ भरें ॰ इस आधार नम्बर से जुड़े मोबाइल
+            नम्बर पर हम ओ॰टी॰पी॰ भेजेंगे ॰
+          </Text>
           <FormInput
-            placeholder={"Enter AADHAAR Number"}
+            accessibilityLabel={"AadhaarInput"}
+            placeholder={"Aadhaar Number"}
             containerStyle={{ marginVertical: 10 }}
             keyboardType="phone-pad"
             autoFocus={true}
@@ -42,15 +48,20 @@ const AadhaarFormTemplate = (props) => {
             onChange={setNumber}
             maxLength={12}
             numeric
+            appendComponent={
+              <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
+                {number.length}/12
+              </Text>
+            }
           />
-          
+
           {number && !validNumber ? (
-            <Text style={bankform.formatmsg}>Invalid AADHAAR Number.</Text>
+            <Text style={bankform.formatmsg}>Invalid Aadhaar Number.</Text>
           ) : null}
 
           <InfoCard
             info={
-              "My Mobile number is linked to my Aadhar card & I can receive the OTP on my Aadhar Linked Mobile Number"
+              "Please note: You will receive an OTP to your Aadhaar registered mobile number."
             }
           />
 

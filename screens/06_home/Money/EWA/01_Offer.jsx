@@ -4,13 +4,7 @@ import CheckBox from "@react-native-community/checkbox";
 import { useNavigation } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
-import {
-  Alert,
-  BackHandler,
-  SafeAreaView,
-  Text,
-  View,
-} from "react-native";
+import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import StepIndicator from "react-native-step-indicator";
@@ -30,6 +24,7 @@ import {
   stepIndicatorStyles,
 } from "../../../../styles";
 import TnC from "../../../../templates/docs/EWATnC.js";
+import MoneySilder from "../../../../components/organisms/MoneySilder";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -46,6 +41,7 @@ const Offer = () => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const campaignId = useSelector((state) => state.auth.campaignId);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const offerId = useSelector((state) => state.ewaLive.offerId);
   const eligibleAmount = useSelector((state) => state.ewaLive.eligibleAmount);
@@ -69,13 +65,14 @@ const Offer = () => {
   }, [deviceId, ipAddress]);
 
   const backAction = () => {
-    navigation.navigate("EWA");
+    navigation.navigate("Money", { screen: "EWA" });
     return true;
   };
-  
+
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   useEffect(() => {
@@ -101,6 +98,7 @@ const Offer = () => {
           timestamp: Date.now(),
           ipAddress: ipAddress,
           deviceId: deviceId,
+          campaignId: campaignId,
         },
         token: token,
       })
@@ -126,6 +124,7 @@ const Offer = () => {
           ipAddress: ipAddress,
           deviceId: deviceId,
           loanAmount: parseInt(amount),
+          campaignId: campaignId,
         },
         token: token,
       })
@@ -166,11 +165,9 @@ const Offer = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
-        title="Advance Salary"
-        onLeftIconPress={() => backAction()}
-      />
+      <Header title="Advance Salary" onLeftIconPress={() => backAction()} />
       <View style={styles.container}>
+        {/* <MoneySilder /> */}
         <FormInput
           placeholder="Enter amount"
           containerStyle={{ marginVertical: 10, marginHorizontal: 50 }}

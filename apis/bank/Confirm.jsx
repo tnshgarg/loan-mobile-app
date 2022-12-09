@@ -7,7 +7,7 @@ import { addVerifyMsg, addVerifyStatus } from "../../store/slices/bankSlice";
 import { bankBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
-import CollapsibleCard from "../../components/molecules/CollapsibleCard";
+import DetailsCard from "../../components/molecules/DetailsCard";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import Analytics from "appcenter-analytics";
 
@@ -37,11 +37,20 @@ const BankConfirmApi = (props) => {
 
   const cardData = () => {
     var res = [
+      {
+        subTitle: "AccountHolderName",
+        value: data?.accountHolderName,
+        fullWidth: true,
+      },
+      {
+        subTitle: "AccountNumber",
+        value: data?.accountNumber,
+        fullWidth: true,
+      },
       { subTitle: "Bank Name", value: data?.bankName },
       { subTitle: "Branch Name", value: data?.branchName },
       { subTitle: "Branch City", value: data?.branchCity },
-      { subTitle: "AccountHolderName", value: data?.accountHolderName },
-      { subTitle: "AccountNumber", value: data?.accountNumber },
+
       { subTitle: "IFSC", value: data?.ifsc },
       { subTitle: "UPI", value: data?.upi },
     ];
@@ -50,11 +59,7 @@ const BankConfirmApi = (props) => {
 
   return (
     <View style={styles.container}>
-      <CollapsibleCard
-        data={cardData()}
-        title="Are these your Bank details ?"
-        isClosed={false}
-      />
+      <DetailsCard data={cardData()} />
 
       <View
         style={{
@@ -65,12 +70,12 @@ const BankConfirmApi = (props) => {
         }}
       >
         <Button
-          title="No"
+          title="Not Me"
           type="solid"
           uppercase={false}
           style={form.noButton}
           color={COLORS.warning}
-          titleStyle={{ ...FONTS.h3, color: COLORS.warning }}
+          titleStyle={{ ...FONTS.h4, color: COLORS.warning }}
           pressableContainerStyle={{ width: "100%" }}
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
@@ -96,12 +101,13 @@ const BankConfirmApi = (props) => {
         />
         <FuzzyCheck name={data?.accountHolderName} step="Bank Account" />
         <Button
-          title="Yes"
+          accessibilityLabel="BankYesBtn"
+          title="Yes, that’s me"
           type="solid"
           uppercase={false}
           style={form.yesButton}
           color={COLORS.primary}
-          titleStyle={{ ...FONTS.h3, color: COLORS.primary }}
+          titleStyle={{ ...FONTS.h4, color: COLORS.primary }}
           pressableContainerStyle={{ width: "100%" }}
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {

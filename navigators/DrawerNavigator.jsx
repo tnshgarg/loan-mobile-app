@@ -10,6 +10,7 @@ import { COLORS, FONTS } from "../constants/Theme";
 import CustomDrawer from "./CustomDrawer";
 import BottomTabNav from "./BottomTabNav";
 import TopAppBar from "../components/molecules/TopAppBar";
+import { View } from "react-native";
 
 const Drawer = createDrawerNavigator();
 
@@ -25,6 +26,7 @@ const DrawerNavigator = () => {
         drawerActiveBackgroundColor: COLORS.primary,
         drawerActiveTintColor: "white",
         drawerLabelStyle: { ...FONTS.body4 },
+
         header: ({ navigation }) => (
           <AppBar
             title={<SVGImg />}
@@ -33,6 +35,7 @@ const DrawerNavigator = () => {
             color="#ffffff"
             leading={
               <IconButton
+                accessibilityLabel="NavigationDrawer"
                 icon={<Icon name="menu" size={30} />}
                 onPress={() => {
                   console.log("Menu");
@@ -49,10 +52,12 @@ const DrawerNavigator = () => {
         options={{
           drawerLabel: "Home",
           drawerIcon: ({ color }) => (
-            <Ionicons name="home" color={color} size={20} />
+            <View accessibilityLabel="HomeIcon">
+              <Ionicons name="home" color={color} size={20} />
+            </View>
           ),
-          // headerShown: false,
-          header: TopAppBar,
+          headerShown: false,
+          //header: TopAppBar,
         }}
         name="DrawerHome"
         component={BottomTabNav}
@@ -61,7 +66,9 @@ const DrawerNavigator = () => {
         options={{
           drawerLabel: "Profile",
           drawerIcon: ({ color }) => (
-            <Ionicons name="person-outline" color={color} size={20} />
+            <View accessibilityLabel="ProfileIcon">
+              <Ionicons name="person-outline" color={color} size={20} />
+            </View>
           ),
         }}
         name="Profile"
@@ -71,7 +78,9 @@ const DrawerNavigator = () => {
         options={{
           drawerLabel: "KYC",
           drawerIcon: ({ color }) => (
-            <Octicons name="verified" color={color} size={20} />
+            <View accessibilityLabel="KYCIcon">
+              <Octicons name="verified" color={color} size={20} />
+            </View>
           ),
         }}
         name="KYC"
@@ -81,7 +90,9 @@ const DrawerNavigator = () => {
         options={{
           drawerLabel: "Settings",
           drawerIcon: ({ color }) => (
-            <Ionicons name="settings" color={color} size={20} />
+            <View accessibilityLabel="SettingsIcon">
+              <Ionicons name="settings" color={color} size={20} />
+            </View>
           ),
           headerShown: true,
         }}
