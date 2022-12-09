@@ -164,6 +164,9 @@ android {
         qa {
             applicationIdSuffix ".qa"
         }
+        demo{
+            applicationIdSuffix ".demo"
+        }
     }
 
     defaultConfig {

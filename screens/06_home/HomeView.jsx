@@ -62,7 +62,7 @@ const HomeView = () => {
     }
   }, [aadhaarVerifyStatus, bankVerifyStatus, panVerifyStatus]);
 
-  var [campaignId, setCampaignId] = useState(null);
+  var [campaignId, setCampaignId] = useState(useSelector((state) => state.auth.campaignId));
 
   useEffect(() => {
     dispatch(addCurrentScreen("Home"));
@@ -142,21 +142,22 @@ const HomeView = () => {
       console.log("route", splitted[3]);
       switch (splitted[3].toLowerCase()) {
         case "ewa":
+          switch (splitted[4]?.toLowerCase()) {
+            case "campaign":
+              console.log("campaignId", splitted[5]);
+              setCampaignId(splitted[5]);
+              break;
+            default:
+              break;
+          }
           navigation.navigate("Money");
-          break;
-        default:
-          break;
-      }
-      switch (splitted[4].toLowerCase()) {
-        case "campaign":
-          console.log("campaignId", splitted[5]);
-          setCampaignId(splitted[5]);
           break;
         default:
           break;
       }
     } else {
       console.log("No intent. User opened App.");
+      console.log("campaignId", campaignId)
     }
   };
 

@@ -125,7 +125,7 @@ const OTPScreen = () => {
             });
           } else {
             navigation.navigate("BackendSync", {
-              destination: "Welcome"
+              destination: "Welcome",
             });
           }
           Analytics.trackEvent("OTPScreen|Check|Success", {

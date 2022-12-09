@@ -32,7 +32,6 @@ const MandateFormTemplate = (props) => {
 
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
-  const [backendPush, setBackendPush] = useState(false);
 
   const token = useSelector((state) => state.auth?.token);
   const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
@@ -45,9 +44,8 @@ const MandateFormTemplate = (props) => {
 
   const mandateSlice = useSelector((state) => state.mandate);
   const [authType, setAuthType] = useState();
-  const [customerId, setCustomerId] = useState();
-  const [orderId, setOrderId] = useState();
-  const [active, setActive] = useState(mandateSlice?.active);
+  const [customerId, setCustomerId] = useState(mandateSlice?.data?.customerId);
+  const [orderId, setOrderId] = useState(null);
   const [data, setData] = useState(mandateSlice?.data);
   const [verifyMsg, setVerifyMsg] = useState(mandateSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(mandateSlice?.verifyStatus);
@@ -81,24 +79,25 @@ const MandateFormTemplate = (props) => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
-  useEffect(() => {
-    if (backendPush) {
-      console.log("mandateSlice: ", mandateSlice);
-      mandatePush({
-        data: {
-          unipeEmployeeId: unipeEmployeeId,
-          ipAddress: ipAddress,
-          deviceId: deviceId,
-          data: data,
-          verifyMsg: verifyMsg,
-          verifyStatus: verifyStatus,
-          verifyTimestamp: verifyTimestamp,
-        },
-        token: token,
-      });
-      setBackendPush(false);
-    }
-  }, [backendPush]);
+  const backendPush = ({data, verifyMsg, verifyStatus, verifyTimestamp}) => {
+    console.log("mandateSlice: ", mandateSlice);
+    setData(data);
+    setVerifyMsg(verifyMsg);
+    setVerifyStatus(verifyStatus);
+    setVerifyTimestamp(verifyTimestamp);
+    mandatePush({
+      data: {
+        unipeEmployeeId: unipeEmployeeId,
+        ipAddress: ipAddress,
+        deviceId: deviceId,
+        data: data,
+        verifyMsg: verifyMsg,
+        verifyStatus: verifyStatus,
+        verifyTimestamp: verifyTimestamp,
+      },
+      token: token,
+    });
+  }
 
   useEffect(() => {
     console.log("createCustomer customerId: ", customerId, !customerId);
@@ -157,20 +156,21 @@ const MandateFormTemplate = (props) => {
         .then((data) => {
           getToken({ paymentId: data.razorpay_payment_id })
             .then((token) => {
-              // TODO: check response status code
               console.log("mandate token.data: ", token.data);
-              setData({
-                authType: authType,
-                extTokenId: token.data.token_id,
-                extOrderId: orderId,
-                extPaymentId: data.razorpay_payment_id,
-                extPaymentSignature: data.razorpay_signature,
-                extCustomerId: customerId,
+              backendPush({
+                data: {
+                  authType: authType,
+                  customerId: customerId,
+                  orderId: orderId,
+                  paymentId: data.razorpay_payment_id,
+                  paymentSignature: data.razorpay_signature,
+                  provider: 'razropay',
+                  tokenId: token.data.token_id,
+                },
+                verifyMsg: "Mandate Verified Successfully",
+                verifyStatus: "SUCCESS",
+                verifyTimestamp: Date.now(),
               });
-              setVerifyMsg("Mandate Verified Successfully");
-              setVerifyStatus("SUCCESS");
-              setVerifyTimestamp(Date.now());
-              setBackendPush(true);
               showToast("Mandate Verified Successfully");
               Analytics.trackEvent("Mandate|GetToken|Success", {
                 unipeEmployeeId: unipeEmployeeId,
@@ -181,9 +181,12 @@ const MandateFormTemplate = (props) => {
             })
             .catch((error) => {
               console.log("mandate error:", error.description);
-              setVerifyMsg(error.description);
-              setVerifyStatus("ERROR");
-              setBackendPush(true);
+              backendPush({
+                data: {},
+                verifyMsg: error.description,
+                verifyStatus: "ERROR",
+                verifyTimestamp: Date.now(),
+              });
               Alert.alert("Error", error.description);
               Analytics.trackEvent("Mandate|GetToken|Error", {
                 unipeEmployeeId: unipeEmployeeId,
@@ -193,9 +196,12 @@ const MandateFormTemplate = (props) => {
         })
         .catch((error) => {
           console.log("mandate error:", error.description);
-          setVerifyMsg(error.description);
-          setVerifyStatus("ERROR");
-          setBackendPush(true);
+          backendPush({
+            data: {},
+            verifyMsg: error.description,
+            verifyStatus: "ERROR",
+            verifyTimestamp: Date.now(),
+          });
           Alert.alert("Error", error.description);
           Analytics.trackEvent("Mandate|Register|Error", {
             unipeEmployeeId: unipeEmployeeId,
@@ -207,9 +213,12 @@ const MandateFormTemplate = (props) => {
 
   const ProceedButton = ({ authType }) => {
     setAuthType(authType);
-    setVerifyMsg(`Mandate|CreateOrder|${authType} PENDING`);
-    setVerifyStatus("PENDING");
-    setBackendPush(true);
+    backendPush({
+      data: {authType: authType},
+      verifyMsg: `Mandate|CreateOrder|${authType} PENDING`,
+      verifyStatus: "PENDING",
+      verifyTimestamp: Date.now(),
+    });
     createOrder({
       authType: authType,
       customerId: customerId,
@@ -220,19 +229,25 @@ const MandateFormTemplate = (props) => {
     })
       .then((res) => {
         console.log(`Mandate|CreateOrder|${authType} res.data:`, res.data);
-        setVerifyMsg(`Mandate|CreateOrder|${authType} SUCCESS`);
         setOrderId(res.data.id);
+        backendPush({
+          data: {authType: authType},
+          verifyMsg: `Mandate|CreateOrder|${authType} SUCCESS`,
+          verifyStatus: "PENDING",
+          verifyTimestamp: Date.now(),
+        });
         Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Success`, {
           unipeEmployeeId: unipeEmployeeId,
         });
       })
       .catch((error) => {
         console.log(`Mandate|CreateOrder|${authType} error:`, error.toString());
-        setVerifyMsg(
-          `Mandate|CreateOrder|${authType} ERROR ${error.toString()}`
-        );
-        setVerifyStatus("ERROR");
-        setBackendPush(true);
+        backendPush({
+          data: {authType: authType},
+          verifyMsg: `Mandate|CreateOrder|${authType} ERROR ${error.toString()}`,
+          verifyStatus: "ERROR",
+          verifyTimestamp: Date.now(),
+        });
         Alert.alert("Error", error.toString());
         Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Error`, {
           unipeEmployeeId: unipeEmployeeId,
@@ -266,18 +281,26 @@ const MandateFormTemplate = (props) => {
             value={ifsc}
             disabled={true}
           />
-          <PrimaryButton
-            title="Debit Card"
-            onPress={() => {
-              ProceedButton({ authType: "debitcard" });
-            }}
-          />
-          <PrimaryButton
-            title="Net Banking"
-            onPress={() => {
-              ProceedButton({ authType: "netbanking" });
-            }}
-          />
+          { 
+            customerId==null 
+            ?
+              <Text>Initializing ... </Text>
+            :
+              <>
+                <PrimaryButton
+                  title="Debit Card"
+                  onPress={() => {
+                    ProceedButton({ authType: "debitcard" });
+                  }}
+                />
+                <PrimaryButton
+                  title="Net Banking"
+                  onPress={() => {
+                    ProceedButton({ authType: "netbanking" });
+                  }}
+                />
+              </>
+          }
         </ScrollView>
       </KeyboardAvoidingWrapper>
     </SafeAreaView>
