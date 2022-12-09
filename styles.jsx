@@ -70,7 +70,7 @@ export const styles = EStyleSheet.create({
     textAlign: "center",
   },
   termsText: {
-    ...FONTS.h4,
+    ...FONTS.body5,
     color: COLORS.primary,
   },
   otpreadtxt: {
@@ -178,9 +178,8 @@ export const checkBox = EStyleSheet.create({
     marginLeft: "10rem",
     marginRight: "40rem",
     marginTop: "30rem",
-    fontSize: 14,
     color: COLORS.gray,
-    ...FONTS.body4,
+    ...FONTS.body5,
   },
   padding: {
     marginTop: "30rem",

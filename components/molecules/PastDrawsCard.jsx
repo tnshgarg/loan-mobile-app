@@ -67,9 +67,9 @@ const OfferCard = ({ offer }) => {
         <View
           style={{
             backgroundColor: COLORS.lightGray,
-            paddingHorizontal: "3%",
             borderRadius: 5,
-            padding: 3,
+            paddingVertical: 5,
+            paddingHorizontal: 10,
             justifyContent: "flex-start",
             alignSelf: "center",
             alignItems: "center",

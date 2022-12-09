@@ -1,30 +1,17 @@
 import { View, Text } from "react-native";
+import { useNavigation } from "@react-navigation/core";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
 import PrimaryButton from "../atoms/PrimaryButton";
-// import * as Progress from "react-native-progress";
 
-const GetMoneyCard = ({
-  navigation,
-  eligible,
-  amount,
-  progress,
-  ewaAccessible,
-}) => {
-  console.log(progress);
+const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
+  // const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Here is your On-Demand Salary</Text>
 
       <Text style={[styles.text, { ...FONTS.h1 }]}>{amount}</Text>
-      {/* <Progress.Bar
-        progress={1 - progress}
-        width={null}
-        borderWidth={0}
-        color={COLORS.primary}
-        borderRadius={0}
-        height={3}
-      /> */}
       <View
         style={{
           width: "100%",
@@ -33,17 +20,19 @@ const GetMoneyCard = ({
         }}
       />
 
+      {/* TODO: add progress bar as background filled view */}
+
       <PrimaryButton
         title={
-          !ewaAccessible
-            ? "Offer inactive"
+          !accessible
+            ? "Offer Inactive"
             : !eligible
-            ? "No Active Offer"
+            ? "Offer Inactive"
             : "Get Money Now"
         }
-        disabled={!eligible || !ewaAccessible}
+        disabled={!eligible || !accessible}
         onPress={() => {
-          navigation.navigate("EWA_OFFER");
+          navigation.navigate("Money", { screen: "EWA_OFFER" });
         }}
       />
     </View>
