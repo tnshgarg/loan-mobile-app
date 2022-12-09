@@ -4,7 +4,12 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
 import PrimaryButton from "../atoms/PrimaryButton";
 
-const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
+const GetMoneyCard = ({
+  navigation,
+  eligible,
+  amount,
+  accessible,
+}) => {
   // const navigation = useNavigation();
 
   return (
