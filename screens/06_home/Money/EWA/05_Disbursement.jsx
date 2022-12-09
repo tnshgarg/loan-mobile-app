@@ -99,7 +99,7 @@ const Disbursement = ({ route, navigation }) => {
     { subTitle: "Bank Account Number", value: bankAccountNumber },
     { subTitle: "Due Date", value: dueDate },
     { subTitle: "Loan Account Number", value: loanAccountNumber },
-    { subTitle: "Transfer Satus", value: status },
+    { subTitle: "Transfer Status", value: status },
   ];
 
   return (

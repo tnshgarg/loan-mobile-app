@@ -11,6 +11,7 @@ import EWAStack from "./stacks/EWAStack";
 import DocumentStack from "./stacks/DocumentStack";
 import BenefitsStack from "./stacks/BenefitsStack";
 import DrawerNavigator from "./DrawerNavigator";
+import AccountStack from "./stacks/AccountStack";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -71,6 +72,13 @@ const StackNavigator = () => {
         <Stack.Screen
           name="BenefitsStack"
           component={BenefitsStack}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="AccountStack"
+          component={AccountStack}
           options={{
             headerShown: false,
           }}

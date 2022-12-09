@@ -119,6 +119,7 @@ const AadhaarVerifyApi = (props) => {
                 Analytics.trackEvent("Aadhaar|Verify|Success", {
                   unipeEmployeeId: unipeEmployeeId,
                 });
+                props.setVerified(true);
                 {
                   props.type == "KYC"
                     ? navigation.navigate("KYC", {

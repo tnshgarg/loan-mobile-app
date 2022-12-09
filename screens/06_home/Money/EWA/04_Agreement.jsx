@@ -231,13 +231,13 @@ const Agreement = () => {
     })
       .then((response) => {
         console.log("ewaAgreementPush response.data: ", response.data);
-        navigation.navigate("EWA_DISBURSEMENT", { offer: ewaLiveSlice });
         dispatch(resetEwaLive());
         dispatch(resetEwaHistorical([]));
         setLoading(false);
         Analytics.trackEvent("Ewa|Agreement|Success", {
           unipeEmployeeId: unipeEmployeeId,
         });
+        navigation.navigate("EWA_DISBURSEMENT", { offer: ewaLiveSlice });
       })
       .catch((error) => {
         console.log("ewaAgreementPush error: ", error.toString());

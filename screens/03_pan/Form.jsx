@@ -4,10 +4,9 @@ import { Alert, SafeAreaView, BackHandler } from "react-native";
 import { useDispatch } from "react-redux";
 import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import { styles } from "../../styles";
-
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import PanFormTemplate from "../../templates/pan/Form";
-import Header from "../../components/atoms/Header";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
 export default PanForm = () => {
   const dispatch = useDispatch();
@@ -18,6 +17,7 @@ export default PanForm = () => {
   }, []);
 
   const SkipPAN = () => {
+    console.log("first");
     Alert.alert(
       "Skip PAN Verification",
       `If you want to receive advance salary, PAN KYC is required. Are you sure, you want to skip this step?`,
@@ -42,15 +42,16 @@ export default PanForm = () => {
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
-        title="PAN Verification"
-        onLeftIconPress={() => backAction()}
-        onRightIconPress={() => SkipPAN()}
+      <LogoHeaderBack
+        leftOnPress={backAction}
+        rightOnPress={SkipPAN}
+        skipEnabled={true}
       />
       <OnboardingProgressBar step={2} />
       <PanFormTemplate />

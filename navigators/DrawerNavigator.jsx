@@ -56,8 +56,8 @@ const DrawerNavigator = () => {
               <Ionicons name="home" color={color} size={20} />
             </View>
           ),
-          // headerShown: false,
-          header: TopAppBar,
+          headerShown: false,
+          //header: TopAppBar,
         }}
         name="DrawerHome"
         component={BottomTabNav}

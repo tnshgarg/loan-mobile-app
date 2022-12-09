@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import { Button } from "@react-native-material/core";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/panSlice";
 import { panBackendPush } from "../../helpers/BackendPush";
@@ -10,6 +10,7 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import CollapsibleCard from "../../components/molecules/CollapsibleCard";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import Analytics from "appcenter-analytics";
+import DetailsCard from "../../components/molecules/DetailsCard";
 
 const PanConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -39,24 +40,25 @@ const PanConfirmApi = (props) => {
 
   const cardData = () => {
     var res = [
-      { subTitle: "Number", value: number },
-      { subTitle: "Name", value: data?.name },
+      { subTitle: "Name", value: data?.name, fullWidth: true },
+      { subTitle: "Number", value: number, fullWidth: true },
+
       { subTitle: "Date of Birth", value: data?.date_of_birth },
       { subTitle: "Gender", value: data?.gender },
     ];
     if (data["email"]) {
-      res.push({ subTitle: "Email", value: data?.email });
+      res.push({ subTitle: "Email", value: data?.email, fullWidth: true });
     }
     return res;
   };
 
   return (
     <View style={styles.container}>
-      <CollapsibleCard
-        data={cardData()}
-        title="Are these your PAN details ?"
-        isClosed={false}
-      />
+      <Text style={styles.headline}>Are these your PAN details?</Text>
+      <Text style={styles.subHeadline}>
+        क्या ये स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
+      </Text>
+      <DetailsCard data={cardData()} />
 
       <View
         style={{
@@ -68,12 +70,12 @@ const PanConfirmApi = (props) => {
       >
         <FuzzyCheck name={data["name"]} step="PAN" />
         <Button
-          title="No"
+          title="Not Me"
           type="solid"
           uppercase={false}
           style={form.noButton}
           color={COLORS.warning}
-          titleStyle={{ ...FONTS.h3, color: COLORS.warning }}
+          titleStyle={{ ...FONTS.h4, color: COLORS.warning }}
           pressableContainerStyle={{ width: "100%" }}
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
@@ -96,12 +98,12 @@ const PanConfirmApi = (props) => {
         />
         <Button
           accessibilityLabel="PanYesBtn"
-          title="Yes"
+          title="Yes, that’s me"
           type="solid"
           uppercase={false}
           style={form.yesButton}
           color={COLORS.primary}
-          titleStyle={{ ...FONTS.h3, color: COLORS.primary }}
+          titleStyle={{ ...FONTS.h4, color: COLORS.primary }}
           pressableContainerStyle={{ width: "100%" }}
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {

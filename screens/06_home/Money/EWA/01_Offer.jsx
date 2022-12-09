@@ -4,13 +4,7 @@ import CheckBox from "@react-native-community/checkbox";
 import { useNavigation } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
-import {
-  Alert,
-  BackHandler,
-  SafeAreaView,
-  Text,
-  View,
-} from "react-native";
+import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import StepIndicator from "react-native-step-indicator";
@@ -30,6 +24,7 @@ import {
   stepIndicatorStyles,
 } from "../../../../styles";
 import TnC from "../../../../templates/docs/EWATnC.js";
+import MoneySilder from "../../../../components/organisms/MoneySilder";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -70,13 +65,14 @@ const Offer = () => {
   }, [deviceId, ipAddress]);
 
   const backAction = () => {
-    navigation.navigate("EWA");
+    navigation.navigate("Money", { screen: "EWA" });
     return true;
   };
-  
+
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   useEffect(() => {
@@ -169,11 +165,9 @@ const Offer = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
-        title="Advance Salary"
-        onLeftIconPress={() => backAction()}
-      />
+      <Header title="Advance Salary" onLeftIconPress={() => backAction()} />
       <View style={styles.container}>
+        {/* <MoneySilder /> */}
         <FormInput
           placeholder="Enter amount"
           containerStyle={{ marginVertical: 10, marginHorizontal: 50 }}

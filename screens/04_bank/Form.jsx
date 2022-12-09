@@ -7,6 +7,7 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import BankFormTemplate from "../../templates/bank/Form";
 import Header from "../../components/atoms/Header";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
 const BankForm = () => {
   const dispatch = useDispatch();
@@ -39,20 +40,16 @@ const BankForm = () => {
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   return (
-    <>
-      <SafeAreaView style={styles.safeContainer}>
-        <Header
-          title="Bank Details"
-          onLeftIconPress={() => backAction()}
-        />
-        <OnboardingProgressBar step={3} />
-        <BankFormTemplate />
-      </SafeAreaView>
-    </>
+    <SafeAreaView style={styles.safeContainer}>
+      <LogoHeaderBack leftOnPress={backAction} />
+      <OnboardingProgressBar step={3} />
+      <BankFormTemplate />
+    </SafeAreaView>
   );
 };
 

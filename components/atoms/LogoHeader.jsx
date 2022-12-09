@@ -30,9 +30,7 @@ const TitleHeader = ({
         style={{ flex: 1, flexDirection: "row", justifyContent: "flex-start" }}
       >
         {title ? (
-          <Text style={{ ...FONTS.body3, color: COLORS.secondary }}>
-            {title}
-          </Text>
+          <Text style={{ ...FONTS.body3, color: COLORS.black }}>{title}</Text>
         ) : (
           <LogoImage style={styles.logo} />
         )}

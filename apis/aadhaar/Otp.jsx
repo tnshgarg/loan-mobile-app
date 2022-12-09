@@ -1,7 +1,7 @@
 import { OG_API_KEY } from "@env";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Alert } from "react-native";
+import { Alert, Text } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import {
   addSubmitOTPtxnId,
@@ -14,6 +14,7 @@ import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import { resetTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
+import { COLORS, FONTS } from "../../constants/Theme";
 
 const AadhaarOtpApi = (props) => {
   const dispatch = useDispatch();
@@ -70,6 +71,9 @@ const AadhaarOtpApi = (props) => {
 
   const goForFetch = () => {
     setLoading(true);
+    if (props.isTextButton) {
+      props.toggle(false); // setResend(false)
+    }
 
     const options = {
       method: "POST",
@@ -171,7 +175,11 @@ const AadhaarOtpApi = (props) => {
         });
       });
   };
-  return (
+  return props.isTextButton ? (
+    <Text style={{ ...FONTS.h4, color: COLORS.primary }} onPress={goForFetch}>
+      {props.textButton}
+    </Text>
+  ) : (
     <PrimaryButton
       accessibilityLabel={"AadhaarOtpBtn"}
       title={loading ? "Verifying" : props.title || "Continue"}

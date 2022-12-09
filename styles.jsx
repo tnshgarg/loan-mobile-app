@@ -70,7 +70,7 @@ export const styles = EStyleSheet.create({
     textAlign: "center",
   },
   termsText: {
-    ...FONTS.h4,
+    ...FONTS.body5,
     color: COLORS.primary,
   },
   otpreadtxt: {
@@ -130,16 +130,15 @@ export const form = EStyleSheet.create({
     backgroundColor: COLORS.primaryBackground,
     alignItems: "center",
     justifyContent: "center",
-    marginLeft: "10rem",
+    marginLeft: "5rem",
   },
   noButton: {
     flex: 1,
-    width: SIZES.width / 2.5,
     height: SIZES.btnHeight,
     backgroundColor: COLORS.warningBackground,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: "10rem",
+    marginRight: "5rem",
   },
   aadharimg: {
     alignSelf: "center",
@@ -149,7 +148,6 @@ export const form = EStyleSheet.create({
   },
 
   forgotText: {
-    marginTop: "10rem",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
@@ -180,9 +178,8 @@ export const checkBox = EStyleSheet.create({
     marginLeft: "10rem",
     marginRight: "40rem",
     marginTop: "30rem",
-    fontSize: 14,
     color: COLORS.gray,
-    ...FONTS.body4,
+    ...FONTS.body5,
   },
   padding: {
     marginTop: "30rem",
@@ -387,7 +384,9 @@ export const datacard = EStyleSheet.create({
     width: "100%",
     borderRadius: 5,
     flexDirection: "row",
-    backgroundColor: "rgba(228, 238, 240, 0.4)",
+    backgroundColor: COLORS.cardBackground,
+    borderWidth: 0.5,
+    borderColor: COLORS.lightGray,
     justifyContent: "space-between",
   },
   cardTitle: {

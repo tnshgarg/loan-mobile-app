@@ -1,24 +1,42 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
-import CountDown from "react-native-countdown-component";
 import { useDispatch, useSelector } from "react-redux";
 import AadhaarVerifyApi from "../../apis/aadhaar/Verify";
-import { useNavigation } from "@react-navigation/core";
 import { setAadhaarTimer } from "../../store/slices/timerSlice";
 import AadhaarOtpApi from "../../apis/aadhaar/Otp";
-import { form, styles } from "../../styles";
-import { COLORS, SIZES } from "../../constants/Theme";
-import FormInput from "../../components/atoms/FormInput";
+import { styles } from "../../styles";
+import { COLORS } from "../../constants/Theme";
+import OtpInput from "../../components/molecules/OtpInput";
 
 const AadhaarVerifyTemplate = (props) => {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+
   const [resend, setResend] = useState(false);
   const [otp, setOtp] = useState("");
   const [validOtp, setValidOtp] = useState(true);
+
   const countDownTime = useSelector((state) => state.timer.aadhaar);
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const [number, setNumber] = useState(aadhaarSlice?.number);
+  const [verified, setVerified] = useState(false);
+
+  useEffect(() => {
+    interval = setInterval(() => {
+      console.log({ countDownTime });
+      if (countDownTime > 0) {
+        dispatch(setAadhaarTimer(countDownTime - 1));
+      } else {
+        props.setBack(true);
+      }
+    }, 1000);
+
+    if (countDownTime === 0 || verified) {
+      setResend(true);
+      clearInterval(interval);
+    }
+    
+    return () => clearInterval(interval);
+  }, [countDownTime, verified]);
 
   useEffect(() => {
     setValidOtp(otp.length === 6);
@@ -27,59 +45,41 @@ const AadhaarVerifyTemplate = (props) => {
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
       <View style={styles.container}>
-        <Text style={form.OtpAwaitMsg}>
-          Enter 6 digit OTP sent to your Aadhaar registered mobile number
+        <Text style={styles.headline}>Verify Aadhaar</Text>
+        <Text style={styles.subHeadline}>
+          कृपया छ डिजिट का OTP यहाँ भरें। इसी के द्वारा ये स्पष्ट होगा की ऊपर
+          भरा आधार नम्बर आपका है। ये जानकारी आपकी कम्पनी को दी जाएगी।
+        </Text>
+        <OtpInput
+          otp={otp}
+          setOtp={setOtp}
+          accessibilityLabel={"AadhaarOtpInput"}
+          inputRef={props.inputRef}
+        />
+
+        <Text style={styles.subHeadline} accessibilityLabel="OtpText">
+          Didn’t receive the secure code?{" "}
+          {resend ? (
+            <AadhaarOtpApi
+              data={{ aadhaar_number: number, consent: "Y" }}
+              type={props?.route?.params?.type || ""}
+              isTextButton={true}
+              textButton="Resend OTP"
+              toggle={setResend}
+            />
+          ) : (
+            <Text style={{ color: COLORS.secondary }}>
+              Resend OTP in {Math.trunc(countDownTime / 60)}:
+              {String("0" + (countDownTime % 60)).slice(-2)}
+            </Text>
+          )}
         </Text>
 
-        <FormInput
-          accessibilityLabel={"AadhaarOtpInput"}
-          containerStyle={{
-            marginTop: 30,
-            width: SIZES.width * 0.6,
-            alignSelf: "center",
-          }}
-          letterSpacing={20}
-          value={otp}
-          onChange={setOtp}
-          maxLength={6}
-          keyboardType="numeric"
-          placeholder={"******"}
-          textAlign={"center"}
-          autoFocus={true}
-        />
-
-        <CountDown
-          until={countDownTime}
-          size={20}
-          on
-          onFinish={() => {
-            setResend(true);
-            props.function ||
-              navigation.navigate("KYC", {
-                screen: "Aadhaar",
-              });
-          }}
-          style={{ marginTop: 20 }}
-          digitStyle={{ backgroundColor: "#FFF" }}
-          digitTxtStyle={{ color: COLORS.primary }}
-          timeToShow={["M", "S"]}
-          timeLabels={{ m: "MM", s: "SS" }}
-          onChange={(time) => {
-            dispatch(setAadhaarTimer(time));
-          }}
-        />
-        {resend ? (
-          <AadhaarOtpApi
-            data={{ aadhaar_number: number, consent: "Y" }}
-            disabled={!resend}
-            title="Resend"
-            type={props?.route?.params?.type || ""}
-          />
-        ) : null}
         <AadhaarVerifyApi
           data={{ otp: otp, include_xml: true, share_code: 5934 }}
           disabled={!validOtp}
           type={props?.route?.params?.type || ""}
+          setVerified={setVerified}
         />
       </View>
     </ScrollView>
