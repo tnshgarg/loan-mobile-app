@@ -4,7 +4,7 @@ import { Linking, SafeAreaView, ScrollView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
 import PushNotification from "react-native-push-notification";
-import MessageCard from "../../components/atoms/MessageCard";
+import KycCheckCard from "../../components/molecules/KycCheckCard";
 import { allAreNull } from "../../helpers/nullCheck";
 import { addCampaignId } from "../../store/slices/authSlice";
 import {
@@ -55,9 +55,15 @@ const HomeView = () => {
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
 
   const verifyStatuses = [
-    aadhaarVerifyStatus != "SUCCESS" ? "AADHAAR" : null,
-    bankVerifyStatus != "SUCCESS" ? "BANK" : null,
-    panVerifyStatus != "SUCCESS" ? "PAN" : null,
+    aadhaarVerifyStatus != "SUCCESS"
+      ? { label: "Add Aadhaar Details", value: "AADHAAR" }
+      : null,
+    bankVerifyStatus != "SUCCESS"
+      ? { label: "Add Bank Details", value: "BANK" }
+      : null,
+    panVerifyStatus != "SUCCESS"
+      ? { label: "Add PAN Details", value: "PAN" }
+      : null,
   ];
 
   useEffect(() => {
@@ -67,7 +73,9 @@ const HomeView = () => {
     }
   }, [aadhaarVerifyStatus, bankVerifyStatus, panVerifyStatus]);
 
-  var [campaignId, setCampaignId] = useState(useSelector((state) => state.auth.campaignId));
+  var [campaignId, setCampaignId] = useState(
+    useSelector((state) => state.auth.campaignId)
+  );
 
   useEffect(() => {
     dispatch(addCurrentScreen("Home"));
@@ -164,7 +172,7 @@ const HomeView = () => {
       }
     } else {
       console.log("No intent. User opened App.");
-      console.log("campaignId", campaignId)
+      console.log("campaignId", campaignId);
     }
   };
 
@@ -196,7 +204,7 @@ const HomeView = () => {
               <VideoPlayer />
             </>
           ) : (
-            <MessageCard
+            <KycCheckCard
               title="Following pending steps need to be completed in order to receive advance salary."
               message={verifyStatuses}
             />

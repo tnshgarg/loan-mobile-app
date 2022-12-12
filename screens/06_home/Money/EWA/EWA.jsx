@@ -11,10 +11,14 @@ import { allAreNull } from "../../../../helpers/nullCheck";
 import { styles } from "../../../../styles";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
-import MessageCard from "../../../../components/atoms/MessageCard";
+import KycCheckCard from "../../../../components/molecules/KycCheckCard";
 import LiveOfferCard from "../../../../components/organisms/LiveOfferCard";
 import { getBackendData } from "../../../../services/employees/employeeServices";
-import { addAccessible, addEligible, resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
+import {
+  addAccessible,
+  addEligible,
+  resetEwaLive,
+} from "../../../../store/slices/ewaLiveSlice";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import { COLORS, FONTS } from "../../../../constants/Theme";
 import { STAGE } from "@env";
@@ -36,7 +40,7 @@ const EWA = () => {
   );
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
-  
+
   // const panMisMatch = useSelector((state) => state.pan.misMatch);
   // const bankMisMatch = useSelector((state) => state.bank.misMatch);
 
@@ -133,53 +137,47 @@ const EWA = () => {
         }
       />
 
-      {
-        allAreNull(verifyStatuses)
-        ? 
-        (
-          // panMisMatch < 20 &&
-          // bankMisMatch < 20
-          <ScrollView>
-            <View style={styles.container}>
-              <LiveOfferCard
-                eligible={eligible}
-                accessible={accessible}
-                ewaLiveSlice={ewaLiveSlice}
-              />
+      {allAreNull(verifyStatuses) ? (
+        // panMisMatch < 20 &&
+        // bankMisMatch < 20
+        <ScrollView>
+          <View style={styles.container}>
+            <LiveOfferCard
+              eligible={eligible}
+              accessible={accessible}
+              ewaLiveSlice={ewaLiveSlice}
+            />
 
-              <Text
-                style={{
-                  ...FONTS.h4,
-                  color: COLORS.gray,
-                  marginTop: "5%",
-                }}
-              >
-                Your past draws
-              </Text>
-              <PastDrawsCard data={ewaHistoricalSlice} />
-            </View>
-          </ScrollView>
-        ) 
-        : 
-        (
-          <View style={[styles.container]}>
             <Text
               style={{
-                color: COLORS.warning,
-                ...FONTS.h3,
-                alignSelf: "center",
+                ...FONTS.h4,
+                color: COLORS.gray,
                 marginTop: "5%",
               }}
             >
-              You are not eligible for Advanced Salary.
+              Your past draws
             </Text>
-            <MessageCard
-              title="Following pending steps need to be completed in order to receive advance salary."
-              message={verifyStatuses}
-            />
+            <PastDrawsCard data={ewaHistoricalSlice} />
           </View>
-        )
-      }
+        </ScrollView>
+      ) : (
+        <View style={[styles.container]}>
+          <Text
+            style={{
+              color: COLORS.warning,
+              ...FONTS.h3,
+              alignSelf: "center",
+              marginTop: "5%",
+            }}
+          >
+            You are not eligible for Advanced Salary.
+          </Text>
+          <KycCheckCard
+            title="Following pending steps need to be completed in order to receive advance salary."
+            message={verifyStatuses}
+          />
+        </View>
+      )}
     </SafeAreaView>
   );
 };
