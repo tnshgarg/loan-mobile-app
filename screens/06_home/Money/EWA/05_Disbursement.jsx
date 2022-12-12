@@ -1,7 +1,13 @@
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
-import { BackHandler, SafeAreaView, Image, View } from "react-native";
-import CollapsibleCard from "../../../../components/molecules/CollapsibleCard";
+import {
+  BackHandler,
+  SafeAreaView,
+  Image,
+  View,
+  Text,
+  ScrollView,
+} from "react-native";
 import { ewa, styles } from "../../../../styles";
 import { useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
@@ -9,6 +15,8 @@ import { getBackendData } from "../../../../services/employees/employeeServices"
 import SVGImgFailure from "../../../../assets/ewa_failure.svg";
 import SVGImgSuccess from "../../../../assets/ewa_success.svg";
 import SVGImgPending from "../../../../assets/ewa_pending.svg";
+import { SIZES } from "../../../../constants/Theme";
+import DisbursementCard from "../../../../components/molecules/DisbursementCard";
 
 const Disbursement = ({ route, navigation }) => {
   const { offer } = route.params;
@@ -37,11 +45,40 @@ const Disbursement = ({ route, navigation }) => {
   const StatusImage = (status) => {
     switch (status) {
       case "SUCCESS":
-        return <SVGImgSuccess />;
+        return <SVGImgSuccess style={{ alignSelf: "center" }} />;
       case "FAILURE":
-        return <SVGImgFailure />;
+        return <SVGImgFailure style={{ alignSelf: "center" }} />;
       default:
-        return <SVGImgPending />;
+        return <SVGImgPending style={{ alignSelf: "center" }} />;
+    }
+  };
+
+  const getStatusText = (headline, subheadline) => {
+    return (
+      <View style={{ alignItems: "center", width: "100%" }}>
+        <Text style={styles.headline}>{headline}</Text>
+        <Text style={styles.subHeadline}>{subheadline}</Text>
+      </View>
+    );
+  };
+
+  const StatusText = (status) => {
+    switch (status) {
+      case "SUCCESS":
+        return getStatusText(
+          "Congratulations",
+          "You will receive the money in next 15 Mins"
+        );
+      case "FAILURE":
+        return getStatusText(
+          "Sorry",
+          "We cannot process your advance salary at this moment."
+        );
+      default:
+        return getStatusText(
+          "Pending",
+          "Your advance salary is under process."
+        );
     }
   };
 
@@ -105,15 +142,18 @@ const Disbursement = ({ route, navigation }) => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <Header title="Money Transfer" onLeftIconPress={() => backAction()} />
-      <View style={styles.container}>
-        {StatusImage(status)}
-        <CollapsibleCard
-          data={data}
-          title="Loan Details"
-          isClosed={false}
-          info="Disbursement will be reconciled in your next payroll"
-        />
-      </View>
+      <ScrollView>
+        <View style={styles.container}>
+          {StatusImage(status)}
+          {StatusText(status)}
+          <DisbursementCard
+            data={data}
+            title="Loan Details"
+            info="*Disbursement will be reconciled in your next payroll"
+            iconName="cash"
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

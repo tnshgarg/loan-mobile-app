@@ -18,7 +18,7 @@ import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { ewaKycPush } from "../../../../helpers/BackendPush";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 import { form, styles, checkBox } from "../../../../styles";
-import CollapsibleCard from "../../../../components/molecules/CollapsibleCard";
+import DetailsCard from "../../../../components/molecules/DetailsCard";
 
 const KYC = () => {
   const navigation = useNavigation();
@@ -29,11 +29,14 @@ const KYC = () => {
 
   const [creditPass, setCreditPass] = useState("PENDING");
   const [loading, setLoading] = useState(false);
-  const mandateVerifyStatus= useSelector((state)=>state.mandate.verifyStatus);
+  const mandateVerifyStatus = useSelector(
+    (state) => state.mandate.verifyStatus
+  );
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const data = useSelector((state) => state.aadhaar.data);
-  const number = useSelector((state) => state.aadhaar.number);
+  const aadharNumber = useSelector((state) => state.aadhaar.number);
+  const panNumber = useSelector((state) => state.pan.number);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
 
   useEffect(() => {
@@ -64,7 +67,11 @@ const KYC = () => {
 
   useEffect(() => {
     if (unipeEmployeeId) {
-      getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "risk-profile", token: token })
+      getBackendData({
+        params: { unipeEmployeeId: unipeEmployeeId },
+        xpath: "risk-profile",
+        token: token,
+      })
         .then((response) => {
           console.log("riskProfileBackendFetch response.data", response.data);
           if (response.data.status === 200) {
@@ -74,7 +81,8 @@ const KYC = () => {
         .catch((error) => {
           console.log("riskProfileBackendFetch error: ", error);
         });
-  }}, [unipeEmployeeId]);
+    }
+  }, [unipeEmployeeId]);
 
   useEffect(() => {
     if (fetched) {
@@ -120,8 +128,7 @@ const KYC = () => {
         });
         if (mandateVerifyStatus === "SUCCESS") {
           navigation.navigate("EWA_AGREEMENT");
-        }
-        else {
+        } else {
           navigation.navigate("EWA_MANDATE");
         }
       })
@@ -136,46 +143,54 @@ const KYC = () => {
       });
   }
 
-  const kycData = [
-    { subTitle: "Number", value: number },
-    {
-      subTitle: "Name",
-      value: data.name,
-    },
-    {
-      subTitle: "Date of Birth",
-      value: data.date_of_birth,
-    },
-    { subTitle: "Gender", value: data.gender },
-    { subTitle: "Address", value: data.address },
-  ];
+  const cardData = () => {
+    var res = [
+      { subTitle: "Name", value: data?.name, fullWidth: true },
+      { subTitle: "Date of Birth", value: data?.date_of_birth },
+      { subTitle: "Gender", value: data?.gender },
+      { subTitle: "Aadhaar Number", value: aadharNumber },
+      { subTitle: "Pan Number", value: panNumber },
+      { subTitle: "Address", value: data?.address, fullWidth: true },
+    ];
+    return res;
+  };
 
   return (
     <SafeAreaView style={styles.safeContainer}>
       <Header title="KYC" onLeftIconPress={() => backAction()} />
-      <ScrollView style={styles.container}>
-        <Text style={form.OtpAwaitMsg}>
-          Are these your AADHAAR details ?{"\n"}
+      <View style={styles.container}>
+        <Text style={styles.headline}>Are these your Kyc details?</Text>
+        <Text style={[styles.subHeadline, { marginBottom: 10 }]}>
+          क्या ये स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
         </Text>
-        <Image
-          source={{
+
+        <DetailsCard
+          data={cardData()}
+          imageUri={{
             uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
             cache: "only-if-cached",
           }}
-          style={form.aadharimg}
         />
-        <CollapsibleCard title="KYC Details" isClosed={false} data={kycData} />
+
+        <View style={{ flex: 1 }} />
 
         <PrimaryButton
-          title={creditPass === "PENDING" ? "Checking Credit Bureau" : (creditPass === "DECLINED" ? "Credit Declined" : (loading ? "Verifying" : "Continue"))}
+          title={
+            creditPass === "PENDING"
+              ? "Checking Credit Bureau"
+              : creditPass === "DECLINED"
+              ? "Credit Declined"
+              : loading
+              ? "Verifying"
+              : "Proceed"
+          }
           disabled={creditPass !== "SUCCESS" || loading}
           loading={loading}
           onPress={() => {
             handleKyc();
           }}
         />
-        <View style={checkBox.padding}></View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };

@@ -353,7 +353,7 @@ export const ewa = EStyleSheet.create({
     marginRight: "40rem",
     marginTop: "10rem",
     color: COLORS.gray,
-    ...FONTS.body4,
+    ...FONTS.body5,
   },
 });
 
