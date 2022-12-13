@@ -11,9 +11,9 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
-import { styles, form } from "../../styles";
-import { COLORS, FONTS, SIZES } from "../../constants/Theme";
-import { Ionicons, MaterialCommunityIcons } from "react-native-vector-icons";
+import { styles } from "../../styles";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { MaterialCommunityIcons } from "react-native-vector-icons";
 import OtpInput from "../../components/molecules/OtpInput";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 

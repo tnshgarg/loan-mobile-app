@@ -28,8 +28,6 @@ import Icon from "react-native-vector-icons/Ionicons";
 import ShieldTitle from "../../components/atoms/ShieldTitle";
 import LoginInput from "../../components/molecules/LoginInput";
 import AgreementText from "../../components/organisms/AgreementText";
-import privacyPolicy from "../../templates/docs/PrivacyPolicy.js";
-import termsOfUse from "../../templates/docs/TermsOfUse.js";
 import PushNotification, { Importance } from "react-native-push-notification";
 import { STAGE } from "@env";
 const LoginScreen = () => {
@@ -98,16 +96,13 @@ const LoginScreen = () => {
   }, [onboarded]);
 
   useEffect(() => {
-    dispatch(addPhoneNumber(phoneNumber));
-  }, [phoneNumber]);
-
-  useEffect(() => {
     dispatch(addUnipeEmployeeId(unipeEmployeeId));
   }, [unipeEmployeeId]);
 
   useEffect(() => {
     var phoneno = /^[0-9]{10}$/gm;
     if (phoneno.test(phoneNumber) && phoneNumber.length === 10) {
+      dispatch(addPhoneNumber(phoneNumber));
       setNext(true);
       console.log("true");
     } else {
