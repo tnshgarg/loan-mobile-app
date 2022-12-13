@@ -49,7 +49,7 @@ const OTPScreen = () => {
       }
     }, 1000);
 
-    if (countDownTime === 0 || verified) {
+    if (countDownTime < 1 || verified) {
       setBack(true);
       clearInterval(interval);
     }
