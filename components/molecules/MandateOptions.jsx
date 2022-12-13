@@ -31,6 +31,7 @@ const MandateOptions = ({ ProceedButton }) => {
 const styles = EStyleSheet.create({
   container: {
     borderWidth: 0.5,
+    borderRadius: 5,
     borderColor: COLORS.lightgray_01,
     elevation: 2,
     backgroundColor: COLORS.white,
