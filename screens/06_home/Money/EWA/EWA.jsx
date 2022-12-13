@@ -51,9 +51,15 @@ const EWA = () => {
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
 
   const verifyStatuses = [
-    aadhaarVerifyStatus != "SUCCESS" ? "AADHAAR" : null,
-    bankVerifyStatus != "SUCCESS" ? "BANK" : null,
-    panVerifyStatus != "SUCCESS" ? "PAN" : null,
+    aadhaarVerifyStatus != "SUCCESS"
+      ? { label: "Add Aadhaar Details", value: "AADHAAR" }
+      : null,
+    bankVerifyStatus != "SUCCESS"
+      ? { label: "Add Bank Details", value: "BANK" }
+      : null,
+    panVerifyStatus != "SUCCESS"
+      ? { label: "Add PAN Details", value: "PAN" }
+      : null,
   ];
 
   const backAction = () => {
