@@ -24,7 +24,6 @@ import {
   stepIndicatorStyles,
 } from "../../../../styles";
 import TnC from "../../../../templates/docs/EWATnC.js";
-import MoneySilder from "../../../../components/organisms/MoneySilder";
 
 const Offer = () => {
   const dispatch = useDispatch();
