@@ -37,7 +37,6 @@ const LoginScreen = () => {
 
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState(false);
-  const [consent, setConsent] = useState(true);
 
   const authSlice = useSelector((state) => state.auth);
   const [aCTC, setACTC] = useState(authSlice?.aCTC);
