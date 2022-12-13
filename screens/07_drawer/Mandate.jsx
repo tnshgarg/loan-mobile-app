@@ -7,7 +7,6 @@ import { styles } from "../../styles";
 import TopTabNav from "../../navigators/TopTabNav";
 
 const Mandate = () => {
-
   const [time, setTime] = useState(false);
 
   const mandateSlice = useSelector((state) => state.mandate);
