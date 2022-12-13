@@ -20,6 +20,8 @@ const AadhaarVerifyTemplate = (props) => {
   const [number, setNumber] = useState(aadhaarSlice?.number);
   const [verified, setVerified] = useState(false);
 
+  let interval;
+
   useEffect(() => {
     interval = setInterval(() => {
       console.log({ countDownTime });
@@ -30,7 +32,7 @@ const AadhaarVerifyTemplate = (props) => {
       }
     }, 1000);
 
-    if (countDownTime === 0 || verified) {
+    if (countDownTime < 1 || verified) {
       setResend(true);
       clearInterval(interval);
     }
