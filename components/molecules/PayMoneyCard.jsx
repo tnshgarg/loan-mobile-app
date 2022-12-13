@@ -144,7 +144,7 @@ const PayMoneyCard = () => {
                 formatted: true,
               })
             );
-            setRepaymentAmount(response.data.body.amount - (response.data.body.paidAmount ?? 0));
+            setRepaymentAmount(Math.max(response.data.body.amount - (response.data.body.paidAmount ?? 0),0));
             setRepaymentStatus(response.data.body.status);
             setRepaymentId(response.data.body.repaymentId);
             setInactive(false);
