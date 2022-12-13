@@ -67,7 +67,7 @@ export default Logout = () => {
           setTimeout(() => {
             setModalVisible(false);
             navigation.replace("OnboardingStack", { screen: "Login" });
-          }, 2000);
+          }, 5000);
         }}
         style={{
           flexDirection: "row",
