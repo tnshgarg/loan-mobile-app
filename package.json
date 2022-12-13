@@ -91,7 +91,7 @@
 		"glob": "7.2.0"
 	},
 	"private": true,
-	"version": "2022.12.09",
+	"version": "2022.12.9",
 	"jest": {
 		"verbose": true,
 		"testTimeout": 50000
