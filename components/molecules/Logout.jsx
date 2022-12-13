@@ -66,8 +66,8 @@ export default Logout = () => {
           setModalVisible(true);
           setTimeout(() => {
             setModalVisible(false);
-            navigation.navigate("OnboardingStack", { screen: "Login" });
-          }, 5000);
+            navigation.replace("OnboardingStack", { screen: "Login" });
+          }, 2000);
         }}
         style={{
           flexDirection: "row",

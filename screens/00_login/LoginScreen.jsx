@@ -28,8 +28,6 @@ import Icon from "react-native-vector-icons/Ionicons";
 import ShieldTitle from "../../components/atoms/ShieldTitle";
 import LoginInput from "../../components/molecules/LoginInput";
 import AgreementText from "../../components/organisms/AgreementText";
-import privacyPolicy from "../../templates/docs/PrivacyPolicy.js";
-import termsOfUse from "../../templates/docs/TermsOfUse.js";
 import PushNotification, { Importance } from "react-native-push-notification";
 import { STAGE } from "@env";
 const LoginScreen = () => {
@@ -39,7 +37,6 @@ const LoginScreen = () => {
 
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState(false);
-  const [consent, setConsent] = useState(true);
 
   const authSlice = useSelector((state) => state.auth);
   const [aCTC, setACTC] = useState(authSlice?.aCTC);
