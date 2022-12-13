@@ -41,6 +41,7 @@ export default Confirm = () => {
         data: {
           unipeEmployeeId: unipeEmployeeId,
           data: data,
+          number: licenseSlice?.number,
           verifyMsg: verifyMsg,
           verifyStatus: verifyStatus,
           verifyTimestamp: verifyTimestamp,
