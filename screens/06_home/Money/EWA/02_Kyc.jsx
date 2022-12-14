@@ -161,7 +161,7 @@ const KYC = () => {
       <View style={styles.container}>
         <Text style={styles.headline}>Are these your Kyc details?</Text>
         <Text style={[styles.subHeadline, { marginBottom: 10 }]}>
-          क्या ये स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
+          कृपया स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
         </Text>
 
         <DetailsCard

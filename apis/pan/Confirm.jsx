@@ -55,7 +55,7 @@ const PanConfirmApi = (props) => {
     <View style={styles.container}>
       <Text style={styles.headline}>Are these your PAN details?</Text>
       <Text style={styles.subHeadline}>
-        क्या ये स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
+        कृपया स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
       </Text>
       <DetailsCard data={cardData()} />
 
