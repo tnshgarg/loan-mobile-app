@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, SafeAreaView, ScrollView } from "react-native";
+import { Alert, SafeAreaView, ScrollView, Text } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,8 +23,9 @@ import {
 } from "../../services/mandate/Razorpay/services";
 import { RZP_KEY_ID } from "../../services/constants";
 import FormInput from "../../components/atoms/FormInput";
-import { COLORS } from "../../constants/Theme";
+import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
+import DetailsCard from "../../components/molecules/DetailsCard";
 
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -38,8 +39,12 @@ const MandateFormTemplate = (props) => {
   const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
   const aCTC = useSelector((state) => state.auth?.aCTC);
   const phoneNumber = useSelector((state) => state.auth?.phoneNumber);
-  const email = useSelector((state) => state.profile?.email || state.pan?.data?.email);
-  const accountHolderName = useSelector((state) => state.bank?.data?.accountHolderName);
+  const email = useSelector(
+    (state) => state.profile?.email || state.pan?.data?.email
+  );
+  const accountHolderName = useSelector(
+    (state) => state.bank?.data?.accountHolderName
+  );
   const accountNumber = useSelector((state) => state.bank?.data?.accountNumber);
   const ifsc = useSelector((state) => state.bank?.data?.ifsc);
 
@@ -241,31 +246,36 @@ const MandateFormTemplate = (props) => {
       });
   };
 
+  const cardData = () => {
+    var res = [
+      {
+        subTitle: "Account Holder Name",
+        value: accountHolderName,
+        fullWidth: true,
+      },
+      {
+        subTitle: "Bank Account No*",
+        value: accountNumber,
+        fullWidth: true,
+      },
+      {
+        subTitle: "IFSC code",
+        value: ifsc,
+        fullWidth: true,
+      },
+    ];
+    return res;
+  };
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <FormInput
-            placeholder={"Account Holder Name"}
-            containerStyle={{ marginVertical: 10 }}
-            autoCapitalize="words"
-            value={accountHolderName}
-            disabled={true}
-          />
-          <FormInput
-            placeholder={"Bank Account Number"}
-            containerStyle={{ marginVertical: 10 }}
-            autoCapitalize="words"
-            value={accountNumber}
-            disabled={true}
-          />
-          <FormInput
-            placeholder={"IFSC"}
-            containerStyle={{ marginVertical: 10 }}
-            autoCapitalize="words"
-            value={ifsc}
-            disabled={true}
-          />
+          <DetailsCard data={cardData()} />
+          <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
+            Please choose your preferred mode
+          </Text>
+
           <PrimaryButton
             title="Debit Card"
             onPress={() => {

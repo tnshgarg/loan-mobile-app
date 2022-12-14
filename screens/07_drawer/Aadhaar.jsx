@@ -1,27 +1,28 @@
 import { SafeAreaView, View } from "react-native";
 import { useSelector } from "react-redux";
-import DetailItem from "./DetailItem";
 import TopTabNav from "../../navigators/TopTabNav";
 import AadhaarFormTemplate from "../../templates/aadhaar/Form";
 import AadhaarVerifyTemplate from "../../templates/aadhaar/Verify";
 import AadhaarConfirmApi from "../../apis/aadhaar/Confirm";
 import { styles } from "../../styles";
+import DetailsCard from "../../components/molecules/DetailsCard";
 
 const Aadhaar = () => {
   const number = useSelector((state) => state.aadhaar.number);
   const data = useSelector((state) => state.aadhaar.data);
-  const address = data?.address;
-  const dob = data?.date_of_birth;
-  const name = data?.name;
   const verifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
 
-  const dataDetails = [
-    { label: "Full Name", value: name },
-    { label: "Date of Birth", value: dob },
-    { label: "Aadhaar Number", value: number },
-    { label: "Address", value: address },
-    { label: "Verify Status", value: verifyStatus },
-  ];
+  const cardData = () => {
+    var res = [
+      { subTitle: "Name", value: data?.name, fullWidth: true },
+      { subTitle: "Number", value: number },
+      { subTitle: "Gender", value: data?.gender },
+      { subTitle: "Date of Birth", value: data?.date_of_birth },
+      { subTitle: "Address", value: data?.address, fullWidth: true },
+      { subTitle: "Verify Status", value: verifyStatus },
+    ];
+    return res;
+  };
 
   const tabs = [
     {
@@ -49,16 +50,13 @@ const Aadhaar = () => {
     <SafeAreaView style={styles.safeContainer}>
       {verifyStatus == "SUCCESS" ? (
         <View style={styles.container}>
-          <View style={styles.card}>
-            {dataDetails.map((item, index) => (
-              <DetailItem
-                key={index}
-                label={item.label}
-                value={item.value || "Not Provided"}
-                divider={item?.divider}
-              />
-            ))}
-          </View>
+          <DetailsCard
+            data={cardData()}
+            imageUri={{
+              uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
+              cache: "only-if-cached",
+            }}
+          />
         </View>
       ) : (
         <TopTabNav tabs={tabs} hide={true} />
