@@ -9,6 +9,7 @@ import { bankform, form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import Analytics from "appcenter-analytics";
+import DetailsCard from "../../components/molecules/DetailsCard";
 
 const BankConfirmApi = (props) => {
   const dispatch = useDispatch();
