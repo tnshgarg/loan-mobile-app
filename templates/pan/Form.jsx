@@ -49,7 +49,8 @@ const PanFormTemplate = (props) => {
               accessibilityLabel={"PanInput"}
               placeholder={"PAN Number"}
               containerStyle={{ marginVertical: 10 }}
-              keyboardType="phone-pad"
+              keyboardType="default"
+              autoCapitalize="characters"
               autoFocus={true}
               value={number}
               onChange={setNumber}
