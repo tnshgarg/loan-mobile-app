@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Linking, SafeAreaView, Text, View } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import { bankform, checkBox, form, styles } from "../../styles";
+import { bankform, form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import PanVerifyApi from "../../apis/pan/Verify";
 import { addNumber } from "../../store/slices/panSlice";
