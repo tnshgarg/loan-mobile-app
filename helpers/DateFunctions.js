@@ -1,4 +1,4 @@
-const setFormatDDMMYYYYtoYYYYMMDD = (date) => {
+const setDDMMYYYYtoYYYYMMDD = (date) => {
   const [day, month, year] = date.split("/");
   const formattedDate = year + "/" + month + "/" + day;
   return new Date(formattedDate);
