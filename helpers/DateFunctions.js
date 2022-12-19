@@ -6,7 +6,7 @@ const setFormatDDMMYYYYtoYYYYMMDD = (date) => {
 
 const setYYYYMMDDtoDDMMYYYY = (date) => {
   const [year, month, day] = date.split("-");
-  const formattedDate = day + "-" + month + "-" + year;
+  const formattedDate = day + "/" + month + "/" + year;
   return formattedDate;
 };
 
