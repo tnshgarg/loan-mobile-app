@@ -1,15 +1,7 @@
 import { useNavigation } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
-import {
-  Alert,
-  BackHandler,
-  Image,
-  SafeAreaView,
-  Text,
-  ScrollView,
-  View,
-} from "react-native";
+import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useSelector } from "react-redux";
@@ -17,7 +9,7 @@ import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { ewaKycPush } from "../../../../helpers/BackendPush";
 import { getBackendData } from "../../../../services/employees/employeeServices";
-import { form, styles, checkBox } from "../../../../styles";
+import { styles } from "../../../../styles";
 import DetailsCard from "../../../../components/molecules/DetailsCard";
 
 const KYC = () => {
@@ -29,6 +21,7 @@ const KYC = () => {
 
   const [creditPass, setCreditPass] = useState("PENDING");
   const [loading, setLoading] = useState(false);
+  const campaignId = useSelector((state) => state.auth.campaignId);
   const mandateVerifyStatus = useSelector(
     (state) => state.mandate.verifyStatus
   );
@@ -94,6 +87,7 @@ const KYC = () => {
           timestamp: Date.now(),
           ipAddress: ipAddress,
           deviceId: deviceId,
+          campaignId: campaignId,
         },
         token: token,
       })
@@ -117,6 +111,7 @@ const KYC = () => {
         timestamp: Date.now(),
         ipAddress: ipAddress,
         deviceId: deviceId,
+        campaignId: campaignId,
       },
       token: token,
     })

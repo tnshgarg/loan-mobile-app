@@ -39,6 +39,7 @@ const AadhaarFormTemplate = (props) => {
             नम्बर पर हम ओ॰टी॰पी॰ भेजेंगे ॰
           </Text>
           <FormInput
+            accessibilityLabel={"AadhaarInput"}
             placeholder={"Aadhaar Number"}
             containerStyle={{ marginVertical: 10 }}
             keyboardType="phone-pad"

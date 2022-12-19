@@ -115,7 +115,7 @@ const ProfileForm = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.safeContainer}>
+    <SafeAreaView style={styles.safeContainer} accessibilityLabel="ProfileForm">
       <LogoHeaderBack leftOnPress={backAction} />
 
       <OnboardingProgressBar step={0} />
@@ -124,6 +124,7 @@ const ProfileForm = () => {
       <KeyboardAvoidingWrapper>
         <View>
           <DropDownForm
+            accessibilityLabel="EducationDropdown"
             placeholder={"Select Education*"}
             containerStyle={{ marginVertical: 10 }}
             value={qualification}
@@ -131,6 +132,7 @@ const ProfileForm = () => {
             data={qualifications}
           />
           <DropDownForm
+            accessibilityLabel="MaritalStatusDropdown"
             placeholder={"Select Maritial Status*"}
             containerStyle={{ marginVertical: 10 }}
             value={maritalStatus}
@@ -138,12 +140,14 @@ const ProfileForm = () => {
             data={maritalStatuses}
           />
           <FormInput
+            accessibilityLabel="MotherNameInput"
             placeholder={"Mother's Name*"}
             containerStyle={{ marginVertical: 10 }}
             value={motherName}
             onChange={setMotherName}
           />
           <FormInput
+            accessibilityLabel="AltPhoneNumberInput"
             placeholder={"Your alternate mobile no."}
             containerStyle={{ marginVertical: 10 }}
             autoCompleteType="tel"
@@ -152,6 +156,7 @@ const ProfileForm = () => {
             onChange={setAltMobile}
           />
           <FormInput
+            accessibilityLabel="EmailAddressInput"
             placeholder={"Your email ID"}
             containerStyle={{ marginVertical: 10 }}
             autoCompleteType="email"
@@ -160,6 +165,7 @@ const ProfileForm = () => {
             onChange={setEmail}
           />
           <PrimaryButton
+            accessibilityLabel={"ProfileBtn"}
             title="Continue"
             disabled={!next}
             onPress={() => {

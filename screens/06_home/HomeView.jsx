@@ -29,15 +29,12 @@ import {
 } from "../../store/slices/ewaLiveSlice";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
 import { STAGE } from "@env";
-import { YOUTUBE_EMBED_URL } from "../../constants/Strings";
-import WebView from "react-native-webview";
 import VideoPlayer from "../../components/organisms/VideoPlayer";
 
 const HomeView = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const navigation = useNavigation();
-  const [openPlayer, setOpenPlayer] = useState(false);
 
   const aadhaarVerifyStatus = useSelector(
     (state) => state.aadhaar.verifyStatus
@@ -70,7 +67,7 @@ const HomeView = () => {
     }
   }, [aadhaarVerifyStatus, bankVerifyStatus, panVerifyStatus]);
 
-  var [campaignId, setCampaignId] = useState(null);
+  var [campaignId, setCampaignId] = useState(useSelector((state) => state.auth.campaignId));
 
   useEffect(() => {
     dispatch(addCurrentScreen("Home"));
@@ -152,21 +149,22 @@ const HomeView = () => {
       console.log("route", splitted[3]);
       switch (splitted[3].toLowerCase()) {
         case "ewa":
+          switch (splitted[4]?.toLowerCase()) {
+            case "campaign":
+              console.log("campaignId", splitted[5]);
+              setCampaignId(splitted[5]);
+              break;
+            default:
+              break;
+          }
           navigation.navigate("Money");
-          break;
-        default:
-          break;
-      }
-      switch (splitted[4].toLowerCase()) {
-        case "campaign":
-          console.log("campaignId", splitted[5]);
-          setCampaignId(splitted[5]);
           break;
         default:
           break;
       }
     } else {
       console.log("No intent. User opened App.");
+      console.log("campaignId", campaignId)
     }
   };
 

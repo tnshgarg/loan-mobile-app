@@ -164,14 +164,17 @@ android {
         qa {
             applicationIdSuffix ".qa"
         }
+        demo{
+            applicationIdSuffix ".demo"
+        }
     }
 
     defaultConfig {
         applicationId "com.employeeapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 202212221
-        versionName "2022.11.22"
+        versionCode 202212092
+        versionName "2022.12.9"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
         // missingDimensionStrategy 'react-native-camera', 'general'

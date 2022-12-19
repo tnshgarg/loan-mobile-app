@@ -1,4 +1,4 @@
 #!/bin/bash
-timestamp="$(date '+%Y.%m.%d')"
+timestamp="$(echo $(date '+%Y.%m.%d') | sed 's%\.0%\.%g')"
 echo "Version set to $timestamp for android"
 setVersion $timestamp

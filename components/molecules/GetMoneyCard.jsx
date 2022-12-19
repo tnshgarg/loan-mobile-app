@@ -21,7 +21,7 @@ const GetMoneyCard = ({
         style={{
           width: "100%",
           borderWidth: 0.4,
-          borderColor: COLORS.lightGray,
+          borderColor: COLORS.primary,
         }}
       />
 
@@ -37,7 +37,7 @@ const GetMoneyCard = ({
         }
         disabled={!eligible || !accessible}
         onPress={() => {
-          navigation.navigate("EWA_OFFER");
+          navigation.navigate("Money", { screen: "EWA_OFFER" });
         }}
       />
     </View>
