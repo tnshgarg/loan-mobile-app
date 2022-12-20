@@ -4,6 +4,7 @@
 	"scripts": {
 		"start:dev": "bash ./android/ACFlavours.sh -e dev && gulp set --env=dev && npx react-native run-android --active-arch-only --variant=devDebug --appIdSuffix=dev",
 		"start:test": "bash ./android/ACFlavours.sh -e qa && gulp set --env=test && npx react-native run-android --active-arch-only --variant=qaDebug --appIdSuffix=qa",
+		"start:prod": "bash ./android/ACFlavours.sh -e prod && gulp set --env=prod && npx react-native run-android --active-arch-only --variant=prodDebug --appIdSuffix=prod",
 		"build:dev": "bash ./android/ACFlavours.sh -e dev && bash ./android/versioning.sh && gulp set --env=dev && cd android && ./gradlew assembleDevRelease",
 		"build:qa": "bash ./android/ACFlavours.sh -e qa && bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
 		"build:demo": "bash ./android/ACFlavours.sh -e demo && bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
@@ -55,6 +56,7 @@
 		"react-native-splash-screen": "^3.3.0",
 		"react-native-step-indicator": "^1.0.3",
 		"react-native-svg": "^13.6.0",
+		"react-native-tab-view": "^3.3.4",
 		"react-native-vector-icons": "^9.1.0",
 		"react-native-webview": "^11.23.1",
 		"react-native-youtube-iframe": "^2.2.2",
@@ -64,20 +66,20 @@
 		"yargs": "^17.6.2"
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "^5.16.5",
 		"gulp": "^4.0.2",
 		"gulp-clean": "^0.4.0",
 		"gulp-rename": "^2.0.0",
 		"jasmine": "^4.5.0",
 		"react-native-set-version": "^1.1.2",
 		"react-native-svg-transformer": "^1.0.0",
-		"@testing-library/jest-dom": "^5.16.5",
 		"webdriverio": "^7.27.0"
 	},
 	"resolutions": {
 		"glob": "7.2.0"
 	},
 	"private": true,
-	"version": "2022.12.9",
+	"version": "2022.12.17",
 	"jest": {
 		"verbose": true,
 		"testTimeout": 50000
