@@ -8,11 +8,17 @@ import { Icon } from "@react-native-material/core";
 import { useSelector } from "react-redux";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { createPaymentOrder } from "../../services/checkout/StandardCheckout";
-import { RZP_KEY_ID } from "../../services/constants";
-import { getBackendData, putBackendData } from "../../services/employees/employeeServices";
+import { EMPLOYEE_API_URL, RZP_KEY_ID } from "../../services/constants";
+import {
+  getBackendData,
+  getFetchBackendData,
+  putBackendData,
+} from "../../services/employees/employeeServices";
 import PrimaryButton from "../atoms/PrimaryButton";
 import { showToast } from "../atoms/Toast";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const PayMoneyCard = () => {
   const isFocused = useIsFocused();
@@ -28,9 +34,7 @@ const PayMoneyCard = () => {
   const accountHolderName = useSelector(
     (state) => state.bank?.data?.accountHolderName
   );
-  const customerId = useSelector(
-    (state) => state.mandate.data.customerId
-  );
+  const customerId = useSelector((state) => state.mandate.data.customerId);
   const [repaymentOrderId, setRepaymentOrderId] = useState(null);
   const [dueDate, setDueDate] = useState(null);
   const [overdueDays, setOverdueDays] = useState(null);
@@ -38,9 +42,55 @@ const PayMoneyCard = () => {
   const [repaymentId, setRepaymentId] = useState(null);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
+  const fetchRepayment = async () => {
+    // return getFetchBackendData({
+    //   params: { unipeEmployeeId: unipeEmployeeId },
+    //   xpath: "ewa/repayment",
+    //   token: token,
+    // }).then((resp) => console.log("fetchRepaymentOrder: ", resp));
+    var url = `${EMPLOYEE_API_URL}/ewa/repayment`;
+
+    return await axios({
+      method: "GET",
+      url: `${url}?unipeEmployeeId=${unipeEmployeeId}`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    // .then((res) => {
+    //   res.data;
+    //   console.log("fetchrpResp:", res.data);
+    // });
+    // .catch((err) => console.log("FETCH error: ", err));
+    // .then((resp) => console.log("fetchrpResp:", resp))
+  };
+
+  const { isLoading, data, isError, error, refetch } = useQuery(
+    ["repayments"],
+    fetchRepayment,
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: true,
+      refetchOnReconnect: true,
+    }
+  );
+
+  // useEffect(() => {
+  //   refetch();
+  // }, []);
+
+  // const dueDateVal = getNumberOfDays({
+  //   date: repayment.data.body.dueDate?.replace(/-/g, "/"),
+  //   formatted: true,
+  // });
 
   useEffect(() => {
-    console.log("createRepayment orderId: ", repaymentOrderId, !repaymentOrderId);
+    console.log(
+      "createRepayment orderId: ",
+      repaymentOrderId,
+      !repaymentOrderId
+    );
     if (repaymentOrderId) {
       var options = {
         description: "Unipe Early Loan Repayment",
@@ -59,7 +109,11 @@ const PayMoneyCard = () => {
         .then((data) => {
           console.log("RazorpayCheckout data: ", data);
           putBackendData({
-            data: { unipeEmployeeId: unipeEmployeeId, dueDate: dueDate, status: "INPROGRESS" },
+            data: {
+              unipeEmployeeId: unipeEmployeeId,
+              dueDate: dueDate,
+              status: "INPROGRESS",
+            },
             xpath: "ewa/repayment",
             token: token,
           })
@@ -70,7 +124,7 @@ const PayMoneyCard = () => {
               console.log("ewaRepaymentsPost error: ", error.toString());
             });
           showToast("Loan Payment Successful");
-          setRepaymentStatus("INPROGRESS");
+          // setRepaymentStatus("INPROGRESS");
           setLoading(false);
           Analytics.trackEvent("Ewa|Repayment|Success", {
             unipeEmployeeId: unipeEmployeeId,
@@ -119,13 +173,15 @@ const PayMoneyCard = () => {
       setLoading(false);
       showToast("No amount due");
     }
-  }
+  };
 
   useEffect(() => {
-    if(repaymentAmount<1 || repaymentStatus === "INPROGRESS") {
+    if (repaymentAmount < 1 || repaymentStatus === "INPROGRESS") {
       setInactive(true);
     }
-  }, [repaymentAmount, repaymentStatus])
+  }, [repaymentAmount, repaymentStatus]);
+
+  if (!isLoading) console.log("repayments: ", data.data);
 
   useEffect(() => {
     if (isFocused && unipeEmployeeId) {
@@ -137,14 +193,20 @@ const PayMoneyCard = () => {
         .then((response) => {
           console.log("ewaRepaymentsFetch response.data: ", response.data);
           if (response.data.status === 200) {
-            setDueDate(response.data.body.dueDate?.split(" ")[0]);
+            // setDueDate(response.data.body.dueDate?.split(" ")[0]);
             setOverdueDays(
               getNumberOfDays({
                 date: dueDate?.replace(/-/g, "/"),
                 formatted: true,
               })
             );
-            setRepaymentAmount(Math.max(response.data.body.amount - (response.data.body.paidAmount ?? 0),0));
+            // setRepaymentAmount(
+            //   Math.max(
+            //     response.data.body.amount -
+            //       (response.data.body.paidAmount ?? 0),
+            //     0
+            //   )
+            // );
             setRepaymentStatus(response.data.body.status);
             setRepaymentId(response.data.body.repaymentId);
             setInactive(false);
@@ -158,6 +220,9 @@ const PayMoneyCard = () => {
         });
     }
   }, [isFocused, unipeEmployeeId]);
+
+  if (isLoading) return <Text>Loading</Text>;
+  if (isError) return <Text>Error occured</Text>;
 
   return (
     <View style={styles.container}>
@@ -175,24 +240,37 @@ const PayMoneyCard = () => {
             <Text
               style={[styles.text, { ...FONTS.h3, color: COLORS.secondary }]}
             >
-              ₹{repaymentAmount}
+              {/* ₹{repaymentAmount} */}₹
+              {Math.max(
+                parseInt(data.data.body.amount) -
+                  (parseInt(data.data.body.paidAmount) ?? 0),
+                0
+              )}
             </Text>
           </View>
         </View>
-        
-        {
-          repaymentAmount>0 
-          ?
+
+        {Math.max(
+          parseInt(data.data.body.amount) -
+            (parseInt(data.data.body.paidAmount) ?? 0),
+          0
+        ) > 0 ? (
           <PrimaryButton
-            title={repaymentStatus !== "INPROGRESS" ? (inactive || loading ? "Verifying" : "Pay now") : "In Progress"}
+            title={
+              data.data.body.status !== "INPROGRESS"
+                ? inactive || loading
+                  ? "Verifying"
+                  : "Pay now"
+                : "In Progress"
+            }
             onPress={() => createRepaymentOrder()}
-            disabled={inactive || loading || repaymentStatus === "INPROGRESS"}
+            disabled={
+              inactive || loading || data.data.body.status === "INPROGRESS"
+            }
             containerStyle={{ width: null, marginTop: 0, height: 40 }}
             titleStyle={{ ...FONTS.h5 }}
           />
-          :
-          null
-        }
+        ) : null}
       </View>
 
       <View
@@ -200,23 +278,28 @@ const PayMoneyCard = () => {
           styles.bottomCard,
           {
             backgroundColor:
-              overdueDays < 0 ? COLORS.warning : COLORS.moneyCardBg,
+              getNumberOfDays({
+                date: data.data.body.dueDate?.replace(/-/g, "/"),
+                formatted: true,
+              }) < 0
+                ? COLORS.warning
+                : COLORS.moneyCardBg,
           },
         ]}
       >
         <Icon name="info-outline" size={18} color={COLORS.white} />
         <Text style={[styles.text, { marginLeft: 5 }]}>
-          {
-              overdueDays < 0
-            ? 
-              `Your repayment is overdue by ${-overdueDays} days`
-            : 
-                dueDate !== null
-              ?
-                `Due by ${dueDate}`
-              :
-                `No dues`
-          }
+          {getNumberOfDays({
+            date: data.data.body.dueDate?.replace(/-/g, "/"),
+            formatted: true,
+          }) < 0
+            ? `Your repayment is overdue by ${-getNumberOfDays({
+                date: data.data.body.dueDate?.replace(/-/g, "/"),
+                formatted: true,
+              })} days`
+            : data.data.body.dueDate?.split(" ")[0] !== null
+            ? `Due by ${data.data.body.dueDate?.split(" ")[0]}`
+            : `No dues`}
         </Text>
       </View>
     </View>
