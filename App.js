@@ -13,6 +13,18 @@ import Crashes from "appcenter-crashes";
 import { navigationRef } from "./navigators/RootNavigation";
 import Analytics from "appcenter-analytics";
 import { STAGE } from "@env";
+import {
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 Crashes.setListener({
   shouldProcess: function (report) {
     return true; // return true if the crash report should be processed, otherwise false.
@@ -29,7 +41,7 @@ const analyticsStatus = async () => {
   STAGE == "dev"
     ? await Analytics.setEnabled(false)
     : await Analytics.setEnabled(true);
-    console.log("analyticsStatus",STAGE)
+  console.log("analyticsStatus", STAGE);
 };
 
 const App = () => {
@@ -41,7 +53,9 @@ const App = () => {
         <NavigationContainer ref={navigationRef}>
           <SafeAreaProvider style={{ backgroundColor: "white", flex: 1 }}>
             <IconComponentProvider IconComponent={Icon}>
-              <StackNavigator />
+              <QueryClientProvider client={queryClient}>
+                <StackNavigator />
+              </QueryClientProvider>
             </IconComponentProvider>
           </SafeAreaProvider>
         </NavigationContainer>

@@ -5,6 +5,7 @@ import {
   ScrollView,
   Text,
   View,
+  Alert,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { allAreNull } from "../../../../helpers/nullCheck";
@@ -14,15 +15,21 @@ import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
 import MessageCard from "../../../../components/atoms/MessageCard";
 import LiveOfferCard from "../../../../components/organisms/LiveOfferCard";
 import { getBackendData } from "../../../../services/employees/employeeServices";
-import { addAccessible, addEligible, resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
+import {
+  addAccessible,
+  addEligible,
+  resetEwaLive,
+} from "../../../../store/slices/ewaLiveSlice";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import { COLORS, FONTS } from "../../../../constants/Theme";
 import { STAGE } from "@env";
 import { getNumberOfDays } from "../../../../helpers/DateFunctions";
 import LogoHeader from "../../../../components/atoms/LogoHeader";
 import { Ionicons } from "react-native-vector-icons";
+import { useQuery, QueryClient } from "@tanstack/react-query";
 
 const EWA = () => {
+  const queryClient = new QueryClient();
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const navigation = useNavigation();
@@ -36,7 +43,7 @@ const EWA = () => {
   );
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
-  
+
   // const panMisMatch = useSelector((state) => state.pan.misMatch);
   // const bankMisMatch = useSelector((state) => state.bank.misMatch);
 
@@ -83,48 +90,59 @@ const EWA = () => {
     dispatch(addAccessible(accessible));
   }, [accessible]);
 
-  useEffect(() => {
-    console.log("Money ewaLiveSlice: ", ewaLiveSlice);
-    // console.log("ewaHistoricalSlice: ", ewaHistoricalSlice);
-    // console.log("ewaOffersFetch unipeEmployeeId:", unipeEmployeeId);
-    if (isFocused && unipeEmployeeId && ewaLiveSlice["offerId"] === "") {
+  const {
+    isLoading,
+    isError,
+    error,
+    data: response,
+    isFetching,
+    isStale,
+  } = useQuery({
+    queryKey: ["offers", unipeEmployeeId],
+    queryFn: () =>
       getBackendData({
         params: { unipeEmployeeId: unipeEmployeeId },
         xpath: "ewa/offers",
         token: token,
-      })
-        .then((response) => {
-          console.log("Money ewaOffersFetch response.data: ", response.data);
-          if (response.data.status === 200) {
-            if (Object.keys(response.data.body.live).length !== 0) {
-              console.log("Money ewaOffersFetch response.data.body.live: ", response.data.body.live, response.data.body.live!={});
-              const closureDays = getNumberOfDays({
-                date: response.data.body.live.dueDate,
-              });
-              if (closureDays <= 3) {
-                setAccessible(false);
-              } else {
-                setAccessible(true);
-              }
-            } else {
-              setAccessible(false);
-            }
-            dispatch(resetEwaLive(response.data.body.live));
-            dispatch(resetEwaHistorical(response.data.body.past));
-            setFetched(true);
+      }),
+    placeholderData: () => {
+      return queryClient.getQueryData(["offers"]);
+    },
+    staleTime: 2000,
+  });
+
+  console.log("query", isLoading, error, isFetching);
+  useEffect(() => {
+    if (response) {
+      console.log("Money ewaOffersFetch response.data: ", response.data);
+      if (response.data.status === 200) {
+        if (Object.keys(response.data.body.live).length !== 0) {
+          console.log(
+            "Money ewaOffersFetch response.data.body.live: ",
+            response.data.body.live,
+            response.data.body.live != {}
+          );
+          const closureDays = getNumberOfDays({
+            date: response.data.body.live.dueDate,
+          });
+          if (closureDays <= 3) {
+            setAccessible(false);
           } else {
-            console.log("Money ewaOffersFetch API error: ", response.data);
-            dispatch(resetEwaLive());
-            dispatch(resetEwaHistorical());
+            setAccessible(true);
           }
-        })
-        .catch((error) => {
-          console.log("Money ewaOffersFetch Response error: ", error.toString());
-          dispatch(resetEwaLive());
-          dispatch(resetEwaHistorical());
-        });
+        } else {
+          setAccessible(false);
+        }
+        dispatch(resetEwaLive(response.data.body.live));
+        dispatch(resetEwaHistorical(response.data.body.past));
+        setFetched(true);
+      } else {
+        console.log("Money ewaOffersFetch API error: ", response.data);
+        dispatch(resetEwaLive());
+        dispatch(resetEwaHistorical());
+      }
     }
-  }, [isFocused, unipeEmployeeId]);
+  }, [response]);
 
   return (
     <SafeAreaView style={styles.safeContainer}>
@@ -139,53 +157,47 @@ const EWA = () => {
         }
       />
 
-      {
-        allAreNull(verifyStatuses)
-        ? 
-        (
-          // panMisMatch < 20 &&
-          // bankMisMatch < 20
-          <ScrollView>
-            <View style={styles.container}>
-              <LiveOfferCard
-                eligible={eligible}
-                accessible={accessible}
-                ewaLiveSlice={ewaLiveSlice}
-              />
+      {allAreNull(verifyStatuses) ? (
+        // panMisMatch < 20 &&
+        // bankMisMatch < 20
+        <ScrollView>
+          <View style={styles.container}>
+            <LiveOfferCard
+              eligible={eligible}
+              accessible={accessible}
+              ewaLiveSlice={ewaLiveSlice}
+            />
 
-              <Text
-                style={{
-                  ...FONTS.h4,
-                  color: COLORS.gray,
-                  marginTop: "5%",
-                }}
-              >
-                Your past draws
-              </Text>
-              <PastDrawsCard data={ewaHistoricalSlice} />
-            </View>
-          </ScrollView>
-        ) 
-        : 
-        (
-          <View style={[styles.container]}>
             <Text
               style={{
-                color: COLORS.warning,
-                ...FONTS.h3,
-                alignSelf: "center",
+                ...FONTS.h4,
+                color: COLORS.gray,
                 marginTop: "5%",
               }}
             >
-              You are not eligible for Advanced Salary.
+              Your past draws
             </Text>
-            <MessageCard
-              title="Following pending steps need to be completed in order to receive advance salary."
-              message={verifyStatuses}
-            />
+            <PastDrawsCard data={ewaHistoricalSlice} />
           </View>
-        )
-      }
+        </ScrollView>
+      ) : (
+        <View style={[styles.container]}>
+          <Text
+            style={{
+              color: COLORS.warning,
+              ...FONTS.h3,
+              alignSelf: "center",
+              marginTop: "5%",
+            }}
+          >
+            You are not eligible for Advanced Salary.
+          </Text>
+          <MessageCard
+            title="Following pending steps need to be completed in order to receive advance salary."
+            message={verifyStatuses}
+          />
+        </View>
+      )}
     </SafeAreaView>
   );
 };
