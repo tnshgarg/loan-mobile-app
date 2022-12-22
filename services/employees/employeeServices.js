@@ -36,19 +36,3 @@ export const getBackendData = async (props) => {
 
   return await axios(config);
 };
-
-export const getFetchBackendData = async (props) => {
-  console.log("getFETCHBackendData for ", props.xpath);
-  var url = `${EMPLOYEE_API_URL}/${props.xpath}`;
-
-  return await fetch({
-    method: "GET",
-    url: `${url}?unipeEmployeeId=${props.params.unipeEmployeeId}`,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${props.token}`,
-    },
-  })
-    .then((res) => res.json())
-    .catch((err) => console.log("FETCH error: ", err));
-};

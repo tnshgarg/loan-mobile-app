@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 export default function usePersistentContext(key) {
   const queryClient = useQueryClient();
 
-  const { data } = useQuery(key, () => AsyncStorage.getItem(key));
+  const { data } = useQuery([key], () => AsyncStorage.getItem(key));
 
   const { mutateAsync: setValue } = useMutation(
     (value) => AsyncStorage.setItem(key, value),
