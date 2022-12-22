@@ -1,37 +1,33 @@
+import { STAGE } from "@env";
+import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import {
   BackHandler,
   SafeAreaView,
   ScrollView,
   Text,
-  View,
-  Alert,
+  View
 } from "react-native";
+import { Ionicons } from "react-native-vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { allAreNull } from "../../../../helpers/nullCheck";
-import { styles } from "../../../../styles";
-import { useIsFocused, useNavigation } from "@react-navigation/core";
-import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
+import LogoHeader from "../../../../components/atoms/LogoHeader";
 import MessageCard from "../../../../components/atoms/MessageCard";
+import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
 import LiveOfferCard from "../../../../components/organisms/LiveOfferCard";
-import { getBackendData } from "../../../../services/employees/employeeServices";
+import { COLORS, FONTS } from "../../../../constants/Theme";
+import { getNumberOfDays } from "../../../../helpers/DateFunctions";
+import { allAreNull } from "../../../../helpers/nullCheck";
+import { fetchQuery } from "../../../../queries/offers";
+import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import {
   addAccessible,
   addEligible,
-  resetEwaLive,
+  resetEwaLive
 } from "../../../../store/slices/ewaLiveSlice";
-import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
-import { COLORS, FONTS } from "../../../../constants/Theme";
-import { STAGE } from "@env";
-import { getNumberOfDays } from "../../../../helpers/DateFunctions";
-import LogoHeader from "../../../../components/atoms/LogoHeader";
-import { Ionicons } from "react-native-vector-icons";
-import { useQuery, QueryClient } from "@tanstack/react-query";
+import { styles } from "../../../../styles";
 
 const EWA = () => {
-  const queryClient = new QueryClient();
   const dispatch = useDispatch();
-  const isFocused = useIsFocused();
   const navigation = useNavigation();
 
   const [fetched, setFetched] = useState(false);
@@ -96,22 +92,9 @@ const EWA = () => {
     error,
     data: response,
     isFetching,
-    isStale,
-  } = useQuery({
-    queryKey: ["offers", unipeEmployeeId],
-    queryFn: () =>
-      getBackendData({
-        params: { unipeEmployeeId: unipeEmployeeId },
-        xpath: "ewa/offers",
-        token: token,
-      }),
-    placeholderData: () => {
-      return queryClient.getQueryData(["offers"]);
-    },
-    staleTime: 2000,
-  });
+  } = fetchQuery({ token, unipeEmployeeId });
 
-  console.log("query", isLoading, error, isFetching);
+  console.log("Money FetchQuery for Offers", isLoading, error, isFetching);
   useEffect(() => {
     if (response) {
       console.log("Money ewaOffersFetch response.data: ", response.data);
@@ -141,6 +124,10 @@ const EWA = () => {
         dispatch(resetEwaLive());
         dispatch(resetEwaHistorical());
       }
+    } else if (isError) {
+      console.log("Money ewaOffersFetch API error: ", error.message);
+      dispatch(resetEwaLive());
+      dispatch(resetEwaHistorical());
     }
   }, [response]);
 

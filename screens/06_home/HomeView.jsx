@@ -1,35 +1,36 @@
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Linking, SafeAreaView, ScrollView, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import LiveOfferCard from "../../components/organisms/LiveOfferCard";
 import PushNotification from "react-native-push-notification";
+import { useDispatch, useSelector } from "react-redux";
 import MessageCard from "../../components/atoms/MessageCard";
+import LiveOfferCard from "../../components/organisms/LiveOfferCard";
 import { allAreNull } from "../../helpers/nullCheck";
 import { addCampaignId } from "../../store/slices/authSlice";
 import {
   addCurrentScreen,
-  addCurrentStack,
+  addCurrentStack
 } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 
+import { STAGE } from "@env";
+import { Ionicons } from "react-native-vector-icons";
+import LogoHeader from "../../components/atoms/LogoHeader";
+import VideoPlayer from "../../components/organisms/VideoPlayer";
+import { COLORS } from "../../constants/Theme";
+import { getNumberOfDays } from "../../helpers/DateFunctions";
+import { fetchQuery } from "../../queries/offers";
+import { getBackendData } from "../../services/employees/employeeServices";
 import {
   notificationListener,
-  requestUserPermission,
+  requestUserPermission
 } from "../../services/notifications/notificationService";
-import LogoHeader from "../../components/atoms/LogoHeader";
-import { Ionicons } from "react-native-vector-icons";
-import { COLORS } from "../../constants/Theme";
-import { getBackendData } from "../../services/employees/employeeServices";
 import { resetEwaHistorical } from "../../store/slices/ewaHistoricalSlice";
 import {
   addAccessible,
   addEligible,
-  resetEwaLive,
+  resetEwaLive
 } from "../../store/slices/ewaLiveSlice";
-import { getNumberOfDays } from "../../helpers/DateFunctions";
-import { STAGE } from "@env";
-import VideoPlayer from "../../components/organisms/VideoPlayer";
 
 const HomeView = () => {
   const dispatch = useDispatch();
@@ -67,7 +68,9 @@ const HomeView = () => {
     }
   }, [aadhaarVerifyStatus, bankVerifyStatus, panVerifyStatus]);
 
-  var [campaignId, setCampaignId] = useState(useSelector((state) => state.auth.campaignId));
+  var [campaignId, setCampaignId] = useState(
+    useSelector((state) => state.auth.campaignId)
+  );
 
   useEffect(() => {
     dispatch(addCurrentScreen("Home"));
@@ -101,22 +104,32 @@ const HomeView = () => {
   useEffect(() => {
     dispatch(addAccessible(accessible));
   }, [accessible]);
+  const {
+    isLoading,
+    isError,
+    error,
+    data: response,
+    isFetching,
+  } = fetchQuery({ token, unipeEmployeeId });
 
+  console.log("HomeView FetchQuery for Offers", isLoading, error, isFetching);
   useEffect(() => {
-    console.log("Home ewaLiveSlice: ", ewaLiveSlice);
-    // console.log("ewaHistoricalSlice: ", ewaHistoricalSlice);
-    // console.log("HomeView ewaOffersFetch unipeEmployeeId:", unipeEmployeeId);
-    if (isFocused && unipeEmployeeId) {
-      getBackendData({
-        params: { unipeEmployeeId: unipeEmployeeId },
-        xpath: "ewa/offers",
-        token: token,
-      })
-        .then((response) => {
+    if (response) {
+      console.log("Home ewaLiveSlice: ", ewaLiveSlice);
+      if (isFocused && unipeEmployeeId) {
+        getBackendData({
+          params: { unipeEmployeeId: unipeEmployeeId },
+          xpath: "ewa/offers",
+          token: token,
+        }).then((response) => {
           console.log("HomeView ewaOffersFetch response.data: ", response.data);
           if (response.data.status === 200) {
             if (Object.keys(response.data.body.live).length !== 0) {
-              console.log("HomeView ewaOffersFetch response.data.body.live: ", response.data.body.live, response.data.body.live!={});
+              console.log(
+                "HomeView ewaOffersFetch response.data.body.live: ",
+                response.data.body.live,
+                response.data.body.live != {}
+              );
               const closureDays = getNumberOfDays({
                 date: response.data.body.live.dueDate,
               });
@@ -136,14 +149,14 @@ const HomeView = () => {
             dispatch(resetEwaLive());
             dispatch(resetEwaHistorical());
           }
-        })
-        .catch((error) => {
-          console.log("HomeView ewaOffersFetch Response error: ", error.toString());
-          dispatch(resetEwaLive());
-          dispatch(resetEwaHistorical());
         });
+      }
+    } else if (isError) {
+      console.log("HomeView ewaOffersFetch API error: ", error.message);
+      dispatch(resetEwaLive());
+      dispatch(resetEwaHistorical());
     }
-  }, [isFocused, unipeEmployeeId]);
+  }, [response]);
 
   const getUrlAsync = async () => {
     const initialUrl = await Linking.getInitialURL();
@@ -169,7 +182,7 @@ const HomeView = () => {
       }
     } else {
       console.log("No intent. User opened App.");
-      console.log("campaignId", campaignId)
+      console.log("campaignId", campaignId);
     }
   };
 
