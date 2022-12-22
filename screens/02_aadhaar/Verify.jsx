@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import { Alert, SafeAreaView, BackHandler } from "react-native";
@@ -10,7 +10,6 @@ import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
 const AadhaarVerify = () => {
   const dispatch = useDispatch();
-  const inputRef = useRef();
   const navigation = useNavigation();
 
   const [back, setBack] = useState(false);
@@ -46,7 +45,6 @@ const AadhaarVerify = () => {
       <LogoHeaderBack leftOnPress={backAction} />
       <OnboardingProgressBar step={1} />
       <AadhaarVerifyTemplate
-        inputRef={inputRef}
         back={back}
         setBack={setBack}
       />
