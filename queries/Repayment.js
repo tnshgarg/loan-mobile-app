@@ -64,7 +64,30 @@ export const PostQuery = ({ amount, repaymentId }) => {
       staleTime: 1000 * 50, // 50 Seconds
       refetchInterval: 1000 * 60, // 1 Minute
       enabled: false,
+      refetchIntervalInBackground: false,
     }
   );
+  return response;
+};
+
+export const PostRepayment = () => {
+  const response = useMutation({
+    mutationFn: async ({ data, xpath, token }) => {
+      return await axios({
+        method: "post",
+        url: `${EMPLOYEE_API_URL}/${xpath}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        data: JSON.stringify(data),
+      })
+        .then((response) => {
+          console.log("repayments mutation post response:", response);
+          return response;
+        })
+        .catch(console.error);
+    },
+  });
   return response;
 };

@@ -12,9 +12,12 @@ import { putBackendData } from "../../services/employees/employeeServices";
 import PrimaryButton from "../atoms/PrimaryButton";
 import { showToast } from "../atoms/Toast";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
-import { fetchQuery, PostQuery } from "../../queries/Repayment";
+import { fetchQuery, PostQuery, PostRepayment } from "../../queries/Repayment";
 
 const PayMoneyCard = () => {
+  if (isLoading) return <Text>Loading</Text>;
+  if (isError) return <Text>Error occured</Text>;
+
   const [inactive, setInactive] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -27,32 +30,45 @@ const PayMoneyCard = () => {
   );
   const customerId = useSelector((state) => state.mandate.data.customerId);
   const [repaymentOrderId, setRepaymentOrderId] = useState(null);
+  // const [RepaymentStatus, setRepaymentStatus] = useState(null);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
 
-  const { data, isFetched, isLoading, isStale, isError } = fetchQuery({
-    unipeEmployeeId,
-    token,
-  });
-  const [RepaymentStatus, setRepaymentStatus] = useState(
-    isLoading ? "PENDING" : data?.data.body.status
-  );
-  const RepaymentId = isLoading ? "" : data?.data.body.repaymentId;
-  const DueDate = isLoading ? "" : data?.data.body.dueDate;
-  const Amount = isLoading ? 0 : data?.data.body.amount;
-  const PaidAmount = isLoading ? 0 : data?.data.body.paidAmount;
-  const RepaymentAmount = isLoading
-    ? 0
-    : Math.max(parseInt(Amount) - (parseInt(PaidAmount) ?? 0), 0);
+  const { data, isFetched, isLoading, isStale, isError, isSuccess } =
+    fetchQuery({
+      unipeEmployeeId,
+      token,
+    });
 
   const {
-    data: postData,
-    isSuccess: isPostSuccess,
-    isLoading: isPostLoading,
-    isError: isPostError,
-    isIdle: isPostIdle,
-    refetch: postRefetch,
-  } = PostQuery({
+    mutateAsync,
+    data: repaymentPostData,
+    isSuccess: repaymentPostSuccess,
+  } = PostRepayment();
+
+  if (repaymentPostSuccess)
+    console.log("repaymentpostsuccess:", repaymentPostData);
+
+  // console.log("data:", data);
+  const [RepaymentStatus, setRepaymentStatus] = useState(
+    isLoading || data.data.status == 404
+      ? "PENDING"
+      : data?.data.body.status || "INPROGRESS"
+  );
+  const RepaymentId =
+    isLoading || data.data.status == 404 ? "" : data?.data.body.repaymentId;
+  const DueDate =
+    isLoading || data.data.status == 404 ? "" : data?.data.body.dueDate;
+  const Amount =
+    isLoading || data.data.status == 404 ? 0 : data?.data.body.amount;
+  const PaidAmount =
+    isLoading || data.data.status == 404 ? 0 : data?.data.body.paidAmount;
+  const RepaymentAmount =
+    isLoading || data.data.status == 404
+      ? 0
+      : Math.max(parseInt(Amount) - (parseInt(PaidAmount) ?? 0), 0);
+
+  const { data: postData, refetch: postRefetch } = PostQuery({
     amount: RepaymentAmount,
     repaymentId: RepaymentId,
   });
@@ -73,61 +89,73 @@ const PayMoneyCard = () => {
       repaymentOrderId,
       !repaymentOrderId
     );
-    if (repaymentOrderId) {
-      var options = {
-        description: "Unipe Early Loan Repayment",
-        name: "Unipe",
-        key: RZP_KEY_ID,
-        order_id: repaymentOrderId,
-        customer_id: customerId,
-        prefill: {
-          name: accountHolderName,
-          email: email,
-          contact: phoneNumber,
-        },
-        theme: { color: COLORS.primary },
-      };
-      RazorpayCheckout.open(options)
-        .then((data) => {
-          console.log("RazorpayCheckout data: ", data);
-          putBackendData({
-            data: {
-              unipeEmployeeId: unipeEmployeeId,
-              dueDate: DueDate,
-              status: "INPROGRESS",
-            },
-            xpath: "ewa/repayment",
-            token: token,
-          })
-            .then((response) => {
-              refetch();
-              console.log("ewaRepaymentsPost response.data: ", response.data);
+    if (RepaymentAmount > 0) {
+      if (repaymentOrderId) {
+        var options = {
+          description: "Unipe Early Loan Repayment",
+          name: "Unipe",
+          key: RZP_KEY_ID,
+          order_id: repaymentOrderId,
+          customer_id: customerId,
+          prefill: {
+            name: accountHolderName,
+            email: email,
+            contact: phoneNumber,
+          },
+          theme: { color: COLORS.primary },
+        };
+        RazorpayCheckout.open(options)
+          .then((data) => {
+            console.log("RazorpayCheckout data: ", data);
+            // refetch();
+            mutateAsync({
+              data: {
+                unipeEmployeeId: unipeEmployeeId,
+                dueDate: DueDate,
+                status: "INPROGRESS",
+              },
+              xpath: "ewa/repayment",
+              token: token,
             })
-            .catch((error) => {
-              console.log("ewaRepaymentsPost error: ", error.toString());
+              // putBackendData({
+              //   data: {
+              //     unipeEmployeeId: unipeEmployeeId,
+              //     dueDate: DueDate,
+              //     status: "INPROGRESS",
+              //   },
+              //   xpath: "ewa/repayment",
+              //   token: token,
+              // })
+              .then((response) => {
+                refetch();
+                console.log("ewaRepaymentsPost response.data: ", response.data);
+              })
+              .catch((error) => {
+                console.log("ewaRepaymentsPost error: ", error.toString());
+              });
+            showToast("Loan Payment Successful");
+            setRepaymentStatus("INPROGRESS");
+            setLoading(false);
+            Analytics.trackEvent("Ewa|Repayment|Success", {
+              unipeEmployeeId: unipeEmployeeId,
             });
-          showToast("Loan Payment Successful");
-          setRepaymentStatus("INPROGRESS");
-          setLoading(false);
-          Analytics.trackEvent("Ewa|Repayment|Success", {
-            unipeEmployeeId: unipeEmployeeId,
+          })
+          .catch((error) => {
+            console.log("checkout error:", error.description);
+            showToast("Loan Payment Failed. Please try again.");
+            setLoading(false);
+            Analytics.trackEvent("Ewa|Repayment|Error", {
+              unipeEmployeeId: unipeEmployeeId,
+              error: error.toString(),
+            });
           });
-        })
-        .catch((error) => {
-          console.log("checkout error:", error.description);
-          showToast("Loan Payment Failed. Please try again.");
-          setLoading(false);
-          Analytics.trackEvent("Ewa|Repayment|Error", {
-            unipeEmployeeId: unipeEmployeeId,
-            error: error.toString(),
-          });
-        });
+      }
     }
   }, [repaymentOrderId]);
 
   console.log("inactive: ", inactive);
 
-  const createRepaymentOrderRQ = () => {
+  const createRepaymentOrder = () => {
     if (RepaymentAmount > 0) {
       postRefetch().then((res) => {
         console.log("Paynow button res:", res.data.data);
@@ -136,38 +164,38 @@ const PayMoneyCard = () => {
     }
   };
 
-  const createRepaymentOrder = () => {
-    setLoading(true);
-    if (RepaymentAmount > 0) {
-      createPaymentOrder({
-        amount: RepaymentAmount,
-        repaymentId: RepaymentId,
-      })
-        .then((response) => {
-          if (response.status === 200) {
-            setRepaymentOrderId(response.data.id);
-            console.log(
-              "createRepaymentOrder response.data.body: ",
-              response.data
-            );
-            Analytics.trackEvent("Ewa|RepaymentOrder|Success", {
-              unipeEmployeeId: unipeEmployeeId,
-            });
-          }
-        })
-        .catch((error) => {
-          setLoading(false);
-          console.log("createRepaymentOrder error: ", error);
-          Analytics.trackEvent("Ewa|RepaymentOrder|Error", {
-            unipeEmployeeId: unipeEmployeeId,
-            error: error.toString(),
-          });
-        });
-    } else {
-      setLoading(false);
-      showToast("No amount due");
-    }
-  };
+  // const createRepaymentOrder = () => {
+  //   setLoading(true);
+  //   if (RepaymentAmount > 0) {
+  //     createPaymentOrder({
+  //       amount: RepaymentAmount,
+  //       repaymentId: RepaymentId,
+  //     })
+  //       .then((response) => {
+  //         if (response.status === 200) {
+  //           setRepaymentOrderId(response.data.id);
+  //           console.log(
+  //             "createRepaymentOrder response.data.body: ",
+  //             response.data
+  //           );
+  //           Analytics.trackEvent("Ewa|RepaymentOrder|Success", {
+  //             unipeEmployeeId: unipeEmployeeId,
+  //           });
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         setLoading(false);
+  //         console.log("createRepaymentOrder error: ", error);
+  //         Analytics.trackEvent("Ewa|RepaymentOrder|Error", {
+  //           unipeEmployeeId: unipeEmployeeId,
+  //           error: error.toString(),
+  //         });
+  //       });
+  //   } else {
+  //     setLoading(false);
+  //     showToast("No amount due");
+  //   }
+  // };
 
   console.log("RepaymentAmount: ", RepaymentAmount);
   console.log("RepaymentAmount: ", RepaymentStatus);
@@ -221,9 +249,6 @@ const PayMoneyCard = () => {
   //   }
   // }, [isFocused, unipeEmployeeId]);
 
-  if (isLoading) return <Text>Loading</Text>;
-  if (isError) return <Text>Error occured</Text>;
-
   return (
     <View style={styles.container}>
       <View style={styles.row}>
@@ -254,7 +279,7 @@ const PayMoneyCard = () => {
                   : "Pay now"
                 : "In Progress"
             }
-            onPress={() => createRepaymentOrderRQ()}
+            onPress={() => createRepaymentOrder()}
             disabled={inactive || loading || RepaymentStatus === "INPROGRESS"}
             containerStyle={{ width: null, marginTop: 0, height: 40 }}
             titleStyle={{ ...FONTS.h5 }}
