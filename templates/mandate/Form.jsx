@@ -37,8 +37,12 @@ const MandateFormTemplate = (props) => {
   const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
   const aCTC = useSelector((state) => state.auth?.aCTC);
   const phoneNumber = useSelector((state) => state.auth?.phoneNumber);
-  const email = useSelector((state) => state.profile?.email || state.pan?.data?.email);
-  const accountHolderName = useSelector((state) => state.bank?.data?.accountHolderName);
+  const email = useSelector(
+    (state) => state.profile?.email || state.pan?.data?.email
+  );
+  const accountHolderName = useSelector(
+    (state) => state.bank?.data?.accountHolderName
+  );
   const accountNumber = useSelector((state) => state.bank?.data?.accountNumber);
   const ifsc = useSelector((state) => state.bank?.data?.ifsc);
 
@@ -79,7 +83,7 @@ const MandateFormTemplate = (props) => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
-  const backendPush = ({data, verifyMsg, verifyStatus, verifyTimestamp}) => {
+  const backendPush = ({ data, verifyMsg, verifyStatus, verifyTimestamp }) => {
     console.log("mandateSlice: ", mandateSlice);
     setData(data);
     setVerifyMsg(verifyMsg);
@@ -97,7 +101,7 @@ const MandateFormTemplate = (props) => {
       },
       token: token,
     });
-  }
+  };
 
   useEffect(() => {
     console.log("createCustomer customerId: ", customerId, !customerId);
@@ -164,7 +168,7 @@ const MandateFormTemplate = (props) => {
                   orderId: orderId,
                   paymentId: data.razorpay_payment_id,
                   paymentSignature: data.razorpay_signature,
-                  provider: 'razropay',
+                  provider: "razropay",
                   tokenId: token.data.token_id,
                 },
                 verifyMsg: "Mandate Verified Successfully",
@@ -214,7 +218,7 @@ const MandateFormTemplate = (props) => {
   const ProceedButton = ({ authType }) => {
     setAuthType(authType);
     backendPush({
-      data: {authType: authType},
+      data: { authType: authType },
       verifyMsg: `Mandate|CreateOrder|${authType} PENDING`,
       verifyStatus: "PENDING",
       verifyTimestamp: Date.now(),
@@ -231,7 +235,7 @@ const MandateFormTemplate = (props) => {
         console.log(`Mandate|CreateOrder|${authType} res.data:`, res.data);
         setOrderId(res.data.id);
         backendPush({
-          data: {authType: authType},
+          data: { authType: authType },
           verifyMsg: `Mandate|CreateOrder|${authType} SUCCESS`,
           verifyStatus: "PENDING",
           verifyTimestamp: Date.now(),
@@ -243,7 +247,7 @@ const MandateFormTemplate = (props) => {
       .catch((error) => {
         console.log(`Mandate|CreateOrder|${authType} error:`, error.toString());
         backendPush({
-          data: {authType: authType},
+          data: { authType: authType },
           verifyMsg: `Mandate|CreateOrder|${authType} ERROR ${error.toString()}`,
           verifyStatus: "ERROR",
           verifyTimestamp: Date.now(),
@@ -281,26 +285,24 @@ const MandateFormTemplate = (props) => {
             value={ifsc}
             disabled={true}
           />
-          { 
-            customerId==null 
-            ?
-              <Text>Initializing ... </Text>
-            :
-              <>
-                <PrimaryButton
-                  title="Debit Card"
-                  onPress={() => {
-                    ProceedButton({ authType: "debitcard" });
-                  }}
-                />
-                <PrimaryButton
-                  title="Net Banking"
-                  onPress={() => {
-                    ProceedButton({ authType: "netbanking" });
-                  }}
-                />
-              </>
-          }
+          {customerId == null ? (
+            <Text>Initializing ... </Text>
+          ) : (
+            <>
+              <PrimaryButton
+                title="Debit Card"
+                onPress={() => {
+                  ProceedButton({ authType: "debitcard" });
+                }}
+              />
+              <PrimaryButton
+                title="Net Banking"
+                onPress={() => {
+                  ProceedButton({ authType: "netbanking" });
+                }}
+              />
+            </>
+          )}
         </ScrollView>
       </KeyboardAvoidingWrapper>
     </SafeAreaView>
