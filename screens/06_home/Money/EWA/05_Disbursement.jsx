@@ -3,19 +3,17 @@ import { useEffect, useState } from "react";
 import {
   BackHandler,
   SafeAreaView,
-  Image,
   View,
   Text,
   ScrollView,
 } from "react-native";
-import { ewa, styles } from "../../../../styles";
+import { styles } from "../../../../styles";
 import { useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 import SVGImgFailure from "../../../../assets/ewa_failure.svg";
 import SVGImgSuccess from "../../../../assets/ewa_success.svg";
 import SVGImgPending from "../../../../assets/ewa_pending.svg";
-import { SIZES } from "../../../../constants/Theme";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
 
 const Disbursement = ({ route, navigation }) => {
@@ -149,7 +147,7 @@ const Disbursement = ({ route, navigation }) => {
           <DisbursementCard
             data={data}
             title="Loan Details"
-            info="*Disbursement will be reconciled in your next payroll"
+            info="Money will be auto debited from your upcoming salary"
             iconName="cash"
           />
         </View>

@@ -3,7 +3,7 @@ import { styles } from "../../../styles";
 import DocumentsView from "./DocumentsView";
 import License from "./License/License";
 import LogoHeader from "../../../components/atoms/LogoHeader";
-import { MaterialCommunityIcons, Ionicons } from "react-native-vector-icons";
+import { Ionicons } from "react-native-vector-icons";
 import { SafeAreaView } from "react-native";
 import { COLORS } from "../../../constants/Theme";
 

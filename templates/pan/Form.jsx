@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Linking, SafeAreaView, Text, View } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import { bankform, checkBox, form, styles } from "../../styles";
+import { bankform, form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import PanVerifyApi from "../../apis/pan/Verify";
 import { addNumber } from "../../store/slices/panSlice";
@@ -42,14 +42,15 @@ const PanFormTemplate = (props) => {
           <View>
             <Text style={styles.headline}>Enter your PAN number</Text>
             <Text style={styles.subHeadline}>
-              कृपया अपना आधार नम्बर यहाँ भरें ॰ इस आधार नम्बर से जुड़े मोबाइल
-              नम्बर पर हम ओ॰टी॰पी॰ भेजेंगे ॰
+            कृपया अपना पैन नम्बर यहाँ भरें।
             </Text>
-            {/* Need to change hindi text over here */}
+
             <FormInput
+              accessibilityLabel={"PanInput"}
               placeholder={"PAN Number"}
               containerStyle={{ marginVertical: 10 }}
-              keyboardType="phone-pad"
+              keyboardType="default"
+              autoCapitalize="characters"
               autoFocus={true}
               value={number}
               onChange={setNumber}

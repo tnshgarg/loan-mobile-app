@@ -4,7 +4,7 @@ import { Linking, SafeAreaView, ScrollView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
 import PushNotification from "react-native-push-notification";
-import MessageCard from "../../components/atoms/MessageCard";
+import KycCheckCard from "../../components/molecules/KycCheckCard";
 import { allAreNull } from "../../helpers/nullCheck";
 import { addCampaignId } from "../../store/slices/authSlice";
 import {
@@ -29,15 +29,12 @@ import {
 } from "../../store/slices/ewaLiveSlice";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
 import { STAGE } from "@env";
-import { YOUTUBE_EMBED_URL } from "../../constants/Strings";
-import WebView from "react-native-webview";
 import VideoPlayer from "../../components/organisms/VideoPlayer";
 
 const HomeView = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const navigation = useNavigation();
-  const [openPlayer, setOpenPlayer] = useState(false);
 
   const aadhaarVerifyStatus = useSelector(
     (state) => state.aadhaar.verifyStatus
@@ -58,9 +55,15 @@ const HomeView = () => {
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
 
   const verifyStatuses = [
-    aadhaarVerifyStatus != "SUCCESS" ? "AADHAAR" : null,
-    bankVerifyStatus != "SUCCESS" ? "BANK" : null,
-    panVerifyStatus != "SUCCESS" ? "PAN" : null,
+    aadhaarVerifyStatus != "SUCCESS"
+      ? { label: "Verify AADHAAR", value: "AADHAAR" }
+      : null,
+    panVerifyStatus != "SUCCESS"
+      ? { label: "Verify PAN", value: "PAN" }
+      : null,
+    bankVerifyStatus != "SUCCESS"
+      ? { label: "Verify Bank Account", value: "BANK" }
+      : null,
   ];
 
   useEffect(() => {
@@ -70,7 +73,9 @@ const HomeView = () => {
     }
   }, [aadhaarVerifyStatus, bankVerifyStatus, panVerifyStatus]);
 
-  var [campaignId, setCampaignId] = useState(null);
+  var [campaignId, setCampaignId] = useState(
+    useSelector((state) => state.auth.campaignId)
+  );
 
   useEffect(() => {
     dispatch(addCurrentScreen("Home"));
@@ -116,27 +121,32 @@ const HomeView = () => {
         token: token,
       })
         .then((response) => {
+          console.log("HomeView ewaOffersFetch response.data: ", response.data);
           if (response.data.status === 200) {
-            // console.log("HomeView ewaOffersFetch response.data: ", response.data);
-            const closureDays = getNumberOfDays({
-              date: response.data.body.live.dueDate,
-            });
-            if (closureDays <= 3) {
-              setAccessible(false);
+            if (Object.keys(response.data.body.live).length !== 0) {
+              console.log("HomeView ewaOffersFetch response.data.body.live: ", response.data.body.live, response.data.body.live!={});
+              const closureDays = getNumberOfDays({
+                date: response.data.body.live.dueDate,
+              });
+              if (closureDays <= 3) {
+                setAccessible(false);
+              } else {
+                setAccessible(true);
+              }
             } else {
-              setAccessible(true);
+              setAccessible(false);
             }
             dispatch(resetEwaLive(response.data.body.live));
             dispatch(resetEwaHistorical(response.data.body.past));
             setFetched(true);
           } else {
-            console.log("ewaOffersFetch error: ", response.data);
+            console.log("HomeView ewaOffersFetch API error: ", response.data);
             dispatch(resetEwaLive());
             dispatch(resetEwaHistorical());
           }
         })
         .catch((error) => {
-          console.log("ewaOffersFetch error: ", error.toString());
+          console.log("HomeView ewaOffersFetch Response error: ", error.toString());
           dispatch(resetEwaLive());
           dispatch(resetEwaHistorical());
         });
@@ -152,21 +162,22 @@ const HomeView = () => {
       console.log("route", splitted[3]);
       switch (splitted[3].toLowerCase()) {
         case "ewa":
+          switch (splitted[4]?.toLowerCase()) {
+            case "campaign":
+              console.log("campaignId", splitted[5]);
+              setCampaignId(splitted[5]);
+              break;
+            default:
+              break;
+          }
           navigation.navigate("Money");
-          break;
-        default:
-          break;
-      }
-      switch (splitted[4].toLowerCase()) {
-        case "campaign":
-          console.log("campaignId", splitted[5]);
-          setCampaignId(splitted[5]);
           break;
         default:
           break;
       }
     } else {
       console.log("No intent. User opened App.");
+      console.log("campaignId", campaignId);
     }
   };
 
@@ -198,7 +209,7 @@ const HomeView = () => {
               <VideoPlayer />
             </>
           ) : (
-            <MessageCard
+            <KycCheckCard
               title="Following pending steps need to be completed in order to receive advance salary."
               message={verifyStatuses}
             />

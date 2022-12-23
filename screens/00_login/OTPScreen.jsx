@@ -11,9 +11,9 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
-import { styles, form } from "../../styles";
-import { COLORS, FONTS, SIZES } from "../../constants/Theme";
-import { Ionicons, MaterialCommunityIcons } from "react-native-vector-icons";
+import { styles } from "../../styles";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { MaterialCommunityIcons } from "react-native-vector-icons";
 import OtpInput from "../../components/molecules/OtpInput";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
@@ -49,7 +49,7 @@ const OTPScreen = () => {
       }
     }, 1000);
 
-    if (countDownTime === 0 || verified) {
+    if (countDownTime < 1 || verified) {
       setBack(true);
       clearInterval(interval);
     }
@@ -124,7 +124,9 @@ const OTPScreen = () => {
               destination: "HomeStack",
             });
           } else {
-            navigation.navigate("Welcome");
+            navigation.navigate("BackendSync", {
+              destination: "Welcome",
+            });
           }
           Analytics.trackEvent("OTPScreen|Check|Success", {
             unipeEmployeeId: unipeEmployeeId,

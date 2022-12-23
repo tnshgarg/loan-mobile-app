@@ -47,6 +47,7 @@ const Agreement = () => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const campaignId = useSelector((state) => state.auth.campaignId);
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const bankSlice = useSelector((state) => state.bank);
   const panSlice = useSelector((state) => state.pan);
@@ -173,7 +174,7 @@ const Agreement = () => {
   const data = [
     { subTitle: "Loan Amount", value: "₹" + ewaLiveSlice?.loanAmount },
     {
-      subTitle: "Processing Fees *",
+      subTitle: "Processing Fees †",
       value: "₹" + processingFees,
     },
     {
@@ -193,6 +194,7 @@ const Agreement = () => {
           timestamp: Date.now(),
           ipAddress: ipAddress,
           deviceId: deviceId,
+          campaignId: campaignId,
         },
         token: token,
       })
@@ -224,18 +226,19 @@ const Agreement = () => {
         loanAccountNumber: ewaLiveSlice?.offerId,
         employerId: ewaLiveSlice?.employerId,
         employmentId: ewaLiveSlice?.employmentId,
+        campaignId: campaignId,
       },
       token: token,
     })
       .then((response) => {
         console.log("ewaAgreementPush response.data: ", response.data);
-        navigation.navigate("EWA_DISBURSEMENT", { offer: ewaLiveSlice });
         dispatch(resetEwaLive());
         dispatch(resetEwaHistorical([]));
         setLoading(false);
         Analytics.trackEvent("Ewa|Agreement|Success", {
           unipeEmployeeId: unipeEmployeeId,
         });
+        navigation.navigate("EWA_DISBURSEMENT", { offer: ewaLiveSlice });
       })
       .catch((error) => {
         console.log("ewaAgreementPush error: ", error.toString());
@@ -305,9 +308,8 @@ const Agreement = () => {
             }}
           />
           <View style={checkBox.padding}></View>
-          <Text style={{ marginLeft: "6%", fontSize: 6, marginTop: "25%" }}>
-            * Disbursement will be reconciled in your next payroll {"\n"}*
-            Annual Percentage Rate @ {apr} %
+          <Text style={{fontSize: 6, marginTop: "5%" }}>
+          † Annual Percentage Rate @ {apr} %
           </Text>
 
           <Modal
