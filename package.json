@@ -4,6 +4,7 @@
 	"scripts": {
 		"start:dev": "bash ./android/ACFlavours.sh -e dev && gulp set --env=dev && npx react-native run-android --active-arch-only --variant=devDebug --appIdSuffix=dev",
 		"start:test": "bash ./android/ACFlavours.sh -e qa && gulp set --env=test && npx react-native run-android --active-arch-only --variant=qaDebug --appIdSuffix=qa",
+		"start:prod": "bash ./android/ACFlavours.sh -e prod && gulp set --env=prod && npx react-native run-android --active-arch-only --variant=prodDebug --appIdSuffix=prod",
 		"build:dev": "bash ./android/ACFlavours.sh -e dev && bash ./android/versioning.sh && gulp set --env=dev && cd android && ./gradlew assembleDevRelease",
 		"build:qa": "bash ./android/ACFlavours.sh -e qa && bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
 		"build:demo": "bash ./android/ACFlavours.sh -e demo && bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
@@ -77,7 +78,7 @@
 		"glob": "7.2.0"
 	},
 	"private": true,
-	"version": "2022.12.9",
+	"version": "2022.12.17",
 	"jest": {
 		"verbose": true,
 		"testTimeout": 50000

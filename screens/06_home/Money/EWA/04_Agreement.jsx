@@ -174,7 +174,7 @@ const Agreement = () => {
   const data = [
     { subTitle: "Loan Amount", value: "₹" + ewaLiveSlice?.loanAmount },
     {
-      subTitle: "Processing Fees *",
+      subTitle: "Processing Fees †",
       value: "₹" + processingFees,
     },
     {
@@ -308,9 +308,8 @@ const Agreement = () => {
             }}
           />
           <View style={checkBox.padding}></View>
-          <Text style={{ marginLeft: "6%", fontSize: 6, marginTop: "25%" }}>
-            * Disbursement will be reconciled in your next payroll {"\n"}*
-            Annual Percentage Rate @ {apr} %
+          <Text style={{fontSize: 6, marginTop: "5%" }}>
+          † Annual Percentage Rate @ {apr} %
           </Text>
 
           <Modal
