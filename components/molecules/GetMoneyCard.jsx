@@ -21,7 +21,7 @@ const GetMoneyCard = ({
         style={{
           width: "100%",
           borderWidth: 0.4,
-          borderColor: COLORS.lightGray,
+          borderColor: COLORS.primary,
         }}
       />
 

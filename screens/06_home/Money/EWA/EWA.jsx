@@ -51,9 +51,15 @@ const EWA = () => {
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
 
   const verifyStatuses = [
-    aadhaarVerifyStatus != "SUCCESS" ? "AADHAAR" : null,
-    bankVerifyStatus != "SUCCESS" ? "BANK" : null,
-    panVerifyStatus != "SUCCESS" ? "PAN" : null,
+    aadhaarVerifyStatus != "SUCCESS"
+      ? { label: "Verify AADHAAR", value: "AADHAAR" }
+      : null,
+    panVerifyStatus != "SUCCESS"
+      ? { label: "Verify PAN", value: "PAN" }
+      : null,
+    bankVerifyStatus != "SUCCESS"
+      ? { label: "Verify Bank Account", value: "BANK" }
+      : null,
   ];
 
   const backAction = () => {
@@ -98,28 +104,34 @@ const EWA = () => {
         token: token,
       })
         .then((response) => {
+          console.log("Money ewaOffersFetch response.data: ", response.data);
           if (response.data.status === 200) {
-            // console.log("ewaOffersFetch response.data: ", response.data);
-            if (
-              getNumberOfDays({ date: response.data.body.live.dueDate }) <= 3
-            ) {
-              setAccessible(false);
+            if (Object.keys(response.data.body.live).length !== 0) {
+              console.log("Money ewaOffersFetch response.data.body.live: ", response.data.body.live, response.data.body.live!={});
+              const closureDays = getNumberOfDays({
+                date: response.data.body.live.dueDate,
+              });
+              if (closureDays <= 3) {
+                setAccessible(false);
+              } else {
+                setAccessible(true);
+              }
             } else {
-              setAccessible(true);
+              setAccessible(false);
             }
             dispatch(resetEwaLive(response.data.body.live));
             dispatch(resetEwaHistorical(response.data.body.past));
             setFetched(true);
           } else {
-            console.log("ewaOffersFetch error: ", response.data);
+            console.log("Money ewaOffersFetch API error: ", response.data);
             dispatch(resetEwaLive());
             dispatch(resetEwaHistorical());
           }
         })
         .catch((error) => {
+          console.log("Money ewaOffersFetch Response error: ", error.toString());
           dispatch(resetEwaLive());
           dispatch(resetEwaHistorical());
-          console.log("ewaOffersFetch error: ", error.toString());
         });
     }
   }, [isFocused, unipeEmployeeId]);
