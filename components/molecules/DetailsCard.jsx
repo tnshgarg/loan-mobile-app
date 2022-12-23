@@ -41,7 +41,7 @@ const styles = EStyleSheet.create({
     margin: "10rem",
     borderRadius: 5,
   },
-  listItem: { marginVertical: "5rem" },
+  listItem: { marginVertical: "10rem" },
   label: {
     ...FONTS.body5,
     color: COLORS.gray,

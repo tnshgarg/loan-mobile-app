@@ -150,6 +150,7 @@ const PayMoneyCard = () => {
             setInactive(false);
           } else if (response.data.status === 404) {
             setDueDate(null);
+            setOverdueDays(null);
             setRepaymentAmount(0);
           }
         })
