@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import AadhaarVerifyApi from "../../apis/aadhaar/Verify";
@@ -10,6 +10,7 @@ import OtpInput from "../../components/molecules/OtpInput";
 
 const AadhaarVerifyTemplate = (props) => {
   const dispatch = useDispatch();
+  const inputRef = useRef();
 
   const [resend, setResend] = useState(false);
   const [otp, setOtp] = useState("");
@@ -19,6 +20,8 @@ const AadhaarVerifyTemplate = (props) => {
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const [number, setNumber] = useState(aadhaarSlice?.number);
   const [verified, setVerified] = useState(false);
+
+  let interval;
 
   useEffect(() => {
     interval = setInterval(() => {
@@ -30,7 +33,7 @@ const AadhaarVerifyTemplate = (props) => {
       }
     }, 1000);
 
-    if (countDownTime === 0 || verified) {
+    if (countDownTime < 1 || verified) {
       setResend(true);
       clearInterval(interval);
     }
@@ -54,7 +57,7 @@ const AadhaarVerifyTemplate = (props) => {
           otp={otp}
           setOtp={setOtp}
           accessibilityLabel={"AadhaarOtpInput"}
-          inputRef={props.inputRef}
+          inputRef={inputRef}
         />
 
         <Text style={styles.subHeadline} accessibilityLabel="OtpText">

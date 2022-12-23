@@ -2,7 +2,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persistStore, persistReducer } from "redux-persist";
-import { navigate } from "../navigators/RootNavigation";
 import aadhaarSlice from "./slices/aadhaarSlice";
 import authSlice from "./slices/authSlice";
 import bankSlice from "./slices/bankSlice";
@@ -17,8 +16,6 @@ import timerSlice from "./slices/timerSlice";
 import ewaLiveSlice from "./slices/ewaLiveSlice";
 import ewaHistoricalSlice from "./slices/ewaHistoricalSlice";
 import notificationSlice from "./slices/notificationSlice";
-
-import { addLoggedIn } from "./slices/authSlice";
 
 const persistConfig = {
   key: "root",

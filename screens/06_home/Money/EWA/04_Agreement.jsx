@@ -20,7 +20,6 @@ import RenderHtml from "react-native-render-html";
 import { AntDesign } from "react-native-vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
-import CollapsibleCard from "../../../../components/molecules/CollapsibleCard";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { COLORS } from "../../../../constants/Theme";
 import { ewaAgreementPush } from "../../../../helpers/BackendPush";
@@ -32,6 +31,7 @@ import {
 } from "../../../../store/slices/ewaLiveSlice";
 import { checkBox, ewa, styles } from "../../../../styles";
 import agreement from "../../../../templates/docs/LiquiLoansLoanAgreement";
+import DisbursementCard from "../../../../components/molecules/DisbursementCard";
 
 const Agreement = () => {
   const dispatch = useDispatch();
@@ -54,7 +54,9 @@ const Agreement = () => {
   const profileSlice = useSelector((state) => state.profile);
   const authSlice = useSelector((state) => state.auth);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
-  const mandateVerifyStatus= useSelector((state)=>state.mandate.verifyStatus);
+  const mandateVerifyStatus = useSelector(
+    (state) => state.mandate.verifyStatus
+  );
   const [netAmount, setNetAmount] = useState();
   const [processingFees, setProcessingFees] = useState(
     useSelector((state) => state.ewaLive.processingFees)
@@ -108,8 +110,7 @@ const Agreement = () => {
   const backAction = () => {
     if (mandateVerifyStatus === "SUCCESS") {
       navigation.navigate("EWA_KYC");
-    }
-    else {
+    } else {
       navigation.navigate("EWA_MANDATE");
     }
     return true;
@@ -173,7 +174,7 @@ const Agreement = () => {
   const data = [
     { subTitle: "Loan Amount", value: "₹" + ewaLiveSlice?.loanAmount },
     {
-      subTitle: "Processing Fees *",
+      subTitle: "Processing Fees †",
       value: "₹" + processingFees,
     },
     {
@@ -253,23 +254,25 @@ const Agreement = () => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <Header title="Agreement" onLeftIconPress={() => backAction()} />
-      <View style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <CollapsibleCard
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+          <DisbursementCard
             data={data}
             title="Loan Details"
-            isClosed={false}
-            // info="Disbursed amount will be adjusted in your next salary."
+            info="*Money will be auto debited from your upcoming salary"
+            iconName="cash"
           />
-          <CollapsibleCard
-            title="Personal Details"
-            isClosed={false}
-            data={profileData}
-          />
-          <CollapsibleCard
-            title="Bank Details"
-            isClosed={false}
+
+          <DisbursementCard
             data={bankData}
+            title="Bank Details"
+            iconName="bank"
+          />
+
+          <DisbursementCard
+            data={profileData}
+            title="Personal Details"
+            iconName="account-outline"
           />
 
           <View
@@ -305,53 +308,53 @@ const Agreement = () => {
             }}
           />
           <View style={checkBox.padding}></View>
-          <Text style={{ marginLeft: "6%", fontSize: 6, marginTop: "25%" }}>
-            * Disbursement will be reconciled in your next payroll {"\n"}*
-            Annual Percentage Rate @ {apr} %
+          <Text style={{fontSize: 6, marginTop: "5%" }}>
+          † Annual Percentage Rate @ {apr} %
           </Text>
-        </ScrollView>
-        <Modal
-          isVisible={isModalVisible}
-          style={{
-            width: Dimensions.get("window").width,
-            height: Dimensions.get("window").height,
-          }}
-        >
-          <Pressable
-            onPress={() => setIsModalVisible(false)}
+
+          <Modal
+            isVisible={isModalVisible}
             style={{
-              position: "absolute",
-              top: 30,
-              right: 50,
-              zIndex: 999,
+              width: Dimensions.get("window").width,
+              height: Dimensions.get("window").height,
             }}
           >
-            <AntDesign name="closesquareo" size={24} color="black" />
-          </Pressable>
-          <View
-            style={{
-              height: Dimensions.get("window").height - 100,
-              width: Dimensions.get("window").width - 40,
-              backgroundColor: "white",
-              borderRadius: 5,
-            }}
-          >
-            <ScrollView style={{ padding: "5%" }}>
-              <RenderHtml
-                contentWidth={width}
-                source={agreement}
-                enableExperimentalMarginCollapsing={true}
-                renderersProps={{
-                  img: {
-                    enableExperimentalPercentWidth: true,
-                  },
-                }}
-                domVisitors={{ onText: ValueEntry }}
-              />
-            </ScrollView>
-          </View>
-        </Modal>
-      </View>
+            <Pressable
+              onPress={() => setIsModalVisible(false)}
+              style={{
+                position: "absolute",
+                top: 30,
+                right: 50,
+                zIndex: 999,
+              }}
+            >
+              <AntDesign name="closesquareo" size={24} color="black" />
+            </Pressable>
+            <View
+              style={{
+                height: Dimensions.get("window").height - 100,
+                width: Dimensions.get("window").width - 40,
+                backgroundColor: "white",
+                borderRadius: 5,
+              }}
+            >
+              <ScrollView style={{ padding: "5%" }}>
+                <RenderHtml
+                  contentWidth={width}
+                  source={agreement}
+                  enableExperimentalMarginCollapsing={true}
+                  renderersProps={{
+                    img: {
+                      enableExperimentalPercentWidth: true,
+                    },
+                  }}
+                  domVisitors={{ onText: ValueEntry }}
+                />
+              </ScrollView>
+            </View>
+          </Modal>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

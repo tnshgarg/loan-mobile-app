@@ -31,7 +31,6 @@ const styles = EStyleSheet.create({
     //alignItems: "center",
     borderRadius: 5,
     backgroundColor: COLORS.cardBackground,
-    flex: 1,
     flexWrap: "wrap",
   },
   image: {

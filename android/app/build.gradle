@@ -173,8 +173,8 @@ android {
         applicationId "com.employeeapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 202212091
-        versionName "2022.12.09"
+        versionCode 202212171
+        versionName "2022.12.17"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
         // missingDimensionStrategy 'react-native-camera', 'general'
