@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { createPaymentOrder } from "../../services/checkout/StandardCheckout";
 import { RZP_KEY_ID } from "../../services/constants";
-import { getBackendData } from "../../services/employees/employeeServices";
+import { getBackendData, putBackendData } from "../../services/employees/employeeServices";
 import PrimaryButton from "../atoms/PrimaryButton";
 import { showToast } from "../atoms/Toast";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
@@ -19,6 +19,7 @@ const PayMoneyCard = () => {
 
   const [inactive, setInactive] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [repaymentStatus, setRepaymentStatus] = useState("PENDING");
 
   const phoneNumber = useSelector((state) => state.auth?.phoneNumber);
   const email = useSelector(
@@ -57,20 +58,32 @@ const PayMoneyCard = () => {
       RazorpayCheckout.open(options)
         .then((data) => {
           console.log("RazorpayCheckout data: ", data);
+          putBackendData({
+            data: { unipeEmployeeId: unipeEmployeeId, dueDate: dueDate, status: "INPROGRESS" },
+            xpath: "ewa/repayment",
+            token: token,
+          })
+            .then((response) => {
+              console.log("ewaRepaymentsPost response.data: ", response.data);
+            })
+            .catch((error) => {
+              console.log("ewaRepaymentsPost error: ", error.toString());
+            });
           showToast("Loan Payment Successful");
+          setRepaymentStatus("INPROGRESS");
+          setLoading(false);
           Analytics.trackEvent("Ewa|Repayment|Success", {
             unipeEmployeeId: unipeEmployeeId,
           });
-          setLoading(false);
         })
         .catch((error) => {
           console.log("checkout error:", error.description);
           showToast("Loan Payment Failed. Please try again.");
+          setLoading(false);
           Analytics.trackEvent("Ewa|Repayment|Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: error.toString(),
           });
-          setLoading(false);
         });
     }
   }, [repaymentOrderId]);
@@ -83,7 +96,6 @@ const PayMoneyCard = () => {
         repaymentId: repaymentId,
       })
         .then((response) => {
-          setLoading(false);
           if (response.status === 200) {
             setRepaymentOrderId(response.data.id);
             console.log(
@@ -110,10 +122,10 @@ const PayMoneyCard = () => {
   }
 
   useEffect(() => {
-    if(repaymentAmount<1) {
+    if(repaymentAmount<1 || repaymentStatus === "INPROGRESS") {
       setInactive(true);
     }
-  }, [repaymentAmount])
+  }, [repaymentAmount, repaymentStatus])
 
   useEffect(() => {
     if (isFocused && unipeEmployeeId) {
@@ -132,7 +144,8 @@ const PayMoneyCard = () => {
                 formatted: true,
               })
             );
-            setRepaymentAmount(response.data.body.amount);
+            setRepaymentAmount(Math.max(response.data.body.amount - (response.data.body.paidAmount ?? 0),0));
+            setRepaymentStatus(response.data.body.status);
             setRepaymentId(response.data.body.repaymentId);
             setInactive(false);
           } else if (response.data.status === 404) {
@@ -171,9 +184,9 @@ const PayMoneyCard = () => {
           repaymentAmount>0 
           ?
           <PrimaryButton
-            title={inactive || loading ? "Verifying" : "Pay now"}
+            title={repaymentStatus !== "INPROGRESS" ? (inactive || loading ? "Verifying" : "Pay now") : "In Progress"}
             onPress={() => createRepaymentOrder()}
-            disabled={inactive || loading}
+            disabled={inactive || loading || repaymentStatus === "INPROGRESS"}
             containerStyle={{ width: null, marginTop: 0, height: 40 }}
             titleStyle={{ ...FONTS.h5 }}
           />
