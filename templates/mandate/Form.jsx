@@ -1,10 +1,9 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, SafeAreaView, ScrollView, Text} from "react-native";
+import { Alert, SafeAreaView, ScrollView, Text } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { mandatePush } from "../../helpers/BackendPush";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
@@ -25,6 +24,7 @@ import { RZP_KEY_ID } from "../../services/constants";
 import FormInput from "../../components/atoms/FormInput";
 import { COLORS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
+import MandateOptions from "../../components/molecules/MandateOptions";
 
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -288,20 +288,7 @@ const MandateFormTemplate = (props) => {
           {customerId == null ? (
             <Text>Initializing ... </Text>
           ) : (
-            <>
-              <PrimaryButton
-                title="Debit Card"
-                onPress={() => {
-                  ProceedButton({ authType: "debitcard" });
-                }}
-              />
-              <PrimaryButton
-                title="Net Banking"
-                onPress={() => {
-                  ProceedButton({ authType: "netbanking" });
-                }}
-              />
-            </>
+            <MandateOptions ProceedButton={ProceedButton} />
           )}
         </ScrollView>
       </KeyboardAvoidingWrapper>
