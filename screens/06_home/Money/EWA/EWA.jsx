@@ -52,13 +52,13 @@ const EWA = () => {
 
   const verifyStatuses = [
     aadhaarVerifyStatus != "SUCCESS"
-      ? { label: "Add Aadhaar Details", value: "AADHAAR" }
-      : null,
-    bankVerifyStatus != "SUCCESS"
-      ? { label: "Add Bank Details", value: "BANK" }
+      ? { label: "Verify AADHAAR", value: "AADHAAR" }
       : null,
     panVerifyStatus != "SUCCESS"
-      ? { label: "Add PAN Details", value: "PAN" }
+      ? { label: "Verify PAN", value: "PAN" }
+      : null,
+    bankVerifyStatus != "SUCCESS"
+      ? { label: "Verify Bank Account", value: "BANK" }
       : null,
   ];
 
