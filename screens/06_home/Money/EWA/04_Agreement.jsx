@@ -38,6 +38,7 @@ const Agreement = () => {
   const navigation = useNavigation();
   const { width } = useWindowDimensions();
 
+  const [active, setActive] = useState(false);
   const [fetched, setFetched] = useState(false);
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
@@ -58,9 +59,9 @@ const Agreement = () => {
     (state) => state.mandate.verifyStatus
   );
   const [netAmount, setNetAmount] = useState();
-  const [processingFees, setProcessingFees] = useState(
-    useSelector((state) => state.ewaLive.processingFees)
-  );
+  const [loanAmount, setLoanAmount] = useState(ewaLiveSlice?.loanAmount);
+  const [fees, setFees] = useState(ewaLiveSlice?.fees);
+  const [processingFees, setProcessingFees] = useState(ewaLiveSlice?.processingFees);
   const [apr, setApr] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -81,7 +82,7 @@ const Agreement = () => {
       /\{loanAccountNumber\}/g,
       ewaLiveSlice?.offerId
     );
-    text.data = text.data.replace(/\{loanAmount\}/g, ewaLiveSlice?.loanAmount);
+    text.data = text.data.replace(/\{loanAmount\}/g, loanAmount);
     text.data = text.data.replace(/\{mobile\}/g, authSlice?.phoneNumber);
     text.data = text.data.replace(/\{panName\}/g, panSlice?.data?.name);
     text.data = text.data.replace(/\{processingFees\}/g, processingFees);
@@ -123,23 +124,23 @@ const Agreement = () => {
   }, []);
 
   useEffect(() => {
-    setProcessingFees(
-      Math.round(
-        (((ewaLiveSlice?.loanAmount * ewaLiveSlice?.fees) / 100 + 1) / 10) *
-          10 -
-          1
-      )
-    );
+    let pf = (loanAmount * fees)/100;
+    if (parseInt(pf)%10<4) {
+      setProcessingFees(Math.max(9, (Math.floor((pf/10))*10) -1));
+    } else {
+      setProcessingFees(Math.max(9, (Math.floor(((pf+10)/10))*10) -1));
+    }
   }, [ewaLiveSlice]);
 
   useEffect(() => {
     dispatch(addProcessingFees(processingFees));
-    setNetAmount(ewaLiveSlice?.loanAmount - processingFees);
+    setNetAmount(loanAmount - processingFees);
   }, [processingFees]);
 
   useEffect(() => {
     dispatch(addNetAmount(netAmount));
     setApr(APR());
+    setActive(true);
   }, [netAmount]);
 
   const profileData = [
@@ -166,13 +167,13 @@ const Agreement = () => {
     var timeDiff = dueDate.getTime() - today.getTime();
     var daysDiff = parseInt(timeDiff / (1000 * 3600 * 24));
     var apr =
-      100 * (processingFees / ewaLiveSlice?.loanAmount) * (365 / daysDiff);
+      100 * (processingFees / loanAmount) * (365 / daysDiff);
     console.log("APR: ", apr, daysDiff, apr.toFixed(2));
     return apr.toFixed(2);
   };
 
   const data = [
-    { subTitle: "Loan Amount", value: "₹" + ewaLiveSlice?.loanAmount },
+    { subTitle: "Loan Amount", value: "₹" + loanAmount },
     {
       subTitle: "Processing Fees †",
       value: "₹" + processingFees,
@@ -221,7 +222,7 @@ const Agreement = () => {
         bankAccountNumber: bankSlice?.data?.accountNumber,
         dueDate: ewaLiveSlice?.dueDate,
         processingFees: processingFees,
-        loanAmount: ewaLiveSlice?.loanAmount,
+        loanAmount: loanAmount,
         netAmount: netAmount,
         loanAccountNumber: ewaLiveSlice?.offerId,
         employerId: ewaLiveSlice?.employerId,
@@ -300,9 +301,9 @@ const Agreement = () => {
             </Text>
           </View>
           <PrimaryButton
-            title={loading ? "Booking" : "Finish"}
-            disabled={!consent}
-            loading={loading}
+            title={active ? (loading ? "Booking" : "Finish") : "Loading"}
+            disabled={!consent || !active}
+            loading={loading || !active}
             onPress={() => {
               handleAgreement();
             }}
