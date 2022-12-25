@@ -7,7 +7,7 @@ const Header = ({ title, onLeftIconPress, onRightIconPress }) => {
       title={title}
       contentContainerStyle={{ height: 50 }}
       color={COLORS.white}
-      titleStyle={{ color: COLORS.black, ...FONTS.body3 }}
+      titleStyle={{ color: COLORS.black, ...FONTS.body4 }}
       leading={
         <IconButton
           icon={<Icon name="arrow-back" size={20} color={COLORS.black} />}
