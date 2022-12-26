@@ -6,9 +6,7 @@ import RazorpayCheckout from "react-native-razorpay";
 import { Icon } from "@react-native-material/core";
 import { useSelector } from "react-redux";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { createPaymentOrder } from "../../services/checkout/StandardCheckout";
 import { RZP_KEY_ID } from "../../services/constants";
-import { putBackendData } from "../../services/employees/employeeServices";
 import PrimaryButton from "../atoms/PrimaryButton";
 import { showToast } from "../atoms/Toast";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
@@ -30,7 +28,6 @@ const PayMoneyCard = () => {
   );
   const customerId = useSelector((state) => state.mandate.data.customerId);
   const [repaymentOrderId, setRepaymentOrderId] = useState(null);
-  // const [RepaymentStatus, setRepaymentStatus] = useState(null);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
   console.log("token:", token);
@@ -53,7 +50,6 @@ const PayMoneyCard = () => {
     console.log("repaymentpostsuccess:", repaymentPostData.data);
   }
 
-  // console.log("data:", data);
   const [repaymentStatus, setRepaymentStatus] = useState(
     isLoading || data.data.status == 404
       ? "PENDING"
