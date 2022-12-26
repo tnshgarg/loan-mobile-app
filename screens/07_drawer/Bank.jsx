@@ -1,28 +1,37 @@
 import { SafeAreaView, View } from "react-native";
 import React from "react";
-import DetailItem from "./DetailItem";
 import { useSelector } from "react-redux";
 import BankFormTemplate from "../../templates/bank/Form";
 import BankConfirmApi from "../../apis/bank/Confirm";
 import TopTabNav from "../../navigators/TopTabNav";
 import { styles } from "../../styles";
+import DetailsCard from "../../components/molecules/DetailsCard";
 
 const Bank = () => {
-  const accountHolderName = useSelector(
-    (state) => state.bank.data.accountHolderName
-  );
-  const accountNumber = useSelector((state) => state.bank.data.accountNumber);
-  const ifsc = useSelector((state) => state.bank.data.ifsc);
-  const upi = useSelector((state) => state.bank.data.upi);
   const verifyStatus = useSelector((state) => state.bank.verifyStatus);
+  const data = useSelector((state) => state.bank.data);
 
-  const data = [
-    { label: "Account Number", value: accountNumber },
-    { label: "Account Holder Name", value: accountHolderName },
-    { label: "IFSC Code", value: ifsc },
-    { label: "UPI Id", value: upi },
-    { label: "Verify Status", value: verifyStatus },
-  ];
+  const cardData = () => {
+    var res = [
+      {
+        subTitle: "AccountHolderName",
+        value: data?.accountHolderName,
+        fullWidth: true,
+      },
+      {
+        subTitle: "AccountNumber",
+        value: data?.accountNumber,
+      },
+      { subTitle: "Bank Name", value: data?.bankName },
+      { subTitle: "Branch Name", value: data?.branchName, fullWidth: true },
+      { subTitle: "Branch City", value: data?.branchCity, fullWidth: true },
+
+      { subTitle: "IFSC", value: data?.ifsc },
+      { subTitle: "UPI", value: data?.upi },
+      { subTitle: "Verify Status", value: verifyStatus },
+    ];
+    return res;
+  };
 
   const tabs = [
     {
@@ -43,16 +52,7 @@ const Bank = () => {
     <SafeAreaView style={styles.safeContainer}>
       {verifyStatus == "SUCCESS" ? (
         <View style={styles.container}>
-          <View style={styles.card}>
-            {data.map((item, index) => (
-              <DetailItem
-                key={index}
-                label={item.label}
-                value={item.value || "Not Provided"}
-                divider={item?.divider}
-              />
-            ))}
-          </View>
+          <DetailsCard data={cardData()} />
         </View>
       ) : (
         <TopTabNav tabs={tabs} hide={true} />

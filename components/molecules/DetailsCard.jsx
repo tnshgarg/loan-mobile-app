@@ -31,7 +31,6 @@ const styles = EStyleSheet.create({
     //alignItems: "center",
     borderRadius: 5,
     backgroundColor: COLORS.cardBackground,
-    flex: 1,
     flexWrap: "wrap",
   },
   image: {
@@ -42,7 +41,7 @@ const styles = EStyleSheet.create({
     margin: "10rem",
     borderRadius: 5,
   },
-  listItem: { marginVertical: "5rem" },
+  listItem: { marginVertical: "10rem" },
   label: {
     ...FONTS.body5,
     color: COLORS.gray,

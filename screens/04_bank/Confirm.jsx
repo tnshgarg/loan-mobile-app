@@ -7,7 +7,6 @@ import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import BankConfirmApi from "../../apis/bank/Confirm";
-import Header from "../../components/atoms/Header";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
 const BankConfirm = () => {
