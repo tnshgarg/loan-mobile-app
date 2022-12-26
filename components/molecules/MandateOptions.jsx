@@ -5,7 +5,7 @@ import React from "react";
 import { COLORS, FONTS } from "../../constants/Theme";
 import ListItem from "../atoms/ListItem";
 
-const MandateOptions = ({ ProceedButton, Loading }) => {
+const MandateOptions = ({ ProceedButton, disabled }) => {
   const mandateOptions = [
     {
       title: "Debit Card",
@@ -22,7 +22,7 @@ const MandateOptions = ({ ProceedButton, Loading }) => {
   return (
     <View style={styles.container}>
       {mandateOptions.map((item, index) => (
-        <ListItem key={index} item={item} disabled={Loading}/>
+        <ListItem key={index} item={item} disabled={disabled}/>
       ))}
     </View>
   );

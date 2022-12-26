@@ -301,7 +301,7 @@ const MandateFormTemplate = (props) => {
           {customerId == null ? (
             <Text>Initializing ... </Text>
           ) : (
-            <MandateOptions ProceedButton={ProceedButton} Loading={loading}/>
+            <MandateOptions ProceedButton={ProceedButton} disabled={loading}/>
           )}
         </ScrollView>
       </KeyboardAvoidingWrapper>
