@@ -26,6 +26,7 @@ import Analytics from "appcenter-analytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import MandateOptions from "../../components/molecules/MandateOptions";
 
+
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -111,6 +112,7 @@ const MandateFormTemplate = (props) => {
           name: accountHolderName,
           email: email,
           contact: phoneNumber,
+          unipeEmployeeId: unipeEmployeeId,
         })
           .then((res) => {
             console.log("createCustomer res.data: ", res.data);
@@ -154,6 +156,7 @@ const MandateFormTemplate = (props) => {
           contact: phoneNumber,
         },
         theme: { color: COLORS.primary },
+        notes: {unipeEmployeeId: unipeEmployeeId},
       };
 
       RazorpayCheckout.open(options)
@@ -230,6 +233,7 @@ const MandateFormTemplate = (props) => {
       accountNumber: accountNumber,
       ifsc: ifsc,
       aCTC: aCTC,
+      unipeEmployeeId: unipeEmployeeId,
     })
       .then((res) => {
         console.log(`Mandate|CreateOrder|${authType} res.data:`, res.data);

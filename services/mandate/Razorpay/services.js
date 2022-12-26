@@ -8,6 +8,7 @@ const createCustomer = ({ name, email, contact }) => {
     email: email,
     contact: contact,
     fail_existing: "0",
+    notes: { unipeEmployeeId: unipeEmployeeId },
   });
 
   var config = {
@@ -43,6 +44,7 @@ const createOrder = ({
         expire_at: 1767223119,
         frequency: "as_presented",
       },
+      notes: { unipeEmployeeId: unipeEmployeeId },
     });
   } else {
     var data = JSON.stringify({
@@ -64,6 +66,7 @@ const createOrder = ({
           beneficiary_name: accountHolderName,
         },
       },
+      notes: { unipeEmployeeId: unipeEmployeeId },
     });
   }
   console.log("createorder", data);
