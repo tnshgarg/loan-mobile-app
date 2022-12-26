@@ -63,8 +63,7 @@ export const PostQuery = ({ amount, repaymentId }) => {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       onSettled: () => {},
-      // staleTime: 1000 * 50, // 50 Seconds
-      // refetchInterval: 1000 * 60, // 1 Minute
+      staleTime: 1000 * 60, // 60 Seconds
       enabled: false,
       refetchIntervalInBackground: false,
     }
