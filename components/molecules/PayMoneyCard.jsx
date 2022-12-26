@@ -30,8 +30,6 @@ const PayMoneyCard = () => {
   const [repaymentOrderId, setRepaymentOrderId] = useState(null);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
-  console.log("token:", token);
-  console.log("unipeem:", unipeEmployeeId);
 
   const { data, isFetched, isLoading, isStale, isError, isSuccess, refetch } =
     fetchQuery({
@@ -71,7 +69,6 @@ const PayMoneyCard = () => {
       ? 0
       : Math.max(parseInt(amount) - (parseInt(paidAmount) ?? 0), 0);
 
-  console.log("duedate:", dueDate);
   const { data: postData, refetch: postRefetch } = PostQuery({
     amount: repaymentAmount,
     repaymentId: repaymentId,
