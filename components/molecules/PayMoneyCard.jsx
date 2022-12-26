@@ -123,7 +123,6 @@ const PayMoneyCard = () => {
               .catch((error) => {
                 console.log("ewaRepaymentsPost error: ", error.toString());
               });
-            refetch();
             setRepaymentStatus("INPROGRESS");
             showToast("Loan Payment Successful");
             setLoading(false);
