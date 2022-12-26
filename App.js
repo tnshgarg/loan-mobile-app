@@ -13,7 +13,8 @@ import Crashes from "appcenter-crashes";
 import { navigationRef } from "./navigators/RootNavigation";
 import Analytics from "appcenter-analytics";
 import { STAGE } from "@env";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./queries/Repayment";
 
 Crashes.setListener({
   shouldProcess: function (report) {
@@ -33,8 +34,6 @@ const analyticsStatus = async () => {
     : await Analytics.setEnabled(true);
   console.log("analyticsStatus", STAGE);
 };
-
-const queryClient = new QueryClient();
 
 const App = () => {
   SplashScreen.hide();

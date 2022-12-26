@@ -1,6 +1,8 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { EMPLOYEE_API_URL, RZP_AUTH } from "../services/constants";
+
+export const queryClient = new QueryClient();
 
 export const fetchQuery = ({ unipeEmployeeId, token }) => {
   const response = useQuery(
@@ -61,8 +63,8 @@ export const PostQuery = ({ amount, repaymentId }) => {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       onSettled: () => {},
-      staleTime: 1000 * 50, // 50 Seconds
-      refetchInterval: 1000 * 60, // 1 Minute
+      // staleTime: 1000 * 50, // 50 Seconds
+      // refetchInterval: 1000 * 60, // 1 Minute
       enabled: false,
       refetchIntervalInBackground: false,
     }
@@ -71,9 +73,9 @@ export const PostQuery = ({ amount, repaymentId }) => {
 };
 
 export const PostRepayment = () => {
-  const response = useMutation({
+  const mutation = useMutation({
     mutationFn: async ({ data, xpath, token }) => {
-      return await axios({
+      return axios({
         method: "post",
         url: `${EMPLOYEE_API_URL}/${xpath}`,
         headers: {
@@ -88,6 +90,9 @@ export const PostRepayment = () => {
         })
         .catch(console.error);
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["repayments"] });
+    },
   });
-  return response;
+  return mutation;
 };

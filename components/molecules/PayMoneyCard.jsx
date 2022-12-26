@@ -33,8 +33,10 @@ const PayMoneyCard = () => {
   // const [RepaymentStatus, setRepaymentStatus] = useState(null);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
+  console.log("token:", token);
+  console.log("unipeem:", unipeEmployeeId);
 
-  const { data, isFetched, isLoading, isStale, isError, isSuccess } =
+  const { data, isFetched, isLoading, isStale, isError, isSuccess, refetch } =
     fetchQuery({
       unipeEmployeeId,
       token,
@@ -44,10 +46,12 @@ const PayMoneyCard = () => {
     mutateAsync,
     data: repaymentPostData,
     isSuccess: repaymentPostSuccess,
+    isLoading: isRepaymentPostLoading,
   } = PostRepayment();
 
-  if (repaymentPostSuccess)
-    console.log("repaymentpostsuccess:", repaymentPostData);
+  if (repaymentPostSuccess) {
+    console.log("repaymentpostsuccess:", repaymentPostData.data);
+  }
 
   // console.log("data:", data);
   const [RepaymentStatus, setRepaymentStatus] = useState(
@@ -55,10 +59,15 @@ const PayMoneyCard = () => {
       ? "PENDING"
       : data?.data.body.status || "INPROGRESS"
   );
+  const PostRepaymentStatus = isRepaymentPostLoading
+    ? "PENDING"
+    : repaymentPostData?.data.status;
   const RepaymentId =
     isLoading || data.data.status == 404 ? "" : data?.data.body.repaymentId;
   const DueDate =
-    isLoading || data.data.status == 404 ? "" : data?.data.body.dueDate;
+    isLoading || data.data.status == 404
+      ? null
+      : data?.data.body.dueDate?.split(" ")[0];
   const Amount =
     isLoading || data.data.status == 404 ? 0 : data?.data.body.amount;
   const PaidAmount =
@@ -68,6 +77,7 @@ const PayMoneyCard = () => {
       ? 0
       : Math.max(parseInt(Amount) - (parseInt(PaidAmount) ?? 0), 0);
 
+  console.log("duedate:", DueDate);
   const { data: postData, refetch: postRefetch } = PostQuery({
     amount: RepaymentAmount,
     repaymentId: RepaymentId,
@@ -107,7 +117,6 @@ const PayMoneyCard = () => {
         RazorpayCheckout.open(options)
           .then((data) => {
             console.log("RazorpayCheckout data: ", data);
-            // refetch();
             mutateAsync({
               data: {
                 unipeEmployeeId: unipeEmployeeId,
@@ -117,24 +126,15 @@ const PayMoneyCard = () => {
               xpath: "ewa/repayment",
               token: token,
             })
-              // putBackendData({
-              //   data: {
-              //     unipeEmployeeId: unipeEmployeeId,
-              //     dueDate: DueDate,
-              //     status: "INPROGRESS",
-              //   },
-              //   xpath: "ewa/repayment",
-              //   token: token,
-              // })
               .then((response) => {
-                refetch();
                 console.log("ewaRepaymentsPost response.data: ", response.data);
               })
               .catch((error) => {
                 console.log("ewaRepaymentsPost error: ", error.toString());
               });
-            showToast("Loan Payment Successful");
+            refetch();
             setRepaymentStatus("INPROGRESS");
+            showToast("Loan Payment Successful");
             setLoading(false);
             Analytics.trackEvent("Ewa|Repayment|Success", {
               unipeEmployeeId: unipeEmployeeId,
@@ -311,7 +311,8 @@ const PayMoneyCard = () => {
                 date: DueDate?.replace(/-/g, "/"),
                 formatted: true,
               })} days`
-            : DueDate?.split(" ")[0] !== null
+            : // : DueDate?.split(" ")[0] !== null
+            DueDate !== null
             ? `Due by ${DueDate?.split(" ")[0]}`
             : `No dues`}
         </Text>
