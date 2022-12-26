@@ -48,6 +48,7 @@ const MandateFormTemplate = (props) => {
   const ifsc = useSelector((state) => state.bank?.data?.ifsc);
 
   const mandateSlice = useSelector((state) => state.mandate);
+  const [loading, setLoading] = useState(false);
   const [authType, setAuthType] = useState();
   const [customerId, setCustomerId] = useState(mandateSlice?.data?.customerId);
   const [orderId, setOrderId] = useState(null);
@@ -182,6 +183,7 @@ const MandateFormTemplate = (props) => {
               Analytics.trackEvent("Mandate|GetToken|Success", {
                 unipeEmployeeId: unipeEmployeeId,
               });
+              setLoading(false);
               props?.type === "EWA"
                 ? navigation.navigate("EWA_AGREEMENT")
                 : null;
@@ -199,6 +201,7 @@ const MandateFormTemplate = (props) => {
                 unipeEmployeeId: unipeEmployeeId,
                 error: error.description,
               });
+              setLoading(false);
             });
         })
         .catch((error) => {
@@ -214,11 +217,13 @@ const MandateFormTemplate = (props) => {
             unipeEmployeeId: unipeEmployeeId,
             error: error.description,
           });
+          setLoading(false);
         });
     }
   }, [orderId]);
 
   const ProceedButton = ({ authType }) => {
+    setLoading(true);
     setAuthType(authType);
     backendPush({
       data: { authType: authType },
@@ -296,7 +301,7 @@ const MandateFormTemplate = (props) => {
           {customerId == null ? (
             <Text>Initializing ... </Text>
           ) : (
-            <MandateOptions ProceedButton={ProceedButton} />
+            <MandateOptions ProceedButton={ProceedButton} Loading={loading}/>
           )}
         </ScrollView>
       </KeyboardAvoidingWrapper>

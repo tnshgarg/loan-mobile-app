@@ -13,9 +13,10 @@ const Mandate = () => {
   const navigation = useNavigation();
 
   const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
+  const token = useSelector((state) => state.auth?.token);
   const mandateSlice = useSelector((state) => state.mandate);
   const [verifyStatus, setVerifyStatus] = useState(mandateSlice?.verifyStatus);
-
+  
   const backAction = () => {
     navigation.navigate("EWA_KYC");
     return true;
