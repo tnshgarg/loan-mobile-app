@@ -54,33 +54,31 @@ const PayMoneyCard = () => {
   }
 
   // console.log("data:", data);
-  const [RepaymentStatus, setRepaymentStatus] = useState(
+  const [repaymentStatus, setRepaymentStatus] = useState(
     isLoading || data.data.status == 404
       ? "PENDING"
       : data?.data.body.status || "INPROGRESS"
   );
-  const PostRepaymentStatus = isRepaymentPostLoading
-    ? "PENDING"
-    : repaymentPostData?.data.status;
-  const RepaymentId =
+
+  const repaymentId =
     isLoading || data.data.status == 404 ? "" : data?.data.body.repaymentId;
-  const DueDate =
+  const dueDate =
     isLoading || data.data.status == 404
       ? null
       : data?.data.body.dueDate?.split(" ")[0];
-  const Amount =
+  const amount =
     isLoading || data.data.status == 404 ? 0 : data?.data.body.amount;
-  const PaidAmount =
+  const paidAmount =
     isLoading || data.data.status == 404 ? 0 : data?.data.body.paidAmount;
-  const RepaymentAmount =
+  const repaymentAmount =
     isLoading || data.data.status == 404
       ? 0
-      : Math.max(parseInt(Amount) - (parseInt(PaidAmount) ?? 0), 0);
+      : Math.max(parseInt(amount) - (parseInt(paidAmount) ?? 0), 0);
 
-  console.log("duedate:", DueDate);
+  console.log("duedate:", dueDate);
   const { data: postData, refetch: postRefetch } = PostQuery({
-    amount: RepaymentAmount,
-    repaymentId: RepaymentId,
+    amount: repaymentAmount,
+    repaymentId: repaymentId,
   });
 
   console.log("isStale: ", isStale);
@@ -99,7 +97,7 @@ const PayMoneyCard = () => {
       repaymentOrderId,
       !repaymentOrderId
     );
-    if (RepaymentAmount > 0) {
+    if (repaymentAmount > 0) {
       if (repaymentOrderId) {
         var options = {
           description: "Unipe Early Loan Repayment",
@@ -120,7 +118,7 @@ const PayMoneyCard = () => {
             mutateAsync({
               data: {
                 unipeEmployeeId: unipeEmployeeId,
-                dueDate: DueDate,
+                dueDate: dueDate,
                 status: "INPROGRESS",
               },
               xpath: "ewa/repayment",
@@ -156,7 +154,7 @@ const PayMoneyCard = () => {
   console.log("inactive: ", inactive);
 
   const createRepaymentOrder = () => {
-    if (RepaymentAmount > 0) {
+    if (repaymentAmount > 0) {
       postRefetch().then((res) => {
         console.log("Paynow button res:", res.data.data);
         setRepaymentOrderId(res.data.data.id);
@@ -164,90 +162,19 @@ const PayMoneyCard = () => {
     }
   };
 
-  // const createRepaymentOrder = () => {
-  //   setLoading(true);
-  //   if (RepaymentAmount > 0) {
-  //     createPaymentOrder({
-  //       amount: RepaymentAmount,
-  //       repaymentId: RepaymentId,
-  //     })
-  //       .then((response) => {
-  //         if (response.status === 200) {
-  //           setRepaymentOrderId(response.data.id);
-  //           console.log(
-  //             "createRepaymentOrder response.data.body: ",
-  //             response.data
-  //           );
-  //           Analytics.trackEvent("Ewa|RepaymentOrder|Success", {
-  //             unipeEmployeeId: unipeEmployeeId,
-  //           });
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         setLoading(false);
-  //         console.log("createRepaymentOrder error: ", error);
-  //         Analytics.trackEvent("Ewa|RepaymentOrder|Error", {
-  //           unipeEmployeeId: unipeEmployeeId,
-  //           error: error.toString(),
-  //         });
-  //       });
-  //   } else {
-  //     setLoading(false);
-  //     showToast("No amount due");
-  //   }
-  // };
-
-  console.log("RepaymentAmount: ", RepaymentAmount);
-  console.log("RepaymentAmount: ", RepaymentStatus);
-  console.log(RepaymentAmount < 1 || RepaymentStatus === "INPROGRESS");
+  console.log("RepaymentAmount: ", repaymentAmount);
+  console.log("RepaymentStatus: ", repaymentStatus);
+  console.log(repaymentAmount < 1 || repaymentStatus === "INPROGRESS");
 
   useEffect(() => {
     if (isLoading) {
       console.log("Loading");
     } else {
-      if (RepaymentAmount < 1 || RepaymentStatus === "INPROGRESS") {
+      if (repaymentAmount < 1 || repaymentStatus === "INPROGRESS") {
         setInactive(true);
       }
     }
   }, [isLoading, isStale, data]);
-
-  // useEffect(() => {
-  //   if (isFocused && unipeEmployeeId) {
-  //     getBackendData({
-  //       params: { unipeEmployeeId: unipeEmployeeId },
-  //       xpath: "ewa/repayment",
-  //       token: token,
-  //     })
-  //       .then((response) => {
-  //         console.log("ewaRepaymentsFetch response.data: ", response.data);
-  //         if (response.data.status === 200) {
-  //           // setDueDate(response.data.body.dueDate?.split(" ")[0]);
-  //           setOverdueDays(
-  //             getNumberOfDays({
-  //               date: dueDate?.replace(/-/g, "/"),
-  //               formatted: true,
-  //             })
-  //           );
-  //           // setRepaymentAmount(
-  //           //   Math.max(
-  //           //     response.data.body.amount -
-  //           //       (response.data.body.paidAmount ?? 0),
-  //           //     0
-  //           //   )
-  //           // );
-  //           setRepaymentStatus(response.data.body.status);
-  //           setRepaymentId(response.data.body.repaymentId);
-  //           setInactive(false);
-  //         } else if (response.data.status === 404) {
-  //           setDueDate(null);
-  //           setRepaymentAmount(0);
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         console.log("ewaRepaymentsFetch error: ", error.toString());
-  //       });
-  //   }
-  // }, [isFocused, unipeEmployeeId]);
 
   return (
     <View style={styles.container}>
@@ -265,22 +192,22 @@ const PayMoneyCard = () => {
             <Text
               style={[styles.text, { ...FONTS.h3, color: COLORS.secondary }]}
             >
-              ₹{RepaymentAmount}
+              ₹{repaymentAmount}
             </Text>
           </View>
         </View>
 
-        {RepaymentAmount > 0 ? (
+        {repaymentAmount > 0 ? (
           <PrimaryButton
             title={
-              RepaymentStatus !== "INPROGRESS"
+              repaymentStatus !== "INPROGRESS"
                 ? inactive || loading
                   ? "Verifying"
                   : "Pay now"
                 : "In Progress"
             }
             onPress={() => createRepaymentOrder()}
-            disabled={inactive || loading || RepaymentStatus === "INPROGRESS"}
+            disabled={inactive || loading || repaymentStatus === "INPROGRESS"}
             containerStyle={{ width: null, marginTop: 0, height: 40 }}
             titleStyle={{ ...FONTS.h5 }}
           />
@@ -293,7 +220,7 @@ const PayMoneyCard = () => {
           {
             backgroundColor:
               getNumberOfDays({
-                date: DueDate?.replace(/-/g, "/"),
+                date: dueDate?.replace(/-/g, "/"),
                 formatted: true,
               }) < 0
                 ? COLORS.warning
@@ -304,16 +231,16 @@ const PayMoneyCard = () => {
         <Icon name="info-outline" size={18} color={COLORS.white} />
         <Text style={[styles.text, { marginLeft: 5 }]}>
           {getNumberOfDays({
-            date: DueDate?.replace(/-/g, "/"),
+            date: dueDate?.replace(/-/g, "/"),
             formatted: true,
           }) < 0
             ? `Your repayment is overdue by ${-getNumberOfDays({
-                date: DueDate?.replace(/-/g, "/"),
+                date: dueDate?.replace(/-/g, "/"),
                 formatted: true,
               })} days`
             : // : DueDate?.split(" ")[0] !== null
-            DueDate !== null
-            ? `Due by ${DueDate?.split(" ")[0]}`
+            dueDate !== null
+            ? `Due by ${dueDate?.split(" ")[0]}`
             : `No dues`}
         </Text>
       </View>
