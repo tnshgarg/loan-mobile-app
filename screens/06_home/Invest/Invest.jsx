@@ -6,10 +6,11 @@ import { Ionicons } from "react-native-vector-icons";
 import { COLORS, FONTS } from "../../../constants/Theme";
 import InvestSVG from "../../../assets/Invest.svg";
 import PrimaryButton from "../../../components/atoms/PrimaryButton";
+import LiquiloansTitle from "../../../components/atoms/LiquiloansTitle";
 
 import Analytics from "appcenter-analytics";
 import { useSelector } from "react-redux";
-import LiquiloansTitle from "../../../components/atoms/LiquiloansTitle";
+import { showToast } from "../../../components/atoms/Toast";
 
 const Invest = (props) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -69,7 +70,15 @@ const Invest = (props) => {
             </Text>
           </TouchableOpacity>
         </View>
-        <PrimaryButton title="Invest now" onPress={() => {}} />
+        <PrimaryButton
+          title="Invest now"
+          onPress={() => {
+            Analytics.trackEvent("Invest|WaitListed", {
+              unipeEmployeeId: unipeEmployeeId,
+            });
+            showToast("You've joined the waitlist for Unipe Invest!!");
+          }}
+        />
         <LiquiloansTitle title={"an RBI registered NBFC-P2P"} />
       </View>
     </SafeAreaView>
