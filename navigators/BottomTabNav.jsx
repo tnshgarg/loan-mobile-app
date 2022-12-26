@@ -4,7 +4,7 @@ import { COLORS, FONTS } from "../constants/Theme";
 import Account from "../screens/06_home/Account";
 import Benefits from "../screens/06_home/Benefits/Benefits";
 import HomeView from "../screens/06_home/HomeView";
-import Invest from "../screens/06_home/Invest";
+import Invest from "../screens/06_home/Invest/Invest";
 import EWANavigator from "./EWANavigator";
 
 export default BottomTabNav = () => {

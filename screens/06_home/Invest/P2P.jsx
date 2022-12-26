@@ -5,13 +5,22 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import React from "react";
-import { styles } from "../../../../styles";
+import React, { useEffect } from "react";
+import { styles } from "../../../styles";
 import { Ionicons } from "react-native-vector-icons";
-import { COLORS, FONTS } from "../../../../constants/Theme";
-import Header from "../../../../components/atoms/Header";
+import { COLORS, FONTS } from "../../../constants/Theme";
+import Header from "../../../components/atoms/Header";
+
+import Analytics from "appcenter-analytics";
+import { useSelector } from "react-redux";
 
 const P2P = ({ navigation }) => {
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  useEffect(() => {
+    Analytics.trackEvent("Invest|WaitListed", {
+      unipeEmployeeId: unipeEmployeeId,
+    });
+  }, []);
   const backAction = () => {
     navigation.navigate("HomeStack", {
       screen: "DrawerHome",

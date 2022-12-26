@@ -1,12 +1,12 @@
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import React from "react";
-import { styles } from "../../../../styles";
+import { styles } from "../../../styles";
 import { Ionicons } from "react-native-vector-icons";
-import { COLORS, FONTS } from "../../../../constants/Theme";
-import Percentage from "../../../../assets/percentage.svg";
-import Insurance from "../../../../assets/insurance.svg";
-import TaskList from "../../../../assets/task.svg";
-import Header from "../../../../components/atoms/Header";
+import { COLORS, FONTS } from "../../../constants/Theme";
+import Percentage from "../../../assets/percentage.svg";
+import Insurance from "../../../assets/insurance.svg";
+import TaskList from "../../../assets/task.svg";
+import Header from "../../../components/atoms/Header";
 
 const HowItWorks = ({ navigation }) => {
   const backAction = () => {

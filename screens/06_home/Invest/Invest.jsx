@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { styles } from "../../../styles";
 import LogoHeader from "../../../components/atoms/LogoHeader";
 import { Ionicons } from "react-native-vector-icons";
@@ -7,7 +7,16 @@ import { COLORS, FONTS } from "../../../constants/Theme";
 import InvestSVG from "../../../assets/Invest.svg";
 import PrimaryButton from "../../../components/atoms/PrimaryButton";
 
+import Analytics from "appcenter-analytics";
+import { useSelector } from "react-redux";
+
 const Invest = (props) => {
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  useEffect(() => {
+    Analytics.trackEvent("Invest|Visited", {
+      unipeEmployeeId: unipeEmployeeId,
+    });
+  }, []);
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeader
