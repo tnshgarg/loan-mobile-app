@@ -9,6 +9,7 @@ import PrimaryButton from "../../../components/atoms/PrimaryButton";
 
 import Analytics from "appcenter-analytics";
 import { useSelector } from "react-redux";
+import LiquiloansTitle from "../../../components/atoms/LiquiloansTitle";
 
 const Invest = (props) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -68,22 +69,8 @@ const Invest = (props) => {
             </Text>
           </TouchableOpacity>
         </View>
-        <PrimaryButton
-          title="Invest now"
-          onPress={() => {
-            props.navigation.navigate("InvestStack", { screen: "P2P" });
-          }}
-        />
-        <Text
-          style={{
-            ...FONTS.body5,
-            color: COLORS.gray,
-            marginTop: 10,
-            textAlign: "center",
-          }}
-        >
-          LIQUILOANS an RBI registered NBFC-P2P
-        </Text>
+        <PrimaryButton title="Invest now" onPress={() => {}} />
+        <LiquiloansTitle title={"an RBI registered NBFC-P2P"} />
       </View>
     </SafeAreaView>
   );

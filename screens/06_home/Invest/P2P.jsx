@@ -22,12 +22,7 @@ const P2P = ({ navigation }) => {
     });
   }, []);
   const backAction = () => {
-    navigation.navigate("HomeStack", {
-      screen: "DrawerHome",
-      params: {
-        screen: "Invest",
-      },
-    });
+    navigation.navigate("InvestStack", { screen: "HowItWorks" });
     return true;
   };
   const data = [

@@ -7,6 +7,7 @@ import Percentage from "../../../assets/percentage.svg";
 import Insurance from "../../../assets/insurance.svg";
 import TaskList from "../../../assets/task.svg";
 import Header from "../../../components/atoms/Header";
+import PrimaryButton from "../../../components/atoms/PrimaryButton";
 
 const HowItWorks = ({ navigation }) => {
   const backAction = () => {
@@ -67,6 +68,13 @@ const HowItWorks = ({ navigation }) => {
             </Text>
           </View>
         ))}
+        <View style={{ flex: 1 }} />
+        <PrimaryButton
+          title="Know more"
+          onPress={() => {
+            navigation.navigate("InvestStack", { screen: "P2P" });
+          }}
+        />
       </View>
     </SafeAreaView>
   );
