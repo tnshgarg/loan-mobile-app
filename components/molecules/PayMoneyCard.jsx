@@ -15,7 +15,7 @@ import {
 } from "../../services/employees/employeeServices";
 import PrimaryButton from "../atoms/PrimaryButton";
 import { showToast } from "../atoms/Toast";
-import { getNumberOfDays } from "../../helpers/DateFunctions";
+import { getNumberOfDays, setYYYYMMDDtoDDMMYYYY} from "../../helpers/DateFunctions";
 
 const PayMoneyCard = () => {
   const isFocused = useIsFocused();
@@ -146,11 +146,11 @@ const PayMoneyCard = () => {
         .then((response) => {
           console.log("ewaRepaymentsFetch response.data: ", response.data);
           if (response.data.status === 200) {
-            setDueDate(response.data.body.dueDate?.split(" ")[0]);
+            setDueDate(setYYYYMMDDtoDDMMYYYY(response.data.body.dueDate?.split(" ")[0]));
             setOverdueDays(
               getNumberOfDays({
                 date: dueDate?.replace(/-/g, "/"),
-                formatted: true,
+                formatted: false,
               })
             );
             setRepaymentAmount(
