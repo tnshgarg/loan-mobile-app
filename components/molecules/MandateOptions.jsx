@@ -8,19 +8,6 @@ import { useSelector } from "react-redux";
 
 const MandateOptions = ({ ProceedButton, disabled }) => {
   const ifsc = useSelector((state) => state.bank?.data?.ifsc);
-  // const [dataUpdated, setDataUpdated] = useState(false);
-  // const mandateOptions = [
-  //   {
-  //     title: "Debit Card",
-  //     iconName: "credit-card-outline",
-  //     onPress: () => ProceedButton({ authType: "debitcard" }),
-  //   },
-  //   {
-  //     title: "Net Banking",
-  //     iconName: "bank-outline",
-  //     onPress: () => ProceedButton({ authType: "netbanking" }),
-  //   },
-  // ];
 
   var mandateOptions = [];
 
@@ -48,24 +35,12 @@ const MandateOptions = ({ ProceedButton, disabled }) => {
         }
       }
     });
-    // setDataUpdated(true);
     console.log(mandateOptions);
-    // mandateOptions.map((item, index) => );
     return mandateOptions;
   };
 
-  // console.log("dataupdated:", dataUpdated);
-
-  // useEffect(() => {
-  //   getMandateOptions();
-  // }, []);
-
   return (
     <View style={styles.container}>
-      {/* {mandateOptions.map((item, index) => {
-        console.log("fnjdsn item: ", item);
-        return <ListItem key={index} item={item} disabled={disabled} />;
-      })} */}
       {getMandateOptions().map((item, index) => {
         console.log("fnjdsn item: ", item);
         return <ListItem key={index} item={item} disabled={disabled} />;

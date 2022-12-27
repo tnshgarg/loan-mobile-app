@@ -270,10 +270,6 @@ const MandateFormTemplate = (props) => {
       });
   };
 
-  useEffect(() => {
-    dispatch(addIfsc("ZCBL0000403"));
-  }, []);
-
   const cardData = () => {
     var res = [
       {
