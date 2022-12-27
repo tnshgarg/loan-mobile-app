@@ -272,8 +272,8 @@ const Agreement = () => {
             }}
           />
           <View style={checkBox.padding}></View>
-          
-          <Text style={{ fontSize: 6, marginTop: "5%" }}>
+
+          <Text style={{ fontSize: 6, marginTop: "15%" }}>
             † Annual Percentage Rate @ {ewaLiveSlice.apr} %
           </Text>
 
