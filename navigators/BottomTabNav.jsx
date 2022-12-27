@@ -3,15 +3,15 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS } from "../constants/Theme";
 import Account from "../screens/06_home/Account";
 import Benefits from "../screens/06_home/Benefits/Benefits";
-import Documents from "../screens/06_home/Documents/Documents";
 import HomeView from "../screens/06_home/HomeView";
+import Invest from "../screens/06_home/Invest/Invest";
 import EWANavigator from "./EWANavigator";
 
 export default BottomTabNav = () => {
   const bottomTab = createBottomTabNavigator();
   const tabs = [
     { name: "Home", component: HomeView },
-    { name: "Documents", component: Documents },
+    { name: "Invest", component: Invest },
     { name: "Benefits", component: Benefits },
     { name: "Money", component: EWANavigator },
     { name: "Account", component: Account },
@@ -27,8 +27,8 @@ export default BottomTabNav = () => {
             case "Home":
               iconName = focused ? "home" : "home-outline";
               break;
-            case "Documents":
-              iconName = focused ? "file-document" : "file-document-outline";
+            case "Invest":
+              iconName = focused ? "cash-multiple" : "cash-multiple";
               break;
             case "Benefits":
               iconName = focused ? "crown" : "crown-outline";
