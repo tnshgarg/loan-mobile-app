@@ -1,5 +1,4 @@
 import { STAGE } from "@env";
-import { MaterialIcons } from "@expo/vector-icons";
 import CheckBox from "@react-native-community/checkbox";
 import { useNavigation } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
@@ -7,14 +6,11 @@ import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
-import StepIndicator from "react-native-step-indicator";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
-import FormInput from "../../../../components/atoms/FormInput";
 import Header from "../../../../components/atoms/Header";
 import TermsAndPrivacyModal from "../../../../components/molecules/TermsAndPrivacyModal";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
-import { COLORS, FONTS } from "../../../../constants/Theme";
+import { COLORS } from "../../../../constants/Theme";
 import { ewaOfferPush } from "../../../../helpers/BackendPush";
 import { 
   addAPR, 
@@ -22,13 +18,9 @@ import {
   addNetAmount, 
   addProcessingFees 
 } from "../../../../store/slices/ewaLiveSlice";
-import {
-  checkBox,
-  styles,
-  welcome,
-  stepIndicatorStyles,
-} from "../../../../styles";
+import { checkBox, styles } from "../../../../styles";
 import TnC from "../../../../templates/docs/EWATnC.js";
+import SliderCard from "../../../../components/organisms/SliderCard";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -187,74 +179,33 @@ const Offer = () => {
     }
   }
 
-  const getStepIndicatorIconConfig = () => {
-    const iconConfig = {
-      color: "white",
-      size: 18,
-      name: "check",
-    };
-    return iconConfig;
-  };
-
-  const renderStepIndicator = () => (
-    <MaterialIcons {...getStepIndicatorIconConfig()} />
-  );
-
-  const steps = ["KYC", "Mandate", "Agreement", "Disbursal"];
-
   return (
     <SafeAreaView style={styles.safeContainer}>
       <Header
-        title="Offer"
+        title="On-Demand Salary"
         onLeftIconPress={() => backAction()}
         progress={20}
       />
       <View style={styles.container}>
-        {/* <MoneySilder /> */}
-        <FormInput
-          placeholder="Enter amount"
-          containerStyle={{ marginVertical: 10, marginHorizontal: 50 }}
-          inputStyle={{ ...FONTS.h2, width: 20 }}
-          keyboardType="numeric"
-          value={loanAmount}
-          onChange={setLoanAmount}
-          autoFocus={true}
-          maxLength={10}
-          prependComponent={
-            <Icon name="currency-inr" color="green" size={25} />
-          }
+        <Text style={[styles.headline, { alignSelf: "flex-start" }]}>
+          How much do you want?
+        </Text>
+        <Text
+          style={[
+            styles.subHeadline,
+            { alignSelf: "flex-start", marginBottom: 5 },
+          ]}
+        >
+          Here is your access of emergency funds
+        </Text>
+        <SliderCard
+          info={"Zero Interest charges, Nominal Processing Fees"}
+          iconName="brightness-percent"
+          amount={loanAmount}
+          setAmount={setLoanAmount}
+          eligibleAmount={ewaLiveSlice.eligibleAmount}
         />
-
-        <Text
-          style={{
-            alignSelf: "center",
-            ...FONTS.body4,
-            color: COLORS.gray,
-          }}
-        >
-          You can choose between 1000 to {ewaLiveSlice.eligibleAmount}
-        </Text>
-
-        <Text
-          style={{
-            alignSelf: "center",
-            ...FONTS.h3,
-            color: COLORS.black,
-            marginVertical: 20,
-          }}
-        >
-          Steps to Cash
-        </Text>
-        <View style={welcome.steps}>
-          <StepIndicator
-            customStyles={stepIndicatorStyles}
-            stepCount={4}
-            // direction="horizontal"
-            currentPosition={5}
-            renderStepIndicator={renderStepIndicator}
-            labels={steps}
-          />
-        </View>
+        <View style={{ flex: 1 }} />
 
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <CheckBox
