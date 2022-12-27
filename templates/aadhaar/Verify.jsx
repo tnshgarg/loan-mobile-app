@@ -57,7 +57,6 @@ const AadhaarVerifyTemplate = (props) => {
           setOtp={setOtp}
           inputRef={inputRef}
           accessibilityLabel={"AadhaarOtpInput"}
-          inputRef={inputRef}
         />
 
         <Text style={styles.subHeadline} accessibilityLabel="OtpText">
