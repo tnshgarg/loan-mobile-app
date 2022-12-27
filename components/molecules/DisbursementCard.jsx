@@ -4,9 +4,17 @@ import React from "react";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 
-const DisbursementCard = ({ title, data, info, iconName }) => {
+const DisbursementCard = ({ title, data, info, iconName, variant }) => {
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor:
+            variant == "dark" ? COLORS.moneyCardBg : COLORS.white,
+        },
+      ]}
+    >
       <View
         style={[
           styles.row,
@@ -17,10 +25,16 @@ const DisbursementCard = ({ title, data, info, iconName }) => {
       >
         <MaterialCommunityIcons
           name={iconName}
-          color={COLORS.primary}
+          color={variant == "dark" ? COLORS.white : COLORS.secondary}
           size={18}
         />
-        <Text style={{ ...FONTS.h4, color: COLORS.black, marginLeft: 10 }}>
+        <Text
+          style={{
+            ...FONTS.h4,
+            color: variant == "dark" ? COLORS.white : COLORS.secondary,
+            marginLeft: 10,
+          }}
+        >
           {title}
         </Text>
       </View>
@@ -32,8 +46,22 @@ const DisbursementCard = ({ title, data, info, iconName }) => {
             { justifyContent: "space-between", paddingVertical: 5 },
           ]}
         >
-          <Text style={styles.label}>{item.subTitle}</Text>
-          <Text style={styles.value}>{item.value}</Text>
+          <Text
+            style={[
+              styles.label,
+              { color: variant == "dark" ? COLORS.white : COLORS.gray },
+            ]}
+          >
+            {item.subTitle}
+          </Text>
+          <Text
+            style={[
+              styles.value,
+              { color: variant == "dark" ? COLORS.white : COLORS.secondary },
+            ]}
+          >
+            {item.value}
+          </Text>
         </View>
       ))}
       {info ? (
@@ -43,11 +71,23 @@ const DisbursementCard = ({ title, data, info, iconName }) => {
             {
               justifyContent: "center",
               marginTop: 5,
-              backgroundColor: COLORS.lightGray,
+              borderBottomLeftRadius: 5,
+              borderBottomRightRadius: 5,
+              backgroundColor:
+                variant == "dark"
+                  ? COLORS.moneyCardBgVariant
+                  : COLORS.lightGray,
             },
           ]}
         >
-          <Text style={{ ...FONTS.body5, color: COLORS.gray }}>{info}</Text>
+          <Text
+            style={{
+              ...FONTS.body5,
+              color: variant == "dark" ? COLORS.white : COLORS.gray,
+            }}
+          >
+            {info}
+          </Text>
         </View>
       ) : (
         <View style={{ padding: 5 }} />
@@ -67,8 +107,6 @@ const styles = EStyleSheet.create({
     backgroundColor: COLORS.white,
     elevation: 3,
     marginVertical: "5rem",
-    borderWidth: 0.5,
-    borderColor: COLORS.lightgray_01,
   },
   row: { flexDirection: "row", alignItems: "center", padding: "10rem" },
 
