@@ -152,7 +152,7 @@ const KYC = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header title="KYC" onLeftIconPress={() => backAction()} />
+      <Header title="KYC" onLeftIconPress={() => backAction()} progress={40} />
       <View style={styles.container}>
         <Text style={styles.headline}>Are these your Kyc details?</Text>
         <Text style={[styles.subHeadline, { marginBottom: 10 }]}>

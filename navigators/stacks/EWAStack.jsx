@@ -2,8 +2,6 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { STAGE } from "@env";
 import { useSelector } from "react-redux";
-
-import EWA from "../../screens/06_home/Money/EWA/EWA";
 import Offer from "../../screens/06_home/Money/EWA/01_Offer";
 import KYC from "../../screens/06_home/Money/EWA/02_Kyc";
 import Mandate from "../../screens/06_home/Money/EWA/03_Mandate";
@@ -22,13 +20,6 @@ const EWAStack = () => {
       screenOptions={{ animation: "slide_from_right" }}
       initialRouteName={initialRoute}
     >
-      <Stack.Screen
-        name="EWA"
-        component={EWA}
-        options={{
-          headerShown: false,
-        }}
-      />
       <Stack.Screen
         name="EWA_OFFER"
         component={Offer}

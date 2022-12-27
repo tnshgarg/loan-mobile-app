@@ -16,7 +16,7 @@ const Mandate = () => {
   const token = useSelector((state) => state.auth?.token);
   const mandateSlice = useSelector((state) => state.mandate);
   const [verifyStatus, setVerifyStatus] = useState(mandateSlice?.verifyStatus);
-  
+
   const backAction = () => {
     navigation.navigate("EWA_KYC");
     return true;
@@ -30,7 +30,11 @@ const Mandate = () => {
 
   useEffect(() => {
     if (unipeEmployeeId) {
-      getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "mandate", token: token  })
+      getBackendData({
+        params: { unipeEmployeeId: unipeEmployeeId },
+        xpath: "mandate",
+        token: token,
+      })
         .then((response) => {
           console.log("mandateFetch response.data", response.data);
           if (response.data.status === 200) {
@@ -47,11 +51,15 @@ const Mandate = () => {
     if (verifyStatus === "SUCCESS") {
       navigation.navigate("EWA_AGREEMENT");
     }
-  }, [verifyStatus])
+  }, [verifyStatus]);
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header title="Mandate" onLeftIconPress={() => backAction()} />
+      <Header
+        title="Mandate"
+        onLeftIconPress={() => backAction()}
+        progress={60}
+      />
       <MandateFormTemplate type="EWA" />
     </SafeAreaView>
   );
