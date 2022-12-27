@@ -152,7 +152,8 @@ const Disbursement = ({ route, navigation }) => {
             data={data}
             title="Loan Details"
             info="Money will be auto debited from your upcoming salary"
-            iconName="cash"
+            iconName="ticket-percent-outline"
+            variant={"dark"}
           />
         </View>
       </ScrollView>
