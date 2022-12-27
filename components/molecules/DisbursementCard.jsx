@@ -1,4 +1,4 @@
-import { View, Text, Image } from "react-native";
+import { View, Text } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import React from "react";
 import { COLORS, FONTS } from "../../constants/Theme";
