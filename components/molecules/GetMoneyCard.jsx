@@ -50,7 +50,7 @@ const styles = EStyleSheet.create({
     borderColor: COLORS.lightgray_01,
     borderRadius: 5,
   },
-  text: { ...FONTS.h3, color: COLORS.secondary, marginVertical: 5 },
+  text: { ...FONTS.body3, color: COLORS.secondary, marginVertical: 5 },
 });
 
 export default GetMoneyCard;
