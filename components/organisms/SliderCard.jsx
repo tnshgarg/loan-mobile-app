@@ -28,16 +28,22 @@ const SliderCard = ({ info, iconName, amount, setAmount, eligibleAmount }) => {
           ₹{amount}
         </Text>
 
-        <Slider
-          minimumValue={1000}
-          maximumValue={eligibleAmount}
-          step={100}
-          trackStyle={styles.track}
-          thumbStyle={styles.thumb}
-          minimumTrackTintColor={COLORS.primary}
-          value={amount}
-          onValueChange={(value) => setAmount(value)}
-        />
+        {
+          eligibleAmount >= 1000
+          ?
+          <Slider
+            minimumValue={1000}
+            maximumValue={eligibleAmount}
+            step={100}
+            trackStyle={styles.track}
+            thumbStyle={styles.thumb}
+            minimumTrackTintColor={COLORS.primary}
+            value={amount}
+            onValueChange={(value) => setAmount(value)}
+          />
+          :
+          null
+        }
 
         <View
           style={[styles.row, { padding: 0, justifyContent: "space-between" }]}

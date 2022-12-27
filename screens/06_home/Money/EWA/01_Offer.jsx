@@ -198,6 +198,7 @@ const Offer = () => {
         >
           Here is your access of emergency funds
         </Text>
+        
         <SliderCard
           info={"Zero Interest charges, Nominal Processing Fees"}
           iconName="brightness-percent"
