@@ -7,7 +7,7 @@ import Analytics from "appcenter-analytics";
 import { requestUserPermission } from "../../services/notifications/notificationService";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { useDispatch, useSelector } from "react-redux";
-import Success from "../../assets/Success.svg";
+import Success from "../../assets/congratulations.svg";
 import { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
@@ -33,7 +33,7 @@ const WelcomePage = () => {
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
-  
+
   return (
     <SafeAreaView accessibilityLabel="WelcomePage" style={styles.safeContainer}>
       <LogoHeader

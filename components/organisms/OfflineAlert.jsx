@@ -8,7 +8,7 @@ import { showToast } from "../atoms/Toast";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import PrimaryButton from "../atoms/PrimaryButton";
-import Offline from "../../assets/Offline.svg";
+import Offline from "../../assets/offline.svg";
 import LogoHeader from "../atoms/LogoHeader";
 const OfflineAlert = ({ children }) => {
   const [isConnected, setIsConnected] = useState(true);

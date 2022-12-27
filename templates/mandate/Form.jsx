@@ -191,7 +191,14 @@ const MandateFormTemplate = (props) => {
             .catch((error) => {
               console.log("mandate error:", error.description);
               backendPush({
-                data: {},
+                data: { 
+                  authType: authType,
+                  customerId: customerId,
+                  orderId: orderId,
+                  paymentId: data.razorpay_payment_id,
+                  paymentSignature: data.razorpay_signature,
+                  provider: "razropay",
+                },
                 verifyMsg: error.description,
                 verifyStatus: "ERROR",
                 verifyTimestamp: Date.now(),
@@ -207,7 +214,12 @@ const MandateFormTemplate = (props) => {
         .catch((error) => {
           console.log("mandate error:", error.description);
           backendPush({
-            data: {},
+            data: { 
+              authType: authType,
+              customerId: customerId,
+              orderId: orderId,
+              provider: "razropay",
+            },
             verifyMsg: error.description,
             verifyStatus: "ERROR",
             verifyTimestamp: Date.now(),
@@ -226,7 +238,7 @@ const MandateFormTemplate = (props) => {
     setLoading(true);
     setAuthType(authType);
     backendPush({
-      data: { authType: authType },
+      data: { authType: authType, customerId: customerId },
       verifyMsg: `Mandate|CreateOrder|${authType} PENDING`,
       verifyStatus: "PENDING",
       verifyTimestamp: Date.now(),
@@ -244,7 +256,7 @@ const MandateFormTemplate = (props) => {
         console.log(`Mandate|CreateOrder|${authType} res.data:`, res.data);
         setOrderId(res.data.id);
         backendPush({
-          data: { authType: authType },
+          data: { authType: authType, customerId: customerId, orderId: res.data.id },
           verifyMsg: `Mandate|CreateOrder|${authType} SUCCESS`,
           verifyStatus: "PENDING",
           verifyTimestamp: Date.now(),
@@ -256,7 +268,7 @@ const MandateFormTemplate = (props) => {
       .catch((error) => {
         console.log(`Mandate|CreateOrder|${authType} error:`, error.toString());
         backendPush({
-          data: { authType: authType },
+          data: { authType: authType, customerId: customerId },
           verifyMsg: `Mandate|CreateOrder|${authType} ERROR ${error.toString()}`,
           verifyStatus: "ERROR",
           verifyTimestamp: Date.now(),
