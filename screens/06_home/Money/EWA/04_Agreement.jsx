@@ -32,8 +32,10 @@ import {
 } from "../../../../store/slices/ewaLiveSlice";
 import { checkBox, ewa, styles } from "../../../../styles";
 import agreement from "../../../../templates/docs/LiquiLoansLoanAgreement";
+import { useQueryClient } from '@tanstack/react-query'
 
 const Agreement = () => {
+  const queryClient = useQueryClient()
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { width } = useWindowDimensions();
@@ -231,6 +233,7 @@ const Agreement = () => {
     })
       .then((response) => {
         console.log("ewaAgreementPush response.data: ", response.data);
+        queryClient.invalidateQueries("getEwaOffers");
         dispatch(resetEwaLive());
         dispatch(resetEwaHistorical([]));
         setLoading(false);

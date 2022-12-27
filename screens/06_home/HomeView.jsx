@@ -9,7 +9,7 @@ import { allAreNull } from "../../helpers/nullCheck";
 import { addCampaignId } from "../../store/slices/authSlice";
 import {
   addCurrentScreen,
-  addCurrentStack
+  addCurrentStack,
 } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 
@@ -23,13 +23,13 @@ import { fetchQuery } from "../../queries/offers";
 import { getBackendData } from "../../services/employees/employeeServices";
 import {
   notificationListener,
-  requestUserPermission
+  requestUserPermission,
 } from "../../services/notifications/notificationService";
 import { resetEwaHistorical } from "../../store/slices/ewaHistoricalSlice";
 import {
   addAccessible,
   addEligible,
-  resetEwaLive
+  resetEwaLive,
 } from "../../store/slices/ewaLiveSlice";
 
 const HomeView = () => {
@@ -115,41 +115,32 @@ const HomeView = () => {
   console.log("HomeView FetchQuery for Offers", isLoading, error, isFetching);
   useEffect(() => {
     if (response) {
-      console.log("Home ewaLiveSlice: ", ewaLiveSlice);
-      if (isFocused && unipeEmployeeId) {
-        getBackendData({
-          params: { unipeEmployeeId: unipeEmployeeId },
-          xpath: "ewa/offers",
-          token: token,
-        }).then((response) => {
-          console.log("HomeView ewaOffersFetch response.data: ", response.data);
-          if (response.data.status === 200) {
-            if (Object.keys(response.data.body.live).length !== 0) {
-              console.log(
-                "HomeView ewaOffersFetch response.data.body.live: ",
-                response.data.body.live,
-                response.data.body.live != {}
-              );
-              const closureDays = getNumberOfDays({
-                date: response.data.body.live.dueDate,
-              });
-              if (closureDays <= 3) {
-                setAccessible(false);
-              } else {
-                setAccessible(true);
-              }
-            } else {
-              setAccessible(false);
-            }
-            dispatch(resetEwaLive(response.data.body.live));
-            dispatch(resetEwaHistorical(response.data.body.past));
-            setFetched(true);
+      console.log("HomeView ewaOffersFetch response.data: ", response.data);
+      if (response.data.status === 200) {
+        if (Object.keys(response.data.body.live).length !== 0) {
+          console.log(
+            "HomeView ewaOffersFetch response.data.body.live: ",
+            response.data.body.live,
+            response.data.body.live != {}
+          );
+          const closureDays = getNumberOfDays({
+            date: response.data.body.live.dueDate,
+          });
+          if (closureDays <= 3) {
+            setAccessible(false);
           } else {
-            console.log("HomeView ewaOffersFetch API error: ", response.data);
-            dispatch(resetEwaLive());
-            dispatch(resetEwaHistorical());
+            setAccessible(true);
           }
-        });
+        } else {
+          setAccessible(false);
+        }
+        dispatch(resetEwaLive(response.data.body.live));
+        dispatch(resetEwaHistorical(response.data.body.past));
+        setFetched(true);
+      } else {
+        console.log("HomeView ewaOffersFetch API error: ", response.data);
+        dispatch(resetEwaLive());
+        dispatch(resetEwaHistorical());
       }
     } else if (isError) {
       console.log("HomeView ewaOffersFetch API error: ", error.message);
