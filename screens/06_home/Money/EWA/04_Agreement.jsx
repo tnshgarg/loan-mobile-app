@@ -214,7 +214,11 @@ const Agreement = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header title="Agreement" onLeftIconPress={() => backAction()} />
+      <Header
+        title="Agreement"
+        onLeftIconPress={() => backAction()}
+        progress={80}
+      />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <DisbursementCard
@@ -268,8 +272,9 @@ const Agreement = () => {
             }}
           />
           <View style={checkBox.padding}></View>
-          <Text style={{fontSize: 6, marginTop: "5%" }}>
-          † Annual Percentage Rate @ {ewaLiveSlice?.apr} %
+          
+          <Text style={{ fontSize: 6, marginTop: "5%" }}>
+            † Annual Percentage Rate @ {ewaLiveSlice.apr} %
           </Text>
 
           <Modal

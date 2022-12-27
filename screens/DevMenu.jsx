@@ -18,6 +18,7 @@ export default DevMenu = () => {
     // { title: "Home", stack: "DrawerNavigator", name: "DrawerHome" },
     { title: "KYC Details", stack: "AccountStack", name: "KYC" },
     { title: "Profile Details", stack: "AccountStack", name: "Profile" },
+    { title: "Documents", stack: "AccountStack", name: "Documents" },
     { title: "EWA", stack: "EWAStack", name: "EWA_OFFER" },
   ];
 
@@ -48,18 +49,6 @@ export default DevMenu = () => {
               screen: "DrawerHome",
               params: {
                 screen: "Account",
-              },
-            })
-          }
-        />
-        <DevMenuButton
-          style={{ marginTop: 20 }}
-          title={" Drawer Home"}
-          onPress={() =>
-            navigation.navigate("HomeStack", {
-              screen: "DrawerHome",
-              params: {
-                screen: "Documents",
               },
             })
           }

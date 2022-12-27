@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from "react-native-vector-icons";
 import React from "react";
 import { COLORS, FONTS } from "../../constants/Theme";
 
-const ListItem = ({ item }) => {
+const ListItem = ({ item, disabled }) => {
   const { title, iconName, onPress } = item;
   return (
     <TouchableOpacity
@@ -12,6 +12,7 @@ const ListItem = ({ item }) => {
       style={styles.container}
       activeOpacity={0.7}
       onPress={onPress}
+      disabled={disabled}
     >
       <MaterialCommunityIcons name={iconName} size={24} color={COLORS.gray} />
       <Text style={styles.text}>{title}</Text>

@@ -204,7 +204,11 @@ const Offer = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header title="Advance Salary" onLeftIconPress={() => backAction()} />
+      <Header
+        title="Offer"
+        onLeftIconPress={() => backAction()}
+        progress={20}
+      />
       <View style={styles.container}>
         {/* <MoneySilder /> */}
         <FormInput

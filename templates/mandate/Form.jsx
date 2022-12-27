@@ -26,6 +26,7 @@ import Analytics from "appcenter-analytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import MandateOptions from "../../components/molecules/MandateOptions";
 
+
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -47,6 +48,7 @@ const MandateFormTemplate = (props) => {
   const ifsc = useSelector((state) => state.bank?.data?.ifsc);
 
   const mandateSlice = useSelector((state) => state.mandate);
+  const [loading, setLoading] = useState(false);
   const [authType, setAuthType] = useState();
   const [customerId, setCustomerId] = useState(mandateSlice?.data?.customerId);
   const [orderId, setOrderId] = useState(null);
@@ -111,6 +113,7 @@ const MandateFormTemplate = (props) => {
           name: accountHolderName,
           email: email,
           contact: phoneNumber,
+          unipeEmployeeId: unipeEmployeeId,
         })
           .then((res) => {
             console.log("createCustomer res.data: ", res.data);
@@ -154,6 +157,7 @@ const MandateFormTemplate = (props) => {
           contact: phoneNumber,
         },
         theme: { color: COLORS.primary },
+        notes: {unipeEmployeeId: unipeEmployeeId},
       };
 
       RazorpayCheckout.open(options)
@@ -179,6 +183,7 @@ const MandateFormTemplate = (props) => {
               Analytics.trackEvent("Mandate|GetToken|Success", {
                 unipeEmployeeId: unipeEmployeeId,
               });
+              setLoading(false);
               props?.type === "EWA"
                 ? navigation.navigate("EWA_AGREEMENT")
                 : null;
@@ -186,7 +191,14 @@ const MandateFormTemplate = (props) => {
             .catch((error) => {
               console.log("mandate error:", error.description);
               backendPush({
-                data: {},
+                data: { 
+                  authType: authType,
+                  customerId: customerId,
+                  orderId: orderId,
+                  paymentId: data.razorpay_payment_id,
+                  paymentSignature: data.razorpay_signature,
+                  provider: "razropay",
+                },
                 verifyMsg: error.description,
                 verifyStatus: "ERROR",
                 verifyTimestamp: Date.now(),
@@ -196,12 +208,18 @@ const MandateFormTemplate = (props) => {
                 unipeEmployeeId: unipeEmployeeId,
                 error: error.description,
               });
+              setLoading(false);
             });
         })
         .catch((error) => {
           console.log("mandate error:", error.description);
           backendPush({
-            data: {},
+            data: { 
+              authType: authType,
+              customerId: customerId,
+              orderId: orderId,
+              provider: "razropay",
+            },
             verifyMsg: error.description,
             verifyStatus: "ERROR",
             verifyTimestamp: Date.now(),
@@ -211,14 +229,16 @@ const MandateFormTemplate = (props) => {
             unipeEmployeeId: unipeEmployeeId,
             error: error.description,
           });
+          setLoading(false);
         });
     }
   }, [orderId]);
 
   const ProceedButton = ({ authType }) => {
+    setLoading(true);
     setAuthType(authType);
     backendPush({
-      data: { authType: authType },
+      data: { authType: authType, customerId: customerId },
       verifyMsg: `Mandate|CreateOrder|${authType} PENDING`,
       verifyStatus: "PENDING",
       verifyTimestamp: Date.now(),
@@ -230,12 +250,13 @@ const MandateFormTemplate = (props) => {
       accountNumber: accountNumber,
       ifsc: ifsc,
       aCTC: aCTC,
+      unipeEmployeeId: unipeEmployeeId,
     })
       .then((res) => {
         console.log(`Mandate|CreateOrder|${authType} res.data:`, res.data);
         setOrderId(res.data.id);
         backendPush({
-          data: { authType: authType },
+          data: { authType: authType, customerId: customerId, orderId: res.data.id },
           verifyMsg: `Mandate|CreateOrder|${authType} SUCCESS`,
           verifyStatus: "PENDING",
           verifyTimestamp: Date.now(),
@@ -247,7 +268,7 @@ const MandateFormTemplate = (props) => {
       .catch((error) => {
         console.log(`Mandate|CreateOrder|${authType} error:`, error.toString());
         backendPush({
-          data: { authType: authType },
+          data: { authType: authType, customerId: customerId },
           verifyMsg: `Mandate|CreateOrder|${authType} ERROR ${error.toString()}`,
           verifyStatus: "ERROR",
           verifyTimestamp: Date.now(),
@@ -292,7 +313,7 @@ const MandateFormTemplate = (props) => {
           {customerId == null ? (
             <Text>Initializing ... </Text>
           ) : (
-            <MandateOptions ProceedButton={ProceedButton} />
+            <MandateOptions ProceedButton={ProceedButton} disabled={loading}/>
           )}
         </ScrollView>
       </KeyboardAvoidingWrapper>
