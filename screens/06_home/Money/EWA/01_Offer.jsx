@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import TermsAndPrivacyModal from "../../../../components/molecules/TermsAndPrivacyModal";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
-import { COLORS, FONTS } from "../../../../constants/Theme";
+import { COLORS } from "../../../../constants/Theme";
 import { ewaOfferPush } from "../../../../helpers/BackendPush";
 import { 
   addAPR, 
@@ -203,7 +203,7 @@ const Offer = () => {
           iconName="brightness-percent"
           amount={loanAmount}
           setAmount={setLoanAmount}
-          eligibleAmount={eligibleAmount}
+          eligibleAmount={ewaLiveSlice.eligibleAmount}
         />
         <View style={{ flex: 1 }} />
 
