@@ -5,6 +5,8 @@ import React from "react";
 import { COLORS, FONTS } from "../../constants/Theme";
 
 const ListItem = ({ item, disabled }) => {
+  // console.log("ye to ayeag");
+  // console.log("Hello", props);
   const { title, iconName, onPress } = item;
   console.log("ListItem disabled", disabled);
   return (

@@ -25,7 +25,8 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import MandateOptions from "../../components/molecules/MandateOptions";
-
+import bankData from "../../assets/emandateBankList";
+import { addIfsc } from "../../store/slices/bankSlice";
 
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -157,7 +158,7 @@ const MandateFormTemplate = (props) => {
           contact: phoneNumber,
         },
         theme: { color: COLORS.primary },
-        notes: {unipeEmployeeId: unipeEmployeeId},
+        notes: { unipeEmployeeId: unipeEmployeeId },
       };
 
       RazorpayCheckout.open(options)
@@ -269,6 +270,10 @@ const MandateFormTemplate = (props) => {
       });
   };
 
+  useEffect(() => {
+    dispatch(addIfsc("ZCBL0000403"));
+  }, []);
+
   const cardData = () => {
     var res = [
       {
@@ -301,7 +306,7 @@ const MandateFormTemplate = (props) => {
           {customerId == null ? (
             <Text>Initializing ... </Text>
           ) : (
-            <MandateOptions ProceedButton={ProceedButton} disabled={loading}/>
+            <MandateOptions ProceedButton={ProceedButton} disabled={loading} />
           )}
         </ScrollView>
       </KeyboardAvoidingWrapper>
