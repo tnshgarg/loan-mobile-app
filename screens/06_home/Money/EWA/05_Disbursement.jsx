@@ -139,7 +139,11 @@ const Disbursement = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header title="Money Transfer" onLeftIconPress={() => backAction()} />
+      <Header
+        title="Money Transfer"
+        onLeftIconPress={() => backAction()}
+        //progress={100}
+      />
       <ScrollView>
         <View style={styles.container}>
           {StatusImage(status)}

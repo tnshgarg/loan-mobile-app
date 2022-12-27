@@ -5,7 +5,7 @@ import Account from "../screens/06_home/Account";
 import Benefits from "../screens/06_home/Benefits/Benefits";
 import HomeView from "../screens/06_home/HomeView";
 import Invest from "../screens/06_home/Invest/Invest";
-import EWANavigator from "./EWANavigator";
+import EWA from "../screens/06_home/Money/EWA/EWA";
 
 export default BottomTabNav = () => {
   const bottomTab = createBottomTabNavigator();
@@ -13,7 +13,7 @@ export default BottomTabNav = () => {
     { name: "Home", component: HomeView },
     { name: "Invest", component: Invest },
     { name: "Benefits", component: Benefits },
-    { name: "Money", component: EWANavigator },
+    { name: "Money", component: EWA },
     { name: "Account", component: Account },
   ];
   return (
