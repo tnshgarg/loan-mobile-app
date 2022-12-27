@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { SafeAreaView, View } from "react-native";
 import { useSelector } from "react-redux";
 import TopTabNav from "../../navigators/TopTabNav";
@@ -8,9 +7,7 @@ import AadhaarConfirmApi from "../../apis/aadhaar/Confirm";
 import { styles } from "../../styles";
 import DetailsCard from "../../components/molecules/DetailsCard";
 
-const Aadhaar = (props) => {
-  const inputRef = useRef();
-
+const Aadhaar = () => {
   const number = useSelector((state) => state.aadhaar.number);
   const data = useSelector((state) => state.aadhaar.data);
   const verifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
@@ -37,7 +34,7 @@ const Aadhaar = (props) => {
     {
       name: "Verify",
       component: AadhaarVerifyTemplate,
-      initialParams: { type: "KYC", inputRef: props?.route?.params?.inputRef },
+      initialParams: { type: "KYC" },
       disable: true,
     },
 
