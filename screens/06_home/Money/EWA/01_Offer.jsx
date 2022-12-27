@@ -41,7 +41,7 @@ const Offer = () => {
   const campaignId = useSelector((state) => state.auth.campaignId);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const fees = useSelector((state) => state.ewaLive.fees);
-  const [loanAmount, setLoanAmount] = useState(ewaLiveSlice?.eligibleAmount.toString());
+  const [loanAmount, setLoanAmount] = useState(ewaLiveSlice?.eligibleAmount);
   const [netAmount, setNetAmount] = useState(ewaLiveSlice?.netAmount);
   const [processingFees, setProcessingFees] = useState(ewaLiveSlice?.processingFees);
 
@@ -109,7 +109,7 @@ const Offer = () => {
   }, [loanAmount]);
 
   useEffect(() => {
-    let pf = (loanAmount * fees)/100;
+    let pf = (parseInt(loanAmount) * fees)/100;
     if (parseInt(pf)%10<4) {
       setProcessingFees(Math.max(9, (Math.floor((pf/10))*10) -1));
     } else {
@@ -119,7 +119,7 @@ const Offer = () => {
 
   useEffect(() => {
     dispatch(addProcessingFees(processingFees));
-    setNetAmount(loanAmount - processingFees);
+    setNetAmount(parseInt(loanAmount) - processingFees);
   }, [processingFees]);
 
   useEffect(() => {
@@ -138,7 +138,7 @@ const Offer = () => {
     var timeDiff = dueDateTemp.getTime() - today.getTime();
     var daysDiff = parseInt(timeDiff / (1000 * 3600 * 24));
     var apr =
-      100 * (processingFees / loanAmount) * (365 / daysDiff);
+      100 * (processingFees / parseInt(loanAmount)) * (365 / daysDiff);
     console.log("APR: ", apr, daysDiff, apr.toFixed(2));
     return apr.toFixed(2);
   };
