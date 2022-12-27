@@ -10,6 +10,9 @@
     "build:demo": "bash ./android/ACFlavours.sh -e demo && bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
     "build:debug": "bash ./android/ACFlavours.sh -e dev && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
     "build:prod": "bash ./android/ACFlavours.sh -e prod && bash ./android/versioning.sh && gulp set --env=prod && cd android && ./gradlew assembleProdRelease",
+    "release:demo": "bash ./android/releaseDemo.sh",
+    "release:qa": "bash ./android/releaseQa.sh",
+    "release:prod": "bash ./android/releaseProd.sh",
     "postinstall": "patch-package"
   },
   "dependencies": {
