@@ -1,8 +1,6 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { MaterialCommunityIcons } from "react-native-vector-icons";
-import React from "react";
-import { COLORS, FONTS } from "../../constants/Theme";
+import { COLORS } from "../../constants/Theme";
 import ListItem from "../atoms/ListItem";
 
 const MandateOptions = ({ ProceedButton, disabled }) => {
