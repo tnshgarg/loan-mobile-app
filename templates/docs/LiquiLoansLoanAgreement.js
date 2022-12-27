@@ -58,7 +58,7 @@ const agreement = {
       <td style="border: 1px solid black; border-collapse: collapse;">
         <ul>
           <li>Where Employer deducts from salary: Salary credit date</li>
-          <li>Where Client is responsible for the repayment: {dueDate} or salary credit date whichever is earlier </li>
+          <li>Where Client is responsible for the repayment: {dueDate} or salary credit date whichever is earlier</li>
       </ul>
       </td>
     </tr>
@@ -401,7 +401,7 @@ const agreement = {
     <td style="border: 1px solid black; border-collapse: collapse;">
       <ul>
         <li>Where Employer deducts from salary: Salary credit date</li>
-        <li>Where Client is responsible for the repayment: {dueDate} or salary credit date whichever is earlier </li>
+        <li>Where Client is responsible for the repayment: {dueDate} or salary credit date whichever is earlier</li>
     </ul>
     </td>
   </tr>
