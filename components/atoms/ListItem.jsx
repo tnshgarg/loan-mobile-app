@@ -6,7 +6,6 @@ import { COLORS, FONTS } from "../../constants/Theme";
 
 const ListItem = ({ item, disabled }) => {
   const { title, iconName, onPress } = item;
-  console.log("ListItem disabled", disabled);
   return (
     <TouchableOpacity
       accessibilityLabel="InfoCard"

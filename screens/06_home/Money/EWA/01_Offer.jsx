@@ -10,9 +10,14 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import TermsAndPrivacyModal from "../../../../components/molecules/TermsAndPrivacyModal";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
-import { COLORS, FONTS } from "../../../../constants/Theme";
+import { COLORS } from "../../../../constants/Theme";
 import { ewaOfferPush } from "../../../../helpers/BackendPush";
-import { addLoanAmount } from "../../../../store/slices/ewaLiveSlice";
+import { 
+  addAPR, 
+  addLoanAmount, 
+  addNetAmount, 
+  addProcessingFees 
+} from "../../../../store/slices/ewaLiveSlice";
 import { checkBox, styles } from "../../../../styles";
 import TnC from "../../../../templates/docs/EWATnC.js";
 import SliderCard from "../../../../components/organisms/SliderCard";
@@ -21,24 +26,24 @@ const Offer = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const [fetched, setFetched] = useState(false);
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
 
+  const [fetched, setFetched] = useState(false);
   const [consent, setConsent] = useState(true);
   const [loading, setLoading] = useState(false);
-
   const [validAmount, setValidAmount] = useState(false);
+  const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
+  useState(false);
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const campaignId = useSelector((state) => state.auth.campaignId);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
-  const offerId = useSelector((state) => state.ewaLive.offerId);
-  const eligibleAmount = useSelector((state) => state.ewaLive.eligibleAmount);
-  const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
-    useState(false);
-  const [amount, setAmount] = useState(ewaLiveSlice?.eligibleAmount.toString());
+  const fees = useSelector((state) => state.ewaLive.fees);
+  const [loanAmount, setLoanAmount] = useState(ewaLiveSlice?.eligibleAmount.toString());
+  const [netAmount, setNetAmount] = useState(ewaLiveSlice?.netAmount);
+  const [processingFees, setProcessingFees] = useState(ewaLiveSlice?.processingFees);
 
   useEffect(() => {
     getUniqueId().then((id) => {
@@ -55,35 +60,11 @@ const Offer = () => {
     }
   }, [deviceId, ipAddress]);
 
-  const backAction = () => {
-    navigation.navigate("Money", { screen: "EWA" });
-    return true;
-  };
-
-  useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () =>
-      BackHandler.removeEventListener("hardwareBackPress", backAction);
-  }, []);
-
-  useEffect(() => {
-    if (parseInt(amount) <= eligibleAmount) {
-      if (STAGE !== "prod" || (STAGE === "prod" && parseInt(amount) > 999)) {
-        setValidAmount(true);
-        dispatch(addLoanAmount(parseInt(amount)));
-      } else {
-        setValidAmount(false);
-      }
-    } else {
-      setValidAmount(false);
-    }
-  }, [amount]);
-
   useEffect(() => {
     if (fetched) {
       ewaOfferPush({
         data: {
-          offerId: offerId,
+          offerId: ewaLiveSlice.offerId,
           unipeEmployeeId: unipeEmployeeId,
           status: "INPROGRESS",
           timestamp: Date.now(),
@@ -103,18 +84,77 @@ const Offer = () => {
     }
   }, [fetched]);
 
+  const backAction = () => {
+    navigation.navigate("Money", { screen: "EWA" });
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
+  useEffect(() => {
+    if (parseInt(loanAmount) <= ewaLiveSlice.eligibleAmount) {
+      if (STAGE !== "prod" || (STAGE === "prod" && parseInt(loanAmount) > 1000)) {
+        setValidAmount(true);
+        dispatch(addLoanAmount(parseInt(loanAmount)));
+      } else {
+        setValidAmount(false);
+      }
+    } else {
+      setValidAmount(false);
+    }
+  }, [loanAmount]);
+
+  useEffect(() => {
+    let pf = (loanAmount * fees)/100;
+    if (parseInt(pf)%10<4) {
+      setProcessingFees(Math.max(9, (Math.floor((pf/10))*10) -1));
+    } else {
+      setProcessingFees(Math.max(9, (Math.floor(((pf+10)/10))*10) -1));
+    }
+  }, [loanAmount, fees]);
+
+  useEffect(() => {
+    dispatch(addProcessingFees(processingFees));
+    setNetAmount(loanAmount - processingFees);
+  }, [processingFees]);
+
+  useEffect(() => {
+    dispatch(addNetAmount(netAmount));
+    dispatch(addAPR(APR()));
+  }, [netAmount]);
+
+  const APR = () => {
+    var today = new Date();
+    var dueDateComponents = ewaLiveSlice.dueDate.split("/");
+    var dueDateTemp = new Date(
+      dueDateComponents[2],
+      parseInt(dueDateComponents[1]) - 1,
+      dueDateComponents[0]
+    );
+    var timeDiff = dueDateTemp.getTime() - today.getTime();
+    var daysDiff = parseInt(timeDiff / (1000 * 3600 * 24));
+    var apr =
+      100 * (processingFees / loanAmount) * (365 / daysDiff);
+    console.log("APR: ", apr, daysDiff, apr.toFixed(2));
+    return apr.toFixed(2);
+  };
+
   function handleAmount() {
     setLoading(true);
     if (validAmount) {
       ewaOfferPush({
         data: {
-          offerId: offerId,
+          offerId: ewaLiveSlice.offerId,
           unipeEmployeeId: unipeEmployeeId,
           status: "CONFIRMED",
           timestamp: Date.now(),
           ipAddress: ipAddress,
           deviceId: deviceId,
-          loanAmount: parseInt(amount),
+          loanAmount: parseInt(loanAmount),
           campaignId: campaignId,
         },
         token: token,
@@ -161,9 +201,9 @@ const Offer = () => {
         <SliderCard
           info={"Zero Interest charges, Nominal Processing Fees"}
           iconName="brightness-percent"
-          amount={amount}
-          setAmount={setAmount}
-          eligibleAmount={eligibleAmount}
+          amount={loanAmount}
+          setAmount={setLoanAmount}
+          eligibleAmount={ewaLiveSlice.eligibleAmount}
         />
         <View style={{ flex: 1 }} />
 
