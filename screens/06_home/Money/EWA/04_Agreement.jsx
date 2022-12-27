@@ -25,8 +25,6 @@ import { COLORS } from "../../../../constants/Theme";
 import { ewaAgreementPush } from "../../../../helpers/BackendPush";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import {
-  addNetAmount,
-  addProcessingFees,
   resetEwaLive,
 } from "../../../../store/slices/ewaLiveSlice";
 import { checkBox, ewa, styles } from "../../../../styles";
@@ -38,13 +36,13 @@ const Agreement = () => {
   const navigation = useNavigation();
   const { width } = useWindowDimensions();
 
-  const [active, setActive] = useState(false);
   const [fetched, setFetched] = useState(false);
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
 
   const [consent, setConsent] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -58,13 +56,7 @@ const Agreement = () => {
   const mandateVerifyStatus = useSelector(
     (state) => state.mandate.verifyStatus
   );
-  const [netAmount, setNetAmount] = useState();
-  const [loanAmount, setLoanAmount] = useState(ewaLiveSlice?.loanAmount);
-  const [fees, setFees] = useState(ewaLiveSlice?.fees);
-  const [processingFees, setProcessingFees] = useState(ewaLiveSlice?.processingFees);
-  const [apr, setApr] = useState();
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
+  
   const today = new Date();
 
   function ValueEntry(text) {
@@ -76,16 +68,17 @@ const Agreement = () => {
       /\{accountNumber\}/g,
       bankSlice?.data?.accountNumber
     );
+    text.data = text.data.replace(/\{dueDate\}/g, ewaLiveSlice?.dueDate);
     text.data = text.data.replace(/\{email\}/g, profileSlice?.email);
     text.data = text.data.replace(/\{ifsc\}/g, bankSlice?.data?.ifsc);
     text.data = text.data.replace(
       /\{loanAccountNumber\}/g,
       ewaLiveSlice?.offerId
     );
-    text.data = text.data.replace(/\{loanAmount\}/g, loanAmount);
+    text.data = text.data.replace(/\{loanAmount\}/g, ewaLiveSlice?.loanAmount);
     text.data = text.data.replace(/\{mobile\}/g, authSlice?.phoneNumber);
     text.data = text.data.replace(/\{panName\}/g, panSlice?.data?.name);
-    text.data = text.data.replace(/\{processingFees\}/g, processingFees);
+    text.data = text.data.replace(/\{processingFees\}/g, ewaLiveSlice?.processingFees);
     text.data = text.data.replace(
       /\{todayDate\}/g,
       today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear()
@@ -108,6 +101,33 @@ const Agreement = () => {
     }
   }, [deviceId, ipAddress]);
 
+  useEffect(() => {
+    if (fetched) {
+      setLoading(true);
+      ewaAgreementPush({
+        data: {
+          offerId: ewaLiveSlice?.offerId,
+          unipeEmployeeId: unipeEmployeeId,
+          status: "INPROGRESS",
+          timestamp: Date.now(),
+          ipAddress: ipAddress,
+          deviceId: deviceId,
+          campaignId: campaignId,
+        },
+        token: token,
+      })
+        .then((response) => {
+          setLoading(false);
+          console.log("ewaAgreementPush response.data: ", response.data);
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log("ewaAgreementPush error: ", error.toString());
+          Alert.alert("An Error occured", error.toString());
+        });
+    }
+  }, [fetched]);
+
   const backAction = () => {
     if (mandateVerifyStatus === "SUCCESS") {
       navigation.navigate("EWA_KYC");
@@ -123,26 +143,6 @@ const Agreement = () => {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
-  useEffect(() => {
-    let pf = (loanAmount * fees)/100;
-    if (parseInt(pf)%10<4) {
-      setProcessingFees(Math.max(9, (Math.floor((pf/10))*10) -1));
-    } else {
-      setProcessingFees(Math.max(9, (Math.floor(((pf+10)/10))*10) -1));
-    }
-  }, [ewaLiveSlice]);
-
-  useEffect(() => {
-    dispatch(addProcessingFees(processingFees));
-    setNetAmount(loanAmount - processingFees);
-  }, [processingFees]);
-
-  useEffect(() => {
-    dispatch(addNetAmount(netAmount));
-    setApr(APR());
-    setActive(true);
-  }, [netAmount]);
-
   const profileData = [
     { subTitle: "Name", value: aadhaarSlice?.data?.name },
     { subTitle: "PAN Number", value: panSlice?.number },
@@ -156,58 +156,18 @@ const Agreement = () => {
     { subTitle: "IFSC", value: bankSlice?.data?.ifsc },
   ];
 
-  const APR = () => {
-    var today = new Date();
-    var dueDateComponents = ewaLiveSlice.dueDate.split("/");
-    var dueDate = new Date(
-      dueDateComponents[2],
-      parseInt(dueDateComponents[1]) - 1,
-      dueDateComponents[0]
-    );
-    var timeDiff = dueDate.getTime() - today.getTime();
-    var daysDiff = parseInt(timeDiff / (1000 * 3600 * 24));
-    var apr =
-      100 * (processingFees / loanAmount) * (365 / daysDiff);
-    console.log("APR: ", apr, daysDiff, apr.toFixed(2));
-    return apr.toFixed(2);
-  };
-
   const data = [
-    { subTitle: "Loan Amount", value: "₹" + loanAmount },
+    { subTitle: "Loan Amount", value: "₹" + ewaLiveSlice?.loanAmount },
     {
       subTitle: "Processing Fees †",
-      value: "₹" + processingFees,
+      value: "₹" + ewaLiveSlice?.processingFees,
     },
     {
       subTitle: "Disbursement Amount *",
-      value: "₹" + netAmount,
+      value: "₹" + ewaLiveSlice?.netAmount,
     },
     { subTitle: "Due Date", value: ewaLiveSlice?.dueDate },
   ];
-
-  useEffect(() => {
-    if (fetched) {
-      ewaAgreementPush({
-        data: {
-          offerId: ewaLiveSlice?.offerId,
-          unipeEmployeeId: unipeEmployeeId,
-          status: "INPROGRESS",
-          timestamp: Date.now(),
-          ipAddress: ipAddress,
-          deviceId: deviceId,
-          campaignId: campaignId,
-        },
-        token: token,
-      })
-        .then((response) => {
-          console.log("ewaAgreementPush response.data: ", response.data);
-        })
-        .catch((error) => {
-          console.log("ewaAgreementPush error: ", error.toString());
-          Alert.alert("An Error occured", error.toString());
-        });
-    }
-  }, [fetched]);
 
   function handleAgreement() {
     setLoading(true);
@@ -221,9 +181,9 @@ const Agreement = () => {
         deviceId: deviceId,
         bankAccountNumber: bankSlice?.data?.accountNumber,
         dueDate: ewaLiveSlice?.dueDate,
-        processingFees: processingFees,
-        loanAmount: loanAmount,
-        netAmount: netAmount,
+        processingFees: ewaLiveSlice?.processingFees,
+        loanAmount: ewaLiveSlice?.loanAmount,
+        netAmount: ewaLiveSlice?.netAmount,
         loanAccountNumber: ewaLiveSlice?.offerId,
         employerId: ewaLiveSlice?.employerId,
         employmentId: ewaLiveSlice?.employmentId,
@@ -301,16 +261,15 @@ const Agreement = () => {
             </Text>
           </View>
           <PrimaryButton
-            title={active ? (loading ? "Booking" : "Finish") : "Loading"}
-            disabled={!consent || !active}
-            loading={loading || !active}
+            title={loading ? "Booking" : "Finish"}
+            disabled={!consent || loading}
             onPress={() => {
               handleAgreement();
             }}
           />
           <View style={checkBox.padding}></View>
           <Text style={{fontSize: 6, marginTop: "5%" }}>
-          † Annual Percentage Rate @ {apr} %
+          † Annual Percentage Rate @ {ewaLiveSlice?.apr} %
           </Text>
 
           <Modal

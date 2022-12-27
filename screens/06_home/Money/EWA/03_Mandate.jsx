@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { BackHandler, SafeAreaView } from "react-native";
 import MandateFormTemplate from "../../../../templates/mandate/Form";
 import Header from "../../../../components/atoms/Header";
