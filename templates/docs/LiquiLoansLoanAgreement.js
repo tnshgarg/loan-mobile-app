@@ -58,7 +58,7 @@ const agreement = {
       <td style="border: 1px solid black; border-collapse: collapse;">
         <ul>
           <li>Where Employer deducts from salary: Salary credit date</li>
-          <li>Where Client is responsible for the repayment: 5th of the subsequent month</li>
+          <li>Where Client is responsible for the repayment: {todayDate} or salary credit date whichever is earlier </li>
       </ul>
       </td>
     </tr>
@@ -125,7 +125,7 @@ const agreement = {
 <p>The late payment fee is a cumulative charge based on Days past the Due date, as per the table above and is exclusive of interest (if applicable) which may be charged on total outstanding in case the amount remains at default.</p>
 <p>As an example:</p>
 <p><strong>User 1-</strong> Outstanding amount INR 6000, pays post 16 Days past the Due Date, he will be charged a late payment fee of INR 250. </p>
-<p><strong>User 2-</strong> Outstanding amount INR 6000, pays post 65 Days past the Due Date, he will be charged a late payment fee of INR 500. </p>
+<p><strong>User 2-</strong> Outstanding amount INR 6000, pays post 65 Days past the Due Date, he will be charged a late payment fee of INR 750. </p>
 
 
 <p>The disbursements under this Facility shall be directly disbursed into your Bank Account No. (<span>{accountNumber}</span>), <span>{ifsc}</span>. disclosed by you in the digital application made via the Unipe Platform, subject to your acceptance of the above terms and conditions, and on execution of the Facility Agreement below, digitally. </p>
@@ -401,7 +401,7 @@ const agreement = {
     <td style="border: 1px solid black; border-collapse: collapse;">
       <ul>
         <li>Where Employer deducts from salary: Salary credit date</li>
-        <li>Where Client is responsible for the repayment: 5th of the subsequent month</li>
+        <li>Where Client is responsible for the repayment: {todayDate} or salary credit date whichever is earlier </li>
     </ul>
     </td>
   </tr>
@@ -468,7 +468,7 @@ const agreement = {
 <p>The late payment fee is a cumulative charge based on Days past the Due date, as per the table above and is exclusive of interest (if applicable) which may be charged on total outstanding in case the amount remains at default.</p>
 <p>As an example:</p>
 <p><strong>User 1-</strong> Outstanding amount INR 6000, pays post 16 Days past the Due Date, he will be charged a late payment fee of INR 250. </p>
-<p><strong>User 2-</strong> Outstanding amount INR 6000, pays post 65 Days past the Due Date, he will be charged a late payment fee of INR 500. </p>`,
+<p><strong>User 2-</strong> Outstanding amount INR 6000, pays post 65 Days past the Due Date, he will be charged a late payment fee of INR 750. </p>`,
 };
 
 export default agreement;

@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Image,
   Linking,
+  ScrollView,
 } from "react-native";
 import { useState } from "react";
 import { styles } from "../../../styles";
@@ -37,7 +38,7 @@ const Account = (props) => {
     setModalVisible(true);
     setTimeout(() => {
       setModalVisible(false);
-      navigation.navigate("OnboardingStack", { screen: "Login" });
+      navigation.replace("OnboardingStack", { screen: "Login" });
     }, 5000);
   };
   const options = [
@@ -53,6 +54,13 @@ const Account = (props) => {
       iconName: "order-bool-ascending-variant",
       route: { stack: "AccountStack", screen: "KYC" },
     },
+    {
+      title: "Documents",
+      subtitle: "All your documents at one place",
+      iconName: "file-document-outline",
+      route: { stack: "AccountStack", screen: "Documents" },
+    },
+
     {
       title: "Customer Support",
       subtitle: "Talk to out support team",
@@ -98,78 +106,80 @@ const Account = (props) => {
           />
         }
       />
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          padding: 15,
-          borderTopWidth: 0.8,
-          borderColor: COLORS.lightGray,
-        }}
-      >
-        {!image ? (
-          <MaterialCommunityIcons
-            name={"account-box"}
-            size={80}
-            color={COLORS.primary}
-          />
-        ) : (
-          <Image
-            source={{
-              uri: `data:image/jpeg;base64,${image}`,
-              cache: "only-if-cached",
-            }}
-            style={{
-              width: 60,
-              height: 60,
-              resizeMode: "contain",
-              borderRadius: 5,
-              borderWidth: 1,
-              borderColor: COLORS.lightGray,
-            }}
-          />
-        )}
-
-        <Text style={{ ...FONTS.h4, color: COLORS.black, marginLeft: 15 }}>
-          {name ? name : "Guest User"}
-        </Text>
-      </View>
-      {options.map((item, index) => (
-        <TouchableOpacity
-          key={item.title}
-          activeOpacity={0.7}
-          onPress={() => onPressCard(item)}
+      <ScrollView>
+        <View
           style={{
             flexDirection: "row",
             alignItems: "center",
             padding: 15,
             borderTopWidth: 0.8,
-
             borderColor: COLORS.lightGray,
           }}
         >
-          <MaterialCommunityIcons
-            name={item.iconName}
-            size={24}
-            color={COLORS.gray}
-          />
-          <View
+          {!image ? (
+            <MaterialCommunityIcons
+              name={"account-box"}
+              size={80}
+              color={COLORS.primary}
+            />
+          ) : (
+            <Image
+              source={{
+                uri: `data:image/jpeg;base64,${image}`,
+                cache: "only-if-cached",
+              }}
+              style={{
+                width: 60,
+                height: 60,
+                resizeMode: "contain",
+                borderRadius: 5,
+                borderWidth: 1,
+                borderColor: COLORS.lightGray,
+              }}
+            />
+          )}
+
+          <Text style={{ ...FONTS.h4, color: COLORS.black, marginLeft: 15 }}>
+            {name ? name : "Guest User"}
+          </Text>
+        </View>
+        {options.map((item, index) => (
+          <TouchableOpacity
+            key={item.title}
+            activeOpacity={0.7}
+            onPress={() => onPressCard(item)}
             style={{
-              flexDirection: "column",
-              alignItems: "flex-start",
-              flex: 1,
-              paddingLeft: 15,
+              flexDirection: "row",
+              alignItems: "center",
+              padding: 15,
+              borderTopWidth: 0.8,
+
+              borderColor: COLORS.lightGray,
             }}
           >
-            <Text style={{ ...FONTS.h4, color: COLORS.black }}>
-              {item.title}
-            </Text>
-            <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
-              {item.subtitle}
-            </Text>
-          </View>
-        </TouchableOpacity>
-      ))}
+            <MaterialCommunityIcons
+              name={item.iconName}
+              size={24}
+              color={COLORS.gray}
+            />
+            <View
+              style={{
+                flexDirection: "column",
+                alignItems: "flex-start",
+                flex: 1,
+                paddingLeft: 15,
+              }}
+            >
+              <Text style={{ ...FONTS.h4, color: COLORS.black }}>
+                {item.title}
+              </Text>
+              <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
+                {item.subtitle}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
       {isTermsOfUseModalVisible && (
         <TermsAndPrivacyModal
           isVisible={isTermsOfUseModalVisible}

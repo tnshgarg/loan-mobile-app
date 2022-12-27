@@ -1,7 +1,13 @@
-const setFormatDDMMYYYYtoYYYYMMDD = (date) => {
+const setDDMMYYYYtoYYYYMMDD = (date) => {
   const [day, month, year] = date.split("/");
   const formattedDate = year + "/" + month + "/" + day;
   return new Date(formattedDate);
+};
+
+const setYYYYMMDDtoDDMMYYYY = (date) => {
+  const [year, month, day] = date.split("-");
+  const formattedDate = day + "/" + month + "/" + year;
+  return formattedDate;
 };
 
 const getNumberOfDays = ({ date, formatted }) => {
@@ -25,4 +31,5 @@ const getNumberOfDays = ({ date, formatted }) => {
 
 module.exports = {
   getNumberOfDays,
+  setYYYYMMDDtoDDMMYYYY
 };

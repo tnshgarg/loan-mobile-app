@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  apr: 0,
   accessible: false,
   dueDate: "",
   eligible: false,
@@ -8,7 +9,7 @@ const initialState = {
   employerId: "",
   employmentId: "",
   fees: 5,
-  loanAmount: "",
+  loanAmount: 0,
   offerId: "",
   netAmount: 0,
   processingFees: 0,
@@ -21,6 +22,9 @@ const ewaLiveSlice = createSlice({
   reducers: {
     addAccessible(state, action) {
       state.accessible = action.payload;
+    },
+    addAPR(state, action) {
+      state.apr = action.payload;
     },
     addEligible(state, action) {
       state.eligible = action.payload;
@@ -46,6 +50,7 @@ const ewaLiveSlice = createSlice({
 
 export const {
   addAccessible,
+  addAPR,
   addEligible,
   addLoanAmount,
   addNetAmount,

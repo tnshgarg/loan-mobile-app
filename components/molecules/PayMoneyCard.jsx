@@ -9,16 +9,20 @@ import { useSelector } from "react-redux";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { createPaymentOrder } from "../../services/checkout/StandardCheckout";
 import { RZP_KEY_ID } from "../../services/constants";
-import { getBackendData } from "../../services/employees/employeeServices";
+import {
+  getBackendData,
+  putBackendData,
+} from "../../services/employees/employeeServices";
 import PrimaryButton from "../atoms/PrimaryButton";
 import { showToast } from "../atoms/Toast";
-import { getNumberOfDays } from "../../helpers/DateFunctions";
+import { getNumberOfDays, setYYYYMMDDtoDDMMYYYY} from "../../helpers/DateFunctions";
 
 const PayMoneyCard = () => {
   const isFocused = useIsFocused();
 
   const [inactive, setInactive] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [repaymentStatus, setRepaymentStatus] = useState("PENDING");
 
   const phoneNumber = useSelector((state) => state.auth?.phoneNumber);
   const email = useSelector(
@@ -27,9 +31,7 @@ const PayMoneyCard = () => {
   const accountHolderName = useSelector(
     (state) => state.bank?.data?.accountHolderName
   );
-  const customerId = useSelector(
-    (state) => state.mandate.data.customerId
-  );
+  const customerId = useSelector((state) => state.mandate.data.customerId);
   const [repaymentOrderId, setRepaymentOrderId] = useState(null);
   const [dueDate, setDueDate] = useState(null);
   const [overdueDays, setOverdueDays] = useState(null);
@@ -39,7 +41,11 @@ const PayMoneyCard = () => {
   const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
-    console.log("createRepayment orderId: ", repaymentOrderId, !repaymentOrderId);
+    console.log(
+      "createRepayment orderId: ",
+      repaymentOrderId,
+      !repaymentOrderId
+    );
     if (repaymentOrderId) {
       var options = {
         description: "Unipe Early Loan Repayment",
@@ -57,20 +63,36 @@ const PayMoneyCard = () => {
       RazorpayCheckout.open(options)
         .then((data) => {
           console.log("RazorpayCheckout data: ", data);
+          putBackendData({
+            data: {
+              unipeEmployeeId: unipeEmployeeId,
+              dueDate: dueDate,
+              status: "INPROGRESS",
+            },
+            xpath: "ewa/repayment",
+            token: token,
+          })
+            .then((response) => {
+              console.log("ewaRepaymentsPost response.data: ", response.data);
+            })
+            .catch((error) => {
+              console.log("ewaRepaymentsPost error: ", error.toString());
+            });
           showToast("Loan Payment Successful");
+          setRepaymentStatus("INPROGRESS");
+          setLoading(false);
           Analytics.trackEvent("Ewa|Repayment|Success", {
             unipeEmployeeId: unipeEmployeeId,
           });
-          setLoading(false);
         })
         .catch((error) => {
           console.log("checkout error:", error.description);
           showToast("Loan Payment Failed. Please try again.");
+          setLoading(false);
           Analytics.trackEvent("Ewa|Repayment|Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: error.toString(),
           });
-          setLoading(false);
         });
     }
   }, [repaymentOrderId]);
@@ -83,7 +105,6 @@ const PayMoneyCard = () => {
         repaymentId: repaymentId,
       })
         .then((response) => {
-          setLoading(false);
           if (response.status === 200) {
             setRepaymentOrderId(response.data.id);
             console.log(
@@ -107,13 +128,13 @@ const PayMoneyCard = () => {
       setLoading(false);
       showToast("No amount due");
     }
-  }
+  };
 
   useEffect(() => {
-    if(repaymentAmount<1) {
+    if (repaymentAmount < 1 || repaymentStatus === "INPROGRESS") {
       setInactive(true);
     }
-  }, [repaymentAmount])
+  }, [repaymentAmount, repaymentStatus]);
 
   useEffect(() => {
     if (isFocused && unipeEmployeeId) {
@@ -125,18 +146,26 @@ const PayMoneyCard = () => {
         .then((response) => {
           console.log("ewaRepaymentsFetch response.data: ", response.data);
           if (response.data.status === 200) {
-            setDueDate(response.data.body.dueDate?.split(" ")[0]);
+            setDueDate(setYYYYMMDDtoDDMMYYYY(response.data.body.dueDate?.split(" ")[0]));
             setOverdueDays(
               getNumberOfDays({
                 date: dueDate?.replace(/-/g, "/"),
-                formatted: true,
+                formatted: false,
               })
             );
-            setRepaymentAmount(response.data.body.amount);
+            setRepaymentAmount(
+              Math.max(
+                response.data.body.amount -
+                  (response.data.body.paidAmount ?? 0),
+                0
+              )
+            );
+            setRepaymentStatus(response.data.body.status);
             setRepaymentId(response.data.body.repaymentId);
             setInactive(false);
           } else if (response.data.status === 404) {
             setDueDate(null);
+            setOverdueDays(null);
             setRepaymentAmount(0);
           }
         })
@@ -166,20 +195,22 @@ const PayMoneyCard = () => {
             </Text>
           </View>
         </View>
-        
-        {
-          repaymentAmount>0 
-          ?
+
+        {repaymentAmount > 0 ? (
           <PrimaryButton
-            title={inactive || loading ? "Verifying" : "Pay now"}
+            title={
+              repaymentStatus !== "INPROGRESS"
+                ? inactive || loading
+                  ? "Verifying"
+                  : "Pay now"
+                : "In Progress"
+            }
             onPress={() => createRepaymentOrder()}
-            disabled={inactive || loading}
+            disabled={inactive || loading || repaymentStatus === "INPROGRESS"}
             containerStyle={{ width: null, marginTop: 0, height: 40 }}
             titleStyle={{ ...FONTS.h5 }}
           />
-          :
-          null
-        }
+        ) : null}
       </View>
 
       <View
@@ -187,23 +218,17 @@ const PayMoneyCard = () => {
           styles.bottomCard,
           {
             backgroundColor:
-              overdueDays < 0 ? COLORS.warning : COLORS.moneyCardBg,
+              overdueDays < 0 ? COLORS.warning : COLORS.moneyCardBgVariant,
           },
         ]}
       >
         <Icon name="info-outline" size={18} color={COLORS.white} />
         <Text style={[styles.text, { marginLeft: 5 }]}>
-          {
-              overdueDays < 0
-            ? 
-              `Your repayment is overdue by ${-overdueDays} days`
-            : 
-                dueDate !== null
-              ?
-                `Due by ${dueDate}`
-              :
-                `No dues`
-          }
+          {overdueDays < 0
+            ? `Your repayment is overdue by ${-overdueDays} days`
+            : dueDate !== null
+            ? `Due by ${dueDate}`
+            : `No dues`}
         </Text>
       </View>
     </View>
@@ -230,8 +255,6 @@ const styles = EStyleSheet.create({
     paddingVertical: "10rem",
     alignItems: "center",
     backgroundColor: COLORS.moneyCardBg,
-    borderTopWidth: 1.5,
-    borderColor: COLORS.lightGray,
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
     opactiy: 0.5,

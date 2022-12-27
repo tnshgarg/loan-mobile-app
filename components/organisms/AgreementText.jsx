@@ -1,5 +1,4 @@
-import { View, Text } from "react-native";
-import React from "react";
+import { Text } from "react-native";
 import termsOfUse from "../../templates/docs/TermsOfUse";
 import privacyPolicy from "../../templates/docs/PrivacyPolicy";
 import EStyleSheet from "react-native-extended-stylesheet";
