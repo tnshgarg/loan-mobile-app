@@ -19,6 +19,7 @@ export default function VideoPlayer({ thumbnail, title, videoId }) {
 
   const onStateChange = useCallback((state) => {
     if (state === "ended") {
+      setVisible(false);
       setPlaying(false);
     }
   }, []);
