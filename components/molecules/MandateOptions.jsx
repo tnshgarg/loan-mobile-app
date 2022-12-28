@@ -15,12 +15,17 @@ const MandateOptions = ({ ProceedButton, disabled }) => {
       iconName: "bank-outline",
       onPress: () => ProceedButton({ authType: "netbanking" }),
     },
+    {
+      title: "Aadhaar",
+      iconName: "card-account-details-outline",
+      onPress: () => ProceedButton({ authType: "aadhaar" }),
+    },
   ];
 
   return (
     <View style={styles.container}>
       {mandateOptions.map((item, index) => (
-        <ListItem key={index} item={item} disabled={disabled}/>
+        <ListItem key={index} item={item} disabled={disabled} />
       ))}
     </View>
   );
