@@ -5,10 +5,14 @@ import React from "react";
 import { COLORS, FONTS } from "../../constants/Theme";
 
 const ListItem = ({ item, disabled }) => {
-  // console.log("ye to ayeag");
-  // console.log("Hello", props);
   const { title, iconName, onPress } = item;
-  console.log("ListItem disabled", disabled);
+  if (item.title == "NotFound") {
+    return (
+      <Text style={styles.notFoundContainer}>
+        There are no options found for your bank
+      </Text>
+    );
+  }
   return (
     <TouchableOpacity
       accessibilityLabel="InfoCard"
@@ -38,6 +42,9 @@ const styles = EStyleSheet.create({
     borderColor: COLORS.lightGray,
   },
   text: { paddingLeft: "10rem", ...FONTS.body4, color: COLORS.black, flex: 1 },
+  notFoundContainer: {
+    padding: "10rem",
+  },
 });
 
 export default ListItem;

@@ -1,9 +1,8 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { COLORS } from "../../constants/Theme";
 import ListItem from "../atoms/ListItem";
-import bankData from "../../assets/emandateBankList";
 import { useSelector } from "react-redux";
 import emandateList from "../../assets/emandateList";
 
@@ -17,8 +16,6 @@ const MandateOptions = ({ ProceedButton, disabled }) => {
     const bankCodes = Object.keys(emandateList);
     const mandateOption = Object.values(emandateList);
     const ifscCode = copyIfscCode.replace(/[^a-z]/gi, "");
-    console.log("ifscCodeMod:", ifscCode);
-    console.log(bankCodes);
     for (var i in bankCodes) {
       if (bankCodes[i] == ifscCode) {
         console.log("mandateOTpPPP: ", mandateOption[i]);
@@ -48,14 +45,20 @@ const MandateOptions = ({ ProceedButton, disabled }) => {
         }
       }
     }
-    console.log(mandateOptions);
+    if (mandateOptions.length == 0) {
+      return [
+        {
+          title: "NotFound",
+        },
+      ];
+    }
     return mandateOptions;
   };
 
   return (
     <View style={styles.container}>
       {getMandateOptions().map((item, index) => {
-        console.log("fnjdsn item: ", item);
+        console.log("item:", item);
         return <ListItem key={index} item={item} disabled={disabled} />;
       })}
     </View>

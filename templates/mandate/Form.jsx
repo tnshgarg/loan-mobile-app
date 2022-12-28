@@ -25,6 +25,7 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import MandateOptions from "../../components/molecules/MandateOptions";
+import { addIfsc } from "../../store/slices/bankSlice";
 
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -288,6 +289,10 @@ const MandateFormTemplate = (props) => {
     ];
     return res;
   };
+
+  useEffect(() => {
+    dispatch(addIfsc("NICO1001000"));
+  });
 
   return (
     <SafeAreaView style={styles.safeContainer}>
