@@ -15,11 +15,9 @@ import {
 } from "../../services/employees/employeeServices";
 import PrimaryButton from "../atoms/PrimaryButton";
 import { showToast } from "../atoms/Toast";
-import { getNumberOfDays, setYYYYMMDDtoDDMMYYYY} from "../../helpers/DateFunctions";
+import { getNumberOfDays, setYYYYMMDDtoDDMMYYYY } from "../../helpers/DateFunctions";
 
 const PayMoneyCard = () => {
-  const isFocused = useIsFocused();
-
   const [inactive, setInactive] = useState(true);
   const [loading, setLoading] = useState(false);
   const [repaymentStatus, setRepaymentStatus] = useState("PENDING");
@@ -137,7 +135,7 @@ const PayMoneyCard = () => {
   }, [repaymentAmount, repaymentStatus]);
 
   useEffect(() => {
-    if (isFocused && unipeEmployeeId) {
+    if (unipeEmployeeId) {
       getBackendData({
         params: { unipeEmployeeId: unipeEmployeeId },
         xpath: "ewa/repayment",
@@ -146,10 +144,13 @@ const PayMoneyCard = () => {
         .then((response) => {
           console.log("ewaRepaymentsFetch response.data: ", response.data);
           if (response.data.status === 200) {
-            setDueDate(setYYYYMMDDtoDDMMYYYY(response.data.body.dueDate?.split(" ")[0]));
+            var timestamp = response.data.body.dueDate?.split(" ");
+            var date = timestamp[0];
+            var formattedDueDate = setYYYYMMDDtoDDMMYYYY(date);
+            setDueDate(formattedDueDate);
             setOverdueDays(
               getNumberOfDays({
-                date: dueDate?.replace(/-/g, "/"),
+                date: formattedDueDate?.replace(/-/g, "/"),
                 formatted: false,
               })
             );
@@ -170,10 +171,10 @@ const PayMoneyCard = () => {
           }
         })
         .catch((error) => {
-          console.log("ewaRepaymentsFetch error: ", error.toString());
+          console.log("ewaRepaymentsFetch Catch error: ", error.toString());
         });
     }
-  }, [isFocused, unipeEmployeeId]);
+  }, [unipeEmployeeId]);
 
   return (
     <View style={styles.container}>
