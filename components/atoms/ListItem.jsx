@@ -9,7 +9,7 @@ const ListItem = ({ item, disabled }) => {
   if (item.title == "NotFound") {
     return (
       <Text style={styles.notFoundContainer}>
-        There are no options found for your bank
+        Currently bank does not support mandate
       </Text>
     );
   }
