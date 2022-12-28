@@ -58,9 +58,7 @@ const HomeView = () => {
     aadhaarVerifyStatus != "SUCCESS"
       ? { label: "Verify AADHAAR", value: "AADHAAR" }
       : null,
-    panVerifyStatus != "SUCCESS"
-      ? { label: "Verify PAN", value: "PAN" }
-      : null,
+    panVerifyStatus != "SUCCESS" ? { label: "Verify PAN", value: "PAN" } : null,
     bankVerifyStatus != "SUCCESS"
       ? { label: "Verify Bank Account", value: "BANK" }
       : null,
@@ -124,7 +122,11 @@ const HomeView = () => {
           console.log("HomeView ewaOffersFetch response.data: ", response.data);
           if (response.data.status === 200) {
             if (Object.keys(response.data.body.live).length !== 0) {
-              console.log("HomeView ewaOffersFetch response.data.body.live: ", response.data.body.live, response.data.body.live!={});
+              console.log(
+                "HomeView ewaOffersFetch response.data.body.live: ",
+                response.data.body.live,
+                response.data.body.live != {}
+              );
               const closureDays = getNumberOfDays({
                 date: response.data.body.live.dueDate,
               });
@@ -146,7 +148,10 @@ const HomeView = () => {
           }
         })
         .catch((error) => {
-          console.log("HomeView ewaOffersFetch Response error: ", error.toString());
+          console.log(
+            "HomeView ewaOffersFetch Response error: ",
+            error.toString()
+          );
           dispatch(resetEwaLive());
           dispatch(resetEwaHistorical());
         });
@@ -206,7 +211,11 @@ const HomeView = () => {
                 accessible={accessible}
                 ewaLiveSlice={ewaLiveSlice}
               />
-              <VideoPlayer />
+              <VideoPlayer
+                title="Why Unipe?"
+                thumbnail={require("../../assets/youtube_thumbnail.png")}
+                videoId="9zXrU09Lvcs"
+              />
             </>
           ) : (
             <KycCheckCard
