@@ -290,10 +290,6 @@ const MandateFormTemplate = (props) => {
     return res;
   };
 
-  useEffect(() => {
-    dispatch(addIfsc("NICO1001000"));
-  });
-
   return (
     <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
