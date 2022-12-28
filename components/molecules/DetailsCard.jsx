@@ -25,7 +25,7 @@ const styles = EStyleSheet.create({
   container: {
     //backgroundColor: COLORS.primaryBackground,
     width: "100%",
-    marginBottom: "30rem",
+    marginBottom: "10rem",
     padding: "10rem",
     flexDirection: "row",
     //alignItems: "center",

@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, SafeAreaView, ScrollView, Text } from "react-native";
+import { Alert, SafeAreaView, ScrollView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,7 +25,8 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import MandateOptions from "../../components/molecules/MandateOptions";
-
+import Shield from "../../assets/Shield.svg";
+import RBI from "../../assets/RBI.svg";
 
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -157,7 +158,7 @@ const MandateFormTemplate = (props) => {
           contact: phoneNumber,
         },
         theme: { color: COLORS.primary },
-        notes: {unipeEmployeeId: unipeEmployeeId},
+        notes: { unipeEmployeeId: unipeEmployeeId },
       };
 
       RazorpayCheckout.open(options)
@@ -191,7 +192,7 @@ const MandateFormTemplate = (props) => {
             .catch((error) => {
               console.log("mandate error:", error.description);
               backendPush({
-                data: { 
+                data: {
                   authType: authType,
                   customerId: customerId,
                   orderId: orderId,
@@ -214,7 +215,7 @@ const MandateFormTemplate = (props) => {
         .catch((error) => {
           console.log("mandate error:", error.description);
           backendPush({
-            data: { 
+            data: {
               authType: authType,
               customerId: customerId,
               orderId: orderId,
@@ -256,7 +257,11 @@ const MandateFormTemplate = (props) => {
         console.log(`Mandate|CreateOrder|${authType} res.data:`, res.data);
         setOrderId(res.data.id);
         backendPush({
-          data: { authType: authType, customerId: customerId, orderId: res.data.id },
+          data: {
+            authType: authType,
+            customerId: customerId,
+            orderId: res.data.id,
+          },
           verifyMsg: `Mandate|CreateOrder|${authType} SUCCESS`,
           verifyStatus: "PENDING",
           verifyTimestamp: Date.now(),
@@ -307,14 +312,69 @@ const MandateFormTemplate = (props) => {
       <KeyboardAvoidingWrapper>
         <ScrollView showsVerticalScrollIndicator={false}>
           <DetailsCard data={cardData()} />
-          <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
+          <Text
+            style={{ ...FONTS.body5, color: COLORS.gray, marginVertical: 10 }}
+          >
             Please choose your preferred mode
           </Text>
           {customerId == null ? (
             <Text>Initializing ... </Text>
           ) : (
-            <MandateOptions ProceedButton={ProceedButton} disabled={loading}/>
+            <MandateOptions ProceedButton={ProceedButton} disabled={loading} />
           )}
+          <View
+            style={{
+              padding: 10,
+              backgroundColor: COLORS.lightGray,
+              marginVertical: 10,
+              borderRadius: 5,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text
+              style={{
+                ...FONTS.body5,
+                color: COLORS.gray,
+                marginBottom: 5,
+                textAlign: "center",
+              }}
+            >
+              Mandate is required to auto-debit loan payments on Due Date. This
+              is 100% secure and executed by an RBI approved entity.
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              width: "100%",
+              padding: 10,
+              justifyContent: "space-evenly",
+              alignItems: "center",
+            }}
+          >
+            <View style={{ flexDirection: "column", alignItems: "center" }}>
+              <Shield />
+              <Text
+                style={{ ...FONTS.body4, color: COLORS.gray, marginTop: 5 }}
+              >
+                100% Secure
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <RBI />
+              <Text
+                style={{ ...FONTS.body4, color: COLORS.gray, marginTop: 5 }}
+              >
+                RBI Approved
+              </Text>
+            </View>
+          </View>
         </ScrollView>
       </KeyboardAvoidingWrapper>
     </SafeAreaView>
