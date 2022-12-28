@@ -1,8 +1,15 @@
 import { View, Text, TextInput, TouchableWithoutFeedback } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { useEffect } from "react";
 
 const OtpInput = ({ otp, setOtp, inputRef, accessibilityLabel }) => {
+
+  useEffect(() => {
+    setTimeout(() => {
+      inputRef.current.focus();
+    }, 300);
+  }, [inputRef, inputRef.current]);
 
   const getNumberView = (val) => {
     return val != "" ? (
@@ -27,7 +34,8 @@ const OtpInput = ({ otp, setOtp, inputRef, accessibilityLabel }) => {
       <TextInput
         accessibilityLabel={accessibilityLabel}
         ref={inputRef}
-        onLayout={() => inputRef.current.focus()}
+        autoFocus={true}
+        onLayout={() => inputRef?.current?.focus()}
         keyboardType="number-pad"
         value={otp}
         onChange={(event) => {
