@@ -14,20 +14,21 @@ const Bank = () => {
   const cardData = () => {
     var res = [
       {
-        subTitle: "AccountHolderName",
+        subTitle: "Account Holder Name",
         value: data?.accountHolderName,
         fullWidth: true,
       },
       {
-        subTitle: "AccountNumber",
+        subTitle: "Account Number",
         value: data?.accountNumber,
+        fullWidth: true,
       },
       { subTitle: "Bank Name", value: data?.bankName },
-      { subTitle: "Branch Name", value: data?.branchName, fullWidth: true },
-      { subTitle: "Branch City", value: data?.branchCity, fullWidth: true },
+      { subTitle: "Branch Name", value: data?.branchName },
+      { subTitle: "Branch City", value: data?.branchCity },
 
       { subTitle: "IFSC", value: data?.ifsc },
-      { subTitle: "UPI", value: data?.upi },
+      { subTitle: "UPI", value: data?.upi, fullWidth: true },
       { subTitle: "Verify Status", value: verifyStatus },
     ];
     return res;

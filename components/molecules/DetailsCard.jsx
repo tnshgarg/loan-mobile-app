@@ -14,7 +14,7 @@ const DetailsCard = ({ data, imageUri }) => {
           style={[styles.listItem, { width: item.fullWidth ? "100%" : "40%" }]}
         >
           <Text style={styles.label}>{item.subTitle}</Text>
-          <Text style={styles.value}>{item.value}</Text>
+          <Text style={styles.value}>{item.value || "-"}</Text>
         </View>
       ))}
     </View>
