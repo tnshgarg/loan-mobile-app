@@ -213,7 +213,7 @@ const HomeView = () => {
               />
               <VideoPlayer
                 title="Why Unipe?"
-                thumbnail={require("../../assets/youtube_thumbnail.png")}
+                thumbnail={require("../../assets/youtube_thumbnail.jpg")}
                 videoId="9zXrU09Lvcs"
               />
             </>

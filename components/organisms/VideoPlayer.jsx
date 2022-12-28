@@ -14,7 +14,7 @@ import { Ionicons } from "react-native-vector-icons";
 import EStyleSheet from "react-native-extended-stylesheet";
 
 export default function VideoPlayer({ thumbnail, title, videoId }) {
-  const [playing, setPlaying] = useState(false);
+  const [playing, setPlaying] = useState(true);
   const [visible, setVisible] = useState(false);
 
   const onStateChange = useCallback((state) => {
