@@ -5,18 +5,12 @@ import { COLORS, FONTS } from "../../constants/Theme";
 
 const ListItem = ({ item, disabled }) => {
   const { title, iconName, onPress } = item;
-  if (item.title == "NotFound") {
-    return (
-      <Text style={styles.notFoundContainer}>
-        Currently bank does not support mandate
-      </Text>
-    );
-  }
+  
   return (
     <TouchableOpacity
       accessibilityLabel="InfoCard"
       style={styles.container}
-      activeOpacity={0.7}
+      activeOpacity={0.8}
       onPress={onPress}
       disabled={disabled}
     >
@@ -34,16 +28,13 @@ const ListItem = ({ item, disabled }) => {
 const styles = EStyleSheet.create({
   container: {
     width: "100%",
-    padding: "15rem",
+    padding: "18rem",
     flexDirection: "row",
     alignItems: "center",
     borderBottomWidth: 0.5,
     borderColor: COLORS.lightGray,
   },
-  text: { paddingLeft: "10rem", ...FONTS.body4, color: COLORS.black, flex: 1 },
-  notFoundContainer: {
-    padding: "10rem",
-  },
+  text: { paddingLeft: "20rem", ...FONTS.body4, color: COLORS.gray, flex: 1 },
 });
 
 export default ListItem;

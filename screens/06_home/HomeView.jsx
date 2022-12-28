@@ -109,7 +109,7 @@ const HomeView = () => {
   }, [accessible]);
 
   useEffect(() => {
-    console.log("Home ewaLiveSlice: ", ewaLiveSlice);
+    console.log("HomeView ewaLiveSlice: ", ewaLiveSlice);
     // console.log("ewaHistoricalSlice: ", ewaHistoricalSlice);
     // console.log("HomeView ewaOffersFetch unipeEmployeeId:", unipeEmployeeId);
     if (isFocused && unipeEmployeeId) {

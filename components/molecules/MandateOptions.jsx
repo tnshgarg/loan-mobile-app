@@ -1,65 +1,64 @@
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS } from "../../constants/Theme";
 import ListItem from "../atoms/ListItem";
-import { useSelector } from "react-redux";
-import emandateList from "../../assets/emandateList";
+import bankCodeEmandateOptionsMap from "../../assets/bankCodeEmandateOptionsMap";
 
 const MandateOptions = ({ ProceedButton, disabled }) => {
   const ifsc = useSelector((state) => state.bank?.data?.ifsc);
 
-  var mandateOptions = [];
+  const [mandateButtons, setMandateButtons] = useState([]);
 
-  const getMandateOptions = () => {
-    var copyIfscCode = ifsc;
-    const bankCodes = Object.keys(emandateList);
-    const mandateOption = Object.values(emandateList);
-    const ifscCode = copyIfscCode.replace(/[^a-z]/gi, "");
-    for (var i in bankCodes) {
-      if (bankCodes[i] == ifscCode) {
-        console.log("mandateOTpPPP: ", mandateOption[i]);
-        const netBanking = parseInt(mandateOption[i].substring(0, 1));
-        const debitCard = parseInt(mandateOption[i].substring(1, 2));
-        const aadhaar = parseInt(mandateOption[i].substring(2, 3));
-        if (netBanking === 1) {
-          mandateOptions.push({
-            title: "Net Banking",
-            iconName: "bank-outline",
-            onPress: () => ProceedButton({ authType: "netbanking" }),
-          });
-        }
-        if (debitCard === 1) {
-          mandateOptions.push({
-            title: "Debit Card",
-            iconName: "credit-card-outline",
-            onPress: () => ProceedButton({ authType: "debitcard" }),
-          });
-        }
-        if (aadhaar === 1) {
-          mandateOptions.push({
-            title: "Aadhaar",
-            iconName: "credit-card-outline",
-            onPress: () => ProceedButton({ authType: "aadhaar" }),
-          });
-        }
-      }
+  useEffect(() => {
+    var mandateOptions = [];
+    var bankCode = ifsc.substring(0,4);
+    var emandateOptions = bankCodeEmandateOptionsMap[bankCode] || "000";
+    if (emandateOptions[0] === "1") {
+      mandateOptions.push({
+        title: "Net Banking",
+        iconName: "bank-outline",
+        onPress: () => ProceedButton({ authType: "netbanking" }),
+      });
     }
-    if (mandateOptions.length == 0) {
-      return [
+    if (emandateOptions[1] === "1") {
+      mandateOptions.push({
+        title: "Debit Card",
+        iconName: "credit-card-outline",
+        onPress: () => ProceedButton({ authType: "debitcard" }),
+      });
+    }
+    if (emandateOptions[2] === "1") {
+      mandateOptions.push({
+        title: "Aadhaar",
+        iconName: "credit-card-outline",
+        onPress: () => ProceedButton({ authType: "aadhaar" }),
+      });
+    }
+    console.log("mandateOptions: ", mandateOptions);
+    if (mandateOptions.length > 0) {
+      setMandateButtons(mandateOptions);
+    } else {
+      setMandateButtons([
         {
-          title: "NotFound",
-        },
-      ];
+          title: "Your bank does not support mandate",
+          iconName: "crosshairs-off",
+          onPress: () => {},
+        }
+      ]);
     }
-    return mandateOptions;
-  };
+  }, [ifsc]);
+
+  console.log("mandateButtons: ", mandateButtons);
 
   return (
     <View style={styles.container}>
-      {getMandateOptions().map((item, index) => {
-        console.log("item:", item);
-        return <ListItem key={index} item={item} disabled={disabled} />;
-      })}
+      {
+        mandateButtons.map((item, index) => {
+          return <ListItem key={index} item={item} disabled={disabled} />;
+        })
+      }
     </View>
   );
 };
@@ -72,6 +71,9 @@ const styles = EStyleSheet.create({
     elevation: 2,
     backgroundColor: COLORS.white,
     margin: 1,
+  },
+  notFoundContainer: {
+    padding: "10rem",
   },
 });
 

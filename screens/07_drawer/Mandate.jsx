@@ -7,10 +7,10 @@ import TopTabNav from "../../navigators/TopTabNav";
 import DetailsCard from "../../components/molecules/DetailsCard";
 
 const Mandate = () => {
-  const [time, setTime] = useState(false);
+  const [updated, setUpdated] = useState(false);
 
   const mandateSlice = useSelector((state) => state.mandate);
-  const authType = mandateSlice.data?.authType;
+  const authType = mandateSlice.data?.authType.toUpperCase();
   const verifyStatus = mandateSlice.verifyStatus;
 
   const cardData = () => {
@@ -30,7 +30,7 @@ const Mandate = () => {
 
   if (verifyStatus === "SUCCESS") {
     setTimeout(() => {
-      setTime(true); // why this setTimeOut
+      setUpdated(true); // why this setTimeOut
     }, 2000);
   }
 
@@ -45,12 +45,11 @@ const Mandate = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      {verifyStatus == "SUCCESS" && time ? (
+      {verifyStatus == "SUCCESS" && updated ? (
         <View style={styles.container}>
           <DetailsCard data={cardData()} />
         </View>
       ) : (
-        // <MandateFormTemplate type="KYC" />
         <TopTabNav tabs={tabs} hide={true} />
       )}
     </SafeAreaView>

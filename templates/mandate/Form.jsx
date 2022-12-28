@@ -4,6 +4,7 @@ import { Alert, SafeAreaView, ScrollView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
+import RazorpayCheckout from "react-native-razorpay";
 import { mandatePush } from "../../helpers/BackendPush";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
@@ -11,15 +12,16 @@ import {
   addVerifyMsg,
   addVerifyStatus,
   addVerifyTimestamp,
+  resetMandate,
 } from "../../store/slices/mandateSlice";
 import { styles } from "../../styles";
 import { showToast } from "../../components/atoms/Toast";
-import RazorpayCheckout from "react-native-razorpay";
 import {
   createCustomer,
   createOrder,
   getToken,
 } from "../../services/mandate/Razorpay/services";
+import { getBackendData } from "../../services/employees/employeeServices";
 import { RZP_KEY_ID } from "../../services/constants";
 import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
@@ -34,6 +36,8 @@ const MandateFormTemplate = (props) => {
 
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
+
+  const [fetched, setFetched] = useState(false);
 
   const token = useSelector((state) => state.auth?.token);
   const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
@@ -69,6 +73,26 @@ const MandateFormTemplate = (props) => {
       setIpAdress(ipv4Address);
     });
   }, []);
+
+  useEffect(() => {
+    if (unipeEmployeeId) {
+      getBackendData({
+        params: { unipeEmployeeId: unipeEmployeeId },
+        xpath: "mandate",
+        token: token,
+      })
+        .then((response) => {
+          console.log("mandateFetch response.data", response.data);
+          if (response.data.status === 200) {
+            dispatch(resetMandate(response.data.body));
+            setFetched(true);
+          }
+        })
+        .catch((error) => {
+          console.log("mandateFetch error: ", error);
+        });
+    }
+  }, [unipeEmployeeId]);
 
   useEffect(() => {
     dispatch(addData(data));
@@ -173,7 +197,7 @@ const MandateFormTemplate = (props) => {
                   orderId: orderId,
                   paymentId: data.razorpay_payment_id,
                   paymentSignature: data.razorpay_signature,
-                  provider: "razropay",
+                  provider: "razorpay",
                   tokenId: token.data.token_id,
                 },
                 verifyMsg: "Mandate Verified Successfully",
@@ -198,7 +222,7 @@ const MandateFormTemplate = (props) => {
                   orderId: orderId,
                   paymentId: data.razorpay_payment_id,
                   paymentSignature: data.razorpay_signature,
-                  provider: "razropay",
+                  provider: "razorpay",
                 },
                 verifyMsg: error.description,
                 verifyStatus: "ERROR",
@@ -219,7 +243,7 @@ const MandateFormTemplate = (props) => {
               authType: authType,
               customerId: customerId,
               orderId: orderId,
-              provider: "razropay",
+              provider: "razorpay",
             },
             verifyMsg: error.description,
             verifyStatus: "ERROR",
@@ -313,15 +337,17 @@ const MandateFormTemplate = (props) => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <DetailsCard data={cardData()} />
           <Text
-            style={{ ...FONTS.body5, color: COLORS.gray, marginVertical: 10 }}
+            style={{ ...FONTS.body4, color: COLORS.gray, marginVertical: 10 }}
           >
             Please choose your preferred mode
           </Text>
-          {customerId == null ? (
-            <Text>Initializing ... </Text>
-          ) : (
-            <MandateOptions ProceedButton={ProceedButton} disabled={loading} />
-          )}
+          {
+            customerId == null || !fetched ? (
+              <Text style={{ ...FONTS.body4, color: COLORS.gray }}>Initializing ... </Text>
+            ) : (
+              <MandateOptions ProceedButton={ProceedButton} disabled={loading} />
+            )
+          }
           <View
             style={{
               padding: 10,
@@ -330,11 +356,12 @@ const MandateFormTemplate = (props) => {
               borderRadius: 5,
               alignItems: "center",
               justifyContent: "center",
+              marginTop: "10%"
             }}
           >
             <Text
               style={{
-                ...FONTS.body5,
+                ...FONTS.body4,
                 color: COLORS.gray,
                 marginBottom: 5,
                 textAlign: "center",
