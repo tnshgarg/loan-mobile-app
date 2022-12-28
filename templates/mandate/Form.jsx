@@ -25,8 +25,6 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import MandateOptions from "../../components/molecules/MandateOptions";
-import bankData from "../../assets/emandateBankList";
-import { addIfsc } from "../../store/slices/bankSlice";
 
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
