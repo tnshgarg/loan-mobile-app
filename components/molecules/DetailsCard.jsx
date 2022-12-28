@@ -11,10 +11,10 @@ const DetailsCard = ({ data, imageUri }) => {
       {data.map((item, index) => (
         <View
           key={index}
-          style={[styles.listItem, { width: item.fullWidth ? "100%" : "40%" }]}
+          style={[styles.listItem, { width: item.fullWidth ? "100%" : "50%" }]}
         >
           <Text style={styles.label}>{item.subTitle}</Text>
-          <Text style={styles.value}>{item.value}</Text>
+          <Text style={styles.value}>{item.value || "-"}</Text>
         </View>
       ))}
     </View>
