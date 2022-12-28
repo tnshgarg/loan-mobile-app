@@ -1,6 +1,5 @@
 import { View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import React from "react";
 import { COLORS } from "../../constants/Theme";
 import ListItem from "../atoms/ListItem";
 import { useSelector } from "react-redux";

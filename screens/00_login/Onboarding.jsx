@@ -87,6 +87,7 @@ const Onboarding = () => {
                 ...FONTS.body4,
                 color: COLORS.secondary,
                 marginLeft: 30,
+                flex: 1,
               }}
             >
               {item.title}

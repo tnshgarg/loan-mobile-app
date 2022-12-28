@@ -13,11 +13,12 @@ export default DevMenu = () => {
     { title: "AADHAAR", stack: "OnboardingStack", name: "AadhaarForm" },
     { title: "PAN", stack: "OnboardingStack", name: "PanForm" },
     { title: "BANK", stack: "OnboardingStack", name: "BankForm" },
-    { title: "Mandate", stack: "OnboardingStack", name: "Mandate" },
+    { title: "Mandate", stack: "EWAStack", name: "EWA_MANDATE" },
     { title: "Home", stack: "HomeStack", name: "DrawerHome" },
     // { title: "Home", stack: "DrawerNavigator", name: "DrawerHome" },
     { title: "KYC Details", stack: "AccountStack", name: "KYC" },
     { title: "Profile Details", stack: "AccountStack", name: "Profile" },
+    { title: "Documents", stack: "AccountStack", name: "Documents" },
     { title: "EWA", stack: "EWAStack", name: "EWA_OFFER" },
   ];
 
@@ -48,18 +49,6 @@ export default DevMenu = () => {
               screen: "DrawerHome",
               params: {
                 screen: "Account",
-              },
-            })
-          }
-        />
-        <DevMenuButton
-          style={{ marginTop: 20 }}
-          title={" Drawer Home"}
-          onPress={() =>
-            navigation.navigate("HomeStack", {
-              screen: "DrawerHome",
-              params: {
-                screen: "Documents",
               },
             })
           }

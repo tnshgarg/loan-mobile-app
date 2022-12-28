@@ -6,14 +6,18 @@
 		"start:test": "bash ./android/ACFlavours.sh -e qa && gulp set --env=test && npx react-native run-android --active-arch-only --variant=qaDebug --appIdSuffix=qa",
 		"start:prod": "bash ./android/ACFlavours.sh -e prod && gulp set --env=prod && npx react-native run-android --active-arch-only --variant=prodDebug --appIdSuffix=prod",
 		"build:dev": "bash ./android/ACFlavours.sh -e dev && bash ./android/versioning.sh && gulp set --env=dev && cd android && ./gradlew assembleDevRelease",
-		"build:qa": "bash ./android/ACFlavours.sh -e qa && bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
+		"build:qa": "bash ./android/ACFlavours.sh -e qa && bash ./android/versioning.sh && gulp set --env=test && cd android && gradlew assembleQaRelease",
 		"build:demo": "bash ./android/ACFlavours.sh -e demo && bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
 		"build:debug": "bash ./android/ACFlavours.sh -e dev && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
 		"build:prod": "bash ./android/ACFlavours.sh -e prod && bash ./android/versioning.sh && gulp set --env=prod && cd android && ./gradlew assembleProdRelease",
+		"release:demo": "bash ./android/releaseDemo.sh",
+		"release:qa": "bash ./android/releaseQa.sh",
+		"release:prod": "bash ./android/releaseProd.sh",
 		"postinstall": "patch-package"
 	},
 	"dependencies": {
 		"@expo/vector-icons": "^13.0.0",
+		"@miblanchard/react-native-slider": "^2.1.0",
 		"@react-native-async-storage/async-storage": "^1.17.6",
 		"@react-native-community/checkbox": "^0.5.12",
 		"@react-native-community/netinfo": "^8.3.1",
@@ -28,6 +32,7 @@
 		"@react-navigation/native-stack": "^6.6.2",
 		"@reduxjs/toolkit": "^1.8.3",
 		"appcenter-analytics": "4.4.5",
+		"appcenter-cli": "^2.12.0",
 		"appcenter-crashes": "4.4.5",
 		"axios": "^0.27.2",
 		"expo": "~45.0.0",
@@ -78,7 +83,7 @@
 		"glob": "7.2.0"
 	},
 	"private": true,
-	"version": "2022.12.17",
+	"version": "2022.12.27",
 	"jest": {
 		"verbose": true,
 		"testTimeout": 50000

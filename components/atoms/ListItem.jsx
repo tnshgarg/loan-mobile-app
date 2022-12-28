@@ -1,7 +1,6 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
-import React from "react";
 import { COLORS, FONTS } from "../../constants/Theme";
 
 const ListItem = ({ item, disabled }) => {
