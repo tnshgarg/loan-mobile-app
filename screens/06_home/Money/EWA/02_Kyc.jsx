@@ -8,29 +8,37 @@ import { useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { ewaKycPush } from "../../../../helpers/BackendPush";
-import { getBackendData } from "../../../../services/employees/employeeServices";
 import { styles } from "../../../../styles";
 import DetailsCard from "../../../../components/molecules/DetailsCard";
+import { fetchKycData, PostKycData } from "../../../../queries/EWA";
 
 const KYC = () => {
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const token = useSelector((state) => state.auth.token);
+  const kycData = fetchKycData({ unipeEmployeeId, token });
+
   const navigation = useNavigation();
 
   const [fetched, setFetched] = useState(false);
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
 
-  const [creditPass, setCreditPass] = useState("PENDING");
+  const creditPass =
+    kycData.isLoading || kycData.data.data.status == 404
+      ? ""
+      : kycData.data.data.body.pass;
   const [loading, setLoading] = useState(false);
   const campaignId = useSelector((state) => state.auth.campaignId);
   const mandateVerifyStatus = useSelector(
     (state) => state.mandate.verifyStatus
   );
-  const token = useSelector((state) => state.auth.token);
-  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+
   const data = useSelector((state) => state.aadhaar.data);
   const aadharNumber = useSelector((state) => state.aadhaar.number);
   const panNumber = useSelector((state) => state.pan.number);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
+
+  const postKyc = PostKycData();
 
   useEffect(() => {
     getUniqueId().then((id) => {
@@ -58,39 +66,30 @@ const KYC = () => {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
-  useEffect(() => {
-    if (unipeEmployeeId) {
-      getBackendData({
-        params: { unipeEmployeeId: unipeEmployeeId },
-        xpath: "risk-profile",
-        token: token,
-      })
-        .then((response) => {
-          console.log("riskProfileBackendFetch response.data", response.data);
-          if (response.data.status === 200) {
-            setCreditPass(response.data.body.pass);
-          }
-        })
-        .catch((error) => {
-          console.log("riskProfileBackendFetch error: ", error);
-        });
-    }
-  }, [unipeEmployeeId]);
+  // useEffect(() => {
+  //   if (unipeEmployeeId && kycData.isFetched) {
+  //     if (kycData.data.data.status === 200) {
+  //       setCreditPass(kycData.data.data.body.pass);
+  //     }
+  //   }
+  // }, [unipeEmployeeId, kycData]);
 
   useEffect(() => {
     if (fetched) {
-      ewaKycPush({
-        data: {
-          offerId: ewaLiveSlice?.offerId,
-          unipeEmployeeId: unipeEmployeeId,
-          status: "INPROGRESS",
-          timestamp: Date.now(),
-          ipAddress: ipAddress,
-          deviceId: deviceId,
-          campaignId: campaignId,
-        },
-        token: token,
-      })
+      postKyc
+        .mutateAsync({
+          data: {
+            offerId: ewaLiveSlice?.offerId,
+            unipeEmployeeId: unipeEmployeeId,
+            status: "INPROGRESS",
+            timestamp: Date.now(),
+            ipAddress: ipAddress,
+            deviceId: deviceId,
+            campaignId: campaignId,
+          },
+          token: token,
+          xpath: "ewa/kyc",
+        })
         .then((response) => {
           console.log("ewaKycPush response.data: ", response.data);
         })
@@ -103,18 +102,20 @@ const KYC = () => {
 
   function handleKyc() {
     setLoading(true);
-    ewaKycPush({
-      data: {
-        offerId: ewaLiveSlice?.offerId,
-        unipeEmployeeId: unipeEmployeeId,
-        status: "CONFIRMED",
-        timestamp: Date.now(),
-        ipAddress: ipAddress,
-        deviceId: deviceId,
-        campaignId: campaignId,
-      },
-      token: token,
-    })
+    postKyc
+      .mutateAsync({
+        data: {
+          offerId: ewaLiveSlice?.offerId,
+          unipeEmployeeId: unipeEmployeeId,
+          status: "CONFIRMED",
+          timestamp: Date.now(),
+          ipAddress: ipAddress,
+          deviceId: deviceId,
+          campaignId: campaignId,
+        },
+        token: token,
+        xpath: "ewa/kyc",
+      })
       .then((response) => {
         console.log("ewaKycPush response.data: ", response.data);
         setLoading(false);
@@ -149,6 +150,10 @@ const KYC = () => {
     ];
     return res;
   };
+
+  // if (kycData.isLoading) {
+  //   return <Text>Loading</Text>;
+  // }
 
   return (
     <SafeAreaView style={styles.safeContainer}>

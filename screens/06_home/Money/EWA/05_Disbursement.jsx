@@ -15,6 +15,7 @@ import SVGImgFailure from "../../../../assets/ewa_failure.svg";
 import SVGImgSuccess from "../../../../assets/ewa_success.svg";
 import SVGImgPending from "../../../../assets/ewa_pending.svg";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
+import { fetchDisbursement } from "../../../../queries/EWA";
 
 const Disbursement = ({ route, navigation }) => {
   const { offer } = route.params;
@@ -85,6 +86,22 @@ const Disbursement = ({ route, navigation }) => {
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
+
+  const { isFetched, data: disbursementData } = fetchDisbursement({
+    params: { offerId: offer?.offerId, unipeEmployeeId: unipeEmployeeId },
+    token: token,
+  });
+
+  const LoanAmount = disbursementData.data.body.loanAmount;
+  const NetAmount = disbursementData.data.body.netAmount;
+  const BankAccountNumber = disbursementData.data.body.bankAccountNumber;
+  const DueDate = disbursementData.data.body.dueDate;
+  const LoanAccountNumber = disbursementData.data.body.loanAccountNumber;
+  const Status = disbursementData.data.body.status;
+
+  if (isFetched) {
+    console.log("disbursement.data.data: ", disbursementData.data);
+  }
 
   useEffect(() => {
     getBackendData({

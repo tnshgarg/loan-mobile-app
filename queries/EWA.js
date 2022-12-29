@@ -4,73 +4,6 @@ import { EMPLOYEE_API_URL, RZP_AUTH } from "../services/constants";
 
 export const queryClient = new QueryClient();
 
-export const fetchQuery = ({ unipeEmployeeId, token }) => {
-  const response = useQuery(
-    ["ewa-fetch"],
-    async () => {
-      var url = `${EMPLOYEE_API_URL}/ewa/repayment`;
-      return await axios({
-        method: "GET",
-        url: `${url}?unipeEmployeeId=${unipeEmployeeId}`,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }).then((response) => {
-        console.log("repayments response: ", response);
-        return response;
-      });
-    },
-    {
-      refetchOnMount: false,
-      refetchOnWindowFocus: true,
-      refetchOnReconnect: true,
-      onSettled: () => {},
-      staleTime: 1000 * 50, // 50 Seconds
-      refetchInterval: 1000 * 60, // 1 Minute
-    }
-  );
-  return response;
-};
-
-export const PostQuery = ({ amount, repaymentId }) => {
-  const response = useQuery(
-    ["ewa-offer-post"],
-    async () => {
-      return await axios({
-        method: "post",
-        url: "https://api.razorpay.com/v1/orders",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: RZP_AUTH,
-        },
-        data: JSON.stringify({
-          amount: amount * 100,
-          currency: "INR",
-          notes: {
-            repaymentId: repaymentId,
-          },
-        }),
-      })
-        .then((response) => {
-          console.log("repayments post response:", response);
-          return response;
-        })
-        .catch(console.error);
-    },
-    {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-      onSettled: () => {},
-      staleTime: 1000 * 60 * 60 * 24, // 1 day
-      enabled: false,
-      refetchIntervalInBackground: false,
-    }
-  );
-  return response;
-};
-
 export const PostOffer = () => {
   const mutation = useMutation({
     mutationFn: async ({ data, xpath, token }) => {
@@ -94,4 +27,113 @@ export const PostOffer = () => {
     },
   });
   return mutation;
+};
+
+export const fetchKycData = ({ unipeEmployeeId, token }) => {
+  const response = useQuery(
+    ["ewa-kyc"],
+    async () => {
+      var url = `${EMPLOYEE_API_URL}/risk-profile`;
+      return await axios({
+        method: "GET",
+        url: `${url}?unipeEmployeeId=${unipeEmployeeId}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }).then((response) => {
+        console.log("ewa response: ", response);
+        return response;
+      });
+    },
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: true,
+      refetchOnReconnect: true,
+      onSettled: () => {},
+      staleTime: 1000 * 50, // 50 Seconds
+      refetchInterval: 1000 * 60, // 1 Minute
+    }
+  );
+  return response;
+};
+
+export const PostKycData = () => {
+  const mutation = useMutation({
+    mutationFn: async ({ data, xpath, token }) => {
+      return axios({
+        method: "post",
+        url: `${EMPLOYEE_API_URL}/${xpath}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        data: JSON.stringify(data),
+      })
+        .then((response) => {
+          console.log("ewakyc response:", response);
+          return response;
+        })
+        .catch(console.error);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["ewa-kyc-post"] });
+    },
+  });
+  return mutation;
+};
+
+export const PostAgreementData = () => {
+  const mutation = useMutation({
+    mutationFn: async ({ data, xpath, token }) => {
+      return axios({
+        method: "post",
+        url: `${EMPLOYEE_API_URL}/ewa/agreement`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        data: JSON.stringify(data),
+      })
+        .then((response) => {
+          console.log("ewakyc response:", response);
+          return response;
+        })
+        .catch(console.error);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["ewa-agreement-post"] });
+    },
+  });
+  return mutation;
+};
+
+export const fetchDisbursement = ({ token, params }) => {
+  const response = useQuery(
+    ["ewa-disbursement"],
+    async () => {
+      var url = `${EMPLOYEE_API_URL}/ewa/disbursement`;
+      return await axios({
+        method: "GET",
+        url: url,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        params: params,
+      }).then((response) => {
+        console.log("ewa response: ", response);
+        return response;
+      });
+    },
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: true,
+      refetchOnReconnect: true,
+      onSettled: () => {},
+      staleTime: 1000 * 50, // 50 Seconds
+      refetchInterval: 1000 * 60, // 1 Minute
+    }
+  );
+  return response;
 };

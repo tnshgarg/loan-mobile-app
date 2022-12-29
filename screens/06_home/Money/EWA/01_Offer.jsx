@@ -12,15 +12,16 @@ import TermsAndPrivacyModal from "../../../../components/molecules/TermsAndPriva
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { COLORS } from "../../../../constants/Theme";
 import { ewaOfferPush } from "../../../../helpers/BackendPush";
-import { 
-  addAPR, 
-  addLoanAmount, 
-  addNetAmount, 
-  addProcessingFees 
+import {
+  addAPR,
+  addLoanAmount,
+  addNetAmount,
+  addProcessingFees,
 } from "../../../../store/slices/ewaLiveSlice";
 import { checkBox, styles } from "../../../../styles";
 import TnC from "../../../../templates/docs/EWATnC.js";
 import SliderCard from "../../../../components/organisms/SliderCard";
+import { PostOffer } from "../../../../queries/EWA";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ const Offer = () => {
   const [loading, setLoading] = useState(false);
   const [validAmount, setValidAmount] = useState(false);
   const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
-  useState(false);
+    useState(false);
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -43,7 +44,9 @@ const Offer = () => {
   const fees = useSelector((state) => state.ewaLive.fees);
   const [loanAmount, setLoanAmount] = useState(ewaLiveSlice?.eligibleAmount);
   const [netAmount, setNetAmount] = useState(ewaLiveSlice?.netAmount);
-  const [processingFees, setProcessingFees] = useState(ewaLiveSlice?.processingFees);
+  const [processingFees, setProcessingFees] = useState(
+    ewaLiveSlice?.processingFees
+  );
 
   useEffect(() => {
     getUniqueId().then((id) => {
@@ -97,7 +100,10 @@ const Offer = () => {
 
   useEffect(() => {
     if (parseInt(loanAmount) <= ewaLiveSlice.eligibleAmount) {
-      if (STAGE !== "prod" || (STAGE === "prod" && parseInt(loanAmount) > 1000)) {
+      if (
+        STAGE !== "prod" ||
+        (STAGE === "prod" && parseInt(loanAmount) > 1000)
+      ) {
         setValidAmount(true);
         dispatch(addLoanAmount(parseInt(loanAmount)));
       } else {
@@ -109,11 +115,11 @@ const Offer = () => {
   }, [loanAmount]);
 
   useEffect(() => {
-    let pf = (parseInt(loanAmount) * fees)/100;
-    if (parseInt(pf)%10<4) {
-      setProcessingFees(Math.max(9, (Math.floor((pf/10))*10) -1));
+    let pf = (parseInt(loanAmount) * fees) / 100;
+    if (parseInt(pf) % 10 < 4) {
+      setProcessingFees(Math.max(9, Math.floor(pf / 10) * 10 - 1));
     } else {
-      setProcessingFees(Math.max(9, (Math.floor(((pf+10)/10))*10) -1));
+      setProcessingFees(Math.max(9, Math.floor((pf + 10) / 10) * 10 - 1));
     }
   }, [loanAmount, fees]);
 
@@ -137,16 +143,17 @@ const Offer = () => {
     );
     var timeDiff = dueDateTemp.getTime() - today.getTime();
     var daysDiff = parseInt(timeDiff / (1000 * 3600 * 24));
-    var apr =
-      100 * (processingFees / parseInt(loanAmount)) * (365 / daysDiff);
+    var apr = 100 * (processingFees / parseInt(loanAmount)) * (365 / daysDiff);
     console.log("APR: ", apr, daysDiff, apr.toFixed(2));
     return apr.toFixed(2);
   };
 
+  const { mutateAsync, data } = PostOffer();
+
   function handleAmount() {
     setLoading(true);
     if (validAmount) {
-      ewaOfferPush({
+      mutateAsync({
         data: {
           offerId: ewaLiveSlice.offerId,
           unipeEmployeeId: unipeEmployeeId,
@@ -158,6 +165,7 @@ const Offer = () => {
           campaignId: campaignId,
         },
         token: token,
+        xpath: "ewa/offer",
       })
         .then((response) => {
           console.log("ewaOfferPush response.data: ", response.data);
@@ -198,7 +206,7 @@ const Offer = () => {
         >
           Here is your access of emergency funds
         </Text>
-        
+
         <SliderCard
           info={"Zero Interest charges, Nominal Processing Fees"}
           iconName="brightness-percent"
