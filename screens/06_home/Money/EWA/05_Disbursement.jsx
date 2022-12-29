@@ -21,7 +21,7 @@ const Disbursement = ({ route, navigation }) => {
   const { offer } = route.params;
   const [dueDate, setDueDate] = useState(offer?.dueDate);
   const [loanAmount, setLoanAmount] = useState(offer?.loanAmount);
-  const [netAmount, setNetAmount] = useState(offer?.netAmount);
+  // const [netAmount, setNetAmount] = useState(offer?.netAmount);
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -93,7 +93,9 @@ const Disbursement = ({ route, navigation }) => {
   });
 
   const LoanAmount = disbursementData.data.body.loanAmount;
-  const NetAmount = disbursementData.data.body.netAmount;
+  const [NetAmount, setNetAmount] = useState(
+    disbursementData.data.body.netAmount
+  );
   const BankAccountNumber = disbursementData.data.body.bankAccountNumber;
   const DueDate = disbursementData.data.body.dueDate;
   const LoanAccountNumber = disbursementData.data.body.loanAccountNumber;
@@ -133,12 +135,12 @@ const Disbursement = ({ route, navigation }) => {
   }, []);
 
   useEffect(() => {
-    console.log("disbursement offer: ", offer);
+    // console.log("disbursement offer: ", offer);
     setProcessingFees(
       Math.round((((offer?.loanAmount * offer?.fees) / 100 + 1) / 10) * 10 - 1)
     );
-    setNetAmount(offer?.netAmount);
-    setDueDate(offer?.dueDate);
+    // setNetAmount(offer?.netAmount);
+    // setDueDate(offer?.dueDate);
   }, [offer]);
 
   useEffect(() => {
@@ -147,7 +149,7 @@ const Disbursement = ({ route, navigation }) => {
 
   const data = [
     { subTitle: "Loan Amount ", value: "₹" + loanAmount },
-    { subTitle: "Net Transfer Amount ", value: "₹" + netAmount },
+    { subTitle: "Net Transfer Amount ", value: "₹" + NetAmount },
     { subTitle: "Bank Account Number", value: bankAccountNumber },
     { subTitle: "Due Date", value: dueDate },
     { subTitle: "Loan Account Number", value: loanAccountNumber },
