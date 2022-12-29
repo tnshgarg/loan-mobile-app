@@ -19,18 +19,9 @@ import { fetchDisbursement } from "../../../../queries/EWA";
 
 const Disbursement = ({ route, navigation }) => {
   const { offer } = route.params;
-  const [dueDate, setDueDate] = useState(offer?.dueDate);
-  const [loanAmount, setLoanAmount] = useState(offer?.loanAmount);
-  // const [netAmount, setNetAmount] = useState(offer?.netAmount);
-
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const bankSlice = useSelector((state) => state.bank);
-  const [bankAccountNumber, setBankAccountNumber] = useState(
-    bankSlice?.data?.accountNumber
-  );
-  const [loanAccountNumber, setLoanAccountNumber] = useState("");
-  const [status, setStatus] = useState("");
+  // const [status, setStatus] = useState("");
   const [processingFees, setProcessingFees] = useState("");
 
   const backAction = () => {
@@ -87,52 +78,79 @@ const Disbursement = ({ route, navigation }) => {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
-  const { isFetched, data: disbursementData } = fetchDisbursement({
+  const {
+    isFetched,
+    data: disbursementData,
+    isLoading,
+  } = fetchDisbursement({
     params: { offerId: offer?.offerId, unipeEmployeeId: unipeEmployeeId },
     token: token,
   });
 
-  const LoanAmount = disbursementData.data.body.loanAmount;
-  const [NetAmount, setNetAmount] = useState(
-    disbursementData.data.body.netAmount
+  const loanAmount =
+    isLoading || disbursementData.data.status == 404
+      ? ""
+      : disbursementData.data.body.loanAmount;
+  const [netAmount, setNetAmount] = useState(
+    isLoading || disbursementData.data.status == 404
+      ? ""
+      : disbursementData.data.body.netAmount
   );
-  const BankAccountNumber = disbursementData.data.body.bankAccountNumber;
-  const DueDate = disbursementData.data.body.dueDate;
-  const LoanAccountNumber = disbursementData.data.body.loanAccountNumber;
-  const Status = disbursementData.data.body.status;
+  const bankAccountNumber =
+    isLoading || disbursementData.data.status == 404
+      ? ""
+      : disbursementData.data.body.bankAccountNumber;
+  const dueDate =
+    isLoading || disbursementData.data.status == 404
+      ? ""
+      : disbursementData.data.body.dueDate;
+  const loanAccountNumber =
+    isLoading || disbursementData.data.status == 404
+      ? ""
+      : disbursementData.data.body.loanAccountNumber;
+  const status =
+    isLoading || disbursementData.data.status == 404
+      ? ""
+      : disbursementData.data.body.status;
 
   if (isFetched) {
-    console.log("disbursement.data.data: ", disbursementData.data);
+    console.log(
+      "disbursement.data.data: ",
+      isLoading || disbursementData.data.status == 404
+        ? ""
+        : disbursementData.data
+    );
+    console.log("syay:", status);
   }
 
-  useEffect(() => {
-    getBackendData({
-      params: { offerId: offer?.offerId, unipeEmployeeId: unipeEmployeeId },
-      xpath: "ewa/disbursement",
-      token: token,
-    })
-      .then((response) => {
-        console.log("ewaDisbursementFetch response.data: ", response.data);
-        if (response.data.status === 200) {
-          setLoanAmount(response.data.body.loanAmount);
-          setNetAmount(response.data.body.netAmount);
-          setBankAccountNumber(response.data.body.bankAccountNumber);
-          setDueDate(response.data.body.dueDate);
-          setLoanAccountNumber(response.data.body.loanAccountNumber);
-          setStatus(response.data.body.status);
-          Analytics.trackEvent("Ewa|Disbursement|Success", {
-            unipeEmployeeId: unipeEmployeeId,
-          });
-        }
-      })
-      .catch((error) => {
-        console.log("ewaDisbursementFetch error: ", error.toString());
-        Analytics.trackEvent("Ewa|Disbursement|Error", {
-          unipeEmployeeId: unipeEmployeeId,
-          error: error.toString(),
-        });
-      });
-  }, []);
+  // useEffect(() => {
+  //   getBackendData({
+  //     params: { offerId: offer?.offerId, unipeEmployeeId: unipeEmployeeId },
+  //     xpath: "ewa/disbursement",
+  //     token: token,
+  //   })
+  //     .then((response) => {
+  //       console.log("ewaDisbursementFetch response.data: ", response.data);
+  //       if (response.data.status === 200) {
+  //         setLoanAmount(response.data.body.loanAmount);
+  //         setNetAmount(response.data.body.netAmount);
+  //         setBankAccountNumber(response.data.body.bankAccountNumber);
+  //         setDueDate(response.data.body.dueDate);
+  //         setLoanAccountNumber(response.data.body.loanAccountNumber);
+  //         setStatus(response.data.body.status);
+  //         Analytics.trackEvent("Ewa|Disbursement|Success", {
+  //           unipeEmployeeId: unipeEmployeeId,
+  //         });
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log("ewaDisbursementFetch error: ", error.toString());
+  //       Analytics.trackEvent("Ewa|Disbursement|Error", {
+  //         unipeEmployeeId: unipeEmployeeId,
+  //         error: error.toString(),
+  //       });
+  //     });
+  // }, []);
 
   useEffect(() => {
     // console.log("disbursement offer: ", offer);
@@ -149,7 +167,7 @@ const Disbursement = ({ route, navigation }) => {
 
   const data = [
     { subTitle: "Loan Amount ", value: "₹" + loanAmount },
-    { subTitle: "Net Transfer Amount ", value: "₹" + NetAmount },
+    { subTitle: "Net Transfer Amount ", value: "₹" + netAmount },
     { subTitle: "Bank Account Number", value: bankAccountNumber },
     { subTitle: "Due Date", value: dueDate },
     { subTitle: "Loan Account Number", value: loanAccountNumber },
@@ -161,7 +179,7 @@ const Disbursement = ({ route, navigation }) => {
       <Header
         title="Money Transfer"
         onLeftIconPress={() => backAction()}
-        //progress={100}
+        // progress={100}
       />
       <ScrollView>
         <View style={styles.container}>

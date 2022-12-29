@@ -51,8 +51,8 @@ export const fetchKycData = ({ unipeEmployeeId, token }) => {
       refetchOnWindowFocus: true,
       refetchOnReconnect: true,
       onSettled: () => {},
-      staleTime: 1000 * 50, // 50 Seconds
-      refetchInterval: 1000 * 60, // 1 Minute
+      staleTime: 1000 * 60 * 60 * 24, // 1 day
+      refetchInterval: 1000 * 60 * 60 * 24, // 1 day
     }
   );
   return response;
@@ -131,8 +131,8 @@ export const fetchDisbursement = ({ token, params }) => {
       refetchOnWindowFocus: true,
       refetchOnReconnect: true,
       onSettled: () => {},
-      staleTime: 1000 * 50, // 50 Seconds
-      refetchInterval: 1000 * 60, // 1 Minute
+      staleTime: 1000 * 60 * 60 * 24, // 1 day
+      refetchInterval: 1000 * 60 * 60 * 24, // 1 day
     }
   );
   return response;
