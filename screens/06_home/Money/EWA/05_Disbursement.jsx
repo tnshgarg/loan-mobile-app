@@ -139,7 +139,11 @@ const Disbursement = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header title="Money Transfer" onLeftIconPress={() => backAction()} />
+      <Header
+        title="Money Transfer"
+        onLeftIconPress={() => backAction()}
+        //progress={100}
+      />
       <ScrollView>
         <View style={styles.container}>
           {StatusImage(status)}
@@ -148,7 +152,8 @@ const Disbursement = ({ route, navigation }) => {
             data={data}
             title="Loan Details"
             info="Money will be auto debited from your upcoming salary"
-            iconName="cash"
+            iconName="ticket-percent-outline"
+            variant={"dark"}
           />
         </View>
       </ScrollView>

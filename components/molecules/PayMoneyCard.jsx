@@ -260,8 +260,6 @@ const styles = EStyleSheet.create({
     paddingVertical: "10rem",
     alignItems: "center",
     backgroundColor: COLORS.moneyCardBg,
-    borderTopWidth: 1.5,
-    borderColor: COLORS.lightGray,
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
     opactiy: 0.5,

@@ -1,20 +1,18 @@
 import { View, Text, Image } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import React from "react";
 import { COLORS, FONTS } from "../../constants/Theme";
 
 const DetailsCard = ({ data, imageUri }) => {
-  console.log({ data });
   return (
     <View style={styles.container}>
       <Image source={imageUri} style={styles.image} />
       {data.map((item, index) => (
         <View
           key={index}
-          style={[styles.listItem, { width: item.fullWidth ? "100%" : "40%" }]}
+          style={[styles.listItem, { width: item.fullWidth ? "100%" : "50%" }]}
         >
           <Text style={styles.label}>{item.subTitle}</Text>
-          <Text style={styles.value}>{item.value}</Text>
+          <Text style={styles.value}>{item.value || "-"}</Text>
         </View>
       ))}
     </View>
@@ -25,7 +23,7 @@ const styles = EStyleSheet.create({
   container: {
     //backgroundColor: COLORS.primaryBackground,
     width: "100%",
-    marginBottom: "30rem",
+    marginBottom: "10rem",
     padding: "10rem",
     flexDirection: "row",
     //alignItems: "center",

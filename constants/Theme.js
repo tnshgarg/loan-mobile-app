@@ -50,6 +50,7 @@ export const COLORS = {
   lightgray_01: "#f1f1f1",
   cardBackground: "#F2F8F9",
   moneyCardBg: "#3C3F54",
+  moneyCardBgVariant: "#4D5162",
 };
 
 export const SIZES = {

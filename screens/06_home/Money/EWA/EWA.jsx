@@ -152,7 +152,7 @@ const EWA = () => {
       {allAreNull(verifyStatuses) ? (
         // panMisMatch < 20 &&
         // bankMisMatch < 20
-        <ScrollView>
+        
           <View style={styles.container}>
             <LiveOfferCard
               eligible={eligible}
@@ -169,9 +169,10 @@ const EWA = () => {
             >
               Your past draws
             </Text>
-            <PastDrawsCard data={ewaHistoricalSlice} />
+            <ScrollView>
+              <PastDrawsCard data={ewaHistoricalSlice} />
+            </ScrollView>
           </View>
-        </ScrollView>
       ) : (
         <View style={[styles.container]}>
           <Text

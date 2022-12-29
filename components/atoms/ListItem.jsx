@@ -1,17 +1,16 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
-import React from "react";
 import { COLORS, FONTS } from "../../constants/Theme";
 
 const ListItem = ({ item, disabled }) => {
   const { title, iconName, onPress } = item;
-  console.log("ListItem disabled", disabled);
+  
   return (
     <TouchableOpacity
       accessibilityLabel="InfoCard"
       style={styles.container}
-      activeOpacity={0.7}
+      activeOpacity={0.8}
       onPress={onPress}
       disabled={disabled}
     >
@@ -29,13 +28,13 @@ const ListItem = ({ item, disabled }) => {
 const styles = EStyleSheet.create({
   container: {
     width: "100%",
-    padding: "15rem",
+    padding: "18rem",
     flexDirection: "row",
     alignItems: "center",
     borderBottomWidth: 0.5,
     borderColor: COLORS.lightGray,
   },
-  text: { paddingLeft: "10rem", ...FONTS.body4, color: COLORS.black, flex: 1 },
+  text: { paddingLeft: "20rem", ...FONTS.body4, color: COLORS.gray, flex: 1 },
 });
 
 export default ListItem;

@@ -8,9 +8,7 @@ import Mandate from "../screens/06_home/Money/EWA/03_Mandate";
 import Agreement from "../screens/06_home/Money/EWA/04_Agreement";
 import Disbursement from "../screens/06_home/Money/EWA/05_Disbursement";
 
-
 const EWANavigator = () => {
-
   const initialRoute = useSelector((state) => state.navigation.currentScreen);
   const Stack = createNativeStackNavigator();
 
@@ -19,13 +17,6 @@ const EWANavigator = () => {
       initialRouteName={initialRoute}
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen
-        name="EWA"
-        component={EWA}
-        options={{
-          headerShown: false,
-        }}
-      />
       <Stack.Screen
         name="EWA_OFFER"
         component={Offer}
