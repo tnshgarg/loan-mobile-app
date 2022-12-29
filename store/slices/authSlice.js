@@ -2,11 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   aCTC: "",
+  campaignId: "",
   onboarded: false,
   phoneNumber: "",
   token: "",
   unipeEmployeeId: "",
-  campaignId: "",
 };
 
 const authSlice = createSlice({
@@ -15,6 +15,9 @@ const authSlice = createSlice({
   reducers: {
     addACTC(state, action) {
       state.aCTC = action.payload;
+    },
+    addCampaignId(state, action) {
+      state.campaignId = action.payload;
     },
     addOnboarded(state, action) {
       state.onboarded = action.payload;
@@ -28,9 +31,6 @@ const authSlice = createSlice({
     addUnipeEmployeeId(state, action) {
       state.unipeEmployeeId = action.payload;
     },
-    addCampaignId(state, action) {
-      state.campaignId = action.payload;
-    },
     resetAuth(state) {
       Object.assign(state, initialState);
     },
@@ -39,11 +39,11 @@ const authSlice = createSlice({
 
 export const {
   addACTC,
+  addCampaignId,
   addOnboarded,
   addPhoneNumber,
   addToken,
   addUnipeEmployeeId,
-  addCampaignId,
   resetAuth,
 } = authSlice.actions;
 

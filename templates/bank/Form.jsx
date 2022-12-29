@@ -15,6 +15,7 @@ import {
 } from "../../store/slices/bankSlice";
 import { useNavigation } from "@react-navigation/core";
 import { bankform, form, styles } from "../../styles";
+import ShieldTitle from "../../components/atoms/ShieldTitle";
 
 const BankFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -77,9 +78,14 @@ const BankFormTemplate = (props) => {
       {aadhaarVerifyStatus === "SUCCESS" ? (
         <KeyboardAvoidingWrapper>
           <View>
-            <Text style={bankform.subTitle}>Enter your Bank Details</Text>
+            <Text style={styles.headline}>Bank Account Details</Text>
+            <Text style={styles.subHeadline}>
+              कृपया अपना बैंक अकाउंट नम्बर की जानकारी दें । इसी अकाउंट में वेतन
+              जमा करा जाएगा ।
+            </Text>
 
             <PopableInput
+              accessibilityLabel="AccHolderName"
               placeholder={"Account Holder Name*"}
               value={accountHolderName}
               onChange={setAccountHolderName}
@@ -90,6 +96,7 @@ const BankFormTemplate = (props) => {
             />
 
             <PopableInput
+              accessibilityLabel={"AccNumber"}
               placeholder={"Bank Account Number*"}
               value={accountNumber}
               onChange={setAccountNumber}
@@ -104,6 +111,7 @@ const BankFormTemplate = (props) => {
             ) : null}
 
             <PopableInput
+              accessibilityLabel={"IfscCode"}
               placeholder={"IFSC Code*"}
               value={ifsc}
               onChange={setIfsc}
@@ -118,6 +126,7 @@ const BankFormTemplate = (props) => {
             ) : null}
 
             <PopableInput
+              accessibilityLabel={"UpiId"}
               placeholder={"UPI ID"}
               value={upi}
               onChange={setUpi}
@@ -128,13 +137,13 @@ const BankFormTemplate = (props) => {
 
             <InfoCard
               info={
-                "We will use this bank account / UPI ID to deposit your salary every month, Please ensure the bank account belongs to you.\nWe will also deposit INR 1 to your account for verification make sure you enter the correct account details."
+                "Please note: We will use this bank account/UPI ID to deposite your salary every month, Please provide your own bank account details."
               }
             />
 
             <Checkbox
               text={
-                "I agree with the KYC registration Terms and Conditions to verifiy my identity."
+                "I agree KYC registration for the Term & conditions to verify my identity"
               }
               value={consent}
               setValue={setConsent}
@@ -147,10 +156,11 @@ const BankFormTemplate = (props) => {
               }
               type={props?.route?.params?.type || ""}
             />
+            <ShieldTitle title={"All your details are safe with us"} />
           </View>
         </KeyboardAvoidingWrapper>
       ) : (
-        <>
+        <View style={styles.container}>
           <Text style={bankform.subTitle}>
             Please verify your aadhaar first
           </Text>
@@ -167,7 +177,7 @@ const BankFormTemplate = (props) => {
                 : navigation.navigate("AadhaarForm");
             }}
           />
-        </>
+        </View>
       )}
     </SafeAreaView>
   );

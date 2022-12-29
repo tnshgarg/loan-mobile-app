@@ -1,24 +1,15 @@
 import { useNavigation } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
-import {
-  Alert,
-  BackHandler,
-  Image,
-  SafeAreaView,
-  Text,
-  ScrollView,
-  View,
-} from "react-native";
+import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { ewaKycPush } from "../../../../helpers/BackendPush";
-import { getBackendData } from "../../../../services/employees/employeeServices";
-import { form, styles, checkBox } from "../../../../styles";
-import CollapsibleCard from "../../../../components/molecules/CollapsibleCard";
+import { styles } from "../../../../styles";
+import DetailsCard from "../../../../components/molecules/DetailsCard";
 
 const KYC = () => {
   const navigation = useNavigation();
@@ -27,13 +18,16 @@ const KYC = () => {
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
 
-  const [bureauPass, setBureauPass] = useState(false);
   const [loading, setLoading] = useState(false);
-  const mandateVerifyStatus= useSelector((state)=>state.mandate.verifyStatus);
+  const campaignId = useSelector((state) => state.auth.campaignId);
+  const mandateVerifyStatus = useSelector(
+    (state) => state.mandate.verifyStatus
+  );
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const data = useSelector((state) => state.aadhaar.data);
-  const number = useSelector((state) => state.aadhaar.number);
+  const aadharNumber = useSelector((state) => state.aadhaar.number);
+  const panNumber = useSelector((state) => state.pan.number);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
 
   useEffect(() => {
@@ -63,20 +57,6 @@ const KYC = () => {
   }, []);
 
   useEffect(() => {
-    if (unipeEmployeeId) {
-      getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "bureau", token: token  })
-        .then((response) => {
-          console.log("bureauBackendFetch response.data", response.data);
-          if (response.data.status === 200) {
-            setBureauPass(response.data.body.pass);
-          }
-        })
-        .catch((error) => {
-          console.log("bureauBackendFetch error: ", error);
-        });
-  }}, [unipeEmployeeId]);
-
-  useEffect(() => {
     if (fetched) {
       ewaKycPush({
         data: {
@@ -86,6 +66,7 @@ const KYC = () => {
           timestamp: Date.now(),
           ipAddress: ipAddress,
           deviceId: deviceId,
+          campaignId: campaignId,
         },
         token: token,
       })
@@ -109,6 +90,7 @@ const KYC = () => {
         timestamp: Date.now(),
         ipAddress: ipAddress,
         deviceId: deviceId,
+        campaignId: campaignId,
       },
       token: token,
     })
@@ -120,8 +102,7 @@ const KYC = () => {
         });
         if (mandateVerifyStatus === "SUCCESS") {
           navigation.navigate("EWA_AGREEMENT");
-        }
-        else {
+        } else {
           navigation.navigate("EWA_MANDATE");
         }
       })
@@ -136,46 +117,45 @@ const KYC = () => {
       });
   }
 
-  const kycData = [
-    { subTitle: "Number", value: number },
-    {
-      subTitle: "Name",
-      value: data.name,
-    },
-    {
-      subTitle: "Date of Birth",
-      value: data.date_of_birth,
-    },
-    { subTitle: "Gender", value: data.gender },
-    { subTitle: "Address", value: data.address },
-  ];
+  const cardData = () => {
+    var res = [
+      { subTitle: "Name", value: data?.name, fullWidth: true },
+      { subTitle: "Date of Birth", value: data?.date_of_birth },
+      { subTitle: "Gender", value: data?.gender },
+      { subTitle: "Aadhaar Number", value: aadharNumber },
+      { subTitle: "Pan Number", value: panNumber },
+      { subTitle: "Address", value: data?.address, fullWidth: true },
+    ];
+    return res;
+  };
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header title="KYC" onLeftIconPress={() => backAction()} />
-      <ScrollView style={styles.container}>
-        <Text style={form.OtpAwaitMsg}>
-          Are these your AADHAAR details ?{"\n"}
+      <Header title="KYC" onLeftIconPress={() => backAction()} progress={40} />
+      <View style={styles.container}>
+        <Text style={styles.headline}>Are these your Kyc details?</Text>
+        <Text style={[styles.subHeadline, { marginBottom: 10 }]}>
+          कृपया स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
         </Text>
-        <Image
-          source={{
+
+        <DetailsCard
+          data={cardData()}
+          imageUri={{
             uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
             cache: "only-if-cached",
           }}
-          style={form.aadharimg}
         />
-        <CollapsibleCard title="KYC Details" isClosed={false} data={kycData} />
+
+        <View style={{ flex: 1 }} />
 
         <PrimaryButton
-          title={bureauPass !== true ? "Checking Bureau" : (loading ? "Verifying" : "Continue")}
-          disabled={bureauPass !== true || loading}
-          loading={loading}
+          title={loading ? "Verifying" : "Proceed"}
+          disabled={loading}
           onPress={() => {
             handleKyc();
           }}
         />
-        <View style={checkBox.padding}></View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };

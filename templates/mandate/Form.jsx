@@ -1,10 +1,10 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, SafeAreaView, ScrollView } from "react-native";
+import { Alert, SafeAreaView, ScrollView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
+import RazorpayCheckout from "react-native-razorpay";
 import { mandatePush } from "../../helpers/BackendPush";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
@@ -12,19 +12,23 @@ import {
   addVerifyMsg,
   addVerifyStatus,
   addVerifyTimestamp,
+  resetMandate,
 } from "../../store/slices/mandateSlice";
 import { styles } from "../../styles";
 import { showToast } from "../../components/atoms/Toast";
-import RazorpayCheckout from "react-native-razorpay";
 import {
   createCustomer,
   createOrder,
   getToken,
 } from "../../services/mandate/Razorpay/services";
+import { getBackendData } from "../../services/employees/employeeServices";
 import { RZP_KEY_ID } from "../../services/constants";
-import FormInput from "../../components/atoms/FormInput";
-import { COLORS } from "../../constants/Theme";
+import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
+import DetailsCard from "../../components/molecules/DetailsCard";
+import MandateOptions from "../../components/molecules/MandateOptions";
+import Shield from "../../assets/Shield.svg";
+import RBI from "../../assets/RBI.svg";
 
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -32,22 +36,27 @@ const MandateFormTemplate = (props) => {
 
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
-  const [backendPush, setBackendPush] = useState(false);
+
+  const [fetched, setFetched] = useState(false);
 
   const token = useSelector((state) => state.auth?.token);
   const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
   const aCTC = useSelector((state) => state.auth?.aCTC);
   const phoneNumber = useSelector((state) => state.auth?.phoneNumber);
-  const email = useSelector((state) => state.profile?.email || state.pan?.data?.email);
-  const accountHolderName = useSelector((state) => state.bank?.data?.accountHolderName);
+  const email = useSelector(
+    (state) => state.profile?.email || state.pan?.data?.email
+  );
+  const accountHolderName = useSelector(
+    (state) => state.bank?.data?.accountHolderName
+  );
   const accountNumber = useSelector((state) => state.bank?.data?.accountNumber);
   const ifsc = useSelector((state) => state.bank?.data?.ifsc);
 
   const mandateSlice = useSelector((state) => state.mandate);
+  const [loading, setLoading] = useState(false);
   const [authType, setAuthType] = useState();
-  const [customerId, setCustomerId] = useState();
-  const [orderId, setOrderId] = useState();
-  const [active, setActive] = useState(mandateSlice?.active);
+  const [customerId, setCustomerId] = useState(mandateSlice?.data?.customerId);
+  const [orderId, setOrderId] = useState(null);
   const [data, setData] = useState(mandateSlice?.data);
   const [verifyMsg, setVerifyMsg] = useState(mandateSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(mandateSlice?.verifyStatus);
@@ -66,6 +75,26 @@ const MandateFormTemplate = (props) => {
   }, []);
 
   useEffect(() => {
+    if (unipeEmployeeId) {
+      getBackendData({
+        params: { unipeEmployeeId: unipeEmployeeId },
+        xpath: "mandate",
+        token: token,
+      })
+        .then((response) => {
+          console.log("mandateFetch response.data", response.data);
+          if (response.data.status === 200) {
+            dispatch(resetMandate(response.data.body));
+          }
+          setFetched(true);
+        })
+        .catch((error) => {
+          console.log("mandateFetch error: ", error);
+        });
+    }
+  }, [unipeEmployeeId]);
+
+  useEffect(() => {
     dispatch(addData(data));
   }, [data]);
 
@@ -81,24 +110,25 @@ const MandateFormTemplate = (props) => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
-  useEffect(() => {
-    if (backendPush) {
-      console.log("mandateSlice: ", mandateSlice);
-      mandatePush({
-        data: {
-          unipeEmployeeId: unipeEmployeeId,
-          ipAddress: ipAddress,
-          deviceId: deviceId,
-          data: data,
-          verifyMsg: verifyMsg,
-          verifyStatus: verifyStatus,
-          verifyTimestamp: verifyTimestamp,
-        },
-        token: token,
-      });
-      setBackendPush(false);
-    }
-  }, [backendPush]);
+  const backendPush = ({ data, verifyMsg, verifyStatus, verifyTimestamp }) => {
+    console.log("mandateSlice: ", mandateSlice);
+    setData(data);
+    setVerifyMsg(verifyMsg);
+    setVerifyStatus(verifyStatus);
+    setVerifyTimestamp(verifyTimestamp);
+    mandatePush({
+      data: {
+        unipeEmployeeId: unipeEmployeeId,
+        ipAddress: ipAddress,
+        deviceId: deviceId,
+        data: data,
+        verifyMsg: verifyMsg,
+        verifyStatus: verifyStatus,
+        verifyTimestamp: verifyTimestamp,
+      },
+      token: token,
+    });
+  };
 
   useEffect(() => {
     console.log("createCustomer customerId: ", customerId, !customerId);
@@ -108,6 +138,7 @@ const MandateFormTemplate = (props) => {
           name: accountHolderName,
           email: email,
           contact: phoneNumber,
+          unipeEmployeeId: unipeEmployeeId,
         })
           .then((res) => {
             console.log("createCustomer res.data: ", res.data);
@@ -151,65 +182,92 @@ const MandateFormTemplate = (props) => {
           contact: phoneNumber,
         },
         theme: { color: COLORS.primary },
+        notes: { unipeEmployeeId: unipeEmployeeId },
       };
 
       RazorpayCheckout.open(options)
         .then((data) => {
           getToken({ paymentId: data.razorpay_payment_id })
             .then((token) => {
-              // TODO: check response status code
               console.log("mandate token.data: ", token.data);
-              setData({
-                authType: authType,
-                extTokenId: token.data.token_id,
-                extOrderId: orderId,
-                extPaymentId: data.razorpay_payment_id,
-                extPaymentSignature: data.razorpay_signature,
-                extCustomerId: customerId,
+              backendPush({
+                data: {
+                  authType: authType,
+                  customerId: customerId,
+                  orderId: orderId,
+                  paymentId: data.razorpay_payment_id,
+                  paymentSignature: data.razorpay_signature,
+                  provider: "razorpay",
+                  tokenId: token.data.token_id,
+                },
+                verifyMsg: "Mandate Verified Successfully",
+                verifyStatus: "SUCCESS",
+                verifyTimestamp: Date.now(),
               });
-              setVerifyMsg("Mandate Verified Successfully");
-              setVerifyStatus("SUCCESS");
-              setVerifyTimestamp(Date.now());
-              setBackendPush(true);
               showToast("Mandate Verified Successfully");
               Analytics.trackEvent("Mandate|GetToken|Success", {
                 unipeEmployeeId: unipeEmployeeId,
               });
+              setLoading(false);
               props?.type === "EWA"
                 ? navigation.navigate("EWA_AGREEMENT")
                 : null;
             })
             .catch((error) => {
               console.log("mandate error:", error.description);
-              setVerifyMsg(error.description);
-              setVerifyStatus("ERROR");
-              setBackendPush(true);
+              backendPush({
+                data: {
+                  authType: authType,
+                  customerId: customerId,
+                  orderId: orderId,
+                  paymentId: data.razorpay_payment_id,
+                  paymentSignature: data.razorpay_signature,
+                  provider: "razorpay",
+                },
+                verifyMsg: error.description,
+                verifyStatus: "ERROR",
+                verifyTimestamp: Date.now(),
+              });
               Alert.alert("Error", error.description);
               Analytics.trackEvent("Mandate|GetToken|Error", {
                 unipeEmployeeId: unipeEmployeeId,
                 error: error.description,
               });
+              setLoading(false);
             });
         })
         .catch((error) => {
           console.log("mandate error:", error.description);
-          setVerifyMsg(error.description);
-          setVerifyStatus("ERROR");
-          setBackendPush(true);
+          backendPush({
+            data: {
+              authType: authType,
+              customerId: customerId,
+              orderId: orderId,
+              provider: "razorpay",
+            },
+            verifyMsg: error.description,
+            verifyStatus: "ERROR",
+            verifyTimestamp: Date.now(),
+          });
           Alert.alert("Error", error.description);
           Analytics.trackEvent("Mandate|Register|Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: error.description,
           });
+          setLoading(false);
         });
     }
   }, [orderId]);
 
   const ProceedButton = ({ authType }) => {
+    setLoading(true);
     setAuthType(authType);
-    setVerifyMsg(`Mandate|CreateOrder|${authType} PENDING`);
-    setVerifyStatus("PENDING");
-    setBackendPush(true);
+    backendPush({
+      data: { authType: authType, customerId: customerId },
+      verifyMsg: `Mandate|CreateOrder|${authType} PENDING`,
+      verifyStatus: "PENDING",
+      verifyTimestamp: Date.now(),
+    });
     createOrder({
       authType: authType,
       customerId: customerId,
@@ -217,22 +275,33 @@ const MandateFormTemplate = (props) => {
       accountNumber: accountNumber,
       ifsc: ifsc,
       aCTC: aCTC,
+      unipeEmployeeId: unipeEmployeeId,
     })
       .then((res) => {
         console.log(`Mandate|CreateOrder|${authType} res.data:`, res.data);
-        setVerifyMsg(`Mandate|CreateOrder|${authType} SUCCESS`);
         setOrderId(res.data.id);
+        backendPush({
+          data: {
+            authType: authType,
+            customerId: customerId,
+            orderId: res.data.id,
+          },
+          verifyMsg: `Mandate|CreateOrder|${authType} SUCCESS`,
+          verifyStatus: "PENDING",
+          verifyTimestamp: Date.now(),
+        });
         Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Success`, {
           unipeEmployeeId: unipeEmployeeId,
         });
       })
       .catch((error) => {
         console.log(`Mandate|CreateOrder|${authType} error:`, error.toString());
-        setVerifyMsg(
-          `Mandate|CreateOrder|${authType} ERROR ${error.toString()}`
-        );
-        setVerifyStatus("ERROR");
-        setBackendPush(true);
+        backendPush({
+          data: { authType: authType, customerId: customerId },
+          verifyMsg: `Mandate|CreateOrder|${authType} ERROR ${error.toString()}`,
+          verifyStatus: "ERROR",
+          verifyTimestamp: Date.now(),
+        });
         Alert.alert("Error", error.toString());
         Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Error`, {
           unipeEmployeeId: unipeEmployeeId,
@@ -241,43 +310,98 @@ const MandateFormTemplate = (props) => {
       });
   };
 
+  const cardData = () => {
+    var res = [
+      {
+        subTitle: "Account Holder Name",
+        value: accountHolderName,
+        fullWidth: true,
+      },
+      {
+        subTitle: "Bank Account No*",
+        value: accountNumber,
+        fullWidth: true,
+      },
+      {
+        subTitle: "IFSC code",
+        value: ifsc,
+        fullWidth: true,
+      },
+    ];
+    return res;
+  };
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <FormInput
-            placeholder={"Account Holder Name"}
-            containerStyle={{ marginVertical: 10 }}
-            autoCapitalize="words"
-            value={accountHolderName}
-            disabled={true}
-          />
-          <FormInput
-            placeholder={"Bank Account Number"}
-            containerStyle={{ marginVertical: 10 }}
-            autoCapitalize="words"
-            value={accountNumber}
-            disabled={true}
-          />
-          <FormInput
-            placeholder={"IFSC"}
-            containerStyle={{ marginVertical: 10 }}
-            autoCapitalize="words"
-            value={ifsc}
-            disabled={true}
-          />
-          <PrimaryButton
-            title="Debit Card"
-            onPress={() => {
-              ProceedButton({ authType: "debitcard" });
+          <DetailsCard data={cardData()} />
+          <Text
+            style={{ ...FONTS.body4, color: COLORS.gray, marginVertical: 10 }}
+          >
+            Please choose your preferred mode
+          </Text>
+          {
+            customerId == null || !fetched ? (
+              <Text style={{ ...FONTS.body4, color: COLORS.gray }}>Initializing ... </Text>
+            ) : (
+              <MandateOptions ProceedButton={ProceedButton} disabled={loading} />
+            )
+          }
+          <View
+            style={{
+              padding: 10,
+              backgroundColor: COLORS.lightGray,
+              marginVertical: 10,
+              borderRadius: 5,
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: "10%"
             }}
-          />
-          <PrimaryButton
-            title="Net Banking"
-            onPress={() => {
-              ProceedButton({ authType: "netbanking" });
+          >
+            <Text
+              style={{
+                ...FONTS.body4,
+                color: COLORS.gray,
+                marginBottom: 5,
+                textAlign: "center",
+              }}
+            >
+              Mandate is required to auto-debit loan payments on Due Date. This
+              is 100% secure and executed by an RBI approved entity.
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              width: "100%",
+              padding: 10,
+              justifyContent: "space-evenly",
+              alignItems: "center",
             }}
-          />
+          >
+            <View style={{ flexDirection: "column", alignItems: "center" }}>
+              <Shield />
+              <Text
+                style={{ ...FONTS.body4, color: COLORS.gray, marginTop: 5 }}
+              >
+                100% Secure
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <RBI />
+              <Text
+                style={{ ...FONTS.body4, color: COLORS.gray, marginTop: 5 }}
+              >
+                RBI Approved
+              </Text>
+            </View>
+          </View>
         </ScrollView>
       </KeyboardAvoidingWrapper>
     </SafeAreaView>

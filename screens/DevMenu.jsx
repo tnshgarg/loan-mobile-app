@@ -6,17 +6,19 @@ export default DevMenu = () => {
   const navigation = useNavigation();
 
   const screens = [
+    { title: "Onboarding", stack: "OnboardingStack", name: "Onboarding" },
     { title: "Welcome", stack: "OnboardingStack", name: "Welcome" },
     { title: "Login", stack: "OnboardingStack", name: "Login" },
     { title: "Profile", stack: "OnboardingStack", name: "ProfileForm" },
     { title: "AADHAAR", stack: "OnboardingStack", name: "AadhaarForm" },
     { title: "PAN", stack: "OnboardingStack", name: "PanForm" },
     { title: "BANK", stack: "OnboardingStack", name: "BankForm" },
-    { title: "Mandate", stack: "OnboardingStack", name: "Mandate" },
+    { title: "Mandate", stack: "EWAStack", name: "EWA_MANDATE" },
     { title: "Home", stack: "HomeStack", name: "DrawerHome" },
     // { title: "Home", stack: "DrawerNavigator", name: "DrawerHome" },
-    { title: "KYC Details", stack: "HomeStack", name: "KYC" },
-    { title: "Profile Details", stack: "HomeStack", name: "Profile" },
+    { title: "KYC Details", stack: "AccountStack", name: "KYC" },
+    { title: "Profile Details", stack: "AccountStack", name: "Profile" },
+    { title: "Documents", stack: "AccountStack", name: "Documents" },
     { title: "EWA", stack: "EWAStack", name: "EWA_OFFER" },
   ];
 
@@ -25,6 +27,7 @@ export default DevMenu = () => {
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         {screens.map((screen, index) => (
           <DevMenuButton
+            accessibilityLabel={screen.title}
             key={index}
             style={{ marginTop: 20 }}
             title={screen.title}
@@ -40,12 +43,12 @@ export default DevMenu = () => {
         />
         <DevMenuButton
           style={{ marginTop: 20 }}
-          title={" Drawer Home"}
+          title={"Account"}
           onPress={() =>
             navigation.navigate("HomeStack", {
               screen: "DrawerHome",
               params: {
-                screen: "Documents",
+                screen: "Account",
               },
             })
           }

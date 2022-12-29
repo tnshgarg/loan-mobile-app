@@ -17,13 +17,13 @@ const StatusCard = ({ offerType }) => {
         borderRadius: 3,
         borderColor: COLOR_MAP[offerType],
         borderWidth: 1,
-        paddingHorizontal: "3%",
-        paddingVertical: "2%",
+        paddingHorizontal: "2%",
+        paddingVertical: "1%",
         alignSelf: "center",
         backgroundColor: "rgba(183, 65, 44, 0.08)",
       }}
     >
-      <Text style={{ color: COLOR_MAP[offerType], ...FONTS.h5 }}>
+      <Text style={{ color: COLOR_MAP[offerType], ...FONTS.body5 }}>
         {offerType}
       </Text>
     </View>
@@ -59,26 +59,27 @@ const OfferCard = ({ offer }) => {
       activeOpacity={0.8}
       onLongPress={() => {
         if (offerType !== "Missed") {
-          navigation.navigate("EWA_DISBURSEMENT", { offer: offer });
+          navigation.navigate("EWAStack", {
+            screen: "EWA_DISBURSEMENT",
+            params: { offer: offer },
+          });
         }
       }}
     >
       <View style={datacard.card}>
         <View
           style={{
-            //backgroundColor: COLORS.white,
-            borderWidth: 1,
-            borderColor: COLORS.primary,
-            paddingHorizontal: "3%",
+            backgroundColor: COLORS.lightGray,
             borderRadius: 5,
-            padding: 3,
+            paddingVertical: 5,
+            paddingHorizontal: 10,
             justifyContent: "flex-start",
             alignSelf: "center",
             alignItems: "center",
           }}
         >
-          <Text style={{ color: COLORS.primary, ...FONTS.h4 }}>{day}</Text>
-          <Text style={{ color: COLORS.primary, ...FONTS.h4 }}>{month}</Text>
+          <Text style={{ color: COLORS.gray, ...FONTS.body5 }}>{day}</Text>
+          <Text style={{ color: COLORS.gray, ...FONTS.body5 }}>{month}</Text>
         </View>
         <View
           style={{
@@ -88,8 +89,8 @@ const OfferCard = ({ offer }) => {
             flex: 1,
           }}
         >
-          <Text style={datacard.cardTitle}>₹{amount}</Text>
-          <Text style={{ color: COLORS.gray, ...FONTS.body4 }}>
+          <Text style={{ ...FONTS.h4, color: COLORS.black }}>₹{amount}</Text>
+          <Text style={{ color: COLORS.gray, ...FONTS.body5 }}>
             Due date {offer.dueDate}
           </Text>
         </View>
@@ -100,17 +101,10 @@ const OfferCard = ({ offer }) => {
   );
 };
 
-const Offers = (props) => {
-  return (
-    <ScrollView
-      style={{ height: "63%", marginTop: "1.5%" }}
-      showsVerticalScrollIndicator={false}
-    >
-      {props.data.map((offer, index) => (
-        <OfferCard offer={offer} key={index} />
-      ))}
-    </ScrollView>
-  );
+const PastDrawsCard = (props) => {
+  return props.data.map((offer, index) => (
+    <OfferCard offer={offer} key={index} />
+  ));
 };
 
-export default Offers;
+export default PastDrawsCard;

@@ -1,23 +1,21 @@
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/core";
-import { useEffect } from "react";
-import { Alert, BackHandler, SafeAreaView, View } from "react-native";
-import StepIndicator from "react-native-step-indicator";
-import { useDispatch, useSelector } from "react-redux";
+import { View, Text, SafeAreaView, Alert, BackHandler } from "react-native";
+import { styles } from "../../styles";
+import LogoHeader from "../../components/atoms/LogoHeader";
+import Icon from "react-native-vector-icons/Ionicons";
+import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { COLORS } from "../../constants/Theme";
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { stepIndicatorStyles, styles, welcome } from "../../styles";
-import SVGImg from "../../assets/UnipeLogo.svg";
 import { requestUserPermission } from "../../services/notifications/notificationService";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import { useDispatch, useSelector } from "react-redux";
+import Success from "../../assets/congratulations.svg";
+import { useEffect } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
 
 const WelcomePage = () => {
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
-  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-
   useEffect(() => {
     dispatch(addCurrentScreen("Welcome"));
   }, []);
@@ -36,62 +34,50 @@ const WelcomePage = () => {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
-  const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
-    const iconConfig = {
-      color: stepStatus === "finished" ? COLORS.white : COLORS.primaryPending,
-      size: 15,
-    };
-    switch (position) {
-      case 0: {
-        iconConfig.name = "file-document-outline";
-        return <MaterialCommunityIcons {...iconConfig} />;
-      }
-      case 1: {
-        iconConfig.name = "card-account-details-outline";
-        return <MaterialCommunityIcons {...iconConfig} />;
-      }
-      case 2: {
-        iconConfig.name = "smart-card-outline";
-        return <MaterialCommunityIcons {...iconConfig} />;
-      }
-      case 3: {
-        iconConfig.name = "bank-outline";
-        return <MaterialCommunityIcons {...iconConfig} />;
-      }
-      default: {
-        iconConfig.name = "info-outline";
-        return <MaterialIcons {...iconConfig} />;
-      }
-    }
-  };
-
-  const renderStepIndicator = (params) => getStepIndicatorIconConfig(params);
-
-  const data = ["Profile", "Aadhaar", "PAN", "Bank"];
-
   return (
-    <SafeAreaView style={[styles.container]}>
-      <SVGImg style={styles.logo} />
-      <View style={[welcome.steps, { alignSelf: "center" }]}>
-        <StepIndicator
-          customStyles={stepIndicatorStyles}
-          stepCount={4}
-          direction="vertical"
-          renderStepIndicator={renderStepIndicator}
-          currentPosition={-1}
-          labels={data}
+    <SafeAreaView accessibilityLabel="WelcomePage" style={styles.safeContainer}>
+      <LogoHeader
+        rightIcon={
+          <Icon name="help-circle-outline" size={28} color={COLORS.primary} />
+        }
+      />
+
+      <View style={styles.container}>
+        <Success style={{ alignSelf: "center", width: "70%" }} />
+        <View style={{ flex: 1 }} />
+
+        <Text
+          style={[styles.subHeadline, { width: "90%", alignSelf: "center" }]}
+        >
+          <Text style={{ color: COLORS.warning }}>Congratulations!</Text> {"\n"}
+          Your phone number verified successfully.
+        </Text>
+        <Text
+          style={[
+            styles.headline,
+            {
+              ...FONTS.h3,
+              width: "90%",
+              alignSelf: "center",
+              marginBottom: 20,
+            },
+          ]}
+        >
+          As a next step please complete your eKYC to get money in your bank
+          account
+        </Text>
+        <PrimaryButton
+          title="Start eKYC"
+          accessibilityLabel="WelcomeBtn"
+          onPress={() => {
+            requestUserPermission();
+            Analytics.trackEvent("WelcomePage", {
+              unipeEmployeeId: unipeEmployeeId,
+            });
+            navigation.navigate("ProfileForm");
+          }}
         />
       </View>
-      <PrimaryButton
-        title="Start Onboarding"
-        onPress={() => {
-          requestUserPermission();
-          Analytics.trackEvent("WelcomePage", {
-            unipeEmployeeId: unipeEmployeeId,
-          });
-          navigation.navigate("ProfileForm");
-        }}
-      />
     </SafeAreaView>
   );
 };

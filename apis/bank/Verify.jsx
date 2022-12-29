@@ -18,7 +18,6 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
 
 const BankVerifyApi = (props) => {
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
   console.log("Mock api URl", KYC_BANK_VERIFY_API_URL);
@@ -70,15 +69,28 @@ const BankVerifyApi = (props) => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
-  const backendPush = ({ verifyMsg, verifyStatus, verifyTimestamp }) => {
+  const backendPush = ({ verifyMsg, verifyStatus, verifyTimestamp, accountHolderName, bankName, branchName, branchCity }) => {
     console.log("BankVerifyApi bankSlice: ", bankSlice);
+    setAccountHolderName(accountHolderName);
+    setBankName(bankName);
+    setBranchName(branchName);
+    setBranchCity(branchCity);
     setVerifyMsg(verifyMsg);
     setVerifyStatus(verifyStatus);
     setVerifyTimestamp(verifyTimestamp);
+
     bankBackendPush({
       data: {
         unipeEmployeeId: unipeEmployeeId,
-        data: data,
+        data: {
+          accountHolderName: accountHolderName,
+          accountNumber: data.accountNumber,
+          bankName: bankName,
+          branchName: branchName,
+          branchCity: branchCity,
+          ifsc: data.ifsc,
+          upi: data.upi,
+        },
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
         verifyTimestamp: verifyTimestamp,
@@ -108,22 +120,14 @@ const BankVerifyApi = (props) => {
           if (responseJson["status"] == "200") {
             switch (responseJson["data"]["code"]) {
               case "1000":
-                setBankName(
-                  responseJson["data"]["bank_account_data"]["bank_name"]
-                );
-                setBranchName(
-                  responseJson["data"]["bank_account_data"]["branch"]
-                );
-                setBranchCity(
-                  responseJson["data"]["bank_account_data"]["city"]
-                );
-                setAccountHolderName(
-                  responseJson["data"]["bank_account_data"]["name"]
-                );
                 backendPush({
                   verifyMsg: "To be confirmed by User",
                   verifyStatus: "PENDING",
                   verifyTimestamp: responseJson["timestamp"],
+                  accountHolderName: responseJson["data"]["bank_account_data"]["name"],
+                  bankName: responseJson["data"]["bank_account_data"]["bank_name"],
+                  branchName: responseJson["data"]["bank_account_data"]["branch"],
+                  branchCity: responseJson["data"]["bank_account_data"]["city"],
                 });
                 Analytics.trackEvent("Bank|Verify|Success", {
                   unipeEmployeeId: unipeEmployeeId,
@@ -213,6 +217,7 @@ const BankVerifyApi = (props) => {
   };
   return (
     <PrimaryButton
+      accessibilityLabel={"BankFormBtn"}
       title={loading ? "Verifying" : "Continue"}
       disabled={props.disabled}
       loading={loading}

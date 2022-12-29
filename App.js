@@ -11,7 +11,8 @@ import { store, persistor } from "./store/store";
 import codePush from "react-native-code-push";
 import Crashes from "appcenter-crashes";
 import { navigationRef } from "./navigators/RootNavigation";
-
+import Analytics from "appcenter-analytics";
+import { STAGE } from "@env";
 Crashes.setListener({
   shouldProcess: function (report) {
     return true; // return true if the crash report should be processed, otherwise false.
@@ -19,15 +20,21 @@ Crashes.setListener({
 });
 
 let codePushOptions = {
-  deploymentKey: "HV0AgTVeCbmQqtMdcE9lN5FrNsfsa2X0Tni53",
   checkFrequency: codePush.CheckFrequency.ON_APP_START,
   mandatoryInstallMode: codePush.InstallMode.IMMEDIATE,
   updateDialog: true, //InstallMode.ON_NEXT_RESUME to have minimum background duration effect
 };
 
+const analyticsStatus = async () => {
+  STAGE == "dev"
+    ? await Analytics.setEnabled(false)
+    : await Analytics.setEnabled(true);
+    console.log("analyticsStatus",STAGE)
+};
+
 const App = () => {
   SplashScreen.hide();
-
+  analyticsStatus();
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

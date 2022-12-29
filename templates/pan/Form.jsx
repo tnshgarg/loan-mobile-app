@@ -1,12 +1,9 @@
-import CheckBox from "@react-native-community/checkbox";
-import { Icon } from "@react-native-material/core";
 import { useEffect, useState } from "react";
 import { Linking, SafeAreaView, Text, View } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import { bankform, checkBox, form, styles } from "../../styles";
-
+import { bankform, form, styles } from "../../styles";
+import { COLORS, FONTS } from "../../constants/Theme";
 import PanVerifyApi from "../../apis/pan/Verify";
 import { addNumber } from "../../store/slices/panSlice";
 import InfoCard from "../../components/atoms/InfoCard";
@@ -18,7 +15,7 @@ import { useNavigation } from "@react-navigation/core";
 const PanFormTemplate = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  
+
   const [consent, setConsent] = useState(true);
   const [validNumber, setValidNumber] = useState(true);
 
@@ -43,15 +40,29 @@ const PanFormTemplate = (props) => {
       {aadhaarVerifyStatus === "SUCCESS" ? (
         <KeyboardAvoidingWrapper>
           <View>
+            <Text style={styles.headline}>Enter your PAN number</Text>
+            <Text style={styles.subHeadline}>
+            कृपया अपना पैन नम्बर यहाँ भरें।
+            </Text>
+
             <FormInput
-              placeholder={"Enter PAN Number"}
+              accessibilityLabel={"PanInput"}
+              placeholder={"PAN Number"}
               containerStyle={{ marginVertical: 10 }}
+              keyboardType="default"
               autoCapitalize="characters"
-              value={number}
               autoFocus={true}
+              value={number}
               onChange={setNumber}
               maxLength={10}
+              numeric
+              appendComponent={
+                <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
+                  {number.length}/10
+                </Text>
+              }
             />
+
             {number && !validNumber ? (
               <Text style={bankform.formatmsg}>Invalid PAN Number.</Text>
             ) : null}
@@ -70,12 +81,14 @@ const PanFormTemplate = (props) => {
             </View>
 
             <InfoCard
-              info={"PAN is required to verify name and date of birth."}
+              info={
+                "Please note: PAN is required to verify name and date of birth"
+              }
             />
 
             <Checkbox
               text={
-                "I agree with the KYC registration Terms and Conditions to verifiy my identity."
+                "I agree KYC registration for the Term & conditions to verify my identity"
               }
               value={consent}
               setValue={setConsent}
@@ -89,7 +102,7 @@ const PanFormTemplate = (props) => {
           </View>
         </KeyboardAvoidingWrapper>
       ) : (
-        <>
+        <View style={styles.container}>
           <Text style={bankform.subTitle}>
             Please verify your aadhaar first
           </Text>
@@ -103,7 +116,7 @@ const PanFormTemplate = (props) => {
                 : navigation.navigate("AadhaarForm");
             }}
           />
-        </>
+        </View>
       )}
     </SafeAreaView>
   );

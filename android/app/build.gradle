@@ -153,12 +153,28 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
+    flavorDimensions "default"
+	
+	productFlavors {
+        dev {
+            applicationIdSuffix ".dev"
+        }
+        prod {
+        }
+        qa {
+            applicationIdSuffix ".qa"
+        }
+        demo{
+            applicationIdSuffix ".demo"
+        }
+    }
+
     defaultConfig {
         applicationId "com.employeeapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 202211221
-        versionName "2022.11.22"
+        versionCode 202212293
+        versionName "2022.12.29"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
         // missingDimensionStrategy 'react-native-camera', 'general'
@@ -311,6 +327,8 @@ android {
 }
 
 dependencies {
+    def appCenterSdkVersion = '4.1.0'
+    implementation "com.microsoft.appcenter:appcenter-distribute:${appCenterSdkVersion}"
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.work:work-runtime-ktx:2.8.0-alpha01'
     //noinspection GradleDynamicVersion

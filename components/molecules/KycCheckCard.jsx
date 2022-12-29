@@ -1,29 +1,68 @@
-import { SafeAreaView } from "react-native";
-import { useSelector } from "react-redux";
-import MessageCard from "../atoms/MessageCard";
-import { allAreNull } from "../../helpers/nullCheck";
+import { useNavigation } from "@react-navigation/core";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { Ionicons } from "react-native-vector-icons";
 
-const KycCheckCard = () => {
-  const bankStatus = useSelector((state) => state.bank.verifyStatus);
-  const panStatus = useSelector((state) => state.pan.verifyStatus);
-  const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);
-
-  const message = [
-    aadhaarStatus != "SUCCESS" ? "AADHAAR" : null,
-    bankStatus != "SUCCESS" ? "BANK" : null,
-    panStatus != "SUCCESS" ? "PAN" : null,
-  ];
+const KycCheckCard = (props) => {
+  const navigation = useNavigation();
 
   return (
-    <SafeAreaView>
-      {!allAreNull(message) ? (
-        <MessageCard
-          title="Following pending steps need to be completed in order to receive advance salary."
-          message={message}
-        />
-      ) : null}
-    </SafeAreaView>
+    <View style={styles.container}>
+      <Text style={styles.title}>{props.title}</Text>
+      <Text style={styles.subtitle}>{props.subtitle}</Text>
+      {props.message.map((item, index) =>
+        item != null ? (
+          <TouchableOpacity
+            key={index}
+            onPress={() =>
+              navigation.navigate("AccountStack", {
+                screen: "KYC",
+                params: { screen: item.value },
+              })
+            }
+            style={styles.card}
+          >
+            <Ionicons
+              name="add-circle-outline"
+              color={COLORS.primary}
+              size={24}
+            />
+            <Text style={styles.cardText}>{item.label}</Text>
+          </TouchableOpacity>
+        ) : null
+      )}
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    marginVertical: 10,
+    flexDirection: "column",
+  },
+  title: {
+    ...FONTS.body4,
+    textAlign: "center",
+    color: COLORS.gray,
+  },
+  subtitle: {
+    ...FONTS.body2,
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  card: {
+    borderRadius: 5,
+    width: "100%",
+    marginTop: 10,
+    //elevation: 1,
+    borderWidth: 1.5,
+    borderColor: COLORS.lightGray,
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    padding: 10,
+  },
+  cardText: { ...FONTS.h4, color: COLORS.black, flex: 1, paddingLeft: 10 },
+});
 
 export default KycCheckCard;

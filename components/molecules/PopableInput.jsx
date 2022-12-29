@@ -1,9 +1,8 @@
 import EStyleSheet from "react-native-extended-stylesheet";
 import React from "react";
 import FormInput from "../atoms/FormInput";
-import { Icon, IconButton } from "@react-native-material/core";
-import { COLORS, FONTS } from "../../constants/Theme";
-import { useState } from "react";
+import { Icon } from "@react-native-material/core";
+import { FONTS } from "../../constants/Theme";
 import { Popable } from "react-native-popable";
 
 const PopableInput = ({
@@ -13,16 +12,18 @@ const PopableInput = ({
   placeholder,
   autoCapitalize,
   content,
+  accessibilityLabel,
 }) => {
   return (
     <FormInput
+      accessibilityLabel={accessibilityLabel}
       containerStyle={{ ...styles.container, ...containerStyle }}
       placeholder={placeholder}
       value={value}
       autoCapitalize={autoCapitalize}
       onChange={onChange}
       appendComponent={
-        <Popable content={content} position="left" caret={false}>
+        <Popable content={content} position="left">
           <Icon name="info-outline" size={20} color="grey" />
         </Popable>
       }

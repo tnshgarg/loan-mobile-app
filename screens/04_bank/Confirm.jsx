@@ -7,7 +7,7 @@ import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import BankConfirmApi from "../../apis/bank/Confirm";
-import Header from "../../components/atoms/Header";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
 const BankConfirm = () => {
   const dispatch = useDispatch();
@@ -31,15 +31,13 @@ const BankConfirm = () => {
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
-  
+
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
-        onLeftIconPress={() => backAction()}
-        title="Bank Details Confirmation"
-      />
+      <LogoHeaderBack leftOnPress={backAction} />
       <OnboardingProgressBar step={3} />
       <ScrollView keyboardShouldPersistTaps="handled">
         <BankConfirmApi type="Onboarding" />

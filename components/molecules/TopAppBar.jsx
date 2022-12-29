@@ -18,6 +18,7 @@ const TopAppBar = ({ navigation }) => {
       color="#ffffff"
       leading={
         <IconButton
+          accessibilityLabel="NavigationDrawer"
           icon={<Icon name="menu" size={30} />}
           onPress={() => {
             console.log("Menu");
