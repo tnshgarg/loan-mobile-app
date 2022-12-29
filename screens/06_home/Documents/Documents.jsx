@@ -10,7 +10,7 @@ import Header from "../../../components/atoms/Header";
 
 export default Documents = ({ navigation }) => {
   const tabs = [
-    { name: "Driving License", component: License },
+    { name: "Driving License", component: DocumentsView },
     // { name: "Offer Letter", component: DocumentsView },
     { name: "Pay Slips", component: DocumentsView },
     // { name: "ID Card", component: DocumentsView },
