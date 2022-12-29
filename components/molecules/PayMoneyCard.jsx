@@ -44,10 +44,6 @@ const PayMoneyCard = () => {
     isLoading: isRepaymentPostLoading,
   } = PostRepayment();
 
-  if (repaymentPostSuccess) {
-    console.log("repaymentpostsuccess:", repaymentPostData.data);
-  }
-
   const [repaymentStatus, setRepaymentStatus] = useState(
     isLoading || data.data.status == 404
       ? "PENDING"
@@ -73,16 +69,6 @@ const PayMoneyCard = () => {
     amount: repaymentAmount,
     repaymentId: repaymentId,
   });
-
-  console.log("isStale: ", isStale);
-
-  if (isFetched) {
-    console.log("repayments:", data.data);
-  }
-
-  if (isSuccess) {
-    console.log("repayments response for post isSuccess:", postData);
-  }
 
   useEffect(() => {
     console.log(
@@ -143,8 +129,6 @@ const PayMoneyCard = () => {
     }
   }, [repaymentOrderId]);
 
-  console.log("inactive: ", inactive);
-
   const createRepaymentOrder = () => {
     if (repaymentAmount > 0) {
       postRefetch().then((res) => {
@@ -154,17 +138,13 @@ const PayMoneyCard = () => {
     }
   };
 
-  console.log("RepaymentAmount: ", repaymentAmount);
-  console.log("RepaymentStatus: ", repaymentStatus);
-  console.log(repaymentAmount < 1 || repaymentStatus === "INPROGRESS");
-
   useEffect(() => {
     if (isLoading) {
       console.log("Loading");
-    } else {
-      if (repaymentAmount < 1 || repaymentStatus === "INPROGRESS") {
+    } else if (repaymentAmount < 1 || repaymentStatus === "INPROGRESS") {
         setInactive(true);
-      }
+    } else if (repaymentAmount > 0 && repaymentStatus !== "SUCCESS") {
+        setInactive(false);
     }
   }, [isLoading, isStale, data]);
 

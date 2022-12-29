@@ -17,12 +17,12 @@ export const fetchQuery = ({ unipeEmployeeId, token }) => {
           Authorization: `Bearer ${token}`,
         },
       }).then((response) => {
-        console.log("repayments response: ", response);
+        console.log("Repayments GET API response: ", response);
         return response;
       });
     },
     {
-      refetchOnMount: false,
+      refetchOnMount: true,
       refetchOnWindowFocus: true,
       refetchOnReconnect: true,
       onSettled: () => {},
@@ -53,7 +53,7 @@ export const PostQuery = ({ amount, repaymentId }) => {
         }),
       })
         .then((response) => {
-          console.log("repayments post response:", response);
+          console.log("Repayments Razorpay Order API POST response:", response);
           return response;
         })
         .catch(console.error);
@@ -84,7 +84,7 @@ export const PostRepayment = () => {
         data: JSON.stringify(data),
       })
         .then((response) => {
-          console.log("repayments mutation post response:", response);
+          console.log("Repayments API POST response:", response);
           return response;
         })
         .catch(console.error);
