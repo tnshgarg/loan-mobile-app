@@ -7,8 +7,6 @@ import TopTabNav from "../../navigators/TopTabNav";
 import DetailsCard from "../../components/molecules/DetailsCard";
 
 const Mandate = () => {
-  const [updated, setUpdated] = useState(false);
-
   const mandateSlice = useSelector((state) => state.mandate);
   const authType = mandateSlice.data?.authType?.toUpperCase();
   const verifyStatus = mandateSlice?.verifyStatus;
@@ -28,12 +26,6 @@ const Mandate = () => {
     return res;
   };
 
-  if (verifyStatus === "SUCCESS") {
-    setTimeout(() => {
-      setUpdated(true); // why this setTimeOut
-    }, 2000);
-  }
-
   const tabs = [
     {
       name: "Mandate",
@@ -45,7 +37,7 @@ const Mandate = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      {verifyStatus == "SUCCESS" && updated ? (
+      {authType && verifyStatus == "SUCCESS" ? (
         <View style={styles.container}>
           <DetailsCard data={cardData()} />
         </View>

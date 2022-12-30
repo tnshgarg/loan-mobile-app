@@ -237,7 +237,14 @@ const MandateFormTemplate = (props) => {
             });
         })
         .catch((error) => {
-          console.log("mandate error:", error.description);
+          var errorObj = "";
+          if (error.error) {
+            errorObj = error.error;
+          } else {
+            errorObj = error;
+          }
+          console.log("mandate error:", errorObj.description);
+          Alert.alert("Error", errorObj.description);
           backendPush({
             data: {
               authType: authType,
@@ -249,7 +256,6 @@ const MandateFormTemplate = (props) => {
             verifyStatus: "ERROR",
             verifyTimestamp: Date.now(),
           });
-          Alert.alert("Error", error.description);
           Analytics.trackEvent("Mandate|Register|Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: error.description,
@@ -341,13 +347,13 @@ const MandateFormTemplate = (props) => {
           >
             Please choose your preferred mode
           </Text>
-          {
-            customerId == null || !fetched ? (
-              <Text style={{ ...FONTS.body4, color: COLORS.gray }}>Initializing ... </Text>
-            ) : (
-              <MandateOptions ProceedButton={ProceedButton} disabled={loading} />
-            )
-          }
+          {customerId == null || !fetched ? (
+            <Text style={{ ...FONTS.body4, color: COLORS.gray }}>
+              Initializing ...{" "}
+            </Text>
+          ) : (
+            <MandateOptions ProceedButton={ProceedButton} disabled={loading} />
+          )}
           <View
             style={{
               padding: 10,
@@ -356,7 +362,7 @@ const MandateFormTemplate = (props) => {
               borderRadius: 5,
               alignItems: "center",
               justifyContent: "center",
-              marginTop: "10%"
+              marginTop: "10%",
             }}
           >
             <Text
