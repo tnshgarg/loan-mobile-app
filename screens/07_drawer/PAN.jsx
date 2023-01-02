@@ -1,29 +1,27 @@
 import { SafeAreaView, View } from "react-native";
-import DetailItem from "./DetailItem";
 import { useSelector } from "react-redux";
 import PanFormTemplate from "../../templates/pan/Form";
 import TopTabNav from "../../navigators/TopTabNav";
 import PanConfirmApi from "../../apis/pan/Confirm";
 import { styles } from "../../styles";
+import DetailsCard from "../../components/molecules/DetailsCard";
 
 const Pan = () => {
   const data = useSelector((state) => state.pan.data);
   const number = useSelector((state) => state.pan.number);
-  const dob = data?.["date_of_birth"];
-  const email = data?.["email"];
-  const gender = data?.["gender"];
-  const name = data?.["name"];
-
   const verifyStatus = useSelector((state) => state.pan.verifyStatus);
 
-  const dataDetails = [
-    { label: "Full Name", value: name },
-    { label: "PAN Number", value: number },
-    { label: "Date of Birth", value: dob },
-    { label: "Gender", value: gender },
-    { label: "Email", value: email },
-    { label: "Verify Status", value: verifyStatus },
-  ];
+  const cardData = () => {
+    var res = [
+      { subTitle: "Name", value: data?.name, fullWidth: true },
+      { subTitle: "Number", value: number, fullWidth: true },
+      { subTitle: "Date of Birth", value: data?.date_of_birth },
+      { subTitle: "Gender", value: data?.gender },
+      { subTitle: "Email", value: data?.email, fullWidth: true },
+      { subTitle: "Verify Status", value: verifyStatus },
+    ];
+    return res;
+  };
 
   const tabs = [
     {
@@ -44,16 +42,7 @@ const Pan = () => {
     <SafeAreaView style={styles.safeContainer}>
       {verifyStatus == "SUCCESS" ? (
         <View style={styles.container}>
-          <View style={styles.card}>
-            {dataDetails.map((item, index) => (
-              <DetailItem
-                key={index}
-                label={item.label}
-                value={item.value || "Not Provided"}
-                divider={item.divider}
-              />
-            ))}
-          </View>
+          <DetailsCard data={cardData()} />
         </View>
       ) : (
         <>

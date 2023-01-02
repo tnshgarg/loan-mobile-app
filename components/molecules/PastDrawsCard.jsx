@@ -59,7 +59,10 @@ const OfferCard = ({ offer }) => {
       activeOpacity={0.8}
       onLongPress={() => {
         if (offerType !== "Missed") {
-          navigation.navigate("EWA_DISBURSEMENT", { offer: offer });
+          navigation.navigate("EWAStack", {
+            screen: "EWA_DISBURSEMENT",
+            params: { offer: offer },
+          });
         }
       }}
     >

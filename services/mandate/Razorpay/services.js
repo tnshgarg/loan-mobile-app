@@ -2,12 +2,13 @@ import axios from "axios";
 import { RZP_AUTH } from "../../constants";
 import { STAGE } from "@env";
 
-const createCustomer = ({ name, email, contact }) => {
+const createCustomer = ({ name, email, contact , unipeEmployeeId}) => {
   var data = JSON.stringify({
     name: name,
     email: email,
     contact: contact,
     fail_existing: "0",
+    notes: { unipeEmployeeId: unipeEmployeeId },
   });
 
   var config = {
@@ -30,6 +31,7 @@ const createOrder = ({
   accountNumber,
   ifsc,
   aCTC,
+  unipeEmployeeId,
 }) => {
   console.log("createOrder");
   if (authType === "upi") {
@@ -43,6 +45,7 @@ const createOrder = ({
         expire_at: 1767223119,
         frequency: "as_presented",
       },
+      notes: { unipeEmployeeId: unipeEmployeeId },
     });
   } else {
     var data = JSON.stringify({
@@ -64,6 +67,7 @@ const createOrder = ({
           beneficiary_name: accountHolderName,
         },
       },
+      notes: { unipeEmployeeId: unipeEmployeeId },
     });
   }
   console.log("createorder", data);

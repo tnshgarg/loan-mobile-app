@@ -4,12 +4,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
 import PrimaryButton from "../atoms/PrimaryButton";
 
-const GetMoneyCard = ({
-  navigation,
-  eligible,
-  amount,
-  accessible,
-}) => {
+const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
   // const navigation = useNavigation();
 
   return (
@@ -21,7 +16,7 @@ const GetMoneyCard = ({
         style={{
           width: "100%",
           borderWidth: 0.4,
-          borderColor: COLORS.lightGray,
+          borderColor: COLORS.primary,
         }}
       />
 
@@ -37,7 +32,7 @@ const GetMoneyCard = ({
         }
         disabled={!eligible || !accessible}
         onPress={() => {
-          navigation.navigate("Money", { screen: "EWA_OFFER" });
+          navigation.navigate("EWAStack", { screen: "EWA_OFFER" });
         }}
       />
     </View>
@@ -55,7 +50,7 @@ const styles = EStyleSheet.create({
     borderColor: COLORS.lightgray_01,
     borderRadius: 5,
   },
-  text: { ...FONTS.h3, color: COLORS.secondary, marginVertical: 5 },
+  text: { ...FONTS.body3, color: COLORS.secondary, marginVertical: 5 },
 });
 
 export default GetMoneyCard;

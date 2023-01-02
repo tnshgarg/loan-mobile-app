@@ -1,5 +1,4 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { View } from "react-native";
 import { COLORS, FONTS } from "../constants/Theme";
 
 const TopTabNav = (props) => {
@@ -11,8 +10,8 @@ const TopTabNav = (props) => {
     <Tab.Navigator
       screenOptions={{
         tabBarLabelStyle: {
-          ...FONTS.h5,
-          textTransform: "uppercase",
+          ...FONTS.body5,
+          textTransform: "capitalize",
         },
         //tabBarItemStyle: { width: 100 },
         tabBarStyle: props.hide ? hide : show,

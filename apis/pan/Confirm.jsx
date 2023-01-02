@@ -7,7 +7,6 @@ import { addVerifyMsg, addVerifyStatus } from "../../store/slices/panSlice";
 import { panBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
-import CollapsibleCard from "../../components/molecules/CollapsibleCard";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import Analytics from "appcenter-analytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
@@ -56,7 +55,7 @@ const PanConfirmApi = (props) => {
     <View style={styles.container}>
       <Text style={styles.headline}>Are these your PAN details?</Text>
       <Text style={styles.subHeadline}>
-        क्या ये स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
+        कृपया स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
       </Text>
       <DetailsCard data={cardData()} />
 
@@ -126,7 +125,6 @@ const PanConfirmApi = (props) => {
             }
           }}
         />
-        <View style={bankform.padding}></View>
       </View>
     </View>
   );

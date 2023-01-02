@@ -11,10 +11,14 @@ import { allAreNull } from "../../../../helpers/nullCheck";
 import { styles } from "../../../../styles";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
-import MessageCard from "../../../../components/atoms/MessageCard";
+import KycCheckCard from "../../../../components/molecules/KycCheckCard";
 import LiveOfferCard from "../../../../components/organisms/LiveOfferCard";
 import { getBackendData } from "../../../../services/employees/employeeServices";
-import { addAccessible, addEligible, resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
+import {
+  addAccessible,
+  addEligible,
+  resetEwaLive,
+} from "../../../../store/slices/ewaLiveSlice";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import { COLORS, FONTS } from "../../../../constants/Theme";
 import { STAGE } from "@env";
@@ -36,7 +40,7 @@ const EWA = () => {
   );
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
-  
+
   // const panMisMatch = useSelector((state) => state.pan.misMatch);
   // const bankMisMatch = useSelector((state) => state.bank.misMatch);
 
@@ -47,9 +51,15 @@ const EWA = () => {
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
 
   const verifyStatuses = [
-    aadhaarVerifyStatus != "SUCCESS" ? "AADHAAR" : null,
-    bankVerifyStatus != "SUCCESS" ? "BANK" : null,
-    panVerifyStatus != "SUCCESS" ? "PAN" : null,
+    aadhaarVerifyStatus != "SUCCESS"
+      ? { label: "Verify AADHAAR", value: "AADHAAR" }
+      : null,
+    panVerifyStatus != "SUCCESS"
+      ? { label: "Verify PAN", value: "PAN" }
+      : null,
+    bankVerifyStatus != "SUCCESS"
+      ? { label: "Verify Bank Account", value: "BANK" }
+      : null,
   ];
 
   const backAction = () => {
@@ -94,28 +104,34 @@ const EWA = () => {
         token: token,
       })
         .then((response) => {
+          console.log("Money ewaOffersFetch response.data: ", response.data);
           if (response.data.status === 200) {
-            // console.log("ewaOffersFetch response.data: ", response.data);
-            if (
-              getNumberOfDays({ date: response.data.body.live.dueDate }) <= 3
-            ) {
-              setAccessible(false);
+            if (Object.keys(response.data.body.live).length !== 0) {
+              console.log("Money ewaOffersFetch response.data.body.live: ", response.data.body.live, response.data.body.live!={});
+              const closureDays = getNumberOfDays({
+                date: response.data.body.live.dueDate,
+              });
+              if (closureDays <= 3) {
+                setAccessible(false);
+              } else {
+                setAccessible(true);
+              }
             } else {
-              setAccessible(true);
+              setAccessible(false);
             }
             dispatch(resetEwaLive(response.data.body.live));
             dispatch(resetEwaHistorical(response.data.body.past));
             setFetched(true);
           } else {
-            console.log("ewaOffersFetch error: ", response.data);
+            console.log("Money ewaOffersFetch API error: ", response.data);
             dispatch(resetEwaLive());
             dispatch(resetEwaHistorical());
           }
         })
         .catch((error) => {
+          console.log("Money ewaOffersFetch Response error: ", error.toString());
           dispatch(resetEwaLive());
           dispatch(resetEwaHistorical());
-          console.log("ewaOffersFetch error: ", error.toString());
         });
     }
   }, [isFocused, unipeEmployeeId]);
@@ -133,53 +149,48 @@ const EWA = () => {
         }
       />
 
-      {
-        allAreNull(verifyStatuses)
-        ? 
-        (
-          // panMisMatch < 20 &&
-          // bankMisMatch < 20
-          <ScrollView>
-            <View style={styles.container}>
-              <LiveOfferCard
-                eligible={eligible}
-                accessible={accessible}
-                ewaLiveSlice={ewaLiveSlice}
-              />
+      {allAreNull(verifyStatuses) ? (
+        // panMisMatch < 20 &&
+        // bankMisMatch < 20
+        
+          <View style={styles.container}>
+            <LiveOfferCard
+              eligible={eligible}
+              accessible={accessible}
+              ewaLiveSlice={ewaLiveSlice}
+            />
 
-              <Text
-                style={{
-                  ...FONTS.h4,
-                  color: COLORS.gray,
-                  marginTop: "5%",
-                }}
-              >
-                Your past draws
-              </Text>
-              <PastDrawsCard data={ewaHistoricalSlice} />
-            </View>
-          </ScrollView>
-        ) 
-        : 
-        (
-          <View style={[styles.container]}>
             <Text
               style={{
-                color: COLORS.warning,
-                ...FONTS.h3,
-                alignSelf: "center",
+                ...FONTS.h4,
+                color: COLORS.gray,
                 marginTop: "5%",
               }}
             >
-              You are not eligible for Advanced Salary.
+              Your past draws
             </Text>
-            <MessageCard
-              title="Following pending steps need to be completed in order to receive advance salary."
-              message={verifyStatuses}
-            />
+            <ScrollView>
+              <PastDrawsCard data={ewaHistoricalSlice} />
+            </ScrollView>
           </View>
-        )
-      }
+      ) : (
+        <View style={[styles.container]}>
+          <Text
+            style={{
+              color: COLORS.warning,
+              ...FONTS.h3,
+              alignSelf: "center",
+              marginTop: "5%",
+            }}
+          >
+            You are not eligible for Advanced Salary.
+          </Text>
+          <KycCheckCard
+            title="Following pending steps need to be completed in order to receive advance salary."
+            message={verifyStatuses}
+          />
+        </View>
+      )}
     </SafeAreaView>
   );
 };

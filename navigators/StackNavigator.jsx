@@ -8,10 +8,11 @@ import { STAGE } from "@env";
 import OfflineAlert from "../components/organisms/OfflineAlert";
 import OnboardingStack from "./stacks/OnboardingStack";
 import EWAStack from "./stacks/EWAStack";
-import DocumentStack from "./stacks/DocumentStack";
+
 import BenefitsStack from "./stacks/BenefitsStack";
 import DrawerNavigator from "./DrawerNavigator";
 import AccountStack from "./stacks/AccountStack";
+import InvestStack from "./stacks/InvestStack";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -56,19 +57,20 @@ const StackNavigator = () => {
           }}
         />
         <Stack.Screen
+          name="InvestStack"
+          component={InvestStack}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
           name="EWAStack"
           component={EWAStack}
           options={{
             headerShown: false,
           }}
         />
-        <Stack.Screen
-          name="DocumentStack"
-          component={DocumentStack}
-          options={{
-            headerShown: false,
-          }}
-        />
+
         <Stack.Screen
           name="BenefitsStack"
           component={BenefitsStack}
