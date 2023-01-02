@@ -4,74 +4,30 @@ import { EMPLOYEE_API_URL, RZP_AUTH } from "../services/constants";
 
 export const queryClient = new QueryClient();
 
-export const fetchQuery = ({ unipeEmployeeId, token }) => {
-  const response = useQuery(
-    ["repayments"],
-    async () => {
+export const getRepayment = ({ unipeEmployeeId, token }) => {
+  const response = useQuery({
+    queryKey: ["getRepayment"],
+    queryFn: async () => {
       var url = `${EMPLOYEE_API_URL}/ewa/repayment`;
-      return await axios({
+      return axios({
         method: "GET",
         url: `${url}?unipeEmployeeId=${unipeEmployeeId}`,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-      }).then((response) => {
-        console.log("Repayments GET API response: ", response);
-        return response;
       });
     },
-    {
-      refetchOnMount: true,
-      refetchOnWindowFocus: true,
-      refetchOnReconnect: true,
-      onSettled: () => {},
-      staleTime: 1000 * 50, // 50 Seconds
-      refetchInterval: 1000 * 60, // 1 Minute
-    }
-  );
-  return response;
-};
-
-export const PostQuery = ({ amount, repaymentId }) => {
-  const response = useQuery(
-    ["repayments-post"],
-    async () => {
-      return await axios({
-        method: "post",
-        url: "https://api.razorpay.com/v1/orders",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: RZP_AUTH,
-        },
-        data: JSON.stringify({
-          amount: amount * 100,
-          currency: "INR",
-          notes: {
-            repaymentId: repaymentId,
-          },
-        }),
-      })
-        .then((response) => {
-          console.log("Repayments Razorpay Order API POST response:", response);
-          return response;
-        })
-        .catch(console.error);
+    config: {
+      staleTime: 1000 * 60 * 1,
+      cacheTime: 1000 * 60 * 1,
+      refetchInterval: 1000 * 60 * 1,
     },
-    {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-      onSettled: () => {},
-      staleTime: 1000 * 60 * 60 * 24, // 1 day
-      enabled: false,
-      refetchIntervalInBackground: false,
-    }
-  );
+  });
   return response;
 };
 
-export const PostRepayment = () => {
+export const updateRepayment = () => {
   const mutation = useMutation({
     mutationFn: async ({ data, xpath, token }) => {
       return axios({
@@ -90,7 +46,30 @@ export const PostRepayment = () => {
         .catch(console.error);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["repayments"] });
+      queryClient.invalidateQueries({ queryKey: ["getRepayment"] });
+    },
+  });
+  return mutation;
+};
+
+export const createRazorpayOrder = ({ amount, repaymentId }) => {
+  const mutation = useMutation({
+    mutationFn: async () => {
+      return axios({
+        method: "post",
+        url: "https://api.razorpay.com/v1/orders",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: RZP_AUTH,
+        },
+        data: JSON.stringify({
+          amount: amount * 100,
+          currency: "INR",
+          notes: {
+            repaymentId: repaymentId,
+          },
+        }),
+      });
     },
   });
   return mutation;
