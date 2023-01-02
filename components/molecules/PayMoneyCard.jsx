@@ -15,9 +15,12 @@ import {
 } from "../../services/employees/employeeServices";
 import PrimaryButton from "../atoms/PrimaryButton";
 import { showToast } from "../atoms/Toast";
-import { getNumberOfDays, setYYYYMMDDtoDDMMYYYY } from "../../helpers/DateFunctions";
+import {
+  getNumberOfDays,
+  setYYYYMMDDtoDDMMYYYY,
+} from "../../helpers/DateFunctions";
 
-const PayMoneyCard = () => {
+const PayMoneyCard = ({ auto }) => {
   const [inactive, setInactive] = useState(true);
   const [loading, setLoading] = useState(false);
   const [repaymentStatus, setRepaymentStatus] = useState("PENDING");
@@ -131,6 +134,9 @@ const PayMoneyCard = () => {
   useEffect(() => {
     if (repaymentAmount < 1 || repaymentStatus === "INPROGRESS") {
       setInactive(true);
+    }
+    if (repaymentAmount > 0 && auto) {
+      createRepaymentOrder();
     }
   }, [repaymentAmount, repaymentStatus]);
 

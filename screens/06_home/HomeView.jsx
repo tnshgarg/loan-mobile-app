@@ -49,7 +49,7 @@ const HomeView = () => {
 
   // const panMisMatch = useSelector((state) => state.pan.misMatch);
   // const bankMisMatch = useSelector((state) => state.bank.misMatch);
-
+  const [auto, setAuto] = useState(null);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
@@ -167,15 +167,23 @@ const HomeView = () => {
       console.log("route", splitted[3]);
       switch (splitted[3].toLowerCase()) {
         case "ewa":
-          switch (splitted[4]?.toLowerCase()) {
-            case "campaign":
-              console.log("campaignId", splitted[5]);
-              setCampaignId(splitted[5]);
-              break;
-            default:
-              break;
-          }
-          navigation.navigate("Money");
+          setAuto("ewa");
+          break;
+        case "repayment":
+          setAuto("repayment");
+          break;
+        case "kyc":
+          navigation.navigate("AccountStack", {
+            screen: "KYC",
+          });
+          break;
+        default:
+          break;
+      }
+      switch (splitted[4]?.toLowerCase()) {
+        case "campaign":
+          console.log("campaignId", splitted[5]);
+          setCampaignId(splitted[5]);
           break;
         default:
           break;
@@ -210,6 +218,7 @@ const HomeView = () => {
                 eligible={eligible}
                 accessible={accessible}
                 ewaLiveSlice={ewaLiveSlice}
+                auto={auto}
               />
               <VideoPlayer
                 title="Why Unipe?"
