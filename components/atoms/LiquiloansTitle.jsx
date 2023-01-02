@@ -8,7 +8,8 @@ const LiquiloansTitle = ({ title }) => {
     <View style={styles.container}>
       <Image
         style={styles.image}
-        source={require("../../assets/LiquiLoansLogo.jpeg")}
+        resizeMode="contain"
+        source={require("../../assets/LiquiLoansLogo.png")}
       />
       <Text style={styles.title}>{title}</Text>
     </View>
@@ -28,8 +29,8 @@ const styles = EStyleSheet.create({
     color: COLORS.gray,
   },
   image: {
-    height: "35rem",
-    width: "35rem",
+    height: "10rem",
+    width: "50rem",
     marginRight: "5rem",
   },
 });
