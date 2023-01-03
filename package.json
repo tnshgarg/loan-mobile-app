@@ -31,6 +31,7 @@
 		"@react-navigation/native": "^6.0.10",
 		"@react-navigation/native-stack": "^6.6.2",
 		"@reduxjs/toolkit": "^1.8.3",
+		"@tanstack/react-query": "^4.20.4",
 		"appcenter-analytics": "4.4.5",
 		"appcenter-cli": "^2.12.0",
 		"appcenter-crashes": "4.4.5",
@@ -83,7 +84,7 @@
 		"glob": "7.2.0"
 	},
 	"private": true,
-	"version": "2022.12.29",
+	"version": "2022.12.30",
 	"jest": {
 		"verbose": true,
 		"testTimeout": 50000
