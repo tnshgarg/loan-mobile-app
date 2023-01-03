@@ -29,7 +29,7 @@ const StackNavigator = () => {
   console.log("initialRoute: ", initialRoute);
   console.log("currentScreen: ", initialScreen);
 
-  // STAGE === "dev" ? (initialRoute = "DevMenu") : null;
+  STAGE === "dev" ? (initialRoute = "DevMenu") : null;
   console.log("initialRoute: ", initialRoute);
 
   return (
