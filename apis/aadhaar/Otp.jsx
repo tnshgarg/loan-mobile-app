@@ -10,11 +10,11 @@ import {
   addVerifyTimestamp,
 } from "../../store/slices/aadhaarSlice";
 import { KYC_AADHAAR_GENERATE_OTP_API_URL } from "../../services/constants";
+import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import { resetTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { PostAadhaarOtp, fetchAadhaarData } from "../../queries/Aadhaar";
 
 const AadhaarOtpApi = (props) => {
   const dispatch = useDispatch();
@@ -50,32 +50,12 @@ const AadhaarOtpApi = (props) => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
-  const { mutateAsync } = PostAadhaarOtp({ data: props.data });
-
-  const {
-    data: otpData,
-    isLoading: otpIsLoading,
-    isSuccess: otpIsSuccess,
-    refetch: refetchOtp,
-  } = fetchAadhaarData({ token });
-
   const backendPush = ({ verifyMsg, verifyStatus, verifyTimestamp }) => {
-    // console.log("AadhaarOtpApi aadhaarSlice: ", aadhaarSlice);
+    console.log("AadhaarOtpApi aadhaarSlice: ", aadhaarSlice);
     setVerifyMsg(verifyMsg);
     setVerifyStatus(verifyStatus);
     setVerifyTimestamp(verifyTimestamp);
-    // aadhaarBackendPush({
-    //   data: {
-    //     unipeEmployeeId: unipeEmployeeId,
-    //     data: aadhaarSlice?.data,
-    //     number: aadhaarSlice?.number,
-    //     verifyMsg: verifyMsg,
-    //     verifyStatus: verifyStatus,
-    //     verifyTimestamp: verifyTimestamp,
-    //   },
-    //   token: token,
-    // });
-    mutateAsync({
+    aadhaarBackendPush({
       data: {
         unipeEmployeeId: unipeEmployeeId,
         data: aadhaarSlice?.data,
@@ -89,7 +69,7 @@ const AadhaarOtpApi = (props) => {
     setLoading(false);
   };
 
-  const goForFetch = async () => {
+  const goForFetch = () => {
     setLoading(true);
     if (props.isTextButton) {
       props.toggle(false); // setResend(false)
@@ -104,10 +84,6 @@ const AadhaarOtpApi = (props) => {
       },
       body: JSON.stringify(props.data),
     };
-
-    await refetchOtp().then(() => {
-      console.log("otpData.data", otpData.data);
-    });
 
     fetch(KYC_AADHAAR_GENERATE_OTP_API_URL, options)
       .then((response) => response.json())

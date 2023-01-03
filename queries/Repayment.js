@@ -1,7 +1,8 @@
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { EMPLOYEE_API_URL, RZP_AUTH } from "../services/constants";
-import { queryClient } from "./index";
+
+export const queryClient = new QueryClient();
 
 export const fetchQuery = ({ unipeEmployeeId, token }) => {
   const response = useQuery(

@@ -14,7 +14,7 @@ import { navigationRef } from "./navigators/RootNavigation";
 import Analytics from "appcenter-analytics";
 import { STAGE } from "@env";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "./queries/index";
+import { queryClient } from "./queries/Repayment";
 
 Crashes.setListener({
   shouldProcess: function (report) {
