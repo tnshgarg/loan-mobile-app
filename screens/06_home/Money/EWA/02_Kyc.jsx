@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { ewaKycPush } from "../../../../helpers/BackendPush";
-import { getBackendData } from "../../../../services/employees/employeeServices";
 import { styles } from "../../../../styles";
 import DetailsCard from "../../../../components/molecules/DetailsCard";
 
@@ -19,7 +18,6 @@ const KYC = () => {
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
 
-  const [creditPass, setCreditPass] = useState("PENDING");
   const [loading, setLoading] = useState(false);
   const campaignId = useSelector((state) => state.auth.campaignId);
   const mandateVerifyStatus = useSelector(
@@ -57,25 +55,6 @@ const KYC = () => {
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
-
-  useEffect(() => {
-    if (unipeEmployeeId) {
-      getBackendData({
-        params: { unipeEmployeeId: unipeEmployeeId },
-        xpath: "risk-profile",
-        token: token,
-      })
-        .then((response) => {
-          console.log("riskProfileBackendFetch response.data", response.data);
-          if (response.data.status === 200) {
-            setCreditPass(response.data.body.pass);
-          }
-        })
-        .catch((error) => {
-          console.log("riskProfileBackendFetch error: ", error);
-        });
-    }
-  }, [unipeEmployeeId]);
 
   useEffect(() => {
     if (fetched) {
@@ -170,17 +149,8 @@ const KYC = () => {
         <View style={{ flex: 1 }} />
 
         <PrimaryButton
-          title={
-            creditPass === "PENDING"
-              ? "Checking Credit Bureau"
-              : creditPass === "DECLINED"
-              ? "Credit Declined"
-              : loading
-              ? "Verifying"
-              : "Proceed"
-          }
-          disabled={creditPass !== "SUCCESS" || loading}
-          loading={loading}
+          title={loading ? "Verifying" : "Proceed"}
+          disabled={loading}
           onPress={() => {
             handleKyc();
           }}
