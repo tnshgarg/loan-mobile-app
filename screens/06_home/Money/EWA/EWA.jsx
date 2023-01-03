@@ -1,6 +1,7 @@
 import { STAGE } from "@env";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
+import { Ionicons } from "react-native-vector-icons";
 import {
   BackHandler,
   SafeAreaView,
@@ -8,23 +9,24 @@ import {
   Text,
   View
 } from "react-native";
-import { Ionicons } from "react-native-vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import LogoHeader from "../../../../components/atoms/LogoHeader";
-import MessageCard from "../../../../components/atoms/MessageCard";
+import { allAreNull } from "../../../../helpers/nullCheck";
+import { styles } from "../../../../styles";
+import { useNavigation } from "@react-navigation/core";
 import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
 import LiveOfferCard from "../../../../components/organisms/LiveOfferCard";
-import { COLORS, FONTS } from "../../../../constants/Theme";
-import { getNumberOfDays } from "../../../../helpers/DateFunctions";
-import { allAreNull } from "../../../../helpers/nullCheck";
-import { fetchQuery } from "../../../../queries/offers";
-import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
+import KycCheckCard from "../../../../components/molecules/KycCheckCard";
 import {
   addAccessible,
   addEligible,
-  resetEwaLive
+  resetEwaLive,
 } from "../../../../store/slices/ewaLiveSlice";
-import { styles } from "../../../../styles";
+import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
+import { COLORS, FONTS } from "../../../../constants/Theme";
+import LogoHeader from "../../../../components/atoms/LogoHeader";
+import { COLORS, FONTS } from "../../../../constants/Theme";
+import { getNumberOfDays } from "../../../../helpers/DateFunctions";
+import { fetchQuery } from "../../../../queries/offers";
 
 const EWA = () => {
   const dispatch = useDispatch();
@@ -50,9 +52,15 @@ const EWA = () => {
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
 
   const verifyStatuses = [
-    aadhaarVerifyStatus != "SUCCESS" ? "AADHAAR" : null,
-    bankVerifyStatus != "SUCCESS" ? "BANK" : null,
-    panVerifyStatus != "SUCCESS" ? "PAN" : null,
+    aadhaarVerifyStatus != "SUCCESS"
+      ? { label: "Verify AADHAAR", value: "AADHAAR" }
+      : null,
+    panVerifyStatus != "SUCCESS"
+      ? { label: "Verify PAN", value: "PAN" }
+      : null,
+    bankVerifyStatus != "SUCCESS"
+      ? { label: "Verify Bank Account", value: "BANK" }
+      : null,
   ];
 
   const backAction = () => {
@@ -147,7 +155,7 @@ const EWA = () => {
       {allAreNull(verifyStatuses) ? (
         // panMisMatch < 20 &&
         // bankMisMatch < 20
-        <ScrollView>
+        
           <View style={styles.container}>
             <LiveOfferCard
               eligible={eligible}
@@ -164,9 +172,10 @@ const EWA = () => {
             >
               Your past draws
             </Text>
-            <PastDrawsCard data={ewaHistoricalSlice} />
+            <ScrollView>
+              <PastDrawsCard data={ewaHistoricalSlice} />
+            </ScrollView>
           </View>
-        </ScrollView>
       ) : (
         <View style={[styles.container]}>
           <Text
@@ -179,7 +188,7 @@ const EWA = () => {
           >
             You are not eligible for Advanced Salary.
           </Text>
-          <MessageCard
+          <KycCheckCard
             title="Following pending steps need to be completed in order to receive advance salary."
             message={verifyStatuses}
           />

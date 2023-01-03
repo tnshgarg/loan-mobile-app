@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { View } from "react-native";
 import { Button } from "@react-native-material/core";
@@ -7,9 +6,9 @@ import { addVerifyMsg, addVerifyStatus } from "../../store/slices/bankSlice";
 import { bankBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
-import DetailsCard from "../../components/molecules/DetailsCard";
-import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import Analytics from "appcenter-analytics";
+import FuzzyCheck from "../../components/molecules/FuzzyCheck";
+import DetailsCard from "../../components/molecules/DetailsCard";
 
 const BankConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -38,21 +37,20 @@ const BankConfirmApi = (props) => {
   const cardData = () => {
     var res = [
       {
-        subTitle: "AccountHolderName",
+        subTitle: "Account Holder Name",
         value: data?.accountHolderName,
         fullWidth: true,
       },
       {
-        subTitle: "AccountNumber",
+        subTitle: "Account Number",
         value: data?.accountNumber,
-        fullWidth: true,
       },
       { subTitle: "Bank Name", value: data?.bankName },
-      { subTitle: "Branch Name", value: data?.branchName },
+      { subTitle: "Branch Name", value: data?.branchName, fullWidth: true },
       { subTitle: "Branch City", value: data?.branchCity },
 
       { subTitle: "IFSC", value: data?.ifsc },
-      { subTitle: "UPI", value: data?.upi },
+      { subTitle: "UPI", value: data?.upi, fullWidth: true },
     ];
     return res;
   };

@@ -11,7 +11,6 @@ import OtpInput from "../../components/molecules/OtpInput";
 const AadhaarVerifyTemplate = (props) => {
   const dispatch = useDispatch();
   const inputRef = useRef();
-
   const [resend, setResend] = useState(false);
   const [otp, setOtp] = useState("");
   const [validOtp, setValidOtp] = useState(true);
@@ -56,8 +55,8 @@ const AadhaarVerifyTemplate = (props) => {
         <OtpInput
           otp={otp}
           setOtp={setOtp}
-          accessibilityLabel={"AadhaarOtpInput"}
           inputRef={inputRef}
+          accessibilityLabel={"AadhaarOtpInput"}
         />
 
         <Text style={styles.subHeadline} accessibilityLabel="OtpText">

@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { Linking, SafeAreaView, ScrollView, View } from "react-native";
 import PushNotification from "react-native-push-notification";
 import { useDispatch, useSelector } from "react-redux";
-import MessageCard from "../../components/atoms/MessageCard";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
+import KycCheckCard from "../../components/molecules/KycCheckCard";
 import { allAreNull } from "../../helpers/nullCheck";
 import { addCampaignId } from "../../store/slices/authSlice";
 import {
@@ -20,7 +20,6 @@ import VideoPlayer from "../../components/organisms/VideoPlayer";
 import { COLORS } from "../../constants/Theme";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
 import { fetchQuery } from "../../queries/offers";
-import { getBackendData } from "../../services/employees/employeeServices";
 import {
   notificationListener,
   requestUserPermission,
@@ -56,9 +55,13 @@ const HomeView = () => {
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
 
   const verifyStatuses = [
-    aadhaarVerifyStatus != "SUCCESS" ? "AADHAAR" : null,
-    bankVerifyStatus != "SUCCESS" ? "BANK" : null,
-    panVerifyStatus != "SUCCESS" ? "PAN" : null,
+    aadhaarVerifyStatus != "SUCCESS"
+      ? { label: "Verify AADHAAR", value: "AADHAAR" }
+      : null,
+    panVerifyStatus != "SUCCESS" ? { label: "Verify PAN", value: "PAN" } : null,
+    bankVerifyStatus != "SUCCESS"
+      ? { label: "Verify Bank Account", value: "BANK" }
+      : null,
   ];
 
   useEffect(() => {
@@ -202,10 +205,14 @@ const HomeView = () => {
                 accessible={accessible}
                 ewaLiveSlice={ewaLiveSlice}
               />
-              <VideoPlayer />
+              <VideoPlayer
+                title="Why Unipe?"
+                thumbnail={require("../../assets/youtube_thumbnail.jpg")}
+                videoId="9zXrU09Lvcs"
+              />
             </>
           ) : (
-            <MessageCard
+            <KycCheckCard
               title="Following pending steps need to be completed in order to receive advance salary."
               message={verifyStatuses}
             />

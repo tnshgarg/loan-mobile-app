@@ -5,7 +5,6 @@ import SplashScreen from "react-native-splash-screen";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-
 import { STAGE } from "@env";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Analytics from "appcenter-analytics";
@@ -15,13 +14,6 @@ import { navigationRef } from "./navigators/RootNavigation";
 import StackNavigator from "./navigators/StackNavigator";
 import { persistor, store } from "./store/store";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-    },
-  },
-});
 Crashes.setListener({
   shouldProcess: function (report) {
     return true; // return true if the crash report should be processed, otherwise false.
@@ -41,6 +33,12 @@ const analyticsStatus = async () => {
   console.log("analyticsStatus", STAGE);
 };
 
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {},
+  },
+});
+
 const App = () => {
   SplashScreen.hide();
   analyticsStatus();
@@ -48,13 +46,13 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer ref={navigationRef}>
-          <SafeAreaProvider style={{ backgroundColor: "white", flex: 1 }}>
-            <IconComponentProvider IconComponent={Icon}>
-              <QueryClientProvider client={queryClient}>
+          <QueryClientProvider client={queryClient}>
+            <SafeAreaProvider style={{ backgroundColor: "white", flex: 1 }}>
+              <IconComponentProvider IconComponent={Icon}>
                 <StackNavigator />
-              </QueryClientProvider>
-            </IconComponentProvider>
-          </SafeAreaProvider>
+              </IconComponentProvider>
+            </SafeAreaProvider>
+          </QueryClientProvider>
         </NavigationContainer>
       </PersistGate>
     </Provider>
