@@ -13,6 +13,9 @@ import Crashes from "appcenter-crashes";
 import { navigationRef } from "./navigators/RootNavigation";
 import Analytics from "appcenter-analytics";
 import { STAGE } from "@env";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./queries/Repayment";
+
 Crashes.setListener({
   shouldProcess: function (report) {
     return true; // return true if the crash report should be processed, otherwise false.
@@ -29,7 +32,7 @@ const analyticsStatus = async () => {
   STAGE == "dev"
     ? await Analytics.setEnabled(false)
     : await Analytics.setEnabled(true);
-    console.log("analyticsStatus",STAGE)
+  console.log("analyticsStatus", STAGE);
 };
 
 const App = () => {
@@ -39,11 +42,13 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer ref={navigationRef}>
-          <SafeAreaProvider style={{ backgroundColor: "white", flex: 1 }}>
-            <IconComponentProvider IconComponent={Icon}>
-              <StackNavigator />
-            </IconComponentProvider>
-          </SafeAreaProvider>
+          <QueryClientProvider client={queryClient}>
+            <SafeAreaProvider style={{ backgroundColor: "white", flex: 1 }}>
+              <IconComponentProvider IconComponent={Icon}>
+                <StackNavigator />
+              </IconComponentProvider>
+            </SafeAreaProvider>
+          </QueryClientProvider>
         </NavigationContainer>
       </PersistGate>
     </Provider>
