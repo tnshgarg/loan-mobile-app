@@ -13,6 +13,7 @@ import BenefitsStack from "./stacks/BenefitsStack";
 import DrawerNavigator from "./DrawerNavigator";
 import AccountStack from "./stacks/AccountStack";
 import InvestStack from "./stacks/InvestStack";
+import SplashScreen from "../screens/SplashScreen";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -28,18 +29,27 @@ const StackNavigator = () => {
   console.log("initialRoute: ", initialRoute);
   console.log("currentScreen: ", initialScreen);
 
-  STAGE === "dev" ? (initialRoute = "DevMenu") : null;
+  // STAGE === "dev" ? (initialRoute = "DevMenu") : null;
   console.log("initialRoute: ", initialRoute);
 
   return (
     <OfflineAlert>
-      <Stack.Navigator initialRouteName={initialRoute}>
+      <Stack.Navigator initialRouteName={"Splash"}>
         <Stack.Screen
           name="DevMenu"
           component={DevMenu}
           options={{
             headerShown: false,
             header: null,
+          }}
+        />
+        <Stack.Screen
+          name="Splash"
+          options={{ headerShown: false, header: null }}
+          component={SplashScreen}
+          initialParams={{
+            initialRoute: initialRoute,
+            initialScreen: initialScreen,
           }}
         />
         <Stack.Screen

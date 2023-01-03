@@ -12,7 +12,7 @@ const EWAStack = () => {
   const Stack = createNativeStackNavigator();
   var initialRoute = useSelector((state) => state.navigation.currentScreen);
 
-  STAGE === "dev" ? (initialRoute = "DevMenu") : null;
+  // STAGE === "dev" ? (initialRoute = "DevMenu") : null;
   console.log("initialRoute: ", initialRoute);
 
   return (
