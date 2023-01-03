@@ -252,13 +252,13 @@ const MandateFormTemplate = (props) => {
               orderId: orderId,
               provider: "razorpay",
             },
-            verifyMsg: error.description,
+            verifyMsg: errorObj.description,
             verifyStatus: "ERROR",
             verifyTimestamp: Date.now(),
           });
           Analytics.trackEvent("Mandate|Register|Error", {
             unipeEmployeeId: unipeEmployeeId,
-            error: error.description,
+            error: errorObj.description,
           });
           setLoading(false);
         });
