@@ -190,6 +190,7 @@ const MandateFormTemplate = (props) => {
           getToken({ paymentId: data.razorpay_payment_id })
             .then((token) => {
               console.log("mandate token.data: ", token.data);
+              showToast("Mandate Verified Successfully");
               backendPush({
                 data: {
                   authType: authType,
@@ -204,17 +205,17 @@ const MandateFormTemplate = (props) => {
                 verifyStatus: "SUCCESS",
                 verifyTimestamp: Date.now(),
               });
-              showToast("Mandate Verified Successfully");
+              setLoading(false);
               Analytics.trackEvent("Mandate|GetToken|Success", {
                 unipeEmployeeId: unipeEmployeeId,
               });
-              setLoading(false);
               props?.type === "EWA"
                 ? navigation.navigate("EWA_AGREEMENT")
                 : null;
             })
             .catch((error) => {
               console.log("mandate error:", error.description);
+              Alert.alert("Error", error.description);
               backendPush({
                 data: {
                   authType: authType,
@@ -228,12 +229,11 @@ const MandateFormTemplate = (props) => {
                 verifyStatus: "ERROR",
                 verifyTimestamp: Date.now(),
               });
-              Alert.alert("Error", error.description);
+              setLoading(false);
               Analytics.trackEvent("Mandate|GetToken|Error", {
                 unipeEmployeeId: unipeEmployeeId,
                 error: error.description,
               });
-              setLoading(false);
             });
         })
         .catch((error) => {
@@ -256,11 +256,11 @@ const MandateFormTemplate = (props) => {
             verifyStatus: "ERROR",
             verifyTimestamp: Date.now(),
           });
+          setLoading(false);
           Analytics.trackEvent("Mandate|Register|Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: errorObj.description,
           });
-          setLoading(false);
         });
     }
   }, [orderId]);
@@ -302,13 +302,13 @@ const MandateFormTemplate = (props) => {
       })
       .catch((error) => {
         console.log(`Mandate|CreateOrder|${authType} error:`, error.toString());
+        Alert.alert("Error", error.toString());
         backendPush({
           data: { authType: authType, customerId: customerId },
           verifyMsg: `Mandate|CreateOrder|${authType} ERROR ${error.toString()}`,
           verifyStatus: "ERROR",
           verifyTimestamp: Date.now(),
         });
-        Alert.alert("Error", error.toString());
         Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Error`, {
           unipeEmployeeId: unipeEmployeeId,
           error: error.toString(),

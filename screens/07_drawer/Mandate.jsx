@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { SafeAreaView, View } from "react-native";
 import { useSelector } from "react-redux";
 import MandateFormTemplate from "../../templates/mandate/Form";
@@ -37,7 +36,7 @@ const Mandate = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      {authType && verifyStatus == "SUCCESS" ? (
+      {authType && verifyStatus === "SUCCESS" ? (
         <View style={styles.container}>
           <DetailsCard data={cardData()} />
         </View>
