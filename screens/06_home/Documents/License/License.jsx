@@ -2,9 +2,10 @@ import { Alert, Text, View, SafeAreaView } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
+import DetailItem from "../../../../components/molecules/DetailItem";
 import TopTabNav from "../../../../navigators/TopTabNav";
 import { license, styles, checkBox } from "../../../../styles";
-import DetailItem from "../../../07_drawer/DetailItem";
+
 import Confirm from "./Confirm";
 import Form from "./Form";
 

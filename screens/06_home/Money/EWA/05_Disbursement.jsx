@@ -34,8 +34,8 @@ const Disbursement = ({ route, navigation }) => {
 
   const backAction = () => {
     navigation.navigate("HomeStack", {
-      screen: "DrawerHome",
-      params: { screen: "Money", params: { screen: "EWA" } },
+      screen: "Money",
+      params: { screen: "EWA" },
     });
     return true;
   };
