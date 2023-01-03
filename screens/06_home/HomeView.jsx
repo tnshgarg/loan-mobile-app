@@ -143,7 +143,7 @@ const HomeView = () => {
       dispatch(resetEwaLive());
       dispatch(resetEwaHistorical());
     }
-  }, [getEwaOffersIsSuccess]);
+  }, [getEwaOffersIsSuccess, getEwaOffersData]);
 
   const getUrlAsync = async () => {
     const initialUrl = await Linking.getInitialURL();

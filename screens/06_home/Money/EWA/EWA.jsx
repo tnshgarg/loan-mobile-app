@@ -127,7 +127,7 @@ const EWA = () => {
       dispatch(resetEwaLive());
       dispatch(resetEwaHistorical());
     }
-  }, [getEwaOffersIsSuccess]);
+  }, [getEwaOffersIsSuccess, getEwaOffersData]);
 
   return (
     <SafeAreaView style={styles.safeContainer}>

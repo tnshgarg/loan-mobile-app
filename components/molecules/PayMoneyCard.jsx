@@ -76,7 +76,7 @@ const PayMoneyCard = () => {
       console.log("ewaRepaymentFetch API error getRepaymentError.message: ", getRepaymentError.message);
       setInactive(true);
     }
-  }, [getRepaymentIsSuccess]);
+  }, [getRepaymentIsSuccess, getRepaymentData]);
 
   const {mutateAsync: updateRepaymentMutateAsync} = updateRepayment();
 
