@@ -4,16 +4,18 @@ import { getBackendData } from "../services/employees/employeeServices";
 export const fetchQuery = ({ unipeEmployeeId, token }) => {
   const response = useQuery({
     queryKey: ["getEwaOffers"],
-    queryFn: async () =>
-      await getBackendData({
+    queryFn: async () => {
+      return getBackendData({
         params: { unipeEmployeeId: unipeEmployeeId },
         xpath: "ewa/offers",
         token: token,
-      }),
-    refetchOnMount: true,
-    refetchOnWindowFocus: true,
-    refetchOnReconnect: true,
-    staleTime: 1000 * 60 * 60 * 24,
+      });
+    },
+    config: {
+      staleTime: 1000 * 60 * 60 * 24,
+      cacheTime: 1000 * 60 * 60 * 24,
+      refetchInterval: 1000 * 60 * 60 * 24,
+    },
   });
   return response;
 };
