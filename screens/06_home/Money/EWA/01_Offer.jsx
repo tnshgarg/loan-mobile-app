@@ -99,7 +99,7 @@ const Offer = () => {
   useEffect(() => {
     setUpdating(true);
     if (parseInt(loanAmount) <= ewaLiveSlice.eligibleAmount) {
-      if (STAGE !== "prod" || (STAGE === "prod" && parseInt(loanAmount) > 1000)) {
+      if (STAGE !== "prod" || (STAGE === "prod" && parseInt(loanAmount) >= 1000)) {
         setValidAmount(true);
         dispatch(addLoanAmount(parseInt(loanAmount)));
       } else {
