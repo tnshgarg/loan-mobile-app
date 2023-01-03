@@ -24,16 +24,13 @@ import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { COLORS } from "../../../../constants/Theme";
 import { ewaAgreementPush } from "../../../../helpers/BackendPush";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
-import {
-  resetEwaLive,
-} from "../../../../store/slices/ewaLiveSlice";
+import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
 import { checkBox, ewa, styles } from "../../../../styles";
 import agreement from "../../../../templates/docs/LiquiLoansLoanAgreement";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
-import { queryClient } from "../../../../App";
+import { queryClient } from "../../../../queries/client";
 
 const Agreement = () => {
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { width } = useWindowDimensions();
@@ -58,7 +55,7 @@ const Agreement = () => {
   const mandateVerifyStatus = useSelector(
     (state) => state.mandate.verifyStatus
   );
-  
+
   const today = new Date();
 
   function ValueEntry(text) {
@@ -80,7 +77,10 @@ const Agreement = () => {
     text.data = text.data.replace(/\{loanAmount\}/g, ewaLiveSlice?.loanAmount);
     text.data = text.data.replace(/\{mobile\}/g, authSlice?.phoneNumber);
     text.data = text.data.replace(/\{panName\}/g, panSlice?.data?.name);
-    text.data = text.data.replace(/\{processingFees\}/g, ewaLiveSlice?.processingFees);
+    text.data = text.data.replace(
+      /\{processingFees\}/g,
+      ewaLiveSlice?.processingFees
+    );
     text.data = text.data.replace(
       /\{todayDate\}/g,
       today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear()

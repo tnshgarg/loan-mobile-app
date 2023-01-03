@@ -6,7 +6,8 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { STAGE } from "@env";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./queries/client";
+import { QueryClientProvider } from "@tanstack/react-query";
 import Analytics from "appcenter-analytics";
 import Crashes from "appcenter-crashes";
 import codePush from "react-native-code-push";
@@ -32,12 +33,6 @@ const analyticsStatus = async () => {
     : await Analytics.setEnabled(true);
   console.log("analyticsStatus", STAGE);
 };
-
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {},
-  },
-});
 
 const App = () => {
   SplashScreen.hide();

@@ -1,7 +1,6 @@
 import { STAGE } from "@env";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Ionicons } from "react-native-vector-icons";
 import {
   BackHandler,
   SafeAreaView,
@@ -9,24 +8,23 @@ import {
   Text,
   View
 } from "react-native";
+import { Ionicons } from "react-native-vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { allAreNull } from "../../../../helpers/nullCheck";
-import { styles } from "../../../../styles";
-import { useNavigation } from "@react-navigation/core";
+import LogoHeader from "../../../../components/atoms/LogoHeader";
+import KycCheckCard from "../../../../components/molecules/KycCheckCard";
 import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
 import LiveOfferCard from "../../../../components/organisms/LiveOfferCard";
-import KycCheckCard from "../../../../components/molecules/KycCheckCard";
+import { COLORS, FONTS } from "../../../../constants/Theme";
+import { getNumberOfDays } from "../../../../helpers/DateFunctions";
+import { allAreNull } from "../../../../helpers/nullCheck";
+import { fetchQuery } from "../../../../queries/offers";
+import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import {
   addAccessible,
   addEligible,
-  resetEwaLive,
+  resetEwaLive
 } from "../../../../store/slices/ewaLiveSlice";
-import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
-import { COLORS, FONTS } from "../../../../constants/Theme";
-import LogoHeader from "../../../../components/atoms/LogoHeader";
-import { COLORS, FONTS } from "../../../../constants/Theme";
-import { getNumberOfDays } from "../../../../helpers/DateFunctions";
-import { fetchQuery } from "../../../../queries/offers";
+import { styles } from "../../../../styles";
 
 const EWA = () => {
   const dispatch = useDispatch();

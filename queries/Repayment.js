@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { queryClient } from "../App";
+import { queryClient } from "./client";
 import { EMPLOYEE_API_URL, RZP_AUTH } from "../services/constants";
 
 export const getRepayment = ({ unipeEmployeeId, token }) => {
