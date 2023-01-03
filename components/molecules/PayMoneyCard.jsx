@@ -1,4 +1,3 @@
-import { useIsFocused } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
@@ -7,20 +6,15 @@ import RazorpayCheckout from "react-native-razorpay";
 import { Icon } from "@react-native-material/core";
 import { useSelector } from "react-redux";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { createPaymentOrder } from "../../services/checkout/StandardCheckout";
 import { RZP_KEY_ID } from "../../services/constants";
-import {
-  getBackendData,
-  putBackendData,
-} from "../../services/employees/employeeServices";
 import PrimaryButton from "../atoms/PrimaryButton";
 import { showToast } from "../atoms/Toast";
 import { getNumberOfDays, setYYYYMMDDtoDDMMYYYY } from "../../helpers/DateFunctions";
+import { getRepayment, createRazorpayOrder, updateRepayment } from "../../queries/Repayment";
 
 const PayMoneyCard = () => {
-  const [inactive, setInactive] = useState(true);
+  const [inactive, setInactive] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [repaymentStatus, setRepaymentStatus] = useState("PENDING");
 
   const phoneNumber = useSelector((state) => state.auth?.phoneNumber);
   const email = useSelector(
@@ -30,13 +24,30 @@ const PayMoneyCard = () => {
     (state) => state.bank?.data?.accountHolderName
   );
   const customerId = useSelector((state) => state.mandate.data.customerId);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const token = useSelector((state) => state.auth.token);
+
   const [repaymentOrderId, setRepaymentOrderId] = useState(null);
+
+  const { isSuccess: getRepaymentIsSuccess, data: getRepaymentData } =
+    getRepayment({
+      unipeEmployeeId,
+      token,
+    });
+  console.log(`getRepaymentIsSuccess getRepaymentData: ${getRepaymentIsSuccess} ${JSON.stringify(getRepaymentData?.data)}`);
+
+  const {mutateAsync: updateRepaymentMutateAsync} = updateRepayment();
+
   const [dueDate, setDueDate] = useState(null);
   const [overdueDays, setOverdueDays] = useState(null);
   const [repaymentAmount, setRepaymentAmount] = useState(0);
   const [repaymentId, setRepaymentId] = useState(null);
-  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const token = useSelector((state) => state.auth.token);
+  const [repaymentStatus, setRepaymentStatus] = useState("PENDING");
+
+  const { data: createRazorpayOrderData, mutateAsync: createRazorpayOrderMutateAsync } = createRazorpayOrder({
+    amount: repaymentAmount,
+    repaymentId: repaymentId,
+  });
 
   useEffect(() => {
     console.log(
@@ -44,44 +55,79 @@ const PayMoneyCard = () => {
       repaymentOrderId,
       !repaymentOrderId
     );
-    if (repaymentOrderId) {
-      var options = {
-        description: "Unipe Early Loan Repayment",
-        name: "Unipe",
-        key: RZP_KEY_ID,
-        order_id: repaymentOrderId,
-        customer_id: customerId,
-        prefill: {
-          name: accountHolderName,
-          email: email,
-          contact: phoneNumber,
-        },
-        theme: { color: COLORS.primary },
-      };
-      RazorpayCheckout.open(options)
-        .then((data) => {
-          console.log("RazorpayCheckout data: ", data);
-          putBackendData({
-            data: {
-              unipeEmployeeId: unipeEmployeeId,
-              dueDate: dueDate,
-              status: "INPROGRESS",
-            },
-            xpath: "ewa/repayment",
-            token: token,
-          })
-            .then((response) => {
-              console.log("ewaRepaymentsPost response.data: ", response.data);
+    if (repaymentAmount > 0) {
+      if (repaymentOrderId) {
+        var options = {
+          description: "Unipe Early Loan Repayment",
+          name: "Unipe",
+          key: RZP_KEY_ID,
+          order_id: repaymentOrderId,
+          customer_id: customerId,
+          prefill: {
+            name: accountHolderName,
+            email: email,
+            contact: phoneNumber,
+          },
+          theme: { color: COLORS.primary },
+        };
+        RazorpayCheckout.open(options)
+          .then((data) => {
+            console.log("RazorpayCheckout data: ", data);
+            updateRepaymentMutateAsync({
+              data: {
+                unipeEmployeeId: unipeEmployeeId,
+                dueDate: dueDate,
+                status: "INPROGRESS",
+              },
+              xpath: "ewa/repayment",
+              token: token,
             })
-            .catch((error) => {
-              console.log("ewaRepaymentsPost error: ", error.toString());
+              .then((response) => {
+                console.log("ewaRepaymentPost response.data: ", response?.data);
+                if (response?.data?.status === 200) {
+                  setRepaymentStatus("INPROGRESS");
+                  showToast("Loan Payment Successful");
+                  setLoading(false);
+                  Analytics.trackEvent("Ewa|Repayment|Success", {
+                    unipeEmployeeId: unipeEmployeeId,
+                  });
+                } else {
+                  showToast("Loan Payment Failed. Please try again.");
+                  setLoading(false);
+                  Analytics.trackEvent("Ewa|RepaymentPost|Error", {
+                    unipeEmployeeId: unipeEmployeeId
+                  });
+                }
+              })
+              .catch((error) => {
+                console.log("ewaRepaymentPost error: ", error.toString());
+                showToast("Loan Payment Failed. Please try again.");
+                setLoading(false);
+                Analytics.trackEvent("Ewa|Repayment|Error", {
+                  unipeEmployeeId: unipeEmployeeId,
+                  error: error.toString(),
+                });
+              });
+          })
+          .catch((error) => {
+            console.log("ewaRepayment Checkout error:", error.description);
+            showToast("Loan Payment Failed. Please try again.");
+            setLoading(false);
+            Analytics.trackEvent("Ewa|Repayment|Error", {
+              unipeEmployeeId: unipeEmployeeId,
+              error: error.toString(),
             });
-          showToast("Loan Payment Successful");
-          setRepaymentStatus("INPROGRESS");
-          setLoading(false);
-          Analytics.trackEvent("Ewa|Repayment|Success", {
-            unipeEmployeeId: unipeEmployeeId,
           });
+      }
+    }
+  }, [repaymentOrderId]);
+
+  const createRepaymentOrder = () => {
+    if (repaymentAmount > 0) {
+      createRazorpayOrderMutateAsync()
+        .then((res) => {
+          console.log("Paynow button res:", res?.data);
+          setRepaymentOrderId(res?.data?.id);
         })
         .catch((error) => {
           var errorObj = "";
@@ -99,88 +145,36 @@ const PayMoneyCard = () => {
           });
         });
     }
-  }, [repaymentOrderId]);
-
-  const createRepaymentOrder = () => {
-    setLoading(true);
-    if (repaymentAmount > 0) {
-      createPaymentOrder({
-        amount: repaymentAmount,
-        repaymentId: repaymentId,
-      })
-        .then((response) => {
-          if (response.status === 200) {
-            setRepaymentOrderId(response.data.id);
-            console.log(
-              "createRepaymentOrder response.data.body: ",
-              response.data
-            );
-            Analytics.trackEvent("Ewa|RepaymentOrder|Success", {
-              unipeEmployeeId: unipeEmployeeId,
-            });
-          }
-        })
-        .catch((error) => {
-          setLoading(false);
-          console.log("createRepaymentOrder error: ", error);
-          Analytics.trackEvent("Ewa|RepaymentOrder|Error", {
-            unipeEmployeeId: unipeEmployeeId,
-            error: error.toString(),
-          });
-        });
-    } else {
-      setLoading(false);
-      showToast("No amount due");
-    }
   };
 
   useEffect(() => {
-    if (repaymentAmount < 1 || repaymentStatus === "INPROGRESS") {
-      setInactive(true);
+    if (getRepaymentIsSuccess && getRepaymentData.data.status === 200) {
+      var repaymentAmount = Math.max(
+        getRepaymentData?.data?.body?.amount -
+          (getRepaymentData?.data?.body?.paidAmount ?? 0),
+        0
+      );
+      var repaymentStatus = getRepaymentData?.data?.body?.status;
+      if (repaymentAmount > 0 && repaymentStatus !== "SUCCESS") {
+        var timestamp = getRepaymentData?.data?.body?.dueDate?.split(" ");
+        var date = timestamp[0];
+        var formattedDueDate = setYYYYMMDDtoDDMMYYYY(date);
+        setDueDate(formattedDueDate);
+        setOverdueDays(
+          getNumberOfDays({
+            date: formattedDueDate?.replace(/-/g, "/"),
+            formatted: false,
+          })
+        );
+        setRepaymentAmount(repaymentAmount);
+        setRepaymentStatus(repaymentStatus);
+        setRepaymentId(getRepaymentData?.data?.body?.repaymentId);
+        setInactive(false);
+      } else if (repaymentAmount < 1 || repaymentStatus === "INPROGRESS") {
+        setInactive(true);
+      }
     }
-  }, [repaymentAmount, repaymentStatus]);
-
-  useEffect(() => {
-    if (unipeEmployeeId) {
-      getBackendData({
-        params: { unipeEmployeeId: unipeEmployeeId },
-        xpath: "ewa/repayment",
-        token: token,
-      })
-        .then((response) => {
-          console.log("ewaRepaymentsFetch response.data: ", response.data);
-          if (response.data.status === 200) {
-            var timestamp = response.data.body.dueDate?.split(" ");
-            var date = timestamp[0];
-            var formattedDueDate = setYYYYMMDDtoDDMMYYYY(date);
-            setDueDate(formattedDueDate);
-            setOverdueDays(
-              getNumberOfDays({
-                date: formattedDueDate?.replace(/-/g, "/"),
-                formatted: false,
-              })
-            );
-            setRepaymentAmount(
-              Math.max(
-                response.data.body.amount -
-                  (response.data.body.paidAmount ?? 0),
-                0
-              )
-            );
-            setRepaymentStatus(response.data.body.status);
-            setRepaymentId(response.data.body.repaymentId);
-            setInactive(false);
-          } else if (response.data.status === 404) {
-            setDueDate(null);
-            setOverdueDays(null);
-            setRepaymentAmount(0);
-          }
-        })
-        .catch((error) => {
-          console.log("ewaRepaymentsFetch Catch error: ", error.toString());
-        });
-    }
-  }, [unipeEmployeeId]);
+  }, [getRepaymentIsSuccess, getRepaymentData]);
 
   return (
     <View style={styles.container}>
@@ -225,14 +219,20 @@ const PayMoneyCard = () => {
           styles.bottomCard,
           {
             backgroundColor:
-              overdueDays < 0 ? COLORS.warning : COLORS.moneyCardBgVariant,
+              getNumberOfDays({
+                date: dueDate?.replace(/-/g, "/"),
+                formatted: true,
+              }) < 0
+                ? COLORS.warning
+                : COLORS.moneyCardBg,
           },
         ]}
       >
         <Icon name="info-outline" size={18} color={COLORS.white} />
         <Text style={[styles.text, { marginLeft: 5 }]}>
-          {overdueDays < 0
-            ? `Your repayment is overdue by ${-overdueDays} days`
+          {
+            overdueDays < 0
+            ? `Your repayment is overdue by ${overdueDays} days`
             : dueDate !== null
             ? `Due by ${dueDate}`
             : `No dues`}
