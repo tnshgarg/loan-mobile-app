@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getBackendData } from "../services/employees/employeeServices";
 
-export const fetchQuery = ({ unipeEmployeeId, token }) => {
+export const getEwaOffers = ({ unipeEmployeeId, token }) => {
   const response = useQuery({
     queryKey: ["getEwaOffers"],
     queryFn: async () => {

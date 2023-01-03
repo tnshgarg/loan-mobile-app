@@ -19,7 +19,7 @@ import LogoHeader from "../../components/atoms/LogoHeader";
 import VideoPlayer from "../../components/organisms/VideoPlayer";
 import { COLORS } from "../../constants/Theme";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
-import { fetchQuery } from "../../queries/offers";
+import { getEwaOffers } from "../../queries/offers";
 import {
   notificationListener,
   requestUserPermission,
@@ -107,27 +107,20 @@ const HomeView = () => {
   useEffect(() => {
     dispatch(addAccessible(accessible));
   }, [accessible]);
-  const {
-    isLoading,
-    isError,
-    error,
-    data: response,
-    isFetching,
-  } = fetchQuery({ token, unipeEmployeeId });
 
-  console.log("HomeView FetchQuery for Offers", isLoading, error, isFetching);
+  const {
+    isSuccess: getEwaOffersIsSuccess,
+    isError: getEwaOffersIsError,
+    error: getEwaOffersError,
+    data: getEwaOffersData,
+  } = getEwaOffers({ token, unipeEmployeeId });
+
   useEffect(() => {
-    if (response) {
-      console.log("HomeView ewaOffersFetch response.data: ", response.data);
-      if (response.data.status === 200) {
-        if (Object.keys(response.data.body.live).length !== 0) {
-          console.log(
-            "HomeView ewaOffersFetch response.data.body.live: ",
-            response.data.body.live,
-            response.data.body.live != {}
-          );
+    if (getEwaOffersIsSuccess) {
+      if (getEwaOffersData.data.status === 200) {
+        if (Object.keys(getEwaOffersData.data.body.live).length !== 0) {
           const closureDays = getNumberOfDays({
-            date: response.data.body.live.dueDate,
+            date: getEwaOffersData.data.body.live.dueDate,
           });
           if (closureDays <= 3) {
             setAccessible(false);
@@ -137,20 +130,20 @@ const HomeView = () => {
         } else {
           setAccessible(false);
         }
-        dispatch(resetEwaLive(response.data.body.live));
-        dispatch(resetEwaHistorical(response.data.body.past));
+        dispatch(resetEwaLive(getEwaOffersData.data.body.live));
+        dispatch(resetEwaHistorical(getEwaOffersData.data.body.past));
         setFetched(true);
       } else {
-        console.log("HomeView ewaOffersFetch API error: ", response.data);
+        console.log("HomeView ewaOffersFetch API error getEwaOffersData.data : ", getEwaOffersData.data);
         dispatch(resetEwaLive());
         dispatch(resetEwaHistorical());
       }
-    } else if (isError) {
-      console.log("HomeView ewaOffersFetch API error: ", error.message);
+    } else if (getEwaOffersIsError) {
+      console.log("HomeView ewaOffersFetch API error getEwaOffersError.message : ", getEwaOffersError.message);
       dispatch(resetEwaLive());
       dispatch(resetEwaHistorical());
     }
-  }, [response]);
+  }, [getEwaOffersIsSuccess]);
 
   const getUrlAsync = async () => {
     const initialUrl = await Linking.getInitialURL();

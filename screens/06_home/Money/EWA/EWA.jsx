@@ -1,6 +1,7 @@
 import { STAGE } from "@env";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
+import { Ionicons } from "react-native-vector-icons";
 import {
   BackHandler,
   SafeAreaView,
@@ -8,23 +9,22 @@ import {
   Text,
   View
 } from "react-native";
-import { Ionicons } from "react-native-vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import LogoHeader from "../../../../components/atoms/LogoHeader";
-import KycCheckCard from "../../../../components/molecules/KycCheckCard";
+import { allAreNull } from "../../../../helpers/nullCheck";
+import { styles } from "../../../../styles";
 import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
 import LiveOfferCard from "../../../../components/organisms/LiveOfferCard";
-import { COLORS, FONTS } from "../../../../constants/Theme";
-import { getNumberOfDays } from "../../../../helpers/DateFunctions";
-import { allAreNull } from "../../../../helpers/nullCheck";
-import { fetchQuery } from "../../../../queries/offers";
-import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
+import KycCheckCard from "../../../../components/molecules/KycCheckCard";
 import {
   addAccessible,
   addEligible,
-  resetEwaLive
+  resetEwaLive,
 } from "../../../../store/slices/ewaLiveSlice";
-import { styles } from "../../../../styles";
+import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
+import { COLORS, FONTS } from "../../../../constants/Theme";
+import LogoHeader from "../../../../components/atoms/LogoHeader";
+import { getNumberOfDays } from "../../../../helpers/DateFunctions";
+import { getEwaOffers } from "../../../../queries/offers";
 
 const EWA = () => {
   const dispatch = useDispatch();
@@ -93,26 +93,18 @@ const EWA = () => {
   }, [accessible]);
 
   const {
-    isLoading,
-    isError,
-    error,
-    data: response,
-    isFetching,
-  } = fetchQuery({ token, unipeEmployeeId });
+    isSuccess: getEwaOffersIsSuccess,
+    isError: getEwaOffersIsError,
+    error: getEwaOffersError,
+    data: getEwaOffersData,
+  } = getEwaOffers({ token, unipeEmployeeId });
 
-  console.log("Money FetchQuery for Offers", isLoading, error, isFetching);
   useEffect(() => {
-    if (response) {
-      console.log("Money ewaOffersFetch response.data: ", response.data);
-      if (response.data.status === 200) {
-        if (Object.keys(response.data.body.live).length !== 0) {
-          console.log(
-            "Money ewaOffersFetch response.data.body.live: ",
-            response.data.body.live,
-            response.data.body.live != {}
-          );
+    if (getEwaOffersIsSuccess) {
+      if (getEwaOffersData.data.status === 200) {
+        if (Object.keys(getEwaOffersData.data.body.live).length !== 0) {
           const closureDays = getNumberOfDays({
-            date: response.data.body.live.dueDate,
+            date: getEwaOffersData.data.body.live.dueDate,
           });
           if (closureDays <= 3) {
             setAccessible(false);
@@ -122,20 +114,20 @@ const EWA = () => {
         } else {
           setAccessible(false);
         }
-        dispatch(resetEwaLive(response.data.body.live));
-        dispatch(resetEwaHistorical(response.data.body.past));
+        dispatch(resetEwaLive(getEwaOffersData.data.body.live));
+        dispatch(resetEwaHistorical(getEwaOffersData.data.body.past));
         setFetched(true);
       } else {
-        console.log("Money ewaOffersFetch API error: ", response.data);
+        console.log("Money ewaOffersFetch API error getEwaOffersData.data : ", getEwaOffersData.data);
         dispatch(resetEwaLive());
         dispatch(resetEwaHistorical());
       }
-    } else if (isError) {
-      console.log("Money ewaOffersFetch API error: ", error.message);
+    } else if (getEwaOffersIsError) {
+      console.log("Money ewaOffersFetch API error getEwaOffersError.message : ", getEwaOffersError.message);
       dispatch(resetEwaLive());
       dispatch(resetEwaHistorical());
     }
-  }, [response]);
+  }, [getEwaOffersIsSuccess]);
 
   return (
     <SafeAreaView style={styles.safeContainer}>
@@ -176,16 +168,6 @@ const EWA = () => {
           </View>
       ) : (
         <View style={[styles.container]}>
-          <Text
-            style={{
-              color: COLORS.warning,
-              ...FONTS.h3,
-              alignSelf: "center",
-              marginTop: "5%",
-            }}
-          >
-            You are not eligible for Advanced Salary.
-          </Text>
           <KycCheckCard
             title="Following pending steps need to be completed in order to receive advance salary."
             message={verifyStatuses}
