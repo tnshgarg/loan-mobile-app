@@ -122,7 +122,7 @@ const Offer = () => {
     setProcessingFees(pF)
     dispatch(addProcessingFees(pF));
     setNetAmount(parseInt(loanAmount) - pF);
-    dispatch(addNetAmount(netAmount));
+    dispatch(addNetAmount(parseInt(loanAmount) - pF));
     dispatch(addAPR(APR(processingFees, loanAmount)));
     setUpdating(false);
   }, [loanAmount]);
