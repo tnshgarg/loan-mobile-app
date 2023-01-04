@@ -10,9 +10,9 @@ import {
   addVerifyTimestamp,
 } from "../../store/slices/aadhaarSlice";
 import { KYC_AADHAAR_SUBMIT_OTP_API_URL } from "../../services/constants";
-import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
+import { AadhaarBackendPush } from "../../queries/Aadhaar";
 
 const AadhaarVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -47,6 +47,8 @@ const AadhaarVerifyApi = (props) => {
   useEffect(() => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
+
+  const { mutateAsync: aadhaarBackendPush } = AadhaarBackendPush();
 
   const backendPush = ({ data, verifyMsg, verifyStatus, verifyTimestamp }) => {
     console.log("AadhaarVerifyApi aadhaarSlice: ", aadhaarSlice);

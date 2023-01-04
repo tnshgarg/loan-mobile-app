@@ -6,7 +6,7 @@ import {
 } from "../services/constants";
 import { OG_API_KEY } from "@env";
 
-export const PostAadhaarOtp = () => {
+export const AadhaarBackendPush = () => {
   const mutation = useMutation({
     mutationFn: async ({ data, token }) => {
       return axios({
@@ -28,33 +28,25 @@ export const PostAadhaarOtp = () => {
   return mutation;
 };
 
-export const fetchAadhaarData = ({ data }) => {
-  const response = useQuery(
-    ["aadhaar-data-otp"],
-    async () => {
-      var url = KYC_AADHAAR_GENERATE_OTP_API_URL;
-      return await axios({
+export const fetchAadhaarData = () => {
+  const mutation = useMutation({
+    mutationFn: async ({ data }) => {
+      return axios({
         method: "post",
-        url: `${url}`,
+        url: KYC_AADHAAR_GENERATE_OTP_API_URL,
         headers: {
           "X-Auth-Type": "API-Key",
           "X-API-Key": OG_API_KEY,
           "Content-Type": "application/json",
         },
-        data: data,
-      }).then((response) => {
-        // console.log("aadhaarotpdata response: ", response);
-        return response;
-      });
+        data: JSON.stringify(data),
+      })
+        .then((response) => {
+          // console.log("Aadhaar otp response:", response);
+          return response;
+        })
+        .catch(console.error);
     },
-    {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-      enabled: false,
-      staleTime: 1000 * 60 * 60 * 24, // 1 day
-      refetchInterval: 1000 * 60 * 60 * 24, // 1 day
-    }
-  );
-  return response;
+  });
+  return mutation;
 };

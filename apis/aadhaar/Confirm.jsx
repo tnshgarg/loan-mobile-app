@@ -4,10 +4,10 @@ import { View, Image, Text } from "react-native";
 import { Button } from "@react-native-material/core";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
-import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
+import { AadhaarBackendPush } from "../../queries/Aadhaar";
 
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -18,6 +18,8 @@ const AadhaarConfirmApi = (props) => {
   const data = useSelector((state) => state.aadhaar.data);
   const number = useSelector((state) => state.aadhaar.number);
   const verifyTimestamp = useSelector((state) => state.aadhaar.verifyTimestamp);
+
+  const { mutateAsync: aadhaarBackendPush } = AadhaarBackendPush();
 
   const backendPush = ({ verifyMsg, verifyStatus }) => {
     dispatch(addVerifyMsg(verifyMsg));
