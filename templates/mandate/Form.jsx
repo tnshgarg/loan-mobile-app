@@ -80,16 +80,16 @@ const MandateFormTemplate = (props) => {
         xpath: "mandate",
         token: token,
       })
-        .then((response) => {
-          console.log("mandateFetch response.data", response.data);
-          if (response.data.status === 200) {
-            dispatch(resetMandate(response.data.body));
-          }
-          setFetched(true);
-        })
-        .catch((error) => {
-          console.log("mandateFetch error: ", error);
-        });
+      .then((response) => {
+        console.log("mandateFetch response.data", response.data);
+        if (response.data.status === 200) {
+          dispatch(resetMandate(response?.data?.body));
+        }
+        setFetched(true);
+      })
+      .catch((error) => {
+        console.log("mandateFetch error: ", error);
+      });
     }
   }, [unipeEmployeeId, verifyStatus]);
 
@@ -189,8 +189,7 @@ const MandateFormTemplate = (props) => {
 
       RazorpayCheckout.open(options)
         .then((data) => {
-          console.log("mandate token.data: ", token.data);
-          showToast("Mandate Verified Successfully");
+          showToast("Mandate Registration In Progress");
           backendPush({
             data: {
               authType: authType,
@@ -199,9 +198,8 @@ const MandateFormTemplate = (props) => {
               paymentId: data.razorpay_payment_id,
               paymentSignature: data.razorpay_signature,
               provider: "razorpay",
-              tokenId: token.data.token_id,
             },
-            verifyMsg: "Mandate Verified Successfully",
+            verifyMsg: "Mandate Registration In Progress",
             verifyStatus: "INPROGRESS",
             verifyTimestamp: Date.now(),
           });
@@ -211,14 +209,8 @@ const MandateFormTemplate = (props) => {
           });
         })
         .catch((error) => {
-          var errorObj = "";
-          if (error.error) {
-            errorObj = error.error;
-          } else {
-            errorObj = error;
-          }
-          console.log("mandate error:", errorObj.description);
-          Alert.alert("Error", errorObj.description);
+          console.log("mandate error:", error, options);
+          Alert.alert("Error", error?.error?.description || error?.description);
           backendPush({
             data: {
               authType: authType,
@@ -226,14 +218,14 @@ const MandateFormTemplate = (props) => {
               orderId: orderId,
               provider: "razorpay",
             },
-            verifyMsg: errorObj.description,
+            verifyMsg: error?.error?.description || error?.description,
             verifyStatus: "ERROR",
             verifyTimestamp: Date.now(),
           });
           setLoading(false);
           Analytics.trackEvent("Mandate|Authorize|Error", {
             unipeEmployeeId: unipeEmployeeId,
-            error: errorObj.description,
+            error: error?.error?.description || error?.description,
           });
         });
     }
@@ -242,12 +234,6 @@ const MandateFormTemplate = (props) => {
   const ProceedButton = ({ authType }) => {
     setLoading(true);
     setAuthType(authType);
-    backendPush({
-      data: { authType: authType, customerId: customerId },
-      verifyMsg: `Mandate|CreateOrder|${authType} PENDING`,
-      verifyStatus: "PENDING",
-      verifyTimestamp: Date.now(),
-    });
     createOrder({
       authType: authType,
       customerId: customerId,
@@ -322,13 +308,13 @@ const MandateFormTemplate = (props) => {
             Please choose your preferred mode
           </Text>
           {
-            customerId == null || !fetched ? (
+            customerId === null || !fetched ? (
               <Text style={{ ...FONTS.body4, color: COLORS.gray }}>
                 Initializing ...
               </Text>
             ) : (
-              verifyStatus == "INPROGRESS" ? (
-                <Text style={{ ...FONTS.body4, color: COLORS.gray }}>
+              verifyStatus === "INPROGRESS" ? (
+                <Text style={{ ...FONTS.body4, color: COLORS.black }}>
                   Your Mandate Registration is currently in progress.
                 </Text>
               ) : (

@@ -50,8 +50,6 @@ const MandateOptions = ({ ProceedButton, disabled }) => {
     }
   }, [ifsc]);
 
-  console.log("mandateButtons: ", mandateButtons);
-
   return (
     <View style={styles.container}>
       {
