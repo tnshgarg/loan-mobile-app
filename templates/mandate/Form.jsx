@@ -75,7 +75,7 @@ const MandateFormTemplate = (props) => {
   }, []);
 
   useEffect(() => {
-    if (unipeEmployeeId) {
+    if (unipeEmployeeId && verifyStatus !== "SUCCESS") {
       getBackendData({
         params: { unipeEmployeeId: unipeEmployeeId },
         xpath: "mandate",
@@ -92,7 +92,7 @@ const MandateFormTemplate = (props) => {
           console.log("mandateFetch error: ", error);
         });
     }
-  }, [unipeEmployeeId]);
+  }, [unipeEmployeeId, verifyStatus]);
 
   useEffect(() => {
     dispatch(addData(data));
@@ -187,54 +187,26 @@ const MandateFormTemplate = (props) => {
 
       RazorpayCheckout.open(options)
         .then((data) => {
-          getToken({ paymentId: data.razorpay_payment_id })
-            .then((token) => {
-              console.log("mandate token.data: ", token.data);
-              showToast("Mandate Verified Successfully");
-              backendPush({
-                data: {
-                  authType: authType,
-                  customerId: customerId,
-                  orderId: orderId,
-                  paymentId: data.razorpay_payment_id,
-                  paymentSignature: data.razorpay_signature,
-                  provider: "razorpay",
-                  tokenId: token.data.token_id,
-                },
-                verifyMsg: "Mandate Verified Successfully",
-                verifyStatus: "SUCCESS",
-                verifyTimestamp: Date.now(),
-              });
-              setLoading(false);
-              Analytics.trackEvent("Mandate|GetToken|Success", {
-                unipeEmployeeId: unipeEmployeeId,
-              });
-              props?.type === "EWA"
-                ? navigation.navigate("EWA_AGREEMENT")
-                : null;
-            })
-            .catch((error) => {
-              console.log("mandate error:", error.description);
-              Alert.alert("Error", error.description);
-              backendPush({
-                data: {
-                  authType: authType,
-                  customerId: customerId,
-                  orderId: orderId,
-                  paymentId: data.razorpay_payment_id,
-                  paymentSignature: data.razorpay_signature,
-                  provider: "razorpay",
-                },
-                verifyMsg: error.description,
-                verifyStatus: "ERROR",
-                verifyTimestamp: Date.now(),
-              });
-              setLoading(false);
-              Analytics.trackEvent("Mandate|GetToken|Error", {
-                unipeEmployeeId: unipeEmployeeId,
-                error: error.description,
-              });
-            });
+          console.log("mandate token.data: ", token.data);
+          showToast("Mandate Verified Successfully");
+          backendPush({
+            data: {
+              authType: authType,
+              customerId: customerId,
+              orderId: orderId,
+              paymentId: data.razorpay_payment_id,
+              paymentSignature: data.razorpay_signature,
+              provider: "razorpay",
+              tokenId: token.data.token_id,
+            },
+            verifyMsg: "Mandate Verified Successfully",
+            verifyStatus: "INPROGRESS",
+            verifyTimestamp: Date.now(),
+          });
+          setLoading(false);
+          Analytics.trackEvent("Mandate|Authorize|InProgress", {
+            unipeEmployeeId: unipeEmployeeId,
+          });
         })
         .catch((error) => {
           var errorObj = "";
@@ -257,7 +229,7 @@ const MandateFormTemplate = (props) => {
             verifyTimestamp: Date.now(),
           });
           setLoading(false);
-          Analytics.trackEvent("Mandate|Register|Error", {
+          Analytics.trackEvent("Mandate|Authorize|Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: errorObj.description,
           });
@@ -347,13 +319,21 @@ const MandateFormTemplate = (props) => {
           >
             Please choose your preferred mode
           </Text>
-          {customerId == null || !fetched ? (
-            <Text style={{ ...FONTS.body4, color: COLORS.gray }}>
-              Initializing ...{" "}
-            </Text>
-          ) : (
-            <MandateOptions ProceedButton={ProceedButton} disabled={loading} />
-          )}
+          {
+            customerId == null || !fetched ? (
+              <Text style={{ ...FONTS.body4, color: COLORS.gray }}>
+                Initializing ...{" "}
+              </Text>
+            ) : (
+              verifyStatus == "INPROGRESS" ? (
+                <Text style={{ ...FONTS.body4, color: COLORS.gray }}>
+                  Your Mandate Registration is currently in progress...
+                </Text>
+              ) : (
+                <MandateOptions ProceedButton={ProceedButton} disabled={loading} />
+              )
+            )
+          }
           <View
             style={{
               padding: 10,

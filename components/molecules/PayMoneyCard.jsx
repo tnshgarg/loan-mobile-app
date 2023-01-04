@@ -10,7 +10,7 @@ import { RZP_KEY_ID } from "../../services/constants";
 import PrimaryButton from "../atoms/PrimaryButton";
 import { showToast } from "../atoms/Toast";
 import { getNumberOfDays, setYYYYMMDDtoDDMMYYYY } from "../../helpers/DateFunctions";
-import { getRepayment, createRazorpayOrder, updateRepayment } from "../../queries/Repayment";
+import { getRepayment, createRazorpayOrder, updateRepayment } from "../../queries/repayment";
 
 const PayMoneyCard = () => {
   const [inactive, setInactive] = useState(false);
@@ -28,23 +28,59 @@ const PayMoneyCard = () => {
   const token = useSelector((state) => state.auth.token);
 
   const [repaymentOrderId, setRepaymentOrderId] = useState(null);
-
-  const { isSuccess: getRepaymentIsSuccess, data: getRepaymentData } =
-    getRepayment({
-      unipeEmployeeId,
-      token,
-    });
-  console.log(`getRepaymentIsSuccess getRepaymentData: ${getRepaymentIsSuccess} ${JSON.stringify(getRepaymentData?.data)}`);
-
-  const {mutateAsync: updateRepaymentMutateAsync} = updateRepayment();
-
   const [dueDate, setDueDate] = useState(null);
   const [overdueDays, setOverdueDays] = useState(null);
   const [repaymentAmount, setRepaymentAmount] = useState(0);
   const [repaymentId, setRepaymentId] = useState(null);
   const [repaymentStatus, setRepaymentStatus] = useState("PENDING");
 
-  const { data: createRazorpayOrderData, mutateAsync: createRazorpayOrderMutateAsync } = createRazorpayOrder({
+  const { 
+    isSuccess: getRepaymentIsSuccess,
+    isError: getRepaymentIsError,
+    error: getRepaymentError,
+    data: getRepaymentData,
+  } = getRepayment({ token, unipeEmployeeId });
+
+  useEffect(() => {
+    if (getRepaymentIsSuccess) {
+      if (getRepaymentData.data.status === 200) {
+        var repaymentAmount = Math.max(
+          getRepaymentData?.data?.body?.amount -
+            (getRepaymentData?.data?.body?.paidAmount ?? 0),
+          0
+        );
+        var repaymentStatus = getRepaymentData?.data?.body?.status;
+        if (repaymentAmount > 0 && repaymentStatus !== "SUCCESS") {
+          var timestamp = getRepaymentData?.data?.body?.dueDate?.split(" ");
+          var date = timestamp[0];
+          var formattedDueDate = setYYYYMMDDtoDDMMYYYY(date);
+          setDueDate(formattedDueDate);
+          setOverdueDays(
+            getNumberOfDays({
+              date: formattedDueDate?.replace(/-/g, "/"),
+              formatted: false,
+            })
+          );
+          setRepaymentAmount(repaymentAmount);
+          setRepaymentStatus(repaymentStatus);
+          setRepaymentId(getRepaymentData?.data?.body?.repaymentId);
+          setInactive(false);
+        } else if (repaymentAmount < 1 || repaymentStatus === "INPROGRESS") {
+          setInactive(true);
+        }
+      } else {
+        console.log("ewaRepaymentFetch API error getRepaymentData.data: ", getRepaymentData.data);
+        setInactive(true);
+      }
+    } else if (getRepaymentIsError) {
+      console.log("ewaRepaymentFetch API error getRepaymentError.message: ", getRepaymentError.message);
+      setInactive(true);
+    }
+  }, [getRepaymentIsSuccess, getRepaymentData]);
+
+  const {mutateAsync: updateRepaymentMutateAsync} = updateRepayment();
+
+  const { mutateAsync: createRazorpayOrderMutateAsync } = createRazorpayOrder({
     amount: repaymentAmount,
     repaymentId: repaymentId,
   });
@@ -146,35 +182,6 @@ const PayMoneyCard = () => {
         });
     }
   };
-
-  useEffect(() => {
-    if (getRepaymentIsSuccess && getRepaymentData.data.status === 200) {
-      var repaymentAmount = Math.max(
-        getRepaymentData?.data?.body?.amount -
-          (getRepaymentData?.data?.body?.paidAmount ?? 0),
-        0
-      );
-      var repaymentStatus = getRepaymentData?.data?.body?.status;
-      if (repaymentAmount > 0 && repaymentStatus !== "SUCCESS") {
-        var timestamp = getRepaymentData?.data?.body?.dueDate?.split(" ");
-        var date = timestamp[0];
-        var formattedDueDate = setYYYYMMDDtoDDMMYYYY(date);
-        setDueDate(formattedDueDate);
-        setOverdueDays(
-          getNumberOfDays({
-            date: formattedDueDate?.replace(/-/g, "/"),
-            formatted: false,
-          })
-        );
-        setRepaymentAmount(repaymentAmount);
-        setRepaymentStatus(repaymentStatus);
-        setRepaymentId(getRepaymentData?.data?.body?.repaymentId);
-        setInactive(false);
-      } else if (repaymentAmount < 1 || repaymentStatus === "INPROGRESS") {
-        setInactive(true);
-      }
-    }
-  }, [getRepaymentIsSuccess, getRepaymentData]);
 
   return (
     <View style={styles.container}>
