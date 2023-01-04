@@ -10,8 +10,8 @@ const Mandate = () => {
   const [updated, setUpdated] = useState(false);
 
   const mandateSlice = useSelector((state) => state.mandate);
-  const authType = mandateSlice.data?.authType.toUpperCase();
-  const verifyStatus = mandateSlice.verifyStatus;
+  const authType = mandateSlice.data?.authType?.toUpperCase();
+  const verifyStatus = mandateSlice?.verifyStatus;
 
   const cardData = () => {
     var res = [

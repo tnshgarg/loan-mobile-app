@@ -66,14 +66,6 @@ const KYC = () => {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
-  // useEffect(() => {
-  //   if (unipeEmployeeId && kycData.isFetched) {
-  //     if (kycData.data.data.status === 200) {
-  //       setCreditPass(kycData.data.data.body.pass);
-  //     }
-  //   }
-  // }, [unipeEmployeeId, kycData]);
-
   useEffect(() => {
     if (fetched) {
       postKyc
@@ -175,17 +167,8 @@ const KYC = () => {
         <View style={{ flex: 1 }} />
 
         <PrimaryButton
-          title={
-            creditPass === "PENDING"
-              ? "Checking Credit Bureau"
-              : creditPass === "DECLINED"
-              ? "Credit Declined"
-              : loading
-              ? "Verifying"
-              : "Proceed"
-          }
-          disabled={creditPass !== "SUCCESS" || loading}
-          loading={loading}
+          title={loading ? "Verifying" : "Proceed"}
+          disabled={loading}
           onPress={() => {
             handleKyc();
           }}

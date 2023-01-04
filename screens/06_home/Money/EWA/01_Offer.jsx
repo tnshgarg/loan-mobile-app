@@ -33,6 +33,7 @@ const Offer = () => {
   const [fetched, setFetched] = useState(false);
   const [consent, setConsent] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [updating, setUpdating] = useState(false);
   const [validAmount, setValidAmount] = useState(false);
   const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
     useState(false);
@@ -99,6 +100,7 @@ const Offer = () => {
   }, []);
 
   useEffect(() => {
+    setUpdating(true);
     if (parseInt(loanAmount) <= ewaLiveSlice.eligibleAmount) {
       if (
         STAGE !== "prod" ||
@@ -112,28 +114,26 @@ const Offer = () => {
     } else {
       setValidAmount(false);
     }
+    console.log("validAmount, updating: ", validAmount, updating);
   }, [loanAmount]);
 
   useEffect(() => {
-    let pf = (parseInt(loanAmount) * fees) / 100;
-    if (parseInt(pf) % 10 < 4) {
-      setProcessingFees(Math.max(9, Math.floor(pf / 10) * 10 - 1));
+    var pf = (parseInt(loanAmount) * fees)/100;
+    var pF;
+    if (parseInt(pf)%10<4) {
+      pF = Math.max(9, (Math.floor((pf/10))*10) -1);
     } else {
-      setProcessingFees(Math.max(9, Math.floor((pf + 10) / 10) * 10 - 1));
+      pF = Math.max(9, (Math.floor(((pf+10)/10))*10) -1);
     }
-  }, [loanAmount, fees]);
-
-  useEffect(() => {
-    dispatch(addProcessingFees(processingFees));
-    setNetAmount(parseInt(loanAmount) - processingFees);
-  }, [processingFees]);
-
-  useEffect(() => {
+    setProcessingFees(pF)
+    dispatch(addProcessingFees(pF));
+    setNetAmount(parseInt(loanAmount) - pF);
     dispatch(addNetAmount(netAmount));
-    dispatch(addAPR(APR()));
-  }, [netAmount]);
+    dispatch(addAPR(APR(processingFees, loanAmount)));
+    setUpdating(false);
+  }, [loanAmount]);
 
-  const APR = () => {
+  const APR = (processingFees, loanAmount) => {
     var today = new Date();
     var dueDateComponents = ewaLiveSlice.dueDate.split("/");
     var dueDateTemp = new Date(
@@ -143,8 +143,9 @@ const Offer = () => {
     );
     var timeDiff = dueDateTemp.getTime() - today.getTime();
     var daysDiff = parseInt(timeDiff / (1000 * 3600 * 24));
-    var apr = 100 * (processingFees / parseInt(loanAmount)) * (365 / daysDiff);
-    console.log("APR: ", apr, daysDiff, apr.toFixed(2));
+    var apr =
+      100 * (processingFees / parseInt(loanAmount)) * (365 / daysDiff);
+    console.log("processingFees, loanAmount, daysDiff, APR: ", processingFees, loanAmount, daysDiff, apr);
     return apr.toFixed(2);
   };
 
@@ -237,7 +238,7 @@ const Offer = () => {
         </View>
         <PrimaryButton
           title={loading ? "Processing" : "Continue"}
-          disabled={loading || !consent || !validAmount}
+          disabled={loading || !consent || !validAmount || updating}
           loading={loading}
           onPress={() => {
             handleAmount();
