@@ -145,15 +145,8 @@ const Disbursement = ({ route, navigation }) => {
         //progress={100}
       />
       <View style={styles.container}>
-        <View
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {StatusImage(status)}
-          {StatusText(status)}
-        </View>
+        {StatusImage(status)}
+        {StatusText(status)}
         <View style={{ flex: 1 }} />
         <DisbursementCard
           data={data}
