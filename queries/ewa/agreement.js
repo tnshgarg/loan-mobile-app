@@ -1,8 +1,7 @@
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
 import { EMPLOYEE_API_URL } from "../../services/constants";
-
-export const queryClient = new QueryClient();
+import { queryClient } from "../client";
 
 export const updateAgreement = () => {
   const mutation = useMutation({
@@ -23,38 +22,8 @@ export const updateAgreement = () => {
         .catch(console.error);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["ewa-agreement-post"] });
+      queryClient.invalidateQueries({ queryKey: ["getEwaOffers"] });
     },
   });
   return mutation;
-};
-
-export const fetchDisbursement = ({ token, params }) => {
-  const response = useQuery(
-    ["ewa-disbursement"],
-    async () => {
-      var url = `${EMPLOYEE_API_URL}/ewa/disbursement`;
-      return await axios({
-        method: "GET",
-        url: url,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        params: params,
-      }).then((response) => {
-        console.log("ewa response: ", response);
-        return response;
-      });
-    },
-    {
-      refetchOnMount: false,
-      refetchOnWindowFocus: true,
-      refetchOnReconnect: true,
-      onSettled: () => {},
-      staleTime: 1000 * 60 * 60 * 24, // 1 day
-      refetchInterval: 1000 * 60 * 60 * 24, // 1 day
-    }
-  );
-  return response;
 };

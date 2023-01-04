@@ -1,20 +1,19 @@
 import { IconComponentProvider } from "@react-native-material/core";
 import { NavigationContainer } from "@react-navigation/native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import SplashScreen from "react-native-splash-screen";
+import Icon from "react-native-vector-icons/MaterialIcons";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import Icon from "react-native-vector-icons/MaterialIcons";
-import SplashScreen from "react-native-splash-screen";
-
-import StackNavigator from "./navigators/StackNavigator";
-import { store, persistor } from "./store/store";
-import codePush from "react-native-code-push";
-import Crashes from "appcenter-crashes";
-import { navigationRef } from "./navigators/RootNavigation";
-import Analytics from "appcenter-analytics";
 import { STAGE } from "@env";
+import { queryClient } from "./queries/client";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "./queries/ewa/repayment";
+import Analytics from "appcenter-analytics";
+import Crashes from "appcenter-crashes";
+import codePush from "react-native-code-push";
+import { navigationRef } from "./navigators/RootNavigation";
+import StackNavigator from "./navigators/StackNavigator";
+import { persistor, store } from "./store/store";
 
 Crashes.setListener({
   shouldProcess: function (report) {

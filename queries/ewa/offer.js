@@ -1,7 +1,5 @@
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { putBackendData } from "../../services/employees/employeeServices";
-
-export const queryClient = new QueryClient();
 
 export const updateOffer = () => {
   const mutation = useMutation({

@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { getBackendData } from "../../services/employees/employeeServices";
 
-export const getDisbursement = ({ params, token }) => {
+export const getEwaOffers = ({ unipeEmployeeId, token }) => {
   const response = useQuery({
-    queryKey: ["getDisbursement"],
+    queryKey: ["getEwaOffers"],
     queryFn: async () => {
       return getBackendData({
-        params: params,
-        xpath: "ewa/disbursement",
+        params: { unipeEmployeeId: unipeEmployeeId },
+        xpath: "ewa/offers",
         token: token,
       });
     },
