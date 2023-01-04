@@ -22,13 +22,12 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { COLORS } from "../../../../constants/Theme";
-import { ewaAgreementPush } from "../../../../helpers/BackendPush";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
 import { checkBox, ewa, styles } from "../../../../styles";
 import agreement from "../../../../templates/docs/LiquiLoansLoanAgreement";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
-import { PostAgreementData } from "../../../../queries/ewa";
+import { updateAgreement } from "../../../../queries/ewa/agreement";
 
 const Agreement = () => {
   const dispatch = useDispatch();
@@ -55,8 +54,6 @@ const Agreement = () => {
   const mandateVerifyStatus = useSelector(
     (state) => state.mandate.verifyStatus
   );
-
-  const PostAgreement = PostAgreementData();
 
   const today = new Date();
 
@@ -105,10 +102,12 @@ const Agreement = () => {
     }
   }, [deviceId, ipAddress]);
 
+  const { mutateAsync: updateAgreementMutateAsync } = updateAgreement();
+
   useEffect(() => {
     if (fetched) {
       setLoading(true);
-      PostAgreement.mutateAsync({
+      updateAgreementMutateAsync({
         data: {
           offerId: ewaLiveSlice?.offerId,
           unipeEmployeeId: unipeEmployeeId,
@@ -120,15 +119,15 @@ const Agreement = () => {
         },
         token: token,
       })
-        .then((response) => {
-          setLoading(false);
-          console.log("ewaAgreementPush response.data: ", response.data);
-        })
-        .catch((error) => {
-          setLoading(false);
-          console.log("ewaAgreementPush error: ", error.toString());
-          Alert.alert("An Error occured", error.toString());
-        });
+      .then((response) => {
+        setLoading(false);
+        console.log("ewaAgreementPush response.data: ", response.data);
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log("ewaAgreementPush error: ", error.toString());
+        Alert.alert("An Error occured", error.toString());
+      });
     }
   }, [fetched]);
 
@@ -175,7 +174,7 @@ const Agreement = () => {
 
   function handleAgreement() {
     setLoading(true);
-    PostAgreement.mutateAsync({
+    updateAgreementMutateAsync({
       data: {
         offerId: ewaLiveSlice?.offerId,
         unipeEmployeeId: unipeEmployeeId,
@@ -195,25 +194,25 @@ const Agreement = () => {
       },
       token: token,
     })
-      .then((response) => {
-        console.log("ewaAgreementPush response.data: ", response.data);
-        dispatch(resetEwaLive());
-        dispatch(resetEwaHistorical([]));
-        setLoading(false);
-        Analytics.trackEvent("Ewa|Agreement|Success", {
-          unipeEmployeeId: unipeEmployeeId,
-        });
-        navigation.navigate("EWA_DISBURSEMENT", { offer: ewaLiveSlice });
-      })
-      .catch((error) => {
-        console.log("ewaAgreementPush error: ", error.toString());
-        setLoading(false);
-        Alert.alert("An Error occured", error.toString());
-        Analytics.trackEvent("Ewa|Agreement|Error", {
-          unipeEmployeeId: unipeEmployeeId,
-          error: error.toString(),
-        });
+    .then((response) => {
+      console.log("ewaAgreementPush response.data: ", response.data);
+      dispatch(resetEwaLive());
+      dispatch(resetEwaHistorical([]));
+      setLoading(false);
+      Analytics.trackEvent("Ewa|Agreement|Success", {
+        unipeEmployeeId: unipeEmployeeId,
       });
+      navigation.navigate("EWA_DISBURSEMENT", { offer: ewaLiveSlice });
+    })
+    .catch((error) => {
+      console.log("ewaAgreementPush error: ", error.toString());
+      setLoading(false);
+      Alert.alert("An Error occured", error.toString());
+      Analytics.trackEvent("Ewa|Agreement|Error", {
+        unipeEmployeeId: unipeEmployeeId,
+        error: error.toString(),
+      });
+    });
   }
 
   return (

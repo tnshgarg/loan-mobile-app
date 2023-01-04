@@ -1,6 +1,6 @@
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { EMPLOYEE_API_URL, RZP_AUTH } from "../services/constants";
+import { EMPLOYEE_API_URL, RZP_AUTH } from "../../services/constants";
 
 export const queryClient = new QueryClient();
 
@@ -29,21 +29,12 @@ export const getRepayment = ({ unipeEmployeeId, token }) => {
 
 export const updateRepayment = () => {
   const mutation = useMutation({
-    mutationFn: async ({ data, xpath, token }) => {
-      return axios({
-        method: "post",
-        url: `${EMPLOYEE_API_URL}/${xpath}`,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        data: JSON.stringify(data),
-      })
-        .then((response) => {
-          console.log("Repayments API POST response:", response);
-          return response;
-        })
-        .catch(console.error);
+    mutationFn: async ({ data, token }) => {
+      return putBackendData({
+        data: data,
+        xpath: "ewa/repayment",
+        token: token,
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getRepayment"] });

@@ -7,38 +7,29 @@ import { NetworkInfo } from "react-native-network-info";
 import { useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
-import { ewaKycPush } from "../../../../helpers/BackendPush";
 import { styles } from "../../../../styles";
 import DetailsCard from "../../../../components/molecules/DetailsCard";
-import { fetchKycData, PostKycData } from "../../../../queries/ewa";
+import { updateKyc } from "../../../../queries/ewa/kyc";
 
 const KYC = () => {
-  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const token = useSelector((state) => state.auth.token);
-  const kycData = fetchKycData({ unipeEmployeeId, token });
-
   const navigation = useNavigation();
 
   const [fetched, setFetched] = useState(false);
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
 
-  const creditPass =
-    kycData.isLoading || kycData.data.data.status == 404
-      ? ""
-      : kycData.data.data.body.pass;
   const [loading, setLoading] = useState(false);
+
   const campaignId = useSelector((state) => state.auth.campaignId);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const token = useSelector((state) => state.auth.token);
   const mandateVerifyStatus = useSelector(
     (state) => state.mandate.verifyStatus
   );
-
-  const data = useSelector((state) => state.aadhaar.data);
+  const aadhaarData = useSelector((state) => state.aadhaar.data);
   const aadharNumber = useSelector((state) => state.aadhaar.number);
   const panNumber = useSelector((state) => state.pan.number);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
-
-  const postKyc = PostKycData();
 
   useEffect(() => {
     getUniqueId().then((id) => {
@@ -55,6 +46,32 @@ const KYC = () => {
     }
   }, [deviceId, ipAddress]);
 
+  const { mutateAsync: updateKycMutateAsync } = updateKyc();
+
+  useEffect(() => {
+    if (fetched) {
+      updateKycMutateAsync({
+        data: {
+          offerId: ewaLiveSlice?.offerId,
+          unipeEmployeeId: unipeEmployeeId,
+          status: "INPROGRESS",
+          timestamp: Date.now(),
+          ipAddress: ipAddress,
+          deviceId: deviceId,
+          campaignId: campaignId,
+        },
+        token: token,
+      })
+      .then((response) => {
+        console.log("updateKycMutateAsync response.data: ", response.data);
+      })
+      .catch((error) => {
+        console.log("updateKycMutateAsync error: ", error.toString());
+        Alert.alert("An Error occured", error.toString());
+      });
+    }
+  }, [fetched]);
+
   const backAction = () => {
     navigation.navigate("EWA_OFFER");
     return true;
@@ -66,86 +83,54 @@ const KYC = () => {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
-  useEffect(() => {
-    if (fetched) {
-      postKyc
-        .mutateAsync({
-          data: {
-            offerId: ewaLiveSlice?.offerId,
-            unipeEmployeeId: unipeEmployeeId,
-            status: "INPROGRESS",
-            timestamp: Date.now(),
-            ipAddress: ipAddress,
-            deviceId: deviceId,
-            campaignId: campaignId,
-          },
-          token: token,
-          xpath: "ewa/kyc",
-        })
-        .then((response) => {
-          console.log("ewaKycPush response.data: ", response.data);
-        })
-        .catch((error) => {
-          console.log("ewaKycPush error: ", error.toString());
-          Alert.alert("An Error occured", error.toString());
-        });
-    }
-  }, [fetched]);
-
   function handleKyc() {
     setLoading(true);
-    postKyc
-      .mutateAsync({
-        data: {
-          offerId: ewaLiveSlice?.offerId,
-          unipeEmployeeId: unipeEmployeeId,
-          status: "CONFIRMED",
-          timestamp: Date.now(),
-          ipAddress: ipAddress,
-          deviceId: deviceId,
-          campaignId: campaignId,
-        },
-        token: token,
-        xpath: "ewa/kyc",
-      })
-      .then((response) => {
-        console.log("ewaKycPush response.data: ", response.data);
-        setLoading(false);
-        Analytics.trackEvent("Ewa|Kyc|Success", {
-          unipeEmployeeId: unipeEmployeeId,
-        });
-        if (mandateVerifyStatus === "SUCCESS") {
-          navigation.navigate("EWA_AGREEMENT");
-        } else {
-          navigation.navigate("EWA_MANDATE");
-        }
-      })
-      .catch((error) => {
-        console.log("ewaKycPush error: ", error.toString());
-        setLoading(false);
-        Alert.alert("An Error occured", error.toString());
-        Analytics.trackEvent("Ewa|Kyc|Error", {
-          unipeEmployeeId: unipeEmployeeId,
-          error: error.toString(),
-        });
+    updateKycMutateAsync({
+      data: {
+        offerId: ewaLiveSlice?.offerId,
+        unipeEmployeeId: unipeEmployeeId,
+        status: "CONFIRMED",
+        timestamp: Date.now(),
+        ipAddress: ipAddress,
+        deviceId: deviceId,
+        campaignId: campaignId,
+      },
+      token: token,
+    })
+    .then((response) => {
+      console.log("updateKycMutateAsync response.data: ", response.data);
+      setLoading(false);
+      Analytics.trackEvent("Ewa|Kyc|Success", {
+        unipeEmployeeId: unipeEmployeeId,
       });
+      if (mandateVerifyStatus === "SUCCESS") {
+        navigation.navigate("EWA_AGREEMENT");
+      } else {
+        navigation.navigate("EWA_MANDATE");
+      }
+    })
+    .catch((error) => {
+      console.log("updateKycMutateAsync error: ", error.toString());
+      setLoading(false);
+      Alert.alert("An Error occured", error.toString());
+      Analytics.trackEvent("Ewa|Kyc|Error", {
+        unipeEmployeeId: unipeEmployeeId,
+        error: error.toString(),
+      });
+    });
   }
 
   const cardData = () => {
     var res = [
-      { subTitle: "Name", value: data?.name, fullWidth: true },
-      { subTitle: "Date of Birth", value: data?.date_of_birth },
-      { subTitle: "Gender", value: data?.gender },
+      { subTitle: "Name", value: aadhaarData?.name, fullWidth: true },
+      { subTitle: "Date of Birth", value: aadhaarData?.date_of_birth },
+      { subTitle: "Gender", value: aadhaarData?.gender },
       { subTitle: "Aadhaar Number", value: aadharNumber },
       { subTitle: "Pan Number", value: panNumber },
-      { subTitle: "Address", value: data?.address, fullWidth: true },
+      { subTitle: "Address", value: aadhaarData?.address, fullWidth: true },
     ];
     return res;
   };
-
-  // if (kycData.isLoading) {
-  //   return <Text>Loading</Text>;
-  // }
 
   return (
     <SafeAreaView style={styles.safeContainer}>
@@ -159,7 +144,7 @@ const KYC = () => {
         <DetailsCard
           data={cardData()}
           imageUri={{
-            uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
+            uri: `data:image/jpeg;base64,${aadhaarData["photo_base64"]}`,
             cache: "only-if-cached",
           }}
         />

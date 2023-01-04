@@ -10,7 +10,7 @@ import { RZP_KEY_ID } from "../../services/constants";
 import PrimaryButton from "../atoms/PrimaryButton";
 import { showToast } from "../atoms/Toast";
 import { getNumberOfDays, setYYYYMMDDtoDDMMYYYY } from "../../helpers/DateFunctions";
-import { getRepayment, createRazorpayOrder, updateRepayment } from "../../queries/repayment";
+import { getRepayment, createRazorpayOrder, updateRepayment } from "../../queries/ewa/repayment";
 
 const PayMoneyCard = () => {
   const [inactive, setInactive] = useState(false);
@@ -79,7 +79,6 @@ const PayMoneyCard = () => {
                 dueDate: dueDate,
                 status: "INPROGRESS",
               },
-              xpath: "ewa/repayment",
               token: token,
             })
               .then((response) => {

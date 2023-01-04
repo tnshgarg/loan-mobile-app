@@ -1,4 +1,3 @@
-import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import {
   BackHandler,
@@ -14,14 +13,25 @@ import SVGImgFailure from "../../../../assets/ewa_failure.svg";
 import SVGImgSuccess from "../../../../assets/ewa_success.svg";
 import SVGImgPending from "../../../../assets/ewa_pending.svg";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
-import { fetchDisbursement } from "../../../../queries/ewa";
+import { getDisbursement } from "../../../../queries/ewa/disbursement";
 
 const Disbursement = ({ route, navigation }) => {
   const { offer } = route.params;
+
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  // const [status, setStatus] = useState("");
-  const [processingFees, setProcessingFees] = useState("");
+
+  const bankSlice = useSelector((state) => state.bank);
+  const [bankAccountNumber, setBankAccountNumber] = useState(
+    bankSlice?.data?.accountNumber
+  );
+  const [dueDate, setDueDate] = useState(offer?.dueDate);
+  const [fees, setFees] = useState(offer?.fees);
+  const [loanAccountNumber, setLoanAccountNumber] = useState(offer?.offerId);
+  const [loanAmount, setLoanAmount] = useState(offer?.loanAmount);
+  const [netAmount, setNetAmount] = useState(offer?.netAmount);
+  const [status, setStatus] = useState(offer?.status);
+  
 
   const backAction = () => {
     navigation.navigate("HomeStack", {
@@ -78,59 +88,42 @@ const Disbursement = ({ route, navigation }) => {
   }, []);
 
   const {
-    isFetched,
-    data: disbursementData,
-    isLoading,
-  } = fetchDisbursement({
+    isSuccess: getDisbursementIsSuccess,
+    isError: getDisbursementIsError,
+    error: getDisbursementError,
+    data: getDisbursementData,
+  } = getDisbursement({
     params: { offerId: offer?.offerId, unipeEmployeeId: unipeEmployeeId },
     token: token,
   });
 
-  const loanAmount =
-    isLoading || disbursementData.data.status == 404
-      ? ""
-      : disbursementData.data.body.loanAmount;
-  const [netAmount, setNetAmount] = useState(
-    isLoading || disbursementData.data.status == 404
-      ? ""
-      : disbursementData.data.body.netAmount
-  );
-  const bankAccountNumber =
-    isLoading || disbursementData.data.status == 404
-      ? ""
-      : disbursementData.data.body.bankAccountNumber;
-  const dueDate =
-    isLoading || disbursementData.data.status == 404
-      ? ""
-      : disbursementData.data.body.dueDate;
-  const loanAccountNumber =
-    isLoading || disbursementData.data.status == 404
-      ? ""
-      : disbursementData.data.body.loanAccountNumber;
-  const status =
-    isLoading || disbursementData.data.status == 404
-      ? ""
-      : disbursementData.data.body.status;
-
-  if (isFetched) {
-    console.log(
-      "disbursement.data.data: ",
-      isLoading || disbursementData.data.status == 404
-        ? ""
-        : disbursementData.data
-    );
-    console.log("syay:", status);
-  }
-
   useEffect(() => {
-    setProcessingFees(
-      Math.round((((offer?.loanAmount * offer?.fees) / 100 + 1) / 10) * 10 - 1)
-    );
+    if (getDisbursementIsSuccess) {
+      if (getDisbursementData?.data?.status === 200) {
+        setBankAccountNumber(getDisbursementData?.data?.body?.bankAccountNumber);
+        setDueDate(getDisbursementData?.data?.body?.dueDate);
+        setLoanAccountNumber(getDisbursementData?.data?.body?.loanAccountNumber);
+        setLoanAmount(getDisbursementData?.data?.body?.loanAmount);
+        setNetAmount(getDisbursementData?.data?.body?.netAmount);
+        setStatus(getDisbursementData?.data?.body?.status);
+      } else {
+        console.log("HomeView ewaOffersFetch API error getEwaOffersData.data : ", getDisbursementData.data);
+      }
+    } else if (getDisbursementIsError) {
+      console.log("HomeView ewaOffersFetch API error getEwaOffersError.message : ", getDisbursementError.message);
+    }
+  }, [getDisbursementIsSuccess, getDisbursementData]);
+  
+  useEffect(() => {
+    var pf = (parseInt(loanAmount) * fees)/100;
+    var pF;
+    if (parseInt(pf)%10<4) {
+      pF = Math.max(9, (Math.floor((pf/10))*10) -1);
+    } else {
+      pF = Math.max(9, (Math.floor(((pf+10)/10))*10) -1);
+    }
+    setNetAmount(parseInt(loanAmount) - pF);
   }, [offer]);
-
-  useEffect(() => {
-    setNetAmount(offer?.loanAmount - processingFees);
-  }, [processingFees]);
 
   const data = [
     { subTitle: "Loan Amount ", value: "₹" + loanAmount },
