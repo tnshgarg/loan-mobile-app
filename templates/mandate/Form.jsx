@@ -92,7 +92,7 @@ const MandateFormTemplate = (props) => {
           console.log("mandateFetch error: ", error);
         });
     }
-  }, []);
+  }, [unipeEmployeeId, verifyStatus]);
 
   useEffect(() => {
     dispatch(addData(data));
