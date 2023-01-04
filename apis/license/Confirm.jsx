@@ -24,6 +24,7 @@ export default Confirm = () => {
   const licenseSlice = useSelector((state) => state.license);
   const [verifyMsg, setVerifyMsg] = useState(licenseSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(licenseSlice?.verifyStatus);
+  const campaignId = useSelector((state) => state.auth.campaignId);
   const classes = data?.vehicle_class_details;
 
   useEffect(() => {
@@ -45,6 +46,7 @@ export default Confirm = () => {
           verifyMsg: verifyMsg,
           verifyStatus: verifyStatus,
           verifyTimestamp: verifyTimestamp,
+          campaignId: campaignId,
         },
         token: token,
       });

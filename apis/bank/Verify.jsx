@@ -40,6 +40,7 @@ const BankVerifyApi = (props) => {
   const [verifyTimestamp, setVerifyTimestamp] = useState(
     bankSlice?.verifyTimestamp
   );
+  const campaignId = useSelector((state) => state.auth.campaignId);
 
   useEffect(() => {
     dispatch(addBankName(bankName));
@@ -94,6 +95,7 @@ const BankVerifyApi = (props) => {
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
         verifyTimestamp: verifyTimestamp,
+        campaignId: campaignId,
       },
       token: token,
     });

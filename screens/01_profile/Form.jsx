@@ -39,7 +39,8 @@ const ProfileForm = () => {
   const [altMobile, setAltMobile] = useState(profileSlice?.altMobile);
   const [email, setEmail] = useState(profileSlice?.email);
   const [motherName, setMotherName] = useState(profileSlice?.motherName);
-
+  const campaignId = useSelector((state) => state.auth.campaignId);
+  
   useEffect(() => {
     dispatch(addCurrentScreen("ProfileForm"));
   }, []);
@@ -83,6 +84,7 @@ const ProfileForm = () => {
           altMobile: altMobile,
           email: email,
           motherName: motherName,
+          campaignId: campaignId,
         },
         token: token,
       });
