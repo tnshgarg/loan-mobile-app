@@ -19,7 +19,6 @@ import { showToast } from "../../components/atoms/Toast";
 import {
   createCustomer,
   createOrder,
-  getToken,
 } from "../../services/mandate/Razorpay/services";
 import { getBackendData } from "../../services/employees/employeeServices";
 import { RZP_KEY_ID } from "../../services/constants";
@@ -104,6 +103,9 @@ const MandateFormTemplate = (props) => {
 
   useEffect(() => {
     dispatch(addVerifyStatus(verifyStatus));
+    if ( props?.type === "EWA" && verifyStatus === "SUCCESS" ) {
+      navigation.navigate("EWA_AGREEMENT")
+    }
   }, [verifyStatus]);
 
   useEffect(() => {
@@ -322,12 +324,12 @@ const MandateFormTemplate = (props) => {
           {
             customerId == null || !fetched ? (
               <Text style={{ ...FONTS.body4, color: COLORS.gray }}>
-                Initializing ...{" "}
+                Initializing ...
               </Text>
             ) : (
               verifyStatus == "INPROGRESS" ? (
                 <Text style={{ ...FONTS.body4, color: COLORS.gray }}>
-                  Your Mandate Registration is currently in progress...
+                  Your Mandate Registration is currently in progress.
                 </Text>
               ) : (
                 <MandateOptions ProceedButton={ProceedButton} disabled={loading} />
