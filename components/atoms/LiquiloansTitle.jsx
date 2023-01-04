@@ -6,10 +6,11 @@ import { COLORS, FONTS } from "../../constants/Theme";
 const LiquiloansTitle = ({ title }) => {
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Powered by</Text>
       <Image
         style={styles.image}
         resizeMode="contain"
-        source={require("../../assets/LiquiLoansLogo.png")}
+        source={require("../../assets/LiquiLoansLogo.jpg")}
       />
       <Text style={styles.title}>{title}</Text>
     </View>
@@ -29,8 +30,8 @@ const styles = EStyleSheet.create({
     color: COLORS.gray,
   },
   image: {
-    height: "10rem",
-    width: "50rem",
+    height: "40rem",
+    width: "40rem",
     marginRight: "5rem",
   },
 });
