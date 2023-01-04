@@ -44,7 +44,7 @@ const Mandate = () => {
   ];
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <SafeAreaView style={styles.safeContainer}>
       {verifyStatus == "SUCCESS" && updated ? (
         <View style={styles.container}>
           <DetailsCard data={cardData()} />
