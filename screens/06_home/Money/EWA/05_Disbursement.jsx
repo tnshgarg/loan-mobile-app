@@ -25,13 +25,11 @@ const Disbursement = ({ route, navigation }) => {
   const [bankAccountNumber, setBankAccountNumber] = useState(
     bankSlice?.data?.accountNumber
   );
-  const [dueDate, setDueDate] = useState(offer?.dueDate);
-  const [fees, setFees] = useState(offer?.fees);
-  const [loanAccountNumber, setLoanAccountNumber] = useState(offer?.offerId);
-  const [loanAmount, setLoanAmount] = useState(offer?.loanAmount);
-  const [netAmount, setNetAmount] = useState(offer?.netAmount);
-  const [status, setStatus] = useState(offer?.status);
-  
+  const [dueDate, setDueDate] = useState("");
+  const [loanAccountNumber, setLoanAccountNumber] = useState("");
+  const [loanAmount, setLoanAmount] = useState(0);
+  const [netAmount, setNetAmount] = useState(0);
+  const [status, setStatus] = useState("");
 
   const backAction = () => {
     navigation.navigate("HomeStack", {
@@ -40,6 +38,12 @@ const Disbursement = ({ route, navigation }) => {
     });
     return true;
   };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
 
   const StatusImage = (status) => {
     switch (status) {
@@ -81,12 +85,6 @@ const Disbursement = ({ route, navigation }) => {
     }
   };
 
-  useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () =>
-      BackHandler.removeEventListener("hardwareBackPress", backAction);
-  }, []);
-
   const {
     isSuccess: getDisbursementIsSuccess,
     isError: getDisbursementIsError,
@@ -115,14 +113,17 @@ const Disbursement = ({ route, navigation }) => {
   }, [getDisbursementIsSuccess, getDisbursementData]);
   
   useEffect(() => {
-    var pf = (parseInt(loanAmount) * fees)/100;
+    setDueDate(offer?.dueDate);
+    setLoanAccountNumber(offer?.loanAccountNumber);
+    setLoanAmount(offer?.loanAmount);
+    var pf = (parseInt(offer?.loanAmount) * offer?.fees)/100;
     var pF;
     if (parseInt(pf)%10<4) {
       pF = Math.max(9, (Math.floor((pf/10))*10) -1);
     } else {
       pF = Math.max(9, (Math.floor(((pf+10)/10))*10) -1);
     }
-    setNetAmount(parseInt(loanAmount) - pF);
+    setNetAmount(parseInt(offer?.loanAmount) - pF);
   }, [offer]);
 
   const data = [

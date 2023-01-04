@@ -24,7 +24,7 @@ import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice"
 import { COLORS, FONTS } from "../../../../constants/Theme";
 import LogoHeader from "../../../../components/atoms/LogoHeader";
 import { getNumberOfDays } from "../../../../helpers/DateFunctions";
-import { getEwaOffers } from "../../../../queries/offers";
+import { getEwaOffers } from "../../../../queries/ewa/offers";
 
 const EWA = () => {
   const dispatch = useDispatch();

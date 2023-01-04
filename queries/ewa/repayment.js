@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "../client";
-import { RZP_AUTH } from "../services/constants";
+import { RZP_AUTH } from "../../services/constants";
 import {
   getBackendData,
   putBackendData,
-} from "../services/employees/employeeServices";
+} from "../../services/employees/employeeServices";
 
 export const getRepayment = ({ unipeEmployeeId, token }) => {
   const response = useQuery({
