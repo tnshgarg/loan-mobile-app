@@ -54,21 +54,10 @@ const AadhaarOtpApi = (props) => {
   const { mutateAsync: fetchAadhaarMutate } = fetchAadhaarData();
 
   const backendPush = ({ verifyMsg, verifyStatus, verifyTimestamp }) => {
-    // console.log("AadhaarOtpApi aadhaarSlice: ", aadhaarSlice);
     setVerifyMsg(verifyMsg);
     setVerifyStatus(verifyStatus);
     setVerifyTimestamp(verifyTimestamp);
-    // aadhaarBackendPush({
-    //   data: {
-    //     unipeEmployeeId: unipeEmployeeId,
-    //     data: aadhaarSlice?.data,
-    //     number: aadhaarSlice?.number,
-    //     verifyMsg: verifyMsg,
-    //     verifyStatus: verifyStatus,
-    //     verifyTimestamp: verifyTimestamp,
-    //   },
-    //   token: token,
-    // });
+
     aadhaarBackendPush({
       data: {
         unipeEmployeeId: unipeEmployeeId,
@@ -88,16 +77,6 @@ const AadhaarOtpApi = (props) => {
     if (props.isTextButton) {
       props.toggle(false); // setResend(false)
     }
-
-    const options = {
-      method: "POST",
-      headers: {
-        "X-Auth-Type": "API-Key",
-        "X-API-Key": OG_API_KEY,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(props.data),
-    };
 
     fetchAadhaarMutate({
       data: props.data,
@@ -190,96 +169,6 @@ const AadhaarOtpApi = (props) => {
           error: error.toString(),
         });
       });
-
-    // fetch(KYC_AADHAAR_GENERATE_OTP_API_URL, options)
-    //   .then((response) => response.json())
-    //   .then((responseJson) => {
-    //     try {
-    //       if (responseJson["status"] == "200") {
-    //         switch (responseJson["data"]["code"]) {
-    //           case "1001":
-    //             setSubmitOTPtxnId(responseJson["data"]["transaction_id"]);
-    //             backendPush({
-    //               verifyMsg: "OTP sent to User",
-    //               verifyStatus: "PENDING",
-    //               verifyTimestamp: responseJson["timestamp"],
-    //             });
-    //             dispatch(resetTimer());
-    //             Analytics.trackEvent("Aadhaar|Otp|Success", {
-    //               unipeEmployeeId: unipeEmployeeId,
-    //             });
-    //             {
-    //               props.type == "KYC"
-    //                 ? navigation.navigate("KYC", {
-    //                     screen: "AADHAAR",
-    //                     params: {
-    //                       screen: "Verify",
-    //                     },
-    //                   })
-    //                 : navigation.navigate("AadhaarVerify");
-    //             }
-    //             break;
-    //           default:
-    //             backendPush({
-    //               verifyMsg: responseJson["data"]["message"],
-    //               verifyStatus: "ERROR",
-    //               verifyTimestamp: verifyTimestamp,
-    //             });
-    //             Alert.alert("Error", responseJson["data"]["message"]);
-    //             Analytics.trackEvent("Aadhaar|Otp|Error", {
-    //               unipeEmployeeId: unipeEmployeeId,
-    //               error: responseJson["data"]["message"],
-    //             });
-    //             break;
-    //         }
-    //       } else if (responseJson?.error?.message) {
-    //         backendPush({
-    //           verifyMsg: responseJson["error"]["message"],
-    //           verifyStatus: "ERROR",
-    //           verifyTimestamp: verifyTimestamp,
-    //         });
-    //         Alert.alert("Error", responseJson["error"]["message"]);
-    //         Analytics.trackEvent("Aadhaar|Otp|Error", {
-    //           unipeEmployeeId: unipeEmployeeId,
-    //           error: responseJson["error"]["message"],
-    //         });
-    //       } else {
-    //         backendPush({
-    //           verifyMsg: responseJson["message"],
-    //           verifyStatus: "ERROR",
-    //           verifyTimestamp: verifyTimestamp,
-    //         });
-    //         Alert.alert("Error", responseJson["message"]);
-    //         Analytics.trackEvent("Aadhaar|Otp|Error", {
-    //           unipeEmployeeId: unipeEmployeeId,
-    //           error: responseJson["message"],
-    //         });
-    //       }
-    //     } catch (error) {
-    //       backendPush({
-    //         verifyMsg: error.toString(),
-    //         verifyStatus: "ERROR",
-    //         verifyTimestamp: verifyTimestamp,
-    //       });
-    //       Alert.alert("Error", error.toString());
-    //       Analytics.trackEvent("Aadhaar|Otp|Error", {
-    //         unipeEmployeeId: unipeEmployeeId,
-    //         error: error.toString(),
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     backendPush({
-    //       verifyMsg: error.toString(),
-    //       verifyStatus: "ERROR",
-    //       verifyTimestamp: verifyTimestamp,
-    //     });
-    //     Alert.alert("Error", error.toString());
-    //     Analytics.trackEvent("Aadhaar|Otp|Error", {
-    //       unipeEmployeeId: unipeEmployeeId,
-    //       error: error.toString(),
-    //     });
-    //   });
   };
   return props.isTextButton ? (
     <Text style={{ ...FONTS.h4, color: COLORS.primary }} onPress={goForFetch}>
