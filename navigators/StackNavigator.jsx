@@ -18,12 +18,9 @@ import SplashScreen from "../screens/SplashScreen";
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
 
-  var [initialRoute, setInitialRoute] = useState(
-    useSelector((state) => state.navigation.currentStack)
-  );
-  var [initialScreen, setInitialScreen] = useState(
-    useSelector((state) => state.navigation.currentScreen)
-  );
+  var initialRoute = useSelector((state) => state.navigation.currentStack);
+
+  var initialScreen = useSelector((state) => state.navigation.currentScreen);
 
   console.log("STAGE: ", STAGE);
   console.log("initialRoute: ", initialRoute);
