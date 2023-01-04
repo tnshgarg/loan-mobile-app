@@ -99,7 +99,7 @@ const Offer = () => {
   useEffect(() => {
     setUpdating(true);
     if (parseInt(loanAmount) <= ewaLiveSlice.eligibleAmount) {
-      if (STAGE !== "prod" || (STAGE === "prod" && parseInt(loanAmount) > 1000)) {
+      if (STAGE !== "prod" || (STAGE === "prod" && parseInt(loanAmount) >= 1000)) {
         setValidAmount(true);
         dispatch(addLoanAmount(parseInt(loanAmount)));
       } else {
@@ -122,7 +122,7 @@ const Offer = () => {
     setProcessingFees(pF)
     dispatch(addProcessingFees(pF));
     setNetAmount(parseInt(loanAmount) - pF);
-    dispatch(addNetAmount(netAmount));
+    dispatch(addNetAmount(parseInt(loanAmount) - pF));
     dispatch(addAPR(APR(processingFees, loanAmount)));
     setUpdating(false);
   }, [loanAmount]);
