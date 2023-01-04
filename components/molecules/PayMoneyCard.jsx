@@ -9,8 +9,15 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import { RZP_KEY_ID } from "../../services/constants";
 import PrimaryButton from "../atoms/PrimaryButton";
 import { showToast } from "../atoms/Toast";
-import { getNumberOfDays, setYYYYMMDDtoDDMMYYYY } from "../../helpers/DateFunctions";
-import { getRepayment, createRazorpayOrder, updateRepayment } from "../../queries/Repayment";
+import {
+  getNumberOfDays,
+  setYYYYMMDDtoDDMMYYYY,
+} from "../../helpers/DateFunctions";
+import {
+  getRepayment,
+  createRazorpayOrder,
+  updateRepayment,
+} from "../../queries/Repayment";
 
 const PayMoneyCard = () => {
   const [inactive, setInactive] = useState(false);
@@ -34,9 +41,13 @@ const PayMoneyCard = () => {
       unipeEmployeeId,
       token,
     });
-  console.log(`getRepaymentIsSuccess getRepaymentData: ${getRepaymentIsSuccess} ${JSON.stringify(getRepaymentData?.data)}`);
+  console.log(
+    `getRepaymentIsSuccess getRepaymentData: ${getRepaymentIsSuccess} ${JSON.stringify(
+      getRepaymentData?.data
+    )}`
+  );
 
-  const {mutateAsync: updateRepaymentMutateAsync} = updateRepayment();
+  const { mutateAsync: updateRepaymentMutateAsync } = updateRepayment();
 
   const [dueDate, setDueDate] = useState(null);
   const [overdueDays, setOverdueDays] = useState(null);
@@ -44,7 +55,10 @@ const PayMoneyCard = () => {
   const [repaymentId, setRepaymentId] = useState(null);
   const [repaymentStatus, setRepaymentStatus] = useState("PENDING");
 
-  const { data: createRazorpayOrderData, mutateAsync: createRazorpayOrderMutateAsync } = createRazorpayOrder({
+  const {
+    data: createRazorpayOrderData,
+    mutateAsync: createRazorpayOrderMutateAsync,
+  } = createRazorpayOrder({
     amount: repaymentAmount,
     repaymentId: repaymentId,
   });
@@ -95,7 +109,7 @@ const PayMoneyCard = () => {
                   showToast("Loan Payment Failed. Please try again.");
                   setLoading(false);
                   Analytics.trackEvent("Ewa|RepaymentPost|Error", {
-                    unipeEmployeeId: unipeEmployeeId
+                    unipeEmployeeId: unipeEmployeeId,
                   });
                 }
               })
@@ -215,14 +229,13 @@ const PayMoneyCard = () => {
                 formatted: true,
               }) < 0
                 ? COLORS.warning
-                : COLORS.moneyCardBg,
+                : COLORS.moneyCardBgVariant,
           },
         ]}
       >
         <Icon name="info-outline" size={18} color={COLORS.white} />
         <Text style={[styles.text, { marginLeft: 5 }]}>
-          {
-            overdueDays < 0
+          {overdueDays < 0
             ? `Your repayment is overdue by ${overdueDays} days`
             : dueDate !== null
             ? `Due by ${dueDate}`
@@ -252,10 +265,8 @@ const styles = EStyleSheet.create({
     paddingHorizontal: "15rem",
     paddingVertical: "10rem",
     alignItems: "center",
-    backgroundColor: COLORS.moneyCardBg,
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
-    opactiy: 0.5,
     flexDirection: "row",
   },
   col: {
