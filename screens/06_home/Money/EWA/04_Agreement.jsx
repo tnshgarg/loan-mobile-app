@@ -28,7 +28,7 @@ import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
 import { checkBox, ewa, styles } from "../../../../styles";
 import agreement from "../../../../templates/docs/LiquiLoansLoanAgreement";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
-import { PostAgreementData } from "../../../../queries/EWA";
+import { PostAgreementData } from "../../../../queries/ewa";
 
 const Agreement = () => {
   const dispatch = useDispatch();

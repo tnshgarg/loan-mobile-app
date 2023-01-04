@@ -10,7 +10,7 @@ import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { ewaKycPush } from "../../../../helpers/BackendPush";
 import { styles } from "../../../../styles";
 import DetailsCard from "../../../../components/molecules/DetailsCard";
-import { fetchKycData, PostKycData } from "../../../../queries/EWA";
+import { fetchKycData, PostKycData } from "../../../../queries/ewa";
 
 const KYC = () => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);

@@ -14,7 +14,7 @@ import SVGImgFailure from "../../../../assets/ewa_failure.svg";
 import SVGImgSuccess from "../../../../assets/ewa_success.svg";
 import SVGImgPending from "../../../../assets/ewa_pending.svg";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
-import { fetchDisbursement } from "../../../../queries/EWA";
+import { fetchDisbursement } from "../../../../queries/ewa";
 
 const Disbursement = ({ route, navigation }) => {
   const { offer } = route.params;

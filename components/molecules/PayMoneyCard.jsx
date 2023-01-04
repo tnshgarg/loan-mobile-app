@@ -10,7 +10,7 @@ import { RZP_KEY_ID } from "../../services/constants";
 import PrimaryButton from "../atoms/PrimaryButton";
 import { showToast } from "../atoms/Toast";
 import { getNumberOfDays, setYYYYMMDDtoDDMMYYYY } from "../../helpers/DateFunctions";
-import { getRepayment, createRazorpayOrder, updateRepayment } from "../../queries/Repayment";
+import { getRepayment, createRazorpayOrder, updateRepayment } from "../../queries/repayment";
 
 const PayMoneyCard = () => {
   const [inactive, setInactive] = useState(false);

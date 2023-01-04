@@ -21,7 +21,7 @@ import {
 import { checkBox, styles } from "../../../../styles";
 import TnC from "../../../../templates/docs/EWATnC.js";
 import SliderCard from "../../../../components/organisms/SliderCard";
-import { PostOffer } from "../../../../queries/EWA";
+import { PostOffer } from "../../../../queries/ewa";
 
 const Offer = () => {
   const dispatch = useDispatch();
