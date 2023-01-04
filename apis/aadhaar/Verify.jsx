@@ -48,7 +48,7 @@ const AadhaarVerifyApi = (props) => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
-  const { mutateAsync: aadhaarBackendPush } = AadhaarBackendPush();
+  const { mutateAsync: aadhaarBackendMutateAsync } = AadhaarBackendPush();
 
   const backendPush = ({ data, verifyMsg, verifyStatus, verifyTimestamp }) => {
     console.log("AadhaarVerifyApi aadhaarSlice: ", aadhaarSlice);
@@ -56,7 +56,7 @@ const AadhaarVerifyApi = (props) => {
     setVerifyMsg(verifyMsg);
     setVerifyStatus(verifyStatus);
     setVerifyTimestamp(verifyTimestamp);
-    aadhaarBackendPush({
+    aadhaarBackendMutateAsync({
       data: {
         unipeEmployeeId: unipeEmployeeId,
         data: data,

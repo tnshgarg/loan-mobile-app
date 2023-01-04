@@ -19,12 +19,12 @@ const AadhaarConfirmApi = (props) => {
   const number = useSelector((state) => state.aadhaar.number);
   const verifyTimestamp = useSelector((state) => state.aadhaar.verifyTimestamp);
 
-  const { mutateAsync: aadhaarBackendPush } = AadhaarBackendPush();
+  const { mutateAsync: aadhaarBackendMutateAsync } = AadhaarBackendPush();
 
   const backendPush = ({ verifyMsg, verifyStatus }) => {
     dispatch(addVerifyMsg(verifyMsg));
     dispatch(addVerifyStatus(verifyStatus));
-    aadhaarBackendPush({
+    aadhaarBackendMutateAsync({
       data: {
         unipeEmployeeId: unipeEmployeeId,
         data: data,

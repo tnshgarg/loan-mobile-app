@@ -49,7 +49,7 @@ const AadhaarOtpApi = (props) => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
-  const { mutateAsync: aadhaarBackendPush } = AadhaarBackendPush();
+  const { mutateAsync: aadhaarBackendMutateAsync } = AadhaarBackendPush();
 
   const { mutateAsync: fetchAadhaarMutate } = fetchAadhaarData();
 
@@ -58,7 +58,7 @@ const AadhaarOtpApi = (props) => {
     setVerifyStatus(verifyStatus);
     setVerifyTimestamp(verifyTimestamp);
 
-    aadhaarBackendPush({
+    aadhaarBackendMutateAsync({
       data: {
         unipeEmployeeId: unipeEmployeeId,
         data: aadhaarSlice?.data,
