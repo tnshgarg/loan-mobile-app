@@ -85,8 +85,8 @@ const MandateFormTemplate = (props) => {
           console.log("mandateFetch response.data", response.data);
           if (response.data.status === 200) {
             dispatch(resetMandate(response.data.body));
-            setFetched(true);
           }
+          setFetched(true);
         })
         .catch((error) => {
           console.log("mandateFetch error: ", error);

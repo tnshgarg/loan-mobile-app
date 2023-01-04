@@ -23,10 +23,6 @@ const KYC = () => {
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
 
-  const creditPass =
-    kycData.isLoading || kycData.data.data.status == 404
-      ? ""
-      : kycData.data.data.body.pass;
   const [loading, setLoading] = useState(false);
   const campaignId = useSelector((state) => state.auth.campaignId);
   const mandateVerifyStatus = useSelector(
@@ -175,17 +171,8 @@ const KYC = () => {
         <View style={{ flex: 1 }} />
 
         <PrimaryButton
-          title={
-            creditPass === "PENDING"
-              ? "Checking Credit Bureau"
-              : creditPass === "DECLINED"
-              ? "Credit Declined"
-              : loading
-              ? "Verifying"
-              : "Proceed"
-          }
-          disabled={creditPass !== "SUCCESS" || loading}
-          loading={loading}
+          title={loading ? "Verifying" : "Proceed"}
+          disabled={loading}
           onPress={() => {
             handleKyc();
           }}

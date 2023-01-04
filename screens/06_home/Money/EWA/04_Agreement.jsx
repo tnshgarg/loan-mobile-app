@@ -29,6 +29,7 @@ import { checkBox, ewa, styles } from "../../../../styles";
 import agreement from "../../../../templates/docs/LiquiLoansLoanAgreement";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
 import { PostAgreementData } from "../../../../queries/EWA";
+import { queryClient } from "../../../../queries/client";
 
 const Agreement = () => {
   const dispatch = useDispatch();
@@ -197,6 +198,7 @@ const Agreement = () => {
     })
       .then((response) => {
         console.log("ewaAgreementPush response.data: ", response.data);
+        queryClient.invalidateQueries("getEwaOffers");
         dispatch(resetEwaLive());
         dispatch(resetEwaHistorical([]));
         setLoading(false);

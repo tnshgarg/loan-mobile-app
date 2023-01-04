@@ -1,7 +1,7 @@
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { EMPLOYEE_API_URL, RZP_AUTH } from "../services/constants";
-import { queryClient } from "./index";
+import { queryClient } from "./client";
 
 export const PostOffer = () => {
   const mutation = useMutation({
