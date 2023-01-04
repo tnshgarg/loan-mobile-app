@@ -55,6 +55,13 @@ export const styles = EStyleSheet.create({
     elevation: 2,
     backgroundColor: COLORS.white,
   },
+  warningHeader: {
+    color: COLORS.warning,
+    ...FONTS.h3,
+    alignSelf: "center",
+    textAlign: "center",
+    marginTop: "5%",
+  },
 });
 
 export const progressBar = EStyleSheet.create({
@@ -229,7 +236,15 @@ export const dev = EStyleSheet.create({
   },
 });
 
-export const moneyStyles = EStyleSheet.create({});
+export const moneyStyles = EStyleSheet.create({
+  percentageTitle: {
+    ...FONTS.body5,
+    marginTop: "25%",
+    color: COLORS.gray,
+    alignSelf: "center",
+    fontSize: 8,
+  },
+});
 
 export const accountStyles = EStyleSheet.create({
   imageContainer: {

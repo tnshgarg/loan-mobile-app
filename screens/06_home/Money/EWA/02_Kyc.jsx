@@ -134,7 +134,7 @@ const KYC = () => {
       <Header title="KYC" onLeftIconPress={() => backAction()} progress={40} />
       <View style={styles.container}>
         <Text style={styles.headline}>Are these your Kyc details?</Text>
-        <Text style={[styles.subHeadline, { marginBottom: 10 }]}>
+        <Text style={styles.subHeadline}>
           कृपया स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
         </Text>
 

@@ -12,15 +12,16 @@ import TermsAndPrivacyModal from "../../../../components/molecules/TermsAndPriva
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { COLORS } from "../../../../constants/Theme";
 import { ewaOfferPush } from "../../../../helpers/BackendPush";
-import { 
-  addAPR, 
-  addLoanAmount, 
-  addNetAmount, 
-  addProcessingFees 
+import {
+  addAPR,
+  addLoanAmount,
+  addNetAmount,
+  addProcessingFees,
 } from "../../../../store/slices/ewaLiveSlice";
 import { checkBox, styles } from "../../../../styles";
 import TnC from "../../../../templates/docs/EWATnC.js";
 import SliderCard from "../../../../components/organisms/SliderCard";
+import Checkbox from "../../../../components/atoms/Checkbox";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ const Offer = () => {
   const [updating, setUpdating] = useState(false);
   const [validAmount, setValidAmount] = useState(false);
   const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
-  useState(false);
+    useState(false);
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -44,7 +45,9 @@ const Offer = () => {
   const fees = useSelector((state) => state.ewaLive.fees);
   const [loanAmount, setLoanAmount] = useState(ewaLiveSlice?.eligibleAmount);
   const [netAmount, setNetAmount] = useState(ewaLiveSlice?.netAmount);
-  const [processingFees, setProcessingFees] = useState(ewaLiveSlice?.processingFees);
+  const [processingFees, setProcessingFees] = useState(
+    ewaLiveSlice?.processingFees
+  );
 
   useEffect(() => {
     getUniqueId().then((id) => {
@@ -99,7 +102,10 @@ const Offer = () => {
   useEffect(() => {
     setUpdating(true);
     if (parseInt(loanAmount) <= ewaLiveSlice.eligibleAmount) {
-      if (STAGE !== "prod" || (STAGE === "prod" && parseInt(loanAmount) > 1000)) {
+      if (
+        STAGE !== "prod" ||
+        (STAGE === "prod" && parseInt(loanAmount) > 1000)
+      ) {
         setValidAmount(true);
         dispatch(addLoanAmount(parseInt(loanAmount)));
       } else {
@@ -112,14 +118,14 @@ const Offer = () => {
   }, [loanAmount]);
 
   useEffect(() => {
-    var pf = (parseInt(loanAmount) * fees)/100;
+    var pf = (parseInt(loanAmount) * fees) / 100;
     var pF;
-    if (parseInt(pf)%10<4) {
-      pF = Math.max(9, (Math.floor((pf/10))*10) -1);
+    if (parseInt(pf) % 10 < 4) {
+      pF = Math.max(9, Math.floor(pf / 10) * 10 - 1);
     } else {
-      pF = Math.max(9, (Math.floor(((pf+10)/10))*10) -1);
+      pF = Math.max(9, Math.floor((pf + 10) / 10) * 10 - 1);
     }
-    setProcessingFees(pF)
+    setProcessingFees(pF);
     dispatch(addProcessingFees(pF));
     setNetAmount(parseInt(loanAmount) - pF);
     dispatch(addNetAmount(netAmount));
@@ -137,9 +143,14 @@ const Offer = () => {
     );
     var timeDiff = dueDateTemp.getTime() - today.getTime();
     var daysDiff = parseInt(timeDiff / (1000 * 3600 * 24));
-    var apr =
-      100 * (processingFees / parseInt(loanAmount)) * (365 / daysDiff);
-    console.log("processingFees, loanAmount, daysDiff, APR: ", processingFees, loanAmount, daysDiff, apr);
+    var apr = 100 * (processingFees / parseInt(loanAmount)) * (365 / daysDiff);
+    console.log(
+      "processingFees, loanAmount, daysDiff, APR: ",
+      processingFees,
+      loanAmount,
+      daysDiff,
+      apr
+    );
     return apr.toFixed(2);
   };
 
@@ -190,15 +201,10 @@ const Offer = () => {
         <Text style={[styles.headline, { alignSelf: "flex-start" }]}>
           How much do you want?
         </Text>
-        <Text
-          style={[
-            styles.subHeadline,
-            { alignSelf: "flex-start", marginBottom: 5 },
-          ]}
-        >
+        <Text style={[styles.subHeadline, { alignSelf: "flex-start" }]}>
           Here is your access of emergency funds
         </Text>
-        
+
         <SliderCard
           info={"Zero Interest charges, Nominal Processing Fees"}
           iconName="brightness-percent"
@@ -208,25 +214,14 @@ const Offer = () => {
         />
         <View style={{ flex: 1 }} />
 
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <CheckBox
-            value={consent}
-            onValueChange={setConsent}
-            style={checkBox.checkBox}
-            tintColors={{ true: COLORS.primary }}
-          />
-          <Text style={checkBox.checkBoxText}>
-            I agree to the
-            <Text
-              onPress={() => setIsTermsOfUseModalVisible(true)}
-              style={styles.termsText}
-            >
-              {" "}
-              Terms and Conditions
-            </Text>
-            .
-          </Text>
-        </View>
+        <Checkbox
+          text={"I agree to the"}
+          value={consent}
+          setValue={setConsent}
+          additionalText="Terms and Conditions"
+          onPress={() => setIsTermsOfUseModalVisible(true)}
+        />
+
         <PrimaryButton
           title={loading ? "Processing" : "Continue"}
           disabled={loading || !consent || !validAmount || updating}

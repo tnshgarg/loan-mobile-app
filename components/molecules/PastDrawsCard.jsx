@@ -102,9 +102,21 @@ const OfferCard = ({ offer }) => {
 };
 
 const PastDrawsCard = (props) => {
-  return props.data.map((offer, index) => (
-    <OfferCard offer={offer} key={index} />
-  ));
+  return (
+    <ScrollView style={{ marginTop: "5%" }}>
+      <Text
+        style={{
+          ...FONTS.h4,
+          color: COLORS.gray,
+        }}
+      >
+        Your past draws
+      </Text>
+      {props.data.map((offer, index) => (
+        <OfferCard offer={offer} key={index} />
+      ))}
+    </ScrollView>
+  );
 };
 
 export default PastDrawsCard;

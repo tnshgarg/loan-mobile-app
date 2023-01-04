@@ -1,11 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  BackHandler,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
+import { BackHandler, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { allAreNull } from "../../../../helpers/nullCheck";
 import { styles } from "../../../../styles";
@@ -54,9 +48,7 @@ const EWA = () => {
     aadhaarVerifyStatus != "SUCCESS"
       ? { label: "Verify AADHAAR", value: "AADHAAR" }
       : null,
-    panVerifyStatus != "SUCCESS"
-      ? { label: "Verify PAN", value: "PAN" }
-      : null,
+    panVerifyStatus != "SUCCESS" ? { label: "Verify PAN", value: "PAN" } : null,
     bankVerifyStatus != "SUCCESS"
       ? { label: "Verify Bank Account", value: "BANK" }
       : null,
@@ -107,7 +99,11 @@ const EWA = () => {
           console.log("Money ewaOffersFetch response.data: ", response.data);
           if (response.data.status === 200) {
             if (Object.keys(response.data.body.live).length !== 0) {
-              console.log("Money ewaOffersFetch response.data.body.live: ", response.data.body.live, response.data.body.live!={});
+              console.log(
+                "Money ewaOffersFetch response.data.body.live: ",
+                response.data.body.live,
+                response.data.body.live != {}
+              );
               const closureDays = getNumberOfDays({
                 date: response.data.body.live.dueDate,
               });
@@ -129,7 +125,10 @@ const EWA = () => {
           }
         })
         .catch((error) => {
-          console.log("Money ewaOffersFetch Response error: ", error.toString());
+          console.log(
+            "Money ewaOffersFetch Response error: ",
+            error.toString()
+          );
           dispatch(resetEwaLive());
           dispatch(resetEwaHistorical());
         });
@@ -152,37 +151,19 @@ const EWA = () => {
       {allAreNull(verifyStatuses) ? (
         // panMisMatch < 20 &&
         // bankMisMatch < 20
-        
-          <View style={styles.container}>
-            <LiveOfferCard
-              eligible={eligible}
-              accessible={accessible}
-              ewaLiveSlice={ewaLiveSlice}
-            />
 
-            <Text
-              style={{
-                ...FONTS.h4,
-                color: COLORS.gray,
-                marginTop: "5%",
-              }}
-            >
-              Your past draws
-            </Text>
-            <ScrollView>
-              <PastDrawsCard data={ewaHistoricalSlice} />
-            </ScrollView>
-          </View>
+        <View style={styles.container}>
+          <LiveOfferCard
+            eligible={eligible}
+            accessible={accessible}
+            ewaLiveSlice={ewaLiveSlice}
+          />
+
+          <PastDrawsCard data={ewaHistoricalSlice} />
+        </View>
       ) : (
-        <View style={[styles.container]}>
-          <Text
-            style={{
-              color: COLORS.warning,
-              ...FONTS.h3,
-              alignSelf: "center",
-              marginTop: "5%",
-            }}
-          >
+        <View style={styles.container}>
+          <Text style={styles.warningHeader}>
             You are not eligible for Advanced Salary.
           </Text>
           <KycCheckCard

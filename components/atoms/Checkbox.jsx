@@ -4,7 +4,7 @@ import CheckBox from "@react-native-community/checkbox";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
 
-const Checkbox = ({ value, setValue, text }) => {
+const Checkbox = ({ value, setValue, text, additionalText, onPress }) => {
   return (
     <View style={styles.container}>
       <CheckBox
@@ -13,7 +13,15 @@ const Checkbox = ({ value, setValue, text }) => {
         onValueChange={setValue}
         tintColors={{ true: COLORS.primary }}
       />
-      <Text style={styles.title}>{text}</Text>
+
+      <Text style={styles.title}>
+        {text}
+        {additionalText && (
+          <Text style={styles.additionalTitle} onPress={onPress}>
+            {" " + additionalText}
+          </Text>
+        )}
+      </Text>
     </View>
   );
 };
@@ -30,6 +38,7 @@ const styles = EStyleSheet.create({
     color: COLORS.gray,
     flex: 1,
   },
+  additionalTitle: { color: COLORS.primary },
 });
 
 export default Checkbox;
