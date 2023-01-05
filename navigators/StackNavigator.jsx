@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -10,10 +9,10 @@ import OnboardingStack from "./stacks/OnboardingStack";
 import EWAStack from "./stacks/EWAStack";
 
 import BenefitsStack from "./stacks/BenefitsStack";
-import DrawerNavigator from "./DrawerNavigator";
 import AccountStack from "./stacks/AccountStack";
 import InvestStack from "./stacks/InvestStack";
 import SplashScreen from "../screens/SplashScreen";
+import BottomTabNav from "./BottomTabNav";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -58,7 +57,7 @@ const StackNavigator = () => {
         />
         <Stack.Screen
           name="HomeStack"
-          component={DrawerNavigator}
+          component={BottomTabNav}
           options={{
             headerShown: false,
           }}

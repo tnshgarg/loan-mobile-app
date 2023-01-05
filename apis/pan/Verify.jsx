@@ -29,6 +29,7 @@ const PanVerifyApi = (props) => {
   const [verifyTimestamp, setVerifyTimestamp] = useState(
     panSlice?.verifyTimestamp
   );
+  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
 
   useEffect(() => {
     dispatch(addData(data));
@@ -60,6 +61,7 @@ const PanVerifyApi = (props) => {
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
         verifyTimestamp: verifyTimestamp,
+        campaignId: campaignId,
       },
       token: token,
     });

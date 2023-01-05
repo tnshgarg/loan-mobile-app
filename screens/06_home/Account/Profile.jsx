@@ -1,10 +1,10 @@
 import { View, Alert } from "react-native";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
+import PrimaryButton from "../../../components/atoms/PrimaryButton";
 import { useSelector } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { styles } from "../../styles";
-import Header from "../../components/atoms/Header";
-import DetailsCard from "../../components/molecules/DetailsCard";
+import { styles } from "../../../styles";
+import Header from "../../../components/atoms/Header";
+import DetailsCard from "../../../components/molecules/DetailsCard";
 
 const Profile = ({ navigation }) => {
   const aadhaarData = useSelector((state) => state.aadhaar.data);
@@ -39,10 +39,7 @@ const Profile = ({ navigation }) => {
 
   const backAction = () => {
     navigation.navigate("HomeStack", {
-      screen: "DrawerHome",
-      params: {
-        screen: "Account",
-      },
+      screen: "Account",
     });
     return true;
   };

@@ -403,6 +403,37 @@ export const dev = EStyleSheet.create({
   },
 });
 
+export const accountStyles = EStyleSheet.create({
+  imageContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: "15rem",
+    borderBottomWidth: 0.8,
+    borderColor: COLORS.lightGray,
+  },
+  guestIcon: {
+    width: "60rem",
+    height: "60rem",
+    borderRadius: 5,
+    backgroundColor: COLORS.primary,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  userImage: {
+    width: "60rem",
+    height: "60rem",
+    resizeMode: "contain",
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: COLORS.lightGray,
+  },
+  userTitle: {
+    ...FONTS.h4,
+    color: COLORS.black,
+    marginLeft: "15rem",
+  },
+});
+
 export const stepIndicatorStyles = {
   stepIndicatorSize: 30,
   currentStepIndicatorSize: 30,
