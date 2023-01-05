@@ -39,7 +39,7 @@ const Offer = () => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const campaignId = useSelector((state) => state.auth.campaignId);
+  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const fees = useSelector((state) => state.ewaLive.fees);
   const [loanAmount, setLoanAmount] = useState(ewaLiveSlice?.eligibleAmount);

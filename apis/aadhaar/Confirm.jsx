@@ -18,6 +18,7 @@ const AadhaarConfirmApi = (props) => {
   const data = useSelector((state) => state.aadhaar.data);
   const number = useSelector((state) => state.aadhaar.number);
   const verifyTimestamp = useSelector((state) => state.aadhaar.verifyTimestamp);
+  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
 
   const backendPush = ({ verifyMsg, verifyStatus }) => {
     dispatch(addVerifyMsg(verifyMsg));
@@ -30,6 +31,7 @@ const AadhaarConfirmApi = (props) => {
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
         verifyTimestamp: verifyTimestamp,
+        campaignId: campaignId,
       },
       token: token,
     });

@@ -63,6 +63,7 @@ const MandateFormTemplate = (props) => {
   const [verifyTimestamp, setVerifyTimestamp] = useState(
     mandateSlice?.verifyTimestamp
   );
+  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
 
   useEffect(() => {
     console.log("mandateSlice: ", mandateSlice);
@@ -125,6 +126,7 @@ const MandateFormTemplate = (props) => {
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
         verifyTimestamp: verifyTimestamp,
+        campaignId: campaignId,
       },
       token: token,
     });
