@@ -18,7 +18,7 @@ case $env in
 
   "prod")
     acenv='Prod'
-    app="Unipe/Unipe/EmployeeApp"
+    app="Unipe/EmployeeApp"
     ;;
 
   *)
