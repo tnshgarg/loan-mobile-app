@@ -26,6 +26,7 @@ const PayMoneyCard = () => {
   const customerId = useSelector((state) => state.mandate.data.customerId);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
+  const campaignId = useSelector((state) => state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId || state.campaign.repaymentCampaignId);
 
   const [repaymentOrderId, setRepaymentOrderId] = useState(null);
   const [dueDate, setDueDate] = useState(null);
@@ -114,6 +115,7 @@ const PayMoneyCard = () => {
                 unipeEmployeeId: unipeEmployeeId,
                 dueDate: dueDate,
                 status: "INPROGRESS",
+                campaignId: campaignId,
               },
               token: token,
             })
