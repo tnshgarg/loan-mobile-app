@@ -1,25 +1,15 @@
-import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
-import { EMPLOYEE_API_URL } from "../../services/constants";
+import { putBackendData } from "../../services/employees/employeeServices";
 import { queryClient } from "../client";
 
 export const updateAgreement = () => {
   const mutation = useMutation({
-    mutationFn: async ({ data, xpath, token }) => {
-      return axios({
-        method: "post",
-        url: `${EMPLOYEE_API_URL}/ewa/agreement`,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        data: JSON.stringify(data),
-      })
-        .then((response) => {
-          console.log("ewakyc response:", response);
-          return response;
-        })
-        .catch(console.error);
+    mutationFn: async ({ data, token }) => {
+      return putBackendData({
+        data: data,
+        xpath: "ewa/agreement",
+        token: token,
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getEwaOffers"] });
