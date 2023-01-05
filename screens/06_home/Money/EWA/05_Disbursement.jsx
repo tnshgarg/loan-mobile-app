@@ -1,4 +1,3 @@
-import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import {
   BackHandler,
@@ -10,27 +9,27 @@ import {
 import { styles } from "../../../../styles";
 import { useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
-import { getBackendData } from "../../../../services/employees/employeeServices";
 import SVGImgFailure from "../../../../assets/ewa_failure.svg";
 import SVGImgSuccess from "../../../../assets/ewa_success.svg";
 import SVGImgPending from "../../../../assets/ewa_pending.svg";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
+import { getDisbursement } from "../../../../queries/ewa/disbursement";
 
 const Disbursement = ({ route, navigation }) => {
   const { offer } = route.params;
-  const [dueDate, setDueDate] = useState(offer?.dueDate);
-  const [loanAmount, setLoanAmount] = useState(offer?.loanAmount);
-  const [netAmount, setNetAmount] = useState(offer?.netAmount);
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+
   const bankSlice = useSelector((state) => state.bank);
   const [bankAccountNumber, setBankAccountNumber] = useState(
     bankSlice?.data?.accountNumber
   );
+  const [dueDate, setDueDate] = useState("");
   const [loanAccountNumber, setLoanAccountNumber] = useState("");
+  const [loanAmount, setLoanAmount] = useState(0);
+  const [netAmount, setNetAmount] = useState(0);
   const [status, setStatus] = useState("");
-  const [processingFees, setProcessingFees] = useState("");
 
   const backAction = () => {
     navigation.navigate("HomeStack", {
@@ -39,6 +38,12 @@ const Disbursement = ({ route, navigation }) => {
     });
     return true;
   };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
 
   const StatusImage = (status) => {
     switch (status) {
@@ -80,53 +85,46 @@ const Disbursement = ({ route, navigation }) => {
     }
   };
 
-  useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () =>
-      BackHandler.removeEventListener("hardwareBackPress", backAction);
-  }, []);
+  const {
+    isSuccess: getDisbursementIsSuccess,
+    isError: getDisbursementIsError,
+    error: getDisbursementError,
+    data: getDisbursementData,
+  } = getDisbursement({
+    params: { offerId: offer?.offerId, unipeEmployeeId: unipeEmployeeId },
+    token: token,
+  });
 
   useEffect(() => {
-    getBackendData({
-      params: { offerId: offer?.offerId, unipeEmployeeId: unipeEmployeeId },
-      xpath: "ewa/disbursement",
-      token: token,
-    })
-      .then((response) => {
-        console.log("ewaDisbursementFetch response.data: ", response.data);
-        if (response.data.status === 200) {
-          setLoanAmount(response.data.body.loanAmount);
-          setNetAmount(response.data.body.netAmount);
-          setBankAccountNumber(response.data.body.bankAccountNumber);
-          setDueDate(response.data.body.dueDate);
-          setLoanAccountNumber(response.data.body.loanAccountNumber);
-          setStatus(response.data.body.status);
-          Analytics.trackEvent("Ewa|Disbursement|Success", {
-            unipeEmployeeId: unipeEmployeeId,
-          });
-        }
-      })
-      .catch((error) => {
-        console.log("ewaDisbursementFetch error: ", error.toString());
-        Analytics.trackEvent("Ewa|Disbursement|Error", {
-          unipeEmployeeId: unipeEmployeeId,
-          error: error.toString(),
-        });
-      });
-  }, []);
-
+    if (getDisbursementIsSuccess) {
+      if (getDisbursementData?.data?.status === 200) {
+        setBankAccountNumber(getDisbursementData?.data?.body?.bankAccountNumber);
+        setDueDate(getDisbursementData?.data?.body?.dueDate);
+        setLoanAccountNumber(getDisbursementData?.data?.body?.loanAccountNumber);
+        setLoanAmount(getDisbursementData?.data?.body?.loanAmount);
+        setNetAmount(getDisbursementData?.data?.body?.netAmount);
+        setStatus(getDisbursementData?.data?.body?.status);
+      } else {
+        console.log("HomeView ewaOffersFetch API error getEwaOffersData.data : ", getDisbursementData.data);
+      }
+    } else if (getDisbursementIsError) {
+      console.log("HomeView ewaOffersFetch API error getEwaOffersError.message : ", getDisbursementError.message);
+    }
+  }, [getDisbursementIsSuccess, getDisbursementData]);
+  
   useEffect(() => {
-    console.log("disbursement offer: ", offer);
-    setProcessingFees(
-      Math.round((((offer?.loanAmount * offer?.fees) / 100 + 1) / 10) * 10 - 1)
-    );
-    setNetAmount(offer?.netAmount);
     setDueDate(offer?.dueDate);
+    setLoanAccountNumber(offer?.loanAccountNumber);
+    setLoanAmount(offer?.loanAmount);
+    var pf = (parseInt(offer?.loanAmount) * offer?.fees)/100;
+    var pF;
+    if (parseInt(pf)%10<4) {
+      pF = Math.max(9, (Math.floor((pf/10))*10) -1);
+    } else {
+      pF = Math.max(9, (Math.floor(((pf+10)/10))*10) -1);
+    }
+    setNetAmount(parseInt(offer?.loanAmount) - pF);
   }, [offer]);
-
-  useEffect(() => {
-    setNetAmount(offer?.loanAmount - processingFees);
-  }, [processingFees]);
 
   const data = [
     { subTitle: "Loan Amount ", value: "₹" + loanAmount },
@@ -142,7 +140,7 @@ const Disbursement = ({ route, navigation }) => {
       <Header
         title="Money Transfer"
         onLeftIconPress={() => backAction()}
-        //progress={100}
+        // progress={100}
       />
       <ScrollView>
         <View style={styles.container}>
