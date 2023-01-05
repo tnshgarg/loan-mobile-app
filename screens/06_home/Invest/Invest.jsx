@@ -1,6 +1,6 @@
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import React, { useEffect } from "react";
-import { styles } from "../../../styles";
+import { investStyles, styles } from "../../../styles";
 import LogoHeader from "../../../components/atoms/LogoHeader";
 import { Ionicons } from "react-native-vector-icons";
 import { COLORS, FONTS } from "../../../constants/Theme";
@@ -32,22 +32,13 @@ const Invest = (props) => {
         }
       />
       <View style={styles.container}>
-        <InvestSVG style={{ marginLeft: "-10%" }} />
-        <Text style={{ ...FONTS.body4, color: COLORS.black, marginTop: 10 }}>
-          Welcome to Unipe Invest.
-        </Text>
-        <Text style={{ ...FONTS.body2, color: COLORS.black }}>
+        <InvestSVG style={{ marginLeft: "-15%" }} />
+        <Text style={investStyles.title}>Welcome to Unipe Invest.</Text>
+        <Text style={investStyles.subtitle}>
           You are only <Text style={{ ...FONTS.h2 }}>2 steps</Text> away from
           making your 1st investment
         </Text>
-        <Text
-          style={{
-            ...FONTS.body4,
-            color: COLORS.gray,
-            marginTop: 20,
-            width: "70%",
-          }}
-        >
+        <Text style={investStyles.description}>
           proceed to verify your details and start growing your wealth.
         </Text>
         <View style={{ flex: 1, justifyContent: "center" }}>
@@ -59,15 +50,7 @@ const Invest = (props) => {
               });
             }}
           >
-            <Text
-              style={{
-                ...FONTS.body4,
-                color: COLORS.primary,
-                textDecorationLine: "underline",
-              }}
-            >
-              How it works?
-            </Text>
+            <Text style={investStyles.underlineText}>How it works?</Text>
           </TouchableOpacity>
         </View>
         <PrimaryButton
