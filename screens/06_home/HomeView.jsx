@@ -6,7 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
 import KycCheckCard from "../../components/molecules/KycCheckCard";
 import { allAreNull } from "../../helpers/nullCheck";
-import { addCampaignId } from "../../store/slices/authSlice";
+import {
+  addEkycCampaignId,
+  addEwaCampaignId,
+  addRepaymentCampaignId,
+} from "../../store/slices/campaignSlice";
 import {
   addCurrentScreen,
   addCurrentStack,
@@ -19,12 +23,13 @@ import LogoHeader from "../../components/atoms/LogoHeader";
 import VideoPlayer from "../../components/organisms/VideoPlayer";
 import { COLORS } from "../../constants/Theme";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
-import { getEwaOffers } from "../../queries/offers";
+import { getEwaOffers } from "../../queries/ewa/offers";
 import {
   notificationListener,
   requestUserPermission,
 } from "../../services/notifications/notificationService";
 import { resetEwaHistorical } from "../../store/slices/ewaHistoricalSlice";
+import { addOnboarded } from "../../store/slices/authSlice";
 import {
   addAccessible,
   addEligible,
@@ -46,10 +51,11 @@ const HomeView = () => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const onboarded = useSelector((state) => state.auth.onboarded);
 
   // const panMisMatch = useSelector((state) => state.pan.misMatch);
   // const bankMisMatch = useSelector((state) => state.bank.misMatch);
-
+  const [auto, setAuto] = useState(null);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
@@ -71,23 +77,16 @@ const HomeView = () => {
     }
   }, [aadhaarVerifyStatus, bankVerifyStatus, panVerifyStatus]);
 
-  var [campaignId, setCampaignId] = useState(
-    useSelector((state) => state.auth.campaignId)
-  );
-
   useEffect(() => {
     dispatch(addCurrentScreen("Home"));
     dispatch(addCurrentStack("HomeStack"));
+    if (!onboarded) addOnboarded(true);
   }, []);
 
   useEffect(() => {
     requestUserPermission();
     notificationListener();
   }, []);
-
-  useEffect(() => {
-    dispatch(addCampaignId(campaignId));
-  }, [campaignId]);
 
   useEffect(() => {
     dispatch(addEligible(eligible));
@@ -154,22 +153,42 @@ const HomeView = () => {
       console.log("route", splitted[3]);
       switch (splitted[3].toLowerCase()) {
         case "ewa":
+          setAuto("ewa");
           switch (splitted[4]?.toLowerCase()) {
             case "campaign":
-              console.log("campaignId", splitted[5]);
-              setCampaignId(splitted[5]);
+              dispatch(addEwaCampaignId(splitted[5]));
               break;
             default:
               break;
           }
-          navigation.navigate("Money");
+          break;
+        case "repayment":
+          setAuto("repayment");
+          switch (splitted[4]?.toLowerCase()) {
+            case "campaign":
+              dispatch(addRepaymentCampaignId(splitted[5]));
+              break;
+            default:
+              break;
+          }
+          break;
+        case "ekyc":
+          navigation.navigate("AccountStack", {
+            screen: "KYC",
+          });
+          switch (splitted[4]?.toLowerCase()) {
+            case "campaign":
+              dispatch(addEkycCampaignId(splitted[5]));
+              break;
+            default:
+              break;
+          }
           break;
         default:
           break;
       }
     } else {
       console.log("No intent. User opened App.");
-      console.log("campaignId", campaignId);
     }
   };
 
@@ -197,6 +216,7 @@ const HomeView = () => {
                 eligible={eligible}
                 accessible={accessible}
                 ewaLiveSlice={ewaLiveSlice}
+                auto={auto}
               />
               <VideoPlayer
                 title="Why Unipe?"

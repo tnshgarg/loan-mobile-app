@@ -5,16 +5,12 @@ import MandateFormTemplate from "../../templates/mandate/Form";
 import { styles } from "../../styles";
 import TopTabNav from "../../navigators/TopTabNav";
 import DetailsCard from "../../components/molecules/DetailsCard";
-import { getBackendData } from "../../services/employees/employeeServices";
 import { useIsFocused } from "@react-navigation/core";
-import { addVerifyStatus, resetMandate } from "../../store/slices/mandateSlice";
+import { addVerifyStatus } from "../../store/slices/mandateSlice";
 
 const Mandate = () => {
   const dispatch = useDispatch();
-  const isFocused = useIsFocused();
 
-  const token = useSelector((state) => state.auth?.token);
-  const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
   const mandateSlice = useSelector((state) => state.mandate);
   const authType = mandateSlice.data?.authType?.toUpperCase();
   const [verifyStatus, setVerifyStatus] = useState(mandateSlice?.verifyStatus);
@@ -49,13 +45,15 @@ const Mandate = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      {authType && verifyStatus === "SUCCESS" ? (
-        <View style={styles.container}>
-          <DetailsCard data={cardData()} />
-        </View>
-      ) : (
-        <TopTabNav tabs={tabs} hide={true} />
-      )}
+      {
+        authType && verifyStatus === "SUCCESS" ? (
+          <View style={styles.container}>
+            <DetailsCard data={cardData()} />
+          </View>
+        ) : (
+          <TopTabNav tabs={tabs} hide={true} />
+        )
+      }
     </SafeAreaView>
   );
 };

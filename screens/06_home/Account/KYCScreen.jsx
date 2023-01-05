@@ -1,12 +1,13 @@
 import React from "react";
-import TopTabNav from "../../navigators/TopTabNav";
-import Mandate from "./Mandate";
+import TopTabNav from "../../../navigators/TopTabNav";
+
 import Aadhaar from "./Aadhaar";
 import Bank from "./Bank";
 import Pan from "./PAN";
-import Header from "../../components/atoms/Header";
+import Mandate from "./Mandate";
+import Header from "../../../components/atoms/Header";
 import { SafeAreaView } from "react-native";
-import { styles } from "../../styles";
+import { styles } from "../../../styles";
 
 const KYCScreen = ({ navigation }) => {
   const tabs = [
@@ -17,10 +18,7 @@ const KYCScreen = ({ navigation }) => {
   ];
   const backAction = () => {
     navigation.navigate("HomeStack", {
-      screen: "DrawerHome",
-      params: {
-        screen: "Account",
-      },
+      screen: "Account",
     });
     return true;
   };
