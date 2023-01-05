@@ -53,7 +53,7 @@ const AadhaarOtpApi = (props) => {
 
   const { mutateAsync: updateAadhaarMutateAsync } = updateAadhaar();
 
-  const { mutateAsync: fetchAadhaarMutate } = generateAadhaarOTP();
+  const { mutateAsync: generateAadhaarOTPMutateAsync } = generateAadhaarOTP();
 
   const backendPush = ({ verifyMsg, verifyStatus, verifyTimestamp }) => {
     setVerifyMsg(verifyMsg);
@@ -80,7 +80,7 @@ const AadhaarOtpApi = (props) => {
       props.toggle(false); // setResend(false)
     }
 
-    fetchAadhaarMutate({
+    generateAadhaarOTPMutateAsync({
       data: props.data,
     })
       .then((res) => {
