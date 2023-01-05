@@ -1,0 +1,36 @@
+#!/bin/bash
+
+env=''
+acenv=''
+app=''
+
+while getopts 'e:' flag; do
+  case "${flag}" in
+    e) env=${OPTARG};;
+  esac
+done
+
+case $env in
+  "test")
+    acenv='QA'
+    app="Unipe/Unipe-QA-App"
+    ;;
+
+  "prod")
+    acenv='Prod'
+    app="Unipe/Unipe/EmployeeApp"
+    ;;
+
+  *)
+    echo -n "unable to find config for $env"
+    exit 1
+    ;;
+esac
+
+
+echo "Setting up for CodePush to $env environment of $app"
+./android/gradlew clean
+npx gulp set --env=$env && npx react-native start --reset-cache
+
+echo "Starting CodePush for $env to $acenv environment of $app"
+npx appcenter codepush release-react -a $app -d $acenv
