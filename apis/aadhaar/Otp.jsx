@@ -82,7 +82,6 @@ const AadhaarOtpApi = (props) => {
       data: props.data,
     })
       .then((res) => {
-        console.log("resjjjj: ", res.data);
         try {
           if (res.data["status"] == "200") {
             switch (res.data["data"]["code"]) {
