@@ -18,7 +18,7 @@ const BankConfirmApi = (props) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const data = useSelector((state) => state.bank.data);
   const verifyTimestamp = useSelector((state) => state.bank.verifyTimestamp);
-  const campaignId = useSelector((state) => state.auth.campaignId);
+  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
   
   const backendPush = ({ verifyMsg, verifyStatus }) => {
     dispatch(addVerifyMsg(verifyMsg));

@@ -39,7 +39,7 @@ const ProfileForm = () => {
   const [altMobile, setAltMobile] = useState(profileSlice?.altMobile);
   const [email, setEmail] = useState(profileSlice?.email);
   const [motherName, setMotherName] = useState(profileSlice?.motherName);
-  const campaignId = useSelector((state) => state.auth.campaignId);
+  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
   
   useEffect(() => {
     dispatch(addCurrentScreen("ProfileForm"));

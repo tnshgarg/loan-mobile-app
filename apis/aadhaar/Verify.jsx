@@ -31,7 +31,7 @@ const AadhaarVerifyApi = (props) => {
   const [verifyTimestamp, setVerifyTimestamp] = useState(
     aadhaarSlice?.verifyTimestamp
   );
-  const campaignId = useSelector((state) => state.auth.campaignId);
+  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
 
   useEffect(() => {
     dispatch(addData(data));
