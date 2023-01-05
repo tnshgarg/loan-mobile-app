@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { SafeAreaView, View } from "react-native";
 import { useSelector } from "react-redux";
-import MandateFormTemplate from "../../templates/mandate/Form";
-import { styles } from "../../styles";
-import TopTabNav from "../../navigators/TopTabNav";
-import DetailsCard from "../../components/molecules/DetailsCard";
+import MandateFormTemplate from "../../../templates/mandate/Form";
+import { styles } from "../../../styles";
+import TopTabNav from "../../../navigators/TopTabNav";
+import DetailsCard from "../../../components/molecules/DetailsCard";
 
 const Mandate = () => {
   const [updated, setUpdated] = useState(false);
@@ -44,7 +44,7 @@ const Mandate = () => {
   ];
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <SafeAreaView style={styles.safeContainer}>
       {verifyStatus === "SUCCESS" && updated ? (
         <View style={styles.container}>
           <DetailsCard data={cardData()} />

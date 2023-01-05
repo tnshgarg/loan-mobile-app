@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Profile from "../../screens/07_drawer/Profile";
-import KYCScreen from "../../screens/07_drawer/KYCScreen";
+import Profile from "../../screens/06_home/Account/Profile";
 import Documents from "../../screens/06_home/Documents/Documents";
+import KYCScreen from "../../screens/06_home/Account/KYCScreen";
 
 const AccountStack = () => {
   const Stack = createNativeStackNavigator();
