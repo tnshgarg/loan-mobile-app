@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { View, Image, Text } from "react-native";
+import { View, Text } from "react-native";
 import { Button } from "@react-native-material/core";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
-import { AadhaarBackendPush } from "../../queries/onboarding/aadhaar";
+import { updateAadhaar } from "../../queries/onboarding/aadhaar";
 
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -19,12 +19,12 @@ const AadhaarConfirmApi = (props) => {
   const number = useSelector((state) => state.aadhaar.number);
   const verifyTimestamp = useSelector((state) => state.aadhaar.verifyTimestamp);
 
-  const { mutateAsync: aadhaarBackendMutateAsync } = AadhaarBackendPush();
+  const { mutateAsync: updateAadhaarMutateAsync } = updateAadhaar();
 
   const backendPush = ({ verifyMsg, verifyStatus }) => {
     dispatch(addVerifyMsg(verifyMsg));
     dispatch(addVerifyStatus(verifyStatus));
-    aadhaarBackendMutateAsync({
+    updateAadhaarMutateAsync({
       data: {
         unipeEmployeeId: unipeEmployeeId,
         data: data,

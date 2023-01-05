@@ -1,4 +1,3 @@
-import { OG_API_KEY } from "@env";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert, Text } from "react-native";
@@ -14,8 +13,8 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
 import { COLORS, FONTS } from "../../constants/Theme";
 import {
-  fetchAadhaarData,
-  AadhaarBackendPush,
+  generateAadhaarOTP,
+  updateAadhaar,
 } from "../../queries/onboarding/aadhaar";
 
 const AadhaarOtpApi = (props) => {
@@ -52,16 +51,16 @@ const AadhaarOtpApi = (props) => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
-  const { mutateAsync: aadhaarBackendMutateAsync } = AadhaarBackendPush();
+  const { mutateAsync: updateAadhaarMutateAsync } = updateAadhaar();
 
-  const { mutateAsync: fetchAadhaarMutate } = fetchAadhaarData();
+  const { mutateAsync: fetchAadhaarMutate } = generateAadhaarOTP();
 
   const backendPush = ({ verifyMsg, verifyStatus, verifyTimestamp }) => {
     setVerifyMsg(verifyMsg);
     setVerifyStatus(verifyStatus);
     setVerifyTimestamp(verifyTimestamp);
 
-    aadhaarBackendMutateAsync({
+    updateAadhaarMutateAsync({
       data: {
         unipeEmployeeId: unipeEmployeeId,
         data: aadhaarSlice?.data,

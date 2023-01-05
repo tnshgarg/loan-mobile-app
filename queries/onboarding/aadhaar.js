@@ -1,20 +1,51 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import {
-  EMPLOYEE_API_URL,
   KYC_AADHAAR_GENERATE_OTP_API_URL,
+  KYC_AADHAAR_SUBMIT_OTP_API_URL,
 } from "../../services/constants";
 import { OG_API_KEY } from "@env";
+import { aadhaarBackendPush } from "../../helpers/BackendPush";
+import { getBackendData } from "../../services/employees/employeeServices";
 
-export const AadhaarBackendPush = () => {
+export const updateAadhaar = () => {
   const mutation = useMutation({
     mutationFn: async ({ data, token }) => {
+      return aadhaarBackendPush({ data, token });
+    },
+  });
+  return mutation;
+};
+
+export const getAadhaar = ({ unipeEmployeeId, token }) => {
+  const response = useQuery({
+    queryKey: ["getAadhaar"],
+    queryFn: async () => {
+      return getBackendData({
+        params: { unipeEmployeeId: unipeEmployeeId },
+        xpath: "aadhaar",
+        token: token,
+      });
+    },
+    config: {
+      staleTime: 1000 * 60 * 60 * 24,
+      cacheTime: 1000 * 60 * 60 * 24,
+      refetchInterval: 1000 * 60 * 60 * 24,
+    },
+  });
+  return response;
+};
+
+export const generateAadhaarOTP = () => {
+  const mutation = useMutation({
+    mutationFn: async ({ data }) => {
       return axios({
         method: "post",
-        url: `${EMPLOYEE_API_URL}/aadhaar`,
+        url: KYC_AADHAAR_GENERATE_OTP_API_URL,
         headers: {
+          "X-Auth-Type": "API-Key",
+          "X-API-Key": OG_API_KEY,
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         data: JSON.stringify(data),
       })
@@ -28,12 +59,12 @@ export const AadhaarBackendPush = () => {
   return mutation;
 };
 
-export const fetchAadhaarData = () => {
+export const submitAadhaarOTP = () => {
   const mutation = useMutation({
     mutationFn: async ({ data }) => {
       return axios({
         method: "post",
-        url: KYC_AADHAAR_GENERATE_OTP_API_URL,
+        url: KYC_AADHAAR_SUBMIT_OTP_API_URL,
         headers: {
           "X-Auth-Type": "API-Key",
           "X-API-Key": OG_API_KEY,
