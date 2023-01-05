@@ -100,11 +100,7 @@ const KYC = () => {
         Analytics.trackEvent("Ewa|Kyc|Success", {
           unipeEmployeeId: unipeEmployeeId,
         });
-        if (mandateVerifyStatus === "SUCCESS") {
-          navigation.navigate("EWA_AGREEMENT");
-        } else {
-          navigation.navigate("EWA_MANDATE");
-        }
+        navigation.navigate("EWA_MANDATE");
       })
       .catch((error) => {
         console.log("ewaKycPush error: ", error.toString());

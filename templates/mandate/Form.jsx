@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/core";
+import { useNavigation, useIsFocused } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, SafeAreaView, ScrollView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
@@ -32,7 +32,7 @@ import RBI from "../../assets/RBI.svg";
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
+  const isFocused = useIsFocused();
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
 
@@ -71,27 +71,28 @@ const MandateFormTemplate = (props) => {
     NetworkInfo.getIPV4Address().then((ipv4Address) => {
       setIpAdress(ipv4Address);
     });
+    setFetched(false);
   }, []);
 
   useEffect(() => {
-    if (unipeEmployeeId && verifyStatus !== "SUCCESS") {
+    if (isFocused && unipeEmployeeId) {
       getBackendData({
         params: { unipeEmployeeId: unipeEmployeeId },
         xpath: "mandate",
         token: token,
       })
-      .then((response) => {
-        console.log("mandateFetch response.data", response.data);
-        if (response.data.status === 200) {
-          dispatch(resetMandate(response?.data?.body));
-        }
-        setFetched(true);
-      })
-      .catch((error) => {
-        console.log("mandateFetch error: ", error);
-      });
+        .then((response) => {
+          console.log("mandateFetch response.data", response.data);
+          if (response.data.status === 200) {
+            dispatch(resetMandate(response?.data?.body));
+          }
+          setFetched(true);
+        })
+        .catch((error) => {
+          console.log("mandateFetch error: ", error);
+        });
     }
-  }, [unipeEmployeeId, verifyStatus]);
+  }, [unipeEmployeeId, isFocused, fetched]);
 
   useEffect(() => {
     dispatch(addData(data));
@@ -103,8 +104,8 @@ const MandateFormTemplate = (props) => {
 
   useEffect(() => {
     dispatch(addVerifyStatus(verifyStatus));
-    if ( props?.type === "EWA" && verifyStatus === "SUCCESS" ) {
-      navigation.navigate("EWA_AGREEMENT")
+    if (fetched && props?.type === "EWA" && verifyStatus === "SUCCESS") {
+      navigation.navigate("EWA_AGREEMENT");
     }
   }, [verifyStatus]);
 
@@ -307,21 +308,17 @@ const MandateFormTemplate = (props) => {
           >
             Please choose your preferred mode
           </Text>
-          {
-            customerId === null || !fetched ? (
-              <Text style={{ ...FONTS.body4, color: COLORS.gray }}>
-                Initializing ...
-              </Text>
-            ) : (
-              verifyStatus === "INPROGRESS" ? (
-                <Text style={{ ...FONTS.body4, color: COLORS.black }}>
-                  Your Mandate Registration is currently in progress.
-                </Text>
-              ) : (
-                <MandateOptions ProceedButton={ProceedButton} disabled={loading} />
-              )
-            )
-          }
+          {customerId === null || !fetched ? (
+            <Text style={{ ...FONTS.body4, color: COLORS.gray }}>
+              Initializing ...
+            </Text>
+          ) : verifyStatus === "INPROGRESS" ? (
+            <Text style={{ ...FONTS.body4, color: COLORS.black }}>
+              Your Mandate Registration is currently in progress.
+            </Text>
+          ) : (
+            <MandateOptions ProceedButton={ProceedButton} disabled={loading} />
+          )}
           <View
             style={{
               padding: 10,

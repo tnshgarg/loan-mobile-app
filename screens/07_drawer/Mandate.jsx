@@ -6,13 +6,12 @@ import { styles } from "../../styles";
 import TopTabNav from "../../navigators/TopTabNav";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import { getBackendData } from "../../services/employees/employeeServices";
-import {
-  addVerifyStatus,
-  resetMandate,
-} from "../../store/slices/mandateSlice";
+import { useIsFocused } from "@react-navigation/core";
+import { addVerifyStatus, resetMandate } from "../../store/slices/mandateSlice";
 
 const Mandate = () => {
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
 
   const token = useSelector((state) => state.auth?.token);
   const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
@@ -31,18 +30,18 @@ const Mandate = () => {
         xpath: "mandate",
         token: token,
       })
-      .then((response) => {
-        console.log("mandateFetch response.data", response.data);
-        if (response.data.status === 200) {
-          dispatch(resetMandate(response?.data?.body));
-          setVerifyStatus(response?.data?.body?.verifyStatus);
-        }
-      })
-      .catch((error) => {
-        console.log("mandateFetch error: ", error);
-      });
+        .then((response) => {
+          console.log("mandateFetch response.data", response.data);
+          if (response.data.status === 200) {
+            dispatch(resetMandate(response?.data?.body));
+            setVerifyStatus(response?.data?.body?.verifyStatus);
+          }
+        })
+        .catch((error) => {
+          console.log("mandateFetch error: ", error);
+        });
     }
-  }, [unipeEmployeeId, verifyStatus]);
+  }, [unipeEmployeeId, verifyStatus, isFocused]);
 
   const cardData = () => {
     var res = [
