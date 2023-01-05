@@ -3,7 +3,7 @@ import axios from "axios";
 import {
   EMPLOYEE_API_URL,
   KYC_AADHAAR_GENERATE_OTP_API_URL,
-} from "../services/constants";
+} from "../../services/constants";
 import { OG_API_KEY } from "@env";
 
 export const AadhaarBackendPush = () => {

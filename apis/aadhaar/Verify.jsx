@@ -12,7 +12,7 @@ import {
 import { KYC_AADHAAR_SUBMIT_OTP_API_URL } from "../../services/constants";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
-import { AadhaarBackendPush } from "../../queries/Aadhaar";
+import { AadhaarBackendPush } from "../../queries/onboarding/aadhaar";
 
 const AadhaarVerifyApi = (props) => {
   const dispatch = useDispatch();

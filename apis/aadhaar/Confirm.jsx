@@ -7,7 +7,7 @@ import { bankform, form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
-import { AadhaarBackendPush } from "../../queries/Aadhaar";
+import { AadhaarBackendPush } from "../../queries/onboarding/aadhaar";
 
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();

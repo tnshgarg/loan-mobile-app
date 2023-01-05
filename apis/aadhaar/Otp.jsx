@@ -13,7 +13,10 @@ import { resetTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { fetchAadhaarData, AadhaarBackendPush } from "../../queries/Aadhaar";
+import {
+  fetchAadhaarData,
+  AadhaarBackendPush,
+} from "../../queries/onboarding/aadhaar";
 
 const AadhaarOtpApi = (props) => {
   const dispatch = useDispatch();

@@ -19,7 +19,7 @@ import LogoHeader from "../../components/atoms/LogoHeader";
 import VideoPlayer from "../../components/organisms/VideoPlayer";
 import { COLORS } from "../../constants/Theme";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
-import { getEwaOffers } from "../../queries/offers";
+import { getEwaOffers } from "../../queries/ewa/offers";
 import {
   notificationListener,
   requestUserPermission,
