@@ -1,4 +1,4 @@
-import { useNavigation, useIsFocused } from "@react-navigation/core";
+import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, SafeAreaView, ScrollView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
@@ -32,7 +32,6 @@ import RBI from "../../assets/RBI.svg";
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const isFocused = useIsFocused();
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
 
@@ -75,24 +74,25 @@ const MandateFormTemplate = (props) => {
   }, []);
 
   useEffect(() => {
-    if (isFocused && unipeEmployeeId) {
+    if (unipeEmployeeId) {
       getBackendData({
         params: { unipeEmployeeId: unipeEmployeeId },
         xpath: "mandate",
         token: token,
       })
-        .then((response) => {
-          console.log("mandateFetch response.data", response.data);
-          if (response.data.status === 200) {
-            dispatch(resetMandate(response?.data?.body));
-          }
-          setFetched(true);
-        })
-        .catch((error) => {
-          console.log("mandateFetch error: ", error);
-        });
+      .then((response) => {
+        console.log("Form mandateFetch response.data", response.data);
+        if (response.data.status === 200) {
+          dispatch(resetMandate(response?.data?.body));
+          setVerifyStatus(response?.data?.body?.verifyStatus);
+        }
+        setFetched(true);
+      })
+      .catch((error) => {
+        console.log("mandateFetch error: ", error);
+      });
     }
-  }, [unipeEmployeeId, isFocused, fetched]);
+  }, [unipeEmployeeId]);
 
   useEffect(() => {
     dispatch(addData(data));
@@ -317,6 +317,9 @@ const MandateFormTemplate = (props) => {
               Your Mandate Registration is currently in progress.
             </Text>
           ) : (
+            verifyStatus === "SUCCESS" ? (
+              null
+            ) :
             <MandateOptions ProceedButton={ProceedButton} disabled={loading} />
           )}
           <View

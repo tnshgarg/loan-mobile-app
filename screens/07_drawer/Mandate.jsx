@@ -23,26 +23,6 @@ const Mandate = () => {
     dispatch(addVerifyStatus(verifyStatus));
   }, [verifyStatus]);
 
-  useEffect(() => {
-    if (unipeEmployeeId && verifyStatus !== "SUCCESS") {
-      getBackendData({
-        params: { unipeEmployeeId: unipeEmployeeId },
-        xpath: "mandate",
-        token: token,
-      })
-        .then((response) => {
-          console.log("mandateFetch response.data", response.data);
-          if (response.data.status === 200) {
-            dispatch(resetMandate(response?.data?.body));
-            setVerifyStatus(response?.data?.body?.verifyStatus);
-          }
-        })
-        .catch((error) => {
-          console.log("mandateFetch error: ", error);
-        });
-    }
-  }, [unipeEmployeeId, verifyStatus, isFocused]);
-
   const cardData = () => {
     var res = [
       {
