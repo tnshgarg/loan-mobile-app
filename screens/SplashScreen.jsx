@@ -4,25 +4,25 @@ import { Image, StyleSheet } from "react-native";
 
 import { Linking } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { addCampaignId } from "../store/slices/authSlice";
+import { addOnboardingCampaignId } from "../store/slices/campaignSlice";
 import { addCurrentStack } from "../store/slices/navigationSlice";
 
 const SplashScreen = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
+  const onboarded = useSelector((state) => state.auth.onboarded);
   var [campaignId, setCampaignId] = useState(
-    useSelector((state) => state.auth.campaignId)
+    useSelector((state) => state.campaign.onboardingCampaignId)
   );
 
   useEffect(() => {
-    dispatch(addCampaignId(campaignId));
+    dispatch(addOnboardingCampaignId(campaignId));
   }, [campaignId]);
 
   const getUrlAsync = async () => {
     const initialUrl = await Linking.getInitialURL();
     const breakpoint = "/";
-    if (initialUrl) {
+    if (initialUrl && !onboarded) {
       const splitted = initialUrl.split(breakpoint);
       console.log("initialUrl", splitted);
       console.log("route", splitted[3]);

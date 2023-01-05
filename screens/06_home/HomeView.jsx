@@ -6,7 +6,11 @@ import LiveOfferCard from "../../components/organisms/LiveOfferCard";
 import PushNotification from "react-native-push-notification";
 import KycCheckCard from "../../components/molecules/KycCheckCard";
 import { allAreNull } from "../../helpers/nullCheck";
-import { addCampaignId } from "../../store/slices/authSlice";
+import {
+  addEkycCampaignId,
+  addEwaCampaignId,
+  addRepaymentCampaignId,
+} from "../../store/slices/campaignSlice";
 import {
   addCurrentScreen,
   addCurrentStack,
@@ -22,6 +26,7 @@ import { Ionicons } from "react-native-vector-icons";
 import { COLORS } from "../../constants/Theme";
 import { getBackendData } from "../../services/employees/employeeServices";
 import { resetEwaHistorical } from "../../store/slices/ewaHistoricalSlice";
+import { addOnboarded } from "../../store/slices/authSlice";
 import {
   addAccessible,
   addEligible,
@@ -46,6 +51,7 @@ const HomeView = () => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const onboarded = useSelector((state) => state.auth.onboarded);
 
   // const panMisMatch = useSelector((state) => state.pan.misMatch);
   // const bankMisMatch = useSelector((state) => state.bank.misMatch);
@@ -71,23 +77,16 @@ const HomeView = () => {
     }
   }, [aadhaarVerifyStatus, bankVerifyStatus, panVerifyStatus]);
 
-  var [campaignId, setCampaignId] = useState(
-    useSelector((state) => state.auth.campaignId)
-  );
-
   useEffect(() => {
     dispatch(addCurrentScreen("Home"));
     dispatch(addCurrentStack("HomeStack"));
+    if (!onboarded) addOnboarded(true);
   }, []);
 
   useEffect(() => {
     requestUserPermission();
     notificationListener();
   }, []);
-
-  useEffect(() => {
-    dispatch(addCampaignId(campaignId));
-  }, [campaignId]);
 
   useEffect(() => {
     dispatch(addEligible(eligible));
@@ -168,29 +167,41 @@ const HomeView = () => {
       switch (splitted[3].toLowerCase()) {
         case "ewa":
           setAuto("ewa");
+          switch (splitted[4]?.toLowerCase()) {
+            case "campaign":
+              dispatch(addEwaCampaignId(splitted[5]));
+              break;
+            default:
+              break;
+          }
           break;
         case "repayment":
           setAuto("repayment");
+          switch (splitted[4]?.toLowerCase()) {
+            case "campaign":
+              dispatch(addRepaymentCampaignId(splitted[5]));
+              break;
+            default:
+              break;
+          }
           break;
-        case "kyc":
+        case "ekyc":
           navigation.navigate("AccountStack", {
             screen: "KYC",
           });
-          break;
-        default:
-          break;
-      }
-      switch (splitted[4]?.toLowerCase()) {
-        case "campaign":
-          console.log("campaignId", splitted[5]);
-          setCampaignId(splitted[5]);
+          switch (splitted[4]?.toLowerCase()) {
+            case "campaign":
+              dispatch(addEkycCampaignId(splitted[5]));
+              break;
+            default:
+              break;
+          }
           break;
         default:
           break;
       }
     } else {
       console.log("No intent. User opened App.");
-      console.log("campaignId", campaignId);
     }
   };
 

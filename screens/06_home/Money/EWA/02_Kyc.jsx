@@ -19,7 +19,7 @@ const KYC = () => {
   const [ipAddress, setIpAdress] = useState(0);
 
   const [loading, setLoading] = useState(false);
-  const campaignId = useSelector((state) => state.auth.campaignId);
+  const campaignId = useSelector((state) => state.campaign.ewaCampaignId);
   const mandateVerifyStatus = useSelector(
     (state) => state.mandate.verifyStatus
   );
