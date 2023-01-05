@@ -10,9 +10,9 @@ import OnboardingStack from "./stacks/OnboardingStack";
 import EWAStack from "./stacks/EWAStack";
 
 import BenefitsStack from "./stacks/BenefitsStack";
-import DrawerNavigator from "./DrawerNavigator";
 import AccountStack from "./stacks/AccountStack";
 import InvestStack from "./stacks/InvestStack";
+import BottomTabNav from "./BottomTabNav";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -51,7 +51,7 @@ const StackNavigator = () => {
         />
         <Stack.Screen
           name="HomeStack"
-          component={DrawerNavigator}
+          component={BottomTabNav}
           options={{
             headerShown: false,
           }}

@@ -1,11 +1,11 @@
 import { SafeAreaView, View } from "react-native";
 import React from "react";
 import { useSelector } from "react-redux";
-import BankFormTemplate from "../../templates/bank/Form";
-import BankConfirmApi from "../../apis/bank/Confirm";
-import TopTabNav from "../../navigators/TopTabNav";
-import { styles } from "../../styles";
-import DetailsCard from "../../components/molecules/DetailsCard";
+import BankFormTemplate from "../../../templates/bank/Form";
+import BankConfirmApi from "../../../apis/bank/Confirm";
+import TopTabNav from "../../../navigators/TopTabNav";
+import { styles } from "../../../styles";
+import DetailsCard from "../../../components/molecules/DetailsCard";
 
 const Bank = () => {
   const verifyStatus = useSelector((state) => state.bank.verifyStatus);

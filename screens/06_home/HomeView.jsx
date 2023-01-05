@@ -1,9 +1,9 @@
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Linking, SafeAreaView, ScrollView, View } from "react-native";
+import PushNotification from "react-native-push-notification";
 import { useDispatch, useSelector } from "react-redux";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
-import PushNotification from "react-native-push-notification";
 import KycCheckCard from "../../components/molecules/KycCheckCard";
 import { allAreNull } from "../../helpers/nullCheck";
 import { addCampaignId } from "../../store/slices/authSlice";
@@ -13,23 +13,23 @@ import {
 } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 
+import { STAGE } from "@env";
+import { Ionicons } from "react-native-vector-icons";
+import LogoHeader from "../../components/atoms/LogoHeader";
+import VideoPlayer from "../../components/organisms/VideoPlayer";
+import { COLORS } from "../../constants/Theme";
+import { getNumberOfDays } from "../../helpers/DateFunctions";
+import { getEwaOffers } from "../../queries/ewa/offers";
 import {
   notificationListener,
   requestUserPermission,
 } from "../../services/notifications/notificationService";
-import LogoHeader from "../../components/atoms/LogoHeader";
-import { Ionicons } from "react-native-vector-icons";
-import { COLORS } from "../../constants/Theme";
-import { getBackendData } from "../../services/employees/employeeServices";
 import { resetEwaHistorical } from "../../store/slices/ewaHistoricalSlice";
 import {
   addAccessible,
   addEligible,
   resetEwaLive,
 } from "../../store/slices/ewaLiveSlice";
-import { getNumberOfDays } from "../../helpers/DateFunctions";
-import { STAGE } from "@env";
-import VideoPlayer from "../../components/organisms/VideoPlayer";
 
 const HomeView = () => {
   const dispatch = useDispatch();
@@ -108,55 +108,42 @@ const HomeView = () => {
     dispatch(addAccessible(accessible));
   }, [accessible]);
 
+  const {
+    isSuccess: getEwaOffersIsSuccess,
+    isError: getEwaOffersIsError,
+    error: getEwaOffersError,
+    data: getEwaOffersData,
+  } = getEwaOffers({ token, unipeEmployeeId });
+
   useEffect(() => {
-    console.log("HomeView ewaLiveSlice: ", ewaLiveSlice);
-    // console.log("ewaHistoricalSlice: ", ewaHistoricalSlice);
-    // console.log("HomeView ewaOffersFetch unipeEmployeeId:", unipeEmployeeId);
-    if (isFocused && unipeEmployeeId) {
-      getBackendData({
-        params: { unipeEmployeeId: unipeEmployeeId },
-        xpath: "ewa/offers",
-        token: token,
-      })
-        .then((response) => {
-          console.log("HomeView ewaOffersFetch response.data: ", response.data);
-          if (response.data.status === 200) {
-            if (Object.keys(response.data.body.live).length !== 0) {
-              console.log(
-                "HomeView ewaOffersFetch response.data.body.live: ",
-                response.data.body.live,
-                response.data.body.live != {}
-              );
-              const closureDays = getNumberOfDays({
-                date: response.data.body.live.dueDate,
-              });
-              if (closureDays <= 3) {
-                setAccessible(false);
-              } else {
-                setAccessible(true);
-              }
-            } else {
-              setAccessible(false);
-            }
-            dispatch(resetEwaLive(response.data.body.live));
-            dispatch(resetEwaHistorical(response.data.body.past));
-            setFetched(true);
+    if (getEwaOffersIsSuccess) {
+      if (getEwaOffersData.data.status === 200) {
+        if (Object.keys(getEwaOffersData.data.body.live).length !== 0) {
+          const closureDays = getNumberOfDays({
+            date: getEwaOffersData.data.body.live.dueDate,
+          });
+          if (closureDays <= 3) {
+            setAccessible(false);
           } else {
-            console.log("HomeView ewaOffersFetch API error: ", response.data);
-            dispatch(resetEwaLive());
-            dispatch(resetEwaHistorical());
+            setAccessible(true);
           }
-        })
-        .catch((error) => {
-          console.log(
-            "HomeView ewaOffersFetch Response error: ",
-            error.toString()
-          );
-          dispatch(resetEwaLive());
-          dispatch(resetEwaHistorical());
-        });
+        } else {
+          setAccessible(false);
+        }
+        dispatch(resetEwaLive(getEwaOffersData.data.body.live));
+        dispatch(resetEwaHistorical(getEwaOffersData.data.body.past));
+        setFetched(true);
+      } else {
+        console.log("HomeView ewaOffersFetch API error getEwaOffersData.data : ", getEwaOffersData.data);
+        dispatch(resetEwaLive());
+        dispatch(resetEwaHistorical());
+      }
+    } else if (getEwaOffersIsError) {
+      console.log("HomeView ewaOffersFetch API error getEwaOffersError.message : ", getEwaOffersError.message);
+      dispatch(resetEwaLive());
+      dispatch(resetEwaHistorical());
     }
-  }, [isFocused, unipeEmployeeId]);
+  }, [getEwaOffersIsSuccess, getEwaOffersData]);
 
   const getUrlAsync = async () => {
     const initialUrl = await Linking.getInitialURL();

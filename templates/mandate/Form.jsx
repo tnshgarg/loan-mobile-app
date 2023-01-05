@@ -76,7 +76,7 @@ const MandateFormTemplate = (props) => {
   }, []);
 
   useEffect(() => {
-    if (unipeEmployeeId) {
+    if (unipeEmployeeId && verifyStatus !== "SUCCESS") {
       getBackendData({
         params: { unipeEmployeeId: unipeEmployeeId },
         xpath: "mandate",
@@ -93,7 +93,7 @@ const MandateFormTemplate = (props) => {
           console.log("mandateFetch error: ", error);
         });
     }
-  }, [unipeEmployeeId]);
+  }, [unipeEmployeeId, verifyStatus]);
 
   useEffect(() => {
     dispatch(addData(data));
@@ -203,7 +203,7 @@ const MandateFormTemplate = (props) => {
                   tokenId: token.data.token_id,
                 },
                 verifyMsg: "Mandate Verified Successfully",
-                verifyStatus: "SUCCESS",
+                verifyStatus: "INPROGRESS",
                 verifyTimestamp: Date.now(),
               });
               showToast("Mandate Verified Successfully");
@@ -343,13 +343,17 @@ const MandateFormTemplate = (props) => {
           >
             Please choose your preferred mode
           </Text>
-          {
-            customerId == null || !fetched ? (
-              <Text style={{ ...FONTS.body4, color: COLORS.gray }}>Initializing ... </Text>
-            ) : (
-              <MandateOptions ProceedButton={ProceedButton} disabled={loading} />
-            )
-          }
+          {customerId == null || !fetched ? (
+            <Text style={{ ...FONTS.body4, color: COLORS.gray }}>
+              Initializing ...{" "}
+            </Text>
+          ) : verifyStatus == "INPROGRESS" ? (
+            <Text style={{ ...FONTS.body4, color: COLORS.gray }}>
+              Your Mandate Registration is currently in progress...
+            </Text>
+          ) : (
+            <MandateOptions ProceedButton={ProceedButton} disabled={loading} />
+          )}
           <View
             style={{
               padding: 10,
@@ -358,7 +362,7 @@ const MandateFormTemplate = (props) => {
               borderRadius: 5,
               alignItems: "center",
               justifyContent: "center",
-              marginTop: "10%"
+              marginTop: "10%",
             }}
           >
             <Text

@@ -1,9 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { queryClient } from "../queries/client";
 
 export default function usePersistentContext(key) {
-  const queryClient = useQueryClient();
-
   const { data } = useQuery([key], () => AsyncStorage.getItem(key));
 
   const { mutateAsync: setValue } = useMutation(

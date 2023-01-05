@@ -13,10 +13,7 @@ export default Documents = ({ navigation }) => {
   ];
   const backAction = () => {
     navigation.navigate("HomeStack", {
-      screen: "DrawerHome",
-      params: {
-        screen: "Account",
-      },
+      screen: "Account",
     });
     return true;
   };
