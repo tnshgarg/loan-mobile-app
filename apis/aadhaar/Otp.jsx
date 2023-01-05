@@ -85,14 +85,15 @@ const AadhaarOtpApi = (props) => {
     })
       .then((res) => {
         try {
-          if (res.data["status"] == "200") {
-            switch (res.data["data"]["code"]) {
+          const responseJson = res.data;
+          if (responseJson["status"] == "200") {
+            switch (responseJson["data"]["code"]) {
               case "1001":
-                setSubmitOTPtxnId(res.data["data"]["transaction_id"]);
+                setSubmitOTPtxnId(responseJson["data"]["transaction_id"]);
                 backendPush({
                   verifyMsg: "OTP sent to User",
                   verifyStatus: "PENDING",
-                  verifyTimestamp: res.data["timestamp"],
+                  verifyTimestamp: responseJson["timestamp"],
                 });
                 dispatch(resetTimer());
                 Analytics.trackEvent("Aadhaar|Otp|Success", {
@@ -111,38 +112,38 @@ const AadhaarOtpApi = (props) => {
                 break;
               default:
                 backendPush({
-                  verifyMsg: res.data["data"]["message"],
+                  verifyMsg: responseJson["data"]["message"],
                   verifyStatus: "ERROR",
                   verifyTimestamp: verifyTimestamp,
                 });
-                Alert.alert("Error", res.data["data"]["message"]);
+                Alert.alert("Error", responseJson["data"]["message"]);
                 Analytics.trackEvent("Aadhaar|Otp|Error", {
                   unipeEmployeeId: unipeEmployeeId,
-                  error: res.data["data"]["message"],
+                  error: responseJson["data"]["message"],
                 });
                 break;
             }
-          } else if (res.data?.error?.message) {
+          } else if (responseJson?.error?.message) {
             backendPush({
-              verifyMsg: res.data["error"]["message"],
+              verifyMsg: responseJson["error"]["message"],
               verifyStatus: "ERROR",
               verifyTimestamp: verifyTimestamp,
             });
-            Alert.alert("Error", res.data["error"]["message"]);
+            Alert.alert("Error", responseJson["error"]["message"]);
             Analytics.trackEvent("Aadhaar|Otp|Error", {
               unipeEmployeeId: unipeEmployeeId,
-              error: res.data["error"]["message"],
+              error: responseJson["error"]["message"],
             });
           } else {
             backendPush({
-              verifyMsg: res.data["message"],
+              verifyMsg: responseJson["message"],
               verifyStatus: "ERROR",
               verifyTimestamp: verifyTimestamp,
             });
-            Alert.alert("Error", res.data["message"]);
+            Alert.alert("Error", responseJson["message"]);
             Analytics.trackEvent("Aadhaar|Otp|Error", {
               unipeEmployeeId: unipeEmployeeId,
-              error: res.data["message"],
+              error: responseJson["message"],
             });
           }
         } catch (error) {
