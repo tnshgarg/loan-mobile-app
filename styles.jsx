@@ -62,6 +62,18 @@ export const styles = EStyleSheet.create({
     textAlign: "center",
     marginTop: "5%",
   },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    marginVertical: "15rem",
+  },
+  col: {
+    flexDirection: "column",
+    justifyContent: "center",
+    width: "100%",
+    marginVertical: "10rem",
+  },
 });
 
 export const progressBar = EStyleSheet.create({
@@ -274,6 +286,30 @@ export const accountStyles = EStyleSheet.create({
     ...FONTS.h4,
     color: COLORS.black,
     marginLeft: "15rem",
+  },
+});
+
+export const investStyles = EStyleSheet.create({
+  title: {
+    ...FONTS.body4,
+    color: COLORS.black,
+    marginTop: "10rem",
+  },
+  subtitle: {
+    ...FONTS.body2,
+    color: COLORS.black,
+    marginBottom: "10rem",
+  },
+  description: {
+    ...FONTS.body4,
+    color: COLORS.gray,
+    marginTop: "10rem",
+    width: "70%",
+  },
+  underlineText: {
+    ...FONTS.body4,
+    color: COLORS.primary,
+    textDecorationLine: "underline",
   },
 });
 
