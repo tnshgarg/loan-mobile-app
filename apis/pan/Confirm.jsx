@@ -58,15 +58,7 @@ const PanConfirmApi = (props) => {
         कृपया स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
       </Text>
       <DetailsCard data={cardData()} />
-
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: 20,
-        }}
-      >
+      <View style={[styles.row, { justifyContent: "space-between" }]}>
         <FuzzyCheck name={data["name"]} step="PAN" />
         <Button
           title="Not Me"

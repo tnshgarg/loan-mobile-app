@@ -81,28 +81,24 @@ export default Relation = () => {
         <View>
           <FormInput
             placeholder={"Father's / Husband's Name*"}
-            containerStyle={{ marginVertical: 10 }}
             value={fatherHusbandName}
             onChange={setRelationName}
           />
 
           <DropDownForm
             placeholder={"Relation with Employee (Father/Husband)*"}
-            containerStyle={{ marginVertical: 10 }}
             value={fatherHusbandRelation}
             setValue={setRelation}
             data={employeeRelations}
           />
           <FormInput
             placeholder={"Name of Nominee (As per Aadhaar card)*"}
-            containerStyle={{ marginVertical: 10 }}
             value={nomineeName}
             onChange={setNomineeName}
           />
 
           <DropDownForm
             placeholder={"Nominee Relationship with Employee*"}
-            containerStyle={{ marginVertical: 10 }}
             value={nomineeRelation}
             setValue={setNomineeRelation}
             data={nomineeRelations}

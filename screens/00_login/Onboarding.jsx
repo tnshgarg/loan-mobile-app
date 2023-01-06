@@ -7,13 +7,14 @@ import Analytics from "appcenter-analytics";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { styles } from "../../styles";
+import { onboardingStyles, styles } from "../../styles";
 import { requestUserPermission } from "../../services/notifications/notificationService";
 import LogoHeader from "../../components/atoms/LogoHeader";
 import ShieldTitle from "../../components/atoms/ShieldTitle";
 import OnDemand from "../../assets/OnDemand.svg";
 import Clock from "../../assets/Clock.svg";
 import InterestFree from "../../assets/InterestFree.svg";
+import SvgListItem from "../../components/molecules/SvgListItem";
 
 const Onboarding = () => {
   const navigation = useNavigation();
@@ -37,7 +38,7 @@ const Onboarding = () => {
   ];
 
   return (
-    <SafeAreaView style={[styles.safeContainer]}>
+    <SafeAreaView style={styles.safeContainer}>
       <LogoHeader />
       <View style={styles.container}>
         <Text
@@ -48,51 +49,14 @@ const Onboarding = () => {
         >
           नमस्ते
         </Text>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            marginVertical: 20,
-          }}
-        >
-          <View
-            style={{
-              height: 28,
-              width: 28,
-              backgroundColor: COLORS.primary,
-              borderTopRightRadius: 10,
-              borderBottomRightRadius: 10,
-              marginRight: 10,
-              marginLeft: -20,
-            }}
-          />
+        <View style={styles.row}>
+          <View style={onboardingStyles.curvedBox} />
           <Text style={{ ...FONTS.h2, color: COLORS.secondary }}>
             Unipe के साथ पाएँ
           </Text>
         </View>
         {data.map((item, index) => (
-          <View
-            key={index}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "flex-start",
-              marginVertical: 15,
-            }}
-          >
-            {item.imageUri}
-            <Text
-              style={{
-                ...FONTS.body4,
-                color: COLORS.secondary,
-                marginLeft: 30,
-                flex: 1,
-              }}
-            >
-              {item.title}
-            </Text>
-          </View>
+          <SvgListItem item={item} key={index} />
         ))}
 
         <View style={{ flex: 1 }} />

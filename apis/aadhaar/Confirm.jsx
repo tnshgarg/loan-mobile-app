@@ -60,14 +60,7 @@ const AadhaarConfirmApi = (props) => {
         }}
       />
 
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: 20,
-        }}
-      >
+      <View style={[styles.row, { justifyContent: "space-between" }]}>
         <Button
           title="Not Me"
           type="solid"

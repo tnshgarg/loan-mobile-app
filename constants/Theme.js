@@ -69,7 +69,7 @@ export const SIZES = {
   radius: 5,
   padding: 15,
   opacity: 0.7,
-  btnHeight: 50,
+  btnHeight: normalize(50),
 
   // font sizes
   h1: normalize(30),

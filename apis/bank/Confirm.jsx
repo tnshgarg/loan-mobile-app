@@ -59,14 +59,7 @@ const BankConfirmApi = (props) => {
     <View style={styles.container}>
       <DetailsCard data={cardData()} />
 
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: 20,
-        }}
-      >
+      <View style={[styles.row, { justifyContent: "space-between" }]}>
         <Button
           title="Not Me"
           type="solid"
@@ -127,7 +120,6 @@ const BankConfirmApi = (props) => {
             }
           }}
         />
-        <View style={bankform.padding}></View>
       </View>
     </View>
   );
