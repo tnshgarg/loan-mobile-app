@@ -10,6 +10,7 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import Analytics from "appcenter-analytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
+import { updatePan } from "../../queries/onboarding/pan";
 
 const PanConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -21,10 +22,12 @@ const PanConfirmApi = (props) => {
   const number = useSelector((state) => state.pan.number);
   const verifyTimestamp = useSelector((state) => state.pan.verifyTimestamp);
 
+  const { mutateAsync: updatePanMutateAsync } = updatePan();
+
   const backendPush = ({ verifyMsg, verifyStatus }) => {
     dispatch(addVerifyMsg(verifyMsg));
     dispatch(addVerifyStatus(verifyStatus));
-    panBackendPush({
+    updatePanMutateAsync({
       data: {
         unipeEmployeeId: unipeEmployeeId,
         data: data,
