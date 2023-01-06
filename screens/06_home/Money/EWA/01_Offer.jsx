@@ -1,5 +1,3 @@
-import { STAGE } from "@env";
-import CheckBox from "@react-native-community/checkbox";
 import { useNavigation } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
@@ -10,18 +8,17 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import TermsAndPrivacyModal from "../../../../components/molecules/TermsAndPrivacyModal";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
-import { COLORS } from "../../../../constants/Theme";
-import { ewaOfferPush } from "../../../../helpers/BackendPush";
 import {
   addAPR,
   addLoanAmount,
   addNetAmount,
   addProcessingFees,
 } from "../../../../store/slices/ewaLiveSlice";
-import { checkBox, styles } from "../../../../styles";
+import { styles } from "../../../../styles";
 import TnC from "../../../../templates/docs/EWATnC.js";
 import SliderCard from "../../../../components/organisms/SliderCard";
 import Checkbox from "../../../../components/atoms/Checkbox";
+import { updateOffer } from "../../../../queries/ewa/offer";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -40,11 +37,10 @@ const Offer = () => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const campaignId = useSelector((state) => state.auth.campaignId);
+  const campaignId = useSelector((state) => state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const fees = useSelector((state) => state.ewaLive.fees);
   const [loanAmount, setLoanAmount] = useState(ewaLiveSlice?.eligibleAmount);
-  const [netAmount, setNetAmount] = useState(ewaLiveSlice?.netAmount);
   const [processingFees, setProcessingFees] = useState(
     ewaLiveSlice?.processingFees
   );
@@ -64,9 +60,11 @@ const Offer = () => {
     }
   }, [deviceId, ipAddress]);
 
+  const { mutateAsync: updateOfferMutateAsync } = updateOffer();
+
   useEffect(() => {
     if (fetched) {
-      ewaOfferPush({
+      updateOfferMutateAsync({
         data: {
           offerId: ewaLiveSlice.offerId,
           unipeEmployeeId: unipeEmployeeId,
@@ -79,10 +77,10 @@ const Offer = () => {
         token: token,
       })
         .then((response) => {
-          console.log("ewaOfferPush response.data: ", response.data);
+          console.log("updateOfferMutateAsync response.data: ", response.data);
         })
         .catch((error) => {
-          console.log("ewaOfferPush error: ", error.toString());
+          console.log("updateOfferMutateAsync error: ", error.toString());
           Alert.alert("An Error occured", error.toString());
         });
     }
@@ -102,10 +100,7 @@ const Offer = () => {
   useEffect(() => {
     setUpdating(true);
     if (parseInt(loanAmount) <= ewaLiveSlice.eligibleAmount) {
-      if (
-        STAGE !== "prod" ||
-        (STAGE === "prod" && parseInt(loanAmount) > 1000)
-      ) {
+      if (parseInt(loanAmount) >= 1000){
         setValidAmount(true);
         dispatch(addLoanAmount(parseInt(loanAmount)));
       } else {
@@ -127,8 +122,7 @@ const Offer = () => {
     }
     setProcessingFees(pF);
     dispatch(addProcessingFees(pF));
-    setNetAmount(parseInt(loanAmount) - pF);
-    dispatch(addNetAmount(netAmount));
+    dispatch(addNetAmount(parseInt(loanAmount) - pF));
     dispatch(addAPR(APR(processingFees, loanAmount)));
     setUpdating(false);
   }, [loanAmount]);
@@ -157,7 +151,7 @@ const Offer = () => {
   function handleAmount() {
     setLoading(true);
     if (validAmount) {
-      ewaOfferPush({
+      updateOfferMutateAsync({
         data: {
           offerId: ewaLiveSlice.offerId,
           unipeEmployeeId: unipeEmployeeId,
@@ -169,9 +163,10 @@ const Offer = () => {
           campaignId: campaignId,
         },
         token: token,
+        xpath: "ewa/offer",
       })
         .then((response) => {
-          console.log("ewaOfferPush response.data: ", response.data);
+          console.log("updateOfferMutateAsync response.data: ", response.data);
           setLoading(false);
           navigation.navigate("EWA_KYC");
           Analytics.trackEvent("Ewa|OfferPush|Success", {
@@ -179,7 +174,7 @@ const Offer = () => {
           });
         })
         .catch((error) => {
-          console.log("ewaOfferPush error: ", error.toString());
+          console.log("updateOfferMutateAsync error: ", error.toString());
           setLoading(false);
           Alert.alert("An Error occured", error.toString());
           Analytics.trackEvent("Ewa|OfferPush|Error", {

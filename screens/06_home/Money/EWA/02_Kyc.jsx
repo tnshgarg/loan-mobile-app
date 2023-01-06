@@ -7,9 +7,9 @@ import { NetworkInfo } from "react-native-network-info";
 import { useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
-import { ewaKycPush } from "../../../../helpers/BackendPush";
 import { styles } from "../../../../styles";
 import DetailsCard from "../../../../components/molecules/DetailsCard";
+import { updateKyc } from "../../../../queries/ewa/kyc";
 
 const KYC = () => {
   const navigation = useNavigation();
@@ -19,13 +19,13 @@ const KYC = () => {
   const [ipAddress, setIpAdress] = useState(0);
 
   const [loading, setLoading] = useState(false);
-  const campaignId = useSelector((state) => state.auth.campaignId);
+  const campaignId = useSelector((state) => state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const token = useSelector((state) => state.auth.token);
   const mandateVerifyStatus = useSelector(
     (state) => state.mandate.verifyStatus
   );
-  const token = useSelector((state) => state.auth.token);
-  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const data = useSelector((state) => state.aadhaar.data);
+  const aadhaarData = useSelector((state) => state.aadhaar.data);
   const aadharNumber = useSelector((state) => state.aadhaar.number);
   const panNumber = useSelector((state) => state.pan.number);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
@@ -45,20 +45,11 @@ const KYC = () => {
     }
   }, [deviceId, ipAddress]);
 
-  const backAction = () => {
-    navigation.navigate("EWA_OFFER");
-    return true;
-  };
-
-  useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () =>
-      BackHandler.removeEventListener("hardwareBackPress", backAction);
-  }, []);
+  const { mutateAsync: updateKycMutateAsync } = updateKyc();
 
   useEffect(() => {
     if (fetched) {
-      ewaKycPush({
+      updateKycMutateAsync({
         data: {
           offerId: ewaLiveSlice?.offerId,
           unipeEmployeeId: unipeEmployeeId,
@@ -70,19 +61,30 @@ const KYC = () => {
         },
         token: token,
       })
-        .then((response) => {
-          console.log("ewaKycPush response.data: ", response.data);
-        })
-        .catch((error) => {
-          console.log("ewaKycPush error: ", error.toString());
-          Alert.alert("An Error occured", error.toString());
-        });
+      .then((response) => {
+        console.log("updateKycMutateAsync response.data: ", response.data);
+      })
+      .catch((error) => {
+        console.log("updateKycMutateAsync error: ", error.toString());
+        Alert.alert("An Error occured", error.toString());
+      });
     }
   }, [fetched]);
 
+  const backAction = () => {
+    navigation.navigate("EWA_OFFER");
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
   function handleKyc() {
     setLoading(true);
-    ewaKycPush({
+    updateKycMutateAsync({
       data: {
         offerId: ewaLiveSlice?.offerId,
         unipeEmployeeId: unipeEmployeeId,
@@ -94,37 +96,37 @@ const KYC = () => {
       },
       token: token,
     })
-      .then((response) => {
-        console.log("ewaKycPush response.data: ", response.data);
-        setLoading(false);
-        Analytics.trackEvent("Ewa|Kyc|Success", {
-          unipeEmployeeId: unipeEmployeeId,
-        });
-        if (mandateVerifyStatus === "SUCCESS") {
-          navigation.navigate("EWA_AGREEMENT");
-        } else {
-          navigation.navigate("EWA_MANDATE");
-        }
-      })
-      .catch((error) => {
-        console.log("ewaKycPush error: ", error.toString());
-        setLoading(false);
-        Alert.alert("An Error occured", error.toString());
-        Analytics.trackEvent("Ewa|Kyc|Error", {
-          unipeEmployeeId: unipeEmployeeId,
-          error: error.toString(),
-        });
+    .then((response) => {
+      console.log("updateKycMutateAsync response.data: ", response.data);
+      setLoading(false);
+      Analytics.trackEvent("Ewa|Kyc|Success", {
+        unipeEmployeeId: unipeEmployeeId,
       });
+      if (mandateVerifyStatus === "SUCCESS") {
+        navigation.navigate("EWA_AGREEMENT");
+      } else {
+        navigation.navigate("EWA_MANDATE");
+      }
+    })
+    .catch((error) => {
+      console.log("updateKycMutateAsync error: ", error.toString());
+      setLoading(false);
+      Alert.alert("An Error occured", error.toString());
+      Analytics.trackEvent("Ewa|Kyc|Error", {
+        unipeEmployeeId: unipeEmployeeId,
+        error: error.toString(),
+      });
+    });
   }
 
   const cardData = () => {
     var res = [
-      { subTitle: "Name", value: data?.name, fullWidth: true },
-      { subTitle: "Date of Birth", value: data?.date_of_birth },
-      { subTitle: "Gender", value: data?.gender },
+      { subTitle: "Name", value: aadhaarData?.name, fullWidth: true },
+      { subTitle: "Date of Birth", value: aadhaarData?.date_of_birth },
+      { subTitle: "Gender", value: aadhaarData?.gender },
       { subTitle: "Aadhaar Number", value: aadharNumber },
       { subTitle: "Pan Number", value: panNumber },
-      { subTitle: "Address", value: data?.address, fullWidth: true },
+      { subTitle: "Address", value: aadhaarData?.address, fullWidth: true },
     ];
     return res;
   };
@@ -141,7 +143,7 @@ const KYC = () => {
         <DetailsCard
           data={cardData()}
           imageUri={{
-            uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
+            uri: `data:image/jpeg;base64,${aadhaarData["photo_base64"]}`,
             cache: "only-if-cached",
           }}
         />
