@@ -167,6 +167,15 @@ const PayMoneyCard = () => {
           setRepaymentOrderId(res?.data?.id);
         })
         .catch((error) => {
+          var errorObj = "";
+          if (error.error) {
+            errorObj = error.error;
+          } else {
+            errorObj = error;
+          }
+          console.log("checkout error:", errorObj.description);
+          showToast("Loan Payment Failed. Please try again.");
+          setLoading(false);
           Analytics.trackEvent("Ewa|Repayment|Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: error.toString(),
