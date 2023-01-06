@@ -39,11 +39,10 @@ const Offer = () => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const campaignId = useSelector((state) => state.auth.campaignId);
+  const campaignId = useSelector((state) => state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const fees = useSelector((state) => state.ewaLive.fees);
   const [loanAmount, setLoanAmount] = useState(ewaLiveSlice?.eligibleAmount);
-  const [netAmount, setNetAmount] = useState(ewaLiveSlice?.netAmount);
   const [processingFees, setProcessingFees] = useState(
     ewaLiveSlice?.processingFees
   );
@@ -125,7 +124,6 @@ const Offer = () => {
     }
     setProcessingFees(pF);
     dispatch(addProcessingFees(pF));
-    setNetAmount(parseInt(loanAmount) - pF);
     dispatch(addNetAmount(parseInt(loanAmount) - pF));
     dispatch(addAPR(APR(processingFees, loanAmount)));
     setUpdating(false);

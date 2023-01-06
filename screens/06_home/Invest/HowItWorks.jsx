@@ -12,10 +12,7 @@ import PrimaryButton from "../../../components/atoms/PrimaryButton";
 const HowItWorks = ({ navigation }) => {
   const backAction = () => {
     navigation.navigate("HomeStack", {
-      screen: "DrawerHome",
-      params: {
-        screen: "Invest",
-      },
+      screen: "Invest",
     });
     return true;
   };

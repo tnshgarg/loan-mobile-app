@@ -34,6 +34,7 @@ const AadhaarOtpApi = (props) => {
   const [verifyTimestamp, setVerifyTimestamp] = useState(
     aadhaarSlice?.verifyTimestamp
   );
+  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
 
   useEffect(() => {
     dispatch(addSubmitOTPtxnId(submitOTPtxnId));
@@ -68,6 +69,7 @@ const AadhaarOtpApi = (props) => {
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
         verifyTimestamp: verifyTimestamp,
+        campaignId: campaignId,
       },
       token: token,
     });
