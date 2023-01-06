@@ -12,7 +12,6 @@ import {
   addVerifyMsg,
   addVerifyStatus,
   addVerifyTimestamp,
-  resetMandate,
 } from "../../store/slices/mandateSlice";
 import { styles } from "../../styles";
 import { showToast } from "../../components/atoms/Toast";
@@ -20,7 +19,6 @@ import {
   createCustomer,
   createOrder,
 } from "../../services/mandate/Razorpay/services";
-import { getBackendData } from "../../services/employees/employeeServices";
 import { RZP_KEY_ID } from "../../services/constants";
 import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
@@ -64,36 +62,19 @@ const MandateFormTemplate = (props) => {
   const campaignId = useSelector((state) => state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId);
 
   useEffect(() => {
-    console.log("mandateSlice: ", mandateSlice);
     getUniqueId().then((id) => {
       setDeviceId(id);
     });
     NetworkInfo.getIPV4Address().then((ipv4Address) => {
       setIpAdress(ipv4Address);
     });
-    setFetched(false);
   }, []);
 
   useEffect(() => {
-    if (unipeEmployeeId) {
-      getBackendData({
-        params: { unipeEmployeeId: unipeEmployeeId },
-        xpath: "mandate",
-        token: token,
-      })
-      .then((response) => {
-        console.log("Form mandateFetch response.data", response.data);
-        if (response.data.status === 200) {
-          dispatch(resetMandate(response?.data?.body));
-          setVerifyStatus(response?.data?.body?.verifyStatus);
-        }
-        setFetched(true);
-      })
-      .catch((error) => {
-        console.log("mandateFetch error: ", error);
-      });
+    if (deviceId !== 0 && ipAddress !== 0) {
+      setFetched(true);
     }
-  }, [unipeEmployeeId]);
+  }, [deviceId, ipAddress]);
 
   useEffect(() => {
     dispatch(addData(data));
@@ -202,7 +183,7 @@ const MandateFormTemplate = (props) => {
               paymentSignature: data.razorpay_signature,
               provider: "razorpay",
             },
-            verifyMsg: "Mandate Registration In Progress",
+            verifyMsg: "Mandate Initiated from App",
             verifyStatus: "INPROGRESS",
             verifyTimestamp: Date.now(),
           });

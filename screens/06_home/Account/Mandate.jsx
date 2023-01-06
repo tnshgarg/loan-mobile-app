@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
 import { SafeAreaView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import MandateFormTemplate from "../../templates/mandate/Form";
-import { styles } from "../../styles";
-import TopTabNav from "../../navigators/TopTabNav";
-import DetailsCard from "../../components/molecules/DetailsCard";
-import { useIsFocused } from "@react-navigation/core";
-import { addVerifyStatus } from "../../store/slices/mandateSlice";
+import { styles } from "../../../styles";
+import TopTabNav from "../../../navigators/TopTabNav";
+import DetailsCard from "../../../components/molecules/DetailsCard";
+import {
+  addVerifyStatus,
+  resetMandate,
+} from "../../../store/slices/mandateSlice";
+import MandateFormTemplate from "../../../templates/mandate/Form";
+import { getBackendData } from "../../../services/employees/employeeServices";
 
 const Mandate = () => {
   const dispatch = useDispatch();
 
+  const token = useSelector((state) => state.auth?.token);
+  const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
   const mandateSlice = useSelector((state) => state.mandate);
   const authType = mandateSlice.data?.authType?.toUpperCase();
   const [verifyStatus, setVerifyStatus] = useState(mandateSlice?.verifyStatus);
@@ -18,6 +23,26 @@ const Mandate = () => {
   useEffect(() => {
     dispatch(addVerifyStatus(verifyStatus));
   }, [verifyStatus]);
+
+  useEffect(() => {
+    if (unipeEmployeeId) {
+      getBackendData({
+        params: { unipeEmployeeId: unipeEmployeeId },
+        xpath: "mandate",
+        token: token,
+      })
+      .then((response) => {
+        console.log("Form mandateFetch response.data", response.data);
+        if (response.data.status === 200) {
+          dispatch(resetMandate(response?.data?.body));
+          setVerifyStatus(response?.data?.body?.verifyStatus);
+        }
+      })
+      .catch((error) => {
+        console.log("mandateFetch error: ", error);
+      });
+    }
+  }, [unipeEmployeeId]);
 
   const cardData = () => {
     var res = [
