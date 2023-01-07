@@ -119,15 +119,15 @@ const Agreement = () => {
         },
         token: token,
       })
-      .then((response) => {
-        setLoading(false);
-        console.log("ewaAgreementPush response.data: ", response.data);
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log("ewaAgreementPush error: ", error.toString());
-        Alert.alert("An Error occured", error.toString());
-      });
+        .then((response) => {
+          setLoading(false);
+          console.log("ewaAgreementPush response.data: ", response.data);
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log("ewaAgreementPush error: ", error.toString());
+          Alert.alert("An Error occured", error.toString());
+        });
     }
   }, [fetched]);
 
@@ -194,25 +194,25 @@ const Agreement = () => {
       },
       token: token,
     })
-    .then((response) => {
-      console.log("ewaAgreementPush response.data: ", response.data);
-      dispatch(resetEwaLive());
-      dispatch(resetEwaHistorical([]));
-      setLoading(false);
-      Analytics.trackEvent("Ewa|Agreement|Success", {
-        unipeEmployeeId: unipeEmployeeId,
+      .then((response) => {
+        console.log("ewaAgreementPush response.data: ", response.data);
+        dispatch(resetEwaLive());
+        dispatch(resetEwaHistorical([]));
+        setLoading(false);
+        Analytics.trackEvent("Ewa|Agreement|Success", {
+          unipeEmployeeId: unipeEmployeeId,
+        });
+        navigation.navigate("EWA_DISBURSEMENT", { offer: ewaLiveSlice });
+      })
+      .catch((error) => {
+        console.log("ewaAgreementPush error: ", error.toString());
+        setLoading(false);
+        Alert.alert("An Error occured", error.toString());
+        Analytics.trackEvent("Ewa|Agreement|Error", {
+          unipeEmployeeId: unipeEmployeeId,
+          error: error.toString(),
+        });
       });
-      navigation.navigate("EWA_DISBURSEMENT", { offer: ewaLiveSlice });
-    })
-    .catch((error) => {
-      console.log("ewaAgreementPush error: ", error.toString());
-      setLoading(false);
-      Alert.alert("An Error occured", error.toString());
-      Analytics.trackEvent("Ewa|Agreement|Error", {
-        unipeEmployeeId: unipeEmployeeId,
-        error: error.toString(),
-      });
-    });
   }
 
   return (

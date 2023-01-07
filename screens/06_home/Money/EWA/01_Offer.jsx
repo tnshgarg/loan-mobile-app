@@ -102,7 +102,7 @@ const Offer = () => {
   useEffect(() => {
     setUpdating(true);
     if (parseInt(loanAmount) <= ewaLiveSlice.eligibleAmount) {
-      if (parseInt(loanAmount) >= 1000){
+      if (parseInt(loanAmount) >= 1000) {
         setValidAmount(true);
         dispatch(addLoanAmount(parseInt(loanAmount)));
       } else {
@@ -115,14 +115,14 @@ const Offer = () => {
   }, [loanAmount]);
 
   useEffect(() => {
-    var pf = (parseInt(loanAmount) * fees)/100;
+    var pf = (parseInt(loanAmount) * fees) / 100;
     var pF;
-    if (parseInt(pf)%10<4) {
-      pF = Math.max(9, (Math.floor((pf/10))*10) -1);
+    if (parseInt(pf) % 10 < 4) {
+      pF = Math.max(9, Math.floor(pf / 10) * 10 - 1);
     } else {
-      pF = Math.max(9, (Math.floor(((pf+10)/10))*10) -1);
+      pF = Math.max(9, Math.floor((pf + 10) / 10) * 10 - 1);
     }
-    setProcessingFees(pF)
+    setProcessingFees(pF);
     dispatch(addProcessingFees(pF));
     dispatch(addNetAmount(parseInt(loanAmount) - pF));
     dispatch(addAPR(APR(processingFees, loanAmount)));
@@ -139,9 +139,14 @@ const Offer = () => {
     );
     var timeDiff = dueDateTemp.getTime() - today.getTime();
     var daysDiff = parseInt(timeDiff / (1000 * 3600 * 24));
-    var apr =
-      100 * (processingFees / parseInt(loanAmount)) * (365 / daysDiff);
-    console.log("processingFees, loanAmount, daysDiff, APR: ", processingFees, loanAmount, daysDiff, apr);
+    var apr = 100 * (processingFees / parseInt(loanAmount)) * (365 / daysDiff);
+    console.log(
+      "processingFees, loanAmount, daysDiff, APR: ",
+      processingFees,
+      loanAmount,
+      daysDiff,
+      apr
+    );
     return apr.toFixed(2);
   };
 

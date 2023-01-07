@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../client";
 import { RZP_AUTH } from "../../services/constants";
 import {
@@ -7,24 +7,14 @@ import {
   putBackendData,
 } from "../../services/employees/employeeServices";
 
-export const getRepayment = ({ unipeEmployeeId, token }) => {
-  const response = useQuery({
-    queryKey: ["getRepayment"],
-    queryFn: async () => {
-      return getBackendData({
-        params: { unipeEmployeeId: unipeEmployeeId },
-        xpath: "ewa/repayment",
-        token: token,
-      });
-    },
-    config: {
-      staleTime: 1000 * 60 * 5,
-      cacheTime: 1000 * 60 * 5,
-      refetchInterval: 1000 * 60 * 5,
-    },
-  });
-  return response;
-};
+export const getRepayment = async ({queryKey}) => {
+  const [_, unipeEmployeeId, token] = queryKey;
+  return await getBackendData({
+                params: { unipeEmployeeId: unipeEmployeeId },
+                xpath: "ewa/repayment",
+                token: token,
+              });
+}
 
 export const updateRepayment = () => {
   const mutation = useMutation({

@@ -79,13 +79,13 @@ const KYC = () => {
         },
         token: token,
       })
-      .then((response) => {
-        console.log("updateKycMutateAsync response.data: ", response.data);
-      })
-      .catch((error) => {
-        console.log("updateKycMutateAsync error: ", error.toString());
-        Alert.alert("An Error occured", error.toString());
-      });
+        .then((response) => {
+          console.log("updateKycMutateAsync response.data: ", response.data);
+        })
+        .catch((error) => {
+          console.log("updateKycMutateAsync error: ", error.toString());
+          Alert.alert("An Error occured", error.toString());
+        });
     }
   }, [fetched]);
 
@@ -114,27 +114,27 @@ const KYC = () => {
       },
       token: token,
     })
-    .then((response) => {
-      console.log("updateKycMutateAsync response.data: ", response.data);
-      setLoading(false);
-      Analytics.trackEvent("Ewa|Kyc|Success", {
-        unipeEmployeeId: unipeEmployeeId,
+      .then((response) => {
+        console.log("updateKycMutateAsync response.data: ", response.data);
+        setLoading(false);
+        Analytics.trackEvent("Ewa|Kyc|Success", {
+          unipeEmployeeId: unipeEmployeeId,
+        });
+        if (mandateVerifyStatus === "SUCCESS") {
+          navigation.navigate("EWA_AGREEMENT");
+        } else {
+          navigation.navigate("EWA_MANDATE");
+        }
+      })
+      .catch((error) => {
+        console.log("updateKycMutateAsync error: ", error.toString());
+        setLoading(false);
+        Alert.alert("An Error occured", error.toString());
+        Analytics.trackEvent("Ewa|Kyc|Error", {
+          unipeEmployeeId: unipeEmployeeId,
+          error: error.toString(),
+        });
       });
-      if (mandateVerifyStatus === "SUCCESS") {
-        navigation.navigate("EWA_AGREEMENT");
-      } else {
-        navigation.navigate("EWA_MANDATE");
-      }
-    })
-    .catch((error) => {
-      console.log("updateKycMutateAsync error: ", error.toString());
-      setLoading(false);
-      Alert.alert("An Error occured", error.toString());
-      Analytics.trackEvent("Ewa|Kyc|Error", {
-        unipeEmployeeId: unipeEmployeeId,
-        error: error.toString(),
-      });
-    });
   }
 
   const cardData = () => {
