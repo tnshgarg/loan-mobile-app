@@ -41,6 +41,7 @@ const BankVerifyApi = (props) => {
   const [verifyTimestamp, setVerifyTimestamp] = useState(
     bankSlice?.verifyTimestamp
   );
+  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
 
   const { mutateAsync: updateBankMutateAsync } = updateBank();
   const { mutateAsync: verifyBankMutateAsync } = verifyBank();
@@ -106,6 +107,7 @@ const BankVerifyApi = (props) => {
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
         verifyTimestamp: verifyTimestamp,
+        campaignId: campaignId,
       },
       token: token,
     });

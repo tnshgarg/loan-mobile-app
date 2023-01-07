@@ -33,8 +33,8 @@ const Disbursement = ({ route, navigation }) => {
 
   const backAction = () => {
     navigation.navigate("HomeStack", {
-      screen: "DrawerHome",
-      params: { screen: "Money", params: { screen: "EWA" } },
+      screen: "Money",
+      params: { screen: "EWA" },
     });
     return true;
   };
@@ -70,7 +70,7 @@ const Disbursement = ({ route, navigation }) => {
       case "SUCCESS":
         return getStatusText(
           "Congratulations",
-          "You will receive the money in next 15 Mins"
+          "Your advance salary has been credited to your bank account."
         );
       case "FAILURE":
         return getStatusText(
@@ -80,7 +80,7 @@ const Disbursement = ({ route, navigation }) => {
       default:
         return getStatusText(
           "Pending",
-          "Your advance salary is under process."
+          "You will receive the money in next 24 banking hours."
         );
     }
   };

@@ -17,8 +17,10 @@ const BankConfirmApi = (props) => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
   const data = useSelector((state) => state.bank.data);
   const verifyTimestamp = useSelector((state) => state.bank.verifyTimestamp);
+
   const { mutateAsync: updateBankMutateAsync } = updateBank();
 
   const backendPush = ({ verifyMsg, verifyStatus }) => {
@@ -31,6 +33,7 @@ const BankConfirmApi = (props) => {
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
         verifyTimestamp: verifyTimestamp,
+        campaignId: campaignId,
       },
       token: token,
     });

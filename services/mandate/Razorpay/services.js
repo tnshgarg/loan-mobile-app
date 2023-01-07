@@ -2,7 +2,7 @@ import axios from "axios";
 import { RZP_AUTH } from "../../constants";
 import { STAGE } from "@env";
 
-const createCustomer = ({ name, email, contact , unipeEmployeeId}) => {
+const createCustomer = ({ name, email, contact, unipeEmployeeId }) => {
   var data = JSON.stringify({
     name: name,
     email: email,
@@ -33,7 +33,6 @@ const createOrder = ({
   aCTC,
   unipeEmployeeId,
 }) => {
-  console.log("createOrder");
   if (authType === "upi") {
     var data = JSON.stringify({
       amount: 100,
@@ -70,7 +69,6 @@ const createOrder = ({
       notes: { unipeEmployeeId: unipeEmployeeId },
     });
   }
-  console.log("createorder", data);
 
   var config = {
     method: "post",

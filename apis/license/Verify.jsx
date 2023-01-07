@@ -30,7 +30,8 @@ const Verify = (props) => {
   const [verifyTimestamp, setVerifyTimestamp] = useState(
     licenseSlice?.verifyTimestamp
   );
-
+  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
+  
   useEffect(() => {
     dispatch(addData(data));
   }, [data]);
@@ -58,6 +59,7 @@ const Verify = (props) => {
           verifyMsg: verifyMsg,
           verifyStatus: verifyStatus,
           verifyTimestamp: verifyTimestamp,
+          campaignId: campaignId,
         },
         token: token,
       });

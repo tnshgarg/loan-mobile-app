@@ -17,13 +17,14 @@ const PanConfirmApi = (props) => {
   const navigation = useNavigation();
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
   const token = useSelector((state) => state.auth.token);
   const data = useSelector((state) => state.pan.data);
   const number = useSelector((state) => state.pan.number);
   const verifyTimestamp = useSelector((state) => state.pan.verifyTimestamp);
 
   const { mutateAsync: updatePanMutateAsync } = updatePan();
-
+  
   const backendPush = ({ verifyMsg, verifyStatus }) => {
     dispatch(addVerifyMsg(verifyMsg));
     dispatch(addVerifyStatus(verifyStatus));
@@ -35,6 +36,7 @@ const PanConfirmApi = (props) => {
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
         verifyTimestamp: verifyTimestamp,
+        campaignId: campaignId,
       },
       token: token,
     });

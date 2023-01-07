@@ -30,6 +30,7 @@ const PanVerifyApi = (props) => {
   const [verifyTimestamp, setVerifyTimestamp] = useState(
     panSlice?.verifyTimestamp
   );
+  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
 
   const { mutateAsync: updatePanMutateAsync } = updatePan();
   const { mutateAsync: verifyPanMutateAsync } = verifyPan();
@@ -64,6 +65,7 @@ const PanVerifyApi = (props) => {
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
         verifyTimestamp: verifyTimestamp,
+        campaignId: campaignId,
       },
       token: token,
     });

@@ -13,7 +13,7 @@ const MandateOptions = ({ ProceedButton, disabled }) => {
 
   useEffect(() => {
     var mandateOptions = [];
-    var bankCode = ifsc.substring(0,4);
+    var bankCode = ifsc.substring(0, 4);
     var emandateOptions = bankCodeEmandateOptionsMap[bankCode] || "000";
     if (emandateOptions[0] === "1") {
       mandateOptions.push({
@@ -45,20 +45,23 @@ const MandateOptions = ({ ProceedButton, disabled }) => {
           title: "Your bank does not support mandate",
           iconName: "crosshairs-off",
           onPress: () => {},
-        }
+        },
       ]);
     }
   }, [ifsc]);
 
-  console.log("mandateButtons: ", mandateButtons);
-
   return (
     <View style={styles.container}>
-      {
-        mandateButtons.map((item, index) => {
-          return <ListItem key={index} item={item} disabled={disabled} />;
-        })
-      }
+      {mandateButtons.map((item, index) => {
+        return (
+          <ListItem
+            key={index}
+            item={item}
+            disabled={disabled}
+            showIcon={true}
+          />
+        );
+      })}
     </View>
   );
 };

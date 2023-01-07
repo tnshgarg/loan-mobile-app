@@ -1,7 +1,9 @@
+import { useIsFocused } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
+import { useQuery } from "@tanstack/react-query";
 import RazorpayCheckout from "react-native-razorpay";
 import { Icon } from "@react-native-material/core";
 import { useSelector } from "react-redux";
@@ -13,6 +15,8 @@ import { getNumberOfDays, setYYYYMMDDtoDDMMYYYY } from "../../helpers/DateFuncti
 import { getRepayment, createRazorpayOrder, updateRepayment } from "../../queries/ewa/repayment";
 
 const PayMoneyCard = () => {
+  const isFocused = useIsFocused();
+
   const [inactive, setInactive] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -26,6 +30,7 @@ const PayMoneyCard = () => {
   const customerId = useSelector((state) => state.mandate.data.customerId);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
+  const campaignId = useSelector((state) => state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId || state.campaign.repaymentCampaignId);
 
   const [repaymentOrderId, setRepaymentOrderId] = useState(null);
   const [dueDate, setDueDate] = useState(null);
@@ -34,15 +39,19 @@ const PayMoneyCard = () => {
   const [repaymentId, setRepaymentId] = useState(null);
   const [repaymentStatus, setRepaymentStatus] = useState("PENDING");
 
-  const { 
+  const {
     isSuccess: getRepaymentIsSuccess,
     isError: getRepaymentIsError,
     error: getRepaymentError,
     data: getRepaymentData,
-  } = getRepayment({ token, unipeEmployeeId });
+  } = useQuery(['getRepayment', unipeEmployeeId, token], getRepayment, {
+    staleTime: 1000 * 60 * 5,
+    cacheTime: 1000 * 60 * 11,
+    refetchInterval: 1000 * 60 * 5,
+  });
 
   useEffect(() => {
-    if (getRepaymentIsSuccess) {
+    if (isFocused && getRepaymentIsSuccess) {
       if (getRepaymentData.data.status === 200) {
         var repaymentAmount = Math.max(
           getRepaymentData?.data?.body?.amount -
@@ -76,7 +85,7 @@ const PayMoneyCard = () => {
       console.log("ewaRepaymentFetch API error getRepaymentError.message: ", getRepaymentError.message);
       setInactive(true);
     }
-  }, [getRepaymentIsSuccess, getRepaymentData]);
+  }, [getRepaymentIsSuccess, getRepaymentData, isFocused]);
 
   const {mutateAsync: updateRepaymentMutateAsync} = updateRepayment();
 
@@ -87,7 +96,7 @@ const PayMoneyCard = () => {
 
   useEffect(() => {
     console.log(
-      "createRepayment orderId: ",
+      "createRepayment repaymentOrderId: ",
       repaymentOrderId,
       !repaymentOrderId
     );
@@ -108,17 +117,18 @@ const PayMoneyCard = () => {
         };
         RazorpayCheckout.open(options)
           .then((data) => {
-            console.log("RazorpayCheckout data: ", data);
+            console.log("ewaRepayment Checkout RazorpayCheckout data: ", data);
             updateRepaymentMutateAsync({
               data: {
                 unipeEmployeeId: unipeEmployeeId,
                 dueDate: dueDate,
                 status: "INPROGRESS",
+                campaignId: campaignId,
               },
               token: token,
             })
               .then((response) => {
-                console.log("ewaRepaymentPost response.data: ", response?.data);
+                console.log("ewaRepayment Checkout Post response.data: ", response?.data);
                 if (response?.data?.status === 200) {
                   setRepaymentStatus("INPROGRESS");
                   showToast("Loan Payment Successful");
@@ -135,7 +145,7 @@ const PayMoneyCard = () => {
                 }
               })
               .catch((error) => {
-                console.log("ewaRepaymentPost error: ", error.toString());
+                console.log("ewaRepayment Checkout Post response.data: ", error.toString());
                 showToast("Loan Payment Failed. Please try again.");
                 setLoading(false);
                 Analytics.trackEvent("Ewa|Repayment|Error", {
@@ -145,7 +155,7 @@ const PayMoneyCard = () => {
               });
           })
           .catch((error) => {
-            console.log("ewaRepayment Checkout error:", error.description);
+            console.log("ewaRepayment Checkout response.data: ", error.description);
             showToast("Loan Payment Failed. Please try again.");
             setLoading(false);
             Analytics.trackEvent("Ewa|Repayment|Error", {
@@ -165,6 +175,15 @@ const PayMoneyCard = () => {
           setRepaymentOrderId(res?.data?.id);
         })
         .catch((error) => {
+          var errorObj = "";
+          if (error.error) {
+            errorObj = error.error;
+          } else {
+            errorObj = error;
+          }
+          console.log("ewaRepayment Checkout error: ", errorObj.description);
+          showToast("Loan Payment Failed. Please try again.");
+          setLoading(false);
           Analytics.trackEvent("Ewa|Repayment|Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: error.toString(),
