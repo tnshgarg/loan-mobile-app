@@ -160,7 +160,7 @@ const BankFormTemplate = (props) => {
           </View>
         </KeyboardAvoidingWrapper>
       ) : (
-        <>
+        <View style={styles.container}>
           <Text style={bankform.subTitle}>
             Please verify your aadhaar first
           </Text>
@@ -177,7 +177,7 @@ const BankFormTemplate = (props) => {
                 : navigation.navigate("AadhaarForm");
             }}
           />
-        </>
+        </View>
       )}
     </SafeAreaView>
   );

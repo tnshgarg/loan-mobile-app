@@ -24,6 +24,7 @@ export default Confirm = () => {
   const licenseSlice = useSelector((state) => state.license);
   const [verifyMsg, setVerifyMsg] = useState(licenseSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(licenseSlice?.verifyStatus);
+  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
   const classes = data?.vehicle_class_details;
 
   useEffect(() => {
@@ -41,9 +42,11 @@ export default Confirm = () => {
         data: {
           unipeEmployeeId: unipeEmployeeId,
           data: data,
+          number: licenseSlice?.number,
           verifyMsg: verifyMsg,
           verifyStatus: verifyStatus,
           verifyTimestamp: verifyTimestamp,
+          campaignId: campaignId,
         },
         token: token,
       });

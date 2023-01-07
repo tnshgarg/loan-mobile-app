@@ -353,7 +353,7 @@ export const ewa = EStyleSheet.create({
     marginRight: "40rem",
     marginTop: "10rem",
     color: COLORS.gray,
-    ...FONTS.body4,
+    ...FONTS.body5,
   },
 });
 
@@ -400,6 +400,37 @@ export const dev = EStyleSheet.create({
     alignSelf: "center",
     marginTop: "20rem",
     width: "60%",
+  },
+});
+
+export const accountStyles = EStyleSheet.create({
+  imageContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: "15rem",
+    borderBottomWidth: 0.8,
+    borderColor: COLORS.lightGray,
+  },
+  guestIcon: {
+    width: "60rem",
+    height: "60rem",
+    borderRadius: 5,
+    backgroundColor: COLORS.primary,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  userImage: {
+    width: "60rem",
+    height: "60rem",
+    resizeMode: "contain",
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: COLORS.lightGray,
+  },
+  userTitle: {
+    ...FONTS.h4,
+    color: COLORS.black,
+    marginLeft: "15rem",
   },
 });
 

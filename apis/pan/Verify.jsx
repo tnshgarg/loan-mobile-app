@@ -13,6 +13,7 @@ import { KYC_PAN_VERIFY_API_URL } from "../../services/constants";
 import { panBackendPush } from "../../helpers/BackendPush";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
+import { updatePan, verifyPan } from "../../queries/onboarding/pan";
 
 const PanVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -29,6 +30,10 @@ const PanVerifyApi = (props) => {
   const [verifyTimestamp, setVerifyTimestamp] = useState(
     panSlice?.verifyTimestamp
   );
+  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
+
+  const { mutateAsync: updatePanMutateAsync } = updatePan();
+  const { mutateAsync: verifyPanMutateAsync } = verifyPan();
 
   useEffect(() => {
     dispatch(addData(data));
@@ -52,7 +57,7 @@ const PanVerifyApi = (props) => {
     setVerifyMsg(verifyMsg);
     setVerifyStatus(verifyStatus);
     setVerifyTimestamp(verifyTimestamp);
-    panBackendPush({
+    updatePanMutateAsync({
       data: {
         unipeEmployeeId: unipeEmployeeId,
         data: data,
@@ -60,6 +65,7 @@ const PanVerifyApi = (props) => {
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
         verifyTimestamp: verifyTimestamp,
+        campaignId: campaignId,
       },
       token: token,
     });
@@ -68,19 +74,10 @@ const PanVerifyApi = (props) => {
 
   const goForFetch = () => {
     setLoading(true);
-    const options = {
-      method: "POST",
-      headers: {
-        "X-Auth-Type": "API-Key",
-        "X-API-Key": OG_API_KEY,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(props.data),
-    };
 
-    fetch(KYC_PAN_VERIFY_API_URL, options)
-      .then((response) => response.json())
-      .then((responseJson) => {
+    verifyPanMutateAsync({ data: props.data })
+      .then((res) => {
+        const responseJson = res.data;
         try {
           if (responseJson["status"] == "200") {
             switch (responseJson["data"]["code"]) {

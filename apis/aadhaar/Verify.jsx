@@ -1,4 +1,3 @@
-import { OG_API_KEY } from "@env";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "react-native";
@@ -9,10 +8,12 @@ import {
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/aadhaarSlice";
-import { KYC_AADHAAR_SUBMIT_OTP_API_URL } from "../../services/constants";
-import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
+import {
+  submitAadhaarOTP,
+  updateAadhaar,
+} from "../../queries/onboarding/aadhaar";
 
 const AadhaarVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ const AadhaarVerifyApi = (props) => {
   const [verifyTimestamp, setVerifyTimestamp] = useState(
     aadhaarSlice?.verifyTimestamp
   );
+  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
 
   useEffect(() => {
     dispatch(addData(data));
@@ -48,13 +50,16 @@ const AadhaarVerifyApi = (props) => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
+  const { mutateAsync: updateAadhaarMutateAsync } = updateAadhaar();
+  const { mutateAsync: submitAadhaarOTPMutateAsync } = submitAadhaarOTP();
+
   const backendPush = ({ data, verifyMsg, verifyStatus, verifyTimestamp }) => {
     console.log("AadhaarVerifyApi aadhaarSlice: ", aadhaarSlice);
     setData(data);
     setVerifyMsg(verifyMsg);
     setVerifyStatus(verifyStatus);
     setVerifyTimestamp(verifyTimestamp);
-    aadhaarBackendPush({
+    updateAadhaarMutateAsync({
       data: {
         unipeEmployeeId: unipeEmployeeId,
         data: data,
@@ -62,6 +67,7 @@ const AadhaarVerifyApi = (props) => {
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
         verifyTimestamp: verifyTimestamp,
+        campaignId: campaignId,
       },
       token: token,
     });
@@ -78,21 +84,10 @@ const AadhaarVerifyApi = (props) => {
       transaction_id: submitOTPtxnId,
     };
 
-    const options = {
-      method: "POST",
-      headers: {
-        "X-Auth-Type": "API-Key",
-        "X-API-Key": OG_API_KEY,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    };
-
-    fetch(KYC_AADHAAR_SUBMIT_OTP_API_URL, options)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log("responseJson: ", responseJson);
+    submitAadhaarOTPMutateAsync({ data })
+      .then((res) => {
         try {
+          const responseJson = res.data;
           if (responseJson["status"] == "200") {
             switch (responseJson["data"]["code"]) {
               case "1002":
@@ -144,7 +139,7 @@ const AadhaarVerifyApi = (props) => {
                   error: responseJson["data"]["message"],
                 });
             }
-          } else if (responseJson?.error?.message) {
+          } else if (responseJson?.data.error?.message) {
             backendPush({
               data: data,
               verifyMsg: responseJson["error"]["message"],
