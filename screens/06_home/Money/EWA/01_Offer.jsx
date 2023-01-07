@@ -1,4 +1,3 @@
-import { STAGE } from "@env";
 import CheckBox from "@react-native-community/checkbox";
 import { useNavigation } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
