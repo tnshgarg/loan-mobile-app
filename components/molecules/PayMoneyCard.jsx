@@ -55,7 +55,6 @@ const PayMoneyCard = () => {
   });
 
   useEffect(() => {
-    console.log("ewaRepaymentFetch API getRepaymentData.data: ", getRepaymentData.data);
     if (isFocused && !getRepaymentIsLoading && getRepaymentIsSuccess) {
       if (getRepaymentData.data.status === 200) {
         var repaymentAmount = Math.max(
