@@ -114,9 +114,9 @@ const HomeView = () => {
     error: getEwaOffersError,
     data: getEwaOffersData,
   } = useQuery(['getEwaOffers', unipeEmployeeId, token], getEwaOffers, {
-    staleTime: 1000 * 60 * 60 * 12,
-    cacheTime: 1000 * 60 * 60 * 24,
-    refetchInterval: 1000 * 60 * 60 * 12,
+    staleTime: 1000 * 60 * 5,
+    cacheTime: 1000 * 60 * 11,
+    refetchInterval: 1000 * 60 * 5,
   });
 
   useEffect(() => {

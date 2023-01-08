@@ -3,7 +3,6 @@ import { View } from "react-native";
 import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/bankSlice";
-import { bankBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
