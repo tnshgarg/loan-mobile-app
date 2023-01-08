@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Linking, SafeAreaView, ScrollView, View } from "react-native";
@@ -112,10 +113,14 @@ const HomeView = () => {
     isError: getEwaOffersIsError,
     error: getEwaOffersError,
     data: getEwaOffersData,
-  } = getEwaOffers({ token, unipeEmployeeId });
+  } = useQuery(['getEwaOffers', unipeEmployeeId, token], getEwaOffers, {
+    staleTime: 1000 * 60 * 5,
+    cacheTime: 1000 * 60 * 11,
+    refetchInterval: 1000 * 60 * 5,
+  });
 
   useEffect(() => {
-    if (getEwaOffersIsSuccess) {
+    if (isFocused && getEwaOffersIsSuccess) {
       if (getEwaOffersData.data.status === 200) {
         if (Object.keys(getEwaOffersData.data.body.live).length !== 0) {
           const closureDays = getNumberOfDays({
@@ -142,7 +147,7 @@ const HomeView = () => {
       dispatch(resetEwaLive());
       dispatch(resetEwaHistorical());
     }
-  }, [getEwaOffersIsSuccess, getEwaOffersData]);
+  }, [getEwaOffersIsSuccess, getEwaOffersData, isFocused]);
 
   const getUrlAsync = async () => {
     const initialUrl = await Linking.getInitialURL();

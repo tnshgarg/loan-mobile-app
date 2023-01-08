@@ -4,14 +4,17 @@ import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { styles } from "../../../../styles";
 import DetailsCard from "../../../../components/molecules/DetailsCard";
 import { updateKyc } from "../../../../queries/ewa/kyc";
+import { getBackendData } from "../../../../services/employees/employeeServices";
+import { resetMandate } from "../../../../store/slices/mandateSlice";
 
 const KYC = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const [fetched, setFetched] = useState(false);
@@ -22,9 +25,9 @@ const KYC = () => {
   const campaignId = useSelector((state) => state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
-  const mandateVerifyStatus = useSelector(
+  const [mandateVerifyStatus, setMandateVerifyStatus] = useState(useSelector(
     (state) => state.mandate.verifyStatus
-  );
+  ));
   const aadhaarData = useSelector((state) => state.aadhaar.data);
   const aadharNumber = useSelector((state) => state.aadhaar.number);
   const panNumber = useSelector((state) => state.pan.number);
@@ -40,10 +43,25 @@ const KYC = () => {
   }, []);
 
   useEffect(() => {
-    if (deviceId !== 0 && ipAddress !== 0) {
-      setFetched(true);
+    if (unipeEmployeeId && deviceId !== 0 && ipAddress !== 0) {
+      getBackendData({
+        params: { unipeEmployeeId: unipeEmployeeId },
+        xpath: "mandate",
+        token: token,
+      })
+      .then((response) => {
+        console.log("Form mandateFetch response.data", response.data);
+        if (response.data.status === 200) {
+          dispatch(resetMandate(response?.data?.body));
+          setMandateVerifyStatus(response?.data?.body?.verifyStatus);
+        }
+        setFetched(true);
+      })
+      .catch((error) => {
+        console.log("mandateFetch error: ", error);
+      });
     }
-  }, [deviceId, ipAddress]);
+  }, [unipeEmployeeId, deviceId, ipAddress]);
 
   const { mutateAsync: updateKycMutateAsync } = updateKyc();
 
@@ -61,13 +79,13 @@ const KYC = () => {
         },
         token: token,
       })
-      .then((response) => {
-        console.log("updateKycMutateAsync response.data: ", response.data);
-      })
-      .catch((error) => {
-        console.log("updateKycMutateAsync error: ", error.toString());
-        Alert.alert("An Error occured", error.toString());
-      });
+        .then((response) => {
+          console.log("updateKycMutateAsync response.data: ", response.data);
+        })
+        .catch((error) => {
+          console.log("updateKycMutateAsync error: ", error.toString());
+          Alert.alert("An Error occured", error.toString());
+        });
     }
   }, [fetched]);
 
@@ -96,27 +114,27 @@ const KYC = () => {
       },
       token: token,
     })
-    .then((response) => {
-      console.log("updateKycMutateAsync response.data: ", response.data);
-      setLoading(false);
-      Analytics.trackEvent("Ewa|Kyc|Success", {
-        unipeEmployeeId: unipeEmployeeId,
+      .then((response) => {
+        console.log("updateKycMutateAsync response.data: ", response.data);
+        setLoading(false);
+        Analytics.trackEvent("Ewa|Kyc|Success", {
+          unipeEmployeeId: unipeEmployeeId,
+        });
+        if (mandateVerifyStatus === "SUCCESS") {
+          navigation.navigate("EWA_AGREEMENT");
+        } else {
+          navigation.navigate("EWA_MANDATE");
+        }
+      })
+      .catch((error) => {
+        console.log("updateKycMutateAsync error: ", error.toString());
+        setLoading(false);
+        Alert.alert("An Error occured", error.toString());
+        Analytics.trackEvent("Ewa|Kyc|Error", {
+          unipeEmployeeId: unipeEmployeeId,
+          error: error.toString(),
+        });
       });
-      if (mandateVerifyStatus === "SUCCESS") {
-        navigation.navigate("EWA_AGREEMENT");
-      } else {
-        navigation.navigate("EWA_MANDATE");
-      }
-    })
-    .catch((error) => {
-      console.log("updateKycMutateAsync error: ", error.toString());
-      setLoading(false);
-      Alert.alert("An Error occured", error.toString());
-      Analytics.trackEvent("Ewa|Kyc|Error", {
-        unipeEmployeeId: unipeEmployeeId,
-        error: error.toString(),
-      });
-    });
   }
 
   const cardData = () => {
@@ -152,7 +170,7 @@ const KYC = () => {
 
         <PrimaryButton
           title={loading ? "Verifying" : "Proceed"}
-          disabled={loading}
+          disabled={loading || !fetched}
           onPress={() => {
             handleKyc();
           }}

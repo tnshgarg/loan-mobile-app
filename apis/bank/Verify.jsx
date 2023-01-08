@@ -16,6 +16,7 @@ import { KYC_BANK_VERIFY_API_URL } from "../../services/constants";
 import { bankBackendPush } from "../../helpers/BackendPush";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
+import { updateBank, verifyBank } from "../../queries/onboarding/bank";
 
 const BankVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -41,6 +42,9 @@ const BankVerifyApi = (props) => {
     bankSlice?.verifyTimestamp
   );
   const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
+
+  const { mutateAsync: updateBankMutateAsync } = updateBank();
+  const { mutateAsync: verifyBankMutateAsync } = verifyBank();
 
   useEffect(() => {
     dispatch(addBankName(bankName));
@@ -70,7 +74,15 @@ const BankVerifyApi = (props) => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
-  const backendPush = ({ verifyMsg, verifyStatus, verifyTimestamp, accountHolderName, bankName, branchName, branchCity }) => {
+  const backendPush = ({
+    verifyMsg,
+    verifyStatus,
+    verifyTimestamp,
+    accountHolderName,
+    bankName,
+    branchName,
+    branchCity,
+  }) => {
     console.log("BankVerifyApi bankSlice: ", bankSlice);
     setAccountHolderName(accountHolderName);
     setBankName(bankName);
@@ -80,7 +92,7 @@ const BankVerifyApi = (props) => {
     setVerifyStatus(verifyStatus);
     setVerifyTimestamp(verifyTimestamp);
 
-    bankBackendPush({
+    updateBankMutateAsync({
       data: {
         unipeEmployeeId: unipeEmployeeId,
         data: {
@@ -104,20 +116,10 @@ const BankVerifyApi = (props) => {
 
   const goForFetch = () => {
     setLoading(true);
-    const options = {
-      method: "POST",
-      headers: {
-        "X-Auth-Type": "API-Key",
-        "X-API-Key": OG_API_KEY,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(props.data),
-    };
 
-    fetch(KYC_BANK_VERIFY_API_URL, options)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
+    verifyBankMutateAsync({ data: props.data })
+      .then((res) => {
+        const responseJson = res.data;
         try {
           if (responseJson["status"] == "200") {
             switch (responseJson["data"]["code"]) {
@@ -126,9 +128,12 @@ const BankVerifyApi = (props) => {
                   verifyMsg: "To be confirmed by User",
                   verifyStatus: "PENDING",
                   verifyTimestamp: responseJson["timestamp"],
-                  accountHolderName: responseJson["data"]["bank_account_data"]["name"],
-                  bankName: responseJson["data"]["bank_account_data"]["bank_name"],
-                  branchName: responseJson["data"]["bank_account_data"]["branch"],
+                  accountHolderName:
+                    responseJson["data"]["bank_account_data"]["name"],
+                  bankName:
+                    responseJson["data"]["bank_account_data"]["bank_name"],
+                  branchName:
+                    responseJson["data"]["bank_account_data"]["branch"],
                   branchCity: responseJson["data"]["bank_account_data"]["city"],
                 });
                 Analytics.trackEvent("Bank|Verify|Success", {

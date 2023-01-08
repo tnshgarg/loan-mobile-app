@@ -12,7 +12,7 @@ export default BottomTabNav = () => {
   const tabs = [
     { name: "Home", component: HomeView },
     { name: "Invest", component: Invest },
-    { name: "Benefits", component: Benefits },
+    // { name: "Benefits", component: Benefits },
     { name: "Money", component: EWA },
     { name: "Account", component: Account },
   ];

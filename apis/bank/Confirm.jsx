@@ -3,12 +3,12 @@ import { View } from "react-native";
 import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/bankSlice";
-import { bankBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import DetailsCard from "../../components/molecules/DetailsCard";
+import { updateBank } from "../../queries/onboarding/bank";
 
 const BankConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -16,14 +16,16 @@ const BankConfirmApi = (props) => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
   const data = useSelector((state) => state.bank.data);
   const verifyTimestamp = useSelector((state) => state.bank.verifyTimestamp);
-  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
-  
+
+  const { mutateAsync: updateBankMutateAsync } = updateBank();
+
   const backendPush = ({ verifyMsg, verifyStatus }) => {
     dispatch(addVerifyMsg(verifyMsg));
     dispatch(addVerifyStatus(verifyStatus));
-    bankBackendPush({
+    updateBankMutateAsync({
       data: {
         unipeEmployeeId: unipeEmployeeId,
         data: data,

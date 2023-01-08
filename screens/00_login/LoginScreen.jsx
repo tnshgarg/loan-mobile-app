@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
 import { useDispatch, useSelector } from "react-redux";
+import PushNotification, { Importance } from "react-native-push-notification";
+import SplashScreen from "react-native-splash-screen";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { COLORS } from "../../constants/Theme";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
@@ -27,8 +29,9 @@ import Icon from "react-native-vector-icons/Ionicons";
 import ShieldTitle from "../../components/atoms/ShieldTitle";
 import LoginInput from "../../components/molecules/LoginInput";
 import AgreementText from "../../components/organisms/AgreementText";
-import PushNotification, { Importance } from "react-native-push-notification";
 import { STAGE } from "@env";
+
+
 const LoginScreen = () => {
   SplashScreen.hide();
   const dispatch = useDispatch();

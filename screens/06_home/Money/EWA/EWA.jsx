@@ -1,7 +1,8 @@
 import { STAGE } from "@env";
-import { useNavigation } from "@react-navigation/core";
+import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Ionicons } from "react-native-vector-icons";
+import { useQuery } from "@tanstack/react-query";
 import {
   BackHandler,
   SafeAreaView,
@@ -26,6 +27,7 @@ import { getEwaOffers } from "../../../../queries/ewa/offers";
 
 const EWA = () => {
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
   const navigation = useNavigation();
 
   const [fetched, setFetched] = useState(false);
@@ -93,10 +95,14 @@ const EWA = () => {
     isError: getEwaOffersIsError,
     error: getEwaOffersError,
     data: getEwaOffersData,
-  } = getEwaOffers({ token, unipeEmployeeId });
+  } = useQuery(['getEwaOffers', unipeEmployeeId, token], getEwaOffers, {
+    staleTime: 1000 * 60 * 5,
+    cacheTime: 1000 * 60 * 11,
+    refetchInterval: 1000 * 60 * 5,
+  });
 
   useEffect(() => {
-    if (getEwaOffersIsSuccess) {
+    if (isFocused && getEwaOffersIsSuccess) {
       if (getEwaOffersData.data.status === 200) {
         if (Object.keys(getEwaOffersData.data.body.live).length !== 0) {
           const closureDays = getNumberOfDays({
@@ -123,7 +129,7 @@ const EWA = () => {
       dispatch(resetEwaLive());
       dispatch(resetEwaHistorical());
     }
-  }, [getEwaOffersIsSuccess, getEwaOffersData]);
+  }, [getEwaOffersIsSuccess, getEwaOffersData, isFocused]);
 
   return (
     <SafeAreaView style={styles.safeContainer}>
