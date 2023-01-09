@@ -1,15 +1,9 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { View, Text, SafeAreaView, ScrollView } from "react-native";
 import React, { useEffect } from "react";
-import { styles } from "../../../styles";
-import { Ionicons } from "react-native-vector-icons";
+import { investStyles, styles } from "../../../styles";
 import { COLORS, FONTS } from "../../../constants/Theme";
 import Header from "../../../components/atoms/Header";
+import VideoPlayer from "../../../components/organisms/VideoPlayer";
 
 const P2P = ({ navigation }) => {
   const backAction = () => {
@@ -46,32 +40,10 @@ const P2P = ({ navigation }) => {
       />
       <ScrollView>
         <View style={styles.container}>
-          <View
-            style={{
-              width: "100%",
-              height: 200,
-              backgroundColor: COLORS.black,
-              borderRadius: 10,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Ionicons name="play-circle" size={64} color={COLORS.white} />
-            <Text style={{ ...FONTS.h3, color: COLORS.white }}>
-              What is P2P investment?
-            </Text>
-          </View>
+          <VideoPlayer title="What is P2P investment?" />
+
           {data.map((item, index) => (
-            <View
-              key={index}
-              style={{
-                flexDirection: "column",
-                //justifyContent: "flex-start",
-                justifyContent: "center",
-                width: "100%",
-                marginVertical: 15,
-              }}
-            >
+            <View key={index} style={styles.col}>
               <Text
                 style={{
                   ...FONTS.h4,
@@ -80,13 +52,7 @@ const P2P = ({ navigation }) => {
               >
                 {item.title}
               </Text>
-              <Text
-                style={{
-                  ...FONTS.body4,
-                  color: COLORS.gray,
-                  marginTop: 10,
-                }}
-              >
+              <Text style={[investStyles.description, { width: "100%" }]}>
                 {item.subtitle}
               </Text>
             </View>

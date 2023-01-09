@@ -1,21 +1,17 @@
-import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
+import { View, Text, SafeAreaView } from "react-native";
 import React from "react";
-import { styles } from "../../../styles";
-import { Ionicons } from "react-native-vector-icons";
-import { COLORS, FONTS } from "../../../constants/Theme";
+import { investStyles, styles } from "../../../styles";
 import Percentage from "../../../assets/percentage.svg";
 import Insurance from "../../../assets/insurance.svg";
 import TaskList from "../../../assets/task.svg";
 import Header from "../../../components/atoms/Header";
 import PrimaryButton from "../../../components/atoms/PrimaryButton";
+import SvgListItem from "../../../components/molecules/SvgListItem";
 
 const HowItWorks = ({ navigation }) => {
   const backAction = () => {
     navigation.navigate("HomeStack", {
-      screen: "DrawerHome",
-      params: {
-        screen: "Invest",
-      },
+      screen: "Invest",
     });
     return true;
   };
@@ -39,34 +35,12 @@ const HowItWorks = ({ navigation }) => {
     <SafeAreaView style={styles.safeContainer}>
       <Header title="How it works?" onLeftIconPress={() => backAction()} />
       <View style={styles.container}>
-        <Text style={{ ...FONTS.body4, color: COLORS.black, marginTop: 10 }}>
-          Welcome to Unipe Invest.
-        </Text>
-        <Text style={{ ...FONTS.body2, color: COLORS.black, marginBottom: 20 }}>
+        <Text style={investStyles.title}>Welcome to Unipe Invest.</Text>
+        <Text style={investStyles.subtitle}>
           Designed to multiply your growth
         </Text>
         {data.map((item, index) => (
-          <View
-            key={index}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "flex-start",
-              marginVertical: 20,
-            }}
-          >
-            {item.imageUri}
-            <Text
-              style={{
-                ...FONTS.body4,
-                color: COLORS.secondary,
-                marginLeft: 20,
-                flex: 1,
-              }}
-            >
-              {item.title}
-            </Text>
-          </View>
+          <SvgListItem item={item} key={index} />
         ))}
         <View style={{ flex: 1 }} />
         <PrimaryButton

@@ -33,15 +33,15 @@ export default function VideoPlayer({ thumbnail, title, videoId }) {
       >
         <TouchableOpacity
           //activeOpacity={0.7}
-          onPress={() => setVisible(true)}
+          onPress={() => videoId?.length > 0 && setVisible(true)}
           style={[styles.thumbnailContainer, { opacity: 0.4 }]}
-        ></TouchableOpacity>
+        />
         <View style={{ position: "absolute", alignItems: "center" }}>
           <Ionicons
             name="play-circle"
             size={62}
             color={COLORS.white}
-            onPress={() => setVisible(true)}
+            onPress={() => videoId?.length > 0 && setVisible(true)}
           />
           <Text style={{ ...FONTS.h3, color: COLORS.white }}>{title}</Text>
         </View>
@@ -86,7 +86,7 @@ const styles = EStyleSheet.create({
     width: "100%",
     height: "180rem",
     backgroundColor: COLORS.black,
-    borderRadius: 5,
+    borderRadius: "5rem",
     alignItems: "center",
     justifyContent: "center",
     marginVertical: "10rem",

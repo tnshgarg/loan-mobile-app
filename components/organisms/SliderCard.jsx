@@ -28,9 +28,7 @@ const SliderCard = ({ info, iconName, amount, setAmount, eligibleAmount }) => {
           ₹{amount}
         </Text>
 
-        {
-          eligibleAmount >= 1000
-          ?
+        {eligibleAmount >= 1000 ? (
           <Slider
             minimumValue={1000}
             maximumValue={eligibleAmount}
@@ -41,9 +39,7 @@ const SliderCard = ({ info, iconName, amount, setAmount, eligibleAmount }) => {
             value={amount}
             onValueChange={(value) => setAmount(value)}
           />
-          :
-          null
-        }
+        ) : null}
 
         <View
           style={[styles.row, { padding: 0, justifyContent: "space-between" }]}
@@ -123,15 +119,12 @@ const SliderCard = ({ info, iconName, amount, setAmount, eligibleAmount }) => {
 
 const styles = EStyleSheet.create({
   container: {
-    //backgroundColor: COLORS.primaryBackground,
     width: "100%",
-
     flexDirection: "column",
-    //alignItems: "center",
     borderRadius: 5,
     backgroundColor: COLORS.white,
     elevation: 3,
-    marginVertical: "5rem",
+    marginVertical: "10rem",
     borderWidth: 0.5,
     borderColor: COLORS.lightgray_01,
   },
@@ -153,15 +146,14 @@ const styles = EStyleSheet.create({
     backgroundColor: COLORS.lightGray,
   },
   thumb: {
-    width: 25,
-    height: 25,
-    borderWidth: 4,
+    width: "25rem",
+    height: "25rem",
+    borderWidth: "4rem",
     backgroundColor: COLORS.primary,
     borderColor: COLORS.white,
     elevation: 5,
     borderRadius: 1,
-
-    borderRadius: 50,
+    borderRadius: "50rem",
   },
 });
 

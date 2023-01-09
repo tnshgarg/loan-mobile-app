@@ -1,5 +1,4 @@
 import { useNavigation } from "@react-navigation/core";
-import CheckBox from "@react-native-community/checkbox";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import {
@@ -21,15 +20,13 @@ import { AntDesign } from "react-native-vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
-import { COLORS } from "../../../../constants/Theme";
-import { ewaAgreementPush } from "../../../../helpers/BackendPush";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
-import {
-  resetEwaLive,
-} from "../../../../store/slices/ewaLiveSlice";
-import { checkBox, ewa, styles } from "../../../../styles";
+import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
+import { moneyStyles, styles } from "../../../../styles";
 import agreement from "../../../../templates/docs/LiquiLoansLoanAgreement";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
+import Checkbox from "../../../../components/atoms/Checkbox";
+import { updateAgreement } from "../../../../queries/ewa/agreement";
 
 const Agreement = () => {
   const dispatch = useDispatch();
@@ -46,7 +43,7 @@ const Agreement = () => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const campaignId = useSelector((state) => state.auth.campaignId);
+  const campaignId = useSelector((state) => state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId);
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const bankSlice = useSelector((state) => state.bank);
   const panSlice = useSelector((state) => state.pan);
@@ -56,7 +53,7 @@ const Agreement = () => {
   const mandateVerifyStatus = useSelector(
     (state) => state.mandate.verifyStatus
   );
-  
+
   const today = new Date();
 
   function ValueEntry(text) {
@@ -78,7 +75,10 @@ const Agreement = () => {
     text.data = text.data.replace(/\{loanAmount\}/g, ewaLiveSlice?.loanAmount);
     text.data = text.data.replace(/\{mobile\}/g, authSlice?.phoneNumber);
     text.data = text.data.replace(/\{panName\}/g, panSlice?.data?.name);
-    text.data = text.data.replace(/\{processingFees\}/g, ewaLiveSlice?.processingFees);
+    text.data = text.data.replace(
+      /\{processingFees\}/g,
+      ewaLiveSlice?.processingFees
+    );
     text.data = text.data.replace(
       /\{todayDate\}/g,
       today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear()
@@ -101,10 +101,12 @@ const Agreement = () => {
     }
   }, [deviceId, ipAddress]);
 
+  const { mutateAsync: updateAgreementMutateAsync } = updateAgreement();
+
   useEffect(() => {
     if (fetched) {
       setLoading(true);
-      ewaAgreementPush({
+      updateAgreementMutateAsync({
         data: {
           offerId: ewaLiveSlice?.offerId,
           unipeEmployeeId: unipeEmployeeId,
@@ -171,7 +173,7 @@ const Agreement = () => {
 
   function handleAgreement() {
     setLoading(true);
-    ewaAgreementPush({
+    updateAgreementMutateAsync({
       data: {
         offerId: ewaLiveSlice?.offerId,
         unipeEmployeeId: unipeEmployeeId,
@@ -240,30 +242,14 @@ const Agreement = () => {
             iconName="account-outline"
           />
 
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginVertical: 5,
-            }}
-          >
-            <CheckBox
-              style={ewa.checkBox}
-              tintColors={{ true: COLORS.primary }}
-              value={consent}
-              onValueChange={setConsent}
-            />
-            <Text style={ewa.checkBoxText}>
-              I confirm the above details and agree to{" "}
-              <Text
-                style={styles.termsText}
-                onPress={() => setIsModalVisible(true)}
-              >
-                Terms and Conditions
-              </Text>
-              .
-            </Text>
-          </View>
+          <Checkbox
+            text={"I confirm the above details and agree to"}
+            value={consent}
+            setValue={setConsent}
+            additionalText="Terms and Conditions"
+            onPress={() => setIsModalVisible(true)}
+          />
+
           <PrimaryButton
             title={loading ? "Booking" : "Finish"}
             disabled={!consent || loading}
@@ -271,9 +257,8 @@ const Agreement = () => {
               handleAgreement();
             }}
           />
-          <View style={checkBox.padding}></View>
 
-          <Text style={{ fontSize: 6, marginTop: "15%" }}>
+          <Text style={moneyStyles.percentageTitle}>
             † Annual Percentage Rate @ {ewaLiveSlice.apr} %
           </Text>
 

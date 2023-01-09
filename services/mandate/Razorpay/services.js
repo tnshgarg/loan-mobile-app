@@ -2,7 +2,7 @@ import axios from "axios";
 import { RZP_AUTH } from "../../constants";
 import { STAGE } from "@env";
 
-const createCustomer = ({ name, email, contact , unipeEmployeeId}) => {
+const createCustomer = ({ name, email, contact, unipeEmployeeId }) => {
   var data = JSON.stringify({
     name: name,
     email: email,
@@ -20,7 +20,7 @@ const createCustomer = ({ name, email, contact , unipeEmployeeId}) => {
     },
     data: data,
   };
-
+  console.log("createCustomer data: ", data);
   return axios(config);
 };
 
@@ -33,7 +33,6 @@ const createOrder = ({
   aCTC,
   unipeEmployeeId,
 }) => {
-  console.log("createOrder");
   if (authType === "upi") {
     var data = JSON.stringify({
       amount: 100,
@@ -70,8 +69,8 @@ const createOrder = ({
       notes: { unipeEmployeeId: unipeEmployeeId },
     });
   }
-  console.log("createorder", data);
 
+  console.log("createOrder data: ", data);
   var config = {
     method: "post",
     url: "https://api.razorpay.com/v1/orders",

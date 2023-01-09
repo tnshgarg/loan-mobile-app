@@ -4,14 +4,17 @@ import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
-import { ewaKycPush } from "../../../../helpers/BackendPush";
 import { styles } from "../../../../styles";
 import DetailsCard from "../../../../components/molecules/DetailsCard";
+import { updateKyc } from "../../../../queries/ewa/kyc";
+import { getBackendData } from "../../../../services/employees/employeeServices";
+import { resetMandate } from "../../../../store/slices/mandateSlice";
 
 const KYC = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const [fetched, setFetched] = useState(false);
@@ -19,13 +22,13 @@ const KYC = () => {
   const [ipAddress, setIpAdress] = useState(0);
 
   const [loading, setLoading] = useState(false);
-  const campaignId = useSelector((state) => state.auth.campaignId);
-  const mandateVerifyStatus = useSelector(
-    (state) => state.mandate.verifyStatus
-  );
-  const token = useSelector((state) => state.auth.token);
+  const campaignId = useSelector((state) => state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const data = useSelector((state) => state.aadhaar.data);
+  const token = useSelector((state) => state.auth.token);
+  const [mandateVerifyStatus, setMandateVerifyStatus] = useState(useSelector(
+    (state) => state.mandate.verifyStatus
+  ));
+  const aadhaarData = useSelector((state) => state.aadhaar.data);
   const aadharNumber = useSelector((state) => state.aadhaar.number);
   const panNumber = useSelector((state) => state.pan.number);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
@@ -40,25 +43,31 @@ const KYC = () => {
   }, []);
 
   useEffect(() => {
-    if (deviceId !== 0 && ipAddress !== 0) {
-      setFetched(true);
+    if (unipeEmployeeId && deviceId !== 0 && ipAddress !== 0) {
+      getBackendData({
+        params: { unipeEmployeeId: unipeEmployeeId },
+        xpath: "mandate",
+        token: token,
+      })
+      .then((response) => {
+        console.log("Form mandateFetch response.data", response.data);
+        if (response.data.status === 200) {
+          dispatch(resetMandate(response?.data?.body));
+          setMandateVerifyStatus(response?.data?.body?.verifyStatus);
+        }
+        setFetched(true);
+      })
+      .catch((error) => {
+        console.log("mandateFetch error: ", error);
+      });
     }
-  }, [deviceId, ipAddress]);
+  }, [unipeEmployeeId, deviceId, ipAddress]);
 
-  const backAction = () => {
-    navigation.navigate("EWA_OFFER");
-    return true;
-  };
-
-  useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () =>
-      BackHandler.removeEventListener("hardwareBackPress", backAction);
-  }, []);
+  const { mutateAsync: updateKycMutateAsync } = updateKyc();
 
   useEffect(() => {
     if (fetched) {
-      ewaKycPush({
+      updateKycMutateAsync({
         data: {
           offerId: ewaLiveSlice?.offerId,
           unipeEmployeeId: unipeEmployeeId,
@@ -71,18 +80,29 @@ const KYC = () => {
         token: token,
       })
         .then((response) => {
-          console.log("ewaKycPush response.data: ", response.data);
+          console.log("updateKycMutateAsync response.data: ", response.data);
         })
         .catch((error) => {
-          console.log("ewaKycPush error: ", error.toString());
+          console.log("updateKycMutateAsync error: ", error.toString());
           Alert.alert("An Error occured", error.toString());
         });
     }
   }, [fetched]);
 
+  const backAction = () => {
+    navigation.navigate("EWA_OFFER");
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
   function handleKyc() {
     setLoading(true);
-    ewaKycPush({
+    updateKycMutateAsync({
       data: {
         offerId: ewaLiveSlice?.offerId,
         unipeEmployeeId: unipeEmployeeId,
@@ -95,7 +115,7 @@ const KYC = () => {
       token: token,
     })
       .then((response) => {
-        console.log("ewaKycPush response.data: ", response.data);
+        console.log("updateKycMutateAsync response.data: ", response.data);
         setLoading(false);
         Analytics.trackEvent("Ewa|Kyc|Success", {
           unipeEmployeeId: unipeEmployeeId,
@@ -107,7 +127,7 @@ const KYC = () => {
         }
       })
       .catch((error) => {
-        console.log("ewaKycPush error: ", error.toString());
+        console.log("updateKycMutateAsync error: ", error.toString());
         setLoading(false);
         Alert.alert("An Error occured", error.toString());
         Analytics.trackEvent("Ewa|Kyc|Error", {
@@ -119,12 +139,12 @@ const KYC = () => {
 
   const cardData = () => {
     var res = [
-      { subTitle: "Name", value: data?.name, fullWidth: true },
-      { subTitle: "Date of Birth", value: data?.date_of_birth },
-      { subTitle: "Gender", value: data?.gender },
+      { subTitle: "Name", value: aadhaarData?.name, fullWidth: true },
+      { subTitle: "Date of Birth", value: aadhaarData?.date_of_birth },
+      { subTitle: "Gender", value: aadhaarData?.gender },
       { subTitle: "Aadhaar Number", value: aadharNumber },
       { subTitle: "Pan Number", value: panNumber },
-      { subTitle: "Address", value: data?.address, fullWidth: true },
+      { subTitle: "Address", value: aadhaarData?.address, fullWidth: true },
     ];
     return res;
   };
@@ -134,14 +154,14 @@ const KYC = () => {
       <Header title="KYC" onLeftIconPress={() => backAction()} progress={40} />
       <View style={styles.container}>
         <Text style={styles.headline}>Are these your Kyc details?</Text>
-        <Text style={[styles.subHeadline, { marginBottom: 10 }]}>
+        <Text style={styles.subHeadline}>
           कृपया स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
         </Text>
 
         <DetailsCard
           data={cardData()}
           imageUri={{
-            uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
+            uri: `data:image/jpeg;base64,${aadhaarData["photo_base64"]}`,
             cache: "only-if-cached",
           }}
         />
@@ -150,7 +170,7 @@ const KYC = () => {
 
         <PrimaryButton
           title={loading ? "Verifying" : "Proceed"}
-          disabled={loading}
+          disabled={loading || !fetched}
           onPress={() => {
             handleKyc();
           }}

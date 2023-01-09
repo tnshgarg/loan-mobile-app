@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -10,19 +9,17 @@ import OnboardingStack from "./stacks/OnboardingStack";
 import EWAStack from "./stacks/EWAStack";
 
 import BenefitsStack from "./stacks/BenefitsStack";
-import DrawerNavigator from "./DrawerNavigator";
 import AccountStack from "./stacks/AccountStack";
 import InvestStack from "./stacks/InvestStack";
+import SplashScreen from "../screens/SplashScreen";
+import BottomTabNav from "./BottomTabNav";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
 
-  var [initialRoute, setInitialRoute] = useState(
-    useSelector((state) => state.navigation.currentStack)
-  );
-  var [initialScreen, setInitialScreen] = useState(
-    useSelector((state) => state.navigation.currentScreen)
-  );
+  var initialRoute = useSelector((state) => state.navigation.currentStack);
+
+  var initialScreen = useSelector((state) => state.navigation.currentScreen);
 
   console.log("STAGE: ", STAGE);
   console.log("initialRoute: ", initialRoute);
@@ -33,13 +30,22 @@ const StackNavigator = () => {
 
   return (
     <OfflineAlert>
-      <Stack.Navigator initialRouteName={initialRoute}>
+      <Stack.Navigator initialRouteName={"Splash"}>
         <Stack.Screen
           name="DevMenu"
           component={DevMenu}
           options={{
             headerShown: false,
             header: null,
+          }}
+        />
+        <Stack.Screen
+          name="Splash"
+          options={{ headerShown: false, header: null }}
+          component={SplashScreen}
+          initialParams={{
+            initialRoute: initialRoute,
+            initialScreen: initialScreen,
           }}
         />
         <Stack.Screen
@@ -51,7 +57,7 @@ const StackNavigator = () => {
         />
         <Stack.Screen
           name="HomeStack"
-          component={DrawerNavigator}
+          component={BottomTabNav}
           options={{
             headerShown: false,
           }}
