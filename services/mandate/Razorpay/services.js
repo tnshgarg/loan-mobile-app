@@ -20,7 +20,7 @@ const createCustomer = ({ name, email, contact, unipeEmployeeId }) => {
     },
     data: data,
   };
-
+  console.log("createCustomer data: ", data);
   return axios(config);
 };
 
@@ -70,6 +70,7 @@ const createOrder = ({
     });
   }
 
+  console.log("createOrder data: ", data);
   var config = {
     method: "post",
     url: "https://api.razorpay.com/v1/orders",
