@@ -6,8 +6,6 @@ import { useQuery } from "@tanstack/react-query";
 import {
   BackHandler,
   SafeAreaView,
-  ScrollView,
-  Text,
   View
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +20,7 @@ import {
   resetEwaLive,
 } from "../../../../store/slices/ewaLiveSlice";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
-import { COLORS, FONTS } from "../../../../constants/Theme";
+import { COLORS } from "../../../../constants/Theme";
 import LogoHeader from "../../../../components/atoms/LogoHeader";
 import { getNumberOfDays } from "../../../../helpers/DateFunctions";
 import { getEwaOffers } from "../../../../queries/ewa/offers";
@@ -55,9 +53,7 @@ const EWA = () => {
     aadhaarVerifyStatus != "SUCCESS"
       ? { label: "Verify AADHAAR", value: "AADHAAR" }
       : null,
-    panVerifyStatus != "SUCCESS"
-      ? { label: "Verify PAN", value: "PAN" }
-      : null,
+    panVerifyStatus != "SUCCESS" ? { label: "Verify PAN", value: "PAN" } : null,
     bankVerifyStatus != "SUCCESS"
       ? { label: "Verify Bank Account", value: "BANK" }
       : null,
@@ -151,27 +147,16 @@ const EWA = () => {
       {allAreNull(verifyStatuses) ? (
         // panMisMatch < 20 &&
         // bankMisMatch < 20
-        
-          <View style={styles.container}>
-            <LiveOfferCard
-              eligible={eligible}
-              accessible={accessible}
-              ewaLiveSlice={ewaLiveSlice}
-            />
 
-            <Text
-              style={{
-                ...FONTS.h4,
-                color: COLORS.gray,
-                marginTop: "5%",
-              }}
-            >
-              Your past draws
-            </Text>
-            <ScrollView>
-              <PastDrawsCard data={ewaHistoricalSlice} />
-            </ScrollView>
-          </View>
+        <View style={styles.container}>
+          <LiveOfferCard
+            eligible={eligible}
+            accessible={accessible}
+            ewaLiveSlice={ewaLiveSlice}
+          />
+
+          <PastDrawsCard data={ewaHistoricalSlice} />
+        </View>
       ) : (
         <View style={[styles.container]}>
           <KycCheckCard

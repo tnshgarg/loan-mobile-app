@@ -32,7 +32,7 @@ const PayMoneyCard = () => {
   const customerId = useSelector((state) => state.mandate.data.customerId);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
-  const campaignId = useSelector((state) => state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId || state.campaign.repaymentCampaignId);
+  const campaignId = useSelector((state) => state.campaign.repaymentCampaignId || state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId);
 
   const repaymentSlice = useSelector((state) => state.repayment);
   const [repaymentOrderId, setRepaymentOrderId] = useState(repaymentSlice?.repaymentOrderId);
@@ -55,7 +55,6 @@ const PayMoneyCard = () => {
   });
 
   useEffect(() => {
-    console.log("ewaRepaymentFetch API getRepaymentData.data: ", getRepaymentData.data);
     if (isFocused && !getRepaymentIsLoading && getRepaymentIsSuccess) {
       if (getRepaymentData.data.status === 200) {
         var repaymentAmount = Math.max(
@@ -130,6 +129,7 @@ const PayMoneyCard = () => {
           },
           theme: { color: COLORS.primary },
         };
+        console.log("ewaRepayment Checkout RazorpayCheckout options: ", options);
         RazorpayCheckout.open(options)
           .then((data) => {
             console.log("ewaRepayment Checkout RazorpayCheckout data: ", data);
@@ -155,12 +155,12 @@ const PayMoneyCard = () => {
                   showToast("Loan Payment Failed. Please try again.");
                   setLoading(false);
                   Analytics.trackEvent("Ewa|RepaymentPost|Error", {
-                    unipeEmployeeId: unipeEmployeeId
+                    unipeEmployeeId: unipeEmployeeId,
                   });
                 }
               })
               .catch((error) => {
-                console.log("ewaRepayment Checkout Post response.data: ", error.toString());
+                console.log("ewaRepayment Checkout Post error: ", error.toString());
                 showToast("Loan Payment Failed. Please try again.");
                 setLoading(false);
                 Analytics.trackEvent("Ewa|Repayment|Error", {
@@ -170,12 +170,12 @@ const PayMoneyCard = () => {
               });
           })
           .catch((error) => {
-            console.log("ewaRepayment Checkout response.data: ", error.description);
+            console.log("ewaRepayment Checkout error.description: ", error.description);
             showToast("Loan Payment Failed. Please try again.");
             setLoading(false);
             Analytics.trackEvent("Ewa|Repayment|Error", {
               unipeEmployeeId: unipeEmployeeId,
-              error: error.toString(),
+              error: error.description,
             });
           });
       }
@@ -294,10 +294,8 @@ const styles = EStyleSheet.create({
     paddingHorizontal: "15rem",
     paddingVertical: "10rem",
     alignItems: "center",
-    backgroundColor: COLORS.moneyCardBg,
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
-    opactiy: 0.5,
     flexDirection: "row",
   },
   col: {

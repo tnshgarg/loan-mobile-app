@@ -1,4 +1,3 @@
-import CheckBox from "@react-native-community/checkbox";
 import { useNavigation } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
@@ -9,16 +8,16 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import TermsAndPrivacyModal from "../../../../components/molecules/TermsAndPrivacyModal";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
-import { COLORS } from "../../../../constants/Theme";
 import {
   addAPR,
   addLoanAmount,
   addNetAmount,
   addProcessingFees,
 } from "../../../../store/slices/ewaLiveSlice";
-import { checkBox, styles } from "../../../../styles";
+import { styles } from "../../../../styles";
 import TnC from "../../../../templates/docs/EWATnC.js";
 import SliderCard from "../../../../components/organisms/SliderCard";
+import Checkbox from "../../../../components/atoms/Checkbox";
 import { updateOffer } from "../../../../queries/ewa/offer";
 
 const Offer = () => {
@@ -197,12 +196,7 @@ const Offer = () => {
         <Text style={[styles.headline, { alignSelf: "flex-start" }]}>
           How much do you want?
         </Text>
-        <Text
-          style={[
-            styles.subHeadline,
-            { alignSelf: "flex-start", marginBottom: 5 },
-          ]}
-        >
+        <Text style={[styles.subHeadline, { alignSelf: "flex-start" }]}>
           Here is your access of emergency funds
         </Text>
 
@@ -215,25 +209,14 @@ const Offer = () => {
         />
         <View style={{ flex: 1 }} />
 
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <CheckBox
-            value={consent}
-            onValueChange={setConsent}
-            style={checkBox.checkBox}
-            tintColors={{ true: COLORS.primary }}
-          />
-          <Text style={checkBox.checkBoxText}>
-            I agree to the
-            <Text
-              onPress={() => setIsTermsOfUseModalVisible(true)}
-              style={styles.termsText}
-            >
-              {" "}
-              Terms and Conditions
-            </Text>
-            .
-          </Text>
-        </View>
+        <Checkbox
+          text={"I agree to the"}
+          value={consent}
+          setValue={setConsent}
+          additionalText="Terms and Conditions"
+          onPress={() => setIsTermsOfUseModalVisible(true)}
+        />
+
         <PrimaryButton
           title={loading ? "Processing" : "Continue"}
           disabled={loading || !consent || !validAmount || updating}

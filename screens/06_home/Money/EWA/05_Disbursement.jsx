@@ -142,19 +142,18 @@ const Disbursement = ({ route, navigation }) => {
         onLeftIconPress={() => backAction()}
         // progress={100}
       />
-      <ScrollView>
-        <View style={styles.container}>
-          {StatusImage(status)}
-          {StatusText(status)}
-          <DisbursementCard
-            data={data}
-            title="Loan Details"
-            info="Money will be auto debited from your upcoming salary"
-            iconName="ticket-percent-outline"
-            variant={"dark"}
-          />
-        </View>
-      </ScrollView>
+      <View style={styles.container}>
+        {StatusImage(status)}
+        {StatusText(status)}
+        <View style={{ flex: 1 }} />
+        <DisbursementCard
+          data={data}
+          title="Loan Details"
+          info="Money will be auto debited from your upcoming salary"
+          iconName="ticket-percent-outline"
+          variant={"dark"}
+        />
+      </View>
     </SafeAreaView>
   );
 };
