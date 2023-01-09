@@ -71,10 +71,10 @@ const MandateFormTemplate = (props) => {
   }, []);
 
   useEffect(() => {
-    if (deviceId !== 0 && ipAddress !== 0) {
+    if (deviceId !== 0 && ipAddress !== 0 && customerId) {
       setFetched(true);
     }
-  }, [deviceId, ipAddress]);
+  }, [deviceId, ipAddress, customerId]);
 
   useEffect(() => {
     dispatch(addData(data));
@@ -245,6 +245,7 @@ const MandateFormTemplate = (props) => {
         });
       })
       .catch((error) => {
+        console.log(`Mandate|CreateOrder|${authType} JSON.stringify(error):`, JSON.stringify(error));
         console.log(`Mandate|CreateOrder|${authType} error:`, error.toString());
         Alert.alert("Error", error.toString());
         backendPush({

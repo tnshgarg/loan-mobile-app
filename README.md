@@ -89,3 +89,14 @@ For running tests
 npx appium
 npx jest appium
 ```
+
+## Redirect URLs
+
+EWA
+https://www.mobile-app.unipe.co/ewa/campaign/DDMMYYY$TEMPLATE_NAME
+
+REPAYMENT
+https://www.mobile-app.unipe.co/repayment/campaign/DDMMYYY$TEMPLATE_NAME
+
+Onboarding
+https://www.mobile-app.unipe.co/onboarding/[profile|aadhaar|pan|bank]/campaign/DDMMYYY$TEMPLATE_NAME
