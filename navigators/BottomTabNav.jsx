@@ -1,20 +1,19 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS } from "../constants/Theme";
-import Account from "../screens/06_home/Account";
-import Benefits from "../screens/06_home/Benefits/Benefits";
 import HomeView from "../screens/06_home/HomeView";
-import Invest from "../screens/06_home/Invest/Invest";
-import EWA from "../screens/06_home/Money/EWA/EWA";
+import AccountStack from "./stacks/AccountStack";
+import EWAStack from "./stacks/EWAStack";
+import InvestStack from "./stacks/InvestStack";
 
 export default BottomTabNav = () => {
   const bottomTab = createBottomTabNavigator();
   const tabs = [
     { name: "Home", component: HomeView },
-    { name: "Invest", component: Invest },
+    { name: "Invest", component: InvestStack },
     // { name: "Benefits", component: Benefits },
-    { name: "Money", component: EWA },
-    { name: "Account", component: Account },
+    { name: "Money", component: EWAStack },
+    { name: "Account", component: AccountStack },
   ];
   return (
     <bottomTab.Navigator
