@@ -6,7 +6,6 @@ import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import BankFormTemplate from "../../templates/bank/Form";
-import Header from "../../components/atoms/Header";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
 const BankForm = () => {

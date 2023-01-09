@@ -100,7 +100,6 @@ const styles = EStyleSheet.create({
   container: {
     //backgroundColor: COLORS.primaryBackground,
     width: "100%",
-
     flexDirection: "column",
     //alignItems: "center",
     borderRadius: 5,

@@ -10,21 +10,25 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import Analytics from "appcenter-analytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
+import { updatePan } from "../../queries/onboarding/pan";
 
 const PanConfirmApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
   const token = useSelector((state) => state.auth.token);
   const data = useSelector((state) => state.pan.data);
   const number = useSelector((state) => state.pan.number);
   const verifyTimestamp = useSelector((state) => state.pan.verifyTimestamp);
 
+  const { mutateAsync: updatePanMutateAsync } = updatePan();
+  
   const backendPush = ({ verifyMsg, verifyStatus }) => {
     dispatch(addVerifyMsg(verifyMsg));
     dispatch(addVerifyStatus(verifyStatus));
-    panBackendPush({
+    updatePanMutateAsync({
       data: {
         unipeEmployeeId: unipeEmployeeId,
         data: data,
@@ -32,6 +36,7 @@ const PanConfirmApi = (props) => {
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
         verifyTimestamp: verifyTimestamp,
+        campaignId: campaignId,
       },
       token: token,
     });

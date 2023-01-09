@@ -30,6 +30,7 @@ const styles = EStyleSheet.create({
     borderRadius: 5,
     backgroundColor: COLORS.cardBackground,
     flexWrap: "wrap",
+    marginVertical: "10rem",
   },
   image: {
     height: "80rem",

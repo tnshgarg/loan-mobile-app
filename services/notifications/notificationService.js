@@ -54,17 +54,11 @@ export const notificationListener = async () => {
         "EWA_REPAYMENT_REMINDER" ||
         "EWA_DISBURSEMENT_SUCCESS":
         RootNavigation.navigate("HomeStack", {
-          screen: "DrawerHome",
-          params: {
-            screen: remoteMessage.data.screenName,
-          },
+          screen: remoteMessage.data.screenName,
         });
       default:
         RootNavigation.navigate("HomeStack", {
-          screen: "DrawerHome",
-          params: {
-            screen: remoteMessage.data.screenName,
-          },
+          screen: remoteMessage.data.screenName,
         });
     }
   });
@@ -96,18 +90,12 @@ export const notificationListener = async () => {
               "EWA_REPAYMENT_REMINDER" ||
               "EWA_DISBURSEMENT_SUCCESS":
               RootNavigation.navigate("HomeStack", {
-                screen: "DrawerHome",
-                params: {
-                  screen: remoteMessage.data.screenName,
-                },
+                screen: remoteMessage.data.screenName,
               });
               break;
             default:
               RootNavigation.navigate("HomeStack", {
-                screen: "DrawerHome",
-                params: {
-                  screen: remoteMessage.data.screenName,
-                },
+                screen: remoteMessage.data.screenName,
               });
               break;
           }
