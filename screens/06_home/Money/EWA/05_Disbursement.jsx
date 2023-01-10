@@ -147,7 +147,6 @@ const Disbursement = ({ route, navigation }) => {
       <View style={styles.container}>
         {StatusImage(status)}
         {StatusText(status)}
-        <View style={{ flex: 1 }} />
         <DisbursementCard
           data={data}
           title="Loan Details"
