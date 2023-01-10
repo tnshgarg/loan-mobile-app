@@ -129,66 +129,66 @@ const AadhaarVerifyApi = (props) => {
               default:
                 backendPush({
                   data: data,
-                  verifyMsg: responseJson?.data?.message,
+                  verifyMsg: `Unsupported Data Code : ${responseJson?.data?.message}`,
                   verifyStatus: "ERROR",
                   verifyTimestamp: verifyTimestamp,
                 });
                 Alert.alert("Error", responseJson?.data?.message);
                 Analytics.trackEvent("Aadhaar|Verify|Error", {
                   unipeEmployeeId: unipeEmployeeId,
-                  error: responseJson?.data?.message,
+                  error: `Unsupported Data Code : ${responseJson?.data?.message}`,
                 });
             }
           } else if (responseJson?.error?.message) {
             backendPush({
               data: data,
-              verifyMsg: responseJson?.error?.message,
+              verifyMsg: `Unsupported Status Code : ${responseJson?.error?.message}`,
               verifyStatus: "ERROR",
               verifyTimestamp: verifyTimestamp,
             });
             Alert.alert("Error", responseJson?.error?.message);
             Analytics.trackEvent("Aadhaar|Verify|Error", {
               unipeEmployeeId: unipeEmployeeId,
-              error: responseJson?.error?.message,
+              error: `Unsupported Status Code : ${responseJson?.error?.message}`,
             });
           } else {
             backendPush({
               data: data,
-              verifyMsg: responseJson?.message,
+              verifyMsg: `Unsupported Data/Status Code : ${responseJson?.message}`,
               verifyStatus: "ERROR",
               verifyTimestamp: verifyTimestamp,
             });
             Alert.alert("Error", responseJson?.message);
             Analytics.trackEvent("Aadhaar|Verify|Error", {
               unipeEmployeeId: unipeEmployeeId,
-              error: responseJson?.message,
+              error: `Unsupported Data/Status Code : ${responseJson?.message}`,
             });
           }
         } catch (error) {
           backendPush({
             data: data,
-            verifyMsg: error.toString(),
+            verifyMsg: `Try Catch Error: ${error.toString()}`,
             verifyStatus: "ERROR",
             verifyTimestamp: verifyTimestamp,
           });
           Alert.alert("Error", error.toString());
           Analytics.trackEvent("Aadhaar|Verify|Error", {
             unipeEmployeeId: unipeEmployeeId,
-            error: error.toString(),
+            error: `Try Catch Error: ${error.toString()}`,
           });
         }
       })
       .catch((error) => {
         backendPush({
           data: data,
-          verifyMsg: error.toString(),
+          verifyMsg: `submitAadhaarOTP API Catch Error: ${error.toString()}`,
           verifyStatus: "ERROR",
           verifyTimestamp: verifyTimestamp,
         });
         Alert.alert("Error", error.toString());
         Analytics.trackEvent("Aadhaar|Verify|Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: error.toString(),
+          error: `submitAadhaarOTP API Catch Error: ${error.toString()}`,
         });
       });
   };
