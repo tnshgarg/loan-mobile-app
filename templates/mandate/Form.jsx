@@ -47,7 +47,6 @@ const MandateFormTemplate = (props) => {
   );
   const accountNumber = useSelector((state) => state.bank?.data?.accountNumber);
   const ifsc = useSelector((state) => state.bank?.data?.ifsc);
-  const [type, setType] = useState("");
   const mandateSlice = useSelector((state) => state.mandate);
   const [loading, setLoading] = useState(false);
   const [authType, setAuthType] = useState();
@@ -231,7 +230,7 @@ const MandateFormTemplate = (props) => {
       unipeEmployeeId: unipeEmployeeId,
     })
       .then((res) => {
-        setType("");
+        setAuthType("");
         console.log(`Mandate|CreateOrder|${authType} res.data:`, res.data);
         setOrderId(res.data.id);
         backendPush({
@@ -249,7 +248,7 @@ const MandateFormTemplate = (props) => {
         });
       })
       .catch((error) => {
-        setType("");
+        setAuthType("");
         console.log(
           `Mandate|CreateOrder|${authType} JSON.stringify(error):`,
           JSON.stringify(error)
@@ -312,8 +311,7 @@ const MandateFormTemplate = (props) => {
             <MandateOptions
               ProceedButton={ProceedButton}
               disabled={loading}
-              type={type}
-              setType={setType}
+              authType={authType}
             />
           )}
           <View

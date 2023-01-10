@@ -3,7 +3,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { COLORS, FONTS } from "../../constants/Theme";
 
-const ListItem = ({ item, disabled, showIcon, selected }) => {
+const ListItem = ({ item, disabled, showIcon, selected, titleStyle }) => {
   const { title, subtitle, iconName, onPress } = item;
 
   return (
@@ -11,7 +11,13 @@ const ListItem = ({ item, disabled, showIcon, selected }) => {
       accessibilityLabel="InfoCard"
       style={[
         styles.container,
-        { backgroundColor: selected ? COLORS.primary : COLORS.white },
+        {
+          backgroundColor: selected
+            ? COLORS.primary
+            : disabled
+            ? COLORS.lightgray_01
+            : COLORS.white,
+        },
       ]}
       activeOpacity={0.8}
       onPress={onPress}
@@ -20,13 +26,20 @@ const ListItem = ({ item, disabled, showIcon, selected }) => {
       <MaterialCommunityIcons
         name={iconName}
         size={24}
-        color={selected ? COLORS.white : COLORS.gray}
+        color={selected ? COLORS.white : disabled ? COLORS.gray : COLORS.black}
       />
       <View style={styles.textContainer}>
         <Text
           style={[
             styles.title,
-            { color: selected ? COLORS.white : COLORS.black },
+            { ...titleStyle },
+            {
+              color: selected
+                ? COLORS.white
+                : disabled
+                ? COLORS.gray
+                : COLORS.black,
+            },
           ]}
         >
           {title}
@@ -37,7 +50,9 @@ const ListItem = ({ item, disabled, showIcon, selected }) => {
         <MaterialCommunityIcons
           name="chevron-right"
           size={24}
-          color={selected ? COLORS.white : COLORS.gray}
+          color={
+            selected ? COLORS.white : disabled ? COLORS.gray : COLORS.black
+          }
         />
       )}
     </TouchableOpacity>
