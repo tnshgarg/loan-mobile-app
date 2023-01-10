@@ -87,7 +87,7 @@ const AadhaarVerifyApi = (props) => {
     submitAadhaarOTPMutateAsync({ data })
       .then((res) => {
         try {
-          const responseJson = res.data;
+          const responseJson = res?.data;
           if (responseJson?.status == "200") {
             switch (responseJson?.data?.code) {
               case "1002":
