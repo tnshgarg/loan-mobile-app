@@ -6,9 +6,8 @@ import { COLORS } from "../../constants/Theme";
 import ListItem from "../atoms/ListItem";
 import bankCodeEmandateOptionsMap from "../../assets/bankCodeEmandateOptionsMap";
 
-const MandateOptions = ({ ProceedButton, disabled, selected }) => {
+const MandateOptions = ({ ProceedButton, disabled, type, setType }) => {
   const ifsc = useSelector((state) => state.bank?.data?.ifsc);
-  const [type, setType] = useState("");
 
   const [mandateButtons, setMandateButtons] = useState([]);
 

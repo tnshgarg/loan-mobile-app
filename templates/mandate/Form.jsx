@@ -47,7 +47,7 @@ const MandateFormTemplate = (props) => {
   );
   const accountNumber = useSelector((state) => state.bank?.data?.accountNumber);
   const ifsc = useSelector((state) => state.bank?.data?.ifsc);
-
+  const [type, setType] = useState("");
   const mandateSlice = useSelector((state) => state.mandate);
   const [loading, setLoading] = useState(false);
   const [authType, setAuthType] = useState();
@@ -59,7 +59,10 @@ const MandateFormTemplate = (props) => {
   const [verifyTimestamp, setVerifyTimestamp] = useState(
     mandateSlice?.verifyTimestamp
   );
-  const campaignId = useSelector((state) => state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId);
+  const campaignId = useSelector(
+    (state) =>
+      state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
+  );
 
   useEffect(() => {
     getUniqueId().then((id) => {
@@ -228,6 +231,7 @@ const MandateFormTemplate = (props) => {
       unipeEmployeeId: unipeEmployeeId,
     })
       .then((res) => {
+        setType("");
         console.log(`Mandate|CreateOrder|${authType} res.data:`, res.data);
         setOrderId(res.data.id);
         backendPush({
@@ -245,7 +249,11 @@ const MandateFormTemplate = (props) => {
         });
       })
       .catch((error) => {
-        console.log(`Mandate|CreateOrder|${authType} JSON.stringify(error):`, JSON.stringify(error));
+        setType("");
+        console.log(
+          `Mandate|CreateOrder|${authType} JSON.stringify(error):`,
+          JSON.stringify(error)
+        );
         console.log(`Mandate|CreateOrder|${authType} error:`, error.toString());
         Alert.alert("Error", error.toString());
         backendPush({
@@ -300,11 +308,13 @@ const MandateFormTemplate = (props) => {
             <Text style={{ ...FONTS.body4, color: COLORS.black }}>
               Your Mandate Registration is currently in progress.
             </Text>
-          ) : (
-            verifyStatus === "SUCCESS" ? (
-              null
-            ) :
-            <MandateOptions ProceedButton={ProceedButton} disabled={loading} />
+          ) : verifyStatus === "SUCCESS" ? null : (
+            <MandateOptions
+              ProceedButton={ProceedButton}
+              disabled={loading}
+              type={type}
+              setType={setType}
+            />
           )}
           <View
             style={{
