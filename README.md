@@ -55,13 +55,12 @@ build:prod
 ```
 
 ## Code Push
+### will have to interrupt RN cache clear with Ctrl+C
 
 ```
-    appcenter codepush release-react -a Unipe/EmployeeApp -d Test
-    - pushes to test
-    appcenter codepush release-react -a Unipe/EmployeeApp -d Dev
-    - pushes to dev
-    appcenter codepush release-react -a Unipe/EmployeeApp -d Prod
+    npm run codepush:test
+    - pushes to test/QA
+    npm run codepush:prod
     - pushes to prod
 ```
 

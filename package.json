@@ -13,7 +13,9 @@
 		"release:demo": "bash ./android/releaseDemo.sh",
 		"release:qa": "bash ./android/releaseQa.sh",
 		"release:prod": "bash ./android/releaseProd.sh",
-		"postinstall": "patch-package"
+		"postinstall": "patch-package",
+		"codepush:test": "cd android && gradlew clean && cd .. && npx react-native start --reset-cache && bash ./android/codepush.sh -e test",
+		"codepush:prod": "cd android && gradlew clean && cd .. && npx react-native start --reset-cache && bash ./android/codepush.sh -e prod"
 	},
 	"dependencies": {
 		"@expo/vector-icons": "^13.0.0",
