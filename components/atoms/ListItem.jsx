@@ -3,27 +3,41 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { COLORS, FONTS } from "../../constants/Theme";
 
-const ListItem = ({ item, disabled, showIcon }) => {
+const ListItem = ({ item, disabled, showIcon, selected }) => {
   const { title, subtitle, iconName, onPress } = item;
 
   return (
     <TouchableOpacity
       accessibilityLabel="InfoCard"
-      style={styles.container}
+      style={[
+        styles.container,
+        { backgroundColor: selected ? COLORS.primary : COLORS.white },
+      ]}
       activeOpacity={0.8}
       onPress={onPress}
       disabled={disabled}
     >
-      <MaterialCommunityIcons name={iconName} size={24} color={COLORS.gray} />
+      <MaterialCommunityIcons
+        name={iconName}
+        size={24}
+        color={selected ? COLORS.white : COLORS.gray}
+      />
       <View style={styles.textContainer}>
-        <Text style={styles.title}>{title}</Text>
+        <Text
+          style={[
+            styles.title,
+            { color: selected ? COLORS.white : COLORS.black },
+          ]}
+        >
+          {title}
+        </Text>
         {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
       </View>
       {showIcon && (
         <MaterialCommunityIcons
           name="chevron-right"
           size={24}
-          color={COLORS.gray}
+          color={selected ? COLORS.white : COLORS.gray}
         />
       )}
     </TouchableOpacity>

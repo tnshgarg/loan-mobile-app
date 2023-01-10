@@ -6,8 +6,9 @@ import { COLORS } from "../../constants/Theme";
 import ListItem from "../atoms/ListItem";
 import bankCodeEmandateOptionsMap from "../../assets/bankCodeEmandateOptionsMap";
 
-const MandateOptions = ({ ProceedButton, disabled }) => {
+const MandateOptions = ({ ProceedButton, disabled, selected }) => {
   const ifsc = useSelector((state) => state.bank?.data?.ifsc);
+  const [type, setType] = useState("");
 
   const [mandateButtons, setMandateButtons] = useState([]);
 
@@ -19,21 +20,30 @@ const MandateOptions = ({ ProceedButton, disabled }) => {
       mandateOptions.push({
         title: "Net Banking",
         iconName: "bank-outline",
-        onPress: () => ProceedButton({ authType: "netbanking" }),
+        onPress: () => {
+          setType("Net Banking");
+          ProceedButton({ authType: "netbanking" });
+        },
       });
     }
     if (emandateOptions[1] === "1") {
       mandateOptions.push({
         title: "Debit Card",
         iconName: "credit-card-outline",
-        onPress: () => ProceedButton({ authType: "debitcard" }),
+        onPress: () => {
+          setType("Debit Card");
+          ProceedButton({ authType: "debitcard" });
+        },
       });
     }
     if (emandateOptions[2] === "1") {
       mandateOptions.push({
         title: "Aadhaar",
         iconName: "credit-card-outline",
-        onPress: () => ProceedButton({ authType: "aadhaar" }),
+        onPress: () => {
+          setType("Aadhaar");
+          ProceedButton({ authType: "aadhaar" });
+        },
       });
     }
     console.log("mandateOptions: ", mandateOptions);
@@ -59,6 +69,7 @@ const MandateOptions = ({ ProceedButton, disabled }) => {
             item={item}
             disabled={disabled}
             showIcon={true}
+            selected={type == item.title}
           />
         );
       })}
