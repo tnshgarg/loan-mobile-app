@@ -145,19 +145,19 @@ const AadhaarOtpApi = (props) => {
             Alert.alert("Error", responseJson?.message);
             Analytics.trackEvent("Aadhaar|Otp|Error", {
               unipeEmployeeId: unipeEmployeeId,
-              verifyMsg: `Unsupported Data/Status Code : ${responseJson?.message}`,
+              error: `Unsupported Data/Status Code : ${responseJson?.message}`,
             });
           }
         } catch (error) {
           backendPush({
-            verifyMsg: `Try Catch Error: ${error.toString()}`,
+            verifyMsg: `Try Catch Error: ${error.toString()}, ${res.toString()}`,
             verifyStatus: "ERROR",
             verifyTimestamp: verifyTimestamp,
           });
           Alert.alert("Error", error.toString());
           Analytics.trackEvent("Aadhaar|Otp|Error", {
             unipeEmployeeId: unipeEmployeeId,
-            error: `Try Catch Error: ${error.toString()}`,
+            error: `Try Catch Error: ${error.toString()}, ${res.toString()}`,
           });
         }
       })
