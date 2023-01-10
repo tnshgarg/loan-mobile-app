@@ -226,7 +226,7 @@ const Agreement = () => {
           <DisbursementCard
             data={data}
             title="Loan Details"
-            info="*Money will be auto debited from your upcoming salary"
+            info="*Money will be either auto debited or deducted by your employer from your upcoming salary."
             iconName="ticket-percent-outline"
           />
 
