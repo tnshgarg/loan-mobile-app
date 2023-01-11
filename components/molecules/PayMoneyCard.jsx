@@ -262,7 +262,7 @@ const PayMoneyCard = () => {
           <Text style={[styles.text, { marginLeft: 5 }]}>
             {
               overdueDays < 0
-              ? `Your repayment is overdue by ${overdueDays} days`
+              ? `Your repayment is overdue by ${-overdueDays} days`
               : dueDate !== null
               ? `Due by ${dueDate}`
               : `No dues`}
