@@ -32,7 +32,9 @@ const TopTabNav = (props) => {
             initialParams={tab.initialParams}
             options={{
               tabBarAccessibilityLabel: tab.name,
+              unmountOnBlur: true,
             }}
+            listeners={({navigation}) => ({blur: () => navigation.setParams({screen: undefined})})}
           />
         );
       })}

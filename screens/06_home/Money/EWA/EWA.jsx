@@ -6,7 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 import {
   BackHandler,
   SafeAreaView,
-  View
+  View,
+  Text
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { allAreNull } from "../../../../helpers/nullCheck";
@@ -39,6 +40,7 @@ const EWA = () => {
   );
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
+  const mandateVerifyStatus = useSelector((state) => state.mandate.verifyStatus);
 
   // const panMisMatch = useSelector((state) => state.pan.misMatch);
   // const bankMisMatch = useSelector((state) => state.bank.misMatch);
@@ -154,6 +156,19 @@ const EWA = () => {
             accessible={accessible}
             ewaLiveSlice={ewaLiveSlice}
           />
+
+          { 
+            mandateVerifyStatus === "INPROGRESS" 
+            ? 
+            <Text>
+              Your Mandate Registration is currently in Progress.
+            </Text>
+            :
+            mandateVerifyStatus === "ERROR" 
+            ? <Text>Your Mandate Registration failed, please try again.</Text>
+            :
+            null
+          }
 
           <PastDrawsCard data={ewaHistoricalSlice} />
         </View>
