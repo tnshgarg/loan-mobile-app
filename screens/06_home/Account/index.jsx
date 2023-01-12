@@ -1,4 +1,5 @@
 import {
+  BackHandler,
   View,
   Text,
   SafeAreaView,
@@ -6,11 +7,11 @@ import {
   Linking,
   ScrollView,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { accountStyles, styles } from "../../../styles";
 import LogoHeader from "../../../components/atoms/LogoHeader";
 import { MaterialCommunityIcons, Ionicons } from "react-native-vector-icons";
-import { COLORS, FONTS } from "../../../constants/Theme";
+import { COLORS } from "../../../constants/Theme";
 import { useDispatch, useSelector } from "react-redux";
 import termsOfUse from "../../../templates/docs/TermsOfUse";
 import privacyPolicy from "../../../templates/docs/PrivacyPolicy";
@@ -23,14 +24,29 @@ import ListItem from "../../../components/atoms/ListItem";
 const Account = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
   const [isPrivacyModalVisible, setIsPrivacyModalVisible] = useState(false);
   const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
     useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+
   const image = useSelector((state) => state.aadhaar.data.photo_base64);
   const name = useSelector(
     (state) => state.aadhaar.data?.name || state.pan.data?.name || "User"
   );
+
+  const backAction = () => {
+    navigation.navigate("HomeStack", {
+      screen: "Money",
+    });
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
 
   const onLogout = () => {
     showToast("Logging out");
@@ -41,6 +57,7 @@ const Account = (props) => {
       navigation.replace("OnboardingStack", { screen: "Login" });
     }, 5000);
   };
+
   const options = [
     {
       title: "Profile",
@@ -94,6 +111,7 @@ const Account = (props) => {
     if (route) props.navigation.navigate(route.stack, { screen: route.screen });
     else action();
   };
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeader
