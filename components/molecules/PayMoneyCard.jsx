@@ -249,17 +249,14 @@ const PayMoneyCard = () => {
             styles.bottomCard,
             {
               backgroundColor:
-                getNumberOfDays({
-                  date: dueDate?.replace(/-/g, "/"),
-                  formatted: true,
-                }) < 0
-                  ? COLORS.warning
+              overdueDays < 0
+                  ? COLORS.warningBackground
                   : COLORS.moneyCardBg,
             },
           ]}
         >
-          <Icon name="info-outline" size={18} color={COLORS.white} />
-          <Text style={[styles.text, { marginLeft: 5 }]}>
+          <Icon name="info-outline" size={18} color={overdueDays < 0 ? COLORS.black : COLORS.white} />
+          <Text style={[styles.text, { marginLeft: 5, color: overdueDays < 0 ? COLORS.black : COLORS.white }]}>
             {
               overdueDays < 0
               ? `Your repayment is overdue by ${-overdueDays} days`
@@ -279,7 +276,6 @@ const styles = EStyleSheet.create({
   container: {
     width: "100%",
     flexDirection: "column",
-    borderRadius: 5,
   },
   row: {
     padding: "15rem",
@@ -289,6 +285,7 @@ const styles = EStyleSheet.create({
     backgroundColor: COLORS.moneyCardBg,
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
+    borderBottomWidth: "1rem",
   },
   bottomCard: {
     paddingHorizontal: "15rem",

@@ -121,14 +121,14 @@ const styles = EStyleSheet.create({
   container: {
     width: "100%",
     flexDirection: "column",
-    borderRadius: 5,
+    borderRadius: 4,
     backgroundColor: COLORS.white,
-    elevation: 3,
+    elevation: 7,
     marginVertical: "10rem",
-    borderWidth: 0.5,
+    // borderWidth: 0.5,
     borderColor: COLORS.lightgray_01,
   },
-  row: { flexDirection: "row", alignItems: "center", padding: "10rem" },
+  row: { flexDirection: "row", alignItems: "center", padding: "8rem" },
   col: { flexDirection: "column", alignItems: "center" },
   listItem: { marginVertical: "5rem" },
   label: {
