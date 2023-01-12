@@ -1,8 +1,9 @@
 import TopTabNav from "../../../navigators/TopTabNav";
 import { styles } from "../../../styles";
 import DocumentsView from "./DocumentsView";
-import { SafeAreaView } from "react-native";
+import { BackHandler, SafeAreaView } from "react-native";
 import Header from "../../../components/atoms/Header";
+import { useEffect } from "react";
 
 export default Documents = ({ navigation }) => {
   const tabs = [
@@ -12,11 +13,16 @@ export default Documents = ({ navigation }) => {
     // { name: "ID Card", component: DocumentsView },
   ];
   const backAction = () => {
-    navigation.navigate("HomeStack", {
-      screen: "Account",
+    navigation.navigate("AccountStack", {
+      screen: "AccountMenu",
     });
     return true;
   };
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
   return (
     <SafeAreaView style={styles.safeContainer}>
       <Header title="Documents" onLeftIconPress={() => backAction()} />

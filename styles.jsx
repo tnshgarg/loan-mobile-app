@@ -229,6 +229,18 @@ export const dev = EStyleSheet.create({
   },
 });
 
+export const onboardingStyles = EStyleSheet.create({
+  curvedBox: {
+    height: "32rem",
+    width: "32rem",
+    backgroundColor: COLORS.primary,
+    borderTopRightRadius: "10rem",
+    borderBottomRightRadius: "10rem",
+    marginRight: "10rem",
+    marginLeft: "-20rem",
+  },
+});
+
 export const moneyStyles = EStyleSheet.create({
   percentageTitle: {
     ...FONTS.body5,

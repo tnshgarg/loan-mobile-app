@@ -42,13 +42,12 @@ const PanFormTemplate = (props) => {
           <View>
             <Text style={styles.headline}>Enter your PAN number</Text>
             <Text style={styles.subHeadline}>
-            कृपया अपना पैन नम्बर यहाँ भरें।
+              कृपया अपना पैन नम्बर यहाँ भरें।
             </Text>
 
             <FormInput
               accessibilityLabel={"PanInput"}
               placeholder={"PAN Number"}
-              containerStyle={{ marginVertical: 10 }}
               keyboardType="default"
               autoCapitalize="characters"
               autoFocus={true}

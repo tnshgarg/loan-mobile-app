@@ -145,7 +145,6 @@ const Disbursement = ({ route, navigation }) => {
       <View style={styles.container}>
         {StatusImage(status)}
         {StatusText(status)}
-        
         <DisbursementCard
           data={data}
           title="Loan Details"

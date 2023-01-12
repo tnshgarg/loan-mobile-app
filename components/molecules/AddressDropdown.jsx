@@ -78,13 +78,11 @@ export default AddressDropdown = (props) => {
     <>
       <FormInput
         placeholder={title + " Street"}
-        containerStyle={{ marginVertical: 10 }}
         value={street}
         onChange={setStreet}
       />
       <DropDownForm
         placeholder={title + " State"}
-        containerStyle={{ marginVertical: 10 }}
         value={geoState}
         setValue={setGeoState}
         data={states}
@@ -92,7 +90,6 @@ export default AddressDropdown = (props) => {
 
       <DropDownForm
         placeholder={title + " District"}
-        containerStyle={{ marginVertical: 10 }}
         value={district}
         setValue={setDistrict}
         data={districts}
@@ -100,7 +97,6 @@ export default AddressDropdown = (props) => {
 
       <FormInput
         placeholder={title + " Pincode"}
-        containerStyle={{ marginVertical: 10 }}
         value={pincode}
         onChange={setPincode}
       />

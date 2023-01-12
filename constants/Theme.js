@@ -1,4 +1,4 @@
-import { Dimensions, PixelRatio, Platform, StyleSheet } from "react-native";
+import { Dimensions, PixelRatio, Platform } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 
 const { width, height } = Dimensions.get("window");
@@ -69,7 +69,7 @@ export const SIZES = {
   radius: 5,
   padding: 15,
   opacity: 0.7,
-  btnHeight: 50,
+  btnHeight: normalize(50),
 
   // font sizes
   h1: normalize(30),

@@ -30,7 +30,7 @@ const FormInput = ({
   accessibilityLabel,
 }) => {
   return (
-    <View style={{ ...containerStyle }}>
+    <View style={[styles.container, { ...containerStyle }]}>
       {label && (
         <View style={styles.inputHeader}>
           <Text style={{ color: COLORS.gray, ...FONTS.h4, ...labelStyle }}>
@@ -50,7 +50,6 @@ const FormInput = ({
             flex: 1,
             ...FONTS.body4,
             color: COLORS.black,
-
             ...inputStyle,
             //backgroundColor: COLORS.secondary,
           }}
@@ -79,6 +78,7 @@ const FormInput = ({
 };
 
 const styles = EStyleSheet.create({
+  container: { marginVertical: "10rem" },
   inputHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
