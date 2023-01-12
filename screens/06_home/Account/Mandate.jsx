@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { SafeAreaView, View } from "react-native";
+import { useIsFocused } from "@react-navigation/core";
 import { useDispatch, useSelector } from "react-redux";
 import { styles } from "../../../styles";
-import TopTabNav from "../../../navigators/TopTabNav";
 import DetailsCard from "../../../components/molecules/DetailsCard";
+import Header from "../../../components/atoms/Header";
 import {
   addVerifyStatus,
   resetMandate,
@@ -11,8 +12,9 @@ import {
 import MandateFormTemplate from "../../../templates/mandate/Form";
 import { getBackendData } from "../../../services/employees/employeeServices";
 
-const Mandate = () => {
+const Mandate = ({ navigation }) => {
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
 
   const token = useSelector((state) => state.auth?.token);
   const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
@@ -21,28 +23,25 @@ const Mandate = () => {
   const [verifyStatus, setVerifyStatus] = useState(mandateSlice?.verifyStatus);
 
   useEffect(() => {
-    dispatch(addVerifyStatus(verifyStatus));
-  }, [verifyStatus]);
-
-  useEffect(() => {
-    if (unipeEmployeeId) {
+    if (isFocused && unipeEmployeeId) {
       getBackendData({
         params: { unipeEmployeeId: unipeEmployeeId },
         xpath: "mandate",
         token: token,
       })
-      .then((response) => {
-        console.log("Form mandateFetch response.data", response.data);
-        if (response.data.status === 200) {
-          dispatch(resetMandate(response?.data?.body));
-          setVerifyStatus(response?.data?.body?.verifyStatus);
-        }
-      })
-      .catch((error) => {
-        console.log("mandateFetch error: ", error);
-      });
+        .then((response) => {
+          console.log("Form mandateFetch response.data", response.data);
+          if (response.data.status === 200) {
+            dispatch(resetMandate(response?.data?.body));
+            dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
+            setVerifyStatus(response?.data?.body?.verifyStatus);
+          }
+        })
+        .catch((error) => {
+          console.log("mandateFetch error: ", error);
+        });
     }
-  }, [unipeEmployeeId]);
+  }, [isFocused]);
 
   const cardData = () => {
     var res = [
@@ -59,26 +58,23 @@ const Mandate = () => {
     return res;
   };
 
-  const tabs = [
-    {
-      name: "Mandate",
-      component: MandateFormTemplate,
-      initialParams: { type: "KYC" },
-      disable: true,
-    },
-  ];
+  const backAction = () => {
+    navigation.replace("HomeStack", {
+      screen: "Account",
+    });
+    return true;
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      {
-        authType && verifyStatus === "SUCCESS" ? (
-          <View style={styles.container}>
-            <DetailsCard data={cardData()} />
-          </View>
-        ) : (
-          <TopTabNav tabs={tabs} hide={true} />
-        )
-      }
+      <Header title="Mandate" onLeftIconPress={() => backAction()} />
+      {authType && verifyStatus === "SUCCESS" ? (
+        <View style={styles.container}>
+          <DetailsCard data={cardData()} />
+        </View>
+      ) : (
+        <MandateFormTemplate type="KYC" />
+      )}
     </SafeAreaView>
   );
 };

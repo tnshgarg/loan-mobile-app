@@ -99,8 +99,6 @@ const PayMoneyCard = () => {
     }
   }, [getRepaymentIsLoading, getRepaymentIsSuccess, getRepaymentData, isFocused]);
 
-  console.log("repaymentSlice, repaymentAmount: ", repaymentSlice, repaymentAmount, dueDate, repaymentId, repaymentOrderId, repaymentStatus);
-
   const {mutateAsync: updateRepaymentMutateAsync} = updateRepayment();
 
   const { mutateAsync: createRazorpayOrderMutateAsync } = createRazorpayOrder({
