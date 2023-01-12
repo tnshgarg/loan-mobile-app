@@ -8,7 +8,7 @@ const AccountStack = () => {
   const Stack = createNativeStackNavigator();
 
   return (
-    <Stack.Navigator initialRouteName={"Account"}>
+    <Stack.Navigator initialRouteName={"AccountMenu"}>
       <Stack.Screen
         name="AccountMenu"
         component={Account}
