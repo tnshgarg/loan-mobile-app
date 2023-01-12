@@ -63,7 +63,7 @@ const OfferCard = ({ offer }) => {
 
   return (
     <TouchableNativeFeedback
-      onLongPress={() => {
+      onPress={() => {
         if (offerType !== "Missed") {
           navigation.navigate("EWAStack", {
             screen: "EWA_DISBURSEMENT",
@@ -104,12 +104,13 @@ const PastDrawsCard = (props) => {
 const styles = EStyleSheet.create({
   container: {
     alignSelf: "center",
-    paddingVertical: "10rem",
+    paddingVertical: "7rem",
     paddingHorizontal: "5rem",
     width: "100%",
     flexDirection: "row",
     backgroundColor: COLORS.white,
-    borderBottomWidth: 1,
+    borderBottomWidth:  "0.75rem",
+    borderTopWidth:  "0.75rem",
     borderColor: COLORS.lightGray,
     justifyContent: "space-between",
   },
@@ -128,7 +129,7 @@ const styles = EStyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-  title: { ...FONTS.h4, color: COLORS.gray, marginBottom: "3%" },
+  title: { ...FONTS.body3, color: COLORS.gray, marginBottom: "3%" },
 });
 
 export default PastDrawsCard;

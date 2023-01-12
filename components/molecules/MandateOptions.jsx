@@ -79,7 +79,7 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
 
 const styles = EStyleSheet.create({
   container: {
-    borderWidth: 0.5,
+    borderWidth: 2,
     // borderRadius: 5,
     borderColor: COLORS.lightgray_01,
     elevation: 2,
