@@ -3,12 +3,7 @@ import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Ionicons } from "react-native-vector-icons";
 import { useQuery } from "@tanstack/react-query";
-import {
-  BackHandler,
-  SafeAreaView,
-  View,
-  Text
-} from "react-native";
+import { BackHandler, SafeAreaView, View, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { allAreNull } from "../../../../helpers/nullCheck";
 import { styles } from "../../../../styles";
@@ -25,6 +20,7 @@ import { COLORS } from "../../../../constants/Theme";
 import LogoHeader from "../../../../components/atoms/LogoHeader";
 import { getNumberOfDays } from "../../../../helpers/DateFunctions";
 import { getEwaOffers } from "../../../../queries/ewa/offers";
+import VerifyMandateCard from "../../../../components/molecules/VerifyMandateCard";
 
 const EWA = () => {
   const dispatch = useDispatch();
@@ -40,7 +36,9 @@ const EWA = () => {
   );
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
-  const mandateVerifyStatus = useSelector((state) => state.mandate.verifyStatus);
+  const mandateVerifyStatus = useSelector(
+    (state) => state.mandate.verifyStatus
+  );
 
   // const panMisMatch = useSelector((state) => state.pan.misMatch);
   // const bankMisMatch = useSelector((state) => state.bank.misMatch);
@@ -97,7 +95,7 @@ const EWA = () => {
     isError: getEwaOffersIsError,
     error: getEwaOffersError,
     data: getEwaOffersData,
-  } = useQuery(['getEwaOffers', unipeEmployeeId, token], getEwaOffers, {
+  } = useQuery(["getEwaOffers", unipeEmployeeId, token], getEwaOffers, {
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 11,
     refetchInterval: 1000 * 60 * 5,
@@ -122,12 +120,18 @@ const EWA = () => {
         dispatch(resetEwaHistorical(getEwaOffersData.data.body.past));
         setFetched(true);
       } else {
-        console.log("Money ewaOffersFetch API error getEwaOffersData.data : ", getEwaOffersData.data);
+        console.log(
+          "Money ewaOffersFetch API error getEwaOffersData.data : ",
+          getEwaOffersData.data
+        );
         dispatch(resetEwaLive());
         dispatch(resetEwaHistorical());
       }
     } else if (getEwaOffersIsError) {
-      console.log("Money ewaOffersFetch API error getEwaOffersError.message : ", getEwaOffersError.message);
+      console.log(
+        "Money ewaOffersFetch API error getEwaOffersError.message : ",
+        getEwaOffersError.message
+      );
       dispatch(resetEwaLive());
       dispatch(resetEwaHistorical());
     }
@@ -157,18 +161,7 @@ const EWA = () => {
             ewaLiveSlice={ewaLiveSlice}
           />
 
-          { 
-            mandateVerifyStatus === "INPROGRESS" 
-            ? 
-            <Text>
-              Your Mandate Registration is currently in Progress.
-            </Text>
-            :
-            mandateVerifyStatus === "ERROR" 
-            ? <Text>Your Mandate Registration failed, please try again.</Text>
-            :
-            null
-          }
+          <VerifyMandateCard mandateVerifyStatus={mandateVerifyStatus} />
 
           <PastDrawsCard data={ewaHistoricalSlice} />
         </View>
