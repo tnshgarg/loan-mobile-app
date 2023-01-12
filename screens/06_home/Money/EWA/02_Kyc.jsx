@@ -11,7 +11,7 @@ import { styles } from "../../../../styles";
 import DetailsCard from "../../../../components/molecules/DetailsCard";
 import { updateKyc } from "../../../../queries/ewa/kyc";
 import { getBackendData } from "../../../../services/employees/employeeServices";
-import { resetMandate } from "../../../../store/slices/mandateSlice";
+import { addVerifyStatus, resetMandate } from "../../../../store/slices/mandateSlice";
 
 const KYC = () => {
   const dispatch = useDispatch();
@@ -53,6 +53,7 @@ const KYC = () => {
         console.log("Form mandateFetch response.data", response.data);
         if (response.data.status === 200) {
           dispatch(resetMandate(response?.data?.body));
+          dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
           setMandateVerifyStatus(response?.data?.body?.verifyStatus);
         }
         setFetched(true);
@@ -61,7 +62,7 @@ const KYC = () => {
         console.log("mandateFetch error: ", error);
       });
     }
-  }, [unipeEmployeeId, deviceId, ipAddress]);
+  }, [deviceId, ipAddress]);
 
   const { mutateAsync: updateKycMutateAsync } = updateKyc();
 

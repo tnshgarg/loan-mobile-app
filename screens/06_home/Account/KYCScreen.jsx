@@ -4,7 +4,6 @@ import TopTabNav from "../../../navigators/TopTabNav";
 import Aadhaar from "./Aadhaar";
 import Bank from "./Bank";
 import Pan from "./PAN";
-import Mandate from "./Mandate";
 import Header from "../../../components/atoms/Header";
 import { BackHandler, SafeAreaView } from "react-native";
 import { styles } from "../../../styles";
@@ -15,13 +14,12 @@ const KYCScreen = ({ navigation }) => {
     { name: "AADHAAR", component: Aadhaar },
     { name: "PAN", component: Pan },
     { name: "BANK", component: Bank },
-    { name: "MANDATE", component: Mandate },
+    // { name: "MANDATE", component: Mandate },
   ];
 
   const backAction = () => {
-    navigation.navigate("AccountStack", {
-      screen: "AccountMenu",
-    });
+    navigation.navigate("HomeStack", 
+      { screen: "Account" });
     return true;
   };
 
