@@ -11,7 +11,7 @@ const VerifyMandateCard = ({ mandateVerifyStatus }) => {
     </View>
   ) : mandateVerifyStatus === "ERROR" ? (
     <View style={styles.errorContainer}>
-      <Text style={styles.errorTitle}>
+      <Text style={styles.title}>
         Your Mandate Registration failed, please try again.
       </Text>
     </View>
@@ -23,7 +23,7 @@ const styles = EStyleSheet.create({
     width: "100%",
     flexDirection: "column",
     borderRadius: 5,
-    backgroundColor: COLORS.primaryBackground,
+    backgroundColor: COLORS.white,
     borderWidth: 1.5,
     borderColor: COLORS.lightgray_01,
     alignItems: "center",
@@ -45,12 +45,7 @@ const styles = EStyleSheet.create({
   },
   title: {
     ...FONTS.body4,
-    color: COLORS.primary,
-    textAlign: "center",
-  },
-  errorTitle: {
-    ...FONTS.body4,
-    color: COLORS.warning,
+    color: COLORS.gray,
     textAlign: "center",
   },
 });
