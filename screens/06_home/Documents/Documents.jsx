@@ -13,8 +13,8 @@ export default Documents = ({ navigation }) => {
     // { name: "ID Card", component: DocumentsView },
   ];
   const backAction = () => {
-    navigation.navigate("AccountStack", {
-      screen: "AccountMenu",
+    navigation.navigate("HomeStack", {
+      screen: "Account",
     });
     return true;
   };

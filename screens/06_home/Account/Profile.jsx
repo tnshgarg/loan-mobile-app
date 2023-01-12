@@ -39,8 +39,8 @@ const Profile = ({ navigation }) => {
   };
 
   const backAction = () => {
-    navigation.navigate("AccountStack", {
-      screen: "AccountMenu",
+    navigation.navigate("HomeStack", {
+      screen: "Account",
     });
     return true;
   };

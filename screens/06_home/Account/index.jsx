@@ -21,7 +21,7 @@ import { useNavigation } from "@react-navigation/native";
 import LogoutModal from "../../../components/organisms/LogoutModal";
 import ListItem from "../../../components/atoms/ListItem";
 
-const Account = (props) => {
+const AccountMenu = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -77,13 +77,12 @@ const Account = (props) => {
     //   iconName: "order-bool-ascending-variant",
     //   route: { stack: "AccountStack", screen: "Mandate" },
     // },
-    {
-      title: "Documents",
-      subtitle: "All your documents at one place",
-      iconName: "file-document-outline",
-      route: { stack: "AccountStack", screen: "Documents" },
-    },
-
+    // {
+    //   title: "Documents",
+    //   subtitle: "All your documents at one place",
+    //   iconName: "file-document-outline",
+    //   route: { stack: "AccountStack", screen: "Documents" },
+    // },
     {
       title: "Customer Support",
       subtitle: "Talk to out support team",
@@ -179,4 +178,4 @@ const Account = (props) => {
   );
 };
 
-export default Account;
+export default AccountMenu;
