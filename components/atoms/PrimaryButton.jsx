@@ -54,8 +54,8 @@ const styles = EStyleSheet.create({
   },
   loadingButton: {
     backgroundColor: COLORS.primary,
-    padding: 10,
-    borderRadius: 5,
+    padding: "10rem",
+    borderRadius: "5rem",
   },
   btnText: {
     color: COLORS.white,

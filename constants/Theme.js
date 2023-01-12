@@ -1,4 +1,4 @@
-import { Dimensions, PixelRatio, Platform, StyleSheet } from "react-native";
+import { Dimensions, PixelRatio, Platform } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 
 const { width, height } = Dimensions.get("window");

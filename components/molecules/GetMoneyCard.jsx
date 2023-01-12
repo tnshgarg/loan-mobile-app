@@ -52,7 +52,6 @@ const styles = EStyleSheet.create({
     borderRadius: 5,
     borderWidth: 1.5,
     borderColor: COLORS.lightgray_01,
-    borderRadius: 5,
   },
   text: { ...FONTS.body3, color: COLORS.secondary, marginVertical: 5 },
 });
