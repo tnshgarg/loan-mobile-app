@@ -23,7 +23,7 @@ const styles = EStyleSheet.create({
     width: "100%",
     flexDirection: "column",
     borderRadius: 5,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.primaryBackground,
     borderWidth: 1.5,
     borderColor: COLORS.lightgray_01,
     alignItems: "center",
@@ -45,7 +45,7 @@ const styles = EStyleSheet.create({
   },
   title: {
     ...FONTS.body4,
-    color: COLORS.gray,
+    color: COLORS.primary,
     textAlign: "center",
   },
   errorTitle: {
