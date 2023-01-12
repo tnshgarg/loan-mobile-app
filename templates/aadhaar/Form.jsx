@@ -41,7 +41,6 @@ const AadhaarFormTemplate = (props) => {
           <FormInput
             accessibilityLabel={"AadhaarInput"}
             placeholder={"Aadhaar Number"}
-            containerStyle={{ marginVertical: 10 }}
             keyboardType="numeric"
             autoFocus={true}
             value={number}

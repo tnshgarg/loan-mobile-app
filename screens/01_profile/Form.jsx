@@ -128,7 +128,6 @@ const ProfileForm = () => {
           <DropDownForm
             accessibilityLabel="EducationDropdown"
             placeholder={"Select Education*"}
-            containerStyle={{ marginVertical: 10 }}
             value={qualification}
             setValue={setQualification}
             data={qualifications}
@@ -136,7 +135,6 @@ const ProfileForm = () => {
           <DropDownForm
             accessibilityLabel="MaritalStatusDropdown"
             placeholder={"Select Maritial Status*"}
-            containerStyle={{ marginVertical: 10 }}
             value={maritalStatus}
             setValue={setMaritalStatus}
             data={maritalStatuses}
@@ -144,14 +142,12 @@ const ProfileForm = () => {
           <FormInput
             accessibilityLabel="MotherNameInput"
             placeholder={"Mother's Name*"}
-            containerStyle={{ marginVertical: 10 }}
             value={motherName}
             onChange={setMotherName}
           />
           <FormInput
             accessibilityLabel="AltPhoneNumberInput"
             placeholder={"Your alternate mobile no."}
-            containerStyle={{ marginVertical: 10 }}
             autoCompleteType="tel"
             keyboardType="phone-pad"
             value={altMobile}
@@ -160,7 +156,6 @@ const ProfileForm = () => {
           <FormInput
             accessibilityLabel="EmailAddressInput"
             placeholder={"Your email ID"}
-            containerStyle={{ marginVertical: 10 }}
             autoCompleteType="email"
             keyboardType="email-address"
             value={email}

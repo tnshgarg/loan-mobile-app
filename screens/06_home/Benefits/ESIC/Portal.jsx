@@ -31,7 +31,6 @@ export default Portal = () => {
         <View>
           <FormInput
             placeholder={"IP Number"}
-            containerStyle={{ marginVertical: 10 }}
             value={ipNumber}
             onChange={setIpNumber}
           />
