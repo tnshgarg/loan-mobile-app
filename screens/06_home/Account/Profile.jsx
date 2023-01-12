@@ -40,10 +40,11 @@ const Profile = ({ navigation }) => {
 
   const backAction = () => {
     navigation.navigate("AccountStack", {
-      screen: "Account",
+      screen: "AccountMenu",
     });
     return true;
   };
+  
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
     return () =>

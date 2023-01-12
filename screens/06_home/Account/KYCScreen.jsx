@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import TopTabNav from "../../../navigators/TopTabNav";
 
 import Aadhaar from "./Aadhaar";
@@ -10,23 +10,27 @@ import { BackHandler, SafeAreaView } from "react-native";
 import { styles } from "../../../styles";
 
 const KYCScreen = ({ navigation }) => {
+
   const tabs = [
     { name: "AADHAAR", component: Aadhaar },
     { name: "PAN", component: Pan },
     { name: "BANK", component: Bank },
     { name: "MANDATE", component: Mandate },
   ];
+
   const backAction = () => {
-    navigation.navigate("HomeStack", {
-      screen: "Account",
+    navigation.navigate("AccountStack", {
+      screen: "AccountMenu",
     });
     return true;
   };
+
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       <Header title="KYC" onLeftIconPress={() => backAction()} />

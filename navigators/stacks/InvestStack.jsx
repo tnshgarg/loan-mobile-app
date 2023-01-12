@@ -7,9 +7,9 @@ const InvestStack = () => {
   const Stack = createNativeStackNavigator();
 
   return (
-    <Stack.Navigator initialRouteName={"Invest"}>
+    <Stack.Navigator initialRouteName={"InvestNow"}>
       <Stack.Screen
-        name="Invest"
+        name="InvestNow"
         component={Invest}
         options={{
           headerShown: false,

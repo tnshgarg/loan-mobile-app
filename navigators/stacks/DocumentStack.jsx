@@ -1,4 +1,3 @@
-import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { STAGE } from "@env";
 import { useSelector } from "react-redux";

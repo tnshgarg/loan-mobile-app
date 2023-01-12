@@ -10,7 +10,7 @@ const AccountStack = () => {
   return (
     <Stack.Navigator initialRouteName={"Account"}>
       <Stack.Screen
-        name="Account"
+        name="AccountMenu"
         component={Account}
         options={{
           headerShown: false,
