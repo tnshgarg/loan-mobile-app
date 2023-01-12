@@ -30,6 +30,7 @@ import RBI from "../../assets/RBI.svg";
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
 
@@ -169,11 +170,12 @@ const MandateFormTemplate = (props) => {
         },
         theme: { color: COLORS.primary },
         notes: { unipeEmployeeId: unipeEmployeeId },
+        // callback_url: "https://eooylq2n69q46f9.m.pipedream.net",
       };
 
       RazorpayCheckout.open(options)
         .then((data) => {
-          showToast("Mandate Registration In Progress");
+          console.log("mandate checkout:", data, options);
           backendPush({
             data: {
               authType: authType,
@@ -183,7 +185,7 @@ const MandateFormTemplate = (props) => {
               paymentSignature: data.razorpay_signature,
               provider: "razorpay",
             },
-            verifyMsg: "Mandate Initiated from App",
+            verifyMsg: "Mandate Initiated from App Checkout Success",
             verifyStatus: "INPROGRESS",
             verifyTimestamp: Date.now(),
           });
@@ -191,10 +193,11 @@ const MandateFormTemplate = (props) => {
           Analytics.trackEvent("Mandate|Authorize|InProgress", {
             unipeEmployeeId: unipeEmployeeId,
           });
+          navigation.navigate("HomeStack");
+          showToast("Mandate Registration In Progress");
         })
         .catch((error) => {
           console.log("mandate error:", error, options);
-          Alert.alert("Error", error?.error?.description || error?.description);
           backendPush({
             data: {
               authType: authType,
@@ -202,15 +205,18 @@ const MandateFormTemplate = (props) => {
               orderId: orderId,
               provider: "razorpay",
             },
-            verifyMsg: error?.error?.description || error?.description,
-            verifyStatus: "ERROR",
+            verifyMsg: `Mandate Initiated from App Checkout Error : ${error?.error?.description || error?.description}`,
+            verifyStatus: "INPROGRESS",
             verifyTimestamp: Date.now(),
           });
           setLoading(false);
+          Alert.alert("Error", error?.error?.description || error?.description);
           Analytics.trackEvent("Mandate|Authorize|Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: error?.error?.description || error?.description,
           });
+          navigation.navigate("HomeStack");
+          showToast("Mandate Registration In Progress");
         });
     }
   }, [orderId]);

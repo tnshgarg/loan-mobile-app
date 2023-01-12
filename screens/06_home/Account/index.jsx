@@ -10,7 +10,7 @@ import { useState } from "react";
 import { accountStyles, styles } from "../../../styles";
 import LogoHeader from "../../../components/atoms/LogoHeader";
 import { MaterialCommunityIcons, Ionicons } from "react-native-vector-icons";
-import { COLORS, FONTS } from "../../../constants/Theme";
+import { COLORS } from "../../../constants/Theme";
 import { useDispatch, useSelector } from "react-redux";
 import termsOfUse from "../../../templates/docs/TermsOfUse";
 import privacyPolicy from "../../../templates/docs/PrivacyPolicy";
@@ -54,6 +54,12 @@ const Account = (props) => {
       iconName: "order-bool-ascending-variant",
       route: { stack: "AccountStack", screen: "KYC" },
     },
+    // {
+    //   title: "Mandate",
+    //   subtitle: "Mandate is required for availing advance salary",
+    //   iconName: "order-bool-ascending-variant",
+    //   route: { stack: "AccountStack", screen: "Mandate" },
+    // },
     {
       title: "Documents",
       subtitle: "All your documents at one place",
@@ -91,7 +97,7 @@ const Account = (props) => {
 
   const onPressCard = ({ route, action }) => {
     console.log({ route });
-    if (route) props.navigation.navigate(route.stack, { screen: route.screen });
+    if (route) props.navigation.replace(route.stack, { screen: route.screen });
     else action();
   };
   return (

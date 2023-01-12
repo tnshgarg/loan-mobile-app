@@ -4,7 +4,6 @@ import TopTabNav from "../../../navigators/TopTabNav";
 import Aadhaar from "./Aadhaar";
 import Bank from "./Bank";
 import Pan from "./PAN";
-import Mandate from "./Mandate";
 import Header from "../../../components/atoms/Header";
 import { SafeAreaView } from "react-native";
 import { styles } from "../../../styles";
@@ -14,7 +13,7 @@ const KYCScreen = ({ navigation }) => {
     { name: "AADHAAR", component: Aadhaar },
     { name: "PAN", component: Pan },
     { name: "BANK", component: Bank },
-    { name: "MANDATE", component: Mandate },
+    // { name: "MANDATE", component: Mandate },
   ];
   const backAction = () => {
     navigation.navigate("HomeStack", {
@@ -22,6 +21,7 @@ const KYCScreen = ({ navigation }) => {
     });
     return true;
   };
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       <Header title="KYC" onLeftIconPress={() => backAction()} />

@@ -3,8 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   data: {},
   verifyMsg: "",
-  verifyStatus: "PENDING",
+  verifyStatus: "",
   verifyTimestamp: "",
+  active: null,
 };
 
 const mandateSlice = createSlice({
@@ -27,6 +28,7 @@ const mandateSlice = createSlice({
       state.verifyTimestamp = action.payload;
     },
     resetMandate(state, action) {
+      console.log("action.payload: ", action.payload);
       if (!action.payload || Object.keys(action.payload).length === 0) {
         Object.assign(state, initialState);
       } else {
