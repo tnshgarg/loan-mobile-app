@@ -12,8 +12,7 @@ import {
 import MandateFormTemplate from "../../../templates/mandate/Form";
 import { getBackendData } from "../../../services/employees/employeeServices";
 
-
-const Mandate = ({navigation}) => {
+const Mandate = ({ navigation }) => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
 
@@ -30,16 +29,17 @@ const Mandate = ({navigation}) => {
         xpath: "mandate",
         token: token,
       })
-      .then((response) => {
-        console.log("Form mandateFetch response.data", response.data);
-        if (response.data.status === 200) {
-          dispatch(resetMandate(response?.data?.body));
-          dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
-        }
-      })
-      .catch((error) => {
-        console.log("mandateFetch error: ", error);
-      });
+        .then((response) => {
+          console.log("Form mandateFetch response.data", response.data);
+          if (response.data.status === 200) {
+            dispatch(resetMandate(response?.data?.body));
+            dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
+            setVerifyStatus(response?.data?.body?.verifyStatus);
+          }
+        })
+        .catch((error) => {
+          console.log("mandateFetch error: ", error);
+        });
     }
   }, [isFocused]);
 
@@ -68,15 +68,13 @@ const Mandate = ({navigation}) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <Header title="Mandate" onLeftIconPress={() => backAction()} />
-      {
-        authType && verifyStatus === "SUCCESS" ? (
-          <View style={styles.container}>
-            <DetailsCard data={cardData()} />
-          </View>
-        ) : (
-          <MandateFormTemplate type="KYC" />
-        )
-      }
+      {authType && verifyStatus === "SUCCESS" ? (
+        <View style={styles.container}>
+          <DetailsCard data={cardData()} />
+        </View>
+      ) : (
+        <MandateFormTemplate type="KYC" />
+      )}
     </SafeAreaView>
   );
 };
