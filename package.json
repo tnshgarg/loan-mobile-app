@@ -3,19 +3,19 @@
 	"main": "index.js",
 	"scripts": {
 		"start:dev": "bash ./android/ACFlavours.sh -e dev && gulp set --env=dev && npx react-native run-android --active-arch-only --variant=devDebug --appIdSuffix=dev",
-		"start:test": "bash ./android/ACFlavours.sh -e qa && gulp set --env=test && npx react-native run-android --active-arch-only --variant=qaDebug --appIdSuffix=qa",
+		"start:qa": "bash ./android/ACFlavours.sh -e qa && gulp set --env=test && npx react-native run-android --active-arch-only --variant=qaDebug --appIdSuffix=qa",
 		"start:prod": "bash ./android/ACFlavours.sh -e prod && gulp set --env=prod && npx react-native run-android --active-arch-only --variant=prodDebug --appIdSuffix=prod",
 		"build:dev": "bash ./android/ACFlavours.sh -e dev && bash ./android/versioning.sh && gulp set --env=dev && cd android && ./gradlew assembleDevRelease",
 		"build:qa": "bash ./android/ACFlavours.sh -e qa && bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
 		"build:demo": "bash ./android/ACFlavours.sh -e demo && bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
 		"build:debug": "bash ./android/ACFlavours.sh -e dev && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
 		"build:prod": "bash ./android/ACFlavours.sh -e prod && bash ./android/versioning.sh && gulp set --env=prod && cd android && ./gradlew assembleProdRelease",
+		"codepush:qa": "bash ./android/ACFlavours.sh -e qa && cd android && ./gradlew clean && cd .. && npx react-native start --reset-cache && bash ./android/codepush.sh -e test",
+		"codepush:prod": "bash ./android/ACFlavours.sh -e prod && cd android && ./gradlew clean && cd .. && npx react-native start --reset-cache && bash ./android/codepush.sh -e prod",
+		"postinstall": "patch-package",
 		"release:demo": "bash ./android/releaseDemo.sh",
 		"release:qa": "bash ./android/releaseQa.sh",
-		"release:prod": "bash ./android/releaseProd.sh",
-		"postinstall": "patch-package",
-		"codepush:test": "bash ./android/ACFlavours.sh -e qa && cd android && gradlew clean && cd .. && npx react-native start --reset-cache && bash ./android/codepush.sh -e test",
-		"codepush:prod": "bash ./android/ACFlavours.sh -e prod && cd android && gradlew clean && cd .. && npx react-native start --reset-cache && bash ./android/codepush.sh -e prod"
+		"release:prod": "bash ./android/releaseProd.sh"
 	},
 	"dependencies": {
 		"@expo/vector-icons": "^13.0.0",
