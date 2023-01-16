@@ -10,6 +10,9 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
   const ifsc = useSelector((state) => state.bank?.data?.ifsc);
 
   const [mandateButtons, setMandateButtons] = useState([]);
+  var bankCode = ifsc.substring(0, 4);
+  var emandateOptions = bankCodeEmandateOptionsMap[bankCode] || "000";
+  console.log({ emandateOptions });
 
   useEffect(() => {
     var mandateOptions = [];
@@ -18,6 +21,7 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
     if (emandateOptions[0] === "1") {
       mandateOptions.push({
         title: "Net Banking",
+        subtitle: "Recommended",
         iconName: "bank-outline",
         type: "netbanking",
         onPress: () => {
@@ -38,6 +42,7 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
     if (emandateOptions[2] === "1") {
       mandateOptions.push({
         title: "Aadhaar",
+        subtitle: "Takes upto 48 banking hours to register",
         iconName: "card-account-details-outline",
         type: "aadhaar",
         onPress: () => {
