@@ -3,7 +3,14 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { COLORS, FONTS } from "../../constants/Theme";
 
-const ListItem = ({ item, disabled, showIcon, selected, titleStyle }) => {
+const ListItem = ({
+  item,
+  disabled,
+  showIcon,
+  selected,
+  titleStyle,
+  subtitleStyle,
+}) => {
   const { title, subtitle, iconName, onPress } = item;
 
   return (
@@ -47,7 +54,11 @@ const ListItem = ({ item, disabled, showIcon, selected, titleStyle }) => {
           >
             {title}
           </Text>
-          {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
+          {subtitle && (
+            <Text style={[styles.subtitle, { ...subtitleStyle }]}>
+              {subtitle}
+            </Text>
+          )}
         </View>
         {showIcon && (
           <MaterialCommunityIcons

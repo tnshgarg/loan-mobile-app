@@ -15,17 +15,6 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
     var mandateOptions = [];
     var bankCode = ifsc.substring(0, 4);
     var emandateOptions = bankCodeEmandateOptionsMap[bankCode] || "000";
-    if (emandateOptions[0] === "1") {
-      mandateOptions.push({
-        title: "Net Banking",
-        subtitle: "Recommended",
-        iconName: "bank-outline",
-        type: "netbanking",
-        onPress: () => {
-          ProceedButton({ authType: "netbanking" });
-        },
-      });
-    }
     if (emandateOptions[1] === "1") {
       mandateOptions.push({
         title: "Debit Card",
@@ -36,6 +25,17 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
         },
       });
     }
+    if (emandateOptions[0] === "1") {
+      mandateOptions.push({
+        title: "Net Banking",
+        iconName: "bank-outline",
+        type: "netbanking",
+        onPress: () => {
+          ProceedButton({ authType: "netbanking" });
+        },
+      });
+    }
+
     if (emandateOptions[2] === "1") {
       mandateOptions.push({
         title: "Aadhaar",
@@ -47,6 +47,7 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
         },
       });
     }
+    if (mandateOptions.length > 1) mandateOptions[0].subtitle = "Recommended";
     console.log("mandateOptions: ", mandateOptions);
     if (mandateOptions.length > 0) {
       setMandateButtons(mandateOptions);
@@ -67,6 +68,9 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
         return (
           <ListItem
             titleStyle={{ ...FONTS.body4 }}
+            subtitleStyle={
+              index == 0 && { color: COLORS.primary, ...FONTS.body5 }
+            }
             key={index}
             item={item}
             disabled={disabled}
