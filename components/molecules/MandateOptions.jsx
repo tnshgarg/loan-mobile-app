@@ -10,9 +10,6 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
   const ifsc = useSelector((state) => state.bank?.data?.ifsc);
 
   const [mandateButtons, setMandateButtons] = useState([]);
-  var bankCode = ifsc.substring(0, 4);
-  var emandateOptions = bankCodeEmandateOptionsMap[bankCode] || "000";
-  console.log({ emandateOptions });
 
   useEffect(() => {
     var mandateOptions = [];
