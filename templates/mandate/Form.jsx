@@ -213,16 +213,20 @@ const MandateFormTemplate = (props) => {
                     provider: "razorpay",
                   },
                   verifyMsg: `Mandate Initiated from App Checkout Error : ${
-                    checkoutError?.error?.description || checkoutError?.description
+                    checkoutError?.error?.description ||
+                    checkoutError?.description
                   }`,
                   verifyStatus: "INPROGRESS",
                   verifyTimestamp: Date.now(),
                 });
                 navigation.navigate("HomeStack");
                 showToast("Mandate Registration In Progress");
-              }
-              else{
-                Alert.alert("Error", checkoutError?.error?.description || checkoutError?.description);
+              } else {
+                Alert.alert(
+                  "Error",
+                  checkoutError?.error?.description ||
+                    checkoutError?.description
+                );
                 backendPush({
                   data: {
                     authType: authType,
@@ -231,7 +235,8 @@ const MandateFormTemplate = (props) => {
                     provider: "razorpay",
                   },
                   verifyMsg: `Mandate Initiated from App Checkout Error : ${
-                    checkoutError?.error?.description || checkoutError?.description
+                    checkoutError?.error?.description ||
+                    checkoutError?.description
                   }`,
                   verifyStatus: "ERROR",
                   verifyTimestamp: Date.now(),
@@ -239,8 +244,15 @@ const MandateFormTemplate = (props) => {
               }
             })
             .catch((paymentStateError) => {
-              console.log("getPaymentState Catch Error: ", paymentStateError.toString());
-              Alert.alert("Error", paymentStateError?.error?.description || paymentStateError?.description);
+              console.log(
+                "getPaymentState Catch Error: ",
+                paymentStateError.toString()
+              );
+              Alert.alert(
+                "Error",
+                paymentStateError?.error?.description ||
+                  paymentStateError?.description
+              );
               backendPush({
                 data: {
                   authType: authType,
@@ -249,7 +261,8 @@ const MandateFormTemplate = (props) => {
                   provider: "razorpay",
                 },
                 verifyMsg: `Mandate Initiated from App Checkout Error : ${
-                  paymentStateError?.error?.description || paymentStateError?.description
+                  paymentStateError?.error?.description ||
+                  paymentStateError?.description
                 }`,
                 verifyStatus: "ERROR",
                 verifyTimestamp: Date.now(),
@@ -337,11 +350,13 @@ const MandateFormTemplate = (props) => {
       <KeyboardAvoidingWrapper>
         <ScrollView showsVerticalScrollIndicator={false}>
           <DetailsCard data={cardData()} />
-          <Text
-            style={{ ...FONTS.body4, color: COLORS.gray, marginVertical: 10 }}
-          >
-            Please choose your preferred mode
-          </Text>
+          {verifyStatus != "INPROGRESS" && (
+            <Text
+              style={{ ...FONTS.body4, color: COLORS.gray, marginVertical: 10 }}
+            >
+              Please choose your preferred mode
+            </Text>
+          )}
           {customerId === null || !fetched ? (
             <Text style={{ ...FONTS.body4, color: COLORS.gray }}>
               Initializing ...
