@@ -18,6 +18,7 @@ import { showToast } from "../../components/atoms/Toast";
 import {
   createCustomer,
   createOrder,
+  getPaymentState,
 } from "../../services/mandate/Razorpay/services";
 import { RZP_KEY_ID } from "../../services/constants";
 import { COLORS, FONTS } from "../../constants/Theme";
@@ -198,27 +199,63 @@ const MandateFormTemplate = (props) => {
           navigation.navigate("HomeStack");
           showToast("Mandate Registration In Progress");
         })
-        .catch((error) => {
-          console.log("mandate error:", error, options);
-          backendPush({
-            data: {
-              authType: authType,
-              customerId: customerId,
-              orderId: orderId,
-              provider: "razorpay",
-            },
-            verifyMsg: `Mandate Initiated from App Checkout Error : ${error?.error?.description || error?.description}`,
-            verifyStatus: "INPROGRESS",
-            verifyTimestamp: Date.now(),
-          });
+        .catch((checkoutError) => {
+          console.log("mandate error:", checkoutError, options);
+          getPaymentState({ orderId: orderId })
+            .then((res) => {
+              console.log("getPaymentState res.data: ", res.data);
+              if (res.data.items?.length > 0) {
+                backendPush({
+                  data: {
+                    authType: authType,
+                    customerId: customerId,
+                    orderId: orderId,
+                    provider: "razorpay",
+                  },
+                  verifyMsg: `Mandate Initiated from App Checkout Error : ${
+                    checkoutError?.error?.description || checkoutError?.description
+                  }`,
+                  verifyStatus: "INPROGRESS",
+                  verifyTimestamp: Date.now(),
+                });
+                navigation.navigate("HomeStack");
+                showToast("Mandate Registration In Progress");
+              }
+              else{
+                Alert.alert("Error", checkoutError?.error?.description || checkoutError?.description);
+                backendPush({
+                  data: {
+                    authType: authType,
+                    customerId: customerId,
+                    orderId: orderId,
+                    provider: "razorpay",
+                  },
+                  verifyMsg: `Mandate Initiated from App Checkout Error : ${
+                    checkoutError?.error?.description || checkoutError?.description
+                  }`,
+                  verifyStatus: "ERROR",
+                  verifyTimestamp: Date.now(),
+                });
+              }
+            })
+            .catch((paymentStateError) => {
+              console.log("getPaymentState Catch Error: ", paymentStateError.toString());
+              Alert.alert("Error", paymentStateError?.error?.description || paymentStateError?.description);
+              backendPush({
+                data: {
+                  authType: authType,
+                  customerId: customerId,
+                  orderId: orderId,
+                  provider: "razorpay",
+                },
+                verifyMsg: `Mandate Initiated from App Checkout Error : ${
+                  paymentStateError?.error?.description || paymentStateError?.description
+                }`,
+                verifyStatus: "ERROR",
+                verifyTimestamp: Date.now(),
+              });
+            });
           setLoading(false);
-          Alert.alert("Error", error?.error?.description || error?.description);
-          Analytics.trackEvent("Mandate|Authorize|Error", {
-            unipeEmployeeId: unipeEmployeeId,
-            error: error?.error?.description || error?.description,
-          });
-          navigation.navigate("HomeStack");
-          showToast("Mandate Registration In Progress");
         });
     }
   }, [orderId]);

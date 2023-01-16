@@ -95,8 +95,20 @@ const getToken = ({ paymentId }) => {
   return axios(config);
 };
 
+const getPaymentState = ({ orderId }) => {
+  var config = {
+    method: "get",
+    url: `https://api.razorpay.com/v1/orders/${orderId}/payments`,
+    headers: {
+      Authorization: RZP_AUTH,
+    },
+  };
+  return axios(config);
+};
+
 module.exports = {
   createCustomer,
   createOrder,
   getToken,
+  getPaymentState
 };
