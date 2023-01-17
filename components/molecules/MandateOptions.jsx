@@ -37,7 +37,7 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
     }
 
     if (emandateOptions[2] === "1") {
-      if (mandateOptions.length === 0) {
+      if (emandateOptions[1] != "1") {
         mandateOptions.push({
           title: "Aadhaar",
           subtitle: "Takes upto 48 banking hours to register",
