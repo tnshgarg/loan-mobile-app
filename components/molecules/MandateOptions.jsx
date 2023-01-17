@@ -37,15 +37,17 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
     }
 
     if (emandateOptions[2] === "1") {
-      mandateOptions.push({
-        title: "Aadhaar",
-        subtitle: "Takes upto 48 banking hours to register",
-        iconName: "card-account-details-outline",
-        type: "aadhaar",
-        onPress: () => {
-          ProceedButton({ authType: "aadhaar" });
-        },
-      });
+      if (mandateOptions.length === 0) {
+        mandateOptions.push({
+          title: "Aadhaar",
+          subtitle: "Takes upto 48 banking hours to register",
+          iconName: "card-account-details-outline",
+          type: "aadhaar",
+          onPress: () => {
+            ProceedButton({ authType: "aadhaar" });
+          },
+        });
+      }
     }
     if (!mandateOptions[0]?.subtitle) {
       mandateOptions[0].subtitle = "Recommended";
