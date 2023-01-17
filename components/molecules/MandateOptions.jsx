@@ -47,7 +47,9 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
         },
       });
     }
-    if (mandateOptions.length > 1) mandateOptions[0].subtitle = "Recommended";
+    if (!mandateOptions[0]?.subtitle) {
+      mandateOptions[0].subtitle = "Recommended";
+    }
     console.log("mandateOptions: ", mandateOptions);
     if (mandateOptions.length > 0) {
       setMandateButtons(mandateOptions);
