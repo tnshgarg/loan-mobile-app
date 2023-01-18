@@ -13,6 +13,7 @@ import { updateKyc } from "../../../../queries/ewa/kyc";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 import { addVerifyStatus, resetMandate } from "../../../../store/slices/mandateSlice";
 import { getPaymentState } from "../../../../services/mandate/Razorpay/services";
+import { mandatePush } from "../../../../helpers/BackendPush";
 
 const KYC = () => {
   const dispatch = useDispatch();
@@ -62,6 +63,19 @@ const KYC = () => {
                 case "failed":
                   dispatch(addVerifyStatus("ERROR"));
                   setMandateVerifyStatus("ERROR");
+                  mandatePush({
+                    data: {
+                      unipeEmployeeId: unipeEmployeeId,
+                      ipAddress: ipAddress,
+                      deviceId: deviceId,
+                      data: response.data.body.data,
+                      verifyMsg: `Mandate|Payment|${response.data.body.data.authType} ERROR`,
+                      verifyStatus: mandateVerifyStatus,
+                      verifyTimestamp: Date.now(),
+                      campaignId: campaignId,
+                    },
+                    token: token,
+                  });
                   break;
                 default:
                   dispatch(resetMandate(response?.data?.body));
