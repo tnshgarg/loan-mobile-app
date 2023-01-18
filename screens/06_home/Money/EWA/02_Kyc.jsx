@@ -12,6 +12,8 @@ import DetailsCard from "../../../../components/molecules/DetailsCard";
 import { updateKyc } from "../../../../queries/ewa/kyc";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 import { addVerifyStatus, resetMandate } from "../../../../store/slices/mandateSlice";
+import { getPaymentState } from "../../../../services/mandate/Razorpay/services";
+import { mandatePush } from "../../../../helpers/BackendPush";
 
 const KYC = () => {
   const dispatch = useDispatch();
@@ -52,9 +54,42 @@ const KYC = () => {
       .then((response) => {
         console.log("Form mandateFetch response.data", response.data);
         if (response.data.status === 200) {
-          dispatch(resetMandate(response?.data?.body));
-          dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
-          setMandateVerifyStatus(response?.data?.body?.verifyStatus);
+          getPaymentState({ orderId: response.data.body.data.orderId })
+          .then((paymentStateRes)=>{
+            console.log("paymentStateRes: ", paymentStateRes.data.items[0]);
+            let paymentStateData = paymentStateRes.data;
+            if(paymentStateData?.count > 0){
+              switch(paymentStateData?.items[0].status){
+                case "failed":
+                  dispatch(addVerifyStatus("ERROR"));
+                  setMandateVerifyStatus("ERROR");
+                  mandatePush({
+                    data: {
+                      unipeEmployeeId: unipeEmployeeId,
+                      ipAddress: ipAddress,
+                      deviceId: deviceId,
+                      data: response.data.body.data,
+                      verifyMsg: `Mandate|Payment|${response.data.body.data.authType} ERROR`,
+                      verifyStatus: mandateVerifyStatus,
+                      verifyTimestamp: Date.now(),
+                      campaignId: campaignId,
+                    },
+                    token: token,
+                  });
+                  break;
+                default:
+                  dispatch(resetMandate(response?.data?.body));
+                  dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
+                  setMandateVerifyStatus(response?.data?.body?.verifyStatus);
+                  break;
+              }
+            }
+            else{
+              dispatch(resetMandate(response?.data?.body));
+              dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
+              setMandateVerifyStatus(response?.data?.body?.verifyStatus);
+            }
+          })
         }
         setFetched(true);
       })

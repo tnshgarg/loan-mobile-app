@@ -1,26 +1,29 @@
 import { STAGE } from "@env";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
-import { useEffect, useState } from "react";
-import { Ionicons } from "react-native-vector-icons";
 import { useQuery } from "@tanstack/react-query";
-import { BackHandler, SafeAreaView, View, Text } from "react-native";
+import { useEffect, useState } from "react";
+import { BackHandler, SafeAreaView, View } from "react-native";
+import { Ionicons } from "react-native-vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { allAreNull } from "../../../../helpers/nullCheck";
-import { styles } from "../../../../styles";
-import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
-import LiveOfferCard from "../../../../components/organisms/LiveOfferCard";
+import LogoHeader from "../../../../components/atoms/LogoHeader";
 import KycCheckCard from "../../../../components/molecules/KycCheckCard";
+import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
+import VerifyMandateCard from "../../../../components/molecules/VerifyMandateCard";
+import LiveOfferCard from "../../../../components/organisms/LiveOfferCard";
+import { COLORS } from "../../../../constants/Theme";
+import { getNumberOfDays } from "../../../../helpers/DateFunctions";
+import { allAreNull } from "../../../../helpers/nullCheck";
+import { getEwaOffers } from "../../../../queries/ewa/offers";
+import { getBackendData } from "../../../../services/employees/employeeServices";
+import { getPaymentState } from "../../../../services/mandate/Razorpay/services";
+import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import {
   addAccessible,
   addEligible,
-  resetEwaLive,
+  resetEwaLive
 } from "../../../../store/slices/ewaLiveSlice";
-import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
-import { COLORS } from "../../../../constants/Theme";
-import LogoHeader from "../../../../components/atoms/LogoHeader";
-import { getNumberOfDays } from "../../../../helpers/DateFunctions";
-import { getEwaOffers } from "../../../../queries/ewa/offers";
-import VerifyMandateCard from "../../../../components/molecules/VerifyMandateCard";
+import { addVerifyStatus, resetMandate } from "../../../../store/slices/mandateSlice";
+import { styles } from "../../../../styles";
 
 const EWA = () => {
   const dispatch = useDispatch();
@@ -36,8 +39,8 @@ const EWA = () => {
   );
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
-  const mandateVerifyStatus = useSelector(
-    (state) => state.mandate.verifyStatus
+  const [mandateVerifyStatus, setMandateVerifyStatus] = useState(
+    useSelector((state) => state.mandate.verifyStatus)
   );
 
   // const panMisMatch = useSelector((state) => state.pan.misMatch);
@@ -63,6 +66,44 @@ const EWA = () => {
     navigation.navigate("EWA", { replace: true });
     return true;
   };
+
+  useEffect(() => {
+    if (mandateVerifyStatus != "SUCCESS" && isFocused) {
+      getBackendData({
+        params: { unipeEmployeeId: unipeEmployeeId },
+        xpath: "mandate",
+        token: token,
+      })
+        .then((response) => {
+          if (response.data.status === 200) {
+            getPaymentState({ orderId: response.data.body.data.orderId }).then(
+              (paymentStateRes) => {
+                let paymentStateData = paymentStateRes.data;
+                if (paymentStateData?.count > 0) {
+                  switch (paymentStateData?.items[0].status) {
+                    case "failed":
+                      setMandateVerifyStatus("ERROR");
+                      break;
+                    default:
+                      dispatch(resetMandate(response?.data?.body));
+                      dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
+                      setMandateVerifyStatus(response?.data?.body?.verifyStatus);
+                      break;
+                  }
+                } else {
+                  dispatch(resetMandate(response?.data?.body));
+                  dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
+                  setMandateVerifyStatus(response?.data?.body?.verifyStatus);
+                }
+              }
+            );
+          }
+        })
+        .catch((error) => {
+          console.log("mandateFetch error: ", error);
+        });
+    }
+  }, [unipeEmployeeId, mandateVerifyStatus, isFocused]);
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
@@ -160,9 +201,7 @@ const EWA = () => {
             accessible={accessible}
             ewaLiveSlice={ewaLiveSlice}
           />
-
           <VerifyMandateCard mandateVerifyStatus={mandateVerifyStatus} />
-
           <PastDrawsCard data={ewaHistoricalSlice} />
         </View>
       ) : (

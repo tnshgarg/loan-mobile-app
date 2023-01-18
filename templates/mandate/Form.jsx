@@ -204,7 +204,7 @@ const MandateFormTemplate = (props) => {
           getPaymentState({ orderId: orderId })
             .then((res) => {
               console.log("getPaymentState res.data: ", res.data);
-              if (res.data.items?.length > 0) {
+              if (res.data?.count > 0) {
                 backendPush({
                   data: {
                     authType: authType,
