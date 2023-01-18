@@ -64,7 +64,7 @@ const KYC = () => {
         .then((response) => {
           console.log("Form mandateFetch response.data", response.data);
           if (response.data.status === 200  && response.data?.body?.data?.orderId ) {
-            getPaymentState({ orderId: "order_L5YPmVt3jBQOHN" }).then(
+            getPaymentState({ orderId: response.data?.body?.data?.orderId }).then(
               (paymentStateRes) => {
                 console.log(
                   "paymentStateRes: ",
