@@ -20,9 +20,12 @@ import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice"
 import {
   addAccessible,
   addEligible,
-  resetEwaLive
+  resetEwaLive,
 } from "../../../../store/slices/ewaLiveSlice";
-import { addVerifyStatus, resetMandate } from "../../../../store/slices/mandateSlice";
+import {
+  addVerifyStatus,
+  resetMandate,
+} from "../../../../store/slices/mandateSlice";
 import { styles } from "../../../../styles";
 
 const EWA = () => {
@@ -67,36 +70,44 @@ const EWA = () => {
     return true;
   };
 
+  const checkfailed = (item) => {
+    return item.status === "failed";
+  };
+
   useEffect(() => {
-    if (mandateVerifyStatus != "SUCCESS" && isFocused) {
+    if (isFocused) {
       getBackendData({
         params: { unipeEmployeeId: unipeEmployeeId },
         xpath: "mandate",
         token: token,
       })
         .then((response) => {
-          if (response.data.status === 200 && response.data?.body?.data?.orderId) {
-            getPaymentState({ orderId: response.data?.body?.data?.orderId }).then(
-              (paymentStateRes) => {
-                let paymentStateData = paymentStateRes.data;
-                if (paymentStateData?.count > 0) {
-                  switch (paymentStateData?.items[0].status) {
-                    case "failed":
-                      setMandateVerifyStatus("ERROR");
-                      break;
-                    default:
-                      dispatch(resetMandate(response?.data?.body));
-                      dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
-                      setMandateVerifyStatus(response?.data?.body?.verifyStatus);
-                      break;
-                  }
+          if (
+            response.data.status === 200 &&
+            response.data?.body?.data?.orderId
+          ) {
+            getPaymentState({
+              orderId: response.data?.body?.data?.orderId,
+            }).then((paymentStateRes) => {
+              let paymentStateData = paymentStateRes.data;
+              if (paymentStateData?.count > 0) {
+                if (paymentStateData.items.every(checkfailed)) {
+                  setMandateVerifyStatus("ERROR");
                 } else {
                   dispatch(resetMandate(response?.data?.body));
                   dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
                   setMandateVerifyStatus(response?.data?.body?.verifyStatus);
                 }
+              } else {
+                dispatch(resetMandate(response?.data?.body));
+                dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
+                setMandateVerifyStatus(response?.data?.body?.verifyStatus);
               }
-            );
+            });
+          } else {
+            dispatch(resetMandate(response?.data?.body));
+            dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
+            setMandateVerifyStatus(response?.data?.body?.verifyStatus);
           }
         })
         .catch((error) => {
