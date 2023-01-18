@@ -286,7 +286,6 @@ const MandateFormTemplate = (props) => {
       unipeEmployeeId: unipeEmployeeId,
     })
       .then((res) => {
-        setAuthType("");
         console.log(`Mandate|CreateOrder|${authType} res.data:`, res.data);
         setOrderId(res.data.id);
         backendPush({
@@ -302,9 +301,9 @@ const MandateFormTemplate = (props) => {
         Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Success`, {
           unipeEmployeeId: unipeEmployeeId,
         });
+        setAuthType("");
       })
       .catch((error) => {
-        setAuthType("");
         console.log(
           `Mandate|CreateOrder|${authType} JSON.stringify(error):`,
           JSON.stringify(error)
@@ -321,6 +320,7 @@ const MandateFormTemplate = (props) => {
           unipeEmployeeId: unipeEmployeeId,
           error: error.toString(),
         });
+        setAuthType("");
       });
   };
 
