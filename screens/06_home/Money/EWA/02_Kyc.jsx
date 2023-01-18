@@ -11,7 +11,10 @@ import { styles } from "../../../../styles";
 import DetailsCard from "../../../../components/molecules/DetailsCard";
 import { updateKyc } from "../../../../queries/ewa/kyc";
 import { getBackendData } from "../../../../services/employees/employeeServices";
-import { addVerifyStatus, resetMandate } from "../../../../store/slices/mandateSlice";
+import {
+  addVerifyStatus,
+  resetMandate,
+} from "../../../../store/slices/mandateSlice";
 import { getPaymentState } from "../../../../services/mandate/Razorpay/services";
 import { mandatePush } from "../../../../helpers/BackendPush";
 
@@ -24,12 +27,15 @@ const KYC = () => {
   const [ipAddress, setIpAdress] = useState(0);
 
   const [loading, setLoading] = useState(false);
-  const campaignId = useSelector((state) => state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId);
+  const campaignId = useSelector(
+    (state) =>
+      state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
+  );
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
-  const [mandateVerifyStatus, setMandateVerifyStatus] = useState(useSelector(
-    (state) => state.mandate.verifyStatus
-  ));
+  const [mandateVerifyStatus, setMandateVerifyStatus] = useState(
+    useSelector((state) => state.mandate.verifyStatus)
+  );
   const aadhaarData = useSelector((state) => state.aadhaar.data);
   const aadharNumber = useSelector((state) => state.aadhaar.number);
   const panNumber = useSelector((state) => state.pan.number);
@@ -44,6 +50,10 @@ const KYC = () => {
     });
   }, []);
 
+  const checkfailed = (item) => {
+    return item.status === "failed";
+  };
+
   useEffect(() => {
     if (unipeEmployeeId && deviceId !== 0 && ipAddress !== 0) {
       getBackendData({
@@ -51,51 +61,57 @@ const KYC = () => {
         xpath: "mandate",
         token: token,
       })
-      .then((response) => {
-        console.log("Form mandateFetch response.data", response.data);
-        if (response.data.status === 200 && response.data?.body?.data?.orderId) {
-          getPaymentState({ orderId: response.data?.body?.data?.orderId })
-          .then((paymentStateRes)=>{
-            console.log("paymentStateRes: ", paymentStateRes.data.items[0]);
-            let paymentStateData = paymentStateRes.data;
-            if(paymentStateData?.count > 0){
-              switch(paymentStateData?.items[0].status){
-                case "failed":
-                  dispatch(addVerifyStatus("ERROR"));
-                  setMandateVerifyStatus("ERROR");
-                  mandatePush({
-                    data: {
-                      unipeEmployeeId: unipeEmployeeId,
-                      ipAddress: ipAddress,
-                      deviceId: deviceId,
-                      data: response.data.body.data,
-                      verifyMsg: `Mandate|Payment|${response.data?.body?.data?.authType} ERROR`,
-                      verifyStatus: mandateVerifyStatus,
-                      verifyTimestamp: Date.now(),
-                      campaignId: campaignId,
-                    },
-                    token: token,
-                  });
-                  break;
-                default:
+        .then((response) => {
+          console.log("Form mandateFetch response.data", response.data);
+          if (response.data.status === 200  && response.data?.body?.data?.orderId ) {
+            getPaymentState({ orderId: "order_L5YPmVt3jBQOHN" }).then(
+              (paymentStateRes) => {
+                console.log(
+                  "paymentStateRes: ",
+                  paymentStateRes.data
+                );
+                let paymentStateData = paymentStateRes.data;
+                if (paymentStateData?.count > 0) {
+                  if (paymentStateData.items.every(checkfailed)) {
+                    dispatch(addVerifyStatus("ERROR"));
+                    setMandateVerifyStatus("ERROR");
+                    mandatePush({
+                      data: {
+                        unipeEmployeeId: unipeEmployeeId,
+                        ipAddress: ipAddress,
+                        deviceId: deviceId,
+                        data: response.data.body.data,
+                        verifyMsg: `Mandate|Payment|${response.data?.body?.data?.authType} ERROR`,
+                        verifyStatus: mandateVerifyStatus,
+                        verifyTimestamp: Date.now(),
+                        campaignId: campaignId,
+                      },
+                      token: token,
+                    });
+                  } else {
+                    dispatch(resetMandate(response?.data?.body));
+                    dispatch(
+                      addVerifyStatus(response?.data?.body?.verifyStatus)
+                    );
+                    setMandateVerifyStatus(response?.data?.body?.verifyStatus);
+                  }
+                } else {
                   dispatch(resetMandate(response?.data?.body));
                   dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
                   setMandateVerifyStatus(response?.data?.body?.verifyStatus);
-                  break;
+                }
               }
-            }
-            else{
-              dispatch(resetMandate(response?.data?.body));
-              dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
-              setMandateVerifyStatus(response?.data?.body?.verifyStatus);
-            }
-          })
-        }
-        setFetched(true);
-      })
-      .catch((error) => {
-        console.log("mandateFetch error: ", error);
-      });
+            );
+          } else {
+            dispatch(resetMandate(response?.data?.body));
+            dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
+            setMandateVerifyStatus(response?.data?.body?.verifyStatus);
+          }
+          setFetched(true);
+        })
+        .catch((error) => {
+          console.log("mandateFetch error: ", error);
+        });
     }
   }, [deviceId, ipAddress]);
 
