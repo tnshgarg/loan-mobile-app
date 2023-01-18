@@ -53,8 +53,8 @@ const KYC = () => {
       })
       .then((response) => {
         console.log("Form mandateFetch response.data", response.data);
-        if (response.data.status === 200) {
-          getPaymentState({ orderId: response.data.body.data.orderId })
+        if (response.data.status === 200 && response.data?.body?.data?.orderId) {
+          getPaymentState({ orderId: response.data?.body?.data?.orderId })
           .then((paymentStateRes)=>{
             console.log("paymentStateRes: ", paymentStateRes.data.items[0]);
             let paymentStateData = paymentStateRes.data;
@@ -69,7 +69,7 @@ const KYC = () => {
                       ipAddress: ipAddress,
                       deviceId: deviceId,
                       data: response.data.body.data,
-                      verifyMsg: `Mandate|Payment|${response.data.body.data.authType} ERROR`,
+                      verifyMsg: `Mandate|Payment|${response.data?.body?.data?.authType} ERROR`,
                       verifyStatus: mandateVerifyStatus,
                       verifyTimestamp: Date.now(),
                       campaignId: campaignId,
