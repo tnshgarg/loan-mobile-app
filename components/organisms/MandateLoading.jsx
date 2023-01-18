@@ -72,6 +72,22 @@ export default function MandateLoading() {
         Updating mandate registration details
       </Text>
       <Text style={styles.subHeadline}>This may take few seconds</Text>
+      <View
+        style={{
+          width: "100%",
+          backgroundColor: COLORS.lightGray,
+          height: 5,
+          marginTop: "2%",
+        }}
+      >
+        <View
+          style={{
+            width: `${(refetchTime / 60) * 100}%`,
+            backgroundColor: COLORS.primary,
+            height: 5,
+          }}
+        />
+      </View>
       <View style={{ flex: 1 }} />
       <Text style={[styles.subHeadline, { marginBottom: "10%" }]}>
         Please dont press the back button
