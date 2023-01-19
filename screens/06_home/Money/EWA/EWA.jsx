@@ -15,7 +15,6 @@ import { getNumberOfDays } from "../../../../helpers/DateFunctions";
 import { allAreNull } from "../../../../helpers/nullCheck";
 import { getEwaOffers } from "../../../../queries/ewa/offers";
 import { getBackendData } from "../../../../services/employees/employeeServices";
-import { getPaymentState } from "../../../../services/mandate/Razorpay/services";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import {
   addAccessible,
@@ -70,10 +69,6 @@ const EWA = () => {
     return true;
   };
 
-  const checkfailed = (item) => {
-    return item.status === "failed";
-  };
-
   useEffect(() => {
     if (isFocused) {
       getBackendData({
@@ -82,33 +77,9 @@ const EWA = () => {
         token: token,
       })
         .then((response) => {
-          if (
-            response.data.status === 200 &&
-            response.data?.body?.data?.orderId
-          ) {
-            getPaymentState({
-              orderId: response.data?.body?.data?.orderId,
-            }).then((paymentStateRes) => {
-              let paymentStateData = paymentStateRes.data;
-              if (paymentStateData?.count > 0) {
-                if (paymentStateData.items.every(checkfailed)) {
-                  setMandateVerifyStatus("ERROR");
-                } else {
-                  dispatch(resetMandate(response?.data?.body));
-                  dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
-                  setMandateVerifyStatus(response?.data?.body?.verifyStatus);
-                }
-              } else {
-                dispatch(resetMandate(response?.data?.body));
-                dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
-                setMandateVerifyStatus(response?.data?.body?.verifyStatus);
-              }
-            });
-          } else {
             dispatch(resetMandate(response?.data?.body));
             dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
             setMandateVerifyStatus(response?.data?.body?.verifyStatus);
-          }
         })
         .catch((error) => {
           console.log("mandateFetch error: ", error);

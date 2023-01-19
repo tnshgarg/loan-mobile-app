@@ -15,8 +15,6 @@ import {
   addVerifyStatus,
   resetMandate,
 } from "../../../../store/slices/mandateSlice";
-import { getPaymentState } from "../../../../services/mandate/Razorpay/services";
-import { mandatePush } from "../../../../helpers/BackendPush";
 
 const KYC = () => {
   const dispatch = useDispatch();
@@ -50,10 +48,6 @@ const KYC = () => {
     });
   }, []);
 
-  const checkfailed = (item) => {
-    return item.status === "failed";
-  };
-
   useEffect(() => {
     if (unipeEmployeeId && deviceId !== 0 && ipAddress !== 0) {
       getBackendData({
@@ -63,54 +57,14 @@ const KYC = () => {
       })
         .then((response) => {
           console.log("Form mandateFetch response.data", response.data);
-          if (response.data.status === 200  && response.data?.body?.data?.orderId ) {
-            getPaymentState({ orderId: response.data?.body?.data?.orderId }).then(
-              (paymentStateRes) => {
-                console.log(
-                  "paymentStateRes: ",
-                  paymentStateRes.data
-                );
-                let paymentStateData = paymentStateRes.data;
-                if (paymentStateData?.count > 0) {
-                  if (paymentStateData.items.every(checkfailed)) {
-                    dispatch(addVerifyStatus("ERROR"));
-                    setMandateVerifyStatus("ERROR");
-                    mandatePush({
-                      data: {
-                        unipeEmployeeId: unipeEmployeeId,
-                        ipAddress: ipAddress,
-                        deviceId: deviceId,
-                        data: response.data.body.data,
-                        verifyMsg: `Mandate|Payment|${response.data?.body?.data?.authType} ERROR`,
-                        verifyStatus: mandateVerifyStatus,
-                        verifyTimestamp: Date.now(),
-                        campaignId: campaignId,
-                      },
-                      token: token,
-                    });
-                  } else {
-                    dispatch(resetMandate(response?.data?.body));
-                    dispatch(
-                      addVerifyStatus(response?.data?.body?.verifyStatus)
-                    );
-                    setMandateVerifyStatus(response?.data?.body?.verifyStatus);
-                  }
-                } else {
-                  dispatch(resetMandate(response?.data?.body));
-                  dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
-                  setMandateVerifyStatus(response?.data?.body?.verifyStatus);
-                }
-              }
-            );
-          } else {
-            dispatch(resetMandate(response?.data?.body));
-            dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
-            setMandateVerifyStatus(response?.data?.body?.verifyStatus);
-          }
+          dispatch(resetMandate(response?.data?.body));
+          dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
+          setMandateVerifyStatus(response?.data?.body?.verifyStatus);
           setFetched(true);
         })
         .catch((error) => {
           console.log("mandateFetch error: ", error);
+          Alert.alert("An Error occured", error.toString());
         });
     }
   }, [deviceId, ipAddress]);
