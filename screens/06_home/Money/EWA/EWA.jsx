@@ -15,7 +15,6 @@ import { getNumberOfDays } from "../../../../helpers/DateFunctions";
 import { allAreNull } from "../../../../helpers/nullCheck";
 import { getEwaOffers } from "../../../../queries/ewa/offers";
 import { getBackendData } from "../../../../services/employees/employeeServices";
-import { getPaymentState } from "../../../../services/mandate/Razorpay/services";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import {
   addAccessible,
@@ -68,10 +67,6 @@ const EWA = () => {
   const backAction = () => {
     navigation.navigate("EWA", { replace: true });
     return true;
-  };
-
-  const checkfailed = (item) => {
-    return item.status === "failed";
   };
 
   useEffect(() => {
