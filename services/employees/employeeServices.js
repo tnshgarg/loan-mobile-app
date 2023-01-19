@@ -37,11 +37,8 @@ export const getBackendData = async (props) => {
   };
 
   return await axios(config).then((response) => {
-    if (!response.data.status || response.data.status !== 200) {
-      if (response.data.status === 500) {
-        throw new Error("Oops! Something went wrong. Please try again later.");
-      }
-      throw new Error(response.data.message);
+    if (!response.data.status || response.data.status === 500) {
+      throw new Error("Oops! Something went wrong. Please try again later.");
     }
     return response;
   });
