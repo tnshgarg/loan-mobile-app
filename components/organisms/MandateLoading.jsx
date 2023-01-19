@@ -56,13 +56,13 @@ export default function MandateLoading({ mandateVerifyStatus, navigation }) {
             .catch((error) => {
               console.log("mandateFetch error: ", error);
             });
-        } else if (refetchTime >= 60 && mandateVerifyStatus === "INPROGRESS") {
-          showToast("Mandate verification In Progress");
-          navigation.navigate("HomeStack", { screen: "Money" });
-        } else if (mandateVerifyStatus === "ERROR") {
-          showToast("Mandate verification error");
-          navigation.navigate("EWA_MANDATE");
         }
+      } else if (refetchTime >= 60 && mandateVerifyStatus === "INPROGRESS") {
+        showToast("Mandate verification In Progress");
+        navigation.navigate("HomeStack", { screen: "Money" });
+      } else if (mandateVerifyStatus === "ERROR") {
+        showToast("Mandate verification error");
+        navigation.navigate("EWA_MANDATE");
       }
     }, 1000);
 

@@ -91,6 +91,7 @@ const MandateFormTemplate = (props) => {
   useEffect(() => {
     dispatch(addVerifyStatus(verifyStatus));
     if (fetched && props?.type === "EWA" && verifyStatus === "SUCCESS") {
+      showToast("Mandate verified successfully");
       navigation.navigate("EWA_AGREEMENT");
     }
   }, [verifyStatus]);
@@ -196,8 +197,6 @@ const MandateFormTemplate = (props) => {
           Analytics.trackEvent("Mandate|Authorize|InProgress", {
             unipeEmployeeId: unipeEmployeeId,
           });
-          navigation.navigate("HomeStack");
-          showToast("Mandate Registration In Progress");
         })
         .catch((checkoutError) => {
           console.log("mandate error:", checkoutError, options);
@@ -219,8 +218,6 @@ const MandateFormTemplate = (props) => {
                   verifyStatus: "INPROGRESS",
                   verifyTimestamp: Date.now(),
                 });
-                navigation.navigate("HomeStack");
-                showToast("Mandate Registration In Progress");
               } else {
                 Alert.alert(
                   "Error",
@@ -241,6 +238,7 @@ const MandateFormTemplate = (props) => {
                   verifyStatus: "ERROR",
                   verifyTimestamp: Date.now(),
                 });
+                showToast("Mandate verification error");
               }
             })
             .catch((paymentStateError) => {
@@ -267,6 +265,7 @@ const MandateFormTemplate = (props) => {
                 verifyStatus: "ERROR",
                 verifyTimestamp: Date.now(),
               });
+              showToast("Mandate verification error");
             });
           setLoading(false);
         });
