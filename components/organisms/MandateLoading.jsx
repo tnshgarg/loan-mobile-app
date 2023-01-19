@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, ToastAndroid } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import { getBackendData } from "../../services/employees/employeeServices";
 import { getPaymentState } from "../../services/mandate/Razorpay/services";
 import { addVerifyStatus, resetMandate } from "../../store/slices/mandateSlice";
 import { styles } from "../../styles";
+import { showToast } from "../atoms/Toast";
 
-export default function MandateLoading() {
+export default function MandateLoading({ mandateVerifyStatus, navigation }) {
   const [refetchTime, setRefetchTime] = useState(0);
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
@@ -55,6 +56,12 @@ export default function MandateLoading() {
             .catch((error) => {
               console.log("mandateFetch error: ", error);
             });
+        } else if (refetchTime >= 60 && mandateVerifyStatus === "INPROGRESS") {
+          showToast("Mandate verification In Progress");
+          navigation.navigate("HomeStack", { screen: "Money" });
+        } else if (mandateVerifyStatus === "ERROR") {
+          showToast("Mandate verification error");
+          navigation.navigate("EWA_MANDATE");
         }
       }
     }, 1000);

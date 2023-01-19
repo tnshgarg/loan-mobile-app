@@ -7,9 +7,7 @@ import Header from "../../../../components/atoms/Header";
 import { styles } from "../../../../styles";
 import MandateLoading from "../../../../components/organisms/MandateLoading";
 
-const Mandate = () => {
-  const navigation = useNavigation();
-
+const Mandate = (props) => {
   const mandateVerifyStatus = useSelector(
     (state) => state.mandate.verifyStatus
   );
@@ -41,7 +39,7 @@ const Mandate = () => {
         progress={60}
       />
       {mandateVerifyStatus === "INPROGRESS" ? (
-        <MandateLoading />
+        <MandateLoading {...props} mandateVerifyStatus={mandateVerifyStatus} />
       ) : (
         <MandateFormTemplate type="EWA" />
       )}
