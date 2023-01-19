@@ -8,6 +8,7 @@ import { styles } from "../../../../styles";
 import MandateLoading from "../../../../components/organisms/MandateLoading";
 
 const Mandate = (props) => {
+  const navigation = useNavigation();
   const mandateVerifyStatus = useSelector(
     (state) => state.mandate.verifyStatus
   );
