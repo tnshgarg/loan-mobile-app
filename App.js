@@ -38,39 +38,6 @@ const analyticsStatus = async () => {
 const App = () => {
   analyticsStatus();
   SplashScreen.hide();
-  const [show, setShow] = useState(false);
-  // const [receivedBytes, setReceivedBytes] = useState(0);
-  // const [totalBytes, setTotalBytes] = useState(0);
-  codePush.sync(
-    { updateDialog: true },
-    (syncStatus) => {
-      switch (syncStatus) {
-        case codePush.SyncStatus.DOWNLOADING_PACKAGE:
-          console.log("Downloading package");
-          setShow(true);
-          break;
-        case codePush.SyncStatus.INSTALLING_UPDATE:
-          console.log("Installing update");
-          break;
-        case codePush.SyncStatus.SYNC_IN_PROGRESS:
-          console.log("Sync in progress");
-          break;
-        case codePush.SyncStatus.UP_TO_DATE:
-          console.log("Up to date");
-          setShow(true);
-          break;
-      }
-    },
-    // ({ receivedBytes, totalBytes }) => {
-    //   console.log("receivedBytes", receivedBytes);
-    //   console.log("totalBytes", totalBytes);
-    //   setReceivedBytes(receivedBytes);
-    //   if (totalBytes===0){
-    //     setTotalBytes(totalBytes);
-    //   }
-    // }
-  );
-
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
@@ -79,7 +46,7 @@ const App = () => {
             <SafeAreaProvider style={{ backgroundColor: "white", flex: 1 }}>
               <IconComponentProvider IconComponent={Icon}>
                 <StackNavigator />
-                <UpdateDialog open={show}/>
+                <UpdateDialog/>
               </IconComponentProvider>
             </SafeAreaProvider>
           </QueryClientProvider>

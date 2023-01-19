@@ -1,22 +1,82 @@
-import React from "react";
-import { View, Text } from "react-native";
+import React, { useState } from "react";
+import { Text, TouchableNativeFeedback, View } from "react-native";
+import codePush from "react-native-code-push";
 import EStyleSheet from "react-native-extended-stylesheet";
 import Modal from "react-native-modal";
+import { MaterialCommunityIcons } from "react-native-vector-icons";
+import { COLORS, FONTS, SIZES } from "../constants/Theme";
 
-import { COLORS, SIZES, FONTS } from "../constants/Theme";
-
-const UpdateDialog = ({ open, current, total }) => {
+const UpdateDialog = () => {
+  const [show, setShow] = useState(false);
+  const [state, setState] = useState("");
+  const [receivedData, setReceivedData] = useState(0);
+  const [totalData, setTotalData] = useState(0);
+  codePush.sync(
+    { updateDialog: true },
+    (syncStatus) => {
+      switch (syncStatus) {
+        case codePush.SyncStatus.UNKNOWN_ERROR:
+          console.log("Unknown error");
+          setState("ERROR");
+          setShow(true);
+        case codePush.SyncStatus.DOWNLOADING_PACKAGE:
+          console.log("Downloading package");
+          setShow(true);
+          break;
+        case codePush.SyncStatus.UP_TO_DATE:
+          console.log("Up to date");
+          setShow(false);
+          break;
+      }
+    },
+    ({ receivedBytes, totalBytes }) => {
+      setReceivedData(receivedBytes);
+      if (!totalData) {
+        setTotalData(totalBytes);
+      }
+    }
+  );
   return (
-    <Modal isVisible={open} style={styles.modal}>
-      <View style={styles.container}>
+    <Modal isVisible={show} style={styles.modal}>
+      <View
+        style={
+          state === "ERROR"
+            ? [styles.container, { height: SIZES.height * 0.3}]
+            : [styles.container, { height: SIZES.height * 0.2 }]
+        }
+      >
         <Text
           style={{
-            ...FONTS.body4,
+            ...FONTS.h4,
             color: COLORS.secondary,
           }}
         >
-          Getting your updates
+          {state === "ERROR"
+            ? "There was a problem getting your updates."
+            : "Getting your updates..."}
         </Text>
+        <View
+          style={{
+            width: "100%",
+            backgroundColor: COLORS.lightGray,
+            height: "10%",
+            marginTop: "4%",
+            borderRadius: 10,
+          }}
+        >
+          <View
+            style={{
+              width: `${
+                state === "ERROR" ? 75 : (receivedData / totalData) * 100
+              }%`,
+              backgroundColor: `${
+                state === "ERROR" ? COLORS.warning : COLORS.primary
+              }`,
+              height: "100%",
+              borderRadius: 10,
+            }}
+          />
+        </View>
         <Text
           style={{
             ...FONTS.body4,
@@ -26,8 +86,28 @@ const UpdateDialog = ({ open, current, total }) => {
             marginTop: "4%",
           }}
         >
-          Please dont press the back button
+          {state === "ERROR"
+            ? "Please contact our customer support team for help"
+            : "Please dont press the back button or close the app"}
         </Text>
+        {state === "ERROR" ? (
+          <TouchableNativeFeedback
+            onPress={() => {
+              Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+            }}
+          >
+            <MaterialCommunityIcons
+              style={{
+                alignSelf: "center",
+                marginTop: "5%",
+                color: COLORS.primary,
+              }}
+              name="whatsapp"
+              size={44}
+              color={COLORS.black}
+            />
+          </TouchableNativeFeedback>
+        ) : null}
       </View>
     </Modal>
   );
@@ -45,7 +125,6 @@ const styles = EStyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     width: "100%",
-    height: SIZES.height * 0.2,
   },
 });
 
