@@ -10,11 +10,9 @@ import { queryClient } from "./queries/client";
 import { QueryClientProvider } from "@tanstack/react-query";
 import Analytics from "appcenter-analytics";
 import Crashes from "appcenter-crashes";
-import codePush from "react-native-code-push";
 import { navigationRef } from "./navigators/RootNavigation";
 import StackNavigator from "./navigators/StackNavigator";
 import { persistor, store } from "./store/store";
-import { useState } from "react";
 import UpdateDialog from "./components/UpdateDialog";
 Crashes.setListener({
   shouldProcess: function (report) {

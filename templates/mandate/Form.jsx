@@ -5,7 +5,7 @@ import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
 import RazorpayCheckout from "react-native-razorpay";
-import { mandatePush } from "../../helpers/BackendPush";
+import { putBackendData } from "../../services/employees/employeeServices";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
   addData,
@@ -104,9 +104,9 @@ const MandateFormTemplate = (props) => {
     console.log("mandateSlice: ", mandateSlice);
     setData(data);
     setVerifyMsg(verifyMsg);
-    setVerifyStatus(verifyStatus);
     setVerifyTimestamp(verifyTimestamp);
-    mandatePush({
+    setVerifyStatus(verifyStatus);
+    putBackendData({
       data: {
         unipeEmployeeId: unipeEmployeeId,
         ipAddress: ipAddress,
@@ -117,8 +117,23 @@ const MandateFormTemplate = (props) => {
         verifyTimestamp: verifyTimestamp,
         campaignId: campaignId,
       },
+      xpath: "mandate",
       token: token,
-    });
+    })
+      .then((response) => {
+        console.log("mandatePush response: ", response.data);
+        if (response.data.status === 200){
+          console.log("mandatePush pushed");
+        }
+        else if (response.data.status === 400){
+          console.log("mandatePush not expected");
+          setVerifyStatus(verifyStatus);
+        }
+      })
+      .catch((error) => {
+        console.log("mandatePush error: ", error);
+        return error;
+      });
   };
 
   useEffect(() => {
