@@ -27,6 +27,7 @@ import DetailsCard from "../../components/molecules/DetailsCard";
 import MandateOptions from "../../components/molecules/MandateOptions";
 import Shield from "../../assets/Shield.svg";
 import RBI from "../../assets/RBI.svg";
+import MandateLoading from "../../components/organisms/MandateLoading";
 
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const MandateFormTemplate = (props) => {
 
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const [fetched, setFetched] = useState(false);
 
@@ -273,8 +275,10 @@ const MandateFormTemplate = (props) => {
   }, [orderId]);
 
   const ProceedButton = ({ authType }) => {
+    setModalVisible(true);
     setLoading(true);
     setAuthType(authType);
+
     createOrder({
       authType: authType,
       customerId: customerId,
@@ -427,6 +431,14 @@ const MandateFormTemplate = (props) => {
           </View>
         </ScrollView>
       </KeyboardAvoidingWrapper>
+      {modalVisible && (
+        <MandateLoading
+          {...props}
+          mandateVerifyStatus={verifyStatus}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+      )}
     </SafeAreaView>
   );
 };

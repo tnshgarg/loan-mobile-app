@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, ToastAndroid } from "react-native";
+import { View, Text, Image, ToastAndroid, Modal } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import { getBackendData } from "../../services/employees/employeeServices";
@@ -8,7 +8,12 @@ import { addVerifyStatus, resetMandate } from "../../store/slices/mandateSlice";
 import { styles } from "../../styles";
 import { showToast } from "../atoms/Toast";
 
-export default function MandateLoading({ mandateVerifyStatus, navigation }) {
+export default function MandateLoading({
+  mandateVerifyStatus,
+  navigation,
+  modalVisible,
+  setModalVisible,
+}) {
   const [refetchTime, setRefetchTime] = useState(0);
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
@@ -59,9 +64,11 @@ export default function MandateLoading({ mandateVerifyStatus, navigation }) {
         }
       } else if (refetchTime >= 60 && mandateVerifyStatus === "INPROGRESS") {
         showToast("Mandate verification In Progress");
+        setModalVisible(false);
         navigation.navigate("HomeStack", { screen: "Money" });
       } else if (mandateVerifyStatus === "ERROR") {
         showToast("Mandate verification error");
+        setModalVisible(false);
         navigation.navigate("EWA_MANDATE");
       }
     }, 1000);
@@ -69,36 +76,43 @@ export default function MandateLoading({ mandateVerifyStatus, navigation }) {
     return () => clearInterval(interval);
   }, [refetchTime]);
   return (
-    <View style={styles.container}>
-      <Image
-        source={require("../../assets/coin_loading.gif")}
-        style={{ width: "100%", height: SIZES.height * 0.5 }}
-      />
-      <View style={{ flex: 1 }} />
-      <Text style={[styles.headline, { ...FONTS.h3 }]}>
-        Updating mandate registration details
-      </Text>
-      <Text style={styles.subHeadline}>This may take few seconds</Text>
-      <View
-        style={{
-          width: "100%",
-          backgroundColor: COLORS.lightGray,
-          height: 5,
-          marginTop: "2%",
-        }}
-      >
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalVisible}
+      style={styles.safeContainer}
+    >
+      <View style={styles.container}>
+        <Image
+          source={require("../../assets/coin_loading.gif")}
+          style={{ width: "100%", height: SIZES.height * 0.5 }}
+        />
+        <View style={{ flex: 1 }} />
+        <Text style={[styles.headline, { ...FONTS.h3 }]}>
+          Updating mandate registration details
+        </Text>
+        <Text style={styles.subHeadline}>This may take few seconds</Text>
         <View
           style={{
-            width: `${(refetchTime / 60) * 100}%`,
-            backgroundColor: COLORS.primary,
+            width: "100%",
+            backgroundColor: COLORS.lightGray,
             height: 5,
+            marginTop: "2%",
           }}
-        />
+        >
+          <View
+            style={{
+              width: `${(refetchTime / 60) * 100}%`,
+              backgroundColor: COLORS.primary,
+              height: 5,
+            }}
+          />
+        </View>
+        <View style={{ flex: 1 }} />
+        <Text style={[styles.subHeadline, { marginBottom: "10%" }]}>
+          Please dont press the back button
+        </Text>
       </View>
-      <View style={{ flex: 1 }} />
-      <Text style={[styles.subHeadline, { marginBottom: "10%" }]}>
-        Please dont press the back button
-      </Text>
-    </View>
+    </Modal>
   );
 }
