@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, TouchableNativeFeedback, View } from "react-native";
+import { Text, TouchableNativeFeedback, View, Linking} from "react-native";
 import codePush from "react-native-code-push";
 import EStyleSheet from "react-native-extended-stylesheet";
 import Modal from "react-native-modal";
@@ -87,7 +87,7 @@ const UpdateDialog = () => {
           }}
         >
           {state === "ERROR"
-            ? "Please contact our customer support team for help"
+            ? "Please check your internet connection and restart the app, if the problem persists please contact our customer support team for help"
             : "Please dont press the back button or close the app"}
         </Text>
         {state === "ERROR" ? (
