@@ -25,6 +25,8 @@ const ProfileForm = () => {
   const navigation = useNavigation();
 
   const [next, setNext] = useState(false);
+  const [emailNext, setEmailNext] = useState(false);
+  const [altMobileNext, setAltMobileNext] = useState(false);
   const [backendPush, setBackendPush] = useState(false);
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -39,8 +41,10 @@ const ProfileForm = () => {
   const [altMobile, setAltMobile] = useState(profileSlice?.altMobile);
   const [email, setEmail] = useState(profileSlice?.email);
   const [motherName, setMotherName] = useState(profileSlice?.motherName);
-  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
-  
+  const campaignId = useSelector(
+    (state) => state.campaign.onboardingCampaignId
+  );
+
   useEffect(() => {
     dispatch(addCurrentScreen("ProfileForm"));
   }, []);
@@ -66,12 +70,12 @@ const ProfileForm = () => {
   }, [email]);
 
   useEffect(() => {
-    if (maritalStatus && qualification && motherName && email) {
+    if (maritalStatus && qualification && motherName && email && emailNext) {
       setNext(true);
     } else {
       setNext(false);
     }
-  }, [maritalStatus, qualification, motherName, email]);
+  }, [maritalStatus, qualification, motherName, email, emailNext]);
 
   useEffect(() => {
     console.log("ProfileForm profileSlice: ", profileSlice);
@@ -111,6 +115,24 @@ const ProfileForm = () => {
   };
 
   useEffect(() => {
+    var emailReg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/gm;
+    if (emailReg.test(email)) {
+      setEmailNext(true);
+    } else {
+      setEmailNext(false);
+    }
+  }, [email]);
+
+  useEffect(() => {
+    var phoneno = /^[0-9]{10}$/gm;
+    if (phoneno.test(altMobile)) {
+      setAltMobileNext(true);
+    } else {
+      setAltMobileNext(false);
+    }
+  }, [altMobile]);
+
+  useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
@@ -147,12 +169,15 @@ const ProfileForm = () => {
           />
           <FormInput
             accessibilityLabel="AltPhoneNumberInput"
-            placeholder={"Your alternate mobile no."}
+            placeholder={"Your whatsapp mobile no."}
             autoCompleteType="tel"
             keyboardType="phone-pad"
             value={altMobile}
             onChange={setAltMobile}
           />
+          {altMobile && !altMobileNext ? (
+            <Text style={form.formatmsg}>Incorrect Format</Text>
+          ) : null}
           <FormInput
             accessibilityLabel="EmailAddressInput"
             placeholder={"Your email ID"}
@@ -161,6 +186,9 @@ const ProfileForm = () => {
             value={email}
             onChange={setEmail}
           />
+          {email && !emailNext ? (
+            <Text style={form.formatmsg}>Incorrect Format</Text>
+          ) : null}
           <PrimaryButton
             accessibilityLabel={"ProfileBtn"}
             title="Continue"

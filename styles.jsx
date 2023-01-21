@@ -149,6 +149,10 @@ export const form = EStyleSheet.create({
   },
   hypenView: { width: "30rem", alignSelf: "center" },
   hypen: { alignSelf: "center", ...FONTS.h1 },
+  formatmsg: {
+    color: COLORS.warning,
+    ...FONTS.body4,
+  },
 });
 
 export const checkBox = EStyleSheet.create({
