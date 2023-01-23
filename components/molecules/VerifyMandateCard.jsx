@@ -42,6 +42,7 @@ const styles = EStyleSheet.create({
     justifyContent: "center",
     paddingVertical: "15rem",
     paddingHorizontal: "5rem",
+    marginTop: "5rem",
   },
   title: {
     ...FONTS.body4,

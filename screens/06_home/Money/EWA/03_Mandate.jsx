@@ -5,15 +5,12 @@ import { BackHandler, SafeAreaView } from "react-native";
 import MandateFormTemplate from "../../../../templates/mandate/Form";
 import Header from "../../../../components/atoms/Header";
 import { styles } from "../../../../styles";
-import MandateLoading from "../../../../components/organisms/MandateLoading";
 
 const Mandate = (props) => {
   const navigation = useNavigation();
   const mandateVerifyStatus = useSelector(
     (state) => state.mandate.verifyStatus
   );
-
-  console.log({ mandateVerifyStatus });
 
   const backAction = () => {
     navigation.navigate("EWA_KYC");
@@ -39,11 +36,8 @@ const Mandate = (props) => {
         onLeftIconPress={() => backAction()}
         progress={60}
       />
-      {mandateVerifyStatus === "INPROGRESS" ? (
-        <MandateLoading {...props} mandateVerifyStatus={mandateVerifyStatus} />
-      ) : (
-        <MandateFormTemplate type="EWA" />
-      )}
+
+      <MandateFormTemplate type="EWA" />
     </SafeAreaView>
   );
 };

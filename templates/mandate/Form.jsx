@@ -27,6 +27,7 @@ import DetailsCard from "../../components/molecules/DetailsCard";
 import MandateOptions from "../../components/molecules/MandateOptions";
 import Shield from "../../assets/Shield.svg";
 import RBI from "../../assets/RBI.svg";
+import MandateLoading from "../../components/organisms/MandateLoading";
 
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const MandateFormTemplate = (props) => {
 
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const [fetched, setFetched] = useState(false);
 
@@ -92,7 +94,12 @@ const MandateFormTemplate = (props) => {
     dispatch(addVerifyStatus(verifyStatus));
     if (fetched && props?.type === "EWA" && verifyStatus === "SUCCESS") {
       showToast("Mandate verified successfully");
+      setModalVisible(false);
       navigation.navigate("EWA_AGREEMENT");
+    } else if (fetched && props?.type === "EWA" && verifyStatus === "ERROR") {
+      showToast("Mandate verification error");
+      setModalVisible(false);
+      navigation.navigate("EWA_MANDATE");
     }
   }, [verifyStatus]);
 
@@ -275,6 +282,7 @@ const MandateFormTemplate = (props) => {
   const ProceedButton = ({ authType }) => {
     setLoading(true);
     setAuthType(authType);
+
     createOrder({
       authType: authType,
       customerId: customerId,
@@ -297,6 +305,7 @@ const MandateFormTemplate = (props) => {
           verifyStatus: "PENDING",
           verifyTimestamp: Date.now(),
         });
+        setModalVisible(true);
         Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Success`, {
           unipeEmployeeId: unipeEmployeeId,
         });
@@ -427,6 +436,15 @@ const MandateFormTemplate = (props) => {
           </View>
         </ScrollView>
       </KeyboardAvoidingWrapper>
+      {modalVisible && (
+        <MandateLoading
+          {...props}
+          setMandateVerifyStatus={setVerifyStatus}
+          mandateVerifyStatus={verifyStatus}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+      )}
     </SafeAreaView>
   );
 };
