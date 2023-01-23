@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/core";
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, ToastAndroid, Modal } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +11,7 @@ import { showToast } from "../atoms/Toast";
 
 export default function MandateLoading({
   mandateVerifyStatus,
-  navigation,
+  setMandateVerifyStatus,
   modalVisible,
   setModalVisible,
 }) {
@@ -18,6 +19,7 @@ export default function MandateLoading({
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const navigation = useNavigation();
   let interval;
 
   useEffect(() => {
@@ -46,16 +48,19 @@ export default function MandateLoading({
                     dispatch(
                       addVerifyStatus(response?.data?.body?.verifyStatus)
                     );
+                    setMandateVerifyStatus(response?.data?.body?.verifyStatus);
                   } else {
                     dispatch(resetMandate(response?.data?.body));
                     dispatch(
                       addVerifyStatus(response?.data?.body?.verifyStatus)
                     );
+                    setMandateVerifyStatus(response?.data?.body?.verifyStatus);
                   }
                 });
               } else {
                 dispatch(resetMandate(response?.data?.body));
                 dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
+                setMandateVerifyStatus(response?.data?.body?.verifyStatus);
               }
             })
             .catch((error) => {
@@ -66,10 +71,6 @@ export default function MandateLoading({
         showToast("Mandate verification In Progress");
         setModalVisible(false);
         navigation.navigate("HomeStack", { screen: "Money" });
-      } else if (mandateVerifyStatus === "ERROR") {
-        showToast("Mandate verification error");
-        setModalVisible(false);
-        navigation.navigate("EWA_MANDATE");
       }
     }, 1000);
 
