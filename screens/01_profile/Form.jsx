@@ -25,8 +25,8 @@ const ProfileForm = () => {
   const navigation = useNavigation();
 
   const [next, setNext] = useState(false);
-  const [emailNext, setEmailNext] = useState(false);
-  const [altMobileNext, setAltMobileNext] = useState(false);
+  const [validEmail, setValidEmail] = useState(false);
+  const [validAltMobile, setValidAltMobile] = useState(false);
   const [backendPush, setBackendPush] = useState(false);
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -70,12 +70,12 @@ const ProfileForm = () => {
   }, [email]);
 
   useEffect(() => {
-    if (maritalStatus && qualification && motherName && email && emailNext) {
+    if (maritalStatus && qualification && motherName && email && validEmail) {
       setNext(true);
     } else {
       setNext(false);
     }
-  }, [maritalStatus, qualification, motherName, email, emailNext]);
+  }, [maritalStatus, qualification, motherName, email, validEmail]);
 
   useEffect(() => {
     console.log("ProfileForm profileSlice: ", profileSlice);
@@ -117,18 +117,18 @@ const ProfileForm = () => {
   useEffect(() => {
     var emailReg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/gm;
     if (emailReg.test(email)) {
-      setEmailNext(true);
+      setValidEmail(true);
     } else {
-      setEmailNext(false);
+      setValidEmail(false);
     }
   }, [email]);
 
   useEffect(() => {
     var phoneno = /^[0-9]{10}$/gm;
     if (phoneno.test(altMobile)) {
-      setAltMobileNext(true);
+      setValidAltMobile(true);
     } else {
-      setAltMobileNext(false);
+      setValidAltMobile(false);
     }
   }, [altMobile]);
 
@@ -175,7 +175,7 @@ const ProfileForm = () => {
             value={altMobile}
             onChange={setAltMobile}
           />
-          {altMobile && !altMobileNext ? (
+          {altMobile && !validAltMobile ? (
             <Text style={form.formatmsg}>Incorrect Format</Text>
           ) : null}
           <FormInput
@@ -186,7 +186,7 @@ const ProfileForm = () => {
             value={email}
             onChange={setEmail}
           />
-          {email && !emailNext ? (
+          {email && !validEmail ? (
             <Text style={form.formatmsg}>Incorrect Format</Text>
           ) : null}
           <PrimaryButton
