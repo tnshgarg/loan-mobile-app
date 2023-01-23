@@ -70,7 +70,7 @@ const ProfileForm = () => {
   }, [email]);
 
   useEffect(() => {
-    if (maritalStatus && qualification && motherName && email && validEmail) {
+    if (maritalStatus && qualification && motherName && email && validEmail && altMobile && validAltMobile) {
       setNext(true);
     } else {
       setNext(false);
