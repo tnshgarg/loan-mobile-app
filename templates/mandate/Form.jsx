@@ -105,7 +105,6 @@ const MandateFormTemplate = (props) => {
     setData(data);
     setVerifyMsg(verifyMsg);
     setVerifyTimestamp(verifyTimestamp);
-    setVerifyStatus(verifyStatus);
     putBackendData({
       data: {
         unipeEmployeeId: unipeEmployeeId,
@@ -124,10 +123,11 @@ const MandateFormTemplate = (props) => {
         console.log("mandatePush response: ", response.data);
         if (response.data.status === 200){
           console.log("mandatePush pushed");
+          setVerifyStatus(verifyStatus);
         }
         else if (response.data.status === 400){
           console.log("mandatePush not expected");
-          setVerifyStatus(verifyStatus);
+          setVerifyStatus(response.data.verifyStatus);
         }
       })
       .catch((error) => {
