@@ -17,7 +17,7 @@ const FormInput = ({
   keyboardType = "default",
   autoCompleteType = "off",
   autoCapitalize,
-  errorMsg = "",
+  errorMsg,
   disabled,
   maxLength,
   numeric,
@@ -36,13 +36,14 @@ const FormInput = ({
           <Text style={{ color: COLORS.gray, ...FONTS.h4, ...labelStyle }}>
             {label}
           </Text>
-
-          <Text style={{ color: COLORS.warning, ...FONTS.body3 }}>
-            {errorMsg}
-          </Text>
         </View>
       )}
-      <View style={styles.inputContainer}>
+      <View
+        style={[
+          styles.inputContainer,
+          { borderColor: errorMsg ? COLORS.warning : COLORS.lightGray },
+        ]}
+      >
         {prependComponent}
         <TextInput
           testID={testID}
@@ -73,6 +74,13 @@ const FormInput = ({
         />
         {appendComponent}
       </View>
+      {errorMsg && (
+        <Text
+          style={{ color: COLORS.warning, ...FONTS.body4, marginTop: "2%" }}
+        >
+          {errorMsg}
+        </Text>
+      )}
     </View>
   );
 };

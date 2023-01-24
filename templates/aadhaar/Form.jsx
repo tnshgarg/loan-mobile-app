@@ -46,6 +46,7 @@ const AadhaarFormTemplate = (props) => {
             value={number}
             onChange={setNumber}
             maxLength={12}
+            errorMsg={"User with this number already exists!"}
             numeric
             appendComponent={
               <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
