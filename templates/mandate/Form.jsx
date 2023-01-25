@@ -237,7 +237,7 @@ const MandateFormTemplate = (props) => {
           Analytics.trackEvent("Mandate|Authorize|InProgress|Checkout|Error", {
             unipeEmployeeId: unipeEmployeeId,
           });
-        }
+        })
     }
   }, [orderId]);
 
