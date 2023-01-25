@@ -93,7 +93,7 @@ const AadhaarOtpApi = (props) => {
           console.log(responseJson);
           if (responseJson?.status == "400") {
             backendPush({
-              verifyMsg: "User already exists with this Aadhaar number!",
+              verifyMsg: "Confirmed by User",
               verifyStatus: "ATTEMPTED",
               verifyTimestamp: responseJson?.timestamp,
             });

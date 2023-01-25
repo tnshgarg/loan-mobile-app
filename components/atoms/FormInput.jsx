@@ -74,7 +74,7 @@ const FormInput = ({
         />
         {appendComponent}
       </View>
-      {errorMsg.length > 0 && (
+      {errorMsg?.length > 0 && (
         <Text
           style={{ color: COLORS.warning, ...FONTS.body4, marginTop: "2%" }}
         >
