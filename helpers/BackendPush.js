@@ -114,9 +114,11 @@ export const mandatePush = (payload) => {
   putBackendData({ data: payload.data, xpath: "mandate", token: payload.token })
     .then((response) => {
       console.log("mandatePush response: ", response.data);
+      return response;
     })
     .catch((error) => {
       console.log("mandatePush error: ", error);
+      return error;
     });
 };
 
