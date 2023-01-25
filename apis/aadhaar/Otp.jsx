@@ -34,7 +34,9 @@ const AadhaarOtpApi = (props) => {
   const [verifyTimestamp, setVerifyTimestamp] = useState(
     aadhaarSlice?.verifyTimestamp
   );
-  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
+  const campaignId = useSelector(
+    (state) => state.campaign.onboardingCampaignId
+  );
 
   useEffect(() => {
     dispatch(addSubmitOTPtxnId(submitOTPtxnId));
@@ -88,7 +90,18 @@ const AadhaarOtpApi = (props) => {
       .then((res) => {
         try {
           const responseJson = res?.data;
-          if (responseJson?.status == "200") {
+          console.log(responseJson);
+          if (responseJson?.status == "400") {
+            backendPush({
+              verifyMsg: "User already exists with this Aadhaar number!",
+              verifyStatus: "ATTEMPTED",
+              verifyTimestamp: responseJson?.timestamp,
+            });
+            Alert.alert("Error", responseJson?.data?.message);
+            Analytics.trackEvent("Check|Aadhaar|Exists", {
+              unipeEmployeeId: unipeEmployeeId,
+            });
+          } else if (responseJson?.status == "200") {
             switch (responseJson?.data?.code) {
               case "1001":
                 setSubmitOTPtxnId(responseJson?.data?.transaction_id);
