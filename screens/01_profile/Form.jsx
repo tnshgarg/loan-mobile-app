@@ -70,12 +70,12 @@ const ProfileForm = () => {
   }, [email]);
 
   useEffect(() => {
-    if (maritalStatus && qualification && motherName && email && validEmail && altMobile && validAltMobile) {
+    if (maritalStatus && qualification && motherName && validEmail && validAltMobile) {
       setNext(true);
     } else {
       setNext(false);
     }
-  }, [maritalStatus, qualification, motherName, email, validEmail]);
+  }, [maritalStatus, qualification, motherName, validEmail, validAltMobile]);
 
   useEffect(() => {
     console.log("ProfileForm profileSlice: ", profileSlice);
