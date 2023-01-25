@@ -7,10 +7,10 @@ import PrimaryButton from "../atoms/PrimaryButton";
 const GetMoneyCard = ({ navigation, eligible, amount, accessible, auto }) => {
   // const navigation = useNavigation();
   useEffect(() => {
-    if (auto){
+    if (auto) {
       navigation.navigate("EWAStack", { screen: "EWA_OFFER" });
     }
-  }, [auto, amount])
+  }, [auto, amount]);
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Here is your On-Demand Salary</Text>
@@ -49,8 +49,9 @@ const styles = EStyleSheet.create({
     marginBottom: "10rem",
     padding: "15rem",
     flexDirection: "column",
-    borderColor: COLORS.lightgray_01,
+    borderRadius: 5,
     elevation: 2,
+    backgroundColor: COLORS.white,
   },
   text: { ...FONTS.body3, color: COLORS.secondary, marginVertical: 5 },
 });
