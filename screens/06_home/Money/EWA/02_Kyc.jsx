@@ -11,7 +11,10 @@ import { styles } from "../../../../styles";
 import DetailsCard from "../../../../components/molecules/DetailsCard";
 import { updateKyc } from "../../../../queries/ewa/kyc";
 import { getBackendData } from "../../../../services/employees/employeeServices";
-import { addVerifyStatus, resetMandate } from "../../../../store/slices/mandateSlice";
+import {
+  addVerifyStatus,
+  resetMandate,
+} from "../../../../store/slices/mandateSlice";
 
 const KYC = () => {
   const dispatch = useDispatch();
@@ -22,12 +25,15 @@ const KYC = () => {
   const [ipAddress, setIpAdress] = useState(0);
 
   const [loading, setLoading] = useState(false);
-  const campaignId = useSelector((state) => state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId);
+  const campaignId = useSelector(
+    (state) =>
+      state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
+  );
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
-  const [mandateVerifyStatus, setMandateVerifyStatus] = useState(useSelector(
-    (state) => state.mandate.verifyStatus
-  ));
+  const [mandateVerifyStatus, setMandateVerifyStatus] = useState(
+    useSelector((state) => state.mandate.verifyStatus)
+  );
   const aadhaarData = useSelector((state) => state.aadhaar.data);
   const aadharNumber = useSelector((state) => state.aadhaar.number);
   const panNumber = useSelector((state) => state.pan.number);
@@ -49,18 +55,17 @@ const KYC = () => {
         xpath: "mandate",
         token: token,
       })
-      .then((response) => {
-        console.log("Form mandateFetch response.data", response.data);
-        if (response.data.status === 200) {
+        .then((response) => {
+          console.log("Form mandateFetch response.data", response.data);
           dispatch(resetMandate(response?.data?.body));
           dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
           setMandateVerifyStatus(response?.data?.body?.verifyStatus);
-        }
-        setFetched(true);
-      })
-      .catch((error) => {
-        console.log("mandateFetch error: ", error);
-      });
+          setFetched(true);
+        })
+        .catch((error) => {
+          console.log("mandateFetch error: ", error);
+          Alert.alert("An Error occured", error.toString());
+        });
     }
   }, [deviceId, ipAddress]);
 

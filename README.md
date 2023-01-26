@@ -55,13 +55,14 @@ build:prod
 ```
 
 ## Code Push
+### App secret at employee-app\android\app\src\main\assets\appcenter-config.json (to identify app type)
+### Codepush key at employee-app\android\app\src\main\res\values\strings.xml (to identify codepush branch)
 
+### will have to interrupt RN cache clear with Ctrl+C
 ```
-    appcenter codepush release-react -a Unipe/EmployeeApp -d Test
-    - pushes to test
-    appcenter codepush release-react -a Unipe/EmployeeApp -d Dev
-    - pushes to dev
-    appcenter codepush release-react -a Unipe/EmployeeApp -d Prod
+    npm run codepush:test
+    - pushes to test/QA
+    npm run codepush:prod
     - pushes to prod
 ```
 

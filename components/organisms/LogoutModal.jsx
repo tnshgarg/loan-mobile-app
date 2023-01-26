@@ -1,4 +1,4 @@
-import { View, Text, Modal, StyleSheet } from "react-native";
+import { View, Text, Modal } from "react-native";
 import React from "react";
 import { FONTS } from "../../constants/Theme";
 import EStyleSheet from "react-native-extended-stylesheet";

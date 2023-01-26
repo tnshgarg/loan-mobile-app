@@ -1,7 +1,8 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { COLORS, FONTS } from "../../constants/Theme";
 import LogoImage from "../../assets/HeaderLogo.svg";
+import EStyleSheet from "react-native-extended-stylesheet";
 
 const TitleHeader = ({
   containerStyle,
@@ -48,21 +49,21 @@ const TitleHeader = ({
 
 export default TitleHeader;
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: 10,
-    paddingHorizontal: 15,
+    padding: "10rem",
+    paddingHorizontal: "15rem",
     backgroundColor: COLORS.white,
     borderBottomWidth: 1.5,
     borderColor: COLORS.lightgray_01,
   },
-  empty: { backgroundColor: "transparent", height: 32, width: 32 },
+  empty: { backgroundColor: "transparent", height: "32rem", width: "32rem" },
   logo: {
-    height: 20,
-    width: 30,
+    height: "20rem",
+    width: "30rem",
   },
 });

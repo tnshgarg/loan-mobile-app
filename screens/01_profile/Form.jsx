@@ -25,6 +25,8 @@ const ProfileForm = () => {
   const navigation = useNavigation();
 
   const [next, setNext] = useState(false);
+  const [validEmail, setValidEmail] = useState(false);
+  const [validAltMobile, setValidAltMobile] = useState(false);
   const [backendPush, setBackendPush] = useState(false);
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -39,8 +41,10 @@ const ProfileForm = () => {
   const [altMobile, setAltMobile] = useState(profileSlice?.altMobile);
   const [email, setEmail] = useState(profileSlice?.email);
   const [motherName, setMotherName] = useState(profileSlice?.motherName);
-  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
-  
+  const campaignId = useSelector(
+    (state) => state.campaign.onboardingCampaignId
+  );
+
   useEffect(() => {
     dispatch(addCurrentScreen("ProfileForm"));
   }, []);
@@ -66,12 +70,12 @@ const ProfileForm = () => {
   }, [email]);
 
   useEffect(() => {
-    if (maritalStatus && qualification && motherName && email) {
+    if (maritalStatus && qualification && motherName && validEmail && validAltMobile) {
       setNext(true);
     } else {
       setNext(false);
     }
-  }, [maritalStatus, qualification, motherName, email]);
+  }, [maritalStatus, qualification, motherName, validEmail, validAltMobile]);
 
   useEffect(() => {
     console.log("ProfileForm profileSlice: ", profileSlice);
@@ -111,6 +115,24 @@ const ProfileForm = () => {
   };
 
   useEffect(() => {
+    var emailReg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/gm;
+    if (emailReg.test(email)) {
+      setValidEmail(true);
+    } else {
+      setValidEmail(false);
+    }
+  }, [email]);
+
+  useEffect(() => {
+    var phoneno = /^[0-9]{10}$/gm;
+    if (phoneno.test(altMobile)) {
+      setValidAltMobile(true);
+    } else {
+      setValidAltMobile(false);
+    }
+  }, [altMobile]);
+
+  useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
@@ -128,7 +150,6 @@ const ProfileForm = () => {
           <DropDownForm
             accessibilityLabel="EducationDropdown"
             placeholder={"Select Education*"}
-            containerStyle={{ marginVertical: 10 }}
             value={qualification}
             setValue={setQualification}
             data={qualifications}
@@ -136,7 +157,6 @@ const ProfileForm = () => {
           <DropDownForm
             accessibilityLabel="MaritalStatusDropdown"
             placeholder={"Select Maritial Status*"}
-            containerStyle={{ marginVertical: 10 }}
             value={maritalStatus}
             setValue={setMaritalStatus}
             data={maritalStatuses}
@@ -144,28 +164,31 @@ const ProfileForm = () => {
           <FormInput
             accessibilityLabel="MotherNameInput"
             placeholder={"Mother's Name*"}
-            containerStyle={{ marginVertical: 10 }}
             value={motherName}
             onChange={setMotherName}
           />
           <FormInput
             accessibilityLabel="AltPhoneNumberInput"
-            placeholder={"Your alternate mobile no."}
-            containerStyle={{ marginVertical: 10 }}
+            placeholder={"Your whatsapp mobile no."}
             autoCompleteType="tel"
             keyboardType="phone-pad"
             value={altMobile}
             onChange={setAltMobile}
           />
+          {altMobile && !validAltMobile ? (
+            <Text style={form.formatmsg}>Incorrect Format</Text>
+          ) : null}
           <FormInput
             accessibilityLabel="EmailAddressInput"
             placeholder={"Your email ID"}
-            containerStyle={{ marginVertical: 10 }}
             autoCompleteType="email"
             keyboardType="email-address"
             value={email}
             onChange={setEmail}
           />
+          {email && !validEmail ? (
+            <Text style={form.formatmsg}>Incorrect Format</Text>
+          ) : null}
           <PrimaryButton
             accessibilityLabel={"ProfileBtn"}
             title="Continue"

@@ -5,7 +5,7 @@ import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
 import RazorpayCheckout from "react-native-razorpay";
-import { mandatePush } from "../../helpers/BackendPush";
+import { putBackendData } from "../../services/employees/employeeServices";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
   addData,
@@ -26,6 +26,7 @@ import DetailsCard from "../../components/molecules/DetailsCard";
 import MandateOptions from "../../components/molecules/MandateOptions";
 import Shield from "../../assets/Shield.svg";
 import RBI from "../../assets/RBI.svg";
+import MandateLoading from "../../components/organisms/MandateLoading";
 
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ const MandateFormTemplate = (props) => {
 
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const [fetched, setFetched] = useState(false);
 
@@ -48,7 +50,6 @@ const MandateFormTemplate = (props) => {
   );
   const accountNumber = useSelector((state) => state.bank?.data?.accountNumber);
   const ifsc = useSelector((state) => state.bank?.data?.ifsc);
-
   const mandateSlice = useSelector((state) => state.mandate);
   const [loading, setLoading] = useState(false);
   const [authType, setAuthType] = useState();
@@ -60,7 +61,10 @@ const MandateFormTemplate = (props) => {
   const [verifyTimestamp, setVerifyTimestamp] = useState(
     mandateSlice?.verifyTimestamp
   );
-  const campaignId = useSelector((state) => state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId);
+  const campaignId = useSelector(
+    (state) =>
+      state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
+  );
 
   useEffect(() => {
     getUniqueId().then((id) => {
@@ -88,7 +92,13 @@ const MandateFormTemplate = (props) => {
   useEffect(() => {
     dispatch(addVerifyStatus(verifyStatus));
     if (fetched && props?.type === "EWA" && verifyStatus === "SUCCESS") {
+      showToast("Mandate verified successfully");
+      setModalVisible(false);
       navigation.navigate("EWA_AGREEMENT");
+    } else if (fetched && props?.type === "EWA" && verifyStatus === "ERROR") {
+      showToast("Mandate verification error");
+      setModalVisible(false);
+      navigation.navigate("EWA_MANDATE");
     }
   }, [verifyStatus]);
 
@@ -100,9 +110,8 @@ const MandateFormTemplate = (props) => {
     console.log("mandateSlice: ", mandateSlice);
     setData(data);
     setVerifyMsg(verifyMsg);
-    setVerifyStatus(verifyStatus);
     setVerifyTimestamp(verifyTimestamp);
-    mandatePush({
+    putBackendData({
       data: {
         unipeEmployeeId: unipeEmployeeId,
         ipAddress: ipAddress,
@@ -113,8 +122,24 @@ const MandateFormTemplate = (props) => {
         verifyTimestamp: verifyTimestamp,
         campaignId: campaignId,
       },
+      xpath: "mandate",
       token: token,
-    });
+    })
+      .then((response) => {
+        console.log("mandatePush response: ", response.data);
+        if (response.data.status === 200){
+          console.log("mandatePush pushed");
+          setVerifyStatus(verifyStatus);
+        }
+        else{
+          console.log("mandatePush not expected");
+          setVerifyStatus(response.data.verifyStatus);
+        }
+      })
+      .catch((error) => {
+        console.log("mandatePush error: ", error);
+        return error;
+      });
   };
 
   useEffect(() => {
@@ -190,14 +215,12 @@ const MandateFormTemplate = (props) => {
             verifyTimestamp: Date.now(),
           });
           setLoading(false);
-          Analytics.trackEvent("Mandate|Authorize|InProgress", {
+          Analytics.trackEvent("Mandate|Authorize|InProgress|Checkout|Success", {
             unipeEmployeeId: unipeEmployeeId,
           });
-          navigation.navigate("HomeStack");
-          showToast("Mandate Registration In Progress");
         })
         .catch((error) => {
-          console.log("mandate error:", error, options);
+          console.log("mandate checkout error :", error);
           backendPush({
             data: {
               authType: authType,
@@ -205,25 +228,22 @@ const MandateFormTemplate = (props) => {
               orderId: orderId,
               provider: "razorpay",
             },
-            verifyMsg: `Mandate Initiated from App Checkout Error : ${error?.error?.description || error?.description}`,
+            verifyMsg: "Mandate Initiated from App Checkout Error",
             verifyStatus: "INPROGRESS",
             verifyTimestamp: Date.now(),
           });
           setLoading(false);
-          Alert.alert("Error", error?.error?.description || error?.description);
-          Analytics.trackEvent("Mandate|Authorize|Error", {
+          Analytics.trackEvent("Mandate|Authorize|InProgress|Checkout|Error", {
             unipeEmployeeId: unipeEmployeeId,
-            error: error?.error?.description || error?.description,
           });
-          navigation.navigate("HomeStack");
-          showToast("Mandate Registration In Progress");
-        });
+        })
     }
   }, [orderId]);
 
   const ProceedButton = ({ authType }) => {
     setLoading(true);
     setAuthType(authType);
+
     createOrder({
       authType: authType,
       customerId: customerId,
@@ -243,15 +263,20 @@ const MandateFormTemplate = (props) => {
             orderId: res.data.id,
           },
           verifyMsg: `Mandate|CreateOrder|${authType} SUCCESS`,
-          verifyStatus: "PENDING",
+          verifyStatus: "INPROGRESS",
           verifyTimestamp: Date.now(),
         });
+        setModalVisible(true);
         Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Success`, {
           unipeEmployeeId: unipeEmployeeId,
         });
+        setAuthType("");
       })
       .catch((error) => {
-        console.log(`Mandate|CreateOrder|${authType} JSON.stringify(error):`, JSON.stringify(error));
+        console.log(
+          `Mandate|CreateOrder|${authType} JSON.stringify(error):`,
+          JSON.stringify(error)
+        );
         console.log(`Mandate|CreateOrder|${authType} error:`, error.toString());
         Alert.alert("Error", error.toString());
         backendPush({
@@ -264,6 +289,7 @@ const MandateFormTemplate = (props) => {
           unipeEmployeeId: unipeEmployeeId,
           error: error.toString(),
         });
+        setAuthType("");
       });
   };
 
@@ -293,11 +319,13 @@ const MandateFormTemplate = (props) => {
       <KeyboardAvoidingWrapper>
         <ScrollView showsVerticalScrollIndicator={false}>
           <DetailsCard data={cardData()} />
-          <Text
-            style={{ ...FONTS.body4, color: COLORS.gray, marginVertical: 10 }}
-          >
-            Please choose your preferred mode
-          </Text>
+          {verifyStatus != "INPROGRESS" && (
+            <Text
+              style={{ ...FONTS.body4, color: COLORS.gray, marginVertical: 10 }}
+            >
+              Please choose your preferred mode
+            </Text>
+          )}
           {customerId === null || !fetched ? (
             <Text style={{ ...FONTS.body4, color: COLORS.gray }}>
               Initializing ...
@@ -306,11 +334,12 @@ const MandateFormTemplate = (props) => {
             <Text style={{ ...FONTS.body4, color: COLORS.black }}>
               Your Mandate Registration is currently in progress.
             </Text>
-          ) : (
-            verifyStatus === "SUCCESS" ? (
-              null
-            ) :
-            <MandateOptions ProceedButton={ProceedButton} disabled={loading} />
+          ) : verifyStatus === "SUCCESS" ? null : (
+            <MandateOptions
+              ProceedButton={ProceedButton}
+              disabled={loading}
+              authType={authType}
+            />
           )}
           <View
             style={{
@@ -368,6 +397,15 @@ const MandateFormTemplate = (props) => {
           </View>
         </ScrollView>
       </KeyboardAvoidingWrapper>
+      {modalVisible && (
+        <MandateLoading
+          {...props}
+          setMandateVerifyStatus={setVerifyStatus}
+          mandateVerifyStatus={verifyStatus}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+      )}
     </SafeAreaView>
   );
 };

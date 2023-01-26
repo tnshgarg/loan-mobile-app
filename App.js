@@ -10,22 +10,21 @@ import { queryClient } from "./queries/client";
 import { QueryClientProvider } from "@tanstack/react-query";
 import Analytics from "appcenter-analytics";
 import Crashes from "appcenter-crashes";
-import codePush from "react-native-code-push";
 import { navigationRef } from "./navigators/RootNavigation";
 import StackNavigator from "./navigators/StackNavigator";
 import { persistor, store } from "./store/store";
-
+import UpdateDialog from "./components/UpdateDialog";
 Crashes.setListener({
   shouldProcess: function (report) {
     return true; // return true if the crash report should be processed, otherwise false.
   },
 });
 
-let codePushOptions = {
-  checkFrequency: codePush.CheckFrequency.ON_APP_START,
-  mandatoryInstallMode: codePush.InstallMode.IMMEDIATE,
-  updateDialog: true, //InstallMode.ON_NEXT_RESUME to have minimum background duration effect
-};
+// let codePushOptions = {
+//   checkFrequency: codePush.CheckFrequency.ON_APP_START,
+//   mandatoryInstallMode: codePush.InstallMode.IMMEDIATE,
+//   updateDialog: true, //InstallMode.ON_NEXT_RESUME to have minimum background duration effect
+// };
 
 const analyticsStatus = async () => {
   STAGE == "dev"
@@ -35,8 +34,8 @@ const analyticsStatus = async () => {
 };
 
 const App = () => {
-  SplashScreen.hide();
   analyticsStatus();
+  SplashScreen.hide();
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
@@ -45,6 +44,7 @@ const App = () => {
             <SafeAreaProvider style={{ backgroundColor: "white", flex: 1 }}>
               <IconComponentProvider IconComponent={Icon}>
                 <StackNavigator />
+                <UpdateDialog/>
               </IconComponentProvider>
             </SafeAreaProvider>
           </QueryClientProvider>
@@ -54,4 +54,4 @@ const App = () => {
   );
 };
 
-export default codePush(codePushOptions)(App);
+export default App;

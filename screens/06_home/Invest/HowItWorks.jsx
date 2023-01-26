@@ -1,5 +1,4 @@
 import { View, Text, SafeAreaView } from "react-native";
-import React from "react";
 import { investStyles, styles } from "../../../styles";
 import Percentage from "../../../assets/percentage.svg";
 import Insurance from "../../../assets/insurance.svg";
@@ -11,7 +10,7 @@ import SvgListItem from "../../../components/molecules/SvgListItem";
 const HowItWorks = ({ navigation }) => {
   const backAction = () => {
     navigation.navigate("HomeStack", {
-      screen: "Invest",
+      screen: "InvestNow",
     });
     return true;
   };

@@ -1,4 +1,4 @@
-import { Dimensions, PixelRatio, Platform, StyleSheet } from "react-native";
+import { Dimensions, PixelRatio, Platform } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 
 const { width, height } = Dimensions.get("window");
@@ -8,13 +8,13 @@ const scale = width / 380;
 EStyleSheet.build({
   $rem: scale,
   $primaryPending: "#4E46F1",
-  $primary: "#2CB77C",
+  $primary: "#41be89",
   $primaryBackground: "#D5F9EA",
   $appBarBackground: "#2CB77C",
   $appBarText: "",
   $secondary: "#230C45",
   $warning: "#f56a6a",
-  $warningBackground: "#feedee",
+  $warningBackground: "#fde1e1",
   $darkGray: "#333333",
   $gray: "#808080",
   $lightGray: "#aaaaaa",
@@ -31,7 +31,7 @@ export function normalize(size) {
   }
 }
 export const COLORS = {
-  primary: "#2CB77C",
+  primary: "#41be89",
   primaryBackground: "#D5F9EA",
   secondary: "#170D45",
   button: {
@@ -50,7 +50,7 @@ export const COLORS = {
   },
   secondary: "#230C45",
   warning: "#f56a6a",
-  warningBackground: "#feedee",
+  warningBackground: "#fde1e1",
   darkGray: "#333333",
   gray: "#5E8290",
   lightGray: "#DDE5E5",
@@ -69,7 +69,7 @@ export const SIZES = {
   radius: 5,
   padding: 15,
   opacity: 0.7,
-  btnHeight: 50,
+  btnHeight: normalize(50),
 
   // font sizes
   h1: normalize(30),

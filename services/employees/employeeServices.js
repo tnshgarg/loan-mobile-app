@@ -36,5 +36,10 @@ export const getBackendData = async (props) => {
     params: params,
   };
 
-  return await axios(config);
+  return await axios(config).then((response) => {
+    if (!response.data.status || response.data.status === 500) {
+      throw new Error("Oops! Something went wrong. Please try again later.");
+    }
+    return response;
+  });
 };
