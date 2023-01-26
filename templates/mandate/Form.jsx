@@ -18,7 +18,6 @@ import { showToast } from "../../components/atoms/Toast";
 import {
   createCustomer,
   createOrder,
-  getPaymentState,
 } from "../../services/mandate/Razorpay/services";
 import { RZP_KEY_ID } from "../../services/constants";
 import { COLORS, FONTS } from "../../constants/Theme";
