@@ -15,6 +15,7 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
     var mandateOptions = [];
     var bankCode = ifsc.substring(0, 4);
     var emandateOptions = bankCodeEmandateOptionsMap[bankCode] || "000";
+
     if (emandateOptions[1] === "1") {
       mandateOptions.push({
         title: "Debit Card",
@@ -25,6 +26,7 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
         },
       });
     }
+
     if (emandateOptions[0] === "1") {
       mandateOptions.push({
         title: "Net Banking",
@@ -49,10 +51,11 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
         });
       }
     }
-    if (!mandateOptions[0]?.subtitle) {
+
+    if (mandateOptions.length>0 && !mandateOptions[0]?.subtitle) {
       mandateOptions[0].subtitle = "Recommended";
     }
-    console.log("mandateOptions: ", mandateOptions);
+
     if (mandateOptions.length > 0) {
       setMandateButtons(mandateOptions);
     } else {
@@ -60,10 +63,13 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
         {
           title: "Your bank does not support mandate",
           iconName: "crosshairs-off",
+          type: "NA",
+          disabled: true,
           onPress: () => {},
         },
       ]);
     }
+
   }, [ifsc]);
 
   return (
@@ -77,8 +83,8 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
             }
             key={index}
             item={item}
-            disabled={disabled}
-            showIcon={true}
+            disabled={disabled || item.disabled}
+            showIcon={!item.disabled}
             selected={authType == item.type}
           />
         );
