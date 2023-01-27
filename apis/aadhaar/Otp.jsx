@@ -84,13 +84,13 @@ const AadhaarOtpApi = (props) => {
     if (props.isTextButton) {
       props.toggle(false); // setResend(false)
     }
-    await putBackendData({
+    putBackendData({
       data: {
         unipeEmployeeId: unipeEmployeeId,
-        data: aadhaarSlice?.data,
+        data: {},
         number: aadhaarSlice?.number,
         campaignId: campaignId,
-        verifyMsg: "Confirmed by User",
+        verifyMsg: "Attempted by User",
         verifyStatus: "ATTEMPTED",
         verifyTimestamp: Date.now(),
       },
@@ -102,7 +102,7 @@ const AadhaarOtpApi = (props) => {
         console.log("responseJson: ", responseJson);
         if (responseJson?.status == "400") {
           Alert.alert("Error", responseJson?.message);
-          Analytics.trackEvent("Check|Aadhaar|Exists", {
+          Analytics.trackEvent("Aadhaar|Otp|Duplicate", {
             unipeEmployeeId: unipeEmployeeId,
           });
           setLoading(false);
@@ -203,6 +203,7 @@ const AadhaarOtpApi = (props) => {
       })
       .catch((err) => {
         console.log("ERROR: ", err);
+        Alert.alert("Error", err);
       });
   };
 
