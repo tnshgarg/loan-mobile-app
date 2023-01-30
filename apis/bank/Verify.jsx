@@ -99,13 +99,7 @@ const BankVerifyApi = (props) => {
       data: {
         unipeEmployeeId: unipeEmployeeId,
         data: {
-          accountHolderName: accountHolderName,
           accountNumber: data.accountNumber,
-          bankName: bankName,
-          branchName: branchName,
-          branchCity: branchCity,
-          ifsc: data.ifsc,
-          upi: data.upi,
         },
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
