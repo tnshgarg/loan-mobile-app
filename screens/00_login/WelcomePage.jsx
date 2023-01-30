@@ -38,8 +38,11 @@ const WelcomePage = () => {
     <SafeAreaView accessibilityLabel="WelcomePage" style={styles.safeContainer}>
       <LogoHeader
         rightIcon={
-          <Icon name="help-circle-outline" size={28} color={COLORS.primary} />
+          <Icon name="logo-whatsapp" size={28} color={COLORS.primary} />
         }
+        rightOnPress={() => {
+          Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+        }}
       />
 
       <View style={styles.container}>
