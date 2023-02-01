@@ -27,10 +27,10 @@ import BackgroundTimer from "react-native-background-timer";
 
 const OTPScreen = () => {
   const dispatch = useDispatch();
+  const inputRef = useRef();
   const navigation = useNavigation();
 
   const [verified, setVerified] = useState(false);
-  const inputRef = useRef();
 
   const [otp, setOtp] = useState("");
   const [next, setNext] = useState(false);
