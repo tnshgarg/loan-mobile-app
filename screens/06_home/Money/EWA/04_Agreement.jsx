@@ -260,7 +260,7 @@ const Agreement = () => {
           />
 
           <Text style={moneyStyles.percentageTitle}>
-            † Annual Percentage Rate @ {ewaLiveSlice.apr} %
+            † Annual Percentage Rate @ {ewaLiveSlice?.apr} %
           </Text>
 
           <Modal

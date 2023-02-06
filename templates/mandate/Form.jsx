@@ -228,8 +228,8 @@ const MandateFormTemplate = (props) => {
               orderId: orderId,
               provider: "razorpay",
             },
-            verifyMsg: "Mandate Initiated from App Checkout Error",
-            verifyStatus: "INPROGRESS",
+            verifyMsg: JSON.stringify(error),
+            verifyStatus: "INPROGRESS", // this is required to handle inconsistent cases
             verifyTimestamp: Date.now(),
           });
           setLoading(false);
