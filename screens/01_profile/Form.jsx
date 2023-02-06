@@ -18,7 +18,7 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import FormInput from "../../components/atoms/FormInput";
 import DropDownForm from "../../components/molecules/DropDownForm";
 import Analytics from "appcenter-analytics";
-import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import Header from "../../components/atoms/Header";
 
 const ProfileForm = () => {
   const dispatch = useDispatch();
@@ -140,8 +140,11 @@ const ProfileForm = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer} accessibilityLabel="ProfileForm">
-      <LogoHeaderBack leftOnPress={backAction} />
-
+        <Header
+        title="Onboarding"
+        onLeftIconPress={() => backAction()}
+        progress={20}
+      />
       <OnboardingProgressBar step={0} />
       <Text style={styles.headline}>Tell us about you</Text>
       <Text style={styles.subHeadline}>(अपनी जानकारी यहाँ भरें)</Text>

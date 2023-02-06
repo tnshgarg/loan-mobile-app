@@ -6,7 +6,7 @@ import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import { styles } from "../../styles";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import PanFormTemplate from "../../templates/pan/Form";
-import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import Header from "../../components/atoms/Header";
 
 export default PanForm = () => {
   const dispatch = useDispatch();
@@ -55,10 +55,10 @@ export default PanForm = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <LogoHeaderBack
-        leftOnPress={backAction}
-        rightOnPress={SkipPAN}
-        skipEnabled={true}
+      <Header
+        title="Onboarding"
+        onLeftIconPress={() => backAction()}
+        progress={40}
       />
       <OnboardingProgressBar step={2} />
       <PanFormTemplate />

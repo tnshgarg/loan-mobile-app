@@ -15,7 +15,7 @@ import BankForm from "../../screens/04_bank/Form";
 import BackendSync from "../../screens/BackendSync";
 import Onboarding from "../../screens/00_login/Onboarding";
 
-const OnboardingStack = () => {
+const KYCStack = () => {
   const Stack = createNativeStackNavigator();
   var initialRoute = useSelector((state) => state.navigation.currentScreen);
 
@@ -35,43 +35,6 @@ const OnboardingStack = () => {
           header: null,
         }}
       /> */}
-      <Stack.Screen
-        name="Onboarding"
-        component={Onboarding}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="Login"
-        component={LoginScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="Otp"
-        component={OTPScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="BackendSync"
-        component={BackendSync}
-        options={{
-          headerShown: false,
-          animation: "default",
-        }}
-      />
-      <Stack.Screen
-        name="Welcome"
-        component={WelcomePage}
-        options={{
-          headerShown: false,
-        }}
-      />
-
       <Stack.Screen
         name="ProfileForm"
         component={ProfileForm}
@@ -144,4 +107,4 @@ const OnboardingStack = () => {
   );
 };
 
-export default OnboardingStack;
+export default KYCStack;

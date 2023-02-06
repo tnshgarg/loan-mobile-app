@@ -34,7 +34,7 @@ const Mandate = (props) => {
       <Header
         title="Mandate"
         onLeftIconPress={() => backAction()}
-        progress={60}
+        progress={70}
       />
 
       <MandateFormTemplate type="EWA" />

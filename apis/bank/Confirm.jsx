@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
@@ -9,6 +10,7 @@ import Analytics from "appcenter-analytics";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import { updateBank } from "../../queries/onboarding/bank";
+import { addOnboarded } from "../../store/slices/authSlice";
 
 const BankConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -16,11 +18,19 @@ const BankConfirmApi = (props) => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
+  const campaignId = useSelector(
+    (state) => state.campaign.onboardingCampaignId
+  );
   const data = useSelector((state) => state.bank.data);
   const verifyTimestamp = useSelector((state) => state.bank.verifyTimestamp);
-
+  const [onboarded, setOnboarded] = useState(
+    useSelector((state) => state.auth.onboarded)
+  );
   const { mutateAsync: updateBankMutateAsync } = updateBank();
+
+  useEffect(() => {
+    dispatch(addOnboarded(onboarded));
+  }, [onboarded]);
 
   const backendPush = ({ verifyMsg, verifyStatus }) => {
     dispatch(addVerifyMsg(verifyMsg));
@@ -106,6 +116,7 @@ const BankConfirmApi = (props) => {
           pressableContainerStyle={{ width: "100%" }}
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
+            setOnboarded(true);
             backendPush({
               verifyMsg: "Confirmed by User",
               verifyStatus: "SUCCESS",
@@ -119,7 +130,7 @@ const BankConfirmApi = (props) => {
                     screen: "BANK",
                   })
                 : props?.type === "Onboarding"
-                ? navigation.replace("HomeStack")
+                ? navigation.replace("EWA_MANDATE")
                 : null;
             }
           }}

@@ -37,6 +37,7 @@ const Offer = () => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const onboarded = useSelector((state) => state.auth.onboarded);
   const campaignId = useSelector((state) => state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const fees = useSelector((state) => state.ewaLive.fees);
@@ -168,7 +169,12 @@ const Offer = () => {
         .then((response) => {
           console.log("updateOfferMutateAsync response.data: ", response.data);
           setLoading(false);
-          navigation.navigate("EWA_KYC");
+          if(onboarded){
+            navigation.navigate("EWA_KYC");
+          }
+          else{
+            navigation.navigate("EWA_KYC_STACK");
+          }
           Analytics.trackEvent("Ewa|OfferPush|Success", {
             unipeEmployeeId: unipeEmployeeId,
           });
@@ -190,7 +196,7 @@ const Offer = () => {
       <Header
         title="On-Demand Salary"
         onLeftIconPress={() => backAction()}
-        progress={20}
+        progress={10}
       />
       <View style={styles.container}>
         <Text style={[styles.headline, { alignSelf: "flex-start" }]}>
