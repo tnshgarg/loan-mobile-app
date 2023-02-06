@@ -207,11 +207,14 @@ const HomeView = () => {
         title={"Home"}
         rightIcon={
           <Ionicons
-            name="help-circle-outline"
+            name="logo-whatsapp"
             size={28}
             color={COLORS.primary}
           />
         }
+        rightOnPress={() => {
+          Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+        }}
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>

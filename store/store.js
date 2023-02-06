@@ -16,7 +16,6 @@ import timerSlice from "./slices/timerSlice";
 
 import ewaHistoricalSlice from "./slices/ewaHistoricalSlice";
 import ewaLiveSlice from "./slices/ewaLiveSlice";
-import notificationSlice from "./slices/notificationSlice";
 
 const persistConfig = {
   key: "root",
@@ -37,7 +36,6 @@ const appReducer = combineReducers({
   timer: timerSlice,
   ewaLive: ewaLiveSlice,
   ewaHistorical: ewaHistoricalSlice,
-  notification: notificationSlice,
 });
 
 const rootReducer = (state, action) => {

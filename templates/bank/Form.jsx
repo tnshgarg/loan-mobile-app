@@ -14,7 +14,7 @@ import {
   addUpi,
 } from "../../store/slices/bankSlice";
 import { useNavigation } from "@react-navigation/core";
-import { bankform, form, styles } from "../../styles";
+import { bankform, styles } from "../../styles";
 import ShieldTitle from "../../components/atoms/ShieldTitle";
 
 const BankFormTemplate = (props) => {

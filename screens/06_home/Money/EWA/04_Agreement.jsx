@@ -182,6 +182,7 @@ const Agreement = () => {
         ipAddress: ipAddress,
         deviceId: deviceId,
         bankAccountNumber: bankSlice?.data?.accountNumber,
+        bankName: bankSlice?.data?.bankName,
         dueDate: ewaLiveSlice?.dueDate,
         processingFees: ewaLiveSlice?.processingFees,
         loanAmount: ewaLiveSlice?.loanAmount,
@@ -259,7 +260,7 @@ const Agreement = () => {
           />
 
           <Text style={moneyStyles.percentageTitle}>
-            † Annual Percentage Rate @ {ewaLiveSlice.apr} %
+            † Annual Percentage Rate @ {ewaLiveSlice?.apr} %
           </Text>
 
           <Modal

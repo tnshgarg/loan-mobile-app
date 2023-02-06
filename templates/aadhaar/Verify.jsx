@@ -7,6 +7,7 @@ import AadhaarOtpApi from "../../apis/aadhaar/Otp";
 import { styles } from "../../styles";
 import { COLORS } from "../../constants/Theme";
 import OtpInput from "../../components/molecules/OtpInput";
+import BackgroundTimer from "react-native-background-timer";
 
 const AadhaarVerifyTemplate = (props) => {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const AadhaarVerifyTemplate = (props) => {
   let interval;
 
   useEffect(() => {
-    interval = setInterval(() => {
+    interval = BackgroundTimer.setInterval(() => {
       console.log({ countDownTime });
       if (countDownTime > 0) {
         dispatch(setAadhaarTimer(countDownTime - 1));
@@ -34,10 +35,10 @@ const AadhaarVerifyTemplate = (props) => {
 
     if (countDownTime < 1 || verified) {
       setResend(true);
-      clearInterval(interval);
+      BackgroundTimer.clearInterval(interval);
     }
-    
-    return () => clearInterval(interval);
+
+    return () => BackgroundTimer.clearInterval(interval);
   }, [countDownTime, verified]);
 
   useEffect(() => {
