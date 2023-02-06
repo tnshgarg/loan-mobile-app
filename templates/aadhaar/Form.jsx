@@ -46,6 +46,7 @@ const AadhaarFormTemplate = (props) => {
             value={number}
             onChange={setNumber}
             maxLength={12}
+            errorMsg={number && !validNumber ? "Invalid Aadhaar Number" : ""}
             numeric
             appendComponent={
               <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
@@ -53,10 +54,6 @@ const AadhaarFormTemplate = (props) => {
               </Text>
             }
           />
-
-          {number && !validNumber ? (
-            <Text style={bankform.formatmsg}>Invalid Aadhaar Number.</Text>
-          ) : null}
 
           <InfoCard
             info={
