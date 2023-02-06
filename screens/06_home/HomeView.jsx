@@ -5,7 +5,6 @@ import { Linking, SafeAreaView, ScrollView, View } from "react-native";
 import PushNotification from "react-native-push-notification";
 import { useDispatch, useSelector } from "react-redux";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
-import KycCheckCard from "../../components/molecules/KycCheckCard";
 import { allAreNull } from "../../helpers/nullCheck";
 import {
   addEkycCampaignId,
@@ -113,7 +112,7 @@ const HomeView = () => {
     isError: getEwaOffersIsError,
     error: getEwaOffersError,
     data: getEwaOffersData,
-  } = useQuery(['getEwaOffers', unipeEmployeeId, token], getEwaOffers, {
+  } = useQuery(["getEwaOffers", unipeEmployeeId, token], getEwaOffers, {
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 11,
     refetchInterval: 1000 * 60 * 5,
@@ -138,12 +137,18 @@ const HomeView = () => {
         dispatch(resetEwaHistorical(getEwaOffersData.data.body.past));
         setFetched(true);
       } else {
-        console.log("HomeView ewaOffersFetch API error getEwaOffersData.data : ", getEwaOffersData.data);
+        console.log(
+          "HomeView ewaOffersFetch API error getEwaOffersData.data : ",
+          getEwaOffersData.data
+        );
         dispatch(resetEwaLive());
         dispatch(resetEwaHistorical());
       }
     } else if (getEwaOffersIsError) {
-      console.log("HomeView ewaOffersFetch API error getEwaOffersError.message : ", getEwaOffersError.message);
+      console.log(
+        "HomeView ewaOffersFetch API error getEwaOffersError.message : ",
+        getEwaOffersError.message
+      );
       dispatch(resetEwaLive());
       dispatch(resetEwaHistorical());
     }
@@ -215,26 +220,19 @@ const HomeView = () => {
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
-          {allAreNull(verifyStatuses) ? (
-            <>
-              <LiveOfferCard
-                eligible={eligible}
-                accessible={accessible}
-                ewaLiveSlice={ewaLiveSlice}
-                auto={auto}
-              />
-              <VideoPlayer
-                title="Why Unipe?"
-                thumbnail={require("../../assets/youtube_thumbnail.jpg")}
-                videoId="9zXrU09Lvcs"
-              />
-            </>
-          ) : (
-            <KycCheckCard
-              title="Following pending steps need to be completed in order to receive advance salary."
-              message={verifyStatuses}
+          <>
+            <LiveOfferCard
+              eligible={eligible}
+              accessible={accessible}
+              ewaLiveSlice={ewaLiveSlice}
+              auto={auto}
             />
-          )}
+            <VideoPlayer
+              title="Why Unipe?"
+              thumbnail={require("../../assets/youtube_thumbnail.jpg")}
+              videoId="9zXrU09Lvcs"
+            />
+          </>
         </View>
       </ScrollView>
     </SafeAreaView>
