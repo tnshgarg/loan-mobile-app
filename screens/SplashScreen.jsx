@@ -30,28 +30,27 @@ const SplashScreen = (props) => {
         case "onboarding":
           switch (splitted[4]?.toLowerCase()) {
             case "profile":
-              dispatch(addCurrentStack("OnboardingStack"));
-              navigation.navigate("OnboardingStack", {
-                screen: "ProfileForm",
-              });
+              navigation.navigate("AccountStack", {
+                screen: "Profile",
+              })
               break;
             case "aadhaar":
-              dispatch(addCurrentStack("OnboardingStack"));
-              navigation.navigate("OnboardingStack", {
-                screen: "AadhaarForm",
-              });
+              navigation.navigate("AccountStack", {
+                screen: "KYC",
+                params: { screen: "AADHAAR" },
+              })
               break;
             case "pan":
-              dispatch(addCurrentStack("OnboardingStack"));
-              navigation.navigate("OnboardingStack", {
-                screen: "PanForm",
-              });
+              navigation.navigate("AccountStack", {
+                screen: "KYC",
+                params: { screen: "PAN" },
+              })
               break;
             case "bank":
-              dispatch(addCurrentStack("OnboardingStack"));
-              navigation.navigate("OnboardingStack", {
-                screen: "BankForm",
-              });
+              navigation.navigate("AccountStack", {
+                screen: "KYC",
+                params: { screen: "BANK" },
+              })
               break;
           }
           break;
@@ -77,6 +76,7 @@ const SplashScreen = (props) => {
   useEffect(() => {
     getUrlAsync();
   }, []);
+
   return (
     <Image
       source={require("../assets/splash_screen.png")}

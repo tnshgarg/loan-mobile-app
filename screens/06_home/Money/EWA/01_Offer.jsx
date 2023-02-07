@@ -38,7 +38,17 @@ const Offer = () => {
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const onboarded = useSelector((state) => state.auth.onboarded);
-  const campaignId = useSelector((state) => state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId);
+  const campaignId = useSelector(
+    (state) =>
+      state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
+  );
+  const profileComplete = useSelector(
+    (state) => state.profile.profileComplete
+  );
+  const aadhaarComplete = useSelector((state) => state.aadhaar.verifyStatus);
+  const panComplete = useSelector((state) => state.pan.verifyStatus);
+  const bankComplete = useSelector((state) => state.bank.verifyStatus);
+
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const fees = useSelector((state) => state.ewaLive.fees);
   const [loanAmount, setLoanAmount] = useState(ewaLiveSlice?.eligibleAmount);
@@ -149,6 +159,30 @@ const Offer = () => {
     return apr.toFixed(2);
   };
 
+  const handleConditionalNav = () => {
+    if (onboarded) {
+      navigation.navigate("EWA_KYC");
+    } else {
+      if (!profileComplete) {
+        navigation.navigate("EWA_KYC_STACK", { screen: "ProfileForm" });
+      } else {
+        if (aadhaarComplete != "SUCCESS") {
+          navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarForm" });
+        } else {
+          if (panComplete != "SUCCESS") {
+            navigation.navigate("EWA_KYC_STACK", { screen: "PanForm" });
+          } else {
+            if (bankComplete != "SUCCESS") {
+              navigation.navigate("EWA_KYC_STACK", { screen: "BankForm" });
+            } else {
+              navigation.navigate("EWA_KYC");
+            }
+          }
+        }
+      }
+    }
+  };
+
   function handleAmount() {
     setLoading(true);
     if (validAmount) {
@@ -169,12 +203,7 @@ const Offer = () => {
         .then((response) => {
           console.log("updateOfferMutateAsync response.data: ", response.data);
           setLoading(false);
-          if(onboarded){
-            navigation.navigate("EWA_KYC");
-          }
-          else{
-            navigation.navigate("EWA_KYC_STACK");
-          }
+          handleConditionalNav();
           Analytics.trackEvent("Ewa|OfferPush|Success", {
             unipeEmployeeId: unipeEmployeeId,
           });

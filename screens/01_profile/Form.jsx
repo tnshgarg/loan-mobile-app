@@ -110,7 +110,7 @@ const ProfileForm = () => {
   const backAction = () => {
     Alert.alert("Hold on!", "Are you sure you want to go back?", [
       { text: "No", onPress: () => null, style: "cancel" },
-      { text: "Yes", onPress: () => navigation.navigate("Welcome") },
+      { text: "Yes", onPress: () => navigation.navigate("EWAStack", { screen: "EWA_OFFER" })},
     ]);
     return true;
   };
