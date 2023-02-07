@@ -9,6 +9,7 @@ import {
   addEmail,
   addMotherName,
   addMaritalStatus,
+  addComplete,
 } from "../../store/slices/profileSlice";
 import { profileBackendPush } from "../../helpers/BackendPush";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";

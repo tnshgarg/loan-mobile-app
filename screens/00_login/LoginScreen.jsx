@@ -13,6 +13,7 @@ import { putBackendData } from "../../services/employees/employeeServices";
 import { sendSmsVerification } from "../../services/otp/Gupshup/services";
 import {
   addACTC,
+  addEmployeeName,
   addOnboarded,
   addPhoneNumber,
   addToken,
@@ -42,6 +43,7 @@ const LoginScreen = () => {
 
   const authSlice = useSelector((state) => state.auth);
   const [aCTC, setACTC] = useState(authSlice?.aCTC);
+  const [employeeName, setEmployeeName] = useState(authSlice?.employeeName);
   const [onboarded, setOnboarded] = useState(authSlice?.onboarded);
   const [phoneNumber, setPhoneNumber] = useState(authSlice?.phoneNumber);
   const [token, setToken] = useState(authSlice?.token);
@@ -91,6 +93,10 @@ const LoginScreen = () => {
   useEffect(() => {
     dispatch(addACTC(aCTC));
   }, [aCTC]);
+
+  useEffect(() => {
+    dispatch(addEmployeeName(employeeName));
+  }, [employeeName]);
 
   useEffect(() => {
     dispatch(addOnboarded(onboarded));
@@ -154,6 +160,7 @@ const LoginScreen = () => {
         console.log("LoginScreen res.data: ", res.data);
         if (res.data.status === 200) {
           setACTC(res.data.body.aCTC);
+          setEmployeeName(res.data.body.employeeName);
           setOnboarded(res.data.body.onboarded);
           setToken(res.data.body.token);
           setUnipeEmployeeId(res.data.body.unipeEmployeeId);

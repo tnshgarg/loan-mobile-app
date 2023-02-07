@@ -220,7 +220,7 @@ const Agreement = () => {
       <Header
         title="Agreement"
         onLeftIconPress={() => backAction()}
-        progress={80}
+        progress={100}
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>

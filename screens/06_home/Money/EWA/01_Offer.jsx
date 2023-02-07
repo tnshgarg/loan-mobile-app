@@ -196,7 +196,7 @@ const Offer = () => {
       <Header
         title="On-Demand Salary"
         onLeftIconPress={() => backAction()}
-        progress={10}
+        progress={25}
       />
       <View style={styles.container}>
         <Text style={[styles.headline, { alignSelf: "flex-start" }]}>
