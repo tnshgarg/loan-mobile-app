@@ -18,18 +18,6 @@ export default PanForm = () => {
 
   const aadhaarVerifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
 
-  const SkipPAN = () => {
-    console.log("first");
-    Alert.alert(
-      "Skip PAN Verification",
-      `If you want to receive advance salary, PAN KYC is required. Are you sure, you want to skip this step?`,
-      [
-        { text: "No", onPress: () => null, style: "cancel" },
-        { text: "Yes", onPress: () => navigation.navigate("BankForm") },
-      ]
-    );
-  };
-
   const backAction = () => {
     Alert.alert(
       "Hold on!",
