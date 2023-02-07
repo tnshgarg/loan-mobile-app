@@ -23,14 +23,7 @@ const BankConfirmApi = (props) => {
   );
   const data = useSelector((state) => state.bank.data);
   const verifyTimestamp = useSelector((state) => state.bank.verifyTimestamp);
-  const [onboarded, setOnboarded] = useState(
-    useSelector((state) => state.auth.onboarded)
-  );
   const { mutateAsync: updateBankMutateAsync } = updateBank();
-
-  useEffect(() => {
-    dispatch(addOnboarded(onboarded));
-  }, [onboarded]);
 
   const backendPush = ({ verifyMsg, verifyStatus }) => {
     dispatch(addVerifyMsg(verifyMsg));
@@ -116,7 +109,7 @@ const BankConfirmApi = (props) => {
           pressableContainerStyle={{ width: "100%" }}
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
-            setOnboarded(true);
+            dispatch(addOnboarded(true));
             backendPush({
               verifyMsg: "Confirmed by User",
               verifyStatus: "SUCCESS",

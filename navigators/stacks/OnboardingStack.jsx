@@ -1,17 +1,8 @@
 import { useSelector } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Header from "../../components/atoms/Header";
 import LoginScreen from "../../screens/00_login/LoginScreen";
 import OTPScreen from "../../screens/00_login/OTPScreen";
 import WelcomePage from "../../screens/00_login/WelcomePage";
-import ProfileForm from "../../screens/01_profile/Form";
-import AadhaarConfirm from "../../screens/02_aadhaar/Confirm";
-import AadhaarForm from "../../screens/02_aadhaar/Form";
-import AadhaarVerify from "../../screens/02_aadhaar/Verify";
-import PanConfirm from "../../screens/03_pan/Confirm";
-import PanForm from "../../screens/03_pan/Form";
-import BankConfirm from "../../screens/04_bank/Confirm";
-import BankForm from "../../screens/04_bank/Form";
 import BackendSync from "../../screens/BackendSync";
 import Onboarding from "../../screens/00_login/Onboarding";
 
