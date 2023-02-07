@@ -78,7 +78,6 @@ const HomeView = () => {
   }, [aadhaarVerifyStatus, bankVerifyStatus, panVerifyStatus]);
 
   useEffect(() => {
-    dispatch(addCurrentScreen("Home"));
     dispatch(addCurrentStack("HomeStack"));
     if (!onboarded) addOnboarded(true);
   }, []);
