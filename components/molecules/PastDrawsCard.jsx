@@ -79,9 +79,15 @@ const OfferCard = ({ offer }) => {
         </View>
         <View style={styles.textContainer}>
           <Text style={{ ...FONTS.h4, color: COLORS.black }}>₹{amount}</Text>
-          <Text style={{ color: COLORS.gray, ...FONTS.body5 }}>
-            Due date {offer.dueDate}
-          </Text>
+          {
+            ["Due", "Pending"].includes(offerType) 
+            ?
+            <Text style={{ color: COLORS.gray, ...FONTS.body5 }}>
+              Due date {offer.dueDate}
+            </Text>
+            :
+            null
+          }
         </View>
 
         <StatusCard offerType={offerType} />
