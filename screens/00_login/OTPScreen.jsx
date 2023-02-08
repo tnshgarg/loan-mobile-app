@@ -49,7 +49,6 @@ const OTPScreen = () => {
 
   useEffect(() => {
     interval = BackgroundTimer.setInterval(() => {
-      console.log({ countDownTime });
       if (countDownTime > 0) {
         dispatch(setLoginTimer(countDownTime - 1));
       } else {
@@ -111,7 +110,6 @@ const OTPScreen = () => {
         }
       })
       .catch((error) => {
-        console.log(error.toString());
         Alert.alert("Error", error.toString());
         Analytics.trackEvent("OTPScreen|SendSms|Error", {
           unipeEmployeeId: unipeEmployeeId,
@@ -124,7 +122,6 @@ const OTPScreen = () => {
     setNext(false);
     checkVerification(phoneNumber, otp)
       .then((res) => {
-        console.log("res: ", res);
         if (res["response"]["status"] === "success") {
           setVerified(true);
           if (onboarded) {
@@ -149,7 +146,6 @@ const OTPScreen = () => {
         }
       })
       .catch((error) => {
-        console.log(error.toString());
         Alert.alert("Error", error.toString());
         Analytics.trackEvent("OTPScreen|Check|Error", {
           unipeEmployeeId: unipeEmployeeId,
