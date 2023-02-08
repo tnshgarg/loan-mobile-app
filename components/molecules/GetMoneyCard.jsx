@@ -4,13 +4,8 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
 import PrimaryButton from "../atoms/PrimaryButton";
 
-const GetMoneyCard = ({ navigation, eligible, amount, accessible, auto }) => {
-  // const navigation = useNavigation();
-  useEffect(() => {
-    if (auto) {
-      navigation.navigate("EWAStack", { screen: "EWA_OFFER" });
-    }
-  }, [auto, amount]);
+const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Here is your On-Demand Salary</Text>
