@@ -20,7 +20,6 @@ import { styles } from "../../styles";
 import { STAGE } from "@env";
 import { Ionicons } from "react-native-vector-icons";
 import LogoHeader from "../../components/atoms/LogoHeader";
-import VideoPlayer from "../../components/organisms/VideoPlayer";
 import { COLORS } from "../../constants/Theme";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
 import { getEwaOffers } from "../../queries/ewa/offers";
@@ -35,7 +34,7 @@ import {
   addEligible,
   resetEwaLive,
 } from "../../store/slices/ewaLiveSlice";
-
+import CompleteKycCard from "../../components/molecules/CompleteKycCard";
 const HomeView = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -226,11 +225,7 @@ const HomeView = () => {
               ewaLiveSlice={ewaLiveSlice}
               auto={auto}
             />
-            <VideoPlayer
-              title="Why Unipe?"
-              thumbnail={require("../../assets/youtube_thumbnail.jpg")}
-              videoId="9zXrU09Lvcs"
-            />
+            <CompleteKycCard/>
           </>
         </View>
       </ScrollView>
