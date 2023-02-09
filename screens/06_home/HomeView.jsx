@@ -35,6 +35,7 @@ import {
   resetEwaLive,
 } from "../../store/slices/ewaLiveSlice";
 import CompleteKycCard from "../../components/molecules/CompleteKycCard";
+import ExploreCards from "../../components/molecules/ExploreCards";
 const HomeView = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -226,6 +227,7 @@ const HomeView = () => {
               auto={auto}
             />
             <CompleteKycCard/>
+            <ExploreCards/>
           </>
         </View>
       </ScrollView>
