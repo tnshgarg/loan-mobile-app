@@ -4,15 +4,18 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import { useSelector } from "react-redux";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Ionicons } from "react-native-vector-icons";
+import { useEffect, useState } from "react";
 
 const CompleteKycCard = () => {
   const navigation = useNavigation();
+  const [show, setShow] = useState(true);
   const profileComplete = useSelector((state) => state.profile.profileComplete);
   const aadhaarComplete = useSelector((state) => state.aadhaar.verifyStatus);
   const panComplete = useSelector((state) => state.pan.verifyStatus);
   const bankComplete = useSelector((state) => state.bank.verifyStatus);
 
   const handleConditionalNav = () => {
+    console.log("profileComplete", profileComplete, aadhaarComplete, panComplete, bankComplete);
     if (!profileComplete) {
       navigation.navigate("AccountStack", {
         screen: "Profile",
@@ -46,22 +49,38 @@ const CompleteKycCard = () => {
       }
     }
   };
-
+  useEffect(() => {
+    if (profileComplete && aadhaarComplete == "SUCCESS" && panComplete == "SUCCESS" && bankComplete == "SUCCESS") {
+      setShow(false);
+    }
+  }, [profileComplete, aadhaarComplete, panComplete, bankComplete]);
+  
   return (
-    <View style={styles.container}>
-      <View>
-        <Text style={styles.title}>Complete eKYC</Text>
-        <Text style={styles.subtitle}>
-          Verify your personal details {"\n"}to get on-demand salary
-        </Text>
-      </View>
-      <TouchableOpacity activeOpacity={0.7} onPress={() => handleConditionalNav()}>
-        <View style={styles.card}>
-          <Text style={styles.cardText}>Start now</Text>
-          <Ionicons name="arrow-forward" color={COLORS.darkGray} size={20} />
+    <>
+      {show ? (
+        <View style={styles.container}>
+          <View>
+            <Text style={styles.title}>Complete eKYC</Text>
+            <Text style={styles.subtitle}>
+              Verify your personal details {"\n"}to get on-demand salary
+            </Text>
+          </View>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => handleConditionalNav()}
+          >
+            <View style={styles.card}>
+              <Text style={styles.cardText}>Start now</Text>
+              <Ionicons
+                name="arrow-forward"
+                color={COLORS.darkGray}
+                size={20}
+              />
+            </View>
+          </TouchableOpacity>
         </View>
-      </TouchableOpacity>
-    </View>
+      ) : null}
+    </>
   );
 };
 
