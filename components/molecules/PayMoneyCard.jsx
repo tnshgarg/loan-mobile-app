@@ -106,6 +106,36 @@ const PayMoneyCard = () => {
     repaymentId: repaymentId,
   });
 
+  const backendPush = ({ data, status }) => {
+    console.log("mandateSlice: ", mandateSlice);
+    setData(data);
+    updateRepaymentMutateAsync({
+      data: {
+        unipeEmployeeId: unipeEmployeeId,
+        dueDate: dueDate,
+        data: data,
+        status: status,
+        campaignId: campaignId,
+      },
+      token: token,
+    })
+      .then((response) => {
+        console.log("repaymentPush response: ", response.data);
+        if (response.data.status === 200){
+          console.log("repaymentPush pushed");
+          setRepaymentStatus(status);
+        }
+        else{
+          console.log("repaymentPush not expected");
+          setRepaymentStatus(response.data.paymentStatus);
+        }
+      })
+      .catch((error) => {
+        console.log("repaymentPush error: ", error);
+        return error;
+      });
+  };
+
   useEffect(() => {
     console.log(
       "createRepayment repaymentOrderId: ",
@@ -131,49 +161,28 @@ const PayMoneyCard = () => {
         RazorpayCheckout.open(options)
           .then((data) => {
             console.log("ewaRepayment Checkout RazorpayCheckout data: ", data);
-            updateRepaymentMutateAsync({
+            backendPush({
               data: {
-                unipeEmployeeId: unipeEmployeeId,
-                dueDate: dueDate,
-                status: "INPROGRESS",
-                campaignId: campaignId,
+                orderId: repaymentOrderId,
               },
-              token: token,
-            })
-              .then((response) => {
-                console.log("ewaRepayment Checkout Post response.data: ", response?.data);
-                if (response?.data?.status === 200) {
-                  setRepaymentStatus("INPROGRESS");
-                  showToast("Loan Payment In Progress");
-                  setLoading(false);
-                  Analytics.trackEvent("Ewa|Repayment|Success", {
-                    unipeEmployeeId: unipeEmployeeId,
-                  });
-                } else {
-                  showToast("Loan Payment Failed. Please try again.");
-                  setLoading(false);
-                  Analytics.trackEvent("Ewa|RepaymentPost|Error", {
-                    unipeEmployeeId: unipeEmployeeId,
-                  });
-                }
-              })
-              .catch((error) => {
-                console.log("ewaRepayment Checkout Post error: ", error.toString());
-                showToast("Loan Payment Failed. Please try again.");
-                setLoading(false);
-                Analytics.trackEvent("Ewa|Repayment|Error", {
-                  unipeEmployeeId: unipeEmployeeId,
-                  error: error.toString(),
-                });
-              });
+              status: "INPROGRESS",
+            });
+            setLoading(false);
+            Analytics.trackEvent("Ewa|Repayment|Success", {
+              unipeEmployeeId: unipeEmployeeId,
+            });
           })
           .catch((error) => {
-            console.log("ewaRepayment Checkout error.description: ", error.description);
-            showToast("Loan Payment Failed. Please try again.");
+            console.log("ewaRepayment Checkout error: ", error);
+            backendPush({
+              data: {
+                orderId: repaymentOrderId,
+              },
+              status: "INPROGRESS",
+            });
             setLoading(false);
             Analytics.trackEvent("Ewa|Repayment|Error", {
               unipeEmployeeId: unipeEmployeeId,
-              error: error.description,
             });
           });
       }
@@ -184,18 +193,20 @@ const PayMoneyCard = () => {
     if (repaymentAmount > 0) {
       createRazorpayOrderMutateAsync()
         .then((res) => {
-          console.log("Paynow button res:", res?.data);
           setRepaymentOrderId(res?.data?.id);
+          backendPush({
+            data: {
+              orderId: res?.data?.id,
+            },
+            status: "INPROGRESS",
+          });
         })
         .catch((error) => {
-          var errorObj = "";
-          if (error.error) {
-            errorObj = error.error;
-          } else {
-            errorObj = error;
-          }
-          console.log("ewaRepayment Checkout error: ", errorObj.description);
-          showToast("Loan Payment Failed. Please try again.");
+          backendPush({
+            data: {},
+            status: "ERROR",
+          });
+          Alert.alert("Error", error.toString());
           setLoading(false);
           Analytics.trackEvent("Ewa|Repayment|Error", {
             unipeEmployeeId: unipeEmployeeId,

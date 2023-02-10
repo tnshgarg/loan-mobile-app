@@ -199,15 +199,15 @@ const MandateFormTemplate = (props) => {
       };
 
       RazorpayCheckout.open(options)
-        .then((data) => {
-          console.log("mandate checkout:", data, options);
+        .then((response) => {
+          console.log("mandate checkout:", response, options);
           backendPush({
             data: {
               authType: authType,
               customerId: customerId,
               orderId: orderId,
-              paymentId: data.razorpay_payment_id,
-              paymentSignature: data.razorpay_signature,
+              paymentId: response.razorpay_payment_id,
+              paymentSignature: response.razorpay_signature,
               provider: "razorpay",
             },
             verifyMsg: "Mandate Initiated from App Checkout Success",
@@ -236,6 +236,9 @@ const MandateFormTemplate = (props) => {
           Analytics.trackEvent("Mandate|Authorize|InProgress|Checkout|Error", {
             unipeEmployeeId: unipeEmployeeId,
           });
+        })
+        .finally(() => {
+          setModalVisible(true);
         })
     }
   }, [orderId]);
@@ -266,7 +269,6 @@ const MandateFormTemplate = (props) => {
           verifyStatus: "INPROGRESS",
           verifyTimestamp: Date.now(),
         });
-        setModalVisible(true);
         Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Success`, {
           unipeEmployeeId: unipeEmployeeId,
         });
@@ -294,7 +296,7 @@ const MandateFormTemplate = (props) => {
   };
 
   const cardData = () => {
-    var res = [
+    return [
       {
         subTitle: "Account Holder Name",
         value: accountHolderName,
@@ -311,7 +313,6 @@ const MandateFormTemplate = (props) => {
         fullWidth: true,
       },
     ];
-    return res;
   };
 
   return (
