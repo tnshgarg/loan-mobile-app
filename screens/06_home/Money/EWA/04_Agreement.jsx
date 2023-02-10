@@ -27,6 +27,7 @@ import agreement from "../../../../templates/docs/LiquiLoansLoanAgreement";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
 import Checkbox from "../../../../components/atoms/Checkbox";
 import { updateAgreement } from "../../../../queries/ewa/agreement";
+import LiquiloansTitle from "../../../../components/atoms/LiquiloansTitle";
 
 const Agreement = () => {
   const dispatch = useDispatch();
@@ -258,7 +259,7 @@ const Agreement = () => {
               handleAgreement();
             }}
           />
-
+          <LiquiloansTitle title={"an RBI registered NBFC-P2P"}/>
           <Text style={moneyStyles.percentageTitle}>
             † Annual Percentage Rate @ {ewaLiveSlice.apr} %
           </Text>

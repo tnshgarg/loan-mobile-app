@@ -248,9 +248,9 @@ export const onboardingStyles = EStyleSheet.create({
 export const moneyStyles = EStyleSheet.create({
   percentageTitle: {
     ...FONTS.body5,
-    marginTop: "25%",
+    marginTop: "150rem",
     color: COLORS.gray,
-    alignSelf: "center",
+    alignSelf: "flex-start",
     fontSize: 8,
   },
 });
