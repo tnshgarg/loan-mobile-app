@@ -15,7 +15,13 @@ const CompleteKycCard = () => {
   const bankComplete = useSelector((state) => state.bank.verifyStatus);
 
   const handleConditionalNav = () => {
-    console.log("profileComplete", profileComplete, aadhaarComplete, panComplete, bankComplete);
+    console.log(
+      "profileComplete",
+      profileComplete,
+      aadhaarComplete,
+      panComplete,
+      bankComplete
+    );
     if (!profileComplete) {
       navigation.navigate("AccountStack", {
         screen: "Profile",
@@ -50,35 +56,35 @@ const CompleteKycCard = () => {
     }
   };
   useEffect(() => {
-    if (profileComplete && aadhaarComplete == "SUCCESS" && panComplete == "SUCCESS" && bankComplete == "SUCCESS") {
+    if (
+      profileComplete &&
+      aadhaarComplete == "SUCCESS" &&
+      panComplete == "SUCCESS" &&
+      bankComplete == "SUCCESS"
+    ) {
       setShow(false);
     }
   }, [profileComplete, aadhaarComplete, panComplete, bankComplete]);
-  
+
   return (
     <>
       {show ? (
-        <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.container}
+          activeOpacity={0.7}
+          onPress={() => handleConditionalNav()}
+        >
           <View>
             <Text style={styles.title}>Complete eKYC</Text>
             <Text style={styles.subtitle}>
               Verify your personal details {"\n"}to get on-demand salary
             </Text>
           </View>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={() => handleConditionalNav()}
-          >
-            <View style={styles.card}>
-              <Text style={styles.cardText}>Start now</Text>
-              <Ionicons
-                name="arrow-forward"
-                color={COLORS.darkGray}
-                size={20}
-              />
-            </View>
-          </TouchableOpacity>
-        </View>
+          <View style={styles.card}>
+            <Text style={styles.cardText}>Start now</Text>
+            <Ionicons name="arrow-forward" color={COLORS.darkGray} size={20} />
+          </View>
+        </TouchableOpacity>
       ) : null}
     </>
   );
@@ -88,8 +94,7 @@ const styles = EStyleSheet.create({
   container: {
     marginVertical: "10rem",
     paddingVertical: "20rem",
-    flexDirection: "column",
-    backgroundColor: COLORS.darkGray,
+    backgroundColor: COLORS.secondary,
     borderRadius: 6,
     flexDirection: "row",
     alignItems: "center",
@@ -98,7 +103,7 @@ const styles = EStyleSheet.create({
     ...FONTS.h2,
     textAlign: "left",
     marginHorizontal: "10rem",
-    color: COLORS.yellow,
+    color: COLORS.primary,
   },
   subtitle: {
     ...FONTS.body4,
@@ -109,7 +114,7 @@ const styles = EStyleSheet.create({
   },
   card: {
     borderRadius: 10,
-    width: "100%",
+    width: "120rem",
     borderWidth: 1.5,
     borderColor: COLORS.lightGray,
     flexDirection: "row",

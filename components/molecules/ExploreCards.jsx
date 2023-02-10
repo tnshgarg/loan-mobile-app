@@ -5,16 +5,18 @@ import Earn from "../../assets/Earn.svg";
 import ODS from "../../assets/GetODS.svg";
 import Refer from "../../assets/Refer.svg";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { useRef } from "react";
+import { Ionicons } from "react-native-vector-icons";
 
-const Card = ({ destination, component, active }) => {
+const Card = ({ destination, component, inactive }) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
       activeOpacity={0.7}
+      disabled={inactive}
       onPress={() => {
         navigation.navigate(destination);
       }}
-      disabled={!active}
     >
       {component}
     </TouchableOpacity>
@@ -31,20 +33,46 @@ const data = [
   },
   {
     component: <Refer width={150} height={200} />,
-    active: false,
+    inactive: true,
   },
 ];
 
 const ExploreCards = () => {
+  const scrollRef = useRef(null);
+
+  const onPress = (targetIndex) => {
+    scrollRef.current?.scrollTo({ x: normalize.width(90) });
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Explore</Text>
-      <ScrollView horizontal={true} style={styles.cardsView}>
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <Text style={styles.title}>Explore</Text>
+        <View style={{ justifyContent: "flex-end" }}>
+          <Ionicons
+            name="arrow-forward"
+            color={COLORS.darkGray}
+            size={20}
+            onPress={() => scrollRef.current.scrollToEnd({ animated: true })}
+          />
+        </View>
+      </View>
+      <ScrollView
+        horizontal={true}
+        disableIntervalMomentum={true}
+        pagingEnabled
+        nestedScrollEnabled
+        showsHorizontalScrollIndicator={false}
+        snapToAlignment={"center"}
+        style={styles.cardsView}
+        ref={scrollRef}
+      >
         {data.map((item, index) => (
           <Card
             key={index}
             destination={item.destination}
             component={item.component}
+            inactive={item.inactive}
           />
         ))}
       </ScrollView>
