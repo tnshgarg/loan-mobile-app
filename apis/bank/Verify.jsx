@@ -17,6 +17,7 @@ import { bankBackendPush } from "../../helpers/BackendPush";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
 import { updateBank, verifyBank } from "../../queries/onboarding/bank";
+import { putBackendData } from "../../services/employees/employeeServices";
 
 const BankVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -41,7 +42,9 @@ const BankVerifyApi = (props) => {
   const [verifyTimestamp, setVerifyTimestamp] = useState(
     bankSlice?.verifyTimestamp
   );
-  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
+  const campaignId = useSelector(
+    (state) => state.campaign.onboardingCampaignId
+  );
 
   const { mutateAsync: updateBankMutateAsync } = updateBank();
   const { mutateAsync: verifyBankMutateAsync } = verifyBank();
@@ -96,13 +99,7 @@ const BankVerifyApi = (props) => {
       data: {
         unipeEmployeeId: unipeEmployeeId,
         data: {
-          accountHolderName: accountHolderName,
           accountNumber: data.accountNumber,
-          bankName: bankName,
-          branchName: branchName,
-          branchCity: branchCity,
-          ifsc: data.ifsc,
-          upi: data.upi,
         },
         verifyMsg: verifyMsg,
         verifyStatus: verifyStatus,
@@ -117,111 +114,146 @@ const BankVerifyApi = (props) => {
   const goForFetch = () => {
     setLoading(true);
 
-    verifyBankMutateAsync({ data: props.data })
+    putBackendData({
+      data: {
+        unipeEmployeeId: unipeEmployeeId,
+        data: {
+          accountNumber: data.accountNumber,
+        },
+        verifyMsg: "Attempted by User",
+        verifyStatus: "ATTEMPTED",
+        verifyTimestamp: Date.now(),
+        campaignId: campaignId,
+      },
+      xpath: "bank",
+      token: token,
+    })
       .then((res) => {
-        const responseJson = res.data;
-        try {
-          if (responseJson["status"] == "200") {
-            switch (responseJson["data"]["code"]) {
-              case "1000":
-                backendPush({
-                  verifyMsg: "To be confirmed by User",
-                  verifyStatus: "PENDING",
-                  verifyTimestamp: responseJson["timestamp"],
-                  accountHolderName:
-                    responseJson["data"]["bank_account_data"]["name"],
-                  bankName:
-                    responseJson["data"]["bank_account_data"]["bank_name"],
-                  branchName:
-                    responseJson["data"]["bank_account_data"]["branch"],
-                  branchCity: responseJson["data"]["bank_account_data"]["city"],
-                });
-                Analytics.trackEvent("Bank|Verify|Success", {
-                  unipeEmployeeId: unipeEmployeeId,
-                });
-                {
-                  props.type == "KYC"
-                    ? navigation.navigate("KYC", {
-                        screen: "BANK",
-                        params: {
-                          screen: "Confirm",
-                        },
-                      })
-                    : navigation.navigate("BankConfirm");
+        let responseJson = res?.data;
+        console.log("responseJson: ", responseJson);
+        if (responseJson?.status == "400") {
+          Alert.alert("Error", responseJson?.message);
+          Analytics.trackEvent("Bank|Verify|Duplicate", {
+            unipeEmployeeId: unipeEmployeeId,
+          });
+          setLoading(false);
+        } else {
+          verifyBankMutateAsync({ data: props.data })
+            .then((res) => {
+              const responseJson = res.data;
+              console.log("responseJson: ", responseJson);
+              try {
+                if (responseJson["status"] == "200") {
+                  switch (responseJson["data"]["code"]) {
+                    case "1000":
+                      backendPush({
+                        verifyMsg: "To be confirmed by User",
+                        verifyStatus: "PENDING",
+                        verifyTimestamp: responseJson["timestamp"],
+                        accountHolderName:
+                          responseJson["data"]["bank_account_data"]["name"],
+                        bankName:
+                          responseJson["data"]["bank_account_data"][
+                            "bank_name"
+                          ],
+                        branchName:
+                          responseJson["data"]["bank_account_data"]["branch"],
+                        branchCity:
+                          responseJson["data"]["bank_account_data"]["city"],
+                      });
+                      Analytics.trackEvent("Bank|Verify|Success", {
+                        unipeEmployeeId: unipeEmployeeId,
+                      });
+                      {
+                        props.type == "KYC"
+                          ? navigation.navigate("KYC", {
+                              screen: "BANK",
+                              params: {
+                                screen: "Confirm",
+                              },
+                            })
+                          : navigation.navigate("BankConfirm");
+                      }
+                      break;
+                    default:
+                      backendPush({
+                        verifyMsg: responseJson["data"]["message"],
+                        verifyStatus: "ERROR",
+                        verifyTimestamp: verifyTimestamp,
+                      });
+                      Alert.alert("Error", responseJson["data"]["message"]);
+                      Analytics.trackEvent("Bank|Verify|Error", {
+                        unipeEmployeeId: unipeEmployeeId,
+                        error: responseJson["data"]["message"],
+                      });
+                      break;
+                  }
+                } else {
+                  setVerifyStatus("ERROR");
+                  if (responseJson["error"]) {
+                    backendPush({
+                      verifyMsg: responseJson["error"],
+                      verifyStatus: "ERROR",
+                      verifyTimestamp: verifyTimestamp,
+                    });
+                    Alert.alert(
+                      "Error",
+                      responseJson["error"]["metadata"]["fields"]
+                        .map((item) => item["message"])
+                        .join("\n")
+                    );
+                    Analytics.trackEvent("Bank|Verify|Error", {
+                      unipeEmployeeId: unipeEmployeeId,
+                      error: responseJson["error"]["metadata"]["fields"]
+                        .map((item) => item["message"])
+                        .join("\n"),
+                    });
+                  } else {
+                    backendPush({
+                      verifyMsg: responseJson["message"],
+                      verifyStatus: "ERROR",
+                      verifyTimestamp: verifyTimestamp,
+                    });
+                    Alert.alert("Error", responseJson["message"]);
+                    Analytics.trackEvent("Bank|Verify|Error", {
+                      unipeEmployeeId: unipeEmployeeId,
+                      error: responseJson["messsage"],
+                    });
+                  }
                 }
-                break;
-              default:
+              } catch (error) {
                 backendPush({
-                  verifyMsg: responseJson["data"]["message"],
+                  verifyMsg: error.toString(),
                   verifyStatus: "ERROR",
                   verifyTimestamp: verifyTimestamp,
                 });
-                Alert.alert("Error", responseJson["data"]["message"]);
+                Alert.alert("Error", error.toString());
                 Analytics.trackEvent("Bank|Verify|Error", {
                   unipeEmployeeId: unipeEmployeeId,
-                  error: responseJson["data"]["message"],
+                  error: error.toString(),
                 });
-                break;
-            }
-          } else {
-            setVerifyStatus("ERROR");
-            if (responseJson["error"]) {
+              }
+            })
+            .catch((error) => {
               backendPush({
-                verifyMsg: responseJson["error"],
+                verifyMsg: error.toString(),
                 verifyStatus: "ERROR",
                 verifyTimestamp: verifyTimestamp,
               });
-              Alert.alert(
-                "Error",
-                responseJson["error"]["metadata"]["fields"]
-                  .map((item) => item["message"])
-                  .join("\n")
-              );
+              Alert.alert("Error", error.toString());
               Analytics.trackEvent("Bank|Verify|Error", {
                 unipeEmployeeId: unipeEmployeeId,
-                error: responseJson["error"]["metadata"]["fields"]
-                  .map((item) => item["message"])
-                  .join("\n"),
+                error: error.toString(),
               });
-            } else {
-              backendPush({
-                verifyMsg: responseJson["message"],
-                verifyStatus: "ERROR",
-                verifyTimestamp: verifyTimestamp,
-              });
-              Alert.alert("Error", responseJson["message"]);
-              Analytics.trackEvent("Bank|Verify|Error", {
-                unipeEmployeeId: unipeEmployeeId,
-                error: responseJson["messsage"],
-              });
-            }
-          }
-        } catch (error) {
-          backendPush({
-            verifyMsg: error.toString(),
-            verifyStatus: "ERROR",
-            verifyTimestamp: verifyTimestamp,
-          });
-          Alert.alert("Error", error.toString());
-          Analytics.trackEvent("Bank|Verify|Error", {
-            unipeEmployeeId: unipeEmployeeId,
-            error: error.toString(),
-          });
+            });
         }
       })
-      .catch((error) => {
-        backendPush({
-          verifyMsg: error.toString(),
-          verifyStatus: "ERROR",
-          verifyTimestamp: verifyTimestamp,
-        });
-        Alert.alert("Error", error.toString());
-        Analytics.trackEvent("Bank|Verify|Error", {
-          unipeEmployeeId: unipeEmployeeId,
-          error: error.toString(),
-        });
+      .catch((err) => {
+        console.log("ERROR: ", err);
+        Alert.alert("Error", err);
       });
   };
+
   return (
     <PrimaryButton
       accessibilityLabel={"BankFormBtn"}
@@ -233,6 +265,7 @@ const BankVerifyApi = (props) => {
       }}
     />
   );
+  
 };
 
 export default BankVerifyApi;
