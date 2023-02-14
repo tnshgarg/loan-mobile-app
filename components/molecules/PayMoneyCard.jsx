@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { RZP_KEY_ID } from "../../services/constants";
 import PrimaryButton from "../atoms/PrimaryButton";
-import { showToast } from "../atoms/Toast";
 import { getNumberOfDays, setYYYYMMDDtoDDMMYYYY } from "../../helpers/DateFunctions";
 import { getRepayment, createRazorpayOrder, updateRepayment } from "../../queries/ewa/repayment";
 import { resetRepayment } from "../../store/slices/repaymentSlice";
@@ -107,8 +106,7 @@ const PayMoneyCard = () => {
   });
 
   const backendPush = ({ data, status }) => {
-    console.log("mandateSlice: ", mandateSlice);
-    setData(data);
+    console.log("repaymentSlice: ", repaymentSlice);
     updateRepaymentMutateAsync({
       data: {
         unipeEmployeeId: unipeEmployeeId,
@@ -125,8 +123,8 @@ const PayMoneyCard = () => {
           console.log("repaymentPush pushed");
           setRepaymentStatus(status);
         }
-        else{
-          console.log("repaymentPush not expected");
+        else {
+          console.log("repaymentPush not expected: ", response.data);
           setRepaymentStatus(response.data.paymentStatus);
         }
       })
@@ -157,17 +155,19 @@ const PayMoneyCard = () => {
           },
           theme: { color: COLORS.primary },
         };
-        console.log("ewaRepayment Checkout RazorpayCheckout options: ", options);
+
         RazorpayCheckout.open(options)
-          .then((data) => {
-            console.log("ewaRepayment Checkout RazorpayCheckout data: ", data);
+          .then((response) => {
+            console.log("ewaRepayment Checkout RazorpayCheckout data: ", response);
             backendPush({
               data: {
                 orderId: repaymentOrderId,
+                paymentId: response.razorpay_payment_id,
+                paymentSignature: response.razorpay_signature,
+                provider: "razorpay",
               },
               status: "INPROGRESS",
             });
-            setLoading(false);
             Analytics.trackEvent("Ewa|Repayment|Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
@@ -180,11 +180,15 @@ const PayMoneyCard = () => {
               },
               status: "INPROGRESS",
             });
-            setLoading(false);
             Analytics.trackEvent("Ewa|Repayment|Error", {
               unipeEmployeeId: unipeEmployeeId,
             });
-          });
+          })
+          .finally(() => {
+            setRepaymentOrderId(null);
+            setLoading(false);
+          })
+          ;
       }
     }
   }, [repaymentOrderId]);
@@ -198,7 +202,7 @@ const PayMoneyCard = () => {
             data: {
               orderId: res?.data?.id,
             },
-            status: "INPROGRESS",
+            status: "PENDING",
           });
         })
         .catch((error) => {

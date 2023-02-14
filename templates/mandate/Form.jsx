@@ -132,7 +132,7 @@ const MandateFormTemplate = (props) => {
           setVerifyStatus(verifyStatus);
         }
         else{
-          console.log("mandatePush not expected");
+          console.log("mandatePush not expected", response.data);
           setVerifyStatus(response.data.verifyStatus);
         }
       })
@@ -160,19 +160,19 @@ const MandateFormTemplate = (props) => {
             });
           })
           .catch((error) => {
-            console.log("createCustomer Catch Error: ", error.toString());
-            Alert.alert("Error", error.toString());
+            console.log("createCustomer Catch Error: ", JSON.stringify(error));
+            Alert.alert("Create Customer Catch Error", JSON.stringify(error));
             Analytics.trackEvent("Mandate|CreateCustomer|Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: error.toString(),
             });
           });
       } catch (error) {
-        console.log("createCustomer Try Catch Error: ", error.toString());
-        Alert.alert("Error", error.toString());
+        console.log("createCustomer Try Catch Error: ", JSON.stringify(error));
+        Alert.alert("Create Customer Try Catch Error", JSON.stringify(error));
         Analytics.trackEvent("Mandate|CreateCustomer|Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: error.toString(),
+          error: JSON.stringify(error),
         });
       }
     }
@@ -214,13 +214,12 @@ const MandateFormTemplate = (props) => {
             verifyStatus: "INPROGRESS",
             verifyTimestamp: Date.now(),
           });
-          setLoading(false);
           Analytics.trackEvent("Mandate|Authorize|InProgress|Checkout|Success", {
             unipeEmployeeId: unipeEmployeeId,
           });
         })
         .catch((error) => {
-          console.log("mandate checkout error :", error);
+          console.log("mandate checkout error :", error.description);
           backendPush({
             data: {
               authType: authType,
@@ -232,14 +231,15 @@ const MandateFormTemplate = (props) => {
             verifyStatus: "INPROGRESS", // this is required to handle inconsistent cases
             verifyTimestamp: Date.now(),
           });
-          setLoading(false);
           Analytics.trackEvent("Mandate|Authorize|InProgress|Checkout|Error", {
             unipeEmployeeId: unipeEmployeeId,
           });
         })
         .finally(() => {
           setModalVisible(true);
-        })
+          setOrderId(null);
+          setLoading(false);
+        });
     }
   }, [orderId]);
 
@@ -266,7 +266,7 @@ const MandateFormTemplate = (props) => {
             orderId: res.data.id,
           },
           verifyMsg: `Mandate|CreateOrder|${authType} SUCCESS`,
-          verifyStatus: "INPROGRESS",
+          verifyStatus: "PENDING",
           verifyTimestamp: Date.now(),
         });
         Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Success`, {
@@ -275,21 +275,17 @@ const MandateFormTemplate = (props) => {
         setAuthType("");
       })
       .catch((error) => {
-        console.log(
-          `Mandate|CreateOrder|${authType} JSON.stringify(error):`,
-          JSON.stringify(error)
-        );
-        console.log(`Mandate|CreateOrder|${authType} error:`, error.toString());
-        Alert.alert("Error", error.toString());
+        console.log(`Mandate|CreateOrder|${authType} Error: ${JSON.stringify(error)}`);
+        Alert.alert("Create Order Error", JSON.stringify(error));
         backendPush({
           data: { authType: authType, customerId: customerId },
-          verifyMsg: `Mandate|CreateOrder|${authType} ERROR ${error.toString()}`,
+          verifyMsg: `Mandate|CreateOrder|${authType} ERROR ${JSON.stringify(error)}`,
           verifyStatus: "ERROR",
           verifyTimestamp: Date.now(),
         });
         Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Error`, {
           unipeEmployeeId: unipeEmployeeId,
-          error: error.toString(),
+          error: JSON.stringify(error),
         });
         setAuthType("");
       });
