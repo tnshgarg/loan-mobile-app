@@ -15,19 +15,24 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
     var mandateOptions = [];
     var bankCode = ifsc.substring(0, 4);
     var emandateOptions = bankCodeEmandateOptionsMap[bankCode] || "000";
-    if (emandateOptions[1] === "1") {
+
+    if (emandateOptions[2] === "1") {
       mandateOptions.push({
-        title: "Debit Card",
-        iconName: "credit-card-outline",
-        type: "debitcard",
+        title: "Aadhaar",
+        subtitle: "Takes upto 96 banking hours to register",
+        subtitleStyle: {color: COLORS.secondary},
+        iconName: "card-account-details-outline",
+        type: "aadhaar",
         onPress: () => {
-          ProceedButton({ authType: "debitcard" });
+          ProceedButton({ authType: "aadhaar" });
         },
       });
     }
+
     if (emandateOptions[0] === "1") {
       mandateOptions.push({
         title: "Net Banking",
+        subtitleStyle: {color: COLORS.primary},
         iconName: "bank-outline",
         type: "netbanking",
         onPress: () => {
@@ -36,23 +41,22 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
       });
     }
 
-    if (emandateOptions[2] === "1") {
-      if (emandateOptions[1] != "1") {
-        mandateOptions.push({
-          title: "Aadhaar",
-          subtitle: "Takes upto 48 banking hours to register",
-          iconName: "card-account-details-outline",
-          type: "aadhaar",
-          onPress: () => {
-            ProceedButton({ authType: "aadhaar" });
-          },
-        });
-      }
+    if (emandateOptions[1] === "1") {
+      mandateOptions.push({
+        title: "Debit Card",
+        subtitleStyle: {color: COLORS.primary},
+        iconName: "credit-card-outline",
+        type: "debitcard",
+        onPress: () => {
+          ProceedButton({ authType: "debitcard" });
+        },
+      });
     }
-    if (!mandateOptions[0]?.subtitle) {
-      mandateOptions[0].subtitle = "Recommended";
+
+    if (mandateOptions.length > 1) {
+      mandateOptions[mandateOptions.length-1].subtitle = "Recommended";
     }
-    console.log("mandateOptions: ", mandateOptions);
+
     if (mandateOptions.length > 0) {
       setMandateButtons(mandateOptions);
     } else {
@@ -60,10 +64,13 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
         {
           title: "Your bank does not support mandate",
           iconName: "crosshairs-off",
+          type: "NA",
+          disabled: true,
           onPress: () => {},
         },
       ]);
     }
+
   }, [ifsc]);
 
   return (
@@ -73,12 +80,12 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
           <ListItem
             titleStyle={{ ...FONTS.body4 }}
             subtitleStyle={
-              index == 0 && { color: COLORS.primary, ...FONTS.body5 }
+              {...FONTS.body5, ...item.subtitleStyle }
             }
             key={index}
             item={item}
-            disabled={disabled}
-            showIcon={true}
+            disabled={disabled || item.disabled}
+            showIcon={!item.disabled}
             selected={authType == item.type}
           />
         );

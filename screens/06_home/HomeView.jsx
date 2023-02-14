@@ -56,7 +56,6 @@ const HomeView = () => {
 
   // const panMisMatch = useSelector((state) => state.pan.misMatch);
   // const bankMisMatch = useSelector((state) => state.bank.misMatch);
-  const [auto, setAuto] = useState(null);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
@@ -158,7 +157,6 @@ const HomeView = () => {
       console.log("route", splitted[3]);
       switch (splitted[3].toLowerCase()) {
         case "ewa":
-          setAuto("ewa");
           switch (splitted[4]?.toLowerCase()) {
             case "campaign":
               dispatch(addEwaCampaignId(splitted[5]));
@@ -168,7 +166,6 @@ const HomeView = () => {
           }
           break;
         case "repayment":
-          setAuto("repayment");
           switch (splitted[4]?.toLowerCase()) {
             case "campaign":
               dispatch(addRepaymentCampaignId(splitted[5]));
@@ -207,11 +204,14 @@ const HomeView = () => {
         title={"Home"}
         rightIcon={
           <Ionicons
-            name="help-circle-outline"
+            name="logo-whatsapp"
             size={28}
             color={COLORS.primary}
           />
         }
+        rightOnPress={() => {
+          Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+        }}
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
@@ -221,7 +221,6 @@ const HomeView = () => {
                 eligible={eligible}
                 accessible={accessible}
                 ewaLiveSlice={ewaLiveSlice}
-                auto={auto}
               />
               <VideoPlayer
                 title="Why Unipe?"

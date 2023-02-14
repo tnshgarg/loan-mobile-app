@@ -1,20 +1,18 @@
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
-import { useEffect } from "react";
-import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
 import Analytics from "appcenter-analytics";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { COLORS, FONTS } from "../../constants/Theme";
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { onboardingStyles, styles } from "../../styles";
-import { requestUserPermission } from "../../services/notifications/notificationService";
-import LogoHeader from "../../components/atoms/LogoHeader";
-import ShieldTitle from "../../components/atoms/ShieldTitle";
-import OnDemand from "../../assets/OnDemand.svg";
+import { SafeAreaView, Text, View } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
+import { useSelector } from "react-redux";
 import Clock from "../../assets/Clock.svg";
 import InterestFree from "../../assets/InterestFree.svg";
+import OnDemand from "../../assets/OnDemand.svg";
+import LogoHeader from "../../components/atoms/LogoHeader";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import ShieldTitle from "../../components/atoms/ShieldTitle";
 import SvgListItem from "../../components/molecules/SvgListItem";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { requestUserPermission } from "../../services/notifications/notificationService";
+import { onboardingStyles, styles } from "../../styles";
 
 const Onboarding = () => {
   const navigation = useNavigation();
@@ -39,7 +37,14 @@ const Onboarding = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <LogoHeader />
+      <LogoHeader
+        rightIcon={
+          <Icon name="logo-whatsapp" size={28} color={COLORS.primary} />
+        }
+        rightOnPress={() => {
+          Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+        }}
+      />
       <View style={styles.container}>
         <Text
           style={{

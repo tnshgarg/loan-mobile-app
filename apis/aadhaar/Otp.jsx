@@ -79,7 +79,7 @@ const AadhaarOtpApi = (props) => {
     setLoading(false);
   };
 
-  const goForFetch = async () => {
+  const goForFetch = () => {
     setLoading(true);
     if (props.isTextButton) {
       props.toggle(false); // setResend(false)

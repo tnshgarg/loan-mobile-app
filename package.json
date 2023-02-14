@@ -2,13 +2,14 @@
 	"name": "employee-app",
 	"main": "index.js",
 	"scripts": {
+		"cleanup": "cd android && ./gradlew clean && cd .. && npx react-native start --reset-cache",
 		"start:dev": "bash ./android/ACFlavours.sh -e dev && gulp set --env=dev && npx react-native run-android --active-arch-only --variant=devDebug --appIdSuffix=dev",
-		"start:qa": "bash ./android/ACFlavours.sh -e qa && gulp set --env=test && npx react-native run-android --active-arch-only --variant=qaDebug --appIdSuffix=qa",
+		"start:qa": "bash ./android/ACFlavours.sh -e qa && gulp set --env=qa && npx react-native run-android --active-arch-only --variant=qaDebug --appIdSuffix=qa",
 		"start:prod": "bash ./android/ACFlavours.sh -e prod && gulp set --env=prod && npx react-native run-android --active-arch-only --variant=prodDebug --appIdSuffix=prod",
 		"build:dev": "bash ./android/ACFlavours.sh -e dev && bash ./android/versioning.sh && gulp set --env=dev && cd android && ./gradlew assembleDevRelease",
-		"build:qa": "bash ./android/ACFlavours.sh -e qa && bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
-		"build:demo": "bash ./android/ACFlavours.sh -e demo && bash ./android/versioning.sh && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
-		"build:debug": "bash ./android/ACFlavours.sh -e dev && gulp set --env=test && cd android && ./gradlew assembleQaRelease",
+		"build:qa": "bash ./android/ACFlavours.sh -e qa && bash ./android/versioning.sh && gulp set --env=qa && cd android && ./gradlew assembleQaRelease",
+		"build:demo": "bash ./android/ACFlavours.sh -e demo && bash ./android/versioning.sh && gulp set --env=qa && cd android && ./gradlew assembleQaRelease",
+		"build:debug": "bash ./android/ACFlavours.sh -e dev && gulp set --env=qa && cd android && ./gradlew assembleQaRelease",
 		"build:prod": "bash ./android/ACFlavours.sh -e prod && bash ./android/versioning.sh && gulp set --env=prod && cd android && ./gradlew assembleProdRelease",
 		"codepush:qa": "bash ./android/ACFlavours.sh -e qa && cd android && ./gradlew clean && cd .. && npx react-native start --reset-cache && bash ./android/codepush.sh -e test",
 		"codepush:prod": "bash ./android/ACFlavours.sh -e prod && cd android && ./gradlew clean && cd .. && npx react-native start --reset-cache && bash ./android/codepush.sh -e prod",
@@ -42,6 +43,7 @@
 		"patch-package": "^6.5.0",
 		"react": "17.0.2",
 		"react-native": "0.68.2",
+		"react-native-background-timer": "^2.4.1",
 		"react-native-code-push": "^7.0.5",
 		"react-native-config": "^1.4.6",
 		"react-native-device-info": "^10.2.0",
@@ -85,7 +87,7 @@
 		"glob": "7.2.0"
 	},
 	"private": true,
-	"version": "2023.1.9",
+	"version": "2023.1.25",
 	"jest": {
 		"verbose": true,
 		"testTimeout": 50000

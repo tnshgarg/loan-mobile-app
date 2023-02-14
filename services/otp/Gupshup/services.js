@@ -1,7 +1,7 @@
 import { GUPSHUP_PASSWORD, GUPSHUP_USERID, STAGE } from "@env";
 
 const sendSmsVerification = async (phoneNumber) => {
-  if (STAGE === "dev" && phoneNumber === "9999999999") {
+  if (STAGE === "dev") {
     return {
       response: {
         status: "success",
@@ -44,7 +44,7 @@ const sendSmsVerification = async (phoneNumber) => {
 };
 
 const checkVerification = async (phoneNumber, code) => {
-  if (STAGE === "dev" && phoneNumber === "9999999999") {
+  if (STAGE === "dev") {
     return {
       response: {
         status: "success",

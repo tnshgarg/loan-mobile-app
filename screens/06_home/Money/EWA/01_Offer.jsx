@@ -125,18 +125,19 @@ const Offer = () => {
     dispatch(addNetAmount(parseInt(loanAmount) - pF));
     dispatch(addAPR(APR(processingFees, loanAmount)));
     setUpdating(false);
-  }, [loanAmount]);
+  }, [loanAmount, processingFees]);
 
   const APR = (processingFees, loanAmount) => {
     var today = new Date();
     var dueDateComponents = ewaLiveSlice.dueDate.split("/");
-    var dueDateTemp = new Date(
+    var dueDate = new Date(
       dueDateComponents[2],
-      parseInt(dueDateComponents[1]) - 1,
+      parseInt(dueDateComponents[1])-1,
       dueDateComponents[0]
     );
-    var timeDiff = dueDateTemp.getTime() - today.getTime();
-    var daysDiff = parseInt(timeDiff / (1000 * 3600 * 24));
+    console.log(`dueDate, today: ${dueDate}, ${today}`);
+    var timeDiff = dueDate.getTime() - today.getTime();
+    var daysDiff = parseInt(timeDiff / (1000 * 3600 * 24)) + 1;
     var apr = 100 * (processingFees / parseInt(loanAmount)) * (365 / daysDiff);
     console.log(
       "processingFees, loanAmount, daysDiff, APR: ",

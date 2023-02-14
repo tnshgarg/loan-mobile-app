@@ -105,10 +105,8 @@ const LoginScreen = () => {
     if (phoneno.test(phoneNumber) && phoneNumber.length === 10) {
       dispatch(addPhoneNumber(phoneNumber));
       setNext(true);
-      console.log("true");
     } else {
       setNext(false);
-      console.log("false");
     }
   }, [phoneNumber]);
 
@@ -151,7 +149,6 @@ const LoginScreen = () => {
       token: token,
     })
       .then((res) => {
-        console.log("LoginScreen res.data: ", res.data);
         if (res.data.status === 200) {
           setACTC(res.data.body.aCTC);
           setOnboarded(res.data.body.onboarded);
@@ -159,7 +156,6 @@ const LoginScreen = () => {
           setUnipeEmployeeId(res.data.body.unipeEmployeeId);
           sendSmsVerification(phoneNumber)
             .then((result) => {
-              console.log("sendSmsVerification result: ", result);
               if (result["response"]["status"] === "success") {
                 setLoading(false);
                 Analytics.trackEvent("LoginScreen|SendSms|Success", {
@@ -179,7 +175,6 @@ const LoginScreen = () => {
               }
             })
             .catch((error) => {
-              console.log("sendSmsVerification result: ", error.toString());
               setLoading(false);
               Alert("Error", error.toString());
               Analytics.trackEvent("LoginScreen|SendSms|Error", {
@@ -197,7 +192,6 @@ const LoginScreen = () => {
         }
       })
       .catch((error) => {
-        console.log("LoginScreen res.data: ", error.toString());
         setLoading(false);
         Alert.alert("Error", error.toString());
         Analytics.trackEvent("LoginScreen|SignIn|Error", {
@@ -211,8 +205,11 @@ const LoginScreen = () => {
     <SafeAreaView accessibilityLabel="LoginScreen" style={styles.safeContainer}>
       <LogoHeader
         rightIcon={
-          <Icon name="help-circle-outline" size={28} color={COLORS.primary} />
+          <Icon name="logo-whatsapp" size={28} color={COLORS.primary} />
         }
+         rightOnPress={() => {
+          Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+        }}
       />
       <KeyboardAvoidingWrapper>
         <View>
