@@ -23,7 +23,8 @@ import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
 import { moneyStyles, styles } from "../../../../styles";
-import agreement from "../../../../templates/docs/LiquiLoansLoanAgreement";
+import agreement from "../../../../templates/docs/liquiloans/LiquiLoansLoanAgreement";
+import kfs from "../../../../templates/docs/liquiloans/LiquiLoansKFS";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
 import Checkbox from "../../../../components/atoms/Checkbox";
 import { updateAgreement } from "../../../../queries/ewa/agreement";
@@ -39,11 +40,15 @@ const Agreement = () => {
 
   const [consent, setConsent] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isTermsModalVisible, setIsTermsModalVisible] = useState(false);
+  const [isKFSModalVisible, setIsKFSModalVisible] = useState(false);
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const campaignId = useSelector((state) => state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId);
+  const campaignId = useSelector(
+    (state) =>
+      state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
+  );
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const bankSlice = useSelector((state) => state.bank);
   const panSlice = useSelector((state) => state.pan);
@@ -56,7 +61,7 @@ const Agreement = () => {
 
   const today = new Date();
 
-  function ValueEntry(text) {
+  function ValueEntryAgreement(text) {
     text.data = text.data.replace(
       /\{aadhaarAddress\}/g,
       aadhaarSlice?.data?.address
@@ -84,6 +89,24 @@ const Agreement = () => {
       today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear()
     );
     text.data = text.data.replace(/\{unipeEmployeeId\}/g, unipeEmployeeId);
+  }
+
+  function ValueEntryKFS(text) {
+    text.data = text.data.replace(/\{loanAmount\}/g, ewaLiveSlice?.loanAmount);
+    text.data = text.data.replace(
+      /\{disbursedAmount\}/g,
+      ewaLiveSlice?.netAmount
+    );
+    text.data = text.data.replace(/\{APR\}/g, ewaLiveSlice?.apr);
+    text.data = text.data.replace(/\{panName\}/g, panSlice?.data?.name);
+    text.data = text.data.replace(
+      /\{processingFees\}/g,
+      ewaLiveSlice?.processingFees
+    );
+    text.data = text.data.replace(
+      /\{availedDate\}/g,
+      today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear()
+    );
   }
 
   useEffect(() => {
@@ -248,7 +271,15 @@ const Agreement = () => {
             value={consent}
             setValue={setConsent}
             additionalText="Terms and Conditions"
-            onPress={() => setIsModalVisible(true)}
+            onPress={() => setIsTermsModalVisible(true)}
+          />
+
+          <Checkbox
+            text={"I confirm the above details and agree to"}
+            value={consent}
+            setValue={setConsent}
+            additionalText="KFS"
+            onPress={() => setIsKFSModalVisible(true)}
           />
 
           <PrimaryButton
@@ -264,14 +295,14 @@ const Agreement = () => {
           </Text>
 
           <Modal
-            isVisible={isModalVisible}
+            isVisible={isTermsModalVisible}
             style={{
               width: Dimensions.get("window").width,
               height: Dimensions.get("window").height,
             }}
           >
             <Pressable
-              onPress={() => setIsModalVisible(false)}
+              onPress={() => setIsTermsModalVisible(false)}
               style={{
                 position: "absolute",
                 top: 30,
@@ -299,7 +330,48 @@ const Agreement = () => {
                       enableExperimentalPercentWidth: true,
                     },
                   }}
-                  domVisitors={{ onText: ValueEntry }}
+                  domVisitors={{ onText: ValueEntryAgreement }}
+                />
+              </ScrollView>
+            </View>
+          </Modal>
+          <Modal
+            isVisible={isKFSModalVisible}
+            style={{
+              width: Dimensions.get("window").width,
+              height: Dimensions.get("window").height,
+            }}
+          >
+            <Pressable
+              onPress={() => setIsKFSModalVisible(false)}
+              style={{
+                position: "absolute",
+                top: 30,
+                right: 50,
+                zIndex: 999,
+              }}
+            >
+              <AntDesign name="closesquareo" size={24} color="black" />
+            </Pressable>
+            <View
+              style={{
+                height: Dimensions.get("window").height - 100,
+                width: Dimensions.get("window").width - 40,
+                backgroundColor: "white",
+                borderRadius: 5,
+              }}
+            >
+              <ScrollView style={{ padding: "5%" }}>
+                <RenderHtml
+                  contentWidth={width}
+                  source={kfs}
+                  enableExperimentalMarginCollapsing={true}
+                  renderersProps={{
+                    img: {
+                      enableExperimentalPercentWidth: true,
+                    },
+                  }}
+                  domVisitors={{ onText: ValueEntryKFS }}
                 />
               </ScrollView>
             </View>
