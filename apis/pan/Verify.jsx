@@ -104,6 +104,7 @@ const PanVerifyApi = (props) => {
           verifyPanMutateAsync({ data: props.data })
             .then((res) => {
               const responseJson = res.data;
+              console.log("responseJson: ", responseJson);
               try {
                 if (responseJson["status"] == "200") {
                   switch (responseJson["data"]["code"]) {

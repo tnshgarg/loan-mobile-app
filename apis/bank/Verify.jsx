@@ -118,18 +118,12 @@ const BankVerifyApi = (props) => {
       data: {
         unipeEmployeeId: unipeEmployeeId,
         data: {
-          accountHolderName: accountHolderName,
           accountNumber: data.accountNumber,
-          bankName: bankName,
-          branchName: branchName,
-          branchCity: branchCity,
-          ifsc: data.ifsc,
-          upi: data.upi,
         },
-        campaignId: campaignId,
         verifyMsg: "Attempted by User",
         verifyStatus: "ATTEMPTED",
         verifyTimestamp: Date.now(),
+        campaignId: campaignId,
       },
       xpath: "bank",
       token: token,
@@ -147,6 +141,7 @@ const BankVerifyApi = (props) => {
           verifyBankMutateAsync({ data: props.data })
             .then((res) => {
               const responseJson = res.data;
+              console.log("responseJson: ", responseJson);
               try {
                 if (responseJson["status"] == "200") {
                   switch (responseJson["data"]["code"]) {
@@ -258,6 +253,7 @@ const BankVerifyApi = (props) => {
         Alert.alert("Error", err);
       });
   };
+
   return (
     <PrimaryButton
       accessibilityLabel={"BankFormBtn"}
@@ -269,6 +265,7 @@ const BankVerifyApi = (props) => {
       }}
     />
   );
+  
 };
 
 export default BankVerifyApi;
