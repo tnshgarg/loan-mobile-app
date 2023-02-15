@@ -7,7 +7,6 @@ import { resetAadhaar } from "../store/slices/aadhaarSlice";
 import { resetBank } from "../store/slices/bankSlice";
 import { resetPan } from "../store/slices/panSlice";
 import { resetProfile } from "../store/slices/profileSlice";
-import { resetLicense } from "../store/slices/licenseSlice";
 import { resetMandate } from "../store/slices/mandateSlice";
 
 
@@ -80,21 +79,6 @@ const BackendSync = (props) => {
         })
         .catch((error) => {
           console.log("profileBackendFetch error: ", error);
-        });
-    }
-  }, [unipeEmployeeId]);
-
-  useEffect(() => {
-    if (unipeEmployeeId) {
-      getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "driving-license", token: token  })
-        .then((response) => {
-          console.log("licenseBackendFetch response.data", response.data);
-          if (response.data.status === 200) {
-            dispatch(resetLicense(response.data.body));
-          }
-        })
-        .catch((error) => {
-          console.log("licenseBackendFetch error: ", error);
         });
     }
   }, [unipeEmployeeId]);

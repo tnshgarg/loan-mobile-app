@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { RZP_KEY_ID } from "../../services/constants";
 import PrimaryButton from "../atoms/PrimaryButton";
-import { showToast } from "../atoms/Toast";
 import { getNumberOfDays, setYYYYMMDDtoDDMMYYYY } from "../../helpers/DateFunctions";
 import { getRepayment, createRazorpayOrder, updateRepayment } from "../../queries/ewa/repayment";
 import { resetRepayment } from "../../store/slices/repaymentSlice";
@@ -106,6 +105,35 @@ const PayMoneyCard = () => {
     repaymentId: repaymentId,
   });
 
+  const backendPush = ({ data, status }) => {
+    console.log("repaymentSlice: ", repaymentSlice);
+    updateRepaymentMutateAsync({
+      data: {
+        unipeEmployeeId: unipeEmployeeId,
+        dueDate: dueDate,
+        data: data,
+        status: status,
+        campaignId: campaignId,
+      },
+      token: token,
+    })
+      .then((response) => {
+        console.log("repaymentPush response: ", response.data);
+        if (response.data.status === 200){
+          console.log("repaymentPush pushed");
+          setRepaymentStatus(status);
+        }
+        else {
+          console.log("repaymentPush not expected: ", response.data);
+          setRepaymentStatus(response.data.paymentStatus);
+        }
+      })
+      .catch((error) => {
+        console.log("repaymentPush error: ", error);
+        return error;
+      });
+  };
+
   useEffect(() => {
     console.log(
       "createRepayment repaymentOrderId: ",
@@ -127,55 +155,40 @@ const PayMoneyCard = () => {
           },
           theme: { color: COLORS.primary },
         };
-        console.log("ewaRepayment Checkout RazorpayCheckout options: ", options);
+
         RazorpayCheckout.open(options)
-          .then((data) => {
-            console.log("ewaRepayment Checkout RazorpayCheckout data: ", data);
-            updateRepaymentMutateAsync({
+          .then((response) => {
+            console.log("ewaRepayment Checkout RazorpayCheckout data: ", response);
+            backendPush({
               data: {
-                unipeEmployeeId: unipeEmployeeId,
-                dueDate: dueDate,
-                status: "INPROGRESS",
-                campaignId: campaignId,
+                orderId: repaymentOrderId,
+                paymentId: response.razorpay_payment_id,
+                paymentSignature: response.razorpay_signature,
+                provider: "razorpay",
               },
-              token: token,
-            })
-              .then((response) => {
-                console.log("ewaRepayment Checkout Post response.data: ", response?.data);
-                if (response?.data?.status === 200) {
-                  setRepaymentStatus("INPROGRESS");
-                  showToast("Loan Payment In Progress");
-                  setLoading(false);
-                  Analytics.trackEvent("Ewa|Repayment|Success", {
-                    unipeEmployeeId: unipeEmployeeId,
-                  });
-                } else {
-                  showToast("Loan Payment Failed. Please try again.");
-                  setLoading(false);
-                  Analytics.trackEvent("Ewa|RepaymentPost|Error", {
-                    unipeEmployeeId: unipeEmployeeId,
-                  });
-                }
-              })
-              .catch((error) => {
-                console.log("ewaRepayment Checkout Post error: ", error.toString());
-                showToast("Loan Payment Failed. Please try again.");
-                setLoading(false);
-                Analytics.trackEvent("Ewa|Repayment|Error", {
-                  unipeEmployeeId: unipeEmployeeId,
-                  error: error.toString(),
-                });
-              });
+              status: "INPROGRESS",
+            });
+            Analytics.trackEvent("Ewa|Repayment|Success", {
+              unipeEmployeeId: unipeEmployeeId,
+            });
           })
           .catch((error) => {
-            console.log("ewaRepayment Checkout error.description: ", error.description);
-            showToast("Loan Payment Failed. Please try again.");
-            setLoading(false);
+            console.log("ewaRepayment Checkout error: ", error);
+            backendPush({
+              data: {
+                orderId: repaymentOrderId,
+              },
+              status: "INPROGRESS",
+            });
             Analytics.trackEvent("Ewa|Repayment|Error", {
               unipeEmployeeId: unipeEmployeeId,
-              error: error.description,
             });
-          });
+          })
+          .finally(() => {
+            setRepaymentOrderId(null);
+            setLoading(false);
+          })
+          ;
       }
     }
   }, [repaymentOrderId]);
@@ -184,18 +197,20 @@ const PayMoneyCard = () => {
     if (repaymentAmount > 0) {
       createRazorpayOrderMutateAsync()
         .then((res) => {
-          console.log("Paynow button res:", res?.data);
           setRepaymentOrderId(res?.data?.id);
+          backendPush({
+            data: {
+              orderId: res?.data?.id,
+            },
+            status: "PENDING",
+          });
         })
         .catch((error) => {
-          var errorObj = "";
-          if (error.error) {
-            errorObj = error.error;
-          } else {
-            errorObj = error;
-          }
-          console.log("ewaRepayment Checkout error: ", errorObj.description);
-          showToast("Loan Payment Failed. Please try again.");
+          backendPush({
+            data: {},
+            status: "ERROR",
+          });
+          Alert.alert("Error", error.toString());
           setLoading(false);
           Analytics.trackEvent("Ewa|Repayment|Error", {
             unipeEmployeeId: unipeEmployeeId,

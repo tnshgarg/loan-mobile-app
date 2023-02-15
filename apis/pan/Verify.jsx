@@ -14,6 +14,7 @@ import { panBackendPush } from "../../helpers/BackendPush";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
 import { updatePan, verifyPan } from "../../queries/onboarding/pan";
+import { putBackendData } from "../../services/employees/employeeServices";
 
 const PanVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -30,7 +31,9 @@ const PanVerifyApi = (props) => {
   const [verifyTimestamp, setVerifyTimestamp] = useState(
     panSlice?.verifyTimestamp
   );
-  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
+  const campaignId = useSelector(
+    (state) => state.campaign.onboardingCampaignId
+  );
 
   const { mutateAsync: updatePanMutateAsync } = updatePan();
   const { mutateAsync: verifyPanMutateAsync } = verifyPan();
@@ -75,104 +78,138 @@ const PanVerifyApi = (props) => {
   const goForFetch = () => {
     setLoading(true);
 
-    verifyPanMutateAsync({ data: props.data })
+    putBackendData({
+      data: {
+        unipeEmployeeId: unipeEmployeeId,
+        data: {},
+        number: panSlice?.number,
+        campaignId: campaignId,
+        verifyMsg: "Attempted by User",
+        verifyStatus: "ATTEMPTED",
+        verifyTimestamp: Date.now(),
+      },
+      xpath: "pan",
+      token: token,
+    })
       .then((res) => {
-        const responseJson = res.data;
-        try {
-          if (responseJson["status"] == "200") {
-            switch (responseJson["data"]["code"]) {
-              case "1000":
-                const names = ["first", "middle", "last"];
-                responseJson["data"]["pan_data"]["name"] = names
-                  .filter((k) => responseJson["data"]["pan_data"][`${k}_name`])
-                  .map((k) => responseJson["data"]["pan_data"][`${k}_name`])
-                  .join(" ");
-                console.log("PAN fetched data: ", responseJson);
-                backendPush({
-                  data: responseJson["data"]["pan_data"],
-                  verifyMsg: "To be confirmed by User",
-                  verifyStatus: "PENDING",
-                  verifyTimestamp: responseJson["timestamp"],
-                });
-                Analytics.trackEvent("Pan|Verify|Success", {
-                  unipeEmployeeId: unipeEmployeeId,
-                });
-                {
-                  props.type == "KYC"
-                    ? navigation.navigate("KYC", {
-                        screen: "PAN",
-                        params: {
-                          screen: "Confirm",
-                        },
-                      })
-                    : navigation.navigate("PanConfirm");
+        let responseJson = res?.data;
+        console.log("responseJson: ", responseJson);
+        if (responseJson?.status == "400") {
+          Alert.alert("Error", responseJson?.message);
+          Analytics.trackEvent("Pan|Verify|Duplicate", {
+            unipeEmployeeId: unipeEmployeeId,
+          });
+          setLoading(false);
+        } else {
+          verifyPanMutateAsync({ data: props.data })
+            .then((res) => {
+              const responseJson = res.data;
+              console.log("responseJson: ", responseJson);
+              try {
+                if (responseJson["status"] == "200") {
+                  switch (responseJson["data"]["code"]) {
+                    case "1000":
+                      const names = ["first", "middle", "last"];
+                      responseJson["data"]["pan_data"]["name"] = names
+                        .filter(
+                          (k) => responseJson["data"]["pan_data"][`${k}_name`]
+                        )
+                        .map(
+                          (k) => responseJson["data"]["pan_data"][`${k}_name`]
+                        )
+                        .join(" ");
+                      console.log("PAN fetched data: ", responseJson);
+                      backendPush({
+                        data: responseJson["data"]["pan_data"],
+                        verifyMsg: "To be confirmed by User",
+                        verifyStatus: "PENDING",
+                        verifyTimestamp: responseJson["timestamp"],
+                      });
+                      Analytics.trackEvent("Pan|Verify|Success", {
+                        unipeEmployeeId: unipeEmployeeId,
+                      });
+                      {
+                        props.type == "KYC"
+                          ? navigation.navigate("KYC", {
+                              screen: "PAN",
+                              params: {
+                                screen: "Confirm",
+                              },
+                            })
+                          : navigation.navigate("PanConfirm");
+                      }
+                      break;
+                    default:
+                      backendPush({
+                        data: data,
+                        verifyMsg: responseJson["data"]["message"],
+                        verifyStatus: "ERROR",
+                        verifyTimestamp: verifyTimestamp,
+                      });
+                      Alert.alert("Error", responseJson["data"]["message"]);
+                      Analytics.trackEvent("Pan|Verify|Error", {
+                        unipeEmployeeId: unipeEmployeeId,
+                        error: responseJson["data"]["message"],
+                      });
+                  }
+                } else if (responseJson?.error?.message) {
+                  backendPush({
+                    data: data,
+                    verifyMsg: responseJson["error"]["message"],
+                    verifyStatus: "ERROR",
+                    verifyTimestamp: verifyTimestamp,
+                  });
+                  Alert.alert("Error", responseJson["error"]["message"]);
+                  Analytics.trackEvent("Pan|Verify|Error", {
+                    unipeEmployeeId: unipeEmployeeId,
+                    error: responseJson["error"]["message"],
+                  });
+                } else {
+                  backendPush({
+                    data: data,
+                    verifyMsg: responseJson["message"],
+                    verifyStatus: "ERROR",
+                    verifyTimestamp: verifyTimestamp,
+                  });
+                  Alert.alert("Error", responseJson["message"]);
+                  Analytics.trackEvent("Pan|Verify|Error", {
+                    unipeEmployeeId: unipeEmployeeId,
+                    error: responseJson["message"],
+                  });
                 }
-                break;
-              default:
+              } catch (error) {
                 backendPush({
                   data: data,
-                  verifyMsg: responseJson["data"]["message"],
+                  verifyMsg: error.toString(),
                   verifyStatus: "ERROR",
                   verifyTimestamp: verifyTimestamp,
                 });
-                Alert.alert("Error", responseJson["data"]["message"]);
+                Alert.alert("Error", error.toString());
                 Analytics.trackEvent("Pan|Verify|Error", {
                   unipeEmployeeId: unipeEmployeeId,
-                  error: responseJson["data"]["message"],
+                  error: error.toString(),
                 });
-            }
-          } else if (responseJson?.error?.message) {
-            backendPush({
-              data: data,
-              verifyMsg: responseJson["error"]["message"],
-              verifyStatus: "ERROR",
-              verifyTimestamp: verifyTimestamp,
+              }
+            })
+            .catch((error) => {
+              console.log("Fetch Catch Error: ", error.toString());
+              backendPush({
+                data: data,
+                verifyMsg: error.toString(),
+                verifyStatus: "ERROR",
+                verifyTimestamp: verifyTimestamp,
+              });
+              Alert.alert("Error", error.toString());
+              Analytics.trackEvent("Pan|Verify|Error", {
+                unipeEmployeeId: unipeEmployeeId,
+                error: error.toString(),
+              });
             });
-            Alert.alert("Error", responseJson["error"]["message"]);
-            Analytics.trackEvent("Pan|Verify|Error", {
-              unipeEmployeeId: unipeEmployeeId,
-              error: responseJson["error"]["message"],
-            });
-          } else {
-            backendPush({
-              data: data,
-              verifyMsg: responseJson["message"],
-              verifyStatus: "ERROR",
-              verifyTimestamp: verifyTimestamp,
-            });
-            Alert.alert("Error", responseJson["message"]);
-            Analytics.trackEvent("Pan|Verify|Error", {
-              unipeEmployeeId: unipeEmployeeId,
-              error: responseJson["message"],
-            });
-          }
-        } catch (error) {
-          backendPush({
-            data: data,
-            verifyMsg: error.toString(),
-            verifyStatus: "ERROR",
-            verifyTimestamp: verifyTimestamp,
-          });
-          Alert.alert("Error", error.toString());
-          Analytics.trackEvent("Pan|Verify|Error", {
-            unipeEmployeeId: unipeEmployeeId,
-            error: error.toString(),
-          });
         }
       })
-      .catch((error) => {
-        console.log("Fetch Catch Error: ", error.toString());
-        backendPush({
-          data: data,
-          verifyMsg: error.toString(),
-          verifyStatus: "ERROR",
-          verifyTimestamp: verifyTimestamp,
-        });
-        Alert.alert("Error", error.toString());
-        Analytics.trackEvent("Pan|Verify|Error", {
-          unipeEmployeeId: unipeEmployeeId,
-          error: error.toString(),
-        });
+      .catch((err) => {
+        console.log("ERROR: ", err);
+        Alert.alert("Error", err);
       });
   };
 

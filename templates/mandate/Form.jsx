@@ -132,7 +132,7 @@ const MandateFormTemplate = (props) => {
           setVerifyStatus(verifyStatus);
         }
         else{
-          console.log("mandatePush not expected");
+          console.log("mandatePush not expected", response.data);
           setVerifyStatus(response.data.verifyStatus);
         }
       })
@@ -160,19 +160,19 @@ const MandateFormTemplate = (props) => {
             });
           })
           .catch((error) => {
-            console.log("createCustomer Catch Error: ", error.toString());
-            Alert.alert("Error", error.toString());
+            console.log("createCustomer Catch Error: ", JSON.stringify(error));
+            Alert.alert("Create Customer Catch Error", JSON.stringify(error));
             Analytics.trackEvent("Mandate|CreateCustomer|Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: error.toString(),
             });
           });
       } catch (error) {
-        console.log("createCustomer Try Catch Error: ", error.toString());
-        Alert.alert("Error", error.toString());
+        console.log("createCustomer Try Catch Error: ", JSON.stringify(error));
+        Alert.alert("Create Customer Try Catch Error", JSON.stringify(error));
         Analytics.trackEvent("Mandate|CreateCustomer|Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: error.toString(),
+          error: JSON.stringify(error),
         });
       }
     }
@@ -199,28 +199,27 @@ const MandateFormTemplate = (props) => {
       };
 
       RazorpayCheckout.open(options)
-        .then((data) => {
-          console.log("mandate checkout:", data, options);
+        .then((response) => {
+          console.log("mandate checkout:", response, options);
           backendPush({
             data: {
               authType: authType,
               customerId: customerId,
               orderId: orderId,
-              paymentId: data.razorpay_payment_id,
-              paymentSignature: data.razorpay_signature,
+              paymentId: response.razorpay_payment_id,
+              paymentSignature: response.razorpay_signature,
               provider: "razorpay",
             },
             verifyMsg: "Mandate Initiated from App Checkout Success",
             verifyStatus: "INPROGRESS",
             verifyTimestamp: Date.now(),
           });
-          setLoading(false);
           Analytics.trackEvent("Mandate|Authorize|InProgress|Checkout|Success", {
             unipeEmployeeId: unipeEmployeeId,
           });
         })
         .catch((error) => {
-          console.log("mandate checkout error :", error);
+          console.log("mandate checkout error :", error.description);
           backendPush({
             data: {
               authType: authType,
@@ -228,15 +227,19 @@ const MandateFormTemplate = (props) => {
               orderId: orderId,
               provider: "razorpay",
             },
-            verifyMsg: "Mandate Initiated from App Checkout Error",
-            verifyStatus: "INPROGRESS",
+            verifyMsg: JSON.stringify(error),
+            verifyStatus: "INPROGRESS", // this is required to handle inconsistent cases
             verifyTimestamp: Date.now(),
           });
-          setLoading(false);
           Analytics.trackEvent("Mandate|Authorize|InProgress|Checkout|Error", {
             unipeEmployeeId: unipeEmployeeId,
           });
         })
+        .finally(() => {
+          setModalVisible(true);
+          setOrderId(null);
+          setLoading(false);
+        });
     }
   }, [orderId]);
 
@@ -263,38 +266,33 @@ const MandateFormTemplate = (props) => {
             orderId: res.data.id,
           },
           verifyMsg: `Mandate|CreateOrder|${authType} SUCCESS`,
-          verifyStatus: "INPROGRESS",
+          verifyStatus: "PENDING",
           verifyTimestamp: Date.now(),
         });
-        setModalVisible(true);
         Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Success`, {
           unipeEmployeeId: unipeEmployeeId,
         });
         setAuthType("");
       })
       .catch((error) => {
-        console.log(
-          `Mandate|CreateOrder|${authType} JSON.stringify(error):`,
-          JSON.stringify(error)
-        );
-        console.log(`Mandate|CreateOrder|${authType} error:`, error.toString());
-        Alert.alert("Error", error.toString());
+        console.log(`Mandate|CreateOrder|${authType} Error: ${JSON.stringify(error)}`);
+        Alert.alert("Create Order Error", JSON.stringify(error));
         backendPush({
           data: { authType: authType, customerId: customerId },
-          verifyMsg: `Mandate|CreateOrder|${authType} ERROR ${error.toString()}`,
+          verifyMsg: `Mandate|CreateOrder|${authType} ERROR ${JSON.stringify(error)}`,
           verifyStatus: "ERROR",
           verifyTimestamp: Date.now(),
         });
         Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Error`, {
           unipeEmployeeId: unipeEmployeeId,
-          error: error.toString(),
+          error: JSON.stringify(error),
         });
         setAuthType("");
       });
   };
 
   const cardData = () => {
-    var res = [
+    return [
       {
         subTitle: "Account Holder Name",
         value: accountHolderName,
@@ -311,7 +309,6 @@ const MandateFormTemplate = (props) => {
         fullWidth: true,
       },
     ];
-    return res;
   };
 
   return (
