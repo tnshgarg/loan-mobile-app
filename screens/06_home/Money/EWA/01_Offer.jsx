@@ -45,9 +45,9 @@ const Offer = () => {
   const profileComplete = useSelector(
     (state) => state.profile.profileComplete
   );
-  const aadhaarComplete = useSelector((state) => state.aadhaar.verifyStatus);
-  const panComplete = useSelector((state) => state.pan.verifyStatus);
-  const bankComplete = useSelector((state) => state.bank.verifyStatus);
+  const aadhaarVerifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
+  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
+  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
 
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const fees = useSelector((state) => state.ewaLive.fees);
@@ -163,24 +163,16 @@ const Offer = () => {
   const handleConditionalNav = () => {
     if (onboarded) {
       navigation.navigate("EWA_KYC");
+    } else if (!profileComplete) {
+      navigation.navigate("EWA_KYC_STACK", { screen: "ProfileForm" });
+    } else if (aadhaarVerifyStatus != "SUCCESS") {
+      navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarForm" });
+    } else if (panVerifyStatus != "SUCCESS") {
+      navigation.navigate("EWA_KYC_STACK", { screen: "PanForm" });
+    } else if (bankVerifyStatus != "SUCCESS") {
+      navigation.navigate("EWA_KYC_STACK", { screen: "BankForm" });
     } else {
-      if (!profileComplete) {
-        navigation.navigate("EWA_KYC_STACK", { screen: "ProfileForm" });
-      } else {
-        if (aadhaarComplete != "SUCCESS") {
-          navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarForm" });
-        } else {
-          if (panComplete != "SUCCESS") {
-            navigation.navigate("EWA_KYC_STACK", { screen: "PanForm" });
-          } else {
-            if (bankComplete != "SUCCESS") {
-              navigation.navigate("EWA_KYC_STACK", { screen: "BankForm" });
-            } else {
-              navigation.navigate("EWA_KYC");
-            }
-          }
-        }
-      }
+      navigation.navigate("EWA_KYC");
     }
   };
 

@@ -43,9 +43,11 @@ const ProfileFormTemplate = ({ type }) => {
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
-  const aadhaarComplete = useSelector((state) => state.aadhaar.verifyStatus);
-  const panComplete = useSelector((state) => state.pan.verifyStatus);
-  const bankComplete = useSelector((state) => state.bank.verifyStatus);
+  
+  const aadhaarVerifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
+  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
+  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
+
   useEffect(() => {
     dispatch(addCurrentScreen("ProfileForm"));
   }, []);
@@ -85,22 +87,18 @@ const ProfileFormTemplate = ({ type }) => {
   }, [maritalStatus, qualification, motherName, validEmail, validAltMobile]);
 
   const handleConditionalNav = () => {
-    if (aadhaarComplete != "SUCCESS") {
+    if (aadhaarVerifyStatus != "SUCCESS") {
       navigation.navigate("KYC", {
         screen: "AADHAAR",
       });
-    } else {
-      if (panComplete != "SUCCESS") {
-        navigation.navigate("KYC", {
-          screen: "PAN",
-        });
-      } else {
-        if (bankComplete != "SUCCESS") {
-          navigation.navigate("KYC", {
-            screen: "BANK",
-          });
-        }
-      }
+    } else if (panVerifyStatus != "SUCCESS") {
+      navigation.navigate("KYC", {
+        screen: "PAN",
+      });
+    } else if (bankVerifyStatus != "SUCCESS") {
+      navigation.navigate("KYC", {
+        screen: "BANK",
+      });
     }
   };
 

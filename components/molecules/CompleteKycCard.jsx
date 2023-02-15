@@ -8,63 +8,55 @@ import { useEffect, useState } from "react";
 
 const CompleteKycCard = () => {
   const navigation = useNavigation();
+
   const [show, setShow] = useState(true);
+
   const profileComplete = useSelector((state) => state.profile.profileComplete);
-  const aadhaarComplete = useSelector((state) => state.aadhaar.verifyStatus);
-  const panComplete = useSelector((state) => state.pan.verifyStatus);
-  const bankComplete = useSelector((state) => state.bank.verifyStatus);
+  const aadhaarVerifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
+  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
+  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
 
   const handleConditionalNav = () => {
-    console.log(
-      "profileComplete",
-      profileComplete,
-      aadhaarComplete,
-      panComplete,
-      bankComplete
-    );
+
     if (!profileComplete) {
       navigation.navigate("AccountStack", {
         screen: "Profile",
       });
-    } else {
-      if (aadhaarComplete != "SUCCESS") {
-        navigation.navigate("AccountStack", {
-          screen: "KYC",
-          params: {
-            screen: "AADHAAR",
-          },
-        });
-      } else {
-        if (panComplete != "SUCCESS") {
-          navigation.navigate("AccountStack", {
-            screen: "KYC",
-            params: {
-              screen: "PAN",
-            },
-          });
-        } else {
-          if (bankComplete != "SUCCESS") {
-            navigation.navigate("AccountStack", {
-              screen: "KYC",
-              params: {
-                screen: "BANK",
-              },
-            });
-          }
-        }
-      }
+    } else if (aadhaarVerifyStatus != "SUCCESS") {
+      navigation.navigate("AccountStack", {
+        screen: "KYC",
+        params: {
+          screen: "AADHAAR",
+        },
+      });
+    } else if (panVerifyStatus != "SUCCESS") {
+      navigation.navigate("AccountStack", {
+        screen: "KYC",
+        params: {
+          screen: "PAN",
+        },
+      });
+    } else if (bankVerifyStatus != "SUCCESS") {
+      navigation.navigate("AccountStack", {
+        screen: "KYC",
+        params: {
+          screen: "BANK",
+        },
+      });
     }
+    
   };
+  
   useEffect(() => {
     if (
       profileComplete &&
-      aadhaarComplete == "SUCCESS" &&
-      panComplete == "SUCCESS" &&
-      bankComplete == "SUCCESS"
+      aadhaarVerifyStatus == "SUCCESS" &&
+      panVerifyStatus == "SUCCESS" &&
+      bankVerifyStatus == "SUCCESS"
     ) {
       setShow(false);
     }
-  }, [profileComplete, aadhaarComplete, panComplete, bankComplete]);
+  }, [profileComplete, aadhaarVerifyStatus, panVerifyStatus, bankVerifyStatus]);
 
   return (
     <>
