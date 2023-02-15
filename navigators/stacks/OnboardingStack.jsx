@@ -10,7 +10,6 @@ const OnboardingStack = () => {
   const Stack = createNativeStackNavigator();
   var initialRoute = useSelector((state) => state.navigation.currentScreen);
 
-  // STAGE === "dev" ? (initialRoute = "DevMenu") : null;
   console.log("initialRoute: ", initialRoute);
 
   return (
@@ -18,14 +17,6 @@ const OnboardingStack = () => {
       screenOptions={{ animation: "slide_from_right" }}
       initialRouteName={initialRoute}
     >
-      {/* <Stack.Screen
-        name="DevMenu"
-        component={DevMenu}
-        options={{
-          headerShown: false,
-          header: null,
-        }}
-      /> */}
       <Stack.Screen
         name="Onboarding"
         component={Onboarding}

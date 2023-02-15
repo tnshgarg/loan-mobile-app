@@ -1,9 +1,5 @@
 import { useSelector } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Header from "../../components/atoms/Header";
-import LoginScreen from "../../screens/00_login/LoginScreen";
-import OTPScreen from "../../screens/00_login/OTPScreen";
-import WelcomePage from "../../screens/00_login/WelcomePage";
 import ProfileForm from "../../screens/01_profile/Form";
 import AadhaarConfirm from "../../screens/02_aadhaar/Confirm";
 import AadhaarForm from "../../screens/02_aadhaar/Form";
@@ -12,14 +8,11 @@ import PanConfirm from "../../screens/03_pan/Confirm";
 import PanForm from "../../screens/03_pan/Form";
 import BankConfirm from "../../screens/04_bank/Confirm";
 import BankForm from "../../screens/04_bank/Form";
-import BackendSync from "../../screens/BackendSync";
-import Onboarding from "../../screens/00_login/Onboarding";
 
 const KYCStack = () => {
   const Stack = createNativeStackNavigator();
   var initialRoute = useSelector((state) => state.navigation.currentScreen);
 
-  // STAGE === "dev" ? (initialRoute = "DevMenu") : null;
   console.log("initialRoute: ", initialRoute);
 
   return (
@@ -27,14 +20,6 @@ const KYCStack = () => {
       screenOptions={{ animation: "slide_from_right" }}
       initialRouteName={initialRoute}
     >
-      {/* <Stack.Screen
-        name="DevMenu"
-        component={DevMenu}
-        options={{
-          headerShown: false,
-          header: null,
-        }}
-      /> */}
       <Stack.Screen
         name="ProfileForm"
         component={ProfileForm}
