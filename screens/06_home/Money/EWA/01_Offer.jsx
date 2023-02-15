@@ -124,13 +124,7 @@ const Offer = () => {
   }, [loanAmount]);
 
   useEffect(() => {
-    var pf = (parseInt(loanAmount) * fees) / 100;
-    var pF;
-    if (parseInt(pf) % 10 < 4) {
-      pF = Math.max(9, Math.floor(pf / 10) * 10 - 1);
-    } else {
-      pF = Math.max(9, Math.floor((pf + 10) / 10) * 10 - 1);
-    }
+    var pF = Math.ceil((parseInt(loanAmount) * fees) / 100);
     setProcessingFees(pF);
     dispatch(addProcessingFees(pF));
     dispatch(addNetAmount(parseInt(loanAmount) - pF));
