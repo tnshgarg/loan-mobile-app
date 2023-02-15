@@ -155,12 +155,14 @@ const LoginScreen = () => {
       token: token,
     })
       .then((res) => {
-        if (res.data.status === 200) {
-          setACTC(res.data.body.aCTC);
-          setEmployeeName(res.data.body.employeeName);
-          setOnboarded(res.data.body.onboarded);
-          setToken(res.data.body.token);
-          setUnipeEmployeeId(res.data.body.unipeEmployeeId);
+        const responseJson = res?.data;
+        console.log(`responseJson: ${JSON.stringify(responseJson)}`);
+        if (responseJson.status === 200) {
+          setACTC(responseJson.body.aCTC);
+          setEmployeeName(responseJson.body.employeeName);
+          setOnboarded(responseJson.body.onboarded);
+          setToken(responseJson.body.token);
+          setUnipeEmployeeId(responseJson.body.unipeEmployeeId);
           sendSmsVerification(phoneNumber)
             .then((result) => {
               if (result["response"]["status"] === "success") {
@@ -183,18 +185,18 @@ const LoginScreen = () => {
             })
             .catch((error) => {
               setLoading(false);
-              Alert("Error", error.toString());
+              Alert("Error", JSON.stringify(error));
               Analytics.trackEvent("LoginScreen|SendSms|Error", {
                 unipeEmployeeId: unipeEmployeeId,
-                error: error.toString(),
+                error: JSON.stringify(error),
               });
             });
         } else {
           setLoading(false);
-          Alert.alert("Error", res.data["message"]);
+          Alert.alert("Error", responseJson["message"]);
           Analytics.trackEvent("LoginScreen|SignIn|Error", {
             phoneNumber: phoneNumber,
-            error: res.data["message"],
+            error: responseJson["message"],
           });
         }
       })

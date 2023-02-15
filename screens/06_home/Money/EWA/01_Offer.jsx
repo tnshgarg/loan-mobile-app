@@ -171,8 +171,6 @@ const Offer = () => {
       navigation.navigate("EWA_KYC_STACK", { screen: "PanForm" });
     } else if (bankVerifyStatus != "SUCCESS") {
       navigation.navigate("EWA_KYC_STACK", { screen: "BankForm" });
-    } else {
-      navigation.navigate("EWA_KYC");
     }
   };
 
