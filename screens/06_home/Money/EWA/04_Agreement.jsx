@@ -294,7 +294,6 @@ const Agreement = () => {
           <Text style={moneyStyles.percentageTitle}>
             † Annual Percentage Rate @ {ewaLiveSlice?.apr} %
           </Text>
-          <LiquiloansTitle title={"an RBI registered NBFC-P2P"}/>
           <Modal
             isVisible={isTermsModalVisible}
             style={{
