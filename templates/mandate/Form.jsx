@@ -125,15 +125,15 @@ const MandateFormTemplate = (props) => {
       xpath: "mandate",
       token: token,
     })
-      .then((response) => {
-        console.log("mandatePush response: ", response.data);
-        if (response.data.status === 200){
+      .then((res) => {
+        console.log("mandatePush response: ", res.data);
+        if (res.data.status === 200){
           console.log("mandatePush pushed");
           setVerifyStatus(verifyStatus);
         }
         else{
-          console.log("mandatePush not expected", response.data);
-          setVerifyStatus(response.data.verifyStatus);
+          console.log("mandatePush not expected", res.data);
+          setVerifyStatus(res.data.verifyStatus);
         }
       })
       .catch((error) => {
@@ -153,8 +153,8 @@ const MandateFormTemplate = (props) => {
           unipeEmployeeId: unipeEmployeeId,
         })
           .then((res) => {
-            console.log("createCustomer res.data: ", res.data);
-            setCustomerId(res.data.id);
+            console.log("createCustomer res.data: ", res?.data);
+            setCustomerId(res?.data.id);
             Analytics.trackEvent("Mandate|CreateCustomer|Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
@@ -199,15 +199,15 @@ const MandateFormTemplate = (props) => {
       };
 
       RazorpayCheckout.open(options)
-        .then((response) => {
-          console.log("mandate checkout:", response, options);
+        .then((res) => {
+          console.log("mandate checkout:", res, options);
           backendPush({
             data: {
               authType: authType,
               customerId: customerId,
               orderId: orderId,
-              paymentId: response.razorpay_payment_id,
-              paymentSignature: response.razorpay_signature,
+              paymentId: res.razorpay_payment_id,
+              paymentSignature: res.razorpay_signature,
               provider: "razorpay",
             },
             verifyMsg: "Mandate Initiated from App Checkout Success",
@@ -257,8 +257,8 @@ const MandateFormTemplate = (props) => {
       unipeEmployeeId: unipeEmployeeId,
     })
       .then((res) => {
-        console.log(`Mandate|CreateOrder|${authType} res.data:`, res.data);
-        setOrderId(res.data.id);
+        console.log(`Mandate|CreateOrder|${authType} res.data:`, res?.data);
+        setOrderId(res?.data.id);
         backendPush({
           data: {
             authType: authType,

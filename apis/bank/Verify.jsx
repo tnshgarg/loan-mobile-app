@@ -131,7 +131,7 @@ const BankVerifyApi = (props) => {
       token: token,
     })
       .then((res) => {
-        let responseJson = res?.data;
+        const responseJson = res?.data;
         console.log("responseJson: ", responseJson);
         if (responseJson?.status == "400") {
           Alert.alert("Error", responseJson?.message);
@@ -142,7 +142,7 @@ const BankVerifyApi = (props) => {
         } else {
           verifyBankMutateAsync({ data: props.data })
             .then((res) => {
-              const responseJson = res.data;
+              const responseJson = res?.data;
               console.log("responseJson: ", responseJson);
               try {
                 if (responseJson["status"] == "200") {
