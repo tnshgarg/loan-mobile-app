@@ -11,7 +11,7 @@ while getopts 'e:' flag; do
 done
 
 case $env in
-  "test")
+  "qa")
     acenv='QA'
     app="Unipe/Unipe-QA-App"
     ;;
