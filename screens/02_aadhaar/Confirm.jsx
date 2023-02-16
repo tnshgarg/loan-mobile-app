@@ -8,7 +8,6 @@ import { styles } from "../../styles";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import AadhaarConfirmApi from "../../apis/aadhaar/Confirm";
 import Header from "../../components/atoms/Header";
-import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
 const AadhaarConfirm = () => {
   const dispatch = useDispatch();
@@ -38,7 +37,11 @@ const AadhaarConfirm = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <LogoHeaderBack leftOnPress={backAction} />
+      <Header
+        title="Onboarding"
+        onLeftIconPress={() => backAction()}
+        progress={30}
+      />
       <OnboardingProgressBar step={1} />
       <ScrollView keyboardShouldPersistTaps="handled">
         <AadhaarConfirmApi />

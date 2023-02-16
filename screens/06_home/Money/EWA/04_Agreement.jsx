@@ -244,7 +244,7 @@ const Agreement = () => {
       <Header
         title="Agreement"
         onLeftIconPress={() => backAction()}
-        progress={80}
+        progress={100}
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
@@ -290,7 +290,7 @@ const Agreement = () => {
               handleAgreement();
             }}
           />
-
+          <LiquiloansTitle title={"an RBI registered NBFC-P2P"}/>
           <Text style={moneyStyles.percentageTitle}>
             † Annual Percentage Rate @ {ewaLiveSlice?.apr} %
           </Text>

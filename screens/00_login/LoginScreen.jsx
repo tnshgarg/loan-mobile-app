@@ -13,6 +13,7 @@ import { putBackendData } from "../../services/employees/employeeServices";
 import { sendSmsVerification } from "../../services/otp/Gupshup/services";
 import {
   addACTC,
+  addEmployeeName,
   addOnboarded,
   addPhoneNumber,
   addToken,
@@ -42,6 +43,7 @@ const LoginScreen = () => {
 
   const authSlice = useSelector((state) => state.auth);
   const [aCTC, setACTC] = useState(authSlice?.aCTC);
+  const [employeeName, setEmployeeName] = useState(authSlice?.employeeName);
   const [onboarded, setOnboarded] = useState(authSlice?.onboarded);
   const [phoneNumber, setPhoneNumber] = useState(authSlice?.phoneNumber);
   const [token, setToken] = useState(authSlice?.token);
@@ -91,6 +93,10 @@ const LoginScreen = () => {
   useEffect(() => {
     dispatch(addACTC(aCTC));
   }, [aCTC]);
+
+  useEffect(() => {
+    dispatch(addEmployeeName(employeeName));
+  }, [employeeName]);
 
   useEffect(() => {
     dispatch(addOnboarded(onboarded));
@@ -149,11 +155,14 @@ const LoginScreen = () => {
       token: token,
     })
       .then((res) => {
-        if (res.data.status === 200) {
-          setACTC(res.data.body.aCTC);
-          setOnboarded(res.data.body.onboarded);
-          setToken(res.data.body.token);
-          setUnipeEmployeeId(res.data.body.unipeEmployeeId);
+        const responseJson = res?.data;
+        console.log(`responseJson: ${JSON.stringify(responseJson)}`);
+        if (responseJson.status === 200) {
+          setACTC(responseJson.body.aCTC);
+          setEmployeeName(responseJson.body.employeeName);
+          setOnboarded(responseJson.body.onboarded);
+          setToken(responseJson.body.token);
+          setUnipeEmployeeId(responseJson.body.unipeEmployeeId);
           sendSmsVerification(phoneNumber)
             .then((result) => {
               if (result["response"]["status"] === "success") {
@@ -176,18 +185,18 @@ const LoginScreen = () => {
             })
             .catch((error) => {
               setLoading(false);
-              Alert("Error", error.toString());
+              Alert("Error", JSON.stringify(error));
               Analytics.trackEvent("LoginScreen|SendSms|Error", {
                 unipeEmployeeId: unipeEmployeeId,
-                error: error.toString(),
+                error: JSON.stringify(error),
               });
             });
         } else {
           setLoading(false);
-          Alert.alert("Error", res.data["message"]);
+          Alert.alert("Error", responseJson["message"]);
           Analytics.trackEvent("LoginScreen|SignIn|Error", {
             phoneNumber: phoneNumber,
-            error: res.data["message"],
+            error: responseJson["message"],
           });
         }
       })

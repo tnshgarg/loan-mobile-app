@@ -32,7 +32,7 @@ const AccountMenu = (props) => {
 
   const image = useSelector((state) => state.aadhaar.data.photo_base64);
   const name = useSelector(
-    (state) => state.aadhaar.data?.name || state.pan.data?.name || "User"
+    (state) => state.aadhaar.data?.name || state.pan.data?.name || state.auth.employeeName
   );
 
   const backAction = () => {

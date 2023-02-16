@@ -7,7 +7,7 @@ import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import PanConfirmApi from "../../apis/pan/Confirm";
-import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import Header from "../../components/atoms/Header";
 
 export default PanConfirm = () => {
   const dispatch = useDispatch();
@@ -37,7 +37,11 @@ export default PanConfirm = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <LogoHeaderBack leftOnPress={backAction} />
+      <Header
+        title="Onboarding"
+        onLeftIconPress={() => backAction()}
+        progress={40}
+      />
       <OnboardingProgressBar step={2} />
       <ScrollView keyboardShouldPersistTaps="handled">
         <PanConfirmApi />

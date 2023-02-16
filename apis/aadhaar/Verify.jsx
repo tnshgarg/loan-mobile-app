@@ -167,28 +167,28 @@ const AadhaarVerifyApi = (props) => {
         } catch (error) {
           backendPush({
             data: data,
-            verifyMsg: `Try Catch Error: ${error.toString()}, ${res.toString()}`,
+            verifyMsg: `Try Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(responseJson)}`,
             verifyStatus: "ERROR",
             verifyTimestamp: verifyTimestamp,
           });
           Alert.alert("Error", error.toString());
           Analytics.trackEvent("Aadhaar|Verify|Error", {
             unipeEmployeeId: unipeEmployeeId,
-            error: `Try Catch Error: ${error.toString()}, ${res.toString()}`,
+            error: `Try Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(responseJson)}`,
           });
         }
       })
       .catch((error) => {
         backendPush({
           data: data,
-          verifyMsg: `submitAadhaarOTP API Catch Error: ${error.toString()}`,
+          verifyMsg: `submitAadhaarOTP API Catch Error: ${JSON.stringify(error)}`,
           verifyStatus: "ERROR",
           verifyTimestamp: verifyTimestamp,
         });
         Alert.alert("Error", error.toString());
         Analytics.trackEvent("Aadhaar|Verify|Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: `submitAadhaarOTP API Catch Error: ${error.toString()}`,
+          error: `submitAadhaarOTP API Catch Error: ${JSON.stringify(error)}`,
         });
       });
   };

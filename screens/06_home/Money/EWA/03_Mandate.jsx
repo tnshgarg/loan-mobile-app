@@ -6,7 +6,7 @@ import MandateFormTemplate from "../../../../templates/mandate/Form";
 import Header from "../../../../components/atoms/Header";
 import { styles } from "../../../../styles";
 
-const Mandate = (props) => {
+const Mandate = () => {
   const navigation = useNavigation();
   const mandateVerifyStatus = useSelector(
     (state) => state.mandate.verifyStatus
@@ -34,7 +34,7 @@ const Mandate = (props) => {
       <Header
         title="Mandate"
         onLeftIconPress={() => backAction()}
-        progress={60}
+        progress={75}
       />
 
       <MandateFormTemplate type="EWA" />
