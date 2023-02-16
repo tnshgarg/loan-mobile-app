@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import SVGImgFailure from "../../../../assets/ewa_failure.svg";
 import SVGImgSuccess from "../../../../assets/ewa_success.svg";
-import SVGImgPending from "../../../../assets/ewa_pending.svg";
+import Pending from "../../../../assets/animations/Pending";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
 import { getDisbursement } from "../../../../queries/ewa/disbursement";
 
@@ -52,7 +52,7 @@ const Disbursement = ({ route, navigation }) => {
       case "FAILURE":
         return <SVGImgFailure style={{ alignSelf: "center" }} />;
       default:
-        return <SVGImgPending style={{ alignSelf: "center" }} />;
+        return <Pending />;
     }
   };
 
