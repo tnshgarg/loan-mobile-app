@@ -33,6 +33,7 @@ const PanFormTemplate = (props) => {
     } else {
       setValidNumber(false);
     }
+    return () => {};
   }, [number]);
 
   return (

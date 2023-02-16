@@ -12,18 +12,20 @@ import BackgroundTimer from "react-native-background-timer";
 const AadhaarVerifyTemplate = (props) => {
   const dispatch = useDispatch();
   const inputRef = useRef();
+
   const [resend, setResend] = useState(false);
-  const [otp, setOtp] = useState("");
   const [validOtp, setValidOtp] = useState(true);
+  const [verified, setVerified] = useState(false);
+  
+  const [otp, setOtp] = useState("");
 
   const countDownTime = useSelector((state) => state.timer.aadhaar);
   const aadhaarSlice = useSelector((state) => state.aadhaar);
-  const [number, setNumber] = useState(aadhaarSlice?.number);
-  const [verified, setVerified] = useState(false);
 
   let interval;
 
   useEffect(() => {
+    
     interval = BackgroundTimer.setInterval(() => {
       console.log({ countDownTime });
       if (countDownTime > 0) {
@@ -39,10 +41,12 @@ const AadhaarVerifyTemplate = (props) => {
     }
 
     return () => BackgroundTimer.clearInterval(interval);
+
   }, [countDownTime, verified]);
 
   useEffect(() => {
     setValidOtp(otp.length === 6);
+    return () => {};
   }, [otp]);
 
   return (
@@ -64,7 +68,7 @@ const AadhaarVerifyTemplate = (props) => {
           Didn’t receive the secure code?{" "}
           {resend ? (
             <AadhaarOtpApi
-              data={{ aadhaar_number: number, consent: "Y" }}
+              data={{ aadhaar_number: aadhaarSlice?.number, consent: "Y" }}
               type={props?.route?.params?.type || ""}
               isTextButton={true}
               textButton="Resend OTP"
@@ -84,6 +88,7 @@ const AadhaarVerifyTemplate = (props) => {
           type={props?.route?.params?.type || ""}
           setVerified={setVerified}
         />
+
       </View>
     </ScrollView>
   );

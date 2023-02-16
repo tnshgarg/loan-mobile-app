@@ -67,10 +67,12 @@ const BankVerifyApi = (props) => {
 
   useEffect(() => {
     dispatch(addVerifyMsg(verifyMsg));
+    return () => {};
   }, [verifyMsg]);
 
   useEffect(() => {
     dispatch(addVerifyStatus(verifyStatus));
+    return () => {};
   }, [verifyStatus]);
 
   useEffect(() => {
