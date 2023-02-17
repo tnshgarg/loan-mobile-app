@@ -37,6 +37,7 @@ export const getAadhaar = ({ unipeEmployeeId, token }) => {
 };
 
 export const generateAadhaarOTP = () => {
+  console.log(KYC_AADHAAR_GENERATE_OTP_API_URL)
   const mutation = useMutation({
     mutationFn: async ({ data }) => {
       return axios({

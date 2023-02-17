@@ -26,7 +26,7 @@ const Aadhaar = () => {
 
   const tabs = [
     {
-      name: "Aadhaar Form",
+      name: "Form",
       component: AadhaarFormTemplate,
       initialParams: { type: "KYC" },
       disable: true,
