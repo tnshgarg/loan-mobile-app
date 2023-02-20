@@ -15,7 +15,6 @@ const CompleteKycCard = () => {
   const aadhaarVerifyStatus = useSelector(
     (state) => state.aadhaar.verifyStatus
   );
-  const aadhaarTxnId = useSelector((state) => state.aadhaar.submitOTPtxnId);
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
 
@@ -24,7 +23,7 @@ const CompleteKycCard = () => {
       navigation.navigate("AccountStack", {
         screen: "Profile",
       });
-    } else if (aadhaarTxnId) {
+    } else if (aadhaarVerifyStatus === "INPROGRESS_OTP") {
       navigation.navigate("AccountStack", {
         screen: "KYC",
         params: {
@@ -34,7 +33,7 @@ const CompleteKycCard = () => {
           },
         },
       });
-    } else if (aadhaarVerifyStatus === "INPROGRESS") {
+    } else if (aadhaarVerifyStatus === "INPROGRESS_CONFIRMATION") {
       navigation.navigate("AccountStack", {
         screen: "KYC",
         params: {
@@ -54,7 +53,7 @@ const CompleteKycCard = () => {
           },
         },
       });
-    } else if (panVerifyStatus === "INPROGRESS") {
+    } else if (panVerifyStatus === "INPROGRESS_CONFIRMATION") {
       navigation.navigate("AccountStack", {
         screen: "KYC",
         params: {
@@ -74,7 +73,7 @@ const CompleteKycCard = () => {
           },
         },
       });
-    }  else if (bankVerifyStatus === "INPROGRESS") {
+    }  else if (bankVerifyStatus === "INPROGRESS_CONFIRMATION") {
       navigation.navigate("AccountStack", {
         screen: "KYC",
         params: {

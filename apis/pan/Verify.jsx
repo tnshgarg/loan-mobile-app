@@ -122,7 +122,7 @@ const PanVerifyApi = (props) => {
                       backendPush({
                         data: responseJson["data"]["pan_data"],
                         verifyMsg: "To be confirmed by User",
-                        verifyStatus: "INPROGRESS",
+                        verifyStatus: "INPROGRESS_CONFIRMATION",
                         verifyTimestamp: responseJson["timestamp"],
                       });
                       Analytics.trackEvent("Pan|Verify|Success", {

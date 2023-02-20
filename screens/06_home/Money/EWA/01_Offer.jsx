@@ -156,26 +156,21 @@ const Offer = () => {
   };
 
   const handleConditionalNav = () => {
-    console.log("profileComplete", profileComplete);
-    console.log("aadhaarVerifyStatus", aadhaarVerifyStatus);
-    console.log("aadhaarTxnId", aadhaarTxnId);
-    console.log("panVerifyStatus", panVerifyStatus);
-    console.log("bankVerifyStatus", bankVerifyStatus);
     if (onboarded) {
       navigation.navigate("EWA_KYC");
     } else if (!profileComplete) {
       navigation.navigate("EWA_KYC_STACK", { screen: "ProfileForm" });
-    } else if (aadhaarTxnId) {
+    } else if (aadhaarVerifyStatus === "INPROGRESS_OTP") {
       navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarVerify" });
-    } else if (aadhaarVerifyStatus === "INPROGRESS") {
+    } else if (aadhaarVerifyStatus === "INPROGRESS_CONFIRMATION") {
       navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarConfirm" });
     } else if (aadhaarVerifyStatus != "SUCCESS") {
       navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarForm" });
-    }  else if (panVerifyStatus === "INPROGRESS") {
+    }  else if (panVerifyStatus === "INPROGRESS_CONFIRMATION") {
       navigation.navigate("EWA_KYC_STACK", { screen: "PanConfirm" });
     } else if (panVerifyStatus != "SUCCESS") {
       navigation.navigate("EWA_KYC_STACK", { screen: "PanForm" });
-    } else if (bankVerifyStatus === "INPROGRESS") {
+    } else if (bankVerifyStatus === "INPROGRESS_CONFIRMATION") {
       navigation.navigate("EWA_KYC_STACK", { screen: "BankConfirm" });
     } else if (bankVerifyStatus != "SUCCESS") {
       navigation.navigate("EWA_KYC_STACK", { screen: "BankForm" });

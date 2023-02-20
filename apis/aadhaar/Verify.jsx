@@ -109,13 +109,12 @@ const AadhaarVerifyApi = (props) => {
                 backendPush({
                   data: responseJson["data"]["aadhaar_data"],
                   verifyMsg: "OTP validated by User",
-                  verifyStatus: "INPROGRESS",
+                  verifyStatus: "INPROGRESS_CONFIRMATION",
                   verifyTimestamp: responseJson?.timestamp,
                 });
                 Analytics.trackEvent("Aadhaar|Verify|Success", {
                   unipeEmployeeId: unipeEmployeeId,
                 });
-                dispatch(addSubmitOTPtxnId(""));
                 props.setVerified(true);
                 {
                   props.type == "KYC"
