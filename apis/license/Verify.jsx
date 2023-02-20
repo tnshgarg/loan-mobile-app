@@ -9,7 +9,7 @@ import {
   addVerifyTimestamp,
 } from "../../store/slices/licenseSlice";
 import { licenseBackendPush } from "../../helpers/BackendPush";
-import { OG_API_TEST_KEY } from "@env";
+import { OG_API_QA_KEY } from "@env";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
 
@@ -74,7 +74,7 @@ const Verify = (props) => {
       method: "POST",
       headers: {
         "X-Auth-Type": "API-Key",
-        "X-API-Key": OG_API_TEST_KEY,
+        "X-API-Key": OG_API_QA_KEY,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(props.data),
