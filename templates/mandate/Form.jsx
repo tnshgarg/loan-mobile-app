@@ -164,7 +164,7 @@ const MandateFormTemplate = (props) => {
             Alert.alert("Create Customer Catch Error", JSON.stringify(error));
             Analytics.trackEvent("Mandate|CreateCustomer|Error", {
               unipeEmployeeId: unipeEmployeeId,
-              error: error.toString(),
+              error: JSON.stringify(error),
             });
           });
       } catch (error) {
