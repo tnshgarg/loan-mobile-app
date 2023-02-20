@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { useQuery } from "@tanstack/react-query";
-import RazorpayCheckout from "react-native-razorpay";
 import { Icon } from "@react-native-material/core";
+import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { RZP_KEY_ID } from "../../services/constants";
+import {createRepaymentOrder,openRazorpayCheckout} from "../../services/mandate/Razorpay/services"
 import PrimaryButton from "../atoms/PrimaryButton";
 import { getNumberOfDays, setYYYYMMDDtoDDMMYYYY } from "../../helpers/DateFunctions";
-import { getRepayment, createRazorpayOrder, updateRepayment } from "../../queries/ewa/repayment";
+import { getRepayment, updateRepayment } from "../../queries/ewa/repayment";
 import { resetRepayment } from "../../store/slices/repaymentSlice";
 
 const PayMoneyCard = () => {
@@ -28,7 +28,6 @@ const PayMoneyCard = () => {
   const accountHolderName = useSelector(
     (state) => state.bank?.data?.accountHolderName
   );
-  const customerId = useSelector((state) => state.mandate.data.customerId);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
   const campaignId = useSelector((state) => state.campaign.repaymentCampaignId || state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId);
@@ -100,11 +99,6 @@ const PayMoneyCard = () => {
 
   const {mutateAsync: updateRepaymentMutateAsync} = updateRepayment();
 
-  const { mutateAsync: createRazorpayOrderMutateAsync } = createRazorpayOrder({
-    amount: repaymentAmount,
-    repaymentId: repaymentId,
-  });
-
   const backendPush = ({ data, status }) => {
     console.log("repaymentSlice: ", repaymentSlice);
     updateRepaymentMutateAsync({
@@ -134,89 +128,72 @@ const PayMoneyCard = () => {
       });
   };
 
-  useEffect(() => {
-    console.log(
-      "createRepayment repaymentOrderId: ",
-      repaymentOrderId,
-      !repaymentOrderId
-    );
-    if (repaymentAmount > 0) {
-      if (repaymentOrderId) {
-        var options = {
-          description: "Unipe Early Loan Repayment",
-          name: "Unipe",
-          key: RZP_KEY_ID,
-          order_id: repaymentOrderId,
-          customer_id: customerId,
-          prefill: {
-            name: accountHolderName,
-            email: email,
-            contact: phoneNumber,
+        
+  const initiateRazorpayCheckout = async ({orderId,customerId}) => {
+    try {
+      const response = await openRazorpayCheckout({
+        orderId,
+        customerId,
+        description: "Unipe Early Loan Repayment",
+        prefill: {
+          name: accountHolderName,
+          email: email,
+          contact: phoneNumber,
+        }
+      })
+      console.log("ewaRepayment Checkout RazorpayCheckout data: ", response);
+      backendPush({
+        data: {
+          orderId,
+          customerId,
+          paymentId: response.razorpay_payment_id,
+          paymentSignature: response.razorpay_signature,
+          provider: "razorpay",
+        },
+        status: "INPROGRESS",
+      });
+      Analytics.trackEvent("Ewa|Repayment|Success", {
+        unipeEmployeeId: unipeEmployeeId,
+      });  
+    } catch (error) {
+      console.log("ewaRepayment Checkout error: ", error);
+        backendPush({
+          data: {
+            orderId,
+            customerId
           },
-          theme: { color: COLORS.primary },
-        };
-
-        RazorpayCheckout.open(options)
-          .then((response) => {
-            console.log("ewaRepayment Checkout RazorpayCheckout data: ", response);
-            backendPush({
-              data: {
-                orderId: repaymentOrderId,
-                paymentId: response.razorpay_payment_id,
-                paymentSignature: response.razorpay_signature,
-                provider: "razorpay",
-              },
-              status: "INPROGRESS",
-            });
-            Analytics.trackEvent("Ewa|Repayment|Success", {
-              unipeEmployeeId: unipeEmployeeId,
-            });
-          })
-          .catch((error) => {
-            console.log("ewaRepayment Checkout error: ", error);
-            backendPush({
-              data: {
-                orderId: repaymentOrderId,
-              },
-              status: "INPROGRESS",
-            });
-            Analytics.trackEvent("Ewa|Repayment|Error", {
-              unipeEmployeeId: unipeEmployeeId,
-            });
-          })
-          .finally(() => {
-            setRepaymentOrderId(null);
-            setLoading(false);
-          })
-          ;
-      }
+          status: "INPROGRESS",
+        });
+        Analytics.trackEvent("Ewa|Repayment|Error", {
+          unipeEmployeeId: unipeEmployeeId,
+        });
+    } finally {
+      setRepaymentOrderId(null);
+      setLoading(false);
     }
-  }, [repaymentOrderId]);
-
-  const createRepaymentOrder = () => {
+  }
+  const initiatePayment = async () => {
     if (repaymentAmount > 0) {
-      createRazorpayOrderMutateAsync()
-        .then((res) => {
-          setRepaymentOrderId(res?.data?.id);
-          backendPush({
-            data: {
-              orderId: res?.data?.id,
-            },
-            status: "PENDING",
-          });
+      try {
+        const res = await createRepaymentOrder({
+          unipeEmployeeId,
+          repaymentIds: [repaymentId],
+          token,
         })
-        .catch((error) => {
-          backendPush({
-            data: {},
-            status: "ERROR",
-          });
-          Alert.alert("Error", error.toString());
+        let repaymentOrder = res.data.body;
+        console.log("repaymentOrder", repaymentOrder)
+        await initiateRazorpayCheckout({
+          orderId: repaymentOrder.id,
+          customerId: repaymentOrder.customer_id
+        })
+      } catch (error) {
+        Alert.alert("Error", error.toString());
           setLoading(false);
           Analytics.trackEvent("Ewa|Repayment|Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: error.toString(),
           });
-        });
+      };
     }
   };
 
@@ -250,7 +227,7 @@ const PayMoneyCard = () => {
                   : "Pay now"
                 : "In Progress"
             }
-            onPress={() => createRepaymentOrder()}
+            onPress={() => initiatePayment()}
             disabled={inactive || loading || repaymentStatus === "INPROGRESS"}
             containerStyle={{ width: null, marginTop: 0, height: 40 }}
             titleStyle={{ ...FONTS.h5 }}
