@@ -1,13 +1,17 @@
 import { SafeAreaView, View } from "react-native";
 import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/core";
 import TopTabNav from "../../../navigators/TopTabNav";
 import AadhaarFormTemplate from "../../../templates/aadhaar/Form";
 import AadhaarVerifyTemplate from "../../../templates/aadhaar/Verify";
 import AadhaarConfirmApi from "../../../apis/aadhaar/Confirm";
 import { styles } from "../../../styles";
+import { useEffect } from "react";
 import DetailsCard from "../../../components/molecules/DetailsCard";
 
 const Aadhaar = () => {
+  const navigation = useNavigation();
+  
   const number = useSelector((state) => state.aadhaar.number);
   const data = useSelector((state) => state.aadhaar.data);
   const verifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
@@ -37,7 +41,6 @@ const Aadhaar = () => {
       initialParams: { type: "KYC" },
       disable: true,
     },
-
     {
       name: "Confirm",
       component: AadhaarConfirmApi,
@@ -45,6 +48,25 @@ const Aadhaar = () => {
       disable: true,
     },
   ];
+
+  useEffect(() => {
+    if (verifyStatus == "INPROGRESS_OTP") {
+      navigation.navigate("KYC", {
+        screen: "AADHAAR",
+        params: {
+          screen: "Verify",
+        },
+      })
+    }
+    else if (verifyStatus == "INPROGRESS_CONFIRMATION") {
+      navigation.navigate("KYC", {
+        screen: "AADHAAR",
+        params: {
+          screen: "Confirm",
+        },
+      })
+    }
+  },[verifyStatus]);
 
   return (
     <SafeAreaView style={styles.safeContainer}>

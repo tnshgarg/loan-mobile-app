@@ -37,9 +37,11 @@ const AadhaarVerifyTemplate = (props) => {
     }, 1000);
 
     if (countDownTime < 1 || verified) {
-      dispatch(addVerifyStatus("PENDING"));
       setResend(true);
       BackgroundTimer.clearInterval(interval);
+    }
+    if (countDownTime < 1){
+      dispatch(addVerifyStatus("PENDING"));
     }
 
     return () => BackgroundTimer.clearInterval(interval);

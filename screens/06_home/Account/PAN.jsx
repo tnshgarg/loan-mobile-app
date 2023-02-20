@@ -1,15 +1,30 @@
+import { useNavigation } from "@react-navigation/core";
+import React, { useEffect } from "react";
 import { SafeAreaView, View } from "react-native";
 import { useSelector } from "react-redux";
-import PanFormTemplate from "../../../templates/pan/Form";
-import TopTabNav from "../../../navigators/TopTabNav";
 import PanConfirmApi from "../../../apis/pan/Confirm";
-import { styles } from "../../../styles";
 import DetailsCard from "../../../components/molecules/DetailsCard";
+import TopTabNav from "../../../navigators/TopTabNav";
+import { styles } from "../../../styles";
+import PanFormTemplate from "../../../templates/pan/Form";
 
 const Pan = () => {
+  const navigation = useNavigation();
+
   const data = useSelector((state) => state.pan.data);
   const number = useSelector((state) => state.pan.number);
   const verifyStatus = useSelector((state) => state.pan.verifyStatus);
+
+  useEffect(() => {
+    if (verifyStatus == "INPROGRESS_CONFIRMATION") {
+      navigation.navigate("KYC", {
+        screen: "PAN",
+        params: {
+          screen: "Confirm",
+        },
+      });
+    }
+  }, [verifyStatus]);
 
   const cardData = () => {
     var res = [
