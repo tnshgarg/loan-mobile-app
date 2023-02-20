@@ -46,7 +46,6 @@ const Offer = () => {
     (state) => state.profile.profileComplete
   );
   const aadhaarVerifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
-  const aadhaarTxnId = useSelector((state) => state.aadhaar.submitOTPtxnId);
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
 
