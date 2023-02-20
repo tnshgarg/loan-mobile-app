@@ -288,6 +288,7 @@ const MandateFormTemplate = (props) => {
           error: JSON.stringify(error),
         });
         setAuthType("");
+        setLoading(false);
       });
   };
 
