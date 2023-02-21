@@ -8,13 +8,16 @@ import AadhaarConfirmApi from "../../../apis/aadhaar/Confirm";
 import { styles } from "../../../styles";
 import { useEffect } from "react";
 import DetailsCard from "../../../components/molecules/DetailsCard";
+import PrimaryButton from "../../../components/atoms/PrimaryButton";
 
 const Aadhaar = () => {
   const navigation = useNavigation();
-  
+
   const number = useSelector((state) => state.aadhaar.number);
   const data = useSelector((state) => state.aadhaar.data);
   const verifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
+  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
+  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
 
   const cardData = () => {
     var res = [
@@ -56,17 +59,16 @@ const Aadhaar = () => {
         params: {
           screen: "Verify",
         },
-      })
-    }
-    else if (verifyStatus == "INPROGRESS_CONFIRMATION") {
+      });
+    } else if (verifyStatus == "INPROGRESS_CONFIRMATION") {
       navigation.navigate("KYC", {
         screen: "AADHAAR",
         params: {
           screen: "Confirm",
         },
-      })
+      });
     }
-  },[verifyStatus]);
+  }, [verifyStatus]);
 
   return (
     <SafeAreaView style={styles.safeContainer}>
@@ -79,6 +81,25 @@ const Aadhaar = () => {
               cache: "only-if-cached",
             }}
           />
+          {panVerifyStatus != "SUCCESS" ? (
+            <PrimaryButton
+              title="Continue to PAN Verification"
+              onPress={() => {
+                navigation.navigate("KYC", {
+                  screen: "PAN",
+                });
+              }}
+            />
+          ) : bankVerifyStatus != "SUCCESS" ? (
+            <PrimaryButton
+              title="Continue to Bank Verification"
+              onPress={() => {
+                navigation.navigate("KYC", {
+                  screen: "BANK",
+                });
+              }}
+            />
+          ) : null}
         </View>
       ) : (
         <TopTabNav tabs={tabs} hide={true} />
