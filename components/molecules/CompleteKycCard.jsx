@@ -23,44 +23,11 @@ const CompleteKycCard = () => {
       navigation.navigate("AccountStack", {
         screen: "Profile",
       });
-    } else if (aadhaarVerifyStatus === "INPROGRESS_OTP") {
-      navigation.navigate("AccountStack", {
-        screen: "KYC",
-        params: {
-          screen: "AADHAAR",
-          params: {
-            screen: "Verify",
-          },
-        },
-      });
-    } else if (aadhaarVerifyStatus === "INPROGRESS_CONFIRMATION") {
-      navigation.navigate("AccountStack", {
-        screen: "KYC",
-        params: {
-          screen: "AADHAAR",
-          params: {
-            screen: "Confirm",
-          },
-        },
-      });
     } else if (aadhaarVerifyStatus != "SUCCESS") {
       navigation.navigate("AccountStack", {
         screen: "KYC",
         params: {
           screen: "AADHAAR",
-          params: {
-            screen: "Form",
-          },
-        },
-      });
-    } else if (panVerifyStatus === "INPROGRESS_CONFIRMATION") {
-      navigation.navigate("AccountStack", {
-        screen: "KYC",
-        params: {
-          screen: "PAN",
-          params: {
-            screen: "Confirm",
-          },
         },
       });
     } else if (panVerifyStatus != "SUCCESS") {
@@ -68,30 +35,13 @@ const CompleteKycCard = () => {
         screen: "KYC",
         params: {
           screen: "PAN",
-          params: {
-            screen: "Form",
-          },
         },
       });
-    }  else if (bankVerifyStatus === "INPROGRESS_CONFIRMATION") {
+    } else if (bankVerifyStatus != "SUCCESS") {
       navigation.navigate("AccountStack", {
         screen: "KYC",
         params: {
           screen: "BANK",
-          params: {
-            screen: "Confirm",
-          },
-        },
-      });
-    }
-    else if (bankVerifyStatus != "SUCCESS") {
-      navigation.navigate("AccountStack", {
-        screen: "KYC",
-        params: {
-          screen: "BANK",
-          params: {
-            screen: "Form",
-          },
         },
       });
     }
