@@ -10,12 +10,12 @@ import InfoCard from "../../components/atoms/InfoCard";
 import FormInput from "../../components/atoms/FormInput";
 import Checkbox from "../../components/atoms/Checkbox";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { useNavigation } from "@react-navigation/core";
+import { useNavigation, useIsFocused } from "@react-navigation/core";
 
 const PanFormTemplate = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
+  const isFocused = useIsFocused();
   const [consent, setConsent] = useState(true);
   const [validNumber, setValidNumber] = useState(true);
 
@@ -51,7 +51,7 @@ const PanFormTemplate = (props) => {
               placeholder={"PAN Number"}
               keyboardType="default"
               autoCapitalize="characters"
-              autoFocus={true}
+              autoFocus={isFocused}
               value={number}
               onChange={setNumber}
               maxLength={10}

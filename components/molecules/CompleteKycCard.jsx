@@ -12,12 +12,13 @@ const CompleteKycCard = () => {
   const [show, setShow] = useState(true);
 
   const profileComplete = useSelector((state) => state.profile.profileComplete);
-  const aadhaarVerifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
+  const aadhaarVerifyStatus = useSelector(
+    (state) => state.aadhaar.verifyStatus
+  );
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
 
   const handleConditionalNav = () => {
-
     if (!profileComplete) {
       navigation.navigate("AccountStack", {
         screen: "Profile",
@@ -44,9 +45,8 @@ const CompleteKycCard = () => {
         },
       });
     }
-    
   };
-  
+
   useEffect(() => {
     if (
       profileComplete &&

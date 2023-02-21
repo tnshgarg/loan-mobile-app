@@ -120,7 +120,7 @@ const AadhaarOtpApi = (props) => {
                       setSubmitOTPtxnId(responseJson?.data?.transaction_id);
                       backendPush({
                         verifyMsg: "OTP sent to User",
-                        verifyStatus: "PENDING",
+                        verifyStatus: "INPROGRESS_OTP",
                         verifyTimestamp: responseJson?.timestamp,
                       });
                       dispatch(resetTimer());

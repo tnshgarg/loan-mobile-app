@@ -7,6 +7,7 @@ import {
   addVerifyMsg,
   addVerifyStatus,
   addVerifyTimestamp,
+  addSubmitOTPtxnId,
 } from "../../store/slices/aadhaarSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
@@ -108,7 +109,7 @@ const AadhaarVerifyApi = (props) => {
                 backendPush({
                   data: responseJson["data"]["aadhaar_data"],
                   verifyMsg: "OTP validated by User",
-                  verifyStatus: "PENDING",
+                  verifyStatus: "INPROGRESS_CONFIRMATION",
                   verifyTimestamp: responseJson?.timestamp,
                 });
                 Analytics.trackEvent("Aadhaar|Verify|Success", {

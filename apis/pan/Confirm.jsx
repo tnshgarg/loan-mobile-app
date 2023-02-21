@@ -115,7 +115,7 @@ const PanConfirmApi = (props) => {
                 ? navigation.navigate("KYC", {
                     screen: "PAN",
                     params: {
-                      screen: "PAN Data",
+                      screen: "Form",
                     },
                   })
                 : navigation.navigate("BankForm");

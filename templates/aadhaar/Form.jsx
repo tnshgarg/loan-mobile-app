@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useIsFocused } from "@react-navigation/core";
 import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
@@ -12,6 +13,7 @@ import { COLORS, FONTS } from "../../constants/Theme";
 
 const AadhaarFormTemplate = (props) => {
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
 
   const [consent, setConsent] = useState(true);
   const [validNumber, setValidNumber] = useState(true);
@@ -42,7 +44,7 @@ const AadhaarFormTemplate = (props) => {
             accessibilityLabel={"AadhaarInput"}
             placeholder={"Aadhaar Number"}
             keyboardType="numeric"
-            autoFocus={true}
+            autoFocus={isFocused}
             value={number}
             onChange={setNumber}
             maxLength={12}
