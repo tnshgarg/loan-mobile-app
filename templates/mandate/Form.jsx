@@ -146,7 +146,6 @@ const MandateFormTemplate = (props) => {
         dispatch(resetMandate(response?.data?.body));
         dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
         setVerifyStatus(response?.data?.body?.verifyStatus);
-        setFetched(true);
       })
   }
 
