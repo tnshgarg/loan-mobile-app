@@ -1,7 +1,7 @@
 import "react-native-gesture-handler";
 import { registerRootComponent } from "expo";
 
-import App from "./App";
+import App from "./src/App";
 import PushNotification from "react-native-push-notification";
 import messaging from "@react-native-firebase/messaging";
 
