@@ -25,9 +25,9 @@ export default function MandateLoading({
   useEffect(() => {
     interval = setInterval(() => {
       console.log({ refetchTime });
-      if (refetchTime < 60) {
-        setRefetchTime(refetchTime + 1);
-        if (refetchTime >= 10 && refetchTime % 5 == 0) {
+      if (refetchTime <= 60) {
+        setRefetchTime(refetchTime + 10);
+        if (refetchTime % 10 == 0) {
           console.log("api called");
           getBackendData({
             params: { unipeEmployeeId: unipeEmployeeId },
@@ -67,15 +67,19 @@ export default function MandateLoading({
               console.log("mandateFetch error: ", error);
             });
         }
-      } else if (refetchTime >= 60 && mandateVerifyStatus === "INPROGRESS") {
-        showToast("Mandate verification In Progress");
+      } else if (refetchTime > 60) {
         setModalVisible(false);
-        navigation.navigate("HomeStack", { screen: "Money" });
+        if (mandateVerifyStatus === "INPROGRESS") {
+          showToast("Mandate verification In Progress");
+          navigation.navigate("HomeStack", { screen: "Money" });
+        }
       }
-    }, 1000);
+    }, 10000);
 
     return () => clearInterval(interval);
+
   }, [refetchTime]);
+
   return (
     <Modal
       animationType="slide"

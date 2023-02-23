@@ -5,7 +5,6 @@ import { Linking, SafeAreaView, ScrollView, View } from "react-native";
 import PushNotification from "react-native-push-notification";
 import { useDispatch, useSelector } from "react-redux";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
-import KycCheckCard from "../../components/molecules/KycCheckCard";
 import { allAreNull } from "../../helpers/nullCheck";
 import {
   addEkycCampaignId,
@@ -21,7 +20,6 @@ import { styles } from "../../styles";
 import { STAGE } from "@env";
 import { Ionicons } from "react-native-vector-icons";
 import LogoHeader from "../../components/atoms/LogoHeader";
-import VideoPlayer from "../../components/organisms/VideoPlayer";
 import { COLORS } from "../../constants/Theme";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
 import { getEwaOffers } from "../../queries/ewa/offers";
@@ -36,7 +34,8 @@ import {
   addEligible,
   resetEwaLive,
 } from "../../store/slices/ewaLiveSlice";
-
+import CompleteKycCard from "../../components/molecules/CompleteKycCard";
+import ExploreCards from "../../components/molecules/ExploreCards";
 const HomeView = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -56,7 +55,6 @@ const HomeView = () => {
 
   // const panMisMatch = useSelector((state) => state.pan.misMatch);
   // const bankMisMatch = useSelector((state) => state.bank.misMatch);
-  const [auto, setAuto] = useState(null);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
@@ -79,7 +77,6 @@ const HomeView = () => {
   }, [aadhaarVerifyStatus, bankVerifyStatus, panVerifyStatus]);
 
   useEffect(() => {
-    dispatch(addCurrentScreen("Home"));
     dispatch(addCurrentStack("HomeStack"));
     if (!onboarded) addOnboarded(true);
   }, []);
@@ -113,7 +110,7 @@ const HomeView = () => {
     isError: getEwaOffersIsError,
     error: getEwaOffersError,
     data: getEwaOffersData,
-  } = useQuery(['getEwaOffers', unipeEmployeeId, token], getEwaOffers, {
+  } = useQuery(["getEwaOffers", unipeEmployeeId, token], getEwaOffers, {
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 11,
     refetchInterval: 1000 * 60 * 5,
@@ -138,12 +135,18 @@ const HomeView = () => {
         dispatch(resetEwaHistorical(getEwaOffersData.data.body.past));
         setFetched(true);
       } else {
-        console.log("HomeView ewaOffersFetch API error getEwaOffersData.data : ", getEwaOffersData.data);
+        console.log(
+          "HomeView ewaOffersFetch API error getEwaOffersData.data : ",
+          getEwaOffersData.data
+        );
         dispatch(resetEwaLive());
         dispatch(resetEwaHistorical());
       }
     } else if (getEwaOffersIsError) {
-      console.log("HomeView ewaOffersFetch API error getEwaOffersError.message : ", getEwaOffersError.message);
+      console.log(
+        "HomeView ewaOffersFetch API error getEwaOffersError.message : ",
+        getEwaOffersError.message
+      );
       dispatch(resetEwaLive());
       dispatch(resetEwaHistorical());
     }
@@ -158,7 +161,6 @@ const HomeView = () => {
       console.log("route", splitted[3]);
       switch (splitted[3].toLowerCase()) {
         case "ewa":
-          setAuto("ewa");
           switch (splitted[4]?.toLowerCase()) {
             case "campaign":
               dispatch(addEwaCampaignId(splitted[5]));
@@ -168,7 +170,6 @@ const HomeView = () => {
           }
           break;
         case "repayment":
-          setAuto("repayment");
           switch (splitted[4]?.toLowerCase()) {
             case "campaign":
               dispatch(addRepaymentCampaignId(splitted[5]));
@@ -207,34 +208,26 @@ const HomeView = () => {
         title={"Home"}
         rightIcon={
           <Ionicons
-            name="help-circle-outline"
+            name="logo-whatsapp"
             size={28}
             color={COLORS.primary}
           />
         }
+        rightOnPress={() => {
+          Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+        }}
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
-          {allAreNull(verifyStatuses) ? (
-            <>
-              <LiveOfferCard
-                eligible={eligible}
-                accessible={accessible}
-                ewaLiveSlice={ewaLiveSlice}
-                auto={auto}
-              />
-              <VideoPlayer
-                title="Why Unipe?"
-                thumbnail={require("../../assets/youtube_thumbnail.jpg")}
-                videoId="9zXrU09Lvcs"
-              />
-            </>
-          ) : (
-            <KycCheckCard
-              title="Following pending steps need to be completed in order to receive advance salary."
-              message={verifyStatuses}
+          <>
+            <LiveOfferCard
+              eligible={eligible}
+              accessible={accessible}
+              ewaLiveSlice={ewaLiveSlice}
             />
-          )}
+            <CompleteKycCard/>
+            <ExploreCards/>
+          </>
         </View>
       </ScrollView>
     </SafeAreaView>

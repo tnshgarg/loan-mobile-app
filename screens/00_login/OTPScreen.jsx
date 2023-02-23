@@ -1,6 +1,13 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState, useRef } from "react";
-import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
+import {
+  Alert,
+  BackHandler,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
@@ -16,20 +23,20 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 import OtpInput from "../../components/molecules/OtpInput";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import BackgroundTimer from "react-native-background-timer";
 
 const OTPScreen = () => {
   const dispatch = useDispatch();
+  const inputRef = useRef();
   const navigation = useNavigation();
 
   const [verified, setVerified] = useState(false);
-  const inputRef = useRef();
 
   const [otp, setOtp] = useState("");
   const [next, setNext] = useState(false);
   const [back, setBack] = useState(false);
 
   const countDownTime = useSelector((state) => state.timer.login);
-  const onboarded = useSelector((state) => state.auth.onboarded);
   const phoneNumber = useSelector((state) => state.auth.phoneNumber);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
@@ -40,8 +47,7 @@ const OTPScreen = () => {
   let interval;
 
   useEffect(() => {
-    interval = setInterval(() => {
-      console.log({ countDownTime });
+    interval = BackgroundTimer.setInterval(() => {
       if (countDownTime > 0) {
         dispatch(setLoginTimer(countDownTime - 1));
       } else {
@@ -51,9 +57,9 @@ const OTPScreen = () => {
 
     if (countDownTime < 1 || verified) {
       setBack(true);
-      clearInterval(interval);
+      BackgroundTimer.clearInterval(interval);
     }
-    return () => clearInterval(interval);
+    return () => BackgroundTimer.clearInterval(interval);
   }, [countDownTime, verified]);
 
   useEffect(() => {
@@ -103,7 +109,6 @@ const OTPScreen = () => {
         }
       })
       .catch((error) => {
-        console.log(error.toString());
         Alert.alert("Error", error.toString());
         Analytics.trackEvent("OTPScreen|SendSms|Error", {
           unipeEmployeeId: unipeEmployeeId,
@@ -116,18 +121,11 @@ const OTPScreen = () => {
     setNext(false);
     checkVerification(phoneNumber, otp)
       .then((res) => {
-        console.log("res: ", res);
         if (res["response"]["status"] === "success") {
           setVerified(true);
-          if (onboarded) {
-            navigation.navigate("BackendSync", {
-              destination: "HomeStack",
-            });
-          } else {
-            navigation.navigate("BackendSync", {
-              destination: "Welcome",
-            });
-          }
+          navigation.navigate("BackendSync", {
+            destination: "HomeStack",
+          });
           Analytics.trackEvent("OTPScreen|Check|Success", {
             unipeEmployeeId: unipeEmployeeId,
             error: res["response"]["details"],
@@ -141,7 +139,6 @@ const OTPScreen = () => {
         }
       })
       .catch((error) => {
-        console.log(error.toString());
         Alert.alert("Error", error.toString());
         Analytics.trackEvent("OTPScreen|Check|Error", {
           unipeEmployeeId: unipeEmployeeId,
@@ -165,13 +162,12 @@ const OTPScreen = () => {
           <Text style={styles.subHeadline}>
             Please wait, we will auto verify the OTP sent to
           </Text>
-          <Text style={[styles.headline, { marginTop: 5, ...FONTS.h3 }]}>
-            {phoneNumber}
-
-            <MaterialCommunityIcons
-              name="pencil"
-              size={16}
-              color={back ? COLORS.primary : COLORS.gray}
+          <View style={[styles.row, { alignSelf: "center" }]}>
+            <Text style={[styles.headline, { marginTop: 5, ...FONTS.h3 }]}>
+              {phoneNumber}
+            </Text>
+            <TouchableOpacity
+              activeOpacity={0.7}
               onPress={() => {
                 back
                   ? navigation.navigate("Login")
@@ -180,8 +176,15 @@ const OTPScreen = () => {
                       "You must wait for 2 minutes to edit number."
                     );
               }}
-            />
-          </Text>
+            >
+              <MaterialCommunityIcons
+                name="pencil"
+                size={18}
+                color={back ? COLORS.primary : COLORS.gray}
+              />
+            </TouchableOpacity>
+          </View>
+
           <OtpInput
             otp={otp}
             setOtp={setOtp}

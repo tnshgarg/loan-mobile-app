@@ -13,6 +13,7 @@ import { putBackendData } from "../../services/employees/employeeServices";
 import { sendSmsVerification } from "../../services/otp/Gupshup/services";
 import {
   addACTC,
+  addEmployeeName,
   addOnboarded,
   addPhoneNumber,
   addToken,
@@ -42,6 +43,7 @@ const LoginScreen = () => {
 
   const authSlice = useSelector((state) => state.auth);
   const [aCTC, setACTC] = useState(authSlice?.aCTC);
+  const [employeeName, setEmployeeName] = useState(authSlice?.employeeName);
   const [onboarded, setOnboarded] = useState(authSlice?.onboarded);
   const [phoneNumber, setPhoneNumber] = useState(authSlice?.phoneNumber);
   const [token, setToken] = useState(authSlice?.token);
@@ -93,6 +95,10 @@ const LoginScreen = () => {
   }, [aCTC]);
 
   useEffect(() => {
+    dispatch(addEmployeeName(employeeName));
+  }, [employeeName]);
+
+  useEffect(() => {
     dispatch(addOnboarded(onboarded));
   }, [onboarded]);
 
@@ -105,10 +111,8 @@ const LoginScreen = () => {
     if (phoneno.test(phoneNumber) && phoneNumber.length === 10) {
       dispatch(addPhoneNumber(phoneNumber));
       setNext(true);
-      console.log("true");
     } else {
       setNext(false);
-      console.log("false");
     }
   }, [phoneNumber]);
 
@@ -151,15 +155,16 @@ const LoginScreen = () => {
       token: token,
     })
       .then((res) => {
-        console.log("LoginScreen res.data: ", res.data);
-        if (res.data.status === 200) {
-          setACTC(res.data.body.aCTC);
-          setOnboarded(res.data.body.onboarded);
-          setToken(res.data.body.token);
-          setUnipeEmployeeId(res.data.body.unipeEmployeeId);
+        const responseJson = res?.data;
+        console.log(`responseJson: ${JSON.stringify(responseJson)}`);
+        if (responseJson.status === 200) {
+          setACTC(responseJson.body.aCTC);
+          setEmployeeName(responseJson.body.employeeName);
+          setOnboarded(responseJson.body.onboarded);
+          setToken(responseJson.body.token);
+          setUnipeEmployeeId(responseJson.body.unipeEmployeeId);
           sendSmsVerification(phoneNumber)
             .then((result) => {
-              console.log("sendSmsVerification result: ", result);
               if (result["response"]["status"] === "success") {
                 setLoading(false);
                 Analytics.trackEvent("LoginScreen|SendSms|Success", {
@@ -179,25 +184,23 @@ const LoginScreen = () => {
               }
             })
             .catch((error) => {
-              console.log("sendSmsVerification result: ", error.toString());
               setLoading(false);
-              Alert("Error", error.toString());
+              Alert("Error", JSON.stringify(error));
               Analytics.trackEvent("LoginScreen|SendSms|Error", {
                 unipeEmployeeId: unipeEmployeeId,
-                error: error.toString(),
+                error: JSON.stringify(error),
               });
             });
         } else {
           setLoading(false);
-          Alert.alert("Error", res.data["message"]);
+          Alert.alert("Error", responseJson["message"]);
           Analytics.trackEvent("LoginScreen|SignIn|Error", {
             phoneNumber: phoneNumber,
-            error: res.data["message"],
+            error: responseJson["message"],
           });
         }
       })
       .catch((error) => {
-        console.log("LoginScreen res.data: ", error.toString());
         setLoading(false);
         Alert.alert("Error", error.toString());
         Analytics.trackEvent("LoginScreen|SignIn|Error", {
@@ -211,8 +214,11 @@ const LoginScreen = () => {
     <SafeAreaView accessibilityLabel="LoginScreen" style={styles.safeContainer}>
       <LogoHeader
         rightIcon={
-          <Icon name="help-circle-outline" size={28} color={COLORS.primary} />
+          <Icon name="logo-whatsapp" size={28} color={COLORS.primary} />
         }
+         rightOnPress={() => {
+          Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+        }}
       />
       <KeyboardAvoidingWrapper>
         <View>

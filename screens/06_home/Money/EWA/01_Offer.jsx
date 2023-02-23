@@ -37,7 +37,18 @@ const Offer = () => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const campaignId = useSelector((state) => state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId);
+  const onboarded = useSelector((state) => state.auth.onboarded);
+  const campaignId = useSelector(
+    (state) =>
+      state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
+  );
+  const profileComplete = useSelector(
+    (state) => state.profile.profileComplete
+  );
+  const aadhaarVerifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
+  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
+  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
+
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const fees = useSelector((state) => state.ewaLive.fees);
   const [loanAmount, setLoanAmount] = useState(ewaLiveSlice?.eligibleAmount);
@@ -113,30 +124,25 @@ const Offer = () => {
   }, [loanAmount]);
 
   useEffect(() => {
-    var pf = (parseInt(loanAmount) * fees) / 100;
-    var pF;
-    if (parseInt(pf) % 10 < 4) {
-      pF = Math.max(9, Math.floor(pf / 10) * 10 - 1);
-    } else {
-      pF = Math.max(9, Math.floor((pf + 10) / 10) * 10 - 1);
-    }
+    var pF = Math.ceil((parseInt(loanAmount) * fees) / 100);
     setProcessingFees(pF);
     dispatch(addProcessingFees(pF));
     dispatch(addNetAmount(parseInt(loanAmount) - pF));
     dispatch(addAPR(APR(processingFees, loanAmount)));
     setUpdating(false);
-  }, [loanAmount]);
+  }, [loanAmount, processingFees]);
 
   const APR = (processingFees, loanAmount) => {
     var today = new Date();
     var dueDateComponents = ewaLiveSlice.dueDate.split("/");
-    var dueDateTemp = new Date(
+    var dueDate = new Date(
       dueDateComponents[2],
-      parseInt(dueDateComponents[1]) - 1,
+      parseInt(dueDateComponents[1])-1,
       dueDateComponents[0]
     );
-    var timeDiff = dueDateTemp.getTime() - today.getTime();
-    var daysDiff = parseInt(timeDiff / (1000 * 3600 * 24));
+    console.log(`dueDate, today: ${dueDate}, ${today}`);
+    var timeDiff = dueDate.getTime() - today.getTime();
+    var daysDiff = parseInt(timeDiff / (1000 * 3600 * 24)) + 1;
     var apr = 100 * (processingFees / parseInt(loanAmount)) * (365 / daysDiff);
     console.log(
       "processingFees, loanAmount, daysDiff, APR: ",
@@ -146,6 +152,28 @@ const Offer = () => {
       apr
     );
     return apr.toFixed(2);
+  };
+
+  const handleConditionalNav = () => {
+    if (onboarded) {
+      navigation.navigate("EWA_KYC");
+    } else if (!profileComplete) {
+      navigation.navigate("EWA_KYC_STACK", { screen: "ProfileForm" });
+    } else if (aadhaarVerifyStatus === "INPROGRESS_OTP") {
+      navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarVerify" });
+    } else if (aadhaarVerifyStatus === "INPROGRESS_CONFIRMATION") {
+      navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarConfirm" });
+    } else if (aadhaarVerifyStatus != "SUCCESS") {
+      navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarForm" });
+    }  else if (panVerifyStatus === "INPROGRESS_CONFIRMATION") {
+      navigation.navigate("EWA_KYC_STACK", { screen: "PanConfirm" });
+    } else if (panVerifyStatus != "SUCCESS") {
+      navigation.navigate("EWA_KYC_STACK", { screen: "PanForm" });
+    } else if (bankVerifyStatus === "INPROGRESS_CONFIRMATION") {
+      navigation.navigate("EWA_KYC_STACK", { screen: "BankConfirm" });
+    } else if (bankVerifyStatus != "SUCCESS") {
+      navigation.navigate("EWA_KYC_STACK", { screen: "BankForm" });
+    } 
   };
 
   function handleAmount() {
@@ -168,7 +196,7 @@ const Offer = () => {
         .then((response) => {
           console.log("updateOfferMutateAsync response.data: ", response.data);
           setLoading(false);
-          navigation.navigate("EWA_KYC");
+          handleConditionalNav();
           Analytics.trackEvent("Ewa|OfferPush|Success", {
             unipeEmployeeId: unipeEmployeeId,
           });
@@ -190,7 +218,7 @@ const Offer = () => {
       <Header
         title="On-Demand Salary"
         onLeftIconPress={() => backAction()}
-        progress={20}
+        progress={25}
       />
       <View style={styles.container}>
         <Text style={[styles.headline, { alignSelf: "flex-start" }]}>

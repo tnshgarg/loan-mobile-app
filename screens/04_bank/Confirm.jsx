@@ -7,7 +7,7 @@ import { styles } from "../../styles";
 
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import BankConfirmApi from "../../apis/bank/Confirm";
-import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import Header from "../../components/atoms/Header";
 
 const BankConfirm = () => {
   const dispatch = useDispatch();
@@ -37,7 +37,11 @@ const BankConfirm = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <LogoHeaderBack leftOnPress={backAction} />
+      <Header
+        title="Onboarding"
+        onLeftIconPress={() => backAction()}
+        progress={50}
+      />
       <OnboardingProgressBar step={3} />
       <ScrollView keyboardShouldPersistTaps="handled">
         <BankConfirmApi type="Onboarding" />

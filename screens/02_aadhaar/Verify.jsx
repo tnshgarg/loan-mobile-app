@@ -6,7 +6,7 @@ import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import AadhaarVerifyTemplate from "../../templates/aadhaar/Verify";
-import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import Header from "../../components/atoms/Header";
 
 const AadhaarVerify = () => {
   const dispatch = useDispatch();
@@ -42,7 +42,11 @@ const AadhaarVerify = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <LogoHeaderBack leftOnPress={backAction} />
+      <Header
+        title="Onboarding"
+        onLeftIconPress={() => backAction()}
+        progress={30}
+      />
       <OnboardingProgressBar step={1} />
       <AadhaarVerifyTemplate
         back={back}

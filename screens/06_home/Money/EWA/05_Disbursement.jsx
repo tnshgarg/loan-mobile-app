@@ -9,9 +9,9 @@ import {
 import { styles } from "../../../../styles";
 import { useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
-import SVGImgFailure from "../../../../assets/ewa_failure.svg";
-import SVGImgSuccess from "../../../../assets/ewa_success.svg";
-import SVGImgPending from "../../../../assets/ewa_pending.svg";
+import Success from "../../../../assets/animations/Success";
+import Failure from "../../../../assets/animations/Failure";
+import Pending from "../../../../assets/animations/Pending";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
 import { getDisbursement } from "../../../../queries/ewa/disbursement";
 
@@ -48,11 +48,11 @@ const Disbursement = ({ route, navigation }) => {
   const StatusImage = (status) => {
     switch (status) {
       case "SUCCESS":
-        return <SVGImgSuccess style={{ alignSelf: "center" }} />;
+        return <Success />;
       case "FAILURE":
-        return <SVGImgFailure style={{ alignSelf: "center" }} />;
+        return <Failure />;
       default:
-        return <SVGImgPending style={{ alignSelf: "center" }} />;
+        return <Pending />;
     }
   };
 

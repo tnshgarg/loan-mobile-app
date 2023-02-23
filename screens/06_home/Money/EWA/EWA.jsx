@@ -6,13 +6,11 @@ import { BackHandler, SafeAreaView, View } from "react-native";
 import { Ionicons } from "react-native-vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import LogoHeader from "../../../../components/atoms/LogoHeader";
-import KycCheckCard from "../../../../components/molecules/KycCheckCard";
 import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
 import VerifyMandateCard from "../../../../components/molecules/VerifyMandateCard";
 import LiveOfferCard from "../../../../components/organisms/LiveOfferCard";
 import { COLORS } from "../../../../constants/Theme";
 import { getNumberOfDays } from "../../../../helpers/DateFunctions";
-import { allAreNull } from "../../../../helpers/nullCheck";
 import { getEwaOffers } from "../../../../queries/ewa/offers";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
@@ -36,11 +34,6 @@ const EWA = () => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const aadhaarVerifyStatus = useSelector(
-    (state) => state.aadhaar.verifyStatus
-  );
-  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
-  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
   const [mandateVerifyStatus, setMandateVerifyStatus] = useState(
     useSelector((state) => state.mandate.verifyStatus)
   );
@@ -53,16 +46,6 @@ const EWA = () => {
 
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
-
-  const verifyStatuses = [
-    aadhaarVerifyStatus != "SUCCESS"
-      ? { label: "Verify AADHAAR", value: "AADHAAR" }
-      : null,
-    panVerifyStatus != "SUCCESS" ? { label: "Verify PAN", value: "PAN" } : null,
-    bankVerifyStatus != "SUCCESS"
-      ? { label: "Verify Bank Account", value: "BANK" }
-      : null,
-  ];
 
   const backAction = () => {
     navigation.navigate("EWA", { replace: true });
@@ -77,9 +60,9 @@ const EWA = () => {
         token: token,
       })
         .then((response) => {
-            dispatch(resetMandate(response?.data?.body));
-            dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
-            setMandateVerifyStatus(response?.data?.body?.verifyStatus);
+          dispatch(resetMandate(response?.data?.body));
+          dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
+          setMandateVerifyStatus(response?.data?.body?.verifyStatus);
         })
         .catch((error) => {
           console.log("mandateFetch error: ", error);
@@ -166,34 +149,24 @@ const EWA = () => {
         title={"Money"}
         rightIcon={
           <Ionicons
-            name="help-circle-outline"
+            name="logo-whatsapp"
             size={28}
             color={COLORS.primary}
           />
         }
+        rightOnPress={() => {
+          Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+        }}
       />
-
-      {allAreNull(verifyStatuses) ? (
-        // panMisMatch < 20 &&
-        // bankMisMatch < 20
-
-        <View style={styles.container}>
-          <LiveOfferCard
-            eligible={eligible}
-            accessible={accessible}
-            ewaLiveSlice={ewaLiveSlice}
-          />
-          <VerifyMandateCard mandateVerifyStatus={mandateVerifyStatus} />
-          <PastDrawsCard data={ewaHistoricalSlice} />
-        </View>
-      ) : (
-        <View style={[styles.container]}>
-          <KycCheckCard
-            title="Following pending steps need to be completed in order to receive advance salary."
-            message={verifyStatuses}
-          />
-        </View>
-      )}
+      <View style={styles.container}>
+        <LiveOfferCard
+          eligible={eligible}
+          accessible={accessible}
+          ewaLiveSlice={ewaLiveSlice}
+        />
+        <VerifyMandateCard mandateVerifyStatus={mandateVerifyStatus} />
+        <PastDrawsCard data={ewaHistoricalSlice} />
+      </View>
     </SafeAreaView>
   );
 };

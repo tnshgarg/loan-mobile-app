@@ -6,7 +6,7 @@ import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import BankFormTemplate from "../../templates/bank/Form";
-import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import Header from "../../components/atoms/Header";
 
 const BankForm = () => {
   const dispatch = useDispatch();
@@ -45,7 +45,11 @@ const BankForm = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <LogoHeaderBack leftOnPress={backAction} />
+      <Header
+        title="Onboarding"
+        onLeftIconPress={() => backAction()}
+        progress={50}
+      />
       <OnboardingProgressBar step={3} />
       <BankFormTemplate />
     </SafeAreaView>

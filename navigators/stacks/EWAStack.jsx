@@ -7,6 +7,7 @@ import Mandate from "../../screens/06_home/Money/EWA/03_Mandate";
 import Agreement from "../../screens/06_home/Money/EWA/04_Agreement";
 import Disbursement from "../../screens/06_home/Money/EWA/05_Disbursement";
 import EWA from "../../screens/06_home/Money/EWA/EWA";
+import KYCStack from "./KYCStack";
 
 const EWAStack = () => {
   const Stack = createNativeStackNavigator();
@@ -37,6 +38,13 @@ const EWAStack = () => {
       <Stack.Screen
         name="EWA_KYC"
         component={KYC}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="EWA_KYC_STACK"
+        component={KYCStack}
         options={{
           headerShown: false,
         }}

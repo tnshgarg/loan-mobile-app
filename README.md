@@ -35,19 +35,19 @@ react-native run-ios
 
 ## Build Strategies
 
-`STAGE = "dev" | "test" | "prod"`
+`STAGE = "dev" | "qa" | "prod"`
 
 ```
 start:dev
 - Emulator for developers while building a feature or making a fix with `dev` STAGE [DB]
 
-start:test
+start:qa
 - Emulator for developers while building a feature or making a fix with `test` STAGE [DB]
 
 build:dev
 - Test out an APK for developers while building a feature or making a fix with `dev` STAGE [DB]
 
-build:test
+build:qa
 - Test out an APK for Client Servicing Team while building a feature or making a fix with `test` STAGE [DB]
 
 build:prod
@@ -55,10 +55,13 @@ build:prod
 ```
 
 ## Code Push
+
 ### App secret at employee-app\android\app\src\main\assets\appcenter-config.json (to identify app type)
+
 ### Codepush key at employee-app\android\app\src\main\res\values\strings.xml (to identify codepush branch)
 
 ### will have to interrupt RN cache clear with Ctrl+C
+
 ```
     npm run codepush:test
     - pushes to test/QA

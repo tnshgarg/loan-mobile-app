@@ -7,6 +7,7 @@ import {
   addVerifyMsg,
   addVerifyStatus,
   addVerifyTimestamp,
+  addSubmitOTPtxnId,
 } from "../../store/slices/aadhaarSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
@@ -108,7 +109,7 @@ const AadhaarVerifyApi = (props) => {
                 backendPush({
                   data: responseJson["data"]["aadhaar_data"],
                   verifyMsg: "OTP validated by User",
-                  verifyStatus: "PENDING",
+                  verifyStatus: "INPROGRESS_CONFIRMATION",
                   verifyTimestamp: responseJson?.timestamp,
                 });
                 Analytics.trackEvent("Aadhaar|Verify|Success", {
@@ -167,28 +168,28 @@ const AadhaarVerifyApi = (props) => {
         } catch (error) {
           backendPush({
             data: data,
-            verifyMsg: `Try Catch Error: ${error.toString()}, ${res.toString()}`,
+            verifyMsg: `Try Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(responseJson)}`,
             verifyStatus: "ERROR",
             verifyTimestamp: verifyTimestamp,
           });
           Alert.alert("Error", error.toString());
           Analytics.trackEvent("Aadhaar|Verify|Error", {
             unipeEmployeeId: unipeEmployeeId,
-            error: `Try Catch Error: ${error.toString()}, ${res.toString()}`,
+            error: `Try Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(responseJson)}`,
           });
         }
       })
       .catch((error) => {
         backendPush({
           data: data,
-          verifyMsg: `submitAadhaarOTP API Catch Error: ${error.toString()}`,
+          verifyMsg: `submitAadhaarOTP API Catch Error: ${JSON.stringify(error)}`,
           verifyStatus: "ERROR",
           verifyTimestamp: verifyTimestamp,
         });
         Alert.alert("Error", error.toString());
         Analytics.trackEvent("Aadhaar|Verify|Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: `submitAadhaarOTP API Catch Error: ${error.toString()}`,
+          error: `submitAadhaarOTP API Catch Error: ${JSON.stringify(error)}`,
         });
       });
   };
