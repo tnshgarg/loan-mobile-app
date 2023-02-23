@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useIsFocused } from "@react-navigation/core";
 import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import BankVerifyApi from "../../apis/bank/Verify";
@@ -20,6 +21,7 @@ import ShieldTitle from "../../components/atoms/ShieldTitle";
 const BankFormTemplate = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
 
   const [accNumNext, setAccNumNext] = useState(false);
   const [consent, setConsent] = useState(true);
@@ -100,7 +102,7 @@ const BankFormTemplate = (props) => {
               placeholder={"Bank Account Number*"}
               value={accountNumber}
               onChange={setAccountNumber}
-              autoFocus={true}
+              autoFocus={isFocused}
               autoCapitalize="characters"
               content={
                 "Refer to your Bank Passbook or Cheque book to get the Bank Account Number."

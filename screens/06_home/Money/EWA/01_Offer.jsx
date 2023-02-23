@@ -159,13 +159,21 @@ const Offer = () => {
       navigation.navigate("EWA_KYC");
     } else if (!profileComplete) {
       navigation.navigate("EWA_KYC_STACK", { screen: "ProfileForm" });
+    } else if (aadhaarVerifyStatus === "INPROGRESS_OTP") {
+      navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarVerify" });
+    } else if (aadhaarVerifyStatus === "INPROGRESS_CONFIRMATION") {
+      navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarConfirm" });
     } else if (aadhaarVerifyStatus != "SUCCESS") {
       navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarForm" });
+    }  else if (panVerifyStatus === "INPROGRESS_CONFIRMATION") {
+      navigation.navigate("EWA_KYC_STACK", { screen: "PanConfirm" });
     } else if (panVerifyStatus != "SUCCESS") {
       navigation.navigate("EWA_KYC_STACK", { screen: "PanForm" });
+    } else if (bankVerifyStatus === "INPROGRESS_CONFIRMATION") {
+      navigation.navigate("EWA_KYC_STACK", { screen: "BankConfirm" });
     } else if (bankVerifyStatus != "SUCCESS") {
       navigation.navigate("EWA_KYC_STACK", { screen: "BankForm" });
-    }
+    } 
   };
 
   function handleAmount() {
