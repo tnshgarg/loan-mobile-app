@@ -150,7 +150,7 @@ const BankVerifyApi = (props) => {
                     case "1000":
                       backendPush({
                         verifyMsg: "To be confirmed by User",
-                        verifyStatus: "PENDING",
+                        verifyStatus: "INPROGRESS_CONFIRMATION",
                         verifyTimestamp: responseJson["timestamp"],
                         accountHolderName:
                           responseJson["data"]["bank_account_data"]["name"],

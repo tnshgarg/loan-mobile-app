@@ -88,7 +88,7 @@ const AadhaarConfirmApi = (props) => {
                 ? navigation.navigate("KYC", {
                     screen: "AADHAAR",
                     params: {
-                      screen: "Aadhaar Form",
+                      screen: "Form",
                     },
                   })
                 : navigation.navigate("AadhaarForm");

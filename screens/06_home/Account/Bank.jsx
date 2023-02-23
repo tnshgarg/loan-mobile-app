@@ -1,5 +1,6 @@
 import { SafeAreaView, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigation } from "@react-navigation/core";
 import { useSelector } from "react-redux";
 import BankFormTemplate from "../../../templates/bank/Form";
 import BankConfirmApi from "../../../apis/bank/Confirm";
@@ -8,8 +9,21 @@ import { styles } from "../../../styles";
 import DetailsCard from "../../../components/molecules/DetailsCard";
 
 const Bank = () => {
+  const navigation = useNavigation();
+
   const verifyStatus = useSelector((state) => state.bank.verifyStatus);
   const data = useSelector((state) => state.bank.data);
+
+  useEffect(() => {
+    if (verifyStatus == "INPROGRESS_CONFIRMATION") {
+      navigation.navigate("KYC", {
+        screen: "BANK",
+        params: {
+          screen: "Confirm",
+        },
+      });
+    }
+  }, [verifyStatus]);
 
   const cardData = () => {
     var res = [

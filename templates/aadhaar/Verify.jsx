@@ -8,6 +8,7 @@ import { styles } from "../../styles";
 import { COLORS } from "../../constants/Theme";
 import OtpInput from "../../components/molecules/OtpInput";
 import BackgroundTimer from "react-native-background-timer";
+import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 
 const AadhaarVerifyTemplate = (props) => {
   const dispatch = useDispatch();
@@ -38,6 +39,9 @@ const AadhaarVerifyTemplate = (props) => {
     if (countDownTime < 1 || verified) {
       setResend(true);
       BackgroundTimer.clearInterval(interval);
+    }
+    if (countDownTime < 1){
+      dispatch(addVerifyStatus("PENDING"));
     }
 
     return () => BackgroundTimer.clearInterval(interval);

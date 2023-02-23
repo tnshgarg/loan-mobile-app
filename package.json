@@ -11,7 +11,7 @@
 		"build:demo": "bash ./android/ACFlavours.sh -e demo && bash ./android/versioning.sh && gulp set --env=qa && cd android && ./gradlew assembleQaRelease",
 		"build:debug": "bash ./android/ACFlavours.sh -e dev && gulp set --env=qa && cd android && ./gradlew assembleQaRelease",
 		"build:prod": "bash ./android/ACFlavours.sh -e prod && bash ./android/versioning.sh && gulp set --env=prod && cd android && ./gradlew assembleProdRelease",
-		"codepush:qa": "bash ./android/ACFlavours.sh -e qa && cd android && ./gradlew clean && cd .. && npx react-native start --reset-cache && bash ./android/codepush.sh -e test",
+		"codepush:qa": "bash ./android/ACFlavours.sh -e qa && cd android && ./gradlew clean && cd .. && npx react-native start --reset-cache && bash ./android/codepush.sh -e qa",
 		"codepush:prod": "bash ./android/ACFlavours.sh -e prod && cd android && ./gradlew clean && cd .. && npx react-native start --reset-cache && bash ./android/codepush.sh -e prod",
 		"postinstall": "patch-package",
 		"release:demo": "bash ./android/releaseDemo.sh",
@@ -87,7 +87,7 @@
 		"glob": "7.2.0"
 	},
 	"private": true,
-	"version": "2023.1.25",
+	"version": "2023.2.16",
 	"jest": {
 		"verbose": true,
 		"testTimeout": 50000
