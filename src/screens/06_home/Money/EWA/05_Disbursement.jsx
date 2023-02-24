@@ -9,8 +9,8 @@ import {
 import { styles } from "../../../../styles";
 import { useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
-import Success from "../../../../../assets/animations/Success";
-import Failure from "../../../../../assets/animations/Failure";
+import Success from "../../../../assets/animations/Success";
+import Failure from "../../../../assets/animations/Failure";
 import Pending from "../../../../assets/animations/Pending";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
 import { getDisbursement } from "../../../../queries/ewa/disbursement";
