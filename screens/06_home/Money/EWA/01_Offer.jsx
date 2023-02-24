@@ -91,8 +91,8 @@ const Offer = () => {
           console.log("updateOfferMutateAsync response.data: ", response.data);
         })
         .catch((error) => {
-          console.log("updateOfferMutateAsync error: ", error.toString());
-          Alert.alert("An Error occured", error.toString());
+          console.log("updateOfferMutateAsync error: ", JSON.stringify(error));
+          Alert.alert("An Error occured", JSON.stringify(error));
         });
     }
   }, [fetched]);
@@ -202,12 +202,12 @@ const Offer = () => {
           });
         })
         .catch((error) => {
-          console.log("updateOfferMutateAsync error: ", error.toString());
+          console.log("updateOfferMutateAsync error: ", JSON.stringify(error));
           setLoading(false);
-          Alert.alert("An Error occured", error.toString());
+          Alert.alert("An Error occured", JSON.stringify(error));
           Analytics.trackEvent("Ewa|OfferPush|Error", {
             unipeEmployeeId: unipeEmployeeId,
-            error: error.toString(),
+            error: JSON.stringify(error),
           });
         });
     }
