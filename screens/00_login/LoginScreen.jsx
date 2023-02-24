@@ -121,7 +121,7 @@ const LoginScreen = () => {
       var phoneNumber = await SmsRetriever.requestPhoneNumber();
       setPhoneNumber(phoneNumber.replace("+91", ""));
     } catch (error) {
-      console.log("Error while fetching phoneNumber: ", error.toString());
+      console.log("Error while fetching phoneNumber: ", JSON.stringify(error));
     }
   };
 
@@ -202,10 +202,10 @@ const LoginScreen = () => {
       })
       .catch((error) => {
         setLoading(false);
-        Alert.alert("Error", error.toString());
+        Alert.alert("Error", JSON.stringify(error));
         Analytics.trackEvent("LoginScreen|SignIn|Error", {
           phoneNumber: phoneNumber,
-          error: error.toString(),
+          error: JSON.stringify(error),
         });
       });
   };

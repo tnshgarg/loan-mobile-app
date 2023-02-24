@@ -87,8 +87,8 @@ const AadhaarVerifyApi = (props) => {
 
     submitAadhaarOTPMutateAsync({ data })
       .then((res) => {
+        const responseJson = res?.data;
         try {
-          const responseJson = res?.data;
           if (responseJson?.status == "200") {
             switch (responseJson?.data?.code) {
               case "1002":
@@ -168,14 +168,14 @@ const AadhaarVerifyApi = (props) => {
         } catch (error) {
           backendPush({
             data: data,
-            verifyMsg: `Try Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(responseJson)}`,
+            verifyMsg: `Try Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
             verifyStatus: "ERROR",
             verifyTimestamp: verifyTimestamp,
           });
-          Alert.alert("Error", error.toString());
+          Alert.alert("Error", JSON.stringify(error));
           Analytics.trackEvent("Aadhaar|Verify|Error", {
             unipeEmployeeId: unipeEmployeeId,
-            error: `Try Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(responseJson)}`,
+            error: `Try Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
           });
         }
       })
@@ -186,7 +186,7 @@ const AadhaarVerifyApi = (props) => {
           verifyStatus: "ERROR",
           verifyTimestamp: verifyTimestamp,
         });
-        Alert.alert("Error", error.toString());
+        Alert.alert("Error", JSON.stringify(error));
         Analytics.trackEvent("Aadhaar|Verify|Error", {
           unipeEmployeeId: unipeEmployeeId,
           error: `submitAadhaarOTP API Catch Error: ${JSON.stringify(error)}`,
