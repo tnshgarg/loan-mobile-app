@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
-import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/bankSlice";
 import { bankform, form, styles } from "../../styles";
@@ -11,6 +10,7 @@ import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import { updateBank } from "../../queries/onboarding/bank";
 import { addOnboarded } from "../../store/slices/authSlice";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
 
 const BankConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -67,15 +67,10 @@ const BankConfirmApi = (props) => {
       <DetailsCard data={cardData()} />
 
       <View style={[styles.row, { justifyContent: "space-between" }]}>
-        <Button
+        <PrimaryButton
           title="Not Me"
-          type="solid"
-          uppercase={false}
-          style={form.noButton}
-          color={COLORS.warning}
+          containerStyle={form.noButton}
           titleStyle={{ ...FONTS.h4, color: COLORS.warning }}
-          pressableContainerStyle={{ width: "100%" }}
-          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             backendPush({
               verifyMsg: "Rejected by User",
@@ -98,16 +93,11 @@ const BankConfirmApi = (props) => {
           }}
         />
         <FuzzyCheck name={data?.accountHolderName} step="Bank Account" />
-        <Button
+        <PrimaryButton
           accessibilityLabel="BankYesBtn"
           title="Yes, that’s me"
-          type="solid"
-          uppercase={false}
-          style={form.yesButton}
-          color={COLORS.primary}
+          containerStyle={form.yesButton}
           titleStyle={{ ...FONTS.h4, color: COLORS.primary }}
-          pressableContainerStyle={{ width: "100%" }}
-          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             dispatch(addOnboarded(true));
             backendPush({

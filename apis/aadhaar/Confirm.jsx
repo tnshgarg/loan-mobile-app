@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import { View, Text } from "react-native";
-import { Button } from "@react-native-material/core";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import { updateAadhaar } from "../../queries/onboarding/aadhaar";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
 
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -18,7 +18,9 @@ const AadhaarConfirmApi = (props) => {
   const data = useSelector((state) => state.aadhaar.data);
   const number = useSelector((state) => state.aadhaar.number);
   const verifyTimestamp = useSelector((state) => state.aadhaar.verifyTimestamp);
-  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
+  const campaignId = useSelector(
+    (state) => state.campaign.onboardingCampaignId
+  );
 
   const { mutateAsync: updateAadhaarMutateAsync } = updateAadhaar();
 
@@ -65,15 +67,10 @@ const AadhaarConfirmApi = (props) => {
       />
 
       <View style={[styles.row, { justifyContent: "space-between" }]}>
-        <Button
+        <PrimaryButton
           title="Not Me"
-          type="solid"
-          uppercase={false}
-          style={form.noButton}
-          color={COLORS.warning}
+          containerStyle={form.noButton}
           titleStyle={{ ...FONTS.h4, color: COLORS.warning }}
-          pressableContainerStyle={{ width: "100%" }}
-          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             backendPush({
               verifyMsg: "Rejected by User",
@@ -95,16 +92,11 @@ const AadhaarConfirmApi = (props) => {
             }
           }}
         />
-        <Button
+        <PrimaryButton
           accessibilityLabel="YesButton"
           title="Yes, that’s me"
-          type="solid"
-          uppercase={false}
-          style={form.yesButton}
-          color={COLORS.primary}
+          containerStyle={form.yesButton}
           titleStyle={{ ...FONTS.h4, color: COLORS.primary }}
-          pressableContainerStyle={{ width: "100%" }}
-          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             backendPush({
               verifyMsg: "Confirmed by User",

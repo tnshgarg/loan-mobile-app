@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import { Text, View } from "react-native";
-import { Button } from "@react-native-material/core";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/panSlice";
 import { panBackendPush } from "../../helpers/BackendPush";
 import { bankform, form, styles } from "../../styles";
@@ -11,20 +10,23 @@ import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import Analytics from "appcenter-analytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import { updatePan } from "../../queries/onboarding/pan";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
 
 const PanConfirmApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
+  const campaignId = useSelector(
+    (state) => state.campaign.onboardingCampaignId
+  );
   const token = useSelector((state) => state.auth.token);
   const data = useSelector((state) => state.pan.data);
   const number = useSelector((state) => state.pan.number);
   const verifyTimestamp = useSelector((state) => state.pan.verifyTimestamp);
 
   const { mutateAsync: updatePanMutateAsync } = updatePan();
-  
+
   const backendPush = ({ verifyMsg, verifyStatus }) => {
     dispatch(addVerifyMsg(verifyMsg));
     dispatch(addVerifyStatus(verifyStatus));
@@ -65,15 +67,10 @@ const PanConfirmApi = (props) => {
       <DetailsCard data={cardData()} />
       <View style={[styles.row, { justifyContent: "space-between" }]}>
         <FuzzyCheck name={data["name"]} step="PAN" />
-        <Button
+        <PrimaryButton
           title="Not Me"
-          type="solid"
-          uppercase={false}
-          style={form.noButton}
-          color={COLORS.warning}
+          containerStyle={form.noButton}
           titleStyle={{ ...FONTS.h4, color: COLORS.warning }}
-          pressableContainerStyle={{ width: "100%" }}
-          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             backendPush({
               verifyMsg: "Rejected by User",
@@ -92,16 +89,12 @@ const PanConfirmApi = (props) => {
             }
           }}
         />
-        <Button
+        <PrimaryButton
           accessibilityLabel="PanYesBtn"
           title="Yes, that’s me"
-          type="solid"
-          uppercase={false}
-          style={form.yesButton}
+          containerStyle={form.yesButton}
           color={COLORS.primary}
           titleStyle={{ ...FONTS.h4, color: COLORS.primary }}
-          pressableContainerStyle={{ width: "100%" }}
-          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             backendPush({
               verifyMsg: "Confirmed by User",
