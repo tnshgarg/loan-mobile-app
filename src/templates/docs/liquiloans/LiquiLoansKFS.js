@@ -180,7 +180,7 @@ const kfs = {
             <p>Rate of annualized penal charges in case of delayed payments (if any)</p>
         </td>
         <td style="border: 1px solid black; border-collapse: collapse;">
-            <p>5% per month</p>
+            <p>60%</p>
         </td>
     </tr>
     <tr>

@@ -180,36 +180,35 @@ const PanVerifyApi = (props) => {
               } catch (error) {
                 backendPush({
                   data: data,
-                  verifyMsg: error.toString(),
+                  verifyMsg: `Try Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
                   verifyStatus: "ERROR",
                   verifyTimestamp: verifyTimestamp,
                 });
-                Alert.alert("Error", error.toString());
+                Alert.alert("Error", JSON.stringify(error));
                 Analytics.trackEvent("Pan|Verify|Error", {
                   unipeEmployeeId: unipeEmployeeId,
-                  error: error.toString(),
+                  error: `Try Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
                 });
               }
             })
             .catch((error) => {
-              console.log("Fetch Catch Error: ", error.toString());
               backendPush({
                 data: data,
-                verifyMsg: error.toString(),
+                verifyMsg: `verifyPan API Catch Error: ${JSON.stringify(error)}`,
                 verifyStatus: "ERROR",
                 verifyTimestamp: verifyTimestamp,
               });
-              Alert.alert("Error", error.toString());
+              Alert.alert("Error", JSON.stringify(error));
               Analytics.trackEvent("Pan|Verify|Error", {
                 unipeEmployeeId: unipeEmployeeId,
-                error: error.toString(),
+                error: `verifyPan API Catch Error: ${JSON.stringify(error)}`,
               });
             });
         }
       })
-      .catch((err) => {
-        console.log("ERROR: ", err);
-        Alert.alert("Error", err);
+      .catch((error) => {
+        console.log("Error: ", JSON.stringify(error));
+        Alert.alert("Error", JSON.stringify(error));
       });
   };
 

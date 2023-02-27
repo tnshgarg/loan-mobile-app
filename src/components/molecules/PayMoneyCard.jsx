@@ -210,11 +210,11 @@ const PayMoneyCard = () => {
             data: {},
             status: "ERROR",
           });
-          Alert.alert("Error", error.toString());
+          Alert.alert("Error", JSON.stringify(error));
           setLoading(false);
           Analytics.trackEvent("Ewa|Repayment|Error", {
             unipeEmployeeId: unipeEmployeeId,
-            error: error.toString(),
+            error: JSON.stringify(error),
           });
         });
     }
