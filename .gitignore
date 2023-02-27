@@ -61,7 +61,6 @@ env/
 
 # Bundle artifact
 *.jsbundle
-android/app/src/main/assets/appcenter-config.json
 
 # Ruby / CocoaPods
 /ios/Pods/

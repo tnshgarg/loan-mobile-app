@@ -133,26 +133,26 @@ const Verify = (props) => {
             });
           }
         } catch (error) {
-          console.log("Try Catch Error: ", error.toString());
-          setVerifyMsg(error.toString());
+          console.log("Try Catch Error: ", JSON.stringify(error));
+          setVerifyMsg(JSON.stringify(error));
           setVerifyStatus("ERROR");
           setBackendPush(true);
-          Alert.alert("Error", error.toString());
+          Alert.alert("Error", JSON.stringify(error));
           Analytics.trackEvent("Licence|Verify|Error", {
             unipeEmployeeId: unipeEmployeeId,
-            error: error.toString(),
+            error: JSON.stringify(error),
           });
         }
       })
       .catch((error) => {
-        console.log("Fetch Catch Error: ", error.toString());
-        setVerifyMsg(error.toString());
+        console.log("Fetch Catch Error: ", JSON.stringify(error));
+        setVerifyMsg(JSON.stringify(error));
         setVerifyStatus("ERROR");
         setBackendPush(true);
-        Alert.alert("Error", error.toString());
+        Alert.alert("Error", JSON.stringify(error));
         Analytics.trackEvent("Licence|Verify|Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: error.toString(),
+          error: JSON.stringify(error),
         });
       });
   };

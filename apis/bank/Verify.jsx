@@ -225,34 +225,34 @@ const BankVerifyApi = (props) => {
                 }
               } catch (error) {
                 backendPush({
-                  verifyMsg: error.toString(),
+                  verifyMsg: `Try Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
                   verifyStatus: "ERROR",
                   verifyTimestamp: verifyTimestamp,
                 });
-                Alert.alert("Error", error.toString());
+                Alert.alert("Error", JSON.stringify(error));
                 Analytics.trackEvent("Bank|Verify|Error", {
                   unipeEmployeeId: unipeEmployeeId,
-                  error: error.toString(),
+                  error: `Try Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
                 });
               }
-            })
-            .catch((error) => {
-              backendPush({
-                verifyMsg: error.toString(),
-                verifyStatus: "ERROR",
-                verifyTimestamp: verifyTimestamp,
-              });
-              Alert.alert("Error", error.toString());
-              Analytics.trackEvent("Bank|Verify|Error", {
-                unipeEmployeeId: unipeEmployeeId,
-                error: error.toString(),
-              });
+          })
+          .catch((error) => {
+            backendPush({
+              verifyMsg: `verifyBank API Catch Error: ${JSON.stringify(error)}`,
+              verifyStatus: "ERROR",
+              verifyTimestamp: verifyTimestamp,
             });
+            Alert.alert("Error", JSON.stringify(error));
+            Analytics.trackEvent("Bank|Verify|Error", {
+              unipeEmployeeId: unipeEmployeeId,
+              error: `verifyBank API Catch Error: ${JSON.stringify(error)}`,
+            });
+          });
         }
       })
-      .catch((err) => {
-        console.log("ERROR: ", err);
-        Alert.alert("Error", err);
+      .catch((error) => {
+        console.log("Error: ", JSON.stringify(error));
+        Alert.alert("Error", JSON.stringify(error));
       });
   };
 
