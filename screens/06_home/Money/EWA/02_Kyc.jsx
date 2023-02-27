@@ -64,7 +64,7 @@ const KYC = () => {
         })
         .catch((error) => {
           console.log("mandateFetch error: ", error);
-          Alert.alert("An Error occured", error.toString());
+          Alert.alert("An Error occured", JSON.stringify(error));
         });
     }
   }, [deviceId, ipAddress]);
@@ -89,8 +89,8 @@ const KYC = () => {
           console.log("updateKycMutateAsync response.data: ", response.data);
         })
         .catch((error) => {
-          console.log("updateKycMutateAsync error: ", error.toString());
-          Alert.alert("An Error occured", error.toString());
+          console.log("updateKycMutateAsync error: ", JSON.stringify(error));
+          Alert.alert("An Error occured", JSON.stringify(error));
         });
     }
   }, [fetched]);
@@ -133,12 +133,12 @@ const KYC = () => {
         }
       })
       .catch((error) => {
-        console.log("updateKycMutateAsync error: ", error.toString());
+        console.log("updateKycMutateAsync error: ", JSON.stringify(error));
         setLoading(false);
-        Alert.alert("An Error occured", error.toString());
+        Alert.alert("An Error occured", JSON.stringify(error));
         Analytics.trackEvent("Ewa|Kyc|Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: error.toString(),
+          error: JSON.stringify(error),
         });
       });
   }

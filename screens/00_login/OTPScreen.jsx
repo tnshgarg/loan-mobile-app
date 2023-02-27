@@ -109,10 +109,10 @@ const OTPScreen = () => {
         }
       })
       .catch((error) => {
-        Alert.alert("Error", error.toString());
+        Alert.alert("Error", JSON.stringify(error));
         Analytics.trackEvent("OTPScreen|SendSms|Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: error.toString(),
+          error: JSON.stringify(error),
         });
       });
   };
@@ -139,10 +139,10 @@ const OTPScreen = () => {
         }
       })
       .catch((error) => {
-        Alert.alert("Error", error.toString());
+        Alert.alert("Error", JSON.stringify(error));
         Analytics.trackEvent("OTPScreen|Check|Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: error.toString(),
+          error: JSON.stringify(error),
         });
       });
   };

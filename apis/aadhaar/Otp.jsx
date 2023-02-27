@@ -111,8 +111,8 @@ const AadhaarOtpApi = (props) => {
             data: props.data,
           })
             .then((res) => {
+              const responseJson = res?.data;
               try {
-                const responseJson = res?.data;
                 console.log("responseJson: ", responseJson);
                 if (responseJson?.status == "200") {
                   switch (responseJson?.data?.code) {
@@ -176,34 +176,34 @@ const AadhaarOtpApi = (props) => {
                 }
               } catch (error) {
                 backendPush({
-                  verifyMsg: `Try Catch Error: ${error.toString()}, ${res.toString()}`,
+                  verifyMsg: `Try Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
                   verifyStatus: "ERROR",
                   verifyTimestamp: verifyTimestamp,
                 });
-                Alert.alert("Error", error.toString());
+                Alert.alert("Error", JSON.stringify(error));
                 Analytics.trackEvent("Aadhaar|Otp|Error", {
                   unipeEmployeeId: unipeEmployeeId,
-                  error: `Try Catch Error: ${error.toString()}, ${res.toString()}`,
+                  error: `Try Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
                 });
               }
             })
             .catch((error) => {
               backendPush({
-                verifyMsg: `generateAadhaarOTP API Catch Error: ${error.toString()}`,
+                verifyMsg: `generateAadhaarOTP API Catch Error: ${JSON.stringify(error)}`,
                 verifyStatus: "ERROR",
                 verifyTimestamp: verifyTimestamp,
               });
-              Alert.alert("Error", error.toString());
+              Alert.alert("Error", JSON.stringify(error));
               Analytics.trackEvent("Aadhaar|Otp|Error", {
                 unipeEmployeeId: unipeEmployeeId,
-                error: `generateAadhaarOTP API Catch Error: ${error.toString()}`,
+                error: `generateAadhaarOTP API Catch Error: ${JSON.stringify(error)}`,
               });
             });
         }
       })
-      .catch((err) => {
-        console.log("ERROR: ", err);
-        Alert.alert("Error", err);
+      .catch((error) => {
+        console.log("ERROR: ", error);
+        Alert.alert("Error", error);
       });
   };
 
