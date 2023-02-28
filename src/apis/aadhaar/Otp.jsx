@@ -13,10 +13,10 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
 import { COLORS, FONTS } from "../../constants/Theme";
 import {
-  generateAadhaarOTP,
-  updateAadhaar,
+  generateAadhaarOTP
 } from "../../queries/onboarding/aadhaar";
 import { putBackendData } from "../../services/employees/employeeServices";
+import { showToast } from "../../components/atoms/Toast";
 
 const AadhaarOtpApi = (props) => {
   const dispatch = useDispatch();
@@ -45,37 +45,53 @@ const AadhaarOtpApi = (props) => {
 
   useEffect(() => {
     dispatch(addVerifyMsg(verifyMsg));
+    return () => {};
   }, [verifyMsg]);
 
   useEffect(() => {
     dispatch(addVerifyStatus(verifyStatus));
+    return () => {};
   }, [verifyStatus]);
 
   useEffect(() => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
-  const { mutateAsync: updateAadhaarMutateAsync } = updateAadhaar();
-
   const { mutateAsync: generateAadhaarOTPMutateAsync } = generateAadhaarOTP();
 
   const backendPush = async ({ verifyMsg, verifyStatus, verifyTimestamp }) => {
+    
     setVerifyMsg(verifyMsg);
     setVerifyStatus(verifyStatus);
     setVerifyTimestamp(verifyTimestamp);
 
-    updateAadhaarMutateAsync({
-      data: {
-        unipeEmployeeId: unipeEmployeeId,
-        data: aadhaarSlice?.data,
-        number: aadhaarSlice?.number,
-        verifyMsg: verifyMsg,
-        verifyStatus: verifyStatus,
-        verifyTimestamp: verifyTimestamp,
-        campaignId: campaignId,
-      },
-      token: token,
-    });
+    const body = {
+      unipeEmployeeId: unipeEmployeeId,
+      data: aadhaarSlice?.data,
+      number: aadhaarSlice?.number,
+      verifyMsg: verifyMsg,
+      verifyStatus: verifyStatus,
+      verifyTimestamp: verifyTimestamp,
+      campaignId: campaignId,
+    };
+
+    const response = await putBackendData({ data: body, xpath: "aadhaar", token: token });
+    const responseJson = response?.data;
+
+    console.log("responseJson: ", responseJson);
+
+    if (responseJson.status === 200) {
+      if (verifyStatus === "INPROGRESS_OTP") {
+        dispatch(resetTimer());
+        if (props?.type !== "KYC") {
+          navigation.navigate("AadhaarVerify");
+        }
+        showToast("OTP sent to AADHAAR registered mobile number");
+      }
+    } else {
+      Alert.alert("Error", JSON.stringify(responseJson));
+    }
+
     setLoading(false);
   };
 
@@ -107,13 +123,15 @@ const AadhaarOtpApi = (props) => {
           });
           setLoading(false);
         } else {
+          console.log("start: ", Date.now());
           generateAadhaarOTPMutateAsync({
             data: props.data,
           })
             .then((res) => {
               const responseJson = res?.data;
+              console.log("responseJson: ", responseJson);
               try {
-                console.log("responseJson: ", responseJson);
+                console.log("end: ", Date.now());
                 if (responseJson?.status == "200") {
                   switch (responseJson?.data?.code) {
                     case "1001":
@@ -123,20 +141,9 @@ const AadhaarOtpApi = (props) => {
                         verifyStatus: "INPROGRESS_OTP",
                         verifyTimestamp: responseJson?.timestamp,
                       });
-                      dispatch(resetTimer());
                       Analytics.trackEvent("Aadhaar|Otp|Success", {
                         unipeEmployeeId: unipeEmployeeId,
                       });
-                      {
-                        props.type == "KYC"
-                          ? navigation.navigate("KYC", {
-                              screen: "AADHAAR",
-                              params: {
-                                screen: "Verify",
-                              },
-                            })
-                          : navigation.navigate("AadhaarVerify");
-                      }
                       break;
                     default:
                       backendPush({
@@ -202,8 +209,8 @@ const AadhaarOtpApi = (props) => {
         }
       })
       .catch((error) => {
-        console.log("ERROR: ", error);
-        Alert.alert("Error", error);
+        console.log("ERROR: ", JSON.stringify(error));
+        Alert.alert("Error", JSON.stringify(error));
       });
   };
 

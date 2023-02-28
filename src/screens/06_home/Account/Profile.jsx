@@ -8,16 +8,17 @@ import { useEffect } from "react";
 import ProfileFormTemplate from "../../../templates/profile/Form";
 
 const Profile = ({ navigation }) => {
+  
+  const profileSlice = useSelector((state) => state.profile);
+  const profileComplete = profileSlice?.profileComplete;
   const aadhaarData = useSelector((state) => state.aadhaar.data);
-  const fullName =
-    aadhaarData?.["name"] || useSelector((state) => state.pan?.name);
-  const profile = useSelector((state) => state.profile);
-  const email = profile?.email;
+  const panData = useSelector((state) => state.aadhaar.data);
+  const fullName = aadhaarData?.name || panData?.name;
+  const email = profileSlice?.email;
   const mobile = useSelector((state) => state.auth.phoneNumber);
-  const profileComplete = useSelector((state) => state.profile.profileComplete);
-  const alternateMobile = profile?.altMobile;
-  const maritalStatus = profile?.maritalStatus;
-  const qualification = profile?.qualification;
+  const alternateMobile = profileSlice?.altMobile;
+  const maritalStatus = profileSlice?.maritalStatus;
+  const qualification = profileSlice?.qualification;
 
   const cardData = () => {
     var res = [

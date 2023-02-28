@@ -68,6 +68,7 @@ const Aadhaar = () => {
         },
       });
     }
+    return () => {};
   }, [verifyStatus]);
 
   return (

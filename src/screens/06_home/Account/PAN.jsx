@@ -16,6 +16,7 @@ const Pan = () => {
   const number = useSelector((state) => state.pan.number);
   const verifyStatus = useSelector((state) => state.pan.verifyStatus);
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
+
   useEffect(() => {
     if (verifyStatus == "INPROGRESS_CONFIRMATION") {
       navigation.navigate("KYC", {
@@ -25,6 +26,7 @@ const Pan = () => {
         },
       });
     }
+    return () => {};
   }, [verifyStatus]);
 
   const cardData = () => {

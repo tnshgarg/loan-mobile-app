@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import { Button } from "@react-native-material/core";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/panSlice";
-import { panBackendPush } from "../../helpers/BackendPush";
-import { bankform, form, styles } from "../../styles";
+import { form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import Analytics from "appcenter-analytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
-import { updatePan } from "../../queries/onboarding/pan";
+import { putBackendData } from "../../services/employees/employeeServices";
 
 const PanConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -22,24 +20,50 @@ const PanConfirmApi = (props) => {
   const data = useSelector((state) => state.pan.data);
   const number = useSelector((state) => state.pan.number);
   const verifyTimestamp = useSelector((state) => state.pan.verifyTimestamp);
-
-  const { mutateAsync: updatePanMutateAsync } = updatePan();
   
-  const backendPush = ({ verifyMsg, verifyStatus }) => {
+  const backendPush = async ({ verifyMsg, verifyStatus }) => {
+    
     dispatch(addVerifyMsg(verifyMsg));
     dispatch(addVerifyStatus(verifyStatus));
-    updatePanMutateAsync({
-      data: {
-        unipeEmployeeId: unipeEmployeeId,
-        data: data,
-        number: number,
-        verifyMsg: verifyMsg,
-        verifyStatus: verifyStatus,
-        verifyTimestamp: verifyTimestamp,
-        campaignId: campaignId,
-      },
-      token: token,
-    });
+
+    const payload = {
+      unipeEmployeeId: unipeEmployeeId,
+      data: data,
+      number: number,
+      verifyMsg: verifyMsg,
+      verifyStatus: verifyStatus,
+      verifyTimestamp: verifyTimestamp,
+      campaignId: campaignId,
+    };
+
+    const response = await putBackendData({ data: payload, xpath: "pan", token: token });
+    const responseJson = response?.data;
+
+    if (responseJson.status === 200) {
+      if (verifyStatus === "ERROR") {
+        if (props?.route?.params?.type === "KYC") {
+          navigation.navigate("KYC", {
+            screen: "PAN",
+            params: {
+              screen: "Form",
+            },
+          });
+        } else {
+          navigation.navigate("PanForm");
+        }
+      } else if (verifyStatus === "SUCCESS") {
+          if (props?.route?.params?.type === "KYC") {
+            navigation.navigate("KYC", {
+              screen: "PAN",
+            });
+          } else {
+            navigation.navigate("BankForm");
+          }
+      }
+    } else {
+      Alert.alert("Error", JSON.stringify(responseJson));
+    }
+
   };
 
   const cardData = () => {
@@ -83,13 +107,6 @@ const PanConfirmApi = (props) => {
               unipeEmployeeId: unipeEmployeeId,
               error: "Rejected by User",
             });
-            {
-              props?.route?.params?.type == "KYC"
-                ? navigation.navigate("KYC", {
-                    screen: "PAN",
-                  })
-                : navigation.navigate("PanForm");
-            }
           }}
         />
         <Button
@@ -110,16 +127,6 @@ const PanConfirmApi = (props) => {
             Analytics.trackEvent("Pan|Confirm|Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
-            {
-              props?.route?.params?.type == "KYC"
-                ? navigation.navigate("KYC", {
-                    screen: "PAN",
-                    params: {
-                      screen: "Form",
-                    },
-                  })
-                : navigation.navigate("BankForm");
-            }
           }}
         />
       </View>

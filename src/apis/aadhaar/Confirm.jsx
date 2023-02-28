@@ -7,7 +7,7 @@ import { bankform, form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
-import { updateAadhaar } from "../../queries/onboarding/aadhaar";
+import { putBackendData } from "../../services/employees/employeeServices";
 
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -20,23 +20,48 @@ const AadhaarConfirmApi = (props) => {
   const verifyTimestamp = useSelector((state) => state.aadhaar.verifyTimestamp);
   const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
 
-  const { mutateAsync: updateAadhaarMutateAsync } = updateAadhaar();
-
-  const backendPush = ({ verifyMsg, verifyStatus }) => {
+  const backendPush = async ({ verifyMsg, verifyStatus }) => {
+    
     dispatch(addVerifyMsg(verifyMsg));
     dispatch(addVerifyStatus(verifyStatus));
-    updateAadhaarMutateAsync({
-      data: {
-        unipeEmployeeId: unipeEmployeeId,
-        data: data,
-        number: number,
-        verifyMsg: verifyMsg,
-        verifyStatus: verifyStatus,
-        verifyTimestamp: verifyTimestamp,
-        campaignId: campaignId,
-      },
-      token: token,
-    });
+
+    const payload = {
+      unipeEmployeeId: unipeEmployeeId,
+      data: data,
+      number: number,
+      verifyMsg: verifyMsg,
+      verifyStatus: verifyStatus,
+      verifyTimestamp: verifyTimestamp,
+      campaignId: campaignId,
+    };
+
+    const response = await putBackendData({ data: payload, xpath: "aadhaar", token: token });
+    const responseJson = response?.data;
+
+    if (responseJson.status === 200) {
+      if (verifyStatus === "ERROR") {
+        if (props?.route?.params?.type === "KYC") {
+          navigation.navigate("KYC", {
+            screen: "AADHAAR",
+            params: {
+              screen: "Form",
+            },
+          });
+        } else {
+          navigation.navigate("AadhaarForm");
+        }
+      } else if (verifyStatus === "SUCCESS") {
+          if (props?.route?.params?.type === "KYC") {
+            navigation.navigate("KYC", {
+              screen: "AADHAAR",
+            });
+          } else {
+            navigation.navigate("PanForm");
+          }
+      }
+    } else {
+      Alert.alert("Error", JSON.stringify(responseJson));
+    }
   };
 
   const cardData = () => {
@@ -83,16 +108,6 @@ const AadhaarConfirmApi = (props) => {
               unipeEmployeeId: unipeEmployeeId,
               error: "Rejected by User",
             });
-            {
-              props?.route?.params?.type == "KYC"
-                ? navigation.navigate("KYC", {
-                    screen: "AADHAAR",
-                    params: {
-                      screen: "Form",
-                    },
-                  })
-                : navigation.navigate("AadhaarForm");
-            }
           }}
         />
         <Button
@@ -113,13 +128,6 @@ const AadhaarConfirmApi = (props) => {
             Analytics.trackEvent("Aadhaar|Confirm|Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
-            {
-              props?.route?.params?.type == "KYC"
-                ? navigation.navigate("KYC", {
-                    screen: "AADHAAR",
-                  })
-                : navigation.navigate("PanForm");
-            }
           }}
         />
         <View style={bankform.padding}></View>

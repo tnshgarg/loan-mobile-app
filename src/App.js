@@ -14,6 +14,7 @@ import { navigationRef } from "./navigators/RootNavigation";
 import StackNavigator from "./navigators/StackNavigator";
 import { persistor, store } from "./store/store";
 import UpdateDialog from "./components/UpdateDialog";
+
 Crashes.setListener({
   shouldProcess: function (report) {
     return true; // return true if the crash report should be processed, otherwise false.
@@ -44,7 +45,7 @@ const App = () => {
             <SafeAreaProvider style={{ backgroundColor: "white", flex: 1 }}>
               <IconComponentProvider IconComponent={Icon}>
                 <StackNavigator />
-                <UpdateDialog/>
+                <UpdateDialog />
               </IconComponentProvider>
             </SafeAreaProvider>
           </QueryClientProvider>

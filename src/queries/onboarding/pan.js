@@ -3,19 +3,6 @@ import axios from "axios";
 import { KYC_PAN_VERIFY_API_URL } from "../../services/constants";
 import { OG_API_KEY } from "@env";
 import { getBackendData } from "../../services/employees/employeeServices";
-import { panBackendPush } from "../../helpers/BackendPush";
-
-export const updatePan = () => {
-  const mutation = useMutation({
-    mutationFn: async ({ data, token }) => {
-      return panBackendPush({
-        data,
-        token,
-      });
-    },
-  });
-  return mutation;
-};
 
 export const getPan = ({ unipeEmployeeId, token }) => {
   const response = useQuery({

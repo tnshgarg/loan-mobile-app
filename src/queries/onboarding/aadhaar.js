@@ -5,17 +5,7 @@ import {
   KYC_AADHAAR_SUBMIT_OTP_API_URL,
 } from "../../services/constants";
 import { OG_API_KEY } from "@env";
-import { aadhaarBackendPush } from "../../helpers/BackendPush";
 import { getBackendData } from "../../services/employees/employeeServices";
-
-export const updateAadhaar = () => {
-  const mutation = useMutation({
-    mutationFn: async ({ data, token }) => {
-      return aadhaarBackendPush({ data, token });
-    },
-  });
-  return mutation;
-};
 
 export const getAadhaar = ({ unipeEmployeeId, token }) => {
   const response = useQuery({
