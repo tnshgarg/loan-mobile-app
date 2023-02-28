@@ -1,4 +1,3 @@
-import { OG_API_KEY } from "@env";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "react-native";
@@ -9,11 +8,9 @@ import {
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/panSlice";
-import { KYC_PAN_VERIFY_API_URL } from "../../services/constants";
-import { panBackendPush } from "../../helpers/BackendPush";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
-import { updatePan, verifyPan } from "../../queries/onboarding/pan";
+import { verifyPan } from "../../queries/onboarding/pan";
 import { putBackendData } from "../../services/employees/employeeServices";
 
 const PanVerifyApi = (props) => {
@@ -35,7 +32,6 @@ const PanVerifyApi = (props) => {
     (state) => state.campaign.onboardingCampaignId
   );
 
-  const { mutateAsync: updatePanMutateAsync } = updatePan();
   const { mutateAsync: verifyPanMutateAsync } = verifyPan();
 
   useEffect(() => {
@@ -44,34 +40,47 @@ const PanVerifyApi = (props) => {
 
   useEffect(() => {
     dispatch(addVerifyMsg(verifyMsg));
+    return () => {};
   }, [verifyMsg]);
 
   useEffect(() => {
     dispatch(addVerifyStatus(verifyStatus));
+    return () => {};
   }, [verifyStatus]);
 
   useEffect(() => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
-  const backendPush = ({ data, verifyMsg, verifyStatus, verifyTimestamp }) => {
-    console.log("PanVerifyApi panSlice: ", panSlice);
+  const backendPush = async ({ data, verifyMsg, verifyStatus, verifyTimestamp }) => {
+
     setData(data);
     setVerifyMsg(verifyMsg);
     setVerifyStatus(verifyStatus);
     setVerifyTimestamp(verifyTimestamp);
-    updatePanMutateAsync({
-      data: {
-        unipeEmployeeId: unipeEmployeeId,
-        data: data,
-        number: panSlice?.number,
-        verifyMsg: verifyMsg,
-        verifyStatus: verifyStatus,
-        verifyTimestamp: verifyTimestamp,
-        campaignId: campaignId,
-      },
-      token: token,
-    });
+
+    const payload = {
+      unipeEmployeeId: unipeEmployeeId,
+      data: data,
+      number: panSlice?.number,
+      verifyMsg: verifyMsg,
+      verifyStatus: verifyStatus,
+      verifyTimestamp: verifyTimestamp,
+      campaignId: campaignId,
+    };
+
+    const response = await putBackendData({ data: payload, xpath: "pan", token: token });
+    const responseJson = response?.data;
+
+    if (responseJson.status === 200) {
+      if (verifyStatus === "INPROGRESS_CONFIRMATION") {
+        if (props?.type !== "KYC") {
+          navigation.navigate("PanConfirm");
+        }
+      }
+    } else {
+      Alert.alert("Error", JSON.stringify(responseJson));
+    }
     setLoading(false);
   };
 
@@ -104,7 +113,6 @@ const PanVerifyApi = (props) => {
           verifyPanMutateAsync({ data: props.data })
             .then((res) => {
               const responseJson = res?.data;
-              console.log("responseJson: ", responseJson);
               try {
                 if (responseJson["status"] == "200") {
                   switch (responseJson["data"]["code"]) {
@@ -118,7 +126,6 @@ const PanVerifyApi = (props) => {
                           (k) => responseJson["data"]["pan_data"][`${k}_name`]
                         )
                         .join(" ");
-                      console.log("PAN fetched data: ", responseJson);
                       backendPush({
                         data: responseJson["data"]["pan_data"],
                         verifyMsg: "To be confirmed by User",
@@ -128,16 +135,6 @@ const PanVerifyApi = (props) => {
                       Analytics.trackEvent("Pan|Verify|Success", {
                         unipeEmployeeId: unipeEmployeeId,
                       });
-                      {
-                        props.type == "KYC"
-                          ? navigation.navigate("KYC", {
-                              screen: "PAN",
-                              params: {
-                                screen: "Confirm",
-                              },
-                            })
-                          : navigation.navigate("PanConfirm");
-                      }
                       break;
                     default:
                       backendPush({

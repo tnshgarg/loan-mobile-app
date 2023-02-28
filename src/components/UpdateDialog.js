@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Text, TouchableNativeFeedback, View, Linking} from "react-native";
 import codePush from "react-native-code-push";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -7,10 +7,12 @@ import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { COLORS, FONTS, SIZES } from "../constants/Theme";
 
 const UpdateDialog = () => {
+
   const [show, setShow] = useState(false);
   const [state, setState] = useState("");
   const [receivedData, setReceivedData] = useState(0);
   const [totalData, setTotalData] = useState(0);
+
   codePush.sync(
     { updateDialog: true },
     (syncStatus) => {
@@ -33,6 +35,9 @@ const UpdateDialog = () => {
       setReceivedData(receivedBytes);
       if (!totalData) {
         setTotalData(totalBytes);
+      }
+      if (receivedBytes == totalBytes) {
+        setShow(false);
       }
     }
   );

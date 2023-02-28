@@ -14,16 +14,18 @@ import { useNavigation, useIsFocused } from "@react-navigation/core";
 
 const PanFormTemplate = (props) => {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
   const isFocused = useIsFocused();
+  const navigation = useNavigation();
+
   const [consent, setConsent] = useState(true);
   const [validNumber, setValidNumber] = useState(true);
 
-  const panSlice = useSelector((state) => state.pan);
-  const [number, setNumber] = useState(panSlice?.number);
   const aadhaarVerifyStatus = useSelector(
     (state) => state.aadhaar.verifyStatus
   );
+
+  const panSlice = useSelector((state) => state.pan);
+  const [number, setNumber] = useState(panSlice?.number);
 
   useEffect(() => {
     var panReg = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/gm;

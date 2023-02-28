@@ -1,16 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/bankSlice";
-import { bankform, form, styles } from "../../styles";
+import { form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import DetailsCard from "../../components/molecules/DetailsCard";
-import { updateBank } from "../../queries/onboarding/bank";
 import { addOnboarded } from "../../store/slices/authSlice";
+import { putBackendData } from "../../services/employees/employeeServices";
 
 const BankConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -23,22 +22,49 @@ const BankConfirmApi = (props) => {
   );
   const data = useSelector((state) => state.bank.data);
   const verifyTimestamp = useSelector((state) => state.bank.verifyTimestamp);
-  const { mutateAsync: updateBankMutateAsync } = updateBank();
 
-  const backendPush = ({ verifyMsg, verifyStatus }) => {
+  const backendPush = async ({ verifyMsg, verifyStatus }) => {
+
     dispatch(addVerifyMsg(verifyMsg));
     dispatch(addVerifyStatus(verifyStatus));
-    updateBankMutateAsync({
-      data: {
-        unipeEmployeeId: unipeEmployeeId,
-        data: data,
-        verifyMsg: verifyMsg,
-        verifyStatus: verifyStatus,
-        verifyTimestamp: verifyTimestamp,
-        campaignId: campaignId,
-      },
-      token: token,
-    });
+
+    const payload = {
+      unipeEmployeeId: unipeEmployeeId,
+      data: data,
+      verifyMsg: verifyMsg,
+      verifyStatus: verifyStatus,
+      verifyTimestamp: verifyTimestamp,
+      campaignId: campaignId,
+    };
+
+    const response = await putBackendData({ data: payload, xpath: "bank", token: token });
+    const responseJson = response?.data;
+
+    if (responseJson.status === 200) {
+      if (verifyStatus === "ERROR") {
+        if (props?.route?.params?.type === "KYC") {
+          navigation.navigate("KYC", {
+            screen: "BANK",
+            params: {
+              screen: "Form",
+            },
+          });
+        } else {
+          navigation.navigate("BankForm");
+        }
+      } else if (verifyStatus === "SUCCESS") {
+          if (props?.route?.params?.type === "KYC") {
+            navigation.navigate("KYC", {
+              screen: "BANK",
+            });
+          } else if (props?.type === "Onboarding") {
+            navigation.replace("EWA_MANDATE");
+          }
+      }
+    } else {
+      Alert.alert("Error", JSON.stringify(responseJson));
+    }
+
   };
 
   const cardData = () => {
@@ -85,16 +111,6 @@ const BankConfirmApi = (props) => {
               unipeEmployeeId: unipeEmployeeId,
               error: "Rejected by User",
             });
-            {
-              props?.route?.params?.type == "KYC"
-                ? navigation.navigate("KYC", {
-                    screen: "BANK",
-                    params: {
-                      screen: "Form",
-                    },
-                  })
-                : navigation.navigate("BankForm");
-            }
           }}
         />
         <FuzzyCheck name={data?.accountHolderName} step="Bank Account" />
@@ -117,15 +133,6 @@ const BankConfirmApi = (props) => {
             Analytics.trackEvent("Bank|Confirm|Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
-            {
-              props?.route?.params?.type == "KYC"
-                ? navigation.navigate("KYC", {
-                    screen: "BANK",
-                  })
-                : props?.type === "Onboarding"
-                ? navigation.replace("EWA_MANDATE")
-                : null;
-            }
           }}
         />
       </View>

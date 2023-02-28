@@ -28,6 +28,8 @@ const BankFormTemplate = (props) => {
   const [ifscNext, setIfscNext] = useState(false);
 
   const aadhaarSlice = useSelector((state) => state.aadhaar);
+  const aadhaarVerifyStatus = aadhaarSlice?.verifyStatus;
+
   const bankSlice = useSelector((state) => state.bank);
   const [ifsc, setIfsc] = useState(bankSlice?.data?.ifsc);
   const [accountNumber, setAccountNumber] = useState(
@@ -37,9 +39,6 @@ const BankFormTemplate = (props) => {
     aadhaarSlice?.data.name || bankSlice?.data?.accountHolderName
   );
   const [upi, setUpi] = useState(bankSlice?.data?.upi);
-  const aadhaarVerifyStatus = useSelector(
-    (state) => state.aadhaar.verifyStatus
-  );
 
   useEffect(() => {
     dispatch(addAccountHolderName(accountHolderName));

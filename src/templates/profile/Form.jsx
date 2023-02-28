@@ -10,7 +10,7 @@ import {
   addMaritalStatus,
   addProfileComplete,
 } from "../../store/slices/profileSlice";
-import { profileBackendPush } from "../../helpers/BackendPush";
+import { putBackendData } from "../../services/employees/employeeServices";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { form, styles } from "../../styles";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
@@ -102,22 +102,32 @@ const ProfileFormTemplate = ({ type }) => {
     }
   };
 
-  const backendPush = () => {
-    console.log("Profile Slice", profileSlice);
-    dispatch(addProfileComplete(true));
-    profileBackendPush({
-      data: {
-        unipeEmployeeId: unipeEmployeeId,
-        maritalStatus: maritalStatus,
-        qualification: qualification,
-        altMobile: altMobile,
-        email: email,
-        motherName: motherName,
-        campaignId: campaignId,
-      },
-      token: token,
-    });
-    showToast("Profile Details Updated");
+  const backendPush = async () => {
+    
+    const body = {
+      unipeEmployeeId: unipeEmployeeId,
+      maritalStatus: maritalStatus,
+      qualification: qualification,
+      altMobile: altMobile,
+      email: email,
+      motherName: motherName,
+      campaignId: campaignId,
+    };
+
+    const response = await putBackendData({ data: body, xpath: "profile", token: token });
+    const responseJson = response?.data;
+
+    if (responseJson.status === 200) {
+      dispatch(addProfileComplete(true));
+      if (type === "KYC") {
+        handleConditionalNav();
+      } else {
+        navigation.navigate("AadhaarForm");
+      }
+      showToast("Profile Details Updated");
+    } else {
+      Alert.alert("Error", JSON.stringify(responseJson));
+    }
   };
 
   const qualifications = [
@@ -222,9 +232,6 @@ const ProfileFormTemplate = ({ type }) => {
               Analytics.trackEvent("ProfileForm|PushData|Success", {
                 unipeEmployeeId: unipeEmployeeId,
               });
-              type === "KYC"
-                ? handleConditionalNav()
-                : navigation.navigate("AadhaarForm");
             }}
           />
         </View>

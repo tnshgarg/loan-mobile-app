@@ -3,7 +3,7 @@ import { useIsFocused } from "@react-navigation/core";
 import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import { bankform, styles } from "../../styles";
+import { styles } from "../../styles";
 import AadhaarOtpApi from "../../apis/aadhaar/Otp";
 import { addNumber } from "../../store/slices/aadhaarSlice";
 import InfoCard from "../../components/atoms/InfoCard";

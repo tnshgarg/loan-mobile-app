@@ -1,4 +1,3 @@
-import { OG_API_KEY } from "@env";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
@@ -12,17 +11,14 @@ import {
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/bankSlice";
-import { KYC_BANK_VERIFY_API_URL } from "../../services/constants";
-import { bankBackendPush } from "../../helpers/BackendPush";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
-import { updateBank, verifyBank } from "../../queries/onboarding/bank";
+import { verifyBank } from "../../queries/onboarding/bank";
 import { putBackendData } from "../../services/employees/employeeServices";
 
 const BankVerifyApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  console.log("Mock api URl", KYC_BANK_VERIFY_API_URL);
 
   const [loading, setLoading] = useState(false);
 
@@ -46,7 +42,6 @@ const BankVerifyApi = (props) => {
     (state) => state.campaign.onboardingCampaignId
   );
 
-  const { mutateAsync: updateBankMutateAsync } = updateBank();
   const { mutateAsync: verifyBankMutateAsync } = verifyBank();
 
   useEffect(() => {
@@ -79,7 +74,7 @@ const BankVerifyApi = (props) => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
 
-  const backendPush = ({
+  const backendPush = async ({
     verifyMsg,
     verifyStatus,
     verifyTimestamp,
@@ -88,7 +83,7 @@ const BankVerifyApi = (props) => {
     branchName,
     branchCity,
   }) => {
-    console.log("BankVerifyApi bankSlice: ", bankSlice);
+
     setAccountHolderName(accountHolderName);
     setBankName(bankName);
     setBranchName(branchName);
@@ -97,19 +92,30 @@ const BankVerifyApi = (props) => {
     setVerifyStatus(verifyStatus);
     setVerifyTimestamp(verifyTimestamp);
 
-    updateBankMutateAsync({
+    const payload = {
+      unipeEmployeeId: unipeEmployeeId,
       data: {
-        unipeEmployeeId: unipeEmployeeId,
-        data: {
-          accountNumber: data.accountNumber,
-        },
-        verifyMsg: verifyMsg,
-        verifyStatus: verifyStatus,
-        verifyTimestamp: verifyTimestamp,
-        campaignId: campaignId,
+        accountNumber: data.accountNumber,
       },
-      token: token,
-    });
+      verifyMsg: verifyMsg,
+      verifyStatus: verifyStatus,
+      verifyTimestamp: verifyTimestamp,
+      campaignId: campaignId,
+    };
+
+    const response = await putBackendData({ data: payload, xpath: "bank", token: token });
+    const responseJson = response?.data;
+
+    if (responseJson.status === 200) {
+      if (verifyStatus === "INPROGRESS_CONFIRMATION") {
+        if (props?.type !== "KYC") {
+          navigation.navigate("BankConfirm");
+        }
+      }
+    } else {
+      Alert.alert("Error", JSON.stringify(responseJson));
+    }
+    
     setLoading(false);
   };
 
@@ -166,16 +172,6 @@ const BankVerifyApi = (props) => {
                       Analytics.trackEvent("Bank|Verify|Success", {
                         unipeEmployeeId: unipeEmployeeId,
                       });
-                      {
-                        props.type == "KYC"
-                          ? navigation.navigate("KYC", {
-                              screen: "BANK",
-                              params: {
-                                screen: "Confirm",
-                              },
-                            })
-                          : navigation.navigate("BankConfirm");
-                      }
                       break;
                     default:
                       backendPush({

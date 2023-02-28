@@ -7,6 +7,7 @@ import DetailsCard from "../../../components/molecules/DetailsCard";
 import TopTabNav from "../../../navigators/TopTabNav";
 import { styles } from "../../../styles";
 import PanFormTemplate from "../../../templates/pan/Form";
+import PrimaryButton from "../../../components/atoms/PrimaryButton";
 
 const Pan = () => {
   const navigation = useNavigation();
@@ -14,6 +15,7 @@ const Pan = () => {
   const data = useSelector((state) => state.pan.data);
   const number = useSelector((state) => state.pan.number);
   const verifyStatus = useSelector((state) => state.pan.verifyStatus);
+  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
 
   useEffect(() => {
     if (verifyStatus == "INPROGRESS_CONFIRMATION") {
@@ -24,6 +26,7 @@ const Pan = () => {
         },
       });
     }
+    return () => {};
   }, [verifyStatus]);
 
   const cardData = () => {
@@ -58,6 +61,16 @@ const Pan = () => {
       {verifyStatus == "SUCCESS" ? (
         <View style={styles.container}>
           <DetailsCard data={cardData()} />
+          {bankVerifyStatus != "SUCCESS" ? (
+            <PrimaryButton
+              title="Continue to Bank Verification"
+              onPress={() => {
+                navigation.navigate("KYC", {
+                  screen: "BANK",
+                });
+              }}
+            />
+          ) : null}
         </View>
       ) : (
         <>

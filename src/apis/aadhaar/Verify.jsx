@@ -7,14 +7,13 @@ import {
   addVerifyMsg,
   addVerifyStatus,
   addVerifyTimestamp,
-  addSubmitOTPtxnId,
 } from "../../store/slices/aadhaarSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
 import {
-  submitAadhaarOTP,
-  updateAadhaar,
+  submitAadhaarOTP
 } from "../../queries/onboarding/aadhaar";
+import { putBackendData } from "../../services/employees/employeeServices";
 
 const AadhaarVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -41,37 +40,52 @@ const AadhaarVerifyApi = (props) => {
 
   useEffect(() => {
     dispatch(addVerifyMsg(verifyMsg));
+    return () => {};
   }, [verifyMsg]);
 
   useEffect(() => {
     dispatch(addVerifyStatus(verifyStatus));
+    return () => {};
   }, [verifyStatus]);
 
   useEffect(() => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
+    return () => {};
   }, [verifyTimestamp]);
 
-  const { mutateAsync: updateAadhaarMutateAsync } = updateAadhaar();
   const { mutateAsync: submitAadhaarOTPMutateAsync } = submitAadhaarOTP();
 
-  const backendPush = ({ data, verifyMsg, verifyStatus, verifyTimestamp }) => {
-    console.log("AadhaarVerifyApi aadhaarSlice: ", aadhaarSlice);
+  const backendPush = async ({ data, verifyMsg, verifyStatus, verifyTimestamp }) => {
+    
     setData(data);
     setVerifyMsg(verifyMsg);
     setVerifyStatus(verifyStatus);
     setVerifyTimestamp(verifyTimestamp);
-    updateAadhaarMutateAsync({
-      data: {
-        unipeEmployeeId: unipeEmployeeId,
-        data: data,
-        number: aadhaarSlice?.number,
-        verifyMsg: verifyMsg,
-        verifyStatus: verifyStatus,
-        verifyTimestamp: verifyTimestamp,
-        campaignId: campaignId,
-      },
-      token: token,
-    });
+
+    const payload = {
+      unipeEmployeeId: unipeEmployeeId,
+      data: data,
+      number: aadhaarSlice?.number,
+      verifyMsg: verifyMsg,
+      verifyStatus: verifyStatus,
+      verifyTimestamp: verifyTimestamp,
+      campaignId: campaignId,
+    };
+
+    const response = await putBackendData({ data: payload, xpath: "aadhaar", token: token });
+    const responseJson = response?.data;
+
+    if (responseJson.status === 200) {
+      if (verifyStatus === "INPROGRESS_CONFIRMATION") {
+        props.setVerified(true);
+        if (props?.type !== "KYC") {
+          navigation.navigate("AadhaarConfirm");
+        }
+      }
+    } else {
+      Alert.alert("Error", JSON.stringify(responseJson));
+    }
+    
     setLoading(false);
   };
 
@@ -105,7 +119,6 @@ const AadhaarVerifyApi = (props) => {
                   .filter((k) => responseJson["data"]["aadhaar_data"][k])
                   .map((k) => responseJson["data"]["aadhaar_data"][k])
                   .join(", ");
-                console.log("AADHAAR fetched data: ", responseJson);
                 backendPush({
                   data: responseJson["data"]["aadhaar_data"],
                   verifyMsg: "OTP validated by User",
@@ -115,17 +128,6 @@ const AadhaarVerifyApi = (props) => {
                 Analytics.trackEvent("Aadhaar|Verify|Success", {
                   unipeEmployeeId: unipeEmployeeId,
                 });
-                props.setVerified(true);
-                {
-                  props.type == "KYC"
-                    ? navigation.navigate("KYC", {
-                        screen: "AADHAAR",
-                        params: {
-                          screen: "Confirm",
-                        },
-                      })
-                    : navigation.navigate("AadhaarConfirm");
-                }
                 break;
               default:
                 backendPush({
