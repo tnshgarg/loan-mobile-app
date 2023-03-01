@@ -60,7 +60,7 @@ const CompleteKycCard = () => {
 
   return (
     <>
-      {true ? (
+      {show ? (
         <TouchableOpacity
           style={styles.container}
           activeOpacity={0.7}
