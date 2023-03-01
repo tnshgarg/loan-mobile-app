@@ -48,19 +48,19 @@ export const COLORS = {
     background: "#2CB77C",
     text: "",
   },
-  secondary: "#230C45",
   warning: "#f56a6a",
   warningBackground: "#fde1e1",
+  pending: "orange",
   darkGray: "#333333",
   gray: "#5E8290",
   lightGray: "#DDE5E5",
-  yellow: "#F9C700",
   black: "#000000",
   white: "#FFFFFF",
   lightgray_01: "#f1f1f1",
   cardBackground: "#F2F8F9",
   moneyCardBg: "#3C3F54",
   moneyCardBgVariant: "#4D5162",
+  yellow: "#F9C700",
 };
 
 export const SIZES = {
@@ -71,6 +71,13 @@ export const SIZES = {
   padding: 15,
   opacity: 0.7,
   btnHeight: normalize(50),
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 2,
+  },
 
   // font sizes
   h1: normalize(30),
@@ -93,37 +100,57 @@ export const FONTS = {
   title: {
     fontFamily: "Montserrat-Regular",
     fontSize: normalize(68),
-    lineHeight: 100,
+    lineHeight: normalize(100),
   },
-  h1: { fontFamily: "Montserrat-Bold", fontSize: SIZES.h1, lineHeight: 36 },
-  h2: { fontFamily: "Montserrat-Bold", fontSize: SIZES.h2, lineHeight: 30 },
-  h3: { fontFamily: "Montserrat-Bold", fontSize: SIZES.h3, lineHeight: 22 },
-  h4: { fontFamily: "Montserrat-Bold", fontSize: SIZES.h4, lineHeight: 18 },
-  h5: { fontFamily: "Montserrat-Bold", fontSize: SIZES.h5, lineHeight: 15 },
+  h1: {
+    fontFamily: "Montserrat-Bold",
+    fontSize: SIZES.h1,
+    lineHeight: normalize(36),
+  },
+  h2: {
+    fontFamily: "Montserrat-Bold",
+    fontSize: SIZES.h2,
+    lineHeight: normalize(30),
+  },
+  h3: {
+    fontFamily: "Montserrat-Bold",
+    fontSize: SIZES.h3,
+    lineHeight: normalize(24),
+  },
+  h4: {
+    fontFamily: "Montserrat-Bold",
+    fontSize: SIZES.h4,
+    lineHeight: normalize(20),
+  },
+  h5: {
+    fontFamily: "Montserrat-Bold",
+    fontSize: SIZES.h5,
+    lineHeight: normalize(16),
+  },
   body1: {
     fontFamily: "Montserrat-Medium",
     fontSize: SIZES.body1,
-    lineHeight: 36,
+    lineHeight: normalize(36),
   },
   body2: {
     fontFamily: "Montserrat-Medium",
     fontSize: SIZES.body2,
-    lineHeight: 30,
+    lineHeight: normalize(30),
   },
   body3: {
     fontFamily: "Montserrat-Medium",
     fontSize: SIZES.body3,
-    lineHeight: 22,
+    lineHeight: normalize(24),
   },
   body4: {
     fontFamily: "Montserrat-Medium",
     fontSize: SIZES.body4,
-    lineHeight: 18,
+    lineHeight: normalize(20),
   },
   body5: {
     fontFamily: "Montserrat-Medium",
     fontSize: SIZES.body5,
-    lineHeight: 16,
+    lineHeight: normalize(16),
   },
 };
 
