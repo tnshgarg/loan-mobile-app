@@ -39,11 +39,6 @@ export const generateAadhaarOTP = () => {
         },
         data: JSON.stringify(data),
       })
-        .then((response) => {
-          // console.log("Aadhaar otp response:", response);
-          return response;
-        })
-        .catch(console.error);
     },
   });
   return mutation;
@@ -62,11 +57,6 @@ export const submitAadhaarOTP = () => {
         },
         data: JSON.stringify(data),
       })
-        .then((response) => {
-          // console.log("Aadhaar otp response:", response);
-          return response;
-        })
-        .catch(console.error);
     },
   });
   return mutation;

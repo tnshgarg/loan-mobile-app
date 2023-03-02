@@ -31,7 +31,10 @@ const analyticsStatus = async () => {
   STAGE == "dev"
     ? await Analytics.setEnabled(false)
     : await Analytics.setEnabled(true);
-  console.log("analyticsStatus", STAGE);
+  const enabled = await Analytics.isEnabled();
+  if (enabled) {
+    Analytics.startSession();
+  }
 };
 
 const App = () => {

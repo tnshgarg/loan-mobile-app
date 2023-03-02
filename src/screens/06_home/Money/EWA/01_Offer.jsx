@@ -155,9 +155,7 @@ const Offer = () => {
   };
 
   const handleConditionalNav = () => {
-    if (onboarded) {
-      navigation.navigate("EWA_KYC");
-    } else if (!profileComplete) {
+    if (!profileComplete) {
       navigation.navigate("EWA_KYC_STACK", { screen: "ProfileForm" });
     } else if (aadhaarVerifyStatus === "INPROGRESS_OTP") {
       navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarVerify" });
@@ -173,7 +171,9 @@ const Offer = () => {
       navigation.navigate("EWA_KYC_STACK", { screen: "BankConfirm" });
     } else if (bankVerifyStatus != "SUCCESS") {
       navigation.navigate("EWA_KYC_STACK", { screen: "BankForm" });
-    } 
+    } else if (onboarded) {
+      navigation.navigate("EWA_KYC");
+    }
   };
 
   function handleAmount() {

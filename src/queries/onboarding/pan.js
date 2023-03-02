@@ -36,11 +36,6 @@ export const verifyPan = () => {
         },
         data: JSON.stringify(data),
       })
-        .then((response) => {
-          // console.log("Aadhaar otp response:", response);
-          return response;
-        })
-        .catch(console.error);
     },
   });
   return mutation;
