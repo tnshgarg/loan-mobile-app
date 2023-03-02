@@ -126,8 +126,8 @@ const MandateFormTemplate = (props) => {
         }
         else{
           setVerifyStatus(res.data.verifyStatus);
-          throw res.data;
         }
+        throw res.data;
       })
       .catch((error) => {
         console.log("mandatePush error: ", error);
@@ -187,9 +187,8 @@ const MandateFormTemplate = (props) => {
         verifyMsg,
         verifyStatus: "INPROGRESS",
         verifyTimestamp: Date.now(),
-      }).then(() => {
-
       })
+      .then(() => {})
       .catch((error) => {
         setModalVisible(false);
         Alert("Error", error);
@@ -208,9 +207,8 @@ const MandateFormTemplate = (props) => {
         token
       })
       const createOrderResponse = res.data;
-      console.log(`Mandate|CreateOrder|${authType} res.data:`, createOrderResponse, createOrderResponse.status);
-      console.log(createOrderResponse.body)
-      if (createOrderResponse.status == 200) {
+      console.log(`Mandate|CreateOrder|${authType} res.data:`, createOrderResponse);
+      if (createOrderResponse.status === 200) {
         let razorpayOrder = createOrderResponse.body
         
         Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Success`, {
@@ -226,9 +224,9 @@ const MandateFormTemplate = (props) => {
       }
     } catch (error) {
       console.log("error", error)
-      if (error?.status == 409) {
-        Alert.alert("Create Mandate Error", "Mandate Registration Process already started, Please check the status after sometime")
-        refreshMandateFromBackend()
+      if (error?.status === 409) {
+        Alert.alert("Create Mandate Error", "Mandate Registration Process already started, Please check the status after sometime");
+        refreshMandateFromBackend();
       } else {
         Alert.alert("Create Order Error", JSON.stringify(error));
       }

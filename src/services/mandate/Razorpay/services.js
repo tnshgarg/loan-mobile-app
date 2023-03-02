@@ -4,7 +4,7 @@ import RazorpayCheckout from "react-native-razorpay";
 import { COLORS} from "../../../constants/Theme";
 
 
-const createOrder = (data,category,jwtToken) => {
+const createOrder = (data, category, jwtToken) => {
   let config = {
     method: "post",
     url: `${EMPLOYEE_API_URL}/payment/order/${category}`,
@@ -70,6 +70,7 @@ const openRazorpayCheckout = ({orderId,customerId,description,prefill,notes,extr
   console.log("Razorpay Checkout Options", options)
   return RazorpayCheckout.open(options)
 }
+
 module.exports = {
   createMandateOrder,
   createRepaymentOrder,
