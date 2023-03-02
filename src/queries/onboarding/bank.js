@@ -49,10 +49,6 @@ export const verifyBank = () => {
         },
         data: JSON.stringify(data),
       })
-        .then((response) => {
-          return response;
-        })
-        .catch(console.error);
     },
   });
   return mutation;

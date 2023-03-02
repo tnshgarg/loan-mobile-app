@@ -157,14 +157,14 @@ const AadhaarVerifyApi = (props) => {
           } else {
             backendPush({
               data: data,
-              verifyMsg: `Unsupported Data/Status Code : ${responseJson?.message}`,
+              verifyMsg: `Unsupported Data/Status Code : ${JSON.stringify(responseJson)}`,
               verifyStatus: "ERROR",
               verifyTimestamp: verifyTimestamp,
             });
-            Alert.alert("Error", responseJson?.message);
+            Alert.alert("Error", JSON.stringify(responseJson));
             Analytics.trackEvent("Aadhaar|Verify|Error", {
               unipeEmployeeId: unipeEmployeeId,
-              error: `Unsupported Data/Status Code : ${responseJson?.message}`,
+              error: `Unsupported Data/Status Code : ${JSON.stringify(responseJson)}`,
             });
           }
         } catch (error) {
