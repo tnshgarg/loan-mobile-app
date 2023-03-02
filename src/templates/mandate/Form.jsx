@@ -120,13 +120,11 @@ const MandateFormTemplate = (props) => {
       token: token,
     })
       .then((res) => {
-        console.log("mandatePush response: ", res.data);
+        console.log("mandatePush res.data: ", res.data);
         if (res.data.status === 200){
-          console.log("mandatePush pushed");
           setVerifyStatus(verifyStatus);
         }
         else{
-          console.log("mandatePush not expected", res.data);
           setVerifyStatus(res.data.verifyStatus);
           throw res.data;
         }
@@ -168,18 +166,19 @@ const MandateFormTemplate = (props) => {
           recurring: "1",
         }
       })
-      console.log("Mandate Checkout Success", res)
+      console.log("Mandate Checkout Success", res);
       Analytics.trackEvent("Mandate|Authorize|InProgress|Checkout|Success", {
         unipeEmployeeId: unipeEmployeeId,
       });
-      verifyMsg = "Mandate Initiated from App Checkout Success"
+      verifyMsg = "Mandate Initiated from App Checkout Success";
     } catch (error) {
-      console.log("Mandate Checkout Error", error)
+      console.log("Mandate Checkout Error", error);
       Analytics.trackEvent("createOrderandate|Authorize|InProgress|Checkout|Error", {
         unipeEmployeeId: unipeEmployeeId,
       });
-      verifyMsg =  error
+      verifyMsg =  JSON.stringify(error);
     } finally {
+      setModalVisible(true);
       backendPush({
         data: {
           orderId,
@@ -189,10 +188,11 @@ const MandateFormTemplate = (props) => {
         verifyStatus: "INPROGRESS",
         verifyTimestamp: Date.now(),
       }).then(() => {
-        setModalVisible(true);
+
       })
-      .catch(() => {
+      .catch((error) => {
         setModalVisible(false);
+        Alert("Error", error);
       });
     };
   }
