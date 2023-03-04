@@ -108,7 +108,14 @@ const BankVerifyApi = (props) => {
 
     if (responseJson.status === 200) {
       if (verifyStatus === "INPROGRESS_CONFIRMATION") {
-        if (props?.type !== "KYC") {
+        if (props.type === "KYC") {
+          navigation.navigate("KYC", {
+              screen: "BANK",
+              params: {
+                screen: "Confirm",
+              },
+          });
+        } else {
           navigation.navigate("BankConfirm");
         }
       }

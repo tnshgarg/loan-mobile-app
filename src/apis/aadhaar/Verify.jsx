@@ -36,6 +36,7 @@ const AadhaarVerifyApi = (props) => {
 
   useEffect(() => {
     dispatch(addData(data));
+    return () => {};
   }, [data]);
 
   useEffect(() => {
@@ -78,7 +79,14 @@ const AadhaarVerifyApi = (props) => {
     if (responseJson.status === 200) {
       if (verifyStatus === "INPROGRESS_CONFIRMATION") {
         props.setVerified(true);
-        if (props?.type !== "KYC") {
+        if (props.type === "KYC") {
+          navigation.navigate("KYC", {
+              screen: "AADHAAR",
+              params: {
+                screen: "Confirm",
+              },
+          });
+        } else {
           navigation.navigate("AadhaarConfirm");
         }
       }

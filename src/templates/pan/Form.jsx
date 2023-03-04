@@ -111,7 +111,7 @@ const PanFormTemplate = (props) => {
           <PrimaryButton
             title="Verify Aadhaar Now"
             onPress={() => {
-              props?.route?.params?.type
+              props?.route?.params?.type === "KYC"
                 ? navigation.navigate("KYC", {
                     screen: "AADHAAR",
                   })
