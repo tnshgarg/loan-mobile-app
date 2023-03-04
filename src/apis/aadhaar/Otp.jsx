@@ -41,6 +41,7 @@ const AadhaarOtpApi = (props) => {
 
   useEffect(() => {
     dispatch(addSubmitOTPtxnId(submitOTPtxnId));
+    return () => {};
   }, [submitOTPtxnId]);
 
   useEffect(() => {
@@ -55,6 +56,7 @@ const AadhaarOtpApi = (props) => {
 
   useEffect(() => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
+    return () => {};
   }, [verifyTimestamp]);
 
   const { mutateAsync: generateAadhaarOTPMutateAsync } = generateAadhaarOTP();
@@ -83,7 +85,14 @@ const AadhaarOtpApi = (props) => {
     if (responseJson.status === 200) {
       if (verifyStatus === "INPROGRESS_OTP") {
         dispatch(resetTimer());
-        if (props?.type !== "KYC") {
+        if (props.type === "KYC") {
+          navigation.navigate("KYC", {
+              screen: "AADHAAR",
+              params: {
+                screen: "Verify",
+              },
+          });
+        } else {
           navigation.navigate("AadhaarVerify");
         }
         showToast("OTP sent to AADHAAR registered mobile number");

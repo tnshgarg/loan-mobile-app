@@ -36,6 +36,7 @@ const PanVerifyApi = (props) => {
 
   useEffect(() => {
     dispatch(addData(data));
+    return () => {};
   }, [data]);
 
   useEffect(() => {
@@ -50,6 +51,7 @@ const PanVerifyApi = (props) => {
 
   useEffect(() => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
+    return () => {};
   }, [verifyTimestamp]);
 
   const backendPush = async ({ data, verifyMsg, verifyStatus, verifyTimestamp }) => {
@@ -74,7 +76,14 @@ const PanVerifyApi = (props) => {
 
     if (responseJson.status === 200) {
       if (verifyStatus === "INPROGRESS_CONFIRMATION") {
-        if (props?.type !== "KYC") {
+        if (props.type === "KYC") {
+          navigation.navigate("KYC", {
+              screen: "PAN",
+              params: {
+                screen: "Confirm",
+              },
+          });
+        } else {
           navigation.navigate("PanConfirm");
         }
       }
