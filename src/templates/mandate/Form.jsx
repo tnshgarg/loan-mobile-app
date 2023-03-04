@@ -16,7 +16,8 @@ import {
 import { styles } from "../../styles";
 import { showToast } from "../../components/atoms/Toast";
 import {
-  createMandateOrder,openRazorpayCheckout
+  createMandateOrder,
+  openRazorpayCheckout
 } from "../../services/mandate/Razorpay/services";
 import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";

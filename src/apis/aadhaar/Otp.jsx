@@ -12,9 +12,6 @@ import { resetTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
 import { COLORS, FONTS } from "../../constants/Theme";
-import {
-  generateAadhaarOTP
-} from "../../queries/onboarding/aadhaar";
 import { putBackendData } from "../../services/employees/employeeServices";
 import { showToast } from "../../components/atoms/Toast";
 
@@ -56,8 +53,6 @@ const AadhaarOtpApi = (props) => {
   useEffect(() => {
     dispatch(addVerifyTimestamp(verifyTimestamp));
   }, [verifyTimestamp]);
-
-  const { mutateAsync: generateAadhaarOTPMutateAsync } = generateAadhaarOTP();
 
   const backendPush = async ({ verifyMsg, verifyStatus, verifyTimestamp }) => {
     
@@ -103,114 +98,91 @@ const AadhaarOtpApi = (props) => {
     putBackendData({
       data: {
         unipeEmployeeId: unipeEmployeeId,
-        data: {},
-        number: aadhaarSlice?.number,
+        aadhaarNumber: aadhaarSlice?.number,
         campaignId: campaignId,
-        verifyMsg: "Attempted by User",
-        verifyStatus: "ATTEMPTED",
-        verifyTimestamp: Date.now(),
+        provider: 'ongrid'
       },
-      xpath: "aadhaar",
+      xpath: "kyc/aadhaar-generate-otp",
       token: token,
     })
       .then((res) => {
-        let responseJson = res?.data;
-        console.log("responseJson: ", responseJson);
-        if (responseJson?.status == "400") {
-          Alert.alert("Error", responseJson?.message);
-          Analytics.trackEvent("Aadhaar|Otp|Duplicate", {
-            unipeEmployeeId: unipeEmployeeId,
-          });
-          setLoading(false);
-        } else {
-          console.log("start: ", Date.now());
-          generateAadhaarOTPMutateAsync({
-            data: props.data,
-          })
-            .then((res) => {
-              const responseJson = res?.data;
-              console.log("responseJson: ", responseJson);
-              try {
-                console.log("end: ", Date.now());
-                if (responseJson?.status == "200") {
-                  switch (responseJson?.data?.code) {
-                    case "1001":
-                      setSubmitOTPtxnId(responseJson?.data?.transaction_id);
-                      backendPush({
-                        verifyMsg: "OTP sent to User",
-                        verifyStatus: "INPROGRESS_OTP",
-                        verifyTimestamp: responseJson?.timestamp,
-                      });
-                      Analytics.trackEvent("Aadhaar|Otp|Success", {
-                        unipeEmployeeId: unipeEmployeeId,
-                      });
-                      break;
-                    default:
-                      backendPush({
-                        verifyMsg: `Unsupported Data Code : ${responseJson?.data?.message}`,
-                        verifyStatus: "ERROR",
-                        verifyTimestamp: verifyTimestamp,
-                      });
-                      Alert.alert("Error", responseJson?.data?.message);
-                      Analytics.trackEvent("Aadhaar|Otp|Error", {
-                        unipeEmployeeId: unipeEmployeeId,
-                        error: `Unsupported Data Code : ${responseJson?.data?.message}`,
-                      });
-                      break;
-                  }
-                } else if (responseJson?.error?.message) {
-                  backendPush({
-                    verifyMsg: `Unsupported Status Code : ${responseJson?.error?.message}`,
-                    verifyStatus: "ERROR",
-                    verifyTimestamp: verifyTimestamp,
-                  });
-                  Alert.alert("Error", responseJson?.error?.message);
-                  Analytics.trackEvent("Aadhaar|Otp|Error", {
-                    unipeEmployeeId: unipeEmployeeId,
-                    error: `Unsupported Status Code : ${responseJson?.error?.message}`,
-                  });
-                } else {
-                  backendPush({
-                    verifyMsg: `Unsupported Data/Status Code : ${responseJson?.message}`,
-                    verifyStatus: "ERROR",
-                    verifyTimestamp: verifyTimestamp,
-                  });
-                  Alert.alert("Error", responseJson?.message);
-                  Analytics.trackEvent("Aadhaar|Otp|Error", {
-                    unipeEmployeeId: unipeEmployeeId,
-                    error: `Unsupported Data/Status Code : ${responseJson?.message}`,
-                  });
-                }
-              } catch (error) {
+        console.log("kyc/aadhaar-generate-otp res: ", res);
+        const responseJson = res?.data;
+        console.log("kyc/aadhaar-generate-otp responseJson: ", responseJson);
+        try {
+          if (responseJson?.status === 200) {
+            switch (responseJson?.data?.code) {
+              case "1001":
+                setSubmitOTPtxnId(responseJson?.data?.transaction_id);
                 backendPush({
-                  verifyMsg: `Try Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
+                  verifyMsg: "OTP sent to User",
+                  verifyStatus: "INPROGRESS_OTP",
+                  verifyTimestamp: responseJson?.timestamp,
+                });
+                Analytics.trackEvent("Aadhaar|Otp|Success", {
+                  unipeEmployeeId: unipeEmployeeId,
+                });
+                break;
+              default:
+                backendPush({
+                  verifyMsg: `Unsupported Data Code : ${responseJson?.data?.message}`,
                   verifyStatus: "ERROR",
                   verifyTimestamp: verifyTimestamp,
                 });
-                Alert.alert("Error", JSON.stringify(error));
+                Alert.alert("Error", responseJson?.data?.message);
                 Analytics.trackEvent("Aadhaar|Otp|Error", {
                   unipeEmployeeId: unipeEmployeeId,
-                  error: `Try Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
+                  error: `Unsupported Data Code : ${responseJson?.data?.message}`,
                 });
-              }
-            })
-            .catch((error) => {
-              backendPush({
-                verifyMsg: `generateAadhaarOTP API Catch Error: ${JSON.stringify(error)}`,
-                verifyStatus: "ERROR",
-                verifyTimestamp: verifyTimestamp,
-              });
-              Alert.alert("Error", JSON.stringify(error));
-              Analytics.trackEvent("Aadhaar|Otp|Error", {
-                unipeEmployeeId: unipeEmployeeId,
-                error: `generateAadhaarOTP API Catch Error: ${JSON.stringify(error)}`,
-              });
+                break;
+            }
+          } else if (responseJson?.error?.message) {
+            backendPush({
+              verifyMsg: `Unsupported Status Code : ${responseJson?.error?.message}`,
+              verifyStatus: "ERROR",
+              verifyTimestamp: verifyTimestamp,
             });
+            Alert.alert("Error", responseJson?.error?.message);
+            Analytics.trackEvent("Aadhaar|Otp|Error", {
+              unipeEmployeeId: unipeEmployeeId,
+              error: `Unsupported Status Code : ${responseJson?.error?.message}`,
+            });
+          } else {
+            backendPush({
+              verifyMsg: `Unsupported Data/Status Code : ${responseJson?.message}`,
+              verifyStatus: "ERROR",
+              verifyTimestamp: verifyTimestamp,
+            });
+            Alert.alert("Error", responseJson?.message);
+            Analytics.trackEvent("Aadhaar|Otp|Error", {
+              unipeEmployeeId: unipeEmployeeId,
+              error: `Unsupported Data/Status Code : ${responseJson?.message}`,
+            });
+          }
+        } catch (error) {
+          backendPush({
+            verifyMsg: `Try Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
+            verifyStatus: "ERROR",
+            verifyTimestamp: verifyTimestamp,
+          });
+          Alert.alert("Error", JSON.stringify(error));
+          Analytics.trackEvent("Aadhaar|Otp|Error", {
+            unipeEmployeeId: unipeEmployeeId,
+            error: `Try Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
+          });
         }
       })
       .catch((error) => {
-        console.log("ERROR: ", JSON.stringify(error));
+        backendPush({
+          verifyMsg: `generateAadhaarOTP API Catch Error: ${JSON.stringify(error)}`,
+          verifyStatus: "ERROR",
+          verifyTimestamp: verifyTimestamp,
+        });
         Alert.alert("Error", JSON.stringify(error));
+        Analytics.trackEvent("Aadhaar|Otp|Error", {
+          unipeEmployeeId: unipeEmployeeId,
+          error: `generateAadhaarOTP API Catch Error: ${JSON.stringify(error)}`,
+        });
       });
   };
 
