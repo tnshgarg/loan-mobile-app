@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import { Alert, Text, View } from "react-native";
 import { Button } from "@react-native-material/core";
-import { addVerifyMsg, addVerifyStatus } from "../../store/slices/panSlice";
+import { addVerifyStatus } from "../../store/slices/panSlice";
 import { form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
@@ -19,20 +19,15 @@ const PanConfirmApi = (props) => {
   const token = useSelector((state) => state.auth.token);
   const data = useSelector((state) => state.pan.data);
   const number = useSelector((state) => state.pan.number);
-  const verifyTimestamp = useSelector((state) => state.pan.verifyTimestamp);
   
-  const backendPush = async ({ verifyMsg, verifyStatus }) => {
+  const backendPush = async ({ verifyStatus }) => {
     
-    dispatch(addVerifyMsg(verifyMsg));
     dispatch(addVerifyStatus(verifyStatus));
 
     const payload = {
       unipeEmployeeId: unipeEmployeeId,
-      data: data,
       number: number,
-      verifyMsg: verifyMsg,
       verifyStatus: verifyStatus,
-      verifyTimestamp: verifyTimestamp,
       campaignId: campaignId,
     };
 
@@ -40,7 +35,7 @@ const PanConfirmApi = (props) => {
     const responseJson = response?.data;
 
     if (responseJson.status === 200) {
-      if (verifyStatus === "ERROR") {
+      if (verifyStatus === "REJECTED") {
         if (props?.route?.params?.type === "KYC") {
           navigation.navigate("KYC", {
             screen: "PAN",
@@ -100,8 +95,7 @@ const PanConfirmApi = (props) => {
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             backendPush({
-              verifyMsg: "Rejected by User",
-              verifyStatus: "ERROR",
+              verifyStatus: "REJECTED",
             });
             Analytics.trackEvent("Pan|Confirm|Error", {
               unipeEmployeeId: unipeEmployeeId,
@@ -121,7 +115,6 @@ const PanConfirmApi = (props) => {
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             backendPush({
-              verifyMsg: "Confirmed by User",
               verifyStatus: "SUCCESS",
             });
             Analytics.trackEvent("Pan|Confirm|Success", {
