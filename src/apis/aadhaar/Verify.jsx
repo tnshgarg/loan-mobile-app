@@ -20,19 +20,7 @@ const AadhaarVerifyApi = (props) => {
   const token = useSelector((state) => state.auth.token);
 
   const aadhaarSlice = useSelector((state) => state.aadhaar);
-  const [data, setData] = useState(aadhaarSlice?.data);
-  const [verifyStatus, setVerifyStatus] = useState(aadhaarSlice?.verifyStatus);
   const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
-
-  useEffect(() => {
-    dispatch(addData(data));
-    return () => {};
-  }, [data]);
-
-  useEffect(() => {
-    dispatch(addVerifyStatus(verifyStatus));
-    return () => {};
-  }, [verifyStatus]);
 
   const goForFetch = () => {
     setLoading(true);
@@ -54,28 +42,21 @@ const AadhaarVerifyApi = (props) => {
         console.log("kyc/aadhaar-submit-otp responseJson: ", responseJson);
         try {
           if (responseJson?.status === 200) {
-            setData(responseJson?.body?.data);
-            setVerifyStatus(responseJson?.body?.verifyStatus);
             props.setVerified(true);
-            if (props.type === "KYC") {
-              navigation.navigate("KYC", {
-                  screen: "AADHAAR",
-                  params: {
-                    screen: "Confirm",
-                  },
-              });
-            } else {
-              navigation.navigate("AadhaarConfirm");
-            }
+            dispatch(addData(responseJson?.body?.data));
             Analytics.trackEvent("Aadhaar|Verify|Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
             setLoading(false);
+            dispatch(addVerifyStatus(responseJson?.body?.verifyStatus));
+            if (props.type !== "KYC") {
+              navigation.navigate("AadhaarConfirm");
+            }
           } else {
             throw responseJson;
           }
         } catch (error) {
-          setVerifyStatus("ERROR");
+          dispatch(addVerifyStatus("ERROR"));
           Alert.alert("submitAadhaarOTP API Catch Error", JSON.stringify(error));
           Analytics.trackEvent("Aadhaar|Verify|Error", {
             unipeEmployeeId: unipeEmployeeId,
@@ -85,7 +66,7 @@ const AadhaarVerifyApi = (props) => {
         }
       })
       .catch((error) => {
-        setVerifyStatus("ERROR");
+        dispatch(addVerifyStatus("ERROR"));
         Alert.alert("submitAadhaarOTP Catch Error", JSON.stringify(error));
         Analytics.trackEvent("Aadhaar|Verify|Error", {
           unipeEmployeeId: unipeEmployeeId,

@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -23,37 +23,9 @@ const BankVerifyApi = (props) => {
   const token = useSelector((state) => state.auth.token);
 
   const bankSlice = useSelector((state) => state.bank);
-  const [bankName, setBankName] = useState(bankSlice?.data?.bankName);
-  const [branchName, setBranchName] = useState(bankSlice?.data?.bankBranch);
-  const [branchCity, setBranchCity] = useState(bankSlice?.data?.branchCity);
-  const [accountHolderName, setAccountHolderName] = useState(
-    bankSlice?.data?.accountHolderName
-  );
-  const [verifyStatus, setVerifyStatus] = useState(bankSlice?.verifyStatus);
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
-
-  useEffect(() => {
-    dispatch(addBankName(bankName));
-  }, [bankName]);
-
-  useEffect(() => {
-    dispatch(addAccountHolderName(accountHolderName));
-  }, [accountHolderName]);
-
-  useEffect(() => {
-    dispatch(addBranchName(branchName));
-  }, [branchName]);
-
-  useEffect(() => {
-    dispatch(addBranchCity(branchCity));
-  }, [branchCity]);
-
-  useEffect(() => {
-    dispatch(addVerifyStatus(verifyStatus));
-    return () => {};
-  }, [verifyStatus]);
 
   const goForFetch = () => {
     setLoading(true);
@@ -62,10 +34,10 @@ const BankVerifyApi = (props) => {
     putBackendData({
       data: {
         unipeEmployeeId: unipeEmployeeId,
-        accountHolderName: accountHolderName,
-        accountNumber: accountNumber,
-        ifsc: ifsc,
-        upi: upi,
+        accountHolderName: bankSlice?.data?.accountHolderName,
+        accountNumber: bankSlice?.data?.accountNumber,
+        ifsc: bankSlice?.data?.ifsc,
+        upi: bankSlice?.data?.upi,
         campaignId: campaignId,
         provider: 'ongrid'
       },
@@ -78,19 +50,12 @@ const BankVerifyApi = (props) => {
         console.log("kyc/bank-verify-account responseJson: ", responseJson);
         try {
           if (responseJson?.status === 200) {
-            setAccountHolderName(responseJson?.data?.accountHolderName);
-            setBankName(responseJson?.data?.bankName);
-            setBranchName(responseJson?.data?.branchName);
-            setBranchCity(responseJson?.data?.branchCity);
-            setVerifyStatus(responseJson?.body?.verifyStatus);
-            if (props.type === "KYC") {
-              navigation.navigate("KYC", {
-                  screen: "BANK",
-                  params: {
-                    screen: "Confirm",
-                  },
-              });
-            } else {
+            dispatch(addAccountHolderName(responseJson?.body?.data?.accountHolderName));
+            dispatch(addBankName(responseJson?.body?.data?.bankName));
+            dispatch(addBranchName(responseJson?.body?.data?.branchName));
+            dispatch(addBranchCity(responseJson?.body?.data?.branchCity));
+            dispatch(addVerifyStatus(responseJson?.body?.verifyStatus));
+            if (props.type !== "KYC") {
               navigation.navigate("BankConfirm");
             }
             Analytics.trackEvent("Bank|Verify|Success", {
@@ -101,7 +66,7 @@ const BankVerifyApi = (props) => {
             throw responseJson;
           }
         } catch (error) {
-          setVerifyStatus("ERROR");
+          dispatch(addVerifyStatus("ERROR"));
           Alert.alert("verifyBankAccount API Catch Error", JSON.stringify(error));
           Analytics.trackEvent("Bank|Verify|Error", {
             unipeEmployeeId: unipeEmployeeId,
@@ -111,7 +76,7 @@ const BankVerifyApi = (props) => {
         }
       })
       .catch((error) => {
-        setVerifyStatus("ERROR");
+        dispatch(addVerifyStatus("ERROR"));
         Alert.alert("verifyBankAccount Catch Error", JSON.stringify(error));
         Analytics.trackEvent("Bank|Verify|Error", {
           unipeEmployeeId: unipeEmployeeId,

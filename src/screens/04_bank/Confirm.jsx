@@ -44,7 +44,7 @@ const BankConfirm = () => {
       />
       <OnboardingProgressBar step={3} />
       <ScrollView keyboardShouldPersistTaps="handled">
-        <BankConfirmApi type="Onboarding" />
+        <BankConfirmApi />
       </ScrollView>
     </SafeAreaView>
   );

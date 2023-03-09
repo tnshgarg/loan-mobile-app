@@ -19,25 +19,12 @@ const PanVerifyApi = (props) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
   const panSlice = useSelector((state) => state.pan);
-  const [data, setData] = useState(panSlice?.data);
-  const [verifyStatus, setVerifyStatus] = useState(panSlice?.verifyStatus);
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
 
-  useEffect(() => {
-    dispatch(addData(data));
-    return () => {};
-  }, [data]);
-
-  useEffect(() => {
-    dispatch(addVerifyStatus(verifyStatus));
-    return () => {};
-  }, [verifyStatus]);
-
   const goForFetch = () => {
     setLoading(true);
-
     console.log("panSlice: ", panSlice);
 
     putBackendData({
@@ -56,27 +43,20 @@ const PanVerifyApi = (props) => {
         console.log("kyc/pan-fetch-details responseJson: ", responseJson);
         try {
           if (responseJson?.status === 200) {
-            setData(responseJson?.body?.data);
-            setVerifyStatus(responseJson?.body?.verifyStatus);
-            if (props.type === "KYC") {
-              navigation.navigate("KYC", {
-                  screen: "PAN",
-                  params: {
-                    screen: "Confirm",
-                  },
-              });
-            } else {
-              navigation.navigate("PanConfirm");
-            }
+            dispatch(addData(responseJson?.body?.data));
+            setLoading(false);
             Analytics.trackEvent("Pan|Verify|Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
-            setLoading(false);
+            dispatch(addVerifyStatus(responseJson?.body?.verifyStatus));
+            if (props.type !== "KYC") {
+              navigation.navigate("PanConfirm");
+            }
           } else {
             throw responseJson;
           }
         } catch (error) {
-          setVerifyStatus("ERROR");
+          dispatch(addVerifyStatus("ERROR"));
           Alert.alert("fetchPanDetails API Catch Error", JSON.stringify(error));
           Analytics.trackEvent("Pan|Verify|Error", {
             unipeEmployeeId: unipeEmployeeId,
@@ -86,7 +66,7 @@ const PanVerifyApi = (props) => {
         }
       })
       .catch((error) => {
-        setVerifyStatus("ERROR");
+        dispatch(addVerifyStatus("ERROR"));
         Alert.alert("fetchPanDetails Catch Error", JSON.stringify(error));
         Analytics.trackEvent("Pan|Verify|Error", {
           unipeEmployeeId: unipeEmployeeId,

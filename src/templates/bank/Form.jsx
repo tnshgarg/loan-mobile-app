@@ -43,20 +43,13 @@ const BankFormTemplate = (props) => {
   }, [accountHolderName]);
 
   useEffect(() => {
-    dispatch(addAccountNumber(accountNumber));
-  }, [accountNumber]);
-
-  useEffect(() => {
-    dispatch(addIfsc(ifsc));
-  }, [ifsc]);
-
-  useEffect(() => {
     dispatch(addUpi(upi));
   }, [upi]);
 
   useEffect(() => {
     var accountNumberReg = /^[A-Z0-9]{6,25}$/gm;
     if (accountNumberReg.test(accountNumber)) {
+      dispatch(addAccountNumber(accountNumber));
       setAccNumNext(true);
     } else {
       setAccNumNext(false);
@@ -66,6 +59,7 @@ const BankFormTemplate = (props) => {
   useEffect(() => {
     var ifscReg = /^[A-Z]{4}0[A-Z0-9]{6}$/gm;
     if (ifscReg.test(ifsc)) {
+      dispatch(addIfsc(ifsc));
       setIfscNext(true);
     } else {
       setIfscNext(false);

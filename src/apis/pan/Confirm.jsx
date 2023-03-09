@@ -14,9 +14,9 @@ const PanConfirmApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
+  const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
-  const token = useSelector((state) => state.auth.token);
   const data = useSelector((state) => state.pan.data);
   const number = useSelector((state) => state.pan.number);
   

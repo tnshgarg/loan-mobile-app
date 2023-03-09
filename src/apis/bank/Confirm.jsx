@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { addVerifyStatus } from "../../store/slices/bankSlice";
@@ -86,6 +86,10 @@ const BankConfirmApi = (props) => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.headline}>Are these your sBank Account details?</Text>
+      <Text style={styles.subHeadline}>
+        कृपया स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
+      </Text>
       <DetailsCard data={cardData()} />
 
       <View style={[styles.row, { justifyContent: "space-between" }]}>

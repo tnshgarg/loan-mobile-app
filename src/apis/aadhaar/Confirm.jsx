@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { View, Text } from "react-native";
+import { Alert, Text, View } from "react-native";
 import { Button } from "@react-native-material/core";
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
@@ -15,9 +15,9 @@ const AadhaarConfirmApi = (props) => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
   const data = useSelector((state) => state.aadhaar.data);
   const number = useSelector((state) => state.aadhaar.number);
-  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
 
   const backendPush = async ({ verifyStatus }) => {
 
