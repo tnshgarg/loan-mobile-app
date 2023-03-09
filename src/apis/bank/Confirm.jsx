@@ -53,7 +53,7 @@ const BankConfirmApi = (props) => {
             navigation.navigate("KYC", {
               screen: "BANK",
             });
-          } else if (props?.type === "Onboarding") {
+          } else {
             navigation.replace("EWA_MANDATE");
           }
       }
