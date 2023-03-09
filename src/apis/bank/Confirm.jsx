@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { View } from "react-native";
 import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
-import { addVerifyMsg, addVerifyStatus } from "../../store/slices/bankSlice";
+import { addVerifyStatus } from "../../store/slices/bankSlice";
 import { form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
@@ -21,19 +21,15 @@ const BankConfirmApi = (props) => {
     (state) => state.campaign.onboardingCampaignId
   );
   const data = useSelector((state) => state.bank.data);
-  const verifyTimestamp = useSelector((state) => state.bank.verifyTimestamp);
 
-  const backendPush = async ({ verifyMsg, verifyStatus }) => {
+  const backendPush = async ({ verifyStatus }) => {
 
-    dispatch(addVerifyMsg(verifyMsg));
     dispatch(addVerifyStatus(verifyStatus));
 
     const payload = {
       unipeEmployeeId: unipeEmployeeId,
-      data: data,
-      verifyMsg: verifyMsg,
+      accountNumber: data.accountNumber,
       verifyStatus: verifyStatus,
-      verifyTimestamp: verifyTimestamp,
       campaignId: campaignId,
     };
 
@@ -41,7 +37,7 @@ const BankConfirmApi = (props) => {
     const responseJson = response?.data;
 
     if (responseJson.status === 200) {
-      if (verifyStatus === "ERROR") {
+      if (verifyStatus === "REJECTED") {
         if (props?.route?.params?.type === "KYC") {
           navigation.navigate("KYC", {
             screen: "BANK",
@@ -104,8 +100,7 @@ const BankConfirmApi = (props) => {
           contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             backendPush({
-              verifyMsg: "Rejected by User",
-              verifyStatus: "ERROR",
+              verifyStatus: "REJECTED",
             });
             Analytics.trackEvent("Bank|Confirm|Error", {
               unipeEmployeeId: unipeEmployeeId,
@@ -127,7 +122,6 @@ const BankConfirmApi = (props) => {
           onPress={() => {
             dispatch(addOnboarded(true));
             backendPush({
-              verifyMsg: "Confirmed by User",
               verifyStatus: "SUCCESS",
             });
             Analytics.trackEvent("Bank|Confirm|Success", {

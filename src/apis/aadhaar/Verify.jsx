@@ -36,6 +36,7 @@ const AadhaarVerifyApi = (props) => {
 
   const goForFetch = () => {
     setLoading(true);
+    console.log("aadhaarSlice: ", aadhaarSlice);
 
     putBackendData({
       data: {

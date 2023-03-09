@@ -38,6 +38,8 @@ const PanVerifyApi = (props) => {
   const goForFetch = () => {
     setLoading(true);
 
+    console.log("panSlice: ", panSlice);
+
     putBackendData({
       data: {
         unipeEmployeeId: unipeEmployeeId,
@@ -56,7 +58,6 @@ const PanVerifyApi = (props) => {
           if (responseJson?.status === 200) {
             setData(responseJson?.body?.data);
             setVerifyStatus(responseJson?.body?.verifyStatus);
-            props.setVerified(true);
             if (props.type === "KYC") {
               navigation.navigate("KYC", {
                   screen: "PAN",

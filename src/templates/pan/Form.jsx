@@ -82,7 +82,7 @@ const PanFormTemplate = (props) => {
 
             <InfoCard
               info={
-                "I agree with the KYC registration Terms and Conditions to verifiy my identity. PAN is required to verify name and date of birth."
+                "I agree with the KYC registration Terms & Conditions to verifiy my identity. PAN is required to verify name and date of birth."
               }
             />
 

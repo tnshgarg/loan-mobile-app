@@ -29,7 +29,7 @@ const AadhaarConfirmApi = (props) => {
       verifyStatus: verifyStatus,
       campaignId: campaignId
     };
-    
+
     const response = await putBackendData({ data: payload, xpath: "aadhaar", token: token });
     const responseJson = response?.data;
 

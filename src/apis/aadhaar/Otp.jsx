@@ -26,8 +26,9 @@ const AadhaarOtpApi = (props) => {
   );
 
   const goForFetch = () => {
-    console.log("aadhaarSlice: ", aadhaarSlice);
     setLoading(true);
+    console.log("aadhaarSlice: ", aadhaarSlice);
+
     if (props.isTextButton) {
       props.toggle(false); // setResend(false)
     }

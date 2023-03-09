@@ -3,7 +3,6 @@ import { useIsFocused } from "@react-navigation/core";
 import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import BankVerifyApi from "../../apis/bank/Verify";
-import Checkbox from "../../components/atoms/Checkbox";
 import InfoCard from "../../components/atoms/InfoCard";
 import PopableInput from "../../components/molecules/PopableInput";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
@@ -24,7 +23,6 @@ const BankFormTemplate = (props) => {
   const isFocused = useIsFocused();
 
   const [accNumNext, setAccNumNext] = useState(false);
-  const [consent, setConsent] = useState(true);
   const [ifscNext, setIfscNext] = useState(false);
 
   const aadhaarSlice = useSelector((state) => state.aadhaar);
@@ -138,22 +136,13 @@ const BankFormTemplate = (props) => {
 
             <InfoCard
               info={
-                "Please note: We will use this bank account/UPI ID to deposite your salary every month, Please provide your own bank account details."
+                "I agree with the KYC registration Terms & Conditions to verifiy my identity. We will use this bank account/UPI ID to deposite your salary every month, Please provide your own bank account details."
               }
-            />
-
-            <Checkbox
-              text={
-                "I agree KYC registration for the Term & conditions to verify my identity"
-              }
-              value={consent}
-              setValue={setConsent}
             />
 
             <BankVerifyApi
-              data={{ account_number: accountNumber, ifsc: ifsc, consent: "Y" }}
               disabled={
-                !ifscNext || !accNumNext || !consent || !accountHolderName
+                !ifscNext || !accNumNext || !accountHolderName
               }
               type={props?.route?.params?.type || ""}
             />
