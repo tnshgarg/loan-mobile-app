@@ -21,7 +21,6 @@ const AadhaarVerifyTemplate = (props) => {
   const [otp, setOtp] = useState("");
 
   const countDownTime = useSelector((state) => state.timer.aadhaar);
-  const aadhaarSlice = useSelector((state) => state.aadhaar);
 
   let interval;
 
@@ -72,7 +71,6 @@ const AadhaarVerifyTemplate = (props) => {
           Didn’t receive the secure code?{" "}
           {resend ? (
             <AadhaarOtpApi
-              data={{ aadhaar_number: aadhaarSlice?.number, consent: "Y" }}
               type={props?.route?.params?.type || ""}
               isTextButton={true}
               textButton="Resend OTP"
@@ -87,7 +85,7 @@ const AadhaarVerifyTemplate = (props) => {
         </Text>
 
         <AadhaarVerifyApi
-          data={{ otp: otp, include_xml: true, share_code: 5934 }}
+          data={{ otp: otp }}
           disabled={!validOtp}
           type={props?.route?.params?.type || ""}
           setVerified={setVerified}

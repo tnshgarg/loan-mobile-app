@@ -3,9 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   data: {},
   number: "",
-  verifyMsg: "",
   verifyStatus: "PENDING",
-  verifyTimestamp: "",
   misMatch: "",
 };
 
@@ -19,14 +17,8 @@ const panSlice = createSlice({
     addNumber(state, action) {
       state.number = action.payload;
     },
-    addVerifyMsg(state, action) {
-      state.verifyMsg = action.payload;
-    },
     addVerifyStatus(state, action) {
       state.verifyStatus = action.payload;
-    },
-    addVerifyTimestamp(state, action) {
-      state.verifyTimestamp = action.payload;
     },
     resetPan(state, action) {
       if (!action.payload || Object.keys(action.payload).length === 0) {
@@ -44,9 +36,7 @@ const panSlice = createSlice({
 export const {
   addData,
   addNumber,
-  addVerifyMsg,
   addVerifyStatus,
-  addVerifyTimestamp,
   setMistmatch,
   resetPan,
 } = panSlice.actions;
