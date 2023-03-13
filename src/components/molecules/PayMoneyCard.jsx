@@ -256,8 +256,8 @@ const PayMoneyCard = () => {
             }
             onPress={() => initiatePayment()}
             disabled={inactive || loading || repaymentStatus === "INPROGRESS"}
-            containerStyle={{ width: null, marginTop: 0, height: 40 }}
-            titleStyle={{ ...FONTS.h5 }}
+            containerStyle={{ width: 100, marginTop: 0, height: 40 }}
+            titleStyle={{ ...FONTS.h4 }}
           />
         </View>
 
