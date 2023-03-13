@@ -10,7 +10,9 @@ const initialState = {
     ifsc: "",
     upi: "",
   },
+  verifyMsg: "",
   verifyStatus: "PENDING",
+  verifyTimestamp: "",
   misMatch: "",
 };
 
@@ -39,8 +41,14 @@ const bankSlice = createSlice({
     addUpi(state, action) {
       state.data.upi = action.payload;
     },
+    addVerifyMsg(state, action) {
+      state.verifyMsg = action.payload;
+    },
     addVerifyStatus(state, action) {
       state.verifyStatus = action.payload;
+    },
+    addVerifyTimestamp(state, action) {
+      state.verifyTimestamp = action.payload;
     },
     resetBank(state, action) {
       if (!action.payload || Object.keys(action.payload).length === 0) {
@@ -63,7 +71,9 @@ export const {
   addBranchCity,
   addIfsc,
   addUpi,
+  addVerifyMsg,
   addVerifyStatus,
+  addVerifyTimestamp,
   setMistmatch,
   resetBank,
 } = bankSlice.actions;
