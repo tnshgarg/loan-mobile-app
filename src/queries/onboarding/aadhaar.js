@@ -3,7 +3,6 @@ import axios from "axios";
 import {
   KYC_AADHAAR_GENERATE_OTP_API_URL,
   KYC_AADHAAR_SUBMIT_OTP_API_URL,
-  EMPLOYEE_API_URL,
 } from "../../services/constants";
 import { OG_API_KEY } from "@env";
 import { getBackendData } from "../../services/employees/employeeServices";
