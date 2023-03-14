@@ -1,13 +1,14 @@
-import { Button, Icon } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Image, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/licenseSlice";
 import { licenseBackendPush } from "../../helpers/BackendPush";
-import { form, license, styles, selfie } from "../../styles";
+import { form, license, styles, selfie, accountStyles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default Confirm = () => {
   const dispatch = useDispatch();
@@ -24,7 +25,9 @@ export default Confirm = () => {
   const licenseSlice = useSelector((state) => state.license);
   const [verifyMsg, setVerifyMsg] = useState(licenseSlice?.verifyMsg);
   const [verifyStatus, setVerifyStatus] = useState(licenseSlice?.verifyStatus);
-  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
+  const campaignId = useSelector(
+    (state) => state.campaign.onboardingCampaignId
+  );
   const classes = data?.vehicle_class_details;
 
   useEffect(() => {
@@ -72,12 +75,13 @@ export default Confirm = () => {
           style={form.aadharimg}
         />
       ) : (
-        <Icon
-          name="perm-identity"
-          size={300}
-          color="grey"
-          style={selfie.selfie}
-        />
+        <View style={accountStyles.guestIcon}>
+          <MaterialCommunityIcons
+            name={"account"}
+            size={48}
+            color={COLORS.white}
+          />
+        </View>
       )}
       <Text style={form.userData}>Number: {number}</Text>
       <Text style={form.userData}>Name: {data?.name}</Text>
@@ -132,15 +136,10 @@ export default Confirm = () => {
           marginTop: 20,
         }}
       >
-        <Button
+        <PrimaryButton
           title="No"
-          type="solid"
-          uppercase={false}
-          style={form.noButton}
-          color={COLORS.warning}
+          containerStyle={form.noButton}
           titleStyle={{ ...FONTS.h3, color: COLORS.warning }}
-          pressableContainerStyle={{ width: "100%" }}
-          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
@@ -156,15 +155,10 @@ export default Confirm = () => {
             });
           }}
         />
-        <Button
+        <PrimaryButton
           title="Yes"
-          type="solid"
-          uppercase={false}
-          style={form.yesButton}
-          color={COLORS.primary}
+          containerStyle={form.yesButton}
           titleStyle={{ ...FONTS.h3, color: COLORS.primary }}
-          pressableContainerStyle={{ width: "100%" }}
-          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");

@@ -1,4 +1,3 @@
-import { IconComponentProvider } from "@react-native-material/core";
 import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import SplashScreen from "react-native-splash-screen";
@@ -31,7 +30,10 @@ const analyticsStatus = async () => {
   STAGE == "dev"
     ? await Analytics.setEnabled(false)
     : await Analytics.setEnabled(true);
-  console.log("analyticsStatus", STAGE);
+  const enabled = await Analytics.isEnabled();
+  if (enabled) {
+    Analytics.startSession();
+  }
 };
 
 const App = () => {
@@ -43,10 +45,8 @@ const App = () => {
         <NavigationContainer ref={navigationRef}>
           <QueryClientProvider client={queryClient}>
             <SafeAreaProvider style={{ backgroundColor: "white", flex: 1 }}>
-              <IconComponentProvider IconComponent={Icon}>
-                <StackNavigator />
-                <UpdateDialog />
-              </IconComponentProvider>
+              <StackNavigator />
+              <UpdateDialog />
             </SafeAreaProvider>
           </QueryClientProvider>
         </NavigationContainer>
