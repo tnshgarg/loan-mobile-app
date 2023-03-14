@@ -9,7 +9,6 @@ import { BackHandler, SafeAreaView } from "react-native";
 import { styles } from "../../../styles";
 
 const KYCScreen = ({ navigation }) => {
-
   const tabs = [
     { name: "AADHAAR", component: Aadhaar },
     { name: "PAN", component: Pan },
@@ -18,8 +17,7 @@ const KYCScreen = ({ navigation }) => {
   ];
 
   const backAction = () => {
-    navigation.navigate("HomeStack", 
-      { screen: "Account" });
+    navigation.navigate("HomeStack", { screen: "Account" });
     return true;
   };
 
