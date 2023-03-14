@@ -3,7 +3,7 @@ import TopTabNav from "../../../navigators/TopTabNav";
 
 import Aadhaar from "./Aadhaar";
 import Bank from "./Bank";
-import Pan from "./PAN";
+import Pan from "./Pan";
 import Header from "../../../components/atoms/Header";
 import { BackHandler, SafeAreaView } from "react-native";
 import { styles } from "../../../styles";
