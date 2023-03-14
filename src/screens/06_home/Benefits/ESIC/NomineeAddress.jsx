@@ -35,7 +35,7 @@ export default NomineeAddress = () => {
                 },
                 token: token,
               });
-              showToast("Nominee Address details recorded.");
+              showToast("Nominee Address details recorded.", "success");
               navigation.navigate("Home");
             }}
           />

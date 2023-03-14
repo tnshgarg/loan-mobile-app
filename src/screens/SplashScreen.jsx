@@ -32,25 +32,25 @@ const SplashScreen = (props) => {
             case "profile":
               navigation.navigate("AccountStack", {
                 screen: "Profile",
-              })
+              });
               break;
             case "aadhaar":
               navigation.navigate("AccountStack", {
                 screen: "KYC",
                 params: { screen: "AADHAAR" },
-              })
+              });
               break;
             case "pan":
               navigation.navigate("AccountStack", {
                 screen: "KYC",
                 params: { screen: "PAN" },
-              })
+              });
               break;
             case "bank":
               navigation.navigate("AccountStack", {
                 screen: "KYC",
                 params: { screen: "BANK" },
-              })
+              });
               break;
           }
           break;

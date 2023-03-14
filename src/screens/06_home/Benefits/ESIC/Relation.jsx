@@ -127,7 +127,7 @@ export default Relation = () => {
                 token: token,
               });
 
-              showToast("Family details recorded.");
+              showToast("Family details recorded.", "success");
               navigation.navigate("Benefits", {
                 screen: "ESIC",
                 params: {

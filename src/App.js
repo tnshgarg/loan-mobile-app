@@ -46,7 +46,7 @@ const App = () => {
           <QueryClientProvider client={queryClient}>
             <SafeAreaProvider style={{ backgroundColor: "white", flex: 1 }}>
               <StackNavigator />
-              <UpdateDialog />
+              {STAGE != "dev" && <UpdateDialog />}
             </SafeAreaProvider>
           </QueryClientProvider>
         </NavigationContainer>

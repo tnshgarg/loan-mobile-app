@@ -1,12 +1,11 @@
 import StepIndicator from "react-native-step-indicator";
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { View } from "react-native";
 import { useSelector } from "react-redux";
 import { progressBar, stepIndicatorStyles } from "../styles";
 import { COLORS } from "../constants/Theme";
 
 export default OnboardingProgressBar = (props) => {
-
   const aadhaarStatus = useSelector((state) => state.aadhaar.verifyStatus);
   const panStatus = useSelector((state) => state.pan.verifyStatus);
   const bankStatus = useSelector((state) => state.bank.verifyStatus);
@@ -52,8 +51,8 @@ export default OnboardingProgressBar = (props) => {
         return <MaterialCommunityIcons {...iconConfig} />;
       }
       default: {
-        iconConfig.name = "info-outline";
-        return <MaterialIcons {...iconConfig} />;
+        iconConfig.name = "information-outline";
+        return <MaterialCommunityIcons {...iconConfig} />;
       }
     }
   };
@@ -66,12 +65,7 @@ export default OnboardingProgressBar = (props) => {
         stepCount={4}
         customStyles={stepIndicatorStyles}
         currentPosition={props.step}
-        labels={[
-          "Profile",
-          "Aadhaar",
-          "PAN",
-          "Bank",
-        ]}
+        labels={["Profile", "Aadhaar", "PAN", "Bank"]}
         renderStepIndicator={renderStepIndicator}
       />
     </View>

@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Linking, SafeAreaView, ScrollView, View } from "react-native";
-import PushNotification from "react-native-push-notification";
+import { Linking, SafeAreaView, ScrollView, Text, View } from "react-native";
+// import PushNotification from 'react-native-push-notification';
 import { useDispatch, useSelector } from "react-redux";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
 import { allAreNull } from "../../helpers/nullCheck";
@@ -18,7 +18,7 @@ import {
 import { styles } from "../../styles";
 
 import { STAGE } from "@env";
-import { Ionicons } from "react-native-vector-icons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import LogoHeader from "../../components/atoms/LogoHeader";
 import { COLORS } from "../../constants/Theme";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
@@ -69,12 +69,12 @@ const HomeView = () => {
       : null,
   ];
 
-  useEffect(() => {
-    // PushNotification.deleteChannel("Onboarding");
-    if (allAreNull(verifyStatuses)) {
-      PushNotification.cancelAllLocalNotifications();
-    }
-  }, [aadhaarVerifyStatus, bankVerifyStatus, panVerifyStatus]);
+  // useEffect(() => {
+  //   // PushNotification.deleteChannel("Onboarding");
+  //   if (allAreNull(verifyStatuses)) {
+  //     PushNotification.cancelAllLocalNotifications();
+  //   }
+  // }, [aadhaarVerifyStatus, bankVerifyStatus, panVerifyStatus]);
 
   useEffect(() => {
     dispatch(addCurrentStack("HomeStack"));
@@ -207,11 +207,7 @@ const HomeView = () => {
       <LogoHeader
         title={"Home"}
         rightIcon={
-          <Ionicons
-            name="logo-whatsapp"
-            size={28}
-            color={COLORS.primary}
-          />
+          <Ionicons name="logo-whatsapp" size={28} color={COLORS.primary} />
         }
         rightOnPress={() => {
           Linking.openURL(`whatsapp://send?text=&phone=7483447528`);

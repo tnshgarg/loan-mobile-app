@@ -2,7 +2,7 @@ import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import React, { useEffect } from "react";
 import { investStyles, styles } from "../../../styles";
 import LogoHeader from "../../../components/atoms/LogoHeader";
-import { Ionicons } from "react-native-vector-icons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { COLORS, FONTS } from "../../../constants/Theme";
 import InvestSVG from "../../../assets/Invest.svg";
 import PrimaryButton from "../../../components/atoms/PrimaryButton";
@@ -59,7 +59,10 @@ const Invest = (props) => {
             Analytics.trackEvent("Invest|WaitListed", {
               unipeEmployeeId: unipeEmployeeId,
             });
-            showToast("You've joined the waitlist for Unipe Invest!!");
+            showToast(
+              "You've joined the waitlist for Unipe Invest!!",
+              "success"
+            );
           }}
         />
         <LiquiloansTitle title={"an RBI registered NBFC-P2P"} />

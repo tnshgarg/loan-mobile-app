@@ -1,6 +1,6 @@
 import NetInfo from "@react-native-community/netinfo";
 import { useEffect, useState } from "react";
-import { Modal, Text, View } from "react-native";
+import { Modal, SafeAreaView, Text, View } from "react-native";
 import { AddListener } from "../../helpers/InternetCheck";
 import { showToast } from "../atoms/Toast";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -14,6 +14,9 @@ const OfflineAlert = ({ children }) => {
 
   const handleConnectivityChange = (connection) => {
     setIsConnected(connection?.isConnected && connection?.isInternetReachable);
+    console.log("isConnected", connection?.isConnected);
+    console.log("isInternetReachable", connection?.isInternetReachable);
+    console.log("isConnected", connection);
   };
 
   useEffect(() => {
@@ -24,38 +27,40 @@ const OfflineAlert = ({ children }) => {
   }, []);
 
   return (
-    <>
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       {isConnected ? (
         <>{children}</>
       ) : (
         <>
           <Modal animationType="fade" visible={true}>
-            <LogoHeader />
-            <View style={styles.modalContainer}>
-              <Offline />
+            <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+              <LogoHeader />
+              <View style={styles.modalContainer}>
+                <Offline />
 
-              <Text style={styles.title}>No Internet</Text>
+                <Text style={styles.title}>No Internet</Text>
 
-              <Text style={styles.subtitle}>
-                Please check your internet connection
-              </Text>
+                <Text style={styles.subtitle}>
+                  Please check your internet connection
+                </Text>
 
-              <PrimaryButton
-                title={"Refresh"}
-                onPress={() => {
-                  NetInfo.refresh();
-                  showToast("Trying to Connect to the internet");
-                }}
-                containerStyle={{ height: 40 }}
-                titleStyle={{ ...FONTS.h4 }}
-              />
-            </View>
+                <PrimaryButton
+                  title={"Refresh"}
+                  onPress={() => {
+                    NetInfo.refresh();
+                    showToast("Trying to Connect to the internet", "pending");
+                  }}
+                  containerStyle={{ height: 40 }}
+                  titleStyle={{ ...FONTS.h4 }}
+                />
+              </View>
+            </SafeAreaView>
           </Modal>
 
           {children}
         </>
       )}
-    </>
+    </SafeAreaView>
   );
 };
 

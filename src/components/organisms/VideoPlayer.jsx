@@ -7,10 +7,12 @@ import {
   TouchableOpacity,
   ImageBackground,
   Modal,
+  SafeAreaView,
+  Platform,
 } from "react-native";
 import YoutubePlayer from "react-native-youtube-iframe";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { Ionicons } from "react-native-vector-icons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import EStyleSheet from "react-native-extended-stylesheet";
 
 export default function VideoPlayer({ thumbnail, title, videoId }) {
@@ -25,7 +27,7 @@ export default function VideoPlayer({ thumbnail, title, videoId }) {
   }, []);
 
   return (
-    <>
+    <SafeAreaView>
       <ImageBackground
         style={styles.thumbnailContainer}
         borderRadius={5}
@@ -57,7 +59,11 @@ export default function VideoPlayer({ thumbnail, title, videoId }) {
       >
         <View style={styles.centeredView}>
           <TouchableOpacity
-            style={{ position: "absolute", right: 15, top: 15 }}
+            style={{
+              position: "absolute",
+              right: 15,
+              top: Platform.OS == "ios" ? 35 : 15,
+            }}
           >
             <Ionicons
               name="close"
@@ -77,7 +83,7 @@ export default function VideoPlayer({ thumbnail, title, videoId }) {
           </View>
         </View>
       </Modal>
-    </>
+    </SafeAreaView>
   );
 }
 
@@ -100,7 +106,7 @@ const styles = EStyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "black",
-    opacity: 0.9,
+    opacity: Platform.OS == "ios" ? 1 : 0.9,
   },
   modalView: {
     width: "100%",

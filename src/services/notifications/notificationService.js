@@ -3,7 +3,7 @@ import messaging from "@react-native-firebase/messaging";
 import { store } from "../../store/store";
 import { version } from "../../../package.json";
 import * as RootNavigation from "../../navigators/RootNavigation";
-import PushNotification from "react-native-push-notification";
+// import PushNotification from 'react-native-push-notification';
 import { fcmPush } from "../../helpers/BackendPush";
 
 export async function requestUserPermission() {
@@ -63,17 +63,17 @@ export const notificationListener = async () => {
     }
   });
 
-  messaging().onMessage(async (remoteMessage) => {
-    PushNotification.localNotification({
-      message: remoteMessage.notification.body,
-      title: remoteMessage.notification.title,
-      smallIcon: "ic_notification_fcm_icon",
-      allowWhileIdle: false,
-      channelId: "Foreground",
-      repeatTime: 1,
-    });
-    console.log("Received in Foreground", remoteMessage);
-  });
+  // messaging().onMessage(async remoteMessage => {
+  //   PushNotification.localNotification({
+  //     message: remoteMessage.notification.body,
+  //     title: remoteMessage.notification.title,
+  //     smallIcon: 'ic_notification_fcm_icon',
+  //     allowWhileIdle: false,
+  //     channelId: 'Foreground',
+  //     repeatTime: 1,
+  //   });
+  //   console.log('Received in Foreground', remoteMessage);
+  // });
 
   // Check whether an initial notification is available
   setTimeout(() => {

@@ -3,7 +3,7 @@ import TopTabNav from "../../../navigators/TopTabNav";
 import DocumentsView from "../Documents/DocumentsView";
 import ESICForm from "./ESIC/ESICForm";
 import LogoHeader from "../../../components/atoms/LogoHeader";
-import { MaterialCommunityIcons, Ionicons } from "react-native-vector-icons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { SafeAreaView } from "react-native";
 import { styles } from "../../../styles";
 

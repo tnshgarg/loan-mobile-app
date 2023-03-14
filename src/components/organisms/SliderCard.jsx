@@ -1,8 +1,8 @@
 import { View, Text, Image } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import React from "react";
-import { COLORS, FONTS } from "../../constants/Theme";
-import { MaterialCommunityIcons } from "react-native-vector-icons";
+import { COLORS, FONTS, SIZES } from "../../constants/Theme";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Slider } from "@miblanchard/react-native-slider";
 
 const SliderCard = ({ info, iconName, amount, setAmount, eligibleAmount }) => {
@@ -123,7 +123,7 @@ const styles = EStyleSheet.create({
     flexDirection: "column",
     borderRadius: 4,
     backgroundColor: COLORS.white,
-    elevation: 7,
+    ...SIZES.shadow,
     marginVertical: "10rem",
     // borderWidth: 0.5,
     borderColor: COLORS.lightgray_01,
@@ -151,7 +151,7 @@ const styles = EStyleSheet.create({
     borderWidth: "4rem",
     backgroundColor: COLORS.primary,
     borderColor: COLORS.white,
-    elevation: 5,
+    ...SIZES.shadow,
     borderRadius: 1,
     borderRadius: "50rem",
   },

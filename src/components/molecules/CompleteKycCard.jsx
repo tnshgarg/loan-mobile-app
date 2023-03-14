@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { useSelector } from "react-redux";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { Ionicons } from "react-native-vector-icons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { useEffect, useState } from "react";
 
 const CompleteKycCard = () => {

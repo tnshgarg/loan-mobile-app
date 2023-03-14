@@ -1,6 +1,5 @@
 import { Text, TouchableOpacity, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { COLORS, FONTS } from "../../constants/Theme";
 
 const SvgListItem = ({ item }) => {

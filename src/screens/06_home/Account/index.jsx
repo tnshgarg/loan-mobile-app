@@ -10,7 +10,8 @@ import {
 import { useEffect, useState } from "react";
 import { accountStyles, styles } from "../../../styles";
 import LogoHeader from "../../../components/atoms/LogoHeader";
-import { MaterialCommunityIcons, Ionicons } from "react-native-vector-icons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { COLORS } from "../../../constants/Theme";
 import { useDispatch, useSelector } from "react-redux";
 import termsOfUse from "../../../templates/docs/TermsOfUse";
@@ -32,7 +33,10 @@ const AccountMenu = (props) => {
 
   const image = useSelector((state) => state.aadhaar.data.photo_base64);
   const name = useSelector(
-    (state) => state.aadhaar.data?.name || state.pan.data?.name || state.auth.employeeName
+    (state) =>
+      state.aadhaar.data?.name ||
+      state.pan.data?.name ||
+      state.auth.employeeName
   );
 
   const backAction = () => {
@@ -49,7 +53,7 @@ const AccountMenu = (props) => {
   }, []);
 
   const onLogout = () => {
-    showToast("Logging out");
+    showToast("Logging out", "warning");
     dispatch({ type: "LOGOUT" });
     setModalVisible(true);
     setTimeout(() => {
@@ -88,7 +92,14 @@ const AccountMenu = (props) => {
       subtitle: "Talk to out support team",
       iconName: "whatsapp",
       action: () => {
-        Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+        const url = "whatsapp://send?text=&phone=7483447528";
+        Linking.canOpenURL(url).then((supported) => {
+          if (supported) {
+            Linking.openURL(url);
+          } else {
+            Alert.alert("Alert", "WhatsApp is not installed");
+          }
+        });
       },
     },
     {

@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import {
   Alert,
   BackHandler,
+  Platform,
   SafeAreaView,
   Text,
   TouchableOpacity,
@@ -20,7 +21,7 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
 import { styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { MaterialCommunityIcons } from "react-native-vector-icons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import OtpInput from "../../components/molecules/OtpInput";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import BackgroundTimer from "react-native-background-timer";
@@ -71,11 +72,34 @@ const OTPScreen = () => {
   }, [otp]);
 
   const backAction = () => {
+    console.log(back);
     if (!back) {
-      Alert.alert("OTP Timer", "You must wait for 2 minutes to resend OTP.");
+      Platform.OS === "ios"
+        ? Alert.alert(
+            "OTP Timer",
+            "You must wait for 2 minutes to resend OTP.",
+            [
+              {
+                text: "Don't leave",
+                style: "destructive",
+                onPress: () => {
+                  navigation.navigate("Otp");
+                },
+              },
+            ]
+          )
+        : Alert.alert(
+            "OTP Timer",
+            "You must wait for 2 minutes to resend OTP."
+          );
     } else {
       Alert.alert("Hold on!", "Do you want to update your phone number ?", [
-        { text: "No", onPress: () => null, style: "cancel" },
+        {
+          text: "No",
+          onPress: () =>
+            Platform.OS === "ios" ? navigation.navigate("Otp") : null,
+          style: "cancel",
+        },
         { text: "Yes", onPress: () => navigation.navigate("Login") },
       ]);
     }

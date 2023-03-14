@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/core";
 import { useState } from "react";
 import { Pressable, Text, Modal, View, TouchableOpacity } from "react-native";
-import { AntDesign } from "react-native-vector-icons";
+import AntDesign from "react-native-vector-icons/AntDesign";
 import { useDispatch } from "react-redux";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -61,7 +61,7 @@ export default Logout = () => {
       ) : null}
       <Pressable
         onPress={() => {
-          showToast("Logging out");
+          showToast("Logging out", "warning");
           dispatch({ type: "LOGOUT" });
           setModalVisible(true);
           setTimeout(() => {

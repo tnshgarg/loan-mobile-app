@@ -6,7 +6,7 @@ import ODS from "../../assets/GetODS.svg";
 import Refer from "../../assets/Refer.svg";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { useRef } from "react";
-import { Ionicons } from "react-native-vector-icons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const Card = ({ destination, component, inactive }) => {
   const navigation = useNavigation();

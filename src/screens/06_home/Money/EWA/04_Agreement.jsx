@@ -16,7 +16,7 @@ import { getUniqueId } from "react-native-device-info";
 import Modal from "react-native-modal";
 import { NetworkInfo } from "react-native-network-info";
 import RenderHtml from "react-native-render-html";
-import { AntDesign } from "react-native-vector-icons";
+import AntDesign from "react-native-vector-icons/AntDesign";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
@@ -290,7 +290,7 @@ const Agreement = () => {
               handleAgreement();
             }}
           />
-          <LiquiloansTitle title={"an RBI registered NBFC-P2P"}/>
+          <LiquiloansTitle title={"an RBI registered NBFC-P2P"} />
           <Text style={moneyStyles.percentageTitle}>
             † Annual Percentage Rate @ {ewaLiveSlice?.apr} %
           </Text>
