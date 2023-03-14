@@ -1,13 +1,17 @@
 import { View, Text } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { Icon } from "@react-native-material/core";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import React from "react";
 import { COLORS, FONTS } from "../../constants/Theme";
 
 const InfoCard = ({ info }) => {
   return (
     <View accessibilityLabel="InfoCard" style={styles.container}>
-      <Icon name="info-outline" size={20} color={COLORS.primary} />
+      <MaterialCommunityIcons
+        name="information-outline"
+        size={20}
+        color={COLORS.primary}
+      />
       <Text style={styles.text}>{info}</Text>
     </View>
   );

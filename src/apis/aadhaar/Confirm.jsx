@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import { Alert, Text, View } from "react-native";
-import { Button } from "@react-native-material/core";
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { putBackendData } from "../../services/employees/employeeServices";
 
 const AadhaarConfirmApi = (props) => {
@@ -85,15 +85,10 @@ const AadhaarConfirmApi = (props) => {
       />
 
       <View style={[styles.row, { justifyContent: "space-between" }]}>
-        <Button
+        <PrimaryButton
           title="Not Me"
-          type="solid"
-          uppercase={false}
-          style={form.noButton}
-          color={COLORS.warning}
+          containerStyle={form.noButton}
           titleStyle={{ ...FONTS.h4, color: COLORS.warning }}
-          pressableContainerStyle={{ width: "100%" }}
-          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             backendPush({
               verifyStatus: "REJECTED",
@@ -104,16 +99,11 @@ const AadhaarConfirmApi = (props) => {
             });
           }}
         />
-        <Button
+        <PrimaryButton
           accessibilityLabel="YesButton"
           title="Yes, that’s me"
-          type="solid"
-          uppercase={false}
-          style={form.yesButton}
-          color={COLORS.primary}
+          containerStyle={form.yesButton}
           titleStyle={{ ...FONTS.h4, color: COLORS.primary }}
-          pressableContainerStyle={{ width: "100%" }}
-          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             backendPush({
               verifyStatus: "SUCCESS",

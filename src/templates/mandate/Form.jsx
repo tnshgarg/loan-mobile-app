@@ -122,13 +122,13 @@ const MandateFormTemplate = (props) => {
     })
       .then((res) => {
         console.log("mandatePush res.data: ", res.data);
-        if (res.data.status === 200){
+        if (res.data.status === 200) {
           setVerifyStatus(verifyStatus);
         }
-        else{
+        else {
           setVerifyStatus(res.data.verifyStatus);
+          throw res.data;
         }
-        throw res.data;
       })
       .catch((error) => {
         console.log("mandatePush error: ", error);
@@ -223,7 +223,7 @@ const MandateFormTemplate = (props) => {
         throw createOrderResponse
       }
     } catch (error) {
-      console.log("error", error)
+      console.log("Create Mandate Error: ", error)
       if (error?.status === 409) {
         Alert.alert("Create Mandate Error", "Mandate Registration Process already started, Please check the status after sometime");
         refreshMandateFromBackend();

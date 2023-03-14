@@ -1,6 +1,6 @@
 import EStyleSheet from "react-native-extended-stylesheet";
-import { Button } from "@react-native-material/core";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
+import { Text, TouchableOpacity } from "react-native";
 
 /**
  *
@@ -26,19 +26,22 @@ const PrimaryButton = ({
   accessibilityLabel,
 }) => {
   return (
-    <Button
+    <TouchableOpacity
       accessibilityLabel={accessibilityLabel}
-      uppercase={false}
-      title={title}
-      titleStyle={[styles.btnText, { ...titleStyle }]}
-      type="solid"
-      style={[styles.button, { ...containerStyle }]}
+      activeOpacity={0.7}
+      style={[
+        styles.button,
+        {
+          backgroundColor:
+            disabled || loading ? COLORS.lightGray : COLORS.primary,
+          ...containerStyle,
+        },
+      ]}
       disabled={disabled || loading}
       onPress={onPress}
-      color={disabled || loading ? COLORS.gray : COLORS.primary}
-      pressableContainerStyle={{ width: "100%" }}
-      contentContainerStyle={{ height: "100%" }}
-    />
+    >
+      <Text style={[styles.btnText, { ...titleStyle }]}>{title}</Text>
+    </TouchableOpacity>
   );
 };
 
@@ -50,7 +53,7 @@ const styles = EStyleSheet.create({
     marginTop: "10rem",
     width: "100%",
     height: SIZES.btnHeight,
-    borderRadius: 20,
+    borderRadius: "5rem",
   },
   loadingButton: {
     backgroundColor: COLORS.primary,

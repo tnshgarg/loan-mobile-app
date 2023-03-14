@@ -226,10 +226,12 @@ export const ewa = EStyleSheet.create({
 });
 
 export const dev = EStyleSheet.create({
-  title: {
+  btn: {
     alignSelf: "center",
     marginTop: "20rem",
     width: "60%",
+    height: "40rem",
+    backgroundColor: COLORS.primary,
   },
 });
 

@@ -1,14 +1,13 @@
 import React from "react";
-import { Button } from "@react-native-material/core";
 import { dev } from "../../styles";
+import PrimaryButton from "./PrimaryButton";
 
 export default DevMenuButton = ({ onPress, title, accessibilityLabel }) => {
   return (
-    <Button
+    <PrimaryButton
       accessibilityLabel={accessibilityLabel}
       title={title}
-      style={dev.title}
-      uppercase={false}
+      containerStyle={dev.btn}
       onPress={onPress}
     />
   );

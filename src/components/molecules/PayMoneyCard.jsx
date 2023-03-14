@@ -1,11 +1,10 @@
 import { useIsFocused } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { useQuery } from "@tanstack/react-query";
-import { Icon } from "@react-native-material/core";
-import { Alert } from "react-native";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { createRepaymentOrder, openRazorpayCheckout } from "../../services/mandate/Razorpay/services"
@@ -30,14 +29,26 @@ const PayMoneyCard = () => {
   );
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
-  const campaignId = useSelector((state) => state.campaign.repaymentCampaignId || state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId);
+  const campaignId = useSelector(
+    (state) =>
+      state.campaign.repaymentCampaignId ||
+      state.campaign.ewaCampaignId ||
+      state.campaign.onboardingCampaignId
+  );
 
   const repaymentSlice = useSelector((state) => state.repayment);
+  const [repaymentOrderId, setRepaymentOrderId] = useState(
+    repaymentSlice?.repaymentOrderId
+  );
   const [dueDate, setDueDate] = useState(repaymentSlice?.dueDate);
   const [overdueDays, setOverdueDays] = useState(repaymentSlice?.overdueDays);
-  const [repaymentAmount, setRepaymentAmount] = useState(repaymentSlice?.repaymentAmount);
+  const [repaymentAmount, setRepaymentAmount] = useState(
+    repaymentSlice?.repaymentAmount
+  );
   const [repaymentId, setRepaymentId] = useState(repaymentSlice?.repaymentId);
-  const [repaymentStatus, setRepaymentStatus] = useState(repaymentSlice?.repaymentStatus);
+  const [repaymentStatus, setRepaymentStatus] = useState(
+    repaymentSlice?.repaymentStatus
+  );
 
   const {
     isLoading: getRepaymentIsLoading,
@@ -45,7 +56,7 @@ const PayMoneyCard = () => {
     isError: getRepaymentIsError,
     error: getRepaymentError,
     data: getRepaymentData,
-  } = useQuery(['getRepayment', unipeEmployeeId, token], getRepayment, {
+  } = useQuery(["getRepayment", unipeEmployeeId, token], getRepayment, {
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 11,
     refetchInterval: 1000 * 60 * 5,
@@ -79,7 +90,10 @@ const PayMoneyCard = () => {
           setInactive(true);
         }
       } else if (getRepaymentData.data.status === 404) {
-        console.log("ewaRepaymentFetch API status error getRepaymentData.data: ", getRepaymentData.data);
+        console.log(
+          "ewaRepaymentFetch API status error getRepaymentData.data: ",
+          getRepaymentData.data
+        );
         dispatch(resetRepayment());
         setDueDate(null);
         setOverdueDays(0);
@@ -89,13 +103,21 @@ const PayMoneyCard = () => {
         setInactive(true);
       }
     } else if (getRepaymentIsError) {
-      console.log("ewaRepaymentFetch API error getRepaymentError.message: ", getRepaymentError.message);
+      console.log(
+        "ewaRepaymentFetch API error getRepaymentError.message: ",
+        getRepaymentError.message
+      );
       dispatch(resetRepayment());
       setInactive(true);
     }
-  }, [getRepaymentIsLoading, getRepaymentIsSuccess, getRepaymentData, isFocused]);
+  }, [
+    getRepaymentIsLoading,
+    getRepaymentIsSuccess,
+    getRepaymentData,
+    isFocused,
+  ]);
 
-  const {mutateAsync: updateRepaymentMutateAsync} = updateRepayment();
+  const { mutateAsync: updateRepaymentMutateAsync } = updateRepayment();
 
   const backendPush = ({ data, status }) => {
     setRepaymentStatus(status);
@@ -234,8 +256,8 @@ const PayMoneyCard = () => {
             }
             onPress={() => initiatePayment()}
             disabled={inactive || loading || repaymentStatus === "INPROGRESS"}
-            containerStyle={{ width: null, marginTop: 0, height: 40 }}
-            titleStyle={{ ...FONTS.h5 }}
+            containerStyle={{ width: 100, marginTop: 0, height: 40 }}
+            titleStyle={{ ...FONTS.h4 }}
           />
         </View>
 
@@ -244,16 +266,25 @@ const PayMoneyCard = () => {
             styles.bottomCard,
             {
               backgroundColor:
-              overdueDays < 0
-                  ? COLORS.warningBackground
-                  : COLORS.moneyCardBg,
+                overdueDays < 0 ? COLORS.warningBackground : COLORS.moneyCardBg,
             },
           ]}
         >
-          <Icon name="info-outline" size={18} color={overdueDays < 0 ? COLORS.black : COLORS.white} />
-          <Text style={[styles.text, { marginLeft: 5, color: overdueDays < 0 ? COLORS.black : COLORS.white }]}>
-            {
-              overdueDays < 0
+          <MaterialCommunityIcons
+            name="information-outline"
+            size={18}
+            color={overdueDays < 0 ? COLORS.black : COLORS.white}
+          />
+          <Text
+            style={[
+              styles.text,
+              {
+                marginLeft: 5,
+                color: overdueDays < 0 ? COLORS.black : COLORS.white,
+              },
+            ]}
+          >
+            {overdueDays < 0
               ? `Your repayment is overdue by ${-overdueDays} days`
               : dueDate !== null
               ? `Due by ${dueDate}`
