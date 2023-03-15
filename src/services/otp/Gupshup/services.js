@@ -1,6 +1,6 @@
 import { GUPSHUP_PASSWORD, GUPSHUP_USERID, MOCK_USER_OTP } from "@env";
 
-const mobileNumberRegex=/^([7-9])\1{9}$/
+const mobileNumberRegex=/^([7-9])\1{9}$/;
 
 const sendSmsVerification = async (phoneNumber) => {
   if (mobileNumberRegex.test(phoneNumber)) {

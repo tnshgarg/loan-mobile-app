@@ -162,7 +162,7 @@ const LoginScreen = () => {
     })
       .then((res) => {
         const responseJson = res?.data;
-        console.log(`responseJson: ${JSON.stringify(responseJson)}`);
+        console.log(`responseJson: responseJson`);
         if (responseJson.status === 200) {
           setACTC(responseJson.body.aCTC);
           setEmployeeName(responseJson.body.employeeName);
