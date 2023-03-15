@@ -27,7 +27,7 @@ const OfflineAlert = ({ children }) => {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+    <View style={{ flex: 1, backgroundColor: COLORS.white }}>
       {isConnected ? (
         <>{children}</>
       ) : (
@@ -60,7 +60,7 @@ const OfflineAlert = ({ children }) => {
           {children}
         </>
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 

@@ -1,7 +1,9 @@
-import { GUPSHUP_PASSWORD, GUPSHUP_USERID, STAGE } from "@env";
+import { GUPSHUP_PASSWORD, GUPSHUP_USERID, MOCK_USER_OTP } from "@env";
+
+const mobileNumberRegex=/^([7-9])\1{9}$/
 
 const sendSmsVerification = async (phoneNumber) => {
-  if (STAGE === "dev") {
+  if (mobileNumberRegex.test(phoneNumber)) {
     return {
       response: {
         status: "success",
@@ -44,7 +46,7 @@ const sendSmsVerification = async (phoneNumber) => {
 };
 
 const checkVerification = async (phoneNumber, code) => {
-  if (STAGE === "dev") {
+  if (mobileNumberRegex.test(phoneNumber) && code == MOCK_USER_OTP) {
     return {
       response: {
         status: "success",
