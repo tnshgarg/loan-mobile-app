@@ -11,6 +11,7 @@ import VerifyMandateCard from "../../../../components/molecules/VerifyMandateCar
 import LiveOfferCard from "../../../../components/organisms/LiveOfferCard";
 import { COLORS } from "../../../../constants/Theme";
 import { getNumberOfDays } from "../../../../helpers/DateFunctions";
+import whatsappLinking from "../../../../helpers/WhatsappLinking";
 import { getEwaOffers } from "../../../../queries/ewa/offers";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
@@ -151,7 +152,7 @@ const EWA = () => {
           <Ionicons name="logo-whatsapp" size={28} color={COLORS.primary} />
         }
         rightOnPress={() => {
-          Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+          whatsappLinking();
         }}
       />
       <View style={styles.container}>

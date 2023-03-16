@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Alert,
-  BackHandler,
-  Linking,
-} from "react-native";
+import { View, Text, SafeAreaView, Alert, BackHandler } from "react-native";
 import { styles } from "../../styles";
 import LogoHeader from "../../components/atoms/LogoHeader";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -18,6 +11,7 @@ import Success from "../../assets/congratulations.svg";
 import { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import whatsappLinking from "../../helpers/WhatsappLinking";
 
 const WelcomePage = () => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -48,7 +42,7 @@ const WelcomePage = () => {
           <Icon name="logo-whatsapp" size={28} color={COLORS.primary} />
         }
         rightOnPress={() => {
-          Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+          whatsappLinking();
         }}
       />
 

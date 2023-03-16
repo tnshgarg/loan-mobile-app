@@ -11,6 +11,7 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import ShieldTitle from "../../components/atoms/ShieldTitle";
 import SvgListItem from "../../components/molecules/SvgListItem";
 import { COLORS, FONTS } from "../../constants/Theme";
+import whatsappLinking from "../../helpers/WhatsappLinking";
 import { requestUserPermission } from "../../services/notifications/notificationService";
 import { onboardingStyles, styles } from "../../styles";
 
@@ -42,7 +43,7 @@ const Onboarding = () => {
           <Icon name="logo-whatsapp" size={28} color={COLORS.primary} />
         }
         rightOnPress={() => {
-          Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+          whatsappLinking();
         }}
       />
       <View style={styles.container}>

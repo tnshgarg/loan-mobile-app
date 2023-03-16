@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Linking, SafeAreaView, ScrollView, Text, View } from "react-native";
+import { SafeAreaView, ScrollView, Text, View } from "react-native";
 // import PushNotification from 'react-native-push-notification';
 import { useDispatch, useSelector } from "react-redux";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
@@ -36,6 +36,7 @@ import {
 } from "../../store/slices/ewaLiveSlice";
 import CompleteKycCard from "../../components/molecules/CompleteKycCard";
 import ExploreCards from "../../components/molecules/ExploreCards";
+import whatsappLinking from "../../helpers/WhatsappLinking";
 const HomeView = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -210,7 +211,7 @@ const HomeView = () => {
           <Ionicons name="logo-whatsapp" size={28} color={COLORS.primary} />
         }
         rightOnPress={() => {
-          Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+          whatsappLinking();
         }}
       />
       <ScrollView showsVerticalScrollIndicator={false}>
