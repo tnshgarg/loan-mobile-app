@@ -40,7 +40,7 @@ export default function MandateLoading({
               dispatch(addVerifyStatus(mandateData?.verifyStatus));
               setMandateVerifyStatus(mandateData?.verifyStatus);
               if (mandateData.verifyStatus == "ERROR") {
-                showToast("Mandate Registration Failed, Please Try Again");
+                showToast("Mandate Registration Failed, Please Try Again", "warning");
                 setModalVisible(false);
               }
             })

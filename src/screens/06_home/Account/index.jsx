@@ -53,7 +53,6 @@ const AccountMenu = (props) => {
   }, []);
 
   const onLogout = () => {
-    showToast("Logging out", "warning");
     dispatch({ type: "LOGOUT" });
     setModalVisible(true);
     setTimeout(() => {

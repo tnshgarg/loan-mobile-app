@@ -87,11 +87,11 @@ const MandateFormTemplate = (props) => {
   useEffect(() => {
     dispatch(addVerifyStatus(verifyStatus));
     if (fetched && props?.type === "EWA" && verifyStatus === "SUCCESS") {
-      showToast("Mandate verified successfully");
+      showToast("Mandate verified successfully", "success");
       setModalVisible(false);
       navigation.navigate("EWA_AGREEMENT");
     } else if (fetched && props?.type === "EWA" && verifyStatus === "ERROR") {
-      showToast("Mandate verification error");
+      showToast("Mandate verification error", "warning");
       setModalVisible(false);
       navigation.navigate("EWA_MANDATE");
     }

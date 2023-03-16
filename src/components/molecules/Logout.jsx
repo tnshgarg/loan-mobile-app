@@ -61,7 +61,6 @@ export default Logout = () => {
       ) : null}
       <Pressable
         onPress={() => {
-          showToast("Logging out", "warning");
           dispatch({ type: "LOGOUT" });
           setModalVisible(true);
           setTimeout(() => {

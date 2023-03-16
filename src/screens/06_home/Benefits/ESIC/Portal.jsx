@@ -41,7 +41,7 @@ export default Portal = () => {
                 data: { unipeEmployeeId: unipeEmployeeId, ipNumber: ipNumber },
                 token: token,
               });
-              showToast("ESIC Portal details recorded.");
+              showToast("ESIC Portal details recorded.", "success");
               navigation.navigate("Benefits", {
                 screen: "ESIC",
                 params: {

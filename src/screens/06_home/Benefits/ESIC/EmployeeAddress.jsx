@@ -46,7 +46,7 @@ export default EmployeeAddress = () => {
                 },
                 token: token,
               });
-              showToast("Employee Address details recorded.");
+              showToast("Employee Address details recorded.", "success");
               navigation.navigate("Benefits", {
                 screen: "ESIC",
                 params: {

@@ -129,7 +129,7 @@ const ProfileFormTemplate = ({ type }) => {
       } else {
         navigation.navigate("AadhaarForm");
       }
-      showToast("Profile Details Updated");
+      showToast("Profile Details Updated", "success");
     } else {
       Alert.alert("Error", JSON.stringify(responseJson));
     }

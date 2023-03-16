@@ -61,32 +61,6 @@ const LoginScreen = () => {
   const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
     useState(false);
 
-  // useEffect(() => {
-  //   PushNotification.createChannel(
-  //     {
-  //       channelId: 'Onboarding',
-  //       channelName: 'OnboardingChannel',
-  //       channelDescription:
-  //         'A channel for users who have not completed Onboarding Journey',
-  //       playSound: false,
-  //       soundName: 'default',
-  //       importance: Importance.HIGH,
-  //       vibrate: true,
-  //     },
-  //     created => console.log(`createChannel returned '${created}'`),
-  //   );
-  //   PushNotification.localNotificationSchedule({
-  //     title: 'Complete Your Onboarding Steps',
-  //     message: 'Complete Your Onboarding Journey to avail your Advance Salary',
-  //     date: new Date(Date.now() + 24 * 60 * 60 * 1000), // {24 hours}
-  //     allowWhileIdle: false,
-  //     channelId: 'Onboarding',
-  //     smallIcon: 'ic_notification_fcm_icon',
-  //     repeatType: 'day',
-  //     repeatTime: 2,
-  //   });
-  // }, []);
-
   useEffect(() => {
     dispatch(addCurrentStack("OnboardingStack"));
     dispatch(addCurrentScreen("Login"));

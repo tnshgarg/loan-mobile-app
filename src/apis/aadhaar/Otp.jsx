@@ -49,7 +49,7 @@ const AadhaarOtpApi = (props) => {
         try {
           if (responseJson?.status === 200) {
             dispatch(resetTimer());
-            showToast(responseJson?.body?.message);
+            showToast(responseJson?.body?.message, "success");
             Analytics.trackEvent("Aadhaar|Otp|Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
