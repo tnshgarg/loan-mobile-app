@@ -6,7 +6,7 @@ import { addVerifyMsg, addVerifyStatus } from "../../store/slices/licenseSlice";
 import { licenseBackendPush } from "../../helpers/BackendPush";
 import { form, license, styles, selfie, accountStyles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -143,7 +143,7 @@ export default Confirm = () => {
           onPress={() => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
-            Analytics.trackEvent("Licence|Confirm|Error", {
+            analytics().logEvent("Licence_Confirm_Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: "Rejected by User",
             });
@@ -163,7 +163,7 @@ export default Confirm = () => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
-            Analytics.trackEvent("Licence|Confirm|Success", {
+            analytics().logEvent("Licence_Confirm_Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
             navigation.navigate("Documents", {

@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/core";
 import { addVerifyStatus } from "../../store/slices/bankSlice";
 import { form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import { addOnboarded } from "../../store/slices/authSlice";
@@ -101,7 +101,7 @@ const BankConfirmApi = (props) => {
             backendPush({
               verifyStatus: "REJECTED",
             });
-            Analytics.trackEvent("Bank|Confirm|Error", {
+            analytics().logEvent("Bank_Confirm_Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: "Rejected by User",
             });
@@ -118,7 +118,7 @@ const BankConfirmApi = (props) => {
             backendPush({
               verifyStatus: "SUCCESS",
             });
-            Analytics.trackEvent("Bank|Confirm|Success", {
+            analytics().logEvent("Bank_Confirm_Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
           }}

@@ -18,7 +18,7 @@ import {
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import { styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -121,12 +121,12 @@ const OTPScreen = () => {
               },
             },
           ]);
-          Analytics.trackEvent("OTPScreen|SendSms|Success", {
+          analytics().logEvent("OTPScreen_SendSms_Success", {
             unipeEmployeeId: unipeEmployeeId,
           });
         } else {
           Alert.alert(res["response"]["status"], res["response"]["details"]);
-          Analytics.trackEvent("OTPScreen|SendSms|Error", {
+          analytics().logEvent("OTPScreen_SendSms_Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: res["response"]["details"],
           });
@@ -134,7 +134,7 @@ const OTPScreen = () => {
       })
       .catch((error) => {
         Alert.alert("Error", JSON.stringify(error));
-        Analytics.trackEvent("OTPScreen|SendSms|Error", {
+        analytics().logEvent("OTPScreen_SendSms_Error", {
           unipeEmployeeId: unipeEmployeeId,
           error: JSON.stringify(error),
         });
@@ -150,13 +150,13 @@ const OTPScreen = () => {
           navigation.navigate("BackendSync", {
             destination: "HomeStack",
           });
-          Analytics.trackEvent("OTPScreen|Check|Success", {
+          analytics().logEvent("OTPScreen_Check_Success", {
             unipeEmployeeId: unipeEmployeeId,
             error: res["response"]["details"],
           });
         } else {
           Alert.alert(res["response"]["status"], res["response"]["details"]);
-          Analytics.trackEvent("OTPScreen|Check|Error", {
+          analytics().logEvent("OTPScreen_Check_Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: res["response"]["details"],
           });
@@ -164,7 +164,7 @@ const OTPScreen = () => {
       })
       .catch((error) => {
         Alert.alert("Error", JSON.stringify(error));
-        Analytics.trackEvent("OTPScreen|Check|Error", {
+        analytics().logEvent("OTPScreen_Check_Error", {
           unipeEmployeeId: unipeEmployeeId,
           error: JSON.stringify(error),
         });

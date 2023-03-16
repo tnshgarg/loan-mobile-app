@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
@@ -197,7 +197,7 @@ const Offer = () => {
           console.log("updateOfferMutateAsync response.data: ", response.data);
           setLoading(false);
           handleConditionalNav();
-          Analytics.trackEvent("Ewa|OfferPush|Success", {
+          analytics().logEvent("Ewa_OfferPush_Success", {
             unipeEmployeeId: unipeEmployeeId,
           });
         })
@@ -205,7 +205,7 @@ const Offer = () => {
           console.log("updateOfferMutateAsync error: ", JSON.stringify(error));
           setLoading(false);
           Alert.alert("An Error occured", JSON.stringify(error));
-          Analytics.trackEvent("Ewa|OfferPush|Error", {
+          analytics().logEvent("Ewa_OfferPush_Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: JSON.stringify(error),
           });

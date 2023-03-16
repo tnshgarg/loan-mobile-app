@@ -7,7 +7,7 @@ import {
   addVerifyStatus,
 } from "../../store/slices/aadhaarSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import { putBackendData } from "../../services/employees/employeeServices";
 
 const AadhaarVerifyApi = (props) => {
@@ -44,7 +44,7 @@ const AadhaarVerifyApi = (props) => {
           if (responseJson?.status === 200) {
             props.setVerified(true);
             dispatch(addData(responseJson?.body?.data));
-            Analytics.trackEvent("Aadhaar|Verify|Success", {
+            analytics().logEvent("Aadhaar_Verify_Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
             setLoading(false);
@@ -58,7 +58,7 @@ const AadhaarVerifyApi = (props) => {
         } catch (error) {
           dispatch(addVerifyStatus("ERROR"));
           Alert.alert("submitAadhaarOTP API Catch Error", JSON.stringify(error));
-          Analytics.trackEvent("Aadhaar|Verify|Error", {
+          analytics().logEvent("Aadhaar_Verify_Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: `submitAadhaarOTP API Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
           });
@@ -68,7 +68,7 @@ const AadhaarVerifyApi = (props) => {
       .catch((error) => {
         dispatch(addVerifyStatus("ERROR"));
         Alert.alert("submitAadhaarOTP Catch Error", JSON.stringify(error));
-        Analytics.trackEvent("Aadhaar|Verify|Error", {
+        analytics().logEvent("Aadhaar_Verify_Error", {
           unipeEmployeeId: unipeEmployeeId,
           error: `submitAadhaarOTP Catch Error: ${JSON.stringify(error)}`,
         });

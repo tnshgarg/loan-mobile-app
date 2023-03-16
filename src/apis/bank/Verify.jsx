@@ -10,7 +10,7 @@ import {
   addVerifyStatus,
 } from "../../store/slices/bankSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import { putBackendData } from "../../services/employees/employeeServices";
 
 const BankVerifyApi = (props) => {
@@ -58,7 +58,7 @@ const BankVerifyApi = (props) => {
             if (props.type !== "KYC") {
               navigation.navigate("BankConfirm");
             }
-            Analytics.trackEvent("Bank|Verify|Success", {
+            analytics().logEvent("Bank_Verify_Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
             setLoading(false);
@@ -68,7 +68,7 @@ const BankVerifyApi = (props) => {
         } catch (error) {
           dispatch(addVerifyStatus("ERROR"));
           Alert.alert("verifyBankAccount API Catch Error", JSON.stringify(error));
-          Analytics.trackEvent("Bank|Verify|Error", {
+          analytics().logEvent("Bank_Verify_Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: `verifyBankAccount API Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
           });
@@ -78,7 +78,7 @@ const BankVerifyApi = (props) => {
       .catch((error) => {
         dispatch(addVerifyStatus("ERROR"));
         Alert.alert("verifyBankAccount Catch Error", JSON.stringify(error));
-        Analytics.trackEvent("Bank|Verify|Error", {
+        analytics().logEvent("Bank_Verify_Error", {
           unipeEmployeeId: unipeEmployeeId,
           error: `verifyBankAccount Catch Error: ${JSON.stringify(error)}`,
         });

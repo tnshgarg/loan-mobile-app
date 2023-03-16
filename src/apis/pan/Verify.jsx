@@ -7,7 +7,7 @@ import {
   addVerifyStatus,
 } from "../../store/slices/panSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import { putBackendData } from "../../services/employees/employeeServices";
 
 const PanVerifyApi = (props) => {
@@ -45,7 +45,7 @@ const PanVerifyApi = (props) => {
           if (responseJson?.status === 200) {
             dispatch(addData(responseJson?.body?.data));
             setLoading(false);
-            Analytics.trackEvent("Pan|Verify|Success", {
+            analytics().logEvent("Pan_Verify_Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
             dispatch(addVerifyStatus(responseJson?.body?.verifyStatus));
@@ -58,7 +58,7 @@ const PanVerifyApi = (props) => {
         } catch (error) {
           dispatch(addVerifyStatus("ERROR"));
           Alert.alert("fetchPanDetails API Catch Error", JSON.stringify(error));
-          Analytics.trackEvent("Pan|Verify|Error", {
+          analytics().logEvent("Pan_Verify_Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: `fetchPanDetails API Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
           });
@@ -68,7 +68,7 @@ const PanVerifyApi = (props) => {
       .catch((error) => {
         dispatch(addVerifyStatus("ERROR"));
         Alert.alert("fetchPanDetails Catch Error", JSON.stringify(error));
-        Analytics.trackEvent("Pan|Verify|Error", {
+        analytics().logEvent("Pan_Verify_Error", {
           unipeEmployeeId: unipeEmployeeId,
           error: `fetchPanDetails Catch Error: ${JSON.stringify(error)}`,
         });

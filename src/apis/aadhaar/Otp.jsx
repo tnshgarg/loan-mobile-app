@@ -7,7 +7,7 @@ import {
 } from "../../store/slices/aadhaarSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { putBackendData } from "../../services/employees/employeeServices";
 import { showToast } from "../../components/atoms/Toast";
@@ -50,7 +50,7 @@ const AadhaarOtpApi = (props) => {
           if (responseJson?.status === 200) {
             dispatch(resetTimer());
             showToast(responseJson?.body?.message, "success");
-            Analytics.trackEvent("Aadhaar|Otp|Success", {
+            analytics().logEvent("Aadhaar_Otp_Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
             setLoading(false);
@@ -64,7 +64,7 @@ const AadhaarOtpApi = (props) => {
         } catch (error) {
           dispatch(addVerifyStatus("ERROR"));
           Alert.alert("generateAadhaarOTP API Catch Error", JSON.stringify(error));
-          Analytics.trackEvent("Aadhaar|Otp|Error", {
+          analytics().logEvent("Aadhaar_Otp_Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: `generateAadhaarOTP API Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
           });
@@ -74,7 +74,7 @@ const AadhaarOtpApi = (props) => {
       .catch((error) => {
         dispatch(addVerifyStatus("ERROR"));
         Alert.alert("generateAadhaarOTP Catch Error", JSON.stringify(error));
-        Analytics.trackEvent("Aadhaar|Otp|Error", {
+        analytics().logEvent("Aadhaar_Otp_Error", {
           unipeEmployeeId: unipeEmployeeId,
           error: `generateAadhaarOTP API Catch Error: ${JSON.stringify(error)}`,
         });

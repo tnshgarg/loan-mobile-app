@@ -5,7 +5,7 @@ import { addVerifyStatus } from "../../store/slices/panSlice";
 import { form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { putBackendData } from "../../services/employees/employeeServices";
@@ -92,7 +92,7 @@ const PanConfirmApi = (props) => {
             backendPush({
               verifyStatus: "REJECTED",
             });
-            Analytics.trackEvent("Pan|Confirm|Error", {
+            analytics().logEvent("Pan_Confirm_Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: "Rejected by User",
             });
@@ -108,7 +108,7 @@ const PanConfirmApi = (props) => {
             backendPush({
               verifyStatus: "SUCCESS",
             });
-            Analytics.trackEvent("Pan|Confirm|Success", {
+            analytics().logEvent("Pan_Confirm_Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
           }}

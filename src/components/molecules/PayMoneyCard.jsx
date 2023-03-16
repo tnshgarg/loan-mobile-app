@@ -1,5 +1,5 @@
 import { useIsFocused } from "@react-navigation/core";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import { useEffect, useState } from "react";
 import { Alert, Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -169,7 +169,7 @@ const PayMoneyCard = () => {
         provider: "razorpay",
         checkoutMsg: "Repayment Initiated from App Checkout Success",
       };
-      Analytics.trackEvent("Ewa|Repayment|Success", {
+      analytics().logEvent("Ewa_Repayment_Success", {
         unipeEmployeeId: unipeEmployeeId,
       });
       
@@ -181,7 +181,7 @@ const PayMoneyCard = () => {
         provider: "razorpay",
         checkoutMsg: JSON.stringify(error),
       };
-      Analytics.trackEvent("Ewa|Repayment|Error", {
+      analytics().logEvent("Ewa_Repayment_Error", {
         unipeEmployeeId: unipeEmployeeId,
       });
     } finally {
@@ -215,7 +215,7 @@ const PayMoneyCard = () => {
         });
       } catch (error) {
         Alert.alert("Error", JSON.stringify(error));
-        Analytics.trackEvent("Ewa|Repayment|Error", {
+        analytics().logEvent("Ewa_Repayment_Error", {
           unipeEmployeeId: unipeEmployeeId,
           error: JSON.stringify(error),
         });

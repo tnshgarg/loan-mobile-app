@@ -11,7 +11,7 @@ import {
 import { licenseBackendPush } from "../../helpers/BackendPush";
 import { OG_API_QA_KEY } from "@env";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 
 const Verify = (props) => {
   const dispatch = useDispatch();
@@ -92,7 +92,7 @@ const Verify = (props) => {
                 setVerifyStatus("PENDING");
                 setVerifyTimestamp(responseJson["timestamp"]);
                 setBackendPush(true);
-                Analytics.trackEvent("Licence|Verify|Success", {
+                analytics().logEvent("Licence_Verify_Success", {
                   unipeEmployeeId: unipeEmployeeId,
                 });
                 navigation.navigate("Documents", {
@@ -108,7 +108,7 @@ const Verify = (props) => {
                 setVerifyStatus("ERROR");
                 setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
-                Analytics.trackEvent("Licence|Verify|Error", {
+                analytics().logEvent("Licence_Verify_Error", {
                   unipeEmployeeId: unipeEmployeeId,
                   error: responseJson["data"]["message"],
                 });
@@ -119,7 +119,7 @@ const Verify = (props) => {
             setVerifyStatus("ERROR");
             setBackendPush(true);
             Alert.alert("Error", responseJson["error"]["message"]);
-            Analytics.trackEvent("Licence|Verify|Error", {
+            analytics().logEvent("Licence_Verify_Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: responseJson["error"]["message"],
             });
@@ -127,7 +127,7 @@ const Verify = (props) => {
             setVerifyMsg(responseJson["message"]);
             setVerifyStatus("ERROR");
             Alert.alert("Error", responseJson["message"]);
-            Analytics.trackEvent("Licence|Verify|Error", {
+            analytics().logEvent("Licence_Verify_Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: responseJson["message"],
             });
@@ -138,7 +138,7 @@ const Verify = (props) => {
           setVerifyStatus("ERROR");
           setBackendPush(true);
           Alert.alert("Error", JSON.stringify(error));
-          Analytics.trackEvent("Licence|Verify|Error", {
+          analytics().logEvent("Licence_Verify_Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: JSON.stringify(error),
           });
@@ -150,7 +150,7 @@ const Verify = (props) => {
         setVerifyStatus("ERROR");
         setBackendPush(true);
         Alert.alert("Error", JSON.stringify(error));
-        Analytics.trackEvent("Licence|Verify|Error", {
+        analytics().logEvent("Licence_Verify_Error", {
           unipeEmployeeId: unipeEmployeeId,
           error: JSON.stringify(error),
         });

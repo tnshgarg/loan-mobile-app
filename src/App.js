@@ -7,7 +7,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { STAGE } from "@env";
 import { queryClient } from "./queries/client";
 import { QueryClientProvider } from "@tanstack/react-query";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import Crashes from "appcenter-crashes";
 import { navigationRef } from "./navigators/RootNavigation";
 import StackNavigator from "./navigators/StackNavigator";
@@ -26,18 +26,8 @@ Crashes.setListener({
 //   updateDialog: true, //InstallMode.ON_NEXT_RESUME to have minimum background duration effect
 // };
 
-const analyticsStatus = async () => {
-  STAGE == "dev"
-    ? await Analytics.setEnabled(false)
-    : await Analytics.setEnabled(true);
-  const enabled = await Analytics.isEnabled();
-  if (enabled) {
-    Analytics.startSession();
-  }
-};
 
 const App = () => {
-  analyticsStatus();
   SplashScreen.hide();
   return (
     <Provider store={store}>

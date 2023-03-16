@@ -17,7 +17,7 @@ import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import FormInput from "../../components/atoms/FormInput";
 import DropDownForm from "../../components/molecules/DropDownForm";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import { showToast } from "../../components/atoms/Toast";
 
 const ProfileFormTemplate = ({ type }) => {
@@ -234,7 +234,7 @@ const ProfileFormTemplate = ({ type }) => {
             disabled={!next}
             onPress={() => {
               backendPush();
-              Analytics.trackEvent("ProfileForm|PushData|Success", {
+              analytics().logEvent("ProfileForm_PushData_Success", {
                 unipeEmployeeId: unipeEmployeeId,
               });
             }}
