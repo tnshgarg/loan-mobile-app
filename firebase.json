@@ -2,6 +2,8 @@
     "react-native": {
       "analytics_auto_collection_enabled": true,
       "messaging_auto_init_enabled": false,
-      "messaging_ios_auto_register_for_remote_messages": true
+      "messaging_ios_auto_register_for_remote_messages": true,
+      "crashlytics_auto_collection_enabled": true,
+      "crashlytics_javascript_exception_handler_chaining_enabled": true
     }
   }
