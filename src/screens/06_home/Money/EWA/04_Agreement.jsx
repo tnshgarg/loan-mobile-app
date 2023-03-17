@@ -29,6 +29,7 @@ import DisbursementCard from "../../../../components/molecules/DisbursementCard"
 import Checkbox from "../../../../components/atoms/Checkbox";
 import { updateAgreement } from "../../../../queries/ewa/agreement";
 import LiquiloansTitle from "../../../../components/atoms/LiquiloansTitle";
+import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 
 const Agreement = () => {
   const dispatch = useDispatch();
@@ -117,6 +118,7 @@ const Agreement = () => {
     NetworkInfo.getIPV4Address().then((ipv4Address) => {
       setIpAdress(ipv4Address);
     });
+    dispatch(addCurrentScreen("EWA_AGREEMENT"));
   }, []);
 
   useEffect(() => {

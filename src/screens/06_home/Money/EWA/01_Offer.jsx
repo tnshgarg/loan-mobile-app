@@ -17,6 +17,7 @@ import {
 import { styles } from "../../../../styles";
 import TnC from "../../../../templates/docs/EWATnC.js";
 import SliderCard from "../../../../components/organisms/SliderCard";
+import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import Checkbox from "../../../../components/atoms/Checkbox";
 import { updateOffer } from "../../../../queries/ewa/offer";
 
@@ -63,6 +64,7 @@ const Offer = () => {
     NetworkInfo.getIPV4Address().then((ipv4Address) => {
       setIpAdress(ipv4Address);
     });
+    dispatch(addCurrentScreen("EWA_Offer"));
   }, []);
 
   useEffect(() => {

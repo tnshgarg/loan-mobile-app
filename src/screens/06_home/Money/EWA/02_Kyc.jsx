@@ -15,6 +15,7 @@ import {
   addVerifyStatus,
   resetMandate,
 } from "../../../../store/slices/mandateSlice";
+import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 
 const KYC = () => {
   const dispatch = useDispatch();
@@ -46,6 +47,7 @@ const KYC = () => {
     NetworkInfo.getIPV4Address().then((ipv4Address) => {
       setIpAdress(ipv4Address);
     });
+    dispatch(addCurrentScreen("EWA_KYC"));
   }, []);
 
   useEffect(() => {

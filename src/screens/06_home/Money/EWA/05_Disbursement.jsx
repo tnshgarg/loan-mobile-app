@@ -7,15 +7,17 @@ import {
   ScrollView,
 } from "react-native";
 import { styles } from "../../../../styles";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import Success from "../../../../assets/animations/Success";
 import Failure from "../../../../assets/animations/Failure";
 import Pending from "../../../../assets/animations/Pending";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
 import { getDisbursement } from "../../../../queries/ewa/disbursement";
+import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 
 const Disbursement = ({ route, navigation }) => {
+  const dispatch = useDispatch();
   const { offer } = route.params;
 
   const token = useSelector((state) => state.auth.token);
@@ -40,6 +42,7 @@ const Disbursement = ({ route, navigation }) => {
   };
 
   useEffect(() => {
+    dispatch(addCurrentScreen("EWA_Disbursement"));
     BackHandler.addEventListener("hardwareBackPress", backAction);
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);

@@ -26,6 +26,7 @@ import MandateOptions from "../../components/molecules/MandateOptions";
 import Shield from "../../assets/Shield.svg";
 import RBI from "../../assets/RBI.svg";
 import MandateLoading from "../../components/organisms/MandateLoading";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
 
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -68,6 +69,7 @@ const MandateFormTemplate = (props) => {
     NetworkInfo.getIPV4Address().then((ipv4Address) => {
       setIpAdress(ipv4Address);
     });
+    dispatch(addCurrentScreen("Mandate"));
   }, []);
 
   useEffect(() => {

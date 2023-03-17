@@ -19,9 +19,6 @@ const navigationSlice = createSlice({
     },
     addCurrentStack(state, action) {
       state.currentStack = action.payload;
-      analytics().logScreenView({
-        screen_class: action.payload,
-      });
     },
     resetNavigation(state) {
       Object.assign(state, initialState);
