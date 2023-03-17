@@ -33,7 +33,7 @@
     "@react-native-async-storage/async-storage": "^1.17.11",
     "@react-native-community/netinfo": "^9.3.7",
     "@react-native-firebase/analytics": "^17.3.2",
-    "@react-native-firebase/app": "^17.0.0",
+    "@react-native-firebase/app": "^17.3.2",
     "@react-native-firebase/messaging": "^17.0.0",
     "@react-navigation/bottom-tabs": "^6.5.4",
     "@react-navigation/core": "^6.4.6",
