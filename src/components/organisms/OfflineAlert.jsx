@@ -1,6 +1,6 @@
 import NetInfo from "@react-native-community/netinfo";
 import { useEffect, useState } from "react";
-import { Modal, SafeAreaView, Text, View } from "react-native";
+import { Image, Modal, SafeAreaView, Text, View } from "react-native";
 import { AddListener } from "../../helpers/InternetCheck";
 import { showToast } from "../atoms/Toast";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -11,12 +11,14 @@ import LogoHeader from "../atoms/LogoHeader";
 
 const OfflineAlert = ({ children }) => {
   const [isConnected, setIsConnected] = useState(true);
+  const [isReachable, setIsReachable] = useState(false);
 
   const handleConnectivityChange = (connection) => {
     setIsConnected(connection?.isConnected && connection?.isInternetReachable);
     console.log("isConnected", connection?.isConnected);
     console.log("isInternetReachable", connection?.isInternetReachable);
     console.log("isConnected", connection);
+    setIsReachable(connection?.isInternetReachable);
   };
 
   useEffect(() => {
@@ -26,41 +28,44 @@ const OfflineAlert = ({ children }) => {
     };
   }, []);
 
-  return (
-    <View style={{ flex: 1, backgroundColor: COLORS.white }}>
-      {isConnected ? (
-        <>{children}</>
-      ) : (
-        <>
-          <Modal animationType="fade" visible={true}>
-            <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
-              <LogoHeader />
-              <View style={styles.modalContainer}>
-                <Offline />
+  if (!isReachable)
+    return (
+      <Image
+        source={require("../../assets/splash_screen.png")}
+        style={{
+          flex: 1,
+          width: "100%",
+        }}
+      />
+    );
 
-                <Text style={styles.title}>No Internet</Text>
+  return isConnected ? (
+    <>{children}</>
+  ) : (
+    <Modal animationType="fade" visible={true}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+        <LogoHeader />
+        <View style={styles.modalContainer}>
+          <Offline />
 
-                <Text style={styles.subtitle}>
-                  Please check your internet connection
-                </Text>
+          <Text style={styles.title}>No Internet</Text>
 
-                <PrimaryButton
-                  title={"Refresh"}
-                  onPress={() => {
-                    NetInfo.refresh();
-                    showToast("Trying to Connect to the internet", "pending");
-                  }}
-                  containerStyle={{ height: 40 }}
-                  titleStyle={{ ...FONTS.h4 }}
-                />
-              </View>
-            </SafeAreaView>
-          </Modal>
+          <Text style={styles.subtitle}>
+            Please check your internet connection
+          </Text>
 
-          {children}
-        </>
-      )}
-    </View>
+          <PrimaryButton
+            title={"Refresh"}
+            onPress={() => {
+              NetInfo.refresh();
+              showToast("Trying to Connect to the internet", "pending");
+            }}
+            containerStyle={{ height: 40 }}
+            titleStyle={{ ...FONTS.h4 }}
+          />
+        </View>
+      </SafeAreaView>
+    </Modal>
   );
 };
 
