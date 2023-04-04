@@ -53,7 +53,7 @@ const styles = EStyleSheet.create({
     marginVertical: "15rem",
     ...FONTS.body5,
     color: COLORS.gray,
-    textAlign: "center",
+    textAlign: "left",
   },
   childText: {
     ...FONTS.body5,

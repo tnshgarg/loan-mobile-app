@@ -15,7 +15,7 @@ const LoginInput = ({ phoneNumber, setPhoneNumber, accessibilityLabel }) => {
       onChange={setPhoneNumber}
       autoFocus={true}
       maxLength={10}
-      inputStyle={{ ...FONTS.h4, color: COLORS.secondary }}
+      inputStyle={{ ...FONTS.h3, color: COLORS.secondary }}
       prependComponent={
         <View
           style={{
@@ -34,7 +34,7 @@ const LoginInput = ({ phoneNumber, setPhoneNumber, accessibilityLabel }) => {
               paddingRight: 10,
             }}
           >
-            + 91
+            +91
           </Text>
         </View>
       }

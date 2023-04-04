@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 // import PushNotification, {Importance} from 'react-native-push-notification';
 import SplashScreen from "react-native-splash-screen";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { COLORS } from "../../constants/Theme";
+import { COLORS, FONTS } from "../../constants/Theme";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { putBackendData } from "../../services/employees/employeeServices";
 import { sendSmsVerification } from "../../services/otp/Gupshup/services";
@@ -192,19 +192,44 @@ const LoginScreen = () => {
 
   return (
     <SafeAreaView accessibilityLabel="LoginScreen" style={styles.safeContainer}>
-      <LogoHeader
+      {/* <LogoHeader
         rightIcon={
           <Icon name="logo-whatsapp" size={28} color={COLORS.primary} />
         }
         rightOnPress={() => {
           Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
         }}
-      />
+      /> */}
       <KeyboardAvoidingWrapper>
         <View>
-          <Text style={styles.headline}>Verify your mobile</Text>
-          <Text style={styles.subHeadline}>
-            Your mobile number must be linked to your Aadhaar
+          <Text
+            style={[
+              styles.subHeadline,
+              {
+                textAlign: "left",
+                alignSelf: "flex-start",
+                ...FONTS.body3,
+                marginTop: "4%",
+                marginBottom: 0,
+                color: COLORS.secondary,
+              },
+            ]}
+          >
+            Welcome to Unipe
+          </Text>
+          <Text
+            style={[
+              styles.headline,
+              {
+                textAlign: "left",
+                alignSelf: "flex-start",
+                marginTop: 0,
+                marginBottom: "5%",
+                ...FONTS.h1,
+              },
+            ]}
+          >
+            Get your salary today!
           </Text>
 
           <LoginInput
@@ -221,13 +246,14 @@ const LoginScreen = () => {
           />
 
           <PrimaryButton
-            title="Verify"
+            title="Continue"
             accessibilityLabel="LoginNextBtn"
             disabled={!next}
             loading={loading}
             onPress={() => signIn()}
+            containerStyle={{ marginTop: "20%" }}
           />
-          <ShieldTitle title={"All your details are safe with us"} />
+          <ShieldTitle title={"100% Secure"} />
         </View>
       </KeyboardAvoidingWrapper>
     </SafeAreaView>

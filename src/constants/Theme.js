@@ -80,12 +80,12 @@ export const SIZES = {
   },
 
   // font sizes
-  h1: normalize(30),
+  h1: normalize(26),
   h2: normalize(21),
   h3: normalize(18),
   h4: normalize(15),
   h5: normalize(13),
-  body1: normalize(30),
+  body1: normalize(26),
   body2: normalize(21),
   body3: normalize(18),
   body4: normalize(15),
