@@ -22,7 +22,7 @@ const styles = EStyleSheet.create({
     marginVertical: "5rem",
   },
   title: {
-    ...FONTS.body5,
+    ...FONTS.body4,
     color: COLORS.gray,
   },
   image: {
