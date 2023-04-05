@@ -27,6 +27,7 @@ export const styles = EStyleSheet.create({
     textAlign: "center",
     alignSelf: "center",
     marginBottom: "5rem",
+    width: "85%",
   },
   btn: {
     marginTop: "20rem",

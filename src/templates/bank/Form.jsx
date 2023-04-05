@@ -71,10 +71,9 @@ const BankFormTemplate = (props) => {
       {aadhaarVerifyStatus === "SUCCESS" ? (
         <KeyboardAvoidingWrapper>
           <View>
-            <Text style={styles.headline}>Bank Account Details</Text>
+            <Text style={styles.headline}>Add Bank Account</Text>
             <Text style={styles.subHeadline}>
-              कृपया अपना बैंक अकाउंट नम्बर की जानकारी दें । इसी अकाउंट में वेतन
-              जमा करा जाएगा ।
+              आपको इस बैंक खाते/यूपीआई में एडवांस सैलरी भेजी जाएगी।
             </Text>
 
             <PopableInput
@@ -130,14 +129,12 @@ const BankFormTemplate = (props) => {
 
             <InfoCard
               info={
-                "I agree with the KYC registration Terms & Conditions to verifiy my identity. We will use this bank account/UPI ID to deposite your salary every month, Please provide your own bank account details."
+                "Please note: We will use this bank account/UPI ID to deposite your salary every month, Please provide your own bank account details."
               }
             />
 
             <BankVerifyApi
-              disabled={
-                !ifscNext || !accNumNext || !accountHolderName
-              }
+              disabled={!ifscNext || !accNumNext || !accountHolderName}
               type={props?.route?.params?.type || ""}
             />
             <ShieldTitle title={"All your details are safe with us"} />

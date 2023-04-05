@@ -182,8 +182,11 @@ const ProfileFormTemplate = ({ type }) => {
 
   return (
     <SafeAreaView style={styles.safeContainer} accessibilityLabel="ProfileForm">
-      <Text style={styles.headline}>Tell us about you</Text>
-      <Text style={styles.subHeadline}>(अपनी जानकारी यहाँ भरें)</Text>
+      <Text style={styles.headline}>Enter Your Details</Text>
+      <Text style={styles.subHeadline}>
+        एडवांस सैलरी की प्रक्रिया जारी रखने के लिए, निम्नलिखित अनिवार्य जानकारी
+        प्रदान करें:
+      </Text>
       <KeyboardAvoidingWrapper>
         <View>
           <DropDownForm
