@@ -14,7 +14,7 @@ const AgreementText = ({
   return (
     <>
       <Text style={styles.parentText}>
-        By clicking “Verify” you are agreeing to Unipe’s{" "}
+        By clicking “Continue” you are agreeing to Unipe’s{" "}
         <Text
           onPress={() => setIsTermsOfUseModalVisible(true)}
           style={styles.childText}

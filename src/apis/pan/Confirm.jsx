@@ -16,12 +16,13 @@ const PanConfirmApi = (props) => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
+  const campaignId = useSelector(
+    (state) => state.campaign.onboardingCampaignId
+  );
   const data = useSelector((state) => state.pan.data);
   const number = useSelector((state) => state.pan.number);
-  
+
   const backendPush = async ({ verifyStatus }) => {
-    
     dispatch(addVerifyStatus(verifyStatus));
 
     const payload = {
@@ -31,7 +32,11 @@ const PanConfirmApi = (props) => {
       campaignId: campaignId,
     };
 
-    const response = await putBackendData({ data: payload, xpath: "pan", token: token });
+    const response = await putBackendData({
+      data: payload,
+      xpath: "pan",
+      token: token,
+    });
     const responseJson = response?.data;
 
     if (responseJson.status === 200) {
@@ -47,18 +52,17 @@ const PanConfirmApi = (props) => {
           navigation.navigate("PanForm");
         }
       } else if (verifyStatus === "SUCCESS") {
-          if (props?.route?.params?.type === "KYC") {
-            navigation.navigate("KYC", {
-              screen: "PAN",
-            });
-          } else {
-            navigation.navigate("BankForm");
-          }
+        if (props?.route?.params?.type === "KYC") {
+          navigation.navigate("KYC", {
+            screen: "PAN",
+          });
+        } else {
+          navigation.navigate("BankForm");
+        }
       }
     } else {
       Alert.alert("Error", JSON.stringify(responseJson));
     }
-
   };
 
   const cardData = () => {
@@ -77,11 +81,14 @@ const PanConfirmApi = (props) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headline}>Are these your PAN details?</Text>
+      <Text style={styles.headline}>Verify your PAN</Text>
       <Text style={styles.subHeadline}>
         कृपया स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
       </Text>
-      <DetailsCard data={cardData()} />
+      <DetailsCard
+        data={cardData()}
+        containerStyle={{ backgroundColor: "rgba(0, 180, 224,0.17)" }}
+      />
       <View style={[styles.row, { justifyContent: "space-between" }]}>
         <FuzzyCheck name={data["name"]} step="PAN" />
         <PrimaryButton

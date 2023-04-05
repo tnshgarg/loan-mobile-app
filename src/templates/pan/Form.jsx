@@ -41,9 +41,10 @@ const PanFormTemplate = (props) => {
       {aadhaarVerifyStatus === "SUCCESS" ? (
         <KeyboardAvoidingWrapper>
           <View>
-            <Text style={styles.headline}>Enter your PAN number</Text>
+            <Text style={styles.headline}>PAN Card Verification</Text>
             <Text style={styles.subHeadline}>
-              कृपया अपना पैन नम्बर यहाँ भरें।
+              हमें आपका नाम और जन्मतिथि जांच करने के लिए आपके पैन की आवश्यकता
+              है।
             </Text>
 
             <FormInput

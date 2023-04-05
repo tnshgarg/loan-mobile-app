@@ -18,7 +18,7 @@ const AadhaarFormTemplate = (props) => {
 
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const [number, setNumber] = useState(aadhaarSlice?.number);
-  
+
   useEffect(() => {
     var aadhaarReg = /^[0-9]{12}$/gm;
     if (aadhaarReg.test(number)) {
@@ -33,10 +33,10 @@ const AadhaarFormTemplate = (props) => {
     <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <View style={[styles.container, { padding: 0 }]}>
-          <Text style={styles.headline}>Enter your Aadhaar number</Text>
+          <Text style={styles.headline}>Aadhaar Verification</Text>
           <Text style={styles.subHeadline}>
-            कृपया अपना आधार नम्बर यहाँ भरें ॰ इस आधार नम्बर से जुड़े मोबाइल
-            नम्बर पर हम ओ॰टी॰पी॰ भेजेंगे ॰
+            भारतीय रिजर्व बैंक के मानदंडों के अनुसार, आपको अपना आधार वेरीफाई
+            करना अनिवार्य है।
           </Text>
           <FormInput
             accessibilityLabel={"AadhaarInput"}
@@ -55,11 +55,7 @@ const AadhaarFormTemplate = (props) => {
             }
           />
 
-          <InfoCard
-            info={
-              "I agree with the KYC registration Terms & Conditions to verifiy my identity. You will receive an OTP to your Aadhaar registered mobile number."
-            }
-          />
+          <InfoCard info={"OTP आधार के साथ लिंक मोबाइल नंबर पर भेजा जाएगा।"} />
 
           <AadhaarOtpApi
             disabled={!validNumber}

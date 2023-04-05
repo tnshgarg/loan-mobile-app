@@ -2,9 +2,9 @@ import { View, Text, Image } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
 
-const DetailsCard = ({ data, imageUri }) => {
+const DetailsCard = ({ data, imageUri, containerStyle }) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { ...containerStyle }]}>
       {imageUri && <Image source={imageUri} style={styles.image} />}
       {data.map((item, index) => (
         <View
