@@ -19,9 +19,9 @@ const styles = EStyleSheet.create({
     marginVertical: "15rem",
   },
   text: {
-    ...FONTS.body4,
+    ...FONTS.body3,
     color: COLORS.secondary,
-    marginLeft: "20rem",
+    marginLeft: "10rem",
     flex: 1,
   },
 });

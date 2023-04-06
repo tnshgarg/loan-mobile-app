@@ -8,9 +8,11 @@ import {
   SafeAreaView,
   Text,
   View,
+  Keyboard,
 } from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
 import { useDispatch, useSelector } from "react-redux";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 // import PushNotification, {Importance} from 'react-native-push-notification';
 import SplashScreen from "react-native-splash-screen";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
@@ -38,6 +40,8 @@ import ShieldTitle from "../../components/atoms/ShieldTitle";
 import LoginInput from "../../components/molecules/LoginInput";
 import AgreementText from "../../components/organisms/AgreementText";
 import { STAGE } from "@env";
+import Animated, { EasingNode } from "react-native-reanimated";
+import SvgListItem from "../../components/molecules/SvgListItem";
 
 const LoginScreen = () => {
   SplashScreen.hide();
@@ -190,18 +194,92 @@ const LoginScreen = () => {
       });
   };
 
+  const [startClicked, setStartClicked] = useState(false);
+  useEffect(() => {
+    if (startClicked) {
+      Animated.timing(bottomFlex, {
+        toValue: 4,
+        duration: 250,
+        useNativeDriver: false,
+        easing: EasingNode.in,
+      }).start();
+    } else {
+      Animated.timing(bottomFlex, {
+        toValue: 0,
+        duration: 250,
+        useNativeDriver: false,
+        easing: EasingNode.in,
+      }).start();
+    }
+  }, [startClicked]);
+  const [bottomFlex, setbottomFlex] = useState(new Animated.Value(1));
+
+  const data = [
+    {
+      title: "0% Interest Charges",
+      imageUri: (
+        <MaterialCommunityIcons
+          name="check-circle"
+          size={32}
+          color={COLORS.primary}
+        />
+      ),
+    },
+    {
+      title: "No Joining Fees",
+      imageUri: (
+        <MaterialCommunityIcons
+          name="check-circle"
+          size={32}
+          color={COLORS.primary}
+        />
+      ),
+    },
+    {
+      title: "Instant cash in bank account",
+      imageUri: (
+        <MaterialCommunityIcons
+          name="check-circle"
+          size={32}
+          color={COLORS.primary}
+        />
+      ),
+    },
+  ];
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        setStartClicked(true);
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setStartClicked(false);
+      }
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
   return (
     <SafeAreaView accessibilityLabel="LoginScreen" style={styles.safeContainer}>
-      {/* <LogoHeader
+      <LogoHeader
         rightIcon={
           <Icon name="logo-whatsapp" size={28} color={COLORS.primary} />
         }
         rightOnPress={() => {
           Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
         }}
-      /> */}
-      <KeyboardAvoidingWrapper>
-        <View>
+      />
+
+      <View style={[styles.container]}>
+        {startClicked ? (
           <Text
             style={[
               styles.subHeadline,
@@ -217,45 +295,60 @@ const LoginScreen = () => {
           >
             Welcome to Unipe
           </Text>
+        ) : (
           <Text
-            style={[
-              styles.headline,
-              {
-                textAlign: "left",
-                alignSelf: "flex-start",
-                marginTop: 0,
-                marginBottom: "5%",
-                ...FONTS.h1,
-              },
-            ]}
+            style={{
+              ...FONTS.title,
+              color: COLORS.primary,
+            }}
           >
-            Get your salary today!
+            नमस्ते
           </Text>
+        )}
+        <Text
+          style={{
+            ...FONTS.h1,
+            color: COLORS.secondary,
+            marginBottom: "5%",
+          }}
+        >
+          Get your salary today!
+        </Text>
 
-          <LoginInput
-            accessibilityLabel="MobileNumber"
-            phoneNumber={phoneNumber}
-            setPhoneNumber={setPhoneNumber}
-          />
+        {!startClicked &&
+          data.map((item, index) => <SvgListItem item={item} key={index} />)}
+      </View>
 
-          <AgreementText
-            isTermsOfUseModalVisible={isTermsOfUseModalVisible}
-            setIsTermsOfUseModalVisible={setIsTermsOfUseModalVisible}
-            isPrivacyModalVisible={isPrivacyModalVisible}
-            setIsPrivacyModalVisible={setIsPrivacyModalVisible}
-          />
+      {/* {startClicked ? null : <View style={{ flex: 1 }} />} */}
+      <Animated.View style={[styles.bottomPart, { flex: bottomFlex }]}>
+        <KeyboardAvoidingWrapper>
+          <View>
+            <LoginInput
+              accessibilityLabel="MobileNumber"
+              phoneNumber={phoneNumber}
+              setPhoneNumber={setPhoneNumber}
+            />
 
-          <PrimaryButton
-            title="Continue"
-            accessibilityLabel="LoginNextBtn"
-            disabled={!next}
-            loading={loading}
-            onPress={() => signIn()}
-            containerStyle={{ marginTop: "20%" }}
-          />
-          <ShieldTitle title={"100% Secure"} />
-        </View>
-      </KeyboardAvoidingWrapper>
+            <AgreementText
+              isTermsOfUseModalVisible={isTermsOfUseModalVisible}
+              setIsTermsOfUseModalVisible={setIsTermsOfUseModalVisible}
+              isPrivacyModalVisible={isPrivacyModalVisible}
+              setIsPrivacyModalVisible={setIsPrivacyModalVisible}
+            />
+          </View>
+        </KeyboardAvoidingWrapper>
+      </Animated.View>
+      {/* <View style={{ flex: 1 }} /> */}
+      <View style={[styles.container, { flex: 0 }]}>
+        <PrimaryButton
+          title="Continue"
+          accessibilityLabel="LoginNextBtn"
+          disabled={!next}
+          loading={loading}
+          onPress={() => setStartClicked(!startClicked)}
+        />
+        <ShieldTitle title={"100% Secure"} />
+      </View>
     </SafeAreaView>
   );
 };
