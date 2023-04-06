@@ -212,7 +212,7 @@ const LoginScreen = () => {
       }).start();
     }
   }, [startClicked]);
-  const [bottomFlex, setbottomFlex] = useState(new Animated.Value(1));
+  const [bottomFlex, setbottomFlex] = useState(new Animated.Value(0));
 
   const data = [
     {
@@ -327,6 +327,7 @@ const LoginScreen = () => {
               accessibilityLabel="MobileNumber"
               phoneNumber={phoneNumber}
               setPhoneNumber={setPhoneNumber}
+              autoFocus={false}
             />
 
             <AgreementText

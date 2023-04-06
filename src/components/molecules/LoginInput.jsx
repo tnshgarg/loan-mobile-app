@@ -3,7 +3,12 @@ import React from "react";
 import FormInput from "../atoms/FormInput";
 import { COLORS, FONTS } from "../../constants/Theme";
 
-const LoginInput = ({ phoneNumber, setPhoneNumber, accessibilityLabel }) => {
+const LoginInput = ({
+  phoneNumber,
+  setPhoneNumber,
+  accessibilityLabel,
+  autoFocus,
+}) => {
   return (
     <FormInput
       //placeholder="Enter mobile number"
@@ -13,7 +18,7 @@ const LoginInput = ({ phoneNumber, setPhoneNumber, accessibilityLabel }) => {
       keyboardType="phone-pad"
       value={phoneNumber}
       onChange={setPhoneNumber}
-      autoFocus={true}
+      autoFocus={autoFocus}
       maxLength={10}
       inputStyle={{ ...FONTS.h3, color: COLORS.secondary }}
       prependComponent={
