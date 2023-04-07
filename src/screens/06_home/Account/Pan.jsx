@@ -32,7 +32,7 @@ const Pan = () => {
   const cardData = () => {
     var res = [
       { subTitle: "Name", value: data?.name, fullWidth: true },
-      { subTitle: "Number", value: number, fullWidth: true },
+      { subTitle: "Number", value: number },
       { subTitle: "Date of Birth", value: data?.date_of_birth },
       { subTitle: "Gender", value: data?.gender },
       { subTitle: "Email", value: data?.email, fullWidth: true },
@@ -60,7 +60,10 @@ const Pan = () => {
     <SafeAreaView style={styles.safeContainer}>
       {verifyStatus == "SUCCESS" ? (
         <View style={styles.container}>
-          <DetailsCard data={cardData()} />
+          <DetailsCard
+            data={cardData()}
+            containerStyle={{ backgroundColor: "rgba(0, 180, 224,0.17)" }}
+          />
           {bankVerifyStatus != "SUCCESS" ? (
             <PrimaryButton
               title="Continue to Bank Verification"

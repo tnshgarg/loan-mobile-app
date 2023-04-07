@@ -220,7 +220,7 @@ const LoginScreen = () => {
       imageUri: (
         <MaterialCommunityIcons
           name="check-circle"
-          size={32}
+          size={24}
           color={COLORS.primary}
         />
       ),
@@ -230,7 +230,7 @@ const LoginScreen = () => {
       imageUri: (
         <MaterialCommunityIcons
           name="check-circle"
-          size={32}
+          size={24}
           color={COLORS.primary}
         />
       ),
@@ -240,7 +240,7 @@ const LoginScreen = () => {
       imageUri: (
         <MaterialCommunityIcons
           name="check-circle"
-          size={32}
+          size={24}
           color={COLORS.primary}
         />
       ),
@@ -339,14 +339,13 @@ const LoginScreen = () => {
           </View>
         </KeyboardAvoidingWrapper>
       </Animated.View>
-      {/* <View style={{ flex: 1 }} /> */}
       <View style={[styles.container, { flex: 0 }]}>
         <PrimaryButton
           title="Continue"
           accessibilityLabel="LoginNextBtn"
           disabled={!next}
           loading={loading}
-          onPress={() => setStartClicked(!startClicked)}
+          onPress={() => signIn()}
         />
         <ShieldTitle title={"100% Secure"} />
       </View>

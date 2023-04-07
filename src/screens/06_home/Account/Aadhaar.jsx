@@ -23,8 +23,8 @@ const Aadhaar = () => {
     var res = [
       { subTitle: "Name", value: data?.name, fullWidth: true },
       { subTitle: "Number", value: number },
-      { subTitle: "Gender", value: data?.gender },
       { subTitle: "Date of Birth", value: data?.date_of_birth },
+      { subTitle: "Gender", value: data?.gender },
       { subTitle: "Address", value: data?.address, fullWidth: true },
       { subTitle: "Verify Status", value: verifyStatus },
     ];
@@ -81,6 +81,7 @@ const Aadhaar = () => {
               uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
               cache: "only-if-cached",
             }}
+            type={"Aadhaar"}
           />
           {panVerifyStatus != "SUCCESS" ? (
             <PrimaryButton

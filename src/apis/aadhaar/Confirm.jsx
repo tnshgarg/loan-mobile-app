@@ -15,22 +15,27 @@ const AadhaarConfirmApi = (props) => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
+  const campaignId = useSelector(
+    (state) => state.campaign.onboardingCampaignId
+  );
   const data = useSelector((state) => state.aadhaar.data);
   const number = useSelector((state) => state.aadhaar.number);
 
   const backendPush = async ({ verifyStatus }) => {
-
     dispatch(addVerifyStatus(verifyStatus));
 
     const payload = {
       unipeEmployeeId: unipeEmployeeId,
       number: number,
       verifyStatus: verifyStatus,
-      campaignId: campaignId
+      campaignId: campaignId,
     };
 
-    const response = await putBackendData({ data: payload, xpath: "aadhaar", token: token });
+    const response = await putBackendData({
+      data: payload,
+      xpath: "aadhaar",
+      token: token,
+    });
     const responseJson = response?.data;
 
     if (responseJson.status === 200) {
@@ -46,13 +51,13 @@ const AadhaarConfirmApi = (props) => {
           navigation.navigate("AadhaarForm");
         }
       } else if (verifyStatus === "SUCCESS") {
-          if (props?.route?.params?.type === "KYC") {
-            navigation.navigate("KYC", {
-              screen: "AADHAAR",
-            });
-          } else {
-            navigation.navigate("PanForm");
-          }
+        if (props?.route?.params?.type === "KYC") {
+          navigation.navigate("KYC", {
+            screen: "AADHAAR",
+          });
+        } else {
+          navigation.navigate("PanForm");
+        }
       }
     } else {
       Alert.alert("Error", JSON.stringify(responseJson));
@@ -82,6 +87,7 @@ const AadhaarConfirmApi = (props) => {
           uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
           cache: "only-if-cached",
         }}
+        type={"Aadhaar"}
       />
 
       <View style={[styles.row, { justifyContent: "space-between" }]}>
