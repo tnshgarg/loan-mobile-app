@@ -220,7 +220,7 @@ const LoginScreen = () => {
       imageUri: (
         <MaterialCommunityIcons
           name="check-circle"
-          size={24}
+          size={20}
           color={COLORS.primary}
         />
       ),
@@ -230,7 +230,7 @@ const LoginScreen = () => {
       imageUri: (
         <MaterialCommunityIcons
           name="check-circle"
-          size={24}
+          size={20}
           color={COLORS.primary}
         />
       ),
@@ -240,7 +240,7 @@ const LoginScreen = () => {
       imageUri: (
         <MaterialCommunityIcons
           name="check-circle"
-          size={24}
+          size={20}
           color={COLORS.primary}
         />
       ),
