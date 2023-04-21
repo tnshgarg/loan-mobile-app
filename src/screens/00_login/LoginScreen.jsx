@@ -1,14 +1,7 @@
 import Analytics from "appcenter-analytics";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import {
-  Alert,
-  BackHandler,
-  Linking,
-  SafeAreaView,
-  Text,
-  View,
-} from "react-native";
+import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
 import { useDispatch, useSelector } from "react-redux";
 // import PushNotification, {Importance} from 'react-native-push-notification';
@@ -38,6 +31,7 @@ import ShieldTitle from "../../components/atoms/ShieldTitle";
 import LoginInput from "../../components/molecules/LoginInput";
 import AgreementText from "../../components/organisms/AgreementText";
 import { STAGE } from "@env";
+import whatsappLinking from "../../helpers/WhatsappLinking";
 
 const LoginScreen = () => {
   SplashScreen.hide();
@@ -197,7 +191,7 @@ const LoginScreen = () => {
           <Icon name="logo-whatsapp" size={28} color={COLORS.primary} />
         }
         rightOnPress={() => {
-          Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+          whatsappLinking();
         }}
       />
       <KeyboardAvoidingWrapper>
