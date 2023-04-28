@@ -115,7 +115,7 @@ export default function MandateLoading({
         </View>
         <View style={{ flex: 1 }} />
         <Text style={[styles.subHeadline, { marginBottom: "10%" }]}>
-          Please dont press the back button
+          Please don't press the back button
         </Text>
       </View>
     </Modal>
