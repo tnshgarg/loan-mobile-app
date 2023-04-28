@@ -1,7 +1,6 @@
 import {
   STAGE,
   KYC_API_BASE_URL,
-  KYC_MOCK_API_BASE_URL,
   RZP_PROD_AUTH,
   RZP_QA_AUTH,
   RZP_DEV_AUTH,
@@ -14,8 +13,7 @@ import {
 
 export const EMPLOYEE_API_URL = `https://api-${STAGE}.unipe.co/employee`;
 
-export const KYC_API_URL =
-  STAGE === "dev" ? KYC_MOCK_API_BASE_URL : KYC_API_BASE_URL;
+export const KYC_API_URL = KYC_API_BASE_URL;
 
 export const KYC_AADHAAR_GENERATE_OTP_API_URL = `${KYC_API_URL}/aadhaar-api/boson/generate-otp`;
 export const KYC_AADHAAR_SUBMIT_OTP_API_URL = `${KYC_API_URL}/aadhaar-api/boson/submit-otp`;
