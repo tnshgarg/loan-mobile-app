@@ -27,29 +27,7 @@ export const updateRepayment = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getRepayment"] });
-    },
-  });
-  return mutation;
-};
-
-export const createRazorpayOrder = ({ amount, repaymentId }) => {
-  const mutation = useMutation({
-    mutationFn: async () => {
-      return axios({
-        method: "post",
-        url: "https://api.razorpay.com/v1/orders",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: RZP_AUTH,
-        },
-        data: JSON.stringify({
-          amount: amount * 100,
-          currency: "INR",
-          notes: {
-            repaymentId: repaymentId,
-          },
-        }),
-      });
+      queryClient.invalidateQueries({ queryKey: ["getEwaOffers"] });
     },
   });
   return mutation;

@@ -185,7 +185,7 @@ const LoginScreen = () => {
             })
             .catch((error) => {
               setLoading(false);
-              Alert("Error", JSON.stringify(error));
+              Alert.alert("Error", JSON.stringify(error));
               Analytics.trackEvent("LoginScreen|SendSms|Error", {
                 unipeEmployeeId: unipeEmployeeId,
                 error: JSON.stringify(error),

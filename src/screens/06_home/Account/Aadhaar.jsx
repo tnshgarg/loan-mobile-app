@@ -53,14 +53,14 @@ const Aadhaar = () => {
   ];
 
   useEffect(() => {
-    if (verifyStatus == "INPROGRESS_OTP") {
+    if (verifyStatus === "INPROGRESS_OTP") {
       navigation.navigate("KYC", {
         screen: "AADHAAR",
         params: {
           screen: "Verify",
         },
       });
-    } else if (verifyStatus == "INPROGRESS_CONFIRMATION") {
+    } else if (verifyStatus === "INPROGRESS_CONFIRMATION") {
       navigation.navigate("KYC", {
         screen: "AADHAAR",
         params: {
@@ -73,7 +73,7 @@ const Aadhaar = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      {verifyStatus == "SUCCESS" ? (
+      {verifyStatus === "SUCCESS" ? (
         <View style={styles.container}>
           <DetailsCard
             data={cardData()}
