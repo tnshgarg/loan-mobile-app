@@ -14,7 +14,7 @@ const EWAStack = () => {
   var initialRoute = useSelector((state) => state.navigation.currentScreen);
 
   STAGE === "dev" ? (initialRoute = "DevMenu") : null;
-  console.log("initialRoute: ", initialRoute);
+  console.log("EWAStack initialRoute: ", initialRoute);
 
   return (
     <Stack.Navigator
