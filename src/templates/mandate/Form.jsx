@@ -16,7 +16,8 @@ import {
 import { styles } from "../../styles";
 import { showToast } from "../../components/atoms/Toast";
 import {
-  createMandateOrder,openRazorpayCheckout
+  createMandateOrder,
+  openRazorpayCheckout
 } from "../../services/mandate/Razorpay/services";
 import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
@@ -144,7 +145,6 @@ const MandateFormTemplate = (props) => {
       .then((res) => {
         console.log("Form mandateFetch response.data", res.data);
         dispatch(resetMandate(res?.data?.body));
-        dispatch(addVerifyStatus(res?.data?.body?.verifyStatus));
         setVerifyStatus(res?.data?.body?.verifyStatus);
       })
   }
@@ -206,7 +206,7 @@ const MandateFormTemplate = (props) => {
         unipeEmployeeId,
         token
       })
-      const createOrderResponse = res.data;
+      const createOrderResponse = res?.data;
       console.log(`Mandate|CreateOrder|${authType} res.data:`, createOrderResponse);
       if (createOrderResponse.status === 200) {
         let razorpayOrder = createOrderResponse.body

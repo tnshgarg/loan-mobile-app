@@ -225,8 +225,8 @@ const HomeView = () => {
               accessible={accessible}
               ewaLiveSlice={ewaLiveSlice}
             />
-            <CompleteKycCard/>
-            <ExploreCards/>
+            <CompleteKycCard />
+            <ExploreCards />
           </>
         </View>
       </ScrollView>
