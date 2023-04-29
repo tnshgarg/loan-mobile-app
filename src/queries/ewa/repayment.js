@@ -27,6 +27,7 @@ export const updateRepayment = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getRepayment"] });
+      queryClient.invalidateQueries({ queryKey: ["getEwaOffers"] });
     },
   });
   return mutation;

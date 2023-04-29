@@ -165,8 +165,8 @@ android {
         applicationId "com.employeeapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 202302282
-        versionName "2023.2.28"
+        versionCode 202304282
+        versionName "2023.4.28"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
         // missingDimensionStrategy 'react-native-camera', 'general'
@@ -318,13 +318,15 @@ android {
     }
 }
 
+def REACT_NATIVE_VERSION = new File(['node', '--print',"JSON.parse(require('fs').readFileSync(require.resolve('react-native/package.json'), 'utf-8')).version"].execute(null, rootDir).text.trim())
+
 dependencies {
     def appCenterSdkVersion = '4.1.0'
     implementation "com.microsoft.appcenter:appcenter-distribute:${appCenterSdkVersion}"
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.work:work-runtime-ktx:2.8.0-alpha01'
     //noinspection GradleDynamicVersion
-    implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation "com.facebook.react:react-native:" + REACT_NATIVE_VERSION
     implementation project(':react-native-splash-screen')
     implementation 'com.facebook.fresco:fresco:2.0.0'
     implementation 'com.facebook.fresco:animated-gif:2.6.0'
