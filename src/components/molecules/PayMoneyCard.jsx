@@ -117,7 +117,6 @@ const PayMoneyCard = () => {
         else {
           setRepaymentStatus(res?.data.paymentStatus);
         }
-        throw res?.data;
       })
       .catch((error) => {
         console.log("repaymentPush error: ", error);
@@ -172,7 +171,7 @@ const PayMoneyCard = () => {
       })
       .catch((error) => {
         setLoading(false);
-        Alert("Error", error);
+        Alert.alert("Error", error?.message || "Something went wrong");
       });
     }
   }

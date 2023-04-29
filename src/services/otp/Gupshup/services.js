@@ -1,15 +1,8 @@
-import {  STAGE } from "@env";
+import { STAGE } from "@env";
 import axios from "axios";
 import { GUPSHUP_GENERATE_OTP_API_URL, GUPSHUP_VERIFY_OTP_API_URL } from "../../constants";
 
 const sendSmsVerification = async (phoneNumber) => {
-  if (STAGE === "dev") {
-    return {
-      response: {
-        status: "success",
-      },
-    };
-  } else {
     try {
     const response =  await axios
       .post(GUPSHUP_GENERATE_OTP_API_URL, {
@@ -20,17 +13,9 @@ const sendSmsVerification = async (phoneNumber) => {
       console.error("Error: ", error)
       return error;
     }
-  }
 };
 
 const checkVerification = async (phoneNumber, code) => {
-  if (STAGE === "dev") {
-    return {
-      response: {
-        status: "success",
-      },
-    };
-  } else {
     try {
       const response =  await axios
         .post(GUPSHUP_VERIFY_OTP_API_URL, {
@@ -42,7 +27,6 @@ const checkVerification = async (phoneNumber, code) => {
         console.error("Error: ", error)
         return error;
       }
-  }
 };
 
 module.exports = {

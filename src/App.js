@@ -5,7 +5,6 @@ import SplashScreen from "react-native-splash-screen";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { STAGE } from "@env";
 import { queryClient } from "./queries/client";
 import { QueryClientProvider } from "@tanstack/react-query";
 import Analytics from "appcenter-analytics";
@@ -20,12 +19,6 @@ Crashes.setListener({
     return true; // return true if the crash report should be processed, otherwise false.
   },
 });
-
-// let codePushOptions = {
-//   checkFrequency: codePush.CheckFrequency.ON_APP_START,
-//   mandatoryInstallMode: codePush.InstallMode.IMMEDIATE,
-//   updateDialog: true, //InstallMode.ON_NEXT_RESUME to have minimum background duration effect
-// };
 
 const analyticsStatus = async () => {
   Analytics.setEnabled(true);
