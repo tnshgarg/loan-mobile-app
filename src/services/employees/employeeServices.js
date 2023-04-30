@@ -1,7 +1,7 @@
 import axios from "axios";
 import { EMPLOYEE_API_URL } from "../constants";
 
-export const putBackendData = (props) => {
+export const putBackendData = async (props) => {
   console.log(`putBackendData for ${props.xpath}`);
 
   var data = JSON.stringify(props.data);
@@ -17,7 +17,15 @@ export const putBackendData = (props) => {
     data: data,
   };
 
-  return axios(config);
+  return await axios(config).then((response) => {
+    if (!response.data.status || response.data.status === 500) {
+      throw new Error("Oops! Something went wrong. Please try again later.");
+    }
+    else if (response.data.status === 401) {
+      throw new Error("No auth!");
+    }
+    return response;
+  });
 };
 
 export const getBackendData = async (props) => {
@@ -39,6 +47,9 @@ export const getBackendData = async (props) => {
   return await axios(config).then((response) => {
     if (!response.data.status || response.data.status === 500) {
       throw new Error("Oops! Something went wrong. Please try again later.");
+    }
+    else if (response.data.status === 401) {
+      throw new Error("No auth!");
     }
     return response;
   });
