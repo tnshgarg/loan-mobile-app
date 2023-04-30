@@ -1,5 +1,6 @@
 import axios from "axios";
 import { EMPLOYEE_API_URL } from "../constants";
+import { Alert } from "react-native";
 
 export const putBackendData = async (props) => {
   console.log(`putBackendData for ${props.xpath}`);
@@ -22,7 +23,7 @@ export const putBackendData = async (props) => {
       throw new Error("Oops! Something went wrong. Please try again later.");
     }
     else if (response.data.status === 401) {
-      throw new Error("No auth!");
+      Alert.alert(response?.data?.message || "Your session has expired. Please login again.");
     }
     return response;
   });
@@ -49,7 +50,7 @@ export const getBackendData = async (props) => {
       throw new Error("Oops! Something went wrong. Please try again later.");
     }
     else if (response.data.status === 401) {
-      throw new Error("No auth!");
+      Alert.alert(response?.data?.message || "Your session has expired. Please login again.");
     }
     return response;
   });

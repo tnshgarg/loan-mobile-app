@@ -14,6 +14,7 @@ import {
   checkVerification,
   sendSmsVerification,
 } from "../../services/otp/Gupshup/services";
+import { addToken } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
@@ -122,6 +123,7 @@ const OTPScreen = () => {
     checkVerification(phoneNumber, otp)
       .then((res) => {
         if (res["response"]["status"] === "success") {
+          dispatch(addToken(res["response"]["token"]));
           setVerified(true);
           navigation.navigate("BackendSync", {
             destination: "HomeStack",
