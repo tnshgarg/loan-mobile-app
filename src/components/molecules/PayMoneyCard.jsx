@@ -46,9 +46,9 @@ const PayMoneyCard = () => {
     error: getRepaymentError,
     data: getRepaymentData,
   } = useQuery(['getRepayment', unipeEmployeeId, token], getRepayment, {
-    staleTime: 1000 * 60 * 5,
-    cacheTime: 1000 * 60 * 11,
-    refetchInterval: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 2,
+    cacheTime: 1000 * 60 * 10,
+    refetchInterval: 1000 * 60 * 2,
   });
 
   useEffect(() => {
