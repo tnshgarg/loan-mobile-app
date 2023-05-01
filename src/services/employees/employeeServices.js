@@ -23,6 +23,7 @@ export const putBackendData = async (props) => {
       throw new Error("Oops! Something went wrong. Please try again later.");
     }
     else if (response.data.status === 401) {
+      if(props.token==="") {throw new Error("Can't hit backend servers!");}
       Alert.alert(response?.data?.message || "Your session has expired. Please login again.");
     }
     return response;
@@ -50,6 +51,7 @@ export const getBackendData = async (props) => {
       throw new Error("Oops! Something went wrong. Please try again later.");
     }
     else if (response.data.status === 401) {
+      if(props.token==="") {throw new Error("Can't hit backend servers!");}
       Alert.alert(response?.data?.message || "Your session has expired. Please login again.");
     }
     return response;
