@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, Linking } from "react-native";
 import React from "react";
 import LogoHeader from "../atoms/LogoHeader";
 import { Ionicons } from "react-native-vector-icons";

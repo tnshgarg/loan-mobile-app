@@ -1,7 +1,7 @@
 import Analytics from "appcenter-analytics";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
+import { Alert, BackHandler, SafeAreaView, Text, View, Linking} from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
 import { useDispatch, useSelector } from "react-redux";
 import PushNotification, { Importance } from "react-native-push-notification";
