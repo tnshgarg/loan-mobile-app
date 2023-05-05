@@ -9,6 +9,7 @@ import { COLORS } from "../../constants/Theme";
 import OtpInput from "../../components/molecules/OtpInput";
 import BackgroundTimer from "react-native-background-timer";
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
+import { useIsFocused } from "@react-navigation/core";
 
 const AadhaarVerifyTemplate = (props) => {
   const dispatch = useDispatch();
@@ -17,15 +18,20 @@ const AadhaarVerifyTemplate = (props) => {
   const [resend, setResend] = useState(false);
   const [validOtp, setValidOtp] = useState(true);
   const [verified, setVerified] = useState(false);
-  
+
   const [otp, setOtp] = useState("");
 
   const countDownTime = useSelector((state) => state.timer.aadhaar);
-
+  const isFocused = useIsFocused();
   let interval;
 
   useEffect(() => {
-    
+    if (isFocused) {
+      setOtp("");
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
     interval = BackgroundTimer.setInterval(() => {
       console.log({ countDownTime });
       if (countDownTime > 0) {
@@ -39,12 +45,11 @@ const AadhaarVerifyTemplate = (props) => {
       setResend(true);
       BackgroundTimer.clearInterval(interval);
     }
-    if (countDownTime < 1){
+    if (countDownTime < 1) {
       dispatch(addVerifyStatus("PENDING"));
     }
 
     return () => BackgroundTimer.clearInterval(interval);
-
   }, [countDownTime, verified]);
 
   useEffect(() => {
@@ -90,7 +95,6 @@ const AadhaarVerifyTemplate = (props) => {
           type={props?.route?.params?.type || ""}
           setVerified={setVerified}
         />
-
       </View>
     </ScrollView>
   );
