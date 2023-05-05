@@ -79,6 +79,7 @@ const AadhaarVerifyApi = (props) => {
           unipeEmployeeId: unipeEmployeeId,
           error: `submitAadhaarOTP Catch Error: ${JSON.stringify(error)}`,
         });
+        setLoading(false);
         navigation.goBack();
       });
   };
