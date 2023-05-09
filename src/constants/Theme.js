@@ -34,20 +34,7 @@ export const COLORS = {
   primary: "#41be89",
   primaryBackground: "#D5F9EA",
   secondary: "#170D45",
-  button: {
-    disabled: {
-      background: "",
-      text: "",
-    },
-    disabled: {
-      background: "",
-      text: "",
-    },
-  },
-  appBar: {
-    background: "#2CB77C",
-    text: "",
-  },
+  headerBg: "rgba(55, 116, 118,0.1)",
   warning: "#f56a6a",
   warningBackground: "#fde1e1",
   pending: "orange",
@@ -99,8 +86,8 @@ export const SIZES = {
 export const FONTS = {
   title: {
     fontFamily: "Montserrat-Regular",
-    fontSize: normalize(68),
-    lineHeight: normalize(100),
+    fontSize: normalize(62),
+    lineHeight: normalize(62),
   },
   h1: {
     fontFamily: "Montserrat-Bold",

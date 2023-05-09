@@ -42,6 +42,11 @@ import AgreementText from "../../components/organisms/AgreementText";
 import { STAGE } from "@env";
 import Animated, { EasingNode } from "react-native-reanimated";
 import SvgListItem from "../../components/molecules/SvgListItem";
+import LogoImage from "../../assets/HeaderLogo.svg";
+import Tick from "../../assets/Tick.svg";
+import Face from "../../assets/Face.svg";
+import SvgContainer from "../../components/atoms/SvgContainer";
+import LinearGradient from "react-native-linear-gradient";
 
 const LoginScreen = () => {
   SplashScreen.hide();
@@ -198,15 +203,15 @@ const LoginScreen = () => {
   useEffect(() => {
     if (startClicked) {
       Animated.timing(bottomFlex, {
-        toValue: 4,
-        duration: 250,
+        toValue: 8,
+        duration: 100,
         useNativeDriver: false,
         easing: EasingNode.in,
       }).start();
     } else {
       Animated.timing(bottomFlex, {
         toValue: 0,
-        duration: 250,
+        duration: 50,
         useNativeDriver: false,
         easing: EasingNode.in,
       }).start();
@@ -217,33 +222,15 @@ const LoginScreen = () => {
   const data = [
     {
       title: "0% Interest Charges",
-      imageUri: (
-        <MaterialCommunityIcons
-          name="check-circle"
-          size={20}
-          color={COLORS.primary}
-        />
-      ),
+      imageUri: <Tick />,
     },
     {
       title: "No Joining Fees",
-      imageUri: (
-        <MaterialCommunityIcons
-          name="check-circle"
-          size={20}
-          color={COLORS.primary}
-        />
-      ),
+      imageUri: <Tick />,
     },
     {
       title: "Instant cash in bank account",
-      imageUri: (
-        <MaterialCommunityIcons
-          name="check-circle"
-          size={20}
-          color={COLORS.primary}
-        />
-      ),
+      imageUri: <Tick />,
     },
   ];
 
@@ -269,57 +256,63 @@ const LoginScreen = () => {
 
   return (
     <SafeAreaView accessibilityLabel="LoginScreen" style={styles.safeContainer}>
-      <LogoHeader
-        rightIcon={
-          <Icon name="logo-whatsapp" size={28} color={COLORS.primary} />
-        }
-        rightOnPress={() => {
-          Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
-        }}
-      />
-
-      <View style={[styles.container]}>
-        {startClicked ? (
-          <Text
-            style={[
-              styles.subHeadline,
-              {
-                textAlign: "left",
-                alignSelf: "flex-start",
-                ...FONTS.body3,
-                marginTop: "4%",
-                marginBottom: 0,
-                color: COLORS.secondary,
-              },
-            ]}
-          >
-            Welcome to Unipe
-          </Text>
-        ) : (
-          <Text
-            style={{
-              ...FONTS.title,
-              color: COLORS.primary,
-            }}
-          >
-            नमस्ते
-          </Text>
-        )}
-        <Text
+      {startClicked ? (
+        <LogoHeader
+          headline={"Enter Mobile Number"}
+          // rightIcon={
+          //   <Icon name="logo-whatsapp" size={28} color={COLORS.primary} />
+          // }
+          // rightOnPress={() => {
+          //   Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+          // }}
+        />
+      ) : (
+        <LinearGradient
+          colors={[
+            "rgba(110, 220, 133,0.2)",
+            "rgba(237, 251, 139,0.2)",
+            "#FFFFFF",
+          ]}
           style={{
-            ...FONTS.h1,
-            color: COLORS.secondary,
-            marginBottom: "5%",
+            flex: 1,
           }}
         >
-          Get your salary today!
-        </Text>
+          <View
+            style={[
+              styles.container,
+              { justifyContent: "space-between", backgroundColor: null },
+            ]}
+          >
+            <View style={{ flexDirection: "row", width: "100%" }}>
+              <SvgContainer width={150} height={50}>
+                <LogoImage />
+              </SvgContainer>
+              <View style={{ margin: "-5%", marginLeft: "-10%" }}>
+                <SvgContainer width={250} height={250}>
+                  <Face />
+                </SvgContainer>
+              </View>
+            </View>
 
-        {!startClicked &&
-          data.map((item, index) => <SvgListItem item={item} key={index} />)}
-      </View>
+            <Text
+              style={{
+                ...FONTS.h1,
+                color: COLORS.secondary,
+              }}
+            >
+              Get Your Advance{"\n"}Salary. Today.
+            </Text>
+          </View>
+        </LinearGradient>
+      )}
+      {!startClicked && (
+        <View style={[styles.container, { flex: 0 }]}>
+          {data.map((item, index) => (
+            <SvgListItem item={item} key={index} />
+          ))}
+        </View>
+      )}
 
-      {/* {startClicked ? null : <View style={{ flex: 1 }} />} */}
       <Animated.View style={[styles.bottomPart, { flex: bottomFlex }]}>
         <KeyboardAvoidingWrapper>
           <View>

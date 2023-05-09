@@ -4,7 +4,6 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import { useEffect } from "react";
 
 const OtpInput = ({ otp, setOtp, inputRef, accessibilityLabel }) => {
-
   useEffect(() => {
     setTimeout(() => {
       inputRef.current.focus();
@@ -13,7 +12,14 @@ const OtpInput = ({ otp, setOtp, inputRef, accessibilityLabel }) => {
 
   const getNumberView = (val) => {
     return val != "" ? (
-      <Text style={{ ...FONTS.h2, color: COLORS.secondary }}>{val}</Text>
+      <Text
+        style={{
+          ...FONTS.title,
+          color: COLORS.secondary,
+        }}
+      >
+        {val}
+      </Text>
     ) : (
       <View style={styles.empty} />
     );

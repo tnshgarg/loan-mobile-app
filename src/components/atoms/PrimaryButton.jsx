@@ -53,7 +53,7 @@ const styles = EStyleSheet.create({
     marginTop: "10rem",
     width: "100%",
     height: SIZES.btnHeight,
-    borderRadius: "10rem",
+    borderRadius: "50rem",
   },
   loadingButton: {
     backgroundColor: COLORS.primary,

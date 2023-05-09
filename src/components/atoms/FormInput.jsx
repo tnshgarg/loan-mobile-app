@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TextInput } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
+import { FloatingLabelInput } from "react-native-floating-label-input";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 
 const FormInput = ({
@@ -31,21 +32,16 @@ const FormInput = ({
 }) => {
   return (
     <View style={[styles.container, { ...containerStyle }]}>
-      {label && (
-        <View style={styles.inputHeader}>
-          <Text style={{ color: COLORS.gray, ...FONTS.h4, ...labelStyle }}>
-            {label}
-          </Text>
-        </View>
-      )}
       <View
         style={[
           styles.inputContainer,
-          { borderColor: errorMsg ? COLORS.warning : COLORS.lightGray },
+          {
+            borderColor: errorMsg ? COLORS.warning : COLORS.lightGray,
+          },
         ]}
       >
         {prependComponent}
-        <TextInput
+        {/* <TextInput
           testID={testID}
           style={{
             flex: 1,
@@ -53,6 +49,49 @@ const FormInput = ({
             color: COLORS.black,
             ...inputStyle,
             //backgroundColor: COLORS.secondary,
+          }}
+          value={value}
+          placeholder={placeholder}
+          placeholderTextColor={COLORS.gray}
+          secureTextEntry={secureTextEntry}
+          keyboardType={keyboardType}
+          autoCompleteType={autoCompleteType}
+          autoCapitalize={autoCapitalize}
+          onChangeText={(value) => onChange(value)}
+          editable={!disabled}
+          maxLength={maxLength}
+          numeric={numeric}
+          autoFocus={autoFocus}
+          required={required}
+          letterSpacing={letterSpacing}
+          textAlign={textAlign}
+          selection={selection}
+          accessibilityLabel={accessibilityLabel}
+        /> */}
+        <FloatingLabelInput
+          testID={testID}
+          containerStyles={{
+            borderWidth: 0,
+            height: 70,
+            maxWidth: "70%",
+          }}
+          inputStyles={{
+            ...FONTS.body4,
+            color: COLORS.black,
+            paddingLeft: 5,
+            ...inputStyle,
+            //backgroundColor: COLORS.secondary,
+          }}
+          label={placeholder}
+          labelStyles={{
+            ...FONTS.body2,
+            backgroundColor: COLORS.white,
+            paddingHorizontal: 5,
+          }}
+          customLabelStyles={{
+            colorFocused: COLORS.gray,
+            fontSizeFocused: 12,
+            colorBlurred: COLORS.gray,
           }}
           value={value}
           placeholder={placeholder}
@@ -94,14 +133,14 @@ const styles = EStyleSheet.create({
   },
   inputContainer: {
     flexDirection: "row",
-    height: SIZES.btnHeight,
+    height: 50,
     //paddingHorizontal: SIZES.padding,
     alignItems: "center",
-    borderRadius: 5,
+    borderRadius: "50rem",
     width: "100%",
     backgroundColor: COLORS.white,
     borderWidth: 1.5,
-    borderColor: COLORS.lightGray,
+    borderColor: COLORS.gray,
     paddingHorizontal: "10rem",
   },
 });

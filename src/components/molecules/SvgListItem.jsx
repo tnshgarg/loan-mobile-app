@@ -16,7 +16,7 @@ const styles = EStyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    marginVertical: "15rem",
+    marginVertical: "10rem",
   },
   text: {
     ...FONTS.body3,

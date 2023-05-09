@@ -179,15 +179,31 @@ const OTPScreen = () => {
 
   return (
     <SafeAreaView accessibilityLabel="OtpScreen" style={styles.safeContainer}>
-      <LogoHeaderBack leftOnPress={backAction} />
-      <KeyboardAvoidingWrapper>
+      <LogoHeaderBack
+        leftOnPress={backAction}
+        headline={"Verify mobile number"}
+      />
+      <View style={styles.container}>
         <View accessibilityLabel="OtpKeyboardView" style={styles.safeContainer}>
-          <Text style={styles.headline}>Verify mobile number</Text>
-          <Text style={styles.subHeadline}>
+          <Text
+            style={[
+              styles.subHeadline,
+              { width: "90%", marginTop: 10, textAlign: "left" },
+            ]}
+          >
             Please wait, we will auto verify the OTP sent to
           </Text>
-          <View style={[styles.row, { alignSelf: "center" }]}>
-            <Text style={[styles.headline, { marginTop: 5, ...FONTS.h3 }]}>
+          <View
+            style={[
+              styles.row,
+              {
+                alignSelf: "center",
+                marginTop: 0,
+                width: "90%",
+              },
+            ]}
+          >
+            <Text style={[styles.headline, { ...FONTS.body3, marginTop: 5 }]}>
               {phoneNumber}
             </Text>
             <TouchableOpacity
@@ -202,9 +218,9 @@ const OTPScreen = () => {
               }}
             >
               <MaterialCommunityIcons
-                name="pencil"
+                name="pencil-outline"
                 size={18}
-                color={back ? COLORS.primary : COLORS.gray}
+                color={COLORS.primary}
               />
             </TouchableOpacity>
           </View>
@@ -216,6 +232,8 @@ const OTPScreen = () => {
             accessibilityLabel="OtpInput"
           />
 
+          <View style={{ flex: 1 }} />
+
           <Text style={styles.subHeadline} accessibilityLabel="OtpText">
             Didn’t receive the secure code?{" "}
             {back ? (
@@ -226,7 +244,7 @@ const OTPScreen = () => {
                 Resend OTP
               </Text>
             ) : (
-              <Text style={{ color: COLORS.secondary }}>
+              <Text style={{ color: COLORS.lightGray }}>
                 Resend OTP in {Math.trunc(countDownTime / 60)}:
                 {String("0" + (countDownTime % 60)).slice(-2)}
               </Text>
@@ -239,7 +257,7 @@ const OTPScreen = () => {
             onPress={onSubmitOtp}
           />
         </View>
-      </KeyboardAvoidingWrapper>
+      </View>
     </SafeAreaView>
   );
 };

@@ -5,7 +5,7 @@ export const styles = EStyleSheet.create({
   container: {
     backgroundColor: "$white",
     flex: 1,
-    padding: "10rem",
+    padding: "15rem",
   },
   safeContainer: {
     backgroundColor: "$white",
@@ -27,7 +27,7 @@ export const styles = EStyleSheet.create({
     textAlign: "center",
     alignSelf: "center",
     marginBottom: "5rem",
-    width: "85%",
+    // width: "85%",
   },
   btn: {
     marginTop: "20rem",
