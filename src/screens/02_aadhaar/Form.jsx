@@ -7,6 +7,7 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import AadhaarFormTemplate from "../../templates/aadhaar/Form";
 import { styles } from "../../styles";
 import Header from "../../components/atoms/Header";
+import LogoHeader from "../../components/atoms/LogoHeader";
 
 const AadhaarForm = () => {
   const dispatch = useDispatch();
@@ -32,12 +33,18 @@ const AadhaarForm = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer} accessibilityLabel="AadhaarForm">
-      <Header
+      {/* <Header
         title="Onboarding"
         onLeftIconPress={() => backAction()}
         progress={30}
+      /> */}
+      <LogoHeader
+        headline={" Aadhaar Verification"}
+        subHeadline={
+          "भारतीय रिजर्व बैंक के मानदंडों के अनुसार, आपको अपना आधार वेरीफाई करना अनिवार्य है।"
+        }
       />
-      <OnboardingProgressBar step={1} />
+      {/* <OnboardingProgressBar step={1} /> */}
       <AadhaarFormTemplate />
     </SafeAreaView>
   );

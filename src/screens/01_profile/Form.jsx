@@ -5,6 +5,7 @@ import Header from "../../components/atoms/Header";
 import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import { styles } from "../../styles";
 import ProfileFormTemplate from "../../templates/profile/Form";
+import LogoHeader from "../../components/atoms/LogoHeader";
 
 const ProfileForm = () => {
   const navigation = useNavigation();
@@ -28,13 +29,14 @@ const ProfileForm = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer} accessibilityLabel="ProfileForm">
-      <Header
-        title="Onboarding"
-        onLeftIconPress={() => backAction()}
-        progress={20}
+      <LogoHeader
+        headline={"Enter Your Details"}
+        subHeadline={
+          "एडवांस सैलरी की प्रक्रिया जारी रखने के लिए, निम्नलिखित अनिवार्य जानकारी प्रदान करें:"
+        }
       />
-      <OnboardingProgressBar step={0} />
-      <ProfileFormTemplate type="Onboarding"/>
+      {/* <OnboardingProgressBar step={0} /> */}
+      <ProfileFormTemplate type="Onboarding" />
     </SafeAreaView>
   );
 };

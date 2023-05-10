@@ -40,6 +40,26 @@
     {
       "path": "assets/fonts/Montserrat-Thin.ttf",
       "sha1": "8c871991960f520a31635f95be6c346b659e2c8c"
+    },
+    {
+      "path": "assets/fonts/Proxima Nova Bold.otf",
+      "sha1": "411bff1d3b8f0144f1685c94a21156a53848d5a6"
+    },
+    {
+      "path": "assets/fonts/Proxima Nova Condensed Light.otf",
+      "sha1": "742e5e49a20cbfbf678a282265741d21cc31ec1a"
+    },
+    {
+      "path": "assets/fonts/Proxima Nova Condensed Semibold.otf",
+      "sha1": "e9d098fbd8d7e90b5d120372025827f18cc93c57"
+    },
+    {
+      "path": "assets/fonts/Proxima Nova Extra Condensed Regular.otf",
+      "sha1": "624493916cad1adea04257cc97cce506a513b671"
+    },
+    {
+      "path": "assets/fonts/Proxima Nova Regular.otf",
+      "sha1": "28d04eb938c05b5158a69a709682d4f0517a59ab"
     }
   ]
 }

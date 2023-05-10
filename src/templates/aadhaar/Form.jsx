@@ -33,11 +33,6 @@ const AadhaarFormTemplate = (props) => {
     <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <View style={[styles.container, { padding: 0 }]}>
-          <Text style={styles.headline}>Aadhaar Verification</Text>
-          <Text style={styles.subHeadline}>
-            भारतीय रिजर्व बैंक के मानदंडों के अनुसार, आपको अपना आधार वेरीफाई
-            करना अनिवार्य है।
-          </Text>
           <FormInput
             accessibilityLabel={"AadhaarInput"}
             placeholder={"Aadhaar Number"}

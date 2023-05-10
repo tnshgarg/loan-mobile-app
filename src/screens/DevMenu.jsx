@@ -7,10 +7,11 @@ export default DevMenu = () => {
 
   const screens = [
     { title: "Onboarding", stack: "OnboardingStack", name: "Onboarding" },
-    { title: "Welcome", stack: "OnboardingStack", name: "Welcome" },
+
     { title: "Login", stack: "OnboardingStack", name: "Login" },
+    { title: "Login Success", stack: "OnboardingStack", name: "LoginSuccess" },
     { title: "Profile", stack: "OnboardingStack", name: "ProfileForm" },
-    { title: "AADHAAR", stack: "OnboardingStack", name: "AadhaarForm" },
+    { title: "AADHAAR", stack: "EWAStack", name: "EWA_KYC_STACK" },
     { title: "PAN", stack: "OnboardingStack", name: "PanForm" },
     { title: "BANK", stack: "OnboardingStack", name: "BankForm" },
     { title: "Mandate", stack: "EWAStack", name: "EWA_MANDATE" },

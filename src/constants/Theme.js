@@ -85,57 +85,57 @@ export const SIZES = {
 
 export const FONTS = {
   title: {
-    fontFamily: "Montserrat-Regular",
+    fontFamily: "Proxima Nova Regular",
     fontSize: normalize(62),
     lineHeight: normalize(62),
   },
   h1: {
-    fontFamily: "Montserrat-Bold",
+    fontFamily: "Proxima Nova Bold",
     fontSize: SIZES.h1,
     lineHeight: normalize(36),
   },
   h2: {
-    fontFamily: "Montserrat-Bold",
+    fontFamily: "Proxima Nova Bold",
     fontSize: SIZES.h2,
     lineHeight: normalize(30),
   },
   h3: {
-    fontFamily: "Montserrat-Bold",
+    fontFamily: "Proxima Nova Bold",
     fontSize: SIZES.h3,
     lineHeight: normalize(24),
   },
   h4: {
-    fontFamily: "Montserrat-Bold",
+    fontFamily: "Proxima Nova Bold",
     fontSize: SIZES.h4,
     lineHeight: normalize(20),
   },
   h5: {
-    fontFamily: "Montserrat-Bold",
+    fontFamily: "Proxima Nova Bold",
     fontSize: SIZES.h5,
     lineHeight: normalize(16),
   },
   body1: {
-    fontFamily: "Montserrat-Medium",
+    fontFamily: "Proxima Nova Regular",
     fontSize: SIZES.body1,
     lineHeight: normalize(36),
   },
   body2: {
-    fontFamily: "Montserrat-Medium",
+    fontFamily: "Proxima Nova Regular",
     fontSize: SIZES.body2,
     lineHeight: normalize(30),
   },
   body3: {
-    fontFamily: "Montserrat-Medium",
+    fontFamily: "Proxima Nova Regular",
     fontSize: SIZES.body3,
     lineHeight: normalize(24),
   },
   body4: {
-    fontFamily: "Montserrat-Medium",
+    fontFamily: "Proxima Nova Regular",
     fontSize: SIZES.body4,
     lineHeight: normalize(20),
   },
   body5: {
-    fontFamily: "Montserrat-Medium",
+    fontFamily: "Proxima Nova Regular",
     fontSize: SIZES.body5,
     lineHeight: normalize(16),
   },

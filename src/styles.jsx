@@ -23,7 +23,7 @@ export const styles = EStyleSheet.create({
   subHeadline: {
     //marginTop: "5rem",
     ...FONTS.body4,
-    color: COLORS.gray,
+    color: COLORS.black,
     textAlign: "center",
     alignSelf: "center",
     marginBottom: "5rem",
@@ -245,6 +245,15 @@ export const onboardingStyles = EStyleSheet.create({
     borderBottomRightRadius: "10rem",
     marginRight: "10rem",
     marginLeft: "-20rem",
+  },
+  alertBox: {
+    backgroundColor: "rgba(255, 193, 33, 0.33)",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "15rem",
+    marginTop: "15rem",
+    borderRadius: "10rem",
   },
 });
 

@@ -13,6 +13,7 @@ const LogoHeader = ({
   rightOnPress,
   title,
   headline,
+  subHeadline,
 }) => {
   const EmptyView = () => {
     return <View style={styles.empty} />;
@@ -53,7 +54,8 @@ const LogoHeader = ({
           <EmptyView />
         )}
       </View>
-      <Text style={styles.headline}>{headline}</Text>
+      {headline && <Text style={styles.headline}>{headline}</Text>}
+      {subHeadline && <Text style={styles.subHeadline}>{subHeadline}</Text>}
     </View>
   );
 };
@@ -88,5 +90,10 @@ const styles = EStyleSheet.create({
     ...FONTS.body2,
     color: COLORS.secondary,
     marginTop: "20rem",
+  },
+  subHeadline: {
+    ...FONTS.body3,
+    color: COLORS.secondary,
+    marginTop: "5rem",
   },
 });

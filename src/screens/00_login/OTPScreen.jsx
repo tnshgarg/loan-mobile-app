@@ -41,6 +41,13 @@ const OTPScreen = () => {
   const phoneNumber = useSelector((state) => state.auth.phoneNumber);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
+  const profileComplete = useSelector((state) => state.profile.profileComplete);
+  const aadhaarVerifyStatus = useSelector(
+    (state) => state.aadhaar.verifyStatus
+  );
+  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
+  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
+
   useEffect(() => {
     dispatch(addCurrentScreen("Otp"));
   }, []);
@@ -148,7 +155,13 @@ const OTPScreen = () => {
         if (res["response"]["status"] === "success") {
           setVerified(true);
           navigation.navigate("BackendSync", {
-            destination: "HomeStack",
+            destination:
+              profileComplete ||
+              aadhaarVerifyStatus ||
+              panVerifyStatus ||
+              bankVerifyStatus
+                ? "HomeStack"
+                : "LoginSuccess",
           });
           Analytics.trackEvent("OTPScreen|Check|Success", {
             unipeEmployeeId: unipeEmployeeId,
