@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../client";
-import { RZP_AUTH } from "../../services/constants";
+import { getVersion } from "react-native-device-info";
+
 import {
   getBackendData,
   putBackendData,
@@ -10,7 +11,7 @@ import {
 export const getRepayment = async ({queryKey}) => {
   const [_, unipeEmployeeId, token] = queryKey;
   return await getBackendData({
-                params: { unipeEmployeeId: unipeEmployeeId },
+                params: { unipeEmployeeId: unipeEmployeeId , version: getVersion()},
                 xpath: "ewa/repayment",
                 token: token,
               });
@@ -27,6 +28,7 @@ export const updateRepayment = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getRepayment"] });
+      queryClient.invalidateQueries({ queryKey: ["getEwaOffers"] });
     },
   });
   return mutation;

@@ -53,10 +53,10 @@ const PayMoneyCard = () => {
     isError: getRepaymentIsError,
     error: getRepaymentError,
     data: getRepaymentData,
-  } = useQuery(["getRepayment", unipeEmployeeId, token], getRepayment, {
-    staleTime: 1000 * 60 * 5,
-    cacheTime: 1000 * 60 * 11,
-    refetchInterval: 1000 * 60 * 5,
+  } = useQuery(['getRepayment', unipeEmployeeId, token], getRepayment, {
+    staleTime: 1000 * 60 * 2,
+    cacheTime: 1000 * 60 * 10,
+    refetchInterval: 1000 * 60 * 2,
   });
 
   useEffect(() => {
@@ -136,7 +136,6 @@ const PayMoneyCard = () => {
         else {
           setRepaymentStatus(res?.data.paymentStatus);
         }
-        throw res?.data;
       })
       .catch((error) => {
         console.log("repaymentPush error: ", error);
@@ -191,7 +190,7 @@ const PayMoneyCard = () => {
       })
       .catch((error) => {
         setLoading(false);
-        Alert("Error", error);
+        Alert.alert("Error", error?.message || "Something went wrong");
       });
     }
   }

@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Alert, BackHandler } from "react-native";
+import { View, Text, SafeAreaView, Alert, BackHandler, Linking} from "react-native";
 import { styles } from "../../styles";
 import LogoHeader from "../../components/atoms/LogoHeader";
 import Icon from "react-native-vector-icons/Ionicons";

@@ -1,8 +1,8 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch} from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import DevMenu from "../screens/DevMenu";
-
+import { useEffect, useState } from "react";
 import { STAGE } from "@env";
 import OfflineAlert from "../components/organisms/OfflineAlert";
 import OnboardingStack from "./stacks/OnboardingStack";
@@ -14,12 +14,39 @@ import InvestStack from "./stacks/InvestStack";
 import SplashScreen from "../screens/SplashScreen";
 import BottomTabNav from "./BottomTabNav";
 
+import { showToast } from "../components/atoms/Toast";
+import { decode } from "react-native-pure-jwt";
+import LogoutModal from "../components/organisms/LogoutModal";
+import { useNavigation } from "@react-navigation/core";
+
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  var initialRoute = useSelector((state) => state.navigation.currentStack);
+  const token = useSelector((state) => state.auth.token);
+  var initialScreen = useSelector((state) => state.navigation.currentScreen);
+  const [modalVisible, setModalVisible] = useState(false);
 
-  let initialRoute = useSelector((state) => state.navigation.currentStack);
-
-  let initialScreen = useSelector((state) => state.navigation.currentScreen);
+  useEffect(() => {
+    decode(
+      token, // the token
+      "Un!pe@2*22", // the secret
+      {
+        skipValidation: false, // to skip signature and exp verification
+      }
+    )
+      .then(() => {
+        showToast("Your Session has expired. Please login again.");
+        dispatch({ type: "LOGOUT" });
+        setModalVisible(true);
+        setTimeout(() => {
+          setModalVisible(false);
+          navigation.navigate("OnboardingStack", { screen: "Login" });
+        }, 8000);
+      })
+      .catch(console.log);
+  }, [token]);
 
   console.log("STAGE: ", STAGE);
   console.log("initialRoute: ", initialRoute);
@@ -27,7 +54,6 @@ const StackNavigator = () => {
 
   // STAGE === "dev" ? (initialRoute = "DevMenu") : null;
   console.log("initialRoute: ", initialRoute);
-  const token = useSelector((state) => state.auth.token);
   return (
     <OfflineAlert>
       <Stack.Navigator initialRouteName={"Splash"}>
@@ -97,6 +123,7 @@ const StackNavigator = () => {
           </>
         )}
       </Stack.Navigator>
+      <LogoutModal modalVisible={modalVisible} />
     </OfflineAlert>
   );
 };

@@ -28,10 +28,6 @@ const data = [
     component: <ODS width={150} height={200} />,
   },
   {
-    destination: "Invest",
-    component: <Earn width={150} height={200} />,
-  },
-  {
     component: <Refer width={150} height={200} />,
     inactive: true,
   },

@@ -1,8 +1,8 @@
 import { useNavigation } from "@react-navigation/core";
 import { useState } from "react";
-import { Modal, Pressable, Text, View } from "react-native";
+import { Alert, Modal, Pressable, Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import AntDesign from "react-native-vector-icons/AntDesign";
+import { AntDesign } from "react-native-vector-icons";
 import { useDispatch } from "react-redux";
 import SVGImg from "../../assets/UnipeLogo.svg";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";

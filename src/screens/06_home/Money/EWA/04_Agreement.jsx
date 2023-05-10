@@ -284,7 +284,7 @@ const Agreement = () => {
           />
 
           <PrimaryButton
-            title={loading ? "Booking" : "Finish"}
+            title={loading ? "Processing" : "Finish"}
             disabled={!consent || loading}
             onPress={() => {
               handleAgreement();

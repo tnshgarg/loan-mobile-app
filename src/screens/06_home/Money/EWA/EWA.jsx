@@ -2,8 +2,8 @@ import { STAGE } from "@env";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { BackHandler, SafeAreaView, View } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { BackHandler, SafeAreaView, View, Linking} from "react-native";
+import { Ionicons } from "react-native-vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import LogoHeader from "../../../../components/atoms/LogoHeader";
 import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
@@ -103,9 +103,9 @@ const EWA = () => {
     error: getEwaOffersError,
     data: getEwaOffersData,
   } = useQuery(["getEwaOffers", unipeEmployeeId, token], getEwaOffers, {
-    staleTime: 1000 * 60 * 5,
-    cacheTime: 1000 * 60 * 11,
-    refetchInterval: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 2,
+    cacheTime: 1000 * 60 * 10,
+    refetchInterval: 1000 * 60 * 2,
   });
 
   useEffect(() => {

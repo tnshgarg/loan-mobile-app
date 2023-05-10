@@ -2,7 +2,7 @@ import { STAGE } from "@env";
 import { useNavigation } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
-import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
+import { Alert, BackHandler, SafeAreaView, Text, View, Linking} from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
 import SplashScreen from "react-native-splash-screen";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -29,6 +29,12 @@ import {
 } from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
+import LogoHeader from "../../components/atoms/LogoHeader";
+import Icon from "react-native-vector-icons/Ionicons";
+import ShieldTitle from "../../components/atoms/ShieldTitle";
+import LoginInput from "../../components/molecules/LoginInput";
+import AgreementText from "../../components/organisms/AgreementText";
+import { STAGE } from "@env";
 
 const LoginScreen = () => {
   SplashScreen.hide();

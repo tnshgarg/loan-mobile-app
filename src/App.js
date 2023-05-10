@@ -20,13 +20,9 @@ Crashes.setListener({
 });
 
 const analyticsStatus = async () => {
-  STAGE == "dev"
-    ? await Analytics.setEnabled(false)
-    : await Analytics.setEnabled(true);
+  Analytics.setEnabled(true);
   const enabled = await Analytics.isEnabled();
-  if (enabled) {
-    Analytics.startSession();
-  }
+  console.log("Analytics.isEnabled", enabled);
 };
 
 const App = () => {

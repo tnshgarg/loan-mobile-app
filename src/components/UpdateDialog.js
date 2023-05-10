@@ -93,7 +93,7 @@ const UpdateDialog = () => {
         >
           {state === "ERROR"
             ? "Please check your internet connection and restart the app, if the problem persists please contact our customer support team for help"
-            : "Please dont press the back button or close the app"}
+            : "Please don't press the back button or close the app"}
         </Text>
         {state === "ERROR" ? (
           <TouchableNativeFeedback
