@@ -1,4 +1,4 @@
-import { useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import DevMenu from "../screens/DevMenu";
@@ -13,7 +13,7 @@ import AccountStack from "./stacks/AccountStack";
 import InvestStack from "./stacks/InvestStack";
 import SplashScreen from "../screens/SplashScreen";
 import BottomTabNav from "./BottomTabNav";
-
+import BackendSync from "../screens/BackendSync";
 import { showToast } from "../components/atoms/Toast";
 import { decode } from "react-native-pure-jwt";
 import LogoutModal from "../components/organisms/LogoutModal";
@@ -52,7 +52,7 @@ const StackNavigator = () => {
   console.log("initialRoute: ", initialRoute);
   console.log("currentScreen: ", initialScreen);
 
-  // STAGE === "dev" ? (initialRoute = "DevMenu") : null;
+  STAGE === "dev" ? (initialRoute = "DevMenu") : null;
   console.log("initialRoute: ", initialRoute);
   return (
     <OfflineAlert>
@@ -85,6 +85,14 @@ const StackNavigator = () => {
         ) : (
           <>
             <Stack.Screen
+              name="BackendSync"
+              component={BackendSync}
+              options={{
+                headerShown: false,
+                animation: "default",
+              }}
+            />
+            <Stack.Screen
               name="HomeStack"
               component={BottomTabNav}
               options={{
@@ -105,7 +113,6 @@ const StackNavigator = () => {
                 headerShown: false,
               }}
             />
-
             <Stack.Screen
               name="BenefitsStack"
               component={BenefitsStack}

@@ -114,38 +114,20 @@ const OTPScreen = () => {
       .unwrap()
       .then((res) => {
         console.log(res);
-        if (res["status"] === "success") {
-          setOtp("");
-          setBack(false);
-          Alert.alert("OTP resent successfully", "", [
-            {
-              text: "Ok",
-              onPress: () => {
-                inputRef.current.focus();
-                dispatch(resetTimer());
-              },
+        setOtp("");
+        setBack(false);
+        Alert.alert("OTP resent successfully", "", [
+          {
+            text: "Ok",
+            onPress: () => {
+              inputRef.current.focus();
+              dispatch(resetTimer());
             },
-          ]);
-          Analytics.trackEvent("OTPScreen|SendSms|Success", {
-            unipeEmployeeId: unipeEmployeeId,
-          });
-        } else {
-          Alert.alert(
-            res["status"],
-            res["details"]
-          );
-          Analytics.trackEvent("OTPScreen|SendSms|Error", {
-            unipeEmployeeId: unipeEmployeeId,
-            error: res["details"],
-          });
-        }
+          },
+        ]);
       })
       .catch((error) => {
         Alert.alert("Error", error.message);
-        Analytics.trackEvent("OTPScreen|SendSms|Error", {
-          unipeEmployeeId: unipeEmployeeId,
-          error: JSON.stringify(error.message),
-        });
       });
   };
 
@@ -154,33 +136,10 @@ const OTPScreen = () => {
     postVerifyOtp({ mobileNumber: phoneNumber, otp: otp })
       .unwrap()
       .then((res) => {
-        console.log(res);
-        if (res["status"] === "success") {
-          dispatch(addToken(res["token"]));
-          setVerified(true);
-          navigation.navigate("BackendSync");
-          Analytics.trackEvent("OTPScreen|Check|Success", {
-            unipeEmployeeId: unipeEmployeeId,
-            error: res["details"],
-          });
-        } else {
-          Alert.alert(
-            res["status"],
-            res["details"]
-          );
-          Analytics.trackEvent("OTPScreen|Check|Error", {
-            unipeEmployeeId: unipeEmployeeId,
-            error: res["details"],
-          });
-        }
       })
       .catch((error) => {
         console.log(error);
         Alert.alert("Error", error.message);
-        Analytics.trackEvent("OTPScreen|Check|Error", {
-          unipeEmployeeId: unipeEmployeeId,
-          error: error.message,
-        });
       });
   };
 

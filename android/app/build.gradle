@@ -166,40 +166,9 @@ android {
     }
 }
 
-// Apply static values from `gradle.properties` to the `android.packagingOptions`
-// Accepts values in comma delimited lists, example:
-// android.packagingOptions.pickFirsts=/LICENSE,**/picasa.ini
-["pickFirsts", "excludes", "merges", "doNotStrip"].each { prop ->
-    // Split option: 'foo,bar' -> ['foo', 'bar']
-    def options = (findProperty("android.packagingOptions.$prop") ?: "").split(",");
-    // Trim all elements in place.
-    for (i in 0..<options.size()) options[i] = options[i].trim();
-    // `[] - ""` is essentially `[""].filter(Boolean)` removing all empty strings.
-    options -= ""
-
-    if (options.length > 0) {
-        println "android.packagingOptions.$prop += $options ($options.length)"
-        // Ex: android.packagingOptions.pickFirsts += '**/SCCS/**'
-        options.each {
-            android.packagingOptions[prop] += it
-        }
-    }
-}
-
-def REACT_NATIVE_VERSION = new File(['node', '--print',"JSON.parse(require('fs').readFileSync(require.resolve('react-native/package.json'), 'utf-8')).version"].execute(null, rootDir).text.trim())
-
 dependencies {
-    def appCenterSdkVersion = '4.1.0'
-    implementation "com.microsoft.appcenter:appcenter-distribute:${appCenterSdkVersion}"
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'androidx.work:work-runtime-ktx:2.8.0-alpha01'
-    //noinspection GradleDynamicVersion
-    implementation "com.facebook.react:react-native:" + REACT_NATIVE_VERSION
-    implementation project(':react-native-splash-screen')
-    implementation 'com.facebook.fresco:fresco:2.0.0'
-    implementation 'com.facebook.fresco:animated-gif:2.6.0'
-     implementation 'com.google.firebase:firebase-analytics:17.3.0'
-implementation project(':react-native-push-notification')
+    // The version of react-native is set by the React Native Gradle Plugin
+    implementation("com.facebook.react:react-android")
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
 

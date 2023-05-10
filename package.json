@@ -65,6 +65,7 @@
 		"react-native-network-info": "^5.2.1",
 		"react-native-pager-view": "^6.2.0",
 		"react-native-popable": "^0.4.3",
+		"react-native-pure-jwt": "^3.0.1",
 		"react-native-razorpay": "^2.3.0",
 		"react-native-reanimated": "^3.1.0",
 		"react-native-render-html": "^6.3.4",

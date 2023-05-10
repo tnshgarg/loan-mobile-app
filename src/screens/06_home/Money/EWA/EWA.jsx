@@ -3,7 +3,7 @@ import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { BackHandler, SafeAreaView, View, Linking} from "react-native";
-import { Ionicons } from "react-native-vector-icons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { useDispatch, useSelector } from "react-redux";
 import LogoHeader from "../../../../components/atoms/LogoHeader";
 import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
@@ -11,7 +11,6 @@ import VerifyMandateCard from "../../../../components/molecules/VerifyMandateCar
 import LiveOfferCard from "../../../../components/organisms/LiveOfferCard";
 import { COLORS } from "../../../../constants/Theme";
 import { getNumberOfDays } from "../../../../helpers/DateFunctions";
-import whatsappLinking from "../../../../helpers/WhatsappLinking";
 import { getEwaOffers } from "../../../../queries/ewa/offers";
 import { getBackendData } from "../../../../services/employees/employeeServices";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
@@ -103,9 +102,9 @@ const EWA = () => {
     error: getEwaOffersError,
     data: getEwaOffersData,
   } = useQuery(["getEwaOffers", unipeEmployeeId, token], getEwaOffers, {
-    staleTime: 1000 * 60 * 2,
-    cacheTime: 1000 * 60 * 10,
-    refetchInterval: 1000 * 60 * 2,
+    staleTime: 1000 * 60 * 5,
+    cacheTime: 1000 * 60 * 11,
+    refetchInterval: 1000 * 60 * 5,
   });
 
   useEffect(() => {
@@ -152,7 +151,7 @@ const EWA = () => {
           <Ionicons name="logo-whatsapp" size={28} color={COLORS.primary} />
         }
         rightOnPress={() => {
-          whatsappLinking();
+          Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
         }}
       />
       <View style={styles.container}>

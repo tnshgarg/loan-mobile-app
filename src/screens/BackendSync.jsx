@@ -7,23 +7,29 @@ import { resetBank } from "../store/slices/bankSlice";
 import { resetMandate } from "../store/slices/mandateSlice";
 import { resetPan } from "../store/slices/panSlice";
 import { resetProfile } from "../store/slices/profileSlice";
-
+import { useNavigation } from "@react-navigation/core";
 
 const BackendSync = () => {
-
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
   useEffect(() => {
     console.log("BackendSync unipeEmployeeId: ", unipeEmployeeId);
+    setTimeout(() => {
+      navigation.navigate("HomeStack");
+    }, 2000);
   }, []);
 
   useEffect(() => {
     if (unipeEmployeeId) {
-      getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "aadhaar", token: token  })
+      getBackendData({
+        params: { unipeEmployeeId: unipeEmployeeId },
+        xpath: "aadhaar",
+        token: token,
+      })
         .then((response) => {
-          console.log("aadhaarBackendFetch response.data", response.data);
           if (response.data.status === 200) {
             dispatch(resetAadhaar(response.data.body));
           }
@@ -36,9 +42,12 @@ const BackendSync = () => {
 
   useEffect(() => {
     if (unipeEmployeeId) {
-      getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "bank", token: token  })
+      getBackendData({
+        params: { unipeEmployeeId: unipeEmployeeId },
+        xpath: "bank",
+        token: token,
+      })
         .then((response) => {
-          console.log("bankBackendFetch response.data", response.data);
           if (response.data.status === 200) {
             dispatch(resetBank(response.data.body));
           }
@@ -51,9 +60,12 @@ const BackendSync = () => {
 
   useEffect(() => {
     if (unipeEmployeeId) {
-      getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "pan", token: token  })
+      getBackendData({
+        params: { unipeEmployeeId: unipeEmployeeId },
+        xpath: "pan",
+        token: token,
+      })
         .then((response) => {
-          console.log("panBackendFetch response.data", response.data);
           if (response.data.status === 200) {
             dispatch(resetPan(response.data.body));
           }
@@ -66,9 +78,12 @@ const BackendSync = () => {
 
   useEffect(() => {
     if (unipeEmployeeId) {
-      getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "profile", token: token  })
+      getBackendData({
+        params: { unipeEmployeeId: unipeEmployeeId },
+        xpath: "profile",
+        token: token,
+      })
         .then((response) => {
-          console.log("profileBackendFetch response.data", response.data);
           if (response.data.status === 200) {
             dispatch(resetProfile(response.data.body));
           }
@@ -81,9 +96,12 @@ const BackendSync = () => {
 
   useEffect(() => {
     if (unipeEmployeeId) {
-      getBackendData({ params: { unipeEmployeeId: unipeEmployeeId }, xpath: "mandate", token: token  })
+      getBackendData({
+        params: { unipeEmployeeId: unipeEmployeeId },
+        xpath: "mandate",
+        token: token,
+      })
         .then((response) => {
-          console.log("mandateFetch response.data", response.data);
           if (response.data.status === 200) {
             dispatch(resetMandate(response.data.body));
           }

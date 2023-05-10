@@ -3,20 +3,22 @@ import { getVersion } from "react-native-device-info";
 
 export const loginApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getMobile: builder.mutation({
-      query: (phoneNumber) => ({
-        url: `mobile`,
-        method: "POST",
-        body: { number: phoneNumber },
-      }),
-    }),
     generateOtp: builder.mutation({
       query: (phoneNumber) => ({
         url: `login/generate-otp`,
         method: "POST",
         body: { mobileNumber: phoneNumber },
       }),
-      transformResponse: (response) => response.response,
+      transformResponse: (response) => {
+        if (response.response) {
+          return response.response;
+        } else {
+          throw Error(response.message);
+        }
+      },
+      transformErrorResponse: (error) => {
+        return error;
+      },
     }),
     verifyOtp: builder.mutation({
       query: (body) => ({
@@ -25,13 +27,16 @@ export const loginApi = api.injectEndpoints({
         headers: { "X-Unipe-App-Version": getVersion() },
         body: body,
       }),
+      transformResponse: (response) => {
+        if (response.response.status === "success") {
+          return response.response;
+        } else {
+          throw Error(response.response.details);
+        }
+      },
     }),
     overrideExisting: true,
   }),
 });
 
-export const {
-  useGetMobileMutation,
-  useGenerateOtpMutation,
-  useVerifyOtpMutation,
-} = loginApi;
+export const { useGenerateOtpMutation, useVerifyOtpMutation } = loginApi;
