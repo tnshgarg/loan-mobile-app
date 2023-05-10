@@ -62,7 +62,7 @@ const PanConfirmApi = (props) => {
   };
 
   const cardData = () => {
-    var res = [
+    let res = [
       { subTitle: "Name", value: data?.name, fullWidth: true },
       { subTitle: "Number", value: number, fullWidth: true },
 

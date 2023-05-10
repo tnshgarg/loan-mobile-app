@@ -1,26 +1,22 @@
-import { useNavigation } from "@react-navigation/core";
 import { useEffect } from "react";
 import { Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getBackendData } from "../services/employees/employeeServices";
 import { resetAadhaar } from "../store/slices/aadhaarSlice";
 import { resetBank } from "../store/slices/bankSlice";
+import { resetMandate } from "../store/slices/mandateSlice";
 import { resetPan } from "../store/slices/panSlice";
 import { resetProfile } from "../store/slices/profileSlice";
-import { resetMandate } from "../store/slices/mandateSlice";
 
 
-const BackendSync = (props) => {
+const BackendSync = () => {
 
   const dispatch = useDispatch();
-  const navigation = useNavigation();
-  
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
   useEffect(() => {
     console.log("BackendSync unipeEmployeeId: ", unipeEmployeeId);
-    navigation.navigate(props.route.params.destination);
   }, []);
 
   useEffect(() => {

@@ -1,9 +1,9 @@
-import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
-import LogoHeader from "../atoms/LogoHeader";
+import { Text, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { COLORS, FONTS } from "../../constants/Theme";
 import whatsappLinking from "../../helpers/WhatsappLinking";
+import LogoHeader from "../atoms/LogoHeader";
 
 const LogoHeaderBack = ({ leftOnPress, rightOnPress, title, skipEnabled }) => {
   return (

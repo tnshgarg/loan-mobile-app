@@ -1,13 +1,14 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { Alert, Text, View } from "react-native";
+import Analytics from "appcenter-analytics";
+import { Text, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import { showToast } from "../../components/atoms/Toast";
+import DetailsCard from "../../components/molecules/DetailsCard";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { putBackendData } from "../../services/employees/employeeServices";
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
-import { COLORS, FONTS } from "../../constants/Theme";
-import Analytics from "appcenter-analytics";
-import DetailsCard from "../../components/molecules/DetailsCard";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { putBackendData } from "../../services/employees/employeeServices";
 
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -15,22 +16,27 @@ const AadhaarConfirmApi = (props) => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
+  const campaignId = useSelector(
+    (state) => state.campaign.onboardingCampaignId
+  );
   const data = useSelector((state) => state.aadhaar.data);
   const number = useSelector((state) => state.aadhaar.number);
 
   const backendPush = async ({ verifyStatus }) => {
-
     dispatch(addVerifyStatus(verifyStatus));
 
     const payload = {
       unipeEmployeeId: unipeEmployeeId,
       number: number,
       verifyStatus: verifyStatus,
-      campaignId: campaignId
+      campaignId: campaignId,
     };
 
-    const response = await putBackendData({ data: payload, xpath: "aadhaar", token: token });
+    const response = await putBackendData({
+      data: payload,
+      xpath: "aadhaar",
+      token: token,
+    });
     const responseJson = response?.data;
 
     if (responseJson.status === 200) {
@@ -46,21 +52,21 @@ const AadhaarConfirmApi = (props) => {
           navigation.navigate("AadhaarForm");
         }
       } else if (verifyStatus === "SUCCESS") {
-          if (props?.route?.params?.type === "KYC") {
-            navigation.navigate("KYC", {
-              screen: "AADHAAR",
-            });
-          } else {
-            navigation.navigate("PanForm");
-          }
+        if (props?.route?.params?.type === "KYC") {
+          navigation.navigate("KYC", {
+            screen: "AADHAAR",
+          });
+        } else {
+          navigation.navigate("PanForm");
+        }
       }
     } else {
-      Alert.alert("Error", JSON.stringify(responseJson));
+      showToast(responseJson?.message, "error");
     }
   };
 
   const cardData = () => {
-    var res = [
+    let res = [
       { subTitle: "Name", value: data?.name, fullWidth: true },
       { subTitle: "Number", value: number },
       { subTitle: "Gender", value: data?.gender },

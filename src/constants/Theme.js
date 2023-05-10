@@ -39,10 +39,6 @@ export const COLORS = {
       background: "",
       text: "",
     },
-    disabled: {
-      background: "",
-      text: "",
-    },
   },
   appBar: {
     background: "#2CB77C",

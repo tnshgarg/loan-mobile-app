@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, TouchableNativeFeedback, View, Alert } from "react-native";
+import { Text, TouchableNativeFeedback, View } from "react-native";
 import codePush from "react-native-code-push";
 import EStyleSheet from "react-native-extended-stylesheet";
 import Modal from "react-native-modal";
@@ -20,6 +20,7 @@ const UpdateDialog = () => {
           console.log("Unknown error");
           setState("ERROR");
           setShow(true);
+          break;
         case codePush.SyncStatus.DOWNLOADING_PACKAGE:
           console.log("Downloading package");
           setShow(true);

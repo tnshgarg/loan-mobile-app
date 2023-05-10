@@ -8,7 +8,7 @@ import Onboarding from "../../screens/00_login/Onboarding";
 
 const OnboardingStack = () => {
   const Stack = createNativeStackNavigator();
-  var initialRoute = useSelector((state) => state.navigation.currentScreen);
+  let initialRoute = useSelector((state) => state.navigation.currentScreen);
 
   console.log("initialRoute: ", initialRoute);
 

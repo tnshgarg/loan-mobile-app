@@ -17,29 +17,29 @@ import BottomTabNav from "./BottomTabNav";
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
 
-  var initialRoute = useSelector((state) => state.navigation.currentStack);
+  let initialRoute = useSelector((state) => state.navigation.currentStack);
 
-  var initialScreen = useSelector((state) => state.navigation.currentScreen);
+  let initialScreen = useSelector((state) => state.navigation.currentScreen);
 
   console.log("STAGE: ", STAGE);
   console.log("initialRoute: ", initialRoute);
   console.log("currentScreen: ", initialScreen);
 
-  STAGE === "dev" ? (initialRoute = "DevMenu") : null;
+  // STAGE === "dev" ? (initialRoute = "DevMenu") : null;
   console.log("initialRoute: ", initialRoute);
-
+  const token = useSelector((state) => state.auth.token);
   return (
     <OfflineAlert>
       <Stack.Navigator initialRouteName={"Splash"}>
-        <Stack.Screen
+        {/* <Stack.Screen
           name="DevMenu"
           component={DevMenu}
           options={{
             headerShown: false,
             header: null,
           }}
-        />
-        <Stack.Screen
+        /> */}
+        {/* <Stack.Screen
           name="Splash"
           options={{ headerShown: false, header: null }}
           component={SplashScreen}
@@ -47,50 +47,55 @@ const StackNavigator = () => {
             initialRoute: initialRoute,
             initialScreen: initialScreen,
           }}
-        />
-        <Stack.Screen
-          name="OnboardingStack"
-          component={OnboardingStack}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="HomeStack"
-          component={BottomTabNav}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="InvestStack"
-          component={InvestStack}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="EWAStack"
-          component={EWAStack}
-          options={{
-            headerShown: false,
-          }}
-        />
+        /> */}
+        {!token ? (
+          <Stack.Screen
+            name="OnboardingStack"
+            component={OnboardingStack}
+            options={{
+              headerShown: false,
+            }}
+          />
+        ) : (
+          <>
+            <Stack.Screen
+              name="HomeStack"
+              component={BottomTabNav}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="InvestStack"
+              component={InvestStack}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="EWAStack"
+              component={EWAStack}
+              options={{
+                headerShown: false,
+              }}
+            />
 
-        <Stack.Screen
-          name="BenefitsStack"
-          component={BenefitsStack}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="AccountStack"
-          component={AccountStack}
-          options={{
-            headerShown: false,
-          }}
-        />
+            <Stack.Screen
+              name="BenefitsStack"
+              component={BenefitsStack}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="AccountStack"
+              component={AccountStack}
+              options={{
+                headerShown: false,
+              }}
+            />
+          </>
+        )}
       </Stack.Navigator>
     </OfflineAlert>
   );

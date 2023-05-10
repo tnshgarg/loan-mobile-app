@@ -40,10 +40,6 @@ const data = [
 const ExploreCards = () => {
   const scrollRef = useRef(null);
 
-  const onPress = (targetIndex) => {
-    scrollRef.current?.scrollTo({ x: normalize.width(90) });
-  };
-
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>

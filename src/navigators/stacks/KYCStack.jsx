@@ -11,7 +11,7 @@ import BankForm from "../../screens/04_bank/Form";
 
 const KYCStack = () => {
   const Stack = createNativeStackNavigator();
-  var initialRoute = useSelector((state) => state.navigation.currentScreen);
+  let initialRoute = useSelector((state) => state.navigation.currentScreen);
 
   console.log("KYCStack initialRoute: ", initialRoute);
 

@@ -44,7 +44,7 @@ const Mandate = ({ navigation }) => {
   }, [isFocused]);
 
   const cardData = () => {
-    var res = [
+    let res = [
       {
         subTitle: "Mandate Type",
         value: authType,

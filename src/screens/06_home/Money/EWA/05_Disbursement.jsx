@@ -116,8 +116,8 @@ const Disbursement = ({ route, navigation }) => {
     setDueDate(offer?.dueDate);
     setLoanAccountNumber(offer?.loanAccountNumber);
     setLoanAmount(offer?.loanAmount);
-    var pf = (parseInt(offer?.loanAmount) * offer?.fees)/100;
-    var pF;
+    let pf = (parseInt(offer?.loanAmount) * offer?.fees)/100;
+    let pF;
     if (parseInt(pf)%10<4) {
       pF = Math.max(9, (Math.floor((pf/10))*10) -1);
     } else {

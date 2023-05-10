@@ -17,6 +17,8 @@ import timerSlice from "./slices/timerSlice";
 import ewaHistoricalSlice from "./slices/ewaHistoricalSlice";
 import ewaLiveSlice from "./slices/ewaLiveSlice";
 
+import { api } from "./apiSlices/api";
+
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
@@ -36,6 +38,7 @@ const appReducer = combineReducers({
   timer: timerSlice,
   ewaLive: ewaLiveSlice,
   ewaHistorical: ewaHistoricalSlice,
+  [api.reducerPath]: api.reducer,
 });
 
 const rootReducer = (state, action) => {
@@ -58,7 +61,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }),
+    }).concat(api.middleware),
 });
 
 export const persistor = persistStore(store);

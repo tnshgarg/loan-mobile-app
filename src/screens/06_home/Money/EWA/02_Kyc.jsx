@@ -64,7 +64,7 @@ const KYC = () => {
         })
         .catch((error) => {
           console.log("mandateFetch error: ", error);
-          Alert.alert("An Error occured", JSON.stringify(error));
+          Alert.alert("An Error occured", error.message);
         });
     }
   }, [deviceId, ipAddress]);
@@ -89,8 +89,8 @@ const KYC = () => {
           console.log("updateKycMutateAsync response.data: ", response.data);
         })
         .catch((error) => {
-          console.log("updateKycMutateAsync error: ", JSON.stringify(error));
-          Alert.alert("An Error occured", JSON.stringify(error));
+          console.log("updateKycMutateAsync error: ", error.message);
+          Alert.alert("An Error occured", error.message);
         });
     }
   }, [fetched]);
@@ -133,18 +133,18 @@ const KYC = () => {
         }
       })
       .catch((error) => {
-        console.log("updateKycMutateAsync error: ", JSON.stringify(error));
+        console.log("updateKycMutateAsync error: ", error.message);
         setLoading(false);
-        Alert.alert("An Error occured", JSON.stringify(error));
+        Alert.alert("An Error occured", error.message);
         Analytics.trackEvent("Ewa|Kyc|Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: JSON.stringify(error),
+          error: error.message,
         });
       });
   }
 
   const cardData = () => {
-    var res = [
+    let res = [
       { subTitle: "Name", value: aadhaarData?.name, fullWidth: true },
       { subTitle: "Date of Birth", value: aadhaarData?.date_of_birth },
       { subTitle: "Gender", value: aadhaarData?.gender },

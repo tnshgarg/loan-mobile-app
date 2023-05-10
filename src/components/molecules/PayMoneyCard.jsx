@@ -37,9 +37,6 @@ const PayMoneyCard = () => {
   );
 
   const repaymentSlice = useSelector((state) => state.repayment);
-  const [repaymentOrderId, setRepaymentOrderId] = useState(
-    repaymentSlice?.repaymentOrderId
-  );
   const [dueDate, setDueDate] = useState(repaymentSlice?.dueDate);
   const [overdueDays, setOverdueDays] = useState(repaymentSlice?.overdueDays);
   const [repaymentAmount, setRepaymentAmount] = useState(
@@ -65,16 +62,16 @@ const PayMoneyCard = () => {
   useEffect(() => {
     if (isFocused && !getRepaymentIsLoading && getRepaymentIsSuccess) {
       if (getRepaymentData.data.status === 200) {
-        var repaymentAmount = Math.max(
+        let repaymentAmount = Math.max(
           getRepaymentData?.data?.body?.amount -
             (getRepaymentData?.data?.body?.paidAmount ?? 0),
           0
         );
-        var repaymentStatus = getRepaymentData?.data?.body?.status;
+        let repaymentStatus = getRepaymentData?.data?.body?.status;
         if (repaymentAmount > 0 && repaymentStatus !== "SUCCESS") {
-          var timestamp = getRepaymentData?.data?.body?.dueDate?.split(" ");
-          var date = timestamp[0];
-          var formattedDueDate = setYYYYMMDDtoDDMMYYYY(date);
+          let timestamp = getRepaymentData?.data?.body?.dueDate?.split(" ");
+          let date = timestamp[0];
+          let formattedDueDate = setYYYYMMDDtoDDMMYYYY(date);
           setDueDate(formattedDueDate);
           setOverdueDays(
             getNumberOfDays({
@@ -179,7 +176,7 @@ const PayMoneyCard = () => {
         orderId,
         customerId,
         provider: "razorpay",
-        checkoutMsg: JSON.stringify(error),
+        checkoutMsg: error.message,
       };
       Analytics.trackEvent("Ewa|Repayment|Error", {
         unipeEmployeeId: unipeEmployeeId,
@@ -214,10 +211,10 @@ const PayMoneyCard = () => {
           customerId: repaymentOrder.customer_id
         });
       } catch (error) {
-        Alert.alert("Error", JSON.stringify(error));
+        Alert.alert("Error", error.message);
         Analytics.trackEvent("Ewa|Repayment|Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: JSON.stringify(error),
+          error: error.message,
         });
         setLoading(false);
       };

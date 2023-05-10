@@ -1,15 +1,16 @@
-import { useDispatch, useSelector } from "react-redux";
-import { Alert, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/core";
+import Analytics from "appcenter-analytics";
+import { Text, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import { showToast } from "../../components/atoms/Toast";
+import DetailsCard from "../../components/molecules/DetailsCard";
+import FuzzyCheck from "../../components/molecules/FuzzyCheck";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { putBackendData } from "../../services/employees/employeeServices";
+import { addOnboarded } from "../../store/slices/authSlice";
 import { addVerifyStatus } from "../../store/slices/bankSlice";
 import { form, styles } from "../../styles";
-import { COLORS, FONTS } from "../../constants/Theme";
-import Analytics from "appcenter-analytics";
-import FuzzyCheck from "../../components/molecules/FuzzyCheck";
-import DetailsCard from "../../components/molecules/DetailsCard";
-import { addOnboarded } from "../../store/slices/authSlice";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { putBackendData } from "../../services/employees/employeeServices";
 
 const BankConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -58,13 +59,13 @@ const BankConfirmApi = (props) => {
           }
       }
     } else {
-      Alert.alert("Error", JSON.stringify(responseJson));
+      showToast(responseJson?.message, "error");
     }
 
   };
 
   const cardData = () => {
-    var res = [
+    let res = [
       {
         subTitle: "Account Holder Name",
         value: data?.accountHolderName,

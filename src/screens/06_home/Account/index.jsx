@@ -57,7 +57,7 @@ const AccountMenu = (props) => {
     setModalVisible(true);
     setTimeout(() => {
       setModalVisible(false);
-      navigation.replace("OnboardingStack", { screen: "Login" });
+      // navigation.replace("OnboardingStack", { screen: "Login" });
     }, 5000);
   };
 

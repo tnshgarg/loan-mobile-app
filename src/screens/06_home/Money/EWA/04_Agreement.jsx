@@ -148,8 +148,8 @@ const Agreement = () => {
         })
         .catch((error) => {
           setLoading(false);
-          console.log("ewaAgreementPush error: ", JSON.stringify(error));
-          Alert.alert("An Error occured", JSON.stringify(error));
+          console.log("ewaAgreementPush error: ", error.message);
+          Alert.alert("An Error occured", error.message);
         });
     }
   }, [fetched]);
@@ -229,12 +229,12 @@ const Agreement = () => {
         navigation.navigate("EWA_DISBURSEMENT", { offer: ewaLiveSlice });
       })
       .catch((error) => {
-        console.log("ewaAgreementPush error: ", JSON.stringify(error));
+        console.log("ewaAgreementPush error: ", error.message);
         setLoading(false);
-        Alert.alert("An Error occured", JSON.stringify(error));
+        Alert.alert("An Error occured", error.message);
         Analytics.trackEvent("Ewa|Agreement|Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: JSON.stringify(error),
+          error: error.message,
         });
       });
   }

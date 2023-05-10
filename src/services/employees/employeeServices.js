@@ -4,10 +4,10 @@ import { EMPLOYEE_API_URL } from "../constants";
 export const putBackendData = (props) => {
   console.log(`putBackendData for ${props.xpath}`);
 
-  var data = JSON.stringify(props.data);
-  var url = `${EMPLOYEE_API_URL}/${props.xpath}`;
+  let data = JSON.stringify(props.data);
+  let url = `${EMPLOYEE_API_URL}/${props.xpath}`;
 
-  var config = {
+  let config = {
     method: "post",
     url: url,
     headers: {
@@ -23,10 +23,10 @@ export const putBackendData = (props) => {
 export const getBackendData = async (props) => {
   console.log(`getBackendData for ${props.xpath}`);
 
-  var params = props.params;
-  var url = `${EMPLOYEE_API_URL}/${props.xpath}`;
+  let params = props.params;
+  let url = `${EMPLOYEE_API_URL}/${props.xpath}`;
 
-  var config = {
+  let config = {
     method: "get",
     url: url,
     headers: {

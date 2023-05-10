@@ -30,7 +30,7 @@ const Pan = () => {
   }, [verifyStatus]);
 
   const cardData = () => {
-    var res = [
+    let res = [
       { subTitle: "Name", value: data?.name, fullWidth: true },
       { subTitle: "Number", value: number, fullWidth: true },
       { subTitle: "Date of Birth", value: data?.date_of_birth },

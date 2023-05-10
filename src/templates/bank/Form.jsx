@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useIsFocused } from "@react-navigation/core";
+import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import BankVerifyApi from "../../apis/bank/Verify";
@@ -13,7 +13,6 @@ import {
   addIfsc,
   addUpi,
 } from "../../store/slices/bankSlice";
-import { useNavigation } from "@react-navigation/core";
 import { bankform, styles } from "../../styles";
 import ShieldTitle from "../../components/atoms/ShieldTitle";
 
@@ -47,7 +46,7 @@ const BankFormTemplate = (props) => {
   }, [upi]);
 
   useEffect(() => {
-    var accountNumberReg = /^[A-Z0-9]{6,25}$/gm;
+    let accountNumberReg = /^[A-Z0-9]{6,25}$/gm;
     if (accountNumberReg.test(accountNumber)) {
       dispatch(addAccountNumber(accountNumber));
       setAccNumNext(true);
@@ -57,7 +56,7 @@ const BankFormTemplate = (props) => {
   }, [accountNumber]);
 
   useEffect(() => {
-    var ifscReg = /^[A-Z]{4}0[A-Z0-9]{6}$/gm;
+    let ifscReg = /^[A-Z]{4}0[A-Z0-9]{6}$/gm;
     if (ifscReg.test(ifsc)) {
       dispatch(addIfsc(ifsc));
       setIfscNext(true);

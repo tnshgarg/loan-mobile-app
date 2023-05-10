@@ -12,6 +12,7 @@ import {
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
 import { putBackendData } from "../../services/employees/employeeServices";
+import { showToast } from "../../components/atoms/Toast";
 
 const BankVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -26,31 +27,30 @@ const BankVerifyApi = (props) => {
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
-
+  const [verifyBank] = useVerifyBankMutation();
   const goForFetch = () => {
     setLoading(true);
     console.log("bankSlice: ", bankSlice);
-
-    putBackendData({
-      data: {
-        unipeEmployeeId: unipeEmployeeId,
-        accountHolderName: bankSlice?.data?.accountHolderName,
-        accountNumber: bankSlice?.data?.accountNumber,
-        ifsc: bankSlice?.data?.ifsc,
-        upi: bankSlice?.data?.upi,
-        campaignId: campaignId,
-        provider: 'ongrid'
-      },
-      xpath: "kyc/bank-verify-account",
-      token: token,
-    })
+    const data = {
+      unipeEmployeeId: unipeEmployeeId,
+      accountHolderName: bankSlice?.data?.accountHolderName,
+      accountNumber: bankSlice?.data?.accountNumber,
+      ifsc: bankSlice?.data?.ifsc,
+      upi: bankSlice?.data?.upi,
+      campaignId: campaignId,
+      provider: "ongrid",
+    };
+    verifyBank(data)
+      .unwrap()
       .then((res) => {
         console.log("kyc/bank-verify-account res: ", res);
         const responseJson = res?.data;
         console.log("kyc/bank-verify-account responseJson: ", responseJson);
         try {
           if (responseJson?.status === 200) {
-            dispatch(addAccountHolderName(responseJson?.body?.data?.accountHolderName));
+            dispatch(
+              addAccountHolderName(responseJson?.body?.data?.accountHolderName)
+            );
             dispatch(addBankName(responseJson?.body?.data?.bankName));
             dispatch(addBranchName(responseJson?.body?.data?.branchName));
             dispatch(addBranchCity(responseJson?.body?.data?.branchCity));
@@ -67,20 +67,22 @@ const BankVerifyApi = (props) => {
           }
         } catch (error) {
           dispatch(addVerifyStatus("ERROR"));
-          Alert.alert("verifyBankAccount API Catch Error", JSON.stringify(error));
+          showToast(error?.message, "error");
           Analytics.trackEvent("Bank|Verify|Error", {
             unipeEmployeeId: unipeEmployeeId,
-            error: `verifyBankAccount API Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
+            error: `verifyBankAccount API Catch Error: ${
+              error.message
+            }, ${JSON.stringify(res)}`,
           });
           setLoading(false);
         }
       })
       .catch((error) => {
         dispatch(addVerifyStatus("ERROR"));
-        Alert.alert("verifyBankAccount Catch Error", JSON.stringify(error));
+        showToast(error?.message, "error");
         Analytics.trackEvent("Bank|Verify|Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: `verifyBankAccount Catch Error: ${JSON.stringify(error)}`,
+          error: `verifyBankAccount Catch Error: ${error.message}`,
         });
         setLoading(false);
       });
@@ -97,7 +99,6 @@ const BankVerifyApi = (props) => {
       }}
     />
   );
-  
 };
 
 export default BankVerifyApi;

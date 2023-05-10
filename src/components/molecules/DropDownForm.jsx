@@ -1,17 +1,16 @@
+import React, { useState } from "react";
 import {
-  View,
+  Platform,
+  ScrollView,
   Text,
   TouchableOpacity,
-  ScrollView,
-  Platform,
+  View,
 } from "react-native";
-import React from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
-import FormInput from "../atoms/FormInput";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS } from "../../constants/Theme";
 import BottomSheetWrapper from "../atoms/BottomSheetWrapper";
-import { useState } from "react";
+import FormInput from "../atoms/FormInput";
 import PrimaryButton from "../atoms/PrimaryButton";
 
 const DropDownForm = ({

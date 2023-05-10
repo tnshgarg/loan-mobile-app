@@ -1,17 +1,14 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
-import { Image, StyleSheet } from "react-native";
-
-import { Linking } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { Image, Linking, StyleSheet } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { addOnboardingCampaignId } from "../store/slices/campaignSlice";
-import { addCurrentStack } from "../store/slices/navigationSlice";
 
 const SplashScreen = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const onboarded = useSelector((state) => state.auth.onboarded);
-  var [campaignId, setCampaignId] = useState(
+  let [campaignId, setCampaignId] = useState(
     useSelector((state) => state.campaign.onboardingCampaignId)
   );
 
@@ -63,13 +60,13 @@ const SplashScreen = (props) => {
           setCampaignId(splitted[6]);
           break;
         default:
-          navigation.replace(props.route.params.initialRoute);
+          // navigation.replace(props.route.params.initialRoute);
           break;
       }
     } else {
       console.log("No intent. User opened App.");
       console.log("campaignId", campaignId);
-      navigation.replace(props.route.params.initialRoute);
+      // navigation.replace(props.route.params.initialRoute);
     }
   };
 

@@ -1,5 +1,4 @@
 import { getBackendData } from "../services/employees/employeeServices";
-import { resetAadhaar } from "../store/slices/aadhaarSlice";
 
 export const aadhaarBackendFetch = (payload) => {
   getBackendData({ params: payload, xpath: "aadhaar" })

@@ -2,7 +2,7 @@ import axios from "axios";
 import { RZP_AUTH } from "../constants";
 
 const createPaymentOrder = ({ amount, repaymentId }) => {
-  var data = JSON.stringify({
+  let data = JSON.stringify({
     amount: amount * 100,
     currency: "INR",
     notes:{
@@ -10,7 +10,7 @@ const createPaymentOrder = ({ amount, repaymentId }) => {
     }
   });
 
-  var config = {
+  let config = {
     method: "post",
     url: "https://api.razorpay.com/v1/orders",
     headers: {

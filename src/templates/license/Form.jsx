@@ -1,18 +1,16 @@
-import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import { bankform, form, styles } from "../../styles";
 import Verify from "../../apis/license/Verify";
-import DateEntry from "../../components/molecules/DateEntry";
-import { addNumber } from "../../store/slices/licenseSlice";
 import FormInput from "../../components/atoms/FormInput";
 import InfoCard from "../../components/atoms/InfoCard";
+import DateEntry from "../../components/molecules/DateEntry";
+import { addNumber } from "../../store/slices/licenseSlice";
+import { bankform, styles } from "../../styles";
 
 const LicenseFormTemplate = () => {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
 
   const [validNumber, setValidNumber] = useState(true);
 
@@ -21,7 +19,7 @@ const LicenseFormTemplate = () => {
   const [number, setNumber] = useState(licenseSlice?.number);
 
   useEffect(() => {
-    var licenseReg = /^([A-Z]{2})(\d{2}|\d{3})[a-zA-Z]{0,1}(\d{4})(\d{7})$/gm;
+    let licenseReg = /^([A-Z]{2})(\d{2}|\d{3})[a-zA-Z]?(\d{4})(\d{7})$/gm;
     if (licenseReg.test(number)) {
       dispatch(addNumber(number));
       setValidNumber(true);

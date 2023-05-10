@@ -91,8 +91,8 @@ const Offer = () => {
           console.log("updateOfferMutateAsync response.data: ", response.data);
         })
         .catch((error) => {
-          console.log("updateOfferMutateAsync error: ", JSON.stringify(error));
-          Alert.alert("An Error occured", JSON.stringify(error));
+          console.log("updateOfferMutateAsync error: ", error.message);
+          Alert.alert("An Error occured", error.message);
         });
     }
   }, [fetched]);
@@ -124,7 +124,7 @@ const Offer = () => {
   }, [loanAmount]);
 
   useEffect(() => {
-    var pF = Math.ceil((parseInt(loanAmount) * fees) / 100);
+    let pF = Math.ceil((parseInt(loanAmount) * fees) / 100);
     setProcessingFees(pF);
     dispatch(addProcessingFees(pF));
     dispatch(addNetAmount(parseInt(loanAmount) - pF));
@@ -133,17 +133,17 @@ const Offer = () => {
   }, [loanAmount, processingFees]);
 
   const APR = (processingFees, loanAmount) => {
-    var today = new Date();
-    var dueDateComponents = ewaLiveSlice.dueDate.split("/");
-    var dueDate = new Date(
+    let today = new Date();
+    let dueDateComponents = ewaLiveSlice.dueDate.split("/");
+    let dueDate = new Date(
       dueDateComponents[2],
       parseInt(dueDateComponents[1])-1,
       dueDateComponents[0]
     );
     console.log(`dueDate, today: ${dueDate}, ${today}`);
-    var timeDiff = dueDate.getTime() - today.getTime();
-    var daysDiff = parseInt(timeDiff / (1000 * 3600 * 24)) + 1;
-    var apr = 100 * (processingFees / parseInt(loanAmount)) * (365 / daysDiff);
+    let timeDiff = dueDate.getTime() - today.getTime();
+    let daysDiff = parseInt(timeDiff / (1000 * 3600 * 24)) + 1;
+    let apr = 100 * (processingFees / parseInt(loanAmount)) * (365 / daysDiff);
     console.log(
       "processingFees, loanAmount, daysDiff, APR: ",
       processingFees,
@@ -202,12 +202,12 @@ const Offer = () => {
           });
         })
         .catch((error) => {
-          console.log("updateOfferMutateAsync error: ", JSON.stringify(error));
+          console.log("updateOfferMutateAsync error: ", error.message);
           setLoading(false);
-          Alert.alert("An Error occured", JSON.stringify(error));
+          Alert.alert("An Error occured", error.message);
           Analytics.trackEvent("Ewa|OfferPush|Error", {
             unipeEmployeeId: unipeEmployeeId,
-            error: JSON.stringify(error),
+            error: error.message,
           });
         });
     }

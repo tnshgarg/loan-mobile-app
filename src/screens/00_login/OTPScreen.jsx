@@ -12,9 +12,10 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
-  checkVerification,
-  sendSmsVerification,
-} from "../../services/otp/Gupshup/services";
+  useVerifyOtpMutation,
+  useGenerateOtpMutation,
+} from "../../store/apiSlices/loginApi";
+import { addToken } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
@@ -41,6 +42,8 @@ const OTPScreen = () => {
   const phoneNumber = useSelector((state) => state.auth.phoneNumber);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
+  const [postVerifyOtp] = useVerifyOtpMutation();
+  const [postGenerateOtp] = useGenerateOtpMutation();
   useEffect(() => {
     dispatch(addCurrentScreen("Otp"));
   }, []);
@@ -107,9 +110,11 @@ const OTPScreen = () => {
   };
 
   const onResendOtp = () => {
-    sendSmsVerification(phoneNumber)
+    postGenerateOtp(phoneNumber)
+      .unwrap()
       .then((res) => {
-        if (res["response"]["status"] === "success") {
+        console.log(res);
+        if (res["status"] === "success") {
           setOtp("");
           setBack(false);
           Alert.alert("OTP resent successfully", "", [
@@ -125,48 +130,56 @@ const OTPScreen = () => {
             unipeEmployeeId: unipeEmployeeId,
           });
         } else {
-          Alert.alert(res["response"]["status"], res["response"]["details"]);
+          Alert.alert(
+            res["status"],
+            res["details"]
+          );
           Analytics.trackEvent("OTPScreen|SendSms|Error", {
             unipeEmployeeId: unipeEmployeeId,
-            error: res["response"]["details"],
+            error: res["details"],
           });
         }
       })
       .catch((error) => {
-        Alert.alert("Error", JSON.stringify(error));
+        Alert.alert("Error", error.message);
         Analytics.trackEvent("OTPScreen|SendSms|Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: JSON.stringify(error),
+          error: JSON.stringify(error.message),
         });
       });
   };
 
   const onSubmitOtp = () => {
     setNext(false);
-    checkVerification(phoneNumber, otp)
+    postVerifyOtp({ mobileNumber: phoneNumber, otp: otp })
+      .unwrap()
       .then((res) => {
-        if (res["response"]["status"] === "success") {
+        console.log(res);
+        if (res["status"] === "success") {
+          dispatch(addToken(res["token"]));
           setVerified(true);
-          navigation.navigate("BackendSync", {
-            destination: "HomeStack",
-          });
+          navigation.navigate("BackendSync");
           Analytics.trackEvent("OTPScreen|Check|Success", {
             unipeEmployeeId: unipeEmployeeId,
-            error: res["response"]["details"],
+            error: res["details"],
           });
         } else {
-          Alert.alert(res["response"]["status"], res["response"]["details"]);
+          Alert.alert(
+            res["status"],
+            res["details"]
+          );
           Analytics.trackEvent("OTPScreen|Check|Error", {
             unipeEmployeeId: unipeEmployeeId,
-            error: res["response"]["details"],
+            error: res["details"],
           });
         }
       })
       .catch((error) => {
-        Alert.alert("Error", JSON.stringify(error));
+        console.log(error);
+        Alert.alert("Error", error.message);
         Analytics.trackEvent("OTPScreen|Check|Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: JSON.stringify(error),
+          error: error.message,
         });
       });
   };

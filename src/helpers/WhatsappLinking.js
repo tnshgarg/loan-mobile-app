@@ -1,9 +1,7 @@
-import { View, Text, Linking, Alert } from "react-native";
-import React from "react";
-import { WHATSAPP_SUPPORT_NUMBER } from "@env";
+import { Alert, Linking } from "react-native";
 
 const whatsappLinking = () => {
-  const url = `whatsapp://send?text=&phone=${WHATSAPP_SUPPORT_NUMBER}`;
+  const url = `whatsapp://send?text=&phone=7483447528`;
 
   Linking.canOpenURL(url)
     .then((supported) => {

@@ -176,7 +176,7 @@ const MandateFormTemplate = (props) => {
       Analytics.trackEvent("createOrderandate|Authorize|InProgress|Checkout|Error", {
         unipeEmployeeId: unipeEmployeeId,
       });
-      verifyMsg =  JSON.stringify(error);
+      verifyMsg =  error.message;
     } finally {
       setModalVisible(true);
       backendPush({
@@ -228,11 +228,11 @@ const MandateFormTemplate = (props) => {
         Alert.alert("Create Mandate Error", "Mandate Registration Process already started, Please check the status after sometime");
         refreshMandateFromBackend();
       } else {
-        Alert.alert("Create Order Error", JSON.stringify(error));
+        Alert.alert("Create Order Error", error.message);
       }
       Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Error`, {
         unipeEmployeeId: unipeEmployeeId,
-        error: JSON.stringify(error),
+        error: error.message,
       });
     } finally {
       setAuthType("");

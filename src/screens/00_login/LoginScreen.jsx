@@ -1,22 +1,26 @@
-import Analytics from "appcenter-analytics";
+import { STAGE } from "@env";
 import { useNavigation } from "@react-navigation/core";
+import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
-import { useDispatch, useSelector } from "react-redux";
-// import PushNotification, {Importance} from 'react-native-push-notification';
 import SplashScreen from "react-native-splash-screen";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { COLORS } from "../../constants/Theme";
+import Icon from "react-native-vector-icons/Ionicons";
+import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import { putBackendData } from "../../services/employees/employeeServices";
-import { sendSmsVerification } from "../../services/otp/Gupshup/services";
+import LogoHeader from "../../components/atoms/LogoHeader";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import ShieldTitle from "../../components/atoms/ShieldTitle";
+import LoginInput from "../../components/molecules/LoginInput";
+import AgreementText from "../../components/organisms/AgreementText";
+import { COLORS } from "../../constants/Theme";
+import whatsappLinking from "../../helpers/WhatsappLinking";
 import {
-  addACTC,
-  addEmployeeName,
-  addOnboarded,
+  useGenerateOtpMutation,
+  useGetMobileMutation,
+} from "../../store/apiSlices/loginApi";
+import {
   addPhoneNumber,
-  addToken,
   addUnipeEmployeeId,
 } from "../../store/slices/authSlice";
 import {
@@ -25,13 +29,6 @@ import {
 } from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
-import LogoHeader from "../../components/atoms/LogoHeader";
-import Icon from "react-native-vector-icons/Ionicons";
-import ShieldTitle from "../../components/atoms/ShieldTitle";
-import LoginInput from "../../components/molecules/LoginInput";
-import AgreementText from "../../components/organisms/AgreementText";
-import { STAGE } from "@env";
-import whatsappLinking from "../../helpers/WhatsappLinking";
 
 const LoginScreen = () => {
   SplashScreen.hide();
@@ -42,46 +39,25 @@ const LoginScreen = () => {
   const [next, setNext] = useState(false);
 
   const authSlice = useSelector((state) => state.auth);
-  const [aCTC, setACTC] = useState(authSlice?.aCTC);
-  const [employeeName, setEmployeeName] = useState(authSlice?.employeeName);
-  const [onboarded, setOnboarded] = useState(authSlice?.onboarded);
   const [phoneNumber, setPhoneNumber] = useState(authSlice?.phoneNumber);
-  const [token, setToken] = useState(authSlice?.token);
+  const [postGenerateOtp] = useGenerateOtpMutation();
+  const [isPrivacyModalVisible, setIsPrivacyModalVisible] = useState(false);
   const [unipeEmployeeId, setUnipeEmployeeId] = useState(
     authSlice?.unipeEmployeeId
   );
-
-  const [isPrivacyModalVisible, setIsPrivacyModalVisible] = useState(false);
   const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
     useState(false);
 
   useEffect(() => {
-    dispatch(addCurrentStack("OnboardingStack"));
     dispatch(addCurrentScreen("Login"));
   }, []);
-
-  useEffect(() => {
-    dispatch(addToken(token));
-  }, [token]);
-
-  useEffect(() => {
-    dispatch(addACTC(aCTC));
-  }, [aCTC]);
-
-  useEffect(() => {
-    dispatch(addEmployeeName(employeeName));
-  }, [employeeName]);
-
-  useEffect(() => {
-    dispatch(addOnboarded(onboarded));
-  }, [onboarded]);
 
   useEffect(() => {
     dispatch(addUnipeEmployeeId(unipeEmployeeId));
   }, [unipeEmployeeId]);
 
   useEffect(() => {
-    var phoneno = /^[0-9]{10}$/gm;
+    let phoneno = /^\d{10}$/gm;
     if (phoneno.test(phoneNumber) && phoneNumber.length === 10) {
       dispatch(addPhoneNumber(phoneNumber));
       setNext(true);
@@ -92,10 +68,10 @@ const LoginScreen = () => {
 
   const onPhoneNumberPressed = async () => {
     try {
-      var phoneNumber = await SmsRetriever.requestPhoneNumber();
+      let phoneNumber = await SmsRetriever.requestPhoneNumber();
       setPhoneNumber(phoneNumber.replace("+91", ""));
     } catch (error) {
-      console.log("Error while fetching phoneNumber: ", JSON.stringify(error));
+      console.log("Error while fetching phoneNumber: ", error.message);
     }
   };
 
@@ -119,68 +95,47 @@ const LoginScreen = () => {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
+  const [postGetMobile] = useGetMobileMutation();
   const signIn = () => {
     setLoading(true);
     dispatch(resetTimer());
-    var fullPhoneNumber = `+91${phoneNumber}`;
-    putBackendData({
-      data: { number: fullPhoneNumber },
-      xpath: "mobile",
-      token: token,
-    })
-      .then((res) => {
-        const responseJson = res?.data;
-        console.log(`responseJson: responseJson`);
-        if (responseJson.status === 200) {
-          setACTC(responseJson.body.aCTC);
-          setEmployeeName(responseJson.body.employeeName);
-          setOnboarded(responseJson.body.onboarded);
-          setToken(responseJson.body.token);
-          setUnipeEmployeeId(responseJson.body.unipeEmployeeId);
-          sendSmsVerification(phoneNumber)
-            .then((result) => {
-              if (result["response"]["status"] === "success") {
-                setLoading(false);
-                Analytics.trackEvent("LoginScreen|SendSms|Success", {
-                  unipeEmployeeId: unipeEmployeeId,
-                });
-                navigation.navigate("Otp");
-              } else {
-                setLoading(false);
-                Alert.alert(
-                  result["response"]["status"],
-                  result["response"]["details"]
-                );
-                Analytics.trackEvent("LoginScreen|SendSms|Error", {
-                  unipeEmployeeId: unipeEmployeeId,
-                  error: result["response"]["details"],
-                });
-              }
-            })
-            .catch((error) => {
+    postGetMobile(phoneNumber)
+      .unwrap()
+      .then((response) => {
+        setUnipeEmployeeId(response["body"]["unipeEmployeeId"]);
+        postGenerateOtp(phoneNumber)
+          .unwrap()
+          .then((otpResponse) => {
+            console.log("otpResponse", otpResponse);
+            if (otpResponse["status"] === "success") {
               setLoading(false);
-              Alert("Error", JSON.stringify(error));
-              Analytics.trackEvent("LoginScreen|SendSms|Error", {
-                unipeEmployeeId: unipeEmployeeId,
-                error: JSON.stringify(error),
+              Analytics.trackEvent("LoginScreen|SendSms|Success", {
+                phoneNumber: phoneNumber,
               });
+              navigation.navigate("Otp");
+            } else {
+              setLoading(false);
+              Alert.alert(otpResponse["status"], otpResponse["details"]);
+              Analytics.trackEvent("LoginScreen|SendSms|Error", {
+                phoneNumber: phoneNumber,
+                error: otpResponse["details"],
+              });
+            }
+          })
+          .catch((error) => {
+            console.log("error", error);
+            setLoading(false);
+            Alert.alert("Error", error.message);
+            Analytics.trackEvent("LoginScreen|SendSms|Error", {
+              phoneNumber: phoneNumber,
+              error: error.message,
             });
-        } else {
-          setLoading(false);
-          Alert.alert("Error", responseJson["message"]);
-          Analytics.trackEvent("LoginScreen|SignIn|Error", {
-            phoneNumber: phoneNumber,
-            error: responseJson["message"],
           });
-        }
       })
       .catch((error) => {
+        console.log("error", error);
         setLoading(false);
-        Alert.alert("Error", JSON.stringify(error));
-        Analytics.trackEvent("LoginScreen|SignIn|Error", {
-          phoneNumber: phoneNumber,
-          error: JSON.stringify(error),
-        });
+        Alert.alert("Error", error.message);
       });
   };
 
