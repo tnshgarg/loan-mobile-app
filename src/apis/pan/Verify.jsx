@@ -34,12 +34,10 @@ const PanVerifyApi = (props) => {
       .then((res) => {
         console.log("kyc/pan-fetch-details res: ", res);
         if (res?.status === 200) {
-          dispatch(addData(res?.body?.data));
           setLoading(false);
           Analytics.trackEvent("Pan|Verify|Success", {
             unipeEmployeeId: unipeEmployeeId,
           });
-          dispatch(addVerifyStatus(res?.body?.data?.verifyStatus));
           if (props.type !== "KYC") {
             navigation.navigate("PanConfirm");
           }

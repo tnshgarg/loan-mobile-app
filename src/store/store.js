@@ -25,6 +25,7 @@ const persistConfig = {
 };
 
 const appReducer = combineReducers({
+  [api.reducerPath]: api.reducer,
   aadhaar: aadhaarSlice,
   auth: authSlice,
   bank: bankSlice,
@@ -38,7 +39,6 @@ const appReducer = combineReducers({
   timer: timerSlice,
   ewaLive: ewaLiveSlice,
   ewaHistorical: ewaHistoricalSlice,
-  [api.reducerPath]: api.reducer,
 });
 
 const rootReducer = (state, action) => {

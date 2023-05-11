@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { aadhaarApi } from "../apiSlices/aadhaarApi";
 
 const initialState = {
   data: {},
@@ -26,6 +27,16 @@ const aadhaarSlice = createSlice({
         Object.assign(state, action.payload);
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      aadhaarApi.endpoints.verifyAadhaarOtp.matchFulfilled,
+      (state, { payload }) => {
+        console.log("payload: ", payload);
+        state.data = payload?.body?.data;
+        state.verifyStatus = payload?.body?.verifyStatus;
+      }
+    )
   },
 });
 

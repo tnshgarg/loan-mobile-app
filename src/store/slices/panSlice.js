@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import { panApi } from "../apiSlices/panApi";
 const initialState = {
   data: {},
   number: "",
@@ -31,14 +31,19 @@ const panSlice = createSlice({
       state.misMatch = action.payload;
     },
   },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      panApi.endpoints.verifyPan.matchFulfilled,
+      (state, { payload }) => {
+        console.log("payload: ", payload);
+        state.data = payload?.body?.data;
+        state.verifyStatus = payload?.body?.verifyStatus;
+      }
+    );
+  },
 });
 
-export const {
-  addData,
-  addNumber,
-  addVerifyStatus,
-  setMistmatch,
-  resetPan,
-} = panSlice.actions;
+export const { addData, addNumber, addVerifyStatus, setMistmatch, resetPan } =
+  panSlice.actions;
 
 export default panSlice.reducer;

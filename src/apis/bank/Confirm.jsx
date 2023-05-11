@@ -7,7 +7,7 @@ import { showToast } from "../../components/atoms/Toast";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { putBackendData } from "../../services/employees/employeeServices";
+import { useUpdateBankMutation } from "../../store/apiSlices/bankApi";
 import { addOnboarded } from "../../store/slices/authSlice";
 import { addVerifyStatus } from "../../store/slices/bankSlice";
 import { form, styles } from "../../styles";
@@ -22,9 +22,8 @@ const BankConfirmApi = (props) => {
     (state) => state.campaign.onboardingCampaignId
   );
   const data = useSelector((state) => state.bank.data);
-
+  const [updateBank] = useUpdateBankMutation();
   const backendPush = async ({ verifyStatus }) => {
-
     dispatch(addVerifyStatus(verifyStatus));
 
     const payload = {
@@ -34,22 +33,21 @@ const BankConfirmApi = (props) => {
       campaignId: campaignId,
     };
 
-    const response = await putBackendData({ data: payload, xpath: "bank", token: token });
-    const responseJson = response?.data;
-
-    if (responseJson.status === 200) {
-      if (verifyStatus === "REJECTED") {
-        if (props?.route?.params?.type === "KYC") {
-          navigation.navigate("KYC", {
-            screen: "BANK",
-            params: {
-              screen: "Form",
-            },
-          });
-        } else {
-          navigation.navigate("BankForm");
-        }
-      } else if (verifyStatus === "SUCCESS") {
+    updateBank(payload)
+      .unwrap()
+      .then((res) => {
+        if (verifyStatus === "REJECTED") {
+          if (props?.route?.params?.type === "KYC") {
+            navigation.navigate("KYC", {
+              screen: "BANK",
+              params: {
+                screen: "Form",
+              },
+            });
+          } else {
+            navigation.navigate("BankForm");
+          }
+        } else if (verifyStatus === "SUCCESS") {
           if (props?.route?.params?.type === "KYC") {
             navigation.navigate("KYC", {
               screen: "BANK",
@@ -57,11 +55,11 @@ const BankConfirmApi = (props) => {
           } else {
             navigation.replace("EWA_MANDATE");
           }
-      }
-    } else {
-      showToast(responseJson?.message, "error");
-    }
-
+        }
+      })
+      .catch((error) => {
+        showToast(error?.message, "error");
+      });
   };
 
   const cardData = () => {

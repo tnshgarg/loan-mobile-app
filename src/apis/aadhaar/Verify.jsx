@@ -36,23 +36,14 @@ const AadhaarVerifyApi = (props) => {
       .unwrap()
       .then((res) => {
         console.log("kyc/aadhaar-submit-otp res: ", res);
-        console.log(
-          "kyc/aadhaar-submit-otp res: ",
-          JSON.stringify(res)
-        );
-        if (res?.status === 200) {
-          props.setVerified(true);
-          dispatch(addData(res?.body?.data));
-          Analytics.trackEvent("Aadhaar|Verify|Success", {
-            unipeEmployeeId: unipeEmployeeId,
-          });
-          setLoading(false);
-          dispatch(addVerifyStatus(res?.body?.verifyStatus));
-          if (props.type !== "KYC") {
-            navigation.navigate("AadhaarConfirm");
-          }
-        } else {
-          throw res;
+        console.log("kyc/aadhaar-submit-otp res: ", JSON.stringify(res));
+        props.setVerified(true);
+        Analytics.trackEvent("Aadhaar|Verify|Success", {
+          unipeEmployeeId: unipeEmployeeId,
+        });
+        setLoading(false);
+        if (props.type !== "KYC") {
+          navigation.navigate("AadhaarConfirm");
         }
       })
       .catch((error) => {
@@ -60,9 +51,7 @@ const AadhaarVerifyApi = (props) => {
         dispatch(addVerifyStatus("ERROR"));
         Analytics.trackEvent("Aadhaar|Verify|Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: `submitAadhaarOTP API Catch Error: ${
-            error.message
-          }`,
+          error: `submitAadhaarOTP API Catch Error: ${error.message}`,
         });
         if (error?.status === 406) {
           Alert.alert("Otp mismatch", "OTP is incorrect. Please try again.");

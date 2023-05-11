@@ -6,10 +6,9 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { showToast } from "../../components/atoms/Toast";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { putBackendData } from "../../services/employees/employeeServices";
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
-
+import { useUpdateAadhaarMutation } from "../../store/apiSlices/aadhaarApi";
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -21,7 +20,7 @@ const AadhaarConfirmApi = (props) => {
   );
   const data = useSelector((state) => state.aadhaar.data);
   const number = useSelector((state) => state.aadhaar.number);
-
+  const [updateAadhaar] = useUpdateAadhaarMutation();
   const backendPush = async ({ verifyStatus }) => {
     dispatch(addVerifyStatus(verifyStatus));
 
@@ -32,37 +31,33 @@ const AadhaarConfirmApi = (props) => {
       campaignId: campaignId,
     };
 
-    const response = await putBackendData({
-      data: payload,
-      xpath: "aadhaar",
-      token: token,
-    });
-    const responseJson = response?.data;
-
-    if (responseJson.status === 200) {
-      if (verifyStatus === "REJECTED") {
-        if (props?.route?.params?.type === "KYC") {
-          navigation.navigate("KYC", {
-            screen: "AADHAAR",
-            params: {
-              screen: "Form",
-            },
-          });
-        } else {
-          navigation.navigate("AadhaarForm");
+    updateAadhaar(payload)
+      .unwrap()
+      .then((res) => {
+        if (verifyStatus === "REJECTED") {
+          if (props?.route?.params?.type === "KYC") {
+            navigation.navigate("KYC", {
+              screen: "AADHAAR",
+              params: {
+                screen: "Form",
+              },
+            });
+          } else {
+            navigation.navigate("AadhaarForm");
+          }
+        } else if (verifyStatus === "SUCCESS") {
+          if (props?.route?.params?.type === "KYC") {
+            navigation.navigate("KYC", {
+              screen: "AADHAAR",
+            });
+          } else {
+            navigation.navigate("PanForm");
+          }
         }
-      } else if (verifyStatus === "SUCCESS") {
-        if (props?.route?.params?.type === "KYC") {
-          navigation.navigate("KYC", {
-            screen: "AADHAAR",
-          });
-        } else {
-          navigation.navigate("PanForm");
-        }
-      }
-    } else {
-      showToast(responseJson?.message, "error");
-    }
+      })
+      .catch((error) => {
+        showToast(error?.message, "error");
+      });
   };
 
   const cardData = () => {

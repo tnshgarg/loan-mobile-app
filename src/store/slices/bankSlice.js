@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { bankApi } from "../apiSlices/bankApi";
 
 const initialState = {
   data: {
@@ -52,6 +53,22 @@ const bankSlice = createSlice({
     setMistmatch(state, action) {
       state.misMatch = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      bankApi.endpoints.verifyBank.matchFulfilled,
+      (state, { payload }) => {
+        console.log("payload: ", payload);
+        state.data.accountHolderName = payload?.body?.data?.accountHolderName;
+        state.data.accountNumber = payload?.body?.data?.accountNumber;
+        state.data.bankName = payload?.body?.data?.bankName;
+        state.data.branchName = payload?.body?.data?.branchName;
+        state.data.branchCity = payload?.body?.data?.branchCity;
+        state.data.ifsc = payload?.body?.data?.ifsc;
+        state.data.upi = payload?.body?.data?.upi;
+        state.verifyStatus = payload?.body?.verifyStatus;
+      }
+    )
   },
 });
 

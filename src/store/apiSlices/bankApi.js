@@ -29,7 +29,7 @@ export const bankApi = api.injectEndpoints({
 });
 
 export const {
-  usegetBankQuery,
+  useGetBankQuery,
   useVerifyBankMutation,
   useUpdateBankMutation,
 } = bankApi;

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { api } from "../apiSlices/api";
+import { loginApi } from "../apiSlices/loginApi";
 
 const initialState = {
   employeeName: "",
@@ -34,7 +34,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addMatcher(
-      api.endpoints.verifyOtp.matchFulfilled,
+      loginApi.endpoints.verifyOtp.matchFulfilled,
       (state, { payload }) => {
         console.log("payload: ", payload);
         state.token = payload.token;
@@ -42,7 +42,7 @@ const authSlice = createSlice({
         state.unipeEmployeeId = payload.employeeDetails.unipeEmployeeId;
         state.employeeName = payload.employeeDetails.name;
       }
-    )
+    );
   },
 });
 

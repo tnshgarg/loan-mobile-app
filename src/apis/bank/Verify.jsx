@@ -44,38 +44,13 @@ const BankVerifyApi = (props) => {
       .unwrap()
       .then((res) => {
         console.log("kyc/bank-verify-account res: ", res);
-        const responseJson = res?.data;
-        console.log("kyc/bank-verify-account responseJson: ", responseJson);
-        try {
-          if (responseJson?.status === 200) {
-            dispatch(
-              addAccountHolderName(responseJson?.body?.data?.accountHolderName)
-            );
-            dispatch(addBankName(responseJson?.body?.data?.bankName));
-            dispatch(addBranchName(responseJson?.body?.data?.branchName));
-            dispatch(addBranchCity(responseJson?.body?.data?.branchCity));
-            dispatch(addVerifyStatus(responseJson?.body?.verifyStatus));
-            if (props.type !== "KYC") {
-              navigation.navigate("BankConfirm");
-            }
-            Analytics.trackEvent("Bank|Verify|Success", {
-              unipeEmployeeId: unipeEmployeeId,
-            });
-            setLoading(false);
-          } else {
-            throw responseJson;
-          }
-        } catch (error) {
-          dispatch(addVerifyStatus("ERROR"));
-          showToast(error?.message, "error");
-          Analytics.trackEvent("Bank|Verify|Error", {
-            unipeEmployeeId: unipeEmployeeId,
-            error: `verifyBankAccount API Catch Error: ${
-              error.message
-            }, ${JSON.stringify(res)}`,
-          });
-          setLoading(false);
+        if (props.type !== "KYC") {
+          navigation.navigate("BankConfirm");
         }
+        Analytics.trackEvent("Bank|Verify|Success", {
+          unipeEmployeeId: unipeEmployeeId,
+        });
+        setLoading(false);
       })
       .catch((error) => {
         dispatch(addVerifyStatus("ERROR"));
