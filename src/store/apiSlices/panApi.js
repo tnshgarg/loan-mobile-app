@@ -15,7 +15,6 @@ export const panApi = api.injectEndpoints({
         method: "POST",
         body: body,
       }),
-      transformResponse: (response) => response.response,
     }),
     updatePan: builder.mutation({
       query: (body) => ({

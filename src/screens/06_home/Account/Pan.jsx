@@ -55,7 +55,7 @@ const Pan = () => {
       disable: true,
     },
   ];
-
+  
   return (
     <SafeAreaView style={styles.safeContainer}>
       {verifyStatus == "SUCCESS" ? (

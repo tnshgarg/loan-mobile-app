@@ -15,7 +15,6 @@ export const bankApi = api.injectEndpoints({
         method: "POST",
         body: body,
       }),
-      transformResponse: (response) => response.response,
     }),
     updateBank: builder.mutation({
       query: (body) => ({

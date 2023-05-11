@@ -67,7 +67,7 @@ const BankFormTemplate = (props) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      {aadhaarVerifyStatus === "SUCCESS" ? (
+      {true ? (
         <KeyboardAvoidingWrapper>
           <View>
             <Text style={styles.headline}>Bank Account Details</Text>

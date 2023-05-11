@@ -7,16 +7,15 @@ export const aadhaarApi = api.injectEndpoints({
         url: `aadhaar`,
         headers: { unipeEmployeeId: getState().auth.unipeEmployeeId },
       }),
-      transformResponse: (response) => response.response,
     }),
-    generateOtp: builder.mutation({
+    generateAadhaarOtp: builder.mutation({
       query: (body) => ({
         url: `kyc/aadhaar-generate-otp`,
         method: "POST",
         body: body,
       }),
     }),
-    verifyOtp: builder.mutation({
+    verifyAadhaarOtp: builder.mutation({
       query: (body) => ({
         url: `kyc/aadhaar-submit-otp`,
         method: "POST",
@@ -37,7 +36,7 @@ export const aadhaarApi = api.injectEndpoints({
 
 export const {
   useGetAadhaarQuery,
-  useGenerateOtpMutation,
-  useVerifyOtpMutation,
+  useGenerateAadhaarOtpMutation,
+  useVerifyAadhaarOtpMutation,
   useUpdateAadhaarMutation,
 } = aadhaarApi;

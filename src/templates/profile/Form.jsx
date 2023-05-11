@@ -2,14 +2,6 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { SafeAreaView, Text, View, BackHandler, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addAltMobile,
-  addQualification,
-  addEmail,
-  addMotherName,
-  addMaritalStatus,
-  addProfileComplete,
-} from "../../store/slices/profileSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { form, styles } from "../../styles";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
@@ -57,26 +49,6 @@ const ProfileFormTemplate = ({ type }) => {
   }, []);
 
   useEffect(() => {
-    dispatch(addMaritalStatus(maritalStatus));
-  }, [maritalStatus]);
-
-  useEffect(() => {
-    dispatch(addQualification(qualification));
-  }, [qualification]);
-
-  useEffect(() => {
-    dispatch(addMotherName(motherName));
-  }, [motherName]);
-
-  useEffect(() => {
-    dispatch(addAltMobile(altMobile));
-  }, [altMobile]);
-
-  useEffect(() => {
-    dispatch(addEmail(email));
-  }, [email]);
-
-  useEffect(() => {
     if (
       maritalStatus &&
       qualification &&
@@ -120,13 +92,12 @@ const ProfileFormTemplate = ({ type }) => {
     updateProfile(body)
       .unwrap()
       .then((response) => {
-        dispatch(addProfileComplete(true));
         if (type === "KYC") {
           handleConditionalNav();
         } else {
           navigation.navigate("AadhaarForm");
         }
-        showToast("Profile Details Updated");
+        showToast("Profile Details Updated", "success");
       })
       .catch((error) => {
         Alert.alert("Error", error.message);

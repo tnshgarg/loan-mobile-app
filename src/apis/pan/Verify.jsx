@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/core";
-import { addData, addVerifyStatus } from "../../store/slices/panSlice";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
-import { putBackendData } from "../../services/employees/employeeServices";
+import { useState } from "react";
+import { Alert } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import { useVerifyPanMutation } from "../../store/apiSlices/panApi";
+import { addData, addVerifyStatus } from "../../store/slices/panSlice";
 
 const PanVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -33,40 +33,29 @@ const PanVerifyApi = (props) => {
       .unwrap()
       .then((res) => {
         console.log("kyc/pan-fetch-details res: ", res);
-        const responseJson = res?.data;
-        console.log("kyc/pan-fetch-details responseJson: ", responseJson);
-        try {
-          if (responseJson?.status === 200) {
-            dispatch(addData(responseJson?.body?.data));
-            setLoading(false);
-            Analytics.trackEvent("Pan|Verify|Success", {
-              unipeEmployeeId: unipeEmployeeId,
-            });
-            dispatch(addVerifyStatus(responseJson?.body?.verifyStatus));
-            if (props.type !== "KYC") {
-              navigation.navigate("PanConfirm");
-            }
-          } else {
-            throw responseJson;
-          }
-        } catch (error) {
-          dispatch(addVerifyStatus("ERROR"));
-          Alert.alert("fetchPanDetails API Catch Error", error.message);
-          Analytics.trackEvent("Pan|Verify|Error", {
-            unipeEmployeeId: unipeEmployeeId,
-            error: `fetchPanDetails API Catch Error: ${
-              error.message
-            }, ${JSON.stringify(res)}`,
-          });
+        if (res?.status === 200) {
+          dispatch(addData(res?.body?.data));
           setLoading(false);
+          Analytics.trackEvent("Pan|Verify|Success", {
+            unipeEmployeeId: unipeEmployeeId,
+          });
+          dispatch(addVerifyStatus(res?.body?.data?.verifyStatus));
+          if (props.type !== "KYC") {
+            navigation.navigate("PanConfirm");
+          }
+        } else {
+          throw res;
         }
       })
       .catch((error) => {
+        console.log("kyc/pan-fetch-details error: ", error);
         dispatch(addVerifyStatus("ERROR"));
-        Alert.alert("fetchPanDetails Catch Error", error.message);
+        Alert.alert("fetchPanDetails API Catch Error", error.message);
         Analytics.trackEvent("Pan|Verify|Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: `fetchPanDetails Catch Error: ${error.message}`,
+          error: `fetchPanDetails API Catch Error: ${
+            error.message
+          }, ${JSON.stringify(res)}`,
         });
         setLoading(false);
       });

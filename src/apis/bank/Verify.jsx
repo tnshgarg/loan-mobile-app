@@ -11,7 +11,7 @@ import {
 } from "../../store/slices/bankSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
-import { putBackendData } from "../../services/employees/employeeServices";
+import { useVerifyBankMutation } from "../../store/apiSlices/bankApi";
 import { showToast } from "../../components/atoms/Toast";
 
 const BankVerifyApi = (props) => {

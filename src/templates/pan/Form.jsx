@@ -38,7 +38,7 @@ const PanFormTemplate = (props) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      {aadhaarVerifyStatus === "SUCCESS" ? (
+      {true ? (
         <KeyboardAvoidingWrapper>
           <View>
             <Text style={styles.headline}>Enter your PAN number</Text>
