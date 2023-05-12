@@ -27,7 +27,7 @@ import agreement from "../../../../templates/docs/liquiloans/LiquiLoansLoanAgree
 import kfs from "../../../../templates/docs/liquiloans/LiquiLoansKFS";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
 import Checkbox from "../../../../components/atoms/Checkbox";
-import { updateAgreement } from "../../../../queries/ewa/agreement";
+import { useUpdateAgreementMutation } from "../../../../store/apiSlices/ewaApi";
 import LiquiloansTitle from "../../../../components/atoms/LiquiloansTitle";
 
 const Agreement = () => {
@@ -61,6 +61,7 @@ const Agreement = () => {
   );
 
   const today = new Date();
+  const [updateAgreement] = useUpdateAgreementMutation();
 
   function ValueEntryAgreement(text) {
     text.data = text.data.replace(
@@ -125,23 +126,19 @@ const Agreement = () => {
     }
   }, [deviceId, ipAddress]);
 
-  const { mutateAsync: updateAgreementMutateAsync } = updateAgreement();
-
   useEffect(() => {
     if (fetched) {
       setLoading(true);
-      updateAgreementMutateAsync({
-        data: {
-          offerId: ewaLiveSlice?.offerId,
-          unipeEmployeeId: unipeEmployeeId,
-          status: "INPROGRESS",
-          timestamp: Date.now(),
-          ipAddress: ipAddress,
-          deviceId: deviceId,
-          campaignId: campaignId,
-        },
-        token: token,
-      })
+      let data = {
+        offerId: ewaLiveSlice?.offerId,
+        unipeEmployeeId: unipeEmployeeId,
+        status: "INPROGRESS",
+        timestamp: Date.now(),
+        ipAddress: ipAddress,
+        deviceId: deviceId,
+        campaignId: campaignId,
+      };
+      updateAgreement(data)
         .then((response) => {
           setLoading(false);
           console.log("ewaAgreementPush response.data: ", response.data);
@@ -197,27 +194,26 @@ const Agreement = () => {
 
   function handleAgreement() {
     setLoading(true);
-    updateAgreementMutateAsync({
-      data: {
-        offerId: ewaLiveSlice?.offerId,
-        unipeEmployeeId: unipeEmployeeId,
-        status: "CONFIRMED",
-        timestamp: Date.now(),
-        ipAddress: ipAddress,
-        deviceId: deviceId,
-        bankAccountNumber: bankSlice?.data?.accountNumber,
-        bankName: bankSlice?.data?.bankName,
-        dueDate: ewaLiveSlice?.dueDate,
-        processingFees: ewaLiveSlice?.processingFees,
-        loanAmount: ewaLiveSlice?.loanAmount,
-        netAmount: ewaLiveSlice?.netAmount,
-        loanAccountNumber: ewaLiveSlice?.offerId,
-        employerId: ewaLiveSlice?.employerId,
-        employmentId: ewaLiveSlice?.employmentId,
-        campaignId: campaignId,
-      },
-      token: token,
-    })
+    let data = {
+      offerId: ewaLiveSlice?.offerId,
+      unipeEmployeeId: unipeEmployeeId,
+      status: "CONFIRMED",
+      timestamp: Date.now(),
+      ipAddress: ipAddress,
+      deviceId: deviceId,
+      bankAccountNumber: bankSlice?.data?.accountNumber,
+      bankName: bankSlice?.data?.bankName,
+      dueDate: ewaLiveSlice?.dueDate,
+      processingFees: ewaLiveSlice?.processingFees,
+      loanAmount: ewaLiveSlice?.loanAmount,
+      netAmount: ewaLiveSlice?.netAmount,
+      loanAccountNumber: ewaLiveSlice?.offerId,
+      employerId: ewaLiveSlice?.employerId,
+      employmentId: ewaLiveSlice?.employmentId,
+      campaignId: campaignId,
+    };
+
+    updateAgreement(data)
       .then((response) => {
         console.log("ewaAgreementPush response.data: ", response.data);
         dispatch(resetEwaLive());

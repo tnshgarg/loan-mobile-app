@@ -18,7 +18,7 @@ import ewaHistoricalSlice from "./slices/ewaHistoricalSlice";
 import ewaLiveSlice from "./slices/ewaLiveSlice";
 
 import { api } from "./apiSlices/api";
-
+import { setupListeners } from '@reduxjs/toolkit/query';
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
@@ -53,7 +53,6 @@ const rootReducer = (state, action) => {
   }
   return appReducer(state, action);
 };
-
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
@@ -63,5 +62,5 @@ export const store = configureStore({
       serializableCheck: false,
     }).concat(api.middleware),
 });
-
+setupListeners(store.dispatch);
 export const persistor = persistStore(store);

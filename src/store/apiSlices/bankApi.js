@@ -3,11 +3,11 @@ import { api } from "./api";
 export const bankApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getBank: builder.query({
-      query: () => ({
+      query: (unipeEmployeeId) => ({
         url: `bank`,
-        headers: { unipeEmployeeId: getState().auth.unipeEmployeeId },
+        params: {unipeEmployeeId}
       }),
-      transformResponse: (response) => response.response,
+      transformResponse: (response) => response.body,
     }),
     verifyBank: builder.mutation({
       query: (body) => ({
@@ -28,8 +28,5 @@ export const bankApi = api.injectEndpoints({
   }),
 });
 
-export const {
-  useGetBankQuery,
-  useVerifyBankMutation,
-  useUpdateBankMutation,
-} = bankApi;
+export const { useGetBankQuery, useVerifyBankMutation, useUpdateBankMutation } =
+  bankApi;

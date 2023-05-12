@@ -1,17 +1,17 @@
 import { api } from "./api";
 
-export const profileApi = api.injectEndpoints({
+export const mandateApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getProfile: builder.query({
+    getMandate: builder.query({
       query: (unipeEmployeeId) => ({
-        url: `profile`,
+        url: `mandate`,
         params: { unipeEmployeeId },
       }),
       transformResponse: (response) => response.body,
     }),
-    updateProfile: builder.mutation({
+    updateMandate: builder.mutation({
       query: (body) => ({
-        url: `profile`,
+        url: `mandate`,
         method: "POST",
         body: body,
       }),
@@ -21,4 +21,4 @@ export const profileApi = api.injectEndpoints({
   }),
 });
 
-export const { useGetProfileQuery, useUpdateProfileMutation } = profileApi;
+export const { useGetMandateQuery, useUpdateMandateMutation } = mandateApi;

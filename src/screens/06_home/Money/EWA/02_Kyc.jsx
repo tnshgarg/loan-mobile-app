@@ -7,14 +7,14 @@ import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
-import { styles } from "../../../../styles";
 import DetailsCard from "../../../../components/molecules/DetailsCard";
-import { updateKyc } from "../../../../queries/ewa/kyc";
 import { getBackendData } from "../../../../services/employees/employeeServices";
+import { useUpdateKycMutation } from "../../../../store/apiSlices/ewaApi";
 import {
   addVerifyStatus,
   resetMandate,
 } from "../../../../store/slices/mandateSlice";
+import { styles } from "../../../../styles";
 
 const KYC = () => {
   const dispatch = useDispatch();
@@ -38,6 +38,7 @@ const KYC = () => {
   const aadharNumber = useSelector((state) => state.aadhaar.number);
   const panNumber = useSelector((state) => state.pan.number);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
+  const [updateKyc] = useUpdateKycMutation();
 
   useEffect(() => {
     getUniqueId().then((id) => {
@@ -69,22 +70,18 @@ const KYC = () => {
     }
   }, [deviceId, ipAddress]);
 
-  const { mutateAsync: updateKycMutateAsync } = updateKyc();
-
   useEffect(() => {
     if (fetched) {
-      updateKycMutateAsync({
-        data: {
-          offerId: ewaLiveSlice?.offerId,
-          unipeEmployeeId: unipeEmployeeId,
-          status: "INPROGRESS",
-          timestamp: Date.now(),
-          ipAddress: ipAddress,
-          deviceId: deviceId,
-          campaignId: campaignId,
-        },
-        token: token,
-      })
+      let data = {
+        offerId: ewaLiveSlice?.offerId,
+        unipeEmployeeId: unipeEmployeeId,
+        status: "INPROGRESS",
+        timestamp: Date.now(),
+        ipAddress: ipAddress,
+        deviceId: deviceId,
+        campaignId: campaignId,
+      };
+      updateKyc(data)
         .then((response) => {
           console.log("updateKycMutateAsync response.data: ", response.data);
         })
@@ -108,18 +105,16 @@ const KYC = () => {
 
   function handleKyc() {
     setLoading(true);
-    updateKycMutateAsync({
-      data: {
-        offerId: ewaLiveSlice?.offerId,
-        unipeEmployeeId: unipeEmployeeId,
-        status: "CONFIRMED",
-        timestamp: Date.now(),
-        ipAddress: ipAddress,
-        deviceId: deviceId,
-        campaignId: campaignId,
-      },
-      token: token,
-    })
+    let data = {
+      offerId: ewaLiveSlice?.offerId,
+      unipeEmployeeId: unipeEmployeeId,
+      status: "CONFIRMED",
+      timestamp: Date.now(),
+      ipAddress: ipAddress,
+      deviceId: deviceId,
+      campaignId: campaignId,
+    };
+    updateKyc(data)
       .then((response) => {
         console.log("updateKycMutateAsync response.data: ", response.data);
         setLoading(false);

@@ -3,12 +3,11 @@ import { api } from "./api";
 export const ewaApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getOffers: builder.query({
-      query: () => ({
+      query: (unipeEmployeeId) => ({
         url: `ewa/offers`,
-        headers: { unipeEmployeeId: getState().auth.unipeEmployeeId },
+        params: {unipeEmployeeId}
       }),
       providesTags: ["Offers"],
-      transformResponse: (response) => response.response,
     }),
     updateOffer: builder.mutation({
       query: (body) => ({
@@ -16,7 +15,6 @@ export const ewaApi = api.injectEndpoints({
         method: "POST",
         body: body,
       }),
-      transformResponse: (response) => response.response,
     }),
     updateKyc: builder.mutation({
       query: (body) => ({
@@ -24,7 +22,6 @@ export const ewaApi = api.injectEndpoints({
         method: "POST",
         body: body,
       }),
-      transformResponse: (response) => response.response,
     }),
     updateAgreement: builder.mutation({
       query: (body) => ({
@@ -32,7 +29,6 @@ export const ewaApi = api.injectEndpoints({
         method: "POST",
         body: body,
       }),
-      transformResponse: (response) => response.response,
       invalidatesTags: [],
     }),
     getDisbursement: builder.query({
@@ -43,16 +39,15 @@ export const ewaApi = api.injectEndpoints({
           offerId: offerId,
         },
       }),
-      transformResponse: (response) => response.response,
     }),
     overrideExisting: true,
   }),
 });
 
 export const {
-  getOffers,
-  updateOffer,
-  updateKyc,
-  updateAgreement,
-  getDisbursement,
+  useGetOffersQueryMutation,
+  useUpdateOfferMutation,
+  useUpdateKycMutation,
+  useUpdateAgreementMutation,
+  useGetDisbursementQuery,
 } = ewaApi;

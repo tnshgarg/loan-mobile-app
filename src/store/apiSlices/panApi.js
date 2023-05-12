@@ -3,11 +3,11 @@ import { api } from "./api";
 export const panApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getPan: builder.query({
-      query: () => ({
+      query: (unipeEmployeeId) => ({
         url: `pan`,
-        headers: { unipeEmployeeId: getState().auth.unipeEmployeeId },
+        params: {unipeEmployeeId}
       }),
-      transformResponse: (response) => response.response,
+      transformResponse: (response) => response.body,
     }),
     verifyPan: builder.mutation({
       query: (body) => ({
@@ -28,8 +28,5 @@ export const panApi = api.injectEndpoints({
   }),
 });
 
-export const {
-  useGetPanQuery,
-  useVerifyPanMutation,
-  useUpdatePanMutation,
-} = panApi;
+export const { useGetPanQuery, useVerifyPanMutation, useUpdatePanMutation } =
+  panApi;

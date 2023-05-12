@@ -3,10 +3,11 @@ import { api } from "./api";
 export const aadhaarApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getAadhaar: builder.query({
-      query: () => ({
+      query: (unipeEmployeeId) => ({
         url: `aadhaar`,
-        headers: { unipeEmployeeId: getState().auth.unipeEmployeeId },
+        params: {unipeEmployeeId}
       }),
+      transformResponse: (response) => response.body,
     }),
     generateAadhaarOtp: builder.mutation({
       query: (body) => ({

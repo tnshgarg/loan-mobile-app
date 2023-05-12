@@ -29,22 +29,26 @@ const aadhaarSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addMatcher(
-      aadhaarApi.endpoints.verifyAadhaarOtp.matchFulfilled,
-      (state, { payload }) => {
-        console.log("payload: ", payload);
-        state.data = payload?.body?.data;
-        state.verifyStatus = payload?.body?.verifyStatus;
-      }
-    )
+    builder
+      .addMatcher(
+        aadhaarApi.endpoints.verifyAadhaarOtp.matchFulfilled,
+        (state, { payload }) => {
+          state.data = payload?.body?.data;
+          state.verifyStatus = payload?.body?.verifyStatus;
+        }
+      )
+      .addMatcher(
+        aadhaarApi.endpoints.getAadhaar.matchFulfilled,
+        (state, { payload }) => {
+          console.log("payload: ", payload);
+          state.data = payload?.body?.data;
+          state.verifyStatus = payload?.body?.verifyStatus;
+        }
+      );
   },
 });
 
-export const {
-  addData,
-  addNumber,
-  addVerifyStatus,
-  resetAadhaar,
-} = aadhaarSlice.actions;
+export const { addData, addNumber, addVerifyStatus, resetAadhaar } =
+  aadhaarSlice.actions;
 
 export default aadhaarSlice.reducer;

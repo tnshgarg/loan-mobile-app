@@ -31,7 +31,7 @@ const AccountMenu = (props) => {
     useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const image = useSelector((state) => state.aadhaar.data.photo_base64);
+  const image = useSelector((state) => state.aadhaar?.data?.photo_base64);
   const name = useSelector(
     (state) =>
       state.aadhaar.data?.name ||

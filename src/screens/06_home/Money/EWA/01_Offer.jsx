@@ -18,7 +18,7 @@ import { styles } from "../../../../styles";
 import TnC from "../../../../templates/docs/EWATnC.js";
 import SliderCard from "../../../../components/organisms/SliderCard";
 import Checkbox from "../../../../components/atoms/Checkbox";
-import { updateOffer } from "../../../../queries/ewa/offer";
+import { useUpdateOfferMutation } from "../../../../store/apiSlices/ewaApi";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -42,10 +42,10 @@ const Offer = () => {
     (state) =>
       state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
   );
-  const profileComplete = useSelector(
-    (state) => state.profile.profileComplete
+  const profileComplete = useSelector((state) => state.profile.profileComplete);
+  const aadhaarVerifyStatus = useSelector(
+    (state) => state.aadhaar.verifyStatus
   );
-  const aadhaarVerifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
 
@@ -55,7 +55,7 @@ const Offer = () => {
   const [processingFees, setProcessingFees] = useState(
     ewaLiveSlice?.processingFees
   );
-
+  const [updateOffer] = useUpdateOfferMutation();
   useEffect(() => {
     getUniqueId().then((id) => {
       setDeviceId(id);
@@ -71,22 +71,19 @@ const Offer = () => {
     }
   }, [deviceId, ipAddress]);
 
-  const { mutateAsync: updateOfferMutateAsync } = updateOffer();
-
   useEffect(() => {
     if (fetched) {
-      updateOfferMutateAsync({
-        data: {
-          offerId: ewaLiveSlice.offerId,
-          unipeEmployeeId: unipeEmployeeId,
-          status: "INPROGRESS",
-          timestamp: Date.now(),
-          ipAddress: ipAddress,
-          deviceId: deviceId,
-          campaignId: campaignId,
-        },
-        token: token,
-      })
+      let data = {
+        offerId: ewaLiveSlice.offerId,
+        unipeEmployeeId: unipeEmployeeId,
+        status: "INPROGRESS",
+        timestamp: Date.now(),
+        ipAddress: ipAddress,
+        deviceId: deviceId,
+        campaignId: campaignId,
+      };
+
+      updateOffer(data)
         .then((response) => {
           console.log("updateOfferMutateAsync response.data: ", response.data);
         })
@@ -137,7 +134,7 @@ const Offer = () => {
     let dueDateComponents = ewaLiveSlice.dueDate.split("/");
     let dueDate = new Date(
       dueDateComponents[2],
-      parseInt(dueDateComponents[1])-1,
+      parseInt(dueDateComponents[1]) - 1,
       dueDateComponents[0]
     );
     console.log(`dueDate, today: ${dueDate}, ${today}`);
@@ -163,7 +160,7 @@ const Offer = () => {
       navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarConfirm" });
     } else if (aadhaarVerifyStatus != "SUCCESS") {
       navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarForm" });
-    }  else if (panVerifyStatus === "INPROGRESS_CONFIRMATION") {
+    } else if (panVerifyStatus === "INPROGRESS_CONFIRMATION") {
       navigation.navigate("EWA_KYC_STACK", { screen: "PanConfirm" });
     } else if (panVerifyStatus != "SUCCESS") {
       navigation.navigate("EWA_KYC_STACK", { screen: "PanForm" });
@@ -179,20 +176,17 @@ const Offer = () => {
   function handleAmount() {
     setLoading(true);
     if (validAmount) {
-      updateOfferMutateAsync({
-        data: {
-          offerId: ewaLiveSlice.offerId,
-          unipeEmployeeId: unipeEmployeeId,
-          status: "CONFIRMED",
-          timestamp: Date.now(),
-          ipAddress: ipAddress,
-          deviceId: deviceId,
-          loanAmount: parseInt(loanAmount),
-          campaignId: campaignId,
-        },
-        token: token,
-        xpath: "ewa/offer",
-      })
+      let data = {
+        offerId: ewaLiveSlice.offerId,
+        unipeEmployeeId: unipeEmployeeId,
+        status: "CONFIRMED",
+        timestamp: Date.now(),
+        ipAddress: ipAddress,
+        deviceId: deviceId,
+        loanAmount: parseInt(loanAmount),
+        campaignId: campaignId,
+      };
+      updateOffer(data)
         .then((response) => {
           console.log("updateOfferMutateAsync response.data: ", response.data);
           setLoading(false);
