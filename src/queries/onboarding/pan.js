@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { KYC_PAN_VERIFY_API_URL } from "../../services/constants";
-import { OG_API_KEY } from "@env";
+import { OG_API_KEY } from "../../services/constants";
 import { getBackendData } from "../../services/employees/employeeServices";
 
 export const getPan = ({ unipeEmployeeId, token }) => {

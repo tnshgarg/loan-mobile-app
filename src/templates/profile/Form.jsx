@@ -157,7 +157,7 @@ const ProfileFormTemplate = ({ type }) => {
   };
 
   useEffect(() => {
-    var emailReg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/gm;
+    var emailReg =/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,10})+$/gm;
     if (emailReg.test(email)) {
       setValidEmail(true);
     } else {

@@ -86,7 +86,7 @@ const BankConfirmApi = (props) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headline}>Are these your sBank Account details?</Text>
+      <Text style={styles.headline}>Are these your Bank Account details?</Text>
       <Text style={styles.subHeadline}>
         कृपया स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
       </Text>

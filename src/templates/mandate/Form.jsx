@@ -191,7 +191,7 @@ const MandateFormTemplate = (props) => {
       .then(() => {})
       .catch((error) => {
         setModalVisible(false);
-        Alert("Error", error);
+        Alert.alert("Error", error?.message || "Something went wrong");
       });
     };
   }

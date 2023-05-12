@@ -4,11 +4,10 @@ import { useEffect, useState } from "react";
 import {
   Alert,
   BackHandler,
-  Linking,
   SafeAreaView,
   Text,
   View,
-  Keyboard,
+  Linking,
 } from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,7 +24,6 @@ import {
   addEmployeeName,
   addOnboarded,
   addPhoneNumber,
-  addToken,
   addUnipeEmployeeId,
 } from "../../store/slices/authSlice";
 import {
@@ -61,7 +59,7 @@ const LoginScreen = () => {
   const [employeeName, setEmployeeName] = useState(authSlice?.employeeName);
   const [onboarded, setOnboarded] = useState(authSlice?.onboarded);
   const [phoneNumber, setPhoneNumber] = useState(authSlice?.phoneNumber);
-  const [token, setToken] = useState(authSlice?.token);
+  const token = authSlice?.token;
   const [unipeEmployeeId, setUnipeEmployeeId] = useState(
     authSlice?.unipeEmployeeId
   );
@@ -74,10 +72,6 @@ const LoginScreen = () => {
     dispatch(addCurrentStack("OnboardingStack"));
     dispatch(addCurrentScreen("Login"));
   }, []);
-
-  useEffect(() => {
-    dispatch(addToken(token));
-  }, [token]);
 
   useEffect(() => {
     dispatch(addACTC(aCTC));
@@ -150,7 +144,6 @@ const LoginScreen = () => {
           setACTC(responseJson.body.aCTC);
           setEmployeeName(responseJson.body.employeeName);
           setOnboarded(responseJson.body.onboarded);
-          setToken(responseJson.body.token);
           setUnipeEmployeeId(responseJson.body.unipeEmployeeId);
           sendSmsVerification(phoneNumber)
             .then((result) => {
@@ -174,7 +167,7 @@ const LoginScreen = () => {
             })
             .catch((error) => {
               setLoading(false);
-              Alert("Error", JSON.stringify(error));
+              Alert.alert("Error", JSON.stringify(error));
               Analytics.trackEvent("LoginScreen|SendSms|Error", {
                 unipeEmployeeId: unipeEmployeeId,
                 error: JSON.stringify(error),

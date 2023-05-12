@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
-import { SafeAreaView, Text, View } from "react-native";
+import { SafeAreaView, Text, View, Linking} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import Clock from "../../assets/Clock.svg";

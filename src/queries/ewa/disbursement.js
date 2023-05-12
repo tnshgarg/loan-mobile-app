@@ -12,9 +12,9 @@ export const getDisbursement = ({ params, token }) => {
       });
     },
     config: {
-      staleTime: 1000 * 60 * 60 * 24,
-      cacheTime: 1000 * 60 * 60 * 24,
-      refetchInterval: 1000 * 60 * 60 * 24,
+      staleTime: 1000 * 60 * 2,
+      cacheTime: 1000 * 60 * 10,
+      refetchInterval: 1000 * 60 * 2,
     },
   });
   return response;

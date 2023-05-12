@@ -1,4 +1,5 @@
-import { View, Text, Modal } from "react-native";
+import { View, Text, Modal, Alert } from "react-native";
+import React from "react";
 import { FONTS } from "../../constants/Theme";
 import EStyleSheet from "react-native-extended-stylesheet";
 import SVGImg from "../../assets/UnipeLogo.svg";

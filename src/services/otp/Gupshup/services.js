@@ -1,90 +1,41 @@
-import { GUPSHUP_PASSWORD, GUPSHUP_USERID, MOCK_USER_OTP } from "@env";
-
-const mobileNumberRegex=/^([7-9])\1{9}$/;
+import { STAGE } from "@env";
+import axios from "axios";
+import {
+  GUPSHUP_GENERATE_OTP_API_URL,
+  GUPSHUP_VERIFY_OTP_API_URL,
+} from "../../constants";
+import { getVersion } from "react-native-device-info";
 
 const sendSmsVerification = async (phoneNumber) => {
-  if (mobileNumberRegex.test(phoneNumber)) {
-    return {
-      response: {
-        status: "success",
-      },
-    };
-  } else {
-    try {
-      let params = {
-        userid: GUPSHUP_USERID,
-        password: GUPSHUP_PASSWORD,
-        method: "TWO_FACTOR_AUTH",
-        v: "1.1",
-        phone_no: phoneNumber,
-        msg: "Hello+from+Unipe%21+%3A%29%0D%0AYour+One+Time+Password+for+Mobile+Verification+is+%25code%25+and+valid+only+for+40Minutes%0D%0AKeep+it+confidential+%26+do+not+share.%0D%0A%0D%0AWagepe",
-        format: "JSON",
-        otpCodeLength: "6",
-        otpCodeType: "NUMERIC",
-      };
-
-      let query = Object.keys(params)
-        .map((k) => k + "=" + params[k])
-        .join("&");
-      const response = await fetch(
-        `https://enterprise.smsgupshup.com/GatewayAPI/rest?` + query,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log("sendSmsVerification response: ", response);
-
-      const json = await response.json();
-      return json;
-    } catch (error) {
-      return error;
-    }
+  try {
+    const response = await axios.post(GUPSHUP_GENERATE_OTP_API_URL, {
+      mobileNumber: phoneNumber,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    return error;
   }
 };
 
 const checkVerification = async (phoneNumber, code) => {
-  if (mobileNumberRegex.test(phoneNumber) && code == MOCK_USER_OTP) {
-    return {
-      response: {
-        status: "success",
+  try {
+    const response = await axios.post(
+      GUPSHUP_VERIFY_OTP_API_URL,
+      {
+        mobileNumber: phoneNumber,
+        otp: code,
       },
-    };
-  } else {
-    try {
-      let params = {
-        userid: GUPSHUP_USERID,
-        password: GUPSHUP_PASSWORD,
-        method: "TWO_FACTOR_AUTH",
-        v: "1.1",
-        phone_no: phoneNumber,
-        format: "JSON",
-        otp_code: code,
-      };
-
-      let query = Object.keys(params)
-        .map((k) => k + "=" + params[k])
-        .join("&");
-
-      const response = await fetch(
-        `https://enterprise.smsgupshup.com/GatewayAPI/rest?` + query,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log("checkVerification response: ", response);
-
-      const json = await response.json();
-      return json;
-    } catch (error) {
-      console.error(error);
-      return error;
-    }
+      {
+        headers: {
+          "X-Unipe-App-Version": getVersion(),
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    return error;
   }
 };
 
