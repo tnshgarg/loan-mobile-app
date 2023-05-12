@@ -1,18 +1,17 @@
+import { useNavigation } from "@react-navigation/core";
 import { useEffect } from "react";
-import { Image, Alert } from "react-native";
+import { Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { getBackendData } from "../services/employees/employeeServices";
+import { useGetAadhaarQuery } from "../store/apiSlices/aadhaarApi";
+import { useGetBankQuery } from "../store/apiSlices/bankApi";
+import { useGetMandateQuery } from "../store/apiSlices/mandateApi";
+import { useGetPanQuery } from "../store/apiSlices/panApi";
+import { useGetProfileQuery } from "../store/apiSlices/profileApi";
 import { resetAadhaar } from "../store/slices/aadhaarSlice";
 import { resetBank } from "../store/slices/bankSlice";
 import { resetMandate } from "../store/slices/mandateSlice";
 import { resetPan } from "../store/slices/panSlice";
 import { resetProfile } from "../store/slices/profileSlice";
-import { useNavigation } from "@react-navigation/core";
-import { useGetAadhaarQuery } from "../store/apiSlices/aadhaarApi";
-import { useGetBankQuery } from "../store/apiSlices/bankApi";
-import { useGetPanQuery } from "../store/apiSlices/panApi";
-import { useGetProfileQuery } from "../store/apiSlices/profileApi";
-
 const BackendSync = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -39,6 +38,11 @@ const BackendSync = () => {
     isLoading: profileLoading,
     isError: profileError,
   } = useGetProfileQuery(unipeEmployeeId);
+  const {
+    data: mandateData,
+    isLoading: mandateLoading,
+    isError: mandateError,
+  } = useGetMandateQuery(unipeEmployeeId);
 
   useEffect(() => {
     console.log("BackendSync unipeEmployeeId: ", unipeEmployeeId);
@@ -88,20 +92,12 @@ const BackendSync = () => {
   }, [unipeEmployeeId]);
 
   useEffect(() => {
-    if (unipeEmployeeId) {
-      getBackendData({
-        params: unipeEmployeeId,
-        xpath: "mandate",
-        token: token,
-      })
-        .then((response) => {
-          if (response.data.status === 200) {
-            dispatch(resetMandate(response.data.body));
-          }
-        })
-        .catch((error) => {
-          console.log("mandateFetch error: ", error);
-        });
+    if (unipeEmployeeId && !mandateLoading && !mandateError) {
+      try {
+        dispatch(resetMandate(response.data.body));
+      } catch (error) {
+        console.log("mandateFetch error: ", error.message);
+      }
     }
   }, [unipeEmployeeId]);
 

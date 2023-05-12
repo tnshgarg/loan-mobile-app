@@ -7,7 +7,6 @@ export const mandateApi = api.injectEndpoints({
         url: `mandate`,
         params: { unipeEmployeeId },
       }),
-      transformResponse: (response) => response.body,
     }),
     updateMandate: builder.mutation({
       query: (body) => ({
@@ -15,7 +14,6 @@ export const mandateApi = api.injectEndpoints({
         method: "POST",
         body: body,
       }),
-      transformResponse: (response) => response.response,
     }),
     overrideExisting: true,
   }),

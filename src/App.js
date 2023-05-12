@@ -10,7 +10,6 @@ import { PersistGate } from "redux-persist/integration/react";
 import UpdateDialog from "./components/UpdateDialog";
 import { navigationRef } from "./navigators/RootNavigation";
 import StackNavigator from "./navigators/StackNavigator";
-import { queryClient } from "./queries/client";
 import { persistor, store } from "./store/store";
 
 Crashes.setListener({
@@ -32,12 +31,10 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer ref={navigationRef}>
-          <QueryClientProvider client={queryClient}>
             <SafeAreaProvider style={{ backgroundColor: "white", flex: 1 }}>
               <StackNavigator />
               {STAGE != "dev" && <UpdateDialog />}
             </SafeAreaProvider>
-          </QueryClientProvider>
         </NavigationContainer>
       </PersistGate>
     </Provider>

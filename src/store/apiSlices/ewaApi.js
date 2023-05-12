@@ -5,9 +5,17 @@ export const ewaApi = api.injectEndpoints({
     getOffers: builder.query({
       query: (unipeEmployeeId) => ({
         url: `ewa/offers`,
-        params: {unipeEmployeeId}
+        params: { unipeEmployeeId },
       }),
       providesTags: ["Offers"],
+      transformResponse: (response) => {
+        console.log("response", response);
+        return response;
+      },
+      transformErrorResponse: (response) => {
+        console.log("response", response);
+        return response;
+      },
     }),
     updateOffer: builder.mutation({
       query: (body) => ({
@@ -32,12 +40,9 @@ export const ewaApi = api.injectEndpoints({
       invalidatesTags: [],
     }),
     getDisbursement: builder.query({
-      query: ({ offerId }) => ({
+      query: ({ unipeEmployeeId, offerId }) => ({
         url: `ewa/disbursement`,
-        headers: {
-          unipeEmployeeId: getState().auth.unipeEmployeeId,
-          offerId: offerId,
-        },
+        params: { unipeEmployeeId, offerId },
       }),
     }),
     overrideExisting: true,
@@ -45,7 +50,7 @@ export const ewaApi = api.injectEndpoints({
 });
 
 export const {
-  useGetOffersQueryMutation,
+  useGetOffersQuery,
   useUpdateOfferMutation,
   useUpdateKycMutation,
   useUpdateAgreementMutation,

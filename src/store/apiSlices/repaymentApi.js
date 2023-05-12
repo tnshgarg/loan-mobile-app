@@ -4,14 +4,19 @@ import { getVersion } from "react-native-device-info";
 export const repaymentApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getRepayment: builder.query({
-      query: () => ({
+      query: (unipeEmployeeId) => ({
         url: `ewa/repayment`,
-        headers: {
-          unipeEmployeeId: getState().auth.unipeEmployeeId,
-          "X-Unipe-App-Version": getVersion(),
-        },
+        params: { unipeEmployeeId },
+        headers: { "X-Unipe-App-Version": getVersion() },
       }),
-      transformResponse: (response) => response.response,
+      transformResponse: (response) => {
+        console.log("response", response);
+        return response;
+      },
+      transformErrorResponse: (response) => {
+        console.log("response", response);
+        return response;
+      },
     }),
     updateRepayment: builder.mutation({
       query: (body) => ({
@@ -19,9 +24,9 @@ export const repaymentApi = api.injectEndpoints({
         method: "POST",
         body: body,
       }),
-      transformResponse: (response) => response.response,
     }),
   }),
 });
 
-export const {} = repaymentApi;
+export const { useGetRepaymentQuery, useUpdateRepaymentMutation } =
+  repaymentApi;

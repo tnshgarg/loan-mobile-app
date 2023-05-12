@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Linking, SafeAreaView, ScrollView, Text, View } from "react-native";
@@ -22,7 +21,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import LogoHeader from "../../components/atoms/LogoHeader";
 import { COLORS } from "../../constants/Theme";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
-import { getEwaOffers } from "../../queries/ewa/offers";
+import { useGetOffersQuery } from "../../store/apiSlices/ewaApi";
 import {
   notificationListener,
   requestUserPermission,
@@ -111,18 +110,15 @@ const HomeView = () => {
     isError: getEwaOffersIsError,
     error: getEwaOffersError,
     data: getEwaOffersData,
-  } = useQuery(["getEwaOffers", unipeEmployeeId, token], getEwaOffers, {
-    staleTime: 1000 * 60 * 2,
-    cacheTime: 1000 * 60 * 10,
-    refetchInterval: 1000 * 60 * 2,
-  });
+  } = useGetOffersQuery(unipeEmployeeId)
 
   useEffect(() => {
     if (isFocused && getEwaOffersIsSuccess) {
-      if (getEwaOffersData.data.status === 200) {
-        if (Object.keys(getEwaOffersData.data.body.live).length !== 0) {
+      console.log("HomeView ewaOffersFetch API getEwaOffersData : ", getEwaOffersData);
+      if (getEwaOffersData.status === 200) {
+        if (Object.keys(getEwaOffersData.body.live).length !== 0) {
           const closureDays = getNumberOfDays({
-            date: getEwaOffersData.data.body.live.dueDate,
+            date: getEwaOffersData.body.live.dueDate,
           });
           if (closureDays <= 3) {
             setAccessible(false);
@@ -132,13 +128,13 @@ const HomeView = () => {
         } else {
           setAccessible(false);
         }
-        dispatch(resetEwaLive(getEwaOffersData.data.body.live));
-        dispatch(resetEwaHistorical(getEwaOffersData.data.body.past));
+        dispatch(resetEwaLive(getEwaOffersData.body.live));
+        dispatch(resetEwaHistorical(getEwaOffersData.body.past));
         setFetched(true);
       } else {
         console.log(
           "HomeView ewaOffersFetch API error getEwaOffersData.data : ",
-          getEwaOffersData.data
+          getEwaOffersData.body
         );
         dispatch(resetEwaLive());
         dispatch(resetEwaHistorical());

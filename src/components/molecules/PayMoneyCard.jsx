@@ -3,22 +3,23 @@ import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import { Alert, Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { useQuery } from "@tanstack/react-query";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS, FONTS } from "../../constants/Theme";
 import {
-  createRepaymentOrder,
-  openRazorpayCheckout,
-} from "../../services/mandate/Razorpay/services";
-import PrimaryButton from "../atoms/PrimaryButton";
-import {
   getNumberOfDays,
   setYYYYMMDDtoDDMMYYYY,
 } from "../../helpers/DateFunctions";
-import { getRepayment } from "../../queries/ewa/repayment";
-import { useUpdateAgreementMutation } from "../../store/apiSlices/ewaApi";
+import {
+  createRepaymentOrder,
+  openRazorpayCheckout,
+} from "../../services/mandate/Razorpay/services";
+import {
+  useGetRepaymentQuery,
+  useUpdateRepaymentMutation,
+} from "../../store/apiSlices/repaymentApi";
 import { resetRepayment } from "../../store/slices/repaymentSlice";
+import PrimaryButton from "../atoms/PrimaryButton";
 
 const PayMoneyCard = () => {
   const dispatch = useDispatch();
@@ -60,23 +61,21 @@ const PayMoneyCard = () => {
     isError: getRepaymentIsError,
     error: getRepaymentError,
     data: getRepaymentData,
-  } = useQuery(["getRepayment", unipeEmployeeId, token], getRepayment, {
-    staleTime: 1000 * 60 * 2,
-    cacheTime: 1000 * 60 * 10,
-    refetchInterval: 1000 * 60 * 2,
-  });
-  const [updateRepayment] = useUpdateAgreementMutation();
+  } = useGetRepaymentQuery(unipeEmployeeId);
+
+  const [updateRepayment] = useUpdateRepaymentMutation();
   useEffect(() => {
-    if (isFocused && !getRepaymentIsLoading && getRepaymentIsSuccess) {
-      if (getRepaymentData.data.status === 200) {
+    console.log("ewaRepaymentFetch API: ", getRepaymentData);
+    if (isFocused && !getRepaymentIsLoading) {
+      if (getRepaymentData.status === 200) {
         let repaymentAmount = Math.max(
-          getRepaymentData?.data?.body?.amount -
-            (getRepaymentData?.data?.body?.paidAmount ?? 0),
+          getRepaymentData?.body?.amount -
+            (getRepaymentData?.body?.paidAmount ?? 0),
           0
         );
-        let repaymentStatus = getRepaymentData?.data?.body?.status;
+        let repaymentStatus = getRepaymentData?.body?.status;
         if (repaymentAmount > 0 && repaymentStatus !== "SUCCESS") {
-          let timestamp = getRepaymentData?.data?.body?.dueDate?.split(" ");
+          let timestamp = getRepaymentData?.body?.dueDate?.split(" ");
           let date = timestamp[0];
           let formattedDueDate = setYYYYMMDDtoDDMMYYYY(date);
           setDueDate(formattedDueDate);
@@ -88,15 +87,15 @@ const PayMoneyCard = () => {
           );
           setRepaymentAmount(repaymentAmount);
           setRepaymentStatus(repaymentStatus);
-          setRepaymentId(getRepaymentData?.data?.body?.repaymentId);
+          setRepaymentId(getRepaymentData?.body?.repaymentId);
           setInactive(false);
         } else if (repaymentAmount < 1 || repaymentStatus === "INPROGRESS") {
           setInactive(true);
         }
-      } else if (getRepaymentData.data.status === 404) {
+      } else if (getRepaymentData.status === 404) {
         console.log(
           "ewaRepaymentFetch API status error getRepaymentData.data: ",
-          getRepaymentData.data
+          getRepaymentData.body
         );
         dispatch(resetRepayment());
         setDueDate(null);

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, Image, Modal } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
-import { getBackendData } from "../../services/employees/employeeServices";
+import { useGetMandateQuery } from "../../store/apiSlices/mandateApi";
 import { addVerifyStatus, resetMandate } from "../../store/slices/mandateSlice";
 import { styles } from "../../styles";
 import { showToast } from "../atoms/Toast";
@@ -19,6 +19,7 @@ export default function MandateLoading({
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const navigation = useNavigation();
+  const { data, error, isLoading } = useGetMandateQuery(unipeEmployeeId);
   let interval;
 
   useEffect(() => {
@@ -28,25 +29,20 @@ export default function MandateLoading({
         setRefetchTime(refetchTime + 10);
         if (refetchTime % 10 == 0) {
           console.log("api called");
-          getBackendData({
-            params: { unipeEmployeeId: unipeEmployeeId },
-            xpath: "mandate",
-            token: token,
-          })
-            .then((response) => {
-              console.log("mandateLoader", response.data);
-              let mandateData = response?.data?.body;
-              dispatch(resetMandate(mandateData));
-              dispatch(addVerifyStatus(mandateData?.verifyStatus));
-              setMandateVerifyStatus(mandateData?.verifyStatus);
-              if (mandateData.verifyStatus == "ERROR") {
-                showToast("Mandate Registration Failed, Please Try Again", "warning");
-                setModalVisible(false);
-              }
-            })
-            .catch((error) => {
-              console.log("mandateFetch error: ", error);
-            });
+          if (data && !isLoading && !error) {
+            console.log("mandateLoader", data);
+            let mandateData = data?.body;
+            dispatch(resetMandate(mandateData));
+            dispatch(addVerifyStatus(data?.body?.verifyStatus));
+            setMandateVerifyStatus(data?.body?.verifyStatus);
+            if (mandateData.verifyStatus == "ERROR") {
+              showToast(
+                "Mandate Registration Failed, Please Try Again",
+                "warning"
+              );
+              setModalVisible(false);
+            }
+          }
         }
       } else if (refetchTime > 60) {
         setModalVisible(false);

@@ -8,8 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import DetailsCard from "../../../../components/molecules/DetailsCard";
-import { getBackendData } from "../../../../services/employees/employeeServices";
 import { useUpdateKycMutation } from "../../../../store/apiSlices/ewaApi";
+import { useGetMandateQuery } from "../../../../store/apiSlices/mandateApi";
 import {
   addVerifyStatus,
   resetMandate,
@@ -48,25 +48,19 @@ const KYC = () => {
       setIpAdress(ipv4Address);
     });
   }, []);
-
+  const { data, error, isLoading } = useGetMandateQuery(unipeEmployeeId);
   useEffect(() => {
     if (unipeEmployeeId && deviceId !== 0 && ipAddress !== 0) {
-      getBackendData({
-        params: { unipeEmployeeId: unipeEmployeeId },
-        xpath: "mandate",
-        token: token,
-      })
-        .then((response) => {
-          console.log("Form mandateFetch response.data", response.data);
-          dispatch(resetMandate(response?.data?.body));
-          dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
-          setMandateVerifyStatus(response?.data?.body?.verifyStatus);
-          setFetched(true);
-        })
-        .catch((error) => {
-          console.log("mandateFetch error: ", error);
-          Alert.alert("An Error occured", error.message);
-        });
+      if (data && !isLoading && !error) {
+        console.log("Form mandateFetch response.data", response.data);
+        dispatch(resetMandate(response?.data?.body));
+        dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
+        setMandateVerifyStatus(response?.data?.body?.verifyStatus);
+        setFetched(true);
+      } else {
+        console.log("mandateFetch error: ", error);
+        Alert.alert("An Error occured", error.message);
+      }
     }
   }, [deviceId, ipAddress]);
 
