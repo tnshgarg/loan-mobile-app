@@ -1,24 +1,27 @@
 import { api } from "./api";
 
-export const profileApi = api.injectEndpoints({
-  endpoints: (builder) => ({
-    getProfile: builder.query({
-      query: (unipeEmployeeId) => ({
-        url: `profile`,
-        params: { unipeEmployeeId },
+export const profileApi = api
+  .enhanceEndpoints({ addTagTypes: ["getProfile"] })
+  .injectEndpoints({
+    endpoints: (builder) => ({
+      getProfile: builder.query({
+        query: (unipeEmployeeId) => ({
+          url: `profile`,
+          params: { unipeEmployeeId },
+        }),
+        providesTags: ["getProfile"],
+        transformResponse: (response) => response.body,
       }),
-      transformResponse: (response) => response.body,
-    }),
-    updateProfile: builder.mutation({
-      query: (body) => ({
-        url: `profile`,
-        method: "POST",
-        body: body,
+      updateProfile: builder.mutation({
+        query: (body) => ({
+          url: `profile`,
+          method: "POST",
+          body: body,
+        }),
+        transformResponse: (response) => response.response,
       }),
-      transformResponse: (response) => response.response,
+      overrideExisting: true,
     }),
-    overrideExisting: true,
-  }),
-});
+  });
 
 export const { useGetProfileQuery, useUpdateProfileMutation } = profileApi;

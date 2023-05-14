@@ -17,5 +17,6 @@ const baseQueryWithRetry = retry(baseQuery, { maxRetries: 6 });
 export const api = createApi({
   reducerPath: "api",
   baseQuery: baseQueryWithRetry,
+  tagTypes: ["getAadhaar", "getBank"],
   endpoints: () => ({}),
 });
