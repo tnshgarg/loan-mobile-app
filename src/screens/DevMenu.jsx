@@ -6,14 +6,12 @@ export default DevMenu = () => {
   const navigation = useNavigation();
 
   const screens = [
-    { title: "Onboarding", stack: "OnboardingStack", name: "Onboarding" },
-
     { title: "Login", stack: "OnboardingStack", name: "Login" },
     { title: "Login Success", stack: "OnboardingStack", name: "LoginSuccess" },
-    { title: "Profile", stack: "OnboardingStack", name: "ProfileForm" },
+    { title: "Profile", stack: "EWAStack", name: "EWA_KYC_STACK" },
     { title: "AADHAAR", stack: "EWAStack", name: "EWA_KYC_STACK" },
-    { title: "PAN", stack: "OnboardingStack", name: "PanForm" },
-    { title: "BANK", stack: "OnboardingStack", name: "BankForm" },
+    { title: "PAN", stack: "EWAStack", name: "EWA_KYC_STACK" },
+    { title: "BANK", stack: "EWAStack", name: "EWA_KYC_STACK" },
     { title: "Mandate", stack: "EWAStack", name: "EWA_MANDATE" },
     { title: "Home", stack: "HomeStack", name: "Home" },
     { title: "KYC Details", stack: "AccountStack", name: "KYC" },

@@ -7,6 +7,7 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import AadhaarVerifyTemplate from "../../templates/aadhaar/Verify";
 import Header from "../../components/atoms/Header";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
 const AadhaarVerify = () => {
   const dispatch = useDispatch();
@@ -42,16 +43,14 @@ const AadhaarVerify = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
-        title="Onboarding"
+      <LogoHeaderBack
+        headline={"Verify Aadhaar"}
         onLeftIconPress={() => backAction()}
-        progress={30}
+        subHeadline={
+          "कृपया छ डिजिट का OTP यहाँ भरें। इसी के द्वारा ये स्पष्ट होगा की ऊपर भरा आधार नम्बर आपका है।"
+        }
       />
-      <OnboardingProgressBar step={1} />
-      <AadhaarVerifyTemplate
-        back={back}
-        setBack={setBack}
-      />
+      <AadhaarVerifyTemplate back={back} setBack={setBack} />
     </SafeAreaView>
   );
 };

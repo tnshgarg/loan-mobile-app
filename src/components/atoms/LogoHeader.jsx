@@ -41,7 +41,7 @@ const LogoHeader = ({
           {title ? (
             <Text style={{ ...FONTS.body3, color: COLORS.black }}>{title}</Text>
           ) : (
-            <SvgContainer width={100} height={35}>
+            <SvgContainer width={95} height={35}>
               <LogoImage />
             </SvgContainer>
           )}

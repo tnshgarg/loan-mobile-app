@@ -7,6 +7,7 @@ import { styles } from "../../styles";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import PanFormTemplate from "../../templates/pan/Form";
 import Header from "../../components/atoms/Header";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
 export default PanForm = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,9 @@ export default PanForm = () => {
     dispatch(addCurrentScreen("PanForm"));
   }, []);
 
-  const aadhaarVerifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
+  const aadhaarVerifyStatus = useSelector(
+    (state) => state.aadhaar.verifyStatus
+  );
 
   const backAction = () => {
     Alert.alert(
@@ -24,11 +27,13 @@ export default PanForm = () => {
       "If you go back your Aadhaar Verification will have to be redone. Continue only if you want to edit your Aadhaar number.",
       [
         { text: "No", onPress: () => null, style: "cancel" },
-        { text: "Yes", onPress: () => {
-          aadhaarVerifyStatus === "SUCCESS"
-                ? navigation.navigate("AadhaarConfirm")
-                : navigation.navigate("AadhaarForm");
-          }
+        {
+          text: "Yes",
+          onPress: () => {
+            aadhaarVerifyStatus === "SUCCESS"
+              ? navigation.navigate("AadhaarConfirm")
+              : navigation.navigate("AadhaarForm");
+          },
         },
       ]
     );
@@ -43,12 +48,12 @@ export default PanForm = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
-        title="Onboarding"
-        onLeftIconPress={() => backAction()}
-        progress={40}
+      <LogoHeaderBack
+        headline={"PAN Card Verification"}
+        subHeadline={
+          "हमें आपका नाम और जन्मतिथि जांच करने के लिए आपके पैन की आवश्यकता है।"
+        }
       />
-      <OnboardingProgressBar step={2} />
       <PanFormTemplate />
     </SafeAreaView>
   );

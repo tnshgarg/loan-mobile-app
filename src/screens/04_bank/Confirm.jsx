@@ -37,12 +37,14 @@ const BankConfirm = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
-        title="Onboarding"
+      <LogoHeaderBack
+        headline={"Verify your bank account details"}
         onLeftIconPress={() => backAction()}
-        progress={50}
+        subHeadline={
+          "क्या ये स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?"
+        }
       />
-      <OnboardingProgressBar step={3} />
+
       <ScrollView keyboardShouldPersistTaps="handled">
         <BankConfirmApi />
       </ScrollView>

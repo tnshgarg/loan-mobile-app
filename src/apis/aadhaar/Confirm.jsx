@@ -77,10 +77,6 @@ const AadhaarConfirmApi = (props) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headline}>Are these your Aadhaar details?</Text>
-      <Text style={styles.subHeadline}>
-        कृपया स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
-      </Text>
       <DetailsCard
         data={cardData()}
         imageUri={{
@@ -94,7 +90,7 @@ const AadhaarConfirmApi = (props) => {
         <PrimaryButton
           title="Not Me"
           containerStyle={form.noButton}
-          titleStyle={{ ...FONTS.h4, color: COLORS.warning }}
+          titleStyle={{ ...FONTS.h3, color: COLORS.black }}
           onPress={() => {
             backendPush({
               verifyStatus: "REJECTED",
@@ -109,7 +105,7 @@ const AadhaarConfirmApi = (props) => {
           accessibilityLabel="YesButton"
           title="Yes, that’s me"
           containerStyle={form.yesButton}
-          titleStyle={{ ...FONTS.h4, color: COLORS.primary }}
+          titleStyle={{ ...FONTS.h3, color: COLORS.white }}
           onPress={() => {
             backendPush({
               verifyStatus: "SUCCESS",

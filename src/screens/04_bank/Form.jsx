@@ -45,12 +45,12 @@ const BankForm = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
-        title="Onboarding"
+      <LogoHeaderBack
+        headline={"Add Bank Account"}
         onLeftIconPress={() => backAction()}
-        progress={50}
+        subHeadline={"आपको इस बैंक खाते/यूपीआई में एडवांस सैलरी भेजी जाएगी।"}
       />
-      <OnboardingProgressBar step={3} />
+
       <BankFormTemplate />
     </SafeAreaView>
   );

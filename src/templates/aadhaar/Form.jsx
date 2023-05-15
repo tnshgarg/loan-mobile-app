@@ -9,6 +9,7 @@ import { addNumber } from "../../store/slices/aadhaarSlice";
 import InfoCard from "../../components/atoms/InfoCard";
 import FormInput from "../../components/atoms/FormInput";
 import { COLORS, FONTS } from "../../constants/Theme";
+import HelpCard from "../../components/atoms/HelpCard";
 
 const AadhaarFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -31,33 +32,33 @@ const AadhaarFormTemplate = (props) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <KeyboardAvoidingWrapper>
-        <View style={[styles.container, { padding: 0 }]}>
-          <FormInput
-            accessibilityLabel={"AadhaarInput"}
-            placeholder={"Aadhaar Number"}
-            keyboardType="numeric"
-            autoFocus={isFocused}
-            value={number}
-            onChange={setNumber}
-            maxLength={12}
-            errorMsg={number && !validNumber ? "Invalid Aadhaar Number" : ""}
-            numeric
-            appendComponent={
-              <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
-                {number.length}/12
-              </Text>
-            }
-          />
+      <View style={[styles.container, {}]}>
+        <FormInput
+          accessibilityLabel={"AadhaarInput"}
+          placeholder={"Enter Aadhaar Number"}
+          keyboardType="numeric"
+          autoFocus={isFocused}
+          value={number}
+          onChange={setNumber}
+          maxLength={12}
+          errorMsg={number && !validNumber ? "Invalid Aadhaar Number" : ""}
+          numeric
+          appendComponent={
+            <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
+              {number.length}/12
+            </Text>
+          }
+        />
 
-          <InfoCard info={"OTP आधार के साथ लिंक मोबाइल नंबर पर भेजा जाएगा।"} />
+        <InfoCard info={"OTP आधार के साथ लिंक मोबाइल नंबर पर भेजा जाएगा।"} />
+        <View style={{ flex: 1 }} />
+        <HelpCard text="Aadhaar" />
 
-          <AadhaarOtpApi
-            disabled={!validNumber}
-            type={props?.route?.params?.type || ""}
-          />
-        </View>
-      </KeyboardAvoidingWrapper>
+        <AadhaarOtpApi
+          disabled={!validNumber}
+          type={props?.route?.params?.type || ""}
+        />
+      </View>
     </SafeAreaView>
   );
 };

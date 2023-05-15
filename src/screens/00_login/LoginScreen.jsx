@@ -8,6 +8,7 @@ import {
   Text,
   View,
   Linking,
+  Keyboard,
 } from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
 import { useDispatch, useSelector } from "react-redux";

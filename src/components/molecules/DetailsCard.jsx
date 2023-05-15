@@ -1,23 +1,18 @@
 import { View, Text, Image } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
+import LinearGradient from "react-native-linear-gradient";
 
 const DetailsCard = ({ data, imageUri, containerStyle, type }) => {
   return (
-    <View style={[styles.container, { ...containerStyle }]}>
+    <LinearGradient
+      style={[styles.container, { ...containerStyle }]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 0 }}
+      colors={["rgba(110, 220, 133,0.3)", "rgba(237, 251, 139,0.3)"]}
+    >
+      <Text style={{ ...FONTS.body1, width: "50%" }}>{data[0].value}</Text>
       {imageUri && <Image source={imageUri} style={styles.image} />}
-      {type == "Aadhaar" && (
-        <Image
-          source={require("../../assets/Aadhaar.png")}
-          resizeMode="cover"
-          style={{
-            width: "65%",
-            height: 40,
-            marginBottom: "5%",
-            transform: [{ scaleY: -1 }],
-          }}
-        />
-      )}
 
       {data.map((item, index) => (
         <View
@@ -28,7 +23,7 @@ const DetailsCard = ({ data, imageUri, containerStyle, type }) => {
           <Text style={styles.value}>{item.value || "-"}</Text>
         </View>
       ))}
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -37,11 +32,11 @@ const styles = EStyleSheet.create({
     //backgroundColor: COLORS.primaryBackground,
     width: "100%",
     marginBottom: "10rem",
-    padding: "10rem",
+    padding: "20rem",
     flexDirection: "row",
     //alignItems: "center",
     borderRadius: 5,
-    backgroundColor: COLORS.cardBackground,
+
     flexWrap: "wrap",
     marginVertical: "10rem",
   },
@@ -56,11 +51,11 @@ const styles = EStyleSheet.create({
   listItem: { marginVertical: "10rem" },
   label: {
     ...FONTS.body5,
-    color: COLORS.gray,
+    color: COLORS.black,
     marginBottom: "2rem",
   },
   value: {
-    ...FONTS.body4,
+    ...FONTS.h4,
     color: COLORS.black,
   },
   text: { paddingLeft: "10rem", ...FONTS.body5, color: COLORS.gray, flex: 1 },

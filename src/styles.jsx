@@ -109,7 +109,7 @@ export const form = EStyleSheet.create({
   yesButton: {
     flex: 1,
     height: SIZES.btnHeight,
-    backgroundColor: COLORS.primaryBackground,
+    backgroundColor: COLORS.primary,
     alignItems: "center",
     justifyContent: "center",
     marginLeft: "5rem",
@@ -117,7 +117,9 @@ export const form = EStyleSheet.create({
   noButton: {
     flex: 1,
     height: SIZES.btnHeight,
-    backgroundColor: COLORS.warningBackground,
+    backgroundColor: null,
+    borderWidth: 1.5,
+    borderColor: COLORS.black,
     alignItems: "center",
     justifyContent: "center",
     marginRight: "5rem",

@@ -71,11 +71,6 @@ const BankFormTemplate = (props) => {
       {aadhaarVerifyStatus === "SUCCESS" ? (
         <KeyboardAvoidingWrapper>
           <View>
-            <Text style={styles.headline}>Add Bank Account</Text>
-            <Text style={styles.subHeadline}>
-              आपको इस बैंक खाते/यूपीआई में एडवांस सैलरी भेजी जाएगी।
-            </Text>
-
             <PopableInput
               accessibilityLabel="AccHolderName"
               placeholder={"Account Holder Name*"}

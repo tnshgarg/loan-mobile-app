@@ -81,20 +81,13 @@ const PanConfirmApi = (props) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headline}>Verify your PAN</Text>
-      <Text style={styles.subHeadline}>
-        कृपया स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
-      </Text>
-      <DetailsCard
-        data={cardData()}
-        containerStyle={{ backgroundColor: "rgba(0, 180, 224,0.17)" }}
-      />
+      <DetailsCard data={cardData()} />
       <View style={[styles.row, { justifyContent: "space-between" }]}>
         <FuzzyCheck name={data["name"]} step="PAN" />
         <PrimaryButton
           title="Not Me"
           containerStyle={form.noButton}
-          titleStyle={{ ...FONTS.h4, color: COLORS.warning }}
+          titleStyle={{ ...FONTS.h3, color: COLORS.black }}
           onPress={() => {
             backendPush({
               verifyStatus: "REJECTED",
@@ -110,7 +103,7 @@ const PanConfirmApi = (props) => {
           title="Yes, that’s me"
           containerStyle={form.yesButton}
           color={COLORS.primary}
-          titleStyle={{ ...FONTS.h4, color: COLORS.primary }}
+          titleStyle={{ ...FONTS.h3, color: COLORS.white }}
           onPress={() => {
             backendPush({
               verifyStatus: "SUCCESS",

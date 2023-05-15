@@ -12,6 +12,7 @@ import { navigationRef } from "./navigators/RootNavigation";
 import StackNavigator from "./navigators/StackNavigator";
 import { persistor, store } from "./store/store";
 import UpdateDialog from "./components/UpdateDialog";
+import { STAGE } from "@env";
 
 Crashes.setListener({
   shouldProcess: function (report) {

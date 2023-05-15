@@ -6,6 +6,7 @@ import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import { styles } from "../../styles";
 import ProfileFormTemplate from "../../templates/profile/Form";
 import LogoHeader from "../../components/atoms/LogoHeader";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
 const ProfileForm = () => {
   const navigation = useNavigation();
@@ -35,7 +36,6 @@ const ProfileForm = () => {
           "एडवांस सैलरी की प्रक्रिया जारी रखने के लिए, निम्नलिखित अनिवार्य जानकारी प्रदान करें:"
         }
       />
-      {/* <OnboardingProgressBar step={0} /> */}
       <ProfileFormTemplate type="Onboarding" />
     </SafeAreaView>
   );

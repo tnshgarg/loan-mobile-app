@@ -23,7 +23,6 @@ const BankConfirmApi = (props) => {
   const data = useSelector((state) => state.bank.data);
 
   const backendPush = async ({ verifyStatus }) => {
-
     dispatch(addVerifyStatus(verifyStatus));
 
     const payload = {
@@ -33,7 +32,11 @@ const BankConfirmApi = (props) => {
       campaignId: campaignId,
     };
 
-    const response = await putBackendData({ data: payload, xpath: "bank", token: token });
+    const response = await putBackendData({
+      data: payload,
+      xpath: "bank",
+      token: token,
+    });
     const responseJson = response?.data;
 
     if (responseJson.status === 200) {
@@ -49,18 +52,17 @@ const BankConfirmApi = (props) => {
           navigation.navigate("BankForm");
         }
       } else if (verifyStatus === "SUCCESS") {
-          if (props?.route?.params?.type === "KYC") {
-            navigation.navigate("KYC", {
-              screen: "BANK",
-            });
-          } else {
-            navigation.replace("EWA_MANDATE");
-          }
+        if (props?.route?.params?.type === "KYC") {
+          navigation.navigate("KYC", {
+            screen: "BANK",
+          });
+        } else {
+          navigation.replace("EWA_MANDATE");
+        }
       }
     } else {
       Alert.alert("Error", JSON.stringify(responseJson));
     }
-
   };
 
   const cardData = () => {
@@ -86,10 +88,6 @@ const BankConfirmApi = (props) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headline}>Are these your Bank Account details?</Text>
-      <Text style={styles.subHeadline}>
-        कृपया स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
-      </Text>
       <DetailsCard data={cardData()} />
 
       <View style={[styles.row, { justifyContent: "space-between" }]}>
