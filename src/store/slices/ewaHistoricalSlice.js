@@ -19,7 +19,7 @@ const ewaHistoricalSlice = createSlice({
     builder.addMatcher(
       ewaApi.endpoints.updateAgreement.matchFulfilled,
       (state, { payload }) => {
-        return initialState;
+        Object.assign(state, initialState);
       }
     );
   },

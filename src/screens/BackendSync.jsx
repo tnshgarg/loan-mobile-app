@@ -15,7 +15,6 @@ import { resetProfile } from "../store/slices/profileSlice";
 const BackendSync = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
   const {
@@ -48,7 +47,7 @@ const BackendSync = () => {
     console.log("BackendSync unipeEmployeeId: ", unipeEmployeeId);
     setTimeout(() => {
       navigation.navigate("HomeStack");
-    }, 2000);
+    }, 5000);
   }, []);
 
   useEffect(() => {
@@ -94,7 +93,7 @@ const BackendSync = () => {
   useEffect(() => {
     if (unipeEmployeeId && !mandateLoading && !mandateError) {
       try {
-        dispatch(resetMandate(response.data.body));
+        dispatch(resetMandate(mandateData));
       } catch (error) {
         console.log("mandateFetch error: ", error.message);
       }
