@@ -13,10 +13,18 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-const baseQueryWithRetry = retry(baseQuery, { maxRetries: 6 });
+const baseQueryWithReauth = async (args, api, extraOptions) => {
+  let result = await baseQuery(args, api, extraOptions);
+  console.log("result: ", result);
+  if (result.error && result.error.status === 401) {
+    console.log("401 error");
+  }
+  return result;
+};
+
 export const api = createApi({
   reducerPath: "api",
-  baseQuery: baseQueryWithRetry,
-  tagTypes: ["getAadhaar", "getBank"],
+  baseQuery: baseQueryWithReauth,
+  tagTypes: [],
   endpoints: () => ({}),
 });

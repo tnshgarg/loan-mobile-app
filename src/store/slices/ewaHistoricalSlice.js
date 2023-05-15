@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { ewaApi } from "../apiSlices/ewaApi";
 
 const initialState = [];
 
@@ -13,6 +14,14 @@ const ewaHistoricalSlice = createSlice({
         return [...action.payload];
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      ewaApi.endpoints.updateAgreement.matchFulfilled,
+      (state, { payload }) => {
+        return initialState;
+      }
+    );
   },
 });
 

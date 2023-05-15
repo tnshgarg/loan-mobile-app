@@ -27,6 +27,7 @@ export const repaymentApi = api
           method: "POST",
           body: body,
         }),
+        invalidatesTags: ["getRepayment", "getOffers"],
       }),
     }),
   });

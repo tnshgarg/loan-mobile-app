@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import { ewaApi } from "../apiSlices/ewaApi";
 const initialState = {
   apr: 0,
   accessible: false,
@@ -45,6 +45,14 @@ const ewaLiveSlice = createSlice({
         Object.assign(state, action.payload);
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      ewaApi.endpoints.updateAgreement.matchFulfilled,
+      (state, { payload }) => {
+        Object.assign(state, initialState);
+      }
+    );
   },
 });
 

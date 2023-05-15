@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { api } from "../apiSlices/api";
+import { profileApi } from "../apiSlices/profileApi";
 
 const initialState = {
   maritalStatus: "",
@@ -40,14 +40,14 @@ const profileSlice = createSlice({
       }
     },
   },
-  // extraReducers: (builder) => {
-  //   builder.addMatcher(
-  //     api.endpoints.updateProfile.matchFulfilled,
-  //     (state, { payload }) => {
-  //       state.profileComplete = true;
-  //     }
-  //   );
-  // },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      profileApi.endpoints.updateProfile.matchFulfilled,
+      (state, { payload }) => {
+        state.profileComplete = true;
+      }
+    );
+  },
 });
 
 export const {

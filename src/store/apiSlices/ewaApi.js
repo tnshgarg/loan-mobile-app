@@ -39,7 +39,7 @@ export const ewaApi = api
           method: "POST",
           body: body,
         }),
-        invalidatesTags: [],
+        invalidatesTags: ["getOffers"],
       }),
       getDisbursement: builder.query({
         query: ({ unipeEmployeeId, offerId }) => ({
