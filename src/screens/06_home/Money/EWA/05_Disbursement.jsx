@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  BackHandler,
-  SafeAreaView,
-  Text,
-  View
-} from "react-native";
+import { BackHandler, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Failure from "../../../../assets/animations/Failure";
 import Pending from "../../../../assets/animations/Pending";
@@ -98,6 +93,7 @@ const Disbursement = ({ route, navigation }) => {
   });
 
   useEffect(() => {
+    console.log("getDisbursementIsSuccess", offer);
     console.log("getDisbursementData", getDisbursementData);
     if (getDisbursementIsSuccess) {
       if (getDisbursementData?.status === 200) {
@@ -108,16 +104,10 @@ const Disbursement = ({ route, navigation }) => {
         setNetAmount(getDisbursementData?.body?.netAmount);
         setStatus(getDisbursementData?.body?.status);
       } else {
-        console.log(
-          "HomeView ewaOffersFetch API error getEwaOffersData.data : ",
-          getDisbursementData
-        );
+        console.log(" API error getDisbursementData : ", getDisbursementData);
       }
     } else if (getDisbursementIsError) {
-      console.log(
-        "HomeView ewaOffersFetch API error getEwaOffersError.message : ",
-        getDisbursementError.message
-      );
+      console.log("API error getDisbursementError : ", getDisbursementError);
     }
   }, [getDisbursementIsSuccess, getDisbursementData]);
 

@@ -142,7 +142,7 @@ const HomeView = () => {
     } else if (getEwaOffersIsError) {
       console.log(
         "HomeView ewaOffersFetch API error getEwaOffersError.message : ",
-        getEwaOffersError.message
+        getEwaOffersError
       );
       dispatch(resetEwaLive());
       dispatch(resetEwaHistorical());

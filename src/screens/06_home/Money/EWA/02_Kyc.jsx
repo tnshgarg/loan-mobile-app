@@ -54,10 +54,10 @@ const KYC = () => {
   useEffect(() => {
     if (unipeEmployeeId && deviceId !== 0 && ipAddress !== 0) {
       if (data && !isLoading && !error) {
-        console.log("Form mandateFetch response.data", response.data);
-        dispatch(resetMandate(response?.data?.body));
-        dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
-        setMandateVerifyStatus(response?.data?.body?.verifyStatus);
+        console.log("Form mandateFetch response.data", data);
+        dispatch(resetMandate(data?.body));
+        dispatch(addVerifyStatus(data?.body?.verifyStatus));
+        setMandateVerifyStatus(data?.body?.verifyStatus);
         setFetched(true);
       } else {
         console.log("mandateFetch error: ", error);

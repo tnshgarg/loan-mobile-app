@@ -144,13 +144,12 @@ const OTPScreen = () => {
       .then((res) => {
         analytics().logEvent("OTPScreen_Check_Success", {
           unipeEmployeeId: unipeEmployeeId,
-          error: res["response"]["details"],
         });
       })
       .catch((error) => {
         analytics().logEvent("OTPScreen_Check_Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: JSON.stringify(error),
+          error: error.message,
         });
         console.log(error);
         Alert.alert("Error", error.message);

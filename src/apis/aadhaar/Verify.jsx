@@ -1,16 +1,11 @@
+import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import Analytics from "appcenter-analytics";
 import { useState } from "react";
 import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { showToast } from "../../components/atoms/Toast";
 import { useVerifyAadhaarOtpMutation } from "../../store/apiSlices/aadhaarApi";
-import { addData, addVerifyStatus } from "../../store/slices/aadhaarSlice";
-import { addData, addVerifyStatus } from "../../store/slices/aadhaarSlice";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
-import analytics from "@react-native-firebase/analytics";
-import { putBackendData } from "../../services/employees/employeeServices";
+import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 
 const AadhaarVerifyApi = (props) => {
   const dispatch = useDispatch();
