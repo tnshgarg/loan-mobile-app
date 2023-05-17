@@ -15,14 +15,14 @@ const ewaHistoricalSlice = createSlice({
       }
     },
   },
-  extraReducers: (builder) => {
-    builder.addMatcher(
-      ewaApi.endpoints.updateAgreement.matchFulfilled,
-      (state, { payload }) => {
-        Object.assign(state, initialState);
-      }
-    );
-  },
+  // extraReducers: (builder) => {
+  //   builder.addMatcher(
+  //     ewaApi.endpoints.updateAgreement.matchFulfilled,
+  //     (state, { payload }) => {
+  //       Object.assign(state, initialState);
+  //     }
+  //   );
+  // },
 });
 
 export const { resetEwaHistorical } = ewaHistoricalSlice.actions;
