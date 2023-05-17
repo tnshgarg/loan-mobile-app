@@ -34,6 +34,7 @@
 		"@react-native-community/netinfo": "^9.3.10",
 		"@react-native-firebase/analytics": "^17.4.3",
 		"@react-native-firebase/app": "^17.4.3",
+		"@react-native-firebase/crashlytics": "^17.5.0",
 		"@react-native-firebase/in-app-messaging": "^17.4.3",
 		"@react-native-firebase/messaging": "^17.4.3",
 		"@react-native-firebase/remote-config": "^17.4.3",

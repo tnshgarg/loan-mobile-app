@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import { useEffect, useState } from "react";
 import {
   Alert,
@@ -29,6 +29,7 @@ import DisbursementCard from "../../../../components/molecules/DisbursementCard"
 import Checkbox from "../../../../components/atoms/Checkbox";
 import { useUpdateAgreementMutation } from "../../../../store/apiSlices/ewaApi";
 import LiquiloansTitle from "../../../../components/atoms/LiquiloansTitle";
+import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 
 const Agreement = () => {
   const dispatch = useDispatch();
@@ -118,6 +119,7 @@ const Agreement = () => {
     NetworkInfo.getIPV4Address().then((ipv4Address) => {
       setIpAdress(ipv4Address);
     });
+    dispatch(addCurrentScreen("EWA_AGREEMENT"));
   }, []);
 
   useEffect(() => {
@@ -219,7 +221,7 @@ const Agreement = () => {
         dispatch(resetEwaLive());
         dispatch(resetEwaHistorical([]));
         setLoading(false);
-        Analytics.trackEvent("Ewa|Agreement|Success", {
+        analytics().logEvent("Ewa_Agreement_Success", {
           unipeEmployeeId: unipeEmployeeId,
         });
         navigation.navigate("EWA_DISBURSEMENT", { offer: ewaLiveSlice });
@@ -228,7 +230,7 @@ const Agreement = () => {
         console.log("ewaAgreementPush error: ", error.message);
         setLoading(false);
         Alert.alert("An Error occured", error.message);
-        Analytics.trackEvent("Ewa|Agreement|Error", {
+        analytics().logEvent("Ewa_Agreement_Error", {
           unipeEmployeeId: unipeEmployeeId,
           error: error.message,
         });

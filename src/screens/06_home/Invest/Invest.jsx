@@ -8,14 +8,14 @@ import InvestSVG from "../../../assets/Invest.svg";
 import PrimaryButton from "../../../components/atoms/PrimaryButton";
 import LiquiloansTitle from "../../../components/atoms/LiquiloansTitle";
 
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import { useSelector } from "react-redux";
 import { showToast } from "../../../components/atoms/Toast";
 
 const Invest = (props) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   useEffect(() => {
-    Analytics.trackEvent("Invest|Visited", {
+    analytics().logEvent("Invest_Visited", {
       unipeEmployeeId: unipeEmployeeId,
     });
   }, []);
@@ -56,7 +56,7 @@ const Invest = (props) => {
         <PrimaryButton
           title="Invest now"
           onPress={() => {
-            Analytics.trackEvent("Invest|WaitListed", {
+            analytics().logEvent("Invest_WaitListed", {
               unipeEmployeeId: unipeEmployeeId,
             });
             showToast(

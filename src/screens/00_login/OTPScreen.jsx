@@ -19,7 +19,7 @@ import { addToken } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import { styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -116,6 +116,9 @@ const OTPScreen = () => {
         console.log(res);
         setOtp("");
         setBack(false);
+        analytics().logEvent("OTPScreen_SendSms_Success", {
+          unipeEmployeeId: unipeEmployeeId,
+        });
         Alert.alert("OTP resent successfully", "", [
           {
             text: "Ok",
@@ -127,6 +130,9 @@ const OTPScreen = () => {
         ]);
       })
       .catch((error) => {
+        analytics().logEvent("OTPScreen_SendSms_Error", {
+          unipeEmployeeId: unipeEmployeeId,
+        });
         Alert.alert("Error", error.message);
       });
   };
@@ -136,8 +142,16 @@ const OTPScreen = () => {
     postVerifyOtp({ mobileNumber: phoneNumber, otp: otp })
       .unwrap()
       .then((res) => {
+        analytics().logEvent("OTPScreen_Check_Success", {
+          unipeEmployeeId: unipeEmployeeId,
+          error: res["response"]["details"],
+        });
       })
       .catch((error) => {
+        analytics().logEvent("OTPScreen_Check_Error", {
+          unipeEmployeeId: unipeEmployeeId,
+          error: JSON.stringify(error),
+        });
         console.log(error);
         Alert.alert("Error", error.message);
       });

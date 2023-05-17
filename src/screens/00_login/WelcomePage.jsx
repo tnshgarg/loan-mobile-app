@@ -3,7 +3,7 @@ import { styles } from "../../styles";
 import LogoHeader from "../../components/atoms/LogoHeader";
 import Icon from "react-native-vector-icons/Ionicons";
 import { COLORS, FONTS } from "../../constants/Theme";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import { requestUserPermission } from "../../services/notifications/notificationService";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { useDispatch, useSelector } from "react-redux";
@@ -75,7 +75,7 @@ const WelcomePage = () => {
           accessibilityLabel="WelcomeBtn"
           onPress={() => {
             requestUserPermission();
-            Analytics.trackEvent("WelcomePage", {
+            analytics().logEvent("WelcomePage", {
               unipeEmployeeId: unipeEmployeeId,
             });
             navigation.navigate("ProfileForm");

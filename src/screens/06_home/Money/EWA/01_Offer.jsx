@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
@@ -17,6 +17,7 @@ import {
 import { styles } from "../../../../styles";
 import TnC from "../../../../templates/docs/EWATnC.js";
 import SliderCard from "../../../../components/organisms/SliderCard";
+import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import Checkbox from "../../../../components/atoms/Checkbox";
 import { useUpdateOfferMutation } from "../../../../store/apiSlices/ewaApi";
 
@@ -63,6 +64,7 @@ const Offer = () => {
     NetworkInfo.getIPV4Address().then((ipv4Address) => {
       setIpAdress(ipv4Address);
     });
+    dispatch(addCurrentScreen("EWA_Offer"));
   }, []);
 
   useEffect(() => {
@@ -191,7 +193,7 @@ const Offer = () => {
           console.log("updateOfferMutateAsync response.data: ", response.data);
           setLoading(false);
           handleConditionalNav();
-          Analytics.trackEvent("Ewa|OfferPush|Success", {
+          analytics().logEvent("Ewa_OfferPush_Success", {
             unipeEmployeeId: unipeEmployeeId,
           });
         })
@@ -199,7 +201,7 @@ const Offer = () => {
           console.log("updateOfferMutateAsync error: ", error.message);
           setLoading(false);
           Alert.alert("An Error occured", error.message);
-          Analytics.trackEvent("Ewa|OfferPush|Error", {
+          analytics().logEvent("Ewa_OfferPush_Error", {
             unipeEmployeeId: unipeEmployeeId,
             error: error.message,
           });

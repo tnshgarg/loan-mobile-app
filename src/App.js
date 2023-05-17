@@ -1,6 +1,5 @@
 import { STAGE } from "@env";
 import { NavigationContainer } from "@react-navigation/native";
-import Analytics from "appcenter-analytics";
 import Crashes from "appcenter-crashes";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import SplashScreen from "react-native-splash-screen";
@@ -17,23 +16,16 @@ Crashes.setListener({
   },
 });
 
-const analyticsStatus = async () => {
-  Analytics.setEnabled(true);
-  const enabled = await Analytics.isEnabled();
-  console.log("Analytics.isEnabled", enabled);
-};
-
 const App = () => {
-  analyticsStatus();
   SplashScreen.hide();
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer ref={navigationRef}>
-            <SafeAreaProvider style={{ backgroundColor: "white", flex: 1 }}>
-              <StackNavigator />
-              {STAGE != "dev" && <UpdateDialog />}
-            </SafeAreaProvider>
+          <SafeAreaProvider style={{ backgroundColor: "white", flex: 1 }}>
+            <StackNavigator />
+            {STAGE != "dev" && <UpdateDialog />}
+          </SafeAreaProvider>
         </NavigationContainer>
       </PersistGate>
     </Provider>

@@ -13,6 +13,8 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
 import { useVerifyBankMutation } from "../../store/apiSlices/bankApi";
 import { showToast } from "../../components/atoms/Toast";
+import analytics from "@react-native-firebase/analytics";
+import { putBackendData } from "../../services/employees/employeeServices";
 
 const BankVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -47,7 +49,7 @@ const BankVerifyApi = (props) => {
         if (props.type !== "KYC") {
           navigation.navigate("BankConfirm");
         }
-        Analytics.trackEvent("Bank|Verify|Success", {
+        analytics().logEvent("Bank_Verify_Success", {
           unipeEmployeeId: unipeEmployeeId,
         });
         setLoading(false);
@@ -55,7 +57,7 @@ const BankVerifyApi = (props) => {
       .catch((error) => {
         dispatch(addVerifyStatus("ERROR"));
         showToast(error?.message, "error");
-        Analytics.trackEvent("Bank|Verify|Error", {
+        analytics().logEvent("Bank_Verify_Error", {
           unipeEmployeeId: unipeEmployeeId,
           error: `verifyBankAccount Catch Error: ${error.message}`,
         });

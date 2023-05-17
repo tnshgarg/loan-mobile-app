@@ -5,16 +5,18 @@ import {
   Text,
   View
 } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Failure from "../../../../assets/animations/Failure";
 import Pending from "../../../../assets/animations/Pending";
 import Success from "../../../../assets/animations/Success";
 import Header from "../../../../components/atoms/Header";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
 import { useGetDisbursementQuery } from "../../../../store/apiSlices/ewaApi";
+import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import { styles } from "../../../../styles";
 
 const Disbursement = ({ route, navigation }) => {
+  const dispatch = useDispatch();
   const { offer } = route.params;
 
   const token = useSelector((state) => state.auth.token);
@@ -39,6 +41,7 @@ const Disbursement = ({ route, navigation }) => {
   };
 
   useEffect(() => {
+    dispatch(addCurrentScreen("EWA_Disbursement"));
     BackHandler.addEventListener("hardwareBackPress", backAction);
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);

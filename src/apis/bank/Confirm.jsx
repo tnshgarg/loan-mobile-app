@@ -1,5 +1,5 @@
+import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import Analytics from "appcenter-analytics";
 import { Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
@@ -100,7 +100,7 @@ const BankConfirmApi = (props) => {
             backendPush({
               verifyStatus: "REJECTED",
             });
-            Analytics.trackEvent("Bank|Confirm|Error", {
+            analytics().logEvent("Bank_Confirm_Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: "Rejected by User",
             });
@@ -117,7 +117,7 @@ const BankConfirmApi = (props) => {
             backendPush({
               verifyStatus: "SUCCESS",
             });
-            Analytics.trackEvent("Bank|Confirm|Success", {
+            analytics().logEvent("Bank_Confirm_Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
           }}

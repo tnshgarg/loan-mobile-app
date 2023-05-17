@@ -1,5 +1,5 @@
+import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import Analytics from "appcenter-analytics";
 import { Alert, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
@@ -9,6 +9,7 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import { useUpdatePanMutation } from "../../store/apiSlices/panApi";
 import { addVerifyStatus } from "../../store/slices/panSlice";
 import { form, styles } from "../../styles";
+
 const PanConfirmApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -21,7 +22,7 @@ const PanConfirmApi = (props) => {
   const data = useSelector((state) => state.pan.data);
   const number = useSelector((state) => state.pan.number);
   const [updatePan] = useUpdatePanMutation();
-  
+
   const backendPush = async ({ verifyStatus }) => {
     dispatch(addVerifyStatus(verifyStatus));
 
@@ -92,7 +93,7 @@ const PanConfirmApi = (props) => {
             backendPush({
               verifyStatus: "REJECTED",
             });
-            Analytics.trackEvent("Pan|Confirm|Error", {
+            analytics().logEvent("Pan_Confirm_Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: "Rejected by User",
             });
@@ -108,7 +109,7 @@ const PanConfirmApi = (props) => {
             backendPush({
               verifyStatus: "SUCCESS",
             });
-            Analytics.trackEvent("Pan|Confirm|Success", {
+            analytics().logEvent("Pan_Confirm_Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
           }}

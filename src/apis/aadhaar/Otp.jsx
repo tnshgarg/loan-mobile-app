@@ -1,5 +1,5 @@
+import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import Analytics from "appcenter-analytics";
 import { useState } from "react";
 import { Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -43,7 +43,7 @@ const AadhaarOtpApi = (props) => {
         console.log("kyc/aadhaar-generate-otp res: ", res);
         dispatch(resetTimer());
         showToast(res?.body?.message, "success");
-        Analytics.trackEvent("Aadhaar|Otp|Success", {
+        analytics().logEvent("Aadhaar_Otp_Success", {
           unipeEmployeeId: unipeEmployeeId,
         });
         setLoading(false);
@@ -55,7 +55,7 @@ const AadhaarOtpApi = (props) => {
       .catch((error) => {
         dispatch(addVerifyStatus("ERROR"));
         showToast(error?.message, "error");
-        Analytics.trackEvent("Aadhaar|Otp|Error", {
+        analytics().logEvent("Aadhaar_Otp_Error", {
           unipeEmployeeId: unipeEmployeeId,
           error: `generateAadhaarOTP API Catch Error: ${error.message}`,
         });

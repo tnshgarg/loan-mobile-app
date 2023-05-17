@@ -7,6 +7,10 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { showToast } from "../../components/atoms/Toast";
 import { useVerifyAadhaarOtpMutation } from "../../store/apiSlices/aadhaarApi";
 import { addData, addVerifyStatus } from "../../store/slices/aadhaarSlice";
+import { addData, addVerifyStatus } from "../../store/slices/aadhaarSlice";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import analytics from "@react-native-firebase/analytics";
+import { putBackendData } from "../../services/employees/employeeServices";
 
 const AadhaarVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -38,7 +42,7 @@ const AadhaarVerifyApi = (props) => {
         console.log("kyc/aadhaar-submit-otp res: ", res);
         console.log("kyc/aadhaar-submit-otp res: ", JSON.stringify(res));
         props.setVerified(true);
-        Analytics.trackEvent("Aadhaar|Verify|Success", {
+        analytics().logEvent("Aadhaar_Verify_Success", {
           unipeEmployeeId: unipeEmployeeId,
         });
         setLoading(false);
@@ -49,7 +53,7 @@ const AadhaarVerifyApi = (props) => {
       .catch((error) => {
         console.log("kyc/aadhaar-submit-otp error: ", error);
         dispatch(addVerifyStatus("ERROR"));
-        Analytics.trackEvent("Aadhaar|Verify|Error", {
+        analytics().logEvent("Aadhaar_Verify_Error", {
           unipeEmployeeId: unipeEmployeeId,
           error: `submitAadhaarOTP API Catch Error: ${error.message}`,
         });

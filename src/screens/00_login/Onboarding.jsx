@@ -1,6 +1,6 @@
+import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import Analytics from "appcenter-analytics";
-import { SafeAreaView, Text, View, Linking} from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import Clock from "../../assets/Clock.svg";
@@ -71,7 +71,7 @@ const Onboarding = () => {
           title="Get Started Now"
           onPress={() => {
             requestUserPermission();
-            Analytics.trackEvent("Onboarding", {
+            analytics().logEvent("Onboarding", {
               unipeEmployeeId: unipeEmployeeId,
             });
             navigation.navigate("Login");

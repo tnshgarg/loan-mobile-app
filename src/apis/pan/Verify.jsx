@@ -1,11 +1,11 @@
+import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import Analytics from "appcenter-analytics";
 import { useState } from "react";
 import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { useVerifyPanMutation } from "../../store/apiSlices/panApi";
-import { addData, addVerifyStatus } from "../../store/slices/panSlice";
+import { addVerifyStatus } from "../../store/slices/panSlice";
 
 const PanVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const PanVerifyApi = (props) => {
         console.log("kyc/pan-fetch-details res: ", res);
         if (res?.status === 200) {
           setLoading(false);
-          Analytics.trackEvent("Pan|Verify|Success", {
+          analytics().logEvent("Pan_Verify_Success", {
             unipeEmployeeId: unipeEmployeeId,
           });
           if (props.type !== "KYC") {
@@ -49,7 +49,7 @@ const PanVerifyApi = (props) => {
         console.log("kyc/pan-fetch-details error: ", error);
         dispatch(addVerifyStatus("ERROR"));
         Alert.alert("fetchPanDetails API Catch Error", error.message);
-        Analytics.trackEvent("Pan|Verify|Error", {
+        analytics().logEvent("Pan_Verify_Error", {
           unipeEmployeeId: unipeEmployeeId,
           error: `fetchPanDetails API Catch Error: ${
             error.message

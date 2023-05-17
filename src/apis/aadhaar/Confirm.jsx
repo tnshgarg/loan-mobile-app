@@ -1,14 +1,15 @@
+import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import Analytics from "appcenter-analytics";
 import { Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { showToast } from "../../components/atoms/Toast";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { useUpdateAadhaarMutation } from "../../store/apiSlices/aadhaarApi";
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
-import { useUpdateAadhaarMutation } from "../../store/apiSlices/aadhaarApi";
+
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -94,7 +95,7 @@ const AadhaarConfirmApi = (props) => {
             backendPush({
               verifyStatus: "REJECTED",
             });
-            Analytics.trackEvent("Aadhaar|Confirm|Error", {
+            analytics().logEvent("Aadhaar_Confirm_Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: "Rejected by User",
             });
@@ -109,7 +110,7 @@ const AadhaarConfirmApi = (props) => {
             backendPush({
               verifyStatus: "SUCCESS",
             });
-            Analytics.trackEvent("Aadhaar|Confirm|Success", {
+            analytics().logEvent("Aadhaar_Confirm_Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
           }}

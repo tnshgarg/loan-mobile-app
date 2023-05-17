@@ -1,4 +1,5 @@
 import { STAGE } from "@env";
+import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
 import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
@@ -15,9 +16,7 @@ import LoginInput from "../../components/molecules/LoginInput";
 import AgreementText from "../../components/organisms/AgreementText";
 import { COLORS } from "../../constants/Theme";
 import whatsappLinking from "../../helpers/WhatsappLinking";
-import {
-  useGenerateOtpMutation,
-} from "../../store/apiSlices/loginApi";
+import { useGenerateOtpMutation } from "../../store/apiSlices/loginApi";
 import {
   addPhoneNumber,
   addUnipeEmployeeId,
@@ -91,6 +90,9 @@ const LoginScreen = () => {
       .unwrap()
       .then((otpResponse) => {
         console.log("otpResponse", otpResponse);
+        analytics().logEvent("LoginScreen_SendSms_Success", {
+          phoneNumber: phoneNumber,
+        });
         navigation.navigate("Otp");
         setLoading(false);
       })
@@ -98,6 +100,10 @@ const LoginScreen = () => {
         console.log("error", error);
         setLoading(false);
         Alert.alert("Error", error.message);
+        analytics().logEvent("LoginScreen_SendSms_Error", {
+          phoneNumber: phoneNumber,
+          error: JSON.stringify(error),
+        });
       });
   };
 
