@@ -1,8 +1,8 @@
-import { View, Text, Platform, TouchableOpacity } from "react-native";
 import React from "react";
+import { Text, TouchableOpacity, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { COLORS, FONTS } from "../../constants/Theme";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { COLORS, FONTS } from "../../constants/Theme";
 
 const Checkbox = ({ value, setValue, text, additionalText, onPress }) => {
   console.log(value);

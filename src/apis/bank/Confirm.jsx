@@ -1,15 +1,16 @@
-import { useDispatch, useSelector } from "react-redux";
-import { Alert, Text, View } from "react-native";
+import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
+import { Text, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import { showToast } from "../../components/atoms/Toast";
+import DetailsCard from "../../components/molecules/DetailsCard";
+import FuzzyCheck from "../../components/molecules/FuzzyCheck";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { useUpdateBankMutation } from "../../store/apiSlices/bankApi";
+import { addOnboarded } from "../../store/slices/authSlice";
 import { addVerifyStatus } from "../../store/slices/bankSlice";
 import { form, styles } from "../../styles";
-import { COLORS, FONTS } from "../../constants/Theme";
-import Analytics from "appcenter-analytics";
-import FuzzyCheck from "../../components/molecules/FuzzyCheck";
-import DetailsCard from "../../components/molecules/DetailsCard";
-import { addOnboarded } from "../../store/slices/authSlice";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { putBackendData } from "../../services/employees/employeeServices";
 
 const BankConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const BankConfirmApi = (props) => {
     (state) => state.campaign.onboardingCampaignId
   );
   const data = useSelector((state) => state.bank.data);
-
+  const [updateBank] = useUpdateBankMutation();
   const backendPush = async ({ verifyStatus }) => {
     dispatch(addVerifyStatus(verifyStatus));
 
@@ -32,6 +33,7 @@ const BankConfirmApi = (props) => {
       campaignId: campaignId,
     };
 
+<<<<<<< HEAD
     const response = await putBackendData({
       data: payload,
       xpath: "bank",
@@ -63,10 +65,39 @@ const BankConfirmApi = (props) => {
     } else {
       Alert.alert("Error", JSON.stringify(responseJson));
     }
+=======
+    updateBank(payload)
+      .unwrap()
+      .then((res) => {
+        if (verifyStatus === "REJECTED") {
+          if (props?.route?.params?.type === "KYC") {
+            navigation.navigate("KYC", {
+              screen: "BANK",
+              params: {
+                screen: "Form",
+              },
+            });
+          } else {
+            navigation.navigate("BankForm");
+          }
+        } else if (verifyStatus === "SUCCESS") {
+          if (props?.route?.params?.type === "KYC") {
+            navigation.navigate("KYC", {
+              screen: "BANK",
+            });
+          } else {
+            navigation.replace("EWA_MANDATE");
+          }
+        }
+      })
+      .catch((error) => {
+        showToast(error?.message, "error");
+      });
+>>>>>>> 4a032a63e7ba8a94d80332aff165be27666bdee0
   };
 
   const cardData = () => {
-    var res = [
+    let res = [
       {
         subTitle: "Account Holder Name",
         value: data?.accountHolderName,
@@ -99,7 +130,7 @@ const BankConfirmApi = (props) => {
             backendPush({
               verifyStatus: "REJECTED",
             });
-            Analytics.trackEvent("Bank|Confirm|Error", {
+            analytics().logEvent("Bank_Confirm_Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: "Rejected by User",
             });
@@ -116,7 +147,7 @@ const BankConfirmApi = (props) => {
             backendPush({
               verifyStatus: "SUCCESS",
             });
-            Analytics.trackEvent("Bank|Confirm|Success", {
+            analytics().logEvent("Bank_Confirm_Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
           }}

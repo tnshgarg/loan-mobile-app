@@ -1,8 +1,7 @@
 import { STAGE } from "@env";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { BackHandler, SafeAreaView, View, Linking } from "react-native";
+import { BackHandler, Linking, SafeAreaView, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useDispatch, useSelector } from "react-redux";
 import LogoHeader from "../../../../components/atoms/LogoHeader";
@@ -11,8 +10,8 @@ import VerifyMandateCard from "../../../../components/molecules/VerifyMandateCar
 import LiveOfferCard from "../../../../components/organisms/LiveOfferCard";
 import { COLORS } from "../../../../constants/Theme";
 import { getNumberOfDays } from "../../../../helpers/DateFunctions";
-import { getEwaOffers } from "../../../../queries/ewa/offers";
-import { getBackendData } from "../../../../services/employees/employeeServices";
+import { useGetOffersQuery } from "../../../../store/apiSlices/ewaApi";
+import { useGetMandateQuery } from "../../../../store/apiSlices/mandateApi";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import {
   addAccessible,
@@ -24,7 +23,6 @@ import {
   resetMandate,
 } from "../../../../store/slices/mandateSlice";
 import { styles } from "../../../../styles";
-
 const EWA = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -46,6 +44,7 @@ const EWA = () => {
 
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
+  const { data, error, isLoading } = useGetMandateQuery(unipeEmployeeId);
 
   const backAction = () => {
     navigation.navigate("EWA", { replace: true });
@@ -54,19 +53,15 @@ const EWA = () => {
 
   useEffect(() => {
     if (isFocused) {
-      getBackendData({
-        params: { unipeEmployeeId: unipeEmployeeId },
-        xpath: "mandate",
-        token: token,
-      })
-        .then((response) => {
-          dispatch(resetMandate(response?.data?.body));
-          dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
-          setMandateVerifyStatus(response?.data?.body?.verifyStatus);
-        })
-        .catch((error) => {
-          console.log("mandateFetch error: ", error);
-        });
+      if (data && !isLoading && !error) {
+        console.log("ewa mandate data", data?.body);
+        dispatch(resetMandate(data?.data?.body));
+        dispatch(addVerifyStatus(data?.data?.body?.verifyStatus));
+        setMandateVerifyStatus(data?.data?.body?.verifyStatus);
+      } else {
+        console.log("mandateFetch error: ", error);
+        console.log("mandateFetch error: ", data);
+      }
     }
   }, [unipeEmployeeId, mandateVerifyStatus, isFocused]);
 
@@ -101,18 +96,14 @@ const EWA = () => {
     isError: getEwaOffersIsError,
     error: getEwaOffersError,
     data: getEwaOffersData,
-  } = useQuery(["getEwaOffers", unipeEmployeeId, token], getEwaOffers, {
-    staleTime: 1000 * 60 * 2,
-    cacheTime: 1000 * 60 * 10,
-    refetchInterval: 1000 * 60 * 2,
-  });
+  } = useGetOffersQuery(unipeEmployeeId);
 
   useEffect(() => {
     if (isFocused && getEwaOffersIsSuccess) {
-      if (getEwaOffersData.data.status === 200) {
-        if (Object.keys(getEwaOffersData.data.body.live).length !== 0) {
+      if (getEwaOffersData.status === 200) {
+        if (Object.keys(getEwaOffersData.body.live).length !== 0) {
           const closureDays = getNumberOfDays({
-            date: getEwaOffersData.data.body.live.dueDate,
+            date: getEwaOffersData.body.live.dueDate,
           });
           if (closureDays <= 3) {
             setAccessible(false);
@@ -122,13 +113,13 @@ const EWA = () => {
         } else {
           setAccessible(false);
         }
-        dispatch(resetEwaLive(getEwaOffersData.data.body.live));
-        dispatch(resetEwaHistorical(getEwaOffersData.data.body.past));
+        dispatch(resetEwaLive(getEwaOffersData.body.live));
+        dispatch(resetEwaHistorical(getEwaOffersData.body.past));
         setFetched(true);
       } else {
         console.log(
           "Money ewaOffersFetch API error getEwaOffersData.data : ",
-          getEwaOffersData.data
+          getEwaOffersData
         );
         dispatch(resetEwaLive());
         dispatch(resetEwaHistorical());

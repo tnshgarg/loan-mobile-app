@@ -27,7 +27,7 @@ const PanFormTemplate = (props) => {
   const [number, setNumber] = useState(panSlice?.number);
 
   useEffect(() => {
-    var panReg = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/gm;
+    let panReg = /^[A-Z]{5}\d{4}[A-Z]$/gm;
     if (panReg.test(number)) {
       dispatch(addNumber(number));
       setValidNumber(true);

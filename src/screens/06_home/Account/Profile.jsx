@@ -20,7 +20,7 @@ const Profile = ({ navigation }) => {
   const qualification = profileSlice?.qualification;
 
   const cardData = () => {
-    var res = [
+    let res = [
       { subTitle: "Name", value: fullName, fullWidth: true },
       { subTitle: "Email Id", value: email, fullWidth: true },
       { subTitle: "Mobile Number", value: mobile, fullWidth: true },

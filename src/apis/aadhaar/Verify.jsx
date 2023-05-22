@@ -1,14 +1,11 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Alert } from "react-native";
+import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import {
-  addData,
-  addVerifyStatus,
-} from "../../store/slices/aadhaarSlice";
+import { useState } from "react";
+import { Alert } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics from "appcenter-analytics";
-import { putBackendData } from "../../services/employees/employeeServices";
+import { useVerifyAadhaarOtpMutation } from "../../store/apiSlices/aadhaarApi";
+import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 
 const AadhaarVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -20,67 +17,48 @@ const AadhaarVerifyApi = (props) => {
   const token = useSelector((state) => state.auth.token);
 
   const aadhaarSlice = useSelector((state) => state.aadhaar);
-  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
+  const campaignId = useSelector(
+    (state) => state.campaign.onboardingCampaignId
+  );
 
+  const [verifyAadhaarOtp] = useVerifyAadhaarOtpMutation();
   const goForFetch = () => {
     setLoading(true);
     console.log("aadhaarSlice: ", aadhaarSlice);
-
-    putBackendData({
-      data: {
-        unipeEmployeeId: unipeEmployeeId,
-        otp: props.data.otp,
-        campaignId: campaignId,
-        provider: 'ongrid'
-      },
-      xpath: "kyc/aadhaar-submit-otp",
-      token: token,
-    })
+    const data = {
+      unipeEmployeeId: unipeEmployeeId,
+      otp: props.data.otp,
+      campaignId: campaignId,
+      provider: "ongrid",
+    };
+    verifyAadhaarOtp(data)
+      .unwrap()
       .then((res) => {
         console.log("kyc/aadhaar-submit-otp res: ", res);
-        const responseJson = res?.data;
-        console.log("kyc/aadhaar-submit-otp responseJson: ", JSON.stringify(responseJson));
-        try {
-          if (responseJson?.status === 200) {
-            props.setVerified(true);
-            dispatch(addData(responseJson?.body?.data));
-            Analytics.trackEvent("Aadhaar|Verify|Success", {
-              unipeEmployeeId: unipeEmployeeId,
-            });
-            setLoading(false);
-            dispatch(addVerifyStatus(responseJson?.body?.verifyStatus));
-            if (props.type !== "KYC") {
-              navigation.navigate("AadhaarConfirm");
-            }
-          } else {
-            throw responseJson;
-          }
-        } catch (error) {
-          console.log("kyc/aadhaar-submit-otp error: ", error);
-          dispatch(addVerifyStatus("ERROR"));
-          Analytics.trackEvent("Aadhaar|Verify|Error", {
-            unipeEmployeeId: unipeEmployeeId,
-            error: `submitAadhaarOTP API Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
-          });
-          if (error?.status === 406) {
-            Alert.alert("Otp mismatch","OTP is incorrect. Please try again.");
-          }
-          else{
-            Alert.alert("submitAadhaarOTP Error", error?.body?.message);
-            navigation.goBack();
-          }
-          setLoading(false);
+        console.log("kyc/aadhaar-submit-otp res: ", JSON.stringify(res));
+        props.setVerified(true);
+        analytics().logEvent("Aadhaar_Verify_Success", {
+          unipeEmployeeId: unipeEmployeeId,
+        });
+        setLoading(false);
+        if (props.type !== "KYC") {
+          navigation.navigate("AadhaarConfirm");
         }
       })
       .catch((error) => {
+        console.log("kyc/aadhaar-submit-otp error: ", error);
         dispatch(addVerifyStatus("ERROR"));
-        Alert.alert("submitAadhaarOTP Catch Error", JSON.stringify(error));
-        Analytics.trackEvent("Aadhaar|Verify|Error", {
+        analytics().logEvent("Aadhaar_Verify_Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: `submitAadhaarOTP Catch Error: ${JSON.stringify(error)}`,
+          error: `submitAadhaarOTP API Catch Error: ${error.message}`,
         });
+        if (error?.status === 406) {
+          Alert.alert("Otp mismatch", "OTP is incorrect. Please try again.");
+        } else {
+          Alert.alert("submitAadhaarOTP Error", error?.body?.message);
+          navigation.goBack();
+        }
         setLoading(false);
-        navigation.goBack();
       });
   };
 

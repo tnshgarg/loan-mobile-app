@@ -1,21 +1,17 @@
 import { useEffect, useState } from "react";
-import {
-  BackHandler,
-  SafeAreaView,
-  View,
-  Text,
-  ScrollView,
-} from "react-native";
-import { styles } from "../../../../styles";
-import { useSelector } from "react-redux";
-import Header from "../../../../components/atoms/Header";
-import Success from "../../../../assets/animations/Success";
+import { BackHandler, SafeAreaView, Text, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import Failure from "../../../../assets/animations/Failure";
 import Pending from "../../../../assets/animations/Pending";
+import Success from "../../../../assets/animations/Success";
+import Header from "../../../../components/atoms/Header";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
-import { getDisbursement } from "../../../../queries/ewa/disbursement";
+import { useGetDisbursementQuery } from "../../../../store/apiSlices/ewaApi";
+import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
+import { styles } from "../../../../styles";
 
 const Disbursement = ({ route, navigation }) => {
+  const dispatch = useDispatch();
   const { offer } = route.params;
 
   const token = useSelector((state) => state.auth.token);
@@ -40,6 +36,7 @@ const Disbursement = ({ route, navigation }) => {
   };
 
   useEffect(() => {
+    dispatch(addCurrentScreen("EWA_Disbursement"));
     BackHandler.addEventListener("hardwareBackPress", backAction);
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
@@ -90,38 +87,40 @@ const Disbursement = ({ route, navigation }) => {
     isError: getDisbursementIsError,
     error: getDisbursementError,
     data: getDisbursementData,
-  } = getDisbursement({
-    params: { offerId: offer?.offerId, unipeEmployeeId: unipeEmployeeId },
-    token: token,
+  } = useGetDisbursementQuery({
+    offerId: offer?.offerId,
+    unipeEmployeeId: unipeEmployeeId,
   });
 
   useEffect(() => {
+    console.log("getDisbursementIsSuccess", offer);
+    console.log("getDisbursementData", getDisbursementData);
     if (getDisbursementIsSuccess) {
-      if (getDisbursementData?.data?.status === 200) {
-        setBankAccountNumber(getDisbursementData?.data?.body?.bankAccountNumber);
-        setDueDate(getDisbursementData?.data?.body?.dueDate);
-        setLoanAccountNumber(getDisbursementData?.data?.body?.loanAccountNumber);
-        setLoanAmount(getDisbursementData?.data?.body?.loanAmount);
-        setNetAmount(getDisbursementData?.data?.body?.netAmount);
-        setStatus(getDisbursementData?.data?.body?.status);
+      if (getDisbursementData?.status === 200) {
+        setBankAccountNumber(getDisbursementData?.body?.bankAccountNumber);
+        setDueDate(getDisbursementData?.body?.dueDate);
+        setLoanAccountNumber(getDisbursementData?.body?.loanAccountNumber);
+        setLoanAmount(getDisbursementData?.body?.loanAmount);
+        setNetAmount(getDisbursementData?.body?.netAmount);
+        setStatus(getDisbursementData?.body?.status);
       } else {
-        console.log("HomeView ewaOffersFetch API error getEwaOffersData.data : ", getDisbursementData.data);
+        console.log(" API error getDisbursementData : ", getDisbursementData);
       }
     } else if (getDisbursementIsError) {
-      console.log("HomeView ewaOffersFetch API error getEwaOffersError.message : ", getDisbursementError.message);
+      console.log("API error getDisbursementError : ", getDisbursementError);
     }
   }, [getDisbursementIsSuccess, getDisbursementData]);
-  
+
   useEffect(() => {
     setDueDate(offer?.dueDate);
     setLoanAccountNumber(offer?.loanAccountNumber);
     setLoanAmount(offer?.loanAmount);
-    var pf = (parseInt(offer?.loanAmount) * offer?.fees)/100;
-    var pF;
-    if (parseInt(pf)%10<4) {
-      pF = Math.max(9, (Math.floor((pf/10))*10) -1);
+    let pf = (parseInt(offer?.loanAmount) * offer?.fees) / 100;
+    let pF;
+    if (parseInt(pf) % 10 < 4) {
+      pF = Math.max(9, Math.floor(pf / 10) * 10 - 1);
     } else {
-      pF = Math.max(9, (Math.floor(((pf+10)/10))*10) -1);
+      pF = Math.max(9, Math.floor((pf + 10) / 10) * 10 - 1);
     }
     setNetAmount(parseInt(offer?.loanAmount) - pF);
   }, [offer]);

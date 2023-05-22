@@ -1,16 +1,11 @@
 import React, { useState } from "react";
-import {
-  Text,
-  TouchableNativeFeedback,
-  View,
-  Linking,
-  Alert,
-} from "react-native";
+import { Text, TouchableNativeFeedback, View } from "react-native";
 import codePush from "react-native-code-push";
 import EStyleSheet from "react-native-extended-stylesheet";
 import Modal from "react-native-modal";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS, SIZES } from "../constants/Theme";
+import whatsappLinking from "../helpers/WhatsappLinking";
 
 const UpdateDialog = () => {
   const [show, setShow] = useState(false);
@@ -25,6 +20,7 @@ const UpdateDialog = () => {
           console.log("Unknown error");
           setState("ERROR");
           setShow(true);
+          break;
         case codePush.SyncStatus.DOWNLOADING_PACKAGE:
           console.log("Downloading package");
           setShow(true);
@@ -102,14 +98,7 @@ const UpdateDialog = () => {
         {state === "ERROR" ? (
           <TouchableNativeFeedback
             onPress={() => {
-              const url = "whatsapp://send?text=&phone=7483447528";
-              Linking.canOpenURL(url).then((supported) => {
-                if (supported) {
-                  Linking.openURL(url);
-                } else {
-                  Alert.alert("Alert", "WhatsApp is not installed");
-                }
-              });
+              whatsappLinking();
             }}
           >
             <MaterialCommunityIcons

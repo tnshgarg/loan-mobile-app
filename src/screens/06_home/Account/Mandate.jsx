@@ -1,16 +1,16 @@
+import { useIsFocused } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { SafeAreaView, View } from "react-native";
-import { useIsFocused } from "@react-navigation/core";
 import { useDispatch, useSelector } from "react-redux";
-import { styles } from "../../../styles";
-import DetailsCard from "../../../components/molecules/DetailsCard";
 import Header from "../../../components/atoms/Header";
+import DetailsCard from "../../../components/molecules/DetailsCard";
+import { useGetMandateQuery } from "../../../store/apiSlices/mandateApi";
 import {
   addVerifyStatus,
   resetMandate,
 } from "../../../store/slices/mandateSlice";
+import { styles } from "../../../styles";
 import MandateFormTemplate from "../../../templates/mandate/Form";
-import { getBackendData } from "../../../services/employees/employeeServices";
 
 const Mandate = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -21,30 +21,24 @@ const Mandate = ({ navigation }) => {
   const mandateSlice = useSelector((state) => state.mandate);
   const authType = mandateSlice.data?.authType?.toUpperCase();
   const [verifyStatus, setVerifyStatus] = useState(mandateSlice?.verifyStatus);
-
+  const { data, error, isLoading } = useGetMandateQuery(unipeEmployeeId);
   useEffect(() => {
     if (isFocused && unipeEmployeeId) {
-      getBackendData({
-        params: { unipeEmployeeId: unipeEmployeeId },
-        xpath: "mandate",
-        token: token,
-      })
-        .then((response) => {
-          console.log("Form mandateFetch response.data", response.data);
-          if (response.data.status === 200) {
-            dispatch(resetMandate(response?.data?.body));
-            dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
-            setVerifyStatus(response?.data?.body?.verifyStatus);
-          }
-        })
-        .catch((error) => {
-          console.log("mandateFetch error: ", error);
-        });
+      if (data && !isLoading && !error) {
+        console.log("Form mandateFetch response.data", response.data);
+        if (response.data.status === 200) {
+          dispatch(resetMandate(response?.data?.body));
+          dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
+          setVerifyStatus(response?.data?.body?.verifyStatus);
+        }
+      } else {
+        console.log("mandateFetch error: ", error);
+      }
     }
   }, [isFocused]);
 
   const cardData = () => {
-    var res = [
+    let res = [
       {
         subTitle: "Mandate Type",
         value: authType,

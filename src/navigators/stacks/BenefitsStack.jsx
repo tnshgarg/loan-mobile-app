@@ -6,7 +6,7 @@ import Benefits from "../../screens/06_home/Benefits/Benefits";
 
 const BenefitsStack = () => {
   const Stack = createNativeStackNavigator();
-  var initialRoute = useSelector((state) => state.navigation.currentScreen);
+  let initialRoute = useSelector((state) => state.navigation.currentScreen);
   
   STAGE === "dev" ? (initialRoute = "DevMenu") : null;
   console.log("initialRoute: ", initialRoute);

@@ -21,7 +21,7 @@ const AadhaarFormTemplate = (props) => {
   const [number, setNumber] = useState(aadhaarSlice?.number);
 
   useEffect(() => {
-    var aadhaarReg = /^[0-9]{12}$/gm;
+    let aadhaarReg = /^\d{12}$/gm;
     if (aadhaarReg.test(number)) {
       dispatch(addNumber(number));
       setValidNumber(true);

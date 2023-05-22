@@ -11,7 +11,7 @@ import {
 import { licenseBackendPush } from "../../helpers/BackendPush";
 import { OG_API_KEY } from "../../services/constants";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 
 const Verify = (props) => {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const Verify = (props) => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  
+
   const licenseSlice = useSelector((state) => state.license);
   const [data, setData] = useState(licenseSlice?.data);
   const [verifyMsg, setVerifyMsg] = useState(licenseSlice?.verifyMsg);
@@ -30,8 +30,10 @@ const Verify = (props) => {
   const [verifyTimestamp, setVerifyTimestamp] = useState(
     licenseSlice?.verifyTimestamp
   );
-  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
-  
+  const campaignId = useSelector(
+    (state) => state.campaign.onboardingCampaignId
+  );
+
   useEffect(() => {
     dispatch(addData(data));
   }, [data]);
@@ -92,7 +94,7 @@ const Verify = (props) => {
                 setVerifyStatus("PENDING");
                 setVerifyTimestamp(responseJson["timestamp"]);
                 setBackendPush(true);
-                Analytics.trackEvent("Licence|Verify|Success", {
+                analytics().logEvent("Licence_Verify_Success", {
                   unipeEmployeeId: unipeEmployeeId,
                 });
                 navigation.navigate("Documents", {
@@ -108,7 +110,7 @@ const Verify = (props) => {
                 setVerifyStatus("ERROR");
                 setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
-                Analytics.trackEvent("Licence|Verify|Error", {
+                analytics().logEvent("Licence_Verify_Error", {
                   unipeEmployeeId: unipeEmployeeId,
                   error: responseJson["data"]["message"],
                 });
@@ -119,7 +121,7 @@ const Verify = (props) => {
             setVerifyStatus("ERROR");
             setBackendPush(true);
             Alert.alert("Error", responseJson["error"]["message"]);
-            Analytics.trackEvent("Licence|Verify|Error", {
+            analytics().logEvent("Licence_Verify_Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: responseJson["error"]["message"],
             });
@@ -127,32 +129,32 @@ const Verify = (props) => {
             setVerifyMsg(responseJson["message"]);
             setVerifyStatus("ERROR");
             Alert.alert("Error", responseJson["message"]);
-            Analytics.trackEvent("Licence|Verify|Error", {
+            analytics().logEvent("Licence_Verify_Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: responseJson["message"],
             });
           }
         } catch (error) {
-          console.log("Try Catch Error: ", JSON.stringify(error));
-          setVerifyMsg(JSON.stringify(error));
+          console.log("Try Catch Error: ", error.message);
+          setVerifyMsg(error.message);
           setVerifyStatus("ERROR");
           setBackendPush(true);
-          Alert.alert("Error", JSON.stringify(error));
-          Analytics.trackEvent("Licence|Verify|Error", {
+          Alert.alert("Error", error.message);
+          analytics().logEvent("Licence_Verify_Error", {
             unipeEmployeeId: unipeEmployeeId,
-            error: JSON.stringify(error),
+            error: error.message,
           });
         }
       })
       .catch((error) => {
-        console.log("Fetch Catch Error: ", JSON.stringify(error));
-        setVerifyMsg(JSON.stringify(error));
+        console.log("Fetch Catch Error: ", error.message);
+        setVerifyMsg(error.message);
         setVerifyStatus("ERROR");
         setBackendPush(true);
-        Alert.alert("Error", JSON.stringify(error));
-        Analytics.trackEvent("Licence|Verify|Error", {
+        Alert.alert("Error", error.message);
+        analytics().logEvent("Licence_Verify_Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: JSON.stringify(error),
+          error: error.message,
         });
       });
   };

@@ -3,12 +3,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "../../screens/00_login/LoginScreen";
 import OTPScreen from "../../screens/00_login/OTPScreen";
 import LoginSuccess from "../../screens/00_login/LoginSuccess";
-import BackendSync from "../../screens/BackendSync";
+
 import Onboarding from "../../screens/00_login/Onboarding";
 
 const OnboardingStack = () => {
   const Stack = createNativeStackNavigator();
-  var initialRoute = useSelector((state) => state.navigation.currentScreen);
+  let initialRoute = useSelector((state) => state.navigation.currentScreen);
 
   console.log("initialRoute: ", initialRoute);
 
@@ -38,14 +38,7 @@ const OnboardingStack = () => {
           headerShown: false,
         }}
       />
-      <Stack.Screen
-        name="BackendSync"
-        component={BackendSync}
-        options={{
-          headerShown: false,
-          animation: "default",
-        }}
-      />
+
       <Stack.Screen
         name="LoginSuccess"
         component={LoginSuccess}

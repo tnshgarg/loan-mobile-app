@@ -5,8 +5,10 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import { useDispatch } from "react-redux";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { showToast } from "../atoms/Toast";
+import { AntDesign } from "react-native-vector-icons";
+import { useDispatch } from "react-redux";
 import SVGImg from "../../assets/UnipeLogo.svg";
+import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 
 export default Logout = () => {
   const navigation = useNavigation();
@@ -65,7 +67,7 @@ export default Logout = () => {
           setModalVisible(true);
           setTimeout(() => {
             setModalVisible(false);
-            navigation.replace("OnboardingStack", { screen: "Login" });
+            // navigation.replace("OnboardingStack", { screen: "Login" });
           }, 5000);
         }}
         style={{

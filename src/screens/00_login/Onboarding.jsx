@@ -1,6 +1,6 @@
+import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import Analytics from "appcenter-analytics";
-import { SafeAreaView, Text, View, Linking} from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import Clock from "../../assets/Clock.svg";
@@ -11,6 +11,7 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import ShieldTitle from "../../components/atoms/ShieldTitle";
 import SvgListItem from "../../components/molecules/SvgListItem";
 import { COLORS, FONTS } from "../../constants/Theme";
+import whatsappLinking from "../../helpers/WhatsappLinking";
 import { requestUserPermission } from "../../services/notifications/notificationService";
 import { onboardingStyles, styles } from "../../styles";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -60,7 +61,7 @@ const Onboarding = () => {
           <Icon name="logo-whatsapp" size={28} color={COLORS.primary} />
         }
         rightOnPress={() => {
-          Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+          whatsappLinking();
         }}
       />
       <View style={styles.container}>
@@ -91,7 +92,7 @@ const Onboarding = () => {
           title="Get Started Now"
           onPress={() => {
             requestUserPermission();
-            Analytics.trackEvent("Onboarding", {
+            analytics().logEvent("Onboarding", {
               unipeEmployeeId: unipeEmployeeId,
             });
             navigation.navigate("Login");

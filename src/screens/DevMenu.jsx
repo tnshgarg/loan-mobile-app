@@ -17,7 +17,7 @@ export default DevMenu = () => {
     { title: "KYC Details", stack: "AccountStack", name: "KYC" },
     { title: "Profile Details", stack: "AccountStack", name: "Profile" },
     { title: "Documents", stack: "AccountStack", name: "Documents" },
-    { title: "EWA", stack: "EWAStack", name: "EWA_OFFER" },
+    { title: "EWA", stack: "HomeStack", name: "Money" },
   ];
 
   return (

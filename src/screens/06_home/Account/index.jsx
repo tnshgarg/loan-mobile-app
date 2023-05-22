@@ -4,7 +4,6 @@ import {
   Text,
   SafeAreaView,
   Image,
-  Linking,
   ScrollView,
 } from "react-native";
 import { useEffect, useState } from "react";
@@ -21,6 +20,7 @@ import { showToast } from "../../../components/atoms/Toast";
 import { useNavigation } from "@react-navigation/native";
 import LogoutModal from "../../../components/organisms/LogoutModal";
 import ListItem from "../../../components/atoms/ListItem";
+import whatsappLinking from "../../../helpers/WhatsappLinking";
 
 const AccountMenu = (props) => {
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const AccountMenu = (props) => {
     useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const image = useSelector((state) => state.aadhaar.data.photo_base64);
+  const image = useSelector((state) => state.aadhaar?.data?.photo_base64);
   const name = useSelector(
     (state) =>
       state.aadhaar.data?.name ||
@@ -57,7 +57,7 @@ const AccountMenu = (props) => {
     setModalVisible(true);
     setTimeout(() => {
       setModalVisible(false);
-      navigation.replace("OnboardingStack", { screen: "Login" });
+      // navigation.replace("OnboardingStack", { screen: "Login" });
     }, 5000);
   };
 
@@ -91,14 +91,7 @@ const AccountMenu = (props) => {
       subtitle: "Talk to out support team",
       iconName: "whatsapp",
       action: () => {
-        const url = "whatsapp://send?text=&phone=7483447528";
-        Linking.canOpenURL(url).then((supported) => {
-          if (supported) {
-            Linking.openURL(url);
-          } else {
-            Alert.alert("Alert", "WhatsApp is not installed");
-          }
-        });
+        whatsappLinking();
       },
     },
     {

@@ -12,14 +12,14 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
-  checkVerification,
-  sendSmsVerification,
-} from "../../services/otp/Gupshup/services";
+  useVerifyOtpMutation,
+  useGenerateOtpMutation,
+} from "../../store/apiSlices/loginApi";
 import { addToken } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import { styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -49,6 +49,14 @@ const OTPScreen = () => {
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
 
+  const isKycPending =
+    profileComplete ||
+    aadhaarVerifyStatus ||
+    panVerifyStatus ||
+    bankVerifyStatus;
+
+  const [postVerifyOtp] = useVerifyOtpMutation();
+  const [postGenerateOtp] = useGenerateOtpMutation();
   useEffect(() => {
     dispatch(addCurrentScreen("Otp"));
   }, []);
@@ -115,74 +123,54 @@ const OTPScreen = () => {
   };
 
   const onResendOtp = () => {
-    sendSmsVerification(phoneNumber)
+    postGenerateOtp(phoneNumber)
+      .unwrap()
       .then((res) => {
-        if (res["response"]["status"] === "success") {
-          setOtp("");
-          setBack(false);
-          Alert.alert("OTP resent successfully", "", [
-            {
-              text: "Ok",
-              onPress: () => {
-                inputRef.current.focus();
-                dispatch(resetTimer());
-              },
+        console.log(res);
+        setOtp("");
+        setBack(false);
+        analytics().logEvent("OTPScreen_SendSms_Success", {
+          unipeEmployeeId: unipeEmployeeId,
+        });
+        Alert.alert("OTP resent successfully", "", [
+          {
+            text: "Ok",
+            onPress: () => {
+              inputRef.current.focus();
+              dispatch(resetTimer());
             },
-          ]);
-          Analytics.trackEvent("OTPScreen|SendSms|Success", {
-            unipeEmployeeId: unipeEmployeeId,
-          });
-        } else {
-          Alert.alert(res["response"]["status"], res["response"]["details"]);
-          Analytics.trackEvent("OTPScreen|SendSms|Error", {
-            unipeEmployeeId: unipeEmployeeId,
-            error: res["response"]["details"],
-          });
-        }
+          },
+        ]);
       })
       .catch((error) => {
-        Alert.alert("Error", JSON.stringify(error));
-        Analytics.trackEvent("OTPScreen|SendSms|Error", {
+        analytics().logEvent("OTPScreen_SendSms_Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: JSON.stringify(error),
         });
+        Alert.alert("Error", error.message);
       });
   };
 
   const onSubmitOtp = () => {
     setNext(false);
-    checkVerification(phoneNumber, otp)
+    postVerifyOtp({ mobileNumber: phoneNumber, otp: otp })
+      .unwrap()
       .then((res) => {
-        if (res["response"]["status"] === "success") {
-          dispatch(addToken(res["response"]["token"]));
-          setVerified(true);
-          navigation.navigate("BackendSync", {
-            destination:
-              profileComplete ||
-              aadhaarVerifyStatus ||
-              panVerifyStatus ||
-              bankVerifyStatus
-                ? "HomeStack"
-                : "LoginSuccess",
-          });
-          Analytics.trackEvent("OTPScreen|Check|Success", {
-            unipeEmployeeId: unipeEmployeeId,
-            error: res["response"]["details"],
-          });
-        } else {
-          Alert.alert(res["response"]["status"], res["response"]["details"]);
-          Analytics.trackEvent("OTPScreen|Check|Error", {
-            unipeEmployeeId: unipeEmployeeId,
-            error: res["response"]["details"],
-          });
-        }
+        // TODO: Verify Response
+        dispatch(addToken(res["response"]["token"]));
+        setVerified(true);
+        navigation.navigate(isKycPending ? "HomeStack" : "LoginSuccess");
+
+        analytics().logEvent("OTPScreen_Check_Success", {
+          unipeEmployeeId: unipeEmployeeId,
+        });
       })
       .catch((error) => {
-        Alert.alert("Error", JSON.stringify(error));
-        Analytics.trackEvent("OTPScreen|Check|Error", {
+        analytics().logEvent("OTPScreen_Check_Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: JSON.stringify(error),
+          error: error.message,
         });
+        console.log(error);
+        Alert.alert("Error", error.message);
       });
   };
 

@@ -1,9 +1,9 @@
-import { View, Text, Image } from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-import React from "react";
-import { COLORS, FONTS, SIZES } from "../../constants/Theme";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Slider } from "@miblanchard/react-native-slider";
+import React from "react";
+import { Text, View } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 
 const SliderCard = ({ info, iconName, amount, setAmount, eligibleAmount }) => {
   return (
@@ -152,7 +152,6 @@ const styles = EStyleSheet.create({
     backgroundColor: COLORS.primary,
     borderColor: COLORS.white,
     ...SIZES.shadow,
-    borderRadius: 1,
     borderRadius: "50rem",
   },
 });

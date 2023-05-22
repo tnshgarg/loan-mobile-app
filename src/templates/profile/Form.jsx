@@ -2,23 +2,16 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { SafeAreaView, Text, View, BackHandler, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addAltMobile,
-  addQualification,
-  addEmail,
-  addMotherName,
-  addMaritalStatus,
-  addProfileComplete,
-} from "../../store/slices/profileSlice";
-import { putBackendData } from "../../services/employees/employeeServices";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { form, styles } from "../../styles";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import FormInput from "../../components/atoms/FormInput";
 import DropDownForm from "../../components/molecules/DropDownForm";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import { showToast } from "../../components/atoms/Toast";
+
+import { useUpdateProfileMutation } from "../../store/apiSlices/profileApi";
 
 const ProfileFormTemplate = ({ type }) => {
   const dispatch = useDispatch();
@@ -29,7 +22,6 @@ const ProfileFormTemplate = ({ type }) => {
   const [validAltMobile, setValidAltMobile] = useState(false);
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const token = useSelector((state) => state.auth.token);
   const profileSlice = useSelector((state) => state.profile);
   const [maritalStatus, setMaritalStatus] = useState(
     profileSlice?.maritalStatus
@@ -50,29 +42,11 @@ const ProfileFormTemplate = ({ type }) => {
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
 
+  const [updateProfile] = useUpdateProfileMutation();
+
   useEffect(() => {
     dispatch(addCurrentScreen("ProfileForm"));
   }, []);
-
-  useEffect(() => {
-    dispatch(addMaritalStatus(maritalStatus));
-  }, [maritalStatus]);
-
-  useEffect(() => {
-    dispatch(addQualification(qualification));
-  }, [qualification]);
-
-  useEffect(() => {
-    dispatch(addMotherName(motherName));
-  }, [motherName]);
-
-  useEffect(() => {
-    dispatch(addAltMobile(altMobile));
-  }, [altMobile]);
-
-  useEffect(() => {
-    dispatch(addEmail(email));
-  }, [email]);
 
   useEffect(() => {
     if (
@@ -115,24 +89,19 @@ const ProfileFormTemplate = ({ type }) => {
       campaignId: campaignId,
     };
 
-    const response = await putBackendData({
-      data: body,
-      xpath: "profile",
-      token: token,
-    });
-    const responseJson = response?.data;
-
-    if (responseJson.status === 200) {
-      dispatch(addProfileComplete(true));
-      if (type === "KYC") {
-        handleConditionalNav();
-      } else {
-        navigation.navigate("AadhaarForm");
-      }
-      showToast("Profile Details Updated", "success");
-    } else {
-      Alert.alert("Error", JSON.stringify(responseJson));
-    }
+    updateProfile(body)
+      .unwrap()
+      .then((response) => {
+        if (type === "KYC") {
+          handleConditionalNav();
+        } else {
+          navigation.navigate("AadhaarForm");
+        }
+        showToast("Profile Details Updated", "success");
+      })
+      .catch((error) => {
+        Alert.alert("Error", error.message);
+      });
   };
 
   const qualifications = [
@@ -157,7 +126,7 @@ const ProfileFormTemplate = ({ type }) => {
   };
 
   useEffect(() => {
-    var emailReg =/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,10})+$/gm;
+    let emailReg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,10})+$/gm;
     if (emailReg.test(email)) {
       setValidEmail(true);
     } else {
@@ -166,7 +135,7 @@ const ProfileFormTemplate = ({ type }) => {
   }, [email]);
 
   useEffect(() => {
-    var phoneno = /^[0-9]{10}$/gm;
+    let phoneno = /^\d{10}$/gm;
     if (phoneno.test(altMobile)) {
       setValidAltMobile(true);
     } else {
@@ -232,7 +201,7 @@ const ProfileFormTemplate = ({ type }) => {
             disabled={!next}
             onPress={() => {
               backendPush();
-              Analytics.trackEvent("ProfileForm|PushData|Success", {
+              analytics().logEvent("ProfileForm_PushData_Success", {
                 unipeEmployeeId: unipeEmployeeId,
               });
             }}

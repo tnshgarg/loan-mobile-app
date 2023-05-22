@@ -12,7 +12,7 @@ import KycProgress from "../../screens/KycProgress";
 
 const KYCStack = () => {
   const Stack = createNativeStackNavigator();
-  var initialRoute = useSelector((state) => state.navigation.currentScreen);
+  let initialRoute = useSelector((state) => state.navigation.currentScreen);
 
   console.log("KYCStack initialRoute: ", initialRoute);
 

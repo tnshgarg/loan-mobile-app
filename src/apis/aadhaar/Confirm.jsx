@@ -1,13 +1,14 @@
-import { useDispatch, useSelector } from "react-redux";
+import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import { Alert, Text, View } from "react-native";
+import { Text, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import { showToast } from "../../components/atoms/Toast";
+import DetailsCard from "../../components/molecules/DetailsCard";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { useUpdateAadhaarMutation } from "../../store/apiSlices/aadhaarApi";
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
-import { COLORS, FONTS } from "../../constants/Theme";
-import Analytics from "appcenter-analytics";
-import DetailsCard from "../../components/molecules/DetailsCard";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { putBackendData } from "../../services/employees/employeeServices";
 
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const AadhaarConfirmApi = (props) => {
   );
   const data = useSelector((state) => state.aadhaar.data);
   const number = useSelector((state) => state.aadhaar.number);
-
+  const [updateAadhaar] = useUpdateAadhaarMutation();
   const backendPush = async ({ verifyStatus }) => {
     dispatch(addVerifyStatus(verifyStatus));
 
@@ -31,6 +32,7 @@ const AadhaarConfirmApi = (props) => {
       campaignId: campaignId,
     };
 
+<<<<<<< HEAD
     const response = await putBackendData({
       data: payload,
       xpath: "aadhaar",
@@ -62,10 +64,39 @@ const AadhaarConfirmApi = (props) => {
     } else {
       Alert.alert("Error", JSON.stringify(responseJson));
     }
+=======
+    updateAadhaar(payload)
+      .unwrap()
+      .then((res) => {
+        if (verifyStatus === "REJECTED") {
+          if (props?.route?.params?.type === "KYC") {
+            navigation.navigate("KYC", {
+              screen: "AADHAAR",
+              params: {
+                screen: "Form",
+              },
+            });
+          } else {
+            navigation.navigate("AadhaarForm");
+          }
+        } else if (verifyStatus === "SUCCESS") {
+          if (props?.route?.params?.type === "KYC") {
+            navigation.navigate("KYC", {
+              screen: "AADHAAR",
+            });
+          } else {
+            navigation.navigate("PanForm");
+          }
+        }
+      })
+      .catch((error) => {
+        showToast(error?.message, "error");
+      });
+>>>>>>> 4a032a63e7ba8a94d80332aff165be27666bdee0
   };
 
   const cardData = () => {
-    var res = [
+    let res = [
       { subTitle: "Name", value: data?.name, fullWidth: true },
       { subTitle: "Number", value: number },
       { subTitle: "Gender", value: data?.gender },
@@ -95,7 +126,7 @@ const AadhaarConfirmApi = (props) => {
             backendPush({
               verifyStatus: "REJECTED",
             });
-            Analytics.trackEvent("Aadhaar|Confirm|Error", {
+            analytics().logEvent("Aadhaar_Confirm_Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: "Rejected by User",
             });
@@ -110,7 +141,7 @@ const AadhaarConfirmApi = (props) => {
             backendPush({
               verifyStatus: "SUCCESS",
             });
-            Analytics.trackEvent("Aadhaar|Confirm|Success", {
+            analytics().logEvent("Aadhaar_Confirm_Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
           }}

@@ -1,5 +1,4 @@
 import { View, Text } from "react-native";
-import { useEffect } from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import PrimaryButton from "../atoms/PrimaryButton";

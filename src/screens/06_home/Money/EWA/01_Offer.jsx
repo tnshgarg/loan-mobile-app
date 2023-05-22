@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
@@ -17,8 +17,9 @@ import {
 import { styles } from "../../../../styles";
 import TnC from "../../../../templates/docs/EWATnC.js";
 import SliderCard from "../../../../components/organisms/SliderCard";
+import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import Checkbox from "../../../../components/atoms/Checkbox";
-import { updateOffer } from "../../../../queries/ewa/offer";
+import { useUpdateOfferMutation } from "../../../../store/apiSlices/ewaApi";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -42,10 +43,10 @@ const Offer = () => {
     (state) =>
       state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
   );
-  const profileComplete = useSelector(
-    (state) => state.profile.profileComplete
+  const profileComplete = useSelector((state) => state.profile.profileComplete);
+  const aadhaarVerifyStatus = useSelector(
+    (state) => state.aadhaar.verifyStatus
   );
-  const aadhaarVerifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
 
@@ -55,7 +56,7 @@ const Offer = () => {
   const [processingFees, setProcessingFees] = useState(
     ewaLiveSlice?.processingFees
   );
-
+  const [updateOffer] = useUpdateOfferMutation();
   useEffect(() => {
     getUniqueId().then((id) => {
       setDeviceId(id);
@@ -63,6 +64,7 @@ const Offer = () => {
     NetworkInfo.getIPV4Address().then((ipv4Address) => {
       setIpAdress(ipv4Address);
     });
+    dispatch(addCurrentScreen("EWA_Offer"));
   }, []);
 
   useEffect(() => {
@@ -71,28 +73,25 @@ const Offer = () => {
     }
   }, [deviceId, ipAddress]);
 
-  const { mutateAsync: updateOfferMutateAsync } = updateOffer();
-
   useEffect(() => {
     if (fetched) {
-      updateOfferMutateAsync({
-        data: {
-          offerId: ewaLiveSlice.offerId,
-          unipeEmployeeId: unipeEmployeeId,
-          status: "INPROGRESS",
-          timestamp: Date.now(),
-          ipAddress: ipAddress,
-          deviceId: deviceId,
-          campaignId: campaignId,
-        },
-        token: token,
-      })
+      let data = {
+        offerId: ewaLiveSlice.offerId,
+        unipeEmployeeId: unipeEmployeeId,
+        status: "INPROGRESS",
+        timestamp: Date.now(),
+        ipAddress: ipAddress,
+        deviceId: deviceId,
+        campaignId: campaignId,
+      };
+
+      updateOffer(data)
         .then((response) => {
           console.log("updateOfferMutateAsync response.data: ", response.data);
         })
         .catch((error) => {
-          console.log("updateOfferMutateAsync error: ", JSON.stringify(error));
-          Alert.alert("An Error occured", JSON.stringify(error));
+          console.log("updateOfferMutateAsync error: ", error.message);
+          Alert.alert("An Error occured", error.message);
         });
     }
   }, [fetched]);
@@ -124,7 +123,7 @@ const Offer = () => {
   }, [loanAmount]);
 
   useEffect(() => {
-    var pF = Math.ceil((parseInt(loanAmount) * fees) / 100);
+    let pF = Math.ceil((parseInt(loanAmount) * fees) / 100);
     setProcessingFees(pF);
     dispatch(addProcessingFees(pF));
     dispatch(addNetAmount(parseInt(loanAmount) - pF));
@@ -133,17 +132,17 @@ const Offer = () => {
   }, [loanAmount, processingFees]);
 
   const APR = (processingFees, loanAmount) => {
-    var today = new Date();
-    var dueDateComponents = ewaLiveSlice.dueDate.split("/");
-    var dueDate = new Date(
+    let today = new Date();
+    let dueDateComponents = ewaLiveSlice.dueDate.split("/");
+    let dueDate = new Date(
       dueDateComponents[2],
-      parseInt(dueDateComponents[1])-1,
+      parseInt(dueDateComponents[1]) - 1,
       dueDateComponents[0]
     );
     console.log(`dueDate, today: ${dueDate}, ${today}`);
-    var timeDiff = dueDate.getTime() - today.getTime();
-    var daysDiff = parseInt(timeDiff / (1000 * 3600 * 24)) + 1;
-    var apr = 100 * (processingFees / parseInt(loanAmount)) * (365 / daysDiff);
+    let timeDiff = dueDate.getTime() - today.getTime();
+    let daysDiff = parseInt(timeDiff / (1000 * 3600 * 24)) + 1;
+    let apr = 100 * (processingFees / parseInt(loanAmount)) * (365 / daysDiff);
     console.log(
       "processingFees, loanAmount, daysDiff, APR: ",
       processingFees,
@@ -163,7 +162,7 @@ const Offer = () => {
       navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarConfirm" });
     } else if (aadhaarVerifyStatus != "SUCCESS") {
       navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarForm" });
-    }  else if (panVerifyStatus === "INPROGRESS_CONFIRMATION") {
+    } else if (panVerifyStatus === "INPROGRESS_CONFIRMATION") {
       navigation.navigate("EWA_KYC_STACK", { screen: "PanConfirm" });
     } else if (panVerifyStatus != "SUCCESS") {
       navigation.navigate("EWA_KYC_STACK", { screen: "PanForm" });
@@ -179,35 +178,32 @@ const Offer = () => {
   function handleAmount() {
     setLoading(true);
     if (validAmount) {
-      updateOfferMutateAsync({
-        data: {
-          offerId: ewaLiveSlice.offerId,
-          unipeEmployeeId: unipeEmployeeId,
-          status: "CONFIRMED",
-          timestamp: Date.now(),
-          ipAddress: ipAddress,
-          deviceId: deviceId,
-          loanAmount: parseInt(loanAmount),
-          campaignId: campaignId,
-        },
-        token: token,
-        xpath: "ewa/offer",
-      })
+      let data = {
+        offerId: ewaLiveSlice.offerId,
+        unipeEmployeeId: unipeEmployeeId,
+        status: "CONFIRMED",
+        timestamp: Date.now(),
+        ipAddress: ipAddress,
+        deviceId: deviceId,
+        loanAmount: parseInt(loanAmount),
+        campaignId: campaignId,
+      };
+      updateOffer(data)
         .then((response) => {
           console.log("updateOfferMutateAsync response.data: ", response.data);
           setLoading(false);
           handleConditionalNav();
-          Analytics.trackEvent("Ewa|OfferPush|Success", {
+          analytics().logEvent("Ewa_OfferPush_Success", {
             unipeEmployeeId: unipeEmployeeId,
           });
         })
         .catch((error) => {
-          console.log("updateOfferMutateAsync error: ", JSON.stringify(error));
+          console.log("updateOfferMutateAsync error: ", error.message);
           setLoading(false);
-          Alert.alert("An Error occured", JSON.stringify(error));
-          Analytics.trackEvent("Ewa|OfferPush|Error", {
+          Alert.alert("An Error occured", error.message);
+          analytics().logEvent("Ewa_OfferPush_Error", {
             unipeEmployeeId: unipeEmployeeId,
-            error: JSON.stringify(error),
+            error: error.message,
           });
         });
     }

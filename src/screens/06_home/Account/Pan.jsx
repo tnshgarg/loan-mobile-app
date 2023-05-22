@@ -30,7 +30,7 @@ const Pan = () => {
   }, [verifyStatus]);
 
   const cardData = () => {
-    var res = [
+    let res = [
       { subTitle: "Name", value: data?.name, fullWidth: true },
       { subTitle: "Number", value: number },
       { subTitle: "Date of Birth", value: data?.date_of_birth },
@@ -55,7 +55,7 @@ const Pan = () => {
       disable: true,
     },
   ];
-
+  
   return (
     <SafeAreaView style={styles.safeContainer}>
       {verifyStatus == "SUCCESS" ? (

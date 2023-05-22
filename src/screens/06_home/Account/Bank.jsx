@@ -26,7 +26,7 @@ const Bank = () => {
   }, [verifyStatus]);
 
   const cardData = () => {
-    var res = [
+    let res = [
       {
         subTitle: "Account Holder Name",
         value: data?.accountHolderName,
