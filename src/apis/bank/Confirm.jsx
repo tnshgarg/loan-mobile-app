@@ -33,39 +33,6 @@ const BankConfirmApi = (props) => {
       campaignId: campaignId,
     };
 
-<<<<<<< HEAD
-    const response = await putBackendData({
-      data: payload,
-      xpath: "bank",
-      token: token,
-    });
-    const responseJson = response?.data;
-
-    if (responseJson.status === 200) {
-      if (verifyStatus === "REJECTED") {
-        if (props?.route?.params?.type === "KYC") {
-          navigation.navigate("KYC", {
-            screen: "BANK",
-            params: {
-              screen: "Form",
-            },
-          });
-        } else {
-          navigation.navigate("BankForm");
-        }
-      } else if (verifyStatus === "SUCCESS") {
-        if (props?.route?.params?.type === "KYC") {
-          navigation.navigate("KYC", {
-            screen: "BANK",
-          });
-        } else {
-          navigation.replace("EWA_MANDATE");
-        }
-      }
-    } else {
-      Alert.alert("Error", JSON.stringify(responseJson));
-    }
-=======
     updateBank(payload)
       .unwrap()
       .then((res) => {
@@ -93,7 +60,6 @@ const BankConfirmApi = (props) => {
       .catch((error) => {
         showToast(error?.message, "error");
       });
->>>>>>> 4a032a63e7ba8a94d80332aff165be27666bdee0
   };
 
   const cardData = () => {

@@ -32,39 +32,6 @@ const AadhaarConfirmApi = (props) => {
       campaignId: campaignId,
     };
 
-<<<<<<< HEAD
-    const response = await putBackendData({
-      data: payload,
-      xpath: "aadhaar",
-      token: token,
-    });
-    const responseJson = response?.data;
-
-    if (responseJson.status === 200) {
-      if (verifyStatus === "REJECTED") {
-        if (props?.route?.params?.type === "KYC") {
-          navigation.navigate("KYC", {
-            screen: "AADHAAR",
-            params: {
-              screen: "Form",
-            },
-          });
-        } else {
-          navigation.navigate("AadhaarForm");
-        }
-      } else if (verifyStatus === "SUCCESS") {
-        if (props?.route?.params?.type === "KYC") {
-          navigation.navigate("KYC", {
-            screen: "AADHAAR",
-          });
-        } else {
-          navigation.navigate("PanForm");
-        }
-      }
-    } else {
-      Alert.alert("Error", JSON.stringify(responseJson));
-    }
-=======
     updateAadhaar(payload)
       .unwrap()
       .then((res) => {
@@ -92,7 +59,6 @@ const AadhaarConfirmApi = (props) => {
       .catch((error) => {
         showToast(error?.message, "error");
       });
->>>>>>> 4a032a63e7ba8a94d80332aff165be27666bdee0
   };
 
   const cardData = () => {
