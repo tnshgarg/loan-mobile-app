@@ -12,6 +12,7 @@ import SvgContainer from "../components/atoms/SvgContainer";
 import LinearGradient from "react-native-linear-gradient";
 import PrimaryButton from "../components/atoms/PrimaryButton";
 import { useSelector } from "react-redux";
+import Badge from "../components/atoms/Badge";
 
 const KycProgress = () => {
   const profileComplete = useSelector((state) => state.profile.profileComplete);
@@ -90,19 +91,8 @@ const KycProgress = () => {
                 <Tick />
               </SvgContainer>
             )}
-            <LinearGradient
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              colors={["rgba(110, 220, 133,0.3)", "rgba(237, 251, 139,0.3)"]}
-              style={{
-                paddingHorizontal: 10,
-                paddingVertical: 5,
-                borderRadius: 20,
-                marginLeft: 10,
-              }}
-            >
-              <Text style={{ ...FONTS.h5 }}>STEP {index + 1}</Text>
-            </LinearGradient>
+
+            <Badge text={`STEP ${index + 1}`} />
           </TouchableOpacity>
         ))}
         <View style={{ flex: 1 }} />

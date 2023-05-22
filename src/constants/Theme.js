@@ -107,7 +107,7 @@ export const FONTS = {
   h4: {
     fontFamily: "Proxima Nova Bold",
     fontSize: SIZES.h4,
-    lineHeight: normalize(20),
+    lineHeight: normalize(18),
   },
   h5: {
     fontFamily: "Proxima Nova Bold",
@@ -132,12 +132,12 @@ export const FONTS = {
   body4: {
     fontFamily: "Proxima Nova Regular",
     fontSize: SIZES.body4,
-    lineHeight: normalize(20),
+    lineHeight: normalize(18),
   },
   body5: {
     fontFamily: "Proxima Nova Regular",
     fontSize: SIZES.body5,
-    lineHeight: normalize(22),
+    lineHeight: normalize(16),
   },
 };
 

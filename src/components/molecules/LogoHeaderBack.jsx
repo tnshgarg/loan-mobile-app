@@ -8,11 +8,12 @@ import SvgContainer from "../atoms/SvgContainer";
 
 const LogoHeaderBack = ({
   onLeftIconPress,
-  rightOnPress,
+  onRightIconPress,
   title,
   skipEnabled,
   headline,
   subHeadline,
+  containerStyle,
 }) => {
   return (
     <LogoHeader
@@ -23,22 +24,19 @@ const LogoHeaderBack = ({
           color={COLORS.secondary}
         />
       }
+      containerStyle={{ ...containerStyle }}
       leftOnPress={onLeftIconPress}
       title={title}
       headline={headline}
       subHeadline={subHeadline}
       rightIcon={
-        <SvgContainer height={38} width={38}>
-          <Help />
-        </SvgContainer>
+        onRightIconPress && (
+          <SvgContainer height={42} width={42}>
+            <Help />
+          </SvgContainer>
+        )
       }
-      rightOnPress={
-        skipEnabled
-          ? rightOnPress
-          : () => {
-              Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
-            }
-      }
+      rightOnPress={onRightIconPress}
     />
   );
 };

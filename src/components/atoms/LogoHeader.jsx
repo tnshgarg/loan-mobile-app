@@ -20,8 +20,8 @@ const LogoHeader = ({
   };
 
   return (
-    <View style={styles.mainContainer}>
-      <View style={[styles.container, { ...containerStyle }]}>
+    <View style={[styles.mainContainer, { ...containerStyle }]}>
+      <View style={[styles.container]}>
         {leftIcon && (
           <TouchableOpacity
             activeOpacity={0.7}
@@ -67,7 +67,7 @@ const styles = EStyleSheet.create({
     backgroundColor: COLORS.headerBg,
     flexDirection: "column",
     padding: "20rem",
-    paddingTop: "10rem",
+    paddingVertical: "10rem",
     borderBottomLeftRadius: "10rem",
     borderBottomRightRadius: "10rem",
     // paddingHorizontal: "15rem",

@@ -8,12 +8,8 @@ import Help from "../../assets/Help.svg";
 
 const HelpHeader = ({
   containerStyle,
-  leftIcon,
-  leftOnPress,
-  rightIcon,
-  rightOnPress,
-  title,
-  headline,
+
+  onPress,
 }) => {
   const EmptyView = () => {
     return <View style={styles.empty} />;
@@ -29,7 +25,7 @@ const HelpHeader = ({
         },
       ]}
     >
-      <TouchableOpacity activeOpacity={0.7} onPress={rightOnPress}>
+      <TouchableOpacity activeOpacity={0.7} onPress={onPress}>
         <SvgContainer height={36} width={36}>
           <Help />
         </SvgContainer>

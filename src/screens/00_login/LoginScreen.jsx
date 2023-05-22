@@ -216,15 +216,27 @@ const LoginScreen = () => {
   const data = [
     {
       title: "0% Interest Charges",
-      imageUri: <Tick />,
+      imageUri: (
+        <SvgContainer height={24} width={24}>
+          <Tick />
+        </SvgContainer>
+      ),
     },
     {
       title: "No Joining Fees",
-      imageUri: <Tick />,
+      imageUri: (
+        <SvgContainer height={24} width={24}>
+          <Tick />
+        </SvgContainer>
+      ),
     },
     {
       title: "Instant cash in bank account",
-      imageUri: <Tick />,
+      imageUri: (
+        <SvgContainer height={24} width={24}>
+          <Tick />
+        </SvgContainer>
+      ),
     },
   ];
 

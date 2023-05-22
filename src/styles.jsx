@@ -249,7 +249,7 @@ export const onboardingStyles = EStyleSheet.create({
     marginLeft: "-20rem",
   },
   alertBox: {
-    backgroundColor: "rgba(255, 193, 33, 0.33)",
+    //backgroundColor: "#46A7AA",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",

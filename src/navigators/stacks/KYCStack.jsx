@@ -20,7 +20,7 @@ const KYCStack = () => {
     <Stack.Navigator
       screenOptions={{ animation: "slide_from_right" }}
       // initialRouteName={initialRoute}
-      initialRouteName={"PanConfirm"}
+      initialRouteName={"PanForm"}
     >
       <Stack.Screen
         name="KycProgress"

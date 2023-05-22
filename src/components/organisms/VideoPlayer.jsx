@@ -45,7 +45,9 @@ export default function VideoPlayer({ thumbnail, title, videoId }) {
             color={COLORS.white}
             onPress={() => videoId?.length > 0 && setVisible(true)}
           />
-          <Text style={{ ...FONTS.h3, color: COLORS.white }}>{title}</Text>
+          {title && (
+            <Text style={{ ...FONTS.h3, color: COLORS.white }}>{title}</Text>
+          )}
         </View>
       </ImageBackground>
 
