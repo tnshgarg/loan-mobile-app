@@ -5,7 +5,7 @@ import { Button } from "@react-native-material/core";
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
-import Analytics from "appcenter-analytics";
+import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import { putBackendData } from "../../services/employees/employeeServices";
 
@@ -98,8 +98,11 @@ const AadhaarConfirmApi = (props) => {
             backendPush({
               verifyStatus: "REJECTED",
             });
-            Analytics.trackEvent("Aadhaar|Confirm|Error", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Aadhaar",
+              action: "Confirm",
+              status: "Error",
               error: "Rejected by User",
             });
           }}
@@ -118,8 +121,11 @@ const AadhaarConfirmApi = (props) => {
             backendPush({
               verifyStatus: "SUCCESS",
             });
-            Analytics.trackEvent("Aadhaar|Confirm|Success", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Aadhaar",
+              action: "Confirm",
+              status: "Success"
             });
           }}
         />

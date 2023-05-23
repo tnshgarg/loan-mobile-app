@@ -1,4 +1,4 @@
-import Analytics from "appcenter-analytics";
+import Analytics from "../../helpers/analytics/commonAnalytics";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View, Linking} from "react-native";
@@ -160,8 +160,11 @@ const LoginScreen = () => {
             .then((result) => {
               if (result["response"]["status"] === "success") {
                 setLoading(false);
-                Analytics.trackEvent("LoginScreen|SendSms|Success", {
-                  unipeEmployeeId: unipeEmployeeId,
+                Analytics.trackEvent({
+                  interaction: InteractionTypes.BUTTON_PRESS,
+                  component: "LoginScreen",
+                  action: "SendSms",
+                  status: "Success"
                 });
                 navigation.navigate("Otp");
               } else {
@@ -170,8 +173,11 @@ const LoginScreen = () => {
                   result["response"]["status"],
                   result["response"]["details"]
                 );
-                Analytics.trackEvent("LoginScreen|SendSms|Error", {
-                  unipeEmployeeId: unipeEmployeeId,
+                Analytics.trackEvent({
+                  interaction: InteractionTypes.BUTTON_PRESS,
+                  component: "LoginScreen",
+                  action: "SendSms",
+                  status: "Error",
                   error: result["response"]["details"],
                 });
               }
@@ -179,15 +185,22 @@ const LoginScreen = () => {
             .catch((error) => {
               setLoading(false);
               Alert.alert("Error", JSON.stringify(error));
-              Analytics.trackEvent("LoginScreen|SendSms|Error", {
-                unipeEmployeeId: unipeEmployeeId,
+              Analytics.trackEvent({
+                interaction: InteractionTypes.BUTTON_PRESS,
+                component: "LoginScreen",
+                action: "SendSms",
+                status: "Error",
                 error: JSON.stringify(error),
               });
             });
         } else {
           setLoading(false);
           Alert.alert("Error", responseJson["message"]);
-          Analytics.trackEvent("LoginScreen|SignIn|Error", {
+          Analytics.trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            component: "LoginScreen",
+            action: "SignIn",
+            status: "Error",
             phoneNumber: phoneNumber,
             error: responseJson["message"],
           });
@@ -196,7 +209,11 @@ const LoginScreen = () => {
       .catch((error) => {
         setLoading(false);
         Alert.alert("Error", JSON.stringify(error));
-        Analytics.trackEvent("LoginScreen|SignIn|Error", {
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "LoginScreen",
+          action: "SignIn",
+          status: "Error",
           phoneNumber: phoneNumber,
           error: JSON.stringify(error),
         });

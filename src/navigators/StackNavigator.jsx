@@ -29,23 +29,25 @@ const StackNavigator = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    decode(
-      token, // the token
-      "Un!pe@2*22", // the secret
-      {
-        skipValidation: false, // to skip signature and exp verification
-      }
-    )
-      .then(() => {
-        showToast("Your Session has expired. Please login again.");
-        dispatch({ type: "LOGOUT" });
-        setModalVisible(true);
-        setTimeout(() => {
-          setModalVisible(false);
-          navigation.navigate("OnboardingStack", { screen: "Login" });
-        }, 8000);
-      })
-      .catch(console.log);
+    if (token) {
+      decode(
+        token, // the token
+        "Un!pe@2*22", // the secret
+        {
+          skipValidation: false, // to skip signature and exp verification
+        }
+      )
+        .then(() => {
+          showToast("Your Session has expired. Please login again.");
+          dispatch({ type: "LOGOUT" });
+          setModalVisible(true);
+          setTimeout(() => {
+            setModalVisible(false);
+            navigation.navigate("OnboardingStack", { screen: "Login" });
+          }, 8000);
+        })
+        .catch(console.log);
+    }
   }, [token]);
 
   console.log("STAGE: ", STAGE);

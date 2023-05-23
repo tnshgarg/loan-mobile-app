@@ -7,7 +7,7 @@ import {
   addVerifyStatus,
 } from "../../store/slices/aadhaarSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics from "appcenter-analytics";
+import Analytics from "../../helpers/analytics/commonAnalytics";
 import { putBackendData } from "../../services/employees/employeeServices";
 
 const AadhaarVerifyApi = (props) => {
@@ -44,8 +44,11 @@ const AadhaarVerifyApi = (props) => {
           if (responseJson?.status === 200) {
             props.setVerified(true);
             dispatch(addData(responseJson?.body?.data));
-            Analytics.trackEvent("Aadhaar|Verify|Success", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Aadhaar",
+              action: "Verify",
+              status: "Success"
             });
             setLoading(false);
             dispatch(addVerifyStatus(responseJson?.body?.verifyStatus));
@@ -58,8 +61,11 @@ const AadhaarVerifyApi = (props) => {
         } catch (error) {
           console.log("kyc/aadhaar-submit-otp error: ", error);
           dispatch(addVerifyStatus("ERROR"));
-          Analytics.trackEvent("Aadhaar|Verify|Error", {
-            unipeEmployeeId: unipeEmployeeId,
+          Analytics.trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            component: "Aadhaar",
+            action: "Verify",
+            status: "Error",
             error: `submitAadhaarOTP API Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
           });
           if (error?.status === 406) {
@@ -75,8 +81,11 @@ const AadhaarVerifyApi = (props) => {
       .catch((error) => {
         dispatch(addVerifyStatus("ERROR"));
         Alert.alert("submitAadhaarOTP Catch Error", JSON.stringify(error));
-        Analytics.trackEvent("Aadhaar|Verify|Error", {
-          unipeEmployeeId: unipeEmployeeId,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "Aadhaar",
+          action: "Verify",
+          status: "Error",
           error: `submitAadhaarOTP Catch Error: ${JSON.stringify(error)}`,
         });
         setLoading(false);

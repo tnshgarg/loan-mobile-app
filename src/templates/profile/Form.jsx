@@ -17,7 +17,7 @@ import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import FormInput from "../../components/atoms/FormInput";
 import DropDownForm from "../../components/molecules/DropDownForm";
-import Analytics from "appcenter-analytics";
+import Analytics from "../../helpers/analytics/commonAnalytics";
 import { showToast } from "../../components/atoms/Toast";
 
 const ProfileFormTemplate = ({ type }) => {
@@ -229,8 +229,11 @@ const ProfileFormTemplate = ({ type }) => {
             disabled={!next}
             onPress={() => {
               backendPush();
-              Analytics.trackEvent("ProfileForm|PushData|Success", {
-                unipeEmployeeId: unipeEmployeeId,
+              Analytics.trackEvent({
+                interaction: InteractionTypes.BUTTON_PRESS,
+                component: "ProfileForm",
+                action: "PushData",
+                status: "Success"
               });
             }}
           />

@@ -8,15 +8,19 @@ import InvestSVG from "../../../assets/Invest.svg";
 import PrimaryButton from "../../../components/atoms/PrimaryButton";
 import LiquiloansTitle from "../../../components/atoms/LiquiloansTitle";
 
-import Analytics from "appcenter-analytics";
+import Analytics, { InteractionTypes } from "../../../helpers/analytics/commonAnalytics";
+
 import { useSelector } from "react-redux";
 import { showToast } from "../../../components/atoms/Toast";
 
 const Invest = (props) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   useEffect(() => {
-    Analytics.trackEvent("Invest|Visited", {
-      unipeEmployeeId: unipeEmployeeId,
+    Analytics.trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      component: "InvestPage",
+      action: "Visited",
+      status: ""
     });
   }, []);
   return (
@@ -56,8 +60,11 @@ const Invest = (props) => {
         <PrimaryButton
           title="Invest now"
           onPress={() => {
-            Analytics.trackEvent("Invest|WaitListed", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Invest",
+              action: "WaitListed",
+              status: ""
             });
             showToast("You've joined the waitlist for Unipe Invest!!");
           }}

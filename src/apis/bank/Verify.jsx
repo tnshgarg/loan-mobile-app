@@ -10,7 +10,7 @@ import {
   addVerifyStatus,
 } from "../../store/slices/bankSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics from "appcenter-analytics";
+import Analytics from "../../helpers/analytics/commonAnalytics";
 import { putBackendData } from "../../services/employees/employeeServices";
 
 const BankVerifyApi = (props) => {
@@ -58,8 +58,11 @@ const BankVerifyApi = (props) => {
             if (props.type !== "KYC") {
               navigation.navigate("BankConfirm");
             }
-            Analytics.trackEvent("Bank|Verify|Success", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Bank",
+              action: "Verify",
+              status: "Success"
             });
             setLoading(false);
           } else {
@@ -68,8 +71,11 @@ const BankVerifyApi = (props) => {
         } catch (error) {
           dispatch(addVerifyStatus("ERROR"));
           Alert.alert("verifyBankAccount API Catch Error", JSON.stringify(error));
-          Analytics.trackEvent("Bank|Verify|Error", {
-            unipeEmployeeId: unipeEmployeeId,
+          Analytics.trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            component: "Bank",
+            action: "Verify",
+            status: "Error",
             error: `verifyBankAccount API Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
           });
           setLoading(false);
@@ -78,8 +84,11 @@ const BankVerifyApi = (props) => {
       .catch((error) => {
         dispatch(addVerifyStatus("ERROR"));
         Alert.alert("verifyBankAccount Catch Error", JSON.stringify(error));
-        Analytics.trackEvent("Bank|Verify|Error", {
-          unipeEmployeeId: unipeEmployeeId,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "Bank",
+          action: "Verify",
+          status: "Error",
           error: `verifyBankAccount Catch Error: ${JSON.stringify(error)}`,
         });
         setLoading(false);

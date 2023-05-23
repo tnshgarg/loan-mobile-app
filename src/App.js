@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { queryClient } from "./queries/client";
 import { QueryClientProvider } from "@tanstack/react-query";
-import Analytics from "appcenter-analytics";
+import Analytics from "./helpers/analytics/commonAnalytics";
 import Crashes from "appcenter-crashes";
 import { navigationRef } from "./navigators/RootNavigation";
 import StackNavigator from "./navigators/StackNavigator";
@@ -21,9 +21,7 @@ Crashes.setListener({
 });
 
 const analyticsStatus = async () => {
-  Analytics.setEnabled(true);
-  const enabled = await Analytics.isEnabled();
-  console.log("Analytics.isEnabled", enabled);
+  await Analytics.init();
 };
 
 const App = () => {

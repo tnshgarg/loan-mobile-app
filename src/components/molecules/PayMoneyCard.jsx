@@ -1,5 +1,5 @@
 import { useIsFocused } from "@react-navigation/core";
-import Analytics from "appcenter-analytics";
+import Analytics from "../../helpers/analytics/commonAnalytics";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -146,8 +146,11 @@ const PayMoneyCard = () => {
         provider: "razorpay",
         checkoutMsg: "Repayment Initiated from App Checkout Success",
       };
-      Analytics.trackEvent("Ewa|Repayment|Success", {
-        unipeEmployeeId: unipeEmployeeId,
+      Analytics.trackEvent({
+        interaction: InteractionTypes.BUTTON_PRESS,
+        component: "Ewa",
+        action: "Repayment",
+        status: "Success",
       });
       
     } catch (error) {
@@ -158,8 +161,11 @@ const PayMoneyCard = () => {
         provider: "razorpay",
         checkoutMsg: JSON.stringify(error),
       };
-      Analytics.trackEvent("Ewa|Repayment|Error", {
-        unipeEmployeeId: unipeEmployeeId,
+      Analytics.trackEvent({
+        interaction: InteractionTypes.BUTTON_PRESS,
+        component: "Ewa",
+        action: "Repayment",
+        status: "Error",
       });
     } finally {
       backendPush({
@@ -192,8 +198,11 @@ const PayMoneyCard = () => {
         });
       } catch (error) {
         Alert.alert("Error", JSON.stringify(error));
-        Analytics.trackEvent("Ewa|Repayment|Error", {
-          unipeEmployeeId: unipeEmployeeId,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "Ewa",
+          action: "Repayment",
+          status: "Error",
           error: JSON.stringify(error),
         });
         setLoading(false);

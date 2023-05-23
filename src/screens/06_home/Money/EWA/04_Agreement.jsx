@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import Analytics from "appcenter-analytics";
+import Analytics from "../../../../helpers/analytics/commonAnalytics";
 import { useEffect, useState } from "react";
 import {
   Alert,
@@ -223,8 +223,11 @@ const Agreement = () => {
         dispatch(resetEwaLive());
         dispatch(resetEwaHistorical([]));
         setLoading(false);
-        Analytics.trackEvent("Ewa|Agreement|Success", {
-          unipeEmployeeId: unipeEmployeeId,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "Ewa",
+          action: "Agreement",
+          status: "Success",
         });
         navigation.navigate("EWA_DISBURSEMENT", { offer: ewaLiveSlice });
       })
@@ -232,8 +235,11 @@ const Agreement = () => {
         console.log("ewaAgreementPush error: ", JSON.stringify(error));
         setLoading(false);
         Alert.alert("An Error occured", JSON.stringify(error));
-        Analytics.trackEvent("Ewa|Agreement|Error", {
-          unipeEmployeeId: unipeEmployeeId,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "Ewa",
+          action: "Agreement",
+          status: "Error",
           error: JSON.stringify(error),
         });
       });

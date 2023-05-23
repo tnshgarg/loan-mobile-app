@@ -7,7 +7,7 @@ import { addVerifyMsg, addVerifyStatus } from "../../store/slices/licenseSlice";
 import { licenseBackendPush } from "../../helpers/BackendPush";
 import { form, license, styles, selfie } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
-import Analytics from "appcenter-analytics";
+import Analytics from "../../helpers/analytics/commonAnalytics";
 
 export default Confirm = () => {
   const dispatch = useDispatch();
@@ -144,8 +144,11 @@ export default Confirm = () => {
           onPress={() => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
-            Analytics.trackEvent("Licence|Confirm|Error", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Licence",
+              action: "Confirm",
+              status: "Error",
               error: "Rejected by User",
             });
             navigation.navigate("Documents", {
@@ -169,7 +172,11 @@ export default Confirm = () => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
-            Analytics.trackEvent("Licence|Confirm|Success", {
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Licence",
+              action: "Confirm",
+              status: "Success",
               unipeEmployeeId: unipeEmployeeId,
             });
             navigation.navigate("Documents", {

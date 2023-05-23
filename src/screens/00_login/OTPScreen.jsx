@@ -18,7 +18,7 @@ import { addToken } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics from "appcenter-analytics";
+import Analytics from "../../helpers/analytics/commonAnalytics";
 import { styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
@@ -98,21 +98,30 @@ const OTPScreen = () => {
               },
             },
           ]);
-          Analytics.trackEvent("OTPScreen|SendSms|Success", {
-            unipeEmployeeId: unipeEmployeeId,
+          Analytics.trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            component: "OTPScreen",
+            action: "SendSms",
+            status: "Success",
           });
         } else {
           Alert.alert(res["response"]["status"], res["response"]["details"]);
-          Analytics.trackEvent("OTPScreen|SendSms|Error", {
-            unipeEmployeeId: unipeEmployeeId,
+          Analytics.trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            component: "OTPScreen",
+            action: "SendSms",
+            status: "Error",
             error: res["response"]["details"],
           });
         }
       })
       .catch((error) => {
         Alert.alert("Error", JSON.stringify(error));
-        Analytics.trackEvent("OTPScreen|SendSms|Error", {
-          unipeEmployeeId: unipeEmployeeId,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "OTPScreen",
+          action: "SendSms",
+          status: "Error",
           error: JSON.stringify(error),
         });
       });
@@ -128,22 +137,30 @@ const OTPScreen = () => {
           navigation.navigate("BackendSync", {
             destination: "HomeStack",
           });
-          Analytics.trackEvent("OTPScreen|Check|Success", {
-            unipeEmployeeId: unipeEmployeeId,
-            error: res["response"]["details"],
+          Analytics.trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            component: "OTPScreen",
+            action: "Check",
+            status: "Success"
           });
         } else {
           Alert.alert(res["response"]["status"], res["response"]["details"]);
-          Analytics.trackEvent("OTPScreen|Check|Error", {
-            unipeEmployeeId: unipeEmployeeId,
+          Analytics.trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            component: "OTPScreen",
+            action: "Check",
+            status: "Error",
             error: res["response"]["details"],
           });
         }
       })
       .catch((error) => {
         Alert.alert("Error", JSON.stringify(error));
-        Analytics.trackEvent("OTPScreen|Check|Error", {
-          unipeEmployeeId: unipeEmployeeId,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "OTPScreen",
+          action: "Check",
+          status: "Error",
           error: JSON.stringify(error),
         });
       });

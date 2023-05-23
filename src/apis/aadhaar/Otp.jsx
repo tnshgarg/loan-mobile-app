@@ -7,7 +7,7 @@ import {
 } from "../../store/slices/aadhaarSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics from "appcenter-analytics";
+import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { putBackendData } from "../../services/employees/employeeServices";
 import { showToast } from "../../components/atoms/Toast";
@@ -50,8 +50,11 @@ const AadhaarOtpApi = (props) => {
           if (responseJson?.status === 200) {
             dispatch(resetTimer());
             showToast(responseJson?.body?.message);
-            Analytics.trackEvent("Aadhaar|Otp|Success", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Aadhaar",
+              action: "Otp",
+              status: "Success"
             });
             setLoading(false);
             dispatch(addVerifyStatus(responseJson?.body?.verifyStatus));
@@ -64,8 +67,11 @@ const AadhaarOtpApi = (props) => {
         } catch (error) {
           dispatch(addVerifyStatus("ERROR"));
           Alert.alert("generateAadhaarOTP API Catch Error", JSON.stringify(error));
-          Analytics.trackEvent("Aadhaar|Otp|Error", {
-            unipeEmployeeId: unipeEmployeeId,
+          Analytics.trackEvent( {
+            interaction: InteractionTypes.BUTTON_PRESS,
+            component: "Aadhaar",
+            action: "Otp",
+            status: "Error",
             error: `generateAadhaarOTP API Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
           });
           setLoading(false);
@@ -74,8 +80,11 @@ const AadhaarOtpApi = (props) => {
       .catch((error) => {
         dispatch(addVerifyStatus("ERROR"));
         Alert.alert("generateAadhaarOTP Catch Error", JSON.stringify(error));
-        Analytics.trackEvent("Aadhaar|Otp|Error", {
-          unipeEmployeeId: unipeEmployeeId,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "Aadhaar",
+          action: "Otp",
+          status: "Error",
           error: `generateAadhaarOTP API Catch Error: ${JSON.stringify(error)}`,
         });
         setLoading(false);

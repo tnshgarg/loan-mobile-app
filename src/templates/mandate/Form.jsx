@@ -20,7 +20,7 @@ import {
   openRazorpayCheckout
 } from "../../services/mandate/Razorpay/services";
 import { COLORS, FONTS } from "../../constants/Theme";
-import Analytics from "appcenter-analytics";
+import Analytics from "../../helpers/analytics/commonAnalytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import MandateOptions from "../../components/molecules/MandateOptions";
 import Shield from "../../assets/Shield.svg";
@@ -166,14 +166,20 @@ const MandateFormTemplate = (props) => {
         }
       })
       console.log("Mandate Checkout Success", res);
-      Analytics.trackEvent("Mandate|Authorize|InProgress|Checkout|Success", {
-        unipeEmployeeId: unipeEmployeeId,
+      Analytics.trackEvent({
+        interaction: InteractionTypes.BUTTON_PRESS,
+        component: "Mandate",
+        action: "AuthorizeCheckout",
+        status: "Success",
       });
       verifyMsg = "Mandate Initiated from App Checkout Success";
     } catch (error) {
       console.log("Mandate Checkout Error", error);
-      Analytics.trackEvent("createOrderandate|Authorize|InProgress|Checkout|Error", {
-        unipeEmployeeId: unipeEmployeeId,
+      Analytics.trackEvent({
+        interaction: InteractionTypes.BUTTON_PRESS,
+        component: "Mandate",
+        action: "AuthorizeCheckout",
+        status: "Checkout|Error",
       });
       verifyMsg =  JSON.stringify(error);
     } finally {
@@ -210,8 +216,11 @@ const MandateFormTemplate = (props) => {
       if (createOrderResponse.status === 200) {
         let razorpayOrder = createOrderResponse.body
         
-        Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Success`, {
-          unipeEmployeeId: unipeEmployeeId,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "Mandate",
+          action: `CreateOrder:${authType}`,
+          status: "Success"
         });
         await initiateRazorpayCheckout({
           orderId: razorpayOrder.id,
@@ -229,8 +238,11 @@ const MandateFormTemplate = (props) => {
       } else {
         Alert.alert("Create Order Error", JSON.stringify(error));
       }
-      Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Error`, {
-        unipeEmployeeId: unipeEmployeeId,
+      Analytics.trackEvent({
+        interaction: InteractionTypes.BUTTON_PRESS,
+        component: "Mandate",
+        action: `CreateOrder:${authType}`,
+        status: "Error",
         error: JSON.stringify(error),
       });
     } finally {

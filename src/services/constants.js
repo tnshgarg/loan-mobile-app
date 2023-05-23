@@ -5,7 +5,8 @@ import {
   RZP_DEV_KEY_ID,
 } from "@env";
 
-export const EMPLOYEE_API_URL = `https://api-${STAGE}.unipe.co/employee`;
+export const EMPLOYEE_API_URL = `https://api-${STAGE}.unipe.money/employee`;
+export const ANALYTICS_URL = "https://ate9ze8q87.execute-api.ap-south-1.amazonaws.com/" + (STAGE != "prod" ? STAGE : "");
 
 export const GUPSHUP_GENERATE_OTP_API_URL=`${EMPLOYEE_API_URL}/login/generate-otp`
 export const GUPSHUP_VERIFY_OTP_API_URL=`${EMPLOYEE_API_URL}/login/verify-otp`
