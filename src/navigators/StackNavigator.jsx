@@ -28,24 +28,28 @@ const StackNavigator = () => {
   var initialScreen = useSelector((state) => state.navigation.currentScreen);
   const [modalVisible, setModalVisible] = useState(false);
 
+  console.log({ token });
+
   useEffect(() => {
-    decode(
-      token, // the token
-      "Un!pe@2*22", // the secret
-      {
-        skipValidation: false, // to skip signature and exp verification
-      }
-    )
-      .then(() => {
-        showToast("Your Session has expired. Please login again.");
-        dispatch({ type: "LOGOUT" });
-        setModalVisible(true);
-        setTimeout(() => {
-          setModalVisible(false);
-          navigation.navigate("OnboardingStack", { screen: "Login" });
-        }, 8000);
-      })
-      .catch(console.log);
+    if (token) {
+      decode(
+        token, // the token
+        "Un!pe@2*22", // the secret
+        {
+          skipValidation: false, // to skip signature and exp verification
+        }
+      )
+        .then(() => {
+          showToast("Your Session has expired. Please login again.");
+          dispatch({ type: "LOGOUT" });
+          setModalVisible(true);
+          setTimeout(() => {
+            setModalVisible(false);
+            navigation.navigate("OnboardingStack", { screen: "Login" });
+          }, 8000);
+        })
+        .catch(console.log);
+    }
   }, [token]);
 
   console.log("STAGE: ", STAGE);
@@ -57,14 +61,14 @@ const StackNavigator = () => {
   return (
     <OfflineAlert>
       <Stack.Navigator initialRouteName={"Splash"}>
-        {/* <Stack.Screen
+        <Stack.Screen
           name="DevMenu"
           component={DevMenu}
           options={{
             headerShown: false,
             header: null,
           }}
-        /> */}
+        />
         {/* <Stack.Screen
           name="Splash"
           options={{ headerShown: false, header: null }}
@@ -74,15 +78,14 @@ const StackNavigator = () => {
             initialScreen: initialScreen,
           }}
         /> */}
-        {!token ? (
-          <Stack.Screen
-            name="OnboardingStack"
-            component={OnboardingStack}
-            options={{
-              headerShown: false,
-            }}
-          />
-        ) : (
+        <Stack.Screen
+          name="OnboardingStack"
+          component={OnboardingStack}
+          options={{
+            headerShown: false,
+          }}
+        />
+        {token && (
           <>
             <Stack.Screen
               name="BackendSync"

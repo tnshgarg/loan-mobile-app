@@ -1,10 +1,10 @@
 import { View, Text, Linking } from "react-native";
 import React from "react";
-import { Text, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { COLORS, FONTS } from "../../constants/Theme";
 import Help from "../../assets/Help.svg";
 import SvgContainer from "../atoms/SvgContainer";
+import LogoHeader from "../atoms/LogoHeader";
 
 const LogoHeaderBack = ({
   onLeftIconPress,

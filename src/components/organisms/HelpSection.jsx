@@ -197,10 +197,10 @@ const HelpSection = ({ visible, setVisible, data }) => {
                   <Image
                     source={item.imageUri}
                     style={{
-                      height: 280,
+                      height: 200,
                       width: "100%",
                     }}
-                    resizeMode="contain"
+                    resizeMode="cover"
                   />
                 )}
               </View>

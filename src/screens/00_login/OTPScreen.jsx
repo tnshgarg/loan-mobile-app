@@ -156,7 +156,8 @@ const OTPScreen = () => {
       .unwrap()
       .then((res) => {
         // TODO: Verify Response
-        dispatch(addToken(res["response"]["token"]));
+        console.log({ res });
+        dispatch(addToken(res["token"]));
         setVerified(true);
         navigation.navigate(isKycPending ? "HomeStack" : "LoginSuccess");
 

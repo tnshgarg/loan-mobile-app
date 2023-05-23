@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { BackHandler, SafeAreaView } from "react-native";
 import MandateFormTemplate from "../../../../templates/mandate/Form";
-import Header from "../../../../components/atoms/Header";
 import { styles } from "../../../../styles";
+import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 
 const Mandate = () => {
   const navigation = useNavigation();
@@ -31,10 +31,12 @@ const Mandate = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
-        title="Mandate"
+      <LogoHeaderBack
+        headline={"Add Repayment Method"}
         onLeftIconPress={() => backAction()}
-        progress={75}
+        subHeadline={
+          "एडवांस सैलरी का भुगतान करने के लिए, कृपया निम्नलिखित भुगतान विधियों में से एक का चयन करें:"
+        }
       />
 
       <MandateFormTemplate type="EWA" />

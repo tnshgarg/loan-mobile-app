@@ -37,20 +37,18 @@ const BankForm = () => {
     ],
     questions: [
       {
-        title: "Q: Do I need to pay for KYC",
-        subtitle: "A: No. KYC is FREE.",
+        title: "Q: Why do I need to add Bank Account?",
+        subtitle:
+          "A: Your advance salary money will be deposited in this account",
       },
       {
-        title: "Q: Why do I need to do KYC?",
-        subtitle: "A: No. KYC is FREE.",
+        title: "Q:  Is it mandatory to add my own Account?",
+        subtitle: "A: Yes. You need to provide your own Bank Account.",
       },
       {
-        title: "Q: How much time will KYC Process take?",
-        subtitle: "A: No. KYC is FREE.",
-      },
-      {
-        title: "Q: What happens if I don’t complete my minimum KYC?",
-        subtitle: "A: No. KYC is FREE.",
+        title: "Q: Do I need to submit physical document of Bank Account?",
+        subtitle:
+          "A: No. Bank Account addition is a completely paperless process.",
       },
     ],
   };

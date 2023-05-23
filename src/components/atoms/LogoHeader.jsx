@@ -95,5 +95,6 @@ const styles = EStyleSheet.create({
     ...FONTS.body3,
     color: COLORS.secondary,
     marginTop: "5rem",
+    marginBottom: "10rem",
   },
 });

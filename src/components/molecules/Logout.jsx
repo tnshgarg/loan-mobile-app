@@ -5,7 +5,6 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import { useDispatch } from "react-redux";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { AntDesign } from "react-native-vector-icons";
 import { useDispatch } from "react-redux";
 import SVGImg from "../../assets/UnipeLogo.svg";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";

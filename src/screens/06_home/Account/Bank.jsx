@@ -13,6 +13,7 @@ const Bank = () => {
 
   const verifyStatus = useSelector((state) => state.bank.verifyStatus);
   const data = useSelector((state) => state.bank.data);
+  console.log({ verifyStatus });
 
   useEffect(() => {
     if (verifyStatus == "INPROGRESS_CONFIRMATION") {

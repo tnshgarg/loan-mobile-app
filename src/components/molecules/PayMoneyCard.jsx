@@ -67,7 +67,7 @@ const PayMoneyCard = () => {
   useEffect(() => {
     console.log("ewaRepaymentFetch API: ", getRepaymentData);
     if (isFocused && !getRepaymentIsLoading) {
-      if (getRepaymentData.status === 200) {
+      if (getRepaymentData?.status === 200) {
         let repaymentAmount = Math.max(
           getRepaymentData?.body?.amount -
             (getRepaymentData?.body?.paidAmount ?? 0),
@@ -92,10 +92,10 @@ const PayMoneyCard = () => {
         } else if (repaymentAmount < 1 || repaymentStatus === "INPROGRESS") {
           setInactive(true);
         }
-      } else if (getRepaymentData.status === 404) {
+      } else if (getRepaymentError?.status === 404) {
         console.log(
           "ewaRepaymentFetch API status error getRepaymentData.data: ",
-          getRepaymentData.body
+          getRepaymentError.body
         );
         dispatch(resetRepayment());
         setDueDate(null);

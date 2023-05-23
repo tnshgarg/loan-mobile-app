@@ -110,12 +110,15 @@ const HomeView = () => {
     isError: getEwaOffersIsError,
     error: getEwaOffersError,
     data: getEwaOffersData,
-  } = useGetOffersQuery(unipeEmployeeId)
+  } = useGetOffersQuery(unipeEmployeeId);
 
   useEffect(() => {
     if (isFocused && getEwaOffersIsSuccess) {
-      console.log("HomeView ewaOffersFetch API getEwaOffersData : ", getEwaOffersData);
-      if (getEwaOffersData.status === 200) {
+      console.log(
+        "HomeView ewaOffersFetch API getEwaOffersData : ",
+        getEwaOffersData
+      );
+      if (getEwaOffersData?.status === 200) {
         if (Object.keys(getEwaOffersData.body.live).length !== 0) {
           const closureDays = getNumberOfDays({
             date: getEwaOffersData.body.live.dueDate,

@@ -54,12 +54,13 @@ const BankVerifyApi = (props) => {
         });
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(({ data, status }) => {
         dispatch(addVerifyStatus("ERROR"));
-        showToast(error?.message, "error");
+        console.log(data);
+        showToast(data?.error?.message, "error");
         analytics().logEvent("Bank_Verify_Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: `verifyBankAccount Catch Error: ${error.message}`,
+          error: `verifyBankAccount Catch Error: ${data?.error?.message}`,
         });
         setLoading(false);
       });
