@@ -10,15 +10,12 @@ export const loginApi = api.injectEndpoints({
         body: { mobileNumber: phoneNumber },
       }),
       transformResponse: (response) => {
-        if (response.response) {
-          return response.response;
-        } else {
-          throw Error(response.message);
-        }
+        return response;
       },
-      transformErrorResponse: (error) => {
-        return error;
-      },
+      transformErrorResponse: (response) => {
+        console.log("ErrorRes", response);
+        return response;
+      }
     }),
     verifyOtp: builder.mutation({
       query: (body) => ({
@@ -28,12 +25,15 @@ export const loginApi = api.injectEndpoints({
         body: body,
       }),
       transformResponse: (response) => {
-        if (response.response.status === "success") {
-          return response.response;
-        } else {
-          throw Error(response.response.details);
-        }
+        console.log("response", response);
+        return response;
       },
+      transformErrorResponse: (error) => {
+        console.log("ErrorRes", error);
+        if (error?.data) {
+          return error.data;
+        }
+      }
     }),
     overrideExisting: true,
   }),

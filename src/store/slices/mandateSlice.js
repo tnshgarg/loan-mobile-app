@@ -28,7 +28,6 @@ const mandateSlice = createSlice({
       state.verifyTimestamp = action.payload;
     },
     resetMandate(state, action) {
-      console.log("action.payload: ", action.payload);
       if (!action.payload || Object.keys(action.payload).length === 0) {
         Object.assign(state, initialState);
       } else {

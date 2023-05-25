@@ -61,12 +61,14 @@ const PayMoneyCard = () => {
     isError: getRepaymentIsError,
     error: getRepaymentError,
     data: getRepaymentData,
-  } = useGetRepaymentQuery(unipeEmployeeId);
+  } = useGetRepaymentQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 2,
+  });
 
   const [updateRepayment] = useUpdateRepaymentMutation();
   useEffect(() => {
-    console.log("ewaRepaymentFetch API: ", getRepaymentData);
-    if (isFocused && !getRepaymentIsLoading) {
+    if (isFocused && !getRepaymentIsLoading && !getRepaymentIsError) {
+      console.log("ewaRepaymentFetch API: ", getRepaymentData);
       if (getRepaymentData.status === 200) {
         let repaymentAmount = Math.max(
           getRepaymentData?.body?.amount -
@@ -108,7 +110,7 @@ const PayMoneyCard = () => {
     } else if (getRepaymentIsError) {
       console.log(
         "ewaRepaymentFetch API error getRepaymentError.message: ",
-        getRepaymentError.message
+        getRepaymentError
       );
       dispatch(resetRepayment());
       setInactive(true);

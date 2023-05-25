@@ -73,29 +73,6 @@ const Offer = () => {
     }
   }, [deviceId, ipAddress]);
 
-  useEffect(() => {
-    if (fetched) {
-      let data = {
-        offerId: ewaLiveSlice.offerId,
-        unipeEmployeeId: unipeEmployeeId,
-        status: "INPROGRESS",
-        timestamp: Date.now(),
-        ipAddress: ipAddress,
-        deviceId: deviceId,
-        campaignId: campaignId,
-      };
-
-      updateOffer(data)
-        .then((response) => {
-          console.log("updateOfferMutateAsync response.data: ", response.data);
-        })
-        .catch((error) => {
-          console.log("updateOfferMutateAsync error: ", error.message);
-          Alert.alert("An Error occured", error.message);
-        });
-    }
-  }, [fetched]);
-
   const backAction = () => {
     navigation.navigate("Money", { screen: "EWA" });
     return true;
@@ -154,6 +131,7 @@ const Offer = () => {
   };
 
   const handleConditionalNav = () => {
+    console.log( profileComplete, aadhaarVerifyStatus, panVerifyStatus, bankVerifyStatus , onboarded);
     if (!profileComplete) {
       navigation.navigate("EWA_KYC_STACK", { screen: "ProfileForm" });
     } else if (aadhaarVerifyStatus === "INPROGRESS_OTP") {
@@ -177,7 +155,7 @@ const Offer = () => {
 
   function handleAmount() {
     setLoading(true);
-    if (validAmount) {
+    if (validAmount && fetched) {
       let data = {
         offerId: ewaLiveSlice.offerId,
         unipeEmployeeId: unipeEmployeeId,

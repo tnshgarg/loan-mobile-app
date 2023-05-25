@@ -19,7 +19,9 @@ export default function MandateLoading({
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const navigation = useNavigation();
-  const { data, error, isLoading } = useGetMandateQuery(unipeEmployeeId);
+  const { data, error, isLoading } = useGetMandateQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 10,
+  });
   let interval;
 
   useEffect(() => {

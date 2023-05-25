@@ -46,6 +46,8 @@ const Disbursement = ({ route, navigation }) => {
     switch (status) {
       case "SUCCESS":
         return <Success />;
+      case "REJECTED":
+        return <Failure />;
       case "FAILURE":
         return <Failure />;
       default:
@@ -68,6 +70,11 @@ const Disbursement = ({ route, navigation }) => {
         return getStatusText(
           "Congratulations",
           "Your advance salary has been credited to your bank account."
+        );
+      case "REJECTED":
+        return getStatusText(
+          "Sorry",
+          "We cannot process your advance salary at this moment."
         );
       case "FAILURE":
         return getStatusText(
@@ -142,8 +149,8 @@ const Disbursement = ({ route, navigation }) => {
         // progress={100}
       />
       <View style={styles.container}>
-        {StatusImage(status)}
-        {StatusText(status)}
+        {StatusImage("REJECTED")}
+        {StatusText("REJECTED")}
         <DisbursementCard
           data={data}
           title="Loan Details"

@@ -21,27 +21,37 @@ const BackendSync = () => {
     data: aadhaarData,
     isLoading: aadhaarLoading,
     isError: aadhaarError,
-  } = useGetAadhaarQuery(unipeEmployeeId);
+  } = useGetAadhaarQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
   const {
     data: panData,
     isLoading: panLoading,
     isError: panError,
-  } = useGetPanQuery(unipeEmployeeId);
+  } = useGetPanQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
   const {
     data: bankData,
     isLoading: bankLoading,
     isError: bankError,
-  } = useGetBankQuery(unipeEmployeeId);
+  } = useGetBankQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
   const {
     data: profileData,
     isLoading: profileLoading,
     isError: profileError,
-  } = useGetProfileQuery(unipeEmployeeId);
+  } = useGetProfileQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
   const {
     data: mandateData,
     isLoading: mandateLoading,
     isError: mandateError,
-  } = useGetMandateQuery(unipeEmployeeId);
+  } = useGetMandateQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 2,
+  });
 
   useEffect(() => {
     console.log("BackendSync unipeEmployeeId: ", unipeEmployeeId);
