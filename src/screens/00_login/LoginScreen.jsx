@@ -158,7 +158,8 @@ const LoginScreen = () => {
           setUnipeEmployeeId(responseJson.body.unipeEmployeeId);
           sendSmsVerification(phoneNumber)
             .then((result) => {
-              if (result["response"]["status"] === "success") {
+              console.log(`result: ${JSON.stringify(result)}`);
+              if (result["status"] === "success") {
                 setLoading(false);
                 Analytics.trackEvent({
                   interaction: InteractionTypes.BUTTON_PRESS,
@@ -170,15 +171,15 @@ const LoginScreen = () => {
               } else {
                 setLoading(false);
                 Alert.alert(
-                  result["response"]["status"],
-                  result["response"]["details"]
+                  result["status"],
+                  result["details"]
                 );
                 Analytics.trackEvent({
                   interaction: InteractionTypes.BUTTON_PRESS,
                   component: "LoginScreen",
                   action: "SendSms",
                   status: "Error",
-                  error: result["response"]["details"],
+                  error: result["details"],
                 });
               }
             })

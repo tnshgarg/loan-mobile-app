@@ -86,7 +86,7 @@ const OTPScreen = () => {
   const onResendOtp = () => {
     sendSmsVerification(phoneNumber)
       .then((res) => {
-        if (res["response"]["status"] === "success") {
+        if (res["status"] === "success") {
           setOtp("");
           setBack(false);
           Alert.alert("OTP resent successfully", "", [
@@ -105,13 +105,13 @@ const OTPScreen = () => {
             status: "Success",
           });
         } else {
-          Alert.alert(res["response"]["status"], res["response"]["details"]);
+          Alert.alert(res["status"], res["details"]);
           Analytics.trackEvent({
             interaction: InteractionTypes.BUTTON_PRESS,
             component: "OTPScreen",
             action: "SendSms",
             status: "Error",
-            error: res["response"]["details"],
+            error: res["details"],
           });
         }
       })
@@ -131,8 +131,9 @@ const OTPScreen = () => {
     setNext(false);
     checkVerification(phoneNumber, otp)
       .then((res) => {
-        if (res["response"]["status"] === "success") {
-          dispatch(addToken(res["response"]["token"]));
+        console.log(res);
+        if (res?.status === 200) {
+          dispatch(addToken(res?.token));
           setVerified(true);
           navigation.navigate("BackendSync", {
             destination: "HomeStack",
@@ -144,18 +145,18 @@ const OTPScreen = () => {
             status: "Success"
           });
         } else {
-          Alert.alert(res["response"]["status"], res["response"]["details"]);
+          Alert.alert(res?.status, res?.details);
           Analytics.trackEvent({
             interaction: InteractionTypes.BUTTON_PRESS,
             component: "OTPScreen",
             action: "Check",
             status: "Error",
-            error: res["response"]["details"],
+            error: res["details"],
           });
         }
       })
       .catch((error) => {
-        Alert.alert("Error", JSON.stringify(error));
+        Alert.alert("Error", error);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
           component: "OTPScreen",

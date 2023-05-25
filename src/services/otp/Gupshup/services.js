@@ -34,7 +34,7 @@ const checkVerification = async (phoneNumber, code) => {
     );
     return response.data;
   } catch (error) {
-    console.error("Error: ", error);
+    console.error("Error:", JSON.stringify(error));
     return error;
   }
 };

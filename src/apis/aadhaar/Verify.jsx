@@ -79,6 +79,7 @@ const AadhaarVerifyApi = (props) => {
         }
       })
       .catch((error) => {
+        console.log("kyc/aadhaar-submit-otp error: ", error, JSON.stringify(error));
         dispatch(addVerifyStatus("ERROR"));
         Alert.alert("submitAadhaarOTP Catch Error", JSON.stringify(error));
         Analytics.trackEvent({
