@@ -20,7 +20,7 @@ import {
   openRazorpayCheckout
 } from "../../services/mandate/Razorpay/services";
 import { COLORS, FONTS } from "../../constants/Theme";
-import Analytics from "../../helpers/analytics/commonAnalytics";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import MandateOptions from "../../components/molecules/MandateOptions";
 import Shield from "../../assets/Shield.svg";

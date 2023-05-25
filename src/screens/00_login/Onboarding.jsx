@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import Analytics from "../../helpers/analytics/commonAnalytics";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 import { SafeAreaView, Text, View, Linking} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";

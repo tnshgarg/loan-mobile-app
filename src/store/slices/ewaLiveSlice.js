@@ -14,6 +14,7 @@ const initialState = {
   netAmount: 0,
   processingFees: 0,
   stage: "",
+  campaignImage: "",
 };
 
 const ewaLiveSlice = createSlice({
@@ -55,6 +56,7 @@ export const {
   addLoanAmount,
   addNetAmount,
   addProcessingFees,
+  addCampaignImage,
   resetEwaLive,
 } = ewaLiveSlice.actions;
 

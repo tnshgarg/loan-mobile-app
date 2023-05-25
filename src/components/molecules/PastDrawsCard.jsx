@@ -2,6 +2,7 @@ import { View, Text, ScrollView, TouchableNativeFeedback } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { COLORS, FONTS } from "../../constants/Theme";
 import EStyleSheet from "react-native-extended-stylesheet";
+import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
 
 const COLOR_MAP = {
   Due: "orange",
@@ -68,6 +69,13 @@ const OfferCard = ({ offer }) => {
     <TouchableNativeFeedback
       onPress={() => {
         if (offerType !== "Missed") {
+          Analytics.trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            component: "Money",
+            action: "OfferDetailsClick",
+            status: "",
+            offer: offer.offerId
+          });
           navigation.navigate("EWAStack", {
             screen: "EWA_DISBURSEMENT",
             params: { offer: offer },

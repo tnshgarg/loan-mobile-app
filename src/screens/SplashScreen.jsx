@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import { Image, StyleSheet } from "react-native";
-
+import Analytics, { InteractionTypes } from "../helpers/analytics/commonAnalytics";
 import { Linking } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { addOnboardingCampaignId } from "../store/slices/campaignSlice";
@@ -22,49 +22,64 @@ const SplashScreen = (props) => {
   const getUrlAsync = async () => {
     const initialUrl = await Linking.getInitialURL();
     const breakpoint = "/";
-    if (initialUrl && !onboarded) {
+    if (initialUrl) {
+      Analytics.setSessionValue("campaignClick", initialUrl)
+      Analytics.trackEvent({
+        interaction: InteractionTypes.CAMPAIGN_URL,
+        component: "Onboarding",
+        action: "campaign_url_open",
+        status: "started",
+      })
       const splitted = initialUrl.split(breakpoint);
       console.log("initialUrl", splitted);
       console.log("route", splitted[3]);
-      switch (splitted[3].toLowerCase()) {
-        case "onboarding":
-          switch (splitted[4]?.toLowerCase()) {
-            case "profile":
-              navigation.navigate("AccountStack", {
-                screen: "Profile",
-              })
-              break;
-            case "aadhaar":
-              navigation.navigate("AccountStack", {
-                screen: "KYC",
-                params: { screen: "AADHAAR" },
-              })
-              break;
-            case "pan":
-              navigation.navigate("AccountStack", {
-                screen: "KYC",
-                params: { screen: "PAN" },
-              })
-              break;
-            case "bank":
-              navigation.navigate("AccountStack", {
-                screen: "KYC",
-                params: { screen: "BANK" },
-              })
-              break;
-          }
-          break;
-        default:
-          break;
+      const campaignParamIndex = splitted.indexOf("campaign")
+      
+      if (campaignParamIndex > -1 && campaignParamIndex < splitted.length) {
+        setCampaignId(splitted[campaignParamIndex+1])
       }
-      switch (splitted[5]?.toLowerCase()) {
-        case "campaign":
-          console.log("campaignId", splitted[6]);
-          setCampaignId(splitted[6]);
-          break;
-        default:
-          navigation.replace(props.route.params.initialRoute);
-          break;
+
+      if(onboarded) {
+        Analytics.setSessionValue("campaignClick", initialUrl)
+        Analytics.trackEvent({
+          interaction: InteractionTypes.CAMPAIGN_URL,
+          component: "Onboarding",
+          action: "campaign_url_open",
+          status: "already_onboarded",
+        })
+        navigation.navigate("HomeStack", {
+          screen: "Home",
+        })
+      }
+
+      if (splitted[3].toLowerCase() == "onboarding"){
+        switch (splitted[4]?.toLowerCase()) {
+          case "profile":
+            navigation.navigate("AccountStack", {
+              screen: "Profile",
+            })
+            break;
+          case "aadhaar":
+            navigation.navigate("AccountStack", {
+              screen: "KYC",
+              params: { screen: "AADHAAR" },
+            })
+            break;
+          case "pan":
+            navigation.navigate("AccountStack", {
+              screen: "KYC",
+              params: { screen: "PAN" },
+            })
+            break;
+          case "bank":
+            navigation.navigate("AccountStack", {
+              screen: "KYC",
+              params: { screen: "BANK" },
+            })
+            break;
+        }
+      } else {
+        navigation.replace(props.route.params.initialRoute);
       }
     } else {
       console.log("No intent. User opened App.");

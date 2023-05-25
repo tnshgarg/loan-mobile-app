@@ -6,7 +6,7 @@ import { addVerifyStatus } from "../../store/slices/panSlice";
 import { form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
-import Analytics from "../../helpers/analytics/commonAnalytics";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import { putBackendData } from "../../services/employees/employeeServices";
 

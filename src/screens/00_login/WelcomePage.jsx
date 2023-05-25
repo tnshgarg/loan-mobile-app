@@ -3,7 +3,7 @@ import { styles } from "../../styles";
 import LogoHeader from "../../components/atoms/LogoHeader";
 import Icon from "react-native-vector-icons/Ionicons";
 import { COLORS, FONTS } from "../../constants/Theme";
-import Analytics from "../../helpers/analytics/commonAnalytics";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 import { requestUserPermission } from "../../services/notifications/notificationService";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { useDispatch, useSelector } from "react-redux";

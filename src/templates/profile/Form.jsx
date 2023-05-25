@@ -17,7 +17,7 @@ import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import FormInput from "../../components/atoms/FormInput";
 import DropDownForm from "../../components/molecules/DropDownForm";
-import Analytics from "../../helpers/analytics/commonAnalytics";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 import { showToast } from "../../components/atoms/Toast";
 
 const ProfileFormTemplate = ({ type }) => {

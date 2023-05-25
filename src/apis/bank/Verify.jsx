@@ -10,7 +10,7 @@ import {
   addVerifyStatus,
 } from "../../store/slices/bankSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics from "../../helpers/analytics/commonAnalytics";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 import { putBackendData } from "../../services/employees/employeeServices";
 
 const BankVerifyApi = (props) => {

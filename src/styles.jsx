@@ -74,6 +74,11 @@ export const styles = EStyleSheet.create({
     width: "100%",
     marginVertical: "10rem",
   },
+  fullWidthImage: {
+    width: "100%",
+    height: "200rem",
+    resizeMode: "contain"
+  }
 });
 
 export const progressBar = EStyleSheet.create({

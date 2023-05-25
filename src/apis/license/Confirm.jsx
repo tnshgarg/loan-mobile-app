@@ -7,7 +7,7 @@ import { addVerifyMsg, addVerifyStatus } from "../../store/slices/licenseSlice";
 import { licenseBackendPush } from "../../helpers/BackendPush";
 import { form, license, styles, selfie } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
-import Analytics from "../../helpers/analytics/commonAnalytics";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 
 export default Confirm = () => {
   const dispatch = useDispatch();

@@ -4,29 +4,29 @@ import {store} from "../../store/store"
 import { version } from "../../../package.json";
 
 const analyticsSession = {
-    sessionStartTime: new Date().getTime() / 1000,
+    startTime: new Date().getTime() / 1000,
     appVersion: version,
-    unipeEmployeeId: null,
-    employerId: null,
-    logs: 0
+    logCount: 0
 }
 
 export const InteractionTypes =  {
     "BUTTON_PRESS": "BP",
     "SCREEN_OPEN": "SO",
-    "INPUT": "INP"
+    "INPUT": "INP",
+    "IN_APP_NOTIFICATION": "IAN",
+    "CAMPAIGN_URL": "CU"
 }
+
 export async function trackEvent(
     event
 ){
     const appState = store.getState();
-    analyticsSession.logs += 1
-    console.log("trackEvent",event, analyticsSession.logs);
+    analyticsSession.logCount += 1
+    console.log("trackEvent",event, analyticsSession.logCount);
     const analyticsEvent = {
         session: analyticsSession,
-        user: {
-            unipeEmployeeId: appState?.auth?.unipeEmployeeId,
-        },
+        user: appState?.auth?.unipeEmployeeId,
+        campaign: appState?.campaign,
         eventTime: new Date().getTime() / 1000,
         event: event || {}
     }
@@ -50,10 +50,10 @@ export async function setEnabled(enabled){
     console.log("setEnabled called")
 }
 
-export async function setProperty(propertyName, propertyValue) {
-
+export async function setSessionValue(propertyName, propertyValue) {
+    analyticsSession[propertyName] = propertyValue
 }
 
 export default {
-    trackEvent,init,setEnabled,setProperty
+    trackEvent,init,setEnabled,setSessionValue
 }

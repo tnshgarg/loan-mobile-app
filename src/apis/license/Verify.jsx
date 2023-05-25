@@ -11,7 +11,7 @@ import {
 import { licenseBackendPush } from "../../helpers/BackendPush";
 import { OG_API_KEY } from "../../services/constants";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics from "../../helpers/analytics/commonAnalytics";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 
 const Verify = (props) => {
   const dispatch = useDispatch();

@@ -18,6 +18,7 @@ import { showToast } from "../components/atoms/Toast";
 import { decode } from "react-native-pure-jwt";
 import LogoutModal from "../components/organisms/LogoutModal";
 import { useNavigation } from "@react-navigation/core";
+import asyncTimer from "../helpers/asyncTimer";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -36,17 +37,15 @@ const StackNavigator = () => {
         {
           skipValidation: false, // to skip signature and exp verification
         }
-      )
-        .then(() => {
-          showToast("Your Session has expired. Please login again.");
-          dispatch({ type: "LOGOUT" });
-          setModalVisible(true);
-          setTimeout(() => {
-            setModalVisible(false);
-            navigation.navigate("OnboardingStack", { screen: "Login" });
-          }, 8000);
-        })
-        .catch(console.log);
+      ).then(async () => {
+        showToast("Your Session has expired. Please login again.");
+        dispatch({ type: "LOGOUT" });
+        setModalVisible(true);
+        await asyncTimer(8000)
+        setModalVisible(false);
+        navigation.navigate("OnboardingStack", { screen: "Login" });
+      })
+      .catch(console.log);
     }
   }, [token]);
 

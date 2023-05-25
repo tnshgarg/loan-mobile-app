@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/core";
 import { addVerifyStatus } from "../../store/slices/bankSlice";
 import { form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
-import Analytics from "../../helpers/analytics/commonAnalytics";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import { addOnboarded } from "../../store/slices/authSlice";

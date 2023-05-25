@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Linking, SafeAreaView, ScrollView, View } from "react-native";
+import { Linking, SafeAreaView, ScrollView, View, Image, TouchableOpacity } from "react-native";
 import PushNotification from "react-native-push-notification";
 import { useDispatch, useSelector } from "react-redux";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
@@ -36,6 +36,7 @@ import {
 } from "../../store/slices/ewaLiveSlice";
 import CompleteKycCard from "../../components/molecules/CompleteKycCard";
 import ExploreCards from "../../components/molecules/ExploreCards";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 const HomeView = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -56,9 +57,10 @@ const HomeView = () => {
   // const panMisMatch = useSelector((state) => state.pan.misMatch);
   // const bankMisMatch = useSelector((state) => state.bank.misMatch);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
+  console.log({ewaLiveSlice})
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
-
+  const campaignImageUrl = ewaLiveSlice?.campaignImageUrl || null;
   const verifyStatuses = [
     aadhaarVerifyStatus != "SUCCESS"
       ? { label: "Verify AADHAAR", value: "AADHAAR" }
@@ -115,7 +117,7 @@ const HomeView = () => {
     cacheTime: 1000 * 60 * 10,
     refetchInterval: 1000 * 60 * 2,
   });
-
+  console.log("ewa offers get", campaignImageUrl)
   useEffect(() => {
     if (isFocused && getEwaOffersIsSuccess) {
       if (getEwaOffersData.data.status === 200) {
@@ -156,6 +158,13 @@ const HomeView = () => {
     const initialUrl = await Linking.getInitialURL();
     const breakpoint = "/";
     if (initialUrl) {
+      Analytics.setSessionValue("campaignClick", initialUrl)
+      Analytics.trackEvent({
+        interaction: InteractionTypes.CAMPAIGN_URL,
+        component: "HomeView",
+        action: "campaign_url_open",
+        status: "",
+      })
       const splitted = initialUrl.split(breakpoint);
       console.log("initialUrl", splitted);
       console.log("route", splitted[3]);
@@ -226,7 +235,20 @@ const HomeView = () => {
               ewaLiveSlice={ewaLiveSlice}
             />
             <CompleteKycCard />
-            <ExploreCards />
+            {
+              campaignImageUrl && accessible && eligible ? 
+              <TouchableOpacity onPress={() => {
+                navigation.navigate("EWAStack", { screen: "EWA_OFFER" });
+              }}>
+                <Image
+                  style={styles.fullWidthImage}
+                  source={{
+                    uri: campaignImageUrl
+                  }}
+                />
+              </TouchableOpacity> : <></>
+            }
+            <ExploreCards /> 
           </>
         </View>
       </ScrollView>
