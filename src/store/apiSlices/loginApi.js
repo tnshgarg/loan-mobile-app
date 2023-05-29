@@ -13,8 +13,7 @@ export const loginApi = api.injectEndpoints({
         return response;
       },
       transformErrorResponse: (response) => {
-        console.log("ErrorRes", response);
-        return response;
+        return response.data.error;
       }
     }),
     verifyOtp: builder.mutation({
