@@ -48,8 +48,8 @@ export const ewaApi = api
         }),
         providesTags: ["getDisbursement"],
       }),
-      overrideExisting: true,
     }),
+    overrideExisting: true,
   });
 
 export const {

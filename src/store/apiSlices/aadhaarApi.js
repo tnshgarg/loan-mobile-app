@@ -34,8 +34,8 @@ export const aadhaarApi = api
         }),
         transformResponse: (response) => response.response,
       }),
-      overrideExisting: true,
     }),
+    overrideExisting: true,
   });
 
 export const {

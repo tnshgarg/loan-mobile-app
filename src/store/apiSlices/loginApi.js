@@ -35,8 +35,8 @@ export const loginApi = api.injectEndpoints({
         }
       }
     }),
-    overrideExisting: true,
   }),
+  overrideExisting: true,
 });
 
 export const { useGenerateOtpMutation, useVerifyOtpMutation } = loginApi;
