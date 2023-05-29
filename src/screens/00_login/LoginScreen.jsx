@@ -159,7 +159,7 @@ const LoginScreen = () => {
           sendSmsVerification(phoneNumber)
             .then((result) => {
               console.log(`result: ${JSON.stringify(result)}`);
-              if (result["status"] === "success") {
+              if (result["response"]["status"] || result["status"] === "success") {
                 setLoading(false);
                 Analytics.trackEvent({
                   interaction: InteractionTypes.BUTTON_PRESS,
@@ -171,15 +171,15 @@ const LoginScreen = () => {
               } else {
                 setLoading(false);
                 Alert.alert(
-                  result["status"],
-                  result["details"]
+                  result["response"]["status"] || result["status"],
+                  result["response"]["details"] || result["details"]
                 );
                 Analytics.trackEvent({
                   interaction: InteractionTypes.BUTTON_PRESS,
                   component: "LoginScreen",
                   action: "SendSms",
                   status: "Error",
-                  error: result["details"],
+                  error: result["response"]["details"] || result["details"],
                 });
               }
             })

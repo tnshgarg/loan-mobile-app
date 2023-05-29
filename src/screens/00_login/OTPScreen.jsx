@@ -86,7 +86,7 @@ const OTPScreen = () => {
   const onResendOtp = () => {
     sendSmsVerification(phoneNumber)
       .then((res) => {
-        if (res["status"] === "success") {
+        if (res["response"]["status"] || res["status"] === "success") {
           setOtp("");
           setBack(false);
           Alert.alert("OTP resent successfully", "", [
@@ -105,13 +105,13 @@ const OTPScreen = () => {
             status: "Success",
           });
         } else {
-          Alert.alert(res["status"], res["details"]);
+          Alert.alert(res["response"]["status"] || res["status"], res["response"]["details"] || res["details"]);
           Analytics.trackEvent({
             interaction: InteractionTypes.BUTTON_PRESS,
             component: "OTPScreen",
             action: "SendSms",
             status: "Error",
-            error: res["details"],
+            error: res["response"]["details"] || res["details"],
           });
         }
       })
@@ -132,8 +132,8 @@ const OTPScreen = () => {
     checkVerification(phoneNumber, otp)
       .then((res) => {
         console.log(res);
-        if (res?.status === 200) {
-          dispatch(addToken(res?.token));
+        if (res["response"]["status"] || res?.status === 200 || "success") {
+          dispatch(addToken(res["response"]["token"] || res?.token));
           setVerified(true);
           navigation.navigate("BackendSync", {
             destination: "HomeStack",
@@ -145,13 +145,13 @@ const OTPScreen = () => {
             status: "Success"
           });
         } else {
-          Alert.alert(res?.status, res?.details);
+          Alert.alert(res["response"]["status"] || res?.status, res["response"]["details"] || res?.details);
           Analytics.trackEvent({
             interaction: InteractionTypes.BUTTON_PRESS,
             component: "OTPScreen",
             action: "Check",
             status: "Error",
-            error: res["details"],
+            error: res["response"]["details"] || res["details"],
           });
         }
       })
