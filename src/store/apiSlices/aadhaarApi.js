@@ -18,6 +18,9 @@ export const aadhaarApi = api
           method: "POST",
           body: body,
         }),
+        transformErrorResponse: (error) => {
+          return error?.data?.error;
+        }
       }),
       verifyAadhaarOtp: builder.mutation({
         query: (body) => ({
