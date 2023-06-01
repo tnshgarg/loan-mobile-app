@@ -222,6 +222,12 @@ const HomeView = () => {
             {
               campaignImageUrl ? 
               <TouchableOpacity onPress={() => {
+                Analytics.trackEvent({
+                  interaction: InteractionTypes.BANNER_TAP,
+                  component: "HomeView",
+                  action: "home_banner_image_open",
+                  status: "",
+                })
                 if (accessible && eligible)
                   navigation.navigate("EWAStack", { screen: "EWA_OFFER" });
                 else

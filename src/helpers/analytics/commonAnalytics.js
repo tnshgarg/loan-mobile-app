@@ -10,6 +10,7 @@ const analyticsSession = {
 }
 
 export const InteractionTypes =  {
+    "BANNER_TAP": "BP",
     "BUTTON_PRESS": "BP",
     "SCREEN_OPEN": "SO",
     "INPUT": "INP",
