@@ -22,9 +22,10 @@ export const putBackendData = async (props) => {
     if (!response.data.status || response.data.status === 500) {
       throw new Error("Oops! Something went wrong. Please try again later.");
     }
-    else if (response.data.status === 401) {
-      if(props.token==="") {throw new Error("Can't hit backend servers!");}
-      Alert.alert(response?.data?.message || "Your session has expired. Please login again.");
+    else if (response.data.status === 401 && props.xpath !=="mobile") {
+      if(props.token===""  ) {throw new Error("Can't hit backend servers!");}
+      Alert.alert("Error", response?.data?.message || "Your session has expired. Please login again.");
+      throw new Error("Your session has expired. Please login again.");
     }
     return response;
   });

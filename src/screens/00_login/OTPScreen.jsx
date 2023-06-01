@@ -132,7 +132,7 @@ const OTPScreen = () => {
     checkVerification(phoneNumber, otp)
       .then((res) => {
         console.log(res);
-        if (res["response"]["status"] || res?.status === 200 || "success") {
+        if (res["response"]["status"] === "success" || res?.status === 200) {
           dispatch(addToken(res["response"]["token"] || res?.token));
           setVerified(true);
           navigation.navigate("BackendSync", {

@@ -208,15 +208,16 @@ const LoginScreen = () => {
         }
       })
       .catch((error) => {
+        console.log("erer", error.message || JSON.stringify(error));
         setLoading(false);
-        Alert.alert("Error", JSON.stringify(error));
+        Alert.alert("Error", error.message || JSON.stringify(error));
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
           component: "LoginScreen",
           action: "SignIn",
           status: "Error",
           phoneNumber: phoneNumber,
-          error: JSON.stringify(error),
+          error: error.message || JSON.stringify(error),
         });
       });
   };
