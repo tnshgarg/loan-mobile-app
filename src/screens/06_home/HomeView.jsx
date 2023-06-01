@@ -1,18 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Linking, SafeAreaView, ScrollView, View, Image, TouchableOpacity } from "react-native";
-import PushNotification from "react-native-push-notification";
+import { Linking, SafeAreaView, ScrollView, View, Alert, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
-import { allAreNull } from "../../helpers/nullCheck";
 import {
   addEkycCampaignId,
   addEwaCampaignId,
   addRepaymentCampaignId,
 } from "../../store/slices/campaignSlice";
 import {
-  addCurrentScreen,
   addCurrentStack,
 } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
@@ -33,50 +30,29 @@ import {
   addAccessible,
   addEligible,
   resetEwaLive,
+  addCampaignImageUrl,
 } from "../../store/slices/ewaLiveSlice";
 import CompleteKycCard from "../../components/molecules/CompleteKycCard";
 import ExploreCards from "../../components/molecules/ExploreCards";
 import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
+import FullWidthImage from "../../components/atoms/FullWidthImage";
 const HomeView = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const navigation = useNavigation();
-
-  const aadhaarVerifyStatus = useSelector(
-    (state) => state.aadhaar.verifyStatus
-  );
-  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
-  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
-
+  Alert
   const [fetched, setFetched] = useState(false);
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const onboarded = useSelector((state) => state.auth.onboarded);
 
-  // const panMisMatch = useSelector((state) => state.pan.misMatch);
-  // const bankMisMatch = useSelector((state) => state.bank.misMatch);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   console.log({ewaLiveSlice})
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
   const campaignImageUrl = ewaLiveSlice?.campaignImageUrl || null;
-  const verifyStatuses = [
-    aadhaarVerifyStatus != "SUCCESS"
-      ? { label: "Verify AADHAAR", value: "AADHAAR" }
-      : null,
-    panVerifyStatus != "SUCCESS" ? { label: "Verify PAN", value: "PAN" } : null,
-    bankVerifyStatus != "SUCCESS"
-      ? { label: "Verify Bank Account", value: "BANK" }
-      : null,
-  ];
-
-  useEffect(() => {
-    // PushNotification.deleteChannel("Onboarding");
-    if (allAreNull(verifyStatuses)) {
-      PushNotification.cancelAllLocalNotifications();
-    }
-  }, [aadhaarVerifyStatus, bankVerifyStatus, panVerifyStatus]);
+  
 
   useEffect(() => {
     dispatch(addCurrentStack("HomeStack"));
@@ -121,6 +97,9 @@ const HomeView = () => {
   useEffect(() => {
     if (isFocused && getEwaOffersIsSuccess) {
       if (getEwaOffersData.data.status === 200) {
+        if (getEwaOffersData.data.body.campaignImageUrl) {
+          dispatch(addCampaignImageUrl(getEwaOffersData.data.body.campaignImageUrl))
+        }
         if (Object.keys(getEwaOffersData.data.body.live).length !== 0) {
           const closureDays = getNumberOfDays({
             date: getEwaOffersData.data.body.live.dueDate,
@@ -137,6 +116,10 @@ const HomeView = () => {
         dispatch(resetEwaHistorical(getEwaOffersData.data.body.past));
         setFetched(true);
       } else {
+        if (getEwaOffersData.data.status == 404 && getEwaOffersData.data.campaignImageUrl) {
+          console.log("dispatched campaignImageUrl", getEwaOffersData.data)
+          dispatch(addCampaignImageUrl(getEwaOffersData.data.campaignImageUrl))
+        }
         console.log(
           "HomeView ewaOffersFetch API error getEwaOffersData.data : ",
           getEwaOffersData.data
@@ -198,7 +181,7 @@ const HomeView = () => {
             default:
               break;
           }
-          break;
+          break;Alert
         default:
           break;
       }
@@ -235,20 +218,18 @@ const HomeView = () => {
               ewaLiveSlice={ewaLiveSlice}
             />
             <CompleteKycCard />
+            <ExploreCards /> 
             {
-              campaignImageUrl && accessible && eligible ? 
+              campaignImageUrl ? 
               <TouchableOpacity onPress={() => {
-                navigation.navigate("EWAStack", { screen: "EWA_OFFER" });
+                if (accessible && eligible)
+                  navigation.navigate("EWAStack", { screen: "EWA_OFFER" });
+                else
+                  Alert.alert("Advance Salary is not Enabled", "Please ask your employer to enable Advanced Salary for you")
               }}>
-                <Image
-                  style={styles.fullWidthImage}
-                  source={{
-                    uri: campaignImageUrl
-                  }}
-                />
+              <FullWidthImage url={campaignImageUrl} />
               </TouchableOpacity> : <></>
             }
-            <ExploreCards /> 
           </>
         </View>
       </ScrollView>
