@@ -31,7 +31,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
           Analytics.trackEvent({
             interaction: InteractionTypes.BUTTON_PRESS,
             component: "ExploreCards",
-            action: `navigate:${destination}`,
+            action: `navigate:EWAStack:EWA_OFFER`,
             status: "",
           })
           navigation.navigate("EWAStack", { screen: "EWA_OFFER" });
