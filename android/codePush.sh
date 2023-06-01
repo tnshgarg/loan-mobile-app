@@ -13,12 +13,12 @@ done
 case $env in
   "qa")
     acenv='QA'
-    app="Unipe/Unipe-QA-App"
+    app="Unipe-org/Unipe-QA"
     ;;
 
   "prod")
     acenv='Prod'
-    app="Unipe/EmployeeApp"
+    app="Unipe-org/Unipe-Prod"
     ;;
 
   *)
