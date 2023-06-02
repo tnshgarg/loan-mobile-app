@@ -62,11 +62,11 @@ export const SIZES = {
   opacity: 0.7,
   btnHeight: normalize(50),
   shadow: {
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 2,
+    shadowColor: COLORS.gray,
+    shadowOffset: { width: 10, height: 20 },
+    shadowOpacity: 1,
+    shadowRadius: 15,
+    elevation: 3,
   },
 
   // font sizes

@@ -30,6 +30,7 @@ import Checkbox from "../../../../components/atoms/Checkbox";
 import { useUpdateAgreementMutation } from "../../../../store/apiSlices/ewaApi";
 import LiquiloansTitle from "../../../../components/atoms/LiquiloansTitle";
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
+import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 
 const Agreement = () => {
   const dispatch = useDispatch();
@@ -239,17 +240,17 @@ const Agreement = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
-        title="Agreement"
+      <LogoHeaderBack
+        title={"Loan agreement"}
         onLeftIconPress={() => backAction()}
-        progress={100}
+        subHeadline={"Please confirm if these are your details"}
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <DisbursementCard
             data={data}
             title="Loan Details"
-            info="*Money will be either auto debited or deducted by your employer from your upcoming salary."
+            info="*Money will be auto debited from your upcoming salary"
             iconName="ticket-percent-outline"
           />
 
@@ -273,13 +274,13 @@ const Agreement = () => {
             onPress={() => setIsTermsModalVisible(true)}
           />
 
-          <Checkbox
+          {/* <Checkbox
             text={"I confirm the above details and agree to"}
             value={consent}
             setValue={setConsent}
             additionalText="KFS"
             onPress={() => setIsKFSModalVisible(true)}
-          />
+          /> */}
 
           <PrimaryButton
             title={loading ? "Processing" : "Proceed"}

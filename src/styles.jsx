@@ -278,7 +278,6 @@ export const accountStyles = EStyleSheet.create({
     borderColor: COLORS.lightGray,
     backgroundColor: "#213240",
     margin: "15rem",
-    marginBottom: 0,
     borderRadius: "10rem",
   },
   guestIcon: {

@@ -12,11 +12,11 @@ const DetailsCard = ({ data, imageUri, containerStyle, type }) => {
         end={{ x: 1, y: 0 }}
         colors={[COLORS.lightGreen, COLORS.lightYellow]}
       >
-        <Text style={{ ...FONTS.body1, width: "50%" }}>{data[0].value}</Text>
+        <Text style={{ ...FONTS.body2, width: "50%" }}>{data[0].value}</Text>
         {imageUri && <Image source={imageUri} style={styles.aadhaarImage} />}
       </LinearGradient>
       <View style={styles.container}>
-        {data.map((item, index) => (
+        {data.slice(1).map((item, index) => (
           <View
             key={index}
             style={[
@@ -41,7 +41,6 @@ const DetailsCard = ({ data, imageUri, containerStyle, type }) => {
       end={{ x: 1, y: 0 }}
       colors={[COLORS.lightGreen, COLORS.lightYellow]}
     >
-      <Text style={{ ...FONTS.body1, width: "50%" }}>{data[0].value}</Text>
       {imageUri && <Image source={imageUri} style={styles.image} />}
 
       {data.map((item, index) => (

@@ -37,6 +37,25 @@ const AccountMenu = (props) => {
     useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
+  const [kycCompleted, setKycCompleted] = useState(false);
+
+  const profileComplete = useSelector((state) => state.profile.profileComplete);
+  const aadhaarVerifyStatus = useSelector(
+    (state) => state.aadhaar.verifyStatus
+  );
+  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
+  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
+  useEffect(() => {
+    if (
+      profileComplete &&
+      aadhaarVerifyStatus == "SUCCESS" &&
+      panVerifyStatus == "SUCCESS" &&
+      bankVerifyStatus == "SUCCESS"
+    ) {
+      setKycCompleted(true);
+    }
+  }, [profileComplete, aadhaarVerifyStatus, panVerifyStatus, bankVerifyStatus]);
+
   const image = useSelector((state) => state.aadhaar?.data?.photo_base64);
   const name = useSelector(
     (state) =>
@@ -162,15 +181,17 @@ const AccountMenu = (props) => {
             <Text style={accountStyles.userSubtitle}>Amazon India</Text>
           </View>
         </View>
-        <View style={{ padding: 15 }}>
-          <InfoCard
-            variant={"gradient"}
-            title={"Action Required"}
-            info={
-              "Verify your identity to withdraw advance salary in our bank account"
-            }
-          />
-        </View>
+        {!kycCompleted && (
+          <View style={{ padding: 15 }}>
+            <InfoCard
+              variant={"gradient"}
+              title={"Action Required"}
+              info={
+                "Verify your identity to withdraw advance salary in our bank account"
+              }
+            />
+          </View>
+        )}
 
         {options.map((item, index) => (
           <ListItem

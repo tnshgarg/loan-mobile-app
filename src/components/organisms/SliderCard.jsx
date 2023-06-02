@@ -18,7 +18,10 @@ const SliderCard = ({ info, iconName, amount, setAmount, eligibleAmount }) => {
         }}
       >
         <Text style={{ ...FONTS.body4, color: COLORS.secondary }}>
-          Available Salary:{" "}
+          Available Salary:
+          <Text style={{ ...FONTS.h4, color: COLORS.secondary }}>
+            ₹{eligibleAmount}
+          </Text>
         </Text>
       </View>
       <View style={{ padding: 15 }}>
@@ -41,19 +44,18 @@ const SliderCard = ({ info, iconName, amount, setAmount, eligibleAmount }) => {
           ₹{amount}
         </Text>
 
-        {/* {eligibleAmount >= 1000 ? ( */}
-        <Slider
-          minimumValue={1000}
-          //  maximumValue={eligibleAmount}
-          maximumValue={20000}
-          step={100}
-          trackStyle={styles.track}
-          thumbStyle={styles.thumb}
-          minimumTrackTintColor={COLORS.primary}
-          value={amount}
-          onValueChange={(value) => setAmount(value)}
-        />
-        {/* ) : null} */}
+        {eligibleAmount >= 1000 ? (
+          <Slider
+            minimumValue={1000}
+            maximumValue={eligibleAmount}
+            step={100}
+            trackStyle={styles.track}
+            thumbStyle={styles.thumb}
+            minimumTrackTintColor={COLORS.primary}
+            value={amount}
+            onValueChange={(value) => setAmount(value)}
+          />
+        ) : null}
 
         <View
           style={[styles.row, { padding: 0, justifyContent: "space-between" }]}
