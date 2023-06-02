@@ -32,11 +32,11 @@ const styles = EStyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: "5rem",
+    marginVertical: "10rem",
   },
   title: {
     marginLeft: "5rem",
-    ...FONTS.body5,
+    ...FONTS.body4,
     color: COLORS.gray,
     flex: 1,
   },

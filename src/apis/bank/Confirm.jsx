@@ -22,6 +22,7 @@ const BankConfirmApi = (props) => {
     (state) => state.campaign.onboardingCampaignId
   );
   const data = useSelector((state) => state.bank.data);
+  console.log({ data });
   const [updateBank] = useUpdateBankMutation();
   const backendPush = async ({ verifyStatus }) => {
     dispatch(addVerifyStatus(verifyStatus));
@@ -91,7 +92,7 @@ const BankConfirmApi = (props) => {
         <PrimaryButton
           title="Not Me"
           containerStyle={form.noButton}
-          titleStyle={{ ...FONTS.h4, color: COLORS.warning }}
+          titleStyle={{ ...FONTS.h3, color: COLORS.black }}
           onPress={() => {
             backendPush({
               verifyStatus: "REJECTED",
@@ -107,7 +108,7 @@ const BankConfirmApi = (props) => {
           accessibilityLabel="BankYesBtn"
           title="Yes, that’s me"
           containerStyle={form.yesButton}
-          titleStyle={{ ...FONTS.h4, color: COLORS.primary }}
+          titleStyle={{ ...FONTS.h3, color: COLORS.white }}
           onPress={() => {
             dispatch(addOnboarded(true));
             backendPush({

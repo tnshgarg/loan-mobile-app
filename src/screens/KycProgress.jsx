@@ -118,6 +118,13 @@ const KycProgress = () => {
     // }
   };
 
+  const BORDER_COLOR = {
+    SUCCESS: COLORS.primary,
+    PENDING: COLORS.gray,
+    true: COLORS.primary,
+  };
+  const TEXT_COLOR = { success: COLORS.primary, pending: COLORS.white };
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeader
@@ -137,15 +144,15 @@ const KycProgress = () => {
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
-              borderColor:
-                item.status == "SUCCESS" || item.status == true
-                  ? COLORS.primary
-                  : kycSteps[index].status == "PENDING" &&
-                    (kycSteps[index - 1].status == "SUCCESS" ||
-                      kycSteps[index - 1].status == true) &&
-                    index >= 1
-                  ? COLORS.gray
-                  : COLORS.lightGray,
+              borderColor: BORDER_COLOR[item.status],
+              // item.status == "SUCCESS" || item.status == true
+              //   ? COLORS.primary
+              //   : kycSteps[index].status == "PENDING" &&
+              //     (kycSteps[index - 1].status == "SUCCESS" ||
+              //       kycSteps[index - 1].status == true) &&
+              //     index >= 1
+              //   ? COLORS.gray
+              //   : COLORS.lightGray,
             }}
           >
             <SvgContainer height={30} width={30}>
@@ -159,12 +166,11 @@ const KycProgress = () => {
                 {item.subtitle}
               </Text>
             </View>
-            {item.status == "SUCCESS" ||
-              (item.status == true && (
-                <SvgContainer height={16} width={16}>
-                  <Tick />
-                </SvgContainer>
-              ))}
+            {item.status == "SUCCESS" || item.status == true ? (
+              <SvgContainer height={16} width={16}>
+                <Tick />
+              </SvgContainer>
+            ) : null}
 
             <Badge text={`STEP ${index + 1}`} />
           </TouchableOpacity>

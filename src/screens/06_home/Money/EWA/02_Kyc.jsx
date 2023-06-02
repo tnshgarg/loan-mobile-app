@@ -16,6 +16,7 @@ import {
 } from "../../../../store/slices/mandateSlice";
 import { styles } from "../../../../styles";
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
+import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 
 const KYC = () => {
   const dispatch = useDispatch();
@@ -150,15 +151,16 @@ const KYC = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header title="KYC" onLeftIconPress={() => backAction()} progress={50} />
-      <View style={styles.container}>
-        <Text style={styles.headline}>Are these your Kyc details?</Text>
-        <Text style={styles.subHeadline}>
-          कृपया स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
-        </Text>
+      <LogoHeaderBack
+        title={"Confirm KYC"}
+        onLeftIconPress={() => backAction()}
+        subHeadline={"Please confirm if these are your details"}
+      />
 
+      <View style={styles.container}>
         <DetailsCard
           data={cardData()}
+          type={"Aadhaar"}
           imageUri={{
             uri: `data:image/jpeg;base64,${aadhaarData["photo_base64"]}`,
             cache: "only-if-cached",

@@ -29,7 +29,7 @@ const styles = EStyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: COLORS.lightGray,
+    //backgroundColor: COLORS.lightGray,
     borderRadius: "10rem",
     padding: "15rem",
   },

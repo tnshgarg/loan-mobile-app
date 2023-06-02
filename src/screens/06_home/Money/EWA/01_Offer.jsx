@@ -133,7 +133,13 @@ const Offer = () => {
   };
 
   const handleConditionalNav = () => {
-    console.log( profileComplete, aadhaarVerifyStatus, panVerifyStatus, bankVerifyStatus , onboarded);
+    console.log(
+      profileComplete,
+      aadhaarVerifyStatus,
+      panVerifyStatus,
+      bankVerifyStatus,
+      onboarded
+    );
     if (!profileComplete) {
       navigation.navigate("EWA_KYC_STACK", { screen: "ProfileForm" });
     } else if (aadhaarVerifyStatus === "INPROGRESS_OTP") {
@@ -197,7 +203,7 @@ const Offer = () => {
         progress={25}
         subHeadline={"Select amount you want to withdraw"}
       />
-      <View style={[styles.container, { backgroundColor: "#F3F6F7" }]}>
+      <View style={[styles.container]}>
         <SliderCard
           // info={"Zero Interest charges, Nominal Processing Fees"}
           iconName="brightness-percent"

@@ -10,6 +10,7 @@ import { useGetDisbursementQuery } from "../../../../store/apiSlices/ewaApi";
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import { styles } from "../../../../styles";
 import SvgContainer from "../../../../components/atoms/SvgContainer";
+import { COLORS, FONTS } from "../../../../constants/Theme";
 
 const Disbursement = ({ route, navigation }) => {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const Disbursement = ({ route, navigation }) => {
   const [loanAmount, setLoanAmount] = useState(0);
   const [netAmount, setNetAmount] = useState(0);
   const [status, setStatus] = useState("");
+  console.log({ status });
 
   const backAction = () => {
     navigation.navigate("HomeStack", {
@@ -46,21 +48,48 @@ const Disbursement = ({ route, navigation }) => {
   const StatusImage = (status) => {
     switch (status) {
       case "SUCCESS":
-        return <Success />;
+        return (
+          <SvgContainer height={200} width={200}>
+            <Success />
+          </SvgContainer>
+        );
       case "REJECTED":
-        return <Failure />;
+        return (
+          <SvgContainer height={300} width={300}>
+            <Failure />
+          </SvgContainer>
+        );
       case "FAILURE":
-        return <Failure />;
+        return (
+          <SvgContainer height={300} width={300}>
+            <Failure />
+          </SvgContainer>
+        );
       default:
-        return <Hourglass />;
+        return (
+          <SvgContainer height={200} width={200}>
+            <Hourglass />
+          </SvgContainer>
+        );
     }
   };
 
   const getStatusText = (headline, subheadline) => {
     return (
       <View style={{ alignItems: "center", width: "100%" }}>
-        <Text style={styles.headline}>{headline}</Text>
-        <Text style={styles.subHeadline}>{subheadline}</Text>
+        <Text
+          style={[
+            styles.headline,
+            { marginTop: "10%", color: COLORS.black, ...FONTS.body2 },
+          ]}
+        >
+          {headline}
+        </Text>
+        <Text
+          style={[styles.subHeadline, { color: COLORS.gray, ...FONTS.body3 }]}
+        >
+          {subheadline}
+        </Text>
       </View>
     );
   };
@@ -74,18 +103,18 @@ const Disbursement = ({ route, navigation }) => {
         );
       case "REJECTED":
         return getStatusText(
-          "Sorry",
-          "We cannot process your advance salary at this moment."
+          "Sorry, we could not process your advance salary request!",
+          "You request could not clear our lending parter policies. Please reach out to us to become eligible."
         );
       case "FAILURE":
         return getStatusText(
-          "Sorry",
-          "We cannot process your advance salary at this moment."
+          "Sorry, we could not process your advance salary request!",
+          "You request could not clear our lending parter policies. Please reach out to us to become eligible."
         );
       default:
         return getStatusText(
-          "Pending",
-          "You will receive the money in next 24 banking hours."
+          "Your advance salary request is being processed!",
+          "The amount will be disbursed after successful verification and we will notify you once it is disbursed."
         );
     }
   };
@@ -149,15 +178,17 @@ const Disbursement = ({ route, navigation }) => {
         onLeftIconPress={() => backAction()}
         // progress={100}
       />
-      <View style={styles.container}>
-        {StatusImage("REJECTED")}
-        {StatusText("REJECTED")}
-        <DisbursementCard
-          data={data}
-          title="Loan Details"
-          info="Money will be auto debited from your upcoming salary"
-          iconName="ticket-percent-outline"
-        />
+      <View style={[styles.container, { alignItems: "center" }]}>
+        {StatusImage(status)}
+        {StatusText(status)}
+        {status == "REJECTED" || status == "ERROR" ? null : (
+          <DisbursementCard
+            data={data}
+            title="Loan Details"
+            info="Money will be auto debited from your upcoming salary"
+            iconName="ticket-percent-outline"
+          />
+        )}
       </View>
     </SafeAreaView>
   );
