@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Image, Linking, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { addOnboardingCampaignId } from "../store/slices/campaignSlice";
+import remoteConfig from '@react-native-firebase/remote-config';
 
 const SplashScreen = (props) => {
   const dispatch = useDispatch();
@@ -11,7 +12,7 @@ const SplashScreen = (props) => {
   let [campaignId, setCampaignId] = useState(
     useSelector((state) => state.campaign.onboardingCampaignId)
   );
-
+    
   useEffect(() => {
     dispatch(addOnboardingCampaignId(campaignId));
   }, [campaignId]);
@@ -71,7 +72,22 @@ const SplashScreen = (props) => {
   };
 
   useEffect(() => {
+    console.log("useEffectSplash")
     getUrlAsync();
+    remoteConfig()
+      .setDefaults({
+        awesome_new_feature: 'disabled',
+      })
+      .then(() => remoteConfig().fetchAndActivate())
+      .then(fetchedRemotely => {
+        if (fetchedRemotely) {
+          console.log('Configs were retrieved from the backend and activated.', fetchedRemotely);
+        } else {
+          console.log(
+            'No configs were fetched from the backend, and the local configs were already activated',
+          );
+        }
+      });
   }, []);
 
   return (

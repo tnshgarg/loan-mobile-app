@@ -37,6 +37,7 @@ import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import HelpFooter from "../../components/atoms/HelpFooter";
 import BannerCard from "../../components/atoms/BannerCard";
 import CmsRoot from "../../components/cms/CmsRoot";
+import remoteConfig from '@react-native-firebase/remote-config';
 
 const HomeView = () => {
   const dispatch = useDispatch();
@@ -66,6 +67,7 @@ const HomeView = () => {
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
+  const [cmsHomeData, setCmsHomeData] = useState([]);
   const onboardingCampaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
@@ -95,6 +97,28 @@ const HomeView = () => {
   useEffect(() => {
     requestUserPermission();
     notificationListener();
+    remoteConfig()
+      .setDefaults({
+        awesome_new_feature: 'disabled',
+        home: []
+      })
+      .then(() => remoteConfig().fetchAndActivate())
+      .then(fetchedRemotely => {
+        if (fetchedRemotely) {
+          console.log('Configs were retrieved from the backend and activated.', fetchedRemotely);
+        } else {
+          console.log(
+            'No configs were fetched from the backend, and the local configs were already activated',
+          );
+        }
+      }).then(() => {
+        try {
+          const remote_home_fetch = remoteConfig().getValue('home')?._value
+          setCmsHomeData(JSON.parse(remote_home_fetch))
+        } catch (err) {
+          setCmsHomeData([])
+        }
+      });
   }, []);
 
   useEffect(() => {
@@ -233,57 +257,7 @@ const HomeView = () => {
             ewaLiveSlice={ewaLiveSlice}
           />
           <CmsRoot
-            children={[
-              {
-                type: "banner",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/fcm_test_1.jpeg",
-              },
-              {
-                type: "section",
-                title: "Learn With Us",
-                leftIcon:
-                  "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/learn.png",
-                ctaText: "SEE ALL",
-                children: [
-                  {
-                    type: "swiper",
-                    urls: [
-                      "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/carousel_1.png",
-                      "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/carousel_1.png",
-                      "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/carousel_1.png",
-                    ],
-                  },
-                ],
-              },
-              {
-                type: "column",
-                title: "Why Unipe?",
-                subtitle: "Why Unipe?",
-                children: [
-                  {
-                    type: "video",
-                    videoUri: "",
-                  },
-                ],
-              },
-              {
-                type: "column",
-                title: "Why Unipe?",
-                subtitle: "Why Unipe?",
-                children: [
-                  {
-                    type: "video",
-                    videoUri: "",
-                  },
-                ],
-              },
-              {
-                type: "section",
-                title: "User Story",
-                leftIcon:
-                  "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/Userstory.png",
-              },
-            ]}
+            children={cmsHomeData}
           ></CmsRoot>
 
           {/* <BannerCard /> */}

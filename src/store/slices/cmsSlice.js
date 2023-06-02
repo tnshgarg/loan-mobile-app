@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [
-  {
+const initialState = {
+  home: [{
     type: "banner",
     url: "https://d22ss3ef1t9wna.cloudfront.net/fcm_test_1.jpeg",
   },
@@ -50,14 +50,22 @@ const initialState = [
     leftIcon:
       "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/Userstory.png",
   },
-];
+]};
 
 const cmsSlice = createSlice({
   name: "cms",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    setState: (_, action) => action?.payload,
+    updateState: (state, action) => {
+      Object.assign(state,action.payload)
+    }
+  },
 });
 
-export const {} = cmsSlice.actions;
+export const {
+  setState: cmsFullUpdate,
+  updateState: cmsPartialUpdate
+} = cmsSlice.actions;
 
 export default cmsSlice.reducer;
