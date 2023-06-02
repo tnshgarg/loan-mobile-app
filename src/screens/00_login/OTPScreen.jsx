@@ -26,6 +26,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import OtpInput from "../../components/molecules/OtpInput";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import BackgroundTimer from "react-native-background-timer";
+import { showToast } from "../../components/atoms/Toast";
 
 const OTPScreen = () => {
   const dispatch = useDispatch();
@@ -147,7 +148,8 @@ const OTPScreen = () => {
           unipeEmployeeId: unipeEmployeeId,
         });
         console.log(error, error.message);
-        Alert.alert("Error", error.message);
+        showToast(error.message, "error");
+        // Alert.alert("Error", error.message);
       });
   };
 
@@ -172,8 +174,9 @@ const OTPScreen = () => {
           error: error?.message || error?.error?.message,
         });
         console.log(error);
-        Alert.alert("Error", error?.message || error?.error?.message);
-        if (error?.status != 406){
+        // Alert.alert("Error", error?.message || error?.error?.message);
+        showToast(error?.message || error?.error?.message, "error");
+        if (error?.status != 406) {
           navigation.navigate("Login");
         }
       });

@@ -34,6 +34,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import { Keyboard } from "react-native";
 import LogoHeader from "../../components/atoms/LogoHeader";
+import { showToast } from "../../components/atoms/Toast";
 
 const LoginScreen = () => {
   SplashScreen.hide();
@@ -103,13 +104,15 @@ const LoginScreen = () => {
         analytics().logEvent("LoginScreen_SendSms_Success", {
           phoneNumber: phoneNumber,
         });
+        // TODO: Success message handling
         navigation.navigate("Otp");
         setLoading(false);
       })
       .catch((error) => {
         console.log("error", error);
         setLoading(false);
-        Alert.alert("Error", error.message);
+        // Alert.alert("Error", error.message);
+        showToast(error.message, "error");
         analytics().logEvent("LoginScreen_SendSms_Error", {
           phoneNumber: phoneNumber,
           error: JSON.stringify(error),

@@ -24,6 +24,7 @@ const KycProgress = () => {
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
   const navigation = useNavigation();
+  console.log({ aadhaarVerifyStatus });
 
   console.log({ profileComplete });
 

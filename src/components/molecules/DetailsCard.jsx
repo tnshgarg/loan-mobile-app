@@ -4,7 +4,37 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import LinearGradient from "react-native-linear-gradient";
 
 const DetailsCard = ({ data, imageUri, containerStyle, type }) => {
-  return (
+  return type == "Aadhaar" ? (
+    <View style={{ backgroundColor: "#f7f6f1", borderRadius: 10 }}>
+      <LinearGradient
+        style={styles.gradient}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        colors={[COLORS.lightGreen, COLORS.lightYellow]}
+      >
+        <Text style={{ ...FONTS.body1, width: "50%" }}>{data[0].value}</Text>
+        {imageUri && <Image source={imageUri} style={styles.aadhaarImage} />}
+      </LinearGradient>
+      <View style={styles.container}>
+        {data.map((item, index) => (
+          <View
+            key={index}
+            style={[
+              styles.listItem,
+              { width: item.fullWidth ? "100%" : "50%" },
+            ]}
+          >
+            <Text style={[styles.label, { color: COLORS.gray }]}>
+              {item.subTitle}
+            </Text>
+            <Text style={[styles.value, { ...FONTS.body3 }]}>
+              {item.value || "-"}
+            </Text>
+          </View>
+        ))}
+      </View>
+    </View>
+  ) : (
     <LinearGradient
       style={[styles.container, { ...containerStyle }]}
       start={{ x: 0, y: 0 }}
@@ -35,10 +65,23 @@ const styles = EStyleSheet.create({
     padding: "20rem",
     flexDirection: "row",
     //alignItems: "center",
-    borderRadius: 5,
+    borderRadius: "10rem",
 
     flexWrap: "wrap",
     marginVertical: "10rem",
+  },
+  gradient: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 20,
+    borderTopLeftRadius: "10rem",
+    borderTopRightRadius: "10rem",
+  },
+  aadhaarImage: {
+    height: "80rem",
+    width: "80rem",
+    borderRadius: "5rem",
   },
   image: {
     height: "80rem",
