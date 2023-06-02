@@ -97,7 +97,9 @@ const EWA = () => {
     isError: getEwaOffersIsError,
     error: getEwaOffersError,
     data: getEwaOffersData,
-  } = useGetOffersQuery(unipeEmployeeId);
+  } = useGetOffersQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 2,
+  });
 
   useEffect(() => {
     if (isFocused && getEwaOffersIsSuccess) {

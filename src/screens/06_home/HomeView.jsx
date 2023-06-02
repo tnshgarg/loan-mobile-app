@@ -66,6 +66,19 @@ const HomeView = () => {
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
+  const onboardingCampaignId = useSelector(
+    (state) => state.campaign.onboardingCampaignId
+  );
+  console.log("HomeView onboardingCampaignId : ", onboardingCampaignId);
+  const verifyStatuses = [
+    aadhaarVerifyStatus != "SUCCESS"
+      ? { label: "Verify AADHAAR", value: "AADHAAR" }
+      : null,
+    panVerifyStatus != "SUCCESS" ? { label: "Verify PAN", value: "PAN" } : null,
+    bankVerifyStatus != "SUCCESS"
+      ? { label: "Verify Bank Account", value: "BANK" }
+      : null,
+  ];
 
   // useEffect(() => {
   //   // PushNotification.deleteChannel("Onboarding");
@@ -108,7 +121,9 @@ const HomeView = () => {
     isError: getEwaOffersIsError,
     error: getEwaOffersError,
     data: getEwaOffersData,
-  } = useGetOffersQuery(unipeEmployeeId);
+  } = useGetOffersQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 2,
+  });
 
   useEffect(() => {
     if (isFocused && getEwaOffersIsSuccess) {

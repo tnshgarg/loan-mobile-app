@@ -27,8 +27,8 @@ export const panApi = api
         }),
         transformResponse: (response) => response.response,
       }),
-      overrideExisting: true,
     }),
+    overrideExisting: true,
   });
 
 export const { useGetPanQuery, useVerifyPanMutation, useUpdatePanMutation } =

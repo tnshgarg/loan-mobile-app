@@ -16,10 +16,6 @@ export const repaymentApi = api
           console.log("response", response);
           return response;
         },
-        transformErrorResponse: (response) => {
-          console.log("response", response);
-          return response;
-        },
       }),
       updateRepayment: builder.mutation({
         query: (body) => ({

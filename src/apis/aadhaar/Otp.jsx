@@ -54,6 +54,7 @@ const AadhaarOtpApi = (props) => {
         }
       })
       .catch((error) => {
+        console.log("kyc/aadhaar-generate-otp error: ", error);
         dispatch(addVerifyStatus("ERROR"));
         console.log(error.data.error.message);
         showToast(error?.data?.error?.message, "error");

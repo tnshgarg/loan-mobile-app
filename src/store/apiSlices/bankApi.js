@@ -32,8 +32,8 @@ export const bankApi = api
         }),
         transformResponse: (response) => response.response,
       }),
-      overrideExisting: true,
     }),
+    overrideExisting: true,
   });
 
 export const { useGetBankQuery, useVerifyBankMutation, useUpdateBankMutation } =

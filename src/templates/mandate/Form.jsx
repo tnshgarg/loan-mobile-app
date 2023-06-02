@@ -67,7 +67,9 @@ const MandateFormTemplate = (props) => {
       state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
   );
   const [updateMandate] = useUpdateMandateMutation();
-  const { mandateData, error, isLoading } = useGetMandateQuery(unipeEmployeeId);
+  const { mandateData, error, isLoading } = useGetMandateQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 2,
+  });
   useEffect(() => {
     getUniqueId().then((id) => {
       setDeviceId(id);

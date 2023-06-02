@@ -146,6 +146,7 @@ const OTPScreen = () => {
         analytics().logEvent("OTPScreen_SendSms_Error", {
           unipeEmployeeId: unipeEmployeeId,
         });
+        console.log(error, error.message);
         Alert.alert("Error", error.message);
       });
   };
@@ -168,10 +169,13 @@ const OTPScreen = () => {
       .catch((error) => {
         analytics().logEvent("OTPScreen_Check_Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: error.message,
+          error: error?.message || error?.error?.message,
         });
         console.log(error);
-        Alert.alert("Error", error.message);
+        Alert.alert("Error", error?.message || error?.error?.message);
+        if (error?.status != 406){
+          navigation.navigate("Login");
+        }
       });
   };
 

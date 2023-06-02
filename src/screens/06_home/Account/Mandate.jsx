@@ -21,7 +21,9 @@ const Mandate = ({ navigation }) => {
   const mandateSlice = useSelector((state) => state.mandate);
   const authType = mandateSlice.data?.authType?.toUpperCase();
   const [verifyStatus, setVerifyStatus] = useState(mandateSlice?.verifyStatus);
-  const { data, error, isLoading } = useGetMandateQuery(unipeEmployeeId);
+  const { data, error, isLoading } = useGetMandateQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 2,
+  });
   useEffect(() => {
     if (isFocused && unipeEmployeeId) {
       if (data && !isLoading && !error) {

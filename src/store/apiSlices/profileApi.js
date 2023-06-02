@@ -20,8 +20,8 @@ export const profileApi = api
         }),
         transformResponse: (response) => response.response,
       }),
-      overrideExisting: true,
     }),
+    overrideExisting: true,
   });
 
 export const { useGetProfileQuery, useUpdateProfileMutation } = profileApi;

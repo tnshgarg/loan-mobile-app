@@ -10,14 +10,10 @@ export const loginApi = api.injectEndpoints({
         body: { mobileNumber: phoneNumber },
       }),
       transformResponse: (response) => {
-        console.log({ response });
-        if (response.response) {
-          return response.response;
-        }
+        return response;
       },
-      transformErrorResponse: (error) => {
-        console.log({ error });
-        return error;
+      transformErrorResponse: (response) => {
+        return response.data.error;
       },
     }),
     verifyOtp: builder.mutation({
@@ -28,17 +24,18 @@ export const loginApi = api.injectEndpoints({
         body: body,
       }),
       transformResponse: (response) => {
-        console.log({ response });
-
+        console.log("response", response);
         return response;
       },
       transformErrorResponse: (error) => {
-        return error;
+        console.log("ErrorRes", error);
+        if (error?.data) {
+          return error.data;
+        }
       },
     }),
-
-    overrideExisting: true,
   }),
+  overrideExisting: true,
 });
 
 export const { useGenerateOtpMutation, useVerifyOtpMutation } = loginApi;

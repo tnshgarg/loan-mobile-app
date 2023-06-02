@@ -18,6 +18,9 @@ export const aadhaarApi = api
           method: "POST",
           body: body,
         }),
+        transformErrorResponse: (error) => {
+          return error?.data?.error;
+        }
       }),
       verifyAadhaarOtp: builder.mutation({
         query: (body) => ({
@@ -34,8 +37,8 @@ export const aadhaarApi = api
         }),
         transformResponse: (response) => response.response,
       }),
-      overrideExisting: true,
     }),
+    overrideExisting: true,
   });
 
 export const {

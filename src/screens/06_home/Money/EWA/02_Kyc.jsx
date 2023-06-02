@@ -50,7 +50,9 @@ const KYC = () => {
     });
     dispatch(addCurrentScreen("EWA_KYC"));
   }, []);
-  const { data, error, isLoading } = useGetMandateQuery(unipeEmployeeId);
+  const { data, error, isLoading } = useGetMandateQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 2,
+  });
   useEffect(() => {
     if (unipeEmployeeId && deviceId !== 0 && ipAddress !== 0) {
       if (data && !isLoading && !error) {
