@@ -25,8 +25,13 @@ import MandateOptions from "../../components/molecules/MandateOptions";
 import Shield from "../../assets/Shield.svg";
 import RBI from "../../assets/RBI.svg";
 import MandateLoading from "../../components/organisms/MandateLoading";
-import { useUpdateMandateMutation, useGetMandateQuery } from "../../store/apiSlices/mandateApi";
+import {
+  useUpdateMandateMutation,
+  useGetMandateQuery,
+} from "../../store/apiSlices/mandateApi";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import HelpCard from "../../components/atoms/HelpCard";
+import InfoCard from "../../components/atoms/InfoCard";
 
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -136,11 +141,11 @@ const MandateFormTemplate = (props) => {
   };
 
   const refreshMandateFromBackend = () => {
-   if (mandateData && !isLoading && !error) {
+    if (mandateData && !isLoading && !error) {
       console.log("Form mandateFetch response.data", mandateData);
       dispatch(resetMandate(mandateData?.data?.body));
       setVerifyStatus(mandateData?.data?.body?.verifyStatus);
-    };
+    }
   };
 
   const initiateRazorpayCheckout = async ({ customerId, orderId, notes }) => {
@@ -263,7 +268,8 @@ const MandateFormTemplate = (props) => {
     <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <DetailsCard data={cardData()} />
+          <HelpCard text="Aadhaar" />
+
           {verifyStatus != "INPROGRESS" && (
             <Text
               style={{ ...FONTS.body4, color: COLORS.gray, marginVertical: 10 }}
@@ -286,60 +292,12 @@ const MandateFormTemplate = (props) => {
               authType={authType}
             />
           )}
-          <View
-            style={{
-              padding: 10,
-              backgroundColor: COLORS.lightGray,
-              marginVertical: 10,
-              borderRadius: 5,
-              alignItems: "center",
-              justifyContent: "center",
-              marginTop: "10%",
-            }}
-          >
-            <Text
-              style={{
-                ...FONTS.body4,
-                color: COLORS.gray,
-                marginBottom: 5,
-                textAlign: "center",
-              }}
-            >
-              Mandate is required to auto-debit loan payments on Due Date. This
-              is 100% secure and executed by an RBI approved entity.
-            </Text>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              width: "100%",
-              padding: 10,
-              justifyContent: "space-evenly",
-              alignItems: "center",
-            }}
-          >
-            <View style={{ flexDirection: "column", alignItems: "center" }}>
-              <Shield />
-              <Text
-                style={{ ...FONTS.body4, color: COLORS.gray, marginTop: 5 }}
-              >
-                100% Secure
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <RBI />
-              <Text
-                style={{ ...FONTS.body4, color: COLORS.gray, marginTop: 5 }}
-              >
-                RBI Approved
-              </Text>
-            </View>
-          </View>
+          <InfoCard
+            info={
+              "Mandate is required to auto-debit loan payments on Due Date. This is 100% secure and executed by an RBI approved entity."
+            }
+          />
+          <HelpCard text="repayment methods" />
         </ScrollView>
       </KeyboardAvoidingWrapper>
       {modalVisible && (

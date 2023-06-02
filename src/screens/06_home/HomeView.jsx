@@ -19,7 +19,7 @@ import { styles } from "../../styles";
 import { STAGE } from "@env";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import LogoHeader from "../../components/atoms/LogoHeader";
-import { COLORS } from "../../constants/Theme";
+import { COLORS, FONTS } from "../../constants/Theme";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
 import { useGetOffersQuery } from "../../store/apiSlices/ewaApi";
 import {
@@ -33,9 +33,11 @@ import {
   addEligible,
   resetEwaLive,
 } from "../../store/slices/ewaLiveSlice";
-import CompleteKycCard from "../../components/molecules/CompleteKycCard";
-import ExploreCards from "../../components/molecules/ExploreCards";
-import whatsappLinking from "../../helpers/WhatsappLinking";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import HelpFooter from "../../components/atoms/HelpFooter";
+import BannerCard from "../../components/atoms/BannerCard";
+import CmsRoot from "../../components/cms/CmsRoot";
+
 const HomeView = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -52,22 +54,18 @@ const HomeView = () => {
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const onboarded = useSelector((state) => state.auth.onboarded);
+  const name = useSelector(
+    (state) =>
+      state.aadhaar.data?.name ||
+      state.pan.data?.name ||
+      state.auth.employeeName
+  );
 
   // const panMisMatch = useSelector((state) => state.pan.misMatch);
   // const bankMisMatch = useSelector((state) => state.bank.misMatch);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
-
-  const verifyStatuses = [
-    aadhaarVerifyStatus != "SUCCESS"
-      ? { label: "Verify AADHAAR", value: "AADHAAR" }
-      : null,
-    panVerifyStatus != "SUCCESS" ? { label: "Verify PAN", value: "PAN" } : null,
-    bankVerifyStatus != "SUCCESS"
-      ? { label: "Verify Bank Account", value: "BANK" }
-      : null,
-  ];
 
   // useEffect(() => {
   //   // PushNotification.deleteChannel("Onboarding");
@@ -204,27 +202,78 @@ const HomeView = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <LogoHeader
-        title={"Home"}
-        rightIcon={
-          <Ionicons name="logo-whatsapp" size={28} color={COLORS.primary} />
-        }
-        rightOnPress={() => {
-          whatsappLinking();
-        }}
-      />
       <ScrollView showsVerticalScrollIndicator={false}>
+        <LogoHeaderBack
+          title={`Good Afternoon \n${name}!`}
+          onRightIconPress={() => {}}
+          titleStyle={{ ...FONTS.body3, color: COLORS.gray }}
+          containerStyle={{
+            backgroundColor: null,
+          }}
+        />
         <View style={styles.container}>
-          <>
-            <LiveOfferCard
-              eligible={eligible}
-              accessible={accessible}
-              ewaLiveSlice={ewaLiveSlice}
-            />
-            <CompleteKycCard />
-            <ExploreCards />
-          </>
+          <LiveOfferCard
+            eligible={eligible}
+            accessible={accessible}
+            ewaLiveSlice={ewaLiveSlice}
+          />
+          <CmsRoot
+            children={[
+              {
+                type: "banner",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/fcm_test_1.jpeg",
+              },
+              {
+                type: "section",
+                title: "Learn With Us",
+                leftIcon:
+                  "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/learn.png",
+                ctaText: "SEE ALL",
+                children: [
+                  {
+                    type: "swiper",
+                    urls: [
+                      "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/carousel_1.png",
+                      "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/carousel_1.png",
+                      "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/carousel_1.png",
+                    ],
+                  },
+                ],
+              },
+              {
+                type: "column",
+                title: "Why Unipe?",
+                subtitle: "Why Unipe?",
+                children: [
+                  {
+                    type: "video",
+                    videoUri: "",
+                  },
+                ],
+              },
+              {
+                type: "column",
+                title: "Why Unipe?",
+                subtitle: "Why Unipe?",
+                children: [
+                  {
+                    type: "video",
+                    videoUri: "",
+                  },
+                ],
+              },
+              {
+                type: "section",
+                title: "User Story",
+                leftIcon:
+                  "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/Userstory.png",
+              },
+            ]}
+          ></CmsRoot>
+
+          {/* <BannerCard /> */}
         </View>
+        <HelpFooter />
       </ScrollView>
     </SafeAreaView>
   );

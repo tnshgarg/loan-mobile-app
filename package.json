@@ -78,6 +78,7 @@
 		"react-native-splash-screen": "^3.3.0",
 		"react-native-step-indicator": "^1.0.3",
 		"react-native-svg": "^13.9.0",
+		"react-native-swiper": "^1.6.0",
 		"react-native-tab-view": "^3.5.1",
 		"react-native-vector-icons": "^9.2.0",
 		"react-native-webview": "^12.0.2",
@@ -88,7 +89,7 @@
 	"devDependencies": {
 		"@babel/core": "^7.21.8",
 		"@babel/preset-env": "^7.21.5",
-		"@babel/runtime": "^7.21.5",
+		"@babel/runtime": "^7.22.3",
 		"@react-native-community/eslint-config": "^3.2.0",
 		"@tsconfig/react-native": "^3.0.0",
 		"@types/jest": "^29.5.1",

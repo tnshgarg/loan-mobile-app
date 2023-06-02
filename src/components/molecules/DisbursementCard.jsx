@@ -10,8 +10,7 @@ const DisbursementCard = ({ title, data, info, iconName, variant }) => {
       style={[
         styles.container,
         {
-          backgroundColor:
-            variant == "dark" ? COLORS.moneyCardBg : COLORS.white,
+          backgroundColor: variant == "dark" ? COLORS.moneyCardBg : "#f7f6f1",
         },
       ]}
     >

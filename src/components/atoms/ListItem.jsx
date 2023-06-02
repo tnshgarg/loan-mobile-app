@@ -1,7 +1,8 @@
-import {Text, TouchableNativeFeedback, View} from 'react-native';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {COLORS, FONTS} from '../../constants/Theme';
+import { Text, TouchableNativeFeedback, View } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { COLORS, FONTS } from "../../constants/Theme";
+import SvgContainer from "./SvgContainer";
 
 const ListItem = ({
   item,
@@ -11,13 +12,14 @@ const ListItem = ({
   titleStyle,
   subtitleStyle,
 }) => {
-  const {title, subtitle, iconName, onPress} = item;
+  const { title, subtitle, iconName, onPress } = item;
 
   return (
     <TouchableNativeFeedback
       accessibilityLabel="InfoCard"
       onPress={onPress}
-      disabled={disabled}>
+      disabled={disabled}
+    >
       <View
         style={[
           styles.container,
@@ -28,19 +30,16 @@ const ListItem = ({
               ? COLORS.lightgray_01
               : COLORS.white,
           },
-        ]}>
-        <MaterialCommunityIcons
-          name={iconName}
-          size={24}
-          color={
-            selected ? COLORS.white : disabled ? COLORS.gray : COLORS.black
-          }
-        />
+        ]}
+      >
+        <SvgContainer height={24} width={24}>
+          {item.imageUri}
+        </SvgContainer>
         <View style={styles.textContainer}>
           <Text
             style={[
               styles.title,
-              {...titleStyle},
+              { ...titleStyle },
               {
                 color: selected
                   ? COLORS.white
@@ -48,11 +47,12 @@ const ListItem = ({
                   ? COLORS.gray
                   : COLORS.black,
               },
-            ]}>
+            ]}
+          >
             {title}
           </Text>
           {subtitle && (
-            <Text style={[styles.subtitle, {...subtitleStyle}]}>
+            <Text style={[styles.subtitle, { ...subtitleStyle }]}>
               {subtitle}
             </Text>
           )}
@@ -73,24 +73,24 @@ const ListItem = ({
 
 const styles = EStyleSheet.create({
   container: {
-    width: '100%',
-    padding: '15rem',
-    flexDirection: 'row',
-    alignItems: 'center',
+    width: "100%",
+    padding: "20rem",
+    flexDirection: "row",
+    alignItems: "center",
     borderBottomWidth: 1,
     borderColor: COLORS.lightgray_01,
   },
   textContainer: {
-    paddingLeft: '10rem',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
+    paddingLeft: "10rem",
+    flexDirection: "column",
+    alignItems: "flex-start",
     flex: 1,
   },
   title: {
     ...FONTS.h4,
     color: COLORS.black,
   },
-  subtitle: {...FONTS.body5, color: COLORS.gray},
+  subtitle: { ...FONTS.body5, color: COLORS.gray },
 });
 
 export default ListItem;

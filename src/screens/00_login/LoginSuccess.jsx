@@ -113,35 +113,6 @@ const LoginSuccess = () => {
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
 
-  const handleConditionalNav = () => {
-    if (!profileComplete) {
-      navigation.navigate("AccountStack", {
-        screen: "Profile",
-      });
-    } else if (aadhaarVerifyStatus != "SUCCESS") {
-      navigation.navigate("AccountStack", {
-        screen: "KYC",
-        params: {
-          screen: "AADHAAR",
-        },
-      });
-    } else if (panVerifyStatus != "SUCCESS") {
-      navigation.navigate("AccountStack", {
-        screen: "KYC",
-        params: {
-          screen: "PAN",
-        },
-      });
-    } else if (bankVerifyStatus != "SUCCESS") {
-      navigation.navigate("AccountStack", {
-        screen: "KYC",
-        params: {
-          screen: "BANK",
-        },
-      });
-    }
-  };
-
   return (
     <SafeAreaView accessibilityLabel="WelcomePage" style={styles.safeContainer}>
       {/* <LogoHeaderBack onRightIconPress={() => setVisible(true)} /> */}
@@ -183,7 +154,7 @@ const LoginSuccess = () => {
         <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
-          colors={["rgba(110, 220, 133,0.3)", "rgba(237, 251, 139,0.3)"]}
+          colors={[COLORS.lightGreen, COLORS.lightYellow]}
           style={onboardingStyles.alertBox}
         >
           <LinearGradient
@@ -221,7 +192,7 @@ const LoginSuccess = () => {
             Analytics.trackEvent("WelcomePage", {
               unipeEmployeeId: unipeEmployeeId,
             });
-            handleConditionalNav();
+            navigation.navigate("KycProgress");
           }}
         />
         <PrimaryButton

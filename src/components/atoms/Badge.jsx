@@ -1,14 +1,14 @@
 import { View, Text } from "react-native";
 import React from "react";
 import LinearGradient from "react-native-linear-gradient";
-import { FONTS } from "../../constants/Theme";
+import { COLORS, FONTS } from "../../constants/Theme";
 
 const Badge = ({ text, containerStyle }) => {
   return (
     <LinearGradient
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
-      colors={["rgba(110, 220, 133,0.3)", "rgba(237, 251, 139,0.3)"]}
+      colors={[COLORS.lightGreen, COLORS.lightYellow]}
       style={{
         paddingHorizontal: 15,
         paddingVertical: 5,

@@ -12,6 +12,7 @@ const LogoHeader = ({
   rightIcon,
   rightOnPress,
   title,
+  titleStyle,
   headline,
   subHeadline,
 }) => {
@@ -39,7 +40,11 @@ const LogoHeader = ({
           }}
         >
           {title ? (
-            <Text style={{ ...FONTS.body3, color: COLORS.black }}>{title}</Text>
+            <Text
+              style={{ ...FONTS.body2, color: COLORS.secondary, ...titleStyle }}
+            >
+              {title}
+            </Text>
           ) : (
             <SvgContainer width={95} height={35}>
               <LogoImage />
@@ -77,9 +82,6 @@ const styles = EStyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-
-    borderBottomWidth: 1.5,
-    borderColor: COLORS.lightgray_01,
   },
   empty: { backgroundColor: "transparent", height: "32rem", width: "32rem" },
   logo: {

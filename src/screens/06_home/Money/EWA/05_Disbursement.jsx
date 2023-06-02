@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { BackHandler, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Failure from "../../../../assets/animations/Failure";
-import Pending from "../../../../assets/animations/Pending";
+import Hourglass from "../../../../assets/Hourglass.svg";
 import Success from "../../../../assets/animations/Success";
 import Header from "../../../../components/atoms/Header";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
 import { useGetDisbursementQuery } from "../../../../store/apiSlices/ewaApi";
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import { styles } from "../../../../styles";
+import SvgContainer from "../../../../components/atoms/SvgContainer";
 
 const Disbursement = ({ route, navigation }) => {
   const dispatch = useDispatch();
@@ -49,7 +50,7 @@ const Disbursement = ({ route, navigation }) => {
       case "FAILURE":
         return <Failure />;
       default:
-        return <Pending />;
+        return <Hourglass />;
     }
   };
 
@@ -142,14 +143,16 @@ const Disbursement = ({ route, navigation }) => {
         // progress={100}
       />
       <View style={styles.container}>
-        {StatusImage(status)}
+        <SvgContainer width={300} height={300}>
+          {StatusImage(status)}
+        </SvgContainer>
+
         {StatusText(status)}
         <DisbursementCard
           data={data}
           title="Loan Details"
           info="Money will be auto debited from your upcoming salary"
           iconName="ticket-percent-outline"
-          variant={"dark"}
         />
       </View>
     </SafeAreaView>

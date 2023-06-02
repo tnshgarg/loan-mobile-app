@@ -16,6 +16,7 @@ export const loginApi = api.injectEndpoints({
         }
       },
       transformErrorResponse: (error) => {
+        console.log({ error });
         return error;
       },
     }),

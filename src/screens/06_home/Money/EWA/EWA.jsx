@@ -8,7 +8,7 @@ import LogoHeader from "../../../../components/atoms/LogoHeader";
 import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
 import VerifyMandateCard from "../../../../components/molecules/VerifyMandateCard";
 import LiveOfferCard from "../../../../components/organisms/LiveOfferCard";
-import { COLORS } from "../../../../constants/Theme";
+import { COLORS, FONTS } from "../../../../constants/Theme";
 import { getNumberOfDays } from "../../../../helpers/DateFunctions";
 import { useGetOffersQuery } from "../../../../store/apiSlices/ewaApi";
 import { useGetMandateQuery } from "../../../../store/apiSlices/mandateApi";
@@ -23,6 +23,7 @@ import {
   resetMandate,
 } from "../../../../store/slices/mandateSlice";
 import { styles } from "../../../../styles";
+import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 const EWA = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -136,13 +137,11 @@ const EWA = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <LogoHeader
-        title={"Money"}
-        rightIcon={
-          <Ionicons name="logo-whatsapp" size={28} color={COLORS.primary} />
-        }
-        rightOnPress={() => {
-          Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+      <LogoHeaderBack
+        title={`Money`}
+        onRightIconPress={() => {}}
+        containerStyle={{
+          backgroundColor: null,
         }}
       />
       <View style={styles.container}>

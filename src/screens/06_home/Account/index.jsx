@@ -21,6 +21,12 @@ import { useNavigation } from "@react-navigation/native";
 import LogoutModal from "../../../components/organisms/LogoutModal";
 import ListItem from "../../../components/atoms/ListItem";
 import whatsappLinking from "../../../helpers/WhatsappLinking";
+import Profile from "../../../assets/Profile.svg";
+import AboutUs from "../../../assets/AboutUs.svg";
+import CustomerSupport from "../../../assets/CustomerSupport.svg";
+import Kyc from "../../../assets/Kyc.svg";
+import Logout from "../../../assets/Logout.svg";
+import InfoCard from "../../../components/atoms/InfoCard";
 
 const AccountMenu = (props) => {
   const dispatch = useDispatch();
@@ -65,13 +71,19 @@ const AccountMenu = (props) => {
     {
       title: "Profile",
       subtitle: "See & edit your profile details",
-      iconName: "account-circle-outline",
+      imageUri: <Profile />,
       route: { stack: "AccountStack", screen: "Profile" },
     },
     {
       title: "KYC",
       subtitle: "All your KYC details in one place",
-      iconName: "order-bool-ascending-variant",
+      imageUri: <Kyc />,
+      route: { stack: "AccountStack", screen: "KYC" },
+    },
+    {
+      title: "KYC",
+      subtitle: "All your KYC details in one place",
+      imageUri: <Kyc />,
       route: { stack: "AccountStack", screen: "KYC" },
     },
     // {
@@ -89,7 +101,7 @@ const AccountMenu = (props) => {
     {
       title: "Customer Support",
       subtitle: "Talk to out support team",
-      iconName: "whatsapp",
+      imageUri: <CustomerSupport />,
       action: () => {
         whatsappLinking();
       },
@@ -97,19 +109,19 @@ const AccountMenu = (props) => {
     {
       title: "Terms & Conditions",
       subtitle: "Read our terms of use",
-      iconName: "file-document-outline",
+      imageUri: <Profile />,
       action: () => setIsTermsOfUseModalVisible(true),
     },
     {
       title: "Privacy Policy",
       subtitle: "Read our privacy policy",
-      iconName: "shield-outline",
+      imageUri: <Profile />,
       action: () => setIsPrivacyModalVisible(true),
     },
     {
       title: "Logout",
       subtitle: "Logout from Unipe App",
-      iconName: "exit-to-app",
+      imageUri: <Logout />,
       action: () => onLogout(),
     },
   ];
@@ -124,13 +136,7 @@ const AccountMenu = (props) => {
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeader
         title={"Account"}
-        rightIcon={
-          <Ionicons
-            name="help-circle-outline"
-            size={28}
-            color={COLORS.primary}
-          />
-        }
+        containerStyle={{ backgroundColor: null }}
       />
       <ScrollView>
         <View style={accountStyles.imageContainer}>
@@ -151,14 +157,26 @@ const AccountMenu = (props) => {
               style={accountStyles.userImage}
             />
           )}
-
-          <Text style={accountStyles.userTitle}>{name}</Text>
+          <View style={{ flexDirection: "column" }}>
+            <Text style={accountStyles.userTitle}>{name}</Text>
+            <Text style={accountStyles.userSubtitle}>Amazon India</Text>
+          </View>
         </View>
+        <View style={{ padding: 15 }}>
+          <InfoCard
+            variant={"gradient"}
+            title={"Action Required"}
+            info={
+              "Verify your identity to withdraw advance salary in our bank account"
+            }
+          />
+        </View>
+
         {options.map((item, index) => (
           <ListItem
             key={index}
             item={{ ...item, onPress: () => onPressCard(item) }}
-            showIcon={false}
+            showIcon={true}
           />
         ))}
       </ScrollView>

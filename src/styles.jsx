@@ -276,6 +276,10 @@ export const accountStyles = EStyleSheet.create({
     padding: "15rem",
     borderBottomWidth: 0.8,
     borderColor: COLORS.lightGray,
+    backgroundColor: "#213240",
+    margin: "15rem",
+    marginBottom: 0,
+    borderRadius: "10rem",
   },
   guestIcon: {
     width: "60rem",
@@ -294,8 +298,13 @@ export const accountStyles = EStyleSheet.create({
     borderColor: COLORS.lightGray,
   },
   userTitle: {
-    ...FONTS.h4,
-    color: COLORS.black,
+    ...FONTS.body2,
+    color: COLORS.white,
+    marginLeft: "15rem",
+  },
+  userSubtitle: {
+    ...FONTS.body3,
+    color: COLORS.white,
     marginLeft: "15rem",
   },
 });

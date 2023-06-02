@@ -4,42 +4,56 @@ import { Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
+import HelpCard from "../atoms/HelpCard";
+import InfoCard from "../atoms/InfoCard";
 
 const SliderCard = ({ info, iconName, amount, setAmount, eligibleAmount }) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container]}>
+      <View
+        style={{
+          borderBottomWidth: 1,
+          borderColor: COLORS.lightGray,
+          padding: 15,
+        }}
+      >
+        <Text style={{ ...FONTS.body4, color: COLORS.secondary }}>
+          Available Salary:{" "}
+        </Text>
+      </View>
       <View style={{ padding: 15 }}>
         <Text
           style={{
-            ...FONTS.body5,
-            color: COLORS.gray,
+            ...FONTS.body3,
+            color: COLORS.secondary,
             alignSelf: "center",
           }}
         >
-          Withdrawal Amount
+          I want to withdraw
         </Text>
         <Text
           style={{
-            ...FONTS.h1,
-            color: COLORS.black,
+            ...FONTS.body1,
+            color: COLORS.secondary,
             alignSelf: "center",
           }}
         >
           ₹{amount}
         </Text>
 
-        {eligibleAmount >= 1000 ? (
-          <Slider
-            minimumValue={1000}
-            maximumValue={eligibleAmount}
-            step={100}
-            trackStyle={styles.track}
-            thumbStyle={styles.thumb}
-            minimumTrackTintColor={COLORS.primary}
-            value={amount}
-            onValueChange={(value) => setAmount(value)}
-          />
-        ) : null}
+        {/* {eligibleAmount >= 1000 ? ( */}
+        <Slider
+          minimumValue={1000}
+          //  maximumValue={eligibleAmount}
+          maximumValue={20000}
+          step={100}
+          trackStyle={styles.track}
+          thumbStyle={styles.thumb}
+          minimumTrackTintColor={COLORS.primary}
+          value={amount}
+          onValueChange={(value) => setAmount(value)}
+        />
+        {/* ) : null} */}
 
         <View
           style={[styles.row, { padding: 0, justifyContent: "space-between" }]}
@@ -47,40 +61,29 @@ const SliderCard = ({ info, iconName, amount, setAmount, eligibleAmount }) => {
           <View style={styles.col}>
             <Text
               style={{
-                ...FONTS.h3,
-                color: COLORS.black,
-              }}
-            >
-              ₹1000
-            </Text>
-            <Text
-              style={{
-                ...FONTS.body5,
+                ...FONTS.body3,
                 color: COLORS.gray,
               }}
             >
-              (minimum)
+              ₹1000
             </Text>
           </View>
           <View style={styles.col}>
             <Text
               style={{
-                ...FONTS.h3,
-                color: COLORS.black,
+                ...FONTS.body3,
+                color: COLORS.gray,
               }}
             >
               ₹{eligibleAmount}
             </Text>
-            <Text
-              style={{
-                ...FONTS.body5,
-                color: COLORS.gray,
-              }}
-            >
-              (maximum)
-            </Text>
           </View>
         </View>
+        <InfoCard info="Takes upto 1 business day" />
+        <InfoCard
+          info="The withdrawl will be deducted from your upcoming paycheck"
+          variant="gradient"
+        />
       </View>
 
       {info ? (
@@ -146,10 +149,10 @@ const styles = EStyleSheet.create({
     backgroundColor: COLORS.lightGray,
   },
   thumb: {
-    width: "25rem",
-    height: "25rem",
-    borderWidth: "4rem",
-    backgroundColor: COLORS.primary,
+    width: "40rem",
+    height: "18rem",
+    borderWidth: "3rem",
+    backgroundColor: "#377476",
     borderColor: COLORS.white,
     ...SIZES.shadow,
     borderRadius: "50rem",

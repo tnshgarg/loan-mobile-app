@@ -12,27 +12,20 @@ import HelpSection from "../../components/organisms/HelpSection";
 
 const BankForm = () => {
   const bankData = {
-    heading: "Help - Mandate Verification",
+    heading: "Help - Bank Account Verification",
     headingImage: require("../../assets/MandateHeader.png"),
-    title: "Adding Repayment Method (Mandate)",
-    subtitle: "Choose one of the methods to setup repayment.",
+    title: "How to verify Bank Account?",
+    subtitle: "Follow this 2-step process",
     btnText: "Add Mandate",
-    badgeTitle: "OPTION",
     steps: [
       {
-        title: "Debit Card",
+        title: "Bank Account Details",
         subtitle:
-          "To complete Mandate with a debit card, provide your debit card details and OTP to authenticate your Mandate.",
+          "Provide your Account Holder's Name, Account Number, IFSC Code",
       },
       {
-        title: "Net Banking",
-        subtitle:
-          "To complete Mandate with a debit card, provide your debit card details and OTP to authenticate your Mandate.",
-      },
-      {
-        title: "Aadhaar Card",
-        subtitle:
-          "To complete Mandate with a debit card, provide your debit card details and OTP to authenticate your Mandate.",
+        title: "Confirm Bank Account",
+        subtitle: "Confirm your Account details - Name, Account Number & IFSC",
       },
     ],
     questions: [

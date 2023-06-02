@@ -9,7 +9,7 @@ const DetailsCard = ({ data, imageUri, containerStyle, type }) => {
       style={[styles.container, { ...containerStyle }]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
-      colors={["rgba(110, 220, 133,0.3)", "rgba(237, 251, 139,0.3)"]}
+      colors={[COLORS.lightGreen, COLORS.lightYellow]}
     >
       <Text style={{ ...FONTS.body1, width: "50%" }}>{data[0].value}</Text>
       {imageUri && <Image source={imageUri} style={styles.image} />}

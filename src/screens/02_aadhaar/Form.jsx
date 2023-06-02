@@ -88,6 +88,7 @@ const AadhaarForm = () => {
         subHeadline={
           "भारतीय रिजर्व बैंक के मानदंडों के अनुसार, आपको अपना आधार वेरीफाई करना अनिवार्य है।"
         }
+        onLeftIconPress={backAction}
         onRightIconPress={() => setVisible(true)}
       />
 

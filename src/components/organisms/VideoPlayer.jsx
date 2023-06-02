@@ -15,7 +15,7 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import EStyleSheet from "react-native-extended-stylesheet";
 
-export default function VideoPlayer({ thumbnail, title, videoId }) {
+export default function VideoPlayer({ thumbnail, title, videoId, size }) {
   const [playing, setPlaying] = useState(true);
   const [visible, setVisible] = useState(false);
 
@@ -29,7 +29,13 @@ export default function VideoPlayer({ thumbnail, title, videoId }) {
   return (
     <SafeAreaView>
       <ImageBackground
-        style={styles.thumbnailContainer}
+        style={[
+          styles.thumbnailContainer,
+          {
+            height: size == "small" ? 80 : 180,
+            width: size == "small" ? "48%" : "100%",
+          },
+        ]}
         borderRadius={5}
         source={thumbnail}
       >

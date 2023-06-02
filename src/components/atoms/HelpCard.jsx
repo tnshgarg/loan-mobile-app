@@ -10,7 +10,7 @@ const HelpCard = ({ text }) => {
     <LinearGradient
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
-      colors={["rgba(110, 220, 133,0.3)", "rgba(237, 251, 139,0.3)"]}
+      colors={[COLORS.lightGreen, COLORS.lightYellow]}
       style={styles.container}
     >
       <View

@@ -19,6 +19,7 @@ const CompleteKycCard = () => {
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
 
   const handleConditionalNav = () => {
+    navigation.navigate("AccountStack");
     if (!profileComplete) {
       navigation.navigate("AccountStack", {
         screen: "Profile",

@@ -10,7 +10,7 @@ const LogoHeaderBack = ({
   onLeftIconPress,
   onRightIconPress,
   title,
-  skipEnabled,
+  titleStyle,
   headline,
   subHeadline,
   containerStyle,
@@ -18,13 +18,16 @@ const LogoHeaderBack = ({
   return (
     <LogoHeader
       leftIcon={
-        <Ionicons
-          name="arrow-back-outline"
-          size={28}
-          color={COLORS.secondary}
-        />
+        onLeftIconPress && (
+          <Ionicons
+            name="arrow-back-outline"
+            size={28}
+            color={COLORS.secondary}
+          />
+        )
       }
       containerStyle={{ ...containerStyle }}
+      titleStyle={{ ...titleStyle }}
       leftOnPress={onLeftIconPress}
       title={title}
       headline={headline}

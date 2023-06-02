@@ -18,6 +18,7 @@ import { showToast } from "../components/atoms/Toast";
 import { decode } from "react-native-pure-jwt";
 import LogoutModal from "../components/organisms/LogoutModal";
 import { useNavigation } from "@react-navigation/core";
+import KycProgress from "../screens/KycProgress";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -60,7 +61,7 @@ const StackNavigator = () => {
   console.log("initialRoute: ", initialRoute);
   return (
     <OfflineAlert>
-      <Stack.Navigator initialRouteName={"Splash"}>
+      <Stack.Navigator initialRouteName={"DevMenu"}>
         <Stack.Screen
           name="DevMenu"
           component={DevMenu}
@@ -69,7 +70,7 @@ const StackNavigator = () => {
             header: null,
           }}
         />
-        {/* <Stack.Screen
+        <Stack.Screen
           name="Splash"
           options={{ headerShown: false, header: null }}
           component={SplashScreen}
@@ -77,7 +78,7 @@ const StackNavigator = () => {
             initialRoute: initialRoute,
             initialScreen: initialScreen,
           }}
-        /> */}
+        />
         <Stack.Screen
           name="OnboardingStack"
           component={OnboardingStack}
@@ -85,7 +86,15 @@ const StackNavigator = () => {
             headerShown: false,
           }}
         />
-        {token && (
+        <Stack.Screen
+          name="KycProgress"
+          component={KycProgress}
+          options={{
+            headerShown: false,
+            header: null,
+          }}
+        />
+        {token ? (
           <>
             <Stack.Screen
               name="BackendSync"
@@ -131,7 +140,7 @@ const StackNavigator = () => {
               }}
             />
           </>
-        )}
+        ) : null}
       </Stack.Navigator>
       <LogoutModal modalVisible={modalVisible} />
     </OfflineAlert>

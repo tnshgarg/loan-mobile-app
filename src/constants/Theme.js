@@ -9,7 +9,7 @@ EStyleSheet.build({
   $rem: scale,
   $primaryPending: "#4E46F1",
   $primary: "#41be89",
-  $primaryBackground: "#D5F9EA",
+  $primaryBackground: "#DDE9E4",
   $appBarBackground: "#2CB77C",
   $appBarText: "",
   $secondary: "#230C45",
@@ -32,8 +32,9 @@ export function normalize(size) {
 }
 export const COLORS = {
   primary: "#41be89",
-  primaryBackground: "#D5F9EA",
-  secondary: "#170D45",
+  primaryBackground: "#e0f2ec",
+  pendingBackground: "#fff1e3",
+  secondary: "#030D4E",
   headerBg: "rgba(55, 116, 118,0.1)",
   warning: "#f56a6a",
   warningBackground: "#fde1e1",
@@ -45,9 +46,11 @@ export const COLORS = {
   white: "#FFFFFF",
   lightgray_01: "#f1f1f1",
   cardBackground: "#F2F8F9",
-  moneyCardBg: "#3C3F54",
+  moneyCardBg: "#f5f9f9",
   moneyCardBgVariant: "#4D5162",
   yellow: "#F9C700",
+  lightGreen: "rgba(110, 220, 133,0.3)",
+  lightYellow: "rgba(237, 251, 139,0.3)",
 };
 
 export const SIZES = {

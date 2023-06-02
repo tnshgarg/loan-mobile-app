@@ -20,6 +20,8 @@ import SliderCard from "../../../../components/organisms/SliderCard";
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import Checkbox from "../../../../components/atoms/Checkbox";
 import { useUpdateOfferMutation } from "../../../../store/apiSlices/ewaApi";
+import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
+import { COLORS } from "../../../../constants/Theme";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -211,21 +213,15 @@ const Offer = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
+      <LogoHeaderBack
         title="On-Demand Salary"
         onLeftIconPress={() => backAction()}
         progress={25}
+        subHeadline={"Select amount you want to withdraw"}
       />
-      <View style={styles.container}>
-        <Text style={[styles.headline, { alignSelf: "flex-start" }]}>
-          How much do you want?
-        </Text>
-        <Text style={[styles.subHeadline, { alignSelf: "flex-start" }]}>
-          Here is your access of emergency funds
-        </Text>
-
+      <View style={[styles.container, { backgroundColor: "#F3F6F7" }]}>
         <SliderCard
-          info={"Zero Interest charges, Nominal Processing Fees"}
+          // info={"Zero Interest charges, Nominal Processing Fees"}
           iconName="brightness-percent"
           amount={loanAmount}
           setAmount={setLoanAmount}

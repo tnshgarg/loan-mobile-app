@@ -30,7 +30,7 @@ const CollapsibleItem = ({
         </View>
 
         <MaterialCommunityIcons
-          name={show ? "chevron-down" : "chevron-up"}
+          name={!show ? "chevron-down" : "chevron-up"}
           size={28}
           color={COLORS.gray}
         />
