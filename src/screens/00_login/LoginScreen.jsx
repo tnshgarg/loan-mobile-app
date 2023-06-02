@@ -1,35 +1,29 @@
-import Analytics from "appcenter-analytics";
+import { STAGE } from "@env";
+import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
+import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
-import { Alert, BackHandler, SafeAreaView, Text, View, Linking} from "react-native";
+import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
-import { useDispatch, useSelector } from "react-redux";
-import PushNotification, { Importance } from "react-native-push-notification";
 import SplashScreen from "react-native-splash-screen";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { COLORS } from "../../constants/Theme";
-import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import { putBackendData } from "../../services/employees/employeeServices";
-import { sendSmsVerification } from "../../services/otp/Gupshup/services";
-import {
-  addACTC,
-  addEmployeeName,
-  addOnboarded,
-  addPhoneNumber,
-  addUnipeEmployeeId,
-} from "../../store/slices/authSlice";
-import {
-  addCurrentScreen,
-  addCurrentStack,
-} from "../../store/slices/navigationSlice";
-import { resetTimer } from "../../store/slices/timerSlice";
-import { styles } from "../../styles";
-import LogoHeader from "../../components/atoms/LogoHeader";
 import Icon from "react-native-vector-icons/Ionicons";
+import { useDispatch, useSelector } from "react-redux";
+import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
+import LogoHeader from "../../components/atoms/LogoHeader";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
 import ShieldTitle from "../../components/atoms/ShieldTitle";
 import LoginInput from "../../components/molecules/LoginInput";
 import AgreementText from "../../components/organisms/AgreementText";
-import { STAGE } from "@env";
+import { COLORS } from "../../constants/Theme";
+import whatsappLinking from "../../helpers/WhatsappLinking";
+import { useGenerateOtpMutation } from "../../store/apiSlices/loginApi";
+import {
+  addPhoneNumber,
+  addUnipeEmployeeId,
+} from "../../store/slices/authSlice";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { resetTimer } from "../../store/slices/timerSlice";
+import { styles } from "../../styles";
 
 const LoginScreen = () => {
   SplashScreen.hide();
@@ -40,68 +34,18 @@ const LoginScreen = () => {
   const [next, setNext] = useState(false);
 
   const authSlice = useSelector((state) => state.auth);
-  const [aCTC, setACTC] = useState(authSlice?.aCTC);
-  const [employeeName, setEmployeeName] = useState(authSlice?.employeeName);
-  const [onboarded, setOnboarded] = useState(authSlice?.onboarded);
   const [phoneNumber, setPhoneNumber] = useState(authSlice?.phoneNumber);
-  const token = authSlice?.token;
-  const [unipeEmployeeId, setUnipeEmployeeId] = useState(
-    authSlice?.unipeEmployeeId
-  );
-
+  const [postGenerateOtp] = useGenerateOtpMutation();
   const [isPrivacyModalVisible, setIsPrivacyModalVisible] = useState(false);
   const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
     useState(false);
 
   useEffect(() => {
-    PushNotification.createChannel(
-      {
-        channelId: "Onboarding",
-        channelName: "OnboardingChannel",
-        channelDescription:
-          "A channel for users who have not completed Onboarding Journey",
-        playSound: false,
-        soundName: "default",
-        importance: Importance.HIGH,
-        vibrate: true,
-      },
-      (created) => console.log(`createChannel returned '${created}'`)
-    );
-    PushNotification.localNotificationSchedule({
-      title: "Complete Your Onboarding Steps",
-      message: "Complete Your Onboarding Journey to avail your Advance Salary",
-      date: new Date(Date.now() + 24 * 60 * 60 * 1000), // {24 hours}
-      allowWhileIdle: false,
-      channelId: "Onboarding",
-      smallIcon: "ic_notification_fcm_icon",
-      repeatType: "day",
-      repeatTime: 2,
-    });
-  }, []);
-
-  useEffect(() => {
-    dispatch(addCurrentStack("OnboardingStack"));
     dispatch(addCurrentScreen("Login"));
   }, []);
 
   useEffect(() => {
-    dispatch(addACTC(aCTC));
-  }, [aCTC]);
-
-  useEffect(() => {
-    dispatch(addEmployeeName(employeeName));
-  }, [employeeName]);
-
-  useEffect(() => {
-    dispatch(addOnboarded(onboarded));
-  }, [onboarded]);
-
-  useEffect(() => {
-    dispatch(addUnipeEmployeeId(unipeEmployeeId));
-  }, [unipeEmployeeId]);
-
-  useEffect(() => {
-    var phoneno = /^[0-9]{10}$/gm;
+    let phoneno = /^\d{10}$/gm;
     if (phoneno.test(phoneNumber) && phoneNumber.length === 10) {
       dispatch(addPhoneNumber(phoneNumber));
       setNext(true);
@@ -112,10 +56,10 @@ const LoginScreen = () => {
 
   const onPhoneNumberPressed = async () => {
     try {
-      var phoneNumber = await SmsRetriever.requestPhoneNumber();
+      let phoneNumber = await SmsRetriever.requestPhoneNumber();
       setPhoneNumber(phoneNumber.replace("+91", ""));
     } catch (error) {
-      console.log("Error while fetching phoneNumber: ", JSON.stringify(error));
+      console.log("Error while fetching phoneNumber: ", error.message);
     }
   };
 
@@ -142,61 +86,21 @@ const LoginScreen = () => {
   const signIn = () => {
     setLoading(true);
     dispatch(resetTimer());
-    var fullPhoneNumber = `+91${phoneNumber}`;
-    putBackendData({
-      data: { number: fullPhoneNumber },
-      xpath: "mobile",
-      token: token,
-    })
-      .then((res) => {
-        const responseJson = res?.data;
-        console.log(`responseJson: ${JSON.stringify(responseJson)}`);
-        if (responseJson.status === 200) {
-          setACTC(responseJson.body.aCTC);
-          setEmployeeName(responseJson.body.employeeName);
-          setOnboarded(responseJson.body.onboarded);
-          setUnipeEmployeeId(responseJson.body.unipeEmployeeId);
-          sendSmsVerification(phoneNumber)
-            .then((result) => {
-              if (result["response"]["status"] === "success") {
-                setLoading(false);
-                Analytics.trackEvent("LoginScreen|SendSms|Success", {
-                  unipeEmployeeId: unipeEmployeeId,
-                });
-                navigation.navigate("Otp");
-              } else {
-                setLoading(false);
-                Alert.alert(
-                  result["response"]["status"],
-                  result["response"]["details"]
-                );
-                Analytics.trackEvent("LoginScreen|SendSms|Error", {
-                  unipeEmployeeId: unipeEmployeeId,
-                  error: result["response"]["details"],
-                });
-              }
-            })
-            .catch((error) => {
-              setLoading(false);
-              Alert.alert("Error", JSON.stringify(error));
-              Analytics.trackEvent("LoginScreen|SendSms|Error", {
-                unipeEmployeeId: unipeEmployeeId,
-                error: JSON.stringify(error),
-              });
-            });
-        } else {
-          setLoading(false);
-          Alert.alert("Error", responseJson["message"]);
-          Analytics.trackEvent("LoginScreen|SignIn|Error", {
-            phoneNumber: phoneNumber,
-            error: responseJson["message"],
-          });
-        }
+    postGenerateOtp(phoneNumber)
+      .unwrap()
+      .then((otpResponse) => {
+        console.log("otpResponse", otpResponse);
+        analytics().logEvent("LoginScreen_SendSms_Success", {
+          phoneNumber: phoneNumber,
+        });
+        navigation.navigate("Otp");
+        setLoading(false);
       })
       .catch((error) => {
+        console.log("error", error);
         setLoading(false);
-        Alert.alert("Error", JSON.stringify(error));
-        Analytics.trackEvent("LoginScreen|SignIn|Error", {
+        Alert.alert("Error", error.message);
+        analytics().logEvent("LoginScreen_SendSms_Error", {
           phoneNumber: phoneNumber,
           error: JSON.stringify(error),
         });
@@ -210,7 +114,7 @@ const LoginScreen = () => {
           <Icon name="logo-whatsapp" size={28} color={COLORS.primary} />
         }
         rightOnPress={() => {
-          Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+          whatsappLinking();
         }}
       />
       <KeyboardAvoidingWrapper>

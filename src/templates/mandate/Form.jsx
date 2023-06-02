@@ -4,7 +4,6 @@ import { Alert, SafeAreaView, ScrollView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
-import { getBackendData, putBackendData } from "../../services/employees/employeeServices";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import {
   addData,
@@ -17,15 +16,17 @@ import { styles } from "../../styles";
 import { showToast } from "../../components/atoms/Toast";
 import {
   createMandateOrder,
-  openRazorpayCheckout
+  openRazorpayCheckout,
 } from "../../services/mandate/Razorpay/services";
 import { COLORS, FONTS } from "../../constants/Theme";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import MandateOptions from "../../components/molecules/MandateOptions";
 import Shield from "../../assets/Shield.svg";
 import RBI from "../../assets/RBI.svg";
 import MandateLoading from "../../components/organisms/MandateLoading";
+import { useUpdateMandateMutation, useGetMandateQuery } from "../../store/apiSlices/mandateApi";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
 
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -60,7 +61,10 @@ const MandateFormTemplate = (props) => {
     (state) =>
       state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
   );
-
+  const [updateMandate] = useUpdateMandateMutation();
+  const { mandateData, error, isLoading } = useGetMandateQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 2,
+  });
   useEffect(() => {
     getUniqueId().then((id) => {
       setDeviceId(id);
@@ -68,6 +72,7 @@ const MandateFormTemplate = (props) => {
     NetworkInfo.getIPV4Address().then((ipv4Address) => {
       setIpAdress(ipv4Address);
     });
+    dispatch(addCurrentScreen("Mandate"));
   }, []);
 
   useEffect(() => {
@@ -87,11 +92,11 @@ const MandateFormTemplate = (props) => {
   useEffect(() => {
     dispatch(addVerifyStatus(verifyStatus));
     if (fetched && props?.type === "EWA" && verifyStatus === "SUCCESS") {
-      showToast("Mandate verified successfully");
+      showToast("Mandate verified successfully", "success");
       setModalVisible(false);
       navigation.navigate("EWA_AGREEMENT");
     } else if (fetched && props?.type === "EWA" && verifyStatus === "ERROR") {
-      showToast("Mandate verification error");
+      showToast("Mandate verification error", "warning");
       setModalVisible(false);
       navigation.navigate("EWA_MANDATE");
     }
@@ -106,27 +111,24 @@ const MandateFormTemplate = (props) => {
     setData(data);
     setVerifyMsg(verifyMsg);
     setVerifyTimestamp(verifyTimestamp);
-    return putBackendData({
-      data: {
-        unipeEmployeeId: unipeEmployeeId,
-        ipAddress: ipAddress,
-        deviceId: deviceId,
-        data: data,
-        verifyMsg: verifyMsg,
-        verifyStatus: verifyStatus,
-        verifyTimestamp: verifyTimestamp,
-        campaignId: campaignId,
-      },
-      xpath: "mandate",
-      token: token,
-    })
+    let payload = {
+      unipeEmployeeId: unipeEmployeeId,
+      ipAddress: ipAddress,
+      deviceId: deviceId,
+      data: data,
+      verifyMsg: verifyMsg,
+      verifyStatus: verifyStatus,
+      verifyTimestamp: verifyTimestamp,
+      campaignId: campaignId,
+    };
+    return updateMandate(payload)
       .then((res) => {
         console.log("mandatePush res.data: ", res.data);
-        if (res.data.status === 200){
+        if (res.data.status === 200) {
           setVerifyStatus(verifyStatus);
-        }
-        else{
+        } else {
           setVerifyStatus(res.data.verifyStatus);
+          throw res.data;
         }
       })
       .catch((error) => {
@@ -136,19 +138,14 @@ const MandateFormTemplate = (props) => {
   };
 
   const refreshMandateFromBackend = () => {
-    getBackendData({
-      params: { unipeEmployeeId: unipeEmployeeId },
-      xpath: "mandate",
-      token: token,
-    })
-      .then((res) => {
-        console.log("Form mandateFetch response.data", res.data);
-        dispatch(resetMandate(res?.data?.body));
-        setVerifyStatus(res?.data?.body?.verifyStatus);
-      })
-  }
+   if (mandateData && !isLoading && !error) {
+      console.log("Form mandateFetch response.data", mandateData);
+      dispatch(resetMandate(mandateData?.data?.body));
+      setVerifyStatus(mandateData?.data?.body?.verifyStatus);
+    };
+  };
 
-  const initiateRazorpayCheckout = async ({customerId, orderId, notes}) => {
+  const initiateRazorpayCheckout = async ({ customerId, orderId, notes }) => {
     let verifyMsg;
     try {
       let res = await openRazorpayCheckout({
@@ -163,75 +160,80 @@ const MandateFormTemplate = (props) => {
         },
         extraParams: {
           recurring: "1",
-        }
-      })
+        },
+      });
       console.log("Mandate Checkout Success", res);
-      Analytics.trackEvent("Mandate|Authorize|InProgress|Checkout|Success", {
+      analytics().logEvent("Mandate_InProgress_Checkout_Success", {
         unipeEmployeeId: unipeEmployeeId,
       });
       verifyMsg = "Mandate Initiated from App Checkout Success";
     } catch (error) {
       console.log("Mandate Checkout Error", error);
-      Analytics.trackEvent("createOrderandate|Authorize|InProgress|Checkout|Error", {
+      analytics().logEvent("MandateOrder_InProgress_Checkout_Error", {
         unipeEmployeeId: unipeEmployeeId,
       });
-      verifyMsg =  JSON.stringify(error);
+      verifyMsg = error.message;
     } finally {
       setModalVisible(true);
       backendPush({
         data: {
           orderId,
-          customerId
+          customerId,
         },
         verifyMsg,
         verifyStatus: "INPROGRESS",
         verifyTimestamp: Date.now(),
       })
-      .then(() => {})
-      .catch((error) => {
-        setModalVisible(false);
-        Alert.alert("Error", error?.message || "Something went wrong");
-      });
-    };
-  }
+        .then(() => {})
+        .catch((error) => {
+          setModalVisible(false);
+          Alert.alert("Error", error?.message || "Something went wrong");
+        });
+    }
+  };
 
   const ProceedButton = async ({ authType }) => {
-    console.log("proceed button pressed", authType)
+    console.log("proceed button pressed", authType);
     setLoading(true);
     setAuthType(authType);
     try {
       const res = await createMandateOrder({
         authType,
         unipeEmployeeId,
-        token
-      })
+        token,
+      });
       const createOrderResponse = res?.data;
-      console.log(`Mandate|CreateOrder|${authType} res.data:`, createOrderResponse);
+      console.log(
+        `Mandate|CreateOrder|${authType} res.data:`,
+        createOrderResponse
+      );
       if (createOrderResponse.status === 200) {
-        let razorpayOrder = createOrderResponse.body
-        
-        Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Success`, {
+        let razorpayOrder = createOrderResponse.body;
+        analytics().logEvent(`Mandate_CreateOrder_${authType}_Success`, {
           unipeEmployeeId: unipeEmployeeId,
         });
         await initiateRazorpayCheckout({
           orderId: razorpayOrder.id,
           customerId: razorpayOrder.customer_id,
-          notes: razorpayOrder.notes
-        })  
+          notes: razorpayOrder.notes,
+        });
       } else {
-        throw createOrderResponse
+        throw createOrderResponse;
       }
     } catch (error) {
-      console.log("error", error)
+      console.log("Create Mandate Error: ", error);
       if (error?.status === 409) {
-        Alert.alert("Create Mandate Error", "Mandate Registration Process already started, Please check the status after sometime");
+        Alert.alert(
+          "Create Mandate Error",
+          "Mandate Registration Process already started, Please check the status after sometime"
+        );
         refreshMandateFromBackend();
       } else {
-        Alert.alert("Create Order Error", JSON.stringify(error));
+        Alert.alert("Create Order Error", error.message);
       }
-      Analytics.trackEvent(`Mandate|CreateOrder|${authType}|Error`, {
+      analytics().logEvent(`Mandate_CreateOrder_${authType}_Error`, {
         unipeEmployeeId: unipeEmployeeId,
-        error: JSON.stringify(error),
+        error: error.message,
       });
     } finally {
       setAuthType("");

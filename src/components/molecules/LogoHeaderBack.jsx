@@ -1,8 +1,9 @@
-import { View, Text, Linking } from "react-native";
 import React from "react";
-import LogoHeader from "../atoms/LogoHeader";
-import { Ionicons } from "react-native-vector-icons";
+import { Text, View } from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { COLORS, FONTS } from "../../constants/Theme";
+import whatsappLinking from "../../helpers/WhatsappLinking";
+import LogoHeader from "../atoms/LogoHeader";
 
 const LogoHeaderBack = ({ leftOnPress, rightOnPress, title, skipEnabled }) => {
   return (
@@ -28,18 +29,14 @@ const LogoHeaderBack = ({ leftOnPress, rightOnPress, title, skipEnabled }) => {
             />
           </View>
         ) : (
-          <Ionicons
-            name="logo-whatsapp"
-            size={28}
-            color={COLORS.primary}
-          />
+          <Ionicons name="logo-whatsapp" size={28} color={COLORS.primary} />
         )
       }
       rightOnPress={
         skipEnabled
           ? rightOnPress
           : () => {
-              Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+              whatsappLinking();
             }
       }
     />

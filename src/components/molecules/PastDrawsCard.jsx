@@ -39,9 +39,9 @@ const StatusCard = ({ offerType }) => {
 
 const OfferCard = ({ offer }) => {
   const navigation = useNavigation();
-  var offerType = "Missed";
-  var amount = offer.eligibleAmount;
-  var date = new Date(offer.updatedAt.split(" ")[0]);
+  let offerType = "Missed";
+  let amount = offer.eligibleAmount;
+  let date = new Date(offer.updatedAt.split(" ")[0]);
 
   if (offer.paid) {
     offerType = "Paid";
@@ -57,9 +57,9 @@ const OfferCard = ({ offer }) => {
     date = new Date(offer.availedAt.split(" ")[0]);
   }
 
-  var dateString = date.toDateString();
-  var day = dateString.split(" ")[2];
-  var month = dateString.split(" ")[1];
+  let dateString = date.toDateString();
+  let day = dateString.split(" ")[2];
+  let month = dateString.split(" ")[1];
 
   return (
     <TouchableNativeFeedback

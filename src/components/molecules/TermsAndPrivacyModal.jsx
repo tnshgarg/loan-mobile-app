@@ -1,10 +1,10 @@
-import { View, Text, Pressable } from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
 import React from "react";
-import { COLORS, SIZES } from "../../constants/Theme";
-import { AntDesign } from "react-native-vector-icons";
-import WebView from "react-native-webview";
+import { Pressable, View } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import Modal from "react-native-modal";
+import AntDesign from "react-native-vector-icons/AntDesign";
+import WebView from "react-native-webview";
+import { COLORS, SIZES } from "../../constants/Theme";
 
 const TermsAndPrivacyModal = ({
   isVisible,

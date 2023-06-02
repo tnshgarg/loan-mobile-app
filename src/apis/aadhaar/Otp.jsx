@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Alert, Text } from "react-native";
+import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import {
-  addVerifyStatus,
-} from "../../store/slices/aadhaarSlice";
-import { resetTimer } from "../../store/slices/timerSlice";
+import { useState } from "react";
+import { Text } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics from "appcenter-analytics";
-import { COLORS, FONTS } from "../../constants/Theme";
-import { putBackendData } from "../../services/employees/employeeServices";
 import { showToast } from "../../components/atoms/Toast";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { useGenerateAadhaarOtpMutation } from "../../store/apiSlices/aadhaarApi";
+import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
+import { resetTimer } from "../../store/slices/timerSlice";
 
 const AadhaarOtpApi = (props) => {
   const dispatch = useDispatch();
@@ -18,13 +16,13 @@ const AadhaarOtpApi = (props) => {
 
   const [loading, setLoading] = useState(false);
 
-  const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
 
+  const [generateAadhaarOtp] = useGenerateAadhaarOtpMutation();
   const goForFetch = () => {
     setLoading(true);
     console.log("aadhaarSlice: ", aadhaarSlice);
@@ -32,51 +30,35 @@ const AadhaarOtpApi = (props) => {
     if (props.isTextButton) {
       props.toggle(false); // setResend(false)
     }
-    putBackendData({
-      data: {
-        unipeEmployeeId: unipeEmployeeId,
-        aadhaarNumber: aadhaarSlice?.number,
-        campaignId: campaignId,
-        provider: 'ongrid'
-      },
-      xpath: "kyc/aadhaar-generate-otp",
-      token: token,
-    })
+    let data = {
+      unipeEmployeeId: unipeEmployeeId,
+      aadhaarNumber: aadhaarSlice?.number,
+      campaignId: campaignId,
+      provider: "ongrid",
+    };
+
+    generateAadhaarOtp(data)
+      .unwrap()
       .then((res) => {
         console.log("kyc/aadhaar-generate-otp res: ", res);
-        const responseJson = res?.data;
-        console.log("kyc/aadhaar-generate-otp responseJson: ", responseJson);
-        try {
-          if (responseJson?.status === 200) {
-            dispatch(resetTimer());
-            showToast(responseJson?.body?.message);
-            Analytics.trackEvent("Aadhaar|Otp|Success", {
-              unipeEmployeeId: unipeEmployeeId,
-            });
-            setLoading(false);
-            dispatch(addVerifyStatus(responseJson?.body?.verifyStatus));
-            if (props.type !== "KYC") {
-              navigation.navigate("AadhaarVerify");
-            }
-          } else {
-            throw responseJson;
-          }
-        } catch (error) {
-          dispatch(addVerifyStatus("ERROR"));
-          Alert.alert("generateAadhaarOTP API Catch Error", JSON.stringify(error));
-          Analytics.trackEvent("Aadhaar|Otp|Error", {
-            unipeEmployeeId: unipeEmployeeId,
-            error: `generateAadhaarOTP API Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
-          });
-          setLoading(false);
+        dispatch(resetTimer());
+        showToast(res?.body?.message, "success");
+        analytics().logEvent("Aadhaar_Otp_Success", {
+          unipeEmployeeId: unipeEmployeeId,
+        });
+        setLoading(false);
+        dispatch(addVerifyStatus(res?.body?.verifyStatus));
+        if (props.type !== "KYC") {
+          navigation.navigate("AadhaarVerify");
         }
       })
       .catch((error) => {
+        console.log("kyc/aadhaar-generate-otp error: ", error);
         dispatch(addVerifyStatus("ERROR"));
-        Alert.alert("generateAadhaarOTP Catch Error", JSON.stringify(error));
-        Analytics.trackEvent("Aadhaar|Otp|Error", {
+        showToast(error?.message, "error");
+        analytics().logEvent("Aadhaar_Otp_Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: `generateAadhaarOTP API Catch Error: ${JSON.stringify(error)}`,
+          error: `generateAadhaarOTP API Catch Error: ${error.message}`,
         });
         setLoading(false);
       });

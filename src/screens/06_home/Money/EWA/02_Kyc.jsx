@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
@@ -7,14 +7,15 @@ import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
-import { styles } from "../../../../styles";
 import DetailsCard from "../../../../components/molecules/DetailsCard";
-import { updateKyc } from "../../../../queries/ewa/kyc";
-import { getBackendData } from "../../../../services/employees/employeeServices";
+import { useUpdateKycMutation } from "../../../../store/apiSlices/ewaApi";
+import { useGetMandateQuery } from "../../../../store/apiSlices/mandateApi";
 import {
   addVerifyStatus,
   resetMandate,
 } from "../../../../store/slices/mandateSlice";
+import { styles } from "../../../../styles";
+import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 
 const KYC = () => {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ const KYC = () => {
   const aadharNumber = useSelector((state) => state.aadhaar.number);
   const panNumber = useSelector((state) => state.pan.number);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
+  const [updateKyc] = useUpdateKycMutation();
 
   useEffect(() => {
     getUniqueId().then((id) => {
@@ -46,51 +48,44 @@ const KYC = () => {
     NetworkInfo.getIPV4Address().then((ipv4Address) => {
       setIpAdress(ipv4Address);
     });
+    dispatch(addCurrentScreen("EWA_KYC"));
   }, []);
-
+  const { data, error, isLoading } = useGetMandateQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 2,
+  });
   useEffect(() => {
     if (unipeEmployeeId && deviceId !== 0 && ipAddress !== 0) {
-      getBackendData({
-        params: { unipeEmployeeId: unipeEmployeeId },
-        xpath: "mandate",
-        token: token,
-      })
-        .then((response) => {
-          console.log("Form mandateFetch response.data", response.data);
-          dispatch(resetMandate(response?.data?.body));
-          dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
-          setMandateVerifyStatus(response?.data?.body?.verifyStatus);
-          setFetched(true);
-        })
-        .catch((error) => {
-          console.log("mandateFetch error: ", error);
-          Alert.alert("An Error occured", JSON.stringify(error));
-        });
+      if (data && !isLoading && !error) {
+        console.log("Form mandateFetch response.data", data);
+        dispatch(resetMandate(data?.body));
+        dispatch(addVerifyStatus(data?.body?.verifyStatus));
+        setMandateVerifyStatus(data?.body?.verifyStatus);
+        setFetched(true);
+      } else {
+        console.log("mandateFetch error: ", error);
+        Alert.alert("An Error occured", error.message);
+      }
     }
   }, [deviceId, ipAddress]);
 
-  const { mutateAsync: updateKycMutateAsync } = updateKyc();
-
   useEffect(() => {
     if (fetched) {
-      updateKycMutateAsync({
-        data: {
-          offerId: ewaLiveSlice?.offerId,
-          unipeEmployeeId: unipeEmployeeId,
-          status: "INPROGRESS",
-          timestamp: Date.now(),
-          ipAddress: ipAddress,
-          deviceId: deviceId,
-          campaignId: campaignId,
-        },
-        token: token,
-      })
+      let data = {
+        offerId: ewaLiveSlice?.offerId,
+        unipeEmployeeId: unipeEmployeeId,
+        status: "INPROGRESS",
+        timestamp: Date.now(),
+        ipAddress: ipAddress,
+        deviceId: deviceId,
+        campaignId: campaignId,
+      };
+      updateKyc(data)
         .then((response) => {
           console.log("updateKycMutateAsync response.data: ", response.data);
         })
         .catch((error) => {
-          console.log("updateKycMutateAsync error: ", JSON.stringify(error));
-          Alert.alert("An Error occured", JSON.stringify(error));
+          console.log("updateKycMutateAsync error: ", error.message);
+          Alert.alert("An Error occured", error.message);
         });
     }
   }, [fetched]);
@@ -108,22 +103,20 @@ const KYC = () => {
 
   function handleKyc() {
     setLoading(true);
-    updateKycMutateAsync({
-      data: {
-        offerId: ewaLiveSlice?.offerId,
-        unipeEmployeeId: unipeEmployeeId,
-        status: "CONFIRMED",
-        timestamp: Date.now(),
-        ipAddress: ipAddress,
-        deviceId: deviceId,
-        campaignId: campaignId,
-      },
-      token: token,
-    })
+    let data = {
+      offerId: ewaLiveSlice?.offerId,
+      unipeEmployeeId: unipeEmployeeId,
+      status: "CONFIRMED",
+      timestamp: Date.now(),
+      ipAddress: ipAddress,
+      deviceId: deviceId,
+      campaignId: campaignId,
+    };
+    updateKyc(data)
       .then((response) => {
         console.log("updateKycMutateAsync response.data: ", response.data);
         setLoading(false);
-        Analytics.trackEvent("Ewa|Kyc|Success", {
+        analytics().logEvent("Ewa_Kyc_Success", {
           unipeEmployeeId: unipeEmployeeId,
         });
         if (mandateVerifyStatus === "SUCCESS") {
@@ -133,18 +126,18 @@ const KYC = () => {
         }
       })
       .catch((error) => {
-        console.log("updateKycMutateAsync error: ", JSON.stringify(error));
+        console.log("updateKycMutateAsync error: ", error.message);
         setLoading(false);
-        Alert.alert("An Error occured", JSON.stringify(error));
-        Analytics.trackEvent("Ewa|Kyc|Error", {
+        Alert.alert("An Error occured", error.message);
+        analytics().logEvent("Ewa_Kyc_Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: JSON.stringify(error),
+          error: error.message,
         });
       });
   }
 
   const cardData = () => {
-    var res = [
+    let res = [
       { subTitle: "Name", value: aadhaarData?.name, fullWidth: true },
       { subTitle: "Date of Birth", value: aadhaarData?.date_of_birth },
       { subTitle: "Gender", value: aadhaarData?.gender },

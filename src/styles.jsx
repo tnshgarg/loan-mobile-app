@@ -226,10 +226,12 @@ export const ewa = EStyleSheet.create({
 });
 
 export const dev = EStyleSheet.create({
-  title: {
+  btn: {
     alignSelf: "center",
     marginTop: "20rem",
     width: "60%",
+    height: "40rem",
+    backgroundColor: COLORS.primary,
   },
 });
 
@@ -248,9 +250,9 @@ export const onboardingStyles = EStyleSheet.create({
 export const moneyStyles = EStyleSheet.create({
   percentageTitle: {
     ...FONTS.body5,
-    marginTop: "150rem",
+    marginTop: "25%",
     color: COLORS.gray,
-    alignSelf: "flex-start",
+    alignSelf: "center",
     fontSize: 8,
   },
 });

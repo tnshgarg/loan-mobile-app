@@ -1,11 +1,16 @@
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+import {
+  Platform,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import FormInput from "../atoms/FormInput";
-import { Icon, IconButton } from "@react-native-material/core";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS } from "../../constants/Theme";
 import BottomSheetWrapper from "../atoms/BottomSheetWrapper";
-import { useState } from "react";
+import FormInput from "../atoms/FormInput";
 import PrimaryButton from "../atoms/PrimaryButton";
 
 const DropDownForm = ({
@@ -32,7 +37,11 @@ const DropDownForm = ({
           accessibilityLabel={accessibilityLabel}
           disabled={true}
           appendComponent={
-            <Icon name="keyboard-arrow-down" size={24} color={COLORS.gray} />
+            <MaterialCommunityIcons
+              name="chevron-down"
+              size={24}
+              color={COLORS.gray}
+            />
           }
         />
       </TouchableOpacity>
@@ -52,12 +61,8 @@ const DropDownForm = ({
                 onPress={() => setValue(item)}
                 accessibilityLabel={data[1]}
               >
-                <Icon
-                  name={
-                    value == item
-                      ? "radio-button-checked"
-                      : "radio-button-unchecked"
-                  }
+                <MaterialCommunityIcons
+                  name={value == item ? "radiobox-marked" : "radiobox-blank"}
                   size={24}
                   color={value == item ? COLORS.primary : COLORS.gray}
                 />
@@ -70,6 +75,7 @@ const DropDownForm = ({
           accessibilityLabel={"DropdownBtn"}
           title="Done"
           disabled={!value}
+          containerStyle={{ marginBottom: Platform.OS === "ios" ? 20 : 0 }}
           onPress={() => {
             setVisible(false);
           }}

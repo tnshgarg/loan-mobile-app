@@ -4,7 +4,7 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import LogoImage from "../../assets/HeaderLogo.svg";
 import EStyleSheet from "react-native-extended-stylesheet";
 
-const TitleHeader = ({
+const LogoHeader = ({
   containerStyle,
   leftIcon,
   leftOnPress,
@@ -47,7 +47,7 @@ const TitleHeader = ({
   );
 };
 
-export default TitleHeader;
+export default LogoHeader;
 
 const styles = EStyleSheet.create({
   container: {

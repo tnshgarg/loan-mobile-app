@@ -11,7 +11,7 @@ const setYYYYMMDDtoDDMMYYYY = (date) => {
 };
 
 const getNumberOfDays = ({ date, formatted }) => {
-  var formattedDate = "";
+  let formattedDate = "";
   if (formatted) {
     formattedDate = new Date(date);
   } else {

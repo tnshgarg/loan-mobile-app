@@ -20,7 +20,7 @@ const Aadhaar = () => {
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
 
   const cardData = () => {
-    var res = [
+    let res = [
       { subTitle: "Name", value: data?.name, fullWidth: true },
       { subTitle: "Number", value: number },
       { subTitle: "Gender", value: data?.gender },

@@ -1,18 +1,25 @@
+import analytics from "@react-native-firebase/analytics";
 import { useIsFocused } from "@react-navigation/core";
-import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { useQuery } from "@tanstack/react-query";
-import { Icon } from "@react-native-material/core";
-import { Alert } from "react-native";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { createRepaymentOrder, openRazorpayCheckout } from "../../services/mandate/Razorpay/services"
-import PrimaryButton from "../atoms/PrimaryButton";
-import { getNumberOfDays, setYYYYMMDDtoDDMMYYYY } from "../../helpers/DateFunctions";
-import { getRepayment, updateRepayment } from "../../queries/ewa/repayment";
+import {
+  getNumberOfDays,
+  setYYYYMMDDtoDDMMYYYY,
+} from "../../helpers/DateFunctions";
+import {
+  createRepaymentOrder,
+  openRazorpayCheckout,
+} from "../../services/mandate/Razorpay/services";
+import {
+  useGetRepaymentQuery,
+  useUpdateRepaymentMutation,
+} from "../../store/apiSlices/repaymentApi";
 import { resetRepayment } from "../../store/slices/repaymentSlice";
+import PrimaryButton from "../atoms/PrimaryButton";
 
 const PayMoneyCard = () => {
   const dispatch = useDispatch();
@@ -30,14 +37,23 @@ const PayMoneyCard = () => {
   );
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
-  const campaignId = useSelector((state) => state.campaign.repaymentCampaignId || state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId);
+  const campaignId = useSelector(
+    (state) =>
+      state.campaign.repaymentCampaignId ||
+      state.campaign.ewaCampaignId ||
+      state.campaign.onboardingCampaignId
+  );
 
   const repaymentSlice = useSelector((state) => state.repayment);
   const [dueDate, setDueDate] = useState(repaymentSlice?.dueDate);
   const [overdueDays, setOverdueDays] = useState(repaymentSlice?.overdueDays);
-  const [repaymentAmount, setRepaymentAmount] = useState(repaymentSlice?.repaymentAmount);
+  const [repaymentAmount, setRepaymentAmount] = useState(
+    repaymentSlice?.repaymentAmount
+  );
   const [repaymentId, setRepaymentId] = useState(repaymentSlice?.repaymentId);
-  const [repaymentStatus, setRepaymentStatus] = useState(repaymentSlice?.repaymentStatus);
+  const [repaymentStatus, setRepaymentStatus] = useState(
+    repaymentSlice?.repaymentStatus
+  );
 
   const {
     isLoading: getRepaymentIsLoading,
@@ -45,25 +61,25 @@ const PayMoneyCard = () => {
     isError: getRepaymentIsError,
     error: getRepaymentError,
     data: getRepaymentData,
-  } = useQuery(['getRepayment', unipeEmployeeId, token], getRepayment, {
-    staleTime: 1000 * 60 * 2,
-    cacheTime: 1000 * 60 * 10,
-    refetchInterval: 1000 * 60 * 2,
+  } = useGetRepaymentQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 2,
   });
 
+  const [updateRepayment] = useUpdateRepaymentMutation();
   useEffect(() => {
-    if (isFocused && !getRepaymentIsLoading && getRepaymentIsSuccess) {
-      if (getRepaymentData.data.status === 200) {
-        var repaymentAmount = Math.max(
-          getRepaymentData?.data?.body?.amount -
-            (getRepaymentData?.data?.body?.paidAmount ?? 0),
+    if (isFocused && !getRepaymentIsLoading && !getRepaymentIsError) {
+      console.log("ewaRepaymentFetch API: ", getRepaymentData);
+      if (getRepaymentData.status === 200) {
+        let repaymentAmount = Math.max(
+          getRepaymentData?.body?.amount -
+            (getRepaymentData?.body?.paidAmount ?? 0),
           0
         );
-        var repaymentStatus = getRepaymentData?.data?.body?.status;
+        let repaymentStatus = getRepaymentData?.body?.status;
         if (repaymentAmount > 0 && repaymentStatus !== "SUCCESS") {
-          var timestamp = getRepaymentData?.data?.body?.dueDate?.split(" ");
-          var date = timestamp[0];
-          var formattedDueDate = setYYYYMMDDtoDDMMYYYY(date);
+          let timestamp = getRepaymentData?.body?.dueDate?.split(" ");
+          let date = timestamp[0];
+          let formattedDueDate = setYYYYMMDDtoDDMMYYYY(date);
           setDueDate(formattedDueDate);
           setOverdueDays(
             getNumberOfDays({
@@ -73,13 +89,16 @@ const PayMoneyCard = () => {
           );
           setRepaymentAmount(repaymentAmount);
           setRepaymentStatus(repaymentStatus);
-          setRepaymentId(getRepaymentData?.data?.body?.repaymentId);
+          setRepaymentId(getRepaymentData?.body?.repaymentId);
           setInactive(false);
         } else if (repaymentAmount < 1 || repaymentStatus === "INPROGRESS") {
           setInactive(true);
         }
-      } else if (getRepaymentData.data.status === 404) {
-        console.log("ewaRepaymentFetch API status error getRepaymentData.data: ", getRepaymentData.data);
+      } else if (getRepaymentData.status === 404) {
+        console.log(
+          "ewaRepaymentFetch API status error getRepaymentData.data: ",
+          getRepaymentData.body
+        );
         dispatch(resetRepayment());
         setDueDate(null);
         setOverdueDays(0);
@@ -89,32 +108,35 @@ const PayMoneyCard = () => {
         setInactive(true);
       }
     } else if (getRepaymentIsError) {
-      console.log("ewaRepaymentFetch API error getRepaymentError.message: ", getRepaymentError.message);
+      console.log(
+        "ewaRepaymentFetch API error getRepaymentError.message: ",
+        getRepaymentError
+      );
       dispatch(resetRepayment());
       setInactive(true);
     }
-  }, [getRepaymentIsLoading, getRepaymentIsSuccess, getRepaymentData, isFocused]);
-
-  const {mutateAsync: updateRepaymentMutateAsync} = updateRepayment();
+  }, [
+    getRepaymentIsLoading,
+    getRepaymentIsSuccess,
+    getRepaymentData,
+    isFocused,
+  ]);
 
   const backendPush = ({ data, status }) => {
     setRepaymentStatus(status);
-    return updateRepaymentMutateAsync({
-      data: {
-        unipeEmployeeId: unipeEmployeeId,
-        dueDate: dueDate,
-        data: data,
-        status: status,
-        campaignId: campaignId,
-      },
-      token: token,
-    })
+    let repaymentData = {
+      unipeEmployeeId: unipeEmployeeId,
+      dueDate: dueDate,
+      data: data,
+      status: status,
+      campaignId: campaignId,
+    };
+    return updateRepayment(repaymentData)
       .then((res) => {
         console.log("repaymentPush response: ", res?.data);
-        if (res?.data.status === 200){
+        if (res?.data.status === 200) {
           setRepaymentStatus(status);
-        }
-        else {
+        } else {
           setRepaymentStatus(res?.data.paymentStatus);
         }
       })
@@ -124,7 +146,7 @@ const PayMoneyCard = () => {
       });
   };
 
-  const initiateRazorpayCheckout = async ({orderId, customerId}) => {
+  const initiateRazorpayCheckout = async ({ orderId, customerId }) => {
     let data;
     try {
       const res = await openRazorpayCheckout({
@@ -135,8 +157,8 @@ const PayMoneyCard = () => {
           name: accountHolderName,
           email: email,
           contact: phoneNumber,
-        }
-      })
+        },
+      });
       console.log("ewaRepayment Checkout RazorpayCheckout data: ", res);
       data = {
         orderId,
@@ -146,19 +168,18 @@ const PayMoneyCard = () => {
         provider: "razorpay",
         checkoutMsg: "Repayment Initiated from App Checkout Success",
       };
-      Analytics.trackEvent("Ewa|Repayment|Success", {
+      analytics().logEvent("Ewa_Repayment_Success", {
         unipeEmployeeId: unipeEmployeeId,
       });
-      
     } catch (error) {
       console.log("ewaRepayment Checkout error: ", error);
       data = {
         orderId,
         customerId,
         provider: "razorpay",
-        checkoutMsg: JSON.stringify(error),
+        checkoutMsg: error.message,
       };
-      Analytics.trackEvent("Ewa|Repayment|Error", {
+      analytics().logEvent("Ewa_Repayment_Error", {
         unipeEmployeeId: unipeEmployeeId,
       });
     } finally {
@@ -166,15 +187,15 @@ const PayMoneyCard = () => {
         data: data,
         status: "INPROGRESS",
       })
-      .then(() => {
-        setLoading(false);
-      })
-      .catch((error) => {
-        setLoading(false);
-        Alert.alert("Error", error?.message || "Something went wrong");
-      });
+        .then(() => {
+          setLoading(false);
+        })
+        .catch((error) => {
+          setLoading(false);
+          Alert.alert("Error", error?.message || "Something went wrong");
+        });
     }
-  }
+  };
 
   const initiatePayment = async () => {
     if (repaymentAmount > 0) {
@@ -184,20 +205,20 @@ const PayMoneyCard = () => {
           unipeEmployeeId,
           repaymentIds: [repaymentId],
           token,
-        })
+        });
         let repaymentOrder = res.data.body;
         await initiateRazorpayCheckout({
           orderId: repaymentOrder.id,
-          customerId: repaymentOrder.customer_id
+          customerId: repaymentOrder.customer_id,
         });
       } catch (error) {
-        Alert.alert("Error", JSON.stringify(error));
-        Analytics.trackEvent("Ewa|Repayment|Error", {
+        Alert.alert("Error", error.message);
+        analytics().logEvent("Ewa_Repayment_Error", {
           unipeEmployeeId: unipeEmployeeId,
-          error: JSON.stringify(error),
+          error: error.message,
         });
         setLoading(false);
-      };
+      }
     }
   };
 
@@ -233,8 +254,8 @@ const PayMoneyCard = () => {
             }
             onPress={() => initiatePayment()}
             disabled={inactive || loading || repaymentStatus === "INPROGRESS"}
-            containerStyle={{ width: null, marginTop: 0, height: 40 }}
-            titleStyle={{ ...FONTS.h5 }}
+            containerStyle={{ width: 100, marginTop: 0, height: 40 }}
+            titleStyle={{ ...FONTS.h4 }}
           />
         </View>
 
@@ -243,16 +264,25 @@ const PayMoneyCard = () => {
             styles.bottomCard,
             {
               backgroundColor:
-              overdueDays < 0
-                  ? COLORS.warningBackground
-                  : COLORS.moneyCardBg,
+                overdueDays < 0 ? COLORS.warningBackground : COLORS.moneyCardBg,
             },
           ]}
         >
-          <Icon name="info-outline" size={18} color={overdueDays < 0 ? COLORS.black : COLORS.white} />
-          <Text style={[styles.text, { marginLeft: 5, color: overdueDays < 0 ? COLORS.black : COLORS.white }]}>
-            {
-              overdueDays < 0
+          <MaterialCommunityIcons
+            name="information-outline"
+            size={18}
+            color={overdueDays < 0 ? COLORS.black : COLORS.white}
+          />
+          <Text
+            style={[
+              styles.text,
+              {
+                marginLeft: 5,
+                color: overdueDays < 0 ? COLORS.black : COLORS.white,
+              },
+            ]}
+          >
+            {overdueDays < 0
               ? `Your repayment is overdue by ${-overdueDays} days`
               : dueDate !== null
               ? `Due by ${dueDate}`

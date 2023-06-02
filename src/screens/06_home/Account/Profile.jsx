@@ -8,7 +8,6 @@ import { useEffect } from "react";
 import ProfileFormTemplate from "../../../templates/profile/Form";
 
 const Profile = ({ navigation }) => {
-  
   const profileSlice = useSelector((state) => state.profile);
   const profileComplete = profileSlice?.profileComplete;
   const aadhaarData = useSelector((state) => state.aadhaar.data);
@@ -21,7 +20,7 @@ const Profile = ({ navigation }) => {
   const qualification = profileSlice?.qualification;
 
   const cardData = () => {
-    var res = [
+    let res = [
       { subTitle: "Name", value: fullName, fullWidth: true },
       { subTitle: "Email Id", value: email, fullWidth: true },
       { subTitle: "Mobile Number", value: mobile, fullWidth: true },
@@ -68,7 +67,7 @@ const Profile = ({ navigation }) => {
         </View>
       ) : (
         <>
-          <ProfileFormTemplate type="KYC"/>
+          <ProfileFormTemplate type="KYC" />
         </>
       )}
     </SafeAreaView>

@@ -14,7 +14,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "92811830191-tmjopjvdhhkfhtne46abbmlv6ndsg28s.apps.googleusercontent.com",
+          "client_id": "92811830191-cvs0gu2ln325b7b243l79nldb14oblqa.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,22 +27,66 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "92811830191-tmjopjvdhhkfhtne46abbmlv6ndsg28s.apps.googleusercontent.com",
+              "client_id": "92811830191-cvs0gu2ln325b7b243l79nldb14oblqa.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "92811830191-15khhqio88pf8dap2i3ms2i52tmh2unf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.employeeapp.demo"
+              }
             }
           ]
         }
       }
-    },{
+    },
+    {
       "client_info": {
-        "mobilesdk_app_id": "1:92811830191:android:c934aca993fe1f5a3e455a",
+        "mobilesdk_app_id": "1:92811830191:android:a442008176d46d5d3e455a",
+        "android_client_info": {
+          "package_name": "com.employeeapp.demo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "92811830191-cvs0gu2ln325b7b243l79nldb14oblqa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDz29lsUwAChjvdazByg6w9_NRm-ARH2FY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "92811830191-cvs0gu2ln325b7b243l79nldb14oblqa.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "92811830191-15khhqio88pf8dap2i3ms2i52tmh2unf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.employeeapp.demo"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:92811830191:android:ab5a91561ddbc32f3e455a",
         "android_client_info": {
           "package_name": "com.employeeapp.dev"
         }
       },
       "oauth_client": [
         {
-          "client_id": "92811830191-tmjopjvdhhkfhtne46abbmlv6ndsg28s.apps.googleusercontent.com",
+          "client_id": "92811830191-cvs0gu2ln325b7b243l79nldb14oblqa.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -55,22 +99,30 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "92811830191-tmjopjvdhhkfhtne46abbmlv6ndsg28s.apps.googleusercontent.com",
+              "client_id": "92811830191-cvs0gu2ln325b7b243l79nldb14oblqa.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "92811830191-15khhqio88pf8dap2i3ms2i52tmh2unf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.employeeapp.demo"
+              }
             }
           ]
         }
       }
-    },{
+    },
+    {
       "client_info": {
-        "mobilesdk_app_id": "1:92811830191:android:c934aca993fe1f5a3e455a",
+        "mobilesdk_app_id": "1:92811830191:android:b6c359ca7f6fdc713e455a",
         "android_client_info": {
           "package_name": "com.employeeapp.qa"
         }
       },
       "oauth_client": [
         {
-          "client_id": "92811830191-tmjopjvdhhkfhtne46abbmlv6ndsg28s.apps.googleusercontent.com",
+          "client_id": "92811830191-cvs0gu2ln325b7b243l79nldb14oblqa.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -83,8 +135,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "92811830191-tmjopjvdhhkfhtne46abbmlv6ndsg28s.apps.googleusercontent.com",
+              "client_id": "92811830191-cvs0gu2ln325b7b243l79nldb14oblqa.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "92811830191-15khhqio88pf8dap2i3ms2i52tmh2unf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.employeeapp.demo"
+              }
             }
           ]
         }

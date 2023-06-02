@@ -5,7 +5,7 @@ import { COLORS, FONTS } from "../../constants/Theme";
 const DetailsCard = ({ data, imageUri }) => {
   return (
     <View style={styles.container}>
-      <Image source={imageUri} style={styles.image} />
+      {imageUri && <Image source={imageUri} style={styles.image} />}
       {data.map((item, index) => (
         <View
           key={index}

@@ -6,7 +6,7 @@ import ODS from "../../assets/GetODS.svg";
 import Refer from "../../assets/Refer.svg";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { useRef } from "react";
-import { Ionicons } from "react-native-vector-icons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const Card = ({ destination, component, inactive }) => {
   const navigation = useNavigation();
@@ -35,10 +35,6 @@ const data = [
 
 const ExploreCards = () => {
   const scrollRef = useRef(null);
-
-  const onPress = (targetIndex) => {
-    scrollRef.current?.scrollTo({ x: normalize.width(90) });
-  };
 
   return (
     <View style={styles.container}>

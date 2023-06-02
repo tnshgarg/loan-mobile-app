@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+import analytics from "@react-native-firebase/analytics";
 
 const initialState = {
   currentScreen: "Login",
-  currentStack : "OnboardingStack",
+  currentStack: "OnboardingStack",
 };
 
 const navigationSlice = createSlice({
@@ -11,6 +12,10 @@ const navigationSlice = createSlice({
   reducers: {
     addCurrentScreen(state, action) {
       state.currentScreen = action.payload;
+      analytics().logScreenView({
+        screen_name: action.payload,
+        screen_class: state.currentStack,
+      });
     },
     addCurrentStack(state, action) {
       state.currentStack = action.payload;
@@ -21,5 +26,6 @@ const navigationSlice = createSlice({
   },
 });
 
-export const { addCurrentScreen,addCurrentStack,resetNavigation } = navigationSlice.actions;
+export const { addCurrentScreen, addCurrentStack, resetNavigation } =
+  navigationSlice.actions;
 export default navigationSlice.reducer;

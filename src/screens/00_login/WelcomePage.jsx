@@ -3,7 +3,7 @@ import { styles } from "../../styles";
 import LogoHeader from "../../components/atoms/LogoHeader";
 import Icon from "react-native-vector-icons/Ionicons";
 import { COLORS, FONTS } from "../../constants/Theme";
-import Analytics from "appcenter-analytics";
+import analytics from "@react-native-firebase/analytics";
 import { requestUserPermission } from "../../services/notifications/notificationService";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,7 @@ import Success from "../../assets/congratulations.svg";
 import { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import whatsappLinking from "../../helpers/WhatsappLinking";
 
 const WelcomePage = () => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -41,7 +42,7 @@ const WelcomePage = () => {
           <Icon name="logo-whatsapp" size={28} color={COLORS.primary} />
         }
         rightOnPress={() => {
-          Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+          whatsappLinking();
         }}
       />
 
@@ -74,7 +75,7 @@ const WelcomePage = () => {
           accessibilityLabel="WelcomeBtn"
           onPress={() => {
             requestUserPermission();
-            Analytics.trackEvent("WelcomePage", {
+            analytics().logEvent("WelcomePage", {
               unipeEmployeeId: unipeEmployeeId,
             });
             navigation.navigate("ProfileForm");

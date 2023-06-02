@@ -1,4 +1,4 @@
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import DevMenuButton from "../components/atoms/DevMenuButton";
 
@@ -18,38 +18,38 @@ export default DevMenu = () => {
     { title: "KYC Details", stack: "AccountStack", name: "KYC" },
     { title: "Profile Details", stack: "AccountStack", name: "Profile" },
     { title: "Documents", stack: "AccountStack", name: "Documents" },
-    { title: "EWA", stack: "EWAStack", name: "EWA_OFFER" },
+    { title: "EWA", stack: "HomeStack", name: "Money" },
   ];
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        {screens.map((screen, index) => (
+    <SafeAreaView>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          {screens.map((screen, index) => (
+            <DevMenuButton
+              accessibilityLabel={screen.title}
+              key={index}
+              style={{ marginTop: 20 }}
+              title={screen.title}
+              onPress={() =>
+                navigation.navigate(screen.stack, { screen: screen.name })
+              }
+            />
+          ))}
+
           <DevMenuButton
-            accessibilityLabel={screen.title}
-            key={index}
             style={{ marginTop: 20 }}
-            title={screen.title}
+            title={"Account"}
             onPress={() =>
-              navigation.navigate(screen.stack, { screen: screen.name })
+              navigation.navigate("HomeStack", {
+                screen: "Account",
+              })
             }
           />
-        ))}
-        <DevMenuButton
-          style={{ marginTop: 20 }}
-          title={"Notification Test"}
-          onPress={() => handleNotification()}
-        />
-        <DevMenuButton
-          style={{ marginTop: 20 }}
-          title={"Account"}
-          onPress={() =>
-            navigation.navigate("HomeStack", {
-              screen: "Account",
-            })
-          }
-        />
-      </View>
-    </ScrollView>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };

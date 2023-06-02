@@ -1,4 +1,4 @@
-import { useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import DevMenu from "../screens/DevMenu";
@@ -13,7 +13,7 @@ import AccountStack from "./stacks/AccountStack";
 import InvestStack from "./stacks/InvestStack";
 import SplashScreen from "../screens/SplashScreen";
 import BottomTabNav from "./BottomTabNav";
-
+import BackendSync from "../screens/BackendSync";
 import { showToast } from "../components/atoms/Toast";
 import { decode } from "react-native-pure-jwt";
 import LogoutModal from "../components/organisms/LogoutModal";
@@ -54,19 +54,18 @@ const StackNavigator = () => {
 
   STAGE === "dev" ? (initialRoute = "DevMenu") : null;
   console.log("initialRoute: ", initialRoute);
-
   return (
     <OfflineAlert>
       <Stack.Navigator initialRouteName={"Splash"}>
-        <Stack.Screen
+        {/* <Stack.Screen
           name="DevMenu"
           component={DevMenu}
           options={{
             headerShown: false,
             header: null,
           }}
-        />
-        <Stack.Screen
+        /> */}
+        {/* <Stack.Screen
           name="Splash"
           options={{ headerShown: false, header: null }}
           component={SplashScreen}
@@ -74,50 +73,62 @@ const StackNavigator = () => {
             initialRoute: initialRoute,
             initialScreen: initialScreen,
           }}
-        />
-        <Stack.Screen
-          name="OnboardingStack"
-          component={OnboardingStack}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="HomeStack"
-          component={BottomTabNav}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="InvestStack"
-          component={InvestStack}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="EWAStack"
-          component={EWAStack}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Stack.Screen
-          name="BenefitsStack"
-          component={BenefitsStack}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="AccountStack"
-          component={AccountStack}
-          options={{
-            headerShown: false,
-          }}
-        />
+        /> */}
+        {!token ? (
+          <Stack.Screen
+            name="OnboardingStack"
+            component={OnboardingStack}
+            options={{
+              headerShown: false,
+            }}
+          />
+        ) : (
+          <>
+            <Stack.Screen
+              name="BackendSync"
+              component={BackendSync}
+              options={{
+                headerShown: false,
+                animation: "default",
+              }}
+            />
+            <Stack.Screen
+              name="HomeStack"
+              component={BottomTabNav}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="InvestStack"
+              component={InvestStack}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="EWAStack"
+              component={EWAStack}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="BenefitsStack"
+              component={BenefitsStack}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="AccountStack"
+              component={AccountStack}
+              options={{
+                headerShown: false,
+              }}
+            />
+          </>
+        )}
       </Stack.Navigator>
       <LogoutModal modalVisible={modalVisible} />
     </OfflineAlert>

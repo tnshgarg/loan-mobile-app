@@ -1,13 +1,14 @@
-import { useDispatch, useSelector } from "react-redux";
+import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import { Alert, Text, View } from "react-native";
-import { Button } from "@react-native-material/core";
+import { Text, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import { showToast } from "../../components/atoms/Toast";
+import DetailsCard from "../../components/molecules/DetailsCard";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { useUpdateAadhaarMutation } from "../../store/apiSlices/aadhaarApi";
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
-import { COLORS, FONTS } from "../../constants/Theme";
-import Analytics from "appcenter-analytics";
-import DetailsCard from "../../components/molecules/DetailsCard";
-import { putBackendData } from "../../services/employees/employeeServices";
 
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -15,37 +16,37 @@ const AadhaarConfirmApi = (props) => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
+  const campaignId = useSelector(
+    (state) => state.campaign.onboardingCampaignId
+  );
   const data = useSelector((state) => state.aadhaar.data);
   const number = useSelector((state) => state.aadhaar.number);
-
+  const [updateAadhaar] = useUpdateAadhaarMutation();
   const backendPush = async ({ verifyStatus }) => {
-
     dispatch(addVerifyStatus(verifyStatus));
 
     const payload = {
       unipeEmployeeId: unipeEmployeeId,
       number: number,
       verifyStatus: verifyStatus,
-      campaignId: campaignId
+      campaignId: campaignId,
     };
 
-    const response = await putBackendData({ data: payload, xpath: "aadhaar", token: token });
-    const responseJson = response?.data;
-
-    if (responseJson.status === 200) {
-      if (verifyStatus === "REJECTED") {
-        if (props?.route?.params?.type === "KYC") {
-          navigation.navigate("KYC", {
-            screen: "AADHAAR",
-            params: {
-              screen: "Form",
-            },
-          });
-        } else {
-          navigation.navigate("AadhaarForm");
-        }
-      } else if (verifyStatus === "SUCCESS") {
+    updateAadhaar(payload)
+      .unwrap()
+      .then((res) => {
+        if (verifyStatus === "REJECTED") {
+          if (props?.route?.params?.type === "KYC") {
+            navigation.navigate("KYC", {
+              screen: "AADHAAR",
+              params: {
+                screen: "Form",
+              },
+            });
+          } else {
+            navigation.navigate("AadhaarForm");
+          }
+        } else if (verifyStatus === "SUCCESS") {
           if (props?.route?.params?.type === "KYC") {
             navigation.navigate("KYC", {
               screen: "AADHAAR",
@@ -53,14 +54,15 @@ const AadhaarConfirmApi = (props) => {
           } else {
             navigation.navigate("PanForm");
           }
-      }
-    } else {
-      Alert.alert("Error", JSON.stringify(responseJson));
-    }
+        }
+      })
+      .catch((error) => {
+        showToast(error?.message, "error");
+      });
   };
 
   const cardData = () => {
-    var res = [
+    let res = [
       { subTitle: "Name", value: data?.name, fullWidth: true },
       { subTitle: "Number", value: number },
       { subTitle: "Gender", value: data?.gender },
@@ -85,40 +87,30 @@ const AadhaarConfirmApi = (props) => {
       />
 
       <View style={[styles.row, { justifyContent: "space-between" }]}>
-        <Button
+        <PrimaryButton
           title="Not Me"
-          type="solid"
-          uppercase={false}
-          style={form.noButton}
-          color={COLORS.warning}
+          containerStyle={form.noButton}
           titleStyle={{ ...FONTS.h4, color: COLORS.warning }}
-          pressableContainerStyle={{ width: "100%" }}
-          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             backendPush({
               verifyStatus: "REJECTED",
             });
-            Analytics.trackEvent("Aadhaar|Confirm|Error", {
+            analytics().logEvent("Aadhaar_Confirm_Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: "Rejected by User",
             });
           }}
         />
-        <Button
+        <PrimaryButton
           accessibilityLabel="YesButton"
           title="Yes, that’s me"
-          type="solid"
-          uppercase={false}
-          style={form.yesButton}
-          color={COLORS.primary}
+          containerStyle={form.yesButton}
           titleStyle={{ ...FONTS.h4, color: COLORS.primary }}
-          pressableContainerStyle={{ width: "100%" }}
-          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             backendPush({
               verifyStatus: "SUCCESS",
             });
-            Analytics.trackEvent("Aadhaar|Confirm|Success", {
+            analytics().logEvent("Aadhaar_Confirm_Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
           }}

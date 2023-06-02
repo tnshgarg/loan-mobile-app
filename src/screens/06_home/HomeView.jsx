@@ -1,8 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Linking, SafeAreaView, ScrollView, View } from "react-native";
-import PushNotification from "react-native-push-notification";
+import { Linking, SafeAreaView, ScrollView, Text, View } from "react-native";
+// import PushNotification from 'react-native-push-notification';
 import { useDispatch, useSelector } from "react-redux";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
 import { allAreNull } from "../../helpers/nullCheck";
@@ -18,11 +17,11 @@ import {
 import { styles } from "../../styles";
 
 import { STAGE } from "@env";
-import { Ionicons } from "react-native-vector-icons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import LogoHeader from "../../components/atoms/LogoHeader";
 import { COLORS } from "../../constants/Theme";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
-import { getEwaOffers } from "../../queries/ewa/offers";
+import { useGetOffersQuery } from "../../store/apiSlices/ewaApi";
 import {
   notificationListener,
   requestUserPermission,
@@ -36,6 +35,7 @@ import {
 } from "../../store/slices/ewaLiveSlice";
 import CompleteKycCard from "../../components/molecules/CompleteKycCard";
 import ExploreCards from "../../components/molecules/ExploreCards";
+import whatsappLinking from "../../helpers/WhatsappLinking";
 const HomeView = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -58,7 +58,8 @@ const HomeView = () => {
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
-
+    const onboardingCampaignId = useSelector((state)=>state.campaign.onboardingCampaignId);
+    console.log("HomeView onboardingCampaignId : ", onboardingCampaignId);
   const verifyStatuses = [
     aadhaarVerifyStatus != "SUCCESS"
       ? { label: "Verify AADHAAR", value: "AADHAAR" }
@@ -69,12 +70,12 @@ const HomeView = () => {
       : null,
   ];
 
-  useEffect(() => {
-    // PushNotification.deleteChannel("Onboarding");
-    if (allAreNull(verifyStatuses)) {
-      PushNotification.cancelAllLocalNotifications();
-    }
-  }, [aadhaarVerifyStatus, bankVerifyStatus, panVerifyStatus]);
+  // useEffect(() => {
+  //   // PushNotification.deleteChannel("Onboarding");
+  //   if (allAreNull(verifyStatuses)) {
+  //     PushNotification.cancelAllLocalNotifications();
+  //   }
+  // }, [aadhaarVerifyStatus, bankVerifyStatus, panVerifyStatus]);
 
   useEffect(() => {
     dispatch(addCurrentStack("HomeStack"));
@@ -110,18 +111,17 @@ const HomeView = () => {
     isError: getEwaOffersIsError,
     error: getEwaOffersError,
     data: getEwaOffersData,
-  } = useQuery(["getEwaOffers", unipeEmployeeId, token], getEwaOffers, {
-    staleTime: 1000 * 60 * 2,
-    cacheTime: 1000 * 60 * 10,
-    refetchInterval: 1000 * 60 * 2,
-  });
+  } = useGetOffersQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 2,
+  })
 
   useEffect(() => {
     if (isFocused && getEwaOffersIsSuccess) {
-      if (getEwaOffersData.data.status === 200) {
-        if (Object.keys(getEwaOffersData.data.body.live).length !== 0) {
+      console.log("HomeView ewaOffersFetch API getEwaOffersData : ", getEwaOffersData);
+      if (getEwaOffersData.status === 200) {
+        if (Object.keys(getEwaOffersData.body.live).length !== 0) {
           const closureDays = getNumberOfDays({
-            date: getEwaOffersData.data.body.live.dueDate,
+            date: getEwaOffersData.body.live.dueDate,
           });
           if (closureDays <= 3) {
             setAccessible(false);
@@ -131,13 +131,13 @@ const HomeView = () => {
         } else {
           setAccessible(false);
         }
-        dispatch(resetEwaLive(getEwaOffersData.data.body.live));
-        dispatch(resetEwaHistorical(getEwaOffersData.data.body.past));
+        dispatch(resetEwaLive(getEwaOffersData.body.live));
+        dispatch(resetEwaHistorical(getEwaOffersData.body.past));
         setFetched(true);
       } else {
         console.log(
           "HomeView ewaOffersFetch API error getEwaOffersData.data : ",
-          getEwaOffersData.data
+          getEwaOffersData.body
         );
         dispatch(resetEwaLive());
         dispatch(resetEwaHistorical());
@@ -145,7 +145,7 @@ const HomeView = () => {
     } else if (getEwaOffersIsError) {
       console.log(
         "HomeView ewaOffersFetch API error getEwaOffersError.message : ",
-        getEwaOffersError.message
+        getEwaOffersError
       );
       dispatch(resetEwaLive());
       dispatch(resetEwaHistorical());
@@ -207,14 +207,10 @@ const HomeView = () => {
       <LogoHeader
         title={"Home"}
         rightIcon={
-          <Ionicons
-            name="logo-whatsapp"
-            size={28}
-            color={COLORS.primary}
-          />
+          <Ionicons name="logo-whatsapp" size={28} color={COLORS.primary} />
         }
         rightOnPress={() => {
-          Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+          whatsappLinking();
         }}
       />
       <ScrollView showsVerticalScrollIndicator={false}>

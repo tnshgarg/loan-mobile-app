@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import React from "react";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { MaterialCommunityIcons } from "react-native-vector-icons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const DisbursementCard = ({ title, data, info, iconName, variant }) => {
   return (

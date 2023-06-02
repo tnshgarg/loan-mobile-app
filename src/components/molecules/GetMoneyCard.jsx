@@ -1,11 +1,9 @@
 import { View, Text } from "react-native";
-import { useEffect } from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { COLORS, FONTS } from "../../constants/Theme";
+import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import PrimaryButton from "../atoms/PrimaryButton";
 
 const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
-
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Here is your On-Demand Salary</Text>
@@ -45,7 +43,7 @@ const styles = EStyleSheet.create({
     padding: "15rem",
     flexDirection: "column",
     borderRadius: 5,
-    elevation: 2,
+    ...SIZES.shadow,
     backgroundColor: COLORS.white,
   },
   text: { ...FONTS.body3, color: COLORS.secondary, marginVertical: 5 },

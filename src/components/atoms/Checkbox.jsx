@@ -1,18 +1,20 @@
-import { View, Text } from "react-native";
 import React from "react";
-import CheckBox from "@react-native-community/checkbox";
+import { Text, TouchableOpacity, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS } from "../../constants/Theme";
 
 const Checkbox = ({ value, setValue, text, additionalText, onPress }) => {
+  console.log(value);
   return (
     <View style={styles.container}>
-      <CheckBox
-        accessibilityLabel="CheckBox"
-        value={value}
-        onValueChange={setValue}
-        tintColors={{ true: COLORS.primary }}
-      />
+      <TouchableOpacity onPress={() => setValue(!value)} activeOpacity={0.7}>
+        <MaterialCommunityIcons
+          name={value ? "checkbox-marked" : "checkbox-blank-outline"}
+          color={value ? COLORS.primary : COLORS.gray}
+          size={24}
+        />
+      </TouchableOpacity>
 
       <Text style={styles.title}>
         {text}

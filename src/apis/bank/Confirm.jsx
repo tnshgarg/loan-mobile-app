@@ -1,15 +1,16 @@
-import { useDispatch, useSelector } from "react-redux";
-import { Alert, Text, View } from "react-native";
-import { Button } from "@react-native-material/core";
+import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
+import { Text, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import { showToast } from "../../components/atoms/Toast";
+import DetailsCard from "../../components/molecules/DetailsCard";
+import FuzzyCheck from "../../components/molecules/FuzzyCheck";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { useUpdateBankMutation } from "../../store/apiSlices/bankApi";
+import { addOnboarded } from "../../store/slices/authSlice";
 import { addVerifyStatus } from "../../store/slices/bankSlice";
 import { form, styles } from "../../styles";
-import { COLORS, FONTS } from "../../constants/Theme";
-import Analytics from "appcenter-analytics";
-import FuzzyCheck from "../../components/molecules/FuzzyCheck";
-import DetailsCard from "../../components/molecules/DetailsCard";
-import { addOnboarded } from "../../store/slices/authSlice";
-import { putBackendData } from "../../services/employees/employeeServices";
 
 const BankConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -21,9 +22,8 @@ const BankConfirmApi = (props) => {
     (state) => state.campaign.onboardingCampaignId
   );
   const data = useSelector((state) => state.bank.data);
-
+  const [updateBank] = useUpdateBankMutation();
   const backendPush = async ({ verifyStatus }) => {
-
     dispatch(addVerifyStatus(verifyStatus));
 
     const payload = {
@@ -33,22 +33,21 @@ const BankConfirmApi = (props) => {
       campaignId: campaignId,
     };
 
-    const response = await putBackendData({ data: payload, xpath: "bank", token: token });
-    const responseJson = response?.data;
-
-    if (responseJson.status === 200) {
-      if (verifyStatus === "REJECTED") {
-        if (props?.route?.params?.type === "KYC") {
-          navigation.navigate("KYC", {
-            screen: "BANK",
-            params: {
-              screen: "Form",
-            },
-          });
-        } else {
-          navigation.navigate("BankForm");
-        }
-      } else if (verifyStatus === "SUCCESS") {
+    updateBank(payload)
+      .unwrap()
+      .then((res) => {
+        if (verifyStatus === "REJECTED") {
+          if (props?.route?.params?.type === "KYC") {
+            navigation.navigate("KYC", {
+              screen: "BANK",
+              params: {
+                screen: "Form",
+              },
+            });
+          } else {
+            navigation.navigate("BankForm");
+          }
+        } else if (verifyStatus === "SUCCESS") {
           if (props?.route?.params?.type === "KYC") {
             navigation.navigate("KYC", {
               screen: "BANK",
@@ -56,15 +55,15 @@ const BankConfirmApi = (props) => {
           } else {
             navigation.replace("EWA_MANDATE");
           }
-      }
-    } else {
-      Alert.alert("Error", JSON.stringify(responseJson));
-    }
-
+        }
+      })
+      .catch((error) => {
+        showToast(error?.message, "error");
+      });
   };
 
   const cardData = () => {
-    var res = [
+    let res = [
       {
         subTitle: "Account Holder Name",
         value: data?.accountHolderName,
@@ -93,42 +92,32 @@ const BankConfirmApi = (props) => {
       <DetailsCard data={cardData()} />
 
       <View style={[styles.row, { justifyContent: "space-between" }]}>
-        <Button
+        <PrimaryButton
           title="Not Me"
-          type="solid"
-          uppercase={false}
-          style={form.noButton}
-          color={COLORS.warning}
+          containerStyle={form.noButton}
           titleStyle={{ ...FONTS.h4, color: COLORS.warning }}
-          pressableContainerStyle={{ width: "100%" }}
-          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             backendPush({
               verifyStatus: "REJECTED",
             });
-            Analytics.trackEvent("Bank|Confirm|Error", {
+            analytics().logEvent("Bank_Confirm_Error", {
               unipeEmployeeId: unipeEmployeeId,
               error: "Rejected by User",
             });
           }}
         />
         <FuzzyCheck name={data?.accountHolderName} step="Bank Account" />
-        <Button
+        <PrimaryButton
           accessibilityLabel="BankYesBtn"
           title="Yes, that’s me"
-          type="solid"
-          uppercase={false}
-          style={form.yesButton}
-          color={COLORS.primary}
+          containerStyle={form.yesButton}
           titleStyle={{ ...FONTS.h4, color: COLORS.primary }}
-          pressableContainerStyle={{ width: "100%" }}
-          contentContainerStyle={{ width: "100%", height: "100%" }}
           onPress={() => {
             dispatch(addOnboarded(true));
             backendPush({
               verifyStatus: "SUCCESS",
             });
-            Analytics.trackEvent("Bank|Confirm|Success", {
+            analytics().logEvent("Bank_Confirm_Success", {
               unipeEmployeeId: unipeEmployeeId,
             });
           }}
