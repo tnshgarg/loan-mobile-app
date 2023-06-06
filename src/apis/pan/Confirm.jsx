@@ -125,7 +125,6 @@ const PanConfirmApi = (props) => {
               component: "Pan",
               action: "Confirm",
               status: "Success",
-              unipeEmployeeId: unipeEmployeeId,
             });
           }}
         />

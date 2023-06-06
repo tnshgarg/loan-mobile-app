@@ -177,7 +177,6 @@ export default Confirm = () => {
               component: "Licence",
               action: "Confirm",
               status: "Success",
-              unipeEmployeeId: unipeEmployeeId,
             });
             navigation.navigate("Documents", {
               screen: "Driving License",
