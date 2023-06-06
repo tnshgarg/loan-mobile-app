@@ -1,7 +1,8 @@
 import axios from "axios";
 import { EMPLOYEE_API_URL } from "../constants";
 import { Alert } from "react-native";
-
+import {store} from "../../store/store"
+import * as RootNavigation from "../../navigators/RootNavigation";
 export const putBackendData = async (props) => {
   console.log(`putBackendData for ${props.xpath}`);
 
@@ -52,8 +53,16 @@ export const getBackendData = async (props) => {
       throw new Error("Oops! Something went wrong. Please try again later.");
     }
     else if (response.data.status === 401) {
-      if(props.token==="") {throw new Error("Can't hit backend servers!");}
-      Alert.alert(response?.data?.message || "Your session has expired. Please login again.");
+      Alert.alert("Authentication Failed",response?.data?.message || "Your session has expired. Please login again.",[
+        {
+        text: 'Logout',
+        onPress: () => {
+          store.dispatch({ type: "LOGOUT" });
+          RootNavigation.navigate("OnboardingStack", { screen: "Login" });
+        },
+        style: 'cancel',
+      }
+    ],{cancelable: false});
     }
     return response;
   });
