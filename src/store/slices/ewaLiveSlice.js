@@ -39,7 +39,7 @@ const ewaLiveSlice = createSlice({
     addProcessingFees(state, action) {
       state.processingFees = action.payload;
     },
-    addCampaignImageUrl(state, action) {
+    addCampaignBanner(state, action) {
       state.campaignImageUrl = action.payload
     },
     resetEwaLive(state, action) {
@@ -65,7 +65,7 @@ export const {
   addLoanAmount,
   addNetAmount,
   addProcessingFees,
-  addCampaignImageUrl,
+  addCampaignBanner,
   resetEwaLive,
 } = ewaLiveSlice.actions;
 

@@ -30,7 +30,7 @@ import {
   addAccessible,
   addEligible,
   resetEwaLive,
-  addCampaignImageUrl,
+  addCampaignBanner,
 } from "../../store/slices/ewaLiveSlice";
 import CompleteKycCard from "../../components/molecules/CompleteKycCard";
 import ExploreCards from "../../components/molecules/ExploreCards";
@@ -51,7 +51,7 @@ const HomeView = () => {
   console.log({ewaLiveSlice})
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
-  const campaignImageUrl = ewaLiveSlice?.campaignImageUrl || null;
+  const campaignBanner = ewaLiveSlice?.campaignBanner || null;
   
 
   useEffect(() => {
@@ -93,12 +93,12 @@ const HomeView = () => {
     cacheTime: 1000 * 60 * 10,
     refetchInterval: 1000 * 60 * 2,
   });
-  console.log("ewa offers get", campaignImageUrl)
+  console.log("ewa offers get", campaignBanner)
   useEffect(() => {
     if (isFocused && getEwaOffersIsSuccess) {
       if (getEwaOffersData.data.status === 200) {
-        if (getEwaOffersData.data.body.campaignImageUrl) {
-          dispatch(addCampaignImageUrl(getEwaOffersData.data.body.campaignImageUrl))
+        if (getEwaOffersData.data.body.campaignBanner) {
+          dispatch(addCampaignBanner(getEwaOffersData.data.body.campaignBanner))
         }
         if (Object.keys(getEwaOffersData.data.body.live).length !== 0) {
           const closureDays = getNumberOfDays({
@@ -116,9 +116,9 @@ const HomeView = () => {
         dispatch(resetEwaHistorical(getEwaOffersData.data.body.past));
         setFetched(true);
       } else {
-        if (getEwaOffersData.data.status == 404 && getEwaOffersData.data.campaignImageUrl) {
-          console.log("dispatched campaignImageUrl", getEwaOffersData.data)
-          dispatch(addCampaignImageUrl(getEwaOffersData.data.campaignImageUrl))
+        if (getEwaOffersData.data.status == 404 && getEwaOffersData.data.campaignBanner) {
+          console.log("dispatched campaignBanner", getEwaOffersData.data)
+          dispatch(addCampaignBanner(getEwaOffersData.data.campaignBanner))
         }
         console.log(
           "HomeView ewaOffersFetch API error getEwaOffersData.data : ",
@@ -220,7 +220,7 @@ const HomeView = () => {
             <CompleteKycCard />
             <ExploreCards /> 
             {
-              campaignImageUrl ? 
+              campaignBanner ? 
               <TouchableOpacity onPress={() => {
                 Analytics.trackEvent({
                   interaction: InteractionTypes.BANNER_TAP,
@@ -233,7 +233,7 @@ const HomeView = () => {
                 else
                   Alert.alert("Advance Salary is not Enabled", "Please ask your employer to enable Advanced Salary for you")
               }}>
-              <FullWidthImage url={campaignImageUrl} />
+              <FullWidthImage url={campaignBanner?.url} />
               </TouchableOpacity> : <></>
             }
           </>
