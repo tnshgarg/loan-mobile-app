@@ -68,7 +68,7 @@ const PayMoneyCard = () => {
   const [updateRepayment] = useUpdateRepaymentMutation();
   useEffect(() => {
     if (isFocused && !getRepaymentIsLoading && !getRepaymentIsError) {
-      console.log("ewaRepaymentFetch API: ", getRepaymentData);
+      console.tron.log("ewaRepaymentFetch API: ", getRepaymentData);
       if (getRepaymentData.status === 200) {
         let repaymentAmount = Math.max(
           getRepaymentData?.body?.amount -
@@ -95,7 +95,7 @@ const PayMoneyCard = () => {
           setInactive(true);
         }
       } else if (getRepaymentData.status === 404) {
-        console.log(
+        console.tron.log(
           "ewaRepaymentFetch API status error getRepaymentData.data: ",
           getRepaymentData.body
         );
@@ -108,7 +108,7 @@ const PayMoneyCard = () => {
         setInactive(true);
       }
     } else if (getRepaymentIsError) {
-      console.log(
+      console.tron.log(
         "ewaRepaymentFetch API error getRepaymentError.message: ",
         getRepaymentError
       );
@@ -133,7 +133,7 @@ const PayMoneyCard = () => {
     };
     return updateRepayment(repaymentData)
       .then((res) => {
-        console.log("repaymentPush response: ", res?.data);
+        console.tron.log("repaymentPush response: ", res?.data);
         if (res?.data.status === 200) {
           setRepaymentStatus(status);
         } else {
@@ -141,7 +141,7 @@ const PayMoneyCard = () => {
         }
       })
       .catch((error) => {
-        console.log("repaymentPush error: ", error);
+        console.tron.log("repaymentPush error: ", error);
         throw error;
       });
   };
@@ -159,7 +159,7 @@ const PayMoneyCard = () => {
           contact: phoneNumber,
         },
       });
-      console.log("ewaRepayment Checkout RazorpayCheckout data: ", res);
+      console.tron.log("ewaRepayment Checkout RazorpayCheckout data: ", res);
       data = {
         orderId,
         customerId,
@@ -172,7 +172,7 @@ const PayMoneyCard = () => {
         unipeEmployeeId: unipeEmployeeId,
       });
     } catch (error) {
-      console.log("ewaRepayment Checkout error: ", error);
+      console.tron.log("ewaRepayment Checkout error: ", error);
       data = {
         orderId,
         customerId,

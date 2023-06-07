@@ -27,14 +27,14 @@ const Mandate = ({ navigation }) => {
   useEffect(() => {
     if (isFocused && unipeEmployeeId) {
       if (data && !isLoading && !error) {
-        console.log("Form mandateFetch response.data", response.data);
+        console.tron.log("Form mandateFetch response.data", response.data);
         if (response.data.status === 200) {
           dispatch(resetMandate(response?.data?.body));
           dispatch(addVerifyStatus(response?.data?.body?.verifyStatus));
           setVerifyStatus(response?.data?.body?.verifyStatus);
         }
       } else {
-        console.log("mandateFetch error: ", error);
+        console.tron.log("mandateFetch error: ", error);
       }
     }
   }, [isFocused]);

@@ -10,7 +10,7 @@ export async function requestUserPermission() {
   const authorizationStatus = await messaging().requestPermission();
 
   if (authorizationStatus) {
-    console.log("Permission status:", authorizationStatus);
+    console.tron.log("Permission status:", authorizationStatus);
     getFcmToken();
   }
 }
@@ -18,7 +18,7 @@ export async function requestUserPermission() {
 export const getFcmToken = async () => {
   let fcmToken = await AsyncStorage.getItem("fcmToken");
   await messaging().subscribeToTopic("initial-users");
-  console.log(fcmToken, "the old FCM token");
+  console.tron.log(fcmToken, "the old FCM token");
   if (!fcmToken) {
     try {
       const fcmToken = await messaging().getToken();
@@ -27,9 +27,9 @@ export const getFcmToken = async () => {
         token: fcmToken,
         appVersion: version,
       };
-      console.log(data);
+      console.tron.log(data);
       if (fcmToken) {
-        console.log(fcmToken, "new generated FCM token");
+        console.tron.log(fcmToken, "new generated FCM token");
         fcmPush({
           data: data,
           token: store.getState().auth.token,
@@ -38,14 +38,14 @@ export const getFcmToken = async () => {
         await messaging().subscribeToTopic("initial-users");
       }
     } catch (error) {
-      console.log(error, "error raised in FCM token");
+      console.tron.log(error, "error raised in FCM token");
     }
   }
 };
 
 export const notificationListener = async () => {
   messaging().onNotificationOpenedApp((remoteMessage) => {
-    console.log(
+    console.tron.log(
       "Notification caused app to open from background state:",
       remoteMessage
     );
@@ -72,7 +72,7 @@ export const notificationListener = async () => {
   //     channelId: 'Foreground',
   //     repeatTime: 1,
   //   });
-  //   console.log('Received in Foreground', remoteMessage);
+  //   console.tron.log('Received in Foreground', remoteMessage);
   // });
 
   // Check whether an initial notification is available
@@ -81,7 +81,7 @@ export const notificationListener = async () => {
       .getInitialNotification()
       .then((remoteMessage) => {
         if (remoteMessage) {
-          console.log(
+          console.tron.log(
             "Notification caused app to open from quit state:",
             remoteMessage.data
           );

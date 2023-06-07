@@ -67,7 +67,7 @@ const openRazorpayCheckout = ({orderId,customerId,description,prefill,notes,extr
     prefill,
     ...extraParams
   };
-  console.log("Razorpay Checkout Options", options)
+  console.tron.log("Razorpay Checkout Options", options)
   return RazorpayCheckout.open(options)
 }
 

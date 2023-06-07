@@ -45,15 +45,15 @@ const StackNavigator = () => {
           navigation.navigate("OnboardingStack", { screen: "Login" });
         }, 8000);
       })
-      .catch(console.log);
+      .catch(console.tron.log);
   }, [token]);
 
-  console.log("STAGE: ", STAGE);
-  console.log("initialRoute: ", initialRoute);
-  console.log("currentScreen: ", initialScreen);
+  console.tron.log("STAGE: ", STAGE);
+  console.tron.log("initialRoute: ", initialRoute);
+  console.tron.log("currentScreen: ", initialScreen);
 
   STAGE === "dev" ? (initialRoute = "DevMenu") : null;
-  console.log("initialRoute: ", initialRoute);
+  console.tron.log("initialRoute: ", initialRoute);
   return (
     <OfflineAlert>
       <Stack.Navigator initialRouteName={"DevMenu"}>

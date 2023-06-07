@@ -9,7 +9,7 @@ const OnboardingStack = () => {
   const Stack = createNativeStackNavigator();
   let initialRoute = useSelector((state) => state.navigation.currentScreen);
 
-  console.log("initialRoute: ", initialRoute);
+  console.tron.log("initialRoute: ", initialRoute);
 
   return (
     <Stack.Navigator

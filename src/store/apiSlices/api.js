@@ -18,11 +18,11 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
   if (result?.error) {
-    console.log("result?.error", result?.error);
+    console.tron.log("result?.error", result?.error);
     analytics().logEvent(`${result?.meta?.request?.url?.split("?")[0].split(EMPLOYEE_API_URL)[1].replace(/[^A-Za-z 0-9]/g,'_')}_${result?.meta?.request?.method}_${result?.error?.status}`);
     if (result?.error?.status === 401) {
       Alert.alert("Session expired", "Logging you out!");
-      console.log("401 error");
+      console.tron.log("401 error");
       api.dispatch({ type: "LOGOUT" });
     }
     else if (result?.error?.status === 404) {
@@ -30,7 +30,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     }
     else {
       Alert.alert("Oops", result?.error?.data?.error?.message || "Something went wrong please try again later");
-      console.log("other error");
+      console.tron.log("other error");
     }
   }
   return result;

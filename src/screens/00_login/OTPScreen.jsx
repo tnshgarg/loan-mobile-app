@@ -75,7 +75,7 @@ const OTPScreen = () => {
   }, [otp]);
 
   const backAction = () => {
-    console.log(back);
+    console.tron.log(back);
     if (!back) {
       Platform.OS === "ios"
         ? Alert.alert(
@@ -113,7 +113,7 @@ const OTPScreen = () => {
     postGenerateOtp(phoneNumber)
       .unwrap()
       .then((res) => {
-        console.log(res);
+        console.tron.log(res);
         setOtp("");
         setBack(false);
         analytics().logEvent("OTPScreen_SendSms_Success", {
@@ -133,7 +133,7 @@ const OTPScreen = () => {
         analytics().logEvent("OTPScreen_SendSms_Error", {
           unipeEmployeeId: unipeEmployeeId,
         });
-        console.log(error, error.message);
+        console.tron.log(error, error.message);
         Alert.alert("Error", error.message);
       });
   };
@@ -152,7 +152,7 @@ const OTPScreen = () => {
           unipeEmployeeId: unipeEmployeeId,
           error: error?.message || error?.error?.message,
         });
-        console.log(error);
+        console.tron.log(error);
         Alert.alert("Error", error?.message || error?.error?.message);
         if (error?.status != 406){
           navigation.navigate("Login");

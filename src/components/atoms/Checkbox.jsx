@@ -5,7 +5,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { COLORS, FONTS } from "../../constants/Theme";
 
 const Checkbox = ({ value, setValue, text, additionalText, onPress }) => {
-  console.log(value);
+  console.tron.log(value);
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => setValue(!value)} activeOpacity={0.7}>

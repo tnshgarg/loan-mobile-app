@@ -54,7 +54,7 @@ const BackendSync = () => {
   });
 
   useEffect(() => {
-    console.log("BackendSync unipeEmployeeId: ", unipeEmployeeId);
+    console.tron.log("BackendSync unipeEmployeeId: ", unipeEmployeeId);
     setTimeout(() => {
       navigation.navigate("HomeStack");
     }, 5000);
@@ -65,7 +65,7 @@ const BackendSync = () => {
       try {
         dispatch(resetAadhaar(aadhaarData));
       } catch (error) {
-        console.log("error: ", error.message);
+        console.tron.log("error: ", error.message);
       }
     }
   }, [unipeEmployeeId]);
@@ -75,7 +75,7 @@ const BackendSync = () => {
       try {
         dispatch(resetPan(panData));
       } catch (error) {
-        console.log("panBackendFetch error: ", error.message);
+        console.tron.log("panBackendFetch error: ", error.message);
       }
     }
   }, [unipeEmployeeId]);
@@ -85,7 +85,7 @@ const BackendSync = () => {
       try {
         dispatch(resetBank(bankData));
       } catch (error) {
-        console.log("BankBackendFetch error: ", error.message);
+        console.tron.log("BankBackendFetch error: ", error.message);
       }
     }
   }, [unipeEmployeeId]);
@@ -95,7 +95,7 @@ const BackendSync = () => {
       try {
         dispatch(resetProfile(profileData));
       } catch (error) {
-        console.log("profileBackendFetch error: ", error.message);
+        console.tron.log("profileBackendFetch error: ", error.message);
       }
     }
   }, [unipeEmployeeId]);
@@ -105,7 +105,7 @@ const BackendSync = () => {
       try {
         dispatch(resetMandate(mandateData));
       } catch (error) {
-        console.log("mandateFetch error: ", error.message);
+        console.tron.log("mandateFetch error: ", error.message);
       }
     }
   }, [unipeEmployeeId]);

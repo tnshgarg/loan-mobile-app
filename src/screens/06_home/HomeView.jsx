@@ -59,7 +59,7 @@ const HomeView = () => {
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
     const onboardingCampaignId = useSelector((state)=>state.campaign.onboardingCampaignId);
-    console.log("HomeView onboardingCampaignId : ", onboardingCampaignId);
+    console.tron.log("HomeView onboardingCampaignId : ", onboardingCampaignId);
   const verifyStatuses = [
     aadhaarVerifyStatus != "SUCCESS"
       ? { label: "Verify AADHAAR", value: "AADHAAR" }
@@ -117,7 +117,7 @@ const HomeView = () => {
 
   useEffect(() => {
     if (isFocused && getEwaOffersIsSuccess) {
-      console.log("HomeView ewaOffersFetch API getEwaOffersData : ", getEwaOffersData);
+      console.tron.log("HomeView ewaOffersFetch API getEwaOffersData : ", getEwaOffersData);
       if (getEwaOffersData.status === 200) {
         if (Object.keys(getEwaOffersData.body.live).length !== 0) {
           const closureDays = getNumberOfDays({
@@ -135,7 +135,7 @@ const HomeView = () => {
         dispatch(resetEwaHistorical(getEwaOffersData.body.past));
         setFetched(true);
       } else {
-        console.log(
+        console.tron.log(
           "HomeView ewaOffersFetch API error getEwaOffersData.data : ",
           getEwaOffersData.body
         );
@@ -143,7 +143,7 @@ const HomeView = () => {
         dispatch(resetEwaHistorical());
       }
     } else if (getEwaOffersIsError) {
-      console.log(
+      console.tron.log(
         "HomeView ewaOffersFetch API error getEwaOffersError.message : ",
         getEwaOffersError
       );
@@ -157,8 +157,8 @@ const HomeView = () => {
     const breakpoint = "/";
     if (initialUrl) {
       const splitted = initialUrl.split(breakpoint);
-      console.log("initialUrl", splitted);
-      console.log("route", splitted[3]);
+      console.tron.log("initialUrl", splitted);
+      console.tron.log("route", splitted[3]);
       switch (splitted[3].toLowerCase()) {
         case "ewa":
           switch (splitted[4]?.toLowerCase()) {
@@ -194,7 +194,7 @@ const HomeView = () => {
           break;
       }
     } else {
-      console.log("No intent. User opened App.");
+      console.tron.log("No intent. User opened App.");
     }
   };
 

@@ -14,7 +14,7 @@ const FuzzyCheck = (props) => {
       : useSelector((state) => state.bank.data?.accountHolderName);
   const score = 100 - fuzz.token_set_ratio(name, checkName);
   useEffect(() => {
-    console.log("FuzzyCheck", props.step, score);
+    console.tron.log("FuzzyCheck", props.step, score);
     if (props.step == "PAN") {
       dispatch(setPanMistach(score));
     } else {

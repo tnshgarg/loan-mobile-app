@@ -13,7 +13,7 @@ export const repaymentApi = api
         }),
         providesTags: ["getRepayment"],
         transformResponse: (response) => {
-          console.log("response", response);
+          console.tron.log("response", response);
           return response;
         },
       }),

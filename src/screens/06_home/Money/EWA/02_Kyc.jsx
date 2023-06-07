@@ -56,13 +56,13 @@ const KYC = () => {
   useEffect(() => {
     if (unipeEmployeeId && deviceId !== 0 && ipAddress !== 0) {
       if (data && !isLoading && !error) {
-        console.log("Form mandateFetch response.data", data);
+        console.tron.log("Form mandateFetch response.data", data);
         dispatch(resetMandate(data?.body));
         dispatch(addVerifyStatus(data?.body?.verifyStatus));
         setMandateVerifyStatus(data?.body?.verifyStatus);
         setFetched(true);
       } else {
-        console.log("mandateFetch error: ", error);
+        console.tron.log("mandateFetch error: ", error);
         Alert.alert("An Error occured", error.message);
       }
     }
@@ -81,10 +81,10 @@ const KYC = () => {
       };
       updateKyc(data)
         .then((response) => {
-          console.log("updateKycMutateAsync response.data: ", response.data);
+          console.tron.log("updateKycMutateAsync response.data: ", response.data);
         })
         .catch((error) => {
-          console.log("updateKycMutateAsync error: ", error.message);
+          console.tron.log("updateKycMutateAsync error: ", error.message);
           Alert.alert("An Error occured", error.message);
         });
     }
@@ -114,7 +114,7 @@ const KYC = () => {
     };
     updateKyc(data)
       .then((response) => {
-        console.log("updateKycMutateAsync response.data: ", response.data);
+        console.tron.log("updateKycMutateAsync response.data: ", response.data);
         setLoading(false);
         analytics().logEvent("Ewa_Kyc_Success", {
           unipeEmployeeId: unipeEmployeeId,
@@ -126,7 +126,7 @@ const KYC = () => {
         }
       })
       .catch((error) => {
-        console.log("updateKycMutateAsync error: ", error.message);
+        console.tron.log("updateKycMutateAsync error: ", error.message);
         setLoading(false);
         Alert.alert("An Error occured", error.message);
         analytics().logEvent("Ewa_Kyc_Error", {

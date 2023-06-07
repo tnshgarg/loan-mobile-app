@@ -7,10 +7,10 @@ export const licenseBackendPush = (payload) => {
     token: payload.token,
   })
     .then((response) => {
-      console.log("licenseBackendPush response: ", response.data);
+      console.tron.log("licenseBackendPush response: ", response.data);
     })
     .catch((error) => {
-      console.log("licenseBackendPush error: ", error);
+      console.tron.log("licenseBackendPush error: ", error);
     });
 };
 
@@ -21,10 +21,10 @@ export const relationPush = (payload) => {
     token: payload.token,
   })
     .then((response) => {
-      console.log("relationPush response: ", response.data);
+      console.tron.log("relationPush response: ", response.data);
     })
     .catch((error) => {
-      console.log("relationPush error: ", error);
+      console.tron.log("relationPush error: ", error);
     });
 };
 
@@ -36,10 +36,10 @@ export const addressPush = (payload) => {
     token: payload.token,
   })
     .then((response) => {
-      console.log("addressPush response: ", response.data);
+      console.tron.log("addressPush response: ", response.data);
     })
     .catch((error) => {
-      console.log("addressPush error: ", error);
+      console.tron.log("addressPush error: ", error);
     });
 };
 
@@ -50,10 +50,10 @@ export const portalPush = (payload) => {
     token: payload.token,
   })
     .then((response) => {
-      console.log("portalPush response: ", response.data);
+      console.tron.log("portalPush response: ", response.data);
     })
     .catch((error) => {
-      console.log("portalPush error: ", error);
+      console.tron.log("portalPush error: ", error);
     });
 };
 

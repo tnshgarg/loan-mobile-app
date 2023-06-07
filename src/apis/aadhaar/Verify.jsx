@@ -24,7 +24,7 @@ const AadhaarVerifyApi = (props) => {
   const [verifyAadhaarOtp] = useVerifyAadhaarOtpMutation();
   const goForFetch = () => {
     setLoading(true);
-    console.log("aadhaarSlice: ", aadhaarSlice);
+    console.tron.log("aadhaarSlice: ", aadhaarSlice);
     const data = {
       unipeEmployeeId: unipeEmployeeId,
       otp: props.data.otp,
@@ -34,8 +34,8 @@ const AadhaarVerifyApi = (props) => {
     verifyAadhaarOtp(data)
       .unwrap()
       .then((res) => {
-        console.log("kyc/aadhaar-submit-otp res: ", res);
-        console.log("kyc/aadhaar-submit-otp res: ", JSON.stringify(res));
+        console.tron.log("kyc/aadhaar-submit-otp res: ", res);
+        console.tron.log("kyc/aadhaar-submit-otp res: ", JSON.stringify(res));
         props.setVerified(true);
         analytics().logEvent("Aadhaar_Verify_Success", {
           unipeEmployeeId: unipeEmployeeId,
@@ -46,7 +46,7 @@ const AadhaarVerifyApi = (props) => {
         }
       })
       .catch((error) => {
-        console.log("kyc/aadhaar-submit-otp error: ", error);
+        console.tron.log("kyc/aadhaar-submit-otp error: ", error);
         dispatch(addVerifyStatus("ERROR"));
         analytics().logEvent("Aadhaar_Verify_Error", {
           unipeEmployeeId: unipeEmployeeId,

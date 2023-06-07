@@ -9,7 +9,7 @@ const BenefitsStack = () => {
   let initialRoute = useSelector((state) => state.navigation.currentScreen);
   
   STAGE === "dev" ? (initialRoute = "DevMenu") : null;
-  console.log("initialRoute: ", initialRoute);
+  console.tron.log("initialRoute: ", initialRoute);
 
   return (
     <Stack.Navigator initialRouteName={initialRoute}>

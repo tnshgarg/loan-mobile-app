@@ -44,7 +44,7 @@ const appReducer = combineReducers({
 });
 
 const rootReducer = (state, action) => {
-  console.log("action.type", action.type);
+  console.tron.log("action.type", action.type);
   if (action.type === "LOGOUT") {
     try {
       AsyncStorage.clear();

@@ -115,7 +115,7 @@ const AccountMenu = (props) => {
   ];
 
   const onPressCard = ({ route, action }) => {
-    console.log({ route });
+    console.tron.log({ route });
     if (route) props.navigation.replace(route.stack, { screen: route.screen });
     else action();
   };

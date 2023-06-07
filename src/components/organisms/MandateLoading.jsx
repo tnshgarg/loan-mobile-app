@@ -26,13 +26,13 @@ export default function MandateLoading({
 
   useEffect(() => {
     interval = setInterval(() => {
-      console.log({ refetchTime });
+      console.tron.log({ refetchTime });
       if (refetchTime <= 60) {
         setRefetchTime(refetchTime + 10);
         if (refetchTime % 10 == 0) {
-          console.log("api called");
+          console.tron.log("api called");
           if (data && !isLoading && !error) {
-            console.log("mandateLoader", data);
+            console.tron.log("mandateLoader", data);
             let mandateData = data?.body;
             dispatch(resetMandate(mandateData));
             dispatch(addVerifyStatus(data?.body?.verifyStatus));

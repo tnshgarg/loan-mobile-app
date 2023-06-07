@@ -17,7 +17,7 @@ Crashes.setListener({
 });
 
 if(__DEV__) {
-  import('./ReactotronConfig').then(() => console.log('Reactotron Configured'))
+  import('./ReactotronConfig').then(() => console.tron.log('Reactotron Configured'))
 }
 
 const App = () => {

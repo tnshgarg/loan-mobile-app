@@ -32,7 +32,7 @@ const BankVerifyApi = (props) => {
   const [verifyBank] = useVerifyBankMutation();
   const goForFetch = () => {
     setLoading(true);
-    console.log("bankSlice: ", bankSlice);
+    console.tron.log("bankSlice: ", bankSlice);
     const data = {
       unipeEmployeeId: unipeEmployeeId,
       accountHolderName: bankSlice?.data?.accountHolderName,
@@ -45,7 +45,7 @@ const BankVerifyApi = (props) => {
     verifyBank(data)
       .unwrap()
       .then((res) => {
-        console.log("kyc/bank-verify-account res: ", res);
+        console.tron.log("kyc/bank-verify-account res: ", res);
         if (props.type !== "KYC") {
           navigation.navigate("BankConfirm");
         }

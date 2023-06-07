@@ -143,11 +143,11 @@ const Agreement = () => {
       updateAgreement(data)
         .then((response) => {
           setLoading(false);
-          console.log("ewaAgreementPush response.data: ", response.data);
+          console.tron.log("ewaAgreementPush response.data: ", response.data);
         })
         .catch((error) => {
           setLoading(false);
-          console.log("ewaAgreementPush error: ", error.message);
+          console.tron.log("ewaAgreementPush error: ", error.message);
           Alert.alert("An Error occured", error.message);
         });
     }
@@ -217,7 +217,7 @@ const Agreement = () => {
 
     updateAgreement(data)
       .then((response) => {
-        console.log("ewaAgreementPush response.data: ", response.data);
+        console.tron.log("ewaAgreementPush response.data: ", response.data);
         dispatch(resetEwaLive());
         dispatch(resetEwaHistorical([]));
         setLoading(false);
@@ -227,7 +227,7 @@ const Agreement = () => {
         navigation.navigate("EWA_DISBURSEMENT", { offer: ewaLiveSlice });
       })
       .catch((error) => {
-        console.log("ewaAgreementPush error: ", error.message);
+        console.tron.log("ewaAgreementPush error: ", error.message);
         setLoading(false);
         Alert.alert("An Error occured", error.message);
         analytics().logEvent("Ewa_Agreement_Error", {

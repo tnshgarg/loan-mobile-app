@@ -35,7 +35,7 @@ const panSlice = createSlice({
     builder.addMatcher(
       panApi.endpoints.verifyPan.matchFulfilled,
       (state, { payload }) => {
-        console.log("payload: ", payload);
+        console.tron.log("payload: ", payload);
         state.data = payload?.body?.data;
         state.verifyStatus = payload?.body?.verifyStatus;
       }
