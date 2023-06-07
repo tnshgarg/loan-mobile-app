@@ -53,16 +53,22 @@ export const getBackendData = async (props) => {
       throw new Error("Oops! Something went wrong. Please try again later.");
     }
     else if (response.data.status === 401) {
+      console.log({state: store.getState()})
+      if(store.getState()?.loggedOut)
+        return response
+
       Alert.alert("Authentication Failed",response?.data?.message || "Your session has expired. Please login again.",[
         {
         text: 'Logout',
         onPress: () => {
-          store.dispatch({ type: "LOGOUT" });
           RootNavigation.navigate("OnboardingStack", { screen: "Login" });
+          store.dispatch({ type: "LOGOUT" });
         },
         style: 'cancel',
       }
-    ],{cancelable: false});
+    ],{
+      cancelable: false
+    });
     }
     return response;
   });

@@ -40,18 +40,18 @@ const ewaLiveSlice = createSlice({
       state.processingFees = action.payload;
     },
     addCampaignBanner(state, action) {
-      state.campaignImageUrl = action.payload
+      state.campaignBanner = action.payload
     },
     resetEwaLive(state, action) {
       if (!action.payload || Object.keys(action.payload).length === 0) {
         Object.assign(state, {
           ...initialState,
-          campaignImageUrl: state.campaignImageUrl
+          campaignBanner: state.campaignBanner
         });
       } else {
         Object.assign(state, {
           ...action.payload,
-          campaignImageUrl: state.campaignImageUrl
+          campaignBanner: state.campaignBanner
         });
       }
     },

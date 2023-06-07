@@ -102,7 +102,7 @@ const LoginScreen = () => {
 
   useEffect(() => {
     var phoneno = /^[0-9]{10}$/gm;
-    if (phoneno.test(phoneNumber) && phoneNumber.length === 10) {
+    if (phoneno.test(phoneNumber) && phoneNumber?.length === 10) {
       dispatch(addPhoneNumber(phoneNumber));
       setNext(true);
     } else {

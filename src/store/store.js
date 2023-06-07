@@ -46,7 +46,7 @@ const rootReducer = (state, action) => {
     } catch (error) {
       console.error(error);
     }
-    return appReducer(undefined, action);
+    return appReducer({auth: {loggedOut: true}}, action);
   }
   return appReducer(state, action);
 };

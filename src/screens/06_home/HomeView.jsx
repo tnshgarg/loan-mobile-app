@@ -33,6 +33,7 @@ import {
   addCampaignBanner,
 } from "../../store/slices/ewaLiveSlice";
 import CompleteKycCard from "../../components/molecules/CompleteKycCard";
+import CompleteKycCampaignBanner from "../../components/molecules/CompleteKycCampaignBanner";
 import ExploreCards from "../../components/molecules/ExploreCards";
 import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 import FullWidthImage from "../../components/atoms/FullWidthImage";
@@ -220,7 +221,17 @@ const HomeView = () => {
             <CompleteKycCard />
             <ExploreCards /> 
             {
-              campaignBanner ? 
+              campaignBanner ? (
+              campaignBanner?.type == "kyc" ? 
+              <CompleteKycCampaignBanner url={campaignBanner?.url} onPress={() => {
+                Analytics.trackEvent({
+                  interaction: InteractionTypes.BANNER_TAP,
+                  component: "HomeView",
+                  action: "home_banner_image_open",
+                  status: "",
+                })
+              }}/>
+              :
               <TouchableOpacity onPress={() => {
                 Analytics.trackEvent({
                   interaction: InteractionTypes.BANNER_TAP,
@@ -234,7 +245,7 @@ const HomeView = () => {
                   Alert.alert("Advance Salary is not Enabled", "Please ask your employer to enable Advanced Salary for you")
               }}>
               <FullWidthImage url={campaignBanner?.url} />
-              </TouchableOpacity> : <></>
+              </TouchableOpacity>) : <></>
             }
           </>
         </View>

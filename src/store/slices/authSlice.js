@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  aCTC: "",
-  employeeName: "",
+  aCTC: "100000",
+  employeeName: "Shubham",
   onboarded: false,
-  phoneNumber: "",
-  token: "",
-  unipeEmployeeId: "",
+  phoneNumber: "9870097513",
+  token: "fleLKiprTBSIgg_IKzvXtu:APA91bEAWGdq2jaKT4Y850OM44XPTj8Ic6D0EOM5lpRKbLh9Ij8rkOeSxbq9qB9TUtHQyXTLJ1dLo5pwrxkCCVBX9NvbmPWygmUD-2S4m6kALCvtxeRQDpzO1HBZyzznsDrc8tMTIsRo",
+  unipeEmployeeId: "6377939f89f886a21c410d91",
+  loggedOut: true,
 };
 
 const authSlice = createSlice({
@@ -27,6 +28,7 @@ const authSlice = createSlice({
     },
     addToken(state, action) {
       state.token = action.payload;
+      state.loggedOut = false;
     },
     addUnipeEmployeeId(state, action) {
       state.unipeEmployeeId = action.payload;
