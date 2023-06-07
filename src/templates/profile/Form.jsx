@@ -182,6 +182,7 @@ const ProfileFormTemplate = ({ type }) => {
             keyboardType="phone-pad"
             value={altMobile}
             onChange={setAltMobile}
+            maxLength={10}
           />
           {altMobile && !validAltMobile ? (
             <Text style={form.formatmsg}>Incorrect Format</Text>

@@ -53,7 +53,7 @@ const PanVerifyApi = (props) => {
           unipeEmployeeId: unipeEmployeeId,
           error: `fetchPanDetails API Catch Error: ${
             error.message
-          }, ${JSON.stringify(res)}`,
+          }`,
         });
         setLoading(false);
       });
