@@ -56,15 +56,15 @@ const StackNavigator = () => {
   console.log("initialRoute: ", initialRoute);
   return (
     <OfflineAlert>
-      <Stack.Navigator initialRouteName={"Splash"}>
-        {/* <Stack.Screen
+      <Stack.Navigator initialRouteName={"DevMenu"}>
+        <Stack.Screen
           name="DevMenu"
           component={DevMenu}
           options={{
             headerShown: false,
             header: null,
           }}
-        /> */}
+        />
         {/* <Stack.Screen
           name="Splash"
           options={{ headerShown: false, header: null }}
