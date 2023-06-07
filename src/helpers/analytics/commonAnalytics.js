@@ -23,7 +23,7 @@ export async function trackEvent(
 ){
     const appState = store.getState();
     analyticsSession.logCount += 1
-    console.log("trackEvent",event, analyticsSession.logCount);
+    console.log("trackEvent",event, analyticsSession.logCount, analyticsSession.campaignClick);
     const analyticsEvent = {
         session: analyticsSession,
         user: appState?.auth?.unipeEmployeeId,

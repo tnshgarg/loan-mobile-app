@@ -7,7 +7,17 @@ import PushNotification from "react-native-push-notification";
 import { fcmPush } from "../../helpers/BackendPush";
 import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
 
+function generateCampainClick(remoteMessage) {
+  const data = remoteMessage?.data ?? {}
+  const utm_campaign = `utm_campaign=${data.utm_campaign}`
+  const utm_medium = `utm_medium=${data.utm_medium}`
+  const utm_source = `utm_source=${data.utm_source}`
+  const utm_content = `utm_content=${data.utm_content}`
+  
+  return `fcm://screen/${remoteMessage?.data?.screenName}/fcm_notification?${utm_campaign}&${utm_medium}&${utm_source}&${utm_content}`
+}
 function pushAnalytics(remoteMessage, status) {
+  Analytics.setSessionValue("campaignClick", generateCampainClick(remoteMessage))
   Analytics.setSessionValue("in_app_notification", remoteMessage.data)
   Analytics.trackEvent({
     interaction: InteractionTypes.IN_APP_NOTIFICATION,
@@ -16,6 +26,7 @@ function pushAnalytics(remoteMessage, status) {
     status: status
   })
 }
+
 export async function requestUserPermission() {
   const authorizationStatus = await messaging().requestPermission();
 

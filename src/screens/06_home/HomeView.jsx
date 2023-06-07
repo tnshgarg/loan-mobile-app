@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Linking, SafeAreaView, ScrollView, View, Alert, TouchableOpacity } from "react-native";
+import { Linking, SafeAreaView, ScrollView, View, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
 import {
@@ -36,12 +36,12 @@ import CompleteKycCard from "../../components/molecules/CompleteKycCard";
 import CompleteKycCampaignBanner from "../../components/molecules/CompleteKycCampaignBanner";
 import ExploreCards from "../../components/molecules/ExploreCards";
 import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
-import FullWidthImage from "../../components/atoms/FullWidthImage";
+import MonthlyContestCampaignBanner from "../../components/molecules/MontlyContestCampaignBanner";
+
 const HomeView = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const navigation = useNavigation();
-  Alert
   const [fetched, setFetched] = useState(false);
 
   const token = useSelector((state) => state.auth.token);
@@ -138,63 +138,27 @@ const HomeView = () => {
     }
   }, [getEwaOffersIsSuccess, getEwaOffersData, isFocused]);
 
-  const getUrlAsync = async () => {
-    const initialUrl = await Linking.getInitialURL();
-    const breakpoint = "/";
-    if (initialUrl) {
-      Analytics.setSessionValue("campaignClick", initialUrl)
+  let ewaCampaignBannerElement = (<></>);
+  let kycCampaignBannerElement = (<></>);
+  if (campaignBanner?.url) {
+    const analyticsTrackingFn = (type) => (() => {
       Analytics.trackEvent({
-        interaction: InteractionTypes.CAMPAIGN_URL,
+        interaction: InteractionTypes.BANNER_TAP,
         component: "HomeView",
-        action: "campaign_url_open",
+        action: `home_banner_image_open:${type}`,
         status: "",
       })
-      const splitted = initialUrl.split(breakpoint);
-      console.log("initialUrl", splitted);
-      console.log("route", splitted[3]);
-      switch (splitted[3].toLowerCase()) {
-        case "ewa":
-          switch (splitted[4]?.toLowerCase()) {
-            case "campaign":
-              dispatch(addEwaCampaignId(splitted[5]));
-              break;
-            default:
-              break;
-          }
-          break;
-        case "repayment":
-          switch (splitted[4]?.toLowerCase()) {
-            case "campaign":
-              dispatch(addRepaymentCampaignId(splitted[5]));
-              break;
-            default:
-              break;
-          }
-          break;
-        case "ekyc":
-          navigation.navigate("AccountStack", {
-            screen: "KYC",
-          });
-          switch (splitted[4]?.toLowerCase()) {
-            case "campaign":
-              dispatch(addEkycCampaignId(splitted[5]));
-              break;
-            default:
-              break;
-          }
-          break;Alert
-        default:
-          break;
-      }
+    })
+    if (campaignBanner?.type == "kyc") {
+      kycCampaignBannerElement = (
+        <CompleteKycCampaignBanner url={campaignBanner.url} onPress={analyticsTrackingFn('kyc')}/>
+      )
     } else {
-      console.log("No intent. User opened App.");
+      ewaCampaignBannerElement = (
+        <MonthlyContestCampaignBanner url={campaignBanner.url} onPress={analyticsTrackingFn('ewa')} hasOffer={accessible && eligible}/>
+      )
     }
-  };
-
-  useEffect(() => {
-    getUrlAsync();
-  }, []);
-
+  }
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeader
@@ -219,34 +183,9 @@ const HomeView = () => {
               ewaLiveSlice={ewaLiveSlice}
             />
             <CompleteKycCard />
+            {kycCampaignBannerElement}
             <ExploreCards /> 
-            {
-              campaignBanner ? (
-              campaignBanner?.type == "kyc" ? 
-              <CompleteKycCampaignBanner url={campaignBanner?.url} onPress={() => {
-                Analytics.trackEvent({
-                  interaction: InteractionTypes.BANNER_TAP,
-                  component: "HomeView",
-                  action: "home_banner_image_open",
-                  status: "",
-                })
-              }}/>
-              :
-              <TouchableOpacity onPress={() => {
-                Analytics.trackEvent({
-                  interaction: InteractionTypes.BANNER_TAP,
-                  component: "HomeView",
-                  action: "home_banner_image_open",
-                  status: "",
-                })
-                if (accessible && eligible)
-                  navigation.navigate("EWAStack", { screen: "EWA_OFFER" });
-                else
-                  Alert.alert("Advance Salary is not Enabled", "Please ask your employer to enable Advanced Salary for you")
-              }}>
-              <FullWidthImage url={campaignBanner?.url} />
-              </TouchableOpacity>) : <></>
-            }
+            {ewaCampaignBannerElement}
           </>
         </View>
       </ScrollView>

@@ -6,7 +6,7 @@ import { Linking } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { addOnboardingCampaignId } from "../store/slices/campaignSlice";
 import { addCurrentStack } from "../store/slices/navigationSlice";
-
+import * as RootNavigation from "../navigators/RootNavigation"
 const extractPathParams = (initialUrl) => {
   const splitUrl = initialUrl.split("/");
   let campaignId = null;
@@ -35,17 +35,15 @@ const extractQueryParams = (url) => {
 }
 const handleOnboardedUser = (navigation,initialUrl) => {
   Analytics.setSessionValue("campaignClick", initialUrl)
-  Analytics.trackEvent({
-    interaction: InteractionTypes.CAMPAIGN_URL,
-    component: "Onboarding",
-    action: "campaign_url_open",
-    status: "already_onboarded",
-  })
-  navigation.navigate("HomeStack", {
-    screen: "Home",
+
+}
+const delay = (ms) => {
+  return new Promise((resolve,reject) => {
+    setTimeout(() => {
+      resolve();
+    }, ms);
   })
 }
-
 const SplashScreen = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -53,61 +51,17 @@ const SplashScreen = (props) => {
   let campaignId = useSelector((state) => state?.campaign?.onboardingCampaignId)
 
   const navigateHome = () => navigation.navigate("HomeStack", {screen: "Home"})
-  const navigateInitialRoute = () => {
-    const initialRoute = props?.route?.params?.initialRoute
-    if(initialRoute)
-      navigation.replace(initialRoute);
-    else 
+  const navigateInitialRoute = async () => {
+    await delay(1000);
+    const {initialRoute} = props?.route?.params
+    if (initialRoute && navigation.replace)
+      navigation.replace(initialRoute)
+    else
       navigateHome();
   }
-  
-  const getUrlAsync = async () => {
-    const initialUrl = await Linking.getInitialURL();
-    const breakpoint = "/";
-    
-    if (initialUrl) {
-      let params = {}
-      if(initialUrl.includes("?")) {
-        params = extractQueryParams(initialUrl)
-      } else {
-        params = extractPathParams(initialUrl)
-      }
-      Analytics.setSessionValue("campaignClick", initialUrl)
-      dispatch(addOnboardingCampaignId(params["utm_campaign"]));
-      
-      Analytics.trackEvent({
-        interaction: InteractionTypes.CAMPAIGN_URL,
-        component: "Onboarding",
-        action: "campaign_url_open",
-        status: "started",
-      })
-      const splitted = initialUrl.split(breakpoint);
-      console.log("initialUrl", splitted);
-      console.log("route", splitted[3]);
 
-      if (campaignType == "onboarding"){
-        if(onboarded) {
-          handleOnboardedUser(navigation, initialUrl)
-        }
-        if (campaignScreen == "profile") {
-          navigation.navigate("AccountStack", {
-            screen: "Profile",
-          })
-        } else if (["aadhaar","pan","bank"].includes(campaignScreen)) {
-          navigation.navigate("AccountStack", {
-            screen: "KYC",
-            params: { screen: campaignScreen.toUpperCase() },
-          })
-        }
-      }
-    }
-    console.log("No intent. User opened App.");
-    console.log("campaignId", campaignId);
+  useEffect(() => {    
     navigateInitialRoute();
-  };
-
-  useEffect(() => {
-    getUrlAsync();
   }, []);
 
   return (

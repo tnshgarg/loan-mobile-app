@@ -3,6 +3,20 @@ import { EMPLOYEE_API_URL } from "../constants";
 import { Alert } from "react-native";
 import {store} from "../../store/store"
 import * as RootNavigation from "../../navigators/RootNavigation";
+
+const forcedLogout = () => {
+  Alert.alert("Authentication Failed",response?.data?.message || "Your session has expired. Please login again.",[
+    {
+    text: 'Logout',
+    onPress: () => {
+      RootNavigation.navigate("OnboardingStack", { screen: "Login" });
+      store.dispatch({ type: "LOGOUT" });
+    }
+  }
+  ],{
+    cancelable: false
+  });
+}
 export const putBackendData = async (props) => {
   console.log(`putBackendData for ${props.xpath}`);
 
@@ -53,22 +67,9 @@ export const getBackendData = async (props) => {
       throw new Error("Oops! Something went wrong. Please try again later.");
     }
     else if (response.data.status === 401) {
-      console.log({state: store.getState()})
-      if(store.getState()?.loggedOut)
-        return response
-
-      Alert.alert("Authentication Failed",response?.data?.message || "Your session has expired. Please login again.",[
-        {
-        text: 'Logout',
-        onPress: () => {
-          RootNavigation.navigate("OnboardingStack", { screen: "Login" });
-          store.dispatch({ type: "LOGOUT" });
-        },
-        style: 'cancel',
+      if(!store.getState().auth?.loggedOut){
+          forcedLogout();
       }
-    ],{
-      cancelable: false
-    });
     }
     return response;
   });

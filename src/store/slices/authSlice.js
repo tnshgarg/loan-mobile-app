@@ -4,9 +4,9 @@ const initialState = {
   aCTC: "100000",
   employeeName: "Shubham",
   onboarded: false,
-  phoneNumber: "9870097513",
-  token: "fleLKiprTBSIgg_IKzvXtu:APA91bEAWGdq2jaKT4Y850OM44XPTj8Ic6D0EOM5lpRKbLh9Ij8rkOeSxbq9qB9TUtHQyXTLJ1dLo5pwrxkCCVBX9NvbmPWygmUD-2S4m6kALCvtxeRQDpzO1HBZyzznsDrc8tMTIsRo",
-  unipeEmployeeId: "6377939f89f886a21c410d91",
+  phoneNumber: "",
+  token: "",
+  unipeEmployeeId: "",
   loggedOut: true,
 };
 
@@ -28,7 +28,7 @@ const authSlice = createSlice({
     },
     addToken(state, action) {
       state.token = action.payload;
-      state.loggedOut = false;
+      state.loggedOut = !action.payload;
     },
     addUnipeEmployeeId(state, action) {
       state.unipeEmployeeId = action.payload;
