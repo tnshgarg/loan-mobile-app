@@ -54,7 +54,7 @@ const BankConfirmApi = (props) => {
               screen: "BANK",
             });
           } else {
-            navigation.replace("EWA_MANDATE");
+            navigation.navigate("EWAStack", {screen: "EWA_MANDATE"});
           }
       }
     } else {

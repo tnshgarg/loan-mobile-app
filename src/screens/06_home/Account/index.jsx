@@ -54,7 +54,7 @@ const AccountMenu = (props) => {
     setModalVisible(true);
     setTimeout(() => {
       setModalVisible(false);
-      navigation.replace("OnboardingStack", { screen: "Login" });
+      navigation.navigate("OnboardingStack", { screen: "Login" });
     }, 5000);
   };
 
@@ -113,7 +113,7 @@ const AccountMenu = (props) => {
 
   const onPressCard = ({ route, action }) => {
     console.log({ route });
-    if (route) props.navigation.replace(route.stack, { screen: route.screen });
+    if (route) props.navigation.navigate(route.stack, { screen: route.screen });
     else action();
   };
 
