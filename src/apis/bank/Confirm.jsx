@@ -10,6 +10,7 @@ import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import { addOnboarded } from "../../store/slices/authSlice";
 import { putBackendData } from "../../services/employees/employeeServices";
+import { showToast } from "../../components/atoms/Toast";
 
 const BankConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -50,9 +51,10 @@ const BankConfirmApi = (props) => {
         }
       } else if (verifyStatus === "SUCCESS") {
           if (props?.route?.params?.type === "KYC") {
-            navigation.navigate("KYC", {
-              screen: "BANK",
-            });
+            showToast("KYC Completed Successfully");
+            navigation.navigate("HomeStack", {
+              screen: "Home",
+            })
           } else {
             navigation.replace("EWA_MANDATE");
           }
