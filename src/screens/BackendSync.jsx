@@ -28,7 +28,7 @@ const BackendSync = (props) => {
   const handlePendingCampaignClick = () => {
       if (pendingCampaignClick) {
         try {
-          const {campaignId,campaignScreen,campaignType} = parseUrl(url)
+          const {campaignId,campaignScreen,campaignType} = parseUrl(pendingCampaignClick)
           setCampaignStoreData({campaignType, campaignId})
           handleCampaignNavigation(campaignType, campaignScreen, navigation, {stack: "HomeStack", screen: "Home"}, onboarded)
           Analytics.trackEvent({
@@ -56,8 +56,10 @@ const BackendSync = (props) => {
   }
   useEffect(() => {
     console.log("BackendSync unipeEmployeeId: ", unipeEmployeeId);
-    handlePendingCampaignClick();
-    navigation.navigate(props.route.params.destination);
+    if (pendingCampaignClick)
+      handlePendingCampaignClick();
+    else
+      navigation.navigate(props.route.params.destination);
   }, []);
 
   useEffect(() => {
