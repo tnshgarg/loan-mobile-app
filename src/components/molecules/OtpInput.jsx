@@ -39,11 +39,11 @@ const OtpInput = ({ otp, setOtp, inputRef, accessibilityLabel }) => {
         keyboardType="number-pad"
         value={otp}
         onChange={(event) => {
-          console.tron.log(event.nativeEvent.text);
+          console.log(event.nativeEvent.text);
           setOtp(event.nativeEvent.text);
         }}
         maxLength={6}
-        onKeyPress={(keyPress) => console.tron.log(keyPress)}
+        onKeyPress={(keyPress) => console.log(keyPress)}
         style={{
           color: COLORS.white,
           opacity: 0.001,

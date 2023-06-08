@@ -54,13 +54,13 @@ const EWA = () => {
   useEffect(() => {
     if (isFocused) {
       if (data && !isLoading && !error) {
-        console.tron.log("ewa mandate data", data?.body);
+        console.log("ewa mandate data", data?.body);
         dispatch(resetMandate(data?.data?.body));
         dispatch(addVerifyStatus(data?.data?.body?.verifyStatus));
         setMandateVerifyStatus(data?.data?.body?.verifyStatus);
       } else {
-        console.tron.log("mandateFetch error: ", error);
-        console.tron.log("mandateFetch error: ", data);
+        console.log("mandateFetch error: ", error);
+        console.log("mandateFetch error: ", data);
       }
     }
   }, [unipeEmployeeId, mandateVerifyStatus, isFocused]);
@@ -80,7 +80,7 @@ const EWA = () => {
       STAGE !== "prod" ||
       (STAGE === "prod" && parseInt(ewaLiveSlice?.eligibleAmount) >= 1000)
     ) {
-      console.tron.log("first");
+      console.log("first");
       setEligible(true);
     } else {
       setEligible(false);
@@ -119,7 +119,7 @@ const EWA = () => {
         dispatch(resetEwaHistorical(getEwaOffersData.body.past));
         setFetched(true);
       } else {
-        console.tron.log(
+        console.log(
           "Money ewaOffersFetch API error getEwaOffersData.data : ",
           getEwaOffersData
         );
@@ -127,7 +127,7 @@ const EWA = () => {
         dispatch(resetEwaHistorical());
       }
     } else if (getEwaOffersIsError) {
-      console.tron.log(
+      console.log(
         "Money ewaOffersFetch API error getEwaOffersError.message : ",
         getEwaOffersError.message
       );

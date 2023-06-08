@@ -100,8 +100,8 @@ const Disbursement = ({ route, navigation }) => {
   });
 
   useEffect(() => {
-    console.tron.log("getDisbursementIsSuccess", offer);
-    console.tron.log("getDisbursementData", getDisbursementData);
+    console.log("getDisbursementIsSuccess", offer);
+    console.log("getDisbursementData", getDisbursementData);
     if (getDisbursementIsSuccess) {
       if (getDisbursementData?.status === 200) {
         setBankAccountNumber(getDisbursementData?.body?.bankAccountNumber);
@@ -111,10 +111,10 @@ const Disbursement = ({ route, navigation }) => {
         setNetAmount(getDisbursementData?.body?.netAmount);
         setStatus(getDisbursementData?.body?.status);
       } else {
-        console.tron.log(" API error getDisbursementData : ", getDisbursementData);
+        console.log("API error getDisbursementData : ", getDisbursementData);
       }
     } else if (getDisbursementIsError) {
-      console.tron.log("API error getDisbursementError : ", getDisbursementError);
+      console.log("API error getDisbursementError : ", getDisbursementError);
     }
   }, [getDisbursementIsSuccess, getDisbursementData]);
 

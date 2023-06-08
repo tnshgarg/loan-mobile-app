@@ -39,7 +39,7 @@ export default Confirm = () => {
   }, [verifyStatus]);
 
   useEffect(() => {
-    console.tron.log("licenseSlice : ", licenseSlice);
+    console.log("licenseSlice : ", licenseSlice);
     if (backendPush) {
       licenseBackendPush({
         data: {

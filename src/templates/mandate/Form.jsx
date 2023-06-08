@@ -107,7 +107,7 @@ const MandateFormTemplate = (props) => {
   }, [verifyTimestamp]);
 
   const backendPush = ({ data, verifyMsg, verifyStatus, verifyTimestamp }) => {
-    console.tron.log("mandateSlice: ", mandateSlice);
+    console.log("mandateSlice: ", mandateSlice);
     setData(data);
     setVerifyMsg(verifyMsg);
     setVerifyTimestamp(verifyTimestamp);
@@ -123,7 +123,7 @@ const MandateFormTemplate = (props) => {
     };
     return updateMandate(payload)
       .then((res) => {
-        console.tron.log("mandatePush res.data: ", res.data);
+        console.log("mandatePush res.data: ", res.data);
         if (res.data.status === 200) {
           setVerifyStatus(verifyStatus);
         } else {
@@ -132,14 +132,14 @@ const MandateFormTemplate = (props) => {
         }
       })
       .catch((error) => {
-        console.tron.log("mandatePush error: ", error);
+        console.log("mandatePush error: ", error);
         throw error;
       });
   };
 
   const refreshMandateFromBackend = () => {
    if (mandateData && !isLoading && !error) {
-      console.tron.log("Form mandateFetch response.data", mandateData);
+      console.log("Form mandateFetch response.data", mandateData);
       dispatch(resetMandate(mandateData?.data?.body));
       setVerifyStatus(mandateData?.data?.body?.verifyStatus);
     };
@@ -162,13 +162,13 @@ const MandateFormTemplate = (props) => {
           recurring: "1",
         },
       });
-      console.tron.log("Mandate Checkout Success", res);
+      console.log("Mandate Checkout Success", res);
       analytics().logEvent("Mandate_InProgress_Checkout_Success", {
         unipeEmployeeId: unipeEmployeeId,
       });
       verifyMsg = "Mandate Initiated from App Checkout Success";
     } catch (error) {
-      console.tron.log("Mandate Checkout Error", error);
+      console.log("Mandate Checkout Error", error);
       analytics().logEvent("MandateOrder_InProgress_Checkout_Error", {
         unipeEmployeeId: unipeEmployeeId,
       });
@@ -193,7 +193,7 @@ const MandateFormTemplate = (props) => {
   };
 
   const ProceedButton = async ({ authType }) => {
-    console.tron.log("proceed button pressed", authType);
+    console.log("proceed button pressed", authType);
     setLoading(true);
     setAuthType(authType);
     try {
@@ -203,7 +203,7 @@ const MandateFormTemplate = (props) => {
         token,
       });
       const createOrderResponse = res?.data;
-      console.tron.log(
+      console.log(
         `Mandate|CreateOrder|${authType} res.data:`,
         createOrderResponse
       );
@@ -221,7 +221,7 @@ const MandateFormTemplate = (props) => {
         throw createOrderResponse;
       }
     } catch (error) {
-      console.tron.log("Create Mandate Error: ", error);
+      console.log("Create Mandate Error: ", error);
       if (error?.status === 409) {
         Alert.alert(
           "Create Mandate Error",

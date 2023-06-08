@@ -44,12 +44,12 @@ const appReducer = combineReducers({
 });
 
 const rootReducer = (state, action) => {
-  console.tron.log("action.type", action.type);
+  console.log("action.type", action.type);
   if (action.type === "LOGOUT") {
     try {
       AsyncStorage.clear();
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
     return appReducer(undefined, action);
   }

@@ -22,7 +22,7 @@ const PanVerifyApi = (props) => {
   const [verifyPan] = useVerifyPanMutation();
   const goForFetch = () => {
     setLoading(true);
-    console.tron.log("panSlice: ", panSlice);
+    console.log("panSlice: ", panSlice);
     const data = {
       unipeEmployeeId: unipeEmployeeId,
       panNumber: panSlice?.number,
@@ -32,7 +32,7 @@ const PanVerifyApi = (props) => {
     verifyPan(data)
       .unwrap()
       .then((res) => {
-        console.tron.log("kyc/pan-fetch-details res: ", res);
+        console.log("kyc/pan-fetch-details res: ", res);
         if (res?.status === 200) {
           setLoading(false);
           analytics().logEvent("Pan_Verify_Success", {
@@ -46,7 +46,7 @@ const PanVerifyApi = (props) => {
         }
       })
       .catch((error) => {
-        console.tron.log("kyc/pan-fetch-details error: ", error);
+        console.log("kyc/pan-fetch-details error: ", error);
         dispatch(addVerifyStatus("ERROR"));
         Alert.alert("fetchPanDetails API Catch Error", error.message);
         analytics().logEvent("Pan_Verify_Error", {

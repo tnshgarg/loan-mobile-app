@@ -13,7 +13,7 @@ const KYCStack = () => {
   const Stack = createNativeStackNavigator();
   let initialRoute = useSelector((state) => state.navigation.currentScreen);
 
-  console.tron.log("KYCStack initialRoute: ", initialRoute);
+  console.log("KYCStack initialRoute: ", initialRoute);
 
   return (
     <Stack.Navigator

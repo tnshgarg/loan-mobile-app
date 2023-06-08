@@ -36,7 +36,7 @@ const authSlice = createSlice({
     builder.addMatcher(
       loginApi.endpoints.verifyOtp.matchFulfilled,
       (state, { payload }) => {
-        console.tron.log("payload: ", payload);
+        console.log("payload: ", payload);
         state.token = payload.token;
         state.onboarded = payload.employeeDetails.onboarded;
         state.unipeEmployeeId = payload.employeeDetails.unipeEmployeeId;

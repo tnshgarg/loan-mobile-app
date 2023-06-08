@@ -58,7 +58,7 @@ export default AddressDropdown = (props) => {
   useEffect(() => {
     if (geoState) {
       setDistricts(customData[geoState]);
-      console.tron.log(geoState);
+      console.log(geoState);
     }
   }, [geoState]);
 

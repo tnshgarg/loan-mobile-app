@@ -25,7 +25,7 @@ const AadhaarOtpApi = (props) => {
   const [generateAadhaarOtp] = useGenerateAadhaarOtpMutation();
   const goForFetch = () => {
     setLoading(true);
-    console.tron.log("aadhaarSlice: ", aadhaarSlice);
+    console.log("aadhaarSlice: ", aadhaarSlice);
 
     if (props.isTextButton) {
       props.toggle(false); // setResend(false)
@@ -40,7 +40,7 @@ const AadhaarOtpApi = (props) => {
     generateAadhaarOtp(data)
       .unwrap()
       .then((res) => {
-        console.tron.log("kyc/aadhaar-generate-otp res: ", res);
+        console.log("kyc/aadhaar-generate-otp res: ", res);
         dispatch(resetTimer());
         showToast(res?.body?.message, "success");
         analytics().logEvent("Aadhaar_Otp_Success", {
@@ -53,7 +53,7 @@ const AadhaarOtpApi = (props) => {
         }
       })
       .catch((error) => {
-        console.tron.log("kyc/aadhaar-generate-otp error: ", error);
+        console.log("kyc/aadhaar-generate-otp error: ", error);
         dispatch(addVerifyStatus("ERROR"));
         showToast(error?.message, "error");
         analytics().logEvent("Aadhaar_Otp_Error", {

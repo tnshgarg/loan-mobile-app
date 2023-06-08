@@ -40,7 +40,7 @@ const aadhaarSlice = createSlice({
       .addMatcher(
         aadhaarApi.endpoints.getAadhaar.matchFulfilled,
         (state, { payload }) => {
-          console.tron.log("payload: ", payload);
+          console.log("payload: ", payload);
           state.data = payload?.body?.data;
           state.verifyStatus = payload?.body?.verifyStatus;
         }

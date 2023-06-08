@@ -51,7 +51,7 @@ const Verify = (props) => {
   }, [verifyTimestamp]);
 
   useEffect(() => {
-    console.tron.log("licenseSlice : ", licenseSlice);
+    console.log("licenseSlice : ", licenseSlice);
     if (backendPush) {
       licenseBackendPush({
         data: {
@@ -135,7 +135,7 @@ const Verify = (props) => {
             });
           }
         } catch (error) {
-          console.tron.log("Try Catch Error: ", error.message);
+          console.log("Try Catch Error: ", error.message);
           setVerifyMsg(error.message);
           setVerifyStatus("ERROR");
           setBackendPush(true);
@@ -147,7 +147,7 @@ const Verify = (props) => {
         }
       })
       .catch((error) => {
-        console.tron.log("Fetch Catch Error: ", error.message);
+        console.log("Fetch Catch Error: ", error.message);
         setVerifyMsg(error.message);
         setVerifyStatus("ERROR");
         setBackendPush(true);

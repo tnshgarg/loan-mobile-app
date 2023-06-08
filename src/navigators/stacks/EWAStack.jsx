@@ -14,7 +14,7 @@ const EWAStack = () => {
   let initialRoute = useSelector((state) => state.navigation.currentScreen);
 
   STAGE === "dev" ? (initialRoute = "DevMenu") : null;
-  console.tron.log("EWAStack initialRoute: ", initialRoute);
+  console.log("EWAStack initialRoute: ", initialRoute);
 
   return (
     <Stack.Navigator

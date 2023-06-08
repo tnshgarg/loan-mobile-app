@@ -96,7 +96,7 @@ const Offer = () => {
     } else {
       setValidAmount(false);
     }
-    console.tron.log("validAmount, updating: ", validAmount, updating);
+    console.log("validAmount, updating: ", validAmount, updating);
   }, [loanAmount]);
 
   useEffect(() => {
@@ -116,11 +116,11 @@ const Offer = () => {
       parseInt(dueDateComponents[1]) - 1,
       dueDateComponents[0]
     );
-    console.tron.log(`dueDate, today: ${dueDate}, ${today}`);
+    console.log(`dueDate, today: ${dueDate}, ${today}`);
     let timeDiff = dueDate.getTime() - today.getTime();
     let daysDiff = parseInt(timeDiff / (1000 * 3600 * 24)) + 1;
     let apr = 100 * (processingFees / parseInt(loanAmount)) * (365 / daysDiff);
-    console.tron.log(
+    console.log(
       "processingFees, loanAmount, daysDiff, APR: ",
       processingFees,
       loanAmount,
@@ -131,7 +131,7 @@ const Offer = () => {
   };
 
   const handleConditionalNav = () => {
-    console.tron.log( profileComplete, aadhaarVerifyStatus, panVerifyStatus, bankVerifyStatus , onboarded);
+    console.log( profileComplete, aadhaarVerifyStatus, panVerifyStatus, bankVerifyStatus , onboarded);
     if (!profileComplete) {
       navigation.navigate("EWA_KYC_STACK", { screen: "ProfileForm" });
     } else if (aadhaarVerifyStatus === "INPROGRESS_OTP") {
@@ -168,7 +168,7 @@ const Offer = () => {
       };
       updateOffer(data)
         .then((response) => {
-          console.tron.log("updateOfferMutateAsync response.data: ", response.data);
+          console.log("updateOfferMutateAsync response.data: ", response.data);
           setLoading(false);
           handleConditionalNav();
           analytics().logEvent("Ewa_OfferPush_Success", {
@@ -176,7 +176,7 @@ const Offer = () => {
           });
         })
         .catch((error) => {
-          console.tron.log("updateOfferMutateAsync error: ", error.message);
+          console.log("updateOfferMutateAsync error: ", error.message);
           setLoading(false);
           Alert.alert("An Error occured", error.message);
           analytics().logEvent("Ewa_OfferPush_Error", {

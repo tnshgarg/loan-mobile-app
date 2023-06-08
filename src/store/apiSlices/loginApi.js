@@ -24,11 +24,11 @@ export const loginApi = api.injectEndpoints({
         body: body,
       }),
       transformResponse: (response) => {
-        console.tron.log("response", response);
+        console.log("response", response);
         return response;
       },
       transformErrorResponse: (error) => {
-        console.tron.log("ErrorRes", error);
+        console.log("ErrorRes", error);
         if (error?.data) {
           return error.data;
         }

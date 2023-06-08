@@ -58,7 +58,7 @@ const bankSlice = createSlice({
     builder.addMatcher(
       bankApi.endpoints.verifyBank.matchFulfilled,
       (state, { payload }) => {
-        console.tron.log("payload: ", payload);
+        console.log("payload: ", payload);
         state.data.accountHolderName = payload?.body?.data?.accountHolderName;
         state.data.accountNumber = payload?.body?.data?.accountNumber;
         state.data.bankName = payload?.body?.data?.bankName;

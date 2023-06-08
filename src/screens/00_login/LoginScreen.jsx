@@ -59,7 +59,7 @@ const LoginScreen = () => {
       let phoneNumber = await SmsRetriever.requestPhoneNumber();
       setPhoneNumber(phoneNumber.replace("+91", ""));
     } catch (error) {
-      console.tron.log("Error while fetching phoneNumber: ", error.message);
+      console.log("Error while fetching phoneNumber: ", error.message);
     }
   };
 
@@ -89,7 +89,7 @@ const LoginScreen = () => {
     postGenerateOtp(phoneNumber)
       .unwrap()
       .then((otpResponse) => {
-        console.tron.log("otpResponse", otpResponse);
+        console.log("otpResponse", otpResponse);
         analytics().logEvent("LoginScreen_SendSms_Success", {
           phoneNumber: phoneNumber,
         });
@@ -97,7 +97,7 @@ const LoginScreen = () => {
         setLoading(false);
       })
       .catch((error) => {
-        console.tron.log("error", error);
+        console.log("error", error);
         setLoading(false);
         Alert.alert("Error", error.message);
         analytics().logEvent("LoginScreen_SendSms_Error", {

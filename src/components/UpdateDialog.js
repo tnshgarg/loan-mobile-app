@@ -17,16 +17,16 @@ const UpdateDialog = () => {
     (syncStatus) => {
       switch (syncStatus) {
         case codePush.SyncStatus.UNKNOWN_ERROR:
-          console.tron.log("Unknown error");
+          console.log("Unknown error");
           setState("ERROR");
           setShow(true);
           break;
         case codePush.SyncStatus.DOWNLOADING_PACKAGE:
-          console.tron.log("Downloading package");
+          console.log("Downloading package");
           setShow(true);
           break;
         case codePush.SyncStatus.UP_TO_DATE:
-          console.tron.log("Up to date");
+          console.log("Up to date");
           setShow(false);
           break;
       }

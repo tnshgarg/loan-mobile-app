@@ -11,11 +11,11 @@ export const ewaApi = api
         }),
         providesTags: ["getOffers"],
         transformResponse: (response) => {
-          console.tron.log("response", response);
+          console.log("response", response);
           return response;
         },
         transformErrorResponse: (response) => {
-          console.tron.log("response", response);
+          console.log("response", response);
           return response;
         },
       }),

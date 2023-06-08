@@ -14,9 +14,9 @@ const OfflineAlert = ({ children }) => {
 
   const handleConnectivityChange = (connection) => {
     setIsConnected(connection?.isConnected && connection?.isInternetReachable);
-    console.tron.log("isConnected", connection?.isConnected);
-    console.tron.log("isInternetReachable", connection?.isInternetReachable);
-    console.tron.log("isConnected", connection);
+    console.log("isConnected", connection?.isConnected);
+    console.log("isInternetReachable", connection?.isInternetReachable);
+    console.log("isConnected", connection);
   };
 
   useEffect(() => {

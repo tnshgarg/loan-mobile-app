@@ -21,8 +21,8 @@ const SplashScreen = (props) => {
     const breakpoint = "/";
     if (initialUrl && !onboarded) {
       const splitted = initialUrl.split(breakpoint);
-      console.tron.log("initialUrl", splitted);
-      console.tron.log("route", splitted[3]);
+      console.log("initialUrl", splitted);
+      console.log("route", splitted[3]);
       switch (splitted[3].toLowerCase()) {
         case "onboarding":
           switch (splitted[4]?.toLowerCase()) {
@@ -56,7 +56,7 @@ const SplashScreen = (props) => {
       }
       switch (splitted[5]?.toLowerCase()) {
         case "campaign":
-          console.tron.log("campaignId", splitted[6]);
+          console.log("campaignId", splitted[6]);
           setCampaignId(splitted[6]);
           break;
         default:
@@ -64,8 +64,8 @@ const SplashScreen = (props) => {
           break;
       }
     } else {
-      console.tron.log("No intent. User opened App.");
-      console.tron.log("campaignId", campaignId);
+      console.log("No intent. User opened App.");
+      console.log("campaignId", campaignId);
       // navigation.replace(props.route.params.initialRoute);
     }
   };
