@@ -52,7 +52,7 @@ const SplashScreen = (props) => {
 
   const navigateHome = () => navigation.navigate("HomeStack", {screen: "Home"})
   const navigateInitialRoute = async () => {
-    await delay(2000);
+    await delay(500);
     const {initialRoute, initialScreen} = props?.route?.params
     if (initialRoute && navigation.replace)
       navigation.navigate(initialRoute,{screen: initialScreen})

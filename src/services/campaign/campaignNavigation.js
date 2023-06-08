@@ -8,7 +8,7 @@ const delay = (ms) => {
 
 export const handleCampaignNavigation = async (campaignType, campaignScreen, navigation, initialNavigation, onboarded) => {
     await delay(2000);
-    console.log({handleCampaignNavigation: {navigation, campaignType}})
+    console.log({handleCampaignNavigation: {campaignType,campaignScreen, onboarded}})
     if (campaignType == "ekyc") {
         navigation.navigate("AccountStack", {
             screen: "KYC",
