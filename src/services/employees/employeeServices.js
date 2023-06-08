@@ -4,7 +4,7 @@ import { Alert } from "react-native";
 import {store} from "../../store/store"
 import * as RootNavigation from "../../navigators/RootNavigation";
 
-const forcedLogout = () => {
+const forcedLogout = (response) => {
   Alert.alert("Authentication Failed",response?.data?.message || "Your session has expired. Please login again.",[
     {
     text: 'Logout',
@@ -68,7 +68,7 @@ export const getBackendData = async (props) => {
     }
     else if (response.data.status === 401) {
       if(!store.getState().auth?.loggedOut){
-          forcedLogout();
+          forcedLogout(response);
       }
     }
     return response;
