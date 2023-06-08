@@ -155,6 +155,12 @@ const Agreement = () => {
   }, [fetched]);
 
   const backAction = () => {
+    Analytics.trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      component: "Ewa",
+      action: "Agreement",
+      status: "Back"
+    });
     if (mandateVerifyStatus === "SUCCESS") {
       navigation.navigate("EWA_KYC");
     } else {
