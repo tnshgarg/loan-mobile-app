@@ -15,7 +15,8 @@ export const InteractionTypes =  {
     "SCREEN_OPEN": "SO",
     "INPUT": "INP",
     "IN_APP_NOTIFICATION": "IAN",
-    "CAMPAIGN_URL": "CU"
+    "CAMPAIGN_URL": "CU",
+    "APP_UPDATE" : "AU"
 }
 
 export async function trackEvent(
