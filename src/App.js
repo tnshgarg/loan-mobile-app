@@ -35,7 +35,7 @@ const App = () => {
             <SafeAreaProvider style={{ backgroundColor: "white", flex: 1 }}>
               <IconComponentProvider IconComponent={Icon}>
                 <StackNavigator />
-                {/* <UpdateDialog /> */}
+                <UpdateDialog />
               </IconComponentProvider>
             </SafeAreaProvider>
           </QueryClientProvider>

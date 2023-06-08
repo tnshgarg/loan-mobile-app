@@ -1,4 +1,13 @@
+const delay = (ms) => {
+  return new Promise((resolve,reject) => {
+    setTimeout(() => {
+      resolve();
+    }, ms);
+  })
+}
+
 export const handleCampaignNavigation = async (campaignType, campaignScreen, navigation, initialNavigation, onboarded) => {
+    await delay(2000);
     console.log({handleCampaignNavigation: {navigation, campaignType}})
     if (campaignType == "ekyc") {
         navigation.navigate("AccountStack", {
@@ -6,6 +15,9 @@ export const handleCampaignNavigation = async (campaignType, campaignScreen, nav
         });
     } else if (campaignType == "onboarding") {
         if (onboarded) {
+            navigation.navigate("HomeStack", {
+              screen: "Home",
+            })
             return "ALREADY_ONBOARDED";
         }
         if (campaignScreen == "profile") {

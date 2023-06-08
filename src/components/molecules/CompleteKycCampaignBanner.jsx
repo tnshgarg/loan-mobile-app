@@ -3,6 +3,8 @@ import { TouchableOpacity } from "react-native";
 import { useSelector } from "react-redux";
 import FullWidthImage from "../atoms/FullWidthImage";
 import { Alert } from "react-native";
+
+
 const CompleteKycCampaignBanner = ({url,onPress}) => {
   const navigation = useNavigation();
 
