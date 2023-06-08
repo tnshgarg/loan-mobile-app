@@ -12,6 +12,7 @@ import { parseUrl } from "../services/campaign/urlParsing";
 import { setCampaignStoreData } from "../services/campaign/storeManagement";
 import { handleCampaignNavigation } from "../services/campaign/campaignNavigation";
 import Analytics, {InteractionTypes} from "../helpers/analytics/commonAnalytics"
+import { setPendingUrl } from "../store/slices/pendingCampaignClickSlice";
 
 
 const BackendSync = (props) => {
@@ -36,6 +37,7 @@ const BackendSync = (props) => {
             action: "campaign_url_open",
             status: "SUCCESS",
           })
+          
         } catch (err) {
           Analytics.trackEvent({
             interaction: InteractionTypes.CAMPAIGN_URL,
@@ -47,6 +49,7 @@ const BackendSync = (props) => {
           console.error(err)
           navigation.navigate(props.route.params.destination);
         }
+        dispatch(setPendingUrl(""))
       } else {
         navigation.navigate(props.route.params.destination);
       }
