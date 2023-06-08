@@ -56,6 +56,7 @@ const BackendSync = (props) => {
   }
   useEffect(() => {
     console.log("BackendSync unipeEmployeeId: ", unipeEmployeeId);
+    handlePendingCampaignClick();
     navigation.navigate(props.route.params.destination);
   }, []);
 
