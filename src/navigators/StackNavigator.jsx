@@ -29,7 +29,7 @@ const StackNavigator = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   var initialRoute = useSelector((state) => state.navigation.currentStack);
-  const token = useSelector((state) => state.auth.token);
+  const token = useSelector((state) => state.auth?.token);
   const onboarded = useSelector((state) => state.auth.onboarded);
   var initialScreen = useSelector((state) => state.navigation.currentScreen);
   const [modalVisible, setModalVisible] = useState(false);
@@ -43,7 +43,7 @@ const StackNavigator = () => {
           skipValidation: false, // to skip signature and exp verification
         }
       ).then(async () => {
-        showToast("Your Session has expired. Please login agGetMoneyCardain.");
+        showToast("Your Session has expired. Please login again.");
         dispatch({ type: "LOGOUT" });
         setModalVisible(true);
         await asyncTimeout(8000);
@@ -51,8 +51,6 @@ const StackNavigator = () => {
         navigation.navigate("OnboardingStack", { screen: "Login" });
       })
       .catch(err => {console.log("Token Err", err)});
-    } else {
-      navigation.navigate("OnboardingStack", { screen: "Login" });
     }
   }, [token]);
 
@@ -60,6 +58,7 @@ const StackNavigator = () => {
     // Alert.alert("Url",`${url}`)
     Analytics.setSessionValue("campaignClick", url);
     if (!token) {
+      console.error("Token is not present")
       Analytics.trackEvent({
         interaction: InteractionTypes.CAMPAIGN_URL,
         component: "STACK_NAVIGATOR",

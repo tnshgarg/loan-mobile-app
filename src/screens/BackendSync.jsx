@@ -49,7 +49,7 @@ const BackendSync = (props) => {
           console.error(err)
           navigation.navigate(props.route.params.destination);
         }
-        dispatch(setPendingUrl(""))
+        
       } else {
         navigation.navigate(props.route.params.destination);
       }
@@ -60,6 +60,9 @@ const BackendSync = (props) => {
       handlePendingCampaignClick();
     else
       navigation.navigate(props.route.params.destination);
+    return () => {
+      dispatch(setPendingUrl(""))
+    }
   }, []);
 
   useEffect(() => {
