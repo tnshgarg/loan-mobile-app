@@ -274,13 +274,13 @@ const Agreement = () => {
             onPress={() => setIsTermsModalVisible(true)}
           />
 
-          {/* <Checkbox
+          <Checkbox
             text={"I confirm the above details and agree to"}
             value={consent}
             setValue={setConsent}
             additionalText="KFS"
             onPress={() => setIsKFSModalVisible(true)}
-          /> */}
+          />
 
           <PrimaryButton
             title={loading ? "Processing" : "Proceed"}

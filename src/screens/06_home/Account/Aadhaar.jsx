@@ -9,14 +9,34 @@ import { styles } from "../../../styles";
 import { useEffect } from "react";
 import DetailsCard from "../../../components/molecules/DetailsCard";
 import PrimaryButton from "../../../components/atoms/PrimaryButton";
+import { useGetAadhaarQuery } from "../../../store/apiSlices/aadhaarApi";
+import { useGetPanQuery } from "../../../store/apiSlices/panApi";
+import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
 
 const Aadhaar = () => {
   const navigation = useNavigation();
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
-  const number = useSelector((state) => state.aadhaar.number);
-  const data = useSelector((state) => state.aadhaar.data);
-  const verifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
-  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
+  const { data: aadhaarData, isLoading: aadhaarLoading } = useGetAadhaarQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: 1000 * 60 * 60 * 24,
+    }
+  );
+
+  const { verifyStatus, data, number } = aadhaarData ?? {};
+
+  const { data: panData } = useGetPanQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
+
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
+
+  console.log({ kycData });
+  const { aadhaar, pan, bank } = kycData ?? {};
+
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
 
   const cardData = () => {
@@ -25,7 +45,11 @@ const Aadhaar = () => {
       { subTitle: "Number", value: number },
       { subTitle: "Date of Birth", value: data?.date_of_birth },
       { subTitle: "Gender", value: data?.gender },
-      { subTitle: "Address", value: data?.address, fullWidth: true },
+      {
+        subTitle: "Address",
+        value: data?.address,
+        fullWidth: true,
+      },
       { subTitle: "Verify Status", value: verifyStatus },
     ];
     return res;
@@ -71,6 +95,8 @@ const Aadhaar = () => {
     return () => {};
   }, [verifyStatus]);
 
+  if (aadhaarLoading) return null;
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       {verifyStatus === "SUCCESS" ? (
@@ -81,9 +107,9 @@ const Aadhaar = () => {
               uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
               cache: "only-if-cached",
             }}
-            type={"Aadhaar"}
+            // type={"Aadhaar"}
           />
-          {panVerifyStatus != "SUCCESS" ? (
+          {panData?.verifyStatus != "SUCCESS" ? (
             <PrimaryButton
               title="Continue to PAN Verification"
               onPress={() => {

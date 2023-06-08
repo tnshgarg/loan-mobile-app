@@ -8,26 +8,21 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import SvgContainer from "../atoms/SvgContainer";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 
 const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
-  const [kycCompleted, setKycCompleted] = useState(false);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
+  const {
+    isAadhaarSuccess,
+    isPanSuccess,
+    isBankSuccess,
+    isProfileSuccess,
+    kycCompleted,
+  } = kycData ?? {};
 
-  const profileComplete = useSelector((state) => state.profile.profileComplete);
-  const aadhaarVerifyStatus = useSelector(
-    (state) => state.aadhaar.verifyStatus
-  );
-  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
-  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
-  useEffect(() => {
-    if (
-      profileComplete &&
-      aadhaarVerifyStatus == "SUCCESS" &&
-      panVerifyStatus == "SUCCESS" &&
-      bankVerifyStatus == "SUCCESS"
-    ) {
-      setKycCompleted(true);
-    }
-  }, [profileComplete, aadhaarVerifyStatus, panVerifyStatus, bankVerifyStatus]);
   return (
     <View style={styles.container}>
       <View

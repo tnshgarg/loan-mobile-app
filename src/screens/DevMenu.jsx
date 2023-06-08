@@ -8,10 +8,30 @@ export default DevMenu = () => {
   const screens = [
     { title: "Login", stack: "OnboardingStack", name: "Login" },
     { title: "Login Success", stack: "OnboardingStack", name: "LoginSuccess" },
-    { title: "Profile", stack: "EWAStack", name: "EWA_KYC_STACK" },
-    { title: "AADHAAR", stack: "EWAStack", name: "EWA_KYC_STACK" },
-    { title: "PAN", stack: "EWAStack", name: "EWA_KYC_STACK" },
-    { title: "BANK", stack: "EWAStack", name: "EWA_KYC_STACK" },
+    {
+      title: "Profile",
+      stack: "EWAStack",
+      name: "EWA_KYC_STACK",
+      screen: "ProfileForm",
+    },
+    {
+      title: "AADHAAR",
+      stack: "EWAStack",
+      name: "EWA_KYC_STACK",
+      screen: "AadhaarForm",
+    },
+    {
+      title: "PAN",
+      stack: "EWAStack",
+      name: "EWA_KYC_STACK",
+      screen: "PanForm",
+    },
+    {
+      title: "BANK",
+      stack: "EWAStack",
+      name: "EWA_KYC_STACK",
+      screen: "BankForm",
+    },
     { title: "Mandate", stack: "EWAStack", name: "EWA_MANDATE" },
     { title: "Home", stack: "HomeStack", name: "Home" },
     { title: "KYC Details", stack: "AccountStack", name: "KYC" },
@@ -33,7 +53,10 @@ export default DevMenu = () => {
               style={{ marginTop: 20 }}
               title={screen.title}
               onPress={() =>
-                navigation.navigate(screen.stack, { screen: screen.name })
+                navigation.navigate(screen.stack, {
+                  screen: screen.name,
+                  params: screen.screen ? { screen: screen.screen } : null,
+                })
               }
             />
           ))}

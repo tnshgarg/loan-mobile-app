@@ -4,13 +4,13 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS } from "../../constants/Theme";
 import VideoPlayer from "../organisms/VideoPlayer";
 
-const CmsVideo = ({ title, subtitle }) => {
+const CmsVideo = ({ title, subtitle, thumbnail }) => {
   return (
     <View style={styles.container}>
       <VideoPlayer
         size={"small"}
         thumbnail={{
-          uri: "https://images.pexels.com/photos/1542252/pexels-photo-1542252.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+          uri: thumbnail,
         }}
       />
     </View>
@@ -22,10 +22,12 @@ const styles = EStyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    flex: 1,
+    // flex: 1,
     borderRadius: "10rem",
-    padding: "15rem",
+    // padding: "15rem",
     flexDirection: "row",
+    zIndex: 99,
+    backgroundColor: COLORS.black,
   },
   row: {
     flexDirection: "row",

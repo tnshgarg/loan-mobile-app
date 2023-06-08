@@ -16,7 +16,7 @@ const BankForm = () => {
     headingImage: require("../../assets/MandateHeader.png"),
     title: "How to verify Bank Account?",
     subtitle: "Follow this 2-step process",
-    btnText: "Add Mandate",
+    btnText: "Add Bank Account",
     steps: [
       {
         title: "Bank Account Details",

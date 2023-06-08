@@ -16,9 +16,10 @@ const CmsColumn = ({ children, title, subtitle }) => {
           {child.element(child)}
         </View>
       ))}
-      <View style={styles.col}>
-        <Text style={{ ...FONTS.body3, color: COLORS.black }}>{title}</Text>
-        <Text style={{ ...FONTS.body4, color: COLORS.gray }}>{subtitle}</Text>
+
+      <View style={[styles.col, { paddingLeft: 10 }]}>
+        <Text style={{ ...FONTS.body2, color: COLORS.black }}>{title}</Text>
+        <Text style={{ ...FONTS.body3, color: COLORS.black }}>{subtitle}</Text>
       </View>
     </View>
   );
@@ -33,28 +34,21 @@ const styles = EStyleSheet.create({
     borderRadius: "10rem",
     padding: "15rem",
   },
-  wrapper: { height: 200, marginVertical: "15rem" },
-  image: {
-    resizeMode: "contain",
-    width: "98%",
-    alignSelf: "center",
-    borderRadius: "10rem",
-    height: 150,
-    // marginRight: "2rem",
-  },
+
   row: {
     flexDirection: "row",
     width: "100%",
     alignItems: "center",
     justifyContent: "space-between",
     marginTop: "-10%",
-    backgroundColor: COLORS.lightGray,
+    backgroundColor: COLORS.cardBackground,
     padding: "15rem",
     borderRadius: "10rem",
     marginTop: "10rem",
   },
   col: {
     flexDirection: "column",
+    flex: 1,
     alignItems: "flex-start",
   },
 });

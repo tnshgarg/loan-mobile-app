@@ -46,7 +46,7 @@ export default PanForm = () => {
       {
         title: "Q: I don't remember my Pan Card number, what should I do?",
         subtitle:
-          "A: You can find your PAN Card number in any of the following ways:\n\nOption 1: Income Tax Website\nHead over to https://www.incometaxindiaefiling.gov.in/\nClick on “Know Your PAN” under section “Quick Links”\nEnter the details - including name, date of birth & mobile number\nEnter the OTP you received on the mobile number and click on “Validate”\nNow enter your Father’s name and click on the “Submit” button\n\nOption 2: Salary slip\nCheck your payslip to find your PAN number. It should be mentioned on the payslip if you receive regular salary payments from your employer. If you can't find it, contact your HR or finance department for assistance.\n\nOption 3: Form-16\n PAN numbers are mentioned in the Form 16 given to you by your employer. Most organisations mail the form 16 to their employees and/or upload the same to an internal portal.\n",
+          "A: You can find your PAN Card number in any of the following ways:\n\nOption 1: Income Tax Website\nStep 1: Head over to https://www.incometaxindiaefiling.gov.in/\nStep 2: Click on “Know Your PAN” under section “Quick Links”\nStep 3: Enter the details - including name, date of birth & mobile number\nStep 4: Enter the OTP you received on the mobile number and click on “Validate”\nStep 5: Now enter your Father’s name and click on the “Submit” button\n\nOption 2: Salary slip\nCheck your payslip to find your PAN number. It should be mentioned on the payslip if you receive regular salary payments from your employer. If you can't find it, contact your HR or finance department for assistance.\n\nOption 3: Form-16\nPAN numbers are mentioned in the Form 16 given to you by your employer. Most organisations mail the form 16 to their employees and/or upload the same to an internal portal.\n",
       },
     ],
   };
@@ -101,7 +101,7 @@ export default PanForm = () => {
       {visible && (
         <HelpSection visible={visible} setVisible={setVisible} data={panData} />
       )}
-      <PanFormTemplate />
+      <PanFormTemplate setHelpSectionVisible={setVisible} />
     </SafeAreaView>
   );
 };

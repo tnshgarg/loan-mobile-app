@@ -37,9 +37,124 @@ import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import HelpFooter from "../../components/atoms/HelpFooter";
 import BannerCard from "../../components/atoms/BannerCard";
 import CmsRoot from "../../components/cms/CmsRoot";
-import remoteConfig from '@react-native-firebase/remote-config';
+import remoteConfig from "@react-native-firebase/remote-config";
+import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import HelpSection from "../../components/organisms/HelpSection";
 
 const HomeView = () => {
+  const aadhaarData = {
+    heading: "Customer Support",
+    // headingImage: require("../../assets/AadhaarHeader.png"),
+    // title: "How to verify Aadhaar?",
+    // subtitle: "Follow this 3-step process",
+
+    questions: [
+      {
+        title: "Q: What is Unipe?",
+        subtitle:
+          "A: Unipe is an interest-free solution that allows them to withdraw their salary advance whenever they need it.",
+      },
+      {
+        title: "Q: How can I get advance salary from Unipe?",
+        subtitle:
+          "A: To get advance salary, follow these 5 simple steps: \n- Download and login to the Unipe App \n- Complete KYC verification by entering your Aadhar, Pan & Bank details \n- Enter the amount you want to withdraw \n- Set up repayment metho \nWithdraw your advance salary \n",
+      },
+      {
+        title:
+          "Q: Does Unipe charge me any fees or interest on advance salary?",
+        subtitle:
+          "A: The Unipe EWA program is interest free. However, we do charge a very small processing fee at the time of disbursement. If the Advance salary is paid back on time, there is no separate interest charged.",
+      },
+      {
+        title: "Q: If I take Rs.1000 today, when will I have to pay it back?",
+        subtitle:
+          "A: The advance amount taken will be automatically deducted from your salary at the time of payroll processing.",
+      },
+      {
+        title: "Q: Is my data protected?",
+        subtitle:
+          "A: Your data is 100% encrypted and stored securely and only shared with third parties post your consent.",
+      },
+    ],
+  };
+
+  const DUMMY_RES = {
+    home: [
+      {
+        type: "banner",
+        url: "https://d22ss3ef1t9wna.cloudfront.net/fcm_test_1.jpeg",
+      },
+      {
+        type: "section",
+        title: "Learn With Us",
+        leftIcon:
+          "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/learn.png",
+        ctaText: "SEE ALL",
+        onPressCta: () => navigation.navigate("LearnWithUs"),
+        children: [
+          {
+            type: "swiper",
+            urls: [
+              "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/carousel_1.png",
+              "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/carousel_1.png",
+              "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/carousel_1.png",
+            ],
+          },
+        ],
+      },
+      {
+        type: "column",
+        title: "Why Unipe?",
+        subtitle: "Lorem Ipsum is simply text of the printing",
+        children: [
+          {
+            type: "video",
+            videoUri: "",
+            thumbnail:
+              "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+          },
+        ],
+      },
+      {
+        type: "column",
+        title: "Why Unipe?",
+        subtitle: "Lorem Ipsum is simply text of the printing",
+        children: [
+          {
+            type: "video",
+            videoUri: "",
+          },
+        ],
+      },
+      {
+        type: "section",
+        title: "User Story",
+        leftIcon:
+          "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/Userstory.png",
+        children: [
+          {
+            type: "review",
+            testimony:
+              "“Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.”",
+            name: "Manager",
+            address: "Neemrana, Rajasthan",
+            stars: 5,
+          },
+          {
+            type: "review",
+            testimony:
+              "“Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.”",
+            name: "Manager",
+            address: "Neemrana, Rajasthan",
+            stars: 5,
+          },
+        ],
+      },
+    ],
+  };
+
+  const [visible, setVisible] = useState(false);
+
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const navigation = useNavigation();
@@ -49,12 +164,19 @@ const HomeView = () => {
   );
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
+  const { unipeEmployeeId, token, onboarded } = useSelector(
+    (state) => state.auth
+  );
+  const {
+    data: cmsData,
+    isLoading: cmsLoading,
+    isError: cmsError,
+  } = useGetCmsQuery(unipeEmployeeId, {
+    pollingInterval: 1000,
+  });
 
   const [fetched, setFetched] = useState(false);
 
-  const token = useSelector((state) => state.auth.token);
-  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const onboarded = useSelector((state) => state.auth.onboarded);
   const name = useSelector(
     (state) =>
       state.aadhaar.data?.name ||
@@ -71,6 +193,8 @@ const HomeView = () => {
   const onboardingCampaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
+
+  // console.log(cmsData.home);
   console.log("HomeView onboardingCampaignId : ", onboardingCampaignId);
   const verifyStatuses = [
     aadhaarVerifyStatus != "SUCCESS"
@@ -97,28 +221,6 @@ const HomeView = () => {
   useEffect(() => {
     requestUserPermission();
     notificationListener();
-    remoteConfig()
-      .setDefaults({
-        awesome_new_feature: 'disabled',
-        home: []
-      })
-      .then(() => remoteConfig().fetchAndActivate())
-      .then(fetchedRemotely => {
-        if (fetchedRemotely) {
-          console.log('Configs were retrieved from the backend and activated.', fetchedRemotely);
-        } else {
-          console.log(
-            'No configs were fetched from the backend, and the local configs were already activated',
-          );
-        }
-      }).then(() => {
-        try {
-          const remote_home_fetch = remoteConfig().getValue('home')?._value
-          setCmsHomeData(JSON.parse(remote_home_fetch))
-        } catch (err) {
-          setCmsHomeData([])
-        }
-      });
   }, []);
 
   useEffect(() => {
@@ -244,7 +346,9 @@ const HomeView = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <LogoHeaderBack
           title={`Good Afternoon \n${name}!`}
-          onRightIconPress={() => {}}
+          onRightIconPress={() => {
+            setVisible(true);
+          }}
           titleStyle={{ ...FONTS.body3, color: COLORS.gray }}
           containerStyle={{
             backgroundColor: null,
@@ -256,14 +360,32 @@ const HomeView = () => {
             accessible={accessible}
             ewaLiveSlice={ewaLiveSlice}
           />
-          <CmsRoot
-            children={cmsHomeData}
-          ></CmsRoot>
+          {!cmsLoading ? <CmsRoot children={cmsData?.home}></CmsRoot> : <></>}
 
           {/* <BannerCard /> */}
         </View>
         <HelpFooter />
+        <View
+          style={{
+            width: "100%",
+            backgroundColor: COLORS.primary,
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 10,
+          }}
+        >
+          <Text style={{ ...FONTS.body4, color: COLORS.white }}>
+            RBI approved Lending Partners
+          </Text>
+        </View>
       </ScrollView>
+      {visible && (
+        <HelpSection
+          visible={visible}
+          setVisible={setVisible}
+          data={aadhaarData}
+        />
+      )}
     </SafeAreaView>
   );
 };

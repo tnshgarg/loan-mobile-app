@@ -19,7 +19,6 @@ export const aadhaarApi = api
           body: body,
         }),
         transformErrorResponse: (error) => {
-          console.log({ error });
           return error?.data?.error;
         },
       }),

@@ -15,8 +15,10 @@ import { useSelector } from "react-redux";
 import Badge from "../components/atoms/Badge";
 import LogoHeader from "../components/atoms/LogoHeader";
 import { useNavigation } from "@react-navigation/core";
+import { useGetKycQuery } from "../store/apiSlices/kycApi";
 
 const KycProgress = () => {
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const profileComplete = useSelector((state) => state.profile.profileComplete);
   const aadhaarVerifyStatus = useSelector(
     (state) => state.aadhaar.verifyStatus
@@ -28,30 +30,38 @@ const KycProgress = () => {
 
   console.log({ profileComplete });
 
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
+
+  console.log({ kycData });
+  const { isAadhaarSuccess, isPanSuccess, isBankSuccess, isProfileSuccess } =
+    kycData ?? {};
+
   const kycSteps = [
     {
       title: "Personal Info",
       subtitle: "Tell us about you",
       imageUri: <Profile />,
-      status: profileComplete,
+      status: isProfileSuccess,
     },
     {
       title: "Aadhaar Card",
       subtitle: "Verify aadhaar with OTP",
       imageUri: <Aadhaar />,
-      status: aadhaarVerifyStatus,
+      status: isAadhaarSuccess,
     },
     {
       title: "PAN Card",
       subtitle: "Enter PAN card details and verify",
       imageUri: <Pan />,
-      status: panVerifyStatus,
+      status: isPanSuccess,
     },
     {
       title: "Bank Account",
       subtitle: "Enter bank details and verify",
       imageUri: <Bank />,
-      status: bankVerifyStatus,
+      status: isBankSuccess,
     },
   ];
 
@@ -119,9 +129,10 @@ const KycProgress = () => {
   };
 
   const BORDER_COLOR = {
-    SUCCESS: COLORS.primary,
-    PENDING: COLORS.gray,
+    // SUCCESS: COLORS.primary,
+    // PENDING: COLORS.lightGray,
     true: COLORS.primary,
+    false: COLORS.lightGray,
   };
   const TEXT_COLOR = { success: COLORS.primary, pending: COLORS.white };
 
@@ -133,7 +144,7 @@ const KycProgress = () => {
       />
       <View style={styles.container}>
         {kycSteps.map((item, index) => (
-          <TouchableOpacity
+          <View
             key={index}
             style={{
               width: "100%",
@@ -144,15 +155,12 @@ const KycProgress = () => {
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
-              borderColor: BORDER_COLOR[item.status],
-              // item.status == "SUCCESS" || item.status == true
-              //   ? COLORS.primary
-              //   : kycSteps[index].status == "PENDING" &&
-              //     (kycSteps[index - 1].status == "SUCCESS" ||
-              //       kycSteps[index - 1].status == true) &&
-              //     index >= 1
-              //   ? COLORS.gray
-              //   : COLORS.lightGray,
+              borderColor:
+                BORDER_COLOR[
+                  kycSteps[index - 1]?.status == true || index == 0
+                    ? true
+                    : item.status
+                ],
             }}
           >
             <SvgContainer height={30} width={30}>
@@ -166,14 +174,14 @@ const KycProgress = () => {
                 {item.subtitle}
               </Text>
             </View>
-            {item.status == "SUCCESS" || item.status == true ? (
+            {item.status == true ? (
               <SvgContainer height={16} width={16}>
                 <Tick />
               </SvgContainer>
             ) : null}
 
             <Badge text={`STEP ${index + 1}`} />
-          </TouchableOpacity>
+          </View>
         ))}
         <View style={{ flex: 1 }} />
         <PrimaryButton title={"Continue"} onPress={handleConditionalNav} />

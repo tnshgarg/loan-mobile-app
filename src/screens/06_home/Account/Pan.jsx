@@ -8,13 +8,21 @@ import TopTabNav from "../../../navigators/TopTabNav";
 import { styles } from "../../../styles";
 import PanFormTemplate from "../../../templates/pan/Form";
 import PrimaryButton from "../../../components/atoms/PrimaryButton";
+import { useGetPanQuery } from "../../../store/apiSlices/panApi";
 
 const Pan = () => {
   const navigation = useNavigation();
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
-  const data = useSelector((state) => state.pan.data);
-  const number = useSelector((state) => state.pan.number);
-  const verifyStatus = useSelector((state) => state.pan.verifyStatus);
+  const { data: panData, isLoading: panLoading } = useGetPanQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: 1000 * 60 * 60 * 24,
+    }
+  );
+
+  const { verifyStatus, data, number } = panData ?? {};
+
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
 
   useEffect(() => {
@@ -55,15 +63,14 @@ const Pan = () => {
       disable: true,
     },
   ];
-  
+
+  if (panLoading) return null;
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       {verifyStatus == "SUCCESS" ? (
         <View style={styles.container}>
-          <DetailsCard
-            data={cardData()}
-            containerStyle={{ backgroundColor: "rgba(0, 180, 224,0.17)" }}
-          />
+          <DetailsCard data={cardData()} />
           {bankVerifyStatus != "SUCCESS" ? (
             <PrimaryButton
               title="Continue to Bank Verification"

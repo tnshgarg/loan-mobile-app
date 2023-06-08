@@ -19,8 +19,7 @@ const KYCStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{ animation: "slide_from_right" }}
-      // initialRouteName={initialRoute}
-      initialRouteName={"BankForm"}
+      initialRouteName={initialRoute}
     >
       <Stack.Screen
         name="ProfileForm"

@@ -54,10 +54,10 @@ const AadhaarOtpApi = (props) => {
         }
       })
       .catch((error) => {
+        console.log({ error });
         console.log("kyc/aadhaar-generate-otp error: ", error);
         dispatch(addVerifyStatus("ERROR"));
-        console.log(error.data.error.message);
-        showToast(error?.data?.error?.message, "error");
+        showToast(error?.message, "error");
         analytics().logEvent("Aadhaar_Otp_Error", {
           unipeEmployeeId: unipeEmployeeId,
           error: `generateAadhaarOTP API Catch Error: ${error.message}`,

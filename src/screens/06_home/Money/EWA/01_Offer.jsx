@@ -22,6 +22,7 @@ import Checkbox from "../../../../components/atoms/Checkbox";
 import { useUpdateOfferMutation } from "../../../../store/apiSlices/ewaApi";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 import { COLORS } from "../../../../constants/Theme";
+import { useGetKycQuery } from "../../../../store/apiSlices/kycApi";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -45,6 +46,12 @@ const Offer = () => {
     (state) =>
       state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
   );
+
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
+  const { aadhaar, pan, bank } = kycData ?? {};
+
   const profileComplete = useSelector((state) => state.profile.profileComplete);
   const aadhaarVerifyStatus = useSelector(
     (state) => state.aadhaar.verifyStatus
@@ -203,13 +210,14 @@ const Offer = () => {
         progress={25}
         subHeadline={"Select amount you want to withdraw"}
       />
-      <View style={[styles.container]}>
+      <View style={[styles.container, { backgroundColor: "#f3f6f7" }]}>
         <SliderCard
           // info={"Zero Interest charges, Nominal Processing Fees"}
           iconName="brightness-percent"
           amount={loanAmount}
           setAmount={setLoanAmount}
           eligibleAmount={ewaLiveSlice.eligibleAmount}
+          accountNumber={bank?.data.accountNumber}
         />
         <View style={{ flex: 1 }} />
 

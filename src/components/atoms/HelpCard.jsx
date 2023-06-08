@@ -1,11 +1,11 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import React from "react";
 import { COLORS, FONTS } from "../../constants/Theme";
 import LinearGradient from "react-native-linear-gradient";
 
-const HelpCard = ({ text }) => {
+const HelpCard = ({ text, onPress }) => {
   return (
     <LinearGradient
       start={{ x: 0, y: 0 }}
@@ -32,10 +32,19 @@ const HelpCard = ({ text }) => {
       <View style={{ flexDirection: "column", flex: 1 }}>
         <Text style={styles.text}>Need help?</Text>
         <Text style={styles.text}>
-          <Text style={{ textDecorationLine: "underline", color: "#377476" }}>
+          {/* <TouchableOpacity activeOpacity={0.7}> */}
+          <Text
+            onPress={onPress}
+            style={{
+              ...styles.text,
+              textDecorationLine: "underline",
+              color: "#377476",
+            }}
+          >
             Click here
-          </Text>{" "}
-          to see how to complete your {text} verification.
+          </Text>
+          {/* </TouchableOpacity> */} to see how to complete your {text}{" "}
+          verification.
         </Text>
       </View>
     </LinearGradient>

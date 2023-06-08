@@ -7,16 +7,24 @@ import BankConfirmApi from "../../../apis/bank/Confirm";
 import TopTabNav from "../../../navigators/TopTabNav";
 import { styles } from "../../../styles";
 import DetailsCard from "../../../components/molecules/DetailsCard";
+import { useGetBankQuery } from "../../../store/apiSlices/bankApi";
 
 const Bank = () => {
   const navigation = useNavigation();
 
-  const verifyStatus = useSelector((state) => state.bank.verifyStatus);
-  const data = useSelector((state) => state.bank.data);
-  console.log({ verifyStatus });
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+
+  const { data: bankData, isLoading: bankLoading } = useGetBankQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: 1000 * 60 * 60 * 24,
+    }
+  );
+
+  const { verifyStatus, data, number } = bankData ?? {};
 
   useEffect(() => {
-    if (verifyStatus == "INPROGRESS_CONFIRMATION") {
+    if (!bankLoading && verifyStatus == "INPROGRESS_CONFIRMATION") {
       navigation.navigate("KYC", {
         screen: "BANK",
         params: {
@@ -43,7 +51,7 @@ const Bank = () => {
 
       { subTitle: "IFSC", value: data?.ifsc },
       { subTitle: "UPI", value: data?.upi, fullWidth: true },
-      { subTitle: "Verify Status", value: verifyStatus },
+      { subTitle: "Verify Status", value: !bankLoading && verifyStatus },
     ];
     return res;
   };
@@ -62,6 +70,8 @@ const Bank = () => {
       disable: true,
     },
   ];
+
+  if (bankLoading) return null;
 
   return (
     <SafeAreaView style={styles.safeContainer}>

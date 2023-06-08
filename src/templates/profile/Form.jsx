@@ -12,6 +12,7 @@ import analytics from "@react-native-firebase/analytics";
 import { showToast } from "../../components/atoms/Toast";
 
 import { useUpdateProfileMutation } from "../../store/apiSlices/profileApi";
+import { COLORS, FONTS } from "../../constants/Theme";
 
 const ProfileFormTemplate = ({ type }) => {
   const dispatch = useDispatch();
@@ -155,14 +156,14 @@ const ProfileFormTemplate = ({ type }) => {
         <View>
           <DropDownForm
             accessibilityLabel="EducationDropdown"
-            placeholder={"Select Education*"}
+            placeholder={"Education*"}
             value={qualification}
             setValue={setQualification}
             data={qualifications}
           />
           <DropDownForm
             accessibilityLabel="MaritalStatusDropdown"
-            placeholder={"Select Maritial Status*"}
+            placeholder={"Maritial Status*"}
             value={maritalStatus}
             setValue={setMaritalStatus}
             data={maritalStatuses}
@@ -175,15 +176,24 @@ const ProfileFormTemplate = ({ type }) => {
           />
           <FormInput
             accessibilityLabel="AltPhoneNumberInput"
-            placeholder={"Your whatsapp mobile no."}
+            placeholder={"Whatsapp no."}
             autoCompleteType="tel"
             keyboardType="phone-pad"
             value={altMobile}
+            maxLength={10}
             onChange={setAltMobile}
+            errorMsg={
+              altMobile && !validAltMobile && !validAltMobile
+                ? "Incorrect Format"
+                : ""
+            }
+            appendComponent={
+              <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
+                {altMobile.length}/10
+              </Text>
+            }
           />
-          {altMobile && !validAltMobile ? (
-            <Text style={form.formatmsg}>Incorrect Format</Text>
-          ) : null}
+
           <FormInput
             accessibilityLabel="EmailAddressInput"
             placeholder={"Your email ID"}

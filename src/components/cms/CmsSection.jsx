@@ -1,7 +1,8 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const CmsSection = ({
   title,
@@ -9,6 +10,7 @@ const CmsSection = ({
   rightIcon,
   subtitle,
   ctaText,
+  onPressCta,
   children,
   cmsTypes,
 }) => {
@@ -19,7 +21,20 @@ const CmsSection = ({
       <View style={styles.row}>
         <Image source={{ uri: leftIcon }} style={styles.image} />
         <Text style={styles.title}>{title}</Text>
-        {ctaText && <Text style={styles.ctaText}>SEE ALL</Text>}
+        {ctaText && (
+          <TouchableOpacity
+            style={{ flexDirection: "row", alignItems: "center" }}
+            activeOpacity={0.7}
+            onPress={onPressCta}
+          >
+            <Text style={styles.ctaText}>{ctaText}</Text>
+            <MaterialCommunityIcons
+              name="chevron-right-circle"
+              color={COLORS.primary}
+              size={16}
+            />
+          </TouchableOpacity>
+        )}
       </View>
 
       {safeChildren.map((child, index) => (
@@ -50,7 +65,7 @@ const styles = EStyleSheet.create({
     color: COLORS.black,
     flex: 1,
   },
-  ctaText: { ...FONTS.body4, color: COLORS.primary },
+  ctaText: { ...FONTS.body4, color: COLORS.primary, marginRight: "3rem" },
 });
 
 export default CmsSection;

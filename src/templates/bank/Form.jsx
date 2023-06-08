@@ -15,6 +15,8 @@ import {
 } from "../../store/slices/bankSlice";
 import { bankform, styles } from "../../styles";
 import ShieldTitle from "../../components/atoms/ShieldTitle";
+import { useGetAadhaarQuery } from "../../store/apiSlices/aadhaarApi";
+import { useGetBankQuery } from "../../store/apiSlices/bankApi";
 
 const BankFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -23,19 +25,33 @@ const BankFormTemplate = (props) => {
 
   const [accNumNext, setAccNumNext] = useState(false);
   const [ifscNext, setIfscNext] = useState(false);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
-  const aadhaarSlice = useSelector((state) => state.aadhaar);
-  const aadhaarVerifyStatus = aadhaarSlice?.verifyStatus;
+  const { data: aadhaarData, isLoading: aadhaarLoading } = useGetAadhaarQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: 1000 * 60 * 60 * 24,
+    }
+  );
+
+  const { data: bankData, isLoading: bankLoading } = useGetBankQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: 1000 * 60 * 60 * 24,
+    }
+  );
+
+  const aadhaarVerifyStatus = aadhaarData?.verifyStatus;
 
   const bankSlice = useSelector((state) => state.bank);
-  const [ifsc, setIfsc] = useState(bankSlice?.data?.ifsc);
+  const [ifsc, setIfsc] = useState(bankData?.data?.ifsc);
   const [accountNumber, setAccountNumber] = useState(
     bankSlice?.data?.accountNumber
   );
   const [accountHolderName, setAccountHolderName] = useState(
-    aadhaarSlice?.data.name || bankSlice?.data?.accountHolderName
+    aadhaarData?.data.name || bankData?.data?.accountHolderName
   );
-  const [upi, setUpi] = useState(bankSlice?.data?.upi);
+  const [upi, setUpi] = useState(bankData?.data?.upi);
 
   useEffect(() => {
     dispatch(addAccountHolderName(accountHolderName));
@@ -67,7 +83,7 @@ const BankFormTemplate = (props) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      {true ? (
+      {aadhaarVerifyStatus === "SUCCESS" ? (
         <KeyboardAvoidingWrapper>
           <View>
             <PopableInput

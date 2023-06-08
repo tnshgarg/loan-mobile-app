@@ -57,6 +57,11 @@ const AadhaarForm = () => {
         subtitle:
           "A: Follow this process:\nStep 1: Go to https://myaadhaar.uidai.gov.in/verifyAadhaar\nStep 2: Enter 12-digit Aadhaar number and captcha code \nStep 3: Click on ‘Proceed to Verify’ \nStep 4: Here you will see the last three digits of the linked mobile number.",
       },
+      {
+        title: "Q: Do I need to submit physical copy of my Aadhaar card?",
+        subtitle:
+          "A: No. Aadhaar verification is a completely paperless process.",
+      },
     ],
   };
   const dispatch = useDispatch();
@@ -100,7 +105,7 @@ const AadhaarForm = () => {
         />
       )}
 
-      <AadhaarFormTemplate />
+      <AadhaarFormTemplate setHelpSectionVisible={setVisible} />
     </SafeAreaView>
   );
 };

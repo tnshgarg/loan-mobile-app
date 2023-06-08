@@ -21,7 +21,7 @@ import CollapsibleItem from "../atoms/CollapsibleItem";
 import VideoPlayer from "./VideoPlayer";
 import HelpFooter from "../atoms/HelpFooter";
 
-const HelpSection = ({ visible, setVisible, data }) => {
+const BannerFaqSection = ({ visible, setVisible, data }) => {
   const {
     heading,
     headingImage,
@@ -35,8 +35,6 @@ const HelpSection = ({ visible, setVisible, data }) => {
     questions,
     badgeTitle,
   } = data;
-
-  console.log({ btnText });
 
   return (
     <Modal animationType="slide" visible={visible}>
@@ -52,25 +50,73 @@ const HelpSection = ({ visible, setVisible, data }) => {
         />
         <ScrollView>
           <View style={styles.modalContainer}>
-            <View style={styles.row}>
-              {headingImage && (
-                <Image style={styles.headingImage} source={headingImage} />
-              )}
+            <View
+              style={{
+                flexDirection: "row",
+                width: "100%",
+                alignItems: "center",
+              }}
+            >
+              <Image
+                style={{
+                  height: 120,
+                  width: 120,
+                  marginRight: 15,
+                }}
+                resizeMode="contain"
+                source={headingImage}
+              />
 
-              <View style={styles.col}>
-                <Text style={styles.title}>{title}</Text>
-                <Text style={styles.subtitle}>{subtitle}</Text>
+              <View style={{ flexDirection: "column", flex: 1 }}>
+                <Text style={{ ...FONTS.h2, color: COLORS.secondary }}>
+                  {title}
+                </Text>
+                <Text
+                  style={{
+                    ...FONTS.body3,
+                    color: COLORS.secondary,
+                    // marginTop: 5,
+                  }}
+                >
+                  {subtitle}
+                </Text>
               </View>
             </View>
 
             {keyPoints && (
-              <View style={styles.pointsContainer}>
+              <View
+                style={{
+                  width: "100%",
+                  justifyContent: "center",
+                  flexDirection: "row",
+                  marginTop: 20,
+                  marginBottom: 10,
+                }}
+              >
                 {keyPoints.map((item, index) => (
-                  <View key={index} style={styles.flexCenter}>
+                  <View
+                    key={index}
+                    style={{
+                      flex: 1,
+                      alignItems: "center",
+                      justifyContent: "flex-start",
+                    }}
+                  >
                     <SvgContainer height={20} width={20}>
                       <Tick />
                     </SvgContainer>
-                    <Text style={styles.pointsTitle}>{item.title}</Text>
+                    <Text
+                      style={{
+                        ...FONTS.body3,
+                        color: COLORS.secondary,
+                        textAlign: "center",
+                        width: "80%",
+                        alignSelf: "center",
+                        marginTop: 10,
+                      }}
+                    >
+                      {item.title}
+                    </Text>
                   </View>
                 ))}
               </View>
@@ -101,9 +147,23 @@ const HelpSection = ({ visible, setVisible, data }) => {
               {stepsSubtitle}
             </Text> */}
 
-            {steps?.map((item, index) => (
-              <View key={index} style={[styles.col, { marginVertical: 20 }]}>
-                <View style={styles.row}>
+            {steps.map((item, index) => (
+              <View
+                key={index}
+                style={{
+                  width: "100%",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  marginVertical: 20,
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    width: "100%",
+                    alignItems: "center",
+                  }}
+                >
                   <Badge
                     text={
                       badgeTitle
@@ -121,19 +181,35 @@ const HelpSection = ({ visible, setVisible, data }) => {
                     {item.title}
                   </Text>
                 </View>
-                <Text style={[styles.subtitle, { marginTop: 10 }]}>
+                <Text
+                  style={{
+                    ...FONTS.body3,
+                    color: COLORS.secondary,
+                    marginTop: 5,
+                    marginBottom: 15,
+                  }}
+                >
                   {item.subtitle}
                 </Text>
                 {item.imageUri && (
                   <Image
                     source={item.imageUri}
-                    style={styles.stepImage}
+                    style={{
+                      height: 200,
+                      width: "100%",
+                    }}
                     resizeMode="cover"
                   />
                 )}
               </View>
             ))}
-            <Text style={[styles.title, { marginVertical: 10 }]}>
+            <Text
+              style={{
+                ...FONTS.h2,
+                color: COLORS.secondary,
+                marginVertical: 10,
+              }}
+            >
               Frequently Asked Questions
             </Text>
             {questions.map((item, index) => (
@@ -143,7 +219,15 @@ const HelpSection = ({ visible, setVisible, data }) => {
           <HelpFooter />
         </ScrollView>
         {btnText && (
-          <View style={styles.btnContainer}>
+          <View
+            style={{
+              paddingHorizontal: 15,
+              paddingVertical: 10,
+              backgroundColor: COLORS.white,
+              borderTopWidth: 1,
+              borderColor: COLORS.lightGray,
+            }}
+          >
             <PrimaryButton
               title={btnText}
               onPress={() => {
@@ -164,48 +248,29 @@ const styles = EStyleSheet.create({
     backgroundColor: "$white",
     flex: 1,
     padding: "20rem",
+
     flexDirection: "column",
   },
-  headingImage: {
-    height: "100rem",
-    width: "100rem",
-    marginRight: "15rem",
-    resizeMode: "contain",
+  iconContainer: {
+    padding: "15rem",
+    borderRadius: SIZES.width * 0.2,
+    backgroundColor: COLORS.warningBackground,
+    //alignSelf: "center",
   },
   title: {
-    ...FONTS.h2,
-    color: COLORS.secondary,
-  },
-  subtitle: {
-    ...FONTS.body3,
-    color: COLORS.secondary,
-  },
-  row: { flexDirection: "row", width: "100%", alignItems: "center" },
-  col: { flexDirection: "column", flex: 1 },
-  pointsContainer: {
-    width: "100%",
-    justifyContent: "center",
-    flexDirection: "row",
-    marginTop: "20rem",
-    marginBottom: "10rem",
-  },
-  pointsTitle: {
-    ...FONTS.body3,
+    ...FONTS.h3,
     color: COLORS.secondary,
     textAlign: "center",
-    width: "80%",
-    alignSelf: "center",
-    marginTop: "10rem",
+    //width: "70%",
+    marginTop: "20rem",
   },
-  flexCenter: { flex: 1, alignItems: "center", justifyContent: "flex-start" },
-  btnContainer: {
-    paddingHorizontal: "15rem",
-    paddingVertical: "10rem",
-    backgroundColor: COLORS.white,
-    borderTopWidth: 1,
-    borderColor: COLORS.lightGray,
+  subtitle: {
+    ...FONTS.body4,
+    color: COLORS.gray,
+    marginBottom: "20rem",
+    //textAlign: "center",
+    //width: "70%",
   },
-  stepImage: { height: "180rem", width: "100%", marginVertical: "10rem" },
 });
 
-export default HelpSection;
+export default BannerFaqSection;

@@ -52,7 +52,12 @@ const AadhaarFormTemplate = (props) => {
 
         <InfoCard info={"OTP आधार के साथ लिंक मोबाइल नंबर पर भेजा जाएगा।"} />
         <View style={{ flex: 1 }} />
-        <HelpCard text="Aadhaar" />
+        <HelpCard
+          text="Aadhaar"
+          onPress={() => {
+            props.setHelpSectionVisible(true);
+          }}
+        />
 
         <AadhaarOtpApi
           disabled={!validNumber}

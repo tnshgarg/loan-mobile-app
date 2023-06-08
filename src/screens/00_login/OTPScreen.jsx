@@ -50,11 +50,7 @@ const OTPScreen = () => {
   const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
   const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
 
-  const isKycPending =
-    profileComplete ||
-    aadhaarVerifyStatus ||
-    panVerifyStatus ||
-    bankVerifyStatus;
+  const [kycCompleted, setKycCompleted] = useState(false);
 
   const [postVerifyOtp] = useVerifyOtpMutation();
   const [postGenerateOtp] = useGenerateOtpMutation();
@@ -63,6 +59,17 @@ const OTPScreen = () => {
   }, []);
 
   let interval;
+
+  useEffect(() => {
+    if (
+      profileComplete &&
+      aadhaarVerifyStatus == "SUCCESS" &&
+      panVerifyStatus == "SUCCESS" &&
+      bankVerifyStatus == "SUCCESS"
+    ) {
+      setKycCompleted(true);
+    }
+  }, [profileComplete, aadhaarVerifyStatus, panVerifyStatus, bankVerifyStatus]);
 
   useEffect(() => {
     interval = BackgroundTimer.setInterval(() => {
@@ -162,7 +169,7 @@ const OTPScreen = () => {
         console.log({ res });
         dispatch(addToken(res["token"]));
         setVerified(true);
-        navigation.navigate(isKycPending ? "HomeStack" : "LoginSuccess");
+        navigation.navigate(kycCompleted ? "HomeStack" : "LoginSuccess");
 
         analytics().logEvent("OTPScreen_Check_Success", {
           unipeEmployeeId: unipeEmployeeId,

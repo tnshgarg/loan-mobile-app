@@ -31,10 +31,7 @@ export default function VideoPlayer({ thumbnail, title, videoId, size }) {
       <ImageBackground
         style={[
           styles.thumbnailContainer,
-          {
-            height: size == "small" ? 80 : 180,
-            width: size == "small" ? "48%" : "100%",
-          },
+          size == "small" && styles.smallThumbnailContainer,
         ]}
         borderRadius={5}
         source={thumbnail}
@@ -42,12 +39,17 @@ export default function VideoPlayer({ thumbnail, title, videoId, size }) {
         <TouchableOpacity
           //activeOpacity={0.7}
           onPress={() => videoId?.length > 0 && setVisible(true)}
-          style={[styles.thumbnailContainer, { opacity: 0.4 }]}
+          style={[
+            styles.thumbnailContainer,
+
+            size == "small" && styles.smallThumbnailContainer,
+            { opacity: 0.4, width: "100%" },
+          ]}
         />
         <View style={{ position: "absolute", alignItems: "center" }}>
           <Ionicons
             name="play-circle"
-            size={62}
+            size={size == "small" ? 48 : 62}
             color={COLORS.white}
             onPress={() => videoId?.length > 0 && setVisible(true)}
           />
@@ -104,6 +106,10 @@ const styles = EStyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginVertical: "10rem",
+  },
+  smallThumbnailContainer: {
+    width: "45%",
+    height: "70rem",
   },
   childText: {
     ...FONTS.body5,

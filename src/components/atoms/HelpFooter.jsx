@@ -12,8 +12,9 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import HelpFooterSvg from "../../assets/HelpFooter.svg";
+import HelpFooterImage from "../../assets/HelpFooter.png";
 import SvgContainer from "../atoms/SvgContainer";
+import whatsappLinking from "../../helpers/WhatsappLinking";
 
 const HelpFooter = () => {
   return (
@@ -26,6 +27,7 @@ const HelpFooter = () => {
       </Text>
       <TouchableOpacity
         activeOpacity={0.7}
+        onPress={() => whatsappLinking()}
         style={{
           backgroundColor: COLORS.white,
           borderRadius: 50,
@@ -36,6 +38,8 @@ const HelpFooter = () => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
+          marginBottom: "20%",
+          zIndex: 99,
         }}
       >
         <View
@@ -61,19 +65,14 @@ const HelpFooter = () => {
           </Text>
         </View>
       </TouchableOpacity>
-      <View
+      <Image
+        source={HelpFooterImage}
         style={{
-          width: "100%",
-          alignItems: "flex-end",
-          justifyContent: "flex-end",
-          // backgroundColor: COLORS.secondary,
-          marginTop: "-20%",
+          position: "absolute",
+          bottom: 0,
+          right: 0,
         }}
-      >
-        <SvgContainer width={250} height={150}>
-          <HelpFooterSvg />
-        </SvgContainer>
-      </View>
+      />
     </View>
   );
 };

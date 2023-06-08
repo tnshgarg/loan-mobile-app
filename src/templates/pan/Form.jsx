@@ -39,7 +39,8 @@ const PanFormTemplate = (props) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      {aadhaarVerifyStatus === "SUCCESS" ? (
+      {/* {aadhaarVerifyStatus === "SUCCESS" ? ( */}
+      {true ? (
         <View style={styles.container}>
           <FormInput
             accessibilityLabel={"PanInput"}
@@ -65,17 +66,25 @@ const PanFormTemplate = (props) => {
           <View style={form.forgotText}>
             <Text
               style={styles.termsText}
-              onPress={() =>
-                Linking.openURL(
-                  "https://docs.google.com/document/d/19nf3qwzXcun0yTN6WH6iA5hpGKlgsg4erbHuDql0EZQ/edit"
-                )
-              }
+              // onPress={() =>
+              //   Linking.openURL(
+              //     "https://docs.google.com/document/d/19nf3qwzXcun0yTN6WH6iA5hpGKlgsg4erbHuDql0EZQ/edit"
+              //   )
+              // }
+              onPress={() => {
+                props.setHelpSectionVisible(true);
+              }}
             >
               Forgot PAN?
             </Text>
           </View>
           <View style={{ flex: 1 }} />
-          <HelpCard text="PAN card" />
+          <HelpCard
+            text="PAN card"
+            onPress={() => {
+              props.setHelpSectionVisible(true);
+            }}
+          />
 
           {/* <InfoCard
             info={

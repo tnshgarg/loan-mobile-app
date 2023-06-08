@@ -5,13 +5,13 @@ import React from "react";
 import { COLORS, FONTS } from "../../constants/Theme";
 import LinearGradient from "react-native-linear-gradient";
 
-const InfoCard = ({ title, info, variant }) => {
+const InfoCard = ({ title, info, variant, containerStyle }) => {
   return variant == "gradient" ? (
     <LinearGradient
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
       colors={[COLORS.lightGreen, COLORS.lightYellow]}
-      style={styles.gradientContainer}
+      style={[styles.gradientContainer, { ...containerStyle }]}
     >
       <View
         style={{
@@ -38,7 +38,10 @@ const InfoCard = ({ title, info, variant }) => {
       </View>
     </LinearGradient>
   ) : (
-    <View accessibilityLabel="InfoCard" style={styles.container}>
+    <View
+      accessibilityLabel="InfoCard"
+      style={[styles.container, { ...containerStyle }]}
+    >
       <MaterialCommunityIcons
         name="information-outline"
         size={20}
@@ -66,9 +69,9 @@ const styles = EStyleSheet.create({
     padding: "10rem",
     flexDirection: "row",
     alignItems: "flex-start",
-    borderRadius: 5,
+    borderRadius: "5rem",
   },
-  text: { paddingLeft: "10rem", ...FONTS.body4, color: COLORS.gray, flex: 1 },
+  text: { paddingLeft: "10rem", ...FONTS.body4, color: COLORS.gray },
 });
 
 export default InfoCard;

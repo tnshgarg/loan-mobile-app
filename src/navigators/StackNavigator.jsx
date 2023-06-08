@@ -112,6 +112,14 @@ const StackNavigator = () => {
               }}
             />
             <Stack.Screen
+              name="LearnWithUs"
+              component={BottomTabNav}
+              options={{
+                headerShown: false,
+              }}
+            />
+
+            <Stack.Screen
               name="InvestStack"
               component={InvestStack}
               options={{
