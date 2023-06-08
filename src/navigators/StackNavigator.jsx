@@ -27,6 +27,7 @@ const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const [pendingCampaignClick, setPendingClick] = useState("");
   var initialRoute = useSelector((state) => state.navigation.currentStack);
   const token = useSelector((state) => state.auth.token);
   const onboarded = useSelector((state) => state.auth.onboarded);
@@ -50,6 +51,10 @@ const StackNavigator = () => {
         navigation.navigate("OnboardingStack", { screen: "Login" });
       })
       .catch(err => {console.log("Token Err", err)});
+      if (pendingCampaignClick) {
+        handleCampaignUrlClick(url);
+        setPendingClick("");
+      }
     } else {
       navigation.navigate("OnboardingStack", { screen: "Login" });
     }
@@ -58,6 +63,18 @@ const StackNavigator = () => {
   const handleCampaignUrlClick = (url) => {
     // Alert.alert("Url",`${url}`)
     Analytics.setSessionValue("campaignClick", url);
+    if (!token) {
+      Analytics.trackEvent({
+        interaction: InteractionTypes.CAMPAIGN_URL,
+        component: "STACK_NAVIGATOR",
+        action: "campaign_url_open",
+        status: "ERROR",
+        error: "user token is not present"
+      })
+      setPendingClick(url);
+      return
+    }
+
     try {
       const {campaignId,campaignScreen,campaignType} = parseUrl(url)
       setCampaignStoreData({campaignType, campaignId})
