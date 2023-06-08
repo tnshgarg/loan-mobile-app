@@ -2,8 +2,20 @@ import { useNavigation } from "@react-navigation/core";
 import { TouchableOpacity } from "react-native";
 import { useSelector } from "react-redux";
 import FullWidthImage from "../atoms/FullWidthImage";
-import { Alert } from "react-native";
+import { View, Alert } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
+import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 
+const styles = EStyleSheet.create({
+  container: {
+    width: "100%",
+    marginBottom: "10rem",
+    flexDirection: "column",
+    borderRadius: 5,
+    elevation: 2,
+    backgroundColor: COLORS.white,
+  }
+});
 
 const CompleteKycCampaignBanner = ({url,onPress}) => {
   const navigation = useNavigation();
@@ -44,14 +56,17 @@ const CompleteKycCampaignBanner = ({url,onPress}) => {
         },
       });
     } else {
-      Alert.alert("KYC Already Complete", "Your KYC is already complete done")
+      Alert.alert("KYC Successfully Completed", "Congratulations! You are now eligible for advance salary withdrawal.");
     }
   }
   return (
-    <TouchableOpacity onPress={handleConditionalNav}>
-      <FullWidthImage url={url} />
-    </TouchableOpacity>
+    <View style={styles.container}>
+      <TouchableOpacity onPress={handleConditionalNav}>
+        <FullWidthImage url={url} />
+      </TouchableOpacity>
+    </View>
   );
 };
+
 
 export default CompleteKycCampaignBanner;

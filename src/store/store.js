@@ -16,6 +16,7 @@ import timerSlice from "./slices/timerSlice";
 
 import ewaHistoricalSlice from "./slices/ewaHistoricalSlice";
 import ewaLiveSlice from "./slices/ewaLiveSlice";
+import pendingCampaignClickSlice from "./slices/pendingCampaignClickSlice";
 
 const persistConfig = {
   key: "root",
@@ -36,6 +37,7 @@ const appReducer = combineReducers({
   timer: timerSlice,
   ewaLive: ewaLiveSlice,
   ewaHistorical: ewaHistoricalSlice,
+  pendingCampaignClick: pendingCampaignClickSlice
 });
 
 const rootReducer = (state, action) => {

@@ -18,16 +18,16 @@ import { showToast } from "../components/atoms/Toast";
 import { decode } from "react-native-pure-jwt";
 import LogoutModal from "../components/organisms/LogoutModal";
 import { useNavigation } from "@react-navigation/core";
-import asyncTimer from "../helpers/asyncTimer";
+import {asyncTimeout} from "../helpers/asyncTimer";
 import Analytics, {InteractionTypes} from "../helpers/analytics/commonAnalytics";
 import {parseUrl} from "../services/campaign/urlParsing"
 import { setCampaignStoreData } from "../services/campaign/storeManagement";
 import { handleCampaignNavigation } from "../services/campaign/campaignNavigation";
+import { setPendingUrl } from "../store/slices/pendingCampaignClickSlice";
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [pendingCampaignClick, setPendingClick] = useState("");
   var initialRoute = useSelector((state) => state.navigation.currentStack);
   const token = useSelector((state) => state.auth.token);
   const onboarded = useSelector((state) => state.auth.onboarded);
@@ -43,18 +43,14 @@ const StackNavigator = () => {
           skipValidation: false, // to skip signature and exp verification
         }
       ).then(async () => {
-        showToast("Your Session has expired. Please login again.");
+        showToast("Your Session has expired. Please login agGetMoneyCardain.");
         dispatch({ type: "LOGOUT" });
         setModalVisible(true);
-        await asyncTimer(8000)
+        await asyncTimeout(8000);
         setModalVisible(false);
         navigation.navigate("OnboardingStack", { screen: "Login" });
       })
       .catch(err => {console.log("Token Err", err)});
-      if (pendingCampaignClick) {
-        handleCampaignUrlClick(url);
-        setPendingClick("");
-      }
     } else {
       navigation.navigate("OnboardingStack", { screen: "Login" });
     }
@@ -68,10 +64,10 @@ const StackNavigator = () => {
         interaction: InteractionTypes.CAMPAIGN_URL,
         component: "STACK_NAVIGATOR",
         action: "campaign_url_open",
-        status: "ERROR",
+        status: "WAITING_LOGIN",
         error: "user token is not present"
       })
-      setPendingClick(url);
+      dispatch(setPendingUrl(url))
       return
     }
 
