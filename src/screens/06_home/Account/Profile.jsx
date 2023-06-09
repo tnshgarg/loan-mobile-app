@@ -1,4 +1,4 @@
-import { View, BackHandler } from "react-native";
+import { View, BackHandler, Image, Text } from "react-native";
 import { useSelector } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "../../../styles";
@@ -6,38 +6,44 @@ import Header from "../../../components/atoms/Header";
 import DetailsCard from "../../../components/molecules/DetailsCard";
 import { useEffect } from "react";
 import ProfileFormTemplate from "../../../templates/profile/Form";
+import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
+import LogoHeaderBack from "../../../components/molecules/LogoHeaderBack";
+import { COLORS, FONTS } from "../../../constants/Theme";
+import SvgContainer from "../../../components/atoms/SvgContainer";
+import Kyc from "../../../assets/Kyc.svg";
 
 const Profile = ({ navigation }) => {
-  const profileSlice = useSelector((state) => state.profile);
-  const profileComplete = profileSlice?.profileComplete;
-  const aadhaarData = useSelector((state) => state.aadhaar.data);
-  const panData = useSelector((state) => state.aadhaar.data);
-  const fullName = aadhaarData?.name || panData?.name;
-  const email = profileSlice?.email;
-  const mobile = useSelector((state) => state.auth.phoneNumber);
-  const alternateMobile = profileSlice?.altMobile;
-  const maritalStatus = profileSlice?.maritalStatus;
-  const qualification = profileSlice?.qualification;
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
-  const cardData = () => {
-    let res = [
-      { subTitle: "Name", value: fullName, fullWidth: true },
-      { subTitle: "Email Id", value: email, fullWidth: true },
-      { subTitle: "Mobile Number", value: mobile, fullWidth: true },
-      {
-        subTitle: "Alternate Mobile Number",
-        value: alternateMobile,
-        fullWidth: true,
-      },
-      {
-        subTitle: "Educational Qualification",
-        value: qualification,
-        fullWidth: true,
-      },
-      { subTitle: "Marital Status", value: maritalStatus, fullWidth: true },
-    ];
-    return res;
-  };
+  const { data: kycData, isLoading: loading } = useGetKycQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: 1000 * 60 * 60 * 24,
+    }
+  );
+  const { aadhaar, pan, profile } = kycData ?? {};
+  const profileComplete = profile?.profileComplete;
+  const fullName = aadhaar?.data?.name || pan?.data?.name;
+  const email = profile?.email;
+  const mobile = useSelector((state) => state.auth.phoneNumber);
+  const alternateMobile = profile?.altMobile;
+  const maritalStatus = profile?.maritalStatus;
+  const qualification = profile?.qualification;
+
+  let res = [
+    { title: "Mobile Number", subtitle: mobile, imageUri: <Kyc /> },
+    {
+      title: "Alternate Mobile Number",
+      subtitle: alternateMobile,
+      imageUri: <Kyc />,
+    },
+    {
+      title: "Educational Qualification",
+      subtitle: qualification,
+      imageUri: <Kyc />,
+    },
+    { title: "Marital Status", subtitle: maritalStatus, imageUri: <Kyc /> },
+  ];
 
   const backAction = () => {
     navigation.navigate("HomeStack", {
@@ -54,16 +60,63 @@ const Profile = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header title="Profile Details" onLeftIconPress={() => backAction()} />
+      <LogoHeaderBack
+        title="Profile Details"
+        onLeftIconPress={() => backAction()}
+      />
       {profileComplete ? (
-        <View style={styles.container}>
-          <DetailsCard
-            data={cardData()}
-            imageUri={{
-              uri: `data:image/jpeg;base64,${aadhaarData["photo_base64"]}`,
+        <View style={[styles.container, { alignItems: "center" }]}>
+          <Image
+            source={{
+              uri: `data:image/jpeg;base64,${aadhaar?.data?.["photo_base64"]}`,
               cache: "only-if-cached",
             }}
+            style={{ height: 100, width: 100 }}
           />
+          <Text style={{ ...FONTS.body1, color: COLORS.black, marginTop: 10 }}>
+            {fullName}
+          </Text>
+          <Text style={{ ...FONTS.body3, color: COLORS.black }}>{email}</Text>
+          <View
+            style={{
+              width: "150%",
+              borderTopWidth: 1,
+              borderColor: COLORS.lightGray,
+              marginVertical: 25,
+            }}
+          />
+
+          {res.map((item, index) => (
+            <View
+              style={{
+                flexDirection: "row",
+                width: "100%",
+                alignItems: "center",
+                marginVertical: 10,
+              }}
+            >
+              <SvgContainer height={42} width={42}>
+                {item.imageUri}
+              </SvgContainer>
+              <View style={{ flexDirection: "column", paddingLeft: 15 }}>
+                <Text style={{ ...FONTS.body4, color: COLORS.gray }}>
+                  {item.title}
+                </Text>
+                <Text
+                  style={{ ...FONTS.body3, color: COLORS.black, marginTop: 5 }}
+                >
+                  {item.subtitle}
+                </Text>
+              </View>
+            </View>
+          ))}
+          {/* <DetailsCard
+            data={cardData()}
+            imageUri={{
+              uri: `data:image/jpeg;base64,${aadhaar?.data?.["photo_base64"]}`,
+              cache: "only-if-cached",
+            }}
+          /> */}
         </View>
       ) : (
         <>

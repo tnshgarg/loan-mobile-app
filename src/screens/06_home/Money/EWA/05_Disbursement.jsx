@@ -11,6 +11,7 @@ import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import { styles } from "../../../../styles";
 import SvgContainer from "../../../../components/atoms/SvgContainer";
 import { COLORS, FONTS } from "../../../../constants/Theme";
+import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 
 const Disbursement = ({ route, navigation }) => {
   const dispatch = useDispatch();
@@ -173,10 +174,11 @@ const Disbursement = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
+      <LogoHeaderBack
         title="Money Transfer"
         onLeftIconPress={() => backAction()}
-        // progress={100}
+        onRightIconPress={() => {}}
+        titleStyle={{ ...FONTS.body3 }}
       />
       <View style={[styles.container, { alignItems: "center" }]}>
         {StatusImage(status)}

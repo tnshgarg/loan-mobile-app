@@ -39,7 +39,7 @@ const DUMMY_RES = {
     },
     {
       type: "column",
-      title: "Why Unipe?",
+      title: "How Unipe Works?",
       subtitle: "Lorem Ipsum is simply text of the printing",
       children: [
         {
@@ -60,6 +60,8 @@ const DUMMY_RES = {
             "“Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.”",
           name: "Manager",
           address: "Neemrana, Rajasthan",
+          imageUri:
+            "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
           stars: 5,
         },
         {
@@ -68,6 +70,8 @@ const DUMMY_RES = {
             "“Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.”",
           name: "Manager",
           address: "Neemrana, Rajasthan",
+          imageUri:
+            "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
           stars: 5,
         },
       ],

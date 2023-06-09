@@ -8,23 +8,24 @@ import TopTabNav from "../../../navigators/TopTabNav";
 import { styles } from "../../../styles";
 import DetailsCard from "../../../components/molecules/DetailsCard";
 import { useGetBankQuery } from "../../../store/apiSlices/bankApi";
+import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
 
 const Bank = () => {
   const navigation = useNavigation();
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
-  const { data: bankData, isLoading: bankLoading } = useGetBankQuery(
+  const { data: kycData, isLoading: loading } = useGetKycQuery(
     unipeEmployeeId,
     {
       pollingInterval: 1000 * 60 * 60 * 24,
     }
   );
 
-  const { verifyStatus, data, number } = bankData ?? {};
+  const { aadhaar, pan, bank } = kycData ?? {};
 
   useEffect(() => {
-    if (!bankLoading && verifyStatus == "INPROGRESS_CONFIRMATION") {
+    if (!loading && bank?.verifyStatus == "INPROGRESS_CONFIRMATION") {
       navigation.navigate("KYC", {
         screen: "BANK",
         params: {
@@ -32,26 +33,30 @@ const Bank = () => {
         },
       });
     }
-  }, [verifyStatus]);
+  }, [bank?.erifyStatus]);
 
   const cardData = () => {
     let res = [
       {
         subTitle: "Account Holder Name",
-        value: data?.accountHolderName,
+        value: bank?.data?.accountHolderName,
         fullWidth: true,
       },
       {
         subTitle: "Account Number",
-        value: data?.accountNumber,
+        value: bank?.data?.accountNumber,
       },
-      { subTitle: "Bank Name", value: data?.bankName },
-      { subTitle: "Branch Name", value: data?.branchName, fullWidth: true },
-      { subTitle: "Branch City", value: data?.branchCity },
+      { subTitle: "Bank Name", value: bank?.data?.bankName },
+      {
+        subTitle: "Branch Name",
+        value: bank?.data?.branchName,
+        fullWidth: true,
+      },
+      { subTitle: "Branch City", value: bank?.data?.branchCity },
 
-      { subTitle: "IFSC", value: data?.ifsc },
-      { subTitle: "UPI", value: data?.upi, fullWidth: true },
-      { subTitle: "Verify Status", value: !bankLoading && verifyStatus },
+      { subTitle: "IFSC", value: bank?.data?.ifsc },
+      { subTitle: "UPI", value: bank?.data?.upi, fullWidth: true },
+      // { subTitle: "Verify Status", value: !loading && bank?.verifyStatus },
     ];
     return res;
   };
@@ -71,13 +76,13 @@ const Bank = () => {
     },
   ];
 
-  if (bankLoading) return null;
+  if (loading) return null;
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      {verifyStatus == "SUCCESS" ? (
+      {bank?.verifyStatus == "SUCCESS" ? (
         <View style={styles.container}>
-          <DetailsCard data={cardData()} />
+          <DetailsCard data={cardData()} variant={"light"} />
         </View>
       ) : (
         <TopTabNav tabs={tabs} hide={true} />

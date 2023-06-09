@@ -17,40 +17,27 @@ const Aadhaar = () => {
   const navigation = useNavigation();
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
-  const { data: aadhaarData, isLoading: aadhaarLoading } = useGetAadhaarQuery(
+  const { data: kycData, isLoading: loading } = useGetKycQuery(
     unipeEmployeeId,
     {
       pollingInterval: 1000 * 60 * 60 * 24,
     }
   );
 
-  const { verifyStatus, data, number } = aadhaarData ?? {};
-
-  const { data: panData } = useGetPanQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 60 * 24,
-  });
-
-  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 60 * 24,
-  });
-
-  console.log({ kycData });
   const { aadhaar, pan, bank } = kycData ?? {};
-
-  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
 
   const cardData = () => {
     let res = [
-      { subTitle: "Name", value: data?.name, fullWidth: true },
-      { subTitle: "Number", value: number },
-      { subTitle: "Date of Birth", value: data?.date_of_birth },
-      { subTitle: "Gender", value: data?.gender },
+      { subTitle: "Name", value: aadhaar?.data?.name, fullWidth: true },
+      { subTitle: "Number", value: aadhaar?.number },
+      { subTitle: "Date of Birth", value: aadhaar?.data?.date_of_birth },
+      { subTitle: "Gender", value: aadhaar?.data?.gender },
       {
         subTitle: "Address",
-        value: data?.address,
+        value: aadhaar?.data?.address,
         fullWidth: true,
       },
-      { subTitle: "Verify Status", value: verifyStatus },
+      // { subTitle: "Verify Status", value: aadhaar?.verifyStatus },
     ];
     return res;
   };
@@ -77,14 +64,14 @@ const Aadhaar = () => {
   ];
 
   useEffect(() => {
-    if (verifyStatus === "INPROGRESS_OTP") {
+    if (aadhaar?.verifyStatus === "INPROGRESS_OTP") {
       navigation.navigate("KYC", {
         screen: "AADHAAR",
         params: {
           screen: "Verify",
         },
       });
-    } else if (verifyStatus === "INPROGRESS_CONFIRMATION") {
+    } else if (aadhaar?.verifyStatus === "INPROGRESS_CONFIRMATION") {
       navigation.navigate("KYC", {
         screen: "AADHAAR",
         params: {
@@ -93,23 +80,23 @@ const Aadhaar = () => {
       });
     }
     return () => {};
-  }, [verifyStatus]);
+  }, [aadhaar?.verifyStatus]);
 
-  if (aadhaarLoading) return null;
+  if (loading) return null;
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      {verifyStatus === "SUCCESS" ? (
+      {aadhaar?.verifyStatus === "SUCCESS" ? (
         <View style={styles.container}>
           <DetailsCard
             data={cardData()}
             imageUri={{
-              uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
+              uri: `data:image/jpeg;base64,${aadhaar?.data["photo_base64"]}`,
               cache: "only-if-cached",
             }}
-            // type={"Aadhaar"}
+            variant={"light"}
           />
-          {panData?.verifyStatus != "SUCCESS" ? (
+          {pan?.verifyStatus != "SUCCESS" ? (
             <PrimaryButton
               title="Continue to PAN Verification"
               onPress={() => {
@@ -118,7 +105,7 @@ const Aadhaar = () => {
                 });
               }}
             />
-          ) : bankVerifyStatus != "SUCCESS" ? (
+          ) : bank?.verifyStatus != "SUCCESS" ? (
             <PrimaryButton
               title="Continue to Bank Verification"
               onPress={() => {

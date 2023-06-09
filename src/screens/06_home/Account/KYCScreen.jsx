@@ -7,13 +7,15 @@ import { styles } from "../../../styles";
 import Aadhaar from "./Aadhaar";
 import Bank from "./Bank";
 import Pan from "./Pan";
+import Mandate from "./Mandate";
+import LogoHeaderBack from "../../../components/molecules/LogoHeaderBack";
 
 const KYCScreen = ({ navigation }) => {
   const tabs = [
     { name: "AADHAAR", component: Aadhaar },
     { name: "PAN", component: Pan },
     { name: "BANK", component: Bank },
-    // { name: "MANDATE", component: Mandate },
+    { name: "MANDATE", component: Mandate },
   ];
 
   const backAction = () => {
@@ -29,7 +31,14 @@ const KYCScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header title="KYC" onLeftIconPress={() => backAction()} />
+      <LogoHeaderBack
+        title="KYC"
+        onLeftIconPress={() => backAction()}
+        containerStyle={{
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+        }}
+      />
       <TopTabNav tabs={tabs} hide={false} />
     </SafeAreaView>
   );

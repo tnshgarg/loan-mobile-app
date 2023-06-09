@@ -50,14 +50,8 @@ const Offer = () => {
   const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
     pollingInterval: 1000 * 60 * 60 * 24,
   });
-  const { aadhaar, pan, bank } = kycData ?? {};
-
-  const profileComplete = useSelector((state) => state.profile.profileComplete);
-  const aadhaarVerifyStatus = useSelector(
-    (state) => state.aadhaar.verifyStatus
-  );
-  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
-  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
+  const { aadhaar, pan, bank, profile } = kycData ?? {};
+  console.log({ kycData });
 
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const fees = useSelector((state) => state.ewaLive.fees);
@@ -141,29 +135,30 @@ const Offer = () => {
 
   const handleConditionalNav = () => {
     console.log(
-      profileComplete,
-      aadhaarVerifyStatus,
-      panVerifyStatus,
-      bankVerifyStatus,
+      profile?.profileComplete,
+      aadhaar?.verifyStatus,
+      pan?.verifyStatus,
+      bank?.verifyStatus,
       onboarded
     );
-    if (!profileComplete) {
+    if (!profile?.profileComplete) {
       navigation.navigate("EWA_KYC_STACK", { screen: "ProfileForm" });
-    } else if (aadhaarVerifyStatus === "INPROGRESS_OTP") {
+    } else if (aadhaar.verifyStatus === "INPROGRESS_OTP") {
       navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarVerify" });
-    } else if (aadhaarVerifyStatus === "INPROGRESS_CONFIRMATION") {
+    } else if (aadhaar.verifyStatus === "INPROGRESS_CONFIRMATION") {
       navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarConfirm" });
-    } else if (aadhaarVerifyStatus != "SUCCESS") {
+    } else if (aadhaar.verifyStatus != "SUCCESS") {
       navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarForm" });
-    } else if (panVerifyStatus === "INPROGRESS_CONFIRMATION") {
+    } else if (pan.verifyStatus === "INPROGRESS_CONFIRMATION") {
       navigation.navigate("EWA_KYC_STACK", { screen: "PanConfirm" });
-    } else if (panVerifyStatus != "SUCCESS") {
+    } else if (pan.verifyStatus != "SUCCESS") {
       navigation.navigate("EWA_KYC_STACK", { screen: "PanForm" });
-    } else if (bankVerifyStatus === "INPROGRESS_CONFIRMATION") {
+    } else if (bank.verifyStatus === "INPROGRESS_CONFIRMATION") {
       navigation.navigate("EWA_KYC_STACK", { screen: "BankConfirm" });
-    } else if (bankVerifyStatus != "SUCCESS") {
+    } else if (bank.verifyStatus != "SUCCESS") {
       navigation.navigate("EWA_KYC_STACK", { screen: "BankForm" });
-    } else if (onboarded) {
+    } else if (!onboarded) {
+      //TODO: onboarded logic
       navigation.navigate("EWA_KYC");
     }
   };

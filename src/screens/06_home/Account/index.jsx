@@ -182,7 +182,7 @@ const AccountMenu = (props) => {
           </View>
         </View>
         {!kycCompleted && (
-          <View style={{ padding: 15 }}>
+          <View style={{ paddingHorizontal: 15 }}>
             <InfoCard
               variant={"gradient"}
               title={"Action Required"}

@@ -17,6 +17,7 @@ import {
 import { styles } from "../../../../styles";
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
+import { useGetKycQuery } from "../../../../store/apiSlices/kycApi";
 
 const KYC = () => {
   const dispatch = useDispatch();
@@ -36,9 +37,12 @@ const KYC = () => {
   const [mandateVerifyStatus, setMandateVerifyStatus] = useState(
     useSelector((state) => state.mandate.verifyStatus)
   );
-  const aadhaarData = useSelector((state) => state.aadhaar.data);
-  const aadharNumber = useSelector((state) => state.aadhaar.number);
-  const panNumber = useSelector((state) => state.pan.number);
+
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
+  const { aadhaar, pan, bank, profile } = kycData ?? {};
+
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const [updateKyc] = useUpdateKycMutation();
 
@@ -139,12 +143,12 @@ const KYC = () => {
 
   const cardData = () => {
     let res = [
-      { subTitle: "Name", value: aadhaarData?.name, fullWidth: true },
-      { subTitle: "Date of Birth", value: aadhaarData?.date_of_birth },
-      { subTitle: "Gender", value: aadhaarData?.gender },
-      { subTitle: "Aadhaar Number", value: aadharNumber },
-      { subTitle: "Pan Number", value: panNumber },
-      { subTitle: "Address", value: aadhaarData?.address, fullWidth: true },
+      { subTitle: "Name", value: aadhaar?.data?.name, fullWidth: true },
+      { subTitle: "Aadhaar Number", value: aadhaar?.number },
+      { subTitle: "Pan Number", value: pan.number },
+      { subTitle: "Date of Birth", value: aadhaar?.data?.date_of_birth },
+      { subTitle: "Gender", value: aadhaar?.data?.gender },
+      { subTitle: "Address", value: aadhaar?.data?.address, fullWidth: true },
     ];
     return res;
   };
@@ -162,7 +166,7 @@ const KYC = () => {
           data={cardData()}
           type={"Aadhaar"}
           imageUri={{
-            uri: `data:image/jpeg;base64,${aadhaarData["photo_base64"]}`,
+            uri: `data:image/jpeg;base64,${aadhaar?.data?.["photo_base64"]}`,
             cache: "only-if-cached",
           }}
         />
@@ -170,7 +174,7 @@ const KYC = () => {
         <View style={{ flex: 1 }} />
 
         <PrimaryButton
-          title={loading ? "Verifying" : "Proceed"}
+          title={loading ? "Verifying" : "I confirm my KYC"}
           disabled={loading || !fetched}
           onPress={() => {
             handleKyc();

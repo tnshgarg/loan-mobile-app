@@ -5,7 +5,7 @@ import React from "react";
 import { COLORS, FONTS } from "../../constants/Theme";
 import LinearGradient from "react-native-linear-gradient";
 
-const InfoCard = ({ title, info, variant, containerStyle }) => {
+const InfoCard = ({ title, info, variant, containerStyle, infoStyle }) => {
   return variant == "gradient" ? (
     <LinearGradient
       start={{ x: 0, y: 0 }}
@@ -34,7 +34,7 @@ const InfoCard = ({ title, info, variant, containerStyle }) => {
             {title}
           </Text>
         )}
-        <Text style={styles.text}>{info}</Text>
+        <Text style={[styles.text, { ...infoStyle }]}>{info}</Text>
       </View>
     </LinearGradient>
   ) : (

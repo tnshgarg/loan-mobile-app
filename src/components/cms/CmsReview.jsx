@@ -7,7 +7,7 @@ import BannerBg from "../../assets/BannerBg.svg";
 import LinearGradient from "react-native-linear-gradient";
 import Star from "../../assets/Star.svg";
 
-const CmsReview = ({ children, testimony, name, address, stars }) => {
+const CmsReview = ({ children, testimony, name, address, stars, imageUri }) => {
   const safeChildren = children || [];
   console.log({ safeChildren });
   return (
@@ -43,7 +43,7 @@ const CmsReview = ({ children, testimony, name, address, stars }) => {
       >
         <Image
           source={{
-            uri: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            uri: imageUri,
           }}
           style={{ height: 36, width: 36, borderRadius: 50, marginRight: 15 }}
         />

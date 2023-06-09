@@ -11,6 +11,8 @@ const ListItem = ({
   selected,
   titleStyle,
   subtitleStyle,
+  iconSize,
+  containerStyle,
 }) => {
   const { title, subtitle, iconName, onPress } = item;
 
@@ -29,6 +31,7 @@ const ListItem = ({
               : disabled
               ? COLORS.lightgray_01
               : COLORS.white,
+            ...containerStyle,
           },
         ]}
       >

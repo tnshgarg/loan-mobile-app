@@ -3,7 +3,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
 import LinearGradient from "react-native-linear-gradient";
 
-const DetailsCard = ({ data, imageUri, containerStyle, type }) => {
+const DetailsCard = ({ data, imageUri, containerStyle, type, variant }) => {
   return type == "Aadhaar" ? (
     <View style={{ backgroundColor: "#f7f6f1", borderRadius: 10 }}>
       <LinearGradient
@@ -33,6 +33,31 @@ const DetailsCard = ({ data, imageUri, containerStyle, type }) => {
           </View>
         ))}
       </View>
+    </View>
+  ) : variant == "light" ? (
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: COLORS.cardBackground, ...containerStyle },
+      ]}
+    >
+      {imageUri && <Image source={imageUri} style={styles.image} />}
+
+      {data.map((item, index) => (
+        <View
+          key={index}
+          style={[styles.listItem, { width: item.fullWidth ? "100%" : "50%" }]}
+        >
+          <Text style={[styles.label, { color: COLORS.gray }]}>
+            {item.subTitle}
+          </Text>
+          <Text
+            style={[styles.value, { ...FONTS.body4, color: COLORS.secondary }]}
+          >
+            {item.value || "-"}
+          </Text>
+        </View>
+      ))}
     </View>
   ) : (
     <LinearGradient
