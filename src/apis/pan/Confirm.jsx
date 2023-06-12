@@ -6,6 +6,7 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
 import { useUpdatePanMutation } from "../../store/apiSlices/panApi";
 import { addVerifyStatus } from "../../store/slices/panSlice";
 import { form, styles } from "../../styles";
@@ -86,7 +87,7 @@ const PanConfirmApi = (props) => {
       <View style={[styles.row, { justifyContent: "space-between" }]}>
         <FuzzyCheck name={data["name"]} step="PAN" />
         <PrimaryButton
-          title="Not Me"
+          title={strings.notMe}
           containerStyle={form.noButton}
           titleStyle={{ ...FONTS.h4, color: COLORS.warning }}
           onPress={() => {
@@ -101,7 +102,7 @@ const PanConfirmApi = (props) => {
         />
         <PrimaryButton
           accessibilityLabel="PanYesBtn"
-          title="Yes, that’s me"
+          title={strings.yesMe}
           containerStyle={form.yesButton}
           color={COLORS.primary}
           titleStyle={{ ...FONTS.h4, color: COLORS.primary }}

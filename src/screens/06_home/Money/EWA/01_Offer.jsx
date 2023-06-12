@@ -1,25 +1,26 @@
-import { useNavigation } from "@react-navigation/core";
 import analytics from "@react-native-firebase/analytics";
+import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
+import Checkbox from "../../../../components/atoms/Checkbox";
 import Header from "../../../../components/atoms/Header";
-import TermsAndPrivacyModal from "../../../../components/molecules/TermsAndPrivacyModal";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
+import TermsAndPrivacyModal from "../../../../components/molecules/TermsAndPrivacyModal";
+import SliderCard from "../../../../components/organisms/SliderCard";
+import { strings } from "../../../../helpers/Localization";
+import { useUpdateOfferMutation } from "../../../../store/apiSlices/ewaApi";
 import {
   addAPR,
   addLoanAmount,
   addNetAmount,
   addProcessingFees,
 } from "../../../../store/slices/ewaLiveSlice";
+import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import { styles } from "../../../../styles";
 import TnC from "../../../../templates/docs/EWATnC.js";
-import SliderCard from "../../../../components/organisms/SliderCard";
-import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
-import Checkbox from "../../../../components/atoms/Checkbox";
-import { useUpdateOfferMutation } from "../../../../store/apiSlices/ewaApi";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -131,7 +132,13 @@ const Offer = () => {
   };
 
   const handleConditionalNav = () => {
-    console.log( profileComplete, aadhaarVerifyStatus, panVerifyStatus, bankVerifyStatus , onboarded);
+    console.log(
+      profileComplete,
+      aadhaarVerifyStatus,
+      panVerifyStatus,
+      bankVerifyStatus,
+      onboarded
+    );
     if (!profileComplete) {
       navigation.navigate("EWA_KYC_STACK", { screen: "ProfileForm" });
     } else if (aadhaarVerifyStatus === "INPROGRESS_OTP") {
@@ -196,14 +203,14 @@ const Offer = () => {
       />
       <View style={styles.container}>
         <Text style={[styles.headline, { alignSelf: "flex-start" }]}>
-          How much do you want?
+          {strings.howMuch}
         </Text>
         <Text style={[styles.subHeadline, { alignSelf: "flex-start" }]}>
-          Here is your access of emergency funds
+          {strings.accessOfEF}
         </Text>
 
         <SliderCard
-          info={"Zero Interest charges, Nominal Processing Fees"}
+          info={strings.zeroInterest}
           iconName="brightness-percent"
           amount={loanAmount}
           setAmount={setLoanAmount}
@@ -212,15 +219,15 @@ const Offer = () => {
         <View style={{ flex: 1 }} />
 
         <Checkbox
-          text={"I agree to the"}
+          text={strings.iAgree}
           value={consent}
           setValue={setConsent}
-          additionalText="Terms and Conditions"
+          additionalText={strings.termsAndConditions}
           onPress={() => setIsTermsOfUseModalVisible(true)}
         />
 
         <PrimaryButton
-          title={loading ? "Processing" : "Continue"}
+          title={loading ? strings.processing : strings.continue}
           disabled={loading || !consent || !validAmount || updating}
           loading={loading}
           onPress={() => {

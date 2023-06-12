@@ -1,0 +1,152 @@
+varName,varValueEnglish,varValueHindi
+phoneVerificationSuccess,Your phone number was verified successfully.,आपका फ़ोन नंबर सफलतापूर्वक वेरीफाई हो गया है।
+completeEkyc,As a next step please complete your eKYC to get money in your bank account,अगले चरण के रूप में कृपया अपने बैंक खाते में राशि प्राप्त करने के लिए अपना KYC पूरा करें
+startEkyc,Start eKYC,KYC शुरू करें
+onboarding,Onboarding,ऑनबोर्डिंग
+tellUsAboutYou,Tell us about you,हमें अपने बारे में बताएं
+incorrectFormat,Incorrect Format,गलत प्रारूप
+continue,Continue,जारी रखें
+whatsappPlaceholder,Your whatsapp mobile no.,आपका व्हाट्सएप मोबाइल नं.
+motherNamePlaceholder,Mother's Name*,माता का नाम*
+maritalStatusPlaceholder,Select Maritial Status*,वैवाहिक स्थिति का चयन करें*
+educationPlaceholder,Select Education*,शैक्षणिक योग्यता का चयन करें*
+holdOnBack,"Hold on!"", ""Are you sure you want to go back?","रुकिए!"", ""क्या आप वाकई वापस जाना चाहते हैं?"
+aadhaarNumber,Aadhaar Number,आधार नंबर
+agreeKycTNC,I agree with the KYC registration Terms & Conditions to verifiy my identity. You will receive an OTP to your Aadhaar registered mobile number.,मैं अपनी पहचान वेरीफाई करने के लिए KYC पंजीकरण नियम और शर्तों से सहमत हूं। आपको अपने आधार पंजीकृत मोबाइल नंबर पर एक ओटीपी प्राप्त होगा।
+invalidAadhaarNumber,Invalid Aadhaar Number,अमान्य आधार नंबर
+enterAadhaarNumber,Enter your Aadhaar number,अपना आधार नंबर दर्ज करें
+wait10Minutes,You must wait for 10 minutes to resend OTP.,ओटीपी दोबारा भेजने के लिए आपको 10 मिनट तक इंतजार करना होगा।
+holdOn,Hold on!,रुकिए!
+goBackEditAadhaar,Are you sure you want to go back? Continue if you want to edit your Aadhaar number.,क्या आप वाकई वापस जाना चाहते हैं? अगर आप अपना आधार नंबर बदलना चाहते हैं तो जारी रखें।
+verifyAadhaar,Verify Aadhaar,आधार वेरीफाई करें
+otpNotReceived,Didn’t receive the secure code?,क्या सुरक्षित कोड प्राप्त नहीं हुआ?
+resendOtp,Resend OTP in,फिर से ओटीपी भेजें
+goBackAadhaarVerification,If you go back your Aadhaar Verification will have to be redone. Continue only if you want to edit your Aadhaar number.,अगर आप वापस जाते हैं तो आपका आधार वेरिफिकेशन दोबारा कराना होगा। यदि आप अपना आधार नंबर बदलना चाहते हैं तो ही जारी रखें।
+areTheseAadhaarDetails,Are these your Aadhaar details?,क्या यह आपके आधार का विवरण हैं?
+notMe,Not Me,नहीं
+yesMe,"Yes, that’s me",हाँ
+enterPanNumber,Enter your PAN number,अपना PAN नंबर दर्ज करें
+forgotPan,Forgot PAN?,PAN भूल गए?
+agreeKycTNCPan,I agree with the KYC registration Terms & Conditions to verifiy my identity. PAN is required to verify name and date of birth.,मैं अपनी पहचान वेरीफाई करने के लिए KYC पंजीकरण नियम और शर्तों से सहमत हूं। नाम और जन्म तिथि वेरीफाई करने के लिए PAN आवश्यक है।
+verifyAadhaarFirst,Please verify your aadhaar first,कृपया पहले अपना आधार का वेरिफिकेशन करें
+invalidPanNumber,Invalid PAN Number.,अमान्य PAN नंबर।
+goBack,Do you want to go back ?,क्या आप वापस जाना चाहते हैं?
+goBackPanVerification,If you go back your PAN Verification will have to be redone. Continue if you want to edit your PAN number.,यदि आप वापस जाते हैं तो आपका PAN वेरिफिकेशन फिर से करना होगा। अगर आप अपना PAN नंबर बदलना चाहते हैं तो जारी रखें।
+areThesePanDetails,Are these your PAN details?,क्या यह आपके PAN का विवरण हैं?
+goBackPanVerification,If you go back your PAN Verification will have to be redone. Continue only if you want to edit your PAN number.,यदि आप वापस जाते हैं तो आपका PAN वेरिफिकेशन फिर से करना होगा। अगर आप अपना PAN नंबर बदलना चाहते हैं तो जारी रखें।
+bankAccountDetails,Bank Account Details,बैंक खाते का विवरण
+referToPassbook,Refer to your Bank Passbook or Cheque book for the exact Name mentioned in your bank records,अपने बैंक रिकॉर्ड में उल्लिखित सटीक नाम के लिए अपनी बैंक पासबुक या चेक बुक देखें
+accountHolderName,Account Holder Name*,खाता धारक का नाम*
+bankAccountNumber,Bank Account Number*,बैंक खाता संख्या*
+refertoGetAccountNumber,Refer to your Bank Passbook or Cheque book to get the Bank Account Number.,बैंक खाता संख्या प्राप्त करने के लिए अपनी बैंक पासबुक या चेक बुक देखें।
+ifscCode,IFSC Code*,IFSC कोड*
+findIfscCode,You can find the IFSC code on the cheque book or bank passbook that is provided by the bank,आप बैंक द्वारा प्रदान की गई चेक बुक या बैंक पासबुक पर IFSC कोड पा सकते हैं
+upiId,UPI ID,UPI आईडी
+lotsOfUpiApps,"There are lots of UPI apps available like Phonepe, Amazon Pay, Paytm, Bhim, Mobikwik etc. from where you can fetch your UPI ID.","Google Pay, Phonepe, Amazon Pay, Paytm, BHIM, MobiKwik इत्यादि जैसे बहुत सारे UPI ऐप उपलब्ध हैं जहां से आप अपनी UPI आईडी प्राप्त कर सकते हैं।"
+agreeWithKycRegistration,"I agree with the KYC registration Terms & Conditions to verifiy my identity. We will use this bank account/UPI ID to deposite your salary every month, Please provide your own bank account details.","मैं अपनी पहचान वेरीफाई करने के लिए KYC पंजीकरण नियम और शर्तों से सहमत हूं। हम हर महीने आपकी एडवांस सैलरी जमा करने के लिए इस बैंक खाते/UPI आईडी का उपयोग करेंगे, कृपया अपने बैंक खाते का विवरण प्रदान करें।"
+detailsSafe,All your details are safe with us,आपकी सारी जानकारी हमारे पास सुरक्षित है
+goBackBankVerification,If you go back your Bank Verification will have to be redone. Continue only if you want to edit your Bank Account Details.,"यदि आप वापस जाते हैं तो आपका बैंक वेरिफिकेशन फिर से करना होगा। अगर आप अपने बैंक खाते के विवरण में बदलाव करना चाहते हैं, तभी जारी रखें।"
+areTheseBankDetails,Are these your Bank Account details?,क्या यह आपके बैंक खाते का विवरण है?
+continuePanVerification,Continue to PAN Verification,PAN वेरिफिकेशन जारी रखें
+continueBankVerification,Continue to Bank Verification,बैंक वेरिफिकेशन जारी रखें
+bankName,Bank Name,बैंक का नाम
+branchName,Branch Name,शाखा का नाम
+branchCity,Branch City,शाखा शहर
+ifscCode,IFSC,आईएफ़एससी
+upi,UPI,UPI
+verifyStatus,Verify Status,स्थिति की पुष्टि करें
+editProfileDetails,See & edit your profile details,अपना प्रोफ़ाइल विवरण देखें और बदलाव करें
+kycDetailsInOnePlace,All your KYC details in one place,आपके सभी KYC विवरण एक ही स्थान पर
+customerSupport,Customer Support,ग्राहक सहायता
+termsAndConditions,Terms & Conditions,Terms & Conditions
+privacyPolicy,Privacy Policy,Privacy Policy
+talkToSupportTeam,Talk to out support team,हमारी सहायता टीम से बात करें
+readTermsOfUse,Read our terms of use,Terms of use पढ़ें
+readPrivacyPolicy,Read our privacy policy,हमारी Privacy Policy पढ़ें
+logout,Logout,लॉग आउट
+logoutFromUnipe,Logout from Unipe App,यूनीपे ऐप से लॉग आउट करें
+choosePreferredMode,Please choose your preferred mode,कृपया अपना पसंदीदा तरीका चुनें
+initializing,Initializing ...,प्रारंभ किया जा रहा है...
+mandateRegistrationInProgress,Your Mandate Registration is currently in progress.,आपका मैंडेट पंजीकरण वर्तमान में प्रगति पर है।
+MandateRequired,Mandate is required to auto-debit loan payments on Due Date. This is 100% secure and executed by an RBI approved entity.,देय तिथि पर ऋण भुगतान को ऑटो-डेबिट करने के लिए मैंडेट पंजीकरण आवश्यक है। यह 100% सुरक्षित है और RBI द्वारा अनुमोदित इकाई द्वारा किया जाता है
+secured,100% Secure,100% सुरक्षित
+rbiApproved,RBI Approved,RBI स्वीकृत
+updatingMandate,Updating mandate registration details,मैंडेट पंजीकरण विवरण अद्यतन करना
+mayTakeFewSeconds,This may take few seconds,इसमें कुछ सेकंड लग सकते हैं
+dontPressBack,Please don't press the back button,कृपया बैक बटन ना दबाएं
+mandateFailed,"Mandate Registration Failed, Please Try Again","मैंडेट पंजीकरण विफल, कृपया पुन: प्रयास करें"
+continueBankVerification,Continue to Bank Verification,बैंक वेरिफिकेशन जारी रखें
+employeeAddressDetailsRecorded,Employee Address details recorded.,कर्मचारी का पता दर्ज किया गया।
+nomineeAddress,Nominee Address,नामिती व्यक्ति का पता
+portal,Portal,पोर्टल
+familyDetails,Family Details,पारिवारिक विवरण
+yourAddress,Your Address,आपका पता
+nomineeAddress,Nominee Address,नामिती व्यक्ति का पता
+nomineeAddressDetailsRecorded,Nominee Address details recorded.,नामिती के पते का विवरण दर्ज किया गया।
+esicPortalDetailsRecorded,ESIC Portal details recorded.,ESIC पोर्टल विवरण दर्ज किया गया।
+fatherName,Father's / Husband's Name*,पिता/पति का नाम*
+relationWithEmployee,Relation with Employee (Father/Husband)*,कर्मचारी (पिता/पति) के साथ संबंध*
+nameOfNominee,Name of Nominee (As per Aadhaar card)*,नॉमिनी का नाम (आधार कार्ड के अनुसार)*
+nomineeRelationship,Nominee Relationship with Employee*,कर्मचारी के साथ नामिती व्यक्ति का संबंध*
+documents,Documents,दस्तावेज़
+moreDetailsComingSoon,More Details Coming Soon,अधिक जानकारी जल्द आ रही है
+dateOfBirth,Date of birth as recorded in License,लाइसेंस में दर्ज जन्म तिथि
+licenseNeeded,License is needed to verify your eligibility to operate heavy machinery.,भारी मशीनरी संचालित करने के लिए अपनी पात्रता को वेरीफाई करने के लिए लाइसेंस की आवश्यकता होती है।
+expiryDate,Expiry date,एक्सपायरी डेट
+nonTransport,Non-Transport,गैर-परिवहन
+valid,Valid,वैध
+invalid,Invalid,अमान्य
+licenseDetailsNotEditable,"The License Details are not editable, please ask your employer to update","The License Details are not editable, please ask your employer to update"
+unipeP2PHeading,Unipe Invest is a P2P investment that earns you upto 9% interest on your investments,Unipe Invest is a P2P investment that earns you upto 9% interest on your investments
+poweredByLiquiloans,"We are powered by Liquiloans, RBI regulated P2P NBFC.","We are powered by Liquiloans, RBI regulated P2P NBFC."
+interestEarned,Interest earned will be earned daily and you are free to withdraw your investment and earnings at any time,Interest earned will be earned daily and you are free to withdraw your investment and earnings at any time
+welcomeToUnipeInvest,Welcome to Unipe Invest.,Welcome to Unipe Invest.
+designedToMultiply,Designed to multiply your growth,Designed to multiply your growth
+knowMore,Know more,Know more
+youAreOnly,You are only,You are only
+steps,2 steps,2 steps
+awayFromMakingInvestment,away from making your first investment,away from making your first investment
+proceedToVerifyAndGrowWealth,proceed to verify your details and start growing your wealth.,proceed to verify your details and start growing your wealth.
+howItWorks,How it works?,How it works?
+joinedWaitlist,You've joined the waitlist for Unipe Invest!!,You've joined the waitlist for Unipe Invest!!
+rbiRegisteredNBFC,an RBI registered NBFC-P2P,an RBI registered NBFC-P2P
+p2pInvestment,What is P2P investment?,What is P2P investment?
+peerToPeerInvestment,Peer 2 Peer investment allows you to invest money against loans given to borrows and is done by our RBI regulated partner,Peer 2 Peer investment allows you to invest money against loans given to borrows and is done by our RBI regulated partner
+benefitsOfP2P,What are the benefits of P2P investment?,What are the benefits of P2P investment?
+p2pLendingRBI,P2P lending is regulated by RBI. We have partnered with Liquiloans to offer investment products\n\nP2P investment gives opportunity to earn more than traditional deposit products,P2P lending is regulated by RBI. We have partnered with Liquiloans to offer investment products\n\nP2P investment gives opportunity to earn more than traditional deposit products
+risksOfP2P,What are the risks associated with P2P investment?,What are the risks associated with P2P investment?
+p2pRisks,Like any other investment product P2P investment also has associated risk like performance of loans and repayment of borrowers affect your returns\n\nGood News is Our partner has honoured 100% withdrawal within 48 Hrs.\n\nAlso our partner investment product is rated as AA- (by CRISIL) which is one of the highest in the industry,Like any other investment product P2P investment also has associated risk like performance of loans and repayment of borrowers affect your returns\n\nGood News is Our partner has honoured 100% withdrawal within 48 Hrs.\n\nAlso our partner investment product is rated as AA- (by CRISIL) which is one of the highest in the industry
+whyInvestWithUnipe,Why invest with Unipe?,Why invest with Unipe?
+,You can earn inflation beating highest returns for your investment\n\nYour principal and base interest is secured at our RBI regulated partner,You can earn inflation beating highest returns for your investment\n\nYour principal and base interest is secured at our RBI regulated partner
+,Know more about P2P investment,Know more about P2P investment
+,How much do you want?,आप कितनी राशि निकालना चाहते हैं?
+,Here is your access of emergency funds,यह रही आपकी आपातकालीन राशि
+,"Zero Interest charges, Nominal Processing Fees","शून्य ब्याज शुल्क, नाममात्र की प्रोसेसिंग फीस"
+,I agree to the,मैं नियमों और शर्तों से सहमत हूं
+,Terms and Conditions,मैं नियमों और शर्तों से सहमत हूं
+,Processing,प्रोसेसिंग
+,Are these your Kyc details?,क्या यह आपके KYC का विवरण हैं?
+,Processing Fees †,प्रोसेसिंग फीस †
+,Disbursement Amount *,भुगतान राशि*
+,Loan Amount,ऋण की राशि
+,Due Date,नियत तारीख
+,Loan Details,ऋण विवरण
+,Bank Details,बैंक विवरण
+,*Money will be either auto debited or deducted by your employer from your upcoming salary.,*राशि या तो आपके खाते से स्वतः डेबिट हो जायेगी या आपकी कंपनी द्वारा आपके आगामी वेतन से काट ली जाएगी।
+,Personal Details,व्यक्तिगत विवरण
+,I confirm the above details and agree to,मैं उपरोक्त विवरण की पुष्टि करता हूं और इससे सहमत हूं
+,† Annual Percentage Rate @,† सालाना प्रतिशत दर @
+,Congratulations,बधाई हो
+,Your advance salary has been credited to your bank account.,आपकी एडवांस सैलरी आपके बैंक खाते में जमा करा दी गई है।
+,Sorry,माफ़ कीजिये
+,We cannot process your advance salary at this moment.,हम इस समय आपके अग्रिम वेतन को प्रोसेस नहीं कर सकते।
+,Pending,पेंडिंग
+,You will receive the money in next 24 banking hours.,आपको अगले 24 बैंकिंग घंटों में राशि प्राप्त होगी।
+,Net Transfer Amount,नेट ट्रांसफर राशि
+,Loan Account Number,ऋण खाता संख्या
+,Transfer Status,ट्रांसफर की स्थिति
+,Money will be auto debited from your upcoming salary,आपके आने वाले वेतन से राशि स्वतः डेबिट हो जाएगी
+,Here is your On-Demand Salary,यह रही आपकी ऑन-डिमांड सैलरी
+,Your total amount due,आपकी कुल बकाया राशि
+,Your repayment is overdue by <> days,आपका पुनर्भुगतान <> दिनों से बकाया है
+,Your past draws,आपके पिछले विथड्रॉवल्स

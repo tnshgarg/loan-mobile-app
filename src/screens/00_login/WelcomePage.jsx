@@ -1,17 +1,16 @@
-import { View, Text, SafeAreaView, Alert, BackHandler, Linking} from "react-native";
-import { styles } from "../../styles";
-import LogoHeader from "../../components/atoms/LogoHeader";
+import { useNavigation } from "@react-navigation/native";
+import { useEffect } from "react";
+import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import { COLORS, FONTS } from "../../constants/Theme";
-import analytics from "@react-native-firebase/analytics";
-import { requestUserPermission } from "../../services/notifications/notificationService";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { useDispatch, useSelector } from "react-redux";
 import Success from "../../assets/congratulations.svg";
-import { useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import LogoHeader from "../../components/atoms/LogoHeader";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
 import whatsappLinking from "../../helpers/WhatsappLinking";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { styles } from "../../styles";
 
 const WelcomePage = () => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -53,8 +52,9 @@ const WelcomePage = () => {
         <Text
           style={[styles.subHeadline, { width: "90%", alignSelf: "center" }]}
         >
-          <Text style={{ color: COLORS.warning }}>Congratulations!</Text> {"\n"}
-          Your phone number verified successfully.
+          <Text style={{ color: COLORS.warning }}>{strings.congrats}!</Text>{" "}
+          {"\n"}
+          {strings.phoneVerificationSuccess}
         </Text>
         <Text
           style={[
@@ -67,8 +67,7 @@ const WelcomePage = () => {
             },
           ]}
         >
-          As a next step please complete your eKYC to get money in your bank
-          account
+          {strings.completeEkyc}
         </Text>
         <PrimaryButton
           title="Start eKYC"
