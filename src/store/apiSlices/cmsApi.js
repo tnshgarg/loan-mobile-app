@@ -12,7 +12,8 @@ const DUMMY_RES = {
       leftIcon:
         "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/learn.png",
       ctaText: "SEE ALL",
-      onPressCta: () => navigation.navigate("LearnWithUs"),
+      ctaRoute: "LearnWithUs",
+      onPressCta: { stack: "LearnWithUs" },
       children: [
         {
           type: "swiper",
@@ -20,6 +21,16 @@ const DUMMY_RES = {
             "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/carousel_1.png",
             "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/carousel_1.png",
             "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/carousel_1.png",
+          ],
+          banners: [
+            {
+              url: "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/carousel_1.png",
+              blogData: [],
+            },
+            {
+              url: "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/carousel_1.png",
+              blogData: [],
+            },
           ],
         },
       ],
@@ -45,6 +56,8 @@ const DUMMY_RES = {
         {
           type: "video",
           videoUri: "",
+          thumbnail:
+            "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
         },
       ],
     },

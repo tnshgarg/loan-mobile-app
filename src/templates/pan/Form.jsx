@@ -11,6 +11,7 @@ import FormInput from "../../components/atoms/FormInput";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { useNavigation, useIsFocused } from "@react-navigation/core";
 import HelpCard from "../../components/atoms/HelpCard";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 
 const PanFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -18,13 +19,24 @@ const PanFormTemplate = (props) => {
   const navigation = useNavigation();
 
   const [validNumber, setValidNumber] = useState(true);
-
-  const aadhaarVerifyStatus = useSelector(
-    (state) => state.aadhaar.verifyStatus
+  const { unipeEmployeeId, token, onboarded } = useSelector(
+    (state) => state.auth
   );
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
+  const {
+    isAadhaarSuccess,
+    isPanSuccess,
+    isBankSuccess,
+    isProfileSuccess,
+    profile,
+    aadhaar,
+    pan,
+    bank,
+  } = kycData ?? {};
 
-  const panSlice = useSelector((state) => state.pan);
-  const [number, setNumber] = useState(panSlice?.number);
+  const [number, setNumber] = useState(pan?.number);
 
   useEffect(() => {
     let panReg = /^[A-Z]{5}\d{4}[A-Z]$/gm;
@@ -39,8 +51,7 @@ const PanFormTemplate = (props) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      {/* {aadhaarVerifyStatus === "SUCCESS" ? ( */}
-      {true ? (
+      {aadhaar?.verifyStatus === "SUCCESS" ? (
         <View style={styles.container}>
           <FormInput
             accessibilityLabel={"PanInput"}
@@ -54,7 +65,7 @@ const PanFormTemplate = (props) => {
             numeric
             appendComponent={
               <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
-                {number.length}/10
+                {number?.length}/10
               </Text>
             }
           />
@@ -95,6 +106,7 @@ const PanFormTemplate = (props) => {
           <PanVerifyApi
             disabled={!validNumber}
             type={props?.route?.params?.type || ""}
+            number={number}
           />
         </View>
       ) : (

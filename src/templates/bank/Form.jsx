@@ -17,6 +17,7 @@ import { bankform, styles } from "../../styles";
 import ShieldTitle from "../../components/atoms/ShieldTitle";
 import { useGetAadhaarQuery } from "../../store/apiSlices/aadhaarApi";
 import { useGetBankQuery } from "../../store/apiSlices/bankApi";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 
 const BankFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -26,32 +27,20 @@ const BankFormTemplate = (props) => {
   const [accNumNext, setAccNumNext] = useState(false);
   const [ifscNext, setIfscNext] = useState(false);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
 
-  const { data: aadhaarData, isLoading: aadhaarLoading } = useGetAadhaarQuery(
-    unipeEmployeeId,
-    {
-      pollingInterval: 1000 * 60 * 60 * 24,
-    }
-  );
+  const { aadhaar, bank } = kycData ?? {};
 
-  const { data: bankData, isLoading: bankLoading } = useGetBankQuery(
-    unipeEmployeeId,
-    {
-      pollingInterval: 1000 * 60 * 60 * 24,
-    }
-  );
+  const aadhaarVerifyStatus = aadhaar?.verifyStatus;
 
-  const aadhaarVerifyStatus = aadhaarData?.verifyStatus;
-
-  const bankSlice = useSelector((state) => state.bank);
-  const [ifsc, setIfsc] = useState(bankData?.data?.ifsc);
-  const [accountNumber, setAccountNumber] = useState(
-    bankSlice?.data?.accountNumber
-  );
+  const [ifsc, setIfsc] = useState(bank?.data?.ifsc);
+  const [accountNumber, setAccountNumber] = useState(bank?.data?.accountNumber);
   const [accountHolderName, setAccountHolderName] = useState(
-    aadhaarData?.data.name || bankData?.data?.accountHolderName
+    aadhaar?.data.name || bank?.data?.accountHolderName
   );
-  const [upi, setUpi] = useState(bankData?.data?.upi);
+  const [upi, setUpi] = useState(bank?.data?.upi);
 
   useEffect(() => {
     dispatch(addAccountHolderName(accountHolderName));
@@ -146,6 +135,10 @@ const BankFormTemplate = (props) => {
             <BankVerifyApi
               disabled={!ifscNext || !accNumNext || !accountHolderName}
               type={props?.route?.params?.type || ""}
+              accountNumber={accountNumber}
+              accountHolderName={accountHolderName}
+              ifsc={ifsc}
+              upi={upi}
             />
             <ShieldTitle title={"All your details are safe with us"} />
           </View>

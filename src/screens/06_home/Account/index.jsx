@@ -22,11 +22,13 @@ import LogoutModal from "../../../components/organisms/LogoutModal";
 import ListItem from "../../../components/atoms/ListItem";
 import whatsappLinking from "../../../helpers/WhatsappLinking";
 import Profile from "../../../assets/Profile.svg";
-import AboutUs from "../../../assets/AboutUs.svg";
+import Payslip from "../../../assets/Payslip.svg";
 import CustomerSupport from "../../../assets/CustomerSupport.svg";
 import Kyc from "../../../assets/Kyc.svg";
+import AboutUs from "../../../assets/AboutUs.svg";
 import Logout from "../../../assets/Logout.svg";
 import InfoCard from "../../../components/atoms/InfoCard";
+import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
 
 const AccountMenu = (props) => {
   const dispatch = useDispatch();
@@ -39,30 +41,30 @@ const AccountMenu = (props) => {
 
   const [kycCompleted, setKycCompleted] = useState(false);
 
-  const profileComplete = useSelector((state) => state.profile.profileComplete);
-  const aadhaarVerifyStatus = useSelector(
-    (state) => state.aadhaar.verifyStatus
-  );
-  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
-  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
+  const {
+    isAadhaarSuccess,
+    isPanSuccess,
+    isBankSuccess,
+    isProfileSuccess,
+    profile,
+    aadhaar,
+    pan,
+    bank,
+  } = kycData ?? {};
+
   useEffect(() => {
-    if (
-      profileComplete &&
-      aadhaarVerifyStatus == "SUCCESS" &&
-      panVerifyStatus == "SUCCESS" &&
-      bankVerifyStatus == "SUCCESS"
-    ) {
+    if (isAadhaarSuccess && isPanSuccess && isBankSuccess && isProfileSuccess) {
       setKycCompleted(true);
     }
-  }, [profileComplete, aadhaarVerifyStatus, panVerifyStatus, bankVerifyStatus]);
+  }, [isAadhaarSuccess, isPanSuccess, isBankSuccess, isProfileSuccess]);
 
-  const image = useSelector((state) => state.aadhaar?.data?.photo_base64);
-  const name = useSelector(
-    (state) =>
-      state.aadhaar.data?.name ||
-      state.pan.data?.name ||
-      state.auth.employeeName
-  );
+  const image = aadhaar?.data?.photo_base64;
+  console.log({ image });
+  const name = aadhaar.data?.name || pan.data?.name || auth.employeeName;
 
   const backAction = () => {
     navigation.navigate("HomeStack", {
@@ -94,10 +96,10 @@ const AccountMenu = (props) => {
       route: { stack: "AccountStack", screen: "Profile" },
     },
     {
-      title: "KYC",
-      subtitle: "All your KYC details in one place",
-      imageUri: <Kyc />,
-      route: { stack: "AccountStack", screen: "KYC" },
+      title: "Payslips",
+      subtitle: "View and dpownload payslips",
+      imageUri: <Payslip />,
+      route: { stack: "AccountStack", screen: "Profile" },
     },
     {
       title: "KYC",
@@ -105,6 +107,7 @@ const AccountMenu = (props) => {
       imageUri: <Kyc />,
       route: { stack: "AccountStack", screen: "KYC" },
     },
+
     // {
     //   title: "Mandate",
     //   subtitle: "Mandate is required for availing advance salary",
@@ -128,13 +131,13 @@ const AccountMenu = (props) => {
     {
       title: "Terms & Conditions",
       subtitle: "Read our terms of use",
-      imageUri: <Profile />,
+      imageUri: <AboutUs />,
       action: () => setIsTermsOfUseModalVisible(true),
     },
     {
       title: "Privacy Policy",
       subtitle: "Read our privacy policy",
-      imageUri: <Profile />,
+      imageUri: <AboutUs />,
       action: () => setIsPrivacyModalVisible(true),
     },
     {

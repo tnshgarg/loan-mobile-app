@@ -2,7 +2,6 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect } from "react";
 import { Alert, BackHandler, SafeAreaView } from "react-native";
 import Header from "../../components/atoms/Header";
-import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import { styles } from "../../styles";
 import ProfileFormTemplate from "../../templates/profile/Form";
 import LogoHeader from "../../components/atoms/LogoHeader";

@@ -27,6 +27,10 @@ import OtpInput from "../../components/molecules/OtpInput";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import BackgroundTimer from "react-native-background-timer";
 import { showToast } from "../../components/atoms/Toast";
+import {
+  useGetKycQuery,
+  useLazyGetKycQuery,
+} from "../../store/apiSlices/kycApi";
 
 const OTPScreen = () => {
   const dispatch = useDispatch();
@@ -42,13 +46,7 @@ const OTPScreen = () => {
   const countDownTime = useSelector((state) => state.timer.login);
   const phoneNumber = useSelector((state) => state.auth.phoneNumber);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-
-  const profileComplete = useSelector((state) => state.profile.profileComplete);
-  const aadhaarVerifyStatus = useSelector(
-    (state) => state.aadhaar.verifyStatus
-  );
-  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
-  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
+  const [trigger, result, lastPromiseInfo] = useLazyGetKycQuery();
 
   const [kycCompleted, setKycCompleted] = useState(false);
 
@@ -60,16 +58,11 @@ const OTPScreen = () => {
 
   let interval;
 
-  useEffect(() => {
-    if (
-      profileComplete &&
-      aadhaarVerifyStatus == "SUCCESS" &&
-      panVerifyStatus == "SUCCESS" &&
-      bankVerifyStatus == "SUCCESS"
-    ) {
-      setKycCompleted(true);
-    }
-  }, [profileComplete, aadhaarVerifyStatus, panVerifyStatus, bankVerifyStatus]);
+  // useEffect(() => {
+  //   if (isAadhaarSuccess && isPanSuccess && isBankSuccess && isProfileSuccess) {
+  //     setKycCompleted(true);
+  //   }
+  // }, [isAadhaarSuccess, isPanSuccess, isBankSuccess, isProfileSuccess]);
 
   useEffect(() => {
     interval = BackgroundTimer.setInterval(() => {
@@ -134,7 +127,8 @@ const OTPScreen = () => {
     postGenerateOtp(phoneNumber)
       .unwrap()
       .then((res) => {
-        console.log(res);
+        console.log({ res });
+
         setOtp("");
         setBack(false);
         analytics().logEvent("OTPScreen_SendSms_Success", {
@@ -168,8 +162,14 @@ const OTPScreen = () => {
         // TODO: Verify Response
         console.log({ res });
         dispatch(addToken(res["token"]));
+        trigger(res?.employeeDetails?.unipeEmployeeId, false)
+          .then(({ data }) =>
+            navigation.navigate(
+              data?.kycCompleted ? "HomeStack" : "LoginSuccess"
+            )
+          )
+          .catch((err) => console.log(err));
         setVerified(true);
-        navigation.navigate(kycCompleted ? "HomeStack" : "LoginSuccess");
 
         analytics().logEvent("OTPScreen_Check_Success", {
           unipeEmployeeId: unipeEmployeeId,

@@ -17,7 +17,7 @@ const CmsColumn = ({ children, title, subtitle }) => {
         </View>
       ))}
 
-      <View style={[styles.col, { paddingLeft: 10 }]}>
+      <View style={[styles.col, { paddingLeft: 10, flex: 1.15 }]}>
         <Text style={{ ...FONTS.body2, color: COLORS.black }}>{title}</Text>
         <Text style={{ ...FONTS.body3, color: COLORS.black }}>{subtitle}</Text>
       </View>
@@ -49,7 +49,7 @@ const styles = EStyleSheet.create({
   col: {
     flexDirection: "column",
     flex: 1,
-    alignItems: "flex-start",
+    // alignItems: "flex-start",
   },
 });
 

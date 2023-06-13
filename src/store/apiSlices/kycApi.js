@@ -27,4 +27,4 @@ export const kycApi = api
     overrideExisting: true,
   });
 
-export const { useGetKycQuery } = kycApi;
+export const { useGetKycQuery, useLazyGetKycQuery } = kycApi;

@@ -7,7 +7,10 @@ import { showToast } from "../../components/atoms/Toast";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { useUpdateBankMutation } from "../../store/apiSlices/bankApi";
+import {
+  useGetBankQuery,
+  useUpdateBankMutation,
+} from "../../store/apiSlices/bankApi";
 import { addOnboarded } from "../../store/slices/authSlice";
 import { addVerifyStatus } from "../../store/slices/bankSlice";
 import { form, styles } from "../../styles";
@@ -17,12 +20,20 @@ const BankConfirmApi = (props) => {
   const navigation = useNavigation();
 
   const token = useSelector((state) => state.auth.token);
+
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const { data: bankData, isLoading: loading } = useGetBankQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: 1000 * 60 * 60 * 24,
+    }
+  );
+  const { data, number, verifyStatus } = bankData ?? {};
+
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
-  const data = useSelector((state) => state.bank.data);
-  console.log({ data });
+
   const [updateBank] = useUpdateBankMutation();
   const backendPush = async ({ verifyStatus }) => {
     dispatch(addVerifyStatus(verifyStatus));

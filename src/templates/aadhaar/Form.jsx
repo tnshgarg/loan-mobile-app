@@ -10,6 +10,8 @@ import InfoCard from "../../components/atoms/InfoCard";
 import FormInput from "../../components/atoms/FormInput";
 import { COLORS, FONTS } from "../../constants/Theme";
 import HelpCard from "../../components/atoms/HelpCard";
+import { useGetAadhaarQuery } from "../../store/apiSlices/aadhaarApi";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 
 const AadhaarFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -17,8 +19,14 @@ const AadhaarFormTemplate = (props) => {
 
   const [validNumber, setValidNumber] = useState(true);
 
-  const aadhaarSlice = useSelector((state) => state.aadhaar);
-  const [number, setNumber] = useState(aadhaarSlice?.number);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
+  const { aadhaar } = kycData ?? {};
+
+  const [number, setNumber] = useState(aadhaar?.number);
 
   useEffect(() => {
     let aadhaarReg = /^\d{12}$/gm;
@@ -45,7 +53,7 @@ const AadhaarFormTemplate = (props) => {
           numeric
           appendComponent={
             <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
-              {number.length}/12
+              {number?.length}/12
             </Text>
           }
         />
@@ -62,6 +70,7 @@ const AadhaarFormTemplate = (props) => {
         <AadhaarOtpApi
           disabled={!validNumber}
           type={props?.route?.params?.type || ""}
+          number={number}
         />
       </View>
     </SafeAreaView>

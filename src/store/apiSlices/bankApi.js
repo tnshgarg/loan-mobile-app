@@ -18,6 +18,7 @@ export const bankApi = api
           method: "POST",
           body: body,
         }),
+        invalidatesTags: ["getKycStatus"],
         transformResponse: (response) => response.response,
         transformErrorResponse: (error) => {
           console.log({ error });
@@ -30,6 +31,7 @@ export const bankApi = api
           method: "POST",
           body: body,
         }),
+        invalidatesTags: ["getKycStatus"],
         transformResponse: (response) => response.response,
       }),
     }),

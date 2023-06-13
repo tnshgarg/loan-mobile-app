@@ -106,13 +106,6 @@ const LoginSuccess = () => {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
-  const profileComplete = useSelector((state) => state.profile.profileComplete);
-  const aadhaarVerifyStatus = useSelector(
-    (state) => state.aadhaar.verifyStatus
-  );
-  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
-  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
-
   return (
     <SafeAreaView accessibilityLabel="WelcomePage" style={styles.safeContainer}>
       {/* <LogoHeaderBack onRightIconPress={() => setVisible(true)} /> */}

@@ -59,8 +59,12 @@ const LogoHeader = ({
           <EmptyView />
         )}
       </View>
-      {headline && <Text style={styles.headline}>{headline}</Text>}
-      {subHeadline && <Text style={styles.subHeadline}>{subHeadline}</Text>}
+      {headline || subHeadline ? (
+        <View style={styles.belowContainer}>
+          {headline && <Text style={styles.headline}>{headline}</Text>}
+          {subHeadline && <Text style={styles.subHeadline}>{subHeadline}</Text>}
+        </View>
+      ) : null}
     </View>
   );
 };
@@ -69,19 +73,26 @@ export default LogoHeader;
 
 const styles = EStyleSheet.create({
   mainContainer: {
-    backgroundColor: COLORS.headerBg,
     flexDirection: "column",
-    padding: "20rem",
-    paddingVertical: "10rem",
-    borderBottomLeftRadius: "10rem",
-    borderBottomRightRadius: "10rem",
-    // paddingHorizontal: "15rem",
   },
   container: {
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    backgroundColor: COLORS.headerBg,
+    paddingHorizontal: "20rem",
+    paddingVertical: "10rem",
+  },
+  belowContainer: {
+    backgroundColor: COLORS.headerBg,
+    flexDirection: "column",
+    paddingHorizontal: "20rem",
+    paddingBottom: "10rem",
+
+    alignItems: "flex-start",
+    borderBottomLeftRadius: "10rem",
+    borderBottomRightRadius: "10rem",
   },
   empty: { backgroundColor: "transparent", height: "32rem", width: "32rem" },
   logo: {
@@ -91,7 +102,6 @@ const styles = EStyleSheet.create({
   headline: {
     ...FONTS.body2,
     color: COLORS.secondary,
-    marginTop: "20rem",
   },
   subHeadline: {
     ...FONTS.body3,

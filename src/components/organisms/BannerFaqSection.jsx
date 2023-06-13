@@ -20,6 +20,7 @@ import Tick from "../../assets/Tick.svg";
 import CollapsibleItem from "../atoms/CollapsibleItem";
 import VideoPlayer from "./VideoPlayer";
 import HelpFooter from "../atoms/HelpFooter";
+import LinearGradient from "react-native-linear-gradient";
 
 const BannerFaqSection = ({ visible, setVisible, data }) => {
   const {
@@ -36,208 +37,70 @@ const BannerFaqSection = ({ visible, setVisible, data }) => {
     badgeTitle,
   } = data;
 
+  console.log({ btnText });
+
   return (
     <Modal animationType="slide" visible={visible}>
       <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
         <LogoHeaderBack
-          title={heading}
-          titleStyle={{ ...FONTS.body3 }}
-          containerStyle={{
-            borderBottomLeftRadius: 0,
-            borderBottomRightRadius: 0,
-          }}
+          headline={"What are the benefits of completing KYC?"}
+          // subHeadline={
+          //   "भारतीय रिजर्व बैंक के मानदंडों के अनुसार, आपको अपना आधार वेरीफाई करना अनिवार्य है।"
+          // }
           onLeftIconPress={() => setVisible(false)}
+          // onRightIconPress={() => setVisible(true)}
         />
         <ScrollView>
           <View style={styles.modalContainer}>
-            <View
-              style={{
-                flexDirection: "row",
-                width: "100%",
-                alignItems: "center",
-              }}
-            >
-              <Image
-                style={{
-                  height: 120,
-                  width: 120,
-                  marginRight: 15,
-                }}
-                resizeMode="contain"
-                source={headingImage}
-              />
-
-              <View style={{ flexDirection: "column", flex: 1 }}>
-                <Text style={{ ...FONTS.h2, color: COLORS.secondary }}>
-                  {title}
-                </Text>
-                <Text
-                  style={{
-                    ...FONTS.body3,
-                    color: COLORS.secondary,
-                    // marginTop: 5,
-                  }}
-                >
-                  {subtitle}
-                </Text>
-              </View>
-            </View>
-
-            {keyPoints && (
+            {steps?.map((item, index) => (
               <View
-                style={{
-                  width: "100%",
-                  justifyContent: "center",
-                  flexDirection: "row",
-                  marginTop: 20,
-                  marginBottom: 10,
-                }}
+                style={[
+                  styles.row,
+                  { flexDirection: index % 2 == 1 ? "row-reverse" : "row" },
+                ]}
               >
-                {keyPoints.map((item, index) => (
-                  <View
-                    key={index}
-                    style={{
-                      flex: 1,
-                      alignItems: "center",
-                      justifyContent: "flex-start",
-                    }}
-                  >
-                    <SvgContainer height={20} width={20}>
-                      <Tick />
-                    </SvgContainer>
-                    <Text
-                      style={{
-                        ...FONTS.body3,
-                        color: COLORS.secondary,
-                        textAlign: "center",
-                        width: "80%",
-                        alignSelf: "center",
-                        marginTop: 10,
-                      }}
-                    >
-                      {item.title}
-                    </Text>
-                  </View>
-                ))}
-              </View>
-            )}
+                {headingImage && (
+                  <Image style={styles.headingImage} source={headingImage} />
+                )}
 
-            <VideoPlayer
-              thumbnail={{
-                uri: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
-              }}
-            />
-
-            {/* <Text
-              style={{
-                ...FONTS.body2,
-                color: COLORS.secondary,
-                marginTop: 15,
-              }}
-            >
-              {stepsTitle}
-            </Text>
-            <Text
-              style={{
-                ...FONTS.body3,
-                color: COLORS.secondary,
-                marginBottom: 10,
-              }}
-            >
-              {stepsSubtitle}
-            </Text> */}
-
-            {steps.map((item, index) => (
-              <View
-                key={index}
-                style={{
-                  width: "100%",
-                  justifyContent: "center",
-                  flexDirection: "column",
-                  marginVertical: 20,
-                }}
-              >
-                <View
-                  style={{
-                    flexDirection: "row",
-                    width: "100%",
-                    alignItems: "center",
-                  }}
-                >
-                  <Badge
-                    text={
-                      badgeTitle
-                        ? `${badgeTitle} ${index + 1}`
-                        : `STEP ${index + 1}`
-                    }
-                  />
-                  <Text
-                    style={{
-                      ...FONTS.body2,
-                      color: COLORS.secondary,
-                      marginLeft: 10,
-                    }}
-                  >
-                    {item.title}
+                <View style={styles.col}>
+                  <Text style={styles.title}>What is KYC?</Text>
+                  <Text style={styles.subtitle}>
+                    KYC (Know Your Customer) is a mandatory process of
+                    identifying and verifying the employee’s identity while
+                    offering features like advance salrary.
                   </Text>
                 </View>
-                <Text
-                  style={{
-                    ...FONTS.body3,
-                    color: COLORS.secondary,
-                    marginTop: 5,
-                    marginBottom: 15,
-                  }}
-                >
-                  {item.subtitle}
-                </Text>
-                {item.imageUri && (
-                  <Image
-                    source={item.imageUri}
-                    style={{
-                      height: 200,
-                      width: "100%",
-                    }}
-                    resizeMode="cover"
-                  />
-                )}
               </View>
             ))}
-            <Text
+            <LinearGradient
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              colors={[COLORS.lightGreen, COLORS.lightYellow]}
               style={{
-                ...FONTS.h2,
-                color: COLORS.secondary,
-                marginVertical: 10,
+                padding: 15,
+                width: "120%",
               }}
             >
-              Frequently Asked Questions
-            </Text>
+              <Text
+                style={[
+                  styles.title,
+                  { ...FONTS.body4, color: COLORS.gray, marginBottom: 0 },
+                ]}
+              >
+                FAQs
+              </Text>
+            </LinearGradient>
+
             {questions.map((item, index) => (
-              <CollapsibleItem item={item} key={index} />
+              <CollapsibleItem
+                item={item}
+                key={index}
+                titleStyle={{ ...FONTS.body3 }}
+              />
             ))}
           </View>
-          <HelpFooter />
         </ScrollView>
-        {btnText && (
-          <View
-            style={{
-              paddingHorizontal: 15,
-              paddingVertical: 10,
-              backgroundColor: COLORS.white,
-              borderTopWidth: 1,
-              borderColor: COLORS.lightGray,
-            }}
-          >
-            <PrimaryButton
-              title={btnText}
-              onPress={() => {
-                setVisible(false);
-              }}
-              titleStyle={{ ...FONTS.h3 }}
-              containerStyle={{ marginTop: 0 }}
-            />
-          </View>
-        )}
       </SafeAreaView>
     </Modal>
   );
@@ -247,30 +110,55 @@ const styles = EStyleSheet.create({
   modalContainer: {
     backgroundColor: "$white",
     flex: 1,
-    padding: "20rem",
 
     flexDirection: "column",
   },
-  iconContainer: {
-    padding: "15rem",
-    borderRadius: SIZES.width * 0.2,
-    backgroundColor: COLORS.warningBackground,
-    //alignSelf: "center",
+  headingImage: {
+    height: "120rem",
+    width: "120rem",
+    marginRight: "15rem",
+    resizeMode: "contain",
   },
   title: {
-    ...FONTS.h3,
+    ...FONTS.body3,
     color: COLORS.secondary,
-    textAlign: "center",
-    //width: "70%",
-    marginTop: "20rem",
+    marginBottom: 5,
   },
   subtitle: {
     ...FONTS.body4,
-    color: COLORS.gray,
-    marginBottom: "20rem",
-    //textAlign: "center",
-    //width: "70%",
+    color: COLORS.secondary,
   },
+  row: {
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
+    padding: "20rem",
+  },
+  col: { flexDirection: "column", flex: 1 },
+  pointsContainer: {
+    width: "100%",
+    justifyContent: "center",
+    flexDirection: "row",
+    marginTop: "20rem",
+    marginBottom: "10rem",
+  },
+  pointsTitle: {
+    ...FONTS.body3,
+    color: COLORS.secondary,
+    textAlign: "center",
+    width: "80%",
+    alignSelf: "center",
+    marginTop: "10rem",
+  },
+  flexCenter: { flex: 1, alignItems: "center", justifyContent: "flex-start" },
+  btnContainer: {
+    paddingHorizontal: "15rem",
+    paddingVertical: "10rem",
+    backgroundColor: COLORS.white,
+    borderTopWidth: 1,
+    borderColor: COLORS.lightGray,
+  },
+  stepImage: { height: "180rem", width: "100%", marginVertical: "10rem" },
 });
 
 export default BannerFaqSection;

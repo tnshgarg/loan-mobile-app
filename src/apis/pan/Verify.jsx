@@ -4,8 +4,12 @@ import { useState } from "react";
 import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { useVerifyPanMutation } from "../../store/apiSlices/panApi";
+import {
+  useGetPanQuery,
+  useVerifyPanMutation,
+} from "../../store/apiSlices/panApi";
 import { addVerifyStatus } from "../../store/slices/panSlice";
+import { showToast } from "../../components/atoms/Toast";
 
 const PanVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -14,18 +18,17 @@ const PanVerifyApi = (props) => {
   const [loading, setLoading] = useState(false);
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const token = useSelector((state) => state.auth.token);
-  const panSlice = useSelector((state) => state.pan);
+
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
   const [verifyPan] = useVerifyPanMutation();
   const goForFetch = () => {
     setLoading(true);
-    console.log("panSlice: ", panSlice);
+
     const data = {
       unipeEmployeeId: unipeEmployeeId,
-      panNumber: panSlice?.number,
+      panNumber: props.number,
       campaignId: campaignId,
       provider: "ongrid",
     };
@@ -48,12 +51,13 @@ const PanVerifyApi = (props) => {
       .catch((error) => {
         console.log("kyc/pan-fetch-details error: ", error);
         dispatch(addVerifyStatus("ERROR"));
-        Alert.alert("fetchPanDetails API Catch Error", error.message);
+        // Alert.alert("fetchPanDetails API Catch Error", error.message);
+        showToast(error?.data?.error?.message, "error");
         analytics().logEvent("Pan_Verify_Error", {
           unipeEmployeeId: unipeEmployeeId,
           error: `fetchPanDetails API Catch Error: ${
             error.message
-          }, ${JSON.stringify(res)}`,
+          }, ${JSON.stringify(error)}`,
         });
         setLoading(false);
       });

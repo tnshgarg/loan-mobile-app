@@ -11,7 +11,10 @@ import {
 } from "../../store/slices/bankSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import Analytics from "appcenter-analytics";
-import { useVerifyBankMutation } from "../../store/apiSlices/bankApi";
+import {
+  useGetBankQuery,
+  useVerifyBankMutation,
+} from "../../store/apiSlices/bankApi";
 import { showToast } from "../../components/atoms/Toast";
 import analytics from "@react-native-firebase/analytics";
 import { putBackendData } from "../../services/employees/employeeServices";
@@ -23,22 +26,20 @@ const BankVerifyApi = (props) => {
   const [loading, setLoading] = useState(false);
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const token = useSelector((state) => state.auth.token);
 
-  const bankSlice = useSelector((state) => state.bank);
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
   const [verifyBank] = useVerifyBankMutation();
   const goForFetch = () => {
     setLoading(true);
-    console.log("bankSlice: ", bankSlice);
+
     const data = {
       unipeEmployeeId: unipeEmployeeId,
-      accountHolderName: bankSlice?.data?.accountHolderName,
-      accountNumber: bankSlice?.data?.accountNumber,
-      ifsc: bankSlice?.data?.ifsc,
-      upi: bankSlice?.data?.upi,
+      accountHolderName: props.accountHolderName,
+      accountNumber: props.accountNumber,
+      ifsc: props.ifsc,
+      upi: props.upi,
       campaignId: campaignId,
       provider: "ongrid",
     };

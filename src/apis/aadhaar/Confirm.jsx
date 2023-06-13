@@ -9,6 +9,7 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import { useUpdateAadhaarMutation } from "../../store/apiSlices/aadhaarApi";
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -19,8 +20,19 @@ const AadhaarConfirmApi = (props) => {
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
-  const data = useSelector((state) => state.aadhaar.data);
-  const number = useSelector((state) => state.aadhaar.number);
+
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
+
+  console.log({ kycData });
+
+  const { aadhaar, pan, bank } = kycData ?? {};
+
+  const { data, number } = aadhaar ?? {};
+
+  console.log({ aadhaar });
+
   const [updateAadhaar] = useUpdateAadhaarMutation();
   const backendPush = async ({ verifyStatus }) => {
     dispatch(addVerifyStatus(verifyStatus));
@@ -77,7 +89,7 @@ const AadhaarConfirmApi = (props) => {
       <DetailsCard
         data={cardData()}
         imageUri={{
-          uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
+          uri: `data:image/jpeg;base64,${data?.["photo_base64"]}`,
           cache: "only-if-cached",
         }}
         type={"Aadhaar"}

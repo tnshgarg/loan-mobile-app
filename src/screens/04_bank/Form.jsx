@@ -2,13 +2,14 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
+
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import BankFormTemplate from "../../templates/bank/Form";
 import Header from "../../components/atoms/Header";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import HelpSection from "../../components/organisms/HelpSection";
+import { useGetPanQuery } from "../../store/apiSlices/panApi";
 
 const BankForm = () => {
   const bankData = {
@@ -49,8 +50,11 @@ const BankForm = () => {
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
-  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const { data: panData } = useGetPanQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
+  const { verifyStatus } = panData ?? {};
 
   useEffect(() => {
     dispatch(addCurrentScreen("BankForm"));
@@ -65,7 +69,7 @@ const BankForm = () => {
         {
           text: "Yes",
           onPress: () => {
-            panVerifyStatus === "SUCCESS"
+            verifyStatus === "SUCCESS"
               ? navigation.navigate("PanConfirm")
               : navigation.navigate("PanForm");
           },

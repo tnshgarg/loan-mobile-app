@@ -5,15 +5,14 @@ import { COLORS } from "../../constants/Theme";
 import VideoPlayer from "../organisms/VideoPlayer";
 
 const CmsVideo = ({ title, subtitle, thumbnail }) => {
+  console.log({ thumbnail });
   return (
-    <View style={styles.container}>
-      <VideoPlayer
-        size={"small"}
-        thumbnail={{
-          uri: thumbnail,
-        }}
-      />
-    </View>
+    <VideoPlayer
+      size={"small"}
+      thumbnail={{
+        uri: thumbnail,
+      }}
+    />
   );
 };
 
@@ -22,12 +21,6 @@ const styles = EStyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    // flex: 1,
-    borderRadius: "10rem",
-    // padding: "15rem",
-    flexDirection: "row",
-    zIndex: 99,
-    backgroundColor: COLORS.black,
   },
   row: {
     flexDirection: "row",

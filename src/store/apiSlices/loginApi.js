@@ -23,6 +23,7 @@ export const loginApi = api.injectEndpoints({
         headers: { "X-Unipe-App-Version": getVersion() },
         body: body,
       }),
+      invalidatesTags: ["getKycStatus"],
       transformResponse: (response) => {
         console.log("response", response);
         return response;

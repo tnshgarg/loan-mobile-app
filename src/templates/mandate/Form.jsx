@@ -56,6 +56,7 @@ const MandateFormTemplate = (props) => {
   const { aadhaar, pan, bank, profile } = kycData ?? {};
 
   const email = profile?.email || pan?.data?.email;
+  console.log({ bank });
 
   const { accountHolderName, accountNumber, ifsc, bankName } = bank?.data ?? {};
 
@@ -112,7 +113,7 @@ const MandateFormTemplate = (props) => {
     if (fetched && props?.type === "EWA" && verifyStatus === "SUCCESS") {
       showToast("Mandate verified successfully", "success");
       setModalVisible(false);
-      navigation.navigate("EWA_AGREEMENT");
+      navigation.navigate("HomeStack");
     } else if (fetched && props?.type === "EWA" && verifyStatus === "ERROR") {
       showToast("Mandate verification error", "warning");
       setModalVisible(false);
@@ -279,7 +280,7 @@ const MandateFormTemplate = (props) => {
     ];
   };
 
-  const lastDigitsAccount = accountNumber.slice(0, 4);
+  const lastDigitsAccount = accountNumber?.slice(0, 4);
 
   return (
     <SafeAreaView style={styles.safeContainer}>

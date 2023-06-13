@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import { Alert, SafeAreaView, BackHandler } from "react-native";
-import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
+
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import AadhaarVerifyTemplate from "../../templates/aadhaar/Verify";

@@ -108,8 +108,8 @@ const styles = EStyleSheet.create({
     marginVertical: "10rem",
   },
   smallThumbnailContainer: {
-    width: "45%",
-    height: "70rem",
+    //width: "45%",
+    height: "90rem",
   },
   childText: {
     ...FONTS.body5,

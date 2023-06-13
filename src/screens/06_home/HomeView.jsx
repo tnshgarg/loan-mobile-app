@@ -40,6 +40,7 @@ import CmsRoot from "../../components/cms/CmsRoot";
 import remoteConfig from "@react-native-firebase/remote-config";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import HelpSection from "../../components/organisms/HelpSection";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 
 const HomeView = () => {
   const aadhaarData = {
@@ -84,14 +85,24 @@ const HomeView = () => {
   const isFocused = useIsFocused();
   const navigation = useNavigation();
 
-  const aadhaarVerifyStatus = useSelector(
-    (state) => state.aadhaar.verifyStatus
-  );
-  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
-  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
   const { unipeEmployeeId, token, onboarded } = useSelector(
     (state) => state.auth
   );
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
+  const {
+    isAadhaarSuccess,
+    isPanSuccess,
+    isBankSuccess,
+    isProfileSuccess,
+    profile,
+    aadhaar,
+    pan,
+    bank,
+  } = kycData ?? {};
+  console.log({ kycData });
+
   const {
     data: cmsData,
     isLoading: cmsLoading,
@@ -104,12 +115,7 @@ const HomeView = () => {
 
   const [fetched, setFetched] = useState(false);
 
-  const name = useSelector(
-    (state) =>
-      state.aadhaar.data?.name ||
-      state.pan.data?.name ||
-      state.auth.employeeName
-  );
+  const name = aadhaar?.data?.name || pan?.data?.name || auth?.employeeName;
 
   // const panMisMatch = useSelector((state) => state.pan.misMatch);
   // const bankMisMatch = useSelector((state) => state.bank.misMatch);
@@ -123,22 +129,6 @@ const HomeView = () => {
 
   // console.log(cmsData.home);
   console.log("HomeView onboardingCampaignId : ", onboardingCampaignId);
-  const verifyStatuses = [
-    aadhaarVerifyStatus != "SUCCESS"
-      ? { label: "Verify AADHAAR", value: "AADHAAR" }
-      : null,
-    panVerifyStatus != "SUCCESS" ? { label: "Verify PAN", value: "PAN" } : null,
-    bankVerifyStatus != "SUCCESS"
-      ? { label: "Verify Bank Account", value: "BANK" }
-      : null,
-  ];
-
-  // useEffect(() => {
-  //   // PushNotification.deleteChannel("Onboarding");
-  //   if (allAreNull(verifyStatuses)) {
-  //     PushNotification.cancelAllLocalNotifications();
-  //   }
-  // }, [aadhaarVerifyStatus, bankVerifyStatus, panVerifyStatus]);
 
   useEffect(() => {
     dispatch(addCurrentStack("HomeStack"));

@@ -15,6 +15,11 @@ export default DevMenu = () => {
       screen: "ProfileForm",
     },
     {
+      title: "KycProgress",
+      stack: "KycProgress",
+    },
+
+    {
       title: "AADHAAR",
       stack: "EWAStack",
       name: "EWA_KYC_STACK",

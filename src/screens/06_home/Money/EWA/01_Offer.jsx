@@ -47,9 +47,12 @@ const Offer = () => {
       state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
   );
 
-  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 60 * 24,
-  });
+  const { data: kycData, refetch: refetchKycData } = useGetKycQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: 1000 * 60 * 60 * 24,
+    }
+  );
   const { aadhaar, pan, bank, profile } = kycData ?? {};
   console.log({ kycData });
 
@@ -134,33 +137,38 @@ const Offer = () => {
   };
 
   const handleConditionalNav = () => {
-    console.log(
-      profile?.profileComplete,
-      aadhaar?.verifyStatus,
-      pan?.verifyStatus,
-      bank?.verifyStatus,
-      onboarded
-    );
-    if (!profile?.profileComplete) {
-      navigation.navigate("EWA_KYC_STACK", { screen: "ProfileForm" });
-    } else if (aadhaar.verifyStatus === "INPROGRESS_OTP") {
-      navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarVerify" });
-    } else if (aadhaar.verifyStatus === "INPROGRESS_CONFIRMATION") {
-      navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarConfirm" });
-    } else if (aadhaar.verifyStatus != "SUCCESS") {
-      navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarForm" });
-    } else if (pan.verifyStatus === "INPROGRESS_CONFIRMATION") {
-      navigation.navigate("EWA_KYC_STACK", { screen: "PanConfirm" });
-    } else if (pan.verifyStatus != "SUCCESS") {
-      navigation.navigate("EWA_KYC_STACK", { screen: "PanForm" });
-    } else if (bank.verifyStatus === "INPROGRESS_CONFIRMATION") {
-      navigation.navigate("EWA_KYC_STACK", { screen: "BankConfirm" });
-    } else if (bank.verifyStatus != "SUCCESS") {
-      navigation.navigate("EWA_KYC_STACK", { screen: "BankForm" });
-    } else if (!onboarded) {
-      //TODO: onboarded logic
-      navigation.navigate("EWA_KYC");
-    }
+    refetchKycData()
+      .then((res) => {
+        console.log(
+          profile?.profileComplete,
+          aadhaar?.verifyStatus,
+          pan?.verifyStatus,
+          bank?.verifyStatus,
+          onboarded
+        );
+        if (!profile?.profileComplete) {
+          navigation.navigate("EWA_KYC_STACK", { screen: "ProfileForm" });
+        } else if (aadhaar.verifyStatus === "INPROGRESS_OTP") {
+          navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarVerify" });
+        } else if (aadhaar.verifyStatus === "INPROGRESS_CONFIRMATION") {
+          navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarConfirm" });
+        } else if (aadhaar.verifyStatus != "SUCCESS") {
+          navigation.navigate("EWA_KYC_STACK", { screen: "AadhaarForm" });
+        } else if (pan.verifyStatus === "INPROGRESS_CONFIRMATION") {
+          navigation.navigate("EWA_KYC_STACK", { screen: "PanConfirm" });
+        } else if (pan.verifyStatus != "SUCCESS") {
+          navigation.navigate("EWA_KYC_STACK", { screen: "PanForm" });
+        } else if (bank.verifyStatus === "INPROGRESS_CONFIRMATION") {
+          navigation.navigate("EWA_KYC_STACK", { screen: "BankConfirm" });
+        } else if (bank.verifyStatus != "SUCCESS") {
+          navigation.navigate("EWA_KYC_STACK", { screen: "BankForm" });
+        } else if (onboarded) {
+          //TODO: onboarded logic
+
+          navigation.navigate("EWA_KYC");
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   function handleAmount() {
@@ -171,7 +179,7 @@ const Offer = () => {
         unipeEmployeeId: unipeEmployeeId,
         status: "CONFIRMED",
         timestamp: Date.now(),
-        ipAddress: ipAddress,
+        // ipAddress: ipAddress,
         deviceId: deviceId,
         loanAmount: parseInt(loanAmount),
         campaignId: campaignId,

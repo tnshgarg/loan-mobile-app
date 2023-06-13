@@ -28,7 +28,9 @@ const InfoCard = ({ title, info, variant, containerStyle, infoStyle }) => {
           color={COLORS.gray}
         />
       </View>
-      <View style={{ flexDirection: "column", flex: 1 }}>
+      <View
+        style={{ flexDirection: "column", flex: 1, alignItems: "flex-start" }}
+      >
         {title && (
           <Text style={[styles.text, { color: COLORS.black, ...FONTS.body3 }]}>
             {title}
@@ -47,7 +49,11 @@ const InfoCard = ({ title, info, variant, containerStyle, infoStyle }) => {
         size={20}
         color={COLORS.primary}
       />
-      <Text style={styles.text}>{info}</Text>
+      <View
+        style={{ flexDirection: "column", flex: 1, alignItems: "flex-start" }}
+      >
+        <Text style={styles.text}>{info}</Text>
+      </View>
     </View>
   );
 };

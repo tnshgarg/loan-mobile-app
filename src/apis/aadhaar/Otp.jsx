@@ -6,9 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { showToast } from "../../components/atoms/Toast";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { useGenerateAadhaarOtpMutation } from "../../store/apiSlices/aadhaarApi";
+import {
+  useGenerateAadhaarOtpMutation,
+  useGetAadhaarQuery,
+} from "../../store/apiSlices/aadhaarApi";
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 
 const AadhaarOtpApi = (props) => {
   const dispatch = useDispatch();
@@ -17,7 +21,7 @@ const AadhaarOtpApi = (props) => {
   const [loading, setLoading] = useState(false);
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const aadhaarSlice = useSelector((state) => state.aadhaar);
+
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
@@ -25,14 +29,13 @@ const AadhaarOtpApi = (props) => {
   const [generateAadhaarOtp] = useGenerateAadhaarOtpMutation();
   const goForFetch = () => {
     setLoading(true);
-    console.log("aadhaarSlice: ", aadhaarSlice);
 
     if (props.isTextButton) {
       props.toggle(false); // setResend(false)
     }
     let data = {
       unipeEmployeeId: unipeEmployeeId,
-      aadhaarNumber: aadhaarSlice?.number,
+      aadhaarNumber: props.number,
       campaignId: campaignId,
       provider: "ongrid",
     };

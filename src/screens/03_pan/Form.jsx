@@ -2,13 +2,14 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, SafeAreaView, BackHandler } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
+
 import { styles } from "../../styles";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import PanFormTemplate from "../../templates/pan/Form";
 import Header from "../../components/atoms/Header";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import HelpSection from "../../components/organisms/HelpSection";
+import { useGetAadhaarQuery } from "../../store/apiSlices/aadhaarApi";
 
 export default PanForm = () => {
   const panData = {
@@ -55,13 +56,16 @@ export default PanForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
+  const { unipeEmployeeId } = useSelector((state) => state.auth);
+  const { data: aadhaarData } = useGetAadhaarQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
+
+  console.log({ aadhaarData });
+
   useEffect(() => {
     dispatch(addCurrentScreen("PanForm"));
   }, []);
-
-  const aadhaarVerifyStatus = useSelector(
-    (state) => state.aadhaar.verifyStatus
-  );
 
   const backAction = () => {
     Alert.alert(
@@ -72,7 +76,7 @@ export default PanForm = () => {
         {
           text: "Yes",
           onPress: () => {
-            aadhaarVerifyStatus === "SUCCESS"
+            aadhaarData?.verifyStatus === "SUCCESS"
               ? navigation.navigate("AadhaarConfirm")
               : navigation.navigate("AadhaarForm");
           },
@@ -95,6 +99,7 @@ export default PanForm = () => {
         subHeadline={
           "हमें आपका नाम और जन्मतिथि जांच करने के लिए आपके पैन की आवश्यकता है।"
         }
+        onLeftIconPress={backAction}
         onRightIconPress={() => setVisible(true)}
       />
 

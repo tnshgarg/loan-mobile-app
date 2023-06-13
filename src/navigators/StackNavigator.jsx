@@ -19,6 +19,7 @@ import { decode } from "react-native-pure-jwt";
 import LogoutModal from "../components/organisms/LogoutModal";
 import { useNavigation } from "@react-navigation/core";
 import KycProgress from "../screens/KycProgress";
+import LearnWithUs from "../screens/06_home/LearnWithUs";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -113,7 +114,7 @@ const StackNavigator = () => {
             />
             <Stack.Screen
               name="LearnWithUs"
-              component={BottomTabNav}
+              component={LearnWithUs}
               options={{
                 headerShown: false,
               }}

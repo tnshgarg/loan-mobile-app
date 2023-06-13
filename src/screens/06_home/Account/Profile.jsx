@@ -11,6 +11,10 @@ import LogoHeaderBack from "../../../components/molecules/LogoHeaderBack";
 import { COLORS, FONTS } from "../../../constants/Theme";
 import SvgContainer from "../../../components/atoms/SvgContainer";
 import Kyc from "../../../assets/Kyc.svg";
+import CustomerSupport from "../../../assets/CustomerSupport.svg";
+import AltMobile from "../../../assets/AltMobile.svg";
+import Education from "../../../assets/Education.svg";
+import MaritalStatus from "../../../assets/MaritalStatus.svg";
 
 const Profile = ({ navigation }) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -31,18 +35,22 @@ const Profile = ({ navigation }) => {
   const qualification = profile?.qualification;
 
   let res = [
-    { title: "Mobile Number", subtitle: mobile, imageUri: <Kyc /> },
+    { title: "Mobile Number", subtitle: mobile, imageUri: <CustomerSupport /> },
     {
       title: "Alternate Mobile Number",
       subtitle: alternateMobile,
-      imageUri: <Kyc />,
+      imageUri: <AltMobile />,
     },
     {
       title: "Educational Qualification",
       subtitle: qualification,
-      imageUri: <Kyc />,
+      imageUri: <Education />,
     },
-    { title: "Marital Status", subtitle: maritalStatus, imageUri: <Kyc /> },
+    {
+      title: "Marital Status",
+      subtitle: maritalStatus,
+      imageUri: <MaritalStatus />,
+    },
   ];
 
   const backAction = () => {
@@ -92,19 +100,17 @@ const Profile = ({ navigation }) => {
                 flexDirection: "row",
                 width: "100%",
                 alignItems: "center",
-                marginVertical: 10,
+                padding: 15,
               }}
             >
-              <SvgContainer height={42} width={42}>
+              <SvgContainer height={36} width={36}>
                 {item.imageUri}
               </SvgContainer>
               <View style={{ flexDirection: "column", paddingLeft: 15 }}>
                 <Text style={{ ...FONTS.body4, color: COLORS.gray }}>
                   {item.title}
                 </Text>
-                <Text
-                  style={{ ...FONTS.body3, color: COLORS.black, marginTop: 5 }}
-                >
+                <Text style={{ ...FONTS.body3, color: COLORS.black }}>
                   {item.subtitle}
                 </Text>
               </View>

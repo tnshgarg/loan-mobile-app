@@ -18,25 +18,23 @@ import { useNavigation } from "@react-navigation/core";
 import { useGetKycQuery } from "../store/apiSlices/kycApi";
 
 const KycProgress = () => {
-  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const profileComplete = useSelector((state) => state.profile.profileComplete);
-  const aadhaarVerifyStatus = useSelector(
-    (state) => state.aadhaar.verifyStatus
-  );
-  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
-  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
+  const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
   const navigation = useNavigation();
-  console.log({ aadhaarVerifyStatus });
-
-  console.log({ profileComplete });
 
   const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
     pollingInterval: 1000 * 60 * 60 * 24,
   });
 
   console.log({ kycData });
-  const { isAadhaarSuccess, isPanSuccess, isBankSuccess, isProfileSuccess } =
-    kycData ?? {};
+  const {
+    isAadhaarSuccess,
+    isPanSuccess,
+    isBankSuccess,
+    isProfileSuccess,
+    aadhaar,
+    pan,
+    bank,
+  } = kycData ?? {};
 
   const kycSteps = [
     {
@@ -66,56 +64,56 @@ const KycProgress = () => {
   ];
 
   const handleConditionalNav = () => {
-    if (!profileComplete) {
+    if (!isProfileSuccess) {
       navigation.navigate("EWAStack", {
         screen: "EWA_KYC_STACK",
         params: {
           screen: "ProfileForm",
         },
       });
-    } else if (aadhaarVerifyStatus === "INPROGRESS_OTP") {
+    } else if (aadhaar.verifyStatus === "INPROGRESS_OTP") {
       navigation.navigate("EWAStack", {
         screen: "EWA_KYC_STACK",
         params: {
           screen: "AadhaarVerify",
         },
       });
-    } else if (aadhaarVerifyStatus === "INPROGRESS_CONFIRMATION") {
+    } else if (aadhaar.verifyStatus === "INPROGRESS_CONFIRMATION") {
       navigation.navigate("EWAStack", {
         screen: "EWA_KYC_STACK",
         params: {
           screen: "AadhaarConfirm",
         },
       });
-    } else if (aadhaarVerifyStatus != "SUCCESS") {
+    } else if (aadhaar.verifyStatus != "SUCCESS") {
       navigation.navigate("EWAStack", {
         screen: "EWA_KYC_STACK",
         params: {
           screen: "AadhaarForm",
         },
       });
-    } else if (panVerifyStatus === "INPROGRESS_CONFIRMATION") {
+    } else if (pan.verifyStatus === "INPROGRESS_CONFIRMATION") {
       navigation.navigate("EWAStack", {
         screen: "EWA_KYC_STACK",
         params: {
           screen: "PanConfirm",
         },
       });
-    } else if (panVerifyStatus != "SUCCESS") {
+    } else if (pan.verifyStatus != "SUCCESS") {
       navigation.navigate("EWAStack", {
         screen: "EWA_KYC_STACK",
         params: {
           screen: "PanForm",
         },
       });
-    } else if (bankVerifyStatus === "INPROGRESS_CONFIRMATION") {
+    } else if (bank.verifyStatus === "INPROGRESS_CONFIRMATION") {
       navigation.navigate("EWAStack", {
         screen: "EWA_KYC_STACK",
         params: {
           screen: "BankConfirm",
         },
       });
-    } else if (bankVerifyStatus != "SUCCESS") {
+    } else if (bank.verifyStatus != "SUCCESS") {
       navigation.navigate("EWAStack", {
         screen: "EWA_KYC_STACK",
         params: {

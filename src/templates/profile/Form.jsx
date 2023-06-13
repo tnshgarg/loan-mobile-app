@@ -13,6 +13,7 @@ import { showToast } from "../../components/atoms/Toast";
 
 import { useUpdateProfileMutation } from "../../store/apiSlices/profileApi";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 
 const ProfileFormTemplate = ({ type }) => {
   const dispatch = useDispatch();
@@ -23,25 +24,30 @@ const ProfileFormTemplate = ({ type }) => {
   const [validAltMobile, setValidAltMobile] = useState(false);
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const profileSlice = useSelector((state) => state.profile);
-  const [maritalStatus, setMaritalStatus] = useState(
-    profileSlice?.maritalStatus
-  );
-  const [qualification, setQualification] = useState(
-    profileSlice?.qualification
-  );
-  const [altMobile, setAltMobile] = useState(profileSlice?.altMobile);
-  const [email, setEmail] = useState(profileSlice?.email);
-  const [motherName, setMotherName] = useState(profileSlice?.motherName);
+  console.log({ unipeEmployeeId });
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
+  const {
+    isAadhaarSuccess,
+    isPanSuccess,
+    isBankSuccess,
+    isProfileSuccess,
+    profile,
+    aadhaar,
+    pan,
+    bank,
+  } = kycData ?? {};
+  console.log({ kycData });
+
+  const [maritalStatus, setMaritalStatus] = useState(profile?.maritalStatus);
+  const [qualification, setQualification] = useState(profile?.qualification);
+  const [altMobile, setAltMobile] = useState(profile?.altMobile);
+  const [email, setEmail] = useState(profile?.email);
+  const [motherName, setMotherName] = useState(profile?.motherName);
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
-
-  const aadhaarVerifyStatus = useSelector(
-    (state) => state.aadhaar.verifyStatus
-  );
-  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
-  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
 
   const [updateProfile] = useUpdateProfileMutation();
 
@@ -64,15 +70,15 @@ const ProfileFormTemplate = ({ type }) => {
   }, [maritalStatus, qualification, motherName, validEmail, validAltMobile]);
 
   const handleConditionalNav = () => {
-    if (aadhaarVerifyStatus != "SUCCESS") {
+    if (aadhaar.verifyStatus != "SUCCESS") {
       navigation.navigate("KYC", {
         screen: "AADHAAR",
       });
-    } else if (panVerifyStatus != "SUCCESS") {
+    } else if (pan.verifyStatus != "SUCCESS") {
       navigation.navigate("KYC", {
         screen: "PAN",
       });
-    } else if (bankVerifyStatus != "SUCCESS") {
+    } else if (bank.verifyStatus != "SUCCESS") {
       navigation.navigate("KYC", {
         screen: "BANK",
       });
@@ -189,7 +195,7 @@ const ProfileFormTemplate = ({ type }) => {
             }
             appendComponent={
               <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
-                {altMobile.length}/10
+                {altMobile?.length}/10
               </Text>
             }
           />

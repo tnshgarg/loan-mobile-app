@@ -6,7 +6,10 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { useUpdatePanMutation } from "../../store/apiSlices/panApi";
+import {
+  useGetPanQuery,
+  useUpdatePanMutation,
+} from "../../store/apiSlices/panApi";
 import { addVerifyStatus } from "../../store/slices/panSlice";
 import { form, styles } from "../../styles";
 
@@ -19,8 +22,15 @@ const PanConfirmApi = (props) => {
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
-  const data = useSelector((state) => state.pan.data);
-  const number = useSelector((state) => state.pan.number);
+  const { data: panData, isLoading: loading } = useGetPanQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: 1000 * 60 * 60 * 24,
+    }
+  );
+  const { data, number, verifyStatus } = panData ?? {};
+  console.log({ data });
+
   const [updatePan] = useUpdatePanMutation();
 
   const backendPush = async ({ verifyStatus }) => {
@@ -70,7 +80,7 @@ const PanConfirmApi = (props) => {
       { subTitle: "Date of Birth", value: data?.date_of_birth },
       { subTitle: "Gender", value: data?.gender },
     ];
-    if (data["email"]) {
+    if (data?.["email"]) {
       res.push({ subTitle: "Email", value: data?.email, fullWidth: true });
     }
     return res;
@@ -80,7 +90,7 @@ const PanConfirmApi = (props) => {
     <View style={styles.container}>
       <DetailsCard data={cardData()} />
       <View style={[styles.row, { justifyContent: "space-between" }]}>
-        <FuzzyCheck name={data["name"]} step="PAN" />
+        <FuzzyCheck name={data?.["name"]} step="PAN" />
         <PrimaryButton
           title="Not Me"
           containerStyle={form.noButton}

@@ -31,6 +31,7 @@ const Mandate = ({ navigation }) => {
   const [verifyStatus, setVerifyStatus] = useState(
     mandateData?.body?.verifyStatus
   );
+  console.log({ verifyStatus });
 
   useEffect(() => {
     if (isFocused && unipeEmployeeId) {

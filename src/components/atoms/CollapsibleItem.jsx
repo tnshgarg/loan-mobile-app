@@ -21,7 +21,7 @@ const CollapsibleItem = ({
     <TouchableOpacity onPress={() => setShow(!show)} activeOpacity={0.7}>
       <View style={styles.container}>
         <View style={styles.textContainer}>
-          <Text style={styles.title}>{title}</Text>
+          <Text style={[styles.title, { ...titleStyle }]}>{title}</Text>
           {show && (
             <Text style={[styles.subtitle, { ...subtitleStyle }]}>
               {subtitle}

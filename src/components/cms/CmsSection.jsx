@@ -3,6 +3,7 @@ import React from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { useNavigation } from "@react-navigation/core";
 
 const CmsSection = ({
   title,
@@ -13,8 +14,10 @@ const CmsSection = ({
   onPressCta,
   children,
   cmsTypes,
+  ctaRoute,
 }) => {
   const safeChildren = children || [];
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -25,7 +28,7 @@ const CmsSection = ({
           <TouchableOpacity
             style={{ flexDirection: "row", alignItems: "center" }}
             activeOpacity={0.7}
-            onPress={onPressCta}
+            onPress={() => navigation.navigate("LearnWithUs")}
           >
             <Text style={styles.ctaText}>{ctaText}</Text>
             <MaterialCommunityIcons
