@@ -7,6 +7,7 @@ import CmsBanner from "./CmsBanner";
 import CmsColumn from "./CmsColumn";
 import CmsVideo from "./CmsVideo";
 import CmsReview from "./CmsReview";
+import CmsWebView from "./CmsWebView";
 
 const CMS_TYPES = {
   section: CmsSection,
@@ -16,6 +17,7 @@ const CMS_TYPES = {
   column: CmsColumn,
   video: CmsVideo,
   review: CmsReview,
+  webview: CmsWebView,
   default: () => <></>,
 };
 
@@ -39,14 +41,19 @@ const CmsRoot = ({ children }) => {
   const { children: renderedChildren } = renderChildren({
     children: safeChildren,
   });
-  console.log({ safeChildren });
-  return (
-    <View>
-      {renderedChildren.map((child, index) => (
-        <View key={index}>{child?.element(child)}</View>
-      ))}
-    </View>
-  );
+  console.log({ renderedChildren });
+  try {
+    return (
+      <View>
+        {renderedChildren.map((child, index) => (
+          <View key={index}>{child?.element(child)}</View>
+        ))}
+      </View>
+    );
+  } catch (err) {
+    console.error(err)
+  }
+  return <></>
 };
 
 export default CmsRoot;
