@@ -25,7 +25,7 @@ const BannerCard = ({ data }) => {
     <TouchableOpacity
       onPress={() => {
         navigation.navigate("CmsStack", {
-          screen: "CmsDummy1",
+          screen: "CmsDummyBlog",
           params: {
             blogKey: navigate,
           },

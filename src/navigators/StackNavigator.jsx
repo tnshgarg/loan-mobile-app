@@ -14,6 +14,7 @@ import { showToast } from "../components/atoms/Toast";
 import LogoutModal from "../components/organisms/LogoutModal";
 import LearnWithUs from "../screens/06_home/LearnWithUs";
 import BackendSync from "../screens/BackendSync";
+import CmsScreen from "../screens/CmsScreen";
 import KycProgress from "../screens/KycProgress";
 import KycSuccess from "../screens/KycSuccess";
 import SplashScreen from "../screens/SplashScreen";
@@ -64,15 +65,11 @@ const StackNavigator = () => {
   console.log("initialRoute: ", initialRoute);
   return (
     <OfflineAlert>
-      <Stack.Navigator initialRouteName={"DevMenu"}>
-        <Stack.Screen
-          name="DevMenu"
-          component={DevMenu}
-          options={{
-            headerShown: false,
-            header: null,
-          }}
-        />
+      <Stack.Navigator
+        initialRouteName={"DevMenu"}
+        screenOptions={{ headerShown: false, header: null }}
+      >
+        <Stack.Screen name="DevMenu" component={DevMenu} />
         <Stack.Screen
           name="Splash"
           options={{ headerShown: false, header: null }}
@@ -82,27 +79,14 @@ const StackNavigator = () => {
             initialScreen: initialScreen,
           }}
         />
+        <Stack.Screen name="OnboardingStack" component={OnboardingStack} />
+        <Stack.Screen name="KycProgress" component={KycProgress} />
+        <Stack.Screen name="KycSuccess" component={KycSuccess} />
         <Stack.Screen
-          name="OnboardingStack"
-          component={OnboardingStack}
+          name="CmsScreen"
+          component={CmsScreen}
           options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="KycProgress"
-          component={KycProgress}
-          options={{
-            headerShown: false,
-            header: null,
-          }}
-        />
-        <Stack.Screen
-          name="KycSuccess"
-          component={KycSuccess}
-          options={{
-            headerShown: false,
-            header: null,
+            animation: "default",
           }}
         />
         <Stack.Screen
@@ -119,53 +103,16 @@ const StackNavigator = () => {
               name="BackendSync"
               component={BackendSync}
               options={{
-                headerShown: false,
                 animation: "default",
               }}
             />
-            <Stack.Screen
-              name="HomeStack"
-              component={BottomTabNav}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="LearnWithUs"
-              component={LearnWithUs}
-              options={{
-                headerShown: false,
-              }}
-            />
+            <Stack.Screen name="HomeStack" component={BottomTabNav} />
+            <Stack.Screen name="LearnWithUs" component={LearnWithUs} />
+            <Stack.Screen name="InvestStack" component={InvestStack} />
+            <Stack.Screen name="EWAStack" component={EWAStack} />
+            <Stack.Screen name="BenefitsStack" component={BenefitsStack} />
+            <Stack.Screen name="AccountStack" component={AccountStack} />
 
-            <Stack.Screen
-              name="InvestStack"
-              component={InvestStack}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="EWAStack"
-              component={EWAStack}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="BenefitsStack"
-              component={BenefitsStack}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="AccountStack"
-              component={AccountStack}
-              options={{
-                headerShown: false,
-              }}
-            />
           </>
         ) : null}
       </Stack.Navigator>
