@@ -7,8 +7,10 @@ import LinearGradient from "react-native-linear-gradient";
 import Blog1 from "../../assets/Blog1.svg";
 import SvgContainer from "./SvgContainer";
 import VideoPlayer from "../organisms/VideoPlayer";
+import { useNavigation } from "@react-navigation/core";
 
 const BannerCard = ({ data }) => {
+  const navigation = useNavigation();
   const {
     title,
     titleStyle,
@@ -20,7 +22,10 @@ const BannerCard = ({ data }) => {
     thumbnail,
   } = data;
   return (
-    <TouchableOpacity activeOpacity={0.7}>
+    <TouchableOpacity
+      activeOpacity={0.7}
+      onPress={() => navigation.navigate("CmsScreen")}
+    >
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
