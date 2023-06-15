@@ -8,6 +8,7 @@ import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import PrimaryButton from "../atoms/PrimaryButton";
 import Offline from "../../assets/Offline.svg";
 import LogoHeader from "../atoms/LogoHeader";
+import SvgContainer from "../atoms/SvgContainer";
 
 const OfflineAlert = ({ children }) => {
   const [isConnected, setIsConnected] = useState(true);
@@ -44,9 +45,11 @@ const OfflineAlert = ({ children }) => {
   ) : (
     <Modal animationType="fade" visible={true}>
       <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
-        <LogoHeader />
+        {/* <LogoHeader /> */}
         <View style={styles.modalContainer}>
-          <Offline />
+          <SvgContainer width={SIZES.width * 0.8} height={SIZES.width * 0.8}>
+            <Offline />
+          </SvgContainer>
 
           <Text style={styles.title}>No Internet</Text>
 
@@ -60,8 +63,7 @@ const OfflineAlert = ({ children }) => {
               NetInfo.refresh();
               showToast("Trying to Connect to the internet", "pending");
             }}
-            containerStyle={{ height: 40 }}
-            titleStyle={{ ...FONTS.h4 }}
+            containerStyle={{ width: "50%" }}
           />
         </View>
       </SafeAreaView>
@@ -86,14 +88,14 @@ const styles = EStyleSheet.create({
     //alignSelf: "center",
   },
   title: {
-    ...FONTS.h3,
+    ...FONTS.h2,
     color: COLORS.secondary,
     textAlign: "center",
     //width: "70%",
     marginTop: "20rem",
   },
   subtitle: {
-    ...FONTS.body4,
+    ...FONTS.body3,
     color: COLORS.gray,
     marginBottom: "20rem",
     //textAlign: "center",

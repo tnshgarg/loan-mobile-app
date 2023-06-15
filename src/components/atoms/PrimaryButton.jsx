@@ -1,6 +1,7 @@
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import { Text, TouchableOpacity } from "react-native";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 /**
  *
@@ -24,6 +25,7 @@ const PrimaryButton = ({
   titleStyle,
   onPress,
   accessibilityLabel,
+  iconName,
 }) => {
   return (
     <TouchableOpacity
@@ -41,6 +43,14 @@ const PrimaryButton = ({
       onPress={onPress}
     >
       <Text style={[styles.btnText, { ...titleStyle }]}>{title}</Text>
+      {iconName ? (
+        <MaterialCommunityIcons
+          name={iconName}
+          color={COLORS.white}
+          size={20}
+          style={{ marginLeft: 5 }}
+        />
+      ) : null}
     </TouchableOpacity>
   );
 };
@@ -54,6 +64,7 @@ const styles = EStyleSheet.create({
     width: "100%",
     height: SIZES.btnHeight,
     borderRadius: "50rem",
+    flexDirection: "row",
   },
   loadingButton: {
     backgroundColor: COLORS.primary,

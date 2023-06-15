@@ -23,6 +23,11 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
     kycCompleted,
   } = kycData ?? {};
 
+  const BUTTON_TEXT = {
+    kycNotCompleted:
+      "Verify your identity and complete your full KYC process to withdraw advance salary.",
+  };
+
   return (
     <View style={styles.container}>
       <View
@@ -62,7 +67,6 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
           {kycCompleted ? amount : "XX,XXX"}
         </Text>
 
-        {/* TODO: add progress bar as background filled view */}
         <PrimaryButton
           containerStyle={{ height: 40 }}
           title={

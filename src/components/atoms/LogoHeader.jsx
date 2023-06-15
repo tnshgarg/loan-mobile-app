@@ -15,14 +15,15 @@ const LogoHeader = ({
   titleStyle,
   headline,
   subHeadline,
+  hideLogo,
 }) => {
   const EmptyView = () => {
     return <View style={styles.empty} />;
   };
 
   return (
-    <View style={[styles.mainContainer, { ...containerStyle }]}>
-      <View style={[styles.container]}>
+    <View style={[styles.mainContainer]}>
+      <View style={[styles.container, { ...containerStyle }]}>
         {leftIcon && (
           <TouchableOpacity
             activeOpacity={0.7}
@@ -45,10 +46,12 @@ const LogoHeader = ({
             >
               {title}
             </Text>
-          ) : (
+          ) : !hideLogo ? (
             <SvgContainer width={95} height={35}>
               <LogoImage />
             </SvgContainer>
+          ) : (
+            <></>
           )}
         </View>
         {rightIcon ? (

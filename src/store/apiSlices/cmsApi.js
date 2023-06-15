@@ -1,4 +1,8 @@
 import { api } from "./api";
+import Blog1 from "../../assets/Blog1.svg";
+import Blog2 from "../../assets/Blog2.svg";
+import Blog3 from "../../assets/Blog3.svg";
+import Blog4 from "../../assets/Blog4.svg";
 
 const DUMMY_RES = {
   home: [
@@ -24,12 +28,39 @@ const DUMMY_RES = {
           ],
           banners: [
             {
-              url: "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/carousel_1.png",
-              blogData: [],
+              title: "What are the benefits of completing KYC?",
+              imageUri: <Blog1 />,
             },
             {
-              url: "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/carousel_1.png",
-              blogData: [],
+              title: "Why Unipe?",
+              subtitle: "Lorem Ipsum is simply dumm typesetting industry.",
+              description: "3 min video",
+              desIcon: "video-outline",
+              thumbnail:
+                "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+            },
+            {
+              title: "What are the benefits of Mandate Registration?",
+              imageUri: <Blog2 />,
+              titleStyle: "strong",
+            },
+            {
+              title: "How Unipe Works?",
+              subtitle: "Lorem Ipsum is simply dumm typesetting industry.",
+              description: "3 min video",
+              desIcon: "video-outline",
+              thumbnail:
+                "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+            },
+            {
+              title: "What are the benefits of Advance Salary?",
+              imageUri: <Blog3 />,
+              titleStyle: "strong",
+            },
+            {
+              title: "How do I check my PF Balance?",
+              imageUri: <Blog4 />,
+              titleStyle: "strong",
             },
           ],
         },

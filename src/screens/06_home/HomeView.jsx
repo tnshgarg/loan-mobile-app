@@ -15,7 +15,6 @@ import {
   addCurrentStack,
 } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
-
 import { STAGE } from "@env";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import LogoHeader from "../../components/atoms/LogoHeader";
@@ -35,12 +34,12 @@ import {
 } from "../../store/slices/ewaLiveSlice";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import HelpFooter from "../../components/atoms/HelpFooter";
-import BannerCard from "../../components/atoms/BannerCard";
 import CmsRoot from "../../components/cms/CmsRoot";
-import remoteConfig from "@react-native-firebase/remote-config";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import HelpSection from "../../components/organisms/HelpSection";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
+import BottomAlert from "../../components/molecules/BottomAlert";
+import CompleteKyc from "../../assets/CompleteKyc.svg";
 
 const HomeView = () => {
   const aadhaarData = {
@@ -88,19 +87,11 @@ const HomeView = () => {
   const { unipeEmployeeId, token, onboarded } = useSelector(
     (state) => state.auth
   );
+
   const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
     pollingInterval: 1000 * 60 * 60 * 24,
   });
-  const {
-    isAadhaarSuccess,
-    isPanSuccess,
-    isBankSuccess,
-    isProfileSuccess,
-    profile,
-    aadhaar,
-    pan,
-    bank,
-  } = kycData ?? {};
+  const { aadhaar, pan, bank, kycCompleted } = kycData ?? {};
   console.log({ kycData });
 
   const {
@@ -114,8 +105,10 @@ const HomeView = () => {
   console.log(cmsData?.home);
 
   const [fetched, setFetched] = useState(false);
+  const [alertVisible, setAlertVisible] = useState(false);
 
-  const name = aadhaar?.data?.name || pan?.data?.name || auth?.employeeName;
+  const name = aadhaar?.data?.name || pan?.data?.name;
+  // || auth?.employeeName;
 
   // const panMisMatch = useSelector((state) => state.pan.misMatch);
   // const bankMisMatch = useSelector((state) => state.bank.misMatch);
@@ -258,6 +251,29 @@ const HomeView = () => {
     getUrlAsync();
   }, []);
 
+  useEffect(() => {
+    if (!kycCompleted) setAlertVisible(true);
+  }, []);
+
+  const data = {
+    title: "Complete your KYC",
+    subtitle:
+      "Verify your identity to withdraw advance salary in our bank account",
+
+    imageUri: <CompleteKyc />,
+    primaryBtnText: "Start KYC",
+    primaryBtnIcon: "arrow-right",
+    onPressPrimaryBtn: () => {
+      navigation.navigate("KycProgress");
+    },
+    secondaryBtnText: "I will do it later",
+    infoText: "",
+    contentContainerStyle: { flexDirection: "column-reverse" },
+    onPressSecondaryBtn: () => {
+      setAlertVisible(false);
+    },
+  };
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -296,6 +312,13 @@ const HomeView = () => {
           </Text>
         </View>
       </ScrollView>
+      {alertVisible && (
+        <BottomAlert
+          visible={alertVisible}
+          setVisible={setAlertVisible}
+          data={data}
+        />
+      )}
       {visible && (
         <HelpSection
           visible={visible}

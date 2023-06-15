@@ -20,6 +20,7 @@ import LogoutModal from "../components/organisms/LogoutModal";
 import { useNavigation } from "@react-navigation/core";
 import KycProgress from "../screens/KycProgress";
 import LearnWithUs from "../screens/06_home/LearnWithUs";
+import KycSuccess from "../screens/KycSuccess";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -90,6 +91,14 @@ const StackNavigator = () => {
         <Stack.Screen
           name="KycProgress"
           component={KycProgress}
+          options={{
+            headerShown: false,
+            header: null,
+          }}
+        />
+        <Stack.Screen
+          name="KycSuccess"
+          component={KycSuccess}
           options={{
             headerShown: false,
             header: null,

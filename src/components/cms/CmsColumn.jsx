@@ -2,9 +2,6 @@ import { View, Text, Image } from "react-native";
 import React from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
-import SvgContainer from "../atoms/SvgContainer";
-import BannerBg from "../../assets/BannerBg.svg";
-import LinearGradient from "react-native-linear-gradient";
 
 const CmsColumn = ({ children, title, subtitle }) => {
   const safeChildren = children || [];
@@ -17,7 +14,7 @@ const CmsColumn = ({ children, title, subtitle }) => {
         </View>
       ))}
 
-      <View style={[styles.col, { paddingLeft: 10, flex: 1.15 }]}>
+      <View style={[styles.col, { paddingLeft: 15, flex: 1.15 }]}>
         <Text style={{ ...FONTS.body2, color: COLORS.black }}>{title}</Text>
         <Text style={{ ...FONTS.body3, color: COLORS.black }}>{subtitle}</Text>
       </View>
@@ -40,7 +37,7 @@ const styles = EStyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: "-10%",
+    // marginTop: "-10%",
     backgroundColor: COLORS.cardBackground,
     padding: "15rem",
     borderRadius: "10rem",
@@ -49,6 +46,7 @@ const styles = EStyleSheet.create({
   col: {
     flexDirection: "column",
     flex: 1,
+
     // alignItems: "flex-start",
   },
 });

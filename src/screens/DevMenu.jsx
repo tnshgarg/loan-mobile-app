@@ -15,7 +15,7 @@ export default DevMenu = () => {
       screen: "ProfileForm",
     },
     {
-      title: "KycProgress",
+      title: "Kyc Progress",
       stack: "KycProgress",
     },
 
@@ -36,6 +36,10 @@ export default DevMenu = () => {
       stack: "EWAStack",
       name: "EWA_KYC_STACK",
       screen: "BankForm",
+    },
+    {
+      title: "Kyc Success",
+      stack: "KycSuccess",
     },
     { title: "Mandate", stack: "EWAStack", name: "EWA_MANDATE" },
     { title: "Home", stack: "HomeStack", name: "Home" },

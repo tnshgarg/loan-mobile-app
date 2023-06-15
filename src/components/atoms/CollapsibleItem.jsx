@@ -43,6 +43,7 @@ const styles = EStyleSheet.create({
   container: {
     width: "100%",
     padding: "10rem",
+    paddingHorizontal: "15rem",
     flexDirection: "row",
     alignItems: "flex-start",
     borderBottomWidth: 1,

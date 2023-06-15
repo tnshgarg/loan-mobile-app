@@ -14,6 +14,7 @@ const LogoHeaderBack = ({
   headline,
   subHeadline,
   containerStyle,
+  hideLogo,
 }) => {
   return (
     <LogoHeader
@@ -28,6 +29,7 @@ const LogoHeaderBack = ({
       }
       containerStyle={{ ...containerStyle }}
       titleStyle={{ ...titleStyle }}
+      hideLogo={hideLogo}
       leftOnPress={onLeftIconPress}
       title={title}
       headline={headline}

@@ -65,7 +65,8 @@ const BankConfirmApi = (props) => {
               screen: "BANK",
             });
           } else {
-            navigation.replace("EWA_MANDATE");
+            navigation.navigate("KycSuccess");
+            // navigation.replace("EWA_MANDATE");
           }
         }
       })

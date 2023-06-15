@@ -25,6 +25,7 @@ import LinearGradient from "react-native-linear-gradient";
 import HelpHeader from "../../components/atoms/HelpHeader";
 import HelpSection from "../../components/organisms/HelpSection";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import SuccessContainer from "../../components/organisms/SuccessContainer";
 
 const LoginSuccess = () => {
   const kycData = {
@@ -106,101 +107,66 @@ const LoginSuccess = () => {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
+  const data = {
+    title: "Congratulations on \n joining Unipe!",
+    // subtitle: "Your employer, Amazon, has initiated your onboarding process.",
+    renderSubtitle: () => (
+      <Text
+        style={[
+          styles.subHeadline,
+          {
+            color: COLORS.white,
+            ...FONTS.body3,
+            width: "100%",
+          },
+        ]}
+      >
+        Your employer,{" "}
+        <Text
+          style={{
+            ...FONTS.h3,
+            color: "#D9F68A",
+          }}
+        >
+          XXXXXXX
+        </Text>
+        , has initiated your onboarding process.
+      </Text>
+    ),
+    // videoUri: "",
+    // videoThumbnail:
+    //   "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+
+    imageUri: <Welcome />,
+    primaryBtnText: "Start KYC",
+    primaryBtnIcon: "arrow-right",
+    primaryBtnLabel: "WelcomeBtn",
+    onPressPrimaryBtn: () => {
+      requestUserPermission();
+      Analytics.trackEvent("WelcomePage", {
+        unipeEmployeeId: unipeEmployeeId,
+      });
+      navigation.navigate("KycProgress");
+    },
+    secondaryBtnText: "I will do it later",
+    onPressSecondaryBtn: () => {
+      navigation.navigate("HomeStack");
+    },
+    infoText:
+      "As per RBI guidelines, you have to complete e-KYC to get Advance Salary",
+  };
+
   return (
     <SafeAreaView accessibilityLabel="WelcomePage" style={styles.safeContainer}>
-      {/* <LogoHeaderBack onRightIconPress={() => setVisible(true)} /> */}
-      <View style={[styles.container, { backgroundColor: "#223240" }]}>
-        <HelpHeader onPress={() => setVisible(true)} />
+      <LogoHeaderBack
+        containerStyle={{ backgroundColor: "#223240" }}
+        hideLogo={true}
+        onRightIconPress={() => {
+          setVisible(true);
+        }}
+      />
+      <SuccessContainer data={data} />
 
-        <Text style={[styles.headline, { ...FONTS.h1, color: COLORS.white }]}>
-          Congratulations on {"\n"}joining Unipe!
-        </Text>
-        <Text
-          style={[
-            styles.subHeadline,
-            {
-              color: COLORS.white,
-              ...FONTS.body3,
-              width: "100%",
-            },
-          ]}
-        >
-          Your employer,{" "}
-          <Text
-            style={{
-              ...FONTS.h3,
-              color: "#D9F68A",
-            }}
-          >
-            XXXXXXX
-          </Text>
-          , has initiated your onboarding process.
-        </Text>
-        <View
-          style={{ alignItems: "center", justifyContent: "center", flex: 1 }}
-        >
-          <SvgContainer width={SIZES.width * 0.9} height={SIZES.width}>
-            <Welcome />
-          </SvgContainer>
-        </View>
-
-        <LinearGradient
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          colors={[COLORS.lightGreen, COLORS.lightYellow]}
-          style={onboardingStyles.alertBox}
-        >
-          <LinearGradient
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            colors={["rgba(110, 220, 133,0.1)", "rgba(237, 251, 139,0.1)"]}
-            style={{
-              padding: 10,
-              borderRadius: 50,
-            }}
-          >
-            <SvgContainer width={20} height={20}>
-              <Info />
-            </SvgContainer>
-          </LinearGradient>
-
-          <Text
-            style={{
-              ...FONTS.body3,
-              color: COLORS.white,
-              flex: 1,
-              paddingLeft: 10,
-            }}
-          >
-            As per RBI guidelines, you have to complete e-KYC to get Advance
-            Salary
-          </Text>
-        </LinearGradient>
-
-        <PrimaryButton
-          title="Start KYC"
-          accessibilityLabel="WelcomeBtn"
-          onPress={() => {
-            requestUserPermission();
-            Analytics.trackEvent("WelcomePage", {
-              unipeEmployeeId: unipeEmployeeId,
-            });
-            navigation.navigate("KycProgress");
-          }}
-        />
-        <PrimaryButton
-          title="I will do it later"
-          containerStyle={{
-            backgroundColor: null,
-            borderWidth: 1.5,
-            borderColor: COLORS.white,
-          }}
-          titleStyle={{ color: COLORS.white }}
-          onPress={() => {
-            navigation.navigate("HomeStack");
-          }}
-        />
-      </View>
       {visible && (
         <HelpSection visible={visible} setVisible={setVisible} data={kycData} />
       )}

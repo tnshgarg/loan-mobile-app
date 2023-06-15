@@ -4,9 +4,11 @@ import React, { useState } from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS } from "../../constants/Theme";
 import BannerFaqSection from "../organisms/BannerFaqSection";
+import BannerCard from "../atoms/BannerCard";
 
 const CmsSwiper = ({ urls, banners }) => {
   const [visible, setVisible] = useState(false);
+  console.log({ banners });
   const kycData = {
     heading: "Help - KYC Verification",
     headingImage: require("../../assets/KycHeader.png"),
@@ -70,15 +72,15 @@ const CmsSwiper = ({ urls, banners }) => {
         dotColor={COLORS.lightGray}
         activeDotColor={COLORS.black}
       >
-        {urls?.map((item, index) => (
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={() => {
-              setVisible(true);
-            }}
-          >
-            <Image source={{ uri: item }} style={styles.image} />
-          </TouchableOpacity>
+        {banners?.map((item, index) => (
+          // <TouchableOpacity
+          //   activeOpacity={0.7}
+          //   onPress={() => {
+          //     setVisible(true);
+          //   }}
+          // >
+          <BannerCard data={item} key={index} />
+          // </TouchableOpacity>
         ))}
       </Swiper>
       <BannerFaqSection
