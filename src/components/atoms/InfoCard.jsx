@@ -4,10 +4,10 @@ import { Icon } from "@react-native-material/core";
 import React from "react";
 import { COLORS, FONTS } from "../../constants/Theme";
 
-const InfoCard = ({ info }) => {
+const InfoCard = ({ info, icon, color }) => {
   return (
     <View accessibilityLabel="InfoCard" style={styles.container}>
-      <Icon name="info-outline" size={20} color={COLORS.primary} />
+      <Icon name={icon || "info-outline"} size={20} color={color || COLORS.primary} />
       <Text style={styles.text}>{info}</Text>
     </View>
   );

@@ -25,6 +25,7 @@ export const putBackendData = async (props) => {
 
   var config = {
     method: "post",
+    timeout: 1000,
     url: url,
     headers: {
       "Content-Type": "application/json",

@@ -33,7 +33,7 @@ const AadhaarVerifyTemplate = (props) => {
 
   useEffect(() => {
     interval = BackgroundTimer.setInterval(() => {
-      console.log({ countDownTime });
+      // console.log({ countDownTime });
       if (countDownTime > 0) {
         dispatch(setAadhaarTimer(countDownTime - 1));
       } else {

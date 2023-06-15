@@ -14,3 +14,5 @@ export const GUPSHUP_VERIFY_OTP_API_URL=`${EMPLOYEE_API_URL}/login/verify-otp`
 export const RZP_KEY_ID = STAGE !== "prod" ? RZP_DEV_KEY_ID : RZP_PROD_KEY_ID;
 
 export const TIMEOUT = 5 * 60;
+// export const KYC_RETRY_WAIT_TIME = 40 * 1000;
+export const KYC_RETRY_WAIT_TIME = 10 * 1000;

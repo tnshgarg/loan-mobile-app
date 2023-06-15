@@ -17,8 +17,6 @@ import { onboardingStyles, styles } from "../../styles";
 const Onboarding = () => {
   const navigation = useNavigation();
 
-  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-
   const data = [
     {
       title: "On-demand Salary\n(पाएँ वेतन अपने मनचाहे समय पर)",
@@ -74,8 +72,7 @@ const Onboarding = () => {
               interaction: InteractionTypes.BUTTON_PRESS,
               component: "Onboarding",
               action: "GetStarted",
-              status: "",
-              phoneNumber: phoneNumber,
+              status: ""
             });
             navigation.navigate("Login");
           }}
