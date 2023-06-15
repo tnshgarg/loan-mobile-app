@@ -5,6 +5,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import LinearGradient from "react-native-linear-gradient";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import VideoPlayer from "../organisms/VideoPlayer";
 import SvgContainer from "./SvgContainer";
 
@@ -21,14 +22,13 @@ const BannerCard = ({ data }) => {
     navigate,
   } = data;
   const navigation = useNavigation();
+  console.log("NAVIGATE: ", navigate);
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate("CmsStack", {
-          screen: "CmsDummyBlog",
-          params: {
-            blogKey: navigate,
-          },
+        navigationHelper({
+          type: navigate.type,
+          params: { blogKey: navigate.screen },
         });
       }}
       activeOpacity={0.7}

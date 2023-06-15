@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
 import Swiper from "react-native-swiper";
+import { useSelector } from "react-redux";
 import { COLORS } from "../../constants/Theme";
+import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import BannerCard from "../atoms/BannerCard";
 
 const CmsSwiper = ({ urls, banners }) => {
@@ -63,6 +65,13 @@ const CmsSwiper = ({ urls, banners }) => {
       },
     ],
   };
+  const { unipeEmployeeId } = useSelector((state) => state.auth);
+  const { data: cmsData, isLoading: cmsLoading } = useGetCmsQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: 1000,
+    }
+  );
   return (
     <>
       <Swiper
@@ -70,7 +79,7 @@ const CmsSwiper = ({ urls, banners }) => {
         dotColor={COLORS.lightGray}
         activeDotColor={COLORS.black}
       >
-        {banners?.map((item, index) => (
+        {cmsData.blogs?.map((item, index) => (
           // <TouchableOpacity
           //   activeOpacity={0.7}
           //   onPress={() => {
