@@ -156,6 +156,7 @@ const LoginScreen = () => {
           setEmployeeName(responseJson.body.employeeName);
           setOnboarded(responseJson.body.onboarded);
           setUnipeEmployeeId(responseJson.body.unipeEmployeeId);
+          dispatch(addPhoneNumber((phoneNumber|| "").replace("+91", "")));
           sendSmsVerification(phoneNumber)
             .then((result) => {
               console.log(`result: ${JSON.stringify(result)}`);
