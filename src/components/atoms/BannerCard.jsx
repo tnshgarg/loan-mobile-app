@@ -1,12 +1,12 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { useNavigation } from "@react-navigation/core";
 import React from "react";
-import { COLORS, FONTS } from "../../constants/Theme";
+import { Text, TouchableOpacity, View } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import LinearGradient from "react-native-linear-gradient";
-import Blog1 from "../../assets/Blog1.svg";
-import SvgContainer from "./SvgContainer";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { COLORS, FONTS } from "../../constants/Theme";
 import VideoPlayer from "../organisms/VideoPlayer";
+import SvgContainer from "./SvgContainer";
 
 const BannerCard = ({ data }) => {
   const {
@@ -18,9 +18,21 @@ const BannerCard = ({ data }) => {
     imageUri,
     videoUri,
     thumbnail,
+    navigate,
   } = data;
+  const navigation = useNavigation();
   return (
-    <TouchableOpacity activeOpacity={0.7}>
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate("CmsStack", {
+          screen: "CmsDummy1",
+          params: {
+            blogKey: navigate,
+          },
+        });
+      }}
+      activeOpacity={0.7}
+    >
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}

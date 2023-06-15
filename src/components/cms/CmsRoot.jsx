@@ -1,12 +1,13 @@
-import { View, Text } from "react-native";
 import React from "react";
-import CmsSection from "./CmsSection";
-import CmsImage from "./CmsImage";
-import CmsSwiper from "./CmsSwiper";
+import { View } from "react-native";
 import CmsBanner from "./CmsBanner";
+import CmsBlog from "./CmsBlog";
 import CmsColumn from "./CmsColumn";
-import CmsVideo from "./CmsVideo";
+import CmsImage from "./CmsImage";
 import CmsReview from "./CmsReview";
+import CmsSection from "./CmsSection";
+import CmsSwiper from "./CmsSwiper";
+import CmsVideo from "./CmsVideo";
 
 const CMS_TYPES = {
   section: CmsSection,
@@ -16,6 +17,7 @@ const CMS_TYPES = {
   column: CmsColumn,
   video: CmsVideo,
   review: CmsReview,
+  blog: CmsBlog,
   default: () => <></>,
 };
 

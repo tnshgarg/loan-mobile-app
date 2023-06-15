@@ -1,8 +1,8 @@
-import { api } from "./api";
 import Blog1 from "../../assets/Blog1.svg";
 import Blog2 from "../../assets/Blog2.svg";
 import Blog3 from "../../assets/Blog3.svg";
 import Blog4 from "../../assets/Blog4.svg";
+import { api } from "./api";
 
 const DUMMY_RES = {
   home: [
@@ -30,6 +30,7 @@ const DUMMY_RES = {
             {
               title: "What are the benefits of completing KYC?",
               imageUri: <Blog1 />,
+              key: 1,
             },
             {
               title: "Why Unipe?",
@@ -38,11 +39,14 @@ const DUMMY_RES = {
               desIcon: "video-outline",
               thumbnail:
                 "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+              key: 2,
             },
             {
               title: "What are the benefits of Mandate Registration?",
               imageUri: <Blog2 />,
               titleStyle: "strong",
+              blogKey: "blog:3",
+              key: 3,
             },
             {
               title: "How Unipe Works?",
@@ -51,16 +55,19 @@ const DUMMY_RES = {
               desIcon: "video-outline",
               thumbnail:
                 "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+              key: 4,
             },
             {
               title: "What are the benefits of Advance Salary?",
               imageUri: <Blog3 />,
               titleStyle: "strong",
+              key: 5,
             },
             {
               title: "How do I check my PF Balance?",
               imageUri: <Blog4 />,
               titleStyle: "strong",
+              key: 6,
             },
           ],
         },
@@ -121,6 +128,15 @@ const DUMMY_RES = {
       ],
     },
   ],
+  blogs: {
+    1: [
+      {
+        key: 1,
+        type: "blog",
+        heading: "Why Unipe?",
+      },
+    ],
+  },
 };
 
 export const cmsApi = api

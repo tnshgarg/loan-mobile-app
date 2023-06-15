@@ -1,19 +1,22 @@
-import { View, Text, ScrollView, SafeAreaView, Image } from "react-native";
+import { useNavigation } from "@react-navigation/core";
 import React from "react";
-import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
-import { COLORS, FONTS } from "../../constants/Theme";
-import { styles } from "../../styles";
-import BannerCard from "../../components/atoms/BannerCard";
+import { SafeAreaView, ScrollView, View } from "react-native";
 import Blog1 from "../../assets/Blog1.svg";
 import Blog2 from "../../assets/Blog2.svg";
 import Blog3 from "../../assets/Blog3.svg";
 import Blog4 from "../../assets/Blog4.svg";
-import { useNavigation } from "@react-navigation/core";
+import BannerCard from "../../components/atoms/BannerCard";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import { styles } from "../../styles";
 
 const LearnWithUs = () => {
   const navigation = useNavigation();
   const data = [
-    { title: "What are the benefits of completing KYC?", imageUri: <Blog1 /> },
+    {
+      title: "What are the benefits of completing KYC?",
+      imageUri: <Blog1 />,
+      navigate: "blog:1",
+    },
     {
       title: "Why Unipe?",
       subtitle: "Lorem Ipsum is simply dumm typesetting industry.",
@@ -21,6 +24,7 @@ const LearnWithUs = () => {
       desIcon: "video-outline",
       thumbnail:
         "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+      navigate: "blog:2",
     },
     {
       title: "What are the benefits of Mandate Registration?",
