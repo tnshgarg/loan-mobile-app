@@ -1,8 +1,8 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import { COLORS, FONTS } from "../../constants/Theme";
-import LogoImage from "../../assets/HeaderLogo.svg";
+import { Text, TouchableOpacity, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
+import LogoImage from "../../assets/HeaderLogo.svg";
+import { COLORS, FONTS } from "../../constants/Theme";
 import SvgContainer from "./SvgContainer";
 
 const LogoHeader = ({
@@ -16,6 +16,7 @@ const LogoHeader = ({
   headline,
   subHeadline,
   hideLogo,
+  headerImageUri,
 }) => {
   const EmptyView = () => {
     return <View style={styles.empty} />;
@@ -96,6 +97,8 @@ const styles = EStyleSheet.create({
     alignItems: "flex-start",
     borderBottomLeftRadius: "10rem",
     borderBottomRightRadius: "10rem",
+    flexDirection: "row",
+    alignItems: "center",
   },
   empty: { backgroundColor: "transparent", height: "32rem", width: "32rem" },
   logo: {
