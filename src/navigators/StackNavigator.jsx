@@ -33,26 +33,6 @@ const StackNavigator = () => {
   const onboarded = useSelector((state) => state.auth.onboarded);
   var initialScreen = useSelector((state) => state.navigation.currentScreen);
   const [modalVisible, setModalVisible] = useState(false);
-  
-  useEffect(() => {
-    if (token) {
-      decode(
-        token, // the token
-        "Un!pe@2*22", // the secret
-        {
-          skipValidation: false, // to skip signature and exp verification
-        }
-      ).then(async () => {
-        showToast("Your Session has expired. Please login again.");
-        dispatch({ type: "LOGOUT" });
-        setModalVisible(true);
-        await asyncTimeout(8000);
-        setModalVisible(false);
-        navigation.navigate("OnboardingStack", { screen: "Login" });
-      })
-      .catch(err => {console.log("Token Err", err)});
-    }
-  }, [token]);
 
   const handleCampaignUrlClick = (url) => {
     // Alert.alert("Url",`${url}`)

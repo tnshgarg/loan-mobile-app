@@ -133,9 +133,9 @@ const OTPScreen = () => {
       .then((res) => {
         console.log(res);
         if (res["response"]["status"] === "success" || res?.status === 200) {
-          dispatch(addToken(res["response"]["token"] || res?.token));
-          setOtp("");
+          dispatch(addToken(res?.response?.token || res?.token));
           setVerified(true);
+          setOtp("");
           navigation.navigate("BackendSync", {
             destination: "HomeStack",
           });
