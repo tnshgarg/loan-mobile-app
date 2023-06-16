@@ -28,7 +28,7 @@ const styles = EStyleSheet.create({
     flex: 1,
     backgroundColor: "#FFD44F",
     borderRadius: "10rem",
-    padding: "15rem",
+    padding: "10rem",
   },
 });
 

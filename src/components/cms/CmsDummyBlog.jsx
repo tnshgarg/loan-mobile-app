@@ -21,8 +21,7 @@ const CmsDummyBlog = (props) => {
 
   // const { data, screenTitle, headline, headingImage } =
   //   cmsData?.[props.route.params.blogKey] || [];
-  const { data, screenTitle, headline, headingImage } =
-    DUMMY_RES?.CustomerSupport || [];
+  const { data, screenTitle, headline, headingImage } = DUMMY_RES?.blog_1 || [];
   console.log("MyData: ", data);
 
   return (

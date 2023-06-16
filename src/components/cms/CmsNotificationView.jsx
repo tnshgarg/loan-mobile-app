@@ -15,18 +15,16 @@ const CmsNotificationView = () => {
     }
   );
 
+  console.log("Noti Data", DUMMY_RES?.notifications);
+
   return (
     <View>
       <LogoHeaderBack
-        title={cmsData?.notifications[0].title}
+        title={cmsData?.notifications?.title}
         onLeftIconPress={() => navigationRef.goBack()}
       />
       <View>
-        {!cmsLoading ? (
-          <CmsRoot children={DUMMY_RES.notifications[0].children} />
-        ) : (
-          <></>
-        )}
+        {!cmsLoading ? <CmsRoot children={DUMMY_RES?.notifications} /> : <></>}
       </View>
     </View>
   );

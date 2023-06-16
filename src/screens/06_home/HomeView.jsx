@@ -254,7 +254,7 @@ const HomeView = () => {
             accessible={accessible}
             ewaLiveSlice={ewaLiveSlice}
           />
-          <CmsRoot children={[
+          {/* <CmsRoot children={[
             {
               "type": "banner",
               "children": [
@@ -289,12 +289,12 @@ const HomeView = () => {
                 }
               ]
             }
-          ]} />
-          {/* {!cmsLoading ? (
+          ]} /> */}
+          {!cmsLoading ? (
             <CmsRoot children={DUMMY_RES?.home || []}></CmsRoot>
           ) : (
             <></>
-          )} */}
+          )}
 
           {/* <BannerCard /> */}
         </View>

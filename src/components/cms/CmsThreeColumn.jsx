@@ -5,7 +5,13 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import { TouchableOpacity } from "react-native";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
-const CmsThreeColumn = ({ children, secondColumnStyle, styling, navigate }) => {
+const CmsThreeColumn = ({
+  children,
+  secondColumnStyle,
+  styling,
+  navigate,
+  widths,
+}) => {
   const safeChildren = children || [];
 
   return (
@@ -24,9 +30,9 @@ const CmsThreeColumn = ({ children, secondColumnStyle, styling, navigate }) => {
           key={index}
           style={[
             styles.col,
-            index == 1 ? { ...secondColumnStyle } : null,
-            { paddingRight: index == 0 ? 10 : null },
-            { paddingLeft: index == 0 ? 10 : null },
+            { width: widths?.[index] || "30%" },
+            // { paddingRight: index == 0 ? 10 : null },
+            // { paddingLeft: index == 0 ? 10 : null },
           ]}
         >
           {child.element(child)}

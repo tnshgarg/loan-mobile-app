@@ -7,7 +7,6 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import PrimaryButton from "../atoms/PrimaryButton";
 import Offline from "../../assets/Offline.svg";
-import LogoHeader from "../atoms/LogoHeader";
 import SvgContainer from "../atoms/SvgContainer";
 
 const OfflineAlert = ({ children }) => {
@@ -45,7 +44,6 @@ const OfflineAlert = ({ children }) => {
   ) : (
     <Modal animationType="fade" visible={true}>
       <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
-        {/* <LogoHeader /> */}
         <View style={styles.modalContainer}>
           <SvgContainer width={SIZES.width * 0.8} height={SIZES.width * 0.8}>
             <Offline />

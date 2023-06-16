@@ -17,18 +17,15 @@ import TermsAndPrivacyModal from "../../../components/molecules/TermsAndPrivacyM
 import LogoutModal from "../../../components/organisms/LogoutModal";
 import { COLORS } from "../../../constants/Theme";
 import { strings } from "../../../helpers/Localization";
-import whatsappLinking from "../../../helpers/WhatsappLinking";
-import Profile from "../../../assets/Profile.svg";
-import Payslip from "../../../assets/Payslip.svg";
-import CustomerSupport from "../../../assets/CustomerSupport.svg";
-import Kyc from "../../../assets/Kyc.svg";
-import AboutUs from "../../../assets/AboutUs.svg";
+
 import Logout from "../../../assets/Logout.svg";
 import InfoCard from "../../../components/atoms/InfoCard";
 import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
 import { accountStyles, styles } from "../../../styles";
 import DUMMY_RES, { useGetCmsQuery } from "../../../store/apiSlices/cmsApi";
 import CmsRoot from "../../../components/cms/CmsRoot";
+import CmsThreeColumn from "../../../components/cms/CmsThreeColumn";
+import LogoutItem from "../../../components/atoms/LogoutItem";
 
 const AccountMenu = (props) => {
   const dispatch = useDispatch();
@@ -90,99 +87,10 @@ const AccountMenu = (props) => {
 
   const options = [
     {
-      title: "Profile",
-      subtitle: strings.editProfileDetails,
-      imageUri: <Profile />,
-      route: { stack: "AccountStack", screen: "Profile" },
-    },
-    {
-      title: "Payslips",
-      subtitle: "View and dpownload payslips",
-      imageUri: <Payslip />,
-      route: { stack: "AccountStack", screen: "Profile" },
-    },
-    {
-      title: "KYC",
-      subtitle: strings.kycDetailsInOnePlace,
-      imageUri: <Kyc />,
-      route: { stack: "AccountStack", screen: "KYC" },
-    },
-
-    // {
-    //   title: "Mandate",
-    //   subtitle: "Mandate is required for availing advance salary",
-    //   iconName: "order-bool-ascending-variant",
-    //   route: { stack: "AccountStack", screen: "Mandate" },
-    // },
-    // {
-    //   title: "Documents",
-    //   subtitle: "All your documents at one place",
-    //   iconName: "file-document-outline",
-    //   route: { stack: "AccountStack", screen: "Documents" },
-    // },
-    {
-      title: strings.customerSupport,
-      subtitle: strings.talkToSupportTeam,
-      imageUri: <CustomerSupport />,
-      action: () => {
-        whatsappLinking();
-      },
-    },
-    {
-      title: "About Us",
-      subtitle: "Read about us and our terms of use",
-      imageUri: <AboutUs />,
-      action: () =>
-        props.navigation.navigate("CmsScreen", {
-          data: {
-            screenTitle: "About Us",
-            cmsData: [
-              {
-                type: "tabs",
-                children: [
-                  {
-                    name: "Unipe",
-                    data: [
-                      {
-                        type: "section",
-                        title: "Learn With Us",
-                      },
-                    ],
-                  },
-                  {
-                    name: "T&C",
-                    data: [
-                      {
-                        type: "section",
-                        title: "Learn With Us",
-                      },
-                    ],
-                  },
-                  {
-                    name: "Privacy Policy",
-                    data: [
-                      {
-                        type: "section",
-                        title: "Learn With Us",
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        }),
-    },
-    // {
-    //   title: "Privacy Policy",
-    //   subtitle: "Read our privacy policy",
-    //   imageUri: <AboutUs />,
-    //   action: () => setIsPrivacyModalVisible(true),
-    // },
-    {
       title: strings.logout,
       subtitle: strings.logoutFromUnipe,
-      imageUri: <Logout />,
+      imageUri:
+        "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/logout.png ",
       action: () => onLogout(),
     },
   ];
@@ -248,13 +156,13 @@ const AccountMenu = (props) => {
           <></>
         )}
 
-        {/* {options.map((item, index) => (
-          <ListItem
+        {options.map((item, index) => (
+          <LogoutItem
             key={index}
             item={{ ...item, onPress: () => onPressCard(item) }}
             showIcon={true}
           />
-        ))} */}
+        ))}
       </ScrollView>
       {isTermsOfUseModalVisible && (
         <TermsAndPrivacyModal

@@ -25,11 +25,43 @@ const DUMMY_RES = {
     //   ],
     // },
     {
-      type: "card",
+      type: "banner",
       children: [
         {
           type: "image",
-          url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBanner.png",
+          styling: {
+            marginBottom: "-40%",
+            marginTop: "-5%",
+            alignSelf: "center",
+          },
+        },
+        {
+          type: "twoColumn",
+          widths: ["46%", "46%"],
+          styling: { border: "1px solid black" },
+          children: [
+            {
+              type: "card",
+
+              children: [
+                {
+                  type: "image",
+                  url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBannerCurrentContest.png",
+                },
+              ],
+            },
+            {
+              type: "card",
+              gradientColors: ["#fff", "#fff"],
+              children: [
+                {
+                  type: "image",
+                  url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBannerLastMonthWinners.png",
+                },
+              ],
+            },
+          ],
         },
       ],
     },
@@ -39,7 +71,7 @@ const DUMMY_RES = {
       gradientColors: [COLORS.white, COLORS.white],
       styling: { padding: 0 },
       leftIcon:
-        "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/learn.png",
+        "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsIcon.png",
       ctaText: "SEE ALL",
       ctaRoute: "LearnWithUs",
       onPressCta: { stack: "LearnWithUs" },
@@ -53,7 +85,7 @@ const DUMMY_RES = {
               children: [
                 {
                   type: "twoColumn",
-                  firstColumnWidth: 70,
+                  widths: ["70%", "30%"],
                   children: [
                     {
                       type: "container",
@@ -66,7 +98,7 @@ const DUMMY_RES = {
                     },
                     {
                       type: "image",
-                      url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+                      url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
                     },
                   ],
                 },
@@ -79,7 +111,7 @@ const DUMMY_RES = {
               children: [
                 {
                   type: "twoColumn",
-                  firstColumnWidth: 70,
+                  widths: ["70%", "30%"],
                   children: [
                     {
                       type: "container",
@@ -93,7 +125,7 @@ const DUMMY_RES = {
                     },
                     {
                       type: "image",
-                      url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+                      url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/MandateBenefits.png",
                     },
                   ],
                 },
@@ -106,7 +138,7 @@ const DUMMY_RES = {
               children: [
                 {
                   type: "twoColumn",
-                  firstColumnWidth: 70,
+                  widths: ["70%", "30%"],
                   children: [
                     {
                       type: "container",
@@ -119,7 +151,7 @@ const DUMMY_RES = {
                     },
                     {
                       type: "image",
-                      url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+                      url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/AdvanceSalaryBenefits.png",
                     },
                   ],
                 },
@@ -131,7 +163,7 @@ const DUMMY_RES = {
               children: [
                 {
                   type: "twoColumn",
-                  firstColumnWidth: 70,
+                  widths: ["70%", "30%"],
                   children: [
                     {
                       type: "container",
@@ -144,7 +176,7 @@ const DUMMY_RES = {
                     },
                     {
                       type: "image",
-                      url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+                      url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/CheckPFBalance.png",
                     },
                   ],
                 },
@@ -167,6 +199,7 @@ const DUMMY_RES = {
           children: [
             {
               type: "container",
+              styling: { marginLeft: "5%" },
               children: [
                 {
                   type: "title",
@@ -180,8 +213,9 @@ const DUMMY_RES = {
             },
             {
               type: "video",
+              videoUri: "ux6XLNiEpLs",
               thumbnail:
-                "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+                "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
             },
           ],
         },
@@ -200,6 +234,7 @@ const DUMMY_RES = {
           children: [
             {
               type: "container",
+              styling: { marginLeft: "5%" },
               children: [
                 {
                   type: "title",
@@ -213,8 +248,9 @@ const DUMMY_RES = {
             },
             {
               type: "video",
+              videoUri: "ux6XLNiEpLs",
               thumbnail:
-                "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+                "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
             },
           ],
         },
@@ -227,7 +263,7 @@ const DUMMY_RES = {
       styling: { padding: 0 },
       gradientColors: [COLORS.white, COLORS.white],
       leftIcon:
-        "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/Userstory.png",
+        "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/learn.png",
       children: [
         {
           type: "review",
@@ -259,7 +295,7 @@ const DUMMY_RES = {
       children: [
         {
           type: "twoColumn",
-          firstColumnWidth: 70,
+          widths: ["70%", "30%"],
           children: [
             {
               type: "container",
@@ -272,7 +308,7 @@ const DUMMY_RES = {
             },
             {
               type: "image",
-              url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
             },
           ],
         },
@@ -285,7 +321,6 @@ const DUMMY_RES = {
       children: [
         {
           type: "twoColumn",
-          // firstColumnWidth: "65%",
           children: [
             {
               type: "container",
@@ -301,15 +336,15 @@ const DUMMY_RES = {
                 {
                   type: "iconText",
                   iconName: "video-outline",
-
                   title: "3 min video",
                 },
               ],
             },
             {
               type: "video",
+              videoUri: "ux6XLNiEpLs",
               thumbnail:
-                "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+                "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
             },
           ],
         },
@@ -321,7 +356,7 @@ const DUMMY_RES = {
       children: [
         {
           type: "twoColumn",
-          firstColumnWidth: 70,
+          widths: ["70%", "30%"],
           children: [
             {
               type: "container",
@@ -334,7 +369,7 @@ const DUMMY_RES = {
             },
             {
               type: "image",
-              url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/MandateBenefits.png",
             },
           ],
         },
@@ -369,8 +404,9 @@ const DUMMY_RES = {
             },
             {
               type: "video",
+              videoUri: "ux6XLNiEpLs",
               thumbnail:
-                "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+                "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
             },
           ],
         },
@@ -383,7 +419,7 @@ const DUMMY_RES = {
       children: [
         {
           type: "twoColumn",
-          firstColumnWidth: 70,
+          widths: ["70%", "30%"],
           children: [
             {
               type: "container",
@@ -396,7 +432,7 @@ const DUMMY_RES = {
             },
             {
               type: "image",
-              url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/AdvanceSalaryBenefits.png",
             },
           ],
         },
@@ -408,7 +444,7 @@ const DUMMY_RES = {
       children: [
         {
           type: "twoColumn",
-          firstColumnWidth: 70,
+          widths: ["70%", "30%"],
           children: [
             {
               type: "container",
@@ -421,7 +457,7 @@ const DUMMY_RES = {
             },
             {
               type: "image",
-              url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/CheckPFBalance.png",
             },
           ],
         },
@@ -437,7 +473,7 @@ const DUMMY_RES = {
     data: [
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         children: [
           {
             type: "image",
@@ -460,7 +496,7 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
@@ -484,7 +520,7 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         children: [
           {
             type: "image",
@@ -507,7 +543,7 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
@@ -566,7 +602,7 @@ const DUMMY_RES = {
     data: [
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         children: [
           {
             type: "image",
@@ -589,7 +625,7 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
@@ -613,7 +649,7 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         children: [
           {
             type: "image",
@@ -636,7 +672,7 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
@@ -695,7 +731,7 @@ const DUMMY_RES = {
     data: [
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         children: [
           {
             type: "image",
@@ -718,7 +754,7 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
@@ -742,7 +778,7 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         children: [
           {
             type: "image",
@@ -765,7 +801,7 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
@@ -824,7 +860,7 @@ const DUMMY_RES = {
     data: [
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         children: [
           {
             type: "image",
@@ -847,7 +883,7 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
@@ -871,7 +907,7 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         children: [
           {
             type: "image",
@@ -894,7 +930,7 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
@@ -948,17 +984,17 @@ const DUMMY_RES = {
     screenTitle: "",
     headline: "What are the benefits of completing KYC?",
     headingImage:
-      "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
 
     data: [
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         children: [
           {
             type: "image",
             styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
           },
           {
             type: "container",
@@ -976,13 +1012,13 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
             type: "image",
             styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/MandateBenefits.png",
           },
           {
             type: "container",
@@ -1000,7 +1036,7 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         children: [
           {
             type: "image",
@@ -1023,7 +1059,7 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
@@ -1082,7 +1118,7 @@ const DUMMY_RES = {
     data: [
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         children: [
           {
             type: "image",
@@ -1105,7 +1141,7 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
@@ -1129,7 +1165,7 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         children: [
           {
             type: "image",
@@ -1152,7 +1188,7 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        firstColumnWidth: 30,
+        widths: ["70%", "30%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
@@ -1250,17 +1286,17 @@ const DUMMY_RES = {
         children: [
           {
             type: "threeColumn",
-            secondColumnStyle: { flex: 1, paddingLeft: 15 },
+            widths: ["10%", "80%", "10%"],
+
             navigate: { type: "account", screen: "Profile" },
             children: [
               {
-                type: "icon",
-                iconName: "account-circle",
-                iconSize: 36,
-                iconColor: COLORS.gray,
+                type: "image",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/KYC.png",
               },
               {
                 type: "container",
+                styling: { paddingLeft: "5%" },
                 children: [
                   {
                     type: "title",
@@ -1282,17 +1318,18 @@ const DUMMY_RES = {
           },
           {
             type: "threeColumn",
-            secondColumnStyle: { flex: 1, paddingLeft: 15 },
+            widths: ["10%", "80%", "10%"],
+
             navigate: { type: "account", screen: "Profile" },
             children: [
               {
-                type: "icon",
-                iconName: "account-circle",
-                iconSize: 36,
-                iconColor: COLORS.gray,
+                type: "image",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/mandate.png",
               },
               {
                 type: "container",
+                styling: { paddingLeft: "5%" },
+
                 children: [
                   {
                     type: "title",
@@ -1314,17 +1351,17 @@ const DUMMY_RES = {
           },
           {
             type: "threeColumn",
-            secondColumnStyle: { flex: 1, paddingLeft: 15 },
+            widths: ["10%", "80%", "10%"],
+
             navigate: { type: "account", screen: "Profile" },
             children: [
               {
-                type: "icon",
-                iconName: "account-circle",
-                iconSize: 36,
-                iconColor: COLORS.gray,
+                type: "image",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/SalaryWithdrawal.png",
               },
               {
                 type: "container",
+                styling: { paddingLeft: "5%" },
                 children: [
                   {
                     type: "title",
@@ -1401,17 +1438,17 @@ const DUMMY_RES = {
       children: [
         {
           type: "threeColumn",
+          widths: ["10%", "80%", "10%"],
           secondColumnStyle: { flex: 1, paddingLeft: 15 },
           navigate: { type: "account", screen: "Profile" },
           children: [
             {
-              type: "icon",
-              iconName: "account-circle",
-              iconSize: 36,
-              iconColor: COLORS.gray,
+              type: "image",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/profile.png ",
             },
             {
               type: "container",
+              styling: { paddingLeft: "5%" },
               children: [
                 {
                   type: "title",
@@ -1433,17 +1470,17 @@ const DUMMY_RES = {
         },
         {
           type: "threeColumn",
+          widths: ["10%", "80%", "10%"],
           secondColumnStyle: { flex: 1, paddingLeft: 15 },
           navigate: { type: "account", screen: "Profile" },
           children: [
             {
-              type: "icon",
-              iconName: "account-circle",
-              iconSize: 36,
-              iconColor: COLORS.gray,
+              type: "image",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/payslip.png ",
             },
             {
               type: "container",
+              styling: { paddingLeft: "5%" },
               children: [
                 {
                   type: "title",
@@ -1465,17 +1502,18 @@ const DUMMY_RES = {
         },
         {
           type: "threeColumn",
+          widths: ["10%", "80%", "10%"],
           secondColumnStyle: { flex: 1, paddingLeft: 15 },
           navigate: { type: "account", screen: "KYC" },
           children: [
             {
-              type: "icon",
-              iconName: "account-circle",
-              iconSize: 36,
-              iconColor: COLORS.gray,
+              type: "image",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/KYC.png ",
             },
+
             {
               type: "container",
+              styling: { paddingLeft: "5%" },
               children: [
                 {
                   type: "title",
@@ -1498,17 +1536,17 @@ const DUMMY_RES = {
 
         {
           type: "threeColumn",
+          widths: ["10%", "80%", "10%"],
           secondColumnStyle: { flex: 1, paddingLeft: 15 },
           navigate: { type: "account", screen: "Profile" },
           children: [
             {
-              type: "icon",
-              iconName: "account-circle",
-              iconSize: 36,
-              iconColor: COLORS.gray,
+              type: "image",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/Support.png ",
             },
             {
               type: "container",
+              styling: { paddingLeft: "5%" },
               children: [
                 {
                   type: "title",
@@ -1530,17 +1568,17 @@ const DUMMY_RES = {
         },
         {
           type: "threeColumn",
+          widths: ["10%", "80%", "10%"],
           secondColumnStyle: { flex: 1, paddingLeft: 15 },
           navigate: { type: "account", screen: "Profile" },
           children: [
             {
-              type: "icon",
-              iconName: "account-circle",
-              iconSize: 36,
-              iconColor: COLORS.gray,
+              type: "image",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/Feedback.png",
             },
             {
               type: "container",
+              styling: { paddingLeft: "5%" },
               children: [
                 {
                   type: "title",
@@ -1563,17 +1601,17 @@ const DUMMY_RES = {
 
         {
           type: "threeColumn",
+          widths: ["10%", "80%", "10%"],
           secondColumnStyle: { flex: 1, paddingLeft: 15 },
           navigate: { type: "account", screen: "About Us" },
           children: [
             {
-              type: "icon",
-              iconName: "account-circle",
-              iconSize: 36,
-              iconColor: COLORS.gray,
+              type: "image",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/AboutUs.png ",
             },
             {
               type: "container",
+              styling: { paddingLeft: "5%" },
               children: [
                 {
                   type: "title",

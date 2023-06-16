@@ -4,7 +4,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS } from "../../constants/Theme";
 import VideoPlayer from "../organisms/VideoPlayer";
 
-const CmsVideo = ({ title, subtitle, thumbnail }) => {
+const CmsVideo = ({ title, subtitle, thumbnail, videoUri }) => {
   console.log({ thumbnail });
   return (
     <VideoPlayer
@@ -12,6 +12,7 @@ const CmsVideo = ({ title, subtitle, thumbnail }) => {
       thumbnail={{
         uri: thumbnail,
       }}
+      videoId={videoUri}
     />
   );
 };

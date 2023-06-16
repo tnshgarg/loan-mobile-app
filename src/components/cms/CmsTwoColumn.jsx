@@ -5,6 +5,7 @@ import { COLORS, FONTS } from "../../constants/Theme";
 
 const CmsTwoColumn = ({ children, widths, styling }) => {
   const safeChildren = children || [];
+
   return (
     <View style={[styles.row, { ...styling }]}>
       {safeChildren?.map((child, index) => (
@@ -12,11 +13,11 @@ const CmsTwoColumn = ({ children, widths, styling }) => {
           key={index}
           style={[
             styles.col,
-            { 
+            {
               padding: 0,
-              width: widths[index],
-              border: "1px solid black"
-            }
+              width: widths?.[index] || "50%",
+              border: 1,
+            },
           ]}
         >
           {child.element(child)}
