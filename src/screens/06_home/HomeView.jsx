@@ -233,6 +233,7 @@ const HomeView = () => {
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <LogoHeaderBack
+          notificationIconPresent={true}
           title={`Good Afternoon \n${name}!`}
           onRightIconPress={() => {
             // setVisible(true);

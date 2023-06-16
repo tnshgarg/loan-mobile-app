@@ -3,6 +3,27 @@ import { api } from "./api";
 
 const DUMMY_RES = {
   home: [
+    // {
+    //   type: "button",
+    //   clickType: "navigation", // if linking, then url also
+    //   navigate: { type: "app", stack: "EWAStack", screen: "Money" },
+    //   children: [
+    //     {
+    //       title: "Continue",
+    //       type: "outlined", // filled
+    //       buttonColor: "#41be89",
+    //       leftIcon: "file",
+    //       rightIcon: "file",
+    //       loading: false,
+    //       containerStyle: {},
+    //       titleStyle: {
+    //         fontSize: 20,
+    //         color: "#41be89",
+    //       },
+    //       iconColor: "#41be89",
+    //     },
+    //   ],
+    // },
     {
       type: "card",
       children: [
@@ -1574,10 +1595,31 @@ const DUMMY_RES = {
         },
       ],
     },
+
     // {
     //   type: "image",
     //   url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
     // },
+  ],
+  notifications: [
+    {
+      type: "notification",
+      title: "Notifications",
+      children: [
+        {
+          type: "notification",
+          title: "Hello",
+          subtitle: "YOYO",
+          notificationImageUri:
+            "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+        },
+        {
+          type: "notification",
+          title: "Hello",
+          subtitle: "YOYO",
+        },
+      ],
+    },
   ],
 };
 

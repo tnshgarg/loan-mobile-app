@@ -1,21 +1,19 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableNativeFeedback,
-  TouchableOpacity,
-} from "react-native";
 import { useNavigation } from "@react-navigation/core";
-import { COLORS, FONTS, SIZES } from "../../constants/Theme";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { COLORS, FONTS, SIZES } from "../../constants/Theme";
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
+import { navigationRef } from "../../navigators/RootNavigation";
 
 const COLOR_MAP = {
   Due: "orange",
   Missed: COLORS.white,
   Paid: COLORS.gray,
   Pending: "orange",
-  Rejected: "red"
+  Rejected: "red",
 };
 
 const BACKGROUND_COLOR_MAP = {
@@ -65,7 +63,7 @@ const OfferCard = ({ offer }) => {
   } else if (offer.availed) {
     offerType = "Pending";
   } else if (offer.rejected) {
-    offerType = "Rejected";  
+    offerType = "Rejected";
   }
 
   let dateString = date.toDateString();
@@ -83,7 +81,7 @@ const OfferCard = ({ offer }) => {
             component: "Money",
             action: "OfferDetailsClick",
             status: "",
-            offer: offer.offerId
+            offer: offer.offerId,
           });
           navigation.navigate("EWAStack", {
             screen: "EWA_DISBURSEMENT",
@@ -113,8 +111,26 @@ const OfferCard = ({ offer }) => {
 const PastDrawsCard = (props) => {
   return (
     <ScrollView style={{ marginTop: "5%" }}>
-      {props.data.length > 0 && (
-        <Text style={styles.title}>Your past draws</Text>
+      {props.data.length > 0 && props.screenType == "half" ? (
+        <View style={styles.pastDrawsContainer}>
+          <Text style={styles.title}>Your past draws</Text>
+          <TouchableOpacity
+            onPress={() =>
+              navigationRef.navigate("CmsStack", { screen: "CmsPastDraws" })
+            }
+            activeOpacity={0.92}
+            style={styles.seeAllContainer}
+          >
+            <Text style={styles.seeAll}>See All</Text>
+            <MaterialCommunityIcons
+              name="chevron-right-circle"
+              color={COLORS.primary}
+              size={15}
+            />
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <></>
       )}
       {props.data.map((offer, index) => (
         <OfferCard offer={offer} key={index} />
@@ -134,6 +150,16 @@ const styles = EStyleSheet.create({
     borderRadius: "10rem",
     ...SIZES.shadow,
   },
+  seeAll: {
+    color: COLORS.primary,
+    marginRight: 5,
+    ...FONTS.body4,
+  },
+  seeAllContainer: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    marginTop: "-3rem",
+  },
   dateCard: {
     backgroundColor: COLORS.lightgray_01,
     padding: "10rem",
@@ -151,6 +177,11 @@ const styles = EStyleSheet.create({
     justifyContent: "center",
   },
   title: { ...FONTS.body3, color: COLORS.black, marginBottom: "10rem" },
+  pastDrawsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
 });
 
 export default PastDrawsCard;

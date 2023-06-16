@@ -2,22 +2,24 @@ import React from "react";
 import { View } from "react-native";
 import CmsBanner from "./CmsBanner";
 import CmsBlog from "./CmsBlog";
-import CmsColumn from "./CmsColumn";
-import CmsImage from "./CmsImage";
-import CmsReview from "./CmsReview";
-import CmsTabs from "./CmsTabs";
+import CmsButton from "./CmsButton";
 import CmsCard from "./CmsCard";
-import CmsTwoColumn from "./CmsTwoColumn";
-import CmsTitle from "./CmsTitle";
-import CmsSubtitle from "./CmsSubtitle";
-import CmsSection from "./CmsSection";
-import CmsSwiper from "./CmsSwiper";
-import CmsVideo from "./CmsVideo";
+import CmsColumn from "./CmsColumn";
 import CmsContainer from "./CmsContainer";
 import CmsIconText from "./CmsIconText";
 import CmsThreeColumn from "./CmsThreeColumn";
 import CmsIcon from "./CmsIcon";
 import CmsCollapsibleList from "./CmsCollapsibleList";
+import CmsImage from "./CmsImage";
+import CmsNotification from "./CmsNotification";
+import CmsReview from "./CmsReview";
+import CmsSection from "./CmsSection";
+import CmsSubtitle from "./CmsSubtitle";
+import CmsSwiper from "./CmsSwiper";
+import CmsTabs from "./CmsTabs";
+import CmsTitle from "./CmsTitle";
+import CmsTwoColumn from "./CmsTwoColumn";
+import CmsVideo from "./CmsVideo";
 
 const CMS_TYPES = {
   section: CmsSection,
@@ -34,10 +36,12 @@ const CMS_TYPES = {
   title: CmsTitle,
   subtitle: CmsSubtitle,
   blog: CmsBlog,
+  button: CmsButton,
   container: CmsContainer,
   iconText: CmsIconText,
   icon: CmsIcon,
   collapsibleList: CmsCollapsibleList,
+  notification: CmsNotification,
   default: () => <></>,
 };
 

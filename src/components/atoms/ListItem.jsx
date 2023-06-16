@@ -1,6 +1,7 @@
-import { Text, TouchableNativeFeedback, View } from "react-native";
+import { Image, Text, TouchableNativeFeedback, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Notification from "../../assets/Notification";
 import { COLORS, FONTS } from "../../constants/Theme";
 import SvgContainer from "./SvgContainer";
 
@@ -11,10 +12,12 @@ const ListItem = ({
   selected,
   titleStyle,
   subtitleStyle,
-  iconSize,
   containerStyle,
+  curved,
 }) => {
-  const { title, subtitle, iconName, onPress } = item;
+  const { title, subtitle, onPress, notificationImageUri } = item;
+
+  console.log("ITEM: ", item);
 
   return (
     <TouchableNativeFeedback
@@ -33,42 +36,80 @@ const ListItem = ({
               : COLORS.white,
             ...containerStyle,
           },
+          curved
+            ? {
+                // paddingHorizontal: 20,
+                borderRadius: 15,
+                width: "90%",
+                alignSelf: "center",
+                marginTop: 20,
+              }
+            : {},
         ]}
       >
-        <SvgContainer height={24} width={24}>
-          {item.imageUri}
-        </SvgContainer>
-        <View style={styles.textContainer}>
-          <Text
-            style={[
-              styles.title,
-              { ...titleStyle },
-              {
-                color: selected
-                  ? COLORS.white
-                  : disabled
-                  ? COLORS.gray
-                  : COLORS.black,
-              },
-            ]}
+        {notificationImageUri ? (
+          <Image
+            source={{ uri: notificationImageUri }}
+            style={{
+              width: "100%",
+              height: 160,
+              resizeMode: "cover",
+              borderTopLeftRadius: 15,
+              borderTopRightRadius: 15,
+            }}
+          />
+        ) : (
+          <></>
+        )}
+        <View
+          style={{ flexDirection: "row", alignItems: "center", padding: 20 }}
+        >
+          <View
+            style={{ padding: 5, backgroundColor: "#EBF1F1", borderRadius: 30 }}
           >
-            {title}
-          </Text>
-          {subtitle && (
-            <Text style={[styles.subtitle, { ...subtitleStyle }]}>
-              {subtitle}
+            <SvgContainer height={26} width={26}>
+              {/* {item.imageUri} */}
+              <Notification />
+            </SvgContainer>
+          </View>
+          <View style={styles.textContainer}>
+            <Text
+              style={[
+                styles.title,
+                { ...titleStyle },
+                {
+                  color: selected
+                    ? COLORS.white
+                    : disabled
+                    ? COLORS.gray
+                    : COLORS.black,
+                },
+              ]}
+            >
+              {title}
             </Text>
+            {subtitle && (
+              <Text
+                style={[
+                  styles.subtitle,
+                  { ...subtitleStyle },
+                  curved ? { paddingTop: 5 } : {},
+                ]}
+              >
+                {subtitle}
+              </Text>
+            )}
+          </View>
+          {showIcon && (
+            <MaterialCommunityIcons
+              name="chevron-right"
+              size={24}
+              color={
+                selected ? COLORS.white : disabled ? COLORS.gray : COLORS.black
+              }
+            />
           )}
         </View>
-        {showIcon && (
-          <MaterialCommunityIcons
-            name="chevron-right"
-            size={24}
-            color={
-              selected ? COLORS.white : disabled ? COLORS.gray : COLORS.black
-            }
-          />
-        )}
       </View>
     </TouchableNativeFeedback>
   );
@@ -77,8 +118,8 @@ const ListItem = ({
 const styles = EStyleSheet.create({
   container: {
     width: "100%",
-    padding: "20rem",
-    flexDirection: "row",
+    // padding: "20rem",
+    // flexDirection: "row",
     alignItems: "center",
     borderBottomWidth: 1,
     borderColor: COLORS.lightgray_01,
