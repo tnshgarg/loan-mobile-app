@@ -6,13 +6,19 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import LinearGradient from "react-native-linear-gradient";
 import { useNavigation } from "@react-navigation/core";
 import * as RootNavigation from "../../navigators/RootNavigation";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
-const CmsCard = ({ children, style, gradientColors }) => {
+const CmsCard = ({ children, style, gradientColors, navigate }) => {
   const safeChildren = children || [];
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      onPress={() => RootNavigation.navigate("CmsScreen")}
+      onPress={() => {
+        navigationHelper({
+          type: navigate.type,
+          params: { blogKey: navigate.screen },
+        });
+      }}
     >
       <LinearGradient
         start={{ x: 0, y: 0 }}

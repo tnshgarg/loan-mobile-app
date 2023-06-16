@@ -9,8 +9,6 @@ import HelpFooter from "../../components/atoms/HelpFooter";
 import CmsMiniPlacement from "../../components/cms/CmsMiniPlacement";
 import CmsRoot from "../../components/cms/CmsRoot";
 import BottomAlert from "../../components/molecules/BottomAlert";
-import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
-import HelpSection from "../../components/organisms/HelpSection";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
@@ -18,7 +16,6 @@ import {
   notificationListener,
   requestUserPermission,
 } from "../../services/notifications/notificationService";
-import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { useGetOffersQuery } from "../../store/apiSlices/ewaApi";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { addOnboarded } from "../../store/slices/authSlice";
@@ -29,6 +26,9 @@ import {
   resetEwaLive,
   addCampaignBanner,
 } from "../../store/slices/ewaLiveSlice";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import HelpSection from "../../components/organisms/HelpSection";
 import { addCurrentStack } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 

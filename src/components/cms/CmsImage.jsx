@@ -2,7 +2,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { useEffect, useState } from "react";
 import { Image } from "react-native";
 
-const CmsImage = function ({ url }) {
+const CmsImage = ({ url }) => {
   // const [{ width, height }, setDimensions] = useState({
   //   width: 0,
   //   height: 0,
@@ -17,16 +17,15 @@ const CmsImage = function ({ url }) {
   //   });
   // }, [url]);
 
-  console.log({ url });
+  // console.log({ url });
 
   const style = EStyleSheet.create({
     fullWidthImage: {
       width: "100%",
-      // width: 50,
-      // height: 50,
+
       // aspectRatio: aspectRatio,
       aspectRatio: 1,
-      resizeMode: "contain",
+      resizeMode: "cover",
       borderRadius: "10rem",
     },
   });

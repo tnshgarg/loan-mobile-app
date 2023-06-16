@@ -4,8 +4,9 @@ import { SafeAreaView, ScrollView, View } from "react-native";
 import { useSelector } from "react-redux";
 import BannerCard from "../../components/atoms/BannerCard";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
-import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { styles } from "../../styles";
+import CmsRoot from "../../components/cms/CmsRoot";
 
 const LearnWithUs = () => {
   const navigation = useNavigation();
@@ -29,9 +30,7 @@ const LearnWithUs = () => {
       <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           {!cmsLoading ? (
-            cmsData.blogs.map((item, index) => (
-              <BannerCard data={item} key={index} />
-            ))
+            <CmsRoot children={DUMMY_RES?.blogs || []}></CmsRoot>
           ) : (
             <></>
           )}

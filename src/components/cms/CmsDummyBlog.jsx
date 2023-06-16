@@ -6,6 +6,7 @@ import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { styles } from "../../styles";
 import LogoHeaderBack from "../molecules/LogoHeaderBack";
 import CmsRoot from "./CmsRoot";
+import { useEffect } from "react";
 
 const CmsDummyBlog = (props) => {
   const navigation = useNavigation();
@@ -22,21 +23,20 @@ const CmsDummyBlog = (props) => {
 
   const [_, key] = props.route.params.blogKey.split("_");
 
+  const data = cmsData[props.route.params.blogKey] || [];
+  console.log({ data });
+
   return (
     <View style={[styles.safeContainer, { padding: 0 }]}>
       <LogoHeaderBack
         title={screenTitle}
         onLeftIconPress={() => navigation.goBack()}
-        headline={cmsData?.blogs[key - 1].title}
-        headerImageUri={cmsData?.blogs[key - 1].imageUri}
+        headline={data[0]?.title}
+        headerImageUri={data[0]?.headingImage}
       />
       <ScrollView>
         <View style={[styles.container, { padding: 0 }]}>
-          {!cmsLoading ? (
-            <CmsRoot children={cmsData[props.route.params.blogKey]}></CmsRoot>
-          ) : (
-            <></>
-          )}
+          {!cmsLoading ? <CmsRoot children={data}></CmsRoot> : <></>}
         </View>
       </ScrollView>
     </View>
