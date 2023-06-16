@@ -49,13 +49,14 @@ const StackNavigator = () => {
   console.log("STAGE: ", STAGE);
   console.log("initialRoute: ", initialRoute);
   console.log("currentScreen: ", initialScreen);
-
-  STAGE === "dev" ? (initialRoute = "DevMenu") : null;
+  if(STAGE === "dev") {
+    initialRoute = "DevMenu"
+  }
   console.log("initialRoute: ", initialRoute);
   return (
     <OfflineAlert>
-      <Stack.Navigator initialRouteName={"Splash"}>
-        {/* <Stack.Screen
+      <Stack.Navigator initialRouteName={initialRoute}>
+        <Stack.Screen
           name="Splash"
           options={{ headerShown: false, header: null }}
           component={SplashScreen}
@@ -63,7 +64,7 @@ const StackNavigator = () => {
             initialRoute: initialRoute,
             initialScreen: initialScreen,
           }}
-        /> */}
+        />
         {!token ? (
           <Stack.Screen
             name="OnboardingStack"

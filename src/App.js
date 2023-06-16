@@ -16,6 +16,10 @@ Crashes.setListener({
   },
 });
 
+if(__DEV__) {
+  import('./ReactotronConfig').then(() => console.log('Reactotron Configured'))
+}
+
 const App = () => {
   SplashScreen.hide();
   return (

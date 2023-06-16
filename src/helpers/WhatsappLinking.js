@@ -11,7 +11,7 @@ const whatsappLinking = () => {
         Alert.alert("Alert", "WhatsApp is not installed");
       }
     })
-    .catch((err) => console.error("An error occurred", err));
+    .catch((err) => console.log("An error occurred", err));
 };
 
 export default whatsappLinking;

@@ -194,7 +194,7 @@ const HomeView = () => {
           break;
       }
     } else {
-      console.log("No intent. User opened App.");
+      console.warn("No intent. User opened App.");
     }
   };
 
