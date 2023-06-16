@@ -1,7 +1,3 @@
-import Blog1 from "../../assets/Blog1.svg";
-import Blog2 from "../../assets/Blog2.svg";
-import Blog3 from "../../assets/Blog3.svg";
-import Blog4 from "../../assets/Blog4.svg";
 import { COLORS } from "../../constants/Theme";
 import { api } from "./api";
 

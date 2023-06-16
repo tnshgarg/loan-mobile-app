@@ -6,7 +6,6 @@ import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { styles } from "../../styles";
 import LogoHeaderBack from "../molecules/LogoHeaderBack";
 import CmsRoot from "./CmsRoot";
-import { useEffect } from "react";
 
 const CmsDummyBlog = (props) => {
   const navigation = useNavigation();
@@ -24,7 +23,7 @@ const CmsDummyBlog = (props) => {
   const [_, key] = props.route.params.blogKey.split("_");
 
   const data = cmsData[props.route.params.blogKey] || [];
-  console.log({ data });
+  console.log("MyData: ", data);
 
   return (
     <View style={[styles.safeContainer, { padding: 0 }]}>
