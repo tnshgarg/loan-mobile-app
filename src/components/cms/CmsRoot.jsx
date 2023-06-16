@@ -17,6 +17,7 @@ import CmsContainer from "./CmsContainer";
 import CmsIconText from "./CmsIconText";
 import CmsThreeColumn from "./CmsThreeColumn";
 import CmsIcon from "./CmsIcon";
+import CmsSpacer from "./CmsSpacer";
 
 const CMS_TYPES = {
   section: CmsSection,
@@ -36,6 +37,7 @@ const CMS_TYPES = {
   container: CmsContainer,
   iconText: CmsIconText,
   icon: CmsIcon,
+  spacer: CmsSpacer,
   default: () => <></>,
 };
 

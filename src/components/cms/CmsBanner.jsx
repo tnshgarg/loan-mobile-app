@@ -6,19 +6,15 @@ import SvgContainer from "../atoms/SvgContainer";
 import BannerBg from "../../assets/BannerBg.svg";
 import LinearGradient from "react-native-linear-gradient";
 
-const CmsBanner = ({ children }) => {
+const CmsBanner = ({ children, colors }) => {
   const safeChildren = children || [];
   return (
     <LinearGradient
       style={styles.container}
       start={{ x: 0, y: 0 }}
       end={{ x: 0, y: 1 }}
-      colors={["rgba(185, 233, 136, 0.6)", "rgba(237, 251, 139,1)"]}
+      colors={colors ?? ["rgba(185, 233, 136, 0.6)", "rgba(237, 251, 139,1)"]}
     >
-      <SvgContainer height={200} width={300}>
-        <BannerBg />
-      </SvgContainer>
-
       {safeChildren?.map((child, index) => (
         <View key={index}>{child.element(child)}</View>
       ))}

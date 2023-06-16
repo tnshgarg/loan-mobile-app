@@ -90,7 +90,7 @@ const HomeView = () => {
     isLoading: cmsLoading,
     isError: cmsError,
   } = useGetCmsQuery(unipeEmployeeId, {
-    pollingInterval: 1000,
+    pollingInterval: 1000 * 3600,
   });
 
   console.log(cmsData?.home);
@@ -250,12 +250,35 @@ const HomeView = () => {
             accessible={accessible}
             ewaLiveSlice={ewaLiveSlice}
           />
-
-          {!cmsLoading ? (
+          <CmsRoot children={[
+            {
+              "type": "banner",
+              "children": [
+                {
+                  "type": "image",
+                  "url": "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBanner.png"
+                }
+              ]
+            },
+            {
+              "type": "spacer",
+              "height": -200
+            },
+            {
+              "type": "banner",
+              "children": [
+                {
+                  "type": "image",
+                  "url": "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBanner.png"
+                }
+              ]
+            }
+          ]} />
+          {/* {!cmsLoading ? (
             <CmsRoot children={DUMMY_RES?.home || []}></CmsRoot>
           ) : (
             <></>
-          )}
+          )} */}
 
           {/* <BannerCard /> */}
         </View>
