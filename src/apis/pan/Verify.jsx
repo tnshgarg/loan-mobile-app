@@ -7,7 +7,7 @@ import {
   addVerifyStatus,
 } from "../../store/slices/panSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics from "appcenter-analytics";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 import { putBackendData } from "../../services/employees/employeeServices";
 
 const PanVerifyApi = (props) => {
@@ -45,8 +45,11 @@ const PanVerifyApi = (props) => {
           if (responseJson?.status === 200) {
             dispatch(addData(responseJson?.body?.data));
             setLoading(false);
-            Analytics.trackEvent("Pan|Verify|Success", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Pan",
+              action: "Verify",
+              status: "Success",
             });
             dispatch(addVerifyStatus(responseJson?.body?.verifyStatus));
             if (props.type !== "KYC") {
@@ -58,8 +61,11 @@ const PanVerifyApi = (props) => {
         } catch (error) {
           dispatch(addVerifyStatus("ERROR"));
           Alert.alert("fetchPanDetails API Catch Error", JSON.stringify(error));
-          Analytics.trackEvent("Pan|Verify|Error", {
-            unipeEmployeeId: unipeEmployeeId,
+          Analytics.trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            component: "Pan",
+            action: "Verify",
+            status: "Error",
             error: `fetchPanDetails API Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
           });
           setLoading(false);
@@ -68,8 +74,11 @@ const PanVerifyApi = (props) => {
       .catch((error) => {
         dispatch(addVerifyStatus("ERROR"));
         Alert.alert("fetchPanDetails Catch Error", JSON.stringify(error));
-        Analytics.trackEvent("Pan|Verify|Error", {
-          unipeEmployeeId: unipeEmployeeId,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "Pan",
+          action: "Verify",
+          status: "Error",
           error: `fetchPanDetails Catch Error: ${JSON.stringify(error)}`,
         });
         setLoading(false);

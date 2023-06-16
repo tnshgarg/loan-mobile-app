@@ -1,6 +1,6 @@
 import { useSelector, useDispatch} from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
+import { Alert, Linking } from "react-native";
 import DevMenu from "../screens/DevMenu";
 import { useEffect, useState } from "react";
 import { STAGE } from "@env";
@@ -18,36 +18,92 @@ import { showToast } from "../components/atoms/Toast";
 import { decode } from "react-native-pure-jwt";
 import LogoutModal from "../components/organisms/LogoutModal";
 import { useNavigation } from "@react-navigation/core";
-
+import {asyncTimeout} from "../helpers/asyncTimer";
+import Analytics, {InteractionTypes} from "../helpers/analytics/commonAnalytics";
+import {parseUrl} from "../services/campaign/urlParsing"
+import { setCampaignStoreData } from "../services/campaign/storeManagement";
+import { handleCampaignNavigation } from "../services/campaign/campaignNavigation";
+import { setPendingUrl } from "../store/slices/pendingCampaignClickSlice";
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   var initialRoute = useSelector((state) => state.navigation.currentStack);
-  const token = useSelector((state) => state.auth.token);
+  const token = useSelector((state) => state.auth?.token);
+  const onboarded = useSelector((state) => state.auth.onboarded);
   var initialScreen = useSelector((state) => state.navigation.currentScreen);
   const [modalVisible, setModalVisible] = useState(false);
-
+  
   useEffect(() => {
-    decode(
-      token, // the token
-      "Un!pe@2*22", // the secret
-      {
-        skipValidation: false, // to skip signature and exp verification
-      }
-    )
-      .then(() => {
+    if (token) {
+      decode(
+        token, // the token
+        "Un!pe@2*22", // the secret
+        {
+          skipValidation: false, // to skip signature and exp verification
+        }
+      ).then(async () => {
         showToast("Your Session has expired. Please login again.");
         dispatch({ type: "LOGOUT" });
         setModalVisible(true);
-        setTimeout(() => {
-          setModalVisible(false);
-          navigation.navigate("OnboardingStack", { screen: "Login" });
-        }, 8000);
+        await asyncTimeout(8000);
+        setModalVisible(false);
+        navigation.navigate("OnboardingStack", { screen: "Login" });
       })
-      .catch(console.log);
+      .catch(err => {console.log("Token Err", err)});
+    }
   }, [token]);
 
+  const handleCampaignUrlClick = (url) => {
+    // Alert.alert("Url",`${url}`)
+    Analytics.setSessionValue("campaignClick", url);
+    if (!token) {
+      console.error("Token is not present")
+      Analytics.trackEvent({
+        interaction: InteractionTypes.CAMPAIGN_URL,
+        component: "STACK_NAVIGATOR",
+        action: "campaign_url_open",
+        status: "WAITING_LOGIN",
+        error: "user token is not present"
+      })
+      dispatch(setPendingUrl(url))
+      return
+    }
+
+    try {
+      const {campaignId,campaignScreen,campaignType} = parseUrl(url)
+      setCampaignStoreData({campaignType, campaignId})
+      handleCampaignNavigation(campaignType, campaignScreen, navigation, {stack: initialRoute, screen: initialScreen}, onboarded)
+      Analytics.trackEvent({
+        interaction: InteractionTypes.CAMPAIGN_URL,
+        component: "STACK_NAVIGATOR",
+        action: "campaign_url_open",
+        status: "SUCCESS",
+      })
+    } catch (err) {
+      Analytics.trackEvent({
+        interaction: InteractionTypes.CAMPAIGN_URL,
+        component: "STACK_NAVIGATOR",
+        action: "campaign_url_open",
+        status: "ERROR",
+        error: JSON.stringify({ message: err.message, stack: err.stack })
+      })
+      console.error(err)
+    }
+  }
+  useEffect(() => {
+    Linking.getInitialURL().then((url) => {
+      if (url) {
+        handleCampaignUrlClick(url)
+      }
+    })
+    const subscription = Linking.addEventListener('url',({url})=>{ 
+      handleCampaignUrlClick(url)
+    });
+    return () => {
+      subscription.remove()
+    }
+  },[])
   console.log("STAGE: ", STAGE);
   console.log("initialRoute: ", initialRoute);
   console.log("currentScreen: ", initialScreen);

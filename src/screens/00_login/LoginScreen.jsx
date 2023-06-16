@@ -1,4 +1,4 @@
-import Analytics from "appcenter-analytics";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View, Linking} from "react-native";
@@ -102,7 +102,7 @@ const LoginScreen = () => {
 
   useEffect(() => {
     var phoneno = /^[0-9]{10}$/gm;
-    if (phoneno.test(phoneNumber) && phoneNumber.length === 10) {
+    if (phoneno.test(phoneNumber) && phoneNumber?.length === 10) {
       dispatch(addPhoneNumber(phoneNumber));
       setNext(true);
     } else {
@@ -156,49 +156,69 @@ const LoginScreen = () => {
           setEmployeeName(responseJson.body.employeeName);
           setOnboarded(responseJson.body.onboarded);
           setUnipeEmployeeId(responseJson.body.unipeEmployeeId);
+          dispatch(addPhoneNumber((phoneNumber|| "").replace("+91", "")));
           sendSmsVerification(phoneNumber)
             .then((result) => {
-              if (result["response"]["status"] === "success") {
+              console.log(`result: ${JSON.stringify(result)}`);
+              if (result["response"]["status"] || result["status"] === "success") {
                 setLoading(false);
-                Analytics.trackEvent("LoginScreen|SendSms|Success", {
-                  unipeEmployeeId: unipeEmployeeId,
+                Analytics.trackEvent({
+                  interaction: InteractionTypes.BUTTON_PRESS,
+                  component: "LoginScreen",
+                  action: "SendSms",
+                  status: "Success"
                 });
                 navigation.navigate("Otp");
               } else {
                 setLoading(false);
                 Alert.alert(
-                  result["response"]["status"],
-                  result["response"]["details"]
+                  result["response"]["status"] || result["status"],
+                  result["response"]["details"] || result["details"]
                 );
-                Analytics.trackEvent("LoginScreen|SendSms|Error", {
-                  unipeEmployeeId: unipeEmployeeId,
-                  error: result["response"]["details"],
+                Analytics.trackEvent({
+                  interaction: InteractionTypes.BUTTON_PRESS,
+                  component: "LoginScreen",
+                  action: "SendSms",
+                  status: "Error",
+                  error: result["response"]["details"] || result["details"],
                 });
               }
             })
             .catch((error) => {
               setLoading(false);
               Alert.alert("Error", JSON.stringify(error));
-              Analytics.trackEvent("LoginScreen|SendSms|Error", {
-                unipeEmployeeId: unipeEmployeeId,
+              Analytics.trackEvent({
+                interaction: InteractionTypes.BUTTON_PRESS,
+                component: "LoginScreen",
+                action: "SendSms",
+                status: "Error",
                 error: JSON.stringify(error),
               });
             });
         } else {
           setLoading(false);
           Alert.alert("Error", responseJson["message"]);
-          Analytics.trackEvent("LoginScreen|SignIn|Error", {
+          Analytics.trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            component: "LoginScreen",
+            action: "SignIn",
+            status: "Error",
             phoneNumber: phoneNumber,
             error: responseJson["message"],
           });
         }
       })
       .catch((error) => {
+        console.log("erer", error.message || JSON.stringify(error));
         setLoading(false);
-        Alert.alert("Error", JSON.stringify(error));
-        Analytics.trackEvent("LoginScreen|SignIn|Error", {
+        Alert.alert("Error", error.message || JSON.stringify(error));
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "LoginScreen",
+          action: "SignIn",
+          status: "Error",
           phoneNumber: phoneNumber,
-          error: JSON.stringify(error),
+          error: error.message || JSON.stringify(error),
         });
       });
   };

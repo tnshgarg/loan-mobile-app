@@ -8,6 +8,11 @@ import { resetBank } from "../store/slices/bankSlice";
 import { resetPan } from "../store/slices/panSlice";
 import { resetProfile } from "../store/slices/profileSlice";
 import { resetMandate } from "../store/slices/mandateSlice";
+import { parseUrl } from "../services/campaign/urlParsing";
+import { setCampaignStoreData } from "../services/campaign/storeManagement";
+import { handleCampaignNavigation } from "../services/campaign/campaignNavigation";
+import Analytics, {InteractionTypes} from "../helpers/analytics/commonAnalytics"
+import { setPendingUrl } from "../store/slices/pendingCampaignClickSlice";
 
 
 const BackendSync = (props) => {
@@ -16,11 +21,48 @@ const BackendSync = (props) => {
   const navigation = useNavigation();
   
   const token = useSelector((state) => state.auth.token);
+  const onboarded = useSelector((state) => state.auth.onboarded);
+  const pendingCampaignClick = useSelector((state) => state.pendingCampaignClick.clickedUrl);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
+  const handlePendingCampaignClick = () => {
+      if (pendingCampaignClick) {
+        try {
+          const {campaignId,campaignScreen,campaignType} = parseUrl(pendingCampaignClick)
+          setCampaignStoreData({campaignType, campaignId})
+          handleCampaignNavigation(campaignType, campaignScreen, navigation, {stack: "HomeStack", screen: "Home"}, onboarded)
+          Analytics.trackEvent({
+            interaction: InteractionTypes.CAMPAIGN_URL,
+            component: "BackendSync",
+            action: "campaign_url_open",
+            status: "SUCCESS",
+          })
+          
+        } catch (err) {
+          Analytics.trackEvent({
+            interaction: InteractionTypes.CAMPAIGN_URL,
+            component: "BackendSync",
+            action: "campaign_url_open",
+            status: "ERROR",
+            error: JSON.stringify({ message: err.message, stack: err.stack })
+          })
+          console.error(err)
+          navigation.navigate(props.route.params.destination);
+        }
+        
+      } else {
+        navigation.navigate(props.route.params.destination);
+      }
+  }
   useEffect(() => {
     console.log("BackendSync unipeEmployeeId: ", unipeEmployeeId);
-    navigation.navigate(props.route.params.destination);
+    if (pendingCampaignClick)
+      handlePendingCampaignClick();
+    else
+      navigation.navigate(props.route.params.destination);
+    return () => {
+      dispatch(setPendingUrl(""))
+    }
   }, []);
 
   useEffect(() => {

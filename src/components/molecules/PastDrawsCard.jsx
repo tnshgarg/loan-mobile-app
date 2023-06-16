@@ -2,12 +2,14 @@ import { View, Text, ScrollView, TouchableNativeFeedback } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { COLORS, FONTS } from "../../constants/Theme";
 import EStyleSheet from "react-native-extended-stylesheet";
+import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
 
 const COLOR_MAP = {
   Due: "orange",
   Missed: COLORS.warning,
   Paid: COLORS.primary,
   Pending: "orange",
+  Rejected: "red"
 };
 
 const BACKGROUND_COLOR_MAP = {
@@ -15,6 +17,7 @@ const BACKGROUND_COLOR_MAP = {
   Missed: COLORS.warningBackground,
   Paid: COLORS.primaryBackground,
   Pending: "rgba(183, 65, 44, 0.08)",
+  Rejected: "rgba(183, 65, 44, 0.08)",
 };
 
 const StatusCard = ({ offerType }) => {
@@ -43,18 +46,19 @@ const OfferCard = ({ offer }) => {
   var amount = offer.eligibleAmount;
   var date = new Date(offer.updatedAt.split(" ")[0]);
 
+  if (offer.availed) {
+    date = new Date(offer.availedAt.split(" ")[0]);
+    amount = offer.loanAmount;
+  }
+
   if (offer.paid) {
     offerType = "Paid";
-    amount = offer.loanAmount;
-    date = new Date(offer.availedAt.split(" ")[0]);
   } else if (offer.disbursed) {
     offerType = "Due";
-    amount = offer.loanAmount;
-    date = new Date(offer.availedAt.split(" ")[0]);
   } else if (offer.availed) {
     offerType = "Pending";
-    amount = offer.loanAmount;
-    date = new Date(offer.availedAt.split(" ")[0]);
+  } else if (offer.rejected) {
+    offerType = "Rejected";  
   }
 
   var dateString = date.toDateString();
@@ -65,6 +69,13 @@ const OfferCard = ({ offer }) => {
     <TouchableNativeFeedback
       onPress={() => {
         if (offerType !== "Missed") {
+          Analytics.trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            component: "Money",
+            action: "OfferDetailsClick",
+            status: "",
+            offer: offer.offerId
+          });
           navigation.navigate("EWAStack", {
             screen: "EWA_DISBURSEMENT",
             params: { offer: offer },

@@ -1,80 +1,67 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
-import { Image, StyleSheet } from "react-native";
-
+import { Alert, Image, StyleSheet } from "react-native";
+import Analytics, { InteractionTypes } from "../helpers/analytics/commonAnalytics";
 import { Linking } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { addOnboardingCampaignId } from "../store/slices/campaignSlice";
 import { addCurrentStack } from "../store/slices/navigationSlice";
+import * as RootNavigation from "../navigators/RootNavigation"
+const extractPathParams = (initialUrl) => {
+  const splitUrl = initialUrl.split("/");
+  let campaignId = null;
+  const campaignParamIndex = splitUrl.indexOf("campaign")    
+  if (campaignParamIndex > -1 && campaignParamIndex < splitUrl.length -1) {
+    campaignId = splitUrl[campaignParamIndex+1]
+  }
+  console.log({campaignId})
+  const campaignType = splitted[3].toLowerCase()
+  const campaignScreen = splitted[4]?.toLowerCase()
+  return {
+    "utm_campaign": campaignId,
+    "unip_type": campaignType,
+    "unipe_screen": campaignScreen
+  }
+}
 
+const extractQueryParams = (url) => {
+  var regex = /[?&]([^=#]+)=([^&#]*)/g,
+    params = {},
+    match;
+  while (match = regex.exec(url)) {
+    params[match[1]] = match[2];
+  }
+  return params
+}
+const handleOnboardedUser = (navigation,initialUrl) => {
+  Analytics.setSessionValue("campaignClick", initialUrl)
+
+}
+const delay = (ms) => {
+  return new Promise((resolve,reject) => {
+    setTimeout(() => {
+      resolve();
+    }, ms);
+  })
+}
 const SplashScreen = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const onboarded = useSelector((state) => state.auth.onboarded);
-  var [campaignId, setCampaignId] = useState(
-    useSelector((state) => state.campaign.onboardingCampaignId)
-  );
+  let campaignId = useSelector((state) => state?.campaign?.onboardingCampaignId)
 
-  useEffect(() => {
-    dispatch(addOnboardingCampaignId(campaignId));
-  }, [campaignId]);
+  const navigateHome = () => navigation.navigate("HomeStack", {screen: "Home"})
+  const navigateInitialRoute = async () => {
+    await delay(500);
+    const {initialRoute, initialScreen} = props?.route?.params
+    if (initialRoute && navigation.replace)
+      navigation.navigate(initialRoute,{screen: initialScreen})
+    else
+      navigateHome();
+  }
 
-  const getUrlAsync = async () => {
-    const initialUrl = await Linking.getInitialURL();
-    const breakpoint = "/";
-    if (initialUrl && !onboarded) {
-      const splitted = initialUrl.split(breakpoint);
-      console.log("initialUrl", splitted);
-      console.log("route", splitted[3]);
-      switch (splitted[3].toLowerCase()) {
-        case "onboarding":
-          switch (splitted[4]?.toLowerCase()) {
-            case "profile":
-              navigation.navigate("AccountStack", {
-                screen: "Profile",
-              })
-              break;
-            case "aadhaar":
-              navigation.navigate("AccountStack", {
-                screen: "KYC",
-                params: { screen: "AADHAAR" },
-              })
-              break;
-            case "pan":
-              navigation.navigate("AccountStack", {
-                screen: "KYC",
-                params: { screen: "PAN" },
-              })
-              break;
-            case "bank":
-              navigation.navigate("AccountStack", {
-                screen: "KYC",
-                params: { screen: "BANK" },
-              })
-              break;
-          }
-          break;
-        default:
-          break;
-      }
-      switch (splitted[5]?.toLowerCase()) {
-        case "campaign":
-          console.log("campaignId", splitted[6]);
-          setCampaignId(splitted[6]);
-          break;
-        default:
-          navigation.replace(props.route.params.initialRoute);
-          break;
-      }
-    } else {
-      console.log("No intent. User opened App.");
-      console.log("campaignId", campaignId);
-      navigation.replace(props.route.params.initialRoute);
-    }
-  };
-
-  useEffect(() => {
-    getUrlAsync();
+  useEffect(() => {    
+    navigateInitialRoute();
   }, []);
 
   return (

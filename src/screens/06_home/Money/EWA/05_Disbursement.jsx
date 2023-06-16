@@ -51,6 +51,8 @@ const Disbursement = ({ route, navigation }) => {
         return <Success />;
       case "FAILURE":
         return <Failure />;
+      case "REJECTED":
+          return <Failure />;
       default:
         return <Pending />;
     }
@@ -73,6 +75,11 @@ const Disbursement = ({ route, navigation }) => {
           "Your advance salary has been credited to your bank account."
         );
       case "FAILURE":
+        return getStatusText(
+          "Sorry",
+          "We cannot process your advance salary at this moment."
+        );
+      case "REJECTED":
         return getStatusText(
           "Sorry",
           "We cannot process your advance salary at this moment."

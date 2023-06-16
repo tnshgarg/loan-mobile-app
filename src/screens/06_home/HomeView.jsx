@@ -1,18 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Linking, SafeAreaView, ScrollView, View } from "react-native";
-import PushNotification from "react-native-push-notification";
+import { Linking, SafeAreaView, ScrollView, View, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
-import { allAreNull } from "../../helpers/nullCheck";
 import {
   addEkycCampaignId,
   addEwaCampaignId,
   addRepaymentCampaignId,
 } from "../../store/slices/campaignSlice";
 import {
-  addCurrentScreen,
   addCurrentStack,
 } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
@@ -33,48 +30,30 @@ import {
   addAccessible,
   addEligible,
   resetEwaLive,
+  addCampaignBanner,
 } from "../../store/slices/ewaLiveSlice";
 import CompleteKycCard from "../../components/molecules/CompleteKycCard";
+import CompleteKycCampaignBanner from "../../components/molecules/CompleteKycCampaignBanner";
 import ExploreCards from "../../components/molecules/ExploreCards";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
+import MonthlyContestCampaignBanner from "../../components/molecules/MontlyContestCampaignBanner";
+
 const HomeView = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const navigation = useNavigation();
-
-  const aadhaarVerifyStatus = useSelector(
-    (state) => state.aadhaar.verifyStatus
-  );
-  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
-  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
-
   const [fetched, setFetched] = useState(false);
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const onboarded = useSelector((state) => state.auth.onboarded);
 
-  // const panMisMatch = useSelector((state) => state.pan.misMatch);
-  // const bankMisMatch = useSelector((state) => state.bank.misMatch);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
+  console.log({ewaLiveSlice})
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
-
-  const verifyStatuses = [
-    aadhaarVerifyStatus != "SUCCESS"
-      ? { label: "Verify AADHAAR", value: "AADHAAR" }
-      : null,
-    panVerifyStatus != "SUCCESS" ? { label: "Verify PAN", value: "PAN" } : null,
-    bankVerifyStatus != "SUCCESS"
-      ? { label: "Verify Bank Account", value: "BANK" }
-      : null,
-  ];
-
-  useEffect(() => {
-    // PushNotification.deleteChannel("Onboarding");
-    if (allAreNull(verifyStatuses)) {
-      PushNotification.cancelAllLocalNotifications();
-    }
-  }, [aadhaarVerifyStatus, bankVerifyStatus, panVerifyStatus]);
+  const campaignBanner = ewaLiveSlice?.campaignBanner || null;
+  
 
   useEffect(() => {
     dispatch(addCurrentStack("HomeStack"));
@@ -115,10 +94,13 @@ const HomeView = () => {
     cacheTime: 1000 * 60 * 10,
     refetchInterval: 1000 * 60 * 2,
   });
-
+  console.log("ewa offers get", campaignBanner)
   useEffect(() => {
     if (isFocused && getEwaOffersIsSuccess) {
       if (getEwaOffersData.data.status === 200) {
+        if (getEwaOffersData.data.body.campaignBanner) {
+          dispatch(addCampaignBanner(getEwaOffersData.data.body.campaignBanner))
+        }
         if (Object.keys(getEwaOffersData.data.body.live).length !== 0) {
           const closureDays = getNumberOfDays({
             date: getEwaOffersData.data.body.live.dueDate,
@@ -135,6 +117,10 @@ const HomeView = () => {
         dispatch(resetEwaHistorical(getEwaOffersData.data.body.past));
         setFetched(true);
       } else {
+        if (getEwaOffersData.data.status == 404 && getEwaOffersData.data.campaignBanner) {
+          console.log("dispatched campaignBanner", getEwaOffersData.data)
+          dispatch(addCampaignBanner(getEwaOffersData.data.campaignBanner))
+        }
         console.log(
           "HomeView ewaOffersFetch API error getEwaOffersData.data : ",
           getEwaOffersData.data
@@ -152,56 +138,27 @@ const HomeView = () => {
     }
   }, [getEwaOffersIsSuccess, getEwaOffersData, isFocused]);
 
-  const getUrlAsync = async () => {
-    const initialUrl = await Linking.getInitialURL();
-    const breakpoint = "/";
-    if (initialUrl) {
-      const splitted = initialUrl.split(breakpoint);
-      console.log("initialUrl", splitted);
-      console.log("route", splitted[3]);
-      switch (splitted[3].toLowerCase()) {
-        case "ewa":
-          switch (splitted[4]?.toLowerCase()) {
-            case "campaign":
-              dispatch(addEwaCampaignId(splitted[5]));
-              break;
-            default:
-              break;
-          }
-          break;
-        case "repayment":
-          switch (splitted[4]?.toLowerCase()) {
-            case "campaign":
-              dispatch(addRepaymentCampaignId(splitted[5]));
-              break;
-            default:
-              break;
-          }
-          break;
-        case "ekyc":
-          navigation.navigate("AccountStack", {
-            screen: "KYC",
-          });
-          switch (splitted[4]?.toLowerCase()) {
-            case "campaign":
-              dispatch(addEkycCampaignId(splitted[5]));
-              break;
-            default:
-              break;
-          }
-          break;
-        default:
-          break;
-      }
+  let ewaCampaignBannerElement = (<></>);
+  let kycCampaignBannerElement = (<></>);
+  if (campaignBanner?.url) {
+    const analyticsTrackingFn = (type) => (() => {
+      Analytics.trackEvent({
+        interaction: InteractionTypes.BANNER_TAP,
+        component: "HomeView",
+        action: `home_banner_image_open:${type}`,
+        status: "",
+      })
+    })
+    if (campaignBanner?.type == "kyc") {
+      kycCampaignBannerElement = (
+        <CompleteKycCampaignBanner url={campaignBanner.url} onPress={analyticsTrackingFn('kyc')}/>
+      )
     } else {
-      console.log("No intent. User opened App.");
+      ewaCampaignBannerElement = (
+        <MonthlyContestCampaignBanner url={campaignBanner.url} onPress={analyticsTrackingFn('ewa')} hasOffer={accessible && eligible}/>
+      )
     }
-  };
-
-  useEffect(() => {
-    getUrlAsync();
-  }, []);
-
+  }
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeader
@@ -226,7 +183,9 @@ const HomeView = () => {
               ewaLiveSlice={ewaLiveSlice}
             />
             <CompleteKycCard />
-            <ExploreCards />
+            {kycCampaignBannerElement}
+            <ExploreCards /> 
+            {ewaCampaignBannerElement}
           </>
         </View>
       </ScrollView>

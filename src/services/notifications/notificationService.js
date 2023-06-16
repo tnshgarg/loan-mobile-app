@@ -5,6 +5,27 @@ import { version } from "../../../package.json";
 import * as RootNavigation from "../../navigators/RootNavigation";
 import PushNotification from "react-native-push-notification";
 import { fcmPush } from "../../helpers/BackendPush";
+import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
+
+function generateCampainClick(remoteMessage) {
+  const data = remoteMessage?.data ?? {}
+  const utm_campaign = `utm_campaign=${data.utm_campaign}`
+  const utm_medium = `utm_medium=${data.utm_medium}`
+  const utm_source = `utm_source=${data.utm_source}`
+  const utm_content = `utm_content=${data.utm_content}`
+  
+  return `fcm://screen/${remoteMessage?.data?.screenName}/fcm_notification?${utm_campaign}&${utm_medium}&${utm_source}&${utm_content}`
+}
+function pushAnalytics(remoteMessage, status) {
+  Analytics.setSessionValue("campaignClick", generateCampainClick(remoteMessage))
+  Analytics.setSessionValue("in_app_notification", remoteMessage.data)
+  Analytics.trackEvent({
+    interaction: InteractionTypes.IN_APP_NOTIFICATION,
+    component: remoteMessage?.data?.screenName || "not set",
+    action: remoteMessage?.data?.type || "not set",
+    status: status
+  })
+}
 
 export async function requestUserPermission() {
   const authorizationStatus = await messaging().requestPermission();
@@ -49,18 +70,10 @@ export const notificationListener = async () => {
       "Notification caused app to open from background state:",
       remoteMessage
     );
-    switch (remoteMessage.data.type) {
-      case "NEW_EWA_OFFER" ||
-        "EWA_REPAYMENT_REMINDER" ||
-        "EWA_DISBURSEMENT_SUCCESS":
-        RootNavigation.navigate("HomeStack", {
-          screen: remoteMessage.data.screenName,
-        });
-      default:
-        RootNavigation.navigate("HomeStack", {
-          screen: remoteMessage.data.screenName,
-        });
-    }
+    pushAnalytics(remoteMessage, "received_in_background")
+    RootNavigation.navigate("HomeStack", {
+      screen: remoteMessage?.data?.screenName || "Home",
+    });
   });
 
   messaging().onMessage(async (remoteMessage) => {
@@ -72,9 +85,8 @@ export const notificationListener = async () => {
       channelId: "Foreground",
       repeatTime: 1,
     });
-    console.log("Received in Foreground", remoteMessage);
+    pushAnalytics(remoteMessage, "received_in_foreground")
   });
-
   // Check whether an initial notification is available
   setTimeout(() => {
     messaging()
@@ -85,20 +97,10 @@ export const notificationListener = async () => {
             "Notification caused app to open from quit state:",
             remoteMessage.data
           );
-          switch (remoteMessage.data.type) {
-            case "NEW_EWA_OFFER" ||
-              "EWA_REPAYMENT_REMINDER" ||
-              "EWA_DISBURSEMENT_SUCCESS":
-              RootNavigation.navigate("HomeStack", {
-                screen: remoteMessage.data.screenName,
-              });
-              break;
-            default:
-              RootNavigation.navigate("HomeStack", {
-                screen: remoteMessage.data.screenName,
-              });
-              break;
-          }
+          pushAnalytics(remoteMessage, "received_in_quit_state")
+          RootNavigation.navigate("HomeStack", {
+            screen: remoteMessage?.data?.screenName || "Home",
+          });
         }
       });
   }, 800);

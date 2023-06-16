@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
 import PrimaryButton from "../atoms/PrimaryButton";
+import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
 
 const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
 
@@ -23,14 +24,16 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
 
       <PrimaryButton
         title={
-          !accessible
-            ? "Offer Inactive"
-            : !eligible
-            ? "Offer Inactive"
-            : "Get Money Now"
+          (!eligible || !accessible) ? "Offer Inactive" : "Get Money Now"
         }
         disabled={!eligible || !accessible}
         onPress={() => {
+          Analytics.trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            component: "ExploreCards",
+            action: `navigate:EWAStack:EWA_OFFER`,
+            status: "",
+          })
           navigation.navigate("EWAStack", { screen: "EWA_OFFER" });
         }}
       />

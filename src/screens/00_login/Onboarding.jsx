@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import Analytics from "appcenter-analytics";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 import { SafeAreaView, Text, View, Linking} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
@@ -16,8 +16,6 @@ import { onboardingStyles, styles } from "../../styles";
 
 const Onboarding = () => {
   const navigation = useNavigation();
-
-  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
   const data = [
     {
@@ -70,8 +68,11 @@ const Onboarding = () => {
           title="Get Started Now"
           onPress={() => {
             requestUserPermission();
-            Analytics.trackEvent("Onboarding", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Onboarding",
+              action: "GetStarted",
+              status: ""
             });
             navigation.navigate("Login");
           }}

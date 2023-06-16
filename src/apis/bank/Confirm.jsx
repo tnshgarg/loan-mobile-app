@@ -5,11 +5,12 @@ import { useNavigation } from "@react-navigation/core";
 import { addVerifyStatus } from "../../store/slices/bankSlice";
 import { form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
-import Analytics from "appcenter-analytics";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import { addOnboarded } from "../../store/slices/authSlice";
 import { putBackendData } from "../../services/employees/employeeServices";
+import { showToast } from "../../components/atoms/Toast";
 
 const BankConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -50,11 +51,12 @@ const BankConfirmApi = (props) => {
         }
       } else if (verifyStatus === "SUCCESS") {
           if (props?.route?.params?.type === "KYC") {
-            navigation.navigate("KYC", {
-              screen: "BANK",
-            });
+            showToast("KYC Completed Successfully");
+            navigation.navigate("HomeStack", {
+              screen: "Home",
+            })
           } else {
-            navigation.replace("EWA_MANDATE");
+            navigation.navigate("EWAStack", {screen: "EWA_MANDATE"});
           }
       }
     } else {
@@ -106,8 +108,11 @@ const BankConfirmApi = (props) => {
             backendPush({
               verifyStatus: "REJECTED",
             });
-            Analytics.trackEvent("Bank|Confirm|Error", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Bank",
+              action: "Confirm",
+              status: "Error",
               error: "Rejected by User",
             });
           }}
@@ -128,8 +133,11 @@ const BankConfirmApi = (props) => {
             backendPush({
               verifyStatus: "SUCCESS",
             });
-            Analytics.trackEvent("Bank|Confirm|Success", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Bank",
+              action: "Confirm",
+              status: "Success"
             });
           }}
         />

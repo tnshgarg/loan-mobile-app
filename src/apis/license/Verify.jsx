@@ -11,7 +11,7 @@ import {
 import { licenseBackendPush } from "../../helpers/BackendPush";
 import { OG_API_KEY } from "../../services/constants";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics from "appcenter-analytics";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 
 const Verify = (props) => {
   const dispatch = useDispatch();
@@ -92,8 +92,11 @@ const Verify = (props) => {
                 setVerifyStatus("PENDING");
                 setVerifyTimestamp(responseJson["timestamp"]);
                 setBackendPush(true);
-                Analytics.trackEvent("Licence|Verify|Success", {
-                  unipeEmployeeId: unipeEmployeeId,
+                Analytics.trackEvent({
+                  interaction: InteractionTypes.BUTTON_PRESS,
+                  component: "Licence",
+                  action: "Verify",
+                  status: "Success",
                 });
                 navigation.navigate("Documents", {
                   screen: "Driving License",
@@ -108,8 +111,11 @@ const Verify = (props) => {
                 setVerifyStatus("ERROR");
                 setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
-                Analytics.trackEvent("Licence|Verify|Error", {
-                  unipeEmployeeId: unipeEmployeeId,
+                Analytics.trackEvent({
+                  interaction: InteractionTypes.BUTTON_PRESS,
+                  component: "Licence",
+                  action: "Verify",
+                  status: "Error",
                   error: responseJson["data"]["message"],
                 });
                 break;
@@ -119,16 +125,22 @@ const Verify = (props) => {
             setVerifyStatus("ERROR");
             setBackendPush(true);
             Alert.alert("Error", responseJson["error"]["message"]);
-            Analytics.trackEvent("Licence|Verify|Error", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Licence",
+              action: "Verify",
+              status: "Error",
               error: responseJson["error"]["message"],
             });
           } else {
             setVerifyMsg(responseJson["message"]);
             setVerifyStatus("ERROR");
             Alert.alert("Error", responseJson["message"]);
-            Analytics.trackEvent("Licence|Verify|Error", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Licence",
+              action: "Verify",
+              status: "Error",
               error: responseJson["message"],
             });
           }
@@ -138,8 +150,11 @@ const Verify = (props) => {
           setVerifyStatus("ERROR");
           setBackendPush(true);
           Alert.alert("Error", JSON.stringify(error));
-          Analytics.trackEvent("Licence|Verify|Error", {
-            unipeEmployeeId: unipeEmployeeId,
+          Analytics.trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            component: "Licence",
+            action: "Verify",
+            status: "Error",
             error: JSON.stringify(error),
           });
         }
@@ -150,8 +165,11 @@ const Verify = (props) => {
         setVerifyStatus("ERROR");
         setBackendPush(true);
         Alert.alert("Error", JSON.stringify(error));
-        Analytics.trackEvent("Licence|Verify|Error", {
-          unipeEmployeeId: unipeEmployeeId,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "Licence",
+          action: "Verify",
+          status: "Error",
           error: JSON.stringify(error),
         });
       });

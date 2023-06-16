@@ -14,6 +14,7 @@ const initialState = {
   netAmount: 0,
   processingFees: 0,
   stage: "",
+  campaignImageUrl: "",
 };
 
 const ewaLiveSlice = createSlice({
@@ -38,11 +39,20 @@ const ewaLiveSlice = createSlice({
     addProcessingFees(state, action) {
       state.processingFees = action.payload;
     },
+    addCampaignBanner(state, action) {
+      state.campaignBanner = action.payload
+    },
     resetEwaLive(state, action) {
       if (!action.payload || Object.keys(action.payload).length === 0) {
-        Object.assign(state, initialState);
+        Object.assign(state, {
+          ...initialState,
+          campaignBanner: state.campaignBanner
+        });
       } else {
-        Object.assign(state, action.payload);
+        Object.assign(state, {
+          ...action.payload,
+          campaignBanner: state.campaignBanner
+        });
       }
     },
   },
@@ -55,6 +65,7 @@ export const {
   addLoanAmount,
   addNetAmount,
   addProcessingFees,
+  addCampaignBanner,
   resetEwaLive,
 } = ewaLiveSlice.actions;
 

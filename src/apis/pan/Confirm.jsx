@@ -6,7 +6,7 @@ import { addVerifyStatus } from "../../store/slices/panSlice";
 import { form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
-import Analytics from "appcenter-analytics";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import { putBackendData } from "../../services/employees/employeeServices";
 
@@ -97,8 +97,11 @@ const PanConfirmApi = (props) => {
             backendPush({
               verifyStatus: "REJECTED",
             });
-            Analytics.trackEvent("Pan|Confirm|Error", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Pan",
+              action: "Confirm",
+              status: "Error",
               error: "Rejected by User",
             });
           }}
@@ -117,8 +120,11 @@ const PanConfirmApi = (props) => {
             backendPush({
               verifyStatus: "SUCCESS",
             });
-            Analytics.trackEvent("Pan|Confirm|Success", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Pan",
+              action: "Confirm",
+              status: "Success",
             });
           }}
         />

@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  aCTC: "",
-  employeeName: "",
+  aCTC: "100000",
+  employeeName: "Shubham",
   onboarded: false,
   phoneNumber: "",
   token: "",
   unipeEmployeeId: "",
+  loggedOut: true,
 };
 
 const authSlice = createSlice({
@@ -27,6 +28,7 @@ const authSlice = createSlice({
     },
     addToken(state, action) {
       state.token = action.payload;
+      state.loggedOut = !action.payload;
     },
     addUnipeEmployeeId(state, action) {
       state.unipeEmployeeId = action.payload;
