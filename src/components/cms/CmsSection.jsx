@@ -40,7 +40,7 @@ const CmsSection = ({
         )}
       </View>
 
-      {safeChildren.map((child, index) => (
+      {safeChildren?.map((child, index) => (
         <View key={index}>{child.element(child)}</View>
       ))}
     </View>

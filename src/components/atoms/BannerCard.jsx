@@ -42,13 +42,14 @@ const BannerCard = ({ data }) => {
             {title}
           </Text>
 
-          {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
-          {description && (
+          {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : <></>}
+          {description ? (
             <View style={styles.row}>
               <MaterialCommunityIcons name={desIcon} size={14} />
-
               <Text style={styles.description}>{description}</Text>
             </View>
+          ) : (
+            <></>
           )}
         </View>
         <View style={{ flex: thumbnail ? 0.9 : 0.5 }}>

@@ -1,28 +1,13 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Alert,
-  BackHandler,
-  Linking,
-} from "react-native";
-import { onboardingStyles, styles } from "../../styles";
-import LogoHeader from "../../components/atoms/LogoHeader";
-import Icon from "react-native-vector-icons/Ionicons";
+import { Text, SafeAreaView, Alert, BackHandler } from "react-native";
+import { styles } from "../../styles";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
 import { requestUserPermission } from "../../services/notifications/notificationService";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { useDispatch, useSelector } from "react-redux";
 import Welcome from "../../assets/Welcome.svg";
-import Info from "../../assets/Info.svg";
-import Help from "../../assets/Help.svg";
 import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import SvgContainer from "../../components/atoms/SvgContainer";
-import LinearGradient from "react-native-linear-gradient";
-import HelpHeader from "../../components/atoms/HelpHeader";
 import HelpSection from "../../components/organisms/HelpSection";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import SuccessContainer from "../../components/organisms/SuccessContainer";

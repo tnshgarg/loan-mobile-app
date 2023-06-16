@@ -18,11 +18,8 @@ const CmsBanner = ({ children }) => {
       <SvgContainer height={200} width={300}>
         <BannerBg />
       </SvgContainer>
-      <View style={styles.row}>
-        <View style={styles.col}></View>
-        <View style={styles.col}></View>
-      </View>
-      {safeChildren.map((child, index) => (
+
+      {safeChildren?.map((child, index) => (
         <View key={index}>{child.element(child)}</View>
       ))}
     </LinearGradient>

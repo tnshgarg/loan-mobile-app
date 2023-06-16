@@ -35,7 +35,7 @@ import {
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import HelpFooter from "../../components/atoms/HelpFooter";
 import CmsRoot from "../../components/cms/CmsRoot";
-import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import HelpSection from "../../components/organisms/HelpSection";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import BottomAlert from "../../components/molecules/BottomAlert";
@@ -274,6 +274,8 @@ const HomeView = () => {
     },
   };
 
+  console.log("CmsData ", cmsData?.home);
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -293,7 +295,11 @@ const HomeView = () => {
             accessible={accessible}
             ewaLiveSlice={ewaLiveSlice}
           />
-          {!cmsLoading ? <CmsRoot children={cmsData?.home}></CmsRoot> : <></>}
+          {!cmsLoading ? (
+            <CmsRoot children={DUMMY_RES?.home || []}></CmsRoot>
+          ) : (
+            <></>
+          )}
 
           {/* <BannerCard /> */}
         </View>

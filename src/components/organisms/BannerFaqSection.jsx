@@ -54,6 +54,7 @@ const BannerFaqSection = ({ visible, setVisible, data }) => {
           <View style={styles.modalContainer}>
             {steps?.map((item, index) => (
               <View
+                key={index}
                 style={[
                   styles.row,
                   { flexDirection: index % 2 == 1 ? "row-reverse" : "row" },

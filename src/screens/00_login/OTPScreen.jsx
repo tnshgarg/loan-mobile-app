@@ -27,10 +27,7 @@ import OtpInput from "../../components/molecules/OtpInput";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import BackgroundTimer from "react-native-background-timer";
 import { showToast } from "../../components/atoms/Toast";
-import {
-  useGetKycQuery,
-  useLazyGetKycQuery,
-} from "../../store/apiSlices/kycApi";
+import { useLazyGetKycQuery } from "../../store/apiSlices/kycApi";
 
 const OTPScreen = () => {
   const dispatch = useDispatch();
@@ -198,7 +195,7 @@ const OTPScreen = () => {
   return (
     <SafeAreaView accessibilityLabel="OtpScreen" style={styles.safeContainer}>
       <LogoHeaderBack
-        leftOnPress={backAction}
+        onLeftIconPress={backAction}
         headline={"Verify mobile number"}
       />
       <View style={styles.container}>

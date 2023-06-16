@@ -129,17 +129,56 @@ const AccountMenu = (props) => {
       },
     },
     {
-      title: "Terms & Conditions",
-      subtitle: "Read our terms of use",
+      title: "About Us",
+      subtitle: "Read about us and our terms of use",
       imageUri: <AboutUs />,
-      action: () => setIsTermsOfUseModalVisible(true),
+      action: () =>
+        props.navigation.navigate("CmsScreen", {
+          data: {
+            screenTitle: "About Us",
+            cmsData: [
+              {
+                type: "tabs",
+                children: [
+                  {
+                    name: "Unipe",
+                    data: [
+                      {
+                        type: "section",
+                        title: "Learn With Us",
+                      },
+                    ],
+                  },
+                  {
+                    name: "T&C",
+                    data: [
+                      {
+                        type: "section",
+                        title: "Learn With Us",
+                      },
+                    ],
+                  },
+                  {
+                    name: "Privacy Policy",
+                    data: [
+                      {
+                        type: "section",
+                        title: "Learn With Us",
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        }),
     },
-    {
-      title: "Privacy Policy",
-      subtitle: "Read our privacy policy",
-      imageUri: <AboutUs />,
-      action: () => setIsPrivacyModalVisible(true),
-    },
+    // {
+    //   title: "Privacy Policy",
+    //   subtitle: "Read our privacy policy",
+    //   imageUri: <AboutUs />,
+    //   action: () => setIsPrivacyModalVisible(true),
+    // },
     {
       title: "Logout",
       subtitle: "Logout from Unipe App",

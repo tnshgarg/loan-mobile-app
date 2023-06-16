@@ -1,107 +1,50 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import Swiper from "react-native-swiper";
-import React, { useState } from "react";
-import EStyleSheet from "react-native-extended-stylesheet";
-import { COLORS } from "../../constants/Theme";
-import BannerFaqSection from "../organisms/BannerFaqSection";
-import BannerCard from "../atoms/BannerCard";
+import React, { useState, useRef } from "react";
+import { Text, View, Dimensions, Image } from "react-native";
+import Carousel, { Pagination } from "react-native-snap-carousel";
+import { COLORS, SIZES } from "../../constants/Theme";
 
-const CmsSwiper = ({ urls, banners }) => {
-  const [visible, setVisible] = useState(false);
-  console.log({ banners });
-  const kycData = {
-    heading: "Help - KYC Verification",
-    headingImage: require("../../assets/KycHeader.png"),
-    title: "KYC verification in just 3 simple steps",
-    subtitle: "Verify your identity & complete your full KYC ",
-    btnText: "Start KYC",
-    keyPoints: [
-      { title: "0% Interest Rate" },
-      { title: "₹0 joining fees" },
-      { title: "1 Lac Employees Joined" },
-    ],
-    stepsTitle: "How to complete your KYC?",
-    stepsSubtitle: "Follow this 3-step process",
-    steps: [
-      {
-        title: "Verify Aadhaar",
-        subtitle:
-          "Enter your Aadhaar number and complete verification with OTP",
-        imageUri: require("../../assets/KycHelp1.png"),
-      },
-      {
-        title: "Verify PAN Card",
-        subtitle: "Enter your PAN Card number and verify the details.",
-        imageUri: require("../../assets/KycHelp2.png"),
-      },
-      {
-        title: "Add Bank Account",
-        subtitle:
-          "Enter your bank account number to receive the advance salary money",
-        imageUri: require("../../assets/KycHelp3.png"),
-      },
-    ],
-    questions: [
-      {
-        title: "Q: Do I need to pay for KYC",
-        subtitle: "A: No. KYC is FREE.",
-      },
-      {
-        title: "Q: Why do I need to do KYC?",
-        subtitle: "A: As per RBI Regulations, KYC verification is mandatory.",
-      },
-      {
-        title: "Q: What are the required documents for KYC?",
-        subtitle:
-          "A: Aadhaar Card and PAN Card are mandatory to initiate KYC process.",
-      },
-      {
-        title: "Q: How much time will KYC Process take?",
-        subtitle: "A: KYC happens instantly with government APIs.",
-      },
-      {
-        title: "Q: What happens if I don’t complete my minimum KYC?",
-        subtitle: "A: You won't be able to withdraw your advance salary.",
-      },
-    ],
-  };
-  return (
-    <>
-      <Swiper
-        style={styles.wrapper}
-        dotColor={COLORS.lightGray}
-        activeDotColor={COLORS.black}
-      >
-        {banners?.map((item, index) => (
-          // <TouchableOpacity
-          //   activeOpacity={0.7}
-          //   onPress={() => {
-          //     setVisible(true);
-          //   }}
-          // >
-          <BannerCard data={item} key={index} />
-          // </TouchableOpacity>
-        ))}
-      </Swiper>
-      <BannerFaqSection
-        visible={visible}
-        setVisible={setVisible}
-        data={kycData}
-      />
-    </>
-  );
+export const SLIDER_WIDTH = Dimensions.get("window").width;
+export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
+
+const renderItem = ({ item: child, index }) => {
+  return <View key={index}>{child?.element(child)}</View>;
 };
 
-const styles = EStyleSheet.create({
-  wrapper: { height: 200, marginVertical: "15rem" },
-  image: {
-    resizeMode: "contain",
-    width: "98%",
-    alignSelf: "center",
-    borderRadius: "10rem",
-    height: 150,
-    // marginRight: "2rem",
-  },
-});
+const CmsSwiper = ({ children }) => {
+  const [index, setIndex] = useState(0);
+  const isCarousel = useRef(null);
+  const safeChildren = children || [];
+  return (
+    <View style={{ marginVertical: 10 }}>
+      <Carousel
+        ref={isCarousel}
+        data={safeChildren}
+        renderItem={renderItem}
+        sliderWidth={SIZES.width * 0.9}
+        // style={{ width: "100%" }}
+        itemWidth={SIZES.width * 0.9}
+        onSnapToItem={(index) => setIndex(index)}
+      />
+      <Pagination
+        dotsLength={safeChildren.length}
+        activeDotIndex={index}
+        carouselRef={isCarousel}
+        dotStyle={{
+          width: 10,
+          height: 10,
+          borderRadius: 5,
+          backgroundColor: COLORS.primary,
+        }}
+        tappableDots={true}
+        inactiveDotStyle={{
+          backgroundColor: "black",
+          // Define styles for inactive dots here
+        }}
+        inactiveDotOpacity={0.4}
+        inactiveDotScale={0.6}
+      />
+    </View>
+  );
+};
 
 export default CmsSwiper;

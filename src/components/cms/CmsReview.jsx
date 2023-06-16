@@ -9,7 +9,6 @@ import Star from "../../assets/Star.svg";
 
 const CmsReview = ({ children, testimony, name, address, stars, imageUri }) => {
   const safeChildren = children || [];
-  console.log({ safeChildren });
   return (
     <View style={styles.col}>
       <View style={{ flexDirection: "row", marginVertical: 10 }}>

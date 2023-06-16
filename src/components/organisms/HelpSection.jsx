@@ -205,7 +205,12 @@ const styles = EStyleSheet.create({
     borderTopWidth: 1,
     borderColor: COLORS.lightGray,
   },
-  stepImage: { height: "180rem", width: "100%", marginVertical: "10rem" },
+  stepImage: {
+    // marginVertical: "10rem",
+    resizeMode: "contain",
+    flex: 1,
+    aspectRatio: 1,
+  },
 });
 
 export default HelpSection;

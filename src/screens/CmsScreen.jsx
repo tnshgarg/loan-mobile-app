@@ -9,17 +9,11 @@ import CmsRoot from "../components/cms/CmsRoot";
 
 const CmsScreen = (props) => {
   const navigation = useNavigation();
-  const { screenTitle } = props;
+  const { screenTitle, cmsData } = props?.route?.params?.data || props;
+  console.log({ cmsData });
   const { unipeEmployeeId, token, onboarded } = useSelector(
     (state) => state.auth
   );
-  const {
-    data: cmsData,
-    isLoading: cmsLoading,
-    isError: cmsError,
-  } = useGetCmsQuery(unipeEmployeeId, {
-    pollingInterval: 1000,
-  });
 
   return (
     <View style={styles.safeContainer}>
@@ -29,7 +23,7 @@ const CmsScreen = (props) => {
       />
       <ScrollView>
         <View style={styles.container}>
-          {!cmsLoading ? <CmsRoot children={cmsData?.home}></CmsRoot> : <></>}
+          <CmsRoot children={cmsData}></CmsRoot>
         </View>
       </ScrollView>
     </View>

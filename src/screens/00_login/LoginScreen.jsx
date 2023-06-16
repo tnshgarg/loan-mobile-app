@@ -202,11 +202,7 @@ const LoginScreen = () => {
         />
       ) : (
         <LinearGradient
-          colors={[
-            "rgba(110, 220, 133,0.2)",
-            "rgba(237, 251, 139,0.2)",
-            "#FFFFFF",
-          ]}
+          colors={[COLORS.lightGreen, COLORS.lightYellow, COLORS.white]}
           style={{
             flex: 1,
           }}

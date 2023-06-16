@@ -7,6 +7,11 @@ import CmsBanner from "./CmsBanner";
 import CmsColumn from "./CmsColumn";
 import CmsVideo from "./CmsVideo";
 import CmsReview from "./CmsReview";
+import CmsTabs from "./CmsTabs";
+import CmsCard from "./CmsCard";
+import CmsTwoColumn from "./CmsTwoColumn";
+import CmsTitle from "./CmsTitle";
+import CmsSubtitle from "./CmsSubtitle";
 
 const CMS_TYPES = {
   section: CmsSection,
@@ -16,11 +21,17 @@ const CMS_TYPES = {
   column: CmsColumn,
   video: CmsVideo,
   review: CmsReview,
+  tabs: CmsTabs,
+  card: CmsCard,
+  twoColumn: CmsTwoColumn,
+  title: CmsTitle,
+  subtitle: CmsSubtitle,
   default: () => <></>,
 };
 
 const renderChildren = (node) => {
   let renderNode = { ...node };
+
   if (node.type) {
     renderNode.element = CMS_TYPES[node?.type || "default"];
   }
@@ -31,6 +42,7 @@ const renderChildren = (node) => {
       renderedChildren.push(renderChildren(item));
     });
   renderNode.children = renderedChildren;
+
   return renderNode;
 };
 
@@ -39,7 +51,7 @@ const CmsRoot = ({ children }) => {
   const { children: renderedChildren } = renderChildren({
     children: safeChildren,
   });
-  console.log({ safeChildren });
+
   return (
     <View>
       {renderedChildren.map((child, index) => (
