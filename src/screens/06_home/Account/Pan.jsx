@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { SafeAreaView, View } from "react-native";
 import { useSelector } from "react-redux";
 import PanConfirmApi from "../../../apis/pan/Confirm";
-import PrimaryButton from "../../../components/atoms/PrimaryButton";
 import DetailsCard from "../../../components/molecules/DetailsCard";
 import { strings } from "../../../helpers/Localization";
 import TopTabNav from "../../../navigators/TopTabNav";

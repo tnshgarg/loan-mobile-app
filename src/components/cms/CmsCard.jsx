@@ -1,11 +1,8 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import React from "react";
 import { COLORS, FONTS } from "../../constants/Theme";
 import LinearGradient from "react-native-linear-gradient";
-import { useNavigation } from "@react-navigation/core";
-import * as RootNavigation from "../../navigators/RootNavigation";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
 const CmsCard = ({ children, style, gradientColors, navigate }) => {

@@ -1,4 +1,4 @@
-import { useIsFocused } from "@react-navigation/core";
+import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Linking, SafeAreaView, ScrollView, Text, View } from "react-native";
 // import PushNotification from 'react-native-push-notification';
@@ -102,7 +102,7 @@ const HomeView = () => {
   // || auth?.employeeName;
 
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
-  console.log({ewaLiveSlice})
+  console.log({ ewaLiveSlice });
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
   const onboardingCampaignId = useSelector(
@@ -173,9 +173,12 @@ const HomeView = () => {
         dispatch(resetEwaHistorical(getEwaOffersData.body.past));
         setFetched(true);
       } else {
-        if (getEwaOffersData.data.status == 404 && getEwaOffersData.data.campaignBanner) {
-          console.log("dispatched campaignBanner", getEwaOffersData.data)
-          dispatch(addCampaignBanner(getEwaOffersData.data.campaignBanner))
+        if (
+          getEwaOffersData.data.status == 404 &&
+          getEwaOffersData.data.campaignBanner
+        ) {
+          console.log("dispatched campaignBanner", getEwaOffersData.data);
+          dispatch(addCampaignBanner(getEwaOffersData.data.campaignBanner));
         }
         console.log(
           "HomeView ewaOffersFetch API error getEwaOffersData.data : ",
@@ -193,7 +196,7 @@ const HomeView = () => {
       dispatch(resetEwaHistorical());
     }
   }, [getEwaOffersIsSuccess, getEwaOffersData, isFocused]);
-  
+
   console.warn("No intent. User opened App.");
 
   useEffect(() => {

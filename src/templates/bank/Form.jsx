@@ -6,7 +6,6 @@ import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import BankVerifyApi from "../../apis/bank/Verify";
 import InfoCard from "../../components/atoms/InfoCard";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import ShieldTitle from "../../components/atoms/ShieldTitle";
 import PopableInput from "../../components/molecules/PopableInput";
 import { strings } from "../../helpers/Localization";
 import {
@@ -17,8 +16,6 @@ import {
 } from "../../store/slices/bankSlice";
 import { bankform, styles } from "../../styles";
 import ShieldTitle from "../../components/atoms/ShieldTitle";
-import { useGetAadhaarQuery } from "../../store/apiSlices/aadhaarApi";
-import { useGetBankQuery } from "../../store/apiSlices/bankApi";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 
 const BankFormTemplate = (props) => {

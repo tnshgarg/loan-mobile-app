@@ -3,18 +3,15 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import FormInput from "../../components/atoms/FormInput";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { showToast } from "../../components/atoms/Toast";
-import DropDownForm from "../../components/molecules/DropDownForm";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { form, styles } from "../../styles";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import FormInput from "../../components/atoms/FormInput";
 import DropDownForm from "../../components/molecules/DropDownForm";
-import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
 import { showToast } from "../../components/atoms/Toast";
 
 import { useUpdateProfileMutation } from "../../store/apiSlices/profileApi";
@@ -194,7 +191,6 @@ const ProfileFormTemplate = ({ type }) => {
             value={altMobile}
             maxLength={10}
             onChange={setAltMobile}
-            maxLength={10}
           />
           {altMobile && !validAltMobile ? (
             <Text style={form.formatmsg}>{strings.incorrectFormat}</Text>
@@ -220,7 +216,7 @@ const ProfileFormTemplate = ({ type }) => {
                 interaction: InteractionTypes.BUTTON_PRESS,
                 component: "ProfileForm",
                 action: "PushData",
-                status: "Success"
+                status: "Success",
               });
             }}
           />

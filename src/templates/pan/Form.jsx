@@ -7,7 +7,6 @@ import PanVerifyApi from "../../apis/pan/Verify";
 import FormInput from "../../components/atoms/FormInput";
 import InfoCard from "../../components/atoms/InfoCard";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { useNavigation, useIsFocused } from "@react-navigation/core";
 import HelpCard from "../../components/atoms/HelpCard";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { strings } from "../../helpers/Localization";

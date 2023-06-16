@@ -26,6 +26,7 @@ import AboutUs from "../../../assets/AboutUs.svg";
 import Logout from "../../../assets/Logout.svg";
 import InfoCard from "../../../components/atoms/InfoCard";
 import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
+import { accountStyles, styles } from "../../../styles";
 
 const AccountMenu = (props) => {
   const dispatch = useDispatch();
