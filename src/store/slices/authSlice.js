@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  aCTC: "100000",
-  employeeName: "Shubham",
+  aCTC: "",
+  employeeName: "",
   onboarded: false,
   phoneNumber: "",
   token: "",
