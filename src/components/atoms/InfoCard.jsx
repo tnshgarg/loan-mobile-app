@@ -4,14 +4,15 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import React from "react";
 import { COLORS, FONTS } from "../../constants/Theme";
 
-const InfoCard = ({ info }) => {
+const InfoCard = ({ info, icon, color }) => {
   return (
     <View accessibilityLabel="InfoCard" style={styles.container}>
       <MaterialCommunityIcons
-        name="information-outline"
-        size={20}
-        color={COLORS.primary}
+        name={icon || "information-outline"} 
+        size={20} 
+        color={color || COLORS.primary} 
       />
+      
       <Text style={styles.text}>{info}</Text>
     </View>
   );

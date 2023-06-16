@@ -38,6 +38,8 @@ const PrimaryButton = ({
         },
       ]}
       disabled={disabled || loading}
+      loading={loading}
+      loadingIndicatorPosition="trailing"
       onPress={onPress}
     >
       <Text style={[styles.btnText, { ...titleStyle }]}>{title}</Text>

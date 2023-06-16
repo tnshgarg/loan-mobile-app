@@ -10,6 +10,8 @@ import { strings } from "../../helpers/Localization";
 import { useUpdateAadhaarMutation } from "../../store/apiSlices/aadhaarApi";
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
+import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
+
 
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -96,8 +98,11 @@ const AadhaarConfirmApi = (props) => {
             backendPush({
               verifyStatus: "REJECTED",
             });
-            analytics().logEvent("Aadhaar_Confirm_Error", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Aadhaar",
+              action: "Confirm",
+              status: "Error",
               error: "Rejected by User",
             });
           }}
@@ -112,7 +117,12 @@ const AadhaarConfirmApi = (props) => {
               verifyStatus: "SUCCESS",
             });
             analytics().logEvent("Aadhaar_Confirm_Success", {
-              unipeEmployeeId: unipeEmployeeId,
+              unipeEmployeeId: unipeEmployeeId,})
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Aadhaar",
+              action: "Confirm",
+              status: "Success"
             });
           }}
         />

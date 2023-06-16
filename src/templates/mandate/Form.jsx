@@ -31,7 +31,7 @@ import {
 } from "../../store/slices/mandateSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
-
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -170,14 +170,20 @@ const MandateFormTemplate = (props) => {
         },
       });
       console.log("Mandate Checkout Success", res);
-      analytics().logEvent("Mandate_InProgress_Checkout_Success", {
-        unipeEmployeeId: unipeEmployeeId,
+      Analytics.trackEvent({
+        interaction: InteractionTypes.BUTTON_PRESS,
+        component: "Mandate",
+        action: "AuthorizeCheckout",
+        status: "Success",
       });
       verifyMsg = "Mandate Initiated from App Checkout Success";
     } catch (error) {
       console.log("Mandate Checkout Error", error);
-      analytics().logEvent("MandateOrder_InProgress_Checkout_Error", {
-        unipeEmployeeId: unipeEmployeeId,
+      Analytics.trackEvent({
+        interaction: InteractionTypes.BUTTON_PRESS,
+        component: "Mandate",
+        action: "AuthorizeCheckout",
+        status: "Checkout|Error",
       });
       verifyMsg = error.message;
     } finally {
@@ -216,8 +222,11 @@ const MandateFormTemplate = (props) => {
       );
       if (createOrderResponse.status === 200) {
         let razorpayOrder = createOrderResponse.body;
-        analytics().logEvent(`Mandate_CreateOrder_${authType}_Success`, {
-          unipeEmployeeId: unipeEmployeeId,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "Mandate",
+          action: `CreateOrder_${authType}`,
+          status: "Success"
         });
         await initiateRazorpayCheckout({
           orderId: razorpayOrder.id,
@@ -238,8 +247,11 @@ const MandateFormTemplate = (props) => {
       } else {
         Alert.alert("Create Order Error", error.message);
       }
-      analytics().logEvent(`Mandate_CreateOrder_${authType}_Error`, {
-        unipeEmployeeId: unipeEmployeeId,
+      Analytics.trackEvent({
+        interaction: InteractionTypes.BUTTON_PRESS,
+        component: "Mandate",
+        action: `CreateOrder:${authType}`,
+        status: "Error",
         error: error.message,
       });
     } finally {

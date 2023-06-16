@@ -16,6 +16,7 @@ import timerSlice from "./slices/timerSlice";
 
 import ewaHistoricalSlice from "./slices/ewaHistoricalSlice";
 import ewaLiveSlice from "./slices/ewaLiveSlice";
+import pendingCampaignClickSlice from "./slices/pendingCampaignClickSlice";
 
 import { api } from "./apiSlices/api";
 import { setupListeners } from '@reduxjs/toolkit/query';
@@ -41,6 +42,7 @@ const appReducer = combineReducers({
   timer: timerSlice,
   ewaLive: ewaLiveSlice,
   ewaHistorical: ewaHistoricalSlice,
+  pendingCampaignClick: pendingCampaignClickSlice
 });
 
 const rootReducer = (state, action) => {
@@ -51,7 +53,7 @@ const rootReducer = (state, action) => {
     } catch (error) {
       console.log(error);
     }
-    return appReducer(undefined, action);
+    return appReducer({auth: {phoneNumber: "",loggedOut: true}}, action);
   }
   return appReducer(state, action);
 };

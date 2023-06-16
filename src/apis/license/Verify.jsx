@@ -11,7 +11,7 @@ import {
 import { licenseBackendPush } from "../../helpers/BackendPush";
 import { OG_API_KEY } from "../../services/constants";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import analytics from "@react-native-firebase/analytics";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 
 const Verify = (props) => {
   const dispatch = useDispatch();
@@ -94,8 +94,11 @@ const Verify = (props) => {
                 setVerifyStatus("PENDING");
                 setVerifyTimestamp(responseJson["timestamp"]);
                 setBackendPush(true);
-                analytics().logEvent("Licence_Verify_Success", {
-                  unipeEmployeeId: unipeEmployeeId,
+                Analytics.trackEvent({
+                  interaction: InteractionTypes.BUTTON_PRESS,
+                  component: "Licence",
+                  action: "Verify",
+                  status: "Success",
                 });
                 navigation.navigate("Documents", {
                   screen: "Driving License",
@@ -110,8 +113,11 @@ const Verify = (props) => {
                 setVerifyStatus("ERROR");
                 setBackendPush(true);
                 Alert.alert("Error", responseJson["data"]["message"]);
-                analytics().logEvent("Licence_Verify_Error", {
-                  unipeEmployeeId: unipeEmployeeId,
+                Analytics.trackEvent({
+                  interaction: InteractionTypes.BUTTON_PRESS,
+                  component: "Licence",
+                  action: "Verify",
+                  status: "Error",
                   error: responseJson["data"]["message"],
                 });
                 break;
@@ -121,16 +127,22 @@ const Verify = (props) => {
             setVerifyStatus("ERROR");
             setBackendPush(true);
             Alert.alert("Error", responseJson["error"]["message"]);
-            analytics().logEvent("Licence_Verify_Error", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Licence",
+              action: "Verify",
+              status: "Error",
               error: responseJson["error"]["message"],
             });
           } else {
             setVerifyMsg(responseJson["message"]);
             setVerifyStatus("ERROR");
             Alert.alert("Error", responseJson["message"]);
-            analytics().logEvent("Licence_Verify_Error", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Licence",
+              action: "Verify",
+              status: "Error",
               error: responseJson["message"],
             });
           }
@@ -139,10 +151,13 @@ const Verify = (props) => {
           setVerifyMsg(error.message);
           setVerifyStatus("ERROR");
           setBackendPush(true);
-          Alert.alert("Error", error.message);
-          analytics().logEvent("Licence_Verify_Error", {
-            unipeEmployeeId: unipeEmployeeId,
-            error: error.message,
+          Alert.alert("Error", JSON.stringify(error));
+          Analytics.trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            component: "Licence",
+            action: "Verify",
+            status: "Error",
+            error: JSON.stringify(error),
           });
         }
       })
@@ -151,10 +166,13 @@ const Verify = (props) => {
         setVerifyMsg(error.message);
         setVerifyStatus("ERROR");
         setBackendPush(true);
-        Alert.alert("Error", error.message);
-        analytics().logEvent("Licence_Verify_Error", {
-          unipeEmployeeId: unipeEmployeeId,
-          error: error.message,
+        Alert.alert("Error", JSON.stringify(error));
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "Licence",
+          action: "Verify",
+          status: "Error",
+          error: JSON.stringify(error),
         });
       });
   };

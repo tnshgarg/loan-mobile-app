@@ -10,6 +10,7 @@ import { strings } from "../../helpers/Localization";
 import { useUpdatePanMutation } from "../../store/apiSlices/panApi";
 import { addVerifyStatus } from "../../store/slices/panSlice";
 import { form, styles } from "../../styles";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 
 const PanConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -94,8 +95,11 @@ const PanConfirmApi = (props) => {
             backendPush({
               verifyStatus: "REJECTED",
             });
-            analytics().logEvent("Pan_Confirm_Error", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Pan",
+              action: "Confirm",
+              status: "Error",
               error: "Rejected by User",
             });
           }}
@@ -110,8 +114,11 @@ const PanConfirmApi = (props) => {
             backendPush({
               verifyStatus: "SUCCESS",
             });
-            analytics().logEvent("Pan_Confirm_Success", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Pan",
+              action: "Confirm",
+              status: "Success",
             });
           }}
         />

@@ -1,17 +1,9 @@
-import { useIsFocused, useNavigation } from "@react-navigation/core";
+import { useIsFocused } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Linking, SafeAreaView, ScrollView, Text, View } from "react-native";
-// import PushNotification from 'react-native-push-notification';
+import { SafeAreaView, ScrollView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
-import { allAreNull } from "../../helpers/nullCheck";
 import {
-  addEkycCampaignId,
-  addEwaCampaignId,
-  addRepaymentCampaignId,
-} from "../../store/slices/campaignSlice";
-import {
-  addCurrentScreen,
   addCurrentStack,
 } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
@@ -32,50 +24,22 @@ import {
   addAccessible,
   addEligible,
   resetEwaLive,
+  addCampaignBanner,
 } from "../../store/slices/ewaLiveSlice";
-import CompleteKycCard from "../../components/molecules/CompleteKycCard";
-import ExploreCards from "../../components/molecules/ExploreCards";
-import whatsappLinking from "../../helpers/WhatsappLinking";
+
 const HomeView = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
-  const navigation = useNavigation();
-
-  const aadhaarVerifyStatus = useSelector(
-    (state) => state.aadhaar.verifyStatus
-  );
-  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
-  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
-
   const [fetched, setFetched] = useState(false);
-
-  const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const onboarded = useSelector((state) => state.auth.onboarded);
 
-  // const panMisMatch = useSelector((state) => state.pan.misMatch);
-  // const bankMisMatch = useSelector((state) => state.bank.misMatch);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
+  console.log({ewaLiveSlice})
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
     const onboardingCampaignId = useSelector((state)=>state.campaign.onboardingCampaignId);
     console.log("HomeView onboardingCampaignId : ", onboardingCampaignId);
-  const verifyStatuses = [
-    aadhaarVerifyStatus != "SUCCESS"
-      ? { label: "Verify AADHAAR", value: "AADHAAR" }
-      : null,
-    panVerifyStatus != "SUCCESS" ? { label: "Verify PAN", value: "PAN" } : null,
-    bankVerifyStatus != "SUCCESS"
-      ? { label: "Verify Bank Account", value: "BANK" }
-      : null,
-  ];
-
-  // useEffect(() => {
-  //   // PushNotification.deleteChannel("Onboarding");
-  //   if (allAreNull(verifyStatuses)) {
-  //     PushNotification.cancelAllLocalNotifications();
-  //   }
-  // }, [aadhaarVerifyStatus, bankVerifyStatus, panVerifyStatus]);
 
   useEffect(() => {
     dispatch(addCurrentStack("HomeStack"));
@@ -135,6 +99,10 @@ const HomeView = () => {
         dispatch(resetEwaHistorical(getEwaOffersData.body.past));
         setFetched(true);
       } else {
+        if (getEwaOffersData.data.status == 404 && getEwaOffersData.data.campaignBanner) {
+          console.log("dispatched campaignBanner", getEwaOffersData.data)
+          dispatch(addCampaignBanner(getEwaOffersData.data.campaignBanner))
+        }
         console.log(
           "HomeView ewaOffersFetch API error getEwaOffersData.data : ",
           getEwaOffersData.body
@@ -151,56 +119,8 @@ const HomeView = () => {
       dispatch(resetEwaHistorical());
     }
   }, [getEwaOffersIsSuccess, getEwaOffersData, isFocused]);
-
-  const getUrlAsync = async () => {
-    const initialUrl = await Linking.getInitialURL();
-    const breakpoint = "/";
-    if (initialUrl) {
-      const splitted = initialUrl.split(breakpoint);
-      console.log("initialUrl", splitted);
-      console.log("route", splitted[3]);
-      switch (splitted[3].toLowerCase()) {
-        case "ewa":
-          switch (splitted[4]?.toLowerCase()) {
-            case "campaign":
-              dispatch(addEwaCampaignId(splitted[5]));
-              break;
-            default:
-              break;
-          }
-          break;
-        case "repayment":
-          switch (splitted[4]?.toLowerCase()) {
-            case "campaign":
-              dispatch(addRepaymentCampaignId(splitted[5]));
-              break;
-            default:
-              break;
-          }
-          break;
-        case "ekyc":
-          navigation.navigate("AccountStack", {
-            screen: "KYC",
-          });
-          switch (splitted[4]?.toLowerCase()) {
-            case "campaign":
-              dispatch(addEkycCampaignId(splitted[5]));
-              break;
-            default:
-              break;
-          }
-          break;
-        default:
-          break;
-      }
-    } else {
-      console.warn("No intent. User opened App.");
-    }
-  };
-
-  useEffect(() => {
-    getUrlAsync();
-  }, []);
+  
+  console.warn("No intent. User opened App.");
 
   return (
     <SafeAreaView style={styles.safeContainer}>

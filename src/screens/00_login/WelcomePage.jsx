@@ -11,6 +11,7 @@ import { strings } from "../../helpers/Localization";
 import whatsappLinking from "../../helpers/WhatsappLinking";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 
 const WelcomePage = () => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -74,8 +75,11 @@ const WelcomePage = () => {
           accessibilityLabel="WelcomeBtn"
           onPress={() => {
             requestUserPermission();
-            analytics().logEvent("WelcomePage", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            component: "WelcomePage",
+            action: "",
+            status: ""
             });
             navigation.navigate("ProfileForm");
           }}

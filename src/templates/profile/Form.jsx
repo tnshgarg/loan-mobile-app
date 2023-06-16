@@ -10,9 +10,12 @@ import { showToast } from "../../components/atoms/Toast";
 import DropDownForm from "../../components/molecules/DropDownForm";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { form, styles } from "../../styles";
-
-import { strings } from "../../helpers/Localization";
-import { useUpdateProfileMutation } from "../../store/apiSlices/profileApi";
+import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import FormInput from "../../components/atoms/FormInput";
+import DropDownForm from "../../components/molecules/DropDownForm";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
+import { showToast } from "../../components/atoms/Toast";
 
 const ProfileFormTemplate = ({ type }) => {
   const dispatch = useDispatch();
@@ -205,8 +208,11 @@ const ProfileFormTemplate = ({ type }) => {
             disabled={!next}
             onPress={() => {
               backendPush();
-              analytics().logEvent("ProfileForm_PushData_Success", {
-                unipeEmployeeId: unipeEmployeeId,
+              Analytics.trackEvent({
+                interaction: InteractionTypes.BUTTON_PRESS,
+                component: "ProfileForm",
+                action: "PushData",
+                status: "Success"
               });
             }}
           />

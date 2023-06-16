@@ -1,5 +1,6 @@
 import { STAGE } from "@env";
 import analytics from "@react-native-firebase/analytics";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
@@ -86,8 +87,12 @@ const LoginScreen = () => {
       .unwrap()
       .then((otpResponse) => {
         console.log("otpResponse", otpResponse);
-        analytics().logEvent("LoginScreen_SendSms_Success", {
-          phoneNumber: phoneNumber,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "LoginScreen",
+          action: "SendSms",
+          status: "Error",
+          error: JSON.stringify({error,phoneNumber}),
         });
         navigation.navigate("Otp");
         setLoading(false);
@@ -96,8 +101,11 @@ const LoginScreen = () => {
         console.log("error", error);
         setLoading(false);
         Alert.alert("Error", error.message);
-        analytics().logEvent("LoginScreen_SendSms_Error", {
-          phoneNumber: phoneNumber,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "LoginScreen",
+          action: "SendSms",
+          status: "Error",
           error: JSON.stringify(error),
         });
       });

@@ -55,7 +55,7 @@ const Mandate = ({ navigation }) => {
   };
 
   const backAction = () => {
-    navigation.replace("HomeStack", {
+    navigation.navigate("HomeStack", {
       screen: "Account",
     });
     return true;

@@ -6,6 +6,10 @@ import SplashScreen from "react-native-splash-screen";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import UpdateDialog from "./components/UpdateDialog";
+import { queryClient } from "./queries/client";
+import { QueryClientProvider } from "@tanstack/react-query";
+import Analytics, {InteractionTypes} from "./helpers/analytics/commonAnalytics";
+import Crashes from "appcenter-crashes";
 import { navigationRef } from "./navigators/RootNavigation";
 import StackNavigator from "./navigators/StackNavigator";
 import { persistor, store } from "./store/store";
@@ -19,8 +23,12 @@ Crashes.setListener({
 if(__DEV__) {
   import('./ReactotronConfig').then(() => console.log('Reactotron Configured'))
 }
+const analyticsInit = async () => {
+  await Analytics.init();
+};
 
 const App = () => {
+  analyticsInit();
   SplashScreen.hide();
   return (
     <Provider store={store}>

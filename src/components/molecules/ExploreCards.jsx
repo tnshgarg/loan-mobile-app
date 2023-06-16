@@ -7,6 +7,7 @@ import Refer from "../../assets/Refer.svg";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { useRef } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
 
 const Card = ({ destination, component, inactive }) => {
   const navigation = useNavigation();
@@ -15,6 +16,12 @@ const Card = ({ destination, component, inactive }) => {
       activeOpacity={0.7}
       disabled={inactive}
       onPress={() => {
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "ExploreCards",
+          action: `navigate:${destination}`,
+          status: "",
+        })
         navigation.navigate(destination);
       }}
     >

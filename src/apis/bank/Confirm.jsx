@@ -11,6 +11,7 @@ import { useUpdateBankMutation } from "../../store/apiSlices/bankApi";
 import { addOnboarded } from "../../store/slices/authSlice";
 import { addVerifyStatus } from "../../store/slices/bankSlice";
 import { form, styles } from "../../styles";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 
 const BankConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -49,11 +50,12 @@ const BankConfirmApi = (props) => {
           }
         } else if (verifyStatus === "SUCCESS") {
           if (props?.route?.params?.type === "KYC") {
-            navigation.navigate("KYC", {
-              screen: "BANK",
-            });
+            showToast("KYC Completed Successfully");
+            navigation.navigate("HomeStack", {
+              screen: "Home",
+            })
           } else {
-            navigation.replace("EWA_MANDATE");
+            navigation.navigate("EWAStack", {screen: "EWA_MANDATE"});
           }
         }
       })
@@ -100,8 +102,11 @@ const BankConfirmApi = (props) => {
             backendPush({
               verifyStatus: "REJECTED",
             });
-            analytics().logEvent("Bank_Confirm_Error", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Bank",
+              action: "Confirm",
+              status: "Error",
               error: "Rejected by User",
             });
           }}
@@ -117,8 +122,11 @@ const BankConfirmApi = (props) => {
             backendPush({
               verifyStatus: "SUCCESS",
             });
-            analytics().logEvent("Bank_Confirm_Success", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Bank",
+              action: "Confirm",
+              status: "Success"
             });
           }}
         />

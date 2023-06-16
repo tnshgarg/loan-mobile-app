@@ -1,5 +1,6 @@
 import analytics from "@react-native-firebase/analytics";
 import { useIsFocused } from "@react-navigation/core";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 import { useEffect, useState } from "react";
 import { Alert, Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -168,8 +169,11 @@ const PayMoneyCard = () => {
         provider: "razorpay",
         checkoutMsg: "Repayment Initiated from App Checkout Success",
       };
-      analytics().logEvent("Ewa_Repayment_Success", {
-        unipeEmployeeId: unipeEmployeeId,
+      Analytics.trackEvent({
+        interaction: InteractionTypes.BUTTON_PRESS,
+        component: "Ewa",
+        action: "Repayment",
+        status: "Success",
       });
     } catch (error) {
       console.log("ewaRepayment Checkout error: ", error);
@@ -179,8 +183,11 @@ const PayMoneyCard = () => {
         provider: "razorpay",
         checkoutMsg: error.message,
       };
-      analytics().logEvent("Ewa_Repayment_Error", {
-        unipeEmployeeId: unipeEmployeeId,
+      Analytics.trackEvent({
+        interaction: InteractionTypes.BUTTON_PRESS,
+        component: "Ewa",
+        action: "Repayment",
+        status: "Error",
       });
     } finally {
       backendPush({
@@ -213,9 +220,12 @@ const PayMoneyCard = () => {
         });
       } catch (error) {
         Alert.alert("Error", error.message);
-        analytics().logEvent("Ewa_Repayment_Error", {
-          unipeEmployeeId: unipeEmployeeId,
-          error: error.message,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "Ewa",
+          action: "Repayment",
+          status: "Error",
+          error: JSON.stringify(error),
         });
         setLoading(false);
       }

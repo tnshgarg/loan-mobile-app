@@ -1,4 +1,3 @@
-import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
 import { useState } from "react";
 import { Alert } from "react-native";
@@ -6,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { useVerifyPanMutation } from "../../store/apiSlices/panApi";
 import { addVerifyStatus } from "../../store/slices/panSlice";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 
 const PanVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -14,7 +14,6 @@ const PanVerifyApi = (props) => {
   const [loading, setLoading] = useState(false);
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const token = useSelector((state) => state.auth.token);
   const panSlice = useSelector((state) => state.pan);
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
@@ -35,8 +34,12 @@ const PanVerifyApi = (props) => {
         console.log("kyc/pan-fetch-details res: ", res);
         if (res?.status === 200) {
           setLoading(false);
-          analytics().logEvent("Pan_Verify_Success", {
-            unipeEmployeeId: unipeEmployeeId,
+          Analytics.trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            component: "Pan",
+            action: "Verify",
+            status: "Error",
+            error: `fetchPanDetails API Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
           });
           if (props.type !== "KYC") {
             navigation.navigate("PanConfirm");
@@ -49,11 +52,12 @@ const PanVerifyApi = (props) => {
         console.log("kyc/pan-fetch-details error: ", error);
         dispatch(addVerifyStatus("ERROR"));
         Alert.alert("fetchPanDetails API Catch Error", error.message);
-        analytics().logEvent("Pan_Verify_Error", {
-          unipeEmployeeId: unipeEmployeeId,
-          error: `fetchPanDetails API Catch Error: ${
-            error.message
-          }`,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "Pan",
+          action: "Verify",
+          status: "Error",
+          error: `fetchPanDetails Catch Error: ${JSON.stringify(error)}`,
         });
         setLoading(false);
       });

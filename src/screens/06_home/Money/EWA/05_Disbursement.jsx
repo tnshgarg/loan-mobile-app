@@ -51,6 +51,8 @@ const Disbursement = ({ route, navigation }) => {
         return <Failure />;
       case "FAILURE":
         return <Failure />;
+      case "REJECTED":
+          return <Failure />;
       default:
         return <Pending />;
     }

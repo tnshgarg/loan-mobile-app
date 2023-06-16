@@ -1,5 +1,6 @@
 import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
+import Analytics, {InteractionTypes} from "../../../../helpers/analytics/commonAnalytics";
 import { useEffect, useState } from "react";
 import {
   Alert,
@@ -155,6 +156,12 @@ const Agreement = () => {
   }, [fetched]);
 
   const backAction = () => {
+    Analytics.trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      component: "Ewa",
+      action: "Agreement",
+      status: "Back"
+    });
     if (mandateVerifyStatus === "SUCCESS") {
       navigation.navigate("EWA_KYC");
     } else {
@@ -222,8 +229,11 @@ const Agreement = () => {
         dispatch(resetEwaLive());
         dispatch(resetEwaHistorical([]));
         setLoading(false);
-        analytics().logEvent("Ewa_Agreement_Success", {
-          unipeEmployeeId: unipeEmployeeId,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "Ewa",
+          action: "Agreement",
+          status: "Success",
         });
         navigation.navigate("EWA_DISBURSEMENT", { offer: ewaLiveSlice });
       })
@@ -231,8 +241,11 @@ const Agreement = () => {
         console.log("ewaAgreementPush error: ", error.message);
         setLoading(false);
         Alert.alert("An Error occured", error.message);
-        analytics().logEvent("Ewa_Agreement_Error", {
-          unipeEmployeeId: unipeEmployeeId,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "Ewa",
+          action: "Agreement",
+          status: "Error",
           error: error.message,
         });
       });
