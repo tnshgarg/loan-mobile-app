@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import LogoImage from "../../assets/HeaderLogo.svg";
 import { COLORS, FONTS } from "../../constants/Theme";
@@ -63,12 +63,26 @@ const LogoHeader = ({
           <EmptyView />
         )}
       </View>
-      {headline || subHeadline ? (
-        <View style={styles.belowContainer}>
-          {headline && <Text style={styles.headline}>{headline}</Text>}
-          {subHeadline && <Text style={styles.subHeadline}>{subHeadline}</Text>}
-        </View>
-      ) : null}
+      <View style={styles.cont}>
+        {headline || subHeadline ? (
+          <View style={styles.belowContainer}>
+            {headline && <Text style={styles.headline}>{headline}</Text>}
+            {subHeadline && (
+              <Text style={styles.subHeadline}>{subHeadline}</Text>
+            )}
+          </View>
+        ) : null}
+        {headerImageUri ? (
+          <Image
+            style={styles.headerImage}
+            source={{
+              uri: headerImageUri,
+            }}
+          />
+        ) : (
+          <></>
+        )}
+      </View>
     </View>
   );
 };
@@ -78,6 +92,20 @@ export default LogoHeader;
 const styles = EStyleSheet.create({
   mainContainer: {
     flexDirection: "column",
+  },
+  cont: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    justifyContent: "space-between",
+    backgroundColor: COLORS.headerBg,
+    paddingBottom: "10rem",
+  },
+  headerImage: {
+    width: "120rem",
+    height: "120rem",
+    resizeMode: "contain",
+    marginRight: "20rem",
   },
   container: {
     width: "100%",
@@ -89,7 +117,6 @@ const styles = EStyleSheet.create({
     paddingVertical: "10rem",
   },
   belowContainer: {
-    backgroundColor: COLORS.headerBg,
     flexDirection: "column",
     paddingHorizontal: "20rem",
     paddingBottom: "10rem",

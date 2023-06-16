@@ -1,7 +1,3 @@
-import Blog1 from "../../assets/Blog1.svg";
-import Blog2 from "../../assets/Blog2.svg";
-import Blog3 from "../../assets/Blog3.svg";
-import Blog4 from "../../assets/Blog4.svg";
 import { COLORS } from "../../constants/Theme";
 import { api } from "./api";
 
@@ -50,6 +46,8 @@ const DUMMY_RES = {
             },
             {
               type: "card",
+              navigate: { type: "cms", screen: "blog_2" },
+
               children: [
                 {
                   type: "twoColumn",
@@ -76,6 +74,8 @@ const DUMMY_RES = {
             },
             {
               type: "card",
+              navigate: { type: "cms", screen: "blog_3" },
+
               children: [
                 {
                   type: "twoColumn",

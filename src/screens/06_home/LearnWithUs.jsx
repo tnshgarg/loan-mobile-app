@@ -2,11 +2,10 @@ import { useNavigation } from "@react-navigation/core";
 import React from "react";
 import { SafeAreaView, ScrollView, View } from "react-native";
 import { useSelector } from "react-redux";
-import BannerCard from "../../components/atoms/BannerCard";
+import CmsRoot from "../../components/cms/CmsRoot";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { styles } from "../../styles";
-import CmsRoot from "../../components/cms/CmsRoot";
 
 const LearnWithUs = () => {
   const navigation = useNavigation();
