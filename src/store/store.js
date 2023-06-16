@@ -18,9 +18,9 @@ import ewaHistoricalSlice from "./slices/ewaHistoricalSlice";
 import ewaLiveSlice from "./slices/ewaLiveSlice";
 import pendingCampaignClickSlice from "./slices/pendingCampaignClickSlice";
 
+import { setupListeners } from "@reduxjs/toolkit/query";
 import { api } from "./apiSlices/api";
-import { setupListeners } from '@reduxjs/toolkit/query';
-import reactotron from "../ReactotronConfig";
+// import reactotron from "../ReactotronConfig";
 
 const persistConfig = {
   key: "root",
@@ -42,7 +42,7 @@ const appReducer = combineReducers({
   timer: timerSlice,
   ewaLive: ewaLiveSlice,
   ewaHistorical: ewaHistoricalSlice,
-  pendingCampaignClick: pendingCampaignClickSlice
+  pendingCampaignClick: pendingCampaignClickSlice,
 });
 
 const rootReducer = (state, action) => {
@@ -53,7 +53,7 @@ const rootReducer = (state, action) => {
     } catch (error) {
       console.log(error);
     }
-    return appReducer({auth: {phoneNumber: "",loggedOut: true}}, action);
+    return appReducer({ auth: { phoneNumber: "", loggedOut: true } }, action);
   }
   return appReducer(state, action);
 };
@@ -61,7 +61,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
-  enhancers: [reactotron.createEnhancer()],
+  // enhancers: [reactotron.createEnhancer()],
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
