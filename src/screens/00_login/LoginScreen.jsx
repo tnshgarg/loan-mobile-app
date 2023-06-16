@@ -1,41 +1,42 @@
 import { STAGE } from "@env";
-import analytics from "@react-native-firebase/analytics";
-import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import {
   Alert,
+  Animated,
   BackHandler,
+  Easing,
   SafeAreaView,
   Text,
   View,
-  Animated,
-  Easing,
 } from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
-import { useDispatch, useSelector } from "react-redux";
 import SplashScreen from "react-native-splash-screen";
+import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import ShieldTitle from "../../components/atoms/ShieldTitle";
 import LoginInput from "../../components/molecules/LoginInput";
 import AgreementText from "../../components/organisms/AgreementText";
 import { COLORS, FONTS } from "../../constants/Theme";
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
 import { useGenerateOtpMutation } from "../../store/apiSlices/loginApi";
 import { addPhoneNumber } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
 // import Animated, { EasingNode } from "react-native-reanimated";
-import SvgListItem from "../../components/molecules/SvgListItem";
-import LogoImage from "../../assets/HeaderLogo.svg";
-import Tick from "../../assets/Tick.svg";
-import Face from "../../assets/Face.svg";
-import SvgContainer from "../../components/atoms/SvgContainer";
+import { Keyboard } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import { Keyboard } from "react-native";
+import Face from "../../assets/Face.svg";
+import LogoImage from "../../assets/HeaderLogo.svg";
+import Tick from "../../assets/Tick.svg";
 import LogoHeader from "../../components/atoms/LogoHeader";
-import { showToast } from "../../components/atoms/Toast";
+import SvgContainer from "../../components/atoms/SvgContainer";
+import CmsButton from "../../components/cms/CmsButton";
+import SvgListItem from "../../components/molecules/SvgListItem";
 
 const LoginScreen = () => {
   SplashScreen.hide();
@@ -106,8 +107,7 @@ const LoginScreen = () => {
           interaction: InteractionTypes.BUTTON_PRESS,
           component: "LoginScreen",
           action: "SendSms",
-          status: "Error",
-          error: JSON.stringify({error,phoneNumber}),
+          status: "Success",
         });
         // TODO: Success message handling
         navigation.navigate("Otp");
@@ -270,6 +270,8 @@ const LoginScreen = () => {
         </KeyboardAvoidingWrapper>
       </Animated.View>
       <View style={[styles.container, { flex: 0 }]}>
+        <CmsButton title="Hello" />
+
         <PrimaryButton
           title="Continue"
           accessibilityLabel="LoginNextBtn"
