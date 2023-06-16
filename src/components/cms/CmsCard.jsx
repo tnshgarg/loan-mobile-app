@@ -11,10 +11,12 @@ const CmsCard = ({ children, style, gradientColors, navigate }) => {
     <TouchableOpacity
       activeOpacity={0.7}
       onPress={() => {
-        navigationHelper({
-          type: navigate.type,
-          params: { blogKey: navigate.screen },
-        });
+        if (navigate) {
+          navigationHelper({
+            type: navigate.type,
+            params: { blogKey: navigate.screen },
+          });
+        }
       }}
     >
       <LinearGradient
@@ -37,7 +39,7 @@ const styles = EStyleSheet.create({
   container: {
     width: "100%",
     marginVertical: "5rem",
-    // padding: "15rem",
+    padding: "0rem",
     flexDirection: "row",
     alignItems: "center",
     borderRadius: "10rem",

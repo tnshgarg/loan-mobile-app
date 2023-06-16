@@ -9,6 +9,7 @@ import CmsContainer from "./CmsContainer";
 import CmsIconText from "./CmsIconText";
 import CmsThreeColumn from "./CmsThreeColumn";
 import CmsIcon from "./CmsIcon";
+import CmsSpacer from "./CmsSpacer";
 import CmsCollapsibleList from "./CmsCollapsibleList";
 import CmsImage from "./CmsImage";
 import CmsNotification from "./CmsNotification";
@@ -40,6 +41,7 @@ const CMS_TYPES = {
   container: CmsContainer,
   iconText: CmsIconText,
   icon: CmsIcon,
+  spacer: CmsSpacer,
   collapsibleList: CmsCollapsibleList,
   notification: CmsNotification,
   default: () => <></>,

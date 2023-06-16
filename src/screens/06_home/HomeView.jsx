@@ -90,7 +90,7 @@ const HomeView = () => {
     isLoading: cmsLoading,
     isError: cmsError,
   } = useGetCmsQuery(unipeEmployeeId, {
-    pollingInterval: 1000,
+    pollingInterval: 1000 * 3600,
   });
 
   const [fetched, setFetched] = useState(false);
@@ -254,12 +254,47 @@ const HomeView = () => {
             accessible={accessible}
             ewaLiveSlice={ewaLiveSlice}
           />
-
-          {!cmsLoading ? (
+          <CmsRoot children={[
+            {
+              "type": "banner",
+              "children": [
+                {
+                  "type": "image",
+                  "url": "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBanner.png"
+                },
+                {
+                  "type": "twoColumn",
+                  "widths": ["46%", "46%"],
+                  "styling": {"border": "1px solid black"},
+                  "children": [
+                    {
+                      "type": "card",
+                      "children": [
+                        {
+                          "type": "image",
+                          "url": "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBannerCurrentContest.png"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "card",
+                      "children": [
+                        {
+                          "type": "image",
+                          "url": "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBannerLastMonthWinners.png"
+                        }
+                      ]
+                    },
+                  ]
+                }
+              ]
+            }
+          ]} />
+          {/* {!cmsLoading ? (
             <CmsRoot children={DUMMY_RES?.home || []}></CmsRoot>
           ) : (
             <></>
-          )}
+          )} */}
 
           {/* <BannerCard /> */}
         </View>
