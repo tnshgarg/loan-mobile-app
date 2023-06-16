@@ -679,6 +679,157 @@ const DUMMY_RES = {
       ],
     },
   ],
+  CustomerSupport: {
+    screenTitle: "Customer Support",
+    data: [
+      {
+        type: "section",
+        title: "Basic Questions",
+        children: [
+          {
+            type: "collapsibleList",
+            title: "Q: What is Unipe?",
+            subtitle:
+              "A: Unipe is an interest-free solution that allows them to withdraw their salary advance whenever they need it.",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: How can I get advance salary from Unipe?",
+            subtitle:
+              "A: To get advance salary, follow these 5 simple steps: \n- Download and login to the Unipe App \n- Complete KYC verification by entering your Aadhar, Pan & Bank details \n- Enter the amount you want to withdraw \n- Set up repayment metho \nWithdraw your advance salary \n",
+          },
+          {
+            type: "collapsibleList",
+            title:
+              "Q: Does Unipe charge me any fees or interest on advance salary?",
+            subtitle:
+              "A: The Unipe EWA program is interest free. However, we do charge a very small processing fee at the time of disbursement. If the Advance salary is paid back on time, there is no separate interest charged.",
+          },
+          {
+            type: "collapsibleList",
+            title:
+              "Q: If I take Rs.1000 today, when will I have to pay it back?",
+            subtitle:
+              "A: The advance amount taken will be automatically deducted from your salary at the time of payroll processing.",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: Is my data protected?",
+            subtitle:
+              "A: Your data is 100% encrypted and stored securely and only shared with third parties post your consent.",
+          },
+        ],
+      },
+      {
+        type: "section",
+        title: "Topics",
+        children: [
+          {
+            type: "threeColumn",
+            secondColumnStyle: { flex: 1, paddingLeft: 15 },
+            navigate: { type: "account", screen: "Profile" },
+            children: [
+              {
+                type: "icon",
+                iconName: "account-circle",
+                iconSize: 36,
+                iconColor: COLORS.gray,
+              },
+              {
+                type: "container",
+                children: [
+                  {
+                    type: "title",
+                    title: "Mandate",
+                  },
+                  {
+                    type: "subtitle",
+                    title: "All your repayment related queries",
+                  },
+                ],
+              },
+              {
+                type: "icon",
+                iconName: "chevron-right",
+                iconSize: 28,
+                iconColor: COLORS.gray,
+              },
+            ],
+          },
+          {
+            type: "threeColumn",
+            secondColumnStyle: { flex: 1, paddingLeft: 15 },
+            navigate: { type: "account", screen: "Profile" },
+            children: [
+              {
+                type: "icon",
+                iconName: "account-circle",
+                iconSize: 36,
+                iconColor: COLORS.gray,
+              },
+              {
+                type: "container",
+                children: [
+                  {
+                    type: "title",
+                    title: "Salary Withdrawal",
+                  },
+                  {
+                    type: "subtitle",
+                    title: "All your salary related questions",
+                  },
+                ],
+              },
+              {
+                type: "icon",
+                iconName: "chevron-right",
+                iconSize: 28,
+                iconColor: COLORS.gray,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "section",
+        title: "General FAQs",
+        children: [
+          {
+            type: "collapsibleList",
+            title: "Q: What is Unipe?",
+            subtitle:
+              "A: Unipe is an interest-free solution that allows them to withdraw their salary advance whenever they need it.",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: How can I get advance salary from Unipe?",
+            subtitle:
+              "A: To get advance salary, follow these 5 simple steps: \n- Download and login to the Unipe App \n- Complete KYC verification by entering your Aadhar, Pan & Bank details \n- Enter the amount you want to withdraw \n- Set up repayment metho \nWithdraw your advance salary \n",
+          },
+          {
+            type: "collapsibleList",
+            title:
+              "Q: Does Unipe charge me any fees or interest on advance salary?",
+            subtitle:
+              "A: The Unipe EWA program is interest free. However, we do charge a very small processing fee at the time of disbursement. If the Advance salary is paid back on time, there is no separate interest charged.",
+          },
+          {
+            type: "collapsibleList",
+            title:
+              "Q: If I take Rs.1000 today, when will I have to pay it back?",
+            subtitle:
+              "A: The advance amount taken will be automatically deducted from your salary at the time of payroll processing.",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: Is my data protected?",
+            subtitle:
+              "A: Your data is 100% encrypted and stored securely and only shared with third parties post your consent.",
+          },
+        ],
+      },
+    ],
+  },
   miniPlacement: [
     {
       type: "mini_placement",
@@ -694,11 +845,12 @@ const DUMMY_RES = {
       children: [
         {
           type: "threeColumn",
-          secondColumnStyle: { flex: 1 },
+          secondColumnStyle: { flex: 1, paddingLeft: 15 },
+          navigate: { type: "account", screen: "Profile" },
           children: [
             {
               type: "icon",
-              iconName: "account",
+              iconName: "account-circle",
               iconSize: 36,
               iconColor: COLORS.gray,
             },
@@ -718,7 +870,169 @@ const DUMMY_RES = {
             {
               type: "icon",
               iconName: "chevron-right",
+              iconSize: 28,
+              iconColor: COLORS.gray,
+            },
+          ],
+        },
+        {
+          type: "threeColumn",
+          secondColumnStyle: { flex: 1, paddingLeft: 15 },
+          navigate: { type: "account", screen: "Profile" },
+          children: [
+            {
+              type: "icon",
+              iconName: "account-circle",
               iconSize: 36,
+              iconColor: COLORS.gray,
+            },
+            {
+              type: "container",
+              children: [
+                {
+                  type: "title",
+                  title: "Pay Slips",
+                },
+                {
+                  type: "subtitle",
+                  title: "View and download payslips",
+                },
+              ],
+            },
+            {
+              type: "icon",
+              iconName: "chevron-right",
+              iconSize: 28,
+              iconColor: COLORS.gray,
+            },
+          ],
+        },
+        {
+          type: "threeColumn",
+          secondColumnStyle: { flex: 1, paddingLeft: 15 },
+          navigate: { type: "account", screen: "KYC" },
+          children: [
+            {
+              type: "icon",
+              iconName: "account-circle",
+              iconSize: 36,
+              iconColor: COLORS.gray,
+            },
+            {
+              type: "container",
+              children: [
+                {
+                  type: "title",
+                  title: "KYC",
+                },
+                {
+                  type: "subtitle",
+                  title: "All your KYC details in one place",
+                },
+              ],
+            },
+            {
+              type: "icon",
+              iconName: "chevron-right",
+              iconSize: 28,
+              iconColor: COLORS.gray,
+            },
+          ],
+        },
+
+        {
+          type: "threeColumn",
+          secondColumnStyle: { flex: 1, paddingLeft: 15 },
+          navigate: { type: "account", screen: "Profile" },
+          children: [
+            {
+              type: "icon",
+              iconName: "account-circle",
+              iconSize: 36,
+              iconColor: COLORS.gray,
+            },
+            {
+              type: "container",
+              children: [
+                {
+                  type: "title",
+                  title: "Customer Support",
+                },
+                {
+                  type: "subtitle",
+                  title: "Talk to our support team",
+                },
+              ],
+            },
+            {
+              type: "icon",
+              iconName: "chevron-right",
+              iconSize: 28,
+              iconColor: COLORS.gray,
+            },
+          ],
+        },
+        {
+          type: "threeColumn",
+          secondColumnStyle: { flex: 1, paddingLeft: 15 },
+          navigate: { type: "account", screen: "Profile" },
+          children: [
+            {
+              type: "icon",
+              iconName: "account-circle",
+              iconSize: 36,
+              iconColor: COLORS.gray,
+            },
+            {
+              type: "container",
+              children: [
+                {
+                  type: "title",
+                  title: "Submit Feedback",
+                },
+                {
+                  type: "subtitle",
+                  title: "Let us know your experience with us",
+                },
+              ],
+            },
+            {
+              type: "icon",
+              iconName: "chevron-right",
+              iconSize: 28,
+              iconColor: COLORS.gray,
+            },
+          ],
+        },
+
+        {
+          type: "threeColumn",
+          secondColumnStyle: { flex: 1, paddingLeft: 15 },
+          navigate: { type: "account", screen: "About Us" },
+          children: [
+            {
+              type: "icon",
+              iconName: "account-circle",
+              iconSize: 36,
+              iconColor: COLORS.gray,
+            },
+            {
+              type: "container",
+              children: [
+                {
+                  type: "title",
+                  title: "About Us",
+                },
+                {
+                  type: "subtitle",
+                  title: "Read about us & our terms of use",
+                },
+              ],
+            },
+            {
+              type: "icon",
+              iconName: "chevron-right",
+              iconSize: 28,
               iconColor: COLORS.gray,
             },
           ],

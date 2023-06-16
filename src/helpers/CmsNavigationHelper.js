@@ -8,6 +8,11 @@ const navigationHelper = ({ type, stack, screen, params }) => {
     console.log("CMS navigation triggered!");
     navigationRef.navigate("CmsStack", {
       screen: "CmsDummyBlog",
+      params: params ?? {},
+    });
+  } else if (type == "account") {
+    navigationRef.navigate("AccountStack", {
+      screen: screen,
       params: params,
     });
   } else {

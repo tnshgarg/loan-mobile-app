@@ -31,6 +31,7 @@ import {
 } from "../../store/slices/ewaLiveSlice";
 import { addCurrentStack } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
 const HomeView = () => {
   const aadhaarData = {
@@ -237,7 +238,12 @@ const HomeView = () => {
         <LogoHeaderBack
           title={`Good Afternoon \n${name}!`}
           onRightIconPress={() => {
-            setVisible(true);
+            // setVisible(true);
+
+            navigationHelper({
+              type: "cms",
+              params: { blogKey: "CustomerSupport" },
+            });
           }}
           titleStyle={{ ...FONTS.body3, color: COLORS.gray }}
           containerStyle={{

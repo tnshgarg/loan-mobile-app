@@ -4,6 +4,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/core";
+import LinearGradient from "react-native-linear-gradient";
 
 const CmsSection = ({
   title,
@@ -21,8 +22,17 @@ const CmsSection = ({
 
   return (
     <View style={styles.container}>
-      <View style={styles.row}>
-        <Image source={{ uri: leftIcon }} style={styles.image} />
+      <LinearGradient
+        style={styles.row}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        colors={[COLORS.lightGreen, COLORS.lightYellow]}
+      >
+        {leftIcon ? (
+          <Image source={{ uri: leftIcon }} style={styles.image} />
+        ) : (
+          <></>
+        )}
         <Text style={styles.title}>{title}</Text>
         {ctaText && (
           <TouchableOpacity
@@ -38,7 +48,7 @@ const CmsSection = ({
             />
           </TouchableOpacity>
         )}
-      </View>
+      </LinearGradient>
 
       {safeChildren?.map((child, index) => (
         <View key={index}>{child.element(child)}</View>
@@ -48,14 +58,13 @@ const CmsSection = ({
 };
 
 const styles = EStyleSheet.create({
-  container: {
-    paddingVertical: "15rem",
-    marginTop: "10rem",
-  },
+  container: {},
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    padding: "15rem",
+    marginVertical: "10rem",
   },
   image: {
     height: "24rem",
