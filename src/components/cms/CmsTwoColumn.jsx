@@ -5,7 +5,6 @@ import { COLORS, FONTS } from "../../constants/Theme";
 
 const CmsTwoColumn = ({ children, widths, styling }) => {
   const safeChildren = children || [];
-  console.log({ styling });
   return (
     <View style={[styles.row, { ...styling }]}>
       {safeChildren?.map((child, index) => (
@@ -34,6 +33,7 @@ const styles = EStyleSheet.create({
     flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "space-between",
+    margin: "15rem",
   },
   col: {
     flexDirection: "column",

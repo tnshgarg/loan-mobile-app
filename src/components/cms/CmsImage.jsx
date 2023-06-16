@@ -30,7 +30,7 @@ const CmsImage = ({ url }) => {
 
   return (
     <Image
-      style={style.fullWidthImage}
+      style={[style.fullWidthImage, { ...styling }]}
       source={{
         uri: url,
       }}

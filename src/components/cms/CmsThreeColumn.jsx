@@ -2,12 +2,23 @@ import { View, Text, Image } from "react-native";
 import React from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { TouchableOpacity } from "react-native";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
-const CmsThreeColumn = ({ children, secondColumnStyle, styling }) => {
+const CmsThreeColumn = ({ children, secondColumnStyle, styling, navigate }) => {
   const safeChildren = children || [];
 
   return (
-    <View style={[styles.row, { ...styling }]}>
+    <TouchableOpacity
+      style={[styles.row, { ...styling }]}
+      onPress={() => {
+        navigationHelper({
+          type: navigate.type,
+          screen: navigate.screen,
+          // params: { blogKey: navigate.screen },
+        });
+      }}
+    >
       {safeChildren?.map((child, index) => (
         <View
           key={index}
@@ -21,7 +32,7 @@ const CmsThreeColumn = ({ children, secondColumnStyle, styling }) => {
           {child.element(child)}
         </View>
       ))}
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -35,6 +46,7 @@ const styles = EStyleSheet.create({
     borderBottomWidth: 1,
     borderColor: COLORS.lightGray,
     padding: "10rem",
+    backgroundColor: COLORS.white,
   },
   col: {
     flexDirection: "column",

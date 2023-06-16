@@ -31,6 +31,7 @@ import {
 } from "../../store/slices/ewaLiveSlice";
 import { addCurrentStack } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
 const HomeView = () => {
   const aadhaarData = {
@@ -83,7 +84,6 @@ const HomeView = () => {
     pollingInterval: 1000 * 60 * 60 * 24,
   });
   const { aadhaar, pan, bank, kycCompleted } = kycData ?? {};
-  console.log({ kycData });
 
   const {
     data: cmsData,
@@ -92,8 +92,6 @@ const HomeView = () => {
   } = useGetCmsQuery(unipeEmployeeId, {
     pollingInterval: 1000 * 3600,
   });
-
-  console.log(cmsData?.home);
 
   const [fetched, setFetched] = useState(false);
   const [alertVisible, setAlertVisible] = useState(false);
@@ -237,7 +235,12 @@ const HomeView = () => {
         <LogoHeaderBack
           title={`Good Afternoon \n${name}!`}
           onRightIconPress={() => {
-            setVisible(true);
+            // setVisible(true);
+
+            navigationHelper({
+              type: "cms",
+              params: { blogKey: "CustomerSupport" },
+            });
           }}
           titleStyle={{ ...FONTS.body3, color: COLORS.gray }}
           containerStyle={{

@@ -18,6 +18,7 @@ import CmsIconText from "./CmsIconText";
 import CmsThreeColumn from "./CmsThreeColumn";
 import CmsIcon from "./CmsIcon";
 import CmsSpacer from "./CmsSpacer";
+import CmsCollapsibleList from "./CmsCollapsibleList";
 
 const CMS_TYPES = {
   section: CmsSection,
@@ -38,6 +39,7 @@ const CMS_TYPES = {
   iconText: CmsIconText,
   icon: CmsIcon,
   spacer: CmsSpacer,
+  collapsibleList: CmsCollapsibleList,
   default: () => <></>,
 };
 
