@@ -3,14 +3,10 @@ import React from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
 
-const CmsSubtitle = ({ children, title, styling }) => {
+const CmsContainer = ({ children, title, styling }) => {
   const safeChildren = children || [];
-  console.log("Cms Title", title);
   return (
-    <View style={styles.container}>
-      <Text style={{ ...FONTS.body4, color: COLORS.black, flex: 1 }}>
-        {title}
-      </Text>
+    <View style={[styles.container, { ...styling }]}>
       {safeChildren?.map((child, index) => (
         <View key={index}>{child.element(child)}</View>
       ))}
@@ -23,8 +19,7 @@ const styles = EStyleSheet.create({
     // flex: 1,
     width: "100%",
     flexDirection: "column",
-    marginVertical: "3rem",
   },
 });
 
-export default CmsSubtitle;
+export default CmsContainer;

@@ -105,7 +105,6 @@ const styles = EStyleSheet.create({
     borderRadius: "5rem",
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: "10rem",
   },
   smallThumbnailContainer: {
     //width: "45%",

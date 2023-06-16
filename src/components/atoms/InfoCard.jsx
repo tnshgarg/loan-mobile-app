@@ -5,7 +5,15 @@ import React from "react";
 import { COLORS, FONTS } from "../../constants/Theme";
 import LinearGradient from "react-native-linear-gradient";
 
-const InfoCard = ({ title, info, variant, containerStyle, infoStyle }) => {
+const InfoCard = ({
+  title,
+  info,
+  variant,
+  containerStyle,
+  infoStyle,
+  icon,
+  color,
+}) => {
   return variant == "gradient" ? (
     <LinearGradient
       start={{ x: 0, y: 0 }}
@@ -45,9 +53,9 @@ const InfoCard = ({ title, info, variant, containerStyle, infoStyle }) => {
       style={[styles.container, { ...containerStyle }]}
     >
       <MaterialCommunityIcons
-        name={icon || "information-outline"} 
-        size={20} 
-        color={color || COLORS.primary} 
+        name={icon || "information-outline"}
+        size={20}
+        color={color || COLORS.primary}
       />
       <View
         style={{ flexDirection: "column", flex: 1, alignItems: "flex-start" }}

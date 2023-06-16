@@ -13,6 +13,8 @@ import CmsSubtitle from "./CmsSubtitle";
 import CmsSection from "./CmsSection";
 import CmsSwiper from "./CmsSwiper";
 import CmsVideo from "./CmsVideo";
+import CmsContainer from "./CmsContainer";
+import CmsIconText from "./CmsIconText";
 
 const CMS_TYPES = {
   section: CmsSection,
@@ -28,6 +30,8 @@ const CMS_TYPES = {
   title: CmsTitle,
   subtitle: CmsSubtitle,
   blog: CmsBlog,
+  container: CmsContainer,
+  iconText: CmsIconText,
   default: () => <></>,
 };
 

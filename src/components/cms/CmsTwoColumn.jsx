@@ -3,16 +3,18 @@ import React from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
 
-const CmsTwoColumn = ({ children, firstColumnWidth }) => {
+const CmsTwoColumn = ({ children, firstColumnWidth, styling }) => {
   const safeChildren = children || [];
   console.log({ firstColumnWidth });
+  console.log({ styling });
   return (
-    <View style={styles.row}>
+    <View style={[styles.row, { ...styling }]}>
       {safeChildren?.map((child, index) => (
         <View
           key={index}
           style={[
             styles.col,
+
             firstColumnWidth
               ? {
                   width: index == 0 ? firstColumnWidth : "30%",
@@ -38,18 +40,15 @@ const styles = EStyleSheet.create({
   },
 
   row: {
-    // flexDirection: "row",
-    // width: "100%",
-    // alignItems: "center",
-    // justifyContent: "space-between",
     flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "center",
+    justifyContent: "space-between",
   },
   col: {
     flexDirection: "column",
-    width: "50%",
+    width: "48%",
   },
 });
 

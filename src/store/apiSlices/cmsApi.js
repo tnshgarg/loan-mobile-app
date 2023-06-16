@@ -37,53 +37,13 @@ const DUMMY_RES = {
                   firstColumnWidth: "70%",
                   children: [
                     {
-                      type: "title",
-                      title: "What are the benefits of Mandate Registration?",
-                    },
-                    {
-                      type: "image",
-                      url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: "card",
-              children: [
-                {
-                  type: "twoColumn",
-                  children: [
-                    {
-                      type: "title",
-                      title: "Why Unipe?",
+                      type: "container",
                       children: [
                         {
-                          type: "subtitle",
-                          title:
-                            "Lorem Ipsum is simply dumm typesetting industry.",
+                          type: "title",
+                          title: "What are the benefits of completing KYC?",
                         },
                       ],
-                    },
-                    {
-                      type: "video",
-                      thumbnail:
-                        "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: "card",
-              children: [
-                {
-                  type: "twoColumn",
-                  firstColumnWidth: "70%",
-                  children: [
-                    {
-                      type: "title",
-                      title: "What are the benefits of Advance Salary?",
                     },
                     {
                       type: "image",
@@ -94,36 +54,83 @@ const DUMMY_RES = {
               ],
             },
 
-            // {
-            //   title: "What are the benefits of Mandate Registration?",
-            //   imageUri:
-            //     "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
-            //   titleStyle: "strong",
-            //   type: "card",
-            // },
-            // {
-            //   title: "How Unipe Works?",
-            //   subtitle: "Lorem Ipsum is simply dumm typesetting industry.",
-            //   description: "3 min video",
-            //   desIcon: "video-outline",
-            //   thumbnail:
-            //     "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
-            //   type: "card",
-            // },
-            // {
-            //   title: "What are the benefits of Advance Salary?",
-            //   imageUri:
-            //     "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
-            //   titleStyle: "strong",
-            //   type: "card",
-            // },
-            // {
-            //   title: "How do I check my PF Balance?",
-            //   imageUri:
-            //     "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
-            //   titleStyle: "strong",
-            //   type: "card",
-            // },
+            {
+              type: "card",
+              navigate: { type: "cms", screen: "blog_3" },
+              children: [
+                {
+                  type: "twoColumn",
+                  firstColumnWidth: "70%",
+                  children: [
+                    {
+                      type: "container",
+                      children: [
+                        {
+                          type: "title",
+                          title:
+                            "What are the benefits of Mandate Registration?",
+                        },
+                      ],
+                    },
+                    {
+                      type: "image",
+                      url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+                    },
+                  ],
+                },
+              ],
+            },
+
+            {
+              type: "card",
+              navigate: { type: "cms", screen: "blog_5" },
+              children: [
+                {
+                  type: "twoColumn",
+                  firstColumnWidth: "70%",
+                  children: [
+                    {
+                      type: "container",
+                      children: [
+                        {
+                          type: "title",
+                          title: "What are the benefits of Advance Salary?",
+                        },
+                      ],
+                    },
+                    {
+                      type: "image",
+                      url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "card",
+              navigate: { type: "cms", screen: "blog_6" },
+              children: [
+                {
+                  type: "twoColumn",
+                  firstColumnWidth: "70%",
+                  children: [
+                    {
+                      type: "container",
+                      children: [
+                        {
+                          type: "title",
+                          title: "How do I check my PF Balance?",
+                        },
+                      ],
+                    },
+                    {
+                      type: "image",
+                      url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+                    },
+                  ],
+                },
+              ],
+            },
           ],
         },
       ],
@@ -134,98 +141,65 @@ const DUMMY_RES = {
       children: [
         {
           type: "twoColumn",
-          firstColumnWidth: "70%",
+          styling: { flexDirection: "row-reverse" },
+          navigate: { type: "cms", screen: "blog_2" },
+
           children: [
             {
-              type: "title",
-              title: "What are the benefits of Mandate Registration?",
+              type: "container",
+              children: [
+                {
+                  type: "title",
+                  title: "Why Unipe",
+                },
+                {
+                  type: "subtitle",
+                  title: "Lorem Ipsum is simply dumm typesetting industry.",
+                },
+              ],
             },
             {
-              type: "image",
-              url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+              type: "video",
+              thumbnail:
+                "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: "card",
+      gradientColors: [COLORS.cardBackground, COLORS.cardBackground],
+      children: [
+        {
+          type: "twoColumn",
+          styling: { flexDirection: "row-reverse" },
+          navigate: { type: "cms", screen: "blog_4" },
+
+          children: [
+            {
+              type: "container",
+              children: [
+                {
+                  type: "title",
+                  title: "How Unipe Works?",
+                },
+                {
+                  type: "subtitle",
+                  title: "Lorem Ipsum is simply dumm typesetting industry.",
+                },
+              ],
+            },
+            {
+              type: "video",
+              thumbnail:
+                "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
             },
           ],
         },
       ],
     },
 
-    // {
-    //   type: "section",
-    //   title: "Learn With Us",
-    //   leftIcon:
-    //     "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/learn.png",
-    //   ctaText: "SEE ALL",
-    //   ctaRoute: "LearnWithUs",
-    //   onPressCta: { stack: "LearnWithUs" },
-    //   children: [
-    //     {
-    //       type: "swiper",
-    //       children: [
-    //         {
-    //           title: "What are the benefits of completing KYC?",
-    //           imageUri: <Blog1 />,
-    //         },
-    //         {
-    //           title: "Why Unipe?",
-    //           subtitle: "Lorem Ipsum is simply dumm typesetting industry.",
-    //           description: "3 min video",
-    //           desIcon: "video-outline",
-    //           thumbnail:
-    //             "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
-    //         },
-    //         {
-    //           title: "What are the benefits of Mandate Registration?",
-    //           imageUri: <Blog2 />,
-    //           titleStyle: "strong",
-    //         },
-    //         {
-    //           title: "How Unipe Works?",
-    //           subtitle: "Lorem Ipsum is simply dumm typesetting industry.",
-    //           description: "3 min video",
-    //           desIcon: "video-outline",
-    //           thumbnail:
-    //             "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
-    //         },
-    //         {
-    //           title: "What are the benefits of Advance Salary?",
-    //           imageUri: <Blog3 />,
-    //           titleStyle: "strong",
-    //         },
-    //         {
-    //           title: "How do I check my PF Balance?",
-    //           imageUri: <Blog4 />,
-    //           titleStyle: "strong",
-    //         },
-    //       ],
-    //     },
-    //   ],
-    // },
-    // {
-    //   type: "column",
-    //   title: "Why Unipe?",
-    //   subtitle: "Lorem Ipsum is simply text of the printing",
-    //   children: [
-    //     {
-    //       type: "video",
-    //       videoUri: "",
-    //       thumbnail:
-    //         "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
-    //     },
-    //   ],
-    // },
-    // {
-    //   type: "column",
-    //   title: "How Unipe Works?",
-    //   subtitle: "Lorem Ipsum is simply text of the printing",
-    //   children: [
-    //     {
-    //       type: "video",
-    //       videoUri: "",
-    //       thumbnail:
-    //         "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
-    //     },
-    //   ],
-    // },
     // {
     //   type: "section",
     //   title: "User Story",
@@ -265,32 +239,11 @@ const DUMMY_RES = {
           firstColumnWidth: "70%",
           children: [
             {
-              type: "title",
-              title: "What are the benefits of completing KYC?",
-            },
-            {
-              type: "image",
-              url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
-            },
-          ],
-        },
-      ],
-    },
-    {
-      type: "card",
-      navigate: { type: "cms", screen: "blog_2" },
-      children: [
-        {
-          type: "twoColumn",
-          firstColumnWidth: "70%",
-          children: [
-            {
-              type: "title",
-              title: "Why Unipe?",
+              type: "container",
               children: [
                 {
-                  type: "subtitle",
-                  title: "Lorem Ipsum is simply dumm typesetting industry.",
+                  type: "title",
+                  title: "What are the benefits of completing KYC?",
                 },
               ],
             },
@@ -302,20 +255,30 @@ const DUMMY_RES = {
         },
       ],
     },
+
     {
       type: "card",
-      navigate: { type: "cms", screen: "blog_3" },
+      navigate: { type: "cms", screen: "blog_2" },
       children: [
         {
           type: "twoColumn",
           children: [
             {
-              type: "title",
-              title: "What are the benefits of Mandate Registration?",
+              type: "container",
               children: [
+                {
+                  type: "title",
+                  title: "Why Unipe?",
+                },
                 {
                   type: "subtitle",
                   title: "Lorem Ipsum is simply dumm typesetting industry.",
+                },
+                {
+                  type: "iconText",
+                  iconName: "video-outline",
+
+                  title: "3 min video",
                 },
               ],
             },
@@ -328,42 +291,118 @@ const DUMMY_RES = {
         },
       ],
     },
-    // {
-    //   title: "Why Unipe?",
-    //   subtitle: "Lorem Ipsum is simply dumm typesetting industry.",
-    //   description: "3 min video",
-    //   desIcon: "video-outline",
-    //   thumbnail:
-    //     "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
-    //   navigate: { type: "cms", screen: "blog_2" },
-    // },
-    // {
-    //   title: "What are the benefits of Mandate Registration?",
-    //   imageUri: <Blog2 />,
-    //   titleStyle: "strong",
-    //   navigate: { type: "cms", screen: "blog_3" },
-    // },
-    // {
-    //   title: "How Unipe Works?",
-    //   subtitle: "Lorem Ipsum is simply dumm typesetting industry.",
-    //   description: "3 min video",
-    //   desIcon: "video-outline",
-    //   thumbnail:
-    //     "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
-    //   navigate: { type: "cms", screen: "blog_4" },
-    // },
-    // {
-    //   title: "What are the benefits of Advance Salary?",
-    //   imageUri: <Blog3 />,
-    //   titleStyle: "strong",
-    //   navigate: { type: "cms", screen: "blog_5" },
-    // },
-    // {
-    //   title: "How do I check my PF Balance?",
-    //   imageUri: <Blog4 />,
-    //   titleStyle: "strong",
-    //   navigate: { type: "cms", screen: "blog_6" },
-    // },
+    {
+      type: "card",
+      navigate: { type: "cms", screen: "blog_3" },
+      children: [
+        {
+          type: "twoColumn",
+          firstColumnWidth: "70%",
+          children: [
+            {
+              type: "container",
+              children: [
+                {
+                  type: "title",
+                  title: "What are the benefits of Mandate Registration?",
+                },
+              ],
+            },
+            {
+              type: "image",
+              url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+            },
+          ],
+        },
+      ],
+    },
+
+    {
+      type: "card",
+      navigate: { type: "cms", screen: "blog_4" },
+      children: [
+        {
+          type: "twoColumn",
+          children: [
+            {
+              type: "container",
+              children: [
+                {
+                  type: "title",
+                  title: "How Unipe Works?",
+                },
+                {
+                  type: "subtitle",
+                  title: "Lorem Ipsum is simply dumm typesetting industry.",
+                },
+                {
+                  type: "iconText",
+                  iconName: "video-outline",
+
+                  title: "3 min video",
+                },
+              ],
+            },
+            {
+              type: "video",
+              thumbnail:
+                "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+            },
+          ],
+        },
+      ],
+    },
+
+    {
+      type: "card",
+      navigate: { type: "cms", screen: "blog_5" },
+      children: [
+        {
+          type: "twoColumn",
+          firstColumnWidth: "70%",
+          children: [
+            {
+              type: "container",
+              children: [
+                {
+                  type: "title",
+                  title: "What are the benefits of Advance Salary?",
+                },
+              ],
+            },
+            {
+              type: "image",
+              url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: "card",
+      navigate: { type: "cms", screen: "blog_6" },
+      children: [
+        {
+          type: "twoColumn",
+          firstColumnWidth: "70%",
+          children: [
+            {
+              type: "container",
+              children: [
+                {
+                  type: "title",
+                  title: "How do I check my PF Balance?",
+                },
+              ],
+            },
+            {
+              type: "image",
+              url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+            },
+          ],
+        },
+      ],
+    },
   ],
   blog_1: [
     {
