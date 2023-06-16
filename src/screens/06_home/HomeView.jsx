@@ -257,19 +257,31 @@ const HomeView = () => {
                 {
                   "type": "image",
                   "url": "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBanner.png"
-                }
-              ]
-            },
-            {
-              "type": "spacer",
-              "height": -200
-            },
-            {
-              "type": "banner",
-              "children": [
+                },
                 {
-                  "type": "image",
-                  "url": "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBanner.png"
+                  "type": "twoColumn",
+                  "widths": ["46%", "46%"],
+                  "styling": {"border": "1px solid black"},
+                  "children": [
+                    {
+                      "type": "card",
+                      "children": [
+                        {
+                          "type": "image",
+                          "url": "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBannerCurrentContest.png"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "card",
+                      "children": [
+                        {
+                          "type": "image",
+                          "url": "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBannerLastMonthWinners.png"
+                        }
+                      ]
+                    },
+                  ]
                 }
               ]
             }

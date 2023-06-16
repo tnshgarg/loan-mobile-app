@@ -37,7 +37,7 @@ const styles = EStyleSheet.create({
   container: {
     width: "100%",
     marginVertical: "5rem",
-    padding: "15rem",
+    padding: "0rem",
     flexDirection: "row",
     alignItems: "center",
     borderRadius: "10rem",

@@ -25,34 +25,10 @@ const CmsBanner = ({ children, colors }) => {
 const styles = EStyleSheet.create({
   container: {
     width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
     flex: 1,
     backgroundColor: "#FFD44F",
     borderRadius: "10rem",
     padding: "15rem",
-  },
-  wrapper: { height: 200, marginVertical: "15rem" },
-  image: {
-    resizeMode: "contain",
-    width: "98%",
-    alignSelf: "center",
-    borderRadius: "10rem",
-    height: 150,
-    // marginRight: "2rem",
-  },
-  row: {
-    flexDirection: "row",
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: "-10%",
-  },
-  col: {
-    backgroundColor: COLORS.white,
-    width: "48%",
-    height: 130,
-    borderRadius: "5rem",
   },
 });
 
