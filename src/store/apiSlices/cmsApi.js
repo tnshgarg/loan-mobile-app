@@ -30,6 +30,7 @@ const DUMMY_RES = {
           children: [
             {
               type: "card",
+              navigate: { type: "cms", screen: "blog_1" },
               children: [
                 {
                   type: "twoColumn",
@@ -281,10 +282,36 @@ const DUMMY_RES = {
       children: [
         {
           type: "twoColumn",
+          firstColumnWidth: "70%",
           children: [
             {
               type: "title",
               title: "Why Unipe?",
+              children: [
+                {
+                  type: "subtitle",
+                  title: "Lorem Ipsum is simply dumm typesetting industry.",
+                },
+              ],
+            },
+            {
+              type: "image",
+              url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: "card",
+      navigate: { type: "cms", screen: "blog_3" },
+      children: [
+        {
+          type: "twoColumn",
+          children: [
+            {
+              type: "title",
+              title: "What are the benefits of Mandate Registration?",
               children: [
                 {
                   type: "subtitle",
