@@ -82,8 +82,8 @@ export default PanForm = () => {
               : navigation.navigate("AadhaarForm");
           },
         },
-      },
-    ]);
+      ]
+    );
     return true;
   };
 

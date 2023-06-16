@@ -1,18 +1,17 @@
 import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import Analytics, {InteractionTypes} from "../../../../helpers/analytics/commonAnalytics";
+import Analytics, {
+  InteractionTypes,
+} from "../../../../helpers/analytics/commonAnalytics";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
-import Checkbox from "../../../../components/atoms/Checkbox";
 import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import TermsAndPrivacyModal from "../../../../components/molecules/TermsAndPrivacyModal";
-import SliderCard from "../../../../components/organisms/SliderCard";
 import { strings } from "../../../../helpers/Localization";
-import { useUpdateOfferMutation } from "../../../../store/apiSlices/ewaApi";
 import {
   addAPR,
   addLoanAmount,
@@ -23,7 +22,7 @@ import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import { styles } from "../../../../styles";
 import TnC from "../../../../templates/docs/EWATnC.js";
 import SliderCard from "../../../../components/organisms/SliderCard";
-import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
+
 import Checkbox from "../../../../components/atoms/Checkbox";
 import { useUpdateOfferMutation } from "../../../../store/apiSlices/ewaApi";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
@@ -199,7 +198,7 @@ const Offer = () => {
             interaction: InteractionTypes.BUTTON_PRESS,
             component: "Ewa",
             action: "OfferPush",
-            status: "Success"
+            status: "Success",
           });
         })
         .catch((error) => {
