@@ -1,16 +1,15 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import React from "react";
-import { COLORS, FONTS } from "../../constants/Theme";
-import LinearGradient from "react-native-linear-gradient";
-import Blog1 from "../../assets/Blog1.svg";
-import SvgContainer from "./SvgContainer";
-import VideoPlayer from "../organisms/VideoPlayer";
 import { useNavigation } from "@react-navigation/core";
+import React from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
+import LinearGradient from "react-native-linear-gradient";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
+import VideoPlayer from "../organisms/VideoPlayer";
+import SvgContainer from "./SvgContainer";
 
 const BannerCard = ({ data }) => {
-  const navigation = useNavigation();
   const {
     title,
     titleStyle,
@@ -20,11 +19,19 @@ const BannerCard = ({ data }) => {
     imageUri,
     videoUri,
     thumbnail,
+    navigate,
   } = data;
+  const navigation = useNavigation();
+  console.log("NAVIGATE: ", navigate);
   return (
     <TouchableOpacity
+      onPress={() => {
+        navigationHelper({
+          type: navigate.type,
+          params: { blogKey: navigate.screen },
+        });
+      }}
       activeOpacity={0.7}
-      onPress={() => navigation.navigate("CmsScreen")}
     >
       <LinearGradient
         start={{ x: 0, y: 0 }}

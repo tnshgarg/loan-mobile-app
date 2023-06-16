@@ -2,44 +2,39 @@ import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Linking, SafeAreaView, ScrollView, Text, View } from "react-native";
 // import PushNotification from 'react-native-push-notification';
+import { STAGE } from "@env";
 import { useDispatch, useSelector } from "react-redux";
+import CompleteKyc from "../../assets/CompleteKyc.svg";
+import HelpFooter from "../../components/atoms/HelpFooter";
+import CmsMiniPlacement from "../../components/cms/CmsMiniPlacement";
+import CmsRoot from "../../components/cms/CmsRoot";
+import BottomAlert from "../../components/molecules/BottomAlert";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import HelpSection from "../../components/organisms/HelpSection";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
-import { allAreNull } from "../../helpers/nullCheck";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { getNumberOfDays } from "../../helpers/DateFunctions";
+import {
+  notificationListener,
+  requestUserPermission,
+} from "../../services/notifications/notificationService";
+import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import { useGetOffersQuery } from "../../store/apiSlices/ewaApi";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
+import { addOnboarded } from "../../store/slices/authSlice";
 import {
   addEkycCampaignId,
   addEwaCampaignId,
   addRepaymentCampaignId,
 } from "../../store/slices/campaignSlice";
-import {
-  addCurrentScreen,
-  addCurrentStack,
-} from "../../store/slices/navigationSlice";
-import { styles } from "../../styles";
-import { STAGE } from "@env";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import LogoHeader from "../../components/atoms/LogoHeader";
-import { COLORS, FONTS } from "../../constants/Theme";
-import { getNumberOfDays } from "../../helpers/DateFunctions";
-import { useGetOffersQuery } from "../../store/apiSlices/ewaApi";
-import {
-  notificationListener,
-  requestUserPermission,
-} from "../../services/notifications/notificationService";
 import { resetEwaHistorical } from "../../store/slices/ewaHistoricalSlice";
-import { addOnboarded } from "../../store/slices/authSlice";
 import {
   addAccessible,
   addEligible,
   resetEwaLive,
 } from "../../store/slices/ewaLiveSlice";
-import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
-import HelpFooter from "../../components/atoms/HelpFooter";
-import CmsRoot from "../../components/cms/CmsRoot";
-import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
-import HelpSection from "../../components/organisms/HelpSection";
-import { useGetKycQuery } from "../../store/apiSlices/kycApi";
-import BottomAlert from "../../components/molecules/BottomAlert";
-import CompleteKyc from "../../assets/CompleteKyc.svg";
+import { addCurrentStack } from "../../store/slices/navigationSlice";
+import { styles } from "../../styles";
 
 const HomeView = () => {
   const aadhaarData = {
@@ -275,7 +270,14 @@ const HomeView = () => {
   };
 
   return (
-    <SafeAreaView style={styles.safeContainer}>
+    <SafeAreaView
+      style={[
+        styles.safeContainer,
+        cmsData?.miniPlacement ? { paddingBottom: 60 } : { paddingBottom: 0 },
+      ]}
+    >
+      {cmsData?.miniPlacement ? <CmsMiniPlacement /> : <></>}
+
       <ScrollView showsVerticalScrollIndicator={false}>
         <LogoHeaderBack
           title={`Good Afternoon \n${name}!`}

@@ -1,27 +1,28 @@
-import { useSelector, useDispatch } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useDispatch, useSelector } from "react-redux";
 
-import DevMenu from "../screens/DevMenu";
-import { useEffect, useState } from "react";
 import { STAGE } from "@env";
+import { useEffect, useState } from "react";
 import OfflineAlert from "../components/organisms/OfflineAlert";
-import OnboardingStack from "./stacks/OnboardingStack";
+import DevMenu from "../screens/DevMenu";
 import EWAStack from "./stacks/EWAStack";
+import OnboardingStack from "./stacks/OnboardingStack";
 
-import BenefitsStack from "./stacks/BenefitsStack";
-import AccountStack from "./stacks/AccountStack";
-import InvestStack from "./stacks/InvestStack";
+import { useNavigation } from "@react-navigation/core";
+import { decode } from "react-native-pure-jwt";
+import { showToast } from "../components/atoms/Toast";
+import LogoutModal from "../components/organisms/LogoutModal";
+import LearnWithUs from "../screens/06_home/LearnWithUs";
+import BackendSync from "../screens/BackendSync";
+import CmsScreen from "../screens/CmsScreen";
+import KycProgress from "../screens/KycProgress";
+import KycSuccess from "../screens/KycSuccess";
 import SplashScreen from "../screens/SplashScreen";
 import BottomTabNav from "./BottomTabNav";
-import BackendSync from "../screens/BackendSync";
-import { showToast } from "../components/atoms/Toast";
-import { decode } from "react-native-pure-jwt";
-import LogoutModal from "../components/organisms/LogoutModal";
-import { useNavigation } from "@react-navigation/core";
-import KycProgress from "../screens/KycProgress";
-import LearnWithUs from "../screens/06_home/LearnWithUs";
-import KycSuccess from "../screens/KycSuccess";
-import CmsScreen from "../screens/CmsScreen";
+import AccountStack from "./stacks/AccountStack";
+import BenefitsStack from "./stacks/BenefitsStack";
+import CmsStack from "./stacks/CmsStack";
+import InvestStack from "./stacks/InvestStack";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -88,6 +89,14 @@ const StackNavigator = () => {
             animation: "default",
           }}
         />
+        <Stack.Screen
+          name="CmsStack"
+          component={CmsStack}
+          options={{
+            headerShown: false,
+            header: null,
+          }}
+        />
         {token ? (
           <>
             <Stack.Screen
@@ -99,11 +108,11 @@ const StackNavigator = () => {
             />
             <Stack.Screen name="HomeStack" component={BottomTabNav} />
             <Stack.Screen name="LearnWithUs" component={LearnWithUs} />
-
             <Stack.Screen name="InvestStack" component={InvestStack} />
             <Stack.Screen name="EWAStack" component={EWAStack} />
             <Stack.Screen name="BenefitsStack" component={BenefitsStack} />
             <Stack.Screen name="AccountStack" component={AccountStack} />
+
           </>
         ) : null}
       </Stack.Navigator>

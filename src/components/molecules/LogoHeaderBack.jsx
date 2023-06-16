@@ -1,10 +1,9 @@
-import { View, Text, Linking } from "react-native";
 import React from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { COLORS, FONTS } from "../../constants/Theme";
 import Help from "../../assets/Help.svg";
-import SvgContainer from "../atoms/SvgContainer";
+import { COLORS } from "../../constants/Theme";
 import LogoHeader from "../atoms/LogoHeader";
+import SvgContainer from "../atoms/SvgContainer";
 
 const LogoHeaderBack = ({
   onLeftIconPress,
@@ -15,6 +14,7 @@ const LogoHeaderBack = ({
   subHeadline,
   containerStyle,
   hideLogo,
+  headerImageUri,
 }) => {
   return (
     <LogoHeader
@@ -29,6 +29,7 @@ const LogoHeaderBack = ({
       }
       containerStyle={{ ...containerStyle }}
       titleStyle={{ ...titleStyle }}
+      headerImageUri={headerImageUri}
       hideLogo={hideLogo}
       leftOnPress={onLeftIconPress}
       title={title}
