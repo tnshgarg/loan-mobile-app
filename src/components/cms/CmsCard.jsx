@@ -11,10 +11,12 @@ const CmsCard = ({ children, style, gradientColors, navigate }) => {
     <TouchableOpacity
       activeOpacity={0.7}
       onPress={() => {
-        navigationHelper({
-          type: navigate.type,
-          params: { blogKey: navigate.screen },
-        });
+        if (navigate) {
+          navigationHelper({
+            type: navigate.type,
+            params: { blogKey: navigate.screen },
+          });
+        }
       }}
     >
       <LinearGradient
