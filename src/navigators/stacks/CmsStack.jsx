@@ -3,9 +3,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useSelector } from "react-redux";
 
 
-import CmsDummy2 from "../../components/cms/CmsDummy2";
-import CmsDummy3 from "../../components/cms/CmsDummy3";
 import CmsDummyBlog from "../../components/cms/CmsDummyBlog";
+import CmsPastDraws from "../../components/cms/CmsPastDraws";
 
 const CmsStack = () => {
   const Stack = createNativeStackNavigator();
@@ -24,15 +23,8 @@ const CmsStack = () => {
         }}
       />
       <Stack.Screen
-        name="CmsDummy2"
-        component={CmsDummy2}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="CmsDummy3"
-        component={CmsDummy3}
+        name="CmsPastDraws"
+        component={CmsPastDraws}
         options={{
           headerShown: false,
         }}

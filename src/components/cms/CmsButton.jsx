@@ -1,54 +1,63 @@
-import { Text, TouchableOpacity } from "react-native";
+import { Linking, Text, TouchableOpacity } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
-/**
- *
- * @param title -> title of the button
- * @param color -> color of the button
- * @param disabled -> sets if the button is disabled or not
- * @param type -> defines the type of the button according to react-native-material module
- * @param uppercase -> defines if the letters are uppercase or smallercase
- * @param titleStyle -> defines the style of text of the button
- * @param onPress -> defines the onPress attr for the button
- * @param wrapperStyle -> used to provide container styling to the Button Container
- * @param style -> used to provide styling to the Button
- * @param otherProps -> used for defining other props to the Button
- */
-
-const CmsButton = ({
-  containerStyle,
-  disabled,
-  loading,
-  title,
-  titleStyle,
-  onPress,
-  accessibilityLabel,
-  iconName,
-}) => {
+const CmsButton = ({ children, clickType, navigate, url }) => {
+  console.log("CHILDREN: ", clickType);
+  const {
+    title,
+    type,
+    buttonColor,
+    leftIcon,
+    rightIcon,
+    loading,
+    containerStyle,
+    titleStyle,
+    iconColor,
+  } = children[0];
   return (
     <TouchableOpacity
-      accessibilityLabel={accessibilityLabel}
       activeOpacity={0.7}
       style={[
         styles.button,
         {
-          backgroundColor:
-            disabled || loading ? COLORS.lightGray : COLORS.primary,
           ...containerStyle,
         },
+        type == "filled"
+          ? { backgroundColor: loading ? COLORS.lightGray : buttonColor }
+          : {
+              borderWidth: 2,
+              borderColor: loading ? COLORS.lightGray : buttonColor,
+              backgroundColor: COLORS.white,
+              color: COLORS.primary,
+            },
       ]}
-      disabled={disabled || loading}
-      loading={loading}
       loadingIndicatorPosition="trailing"
-      onPress={onPress}
+      onPress={() =>
+        clickType == "navigation"
+          ? navigationHelper({
+              type: navigate.type,
+              stack: navigate.stack,
+              screen: navigate.screen,
+            })
+          : Linking.openURL(url)
+      }
     >
-      <Text style={[styles.btnText, { ...titleStyle }]}>{title}</Text>
-      {iconName ? (
+      {leftIcon ? (
         <MaterialCommunityIcons
-          name={iconName}
-          color={COLORS.white}
+          name={leftIcon}
+          color={iconColor || COLORS.white}
+          size={20}
+          style={{ marginLeft: 5 }}
+        />
+      ) : null}
+      <Text style={[styles.btnText, { ...titleStyle }]}>{title}</Text>
+      {rightIcon ? (
+        <MaterialCommunityIcons
+          name={rightIcon}
+          color={iconColor || COLORS.white}
           size={20}
           style={{ marginLeft: 5 }}
         />

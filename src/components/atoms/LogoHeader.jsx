@@ -1,7 +1,9 @@
+import { useNavigation } from "@react-navigation/core";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import LogoImage from "../../assets/HeaderLogo.svg";
+import NotificationFade from "../../assets/NotificationFade.svg";
 import { COLORS, FONTS } from "../../constants/Theme";
 import SvgContainer from "./SvgContainer";
 
@@ -17,7 +19,9 @@ const LogoHeader = ({
   subHeadline,
   hideLogo,
   headerImageUri,
+  notificationIconPresent,
 }) => {
+  const navigation = useNavigation();
   const EmptyView = () => {
     return <View style={styles.empty} />;
   };
@@ -55,6 +59,23 @@ const LogoHeader = ({
             <></>
           )}
         </View>
+        {notificationIconPresent ? (
+          <TouchableOpacity
+            style={{ paddingTop: 5 }}
+            activeOpacity={0.7}
+            onPress={() =>
+              navigation.navigate("AccountStack", {
+                screen: "NotificationView",
+              })
+            }
+          >
+            <SvgContainer height={42} width={42}>
+              <NotificationFade />
+            </SvgContainer>
+          </TouchableOpacity>
+        ) : (
+          <></>
+        )}
         {rightIcon ? (
           <TouchableOpacity activeOpacity={0.7} onPress={rightOnPress}>
             {rightIcon}
@@ -63,7 +84,14 @@ const LogoHeader = ({
           <EmptyView />
         )}
       </View>
-      <View style={styles.cont}>
+      <View
+        style={[
+          styles.cont,
+          headline || subHeadline || headerImageUri
+            ? { paddingBottom: 10 }
+            : {},
+        ]}
+      >
         {headline || subHeadline ? (
           <View style={styles.belowContainer}>
             {headline && <Text style={styles.headline}>{headline}</Text>}
@@ -99,7 +127,6 @@ const styles = EStyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
     backgroundColor: COLORS.headerBg,
-    paddingBottom: "10rem",
   },
   headerImage: {
     width: "120rem",

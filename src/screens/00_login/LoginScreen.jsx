@@ -35,7 +35,6 @@ import LogoImage from "../../assets/HeaderLogo.svg";
 import Tick from "../../assets/Tick.svg";
 import LogoHeader from "../../components/atoms/LogoHeader";
 import SvgContainer from "../../components/atoms/SvgContainer";
-import CmsButton from "../../components/cms/CmsButton";
 import SvgListItem from "../../components/molecules/SvgListItem";
 
 const LoginScreen = () => {
@@ -270,8 +269,6 @@ const LoginScreen = () => {
         </KeyboardAvoidingWrapper>
       </Animated.View>
       <View style={[styles.container, { flex: 0 }]}>
-        <CmsButton title="Hello" />
-
         <PrimaryButton
           title="Continue"
           accessibilityLabel="LoginNextBtn"

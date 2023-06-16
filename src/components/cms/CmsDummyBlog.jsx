@@ -20,8 +20,6 @@ const CmsDummyBlog = (props) => {
 
   console.log("route.params: ", props.route.params);
 
-  const [_, key] = props.route.params.blogKey.split("_");
-
   const data = cmsData[props.route.params.blogKey] || [];
   console.log("MyData: ", data);
 
