@@ -19,8 +19,10 @@ const CmsDummyBlog = (props) => {
 
   console.log("route.params: ", props.route.params);
 
-  // const data = cmsData[props.route.params.blogKey] || [];
-  const { data, screenTitle } = DUMMY_RES?.CustomerSupport || [];
+  // const { data, screenTitle, headline, headingImage } =
+  //   cmsData?.[props.route.params.blogKey] || [];
+  const { data, screenTitle, headline, headingImage } =
+    DUMMY_RES?.CustomerSupport || [];
   console.log("MyData: ", data);
 
   return (
@@ -28,8 +30,8 @@ const CmsDummyBlog = (props) => {
       <LogoHeaderBack
         title={screenTitle}
         onLeftIconPress={() => navigation.goBack()}
-        headline={data?.title}
-        headerImageUri={data?.headingImage}
+        headline={headline}
+        headerImageUri={headingImage}
       />
       <ScrollView>
         <View style={[styles.container, { padding: 0 }]}>

@@ -15,6 +15,8 @@ const DUMMY_RES = {
     {
       type: "section",
       title: "Learn With Us",
+      gradientColors: [COLORS.white, COLORS.white],
+      styling: { padding: 0 },
       leftIcon:
         "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/learn.png",
       ctaText: "SEE ALL",
@@ -30,7 +32,7 @@ const DUMMY_RES = {
               children: [
                 {
                   type: "twoColumn",
-                  firstColumnWidth: "70%",
+                  firstColumnWidth: 70,
                   children: [
                     {
                       type: "container",
@@ -56,7 +58,7 @@ const DUMMY_RES = {
               children: [
                 {
                   type: "twoColumn",
-                  firstColumnWidth: "70%",
+                  firstColumnWidth: 70,
                   children: [
                     {
                       type: "container",
@@ -83,7 +85,7 @@ const DUMMY_RES = {
               children: [
                 {
                   type: "twoColumn",
-                  firstColumnWidth: "70%",
+                  firstColumnWidth: 70,
                   children: [
                     {
                       type: "container",
@@ -108,7 +110,7 @@ const DUMMY_RES = {
               children: [
                 {
                   type: "twoColumn",
-                  firstColumnWidth: "70%",
+                  firstColumnWidth: 70,
                   children: [
                     {
                       type: "container",
@@ -201,6 +203,8 @@ const DUMMY_RES = {
     {
       type: "section",
       title: "User Story",
+      styling: { padding: 0 },
+      gradientColors: [COLORS.white, COLORS.white],
       leftIcon:
         "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/Userstory.png",
       children: [
@@ -234,7 +238,7 @@ const DUMMY_RES = {
       children: [
         {
           type: "twoColumn",
-          firstColumnWidth: "70%",
+          firstColumnWidth: 70,
           children: [
             {
               type: "container",
@@ -296,7 +300,7 @@ const DUMMY_RES = {
       children: [
         {
           type: "twoColumn",
-          firstColumnWidth: "70%",
+          firstColumnWidth: 70,
           children: [
             {
               type: "container",
@@ -358,7 +362,7 @@ const DUMMY_RES = {
       children: [
         {
           type: "twoColumn",
-          firstColumnWidth: "70%",
+          firstColumnWidth: 70,
           children: [
             {
               type: "container",
@@ -383,7 +387,7 @@ const DUMMY_RES = {
       children: [
         {
           type: "twoColumn",
-          firstColumnWidth: "70%",
+          firstColumnWidth: 70,
           children: [
             {
               type: "container",
@@ -403,282 +407,781 @@ const DUMMY_RES = {
       ],
     },
   ],
-  blog_1: [
-    {
-      key: 1,
-      type: "blog",
-      title: "Why Unipe?",
-      subtitle: "hello",
-      headingImage:
-        "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-      data: [
-        {
-          key: 1,
-          headingImage:
-            "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-          heading: "What is e-Mandate",
-          description:
-            "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary ",
-        },
-        {
-          key: 2,
-          headingImage:
-            "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-          heading: "What is e-Mandate",
-          description:
-            "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary ",
-        },
-      ],
-      questions: [
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-      ],
-    },
-  ],
-  blog_2: [
-    {
-      key: 1,
-      type: "blog",
-      title: "Why Unipe?",
-      subtitle: "hello",
-      headingImage:
-        "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-      data: [
-        {
-          key: 1,
-          headingImage:
-            "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-          heading: "What is e-Mandate",
-          description:
-            "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary ",
-        },
-        {
-          key: 2,
-          headingImage:
-            "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-          heading: "What is e-Mandate",
-          description:
-            "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary ",
-        },
-      ],
-      questions: [
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-      ],
-    },
-  ],
-  blog_3: [
-    {
-      key: 1,
-      type: "blog",
-      title: "Why Unipe?",
-      subtitle: "hello",
-      headingImage:
-        "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-      data: [
-        {
-          key: 1,
-          headingImage:
-            "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-          heading: "What is e-Mandate",
-          description:
-            "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary ",
-        },
-        {
-          key: 2,
-          headingImage:
-            "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-          heading: "What is e-Mandate",
-          description:
-            "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary ",
-        },
-      ],
-      questions: [
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-      ],
-    },
-  ],
-  blog_4: [
-    {
-      key: 1,
-      type: "blog",
-      title: "Why Unipe?",
-      subtitle: "hello",
-      headingImage:
-        "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-      data: [
-        {
-          key: 1,
-          headingImage:
-            "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-          heading: "What is e-Mandate",
-          description:
-            "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary ",
-        },
-        {
-          key: 2,
-          headingImage:
-            "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-          heading: "What is e-Mandate",
-          description:
-            "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary ",
-        },
-      ],
-      questions: [
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-      ],
-    },
-  ],
-  blog_5: [
-    {
-      key: 1,
-      type: "blog",
-      title: "Why Unipe?",
-      subtitle: "hello",
-      headingImage:
-        "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-      data: [
-        {
-          key: 1,
-          headingImage:
-            "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-          heading: "What is e-Mandate",
-          description:
-            "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary ",
-        },
-        {
-          key: 2,
-          headingImage:
-            "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-          heading: "What is e-Mandate",
-          description:
-            "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary ",
-        },
-      ],
-      questions: [
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-      ],
-    },
-  ],
-  blog_6: [
-    {
-      key: 1,
-      type: "blog",
-      title: "Why Unipe?",
-      subtitle: "hello",
-      headingImage:
-        "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-      data: [
-        {
-          key: 1,
-          headingImage:
-            "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-          heading: "What is e-Mandate",
-          description:
-            "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary ",
-        },
-        {
-          key: 2,
-          headingImage:
-            "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-          heading: "What is e-Mandate",
-          description:
-            "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary ",
-        },
-      ],
-      questions: [
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-        {
-          title: "How to complete KYC Verification?",
-          subtitle: "Search on the internet",
-        },
-      ],
-    },
-  ],
+  blog_1: {
+    screenTitle: "",
+    headline: "What are the benefits of completing KYC?",
+    headingImage:
+      "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+
+    data: [
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+            // styling: { flexDirection: "row" },
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        styling: { flexDirection: "row-reverse" },
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        styling: { flexDirection: "row-reverse" },
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "section",
+        title: "FAQs",
+        children: [
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+        ],
+      },
+    ],
+  },
+  blog_2: {
+    screenTitle: "",
+    headline: "What are the benefits of completing KYC?",
+    headingImage:
+      "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+
+    data: [
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+            // styling: { flexDirection: "row" },
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        styling: { flexDirection: "row-reverse" },
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        styling: { flexDirection: "row-reverse" },
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "section",
+        title: "FAQs",
+        children: [
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+        ],
+      },
+    ],
+  },
+  blog_3: {
+    screenTitle: "",
+    headline: "What are the benefits of completing KYC?",
+    headingImage:
+      "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+
+    data: [
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+            // styling: { flexDirection: "row" },
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        styling: { flexDirection: "row-reverse" },
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        styling: { flexDirection: "row-reverse" },
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "section",
+        title: "FAQs",
+        children: [
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+        ],
+      },
+    ],
+  },
+  blog_4: {
+    screenTitle: "",
+    headline: "What are the benefits of completing KYC?",
+    headingImage:
+      "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+
+    data: [
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+            // styling: { flexDirection: "row" },
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        styling: { flexDirection: "row-reverse" },
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        styling: { flexDirection: "row-reverse" },
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "section",
+        title: "FAQs",
+        children: [
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+        ],
+      },
+    ],
+  },
+  blog_5: {
+    screenTitle: "",
+    headline: "What are the benefits of completing KYC?",
+    headingImage:
+      "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+
+    data: [
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+            // styling: { flexDirection: "row" },
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        styling: { flexDirection: "row-reverse" },
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        styling: { flexDirection: "row-reverse" },
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "section",
+        title: "FAQs",
+        children: [
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+        ],
+      },
+    ],
+  },
+  blog_6: {
+    screenTitle: "",
+    headline: "What are the benefits of completing KYC?",
+    headingImage:
+      "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+
+    data: [
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+            // styling: { flexDirection: "row" },
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        styling: { flexDirection: "row-reverse" },
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        firstColumnWidth: 30,
+        styling: { flexDirection: "row-reverse" },
+        children: [
+          {
+            type: "image",
+            styling: { width: "100%" },
+            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "What is e-Mandate" },
+              {
+                type: "subtitle",
+                title:
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "section",
+        title: "FAQs",
+        children: [
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+          {
+            type: "collapsibleList",
+            title: "How to complete KYC Verification?",
+            subtitle: "Search on the internet",
+          },
+        ],
+      },
+    ],
+  },
+
   CustomerSupport: {
     screenTitle: "Customer Support",
     data: [
@@ -724,6 +1227,38 @@ const DUMMY_RES = {
         type: "section",
         title: "Topics",
         children: [
+          {
+            type: "threeColumn",
+            secondColumnStyle: { flex: 1, paddingLeft: 15 },
+            navigate: { type: "account", screen: "Profile" },
+            children: [
+              {
+                type: "icon",
+                iconName: "account-circle",
+                iconSize: 36,
+                iconColor: COLORS.gray,
+              },
+              {
+                type: "container",
+                children: [
+                  {
+                    type: "title",
+                    title: "kyc Verification",
+                  },
+                  {
+                    type: "subtitle",
+                    title: "All your kyc related queries at one place",
+                  },
+                ],
+              },
+              {
+                type: "icon",
+                iconName: "chevron-right",
+                iconSize: 28,
+                iconColor: COLORS.gray,
+              },
+            ],
+          },
           {
             type: "threeColumn",
             secondColumnStyle: { flex: 1, paddingLeft: 15 },

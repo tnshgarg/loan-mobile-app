@@ -16,6 +16,8 @@ const CmsSection = ({
   children,
   cmsTypes,
   ctaRoute,
+  gradientColors,
+  styling,
 }) => {
   const safeChildren = children || [];
   const navigation = useNavigation();
@@ -23,10 +25,10 @@ const CmsSection = ({
   return (
     <View style={styles.container}>
       <LinearGradient
-        style={styles.row}
+        style={[styles.row, { ...styling }]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
-        colors={[COLORS.lightGreen, COLORS.lightYellow]}
+        colors={gradientColors || [COLORS.lightGreen, COLORS.lightYellow]}
       >
         {leftIcon ? (
           <Image source={{ uri: leftIcon }} style={styles.image} />
@@ -64,7 +66,8 @@ const styles = EStyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: "15rem",
-    marginVertical: "10rem",
+    marginTop: "15rem",
+    marginBottom: "10rem",
   },
   image: {
     height: "24rem",

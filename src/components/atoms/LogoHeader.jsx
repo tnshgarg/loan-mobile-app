@@ -115,11 +115,13 @@ const styles = EStyleSheet.create({
     width: "100rem",
     height: "100rem",
     resizeMode: "contain",
+    borderRadius: "10rem",
   },
 
   column: {
     flexDirection: "column",
     alignItems: "flex-start",
+    flex: 1,
   },
   empty: { backgroundColor: "transparent", height: "32rem", width: "32rem" },
   logo: {

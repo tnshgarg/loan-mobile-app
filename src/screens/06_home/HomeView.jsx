@@ -84,7 +84,6 @@ const HomeView = () => {
     pollingInterval: 1000 * 60 * 60 * 24,
   });
   const { aadhaar, pan, bank, kycCompleted } = kycData ?? {};
-  console.log({ kycData });
 
   const {
     data: cmsData,
@@ -93,8 +92,6 @@ const HomeView = () => {
   } = useGetCmsQuery(unipeEmployeeId, {
     pollingInterval: 1000,
   });
-
-  console.log(cmsData?.home);
 
   const [fetched, setFetched] = useState(false);
   const [alertVisible, setAlertVisible] = useState(false);

@@ -5,8 +5,7 @@ import { COLORS, FONTS } from "../../constants/Theme";
 
 const CmsTwoColumn = ({ children, firstColumnWidth, styling }) => {
   const safeChildren = children || [];
-  console.log({ firstColumnWidth });
-  console.log({ styling });
+
   return (
     <View style={[styles.row, { ...styling }]}>
       {safeChildren?.map((child, index) => (
@@ -18,7 +17,10 @@ const CmsTwoColumn = ({ children, firstColumnWidth, styling }) => {
             { paddingLeft: index == 0 ? 10 : null },
             firstColumnWidth
               ? {
-                  width: index == 0 ? firstColumnWidth : "30%",
+                  width:
+                    index == 0
+                      ? `${firstColumnWidth}%`
+                      : `${100 - firstColumnWidth}%`,
                 }
               : null,
           ]}
@@ -37,6 +39,7 @@ const styles = EStyleSheet.create({
     flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "space-between",
+    margin: "15rem",
   },
   col: {
     flexDirection: "column",

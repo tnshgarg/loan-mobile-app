@@ -2,7 +2,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { useEffect, useState } from "react";
 import { Image } from "react-native";
 
-const CmsImage = ({ url }) => {
+const CmsImage = ({ url, styling }) => {
   // const [{ width, height }, setDimensions] = useState({
   //   width: 0,
   //   height: 0,
@@ -32,7 +32,7 @@ const CmsImage = ({ url }) => {
 
   return (
     <Image
-      style={style.fullWidthImage}
+      style={[style.fullWidthImage, { ...styling }]}
       source={{
         uri: url,
       }}
