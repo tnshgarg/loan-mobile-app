@@ -111,7 +111,7 @@ const Disbursement = ({ route, navigation }) => {
         setNetAmount(getDisbursementData?.body?.netAmount);
         setStatus(getDisbursementData?.body?.status);
       } else {
-        console.log(" API error getDisbursementData : ", getDisbursementData);
+        console.log("API error getDisbursementData : ", getDisbursementData);
       }
     } else if (getDisbursementIsError) {
       console.log("API error getDisbursementError : ", getDisbursementError);

@@ -19,6 +19,8 @@ import ewaLiveSlice from "./slices/ewaLiveSlice";
 
 import { api } from "./apiSlices/api";
 import { setupListeners } from '@reduxjs/toolkit/query';
+import reactotron from "../ReactotronConfig";
+
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
@@ -47,7 +49,7 @@ const rootReducer = (state, action) => {
     try {
       AsyncStorage.clear();
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
     return appReducer(undefined, action);
   }
@@ -57,6 +59,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
+  enhancers: [reactotron.createEnhancer()],
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
