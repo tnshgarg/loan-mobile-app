@@ -6,7 +6,9 @@ import { useEffect } from "react";
 const OtpInput = ({ otp, setOtp, inputRef, accessibilityLabel }) => {
   useEffect(() => {
     setTimeout(() => {
-      inputRef.current.focus();
+      if(inputRef?.current?.focus) {
+        inputRef.current.focus();
+      }
     }, 300);
   }, [inputRef, inputRef.current]);
 

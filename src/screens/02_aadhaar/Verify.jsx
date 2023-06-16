@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import { Alert, SafeAreaView, BackHandler } from "react-native";
 
@@ -23,14 +21,10 @@ const AadhaarVerify = () => {
     if (back) {
       Alert.alert("OTP Timer", "You must wait for 10 minutes to resend OTP.");
     } else {
-      Alert.alert(
-        "Hold on!",
-        "Are you sure you want to go back? Continue if you want to edit your Aadhaar number.",
-        [
-          { text: "No", onPress: () => null, style: "cancel" },
-          { text: "Yes", onPress: () => navigation.navigate("AadhaarForm") },
-        ]
-      );
+      Alert.alert(strings.holdOn, strings.goBackEditAadhaar, [
+        { text: "No", onPress: () => null, style: "cancel" },
+        { text: "Yes", onPress: () => navigation.navigate("AadhaarForm") },
+      ]);
     }
     return true;
   };

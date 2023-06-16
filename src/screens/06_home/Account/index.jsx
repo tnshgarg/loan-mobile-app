@@ -1,25 +1,22 @@
+import { useNavigation } from "@react-navigation/native";
+import { useEffect, useState } from "react";
 import {
   BackHandler,
-  View,
-  Text,
-  SafeAreaView,
   Image,
+  SafeAreaView,
   ScrollView,
+  Text,
+  View,
 } from "react-native";
-import { useEffect, useState } from "react";
-import { accountStyles, styles } from "../../../styles";
-import LogoHeader from "../../../components/atoms/LogoHeader";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { COLORS } from "../../../constants/Theme";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
-import termsOfUse from "../../../templates/docs/TermsOfUse";
-import privacyPolicy from "../../../templates/docs/PrivacyPolicy";
-import TermsAndPrivacyModal from "../../../components/molecules/TermsAndPrivacyModal";
-import { showToast } from "../../../components/atoms/Toast";
-import { useNavigation } from "@react-navigation/native";
-import LogoutModal from "../../../components/organisms/LogoutModal";
 import ListItem from "../../../components/atoms/ListItem";
+import LogoHeader from "../../../components/atoms/LogoHeader";
+import TermsAndPrivacyModal from "../../../components/molecules/TermsAndPrivacyModal";
+import LogoutModal from "../../../components/organisms/LogoutModal";
+import { COLORS } from "../../../constants/Theme";
+import { strings } from "../../../helpers/Localization";
 import whatsappLinking from "../../../helpers/WhatsappLinking";
 import Profile from "../../../assets/Profile.svg";
 import Payslip from "../../../assets/Payslip.svg";
@@ -84,14 +81,14 @@ const AccountMenu = (props) => {
     setModalVisible(true);
     setTimeout(() => {
       setModalVisible(false);
-      // navigation.replace("OnboardingStack", { screen: "Login" });
+      navigation.navigate("OnboardingStack", { screen: "Login" });
     }, 5000);
   };
 
   const options = [
     {
       title: "Profile",
-      subtitle: "See & edit your profile details",
+      subtitle: strings.editProfileDetails,
       imageUri: <Profile />,
       route: { stack: "AccountStack", screen: "Profile" },
     },
@@ -103,7 +100,7 @@ const AccountMenu = (props) => {
     },
     {
       title: "KYC",
-      subtitle: "All your KYC details in one place",
+      subtitle: strings.kycDetailsInOnePlace,
       imageUri: <Kyc />,
       route: { stack: "AccountStack", screen: "KYC" },
     },
@@ -121,8 +118,8 @@ const AccountMenu = (props) => {
     //   route: { stack: "AccountStack", screen: "Documents" },
     // },
     {
-      title: "Customer Support",
-      subtitle: "Talk to out support team",
+      title: strings.customerSupport,
+      subtitle: strings.talkToSupportTeam,
       imageUri: <CustomerSupport />,
       action: () => {
         whatsappLinking();
@@ -180,8 +177,8 @@ const AccountMenu = (props) => {
     //   action: () => setIsPrivacyModalVisible(true),
     // },
     {
-      title: "Logout",
-      subtitle: "Logout from Unipe App",
+      title: strings.logout,
+      subtitle: strings.logoutFromUnipe,
       imageUri: <Logout />,
       action: () => onLogout(),
     },
@@ -189,7 +186,7 @@ const AccountMenu = (props) => {
 
   const onPressCard = ({ route, action }) => {
     console.log({ route });
-    if (route) props.navigation.replace(route.stack, { screen: route.screen });
+    if (route) props.navigation.navigate(route.stack, { screen: route.screen });
     else action();
   };
 

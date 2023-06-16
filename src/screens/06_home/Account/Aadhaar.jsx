@@ -1,7 +1,13 @@
+import { useNavigation } from "@react-navigation/core";
+import { useEffect } from "react";
 import { SafeAreaView, View } from "react-native";
 import { useSelector } from "react-redux";
-import { useNavigation } from "@react-navigation/core";
+import AadhaarConfirmApi from "../../../apis/aadhaar/Confirm";
+import PrimaryButton from "../../../components/atoms/PrimaryButton";
+import DetailsCard from "../../../components/molecules/DetailsCard";
+import { strings } from "../../../helpers/Localization";
 import TopTabNav from "../../../navigators/TopTabNav";
+import { styles } from "../../../styles";
 import AadhaarFormTemplate from "../../../templates/aadhaar/Form";
 import AadhaarVerifyTemplate from "../../../templates/aadhaar/Verify";
 import AadhaarConfirmApi from "../../../apis/aadhaar/Confirm";
@@ -98,7 +104,7 @@ const Aadhaar = () => {
           />
           {pan?.verifyStatus != "SUCCESS" ? (
             <PrimaryButton
-              title="Continue to PAN Verification"
+              title={strings.continuePanVerification}
               onPress={() => {
                 navigation.navigate("KYC", {
                   screen: "PAN",
@@ -107,7 +113,7 @@ const Aadhaar = () => {
             />
           ) : bank?.verifyStatus != "SUCCESS" ? (
             <PrimaryButton
-              title="Continue to Bank Verification"
+              title={strings.continueBankVerification}
               onPress={() => {
                 navigation.navigate("KYC", {
                   screen: "BANK",

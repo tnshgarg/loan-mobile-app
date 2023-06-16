@@ -6,6 +6,7 @@ import Modal from "react-native-modal";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS, SIZES } from "../constants/Theme";
 import whatsappLinking from "../helpers/WhatsappLinking";
+import Analytics, { InteractionTypes } from "../helpers/analytics/commonAnalytics";
 
 const UpdateDialog = () => {
   const [show, setShow] = useState(false);
@@ -24,6 +25,16 @@ const UpdateDialog = () => {
         case codePush.SyncStatus.DOWNLOADING_PACKAGE:
           console.log("Downloading package");
           setShow(true);
+          break;
+        case codePush.SyncStatus.UPDATE_INSTALLED:
+          console.log("Up to date");
+          Analytics.trackEvent({
+            interaction: InteractionTypes.APP_UPDATE,
+            component: "UpdateDialog",
+            action: "InstallUpdate",
+            status: "Success",
+          });
+          setShow(false);
           break;
         case codePush.SyncStatus.UP_TO_DATE:
           console.log("Up to date");

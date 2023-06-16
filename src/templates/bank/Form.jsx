@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
+import { useEffect, useState } from "react";
 import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import BankVerifyApi from "../../apis/bank/Verify";
 import InfoCard from "../../components/atoms/InfoCard";
-import PopableInput from "../../components/molecules/PopableInput";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
+import ShieldTitle from "../../components/atoms/ShieldTitle";
+import PopableInput from "../../components/molecules/PopableInput";
+import { strings } from "../../helpers/Localization";
 import {
   addAccountHolderName,
   addAccountNumber,
@@ -77,7 +79,7 @@ const BankFormTemplate = (props) => {
           <View>
             <PopableInput
               accessibilityLabel="AccHolderName"
-              placeholder={"Account Holder Name*"}
+              placeholder={strings.accountHolderName}
               value={accountHolderName}
               onChange={setAccountHolderName}
               autoCapitalize="characters"
@@ -88,7 +90,7 @@ const BankFormTemplate = (props) => {
 
             <PopableInput
               accessibilityLabel={"AccNumber"}
-              placeholder={"Bank Account Number*"}
+              placeholder={strings.bankAccountNumber}
               value={accountNumber}
               onChange={setAccountNumber}
               autoFocus={isFocused}
@@ -98,12 +100,12 @@ const BankFormTemplate = (props) => {
               }
             />
             {accountNumber && !accNumNext ? (
-              <Text style={bankform.formatmsg}>Incorrect Format</Text>
+              <Text style={bankform.formatmsg}>{strings.incorrectFormat}</Text>
             ) : null}
 
             <PopableInput
               accessibilityLabel={"IfscCode"}
-              placeholder={"IFSC Code*"}
+              placeholder={strings.ifscCode}
               value={ifsc}
               onChange={setIfsc}
               autoCapitalize="characters"
@@ -113,17 +115,15 @@ const BankFormTemplate = (props) => {
             />
 
             {ifsc && !ifscNext ? (
-              <Text style={bankform.formatmsg}>Incorrect Format</Text>
+              <Text style={bankform.formatmsg}>{strings.incorrectFormat}</Text>
             ) : null}
 
             <PopableInput
               accessibilityLabel={"UpiId"}
-              placeholder={"UPI ID"}
+              placeholder={strings.upiId}
               value={upi}
               onChange={setUpi}
-              content={
-                "There are lots of UPI apps available like Phonepe, Amazon Pay, Paytm, Bhim, Mobikwik etc. from where you can fetch your UPI ID."
-              }
+              content={strings.lotsOfUpiApps}
             />
 
             <InfoCard
@@ -140,14 +140,12 @@ const BankFormTemplate = (props) => {
               ifsc={ifsc}
               upi={upi}
             />
-            <ShieldTitle title={"All your details are safe with us"} />
+            <ShieldTitle title={strings.detailsSafe} />
           </View>
         </KeyboardAvoidingWrapper>
       ) : (
         <View style={styles.container}>
-          <Text style={bankform.subTitle}>
-            Please verify your aadhaar first
-          </Text>
+          <Text style={bankform.subTitle}>{strings.verifyAadhaarFirst}</Text>
           <PrimaryButton
             title="Verify Aadhaar Now"
             onPress={() => {

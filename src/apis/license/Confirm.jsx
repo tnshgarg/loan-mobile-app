@@ -6,9 +6,9 @@ import { addVerifyMsg, addVerifyStatus } from "../../store/slices/licenseSlice";
 import { licenseBackendPush } from "../../helpers/BackendPush";
 import { form, license, styles, selfie, accountStyles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
-import analytics from "@react-native-firebase/analytics";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 
 export default Confirm = () => {
   const dispatch = useDispatch();
@@ -143,8 +143,11 @@ export default Confirm = () => {
           onPress={() => {
             setVerifyMsg("Rejected by User");
             setVerifyStatus("ERROR");
-            analytics().logEvent("Licence_Confirm_Error", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Licence",
+              action: "Confirm",
+              status: "Error",
               error: "Rejected by User",
             });
             navigation.navigate("Documents", {
@@ -163,8 +166,11 @@ export default Confirm = () => {
             setVerifyMsg("Confirmed by User");
             setVerifyStatus("SUCCESS");
             setBackendPush(true);
-            analytics().logEvent("Licence_Confirm_Success", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Licence",
+              action: "Confirm",
+              status: "Success",
             });
             navigation.navigate("Documents", {
               screen: "Driving License",

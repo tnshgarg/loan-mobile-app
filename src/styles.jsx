@@ -74,7 +74,7 @@ export const styles = EStyleSheet.create({
     justifyContent: "center",
     width: "100%",
     marginVertical: "10rem",
-  },
+  }
 });
 
 export const progressBar = EStyleSheet.create({

@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import SvgContainer from "../atoms/SvgContainer";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
+import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
 
 const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -80,9 +81,23 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
           }
           disabled={!kycCompleted ? false : !eligible || !accessible}
           onPress={() => {
-            kycCompleted
-              ? navigation.navigate("EWAStack", { screen: "EWA_OFFER" })
-              : navigation.navigate("KycProgress");
+             if (kycCompleted) {
+              Analytics.trackEvent({
+                interaction: InteractionTypes.BUTTON_PRESS,
+                component: "ExploreCards",
+                action: `navigate:EWAStack:EWA_OFFER`,
+                status: "",
+              })
+              navigation.navigate("EWAStack", { screen: "EWA_OFFER" })
+             } else {
+              Analytics.trackEvent({
+                interaction: InteractionTypes.BUTTON_PRESS,
+                component: "ExploreCards",
+                action: `navigate:KycProgress`,
+                status: "",
+              })
+              navigation.navigate("KycProgress");
+             }
           }}
         />
       </View>

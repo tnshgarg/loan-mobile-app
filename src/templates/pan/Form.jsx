@@ -1,17 +1,16 @@
+import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Linking, SafeAreaView, Text, View } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import { bankform, form, styles } from "../../styles";
-import { COLORS, FONTS } from "../../constants/Theme";
 import PanVerifyApi from "../../apis/pan/Verify";
-import { addNumber } from "../../store/slices/panSlice";
-import InfoCard from "../../components/atoms/InfoCard";
 import FormInput from "../../components/atoms/FormInput";
+import InfoCard from "../../components/atoms/InfoCard";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { useNavigation, useIsFocused } from "@react-navigation/core";
 import HelpCard from "../../components/atoms/HelpCard";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
+import { strings } from "../../helpers/Localization";
 
 const PanFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -71,7 +70,7 @@ const PanFormTemplate = (props) => {
           />
 
           {number && !validNumber ? (
-            <Text style={bankform.formatmsg}>Invalid PAN Number.</Text>
+            <Text style={bankform.formatmsg}>{strings.invalidPanNumber}</Text>
           ) : null}
 
           <View style={form.forgotText}>
@@ -86,7 +85,7 @@ const PanFormTemplate = (props) => {
                 props.setHelpSectionVisible(true);
               }}
             >
-              Forgot PAN?
+              {strings.forgotPan}
             </Text>
           </View>
           <View style={{ flex: 1 }} />
@@ -111,11 +110,9 @@ const PanFormTemplate = (props) => {
         </View>
       ) : (
         <View style={styles.container}>
-          <Text style={bankform.subTitle}>
-            Please verify your aadhaar first
-          </Text>
+          <Text style={bankform.subTitle}>{strings.verifyAadhaarFirst}</Text>
           <PrimaryButton
-            title="Verify Aadhaar Now"
+            title={strings.verifyAadhaar}
             onPress={() => {
               props?.route?.params?.type === "KYC"
                 ? navigation.navigate("KYC", {

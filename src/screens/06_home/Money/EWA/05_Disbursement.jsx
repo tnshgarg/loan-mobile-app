@@ -6,6 +6,7 @@ import Hourglass from "../../../../assets/Hourglass.svg";
 import Success from "../../../../assets/animations/Success";
 import Header from "../../../../components/atoms/Header";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
+import { strings } from "../../../../helpers/Localization";
 import { useGetDisbursementQuery } from "../../../../store/apiSlices/ewaApi";
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import { styles } from "../../../../styles";
@@ -98,25 +99,13 @@ const Disbursement = ({ route, navigation }) => {
   const StatusText = (status) => {
     switch (status) {
       case "SUCCESS":
-        return getStatusText(
-          "Congratulations",
-          "Your advance salary has been credited to your bank account."
-        );
+        return getStatusText(strings.congrats, strings.advanceSalaryCredited);
       case "REJECTED":
-        return getStatusText(
-          "Sorry, we could not process your advance salary request!",
-          "You request could not clear our lending parter policies. Please reach out to us to become eligible."
-        );
+        return getStatusText(strings.sorry, strings.cannotProcessSalary);
       case "FAILURE":
-        return getStatusText(
-          "Sorry, we could not process your advance salary request!",
-          "You request could not clear our lending parter policies. Please reach out to us to become eligible."
-        );
+        return getStatusText(strings.sorry, strings.cannotProcessSalary);
       default:
-        return getStatusText(
-          "Your advance salary request is being processed!",
-          "The amount will be disbursed after successful verification and we will notify you once it is disbursed."
-        );
+        return getStatusText(strings.pending, strings.receiveMoney);
     }
   };
 
@@ -142,7 +131,7 @@ const Disbursement = ({ route, navigation }) => {
         setNetAmount(getDisbursementData?.body?.netAmount);
         setStatus(getDisbursementData?.body?.status);
       } else {
-        console.log(" API error getDisbursementData : ", getDisbursementData);
+        console.log("API error getDisbursementData : ", getDisbursementData);
       }
     } else if (getDisbursementIsError) {
       console.log("API error getDisbursementError : ", getDisbursementError);
@@ -186,8 +175,8 @@ const Disbursement = ({ route, navigation }) => {
         {status == "REJECTED" || status == "ERROR" ? null : (
           <DisbursementCard
             data={data}
-            title="Loan Details"
-            info="Money will be auto debited from your upcoming salary"
+            title={strings.loanDetails}
+            info={strings.moneyAutoDebitedUpcomingSalary}
             iconName="ticket-percent-outline"
           />
         )}

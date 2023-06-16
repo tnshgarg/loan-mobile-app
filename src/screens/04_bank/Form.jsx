@@ -10,6 +10,7 @@ import Header from "../../components/atoms/Header";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import HelpSection from "../../components/organisms/HelpSection";
 import { useGetPanQuery } from "../../store/apiSlices/panApi";
+import { strings } from "../../helpers/Localization";
 
 const BankForm = () => {
   const bankData = {
@@ -62,8 +63,7 @@ const BankForm = () => {
 
   const backAction = () => {
     Alert.alert(
-      "Hold on!",
-      "If you go back your PAN Verification will have to be redone. Continue only if you want to edit your PAN number.",
+      strings.holdOn, strings.goBackPanVerification,
       [
         { text: "No", onPress: () => null, style: "cancel" },
         {
@@ -72,10 +72,9 @@ const BankForm = () => {
             verifyStatus === "SUCCESS"
               ? navigation.navigate("PanConfirm")
               : navigation.navigate("PanForm");
-          },
         },
-      ]
-    );
+      },
+    ]);
     return true;
   };
 

@@ -10,6 +10,7 @@ import Header from "../../components/atoms/Header";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import HelpSection from "../../components/organisms/HelpSection";
 import { useGetAadhaarQuery } from "../../store/apiSlices/aadhaarApi";
+import { strings } from "../../helpers/Localization";
 
 export default PanForm = () => {
   const panData = {
@@ -81,8 +82,8 @@ export default PanForm = () => {
               : navigation.navigate("AadhaarForm");
           },
         },
-      ]
-    );
+      },
+    ]);
     return true;
   };
 

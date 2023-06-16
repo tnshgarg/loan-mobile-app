@@ -1,13 +1,11 @@
-import { useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/core";
+import { useEffect, useState } from "react";
 import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import { styles } from "../../styles";
 import AadhaarOtpApi from "../../apis/aadhaar/Otp";
-import { addNumber } from "../../store/slices/aadhaarSlice";
-import InfoCard from "../../components/atoms/InfoCard";
 import FormInput from "../../components/atoms/FormInput";
+import InfoCard from "../../components/atoms/InfoCard";
 import { COLORS, FONTS } from "../../constants/Theme";
 import HelpCard from "../../components/atoms/HelpCard";
 import { useGetAadhaarQuery } from "../../store/apiSlices/aadhaarApi";

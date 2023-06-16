@@ -6,10 +6,13 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { showToast } from "../../components/atoms/Toast";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
 import { useUpdateAadhaarMutation } from "../../store/apiSlices/aadhaarApi";
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
+import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
+
 
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -97,22 +100,25 @@ const AadhaarConfirmApi = (props) => {
 
       <View style={[styles.row, { justifyContent: "space-between" }]}>
         <PrimaryButton
-          title="Not Me"
+          title={strings.notMe}
           containerStyle={form.noButton}
           titleStyle={{ ...FONTS.h3, color: COLORS.black }}
           onPress={() => {
             backendPush({
               verifyStatus: "REJECTED",
             });
-            analytics().logEvent("Aadhaar_Confirm_Error", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Aadhaar",
+              action: "Confirm",
+              status: "Error",
               error: "Rejected by User",
             });
           }}
         />
         <PrimaryButton
           accessibilityLabel="YesButton"
-          title="Yes, that’s me"
+          title={strings.yesMe}
           containerStyle={form.yesButton}
           titleStyle={{ ...FONTS.h3, color: COLORS.white }}
           onPress={() => {
@@ -120,7 +126,12 @@ const AadhaarConfirmApi = (props) => {
               verifyStatus: "SUCCESS",
             });
             analytics().logEvent("Aadhaar_Confirm_Success", {
-              unipeEmployeeId: unipeEmployeeId,
+              unipeEmployeeId: unipeEmployeeId,})
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Aadhaar",
+              action: "Confirm",
+              status: "Success"
             });
           }}
         />

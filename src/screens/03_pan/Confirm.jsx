@@ -1,14 +1,13 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import { Alert, SafeAreaView, ScrollView, BackHandler } from "react-native";
 
 import { styles } from "../../styles";
 
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import PanConfirmApi from "../../apis/pan/Confirm";
 import Header from "../../components/atoms/Header";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import { strings } from "../../helpers/Localization";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
 
 export default PanConfirm = () => {
   const dispatch = useDispatch();
@@ -19,14 +18,10 @@ export default PanConfirm = () => {
   }, []);
 
   const backAction = () => {
-    Alert.alert(
-      "Do you want to go back ?",
-      "If you go back your PAN Verification will have to be redone. Continue if you want to edit your PAN number.",
-      [
-        { text: "No", onPress: () => null, style: "cancel" },
-        { text: "Yes", onPress: () => navigation.navigate("PanForm") },
-      ]
-    );
+    Alert.alert(strings.goBack, strings.goBackPanVerification, [
+      { text: "No", onPress: () => null, style: "cancel" },
+      { text: "Yes", onPress: () => navigation.navigate("PanForm") },
+    ]);
     return true;
   };
 

@@ -23,53 +23,97 @@ import AccountStack from "./stacks/AccountStack";
 import BenefitsStack from "./stacks/BenefitsStack";
 import CmsStack from "./stacks/CmsStack";
 import InvestStack from "./stacks/InvestStack";
-
+import Analytics, {InteractionTypes} from "../helpers/analytics/commonAnalytics";
+import {parseUrl} from "../services/campaign/urlParsing"
+import { setCampaignStoreData } from "../services/campaign/storeManagement";
+import { handleCampaignNavigation } from "../services/campaign/campaignNavigation";
+import { setPendingUrl } from "../store/slices/pendingCampaignClickSlice";
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   var initialRoute = useSelector((state) => state.navigation.currentStack);
-  const token = useSelector((state) => state.auth.token);
+  const token = useSelector((state) => state.auth?.token);
+  const onboarded = useSelector((state) => state.auth.onboarded);
   var initialScreen = useSelector((state) => state.navigation.currentScreen);
   const [modalVisible, setModalVisible] = useState(false);
 
-  console.log({ token });
-
-  useEffect(() => {
-    if (token) {
-      decode(
-        token, // the token
-        "Un!pe@2*22", // the secret
-        {
-          skipValidation: false, // to skip signature and exp verification
-        }
-      )
-        .then(() => {
-          showToast("Your Session has expired. Please login again.");
-          dispatch({ type: "LOGOUT" });
-          setModalVisible(true);
-          setTimeout(() => {
-            setModalVisible(false);
-            navigation.navigate("OnboardingStack", { screen: "Login" });
-          }, 8000);
-        })
-        .catch(console.log);
+  const handleCampaignUrlClick = (url) => {
+    // Alert.alert("Url",`${url}`)
+    Analytics.setSessionValue("campaignClick", url);
+    if (!token) {
+      console.error("Token is not present")
+      Analytics.trackEvent({
+        interaction: InteractionTypes.CAMPAIGN_URL,
+        component: "STACK_NAVIGATOR",
+        action: "campaign_url_open",
+        status: "WAITING_LOGIN",
+        error: "user token is not present"
+      })
+      dispatch(setPendingUrl(url))
+      return
     }
-  }, [token]);
 
+    try {
+      const {campaignId,campaignScreen,campaignType} = parseUrl(url)
+      setCampaignStoreData({campaignType, campaignId})
+      handleCampaignNavigation(campaignType, campaignScreen, navigation, {stack: initialRoute, screen: initialScreen}, onboarded)
+      Analytics.trackEvent({
+        interaction: InteractionTypes.CAMPAIGN_URL,
+        component: "STACK_NAVIGATOR",
+        action: "campaign_url_open",
+        status: "SUCCESS",
+      })
+    } catch (err) {
+      Analytics.trackEvent({
+        interaction: InteractionTypes.CAMPAIGN_URL,
+        component: "STACK_NAVIGATOR",
+        action: "campaign_url_open",
+        status: "ERROR",
+        error: JSON.stringify({ message: err.message, stack: err.stack })
+      })
+      console.error(err)
+    }
+  }
+  useEffect(() => {
+    Linking.getInitialURL().then((url) => {
+      if (url) {
+        handleCampaignUrlClick(url)
+      }
+    })
+    const subscription = Linking.addEventListener('url',({url})=>{ 
+      handleCampaignUrlClick(url)
+    });
+    return () => {
+      subscription.remove()
+    }
+  },[])
   console.log("STAGE: ", STAGE);
   console.log("initialRoute: ", initialRoute);
   console.log("currentScreen: ", initialScreen);
-
-  STAGE === "dev" ? (initialRoute = "DevMenu") : null;
+  let devMenu = null;
+  if(STAGE === "dev") {
+    initialRoute = "DevMenu"
+    devMenu = (
+      <Stack.Screen
+          name="DevMenu"
+          options={{ headerShown: false, header: null }}
+          component={DevMenu}
+          initialParams={{
+            initialRoute: initialRoute,
+            initialScreen: initialScreen,
+          }}
+        />
+    )
+  }
   console.log("initialRoute: ", initialRoute);
   return (
     <OfflineAlert>
-      <Stack.Navigator
-        initialRouteName={"DevMenu"}
+      <Stack.Navigator 
+        initialRouteName={initialRoute}
         screenOptions={{ headerShown: false, header: null }}
       >
-        <Stack.Screen name="DevMenu" component={DevMenu} />
+        {devMenu}
         <Stack.Screen
           name="Splash"
           options={{ headerShown: false, header: null }}

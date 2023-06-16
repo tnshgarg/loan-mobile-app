@@ -19,7 +19,7 @@ import { addToken } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import analytics from "@react-native-firebase/analytics";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 import { styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -128,8 +128,11 @@ const OTPScreen = () => {
 
         setOtp("");
         setBack(false);
-        analytics().logEvent("OTPScreen_SendSms_Success", {
-          unipeEmployeeId: unipeEmployeeId,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "OTPScreen",
+          action: "SendSms",
+          status: "Success",
         });
         Alert.alert("OTP resent successfully", "", [
           {
@@ -142,8 +145,12 @@ const OTPScreen = () => {
         ]);
       })
       .catch((error) => {
-        analytics().logEvent("OTPScreen_SendSms_Error", {
-          unipeEmployeeId: unipeEmployeeId,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "OTPScreen",
+          action: "SendSms",
+          status: "Error",
+          error: error.message
         });
         console.log(error, error.message);
         showToast(error.message, "error");
@@ -168,13 +175,19 @@ const OTPScreen = () => {
           .catch((err) => console.log(err));
         setVerified(true);
 
-        analytics().logEvent("OTPScreen_Check_Success", {
-          unipeEmployeeId: unipeEmployeeId,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "OTPScreen",
+          action: "Check",
+          status: "Success",
         });
       })
       .catch((error) => {
-        analytics().logEvent("OTPScreen_Check_Error", {
-          unipeEmployeeId: unipeEmployeeId,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "OTPScreen",
+          action: "Check",
+          status: "Error",
           error: error?.message || error?.error?.message,
         });
         console.log(error);

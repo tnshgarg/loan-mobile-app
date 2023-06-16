@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import analytics from "@react-native-firebase/analytics";
+import Analytics, {InteractionTypes} from "../../../../helpers/analytics/commonAnalytics";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
@@ -121,8 +121,10 @@ const KYC = () => {
       .then((response) => {
         console.log("updateKycMutateAsync response.data: ", response.data);
         setLoading(false);
-        analytics().logEvent("Ewa_Kyc_Success", {
-          unipeEmployeeId: unipeEmployeeId,
+        Analytics.trackEvent({
+          component: "Ewa",
+          action: "Kyc",
+          status: "Success",
         });
         if (mandateVerifyStatus === "SUCCESS") {
           navigation.navigate("EWA_AGREEMENT");
@@ -134,8 +136,11 @@ const KYC = () => {
         console.log("updateKycMutateAsync error: ", error.message);
         setLoading(false);
         Alert.alert("An Error occured", error.message);
-        analytics().logEvent("Ewa_Kyc_Error", {
-          unipeEmployeeId: unipeEmployeeId,
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "Ewa",
+          action: "Kyc",
+          status: "Error",
           error: error.message,
         });
       });

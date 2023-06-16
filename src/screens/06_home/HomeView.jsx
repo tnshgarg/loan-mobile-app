@@ -1,4 +1,4 @@
-import { useIsFocused, useNavigation } from "@react-navigation/core";
+import { useIsFocused } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Linking, SafeAreaView, ScrollView, Text, View } from "react-native";
 // import PushNotification from 'react-native-push-notification';
@@ -18,29 +18,17 @@ import {
   notificationListener,
   requestUserPermission,
 } from "../../services/notifications/notificationService";
-import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { useGetOffersQuery } from "../../store/apiSlices/ewaApi";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { addOnboarded } from "../../store/slices/authSlice";
-import {
-  addEkycCampaignId,
-  addEwaCampaignId,
-  addRepaymentCampaignId,
-} from "../../store/slices/campaignSlice";
 import { resetEwaHistorical } from "../../store/slices/ewaHistoricalSlice";
 import {
   addAccessible,
   addEligible,
   resetEwaLive,
+  addCampaignBanner,
 } from "../../store/slices/ewaLiveSlice";
-import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
-import HelpFooter from "../../components/atoms/HelpFooter";
-import CmsRoot from "../../components/cms/CmsRoot";
-import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
-import HelpSection from "../../components/organisms/HelpSection";
-import { useGetKycQuery } from "../../store/apiSlices/kycApi";
-import BottomAlert from "../../components/molecules/BottomAlert";
-import CompleteKyc from "../../assets/CompleteKyc.svg";
 import { addCurrentStack } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 
@@ -113,12 +101,10 @@ const HomeView = () => {
   const name = aadhaar?.data?.name || pan?.data?.name;
   // || auth?.employeeName;
 
-  // const panMisMatch = useSelector((state) => state.pan.misMatch);
-  // const bankMisMatch = useSelector((state) => state.bank.misMatch);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
+  console.log({ewaLiveSlice})
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
-  const [cmsHomeData, setCmsHomeData] = useState([]);
   const onboardingCampaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
@@ -187,6 +173,10 @@ const HomeView = () => {
         dispatch(resetEwaHistorical(getEwaOffersData.body.past));
         setFetched(true);
       } else {
+        if (getEwaOffersData.data.status == 404 && getEwaOffersData.data.campaignBanner) {
+          console.log("dispatched campaignBanner", getEwaOffersData.data)
+          dispatch(addCampaignBanner(getEwaOffersData.data.campaignBanner))
+        }
         console.log(
           "HomeView ewaOffersFetch API error getEwaOffersData.data : ",
           getEwaOffersData.body
@@ -203,56 +193,8 @@ const HomeView = () => {
       dispatch(resetEwaHistorical());
     }
   }, [getEwaOffersIsSuccess, getEwaOffersData, isFocused]);
-
-  const getUrlAsync = async () => {
-    const initialUrl = await Linking.getInitialURL();
-    const breakpoint = "/";
-    if (initialUrl) {
-      const splitted = initialUrl.split(breakpoint);
-      console.log("initialUrl", splitted);
-      console.log("route", splitted[3]);
-      switch (splitted[3].toLowerCase()) {
-        case "ewa":
-          switch (splitted[4]?.toLowerCase()) {
-            case "campaign":
-              dispatch(addEwaCampaignId(splitted[5]));
-              break;
-            default:
-              break;
-          }
-          break;
-        case "repayment":
-          switch (splitted[4]?.toLowerCase()) {
-            case "campaign":
-              dispatch(addRepaymentCampaignId(splitted[5]));
-              break;
-            default:
-              break;
-          }
-          break;
-        case "ekyc":
-          navigation.navigate("AccountStack", {
-            screen: "KYC",
-          });
-          switch (splitted[4]?.toLowerCase()) {
-            case "campaign":
-              dispatch(addEkycCampaignId(splitted[5]));
-              break;
-            default:
-              break;
-          }
-          break;
-        default:
-          break;
-      }
-    } else {
-      console.log("No intent. User opened App.");
-    }
-  };
-
-  useEffect(() => {
-    getUrlAsync();
-  }, []);
+  
+  console.warn("No intent. User opened App.");
 
   useEffect(() => {
     if (!kycCompleted) setAlertVisible(true);

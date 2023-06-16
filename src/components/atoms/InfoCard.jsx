@@ -45,9 +45,9 @@ const InfoCard = ({ title, info, variant, containerStyle, infoStyle }) => {
       style={[styles.container, { ...containerStyle }]}
     >
       <MaterialCommunityIcons
-        name="information-outline"
-        size={20}
-        color={COLORS.primary}
+        name={icon || "information-outline"} 
+        size={20} 
+        color={color || COLORS.primary} 
       />
       <View
         style={{ flexDirection: "column", flex: 1, alignItems: "flex-start" }}

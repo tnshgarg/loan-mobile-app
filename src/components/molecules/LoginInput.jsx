@@ -37,7 +37,7 @@ const LoginInput = ({ phoneNumber, setPhoneNumber, accessibilityLabel }) => {
       }
       appendComponent={
         <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
-          {phoneNumber.length}/10
+          {phoneNumber?.length ?? 0}/10
         </Text>
       }
     />

@@ -1,19 +1,25 @@
-import { useNavigation } from "@react-navigation/core";
 import analytics from "@react-native-firebase/analytics";
+import { useNavigation } from "@react-navigation/core";
+import Analytics, {InteractionTypes} from "../../../../helpers/analytics/commonAnalytics";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
+import Checkbox from "../../../../components/atoms/Checkbox";
 import Header from "../../../../components/atoms/Header";
-import TermsAndPrivacyModal from "../../../../components/molecules/TermsAndPrivacyModal";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
+import TermsAndPrivacyModal from "../../../../components/molecules/TermsAndPrivacyModal";
+import SliderCard from "../../../../components/organisms/SliderCard";
+import { strings } from "../../../../helpers/Localization";
+import { useUpdateOfferMutation } from "../../../../store/apiSlices/ewaApi";
 import {
   addAPR,
   addLoanAmount,
   addNetAmount,
   addProcessingFees,
 } from "../../../../store/slices/ewaLiveSlice";
+import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import { styles } from "../../../../styles";
 import TnC from "../../../../templates/docs/EWATnC.js";
 import SliderCard from "../../../../components/organisms/SliderCard";
@@ -189,16 +195,22 @@ const Offer = () => {
           console.log("updateOfferMutateAsync response.data: ", response.data);
           setLoading(false);
           handleConditionalNav();
-          analytics().logEvent("Ewa_OfferPush_Success", {
-            unipeEmployeeId: unipeEmployeeId,
+          Analytics.trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            component: "Ewa",
+            action: "OfferPush",
+            status: "Success"
           });
         })
         .catch((error) => {
           console.log("updateOfferMutateAsync error: ", error.message);
           setLoading(false);
           Alert.alert("An Error occured", error.message);
-          analytics().logEvent("Ewa_OfferPush_Error", {
-            unipeEmployeeId: unipeEmployeeId,
+          Analytics.trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            component: "Ewa",
+            action: "OfferPush",
+            status: "Error",
             error: error.message,
           });
         });
@@ -225,15 +237,15 @@ const Offer = () => {
         <View style={{ flex: 1 }} />
 
         <Checkbox
-          text={"I agree to the"}
+          text={strings.iAgree}
           value={consent}
           setValue={setConsent}
-          additionalText="Terms and Conditions"
+          additionalText={strings.termsAndConditions}
           onPress={() => setIsTermsOfUseModalVisible(true)}
         />
 
         <PrimaryButton
-          title={loading ? "Processing" : "Continue"}
+          title={loading ? strings.processing : strings.continue}
           disabled={loading || !consent || !validAmount || updating}
           loading={loading}
           onPress={() => {

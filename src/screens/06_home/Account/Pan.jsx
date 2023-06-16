@@ -3,12 +3,13 @@ import React, { useEffect } from "react";
 import { SafeAreaView, View } from "react-native";
 import { useSelector } from "react-redux";
 import PanConfirmApi from "../../../apis/pan/Confirm";
+import PrimaryButton from "../../../components/atoms/PrimaryButton";
 import DetailsCard from "../../../components/molecules/DetailsCard";
+import { strings } from "../../../helpers/Localization";
 import TopTabNav from "../../../navigators/TopTabNav";
 import { styles } from "../../../styles";
 import PanFormTemplate from "../../../templates/pan/Form";
 import PrimaryButton from "../../../components/atoms/PrimaryButton";
-import { useGetPanQuery } from "../../../store/apiSlices/panApi";
 import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
 
 const Pan = () => {
@@ -63,7 +64,7 @@ const Pan = () => {
     },
   ];
 
-  if (loading) return null;
+  if (loading) return <></>;
 
   return (
     <SafeAreaView style={styles.safeContainer}>
@@ -72,7 +73,7 @@ const Pan = () => {
           <DetailsCard data={cardData()} variant={"light"} />
           {bank?.verifyStatus != "SUCCESS" ? (
             <PrimaryButton
-              title="Continue to Bank Verification"
+              title={strings.continueBankVerification}
               onPress={() => {
                 navigation.navigate("KYC", {
                   screen: "BANK",

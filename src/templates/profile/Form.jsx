@@ -1,14 +1,20 @@
+import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { SafeAreaView, Text, View, BackHandler, Alert } from "react-native";
+import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
+import FormInput from "../../components/atoms/FormInput";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import { showToast } from "../../components/atoms/Toast";
+import DropDownForm from "../../components/molecules/DropDownForm";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { form, styles } from "../../styles";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import FormInput from "../../components/atoms/FormInput";
 import DropDownForm from "../../components/molecules/DropDownForm";
-import analytics from "@react-native-firebase/analytics";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 import { showToast } from "../../components/atoms/Toast";
 
 import { useUpdateProfileMutation } from "../../store/apiSlices/profileApi";
@@ -122,7 +128,7 @@ const ProfileFormTemplate = ({ type }) => {
   const maritalStatuses = ["Unmarried", "Married"];
 
   const backAction = () => {
-    Alert.alert("Hold on!", "Are you sure you want to go back?", [
+    Alert.alert(strings.holdOn, strings.goBack, [
       { text: "No", onPress: () => null, style: "cancel" },
       {
         text: "Yes",
@@ -162,63 +168,59 @@ const ProfileFormTemplate = ({ type }) => {
         <View>
           <DropDownForm
             accessibilityLabel="EducationDropdown"
-            placeholder={"Education*"}
+            placeholder={strings.educationPlaceholder}
             value={qualification}
             setValue={setQualification}
             data={qualifications}
           />
           <DropDownForm
             accessibilityLabel="MaritalStatusDropdown"
-            placeholder={"Maritial Status*"}
+            placeholder={strings.maritalStatusPlaceholder}
             value={maritalStatus}
             setValue={setMaritalStatus}
             data={maritalStatuses}
           />
           <FormInput
             accessibilityLabel="MotherNameInput"
-            placeholder={"Mother's Name*"}
+            placeholder={strings.motherNamePlaceholder}
             value={motherName}
             onChange={setMotherName}
           />
           <FormInput
             accessibilityLabel="AltPhoneNumberInput"
-            placeholder={"Whatsapp no."}
+            placeholder={strings.whatsappPlaceholder}
             autoCompleteType="tel"
             keyboardType="phone-pad"
             value={altMobile}
             maxLength={10}
             onChange={setAltMobile}
-            errorMsg={
-              altMobile && !validAltMobile && !validAltMobile
-                ? "Incorrect Format"
-                : ""
-            }
-            appendComponent={
-              <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
-                {altMobile?.length}/10
-              </Text>
-            }
+            maxLength={10}
           />
-
+          {altMobile && !validAltMobile ? (
+            <Text style={form.formatmsg}>{strings.incorrectFormat}</Text>
+          ) : null}
           <FormInput
             accessibilityLabel="EmailAddressInput"
-            placeholder={"Your email ID"}
+            placeholder={strings.emailPlaceholder}
             autoCompleteType="email"
             keyboardType="email-address"
             value={email}
             onChange={setEmail}
           />
           {email && !validEmail ? (
-            <Text style={form.formatmsg}>Incorrect Format</Text>
+            <Text style={form.formatmsg}>{strings.incorrectFormat}</Text>
           ) : null}
           <PrimaryButton
             accessibilityLabel={"ProfileBtn"}
-            title="Continue"
+            title={strings.continue}
             disabled={!next}
             onPress={() => {
               backendPush();
-              analytics().logEvent("ProfileForm_PushData_Success", {
-                unipeEmployeeId: unipeEmployeeId,
+              Analytics.trackEvent({
+                interaction: InteractionTypes.BUTTON_PRESS,
+                component: "ProfileForm",
+                action: "PushData",
+                status: "Success"
               });
             }}
           />

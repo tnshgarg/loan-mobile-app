@@ -10,8 +10,10 @@ import {
   useGetPanQuery,
   useUpdatePanMutation,
 } from "../../store/apiSlices/panApi";
+import { strings } from "../../helpers/Localization";
 import { addVerifyStatus } from "../../store/slices/panSlice";
 import { form, styles } from "../../styles";
+import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 
 const PanConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -92,22 +94,25 @@ const PanConfirmApi = (props) => {
       <View style={[styles.row, { justifyContent: "space-between" }]}>
         <FuzzyCheck name={data?.["name"]} step="PAN" />
         <PrimaryButton
-          title="Not Me"
+          title={strings.notMe}
           containerStyle={form.noButton}
           titleStyle={{ ...FONTS.h3, color: COLORS.black }}
           onPress={() => {
             backendPush({
               verifyStatus: "REJECTED",
             });
-            analytics().logEvent("Pan_Confirm_Error", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Pan",
+              action: "Confirm",
+              status: "Error",
               error: "Rejected by User",
             });
           }}
         />
         <PrimaryButton
           accessibilityLabel="PanYesBtn"
-          title="Yes, that’s me"
+          title={strings.yesMe}
           containerStyle={form.yesButton}
           color={COLORS.primary}
           titleStyle={{ ...FONTS.h3, color: COLORS.white }}
@@ -115,8 +120,11 @@ const PanConfirmApi = (props) => {
             backendPush({
               verifyStatus: "SUCCESS",
             });
-            analytics().logEvent("Pan_Confirm_Success", {
-              unipeEmployeeId: unipeEmployeeId,
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              component: "Pan",
+              action: "Confirm",
+              status: "Success",
             });
           }}
         />

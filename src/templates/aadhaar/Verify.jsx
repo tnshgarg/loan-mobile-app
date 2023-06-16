@@ -1,15 +1,16 @@
-import { useEffect, useState, useRef } from "react";
-import { ScrollView, Text, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import AadhaarVerifyApi from "../../apis/aadhaar/Verify";
-import { setAadhaarTimer } from "../../store/slices/timerSlice";
-import AadhaarOtpApi from "../../apis/aadhaar/Otp";
-import { styles } from "../../styles";
-import { COLORS } from "../../constants/Theme";
-import OtpInput from "../../components/molecules/OtpInput";
-import BackgroundTimer from "react-native-background-timer";
-import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { useIsFocused } from "@react-navigation/core";
+import { useEffect, useRef, useState } from "react";
+import { ScrollView, Text, View } from "react-native";
+import BackgroundTimer from "react-native-background-timer";
+import { useDispatch, useSelector } from "react-redux";
+import AadhaarOtpApi from "../../apis/aadhaar/Otp";
+import AadhaarVerifyApi from "../../apis/aadhaar/Verify";
+import OtpInput from "../../components/molecules/OtpInput";
+import { COLORS } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
+import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
+import { setAadhaarTimer } from "../../store/slices/timerSlice";
+import { styles } from "../../styles";
 
 const AadhaarVerifyTemplate = (props) => {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ const AadhaarVerifyTemplate = (props) => {
 
   useEffect(() => {
     interval = BackgroundTimer.setInterval(() => {
-      console.log({ countDownTime });
+      // console.log({ countDownTime });
       if (countDownTime > 0) {
         dispatch(setAadhaarTimer(countDownTime - 1));
       } else {
@@ -68,7 +69,7 @@ const AadhaarVerifyTemplate = (props) => {
         />
 
         <Text style={styles.subHeadline} accessibilityLabel="OtpText">
-          Didn’t receive the secure code?{" "}
+          {strings.otpNotReceived}{" "}
           {resend ? (
             <AadhaarOtpApi
               type={props?.route?.params?.type || ""}
@@ -78,7 +79,8 @@ const AadhaarVerifyTemplate = (props) => {
             />
           ) : (
             <Text style={{ color: COLORS.secondary }}>
-              Resend OTP in {Math.trunc(countDownTime / 60)}:
+              {strings.resendOtp}
+              {Math.trunc(countDownTime / 60)}:
               {String("0" + (countDownTime % 60)).slice(-2)}
             </Text>
           )}
