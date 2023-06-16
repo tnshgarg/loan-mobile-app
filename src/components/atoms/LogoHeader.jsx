@@ -63,26 +63,27 @@ const LogoHeader = ({
           <EmptyView />
         )}
       </View>
-      <View style={styles.cont}>
-        {headline || subHeadline ? (
-          <View style={styles.belowContainer}>
+      {headline || subHeadline || headerImageUri ? (
+        <View style={styles.contentContainer}>
+          <View style={styles.column}>
             {headline && <Text style={styles.headline}>{headline}</Text>}
             {subHeadline && (
               <Text style={styles.subHeadline}>{subHeadline}</Text>
             )}
           </View>
-        ) : null}
-        {headerImageUri ? (
-          <Image
-            style={styles.headerImage}
-            source={{
-              uri: headerImageUri,
-            }}
-          />
-        ) : (
-          <></>
-        )}
-      </View>
+
+          {headerImageUri ? (
+            <Image
+              style={styles.headerImage}
+              source={{
+                uri: headerImageUri,
+              }}
+            />
+          ) : (
+            <></>
+          )}
+        </View>
+      ) : null}
     </View>
   );
 };
@@ -93,20 +94,6 @@ const styles = EStyleSheet.create({
   mainContainer: {
     flexDirection: "column",
   },
-  cont: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
-    justifyContent: "space-between",
-    backgroundColor: COLORS.headerBg,
-    paddingBottom: "10rem",
-  },
-  headerImage: {
-    width: "120rem",
-    height: "120rem",
-    resizeMode: "contain",
-    marginRight: "20rem",
-  },
   container: {
     width: "100%",
     flexDirection: "row",
@@ -116,16 +103,23 @@ const styles = EStyleSheet.create({
     paddingHorizontal: "20rem",
     paddingVertical: "10rem",
   },
-  belowContainer: {
-    flexDirection: "column",
-    paddingHorizontal: "20rem",
-    paddingBottom: "10rem",
-
-    alignItems: "flex-start",
-    borderBottomLeftRadius: "10rem",
-    borderBottomRightRadius: "10rem",
+  contentContainer: {
     flexDirection: "row",
     alignItems: "center",
+    width: "100%",
+    justifyContent: "space-between",
+    backgroundColor: COLORS.headerBg,
+    padding: "15rem",
+  },
+  headerImage: {
+    width: "100rem",
+    height: "100rem",
+    resizeMode: "contain",
+  },
+
+  column: {
+    flexDirection: "column",
+    alignItems: "flex-start",
   },
   empty: { backgroundColor: "transparent", height: "32rem", width: "32rem" },
   logo: {

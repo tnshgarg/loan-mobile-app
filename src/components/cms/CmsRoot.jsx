@@ -15,6 +15,8 @@ import CmsSwiper from "./CmsSwiper";
 import CmsVideo from "./CmsVideo";
 import CmsContainer from "./CmsContainer";
 import CmsIconText from "./CmsIconText";
+import CmsThreeColumn from "./CmsThreeColumn";
+import CmsIcon from "./CmsIcon";
 
 const CMS_TYPES = {
   section: CmsSection,
@@ -27,11 +29,13 @@ const CMS_TYPES = {
   tabs: CmsTabs,
   card: CmsCard,
   twoColumn: CmsTwoColumn,
+  threeColumn: CmsThreeColumn,
   title: CmsTitle,
   subtitle: CmsSubtitle,
   blog: CmsBlog,
   container: CmsContainer,
   iconText: CmsIconText,
+  icon: CmsIcon,
   default: () => <></>,
 };
 

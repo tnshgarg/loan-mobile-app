@@ -3,10 +3,9 @@ import React from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
 
-const CmsTwoColumn = ({ children, firstColumnWidth, styling }) => {
+const CmsThreeColumn = ({ children, secondColumnStyle, styling }) => {
   const safeChildren = children || [];
-  console.log({ firstColumnWidth });
-  console.log({ styling });
+
   return (
     <View style={[styles.row, { ...styling }]}>
       {safeChildren?.map((child, index) => (
@@ -14,13 +13,9 @@ const CmsTwoColumn = ({ children, firstColumnWidth, styling }) => {
           key={index}
           style={[
             styles.col,
+            index == 1 ? { ...secondColumnStyle } : null,
             { paddingRight: index == 0 ? 10 : null },
             { paddingLeft: index == 0 ? 10 : null },
-            firstColumnWidth
-              ? {
-                  width: index == 0 ? firstColumnWidth : "30%",
-                }
-              : null,
           ]}
         >
           {child.element(child)}
@@ -37,11 +32,13 @@ const styles = EStyleSheet.create({
     flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "space-between",
+    borderBottomWidth: 1,
+    borderColor: COLORS.lightGray,
+    padding: "10rem",
   },
   col: {
     flexDirection: "column",
-    width: "50%",
   },
 });
 
-export default CmsTwoColumn;
+export default CmsThreeColumn;

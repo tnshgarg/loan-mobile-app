@@ -134,6 +134,7 @@ const DUMMY_RES = {
     {
       type: "card",
       gradientColors: [COLORS.cardBackground, COLORS.cardBackground],
+      navigate: { type: "cms", screen: "blog_2" },
       children: [
         {
           type: "twoColumn",
@@ -146,7 +147,7 @@ const DUMMY_RES = {
               children: [
                 {
                   type: "title",
-                  title: "Why Unipe",
+                  title: "Why Unipe?",
                 },
                 {
                   type: "subtitle",
@@ -166,6 +167,7 @@ const DUMMY_RES = {
     {
       type: "card",
       gradientColors: [COLORS.cardBackground, COLORS.cardBackground],
+      navigate: { type: "cms", screen: "blog_4" },
       children: [
         {
           type: "twoColumn",
@@ -196,34 +198,34 @@ const DUMMY_RES = {
       ],
     },
 
-    // {
-    //   type: "section",
-    //   title: "User Story",
-    //   leftIcon:
-    //     "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/Userstory.png",
-    //   children: [
-    //     {
-    //       type: "review",
-    //       testimony:
-    //         "“Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.”",
-    //       name: "Manager",
-    //       address: "Neemrana, Rajasthan",
-    //       imageUri:
-    //         "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-    //       stars: 5,
-    //     },
-    //     {
-    //       type: "review",
-    //       testimony:
-    //         "“Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.”",
-    //       name: "Manager",
-    //       address: "Neemrana, Rajasthan",
-    //       imageUri:
-    //         "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-    //       stars: 5,
-    //     },
-    //   ],
-    // },
+    {
+      type: "section",
+      title: "User Story",
+      leftIcon:
+        "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/Userstory.png",
+      children: [
+        {
+          type: "review",
+          testimony:
+            "“Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.”",
+          name: "Manager",
+          address: "Neemrana, Rajasthan",
+          imageUri:
+            "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          stars: 5,
+        },
+        {
+          type: "review",
+          testimony:
+            "“Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.”",
+          name: "Manager",
+          address: "Neemrana, Rajasthan",
+          imageUri:
+            "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+          stars: 5,
+        },
+      ],
+    },
   ],
   blogs: [
     {
@@ -258,6 +260,7 @@ const DUMMY_RES = {
       children: [
         {
           type: "twoColumn",
+          // firstColumnWidth: "65%",
           children: [
             {
               type: "container",
@@ -684,6 +687,48 @@ const DUMMY_RES = {
       title: "March Payslip is ready for download",
       cta: "Click here to see details",
     },
+  ],
+  account: [
+    {
+      type: "container",
+      children: [
+        {
+          type: "threeColumn",
+          secondColumnStyle: { flex: 1 },
+          children: [
+            {
+              type: "icon",
+              iconName: "account",
+              iconSize: 36,
+              iconColor: COLORS.gray,
+            },
+            {
+              type: "container",
+              children: [
+                {
+                  type: "title",
+                  title: "Profile",
+                },
+                {
+                  type: "subtitle",
+                  title: "See & edit your profile details",
+                },
+              ],
+            },
+            {
+              type: "icon",
+              iconName: "chevron-right",
+              iconSize: 36,
+              iconColor: COLORS.gray,
+            },
+          ],
+        },
+      ],
+    },
+    // {
+    //   type: "image",
+    //   url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+    // },
   ],
 };
 

@@ -27,6 +27,8 @@ import Logout from "../../../assets/Logout.svg";
 import InfoCard from "../../../components/atoms/InfoCard";
 import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
 import { accountStyles, styles } from "../../../styles";
+import DUMMY_RES, { useGetCmsQuery } from "../../../store/apiSlices/cmsApi";
+import CmsRoot from "../../../components/cms/CmsRoot";
 
 const AccountMenu = (props) => {
   const dispatch = useDispatch();
@@ -191,6 +193,13 @@ const AccountMenu = (props) => {
     else action();
   };
 
+  const { data: cmsData, isLoading: cmsLoading } = useGetCmsQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: 1000,
+    }
+  );
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeader
@@ -233,13 +242,19 @@ const AccountMenu = (props) => {
           </View>
         )}
 
-        {options.map((item, index) => (
+        {!cmsLoading ? (
+          <CmsRoot children={DUMMY_RES?.account || []}></CmsRoot>
+        ) : (
+          <></>
+        )}
+
+        {/* {options.map((item, index) => (
           <ListItem
             key={index}
             item={{ ...item, onPress: () => onPressCard(item) }}
             showIcon={true}
           />
-        ))}
+        ))} */}
       </ScrollView>
       {isTermsOfUseModalVisible && (
         <TermsAndPrivacyModal
