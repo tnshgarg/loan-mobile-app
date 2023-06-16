@@ -1,26 +1,26 @@
+import { useNavigation } from "@react-navigation/native";
+import { useEffect, useState } from "react";
 import {
   BackHandler,
-  View,
-  Text,
-  SafeAreaView,
   Image,
+  SafeAreaView,
   ScrollView,
+  Text,
+  View,
 } from "react-native";
-import { useEffect, useState } from "react";
-import { accountStyles, styles } from "../../../styles";
-import LogoHeader from "../../../components/atoms/LogoHeader";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { COLORS } from "../../../constants/Theme";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
-import termsOfUse from "../../../templates/docs/TermsOfUse";
-import privacyPolicy from "../../../templates/docs/PrivacyPolicy";
-import TermsAndPrivacyModal from "../../../components/molecules/TermsAndPrivacyModal";
-import { showToast } from "../../../components/atoms/Toast";
-import { useNavigation } from "@react-navigation/native";
-import LogoutModal from "../../../components/organisms/LogoutModal";
 import ListItem from "../../../components/atoms/ListItem";
+import LogoHeader from "../../../components/atoms/LogoHeader";
+import TermsAndPrivacyModal from "../../../components/molecules/TermsAndPrivacyModal";
+import LogoutModal from "../../../components/organisms/LogoutModal";
+import { COLORS } from "../../../constants/Theme";
+import { strings } from "../../../helpers/Localization";
 import whatsappLinking from "../../../helpers/WhatsappLinking";
+import { accountStyles, styles } from "../../../styles";
+import privacyPolicy from "../../../templates/docs/PrivacyPolicy";
+import termsOfUse from "../../../templates/docs/TermsOfUse";
 
 const AccountMenu = (props) => {
   const dispatch = useDispatch();
@@ -64,13 +64,13 @@ const AccountMenu = (props) => {
   const options = [
     {
       title: "Profile",
-      subtitle: "See & edit your profile details",
+      subtitle: strings.editProfileDetails,
       iconName: "account-circle-outline",
       route: { stack: "AccountStack", screen: "Profile" },
     },
     {
       title: "KYC",
-      subtitle: "All your KYC details in one place",
+      subtitle: strings.kycDetailsInOnePlace,
       iconName: "order-bool-ascending-variant",
       route: { stack: "AccountStack", screen: "KYC" },
     },
@@ -87,28 +87,28 @@ const AccountMenu = (props) => {
     //   route: { stack: "AccountStack", screen: "Documents" },
     // },
     {
-      title: "Customer Support",
-      subtitle: "Talk to out support team",
+      title: strings.customerSupport,
+      subtitle: strings.talkToSupportTeam,
       iconName: "whatsapp",
       action: () => {
         whatsappLinking();
       },
     },
     {
-      title: "Terms & Conditions",
-      subtitle: "Read our terms of use",
+      title: strings.termsAndConditions,
+      subtitle: strings.readTermsOfUse,
       iconName: "file-document-outline",
       action: () => setIsTermsOfUseModalVisible(true),
     },
     {
-      title: "Privacy Policy",
-      subtitle: "Read our privacy policy",
+      title: strings.privacyPolicy,
+      subtitle: strings.readPrivacyPolicy,
       iconName: "shield-outline",
       action: () => setIsPrivacyModalVisible(true),
     },
     {
-      title: "Logout",
-      subtitle: "Logout from Unipe App",
+      title: strings.logout,
+      subtitle: strings.logoutFromUnipe,
       iconName: "exit-to-app",
       action: () => onLogout(),
     },

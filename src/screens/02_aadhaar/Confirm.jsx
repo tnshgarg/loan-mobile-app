@@ -1,13 +1,14 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { Alert, SafeAreaView, ScrollView, BackHandler } from "react-native";
+import { useEffect } from "react";
+import { Alert, BackHandler, SafeAreaView, ScrollView } from "react-native";
+import { useDispatch } from "react-redux";
 import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
 import { styles } from "../../styles";
 
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import AadhaarConfirmApi from "../../apis/aadhaar/Confirm";
 import Header from "../../components/atoms/Header";
+import { strings } from "../../helpers/Localization";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
 
 const AadhaarConfirm = () => {
   const dispatch = useDispatch();
@@ -18,14 +19,10 @@ const AadhaarConfirm = () => {
   }, []);
 
   const backAction = () => {
-    Alert.alert(
-      "Hold on!",
-      "If you go back your Aadhaar Verification will have to be redone. Continue only if you want to edit your Aadhaar number.",
-      [
-        { text: "No", onPress: () => null, style: "cancel" },
-        { text: "Yes", onPress: () => navigation.navigate("AadhaarForm") },
-      ]
-    );
+    Alert.alert(strings.holdOn, strings.goBackAadhaarVerification, [
+      { text: "No", onPress: () => null, style: "cancel" },
+      { text: "Yes", onPress: () => navigation.navigate("AadhaarForm") },
+    ]);
     return true;
   };
 

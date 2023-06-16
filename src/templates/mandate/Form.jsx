@@ -1,3 +1,4 @@
+import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, SafeAreaView, ScrollView, Text, View } from "react-native";
@@ -5,6 +6,22 @@ import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
+import RBI from "../../assets/RBI.svg";
+import Shield from "../../assets/Shield.svg";
+import { showToast } from "../../components/atoms/Toast";
+import DetailsCard from "../../components/molecules/DetailsCard";
+import MandateOptions from "../../components/molecules/MandateOptions";
+import MandateLoading from "../../components/organisms/MandateLoading";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
+import {
+  createMandateOrder,
+  openRazorpayCheckout,
+} from "../../services/mandate/Razorpay/services";
+import {
+  useGetMandateQuery,
+  useUpdateMandateMutation,
+} from "../../store/apiSlices/mandateApi";
 import {
   addData,
   addVerifyMsg,
@@ -12,21 +29,8 @@ import {
   addVerifyTimestamp,
   resetMandate,
 } from "../../store/slices/mandateSlice";
-import { styles } from "../../styles";
-import { showToast } from "../../components/atoms/Toast";
-import {
-  createMandateOrder,
-  openRazorpayCheckout,
-} from "../../services/mandate/Razorpay/services";
-import { COLORS, FONTS } from "../../constants/Theme";
-import analytics from "@react-native-firebase/analytics";
-import DetailsCard from "../../components/molecules/DetailsCard";
-import MandateOptions from "../../components/molecules/MandateOptions";
-import Shield from "../../assets/Shield.svg";
-import RBI from "../../assets/RBI.svg";
-import MandateLoading from "../../components/organisms/MandateLoading";
-import { useUpdateMandateMutation, useGetMandateQuery } from "../../store/apiSlices/mandateApi";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { styles } from "../../styles";
 
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -62,9 +66,12 @@ const MandateFormTemplate = (props) => {
       state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
   );
   const [updateMandate] = useUpdateMandateMutation();
-  const { mandateData, error, isLoading } = useGetMandateQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 2,
-  });
+  const { mandateData, error, isLoading } = useGetMandateQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: 1000 * 60 * 2,
+    }
+  );
   useEffect(() => {
     getUniqueId().then((id) => {
       setDeviceId(id);
@@ -138,11 +145,11 @@ const MandateFormTemplate = (props) => {
   };
 
   const refreshMandateFromBackend = () => {
-   if (mandateData && !isLoading && !error) {
+    if (mandateData && !isLoading && !error) {
       console.log("Form mandateFetch response.data", mandateData);
       dispatch(resetMandate(mandateData?.data?.body));
       setVerifyStatus(mandateData?.data?.body?.verifyStatus);
-    };
+    }
   };
 
   const initiateRazorpayCheckout = async ({ customerId, orderId, notes }) => {
@@ -270,16 +277,16 @@ const MandateFormTemplate = (props) => {
             <Text
               style={{ ...FONTS.body4, color: COLORS.gray, marginVertical: 10 }}
             >
-              Please choose your preferred mode
+              {strings.choosePreferredMode}
             </Text>
           )}
           {!fetched ? (
             <Text style={{ ...FONTS.body4, color: COLORS.gray }}>
-              Initializing ...
+              {strings.initializing}
             </Text>
           ) : verifyStatus === "INPROGRESS" ? (
             <Text style={{ ...FONTS.body4, color: COLORS.black }}>
-              Your Mandate Registration is currently in progress.
+              {strings.mandateRegistrationInProgress}
             </Text>
           ) : verifyStatus === "SUCCESS" ? null : (
             <MandateOptions
@@ -307,8 +314,7 @@ const MandateFormTemplate = (props) => {
                 textAlign: "center",
               }}
             >
-              Mandate is required to auto-debit loan payments on Due Date. This
-              is 100% secure and executed by an RBI approved entity.
+              {strings.MandateRequired}
             </Text>
           </View>
           <View
@@ -325,7 +331,7 @@ const MandateFormTemplate = (props) => {
               <Text
                 style={{ ...FONTS.body4, color: COLORS.gray, marginTop: 5 }}
               >
-                100% Secure
+                {strings.secured}
               </Text>
             </View>
             <View
@@ -338,7 +344,7 @@ const MandateFormTemplate = (props) => {
               <Text
                 style={{ ...FONTS.body4, color: COLORS.gray, marginTop: 5 }}
               >
-                RBI Approved
+                {strings.rbiApproved}
               </Text>
             </View>
           </View>

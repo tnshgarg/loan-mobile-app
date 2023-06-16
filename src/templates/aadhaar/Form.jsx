@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/core";
+import { useEffect, useState } from "react";
 import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import { styles } from "../../styles";
 import AadhaarOtpApi from "../../apis/aadhaar/Otp";
-import { addNumber } from "../../store/slices/aadhaarSlice";
-import InfoCard from "../../components/atoms/InfoCard";
 import FormInput from "../../components/atoms/FormInput";
+import InfoCard from "../../components/atoms/InfoCard";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
+import { addNumber } from "../../store/slices/aadhaarSlice";
+import { styles } from "../../styles";
 
 const AadhaarFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const AadhaarFormTemplate = (props) => {
 
   const aadhaarSlice = useSelector((state) => state.aadhaar);
   const [number, setNumber] = useState(aadhaarSlice?.number);
-  
+
   useEffect(() => {
     let aadhaarReg = /^\d{12}$/gm;
     if (aadhaarReg.test(number)) {
@@ -46,7 +47,9 @@ const AadhaarFormTemplate = (props) => {
             value={number}
             onChange={setNumber}
             maxLength={12}
-            errorMsg={number && !validNumber ? "Invalid Aadhaar Number" : ""}
+            errorMsg={
+              number && !validNumber ? strings.invalidAadhaarNumber : ""
+            }
             numeric
             appendComponent={
               <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
@@ -55,11 +58,7 @@ const AadhaarFormTemplate = (props) => {
             }
           />
 
-          <InfoCard
-            info={
-              "I agree with the KYC registration Terms & Conditions to verifiy my identity. You will receive an OTP to your Aadhaar registered mobile number."
-            }
-          />
+          <InfoCard info={strings.agreeKycTNC} />
 
           <AadhaarOtpApi
             disabled={!validNumber}

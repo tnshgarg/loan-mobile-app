@@ -1,5 +1,5 @@
-import { useNavigation } from "@react-navigation/core";
 import analytics from "@react-native-firebase/analytics";
+import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import {
   Alert,
@@ -9,8 +9,8 @@ import {
   SafeAreaView,
   ScrollView,
   Text,
-  useWindowDimensions,
   View,
+  useWindowDimensions,
 } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import Modal from "react-native-modal";
@@ -18,18 +18,19 @@ import { NetworkInfo } from "react-native-network-info";
 import RenderHtml from "react-native-render-html";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { useDispatch, useSelector } from "react-redux";
+import Checkbox from "../../../../components/atoms/Checkbox";
 import Header from "../../../../components/atoms/Header";
+import LiquiloansTitle from "../../../../components/atoms/LiquiloansTitle";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
+import DisbursementCard from "../../../../components/molecules/DisbursementCard";
+import { strings } from "../../../../helpers/Localization";
+import { useUpdateAgreementMutation } from "../../../../store/apiSlices/ewaApi";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
-import { moneyStyles, styles } from "../../../../styles";
-import agreement from "../../../../templates/docs/liquiloans/LiquiLoansLoanAgreement";
-import kfs from "../../../../templates/docs/liquiloans/LiquiLoansKFS";
-import DisbursementCard from "../../../../components/molecules/DisbursementCard";
-import Checkbox from "../../../../components/atoms/Checkbox";
-import { useUpdateAgreementMutation } from "../../../../store/apiSlices/ewaApi";
-import LiquiloansTitle from "../../../../components/atoms/LiquiloansTitle";
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
+import { moneyStyles, styles } from "../../../../styles";
+import kfs from "../../../../templates/docs/liquiloans/LiquiLoansKFS";
+import agreement from "../../../../templates/docs/liquiloans/LiquiLoansLoanAgreement";
 
 const Agreement = () => {
   const dispatch = useDispatch();
@@ -248,33 +249,33 @@ const Agreement = () => {
         <View style={styles.container}>
           <DisbursementCard
             data={data}
-            title="Loan Details"
-            info="*Money will be either auto debited or deducted by your employer from your upcoming salary."
+            title={strings.loanDetails}
+            info={strings.moneyAutoDebitedUpcomingSalary}
             iconName="ticket-percent-outline"
           />
 
           <DisbursementCard
             data={bankData}
-            title="Bank Details"
+            title={strings.bankDetails}
             iconName="bank"
           />
 
           <DisbursementCard
             data={profileData}
-            title="Personal Details"
+            title={strings.personalDetails}
             iconName="account-outline"
           />
 
           <Checkbox
-            text={"I confirm the above details and agree to"}
+            text={strings.aboveDetails}
             value={consent}
             setValue={setConsent}
-            additionalText="Terms and Conditions"
+            additionalText={strings.termsAndConditions}
             onPress={() => setIsTermsModalVisible(true)}
           />
 
           <Checkbox
-            text={"I confirm the above details and agree to"}
+            text={strings.aboveDetails}
             value={consent}
             setValue={setConsent}
             additionalText="KFS"
@@ -290,7 +291,7 @@ const Agreement = () => {
           />
           <LiquiloansTitle title={"an RBI registered NBFC-P2P"} />
           <Text style={moneyStyles.percentageTitle}>
-            † Annual Percentage Rate @ {ewaLiveSlice?.apr} %
+            {strings.apr} {ewaLiveSlice?.apr} %
           </Text>
           <Modal
             isVisible={isTermsModalVisible}

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
+import { strings } from "../../helpers/Localization";
 import { useVerifyAadhaarOtpMutation } from "../../store/apiSlices/aadhaarApi";
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 
@@ -65,7 +66,7 @@ const AadhaarVerifyApi = (props) => {
   return (
     <PrimaryButton
       accessibilityLabel={"AadhaarVerifyBtn"}
-      title={loading ? "Verifying" : "Continue"}
+      title={loading ? "Verifying" : strings.continue}
       disabled={props.disabled}
       loading={loading}
       onPress={() => {

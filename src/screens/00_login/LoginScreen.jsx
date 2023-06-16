@@ -1,7 +1,6 @@
 import { STAGE } from "@env";
 import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import Analytics from "appcenter-analytics";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
@@ -17,10 +16,7 @@ import AgreementText from "../../components/organisms/AgreementText";
 import { COLORS } from "../../constants/Theme";
 import whatsappLinking from "../../helpers/WhatsappLinking";
 import { useGenerateOtpMutation } from "../../store/apiSlices/loginApi";
-import {
-  addPhoneNumber,
-  addUnipeEmployeeId,
-} from "../../store/slices/authSlice";
+import { addPhoneNumber } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
@@ -143,6 +139,7 @@ const LoginScreen = () => {
             disabled={!next}
             loading={loading}
             onPress={() => signIn()}
+            // onPress={() => handleReadCSV()}
           />
           <ShieldTitle title={"All your details are safe with us"} />
         </View>

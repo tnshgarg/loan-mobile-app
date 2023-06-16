@@ -6,6 +6,7 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { showToast } from "../../components/atoms/Toast";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
 import { useUpdateAadhaarMutation } from "../../store/apiSlices/aadhaarApi";
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
@@ -74,7 +75,7 @@ const AadhaarConfirmApi = (props) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headline}>Are these your Aadhaar details?</Text>
+      <Text style={styles.headline}>{strings.areTheseAadhaarDetails}</Text>
       <Text style={styles.subHeadline}>
         कृपया स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
       </Text>
@@ -88,7 +89,7 @@ const AadhaarConfirmApi = (props) => {
 
       <View style={[styles.row, { justifyContent: "space-between" }]}>
         <PrimaryButton
-          title="Not Me"
+          title={strings.notMe}
           containerStyle={form.noButton}
           titleStyle={{ ...FONTS.h4, color: COLORS.warning }}
           onPress={() => {
@@ -103,7 +104,7 @@ const AadhaarConfirmApi = (props) => {
         />
         <PrimaryButton
           accessibilityLabel="YesButton"
-          title="Yes, that’s me"
+          title={strings.yesMe}
           containerStyle={form.yesButton}
           titleStyle={{ ...FONTS.h4, color: COLORS.primary }}
           onPress={() => {
