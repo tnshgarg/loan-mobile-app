@@ -11,6 +11,9 @@ import HelpCard from "../../components/atoms/HelpCard";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { strings } from "../../helpers/Localization";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
+import { bankform, form, styles } from "../../styles";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { addNumber } from "../../store/slices/panSlice";
 
 const PanFormTemplate = (props) => {
   const dispatch = useDispatch();
