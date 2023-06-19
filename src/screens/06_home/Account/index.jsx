@@ -1,31 +1,18 @@
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import {
-  BackHandler,
-  Image,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { BackHandler, SafeAreaView, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import ListItem from "../../../components/atoms/ListItem";
 import LogoHeader from "../../../components/atoms/LogoHeader";
 import TermsAndPrivacyModal from "../../../components/molecules/TermsAndPrivacyModal";
 import LogoutModal from "../../../components/organisms/LogoutModal";
-import { COLORS } from "../../../constants/Theme";
 import { strings } from "../../../helpers/Localization";
 
-import Logout from "../../../assets/Logout.svg";
-import InfoCard from "../../../components/atoms/InfoCard";
-import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
-import { accountStyles, styles } from "../../../styles";
-import { useGetCmsQuery } from "../../../store/apiSlices/cmsApi";
-import CmsRoot from "../../../components/cms/CmsRoot";
-import CmsThreeColumn from "../../../components/cms/CmsThreeColumn";
 import LogoutItem from "../../../components/atoms/LogoutItem";
+import CmsButton from "../../../components/cms/CmsButton";
+import CmsRoot from "../../../components/cms/CmsRoot";
+import { useGetCmsQuery } from "../../../store/apiSlices/cmsApi";
+import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
+import { styles } from "../../../styles";
 
 const AccountMenu = (props) => {
   const dispatch = useDispatch();
@@ -61,7 +48,7 @@ const AccountMenu = (props) => {
 
   const image = aadhaar?.data?.photo_base64;
   console.log({ image });
-  const name = aadhaar.data?.name || pan.data?.name || auth.employeeName;
+  // const name = aadhaar.data?.name || pan.data?.name || auth.employeeName;
 
   const backAction = () => {
     navigation.navigate("HomeStack", {
@@ -113,6 +100,11 @@ const AccountMenu = (props) => {
       <LogoHeader
         title={"Account"}
         containerStyle={{ backgroundColor: null }}
+      />
+      <CmsButton
+        title={"TopTabNav"}
+        clickType={"navigation"}
+        navigate={{ type: "app", stack: "AccountStack", screen: "KYC" }}
       />
       <ScrollView>
         {!cmsLoading ? (
