@@ -24,11 +24,11 @@ const CmsBanner = ({ children, colors }) => {
 
 const styles = EStyleSheet.create({
   container: {
-    width: "100%",
     flex: 1,
     backgroundColor: "#FFD44F",
     borderRadius: "10rem",
     padding: "10rem",
+    margin: "15rem",
   },
 });
 

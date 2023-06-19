@@ -7,6 +7,7 @@ import { styles } from "../../../../styles";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 import HelpSection from "../../../../components/organisms/HelpSection";
 import { useState } from "react";
+import { navigationHelper } from "../../../../helpers/CmsNavigationHelper";
 
 const Mandate = () => {
   const mandateData = {
@@ -86,7 +87,12 @@ const Mandate = () => {
         subHeadline={
           "एडवांस सैलरी का भुगतान करने के लिए, कृपया निम्नलिखित भुगतान विधियों में से एक का चयन करें:"
         }
-        onRightIconPress={() => setVisible(true)}
+        onRightIconPress={() =>
+          navigationHelper({
+            type: "cms",
+            params: { blogKey: "AadhaarHelp" },
+          })
+        }
       />
       {visible && (
         <HelpSection

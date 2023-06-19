@@ -11,6 +11,7 @@ import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import HelpSection from "../../components/organisms/HelpSection";
 import { useGetPanQuery } from "../../store/apiSlices/panApi";
 import { strings } from "../../helpers/Localization";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
 const BankForm = () => {
   const bankData = {
@@ -62,16 +63,14 @@ const BankForm = () => {
   }, []);
 
   const backAction = () => {
-    Alert.alert(
-      strings.holdOn, strings.goBackPanVerification,
-      [
-        { text: "No", onPress: () => null, style: "cancel" },
-        {
-          text: "Yes",
-          onPress: () => {
-            verifyStatus === "SUCCESS"
-              ? navigation.navigate("PanConfirm")
-              : navigation.navigate("PanForm");
+    Alert.alert(strings.holdOn, strings.goBackPanVerification, [
+      { text: "No", onPress: () => null, style: "cancel" },
+      {
+        text: "Yes",
+        onPress: () => {
+          verifyStatus === "SUCCESS"
+            ? navigation.navigate("PanConfirm")
+            : navigation.navigate("PanForm");
         },
       },
     ]);
@@ -90,7 +89,12 @@ const BankForm = () => {
         headline={"Add Bank Account"}
         onLeftIconPress={() => backAction()}
         subHeadline={"आपको इस बैंक खाते/यूपीआई में एडवांस सैलरी भेजी जाएगी।"}
-        onRightIconPress={() => setVisible(true)}
+        onRightIconPress={() =>
+          navigationHelper({
+            type: "cms",
+            params: { blogKey: "AadhaarHelp" },
+          })
+        }
       />
       {visible && (
         <HelpSection

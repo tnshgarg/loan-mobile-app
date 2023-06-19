@@ -236,8 +236,6 @@ const HomeView = () => {
           notificationIconPresent={true}
           title={`Good Afternoon \n${name}!`}
           onRightIconPress={() => {
-            // setVisible(true);
-
             navigationHelper({
               type: "cms",
               params: { blogKey: "CustomerSupport" },
@@ -290,15 +288,15 @@ const HomeView = () => {
               ]
             }
           ]} /> */}
-          {!cmsLoading ? (
-            <CmsRoot children={DUMMY_RES?.home || []}></CmsRoot>
-          ) : (
-            <></>
-          )}
 
           {/* <BannerCard /> */}
         </View>
-        <HelpFooter />
+        {!cmsLoading ? (
+          <CmsRoot children={DUMMY_RES?.home || []}></CmsRoot>
+        ) : (
+          <></>
+        )}
+        {/* <HelpFooter /> */}
         <View
           style={{
             width: "100%",

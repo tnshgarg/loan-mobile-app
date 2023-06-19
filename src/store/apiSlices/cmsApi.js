@@ -69,7 +69,6 @@ const DUMMY_RES = {
       type: "section",
       title: "Learn With Us",
       gradientColors: [COLORS.white, COLORS.white],
-      styling: { padding: 0 },
       leftIcon:
         "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsIcon.png",
       ctaText: "SEE ALL",
@@ -260,7 +259,6 @@ const DUMMY_RES = {
     {
       type: "section",
       title: "User Story",
-      styling: { padding: 0 },
       gradientColors: [COLORS.white, COLORS.white],
       leftIcon:
         "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/learn.png",
@@ -286,6 +284,9 @@ const DUMMY_RES = {
           stars: 5,
         },
       ],
+    },
+    {
+      type: "footer",
     },
   ],
   blogs: [
@@ -1235,6 +1236,176 @@ const DUMMY_RES = {
             subtitle: "Search on the internet",
           },
         ],
+      },
+    ],
+  },
+
+  AadhaarHelp: {
+    screenTitle: "Help - Aadhaar Verification",
+    data: [
+      {
+        type: "container",
+        styling: { flexDirection: "row" },
+        children: [
+          {
+            type: "image",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/Logo.png",
+            styling: {
+              width: "60%",
+              flex: 1,
+              aspectRatio: 1.6,
+            },
+          },
+          {
+            type: "container",
+            styling: {
+              flex: 1,
+              justifyContent: "center",
+              // backgroundColor: "black",
+            },
+            children: [
+              { type: "title", title: "How to verify Aadhaar?" },
+              { type: "subtitle", title: "Follow this 3-step process" },
+            ],
+          },
+        ],
+      },
+      {
+        type: "button",
+        title: "Verify Aadhaar",
+        variant: "filled",
+        clickType: "navigation",
+      },
+      {
+        type: "video",
+
+        size: "large",
+        thumbnail:
+          "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+      },
+      {
+        type: "container",
+        styling: { flexDirection: "row", alignItems: "center" },
+        children: [
+          { type: "badge", text: "Step 1", styling: { marginRight: 15 } },
+          {
+            type: "title",
+            title: "Aadhaar Number",
+            styling: { fontSize: 18 },
+          },
+        ],
+      },
+      {
+        type: "container",
+        styling: { paddingTop: 0 },
+        children: [
+          {
+            type: "subtitle",
+            title: "Enter your 12 Digit Aadhaar Card number",
+            styling: { fontSize: 16 },
+          },
+          {
+            type: "image",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+            styling: { marginTop: "5%" },
+          },
+        ],
+      },
+      {
+        type: "container",
+        styling: { flexDirection: "row", alignItems: "center" },
+        children: [
+          { type: "badge", text: "Step 2", styling: { marginRight: 15 } },
+          {
+            type: "title",
+            title: "Aadhaar OTP",
+            styling: { fontSize: 18 },
+          },
+        ],
+      },
+      {
+        type: "container",
+        styling: { paddingTop: 0 },
+        children: [
+          {
+            type: "subtitle",
+            title: "Enter OTP you received on Aadhaar registered mobile number",
+            styling: { fontSize: 16 },
+          },
+          {
+            type: "image",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+            styling: { marginTop: "5%" },
+          },
+        ],
+      },
+      {
+        type: "container",
+        styling: { flexDirection: "row", alignItems: "center" },
+        children: [
+          { type: "badge", text: "Step 3", styling: { marginRight: 15 } },
+          {
+            type: "title",
+            title: "Confirm Identity",
+            styling: { fontSize: 18 },
+          },
+        ],
+      },
+      {
+        type: "container",
+        styling: { paddingTop: 0 },
+        children: [
+          {
+            type: "subtitle",
+            title:
+              "Confirm your Aadhaar details - Name, Date of birth & Address",
+            styling: { fontSize: 16 },
+          },
+          {
+            type: "image",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+            styling: { marginTop: "5%" },
+          },
+        ],
+      },
+      {
+        type: "section",
+        title: "Frequently Asked Questions",
+        children: [
+          {
+            type: "collapsibleList",
+            title: "Q: Why do I need to verify Aadhaar?",
+            subtitle:
+              "A: Digital aadhaar verification proves your identity and address",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: What is aadhaar OTP?",
+            subtitle:
+              "A: Aadhaar OTP is sent via UIDAI for authentication purposes.",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: I did not get any OTP for Aadhaar verification",
+            subtitle:
+              "A: Please ensure that you have access to the mobile number linked with your Aadhaar in order to get the OTP.",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: I don't know which mobile number is linked with Aadhaar",
+            subtitle:
+              "A: Follow this process:\nStep 1: Go to https://myaadhaar.uidai.gov.in/verifyAadhaar\nStep 2: Enter 12-digit Aadhaar number and captcha code \nStep 3: Click on ‘Proceed to Verify’ \nStep 4: Here you will see the last three digits of the linked mobile number.",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: Do I need to submit physical copy of my Aadhaar card?",
+            subtitle:
+              "A: No. Aadhaar verification is a completely paperless process.",
+          },
+        ],
+      },
+      {
+        type: "footer",
       },
     ],
   },

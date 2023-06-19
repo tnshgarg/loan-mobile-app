@@ -21,6 +21,8 @@ import CmsTabs from "./CmsTabs";
 import CmsTitle from "./CmsTitle";
 import CmsTwoColumn from "./CmsTwoColumn";
 import CmsVideo from "./CmsVideo";
+import CmsFooter from "./CmsFooter";
+import CmsBadge from "./CmsBadge";
 
 const CMS_TYPES = {
   section: CmsSection,
@@ -44,6 +46,8 @@ const CMS_TYPES = {
   spacer: CmsSpacer,
   collapsibleList: CmsCollapsibleList,
   notification: CmsNotification,
+  footer: CmsFooter,
+  badge: CmsBadge,
   default: () => <></>,
 };
 

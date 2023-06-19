@@ -10,6 +10,9 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import HelpCard from "../../components/atoms/HelpCard";
 import { useGetAadhaarQuery } from "../../store/apiSlices/aadhaarApi";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
+import { styles } from "../../styles";
+import { addNumber } from "../../store/slices/aadhaarSlice";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
 const AadhaarFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -60,9 +63,12 @@ const AadhaarFormTemplate = (props) => {
         <View style={{ flex: 1 }} />
         <HelpCard
           text="Aadhaar"
-          onPress={() => {
-            props.setHelpSectionVisible(true);
-          }}
+          onRightIconPress={() =>
+            navigationHelper({
+              type: "cms",
+              params: { blogKey: "AadhaarHelp" },
+            })
+          }
         />
 
         <AadhaarOtpApi

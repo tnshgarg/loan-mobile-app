@@ -13,8 +13,6 @@ import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import PrimaryButton from "../atoms/PrimaryButton";
 import LogoHeaderBack from "../molecules/LogoHeaderBack";
 import Badge from "../atoms/Badge";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-
 import SvgContainer from "../atoms/SvgContainer";
 import Tick from "../../assets/Tick.svg";
 import CollapsibleItem from "../atoms/CollapsibleItem";

@@ -4,24 +4,24 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS } from "../../constants/Theme";
 import VideoPlayer from "../organisms/VideoPlayer";
 
-const CmsVideo = ({ title, subtitle, thumbnail, videoUri }) => {
+const CmsVideo = ({ title, subtitle, thumbnail, videoUri, styling, size }) => {
   console.log({ thumbnail });
   return (
-    <VideoPlayer
-      size={"small"}
-      thumbnail={{
-        uri: thumbnail,
-      }}
-      videoId={videoUri}
-    />
+    <View style={[styles.container, { ...styling }]}>
+      <VideoPlayer
+        size={size}
+        thumbnail={{
+          uri: thumbnail,
+        }}
+        videoId={videoUri}
+      />
+    </View>
   );
 };
 
 const styles = EStyleSheet.create({
   container: {
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
+    padding: "15rem",
   },
 });
 

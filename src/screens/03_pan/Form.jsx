@@ -11,6 +11,7 @@ import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import HelpSection from "../../components/organisms/HelpSection";
 import { useGetAadhaarQuery } from "../../store/apiSlices/aadhaarApi";
 import { strings } from "../../helpers/Localization";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
 export default PanForm = () => {
   const panData = {
@@ -101,7 +102,12 @@ export default PanForm = () => {
           "हमें आपका नाम और जन्मतिथि जांच करने के लिए आपके पैन की आवश्यकता है।"
         }
         onLeftIconPress={backAction}
-        onRightIconPress={() => setVisible(true)}
+        onRightIconPress={() =>
+          navigationHelper({
+            type: "cms",
+            params: { blogKey: "AadhaarHelp" },
+          })
+        }
       />
 
       {visible && (

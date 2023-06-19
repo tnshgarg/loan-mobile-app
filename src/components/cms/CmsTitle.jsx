@@ -8,7 +8,9 @@ const CmsTitle = ({ children, title, styling }) => {
   console.log("Cms Title", title);
   return (
     <View style={styles.container}>
-      <Text style={{ ...FONTS.h3, color: COLORS.black }}>{title}</Text>
+      <Text style={{ ...FONTS.h3, color: COLORS.black, ...styling }}>
+        {title}
+      </Text>
       {safeChildren?.map((child, index) => (
         <View key={index}>{child.element(child)}</View>
       ))}
