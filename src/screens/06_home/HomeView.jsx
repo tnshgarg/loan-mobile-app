@@ -236,8 +236,6 @@ const HomeView = () => {
           notificationIconPresent={true}
           title={`Good Afternoon \n${name}!`}
           onRightIconPress={() => {
-            // setVisible(true);
-
             navigationHelper({
               type: "cms",
               params: { blogKey: "customer_support" },
@@ -254,34 +252,13 @@ const HomeView = () => {
             accessible={accessible}
             ewaLiveSlice={ewaLiveSlice}
           />
-          {!cmsLoading ? (
-            <CmsRoot children={[{"type":"card", children: [{
-              type: "markdown",
-              content: `# hello world
-
-## Heading 2
-### Heading 3
-1. hello
-2. hello
-**bold**
-_italics_
-- bullet
-- bullet 2
-[Click Here](https://google.com)
-              `
-}]}]}></CmsRoot>
-          ) : (
-            <></>
-          )}
-          {!cmsLoading ? (
-            <CmsRoot children={cmsData?.home || []}></CmsRoot>
-          ) : (
-            <></>
-          )}
-
-          {/* <BannerCard /> */}
         </View>
-        <HelpFooter />
+        {!cmsLoading ? (
+          <CmsRoot children={cmsData?.home || []}></CmsRoot>
+        ) : (
+          <></>
+        )}
+        {/* <HelpFooter /> */}
         <View
           style={{
             width: "100%",

@@ -10,6 +10,10 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import HelpCard from "../../components/atoms/HelpCard";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { strings } from "../../helpers/Localization";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
+import { bankform, form, styles } from "../../styles";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { addNumber } from "../../store/slices/panSlice";
 
 const PanFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -80,9 +84,12 @@ const PanFormTemplate = (props) => {
               //     "https://docs.google.com/document/d/19nf3qwzXcun0yTN6WH6iA5hpGKlgsg4erbHuDql0EZQ/edit"
               //   )
               // }
-              onPress={() => {
-                props.setHelpSectionVisible(true);
-              }}
+              onRightIconPress={() =>
+                navigationHelper({
+                  type: "cms",
+                  params: { blogKey: "AadhaarHelp" },
+                })
+              }
             >
               {strings.forgotPan}
             </Text>
@@ -90,9 +97,12 @@ const PanFormTemplate = (props) => {
           <View style={{ flex: 1 }} />
           <HelpCard
             text="PAN card"
-            onPress={() => {
-              props.setHelpSectionVisible(true);
-            }}
+            onRightIconPress={() =>
+              navigationHelper({
+                type: "cms",
+                params: { blogKey: "AadhaarHelp" },
+              })
+            }
           />
 
           {/* <InfoCard

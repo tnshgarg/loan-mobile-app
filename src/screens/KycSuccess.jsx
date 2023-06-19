@@ -15,6 +15,7 @@ import { addCurrentScreen } from "../store/slices/navigationSlice";
 import SuccessContainer from "../components/organisms/SuccessContainer";
 import LogoHeaderBack from "../components/molecules/LogoHeaderBack";
 import HelpSection from "../components/organisms/HelpSection";
+import { navigationHelper } from "../helpers/CmsNavigationHelper";
 
 const KycSuccess = () => {
   const [visible, setVisible] = useState(false);
@@ -108,9 +109,12 @@ const KycSuccess = () => {
       <LogoHeaderBack
         containerStyle={{ backgroundColor: "#223240" }}
         hideLogo={true}
-        onRightIconPress={() => {
-          setVisible(true);
-        }}
+        onRightIconPress={() =>
+          navigationHelper({
+            type: "cms",
+            params: { blogKey: "AadhaarHelp" },
+          })
+        }
       />
 
       {visible && (

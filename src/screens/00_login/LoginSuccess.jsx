@@ -11,6 +11,7 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import HelpSection from "../../components/organisms/HelpSection";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import SuccessContainer from "../../components/organisms/SuccessContainer";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
 const LoginSuccess = () => {
   const kycData = {
@@ -146,9 +147,12 @@ const LoginSuccess = () => {
       <LogoHeaderBack
         containerStyle={{ backgroundColor: "#223240" }}
         hideLogo={true}
-        onRightIconPress={() => {
-          setVisible(true);
-        }}
+        onRightIconPress={() =>
+          navigationHelper({
+            type: "cms",
+            params: { blogKey: "AadhaarHelp" },
+          })
+        }
       />
       <SuccessContainer data={data} />
 
