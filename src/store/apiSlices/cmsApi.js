@@ -12,7 +12,7 @@ export const cmsApi = api
         }),
         providesTags: ["getPersonalization"],
         transformResponse: (response) => {
-          return response?.body
+          return response?.body;
         },
       }),
     }),

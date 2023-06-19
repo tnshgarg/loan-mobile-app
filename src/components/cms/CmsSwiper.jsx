@@ -15,7 +15,7 @@ const CmsSwiper = ({ children }) => {
   const isCarousel = useRef(null);
   const safeChildren = children || [];
   return (
-    <View style={{ marginVertical: 10 }}>
+    <View style={{ padding: 20 }}>
       <Carousel
         ref={isCarousel}
         data={safeChildren}
