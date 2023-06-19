@@ -21,8 +21,10 @@ import CmsTabs from "./CmsTabs";
 import CmsTitle from "./CmsTitle";
 import CmsTwoColumn from "./CmsTwoColumn";
 import CmsVideo from "./CmsVideo";
+import { CmsMarkdown } from "./CmsMarkdown";
 
 const CMS_TYPES = {
+  markdown: CmsMarkdown,
   section: CmsSection,
   image: CmsImage,
   swiper: CmsSwiper,

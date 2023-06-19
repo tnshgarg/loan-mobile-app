@@ -25,6 +25,7 @@ import { api } from "./apiSlices/api";
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
+  blacklist: ["api"]
 };
 
 const appReducer = combineReducers({

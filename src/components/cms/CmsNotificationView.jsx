@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { useSelector } from "react-redux";
 import { navigationRef } from "../../navigators/RootNavigation";
-import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import LogoHeaderBack from "../molecules/LogoHeaderBack";
 import CmsRoot from "./CmsRoot";
 
@@ -15,8 +15,6 @@ const CmsNotificationView = () => {
     }
   );
 
-  console.log("Noti Data", DUMMY_RES?.notifications);
-
   return (
     <View>
       <LogoHeaderBack
@@ -24,7 +22,7 @@ const CmsNotificationView = () => {
         onLeftIconPress={() => navigationRef.goBack()}
       />
       <View>
-        {!cmsLoading ? <CmsRoot children={DUMMY_RES?.notifications} /> : <></>}
+        {!cmsLoading ? <CmsRoot children={cmsData?.notifications?.data} /> : <></>}
       </View>
     </View>
   );

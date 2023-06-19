@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/core";
 import React from "react";
 import { ScrollView, View } from "react-native";
 import { useSelector } from "react-redux";
-import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { styles } from "../../styles";
 import LogoHeaderBack from "../molecules/LogoHeaderBack";
 import CmsRoot from "./CmsRoot";
@@ -18,11 +18,13 @@ const CmsDummyBlog = (props) => {
   );
 
   console.log("route.params: ", props.route.params);
-
+  
   // const { data, screenTitle, headline, headingImage } =
   //   cmsData?.[props.route.params.blogKey] || [];
-  const { data, screenTitle, headline, headingImage } = DUMMY_RES?.blog_1 || [];
-  console.log("MyData: ", data);
+
+  let blogKey = props.route?.params?.blogKey;
+  const { data, screenTitle, headline, headingImage } = cmsData?.[blogKey] ?? {};
+  console.log("MyData: ", { blogKey, data, screenTitle, headline, headingImage,cmsData ,cms: cmsData[blogKey]});
 
   return (
     <View style={[styles.safeContainer, { padding: 0 }]}>

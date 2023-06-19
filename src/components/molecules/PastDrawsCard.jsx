@@ -110,8 +110,8 @@ const OfferCard = ({ offer }) => {
 
 const PastDrawsCard = (props) => {
   return (
-    <ScrollView style={{ marginTop: "5%" }}>
-      {props.data.length > 0 && props.screenType == "half" ? (
+    <>
+    {props.data.length > 0 && props.screenType == "half" ? (
         <View style={styles.pastDrawsContainer}>
           <Text style={styles.title}>Your past draws</Text>
           <TouchableOpacity
@@ -132,10 +132,12 @@ const PastDrawsCard = (props) => {
       ) : (
         <></>
       )}
+    <ScrollView style={{ marginTop: "1%" }}>
       {props.data.map((offer, index) => (
         <OfferCard offer={offer} key={index} />
       ))}
     </ScrollView>
+    </>
   );
 };
 

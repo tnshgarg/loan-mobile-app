@@ -4,7 +4,7 @@ import { SafeAreaView, ScrollView, View } from "react-native";
 import { useSelector } from "react-redux";
 import CmsRoot from "../../components/cms/CmsRoot";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
-import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { styles } from "../../styles";
 
 const LearnWithUs = () => {
@@ -29,7 +29,7 @@ const LearnWithUs = () => {
       <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           {!cmsLoading ? (
-            <CmsRoot children={DUMMY_RES?.blogs || []}></CmsRoot>
+            <CmsRoot children={cmsData?.blogs || []}></CmsRoot>
           ) : (
             <></>
           )}

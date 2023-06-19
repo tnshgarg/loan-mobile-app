@@ -18,7 +18,7 @@ import {
   notificationListener,
   requestUserPermission,
 } from "../../services/notifications/notificationService";
-import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { useGetOffersQuery } from "../../store/apiSlices/ewaApi";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { addOnboarded } from "../../store/slices/authSlice";
@@ -79,9 +79,9 @@ const HomeView = () => {
   const { unipeEmployeeId, token, onboarded } = useSelector(
     (state) => state.auth
   );
-
+  console.log({token})
   const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 60 * 24,
+    pollingInterval: 24 * 3600 * 1000,
   });
   const { aadhaar, pan, bank, kycCompleted } = kycData ?? {};
 
@@ -90,9 +90,9 @@ const HomeView = () => {
     isLoading: cmsLoading,
     isError: cmsError,
   } = useGetCmsQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 3600,
+    pollingInterval: 1000,
   });
-
+  console.log({cmsData, cmsError})
   const [fetched, setFetched] = useState(false);
   const [alertVisible, setAlertVisible] = useState(false);
 
@@ -240,7 +240,7 @@ const HomeView = () => {
 
             navigationHelper({
               type: "cms",
-              params: { blogKey: "CustomerSupport" },
+              params: { blogKey: "customer_support" },
             });
           }}
           titleStyle={{ ...FONTS.body3, color: COLORS.gray }}
@@ -254,44 +254,27 @@ const HomeView = () => {
             accessible={accessible}
             ewaLiveSlice={ewaLiveSlice}
           />
-          {/* <CmsRoot children={[
-            {
-              "type": "banner",
-              "children": [
-                {
-                  "type": "image",
-                  "url": "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBanner.png"
-                },
-                {
-                  "type": "twoColumn",
-                  "widths": ["46%", "46%"],
-                  "styling": {"border": "1px solid black"},
-                  "children": [
-                    {
-                      "type": "card",
-                      "children": [
-                        {
-                          "type": "image",
-                          "url": "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBannerCurrentContest.png"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "card",
-                      "children": [
-                        {
-                          "type": "image",
-                          "url": "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBannerLastMonthWinners.png"
-                        }
-                      ]
-                    },
-                  ]
-                }
-              ]
-            }
-          ]} /> */}
           {!cmsLoading ? (
-            <CmsRoot children={DUMMY_RES?.home || []}></CmsRoot>
+            <CmsRoot children={[{"type":"card", children: [{
+              type: "markdown",
+              content: `# hello world
+
+## Heading 2
+### Heading 3
+1. hello
+2. hello
+**bold**
+_italics_
+- bullet
+- bullet 2
+[Click Here](https://google.com)
+              `
+}]}]}></CmsRoot>
+          ) : (
+            <></>
+          )}
+          {!cmsLoading ? (
+            <CmsRoot children={cmsData?.home || []}></CmsRoot>
           ) : (
             <></>
           )}
@@ -318,13 +301,6 @@ const HomeView = () => {
           visible={alertVisible}
           setVisible={setAlertVisible}
           data={data}
-        />
-      )}
-      {visible && (
-        <HelpSection
-          visible={visible}
-          setVisible={setVisible}
-          data={aadhaarData}
         />
       )}
     </SafeAreaView>

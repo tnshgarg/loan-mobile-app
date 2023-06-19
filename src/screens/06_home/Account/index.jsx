@@ -22,7 +22,7 @@ import Logout from "../../../assets/Logout.svg";
 import InfoCard from "../../../components/atoms/InfoCard";
 import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
 import { accountStyles, styles } from "../../../styles";
-import DUMMY_RES, { useGetCmsQuery } from "../../../store/apiSlices/cmsApi";
+import { useGetCmsQuery } from "../../../store/apiSlices/cmsApi";
 import CmsRoot from "../../../components/cms/CmsRoot";
 import CmsThreeColumn from "../../../components/cms/CmsThreeColumn";
 import LogoutItem from "../../../components/atoms/LogoutItem";
@@ -115,43 +115,14 @@ const AccountMenu = (props) => {
         containerStyle={{ backgroundColor: null }}
       />
       <ScrollView>
-        <View style={accountStyles.imageContainer}>
-          {!image ? (
-            <View style={accountStyles.guestIcon}>
-              <MaterialCommunityIcons
-                name={"account"}
-                size={48}
-                color={COLORS.white}
-              />
-            </View>
-          ) : (
-            <Image
-              source={{
-                uri: `data:image/jpeg;base64,${image}`,
-                cache: "only-if-cached",
-              }}
-              style={accountStyles.userImage}
-            />
-          )}
-          <View style={{ flexDirection: "column" }}>
-            <Text style={accountStyles.userTitle}>{name}</Text>
-            <Text style={accountStyles.userSubtitle}>Amazon India</Text>
-          </View>
-        </View>
-        {!kycCompleted && (
-          <View style={{ paddingHorizontal: 15 }}>
-            <InfoCard
-              variant={"gradient"}
-              title={"Action Required"}
-              info={
-                "Verify your identity to withdraw advance salary in our bank account"
-              }
-            />
-          </View>
+        {!cmsLoading ? (
+          <CmsRoot children={cmsData?.account_top || []}></CmsRoot>
+        ) : (
+          <></>
         )}
 
         {!cmsLoading ? (
-          <CmsRoot children={DUMMY_RES?.account || []}></CmsRoot>
+          <CmsRoot children={cmsData?.account_navigation_list || []}></CmsRoot>
         ) : (
           <></>
         )}
