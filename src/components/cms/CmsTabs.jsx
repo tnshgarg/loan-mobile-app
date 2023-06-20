@@ -1,15 +1,11 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { useNavigation } from "@react-navigation/core";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import CmsComponent from "./CmsComponent";
 
 const CmsTabs = ({ children }) => {
   const safeChildren = children || [];
-  const navigation = useNavigation();
   const Tab = createMaterialTopTabNavigator();
   const hide = { display: "none", backgroundColor: "white" };
   const show = { backgroundColor: "white" };
@@ -45,9 +41,6 @@ const CmsTabs = ({ children }) => {
         );
       })}
     </Tab.Navigator>
-    // {/* {safeChildren?.map((child, index) => (
-    //   <View key={index}>{child.element(child)}</View>
-    // ))} */}
   );
 };
 
