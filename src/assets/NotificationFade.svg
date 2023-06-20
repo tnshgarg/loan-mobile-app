@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="42px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>unseen notification inside</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="22" height="22" rx="5"></rect>
+        <filter x="-31.8%" y="-22.7%" width="163.6%" height="163.6%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.711814991   0 0 0 0 0.711814991   0 0 0 0 0.711814991  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="unseen-notification-inside" transform="translate(4.000000, 2.000000)">
+            <g id="Group-Copy" transform="translate(2.000000, 2.000000)">
+                <polygon id="Path" points="0 0 18 0 18 18 0 18"></polygon>
+                <path d="M10.125,12.75 L3,12.75 C3.82883563,12.2806525 4.3855391,11.4455973 4.5,10.5 L4.5,8.25 C4.59102663,6.31068442 5.74487278,4.57991519 7.5,3.75 C7.5,2.92157288 8.17157288,2.25 9,2.25 C9.82842712,2.25 10.5,2.92157288 10.5,3.75 C12.2551272,4.57991519 13.4089734,6.31068442 13.5,8.25 L13.5,9" id="Path" stroke="#FA6400" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M6.75,12.75 L6.75,13.5 C6.75,14.2837515 7.15780869,15.0110377 7.82652415,15.4197993 C8.49523962,15.8285608 9.32847705,15.8598907 10.026,15.5025" id="Path" stroke="#FA6400" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path>
+                <polyline id="Path" stroke="#FA6400" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" points="14.25 12 12.75 14.25 15.75 14.25 14.25 16.5"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Submit Feedback</title>
+    <defs>
+        <linearGradient x1="71.138618%" y1="88.8347087%" x2="28.5071268%" y2="10.5109611%" id="linearGradient-1">
+            <stop stop-color="#AE3EFF" offset="0.26%"></stop>
+            <stop stop-color="#FA7DFF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="69.8743111%" y1="90.2336542%" x2="29.3323331%" y2="8.15620572%" id="linearGradient-2">
+            <stop stop-color="#4AFF88" offset="0%"></stop>
+            <stop stop-color="#05AB99" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-3" cx="15" cy="15" r="15"></circle>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="23:-Account-Page" transform="translate(-19.000000, -558.000000)">
+            <g id="phone" transform="translate(19.000000, 558.000000)">
+                <g id="Oval" fill-rule="nonzero">
+                    <use fill="url(#linearGradient-1)" xlink:href="#path-3"></use>
+                    <use fill="url(#linearGradient-2)" xlink:href="#path-3"></use>
+                </g>
+                <g id="Group" transform="translate(5.000000, 5.000000)">
+                    <polygon id="Path" points="0 0 20 0 20 20 0 20"></polygon>
+                    <path d="M10,16.6666667 L7.5,14.1666667 L5.83333333,14.1666667 C4.45262146,14.1666667 3.33333333,13.0473785 3.33333333,11.6666667 L3.33333333,6.66666667 C3.33333333,5.28595479 4.45262146,4.16666667 5.83333333,4.16666667 L14.1666667,4.16666667 C15.5473785,4.16666667 16.6666667,5.28595479 16.6666667,6.66666667 L16.6666667,11.6666667 C16.6666667,13.0473785 15.5473785,14.1666667 14.1666667,14.1666667 L12.5,14.1666667 L10,16.6666667" id="Path" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <line x1="6.66666667" y1="7.5" x2="13.3333333" y2="7.5" id="Path" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></line>
+                    <line x1="6.66666667" y1="10.8333333" x2="11.6666667" y2="10.8333333" id="Path" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

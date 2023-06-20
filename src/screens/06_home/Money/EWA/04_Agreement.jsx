@@ -29,6 +29,8 @@ import { useUpdateAgreementMutation } from "../../../../store/apiSlices/ewaApi";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
+import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
+import { useGetKycQuery } from "../../../../store/apiSlices/kycApi";
 import { moneyStyles, styles } from "../../../../styles";
 import kfs from "../../../../templates/docs/liquiloans/LiquiLoansKFS";
 import agreement from "../../../../templates/docs/liquiloans/LiquiLoansLoanAgreement";
@@ -53,10 +55,13 @@ const Agreement = () => {
     (state) =>
       state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
   );
-  const aadhaarSlice = useSelector((state) => state.aadhaar);
-  const bankSlice = useSelector((state) => state.bank);
-  const panSlice = useSelector((state) => state.pan);
-  const profileSlice = useSelector((state) => state.profile);
+
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
+  const { aadhaar, pan, bank, profile } = kycData ?? {};
+
+  console.log({ profile });
   const authSlice = useSelector((state) => state.auth);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const mandateVerifyStatus = useSelector(
@@ -69,22 +74,22 @@ const Agreement = () => {
   function ValueEntryAgreement(text) {
     text.data = text.data.replace(
       /\{aadhaarAddress\}/g,
-      aadhaarSlice?.data?.address
+      aadhaar?.data?.address
     );
     text.data = text.data.replace(
       /\{accountNumber\}/g,
-      bankSlice?.data?.accountNumber
+      bank?.data?.accountNumber
     );
     text.data = text.data.replace(/\{dueDate\}/g, ewaLiveSlice?.dueDate);
-    text.data = text.data.replace(/\{email\}/g, profileSlice?.email);
-    text.data = text.data.replace(/\{ifsc\}/g, bankSlice?.data?.ifsc);
+    text.data = text.data.replace(/\{email\}/g, profile?.email);
+    text.data = text.data.replace(/\{ifsc\}/g, bank?.data?.ifsc);
     text.data = text.data.replace(
       /\{loanAccountNumber\}/g,
       ewaLiveSlice?.offerId
     );
     text.data = text.data.replace(/\{loanAmount\}/g, ewaLiveSlice?.loanAmount);
     text.data = text.data.replace(/\{mobile\}/g, authSlice?.phoneNumber);
-    text.data = text.data.replace(/\{panName\}/g, panSlice?.data?.name);
+    text.data = text.data.replace(/\{panName\}/g, pan?.data?.name);
     text.data = text.data.replace(
       /\{processingFees\}/g,
       ewaLiveSlice?.processingFees
@@ -103,7 +108,7 @@ const Agreement = () => {
       ewaLiveSlice?.netAmount
     );
     text.data = text.data.replace(/\{APR\}/g, ewaLiveSlice?.apr);
-    text.data = text.data.replace(/\{panName\}/g, panSlice?.data?.name);
+    text.data = text.data.replace(/\{panName\}/g, pan?.data?.name);
     text.data = text.data.replace(
       /\{processingFees\}/g,
       ewaLiveSlice?.processingFees
@@ -177,16 +182,16 @@ const Agreement = () => {
   }, []);
 
   const profileData = [
-    { subTitle: "Name", value: aadhaarSlice?.data?.name },
-    { subTitle: "PAN Number", value: panSlice?.number },
-    { subTitle: "Date of Birth", value: aadhaarSlice?.data?.date_of_birth },
+    { subTitle: "Name", value: aadhaar?.data?.name },
+    { subTitle: "PAN Number", value: pan?.number },
+    { subTitle: "Date of Birth", value: aadhaar?.data?.date_of_birth },
   ];
 
   const bankData = [
-    { subTitle: "Bank Name", value: bankSlice?.data?.bankName },
-    { subTitle: "Branch", value: bankSlice?.data?.branchName },
-    { subTitle: "Account Number", value: bankSlice?.data?.accountNumber },
-    { subTitle: "IFSC", value: bankSlice?.data?.ifsc },
+    { subTitle: "Bank Name", value: bank?.data?.bankName },
+    { subTitle: "Branch", value: bank?.data?.branchName },
+    { subTitle: "Account Number", value: bank?.data?.accountNumber },
+    { subTitle: "IFSC", value: bank?.data?.ifsc },
   ];
 
   const data = [
@@ -211,8 +216,8 @@ const Agreement = () => {
       timestamp: Date.now(),
       ipAddress: ipAddress,
       deviceId: deviceId,
-      bankAccountNumber: bankSlice?.data?.accountNumber,
-      bankName: bankSlice?.data?.bankName,
+      bankAccountNumber: bank?.data?.accountNumber,
+      bankName: bank?.data?.bankName,
       dueDate: ewaLiveSlice?.dueDate,
       processingFees: ewaLiveSlice?.processingFees,
       loanAmount: ewaLiveSlice?.loanAmount,
@@ -253,10 +258,10 @@ const Agreement = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
-        title="Agreement"
+      <LogoHeaderBack
+        title={"Loan agreement"}
         onLeftIconPress={() => backAction()}
-        progress={100}
+        subHeadline={"Please confirm if these are your details"}
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
@@ -296,7 +301,7 @@ const Agreement = () => {
           />
 
           <PrimaryButton
-            title={loading ? "Processing" : "Finish"}
+            title={loading ? "Processing" : "Proceed"}
             disabled={!consent || loading}
             onPress={() => {
               handleAgreement();

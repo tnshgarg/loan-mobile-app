@@ -14,7 +14,7 @@ const AgreementText = ({
   return (
     <>
       <Text style={styles.parentText}>
-        By clicking “Verify” you are agreeing to Unipe’s{" "}
+        By clicking “Continue” you are agreeing to Unipe’s{" "}
         <Text
           onPress={() => setIsTermsOfUseModalVisible(true)}
           style={styles.childText}
@@ -53,7 +53,7 @@ const styles = EStyleSheet.create({
     marginVertical: "15rem",
     ...FONTS.body5,
     color: COLORS.gray,
-    textAlign: "center",
+    textAlign: "left",
   },
   childText: {
     ...FONTS.body5,

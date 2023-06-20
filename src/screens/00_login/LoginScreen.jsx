@@ -1,26 +1,41 @@
 import { STAGE } from "@env";
-import analytics from "@react-native-firebase/analytics";
-import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
+import {
+  Alert,
+  Animated,
+  BackHandler,
+  Easing,
+  SafeAreaView,
+  Text,
+  View,
+} from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
 import SplashScreen from "react-native-splash-screen";
-import Icon from "react-native-vector-icons/Ionicons";
 import { useDispatch, useSelector } from "react-redux";
-import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import LogoHeader from "../../components/atoms/LogoHeader";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import ShieldTitle from "../../components/atoms/ShieldTitle";
 import LoginInput from "../../components/molecules/LoginInput";
 import AgreementText from "../../components/organisms/AgreementText";
-import { COLORS } from "../../constants/Theme";
-import whatsappLinking from "../../helpers/WhatsappLinking";
+import { COLORS, FONTS } from "../../constants/Theme";
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
 import { useGenerateOtpMutation } from "../../store/apiSlices/loginApi";
 import { addPhoneNumber } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
+// import Animated, { EasingNode } from "react-native-reanimated";
+import { Keyboard } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
+import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
+import Face from "../../assets/Face.svg";
+import LogoImage from "../../assets/HeaderLogo.svg";
+import Tick from "../../assets/Tick.svg";
+import LogoHeader from "../../components/atoms/LogoHeader";
+import SvgContainer from "../../components/atoms/SvgContainer";
+import SvgListItem from "../../components/molecules/SvgListItem";
 
 const LoginScreen = () => {
   SplashScreen.hide();
@@ -91,9 +106,9 @@ const LoginScreen = () => {
           interaction: InteractionTypes.BUTTON_PRESS,
           component: "LoginScreen",
           action: "SendSms",
-          status: "Error",
-          error: JSON.stringify({error,phoneNumber}),
+          status: "Success",
         });
+        // TODO: Success message handling
         navigation.navigate("Otp");
         setLoading(false);
       })
@@ -111,47 +126,158 @@ const LoginScreen = () => {
       });
   };
 
+  const [startClicked, setStartClicked] = useState(false);
+
+  useEffect(() => {
+    if (startClicked) {
+      Animated.timing(bottomFlex, {
+        toValue: 8,
+        duration: 100,
+        useNativeDriver: false,
+        easing: Easing.out(Easing.exp),
+      }).start();
+    } else {
+      Animated.timing(bottomFlex, {
+        toValue: 0,
+        duration: 50,
+        useNativeDriver: false,
+        easing: Easing.in(Easing.exp),
+      }).start();
+    }
+  }, [startClicked]);
+  const [bottomFlex, setbottomFlex] = useState(new Animated.Value(0));
+
+  const data = [
+    {
+      title: "0% Interest Charges",
+      imageUri: (
+        <SvgContainer height={24} width={24}>
+          <Tick />
+        </SvgContainer>
+      ),
+    },
+    {
+      title: "No Joining Fees",
+      imageUri: (
+        <SvgContainer height={24} width={24}>
+          <Tick />
+        </SvgContainer>
+      ),
+    },
+    {
+      title: "Instant cash in bank account",
+      imageUri: (
+        <SvgContainer height={24} width={24}>
+          <Tick />
+        </SvgContainer>
+      ),
+    },
+  ];
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        setStartClicked(true);
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setStartClicked(false);
+      }
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
   return (
     <SafeAreaView accessibilityLabel="LoginScreen" style={styles.safeContainer}>
-      <LogoHeader
-        rightIcon={
-          <Icon name="logo-whatsapp" size={28} color={COLORS.primary} />
-        }
-        rightOnPress={() => {
-          whatsappLinking();
-        }}
-      />
-      <KeyboardAvoidingWrapper>
-        <View>
-          <Text style={styles.headline}>Verify your mobile</Text>
-          <Text style={styles.subHeadline}>
-            Your mobile number must be linked to your Aadhaar
-          </Text>
+      {startClicked ? (
+        <LogoHeader
+          headline={"Enter Mobile Number"}
+          // rightIcon={
+          //   <Icon name="logo-whatsapp" size={28} color={COLORS.primary} />
+          // }
+          // rightOnPress={() => {
+          //   Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+          // }}
+        />
+      ) : (
+        <LinearGradient
+          colors={[COLORS.lightGreen, COLORS.lightYellow, COLORS.white]}
+          style={{
+            flex: 1,
+          }}
+        >
+          <View
+            style={[
+              styles.container,
+              { justifyContent: "space-between", backgroundColor: null },
+            ]}
+          >
+            <View style={{ flexDirection: "row", width: "100%" }}>
+              <SvgContainer width={150} height={50}>
+                <LogoImage />
+              </SvgContainer>
+              <View style={{ margin: "-5%", marginLeft: "-10%" }}>
+                <SvgContainer width={250} height={250}>
+                  <Face />
+                </SvgContainer>
+              </View>
+            </View>
 
-          <LoginInput
-            accessibilityLabel="MobileNumber"
-            phoneNumber={phoneNumber}
-            setPhoneNumber={setPhoneNumber}
-          />
-
-          <AgreementText
-            isTermsOfUseModalVisible={isTermsOfUseModalVisible}
-            setIsTermsOfUseModalVisible={setIsTermsOfUseModalVisible}
-            isPrivacyModalVisible={isPrivacyModalVisible}
-            setIsPrivacyModalVisible={setIsPrivacyModalVisible}
-          />
-
-          <PrimaryButton
-            title="Verify"
-            accessibilityLabel="LoginNextBtn"
-            disabled={!next}
-            loading={loading}
-            onPress={() => signIn()}
-            // onPress={() => handleReadCSV()}
-          />
-          <ShieldTitle title={"All your details are safe with us"} />
+            <Text
+              style={{
+                ...FONTS.h1,
+                color: COLORS.secondary,
+              }}
+            >
+              Get Your Advance{"\n"}Salary. Today.
+            </Text>
+          </View>
+        </LinearGradient>
+      )}
+      {!startClicked && (
+        <View style={[styles.container, { flex: 0 }]}>
+          {data.map((item, index) => (
+            <SvgListItem item={item} key={index} />
+          ))}
         </View>
-      </KeyboardAvoidingWrapper>
+      )}
+
+      <Animated.View style={[styles.bottomPart, { flex: bottomFlex }]}>
+        <KeyboardAvoidingWrapper>
+          <View>
+            <LoginInput
+              accessibilityLabel="MobileNumber"
+              phoneNumber={phoneNumber}
+              setPhoneNumber={setPhoneNumber}
+              autoFocus={false}
+            />
+
+            <AgreementText
+              isTermsOfUseModalVisible={isTermsOfUseModalVisible}
+              setIsTermsOfUseModalVisible={setIsTermsOfUseModalVisible}
+              isPrivacyModalVisible={isPrivacyModalVisible}
+              setIsPrivacyModalVisible={setIsPrivacyModalVisible}
+            />
+          </View>
+        </KeyboardAvoidingWrapper>
+      </Animated.View>
+      <View style={[styles.container, { flex: 0 }]}>
+        <PrimaryButton
+          title="Continue"
+          accessibilityLabel="LoginNextBtn"
+          disabled={!next}
+          loading={loading}
+          onPress={() => signIn()}
+        />
+        <ShieldTitle title={"100% Secure"} />
+      </View>
     </SafeAreaView>
   );
 };

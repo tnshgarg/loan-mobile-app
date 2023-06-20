@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100%" height="100%" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="5:-Congratulations" transform="translate(-39.000000, -476.000000)">
+            <g id="Group" transform="translate(37.000000, 474.000000)">
+                <polygon id="Path" points="0 0 20 0 20 20 0 20"></polygon>
+                <circle id="Oval" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" cx="10" cy="10" r="7.5"></circle>
+                <line x1="10" y1="6.66666667" x2="10" y2="10" id="Path" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line>
+                <line x1="10" y1="13.3333333" x2="10.0083333" y2="13.3333333" id="Path" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line>
+            </g>
+        </g>
+    </g>
+</svg>

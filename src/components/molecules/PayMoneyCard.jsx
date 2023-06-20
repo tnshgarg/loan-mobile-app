@@ -21,6 +21,7 @@ import {
 } from "../../store/apiSlices/repaymentApi";
 import { resetRepayment } from "../../store/slices/repaymentSlice";
 import PrimaryButton from "../atoms/PrimaryButton";
+import LinearGradient from "react-native-linear-gradient";
 
 const PayMoneyCard = () => {
   const dispatch = useDispatch();
@@ -51,6 +52,7 @@ const PayMoneyCard = () => {
   const [repaymentAmount, setRepaymentAmount] = useState(
     repaymentSlice?.repaymentAmount
   );
+
   const [repaymentId, setRepaymentId] = useState(repaymentSlice?.repaymentId);
   const [repaymentStatus, setRepaymentStatus] = useState(
     repaymentSlice?.repaymentStatus
@@ -95,10 +97,10 @@ const PayMoneyCard = () => {
         } else if (repaymentAmount < 1 || repaymentStatus === "INPROGRESS") {
           setInactive(true);
         }
-      } else if (getRepaymentData.status === 404) {
+      } else if (getRepaymentError?.status === 404) {
         console.log(
           "ewaRepaymentFetch API status error getRepaymentData.data: ",
-          getRepaymentData.body
+          getRepaymentError.body
         );
         dispatch(resetRepayment());
         setDueDate(null);
@@ -237,21 +239,18 @@ const PayMoneyCard = () => {
       <View style={styles.container}>
         <View style={styles.row}>
           <View style={styles.col}>
-            <Text style={styles.text}>Your total amount due</Text>
-            <View
-              style={{
-                backgroundColor: COLORS.white,
-                padding: 5,
-                marginTop: 5,
-                borderRadius: 5,
-              }}
+            <Text
+              style={[
+                styles.text,
+                {
+                  ...FONTS.h3,
+                  color: overdueDays < 0 ? COLORS.warning : COLORS.black,
+                },
+              ]}
             >
-              <Text
-                style={[styles.text, { ...FONTS.h3, color: COLORS.secondary }]}
-              >
-                ₹{repaymentAmount}
-              </Text>
-            </View>
+              ₹{repaymentAmount}
+            </Text>
+            <Text style={styles.text}>Amount Due</Text>
           </View>
 
           <PrimaryButton
@@ -264,31 +263,31 @@ const PayMoneyCard = () => {
             }
             onPress={() => initiatePayment()}
             disabled={inactive || loading || repaymentStatus === "INPROGRESS"}
-            containerStyle={{ width: 100, marginTop: 0, height: 40 }}
-            titleStyle={{ ...FONTS.h4 }}
+            containerStyle={{ width: "35%", marginTop: 0 }}
+            titleStyle={{ ...FONTS.body3 }}
           />
         </View>
 
-        <View
-          style={[
-            styles.bottomCard,
-            {
-              backgroundColor:
-                overdueDays < 0 ? COLORS.warningBackground : COLORS.moneyCardBg,
-            },
+        <LinearGradient
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          colors={[
+            overdueDays < 0 ? COLORS.warningBackground : COLORS.lightGreen,
+            overdueDays < 0 ? COLORS.warningBackground : COLORS.lightYellow,
           ]}
+          style={styles.bottomCard}
         >
           <MaterialCommunityIcons
             name="information-outline"
             size={18}
-            color={overdueDays < 0 ? COLORS.black : COLORS.white}
+            color={overdueDays < 0 ? COLORS.warning : COLORS.gray}
           />
           <Text
             style={[
               styles.text,
               {
                 marginLeft: 5,
-                color: overdueDays < 0 ? COLORS.black : COLORS.white,
+                color: overdueDays < 0 ? COLORS.warning : COLORS.gray,
               },
             ]}
           >
@@ -298,7 +297,7 @@ const PayMoneyCard = () => {
               ? `Due by ${dueDate}`
               : `No dues`}
           </Text>
-        </View>
+        </LinearGradient>
       </View>
     );
   } else {
@@ -310,6 +309,9 @@ const styles = EStyleSheet.create({
   container: {
     width: "100%",
     flexDirection: "column",
+    borderWidth: 1,
+    borderColor: COLORS.lightgray_01,
+    borderRadius: "10rem",
   },
   row: {
     padding: "15rem",
@@ -317,23 +319,22 @@ const styles = EStyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     backgroundColor: COLORS.moneyCardBg,
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
-    borderBottomWidth: "1rem",
+    borderTopLeftRadius: "10rem",
+    borderTopRightRadius: "10rem",
   },
   bottomCard: {
     paddingHorizontal: "15rem",
     paddingVertical: "10rem",
     alignItems: "center",
-    borderBottomLeftRadius: 5,
-    borderBottomRightRadius: 5,
+    borderBottomLeftRadius: "10rem",
+    borderBottomRightRadius: "10rem",
     flexDirection: "row",
   },
   col: {
     flexDirection: "column",
     alignItems: "flex-start",
   },
-  text: { ...FONTS.body4, color: COLORS.white },
+  text: { ...FONTS.body4, color: COLORS.gray },
 });
 
 export default PayMoneyCard;

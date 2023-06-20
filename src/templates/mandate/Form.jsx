@@ -29,8 +29,11 @@ import {
   addVerifyTimestamp,
   resetMandate,
 } from "../../store/slices/mandateSlice";
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import HelpCard from "../../components/atoms/HelpCard";
+import InfoCard from "../../components/atoms/InfoCard";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -40,38 +43,47 @@ const MandateFormTemplate = (props) => {
   const [ipAddress, setIpAdress] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
   const [fetched, setFetched] = useState(false);
-
-  const token = useSelector((state) => state.auth?.token);
   const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
+  const token = useSelector((state) => state.auth?.token);
   const phoneNumber = useSelector((state) => state.auth?.phoneNumber);
-  const email = useSelector(
-    (state) => state.profile?.email || state.pan?.data?.email
+
+  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: 1000 * 60 * 60 * 24,
+    }
   );
-  const accountHolderName = useSelector(
-    (state) => state.bank?.data?.accountHolderName
-  );
-  const accountNumber = useSelector((state) => state.bank?.data?.accountNumber);
-  const ifsc = useSelector((state) => state.bank?.data?.ifsc);
-  const mandateSlice = useSelector((state) => state.mandate);
+
+  const { aadhaar, pan, bank, profile } = kycData ?? {};
+
+  const email = profile?.email || pan?.data?.email;
+  console.log({ bank });
+
+  const { accountHolderName, accountNumber, ifsc, bankName } = bank?.data ?? {};
+
+  const {
+    data: mandateData,
+    isLoading: mandateLoading,
+    isError: mandateError,
+  } = useGetMandateQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 2,
+  });
+
   const [loading, setLoading] = useState(false);
   const [authType, setAuthType] = useState();
-  const [data, setData] = useState(mandateSlice?.data);
-  const [verifyMsg, setVerifyMsg] = useState(mandateSlice?.verifyMsg);
-  const [verifyStatus, setVerifyStatus] = useState(mandateSlice?.verifyStatus);
+  const [data, setData] = useState(mandateData?.body?.data);
+  const [verifyMsg, setVerifyMsg] = useState(mandateData?.body?.verifyMsg);
+  const [verifyStatus, setVerifyStatus] = useState(
+    mandateData?.body?.verifyStatus
+  );
   const [verifyTimestamp, setVerifyTimestamp] = useState(
-    mandateSlice?.verifyTimestamp
+    mandateData?.body?.verifyTimestamp
   );
   const campaignId = useSelector(
     (state) =>
       state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
   );
   const [updateMandate] = useUpdateMandateMutation();
-  const { mandateData, error, isLoading } = useGetMandateQuery(
-    unipeEmployeeId,
-    {
-      pollingInterval: 1000 * 60 * 2,
-    }
-  );
   useEffect(() => {
     getUniqueId().then((id) => {
       setDeviceId(id);
@@ -101,7 +113,7 @@ const MandateFormTemplate = (props) => {
     if (fetched && props?.type === "EWA" && verifyStatus === "SUCCESS") {
       showToast("Mandate verified successfully", "success");
       setModalVisible(false);
-      navigation.navigate("EWA_AGREEMENT");
+      navigation.navigate("HomeStack");
     } else if (fetched && props?.type === "EWA" && verifyStatus === "ERROR") {
       showToast("Mandate verification error", "warning");
       setModalVisible(false);
@@ -114,7 +126,7 @@ const MandateFormTemplate = (props) => {
   }, [verifyTimestamp]);
 
   const backendPush = ({ data, verifyMsg, verifyStatus, verifyTimestamp }) => {
-    console.log("mandateSlice: ", mandateSlice);
+    console.log("mandateData: ", mandateData);
     setData(data);
     setVerifyMsg(verifyMsg);
     setVerifyTimestamp(verifyTimestamp);
@@ -145,7 +157,7 @@ const MandateFormTemplate = (props) => {
   };
 
   const refreshMandateFromBackend = () => {
-    if (mandateData && !isLoading && !error) {
+    if (mandateData && !mandateLoading && !mandateError) {
       console.log("Form mandateFetch response.data", mandateData);
       dispatch(resetMandate(mandateData?.data?.body));
       setVerifyStatus(mandateData?.data?.body?.verifyStatus);
@@ -280,14 +292,25 @@ const MandateFormTemplate = (props) => {
     ];
   };
 
+  const lastDigitsAccount = accountNumber?.slice(0, 4);
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <DetailsCard data={cardData()} />
+          <InfoCard
+            info={`Please note that you have to register mandate using your ${bankName} bank account ending with ${lastDigitsAccount}.`}
+            infoStyle={{ ...FONTS.body3, color: COLORS.black }}
+            variant={"gradient"}
+          />
+
           {verifyStatus != "INPROGRESS" && (
             <Text
-              style={{ ...FONTS.body4, color: COLORS.gray, marginVertical: 10 }}
+              style={{
+                ...FONTS.body3,
+                color: COLORS.black,
+                marginVertical: 10,
+              }}
             >
               {strings.choosePreferredMode}
             </Text>
@@ -305,61 +328,15 @@ const MandateFormTemplate = (props) => {
               ProceedButton={ProceedButton}
               disabled={loading}
               authType={authType}
+              bankData={bank?.data}
             />
           )}
-          <View
-            style={{
-              padding: 10,
-              backgroundColor: COLORS.lightGray,
-              marginVertical: 10,
-              borderRadius: 5,
-              alignItems: "center",
-              justifyContent: "center",
-              marginTop: "10%",
-            }}
-          >
-            <Text
-              style={{
-                ...FONTS.body4,
-                color: COLORS.gray,
-                marginBottom: 5,
-                textAlign: "center",
-              }}
-            >
-              {strings.MandateRequired}
-            </Text>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              width: "100%",
-              padding: 10,
-              justifyContent: "space-evenly",
-              alignItems: "center",
-            }}
-          >
-            <View style={{ flexDirection: "column", alignItems: "center" }}>
-              <Shield />
-              <Text
-                style={{ ...FONTS.body4, color: COLORS.gray, marginTop: 5 }}
-              >
-                {strings.secured}
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <RBI />
-              <Text
-                style={{ ...FONTS.body4, color: COLORS.gray, marginTop: 5 }}
-              >
-                {strings.rbiApproved}
-              </Text>
-            </View>
-          </View>
+          <InfoCard
+            info={
+              "Mandate is required to auto-debit loan payments on Due Date. This is 100% secure and executed by an RBI approved entity."
+            }
+          />
+          <HelpCard text="repayment methods" />
         </ScrollView>
       </KeyboardAvoidingWrapper>
       {modalVisible && (

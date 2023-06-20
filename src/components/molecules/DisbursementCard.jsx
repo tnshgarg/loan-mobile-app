@@ -3,6 +3,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import React from "react";
 import { COLORS, FONTS } from "../../constants/Theme";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import LinearGradient from "react-native-linear-gradient";
 
 const DisbursementCard = ({ title, data, info, iconName, variant }) => {
   return (
@@ -10,8 +11,7 @@ const DisbursementCard = ({ title, data, info, iconName, variant }) => {
       style={[
         styles.container,
         {
-          backgroundColor:
-            variant == "dark" ? COLORS.moneyCardBg : COLORS.white,
+          backgroundColor: variant == "dark" ? COLORS.moneyCardBg : "#f7f6f1",
         },
       ]}
     >
@@ -23,16 +23,15 @@ const DisbursementCard = ({ title, data, info, iconName, variant }) => {
           },
         ]}
       >
-        <MaterialCommunityIcons
+        {/* <MaterialCommunityIcons
           name={iconName}
           color={variant == "dark" ? COLORS.white : COLORS.secondary}
           size={18}
-        />
+        /> */}
         <Text
           style={{
-            ...FONTS.h4,
-            color: variant == "dark" ? COLORS.white : COLORS.secondary,
-            marginLeft: 10,
+            ...FONTS.body4,
+            color: variant == "dark" ? COLORS.white : COLORS.black,
           }}
         >
           {title}
@@ -43,7 +42,7 @@ const DisbursementCard = ({ title, data, info, iconName, variant }) => {
           key={index}
           style={[
             styles.row,
-            { justifyContent: "space-between", paddingVertical: 5 },
+            { justifyContent: "space-between", paddingVertical: 6 },
           ]}
         >
           <Text
@@ -57,7 +56,7 @@ const DisbursementCard = ({ title, data, info, iconName, variant }) => {
           <Text
             style={[
               styles.value,
-              { color: variant == "dark" ? COLORS.white : COLORS.secondary },
+              { color: variant == "dark" ? COLORS.white : COLORS.black },
             ]}
           >
             {item.value}
@@ -65,7 +64,10 @@ const DisbursementCard = ({ title, data, info, iconName, variant }) => {
         </View>
       ))}
       {info ? (
-        <View
+        <LinearGradient
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          colors={[COLORS.lightGreen, COLORS.lightYellow]}
           style={[
             styles.row,
             {
@@ -74,21 +76,19 @@ const DisbursementCard = ({ title, data, info, iconName, variant }) => {
               borderBottomLeftRadius: 5,
               borderBottomRightRadius: 5,
               backgroundColor:
-                variant == "dark"
-                  ? COLORS.moneyCardBgVariant
-                  : COLORS.lightGray,
+                variant == "dark" ? COLORS.moneyCardBgVariant : COLORS.white,
             },
           ]}
         >
           <Text
             style={{
-              ...FONTS.body5,
+              ...FONTS.body4,
               color: variant == "dark" ? COLORS.white : COLORS.gray,
             }}
           >
             {info}
           </Text>
-        </View>
+        </LinearGradient>
       ) : (
         <View style={{ padding: 5 }} />
       )}
@@ -102,20 +102,20 @@ const styles = EStyleSheet.create({
     width: "100%",
     flexDirection: "column",
     //alignItems: "center",
-    borderRadius: 5,
+    // borderRadius: 5,
     backgroundColor: COLORS.white,
-    elevation: 3,
-    marginVertical: "5rem",
+    borderBottomWidth: 1,
+    borderColor: COLORS.lightGray,
   },
   row: { flexDirection: "row", alignItems: "center", padding: "10rem" },
 
   listItem: { marginVertical: "5rem" },
   label: {
-    ...FONTS.body5,
+    ...FONTS.body4,
     color: COLORS.black,
   },
   value: {
-    ...FONTS.h5,
+    ...FONTS.body4,
     color: COLORS.black,
   },
   text: { paddingLeft: "10rem", ...FONTS.body5, color: COLORS.gray, flex: 1 },

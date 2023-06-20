@@ -7,9 +7,12 @@ import AadhaarOtpApi from "../../apis/aadhaar/Otp";
 import FormInput from "../../components/atoms/FormInput";
 import InfoCard from "../../components/atoms/InfoCard";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { strings } from "../../helpers/Localization";
-import { addNumber } from "../../store/slices/aadhaarSlice";
+import HelpCard from "../../components/atoms/HelpCard";
+import { useGetAadhaarQuery } from "../../store/apiSlices/aadhaarApi";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { styles } from "../../styles";
+import { addNumber } from "../../store/slices/aadhaarSlice";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
 const AadhaarFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -17,8 +20,14 @@ const AadhaarFormTemplate = (props) => {
 
   const [validNumber, setValidNumber] = useState(true);
 
-  const aadhaarSlice = useSelector((state) => state.aadhaar);
-  const [number, setNumber] = useState(aadhaarSlice?.number);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
+  const { aadhaar } = kycData ?? {};
+
+  const [number, setNumber] = useState(aadhaar?.number);
 
   useEffect(() => {
     let aadhaarReg = /^\d{12}$/gm;
@@ -32,40 +41,42 @@ const AadhaarFormTemplate = (props) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <KeyboardAvoidingWrapper>
-        <View style={[styles.container, { padding: 0 }]}>
-          <Text style={styles.headline}>Enter your Aadhaar number</Text>
-          <Text style={styles.subHeadline}>
-            कृपया अपना आधार नम्बर यहाँ भरें ॰ इस आधार नम्बर से जुड़े मोबाइल
-            नम्बर पर हम ओ॰टी॰पी॰ भेजेंगे ॰
-          </Text>
-          <FormInput
-            accessibilityLabel={"AadhaarInput"}
-            placeholder={"Aadhaar Number"}
-            keyboardType="numeric"
-            autoFocus={isFocused}
-            value={number}
-            onChange={setNumber}
-            maxLength={12}
-            errorMsg={
-              number && !validNumber ? strings.invalidAadhaarNumber : ""
-            }
-            numeric
-            appendComponent={
-              <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
-                {number.length}/12
-              </Text>
-            }
-          />
+      <View style={[styles.container, {}]}>
+        <FormInput
+          accessibilityLabel={"AadhaarInput"}
+          placeholder={"Enter Aadhaar Number"}
+          keyboardType="numeric"
+          autoFocus={isFocused}
+          value={number}
+          onChange={setNumber}
+          maxLength={12}
+          errorMsg={number && !validNumber ? "Invalid Aadhaar Number" : ""}
+          numeric
+          appendComponent={
+            <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
+              {number?.length}/12
+            </Text>
+          }
+        />
 
-          <InfoCard info={strings.agreeKycTNC} />
+        <InfoCard info={"OTP आधार के साथ लिंक मोबाइल नंबर पर भेजा जाएगा।"} />
+        <View style={{ flex: 1 }} />
+        <HelpCard
+          text="Aadhaar"
+          onRightIconPress={() =>
+            navigationHelper({
+              type: "cms",
+              params: { blogKey: "AadhaarHelp" },
+            })
+          }
+        />
 
-          <AadhaarOtpApi
-            disabled={!validNumber}
-            type={props?.route?.params?.type || ""}
-          />
-        </View>
-      </KeyboardAvoidingWrapper>
+        <AadhaarOtpApi
+          disabled={!validNumber}
+          type={props?.route?.params?.type || ""}
+          number={number}
+        />
+      </View>
     </SafeAreaView>
   );
 };

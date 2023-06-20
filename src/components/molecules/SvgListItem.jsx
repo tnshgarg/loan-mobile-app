@@ -16,12 +16,12 @@ const styles = EStyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    marginVertical: "15rem",
+    marginVertical: "10rem",
   },
   text: {
-    ...FONTS.body4,
+    ...FONTS.body3,
     color: COLORS.secondary,
-    marginLeft: "20rem",
+    marginLeft: "10rem",
     flex: 1,
   },
 });

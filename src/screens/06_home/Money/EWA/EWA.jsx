@@ -1,14 +1,12 @@
 import { STAGE } from "@env";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { BackHandler, Linking, SafeAreaView, View } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { BackHandler, SafeAreaView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import LogoHeader from "../../../../components/atoms/LogoHeader";
+import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
 import VerifyMandateCard from "../../../../components/molecules/VerifyMandateCard";
 import LiveOfferCard from "../../../../components/organisms/LiveOfferCard";
-import { COLORS } from "../../../../constants/Theme";
 import { getNumberOfDays } from "../../../../helpers/DateFunctions";
 import { useGetOffersQuery } from "../../../../store/apiSlices/ewaApi";
 import { useGetMandateQuery } from "../../../../store/apiSlices/mandateApi";
@@ -138,13 +136,11 @@ const EWA = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <LogoHeader
-        title={"Money"}
-        rightIcon={
-          <Ionicons name="logo-whatsapp" size={28} color={COLORS.primary} />
-        }
-        rightOnPress={() => {
-          Linking.openURL(`whatsapp://send?text=&phone=7483447528`);
+      <LogoHeaderBack
+        title={`Money`}
+        onRightIconPress={() => {}}
+        containerStyle={{
+          backgroundColor: null,
         }}
       />
       <View style={styles.container}>
@@ -154,7 +150,7 @@ const EWA = () => {
           ewaLiveSlice={ewaLiveSlice}
         />
         <VerifyMandateCard mandateVerifyStatus={mandateVerifyStatus} />
-        <PastDrawsCard data={ewaHistoricalSlice} />
+        <PastDrawsCard screenType="half" data={ewaHistoricalSlice} />
       </View>
     </SafeAreaView>
   );

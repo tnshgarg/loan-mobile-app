@@ -25,7 +25,7 @@ const DropDownForm = ({
   return (
     <>
       <TouchableOpacity
-        activeOpacity={0.5}
+        activeOpacity={0.8}
         onPress={() => {
           setVisible(true);
         }}
@@ -39,7 +39,7 @@ const DropDownForm = ({
           appendComponent={
             <MaterialCommunityIcons
               name="chevron-down"
-              size={24}
+              size={28}
               color={COLORS.gray}
             />
           }
@@ -91,7 +91,7 @@ const styles = EStyleSheet.create({
     flexDirection: "column",
   },
   header: {
-    ...FONTS.h4,
+    ...FONTS.h3,
     marginBottom: "10rem",
     alignSelf: "center",
   },
@@ -103,7 +103,7 @@ const styles = EStyleSheet.create({
     borderColor: COLORS.lightgray_01,
   },
   listText: {
-    ...FONTS.body4,
+    ...FONTS.body3,
     flex: 1,
     marginLeft: "10rem",
   },

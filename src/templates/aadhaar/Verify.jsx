@@ -61,11 +61,6 @@ const AadhaarVerifyTemplate = (props) => {
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
       <View style={styles.container}>
-        <Text style={styles.headline}>Verify Aadhaar</Text>
-        <Text style={styles.subHeadline}>
-          कृपया छ डिजिट का OTP यहाँ भरें। इसी के द्वारा ये स्पष्ट होगा की ऊपर
-          भरा आधार नम्बर आपका है। ये जानकारी आपकी कम्पनी को दी जाएगी।
-        </Text>
         <OtpInput
           otp={otp}
           setOtp={setOtp}

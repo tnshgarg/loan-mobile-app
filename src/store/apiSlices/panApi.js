@@ -13,6 +13,7 @@ export const panApi = api
         transformResponse: (response) => response.body,
       }),
       verifyPan: builder.mutation({
+        invalidatesTags: ["getKycStatus"],
         query: (body) => ({
           url: `kyc/pan-fetch-details`,
           method: "POST",
@@ -20,6 +21,7 @@ export const panApi = api
         }),
       }),
       updatePan: builder.mutation({
+        invalidatesTags: ["getKycStatus"],
         query: (body) => ({
           url: `pan`,
           method: "POST",

@@ -1,8 +1,11 @@
+import { useNavigation } from "@react-navigation/core";
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import { COLORS, FONTS } from "../../constants/Theme";
-import LogoImage from "../../assets/HeaderLogo.svg";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
+import LogoImage from "../../assets/HeaderLogo.svg";
+import NotificationFade from "../../assets/NotificationFade.svg";
+import { COLORS, FONTS } from "../../constants/Theme";
+import SvgContainer from "./SvgContainer";
 
 const LogoHeader = ({
   containerStyle,
@@ -11,38 +14,97 @@ const LogoHeader = ({
   rightIcon,
   rightOnPress,
   title,
+  titleStyle,
+  headline,
+  subHeadline,
+  hideLogo,
+  headerImageUri,
+  notificationIconPresent,
 }) => {
+  const navigation = useNavigation();
   const EmptyView = () => {
     return <View style={styles.empty} />;
   };
 
   return (
-    <View style={[styles.container, { ...containerStyle }]}>
-      {leftIcon && (
-        <TouchableOpacity
-          activeOpacity={0.7}
-          style={{ marginRight: 10 }}
-          onPress={leftOnPress}
+    <View style={[styles.mainContainer]}>
+      <View style={[styles.container, { ...containerStyle }]}>
+        {leftIcon && (
+          <TouchableOpacity
+            activeOpacity={0.7}
+            style={{ marginRight: 10 }}
+            onPress={leftOnPress}
+          >
+            {leftIcon}
+          </TouchableOpacity>
+        )}
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            justifyContent: "flex-start",
+          }}
         >
-          {leftIcon}
-        </TouchableOpacity>
-      )}
-      <View
-        style={{ flex: 1, flexDirection: "row", justifyContent: "flex-start" }}
-      >
-        {title ? (
-          <Text style={{ ...FONTS.body3, color: COLORS.black }}>{title}</Text>
+          {title ? (
+            <Text
+              style={{ ...FONTS.body2, color: COLORS.secondary, ...titleStyle }}
+            >
+              {title}
+            </Text>
+          ) : !hideLogo ? (
+            <SvgContainer width={95} height={35}>
+              <LogoImage />
+            </SvgContainer>
+          ) : (
+            <></>
+          )}
+        </View>
+        {notificationIconPresent ? (
+          <TouchableOpacity
+            style={{ paddingTop: 5 }}
+            activeOpacity={0.7}
+            onPress={() =>
+              navigation.navigate("AccountStack", {
+                screen: "NotificationView",
+              })
+            }
+          >
+            <SvgContainer height={42} width={42}>
+              <NotificationFade />
+            </SvgContainer>
+          </TouchableOpacity>
         ) : (
-          <LogoImage style={styles.logo} />
+          <></>
+        )}
+        {rightIcon ? (
+          <TouchableOpacity activeOpacity={0.7} onPress={rightOnPress}>
+            {rightIcon}
+          </TouchableOpacity>
+        ) : (
+          <EmptyView />
         )}
       </View>
-      {rightIcon ? (
-        <TouchableOpacity activeOpacity={0.7} onPress={rightOnPress}>
-          {rightIcon}
-        </TouchableOpacity>
-      ) : (
-        <EmptyView />
-      )}
+      {headline || subHeadline || headerImageUri ? (
+        <View style={styles.contentContainer}>
+          <View style={styles.column}>
+            {headline && <Text style={styles.headline}>{headline}</Text>}
+            {subHeadline && (
+              <Text style={styles.subHeadline}>{subHeadline}</Text>
+            )}
+          </View>
+
+          {headerImageUri ? (
+            <Image
+              style={styles.headerImage}
+              source={{
+                uri: headerImageUri,
+              }}
+            />
+          ) : (
+            <></>
+          )}
+        </View>
+      ) : null}
     </View>
   );
 };
@@ -50,20 +112,51 @@ const LogoHeader = ({
 export default LogoHeader;
 
 const styles = EStyleSheet.create({
+  mainContainer: {
+    flexDirection: "column",
+  },
   container: {
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: "10rem",
-    paddingHorizontal: "15rem",
-    backgroundColor: COLORS.white,
-    borderBottomWidth: 1.5,
-    borderColor: COLORS.lightgray_01,
+    backgroundColor: COLORS.headerBg,
+    paddingHorizontal: "20rem",
+    paddingVertical: "10rem",
+  },
+  contentContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    justifyContent: "space-between",
+    backgroundColor: COLORS.headerBg,
+    padding: "15rem",
+  },
+  headerImage: {
+    width: "100rem",
+    height: "100rem",
+    resizeMode: "contain",
+    borderRadius: "10rem",
+  },
+
+  column: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+    flex: 1,
   },
   empty: { backgroundColor: "transparent", height: "32rem", width: "32rem" },
   logo: {
     height: "20rem",
     width: "30rem",
+  },
+  headline: {
+    ...FONTS.body2,
+    color: COLORS.secondary,
+  },
+  subHeadline: {
+    ...FONTS.body3,
+    color: COLORS.secondary,
+    marginTop: "5rem",
+    marginBottom: "10rem",
   },
 });

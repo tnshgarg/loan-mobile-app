@@ -3,8 +3,12 @@ import { useState } from "react";
 import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { useVerifyPanMutation } from "../../store/apiSlices/panApi";
+import {
+  useGetPanQuery,
+  useVerifyPanMutation,
+} from "../../store/apiSlices/panApi";
 import { addVerifyStatus } from "../../store/slices/panSlice";
+import { showToast } from "../../components/atoms/Toast";
 import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 
 const PanVerifyApi = (props) => {
@@ -14,17 +18,16 @@ const PanVerifyApi = (props) => {
   const [loading, setLoading] = useState(false);
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const panSlice = useSelector((state) => state.pan);
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
   const [verifyPan] = useVerifyPanMutation();
   const goForFetch = () => {
     setLoading(true);
-    console.log("panSlice: ", panSlice);
+
     const data = {
       unipeEmployeeId: unipeEmployeeId,
-      panNumber: panSlice?.number,
+      panNumber: props.number,
       campaignId: campaignId,
       provider: "ongrid",
     };

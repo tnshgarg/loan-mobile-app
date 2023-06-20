@@ -7,7 +7,10 @@ import { showToast } from "../../components/atoms/Toast";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { useUpdateBankMutation } from "../../store/apiSlices/bankApi";
+import {
+  useGetBankQuery,
+  useUpdateBankMutation,
+} from "../../store/apiSlices/bankApi";
 import { addOnboarded } from "../../store/slices/authSlice";
 import { addVerifyStatus } from "../../store/slices/bankSlice";
 import { form, styles } from "../../styles";
@@ -18,11 +21,20 @@ const BankConfirmApi = (props) => {
   const navigation = useNavigation();
 
   const token = useSelector((state) => state.auth.token);
+
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const { data: bankData, isLoading: loading } = useGetBankQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: 1000 * 60 * 60 * 24,
+    }
+  );
+  const { data, number, verifyStatus } = bankData ?? {};
+
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
-  const data = useSelector((state) => state.bank.data);
+
   const [updateBank] = useUpdateBankMutation();
   const backendPush = async ({ verifyStatus }) => {
     dispatch(addVerifyStatus(verifyStatus));
@@ -55,7 +67,8 @@ const BankConfirmApi = (props) => {
               screen: "Home",
             })
           } else {
-            navigation.navigate("EWAStack", {screen: "EWA_MANDATE"});
+            navigation.navigate("KycSuccess");
+            // navigation.replace("EWA_MANDATE");
           }
         }
       })
@@ -87,17 +100,13 @@ const BankConfirmApi = (props) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headline}>Are these your Bank Account details?</Text>
-      <Text style={styles.subHeadline}>
-        कृपया स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
-      </Text>
       <DetailsCard data={cardData()} />
 
       <View style={[styles.row, { justifyContent: "space-between" }]}>
         <PrimaryButton
           title="Not Me"
           containerStyle={form.noButton}
-          titleStyle={{ ...FONTS.h4, color: COLORS.warning }}
+          titleStyle={{ ...FONTS.h3, color: COLORS.black }}
           onPress={() => {
             backendPush({
               verifyStatus: "REJECTED",
@@ -116,7 +125,7 @@ const BankConfirmApi = (props) => {
           accessibilityLabel="BankYesBtn"
           title="Yes, that’s me"
           containerStyle={form.yesButton}
-          titleStyle={{ ...FONTS.h4, color: COLORS.primary }}
+          titleStyle={{ ...FONTS.h3, color: COLORS.white }}
           onPress={() => {
             dispatch(addOnboarded(true));
             backendPush({

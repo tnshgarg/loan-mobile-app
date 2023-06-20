@@ -20,9 +20,10 @@ export const aadhaarApi = api
         }),
         transformErrorResponse: (error) => {
           return error?.data?.error;
-        }
+        },
       }),
       verifyAadhaarOtp: builder.mutation({
+        invalidatesTags: ["getKycStatus"],
         query: (body) => ({
           url: `kyc/aadhaar-submit-otp`,
           method: "POST",
@@ -35,6 +36,7 @@ export const aadhaarApi = api
           method: "POST",
           body: body,
         }),
+        invalidatesTags: ["getKycStatus"],
         transformResponse: (response) => response.response,
       }),
     }),
