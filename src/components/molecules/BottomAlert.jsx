@@ -12,9 +12,6 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import BottomSheetWrapper from "../atoms/BottomSheetWrapper";
 import { useState } from "react";
 import PrimaryButton from "../atoms/PrimaryButton";
-import CompleteKyc from "../../assets/CompleteKyc.svg";
-
-import SvgContainer from "../atoms/SvgContainer";
 import LinearGradient from "react-native-linear-gradient";
 
 const BottomAlert = ({ visible, setVisible, data }) => {
@@ -36,9 +33,7 @@ const BottomAlert = ({ visible, setVisible, data }) => {
         end={{ x: 1, y: 0 }}
         colors={[COLORS.lightGreen, COLORS.lightYellow]}
       >
-        <SvgContainer width={250} height={200}>
-          {imageUri}
-        </SvgContainer>
+        <Image source={{ uri: imageUri }} style={styles.imageView} />
       </LinearGradient>
 
       <Text
@@ -92,10 +87,13 @@ const styles = EStyleSheet.create({
     flexDirection: "column",
   },
   imageView: {
-    // width: "100%",
-    // height: 200,
-    resizeMode: "contain",
+    width: "60%",
+    // height: "250rem",
+    resizeMode: "cover",
     alignSelf: "center",
+    aspectRatio: 0.85,
+    // borderTopLeftRadius: 50,
+    // borderTopRightRadius: 50,
     //backgroundColor: COLORS.black,
   },
   svgBackground: {
