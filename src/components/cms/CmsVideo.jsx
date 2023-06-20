@@ -21,7 +21,7 @@ const CmsVideo = ({ title, subtitle, thumbnail, videoUri, styling, size }) => {
 
 const styles = EStyleSheet.create({
   container: {
-    padding: "15rem",
+    // padding: "15rem",
   },
 });
 

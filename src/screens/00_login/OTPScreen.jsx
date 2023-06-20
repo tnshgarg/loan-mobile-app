@@ -19,7 +19,9 @@ import { addToken } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
 import { styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -28,6 +30,7 @@ import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import BackgroundTimer from "react-native-background-timer";
 import { showToast } from "../../components/atoms/Toast";
 import { useLazyGetKycQuery } from "../../store/apiSlices/kycApi";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
 const OTPScreen = () => {
   const dispatch = useDispatch();
@@ -150,7 +153,7 @@ const OTPScreen = () => {
           component: "OTPScreen",
           action: "SendSms",
           status: "Error",
-          error: error.message
+          error: error.message,
         });
         console.log(error, error.message);
         showToast(error.message, "error");
@@ -168,9 +171,12 @@ const OTPScreen = () => {
         dispatch(addToken(res["token"]));
         trigger(res?.employeeDetails?.unipeEmployeeId, false)
           .then(({ data }) =>
-            navigation.navigate(
-              data?.kycCompleted ? "HomeStack" : "LoginSuccess"
-            )
+            data?.kycCompleted
+              ? navigation.navigate("HomeStack")
+              : navigationHelper({
+                  type: "cms",
+                  params: { blogKey: "login_success" },
+                })
           )
           .catch((err) => console.log(err));
         setVerified(true);

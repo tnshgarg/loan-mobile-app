@@ -19,7 +19,6 @@ const styles = EStyleSheet.create({
     // flex: 1,
     width: "100%",
     flexDirection: "column",
-    padding: "15rem",
   },
 });
 

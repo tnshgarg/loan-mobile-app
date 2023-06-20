@@ -12,6 +12,9 @@ import HelpSection from "../../components/organisms/HelpSection";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import SuccessContainer from "../../components/organisms/SuccessContainer";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
+import CmsRoot from "../../components/cms/CmsRoot";
+import { DUMMY_RES } from "../../constants/Strings";
+import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 
 const LoginSuccess = () => {
   const kycData = {
@@ -142,23 +145,37 @@ const LoginSuccess = () => {
       "As per RBI guidelines, you have to complete e-KYC to get Advance Salary",
   };
 
+  const {
+    data: cmsData,
+    isLoading: cmsLoading,
+    isError: cmsError,
+  } = useGetCmsQuery(unipeEmployeeId, {
+    pollingInterval: 1000,
+  });
+
   return (
     <SafeAreaView accessibilityLabel="WelcomePage" style={styles.safeContainer}>
-      <LogoHeaderBack
+      {/* <LogoHeaderBack
         containerStyle={{ backgroundColor: "#223240" }}
         hideLogo={true}
         onRightIconPress={() =>
           navigationHelper({
             type: "cms",
-            params: { blogKey: "AadhaarHelp" },
+            params: { blogKey: "kyc_help" },
           })
         }
-      />
-      <SuccessContainer data={data} />
+      /> */}
+      {/* {!cmsLoading ? (
+          <CmsRoot children={cmsData?.home || []}></CmsRoot>
+        ) : (
+          <></>
+        )} */}
+      <CmsRoot children={DUMMY_RES?.login_success || []}></CmsRoot>
+      {/* <SuccessContainer data={data} />
 
       {visible && (
         <HelpSection visible={visible} setVisible={setVisible} data={kycData} />
-      )}
+      )} */}
     </SafeAreaView>
   );
 };

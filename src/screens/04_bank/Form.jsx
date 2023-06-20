@@ -92,7 +92,7 @@ const BankForm = () => {
         onRightIconPress={() =>
           navigationHelper({
             type: "cms",
-            params: { blogKey: "AadhaarHelp" },
+            params: { blogKey: "aadhaar_help" },
           })
         }
       />

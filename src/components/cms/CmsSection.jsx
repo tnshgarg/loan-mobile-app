@@ -66,8 +66,7 @@ const styles = EStyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: "15rem",
-    marginTop: "15rem",
-    marginBottom: "10rem",
+    marginBottom: "5rem",
   },
   image: {
     height: "24rem",

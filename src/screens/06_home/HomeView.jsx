@@ -32,6 +32,7 @@ import {
 import { addCurrentStack } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
+import { DUMMY_RES } from "../../constants/Strings";
 
 const HomeView = () => {
   const aadhaarData = {
@@ -79,10 +80,13 @@ const HomeView = () => {
   const { unipeEmployeeId, token, onboarded } = useSelector(
     (state) => state.auth
   );
-  console.log({token})
-  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: 24 * 3600 * 1000,
-  });
+  console.log({ token });
+  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: 24 * 3600 * 1000,
+    }
+  );
   const { aadhaar, pan, bank, kycCompleted } = kycData ?? {};
 
   const {
@@ -92,7 +96,7 @@ const HomeView = () => {
   } = useGetCmsQuery(unipeEmployeeId, {
     pollingInterval: 1000,
   });
-  console.log({cmsData, cmsError})
+  console.log({ cmsData, cmsError });
   const [fetched, setFetched] = useState(false);
   const [alertVisible, setAlertVisible] = useState(false);
 
@@ -198,7 +202,7 @@ const HomeView = () => {
   console.warn("No intent. User opened App.");
 
   useEffect(() => {
-    if (!kycCompleted) setAlertVisible(true);
+    if (!kycCompleted && !kycLoading) setAlertVisible(true);
   }, []);
 
   const data = {
@@ -253,12 +257,12 @@ const HomeView = () => {
             ewaLiveSlice={ewaLiveSlice}
           />
         </View>
-        {!cmsLoading ? (
+        {/* {!cmsLoading ? (
           <CmsRoot children={cmsData?.home || []}></CmsRoot>
         ) : (
           <></>
-        )}
-        {/* <HelpFooter /> */}
+        )} */}
+        <CmsRoot children={DUMMY_RES?.home || []}></CmsRoot>
         <View
           style={{
             width: "100%",
