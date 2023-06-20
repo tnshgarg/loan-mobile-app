@@ -1762,8 +1762,8 @@ export const cmsApi = api
         }),
         providesTags: ["getPersonalization"],
         transformResponse: (response) => {
-          // return response?.body
-          return DUMMY_RES
+          return response?.body;
+          // return DUMMY_RES
         },
       }),
     }),

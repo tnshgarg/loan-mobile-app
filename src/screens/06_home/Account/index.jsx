@@ -8,7 +8,6 @@ import LogoutModal from "../../../components/organisms/LogoutModal";
 import { strings } from "../../../helpers/Localization";
 
 import LogoutItem from "../../../components/atoms/LogoutItem";
-import CmsButton from "../../../components/cms/CmsButton";
 import CmsRoot from "../../../components/cms/CmsRoot";
 import { useGetCmsQuery } from "../../../store/apiSlices/cmsApi";
 import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
@@ -101,11 +100,11 @@ const AccountMenu = (props) => {
         title={"Account"}
         containerStyle={{ backgroundColor: null }}
       />
-      <CmsButton
+      {/* <CmsButton
         title={"TopTabNav"}
         clickType={"navigation"}
         navigate={{ type: "app", stack: "AccountStack", screen: "KYC" }}
-      />
+      /> */}
       <ScrollView>
         {!cmsLoading ? (
           <CmsRoot children={cmsData?.account_top || []}></CmsRoot>
