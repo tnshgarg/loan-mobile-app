@@ -62,8 +62,12 @@ const KYC = () => {
         setMandateVerifyStatus(data?.body?.verifyStatus);
         setFetched(true);
       } else {
+        if (error.status === 404) {
+          setFetched(true);
+        } else {
+          Alert.alert("An Error occured", error.message);
+        }
         console.log("mandateFetch error: ", error);
-        Alert.alert("An Error occured", error.message);
       }
     }
   }, [deviceId, ipAddress]);

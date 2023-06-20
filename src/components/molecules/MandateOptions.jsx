@@ -15,7 +15,16 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
     let mandateOptions = [];
     let bankCode = ifsc.substring(0, 4);
     let emandateOptions = bankCodeEmandateOptionsMap[bankCode] || "000";
-
+    mandateOptions.push({
+      title: "UPI",
+      subtitle: "Instant registration",
+      subtitleStyle: { color: COLORS.secondary },
+      iconName: "card-account-details-outline",
+      type: "upi",
+      onPress: () => {
+        ProceedButton({ authType: "upi" , provider : "cashfree"});
+      },
+    });
     if (emandateOptions[2] === "1") {
       mandateOptions.push({
         title: "Aadhaar",

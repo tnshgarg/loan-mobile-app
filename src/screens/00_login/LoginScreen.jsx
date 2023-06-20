@@ -91,8 +91,7 @@ const LoginScreen = () => {
           interaction: InteractionTypes.BUTTON_PRESS,
           component: "LoginScreen",
           action: "SendSms",
-          status: "Error",
-          error: JSON.stringify({error,phoneNumber}),
+          status: "Success"
         });
         navigation.navigate("Otp");
         setLoading(false);

@@ -16,11 +16,13 @@ import BottomTabNav from "./BottomTabNav";
 import AccountStack from "./stacks/AccountStack";
 import BenefitsStack from "./stacks/BenefitsStack";
 import InvestStack from "./stacks/InvestStack";
+import SplashScreen from "../screens/SplashScreen";
 import Analytics, {InteractionTypes} from "../helpers/analytics/commonAnalytics";
 import {parseUrl} from "../services/campaign/urlParsing"
 import { setCampaignStoreData } from "../services/campaign/storeManagement";
 import { handleCampaignNavigation } from "../services/campaign/campaignNavigation";
 import { setPendingUrl } from "../store/slices/pendingCampaignClickSlice";
+
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   const navigation = useNavigation();

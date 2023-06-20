@@ -26,7 +26,6 @@ import {
   resetEwaLive,
   addCampaignBanner,
 } from "../../store/slices/ewaLiveSlice";
-
 const HomeView = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -141,8 +140,6 @@ const HomeView = () => {
               accessible={accessible}
               ewaLiveSlice={ewaLiveSlice}
             />
-            <CompleteKycCard />
-            <ExploreCards />
           </>
         </View>
       </ScrollView>

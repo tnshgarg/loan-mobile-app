@@ -1,6 +1,6 @@
 {
 	"name": "employee-app",
-	"version": "2023.5.5",
+	"version": "2023.6.12",
 	"private": true,
 	"scripts": {
 		"android": "react-native run-android",

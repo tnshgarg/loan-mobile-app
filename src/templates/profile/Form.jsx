@@ -1,4 +1,3 @@
-import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
@@ -10,13 +9,11 @@ import { showToast } from "../../components/atoms/Toast";
 import DropDownForm from "../../components/molecules/DropDownForm";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { form, styles } from "../../styles";
-import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
-import FormInput from "../../components/atoms/FormInput";
-import DropDownForm from "../../components/molecules/DropDownForm";
-import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
-import { showToast } from "../../components/atoms/Toast";
-
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
+import { useUpdateProfileMutation } from "../../store/apiSlices/profileApi";
+import { strings } from "../../helpers/Localization";
 const ProfileFormTemplate = ({ type }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -212,7 +209,7 @@ const ProfileFormTemplate = ({ type }) => {
                 interaction: InteractionTypes.BUTTON_PRESS,
                 component: "ProfileForm",
                 action: "PushData",
-                status: "Success"
+                status: "Success",
               });
             }}
           />
