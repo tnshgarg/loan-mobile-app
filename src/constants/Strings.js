@@ -1428,13 +1428,20 @@ export const DUMMY_RES = {
           },
           {
             type: "container",
-            styling: { flexDirection: "row", alignItems: "center" },
+            styling: {
+              flexDirection: "row",
+              alignItems: "center",
+              marginVertical: "5%",
+            },
             children: [
-              { type: "badge", text: "Step 1", styling: { marginRight: 15 } },
+              {
+                type: "badge",
+                text: "Step 1",
+              },
               {
                 type: "title",
                 title: "Aadhaar Number",
-                styling: { fontSize: 18 },
+                styling: { fontSize: 18, marginLeft: "10%" },
               },
             ],
           },
@@ -1456,13 +1463,17 @@ export const DUMMY_RES = {
           },
           {
             type: "container",
-            styling: { flexDirection: "row", alignItems: "center" },
+            styling: {
+              flexDirection: "row",
+              alignItems: "center",
+              marginVertical: "5%",
+            },
             children: [
-              { type: "badge", text: "Step 2", styling: { marginRight: 15 } },
+              { type: "badge", text: "Step 2" },
               {
                 type: "title",
                 title: "Aadhaar OTP",
-                styling: { fontSize: 18 },
+                styling: { fontSize: 18, marginLeft: "10%" },
               },
             ],
           },
@@ -1485,13 +1496,17 @@ export const DUMMY_RES = {
           },
           {
             type: "container",
-            styling: { flexDirection: "row", alignItems: "center" },
+            styling: {
+              flexDirection: "row",
+              alignItems: "center",
+              marginVertical: "5%",
+            },
             children: [
-              { type: "badge", text: "Step 3", styling: { marginRight: 15 } },
+              { type: "badge", text: "Step 3" },
               {
                 type: "title",
                 title: "Confirm Identity",
-                styling: { fontSize: 18 },
+                styling: { fontSize: 18, marginLeft: "10%" },
               },
             ],
           },
