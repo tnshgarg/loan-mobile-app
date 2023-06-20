@@ -155,7 +155,7 @@ const LoginSuccess = () => {
 
   return (
     <SafeAreaView accessibilityLabel="WelcomePage" style={styles.safeContainer}>
-      {/* <LogoHeaderBack
+      <LogoHeaderBack
         containerStyle={{ backgroundColor: "#223240" }}
         hideLogo={true}
         onRightIconPress={() =>
@@ -164,18 +164,18 @@ const LoginSuccess = () => {
             params: { blogKey: "kyc_help" },
           })
         }
-      /> */}
+      />
       {/* {!cmsLoading ? (
           <CmsRoot children={cmsData?.home || []}></CmsRoot>
         ) : (
           <></>
         )} */}
-      <CmsRoot children={DUMMY_RES?.login_success || []}></CmsRoot>
-      {/* <SuccessContainer data={data} />
+      {/* <CmsRoot children={DUMMY_RES?.login_success || []}></CmsRoot> */}
+      <SuccessContainer data={data} />
 
       {visible && (
         <HelpSection visible={visible} setVisible={setVisible} data={kycData} />
-      )} */}
+      )}
     </SafeAreaView>
   );
 };
