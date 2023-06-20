@@ -19,7 +19,10 @@ import {
   requestUserPermission,
 } from "../../services/notifications/notificationService";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
-import { useGetOffersQuery } from "../../store/apiSlices/ewaApi";
+import {
+  useDisbursementFeedbackMutation,
+  useGetOffersQuery,
+} from "../../store/apiSlices/ewaApi";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { addOnboarded } from "../../store/slices/authSlice";
 import { resetEwaHistorical } from "../../store/slices/ewaHistoricalSlice";
@@ -94,7 +97,7 @@ const HomeView = () => {
     isLoading: cmsLoading,
     isError: cmsError,
   } = useGetCmsQuery(unipeEmployeeId, {
-    pollingInterval: 1000,
+    pollingInterval: 1000 * 3600,
   });
   console.log({ cmsData, cmsError });
   const [fetched, setFetched] = useState(false);
@@ -227,6 +230,25 @@ const HomeView = () => {
   };
 
   console.log("CmsData ", cmsData?.home);
+  const [disbursementFeedback] = useDisbursementFeedbackMutation();
+  useEffect(() => {
+    let data = {
+      unipeEmployeeId: unipeEmployeeId,
+      language: "en",
+      contentType: "offerid-feedback",
+      content: { stars: 5, category: "category" },
+    };
+    disbursementFeedback(data)
+      .unwrap()
+      .then((res) => {
+        console.log("ewa/disbursement-feedback res: ", res);
+        const responseJson = res?.body;
+        console.log("ewa/disbursement-feedback responseJson: ", responseJson);
+      })
+      .catch((error) => {
+        console.log("ewa/disbursement-feedback error:", error);
+      });
+  }, []);
 
   return (
     <SafeAreaView
@@ -259,12 +281,12 @@ const HomeView = () => {
             ewaLiveSlice={ewaLiveSlice}
           />
         </View>
-        {/* {!cmsLoading ? (
+        {!cmsLoading ? (
           <CmsRoot children={cmsData?.home || []}></CmsRoot>
         ) : (
           <></>
-        )} */}
-        <CmsRoot children={DUMMY_RES?.home || []}></CmsRoot>
+        )}
+        {/* <CmsRoot children={DUMMY_RES?.home || []}></CmsRoot> */}
         <CmsRoot children={DUMMY_RES?.bottom_alert || []}></CmsRoot>
         <View
           style={{

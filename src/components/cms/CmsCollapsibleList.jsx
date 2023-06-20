@@ -1,10 +1,11 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, StyleSheet } from "react-native";
 import React from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { TouchableOpacity } from "react-native";
 import { useState } from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Markdown from "react-native-markdown-display";
 
 const CmsCollapsibleList = ({ title, subtitle, titleStyle, subtitleStyle }) => {
   const [show, setShow] = useState(false);
@@ -13,11 +14,7 @@ const CmsCollapsibleList = ({ title, subtitle, titleStyle, subtitleStyle }) => {
       <View style={styles.container}>
         <View style={styles.textContainer}>
           <Text style={[styles.title, { ...titleStyle }]}>{title}</Text>
-          {show && (
-            <Text style={[styles.subtitle, { ...subtitleStyle }]}>
-              {subtitle}
-            </Text>
-          )}
+          {show && <Markdown style={markDownStyles}>{subtitle}</Markdown>}
         </View>
 
         <MaterialCommunityIcons
@@ -29,6 +26,25 @@ const CmsCollapsibleList = ({ title, subtitle, titleStyle, subtitleStyle }) => {
     </TouchableOpacity>
   );
 };
+
+const markDownStyles = StyleSheet.create({
+  paragraph: {
+    marginTop: 10,
+    marginBottom: 10,
+    flexWrap: "wrap",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    color: COLORS.gray,
+    ...FONTS.body4,
+  },
+  listItem: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    color: COLORS.gray,
+    ...FONTS.body4,
+  },
+});
 
 const styles = EStyleSheet.create({
   container: {

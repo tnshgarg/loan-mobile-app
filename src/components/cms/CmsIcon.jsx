@@ -9,7 +9,7 @@ const CmsIcon = ({ iconName, iconSize, iconColor }) => {
     <MaterialCommunityIcons
       name={iconName}
       size={iconSize}
-      color={COLORS.gray}
+      color={iconColor || COLORS.gray}
     />
   );
 };

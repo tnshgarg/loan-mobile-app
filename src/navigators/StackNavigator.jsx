@@ -119,7 +119,7 @@ const StackNavigator = () => {
   return (
     <OfflineAlert>
       <Stack.Navigator
-        initialRouteName={initialRoute}
+        initialRouteName={"Splash"}
         screenOptions={{ headerShown: false, header: null }}
       >
         {devMenu}

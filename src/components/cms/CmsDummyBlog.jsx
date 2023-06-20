@@ -11,31 +11,31 @@ import { DUMMY_RES } from "../../constants/Strings";
 const CmsDummyBlog = (props) => {
   const navigation = useNavigation();
   const { unipeEmployeeId } = useSelector((state) => state.auth);
-  // const { data: cmsData, isLoading: cmsLoading } = useGetCmsQuery(
-  //   unipeEmployeeId,
-  //   {
-  //     pollingInterval: 1000,
-  //   }
-  // );
+  const { data: cmsData, isLoading: cmsLoading } = useGetCmsQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: 1000,
+    }
+  );
 
   console.log("route.params: ", props.route.params);
 
-  let blogKey = props.route?.params?.blogKey;
-  const { data, screenTitle, headline, headingImage } =
-    DUMMY_RES?.["aadhaar_help"] ?? {};
-
   // let blogKey = props.route?.params?.blogKey;
   // const { data, screenTitle, headline, headingImage } =
-  //   cmsData?.[blogKey] ?? {};
-  // console.log("MyData: ", {
-  //   blogKey,
-  //   data,
-  //   screenTitle,
-  //   headline,
-  //   headingImage,
-  //   cmsData,
-  //   cms: cmsData?.[blogKey],
-  // });
+  //   DUMMY_RES?.["aadhaar_help"] ?? {};
+
+  let blogKey = props.route?.params?.blogKey;
+  const { data, screenTitle, headline, headingImage } =
+    cmsData?.[blogKey] ?? {};
+  console.log("MyData: ", {
+    blogKey,
+    data,
+    screenTitle,
+    headline,
+    headingImage,
+    cmsData,
+    cms: cmsData?.[blogKey],
+  });
 
   return (
     <View style={[styles.safeContainer, { padding: 0 }]}>

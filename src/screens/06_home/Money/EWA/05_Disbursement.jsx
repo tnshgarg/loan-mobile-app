@@ -20,7 +20,7 @@ import FeedbackAlert from "../../../../components/molecules/FeedbackAlert";
 
 const Disbursement = ({ route, navigation }) => {
   const dispatch = useDispatch();
-  const { offer } = route.params;
+  const { offer, enableFeedback } = route.params;
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -176,11 +176,12 @@ const Disbursement = ({ route, navigation }) => {
   ];
   const [disbursementFeedback] = useDisbursementFeedbackMutation();
   const onSubmitFeedback = () => {
+    const offerId = offer?.offerId;
     let data = {
       unipeEmployeeId: unipeEmployeeId,
       language: "en",
-      contentType: "offerid-feedback",
-      content: { stars: rating, category: category },
+      contentType: `${offerId}-feedback`,
+      content: { stars: rating, category: category, offerId: offerId },
     };
     disbursementFeedback(data)
       .unwrap()
@@ -190,7 +191,7 @@ const Disbursement = ({ route, navigation }) => {
         console.log("ewa/disbursement-feedback responseJson: ", responseJson);
       })
       .catch((error) => {
-        console.log({ error });
+        console.log("ewa/disbursement-feedback error:", error);
       });
   };
 
@@ -198,7 +199,9 @@ const Disbursement = ({ route, navigation }) => {
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
         title="Money Transfer"
-        onLeftIconPress={() => backAction()}
+        onLeftIconPress={() => {
+          enableFeedback ? null : backAction();
+        }}
         onRightIconPress={() => {}}
         titleStyle={{ ...FONTS.body3 }}
       />
@@ -213,15 +216,16 @@ const Disbursement = ({ route, navigation }) => {
             iconName="ticket-percent-outline"
           />
         )}
-        {status != "SUCCESS" && (
+        {status == "SUCCESS" && enableFeedback ? (
           <FeedbackAlert
             data={categoryData}
-            setRating={setRating}
-            rating={rating}
+            ratingHook={[rating, setRating]}
             setCategory={setCategory}
             category={category}
             onSubmit={onSubmitFeedback}
           />
+        ) : (
+          <></>
         )}
       </View>
     </SafeAreaView>

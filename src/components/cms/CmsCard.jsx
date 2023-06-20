@@ -10,6 +10,7 @@ const CmsCard = ({ children, styling, gradientColors, navigate }) => {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
+      disabled={!navigate}
       onPress={() => {
         if (navigate) {
           navigationHelper({

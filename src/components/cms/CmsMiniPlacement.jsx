@@ -10,7 +10,7 @@ const CmsMiniPlacement = (props) => {
   const { data: cmsData, isLoading: cmsLoading } = useGetCmsQuery(
     unipeEmployeeId,
     {
-      pollingInterval: 1000,
+      pollingInterval: 1000 * 3600,
     }
   );
 

@@ -1,6 +1,8 @@
 import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import Analytics, {InteractionTypes} from "../../../../helpers/analytics/commonAnalytics";
+import Analytics, {
+  InteractionTypes,
+} from "../../../../helpers/analytics/commonAnalytics";
 import { useEffect, useState } from "react";
 import {
   Alert,
@@ -165,7 +167,7 @@ const Agreement = () => {
       interaction: InteractionTypes.BUTTON_PRESS,
       component: "Ewa",
       action: "Agreement",
-      status: "Back"
+      status: "Back",
     });
     if (mandateVerifyStatus === "SUCCESS") {
       navigation.navigate("EWA_KYC");
@@ -240,7 +242,10 @@ const Agreement = () => {
           action: "Agreement",
           status: "Success",
         });
-        navigation.navigate("EWA_DISBURSEMENT", { offer: ewaLiveSlice });
+        navigation.navigate("EWA_DISBURSEMENT", {
+          offer: ewaLiveSlice,
+          enableFeedback: true,
+        });
       })
       .catch((error) => {
         console.log("ewaAgreementPush error: ", error.message);

@@ -105,7 +105,7 @@ export default PanForm = () => {
         onRightIconPress={() =>
           navigationHelper({
             type: "cms",
-            params: { blogKey: "aadhaar_help" },
+            params: { blogKey: "pan_help" },
           })
         }
       />

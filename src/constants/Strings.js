@@ -264,24 +264,154 @@ export const DUMMY_RES = {
             "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/learn.png",
           children: [
             {
-              type: "review",
-              testimony:
-                "“Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.”",
-              name: "Manager",
-              address: "Neemrana, Rajasthan",
-              imageUri:
-                "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-              stars: 5,
+              type: "container",
+              styling: { padding: "3%" },
+              children: [
+                {
+                  type: "container",
+                  styling: { flexDirection: "row", marginVertical: "3%" },
+                  children: [
+                    {
+                      type: "icon",
+                      iconName: "star",
+                      iconSize: 24,
+                      iconColor: "#F9C700",
+                    },
+                    {
+                      type: "icon",
+                      iconName: "star",
+                      iconSize: 24,
+                      iconColor: "#F9C700",
+                    },
+                    {
+                      type: "icon",
+                      iconName: "star",
+                      iconSize: 24,
+                      iconColor: "#F9C700",
+                    },
+                    {
+                      type: "icon",
+                      iconName: "star",
+                      iconSize: 24,
+                      iconColor: "#F9C700",
+                    },
+                    {
+                      type: "icon",
+                      iconName: "star",
+                      iconSize: 24,
+                      iconColor: "#F9C700",
+                    },
+                  ],
+                },
+                {
+                  type: "subtitle",
+                  styling: { fontSize: 16, lineHeight: 24 },
+                  title:
+                    "“Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.”",
+                },
+                {
+                  type: "twoColumn",
+                  widths: ["11%", "89%"],
+                  styling: {
+                    margin: 0,
+                    marginTop: "3%",
+                  },
+                  children: [
+                    {
+                      type: "image",
+                      styling: { borderRadius: 50 },
+                      url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+                    },
+                    {
+                      type: "container",
+                      styling: { marginLeft: "2%" },
+                      children: [
+                        {
+                          type: "subtitle",
+                          title: "Manager",
+                          styling: { marginBottom: -5 },
+                        },
+                        { type: "subtitle", title: "Neemrana, Rajasthan" },
+                      ],
+                    },
+                  ],
+                },
+              ],
             },
             {
-              type: "review",
-              testimony:
-                "“Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.”",
-              name: "Manager",
-              address: "Neemrana, Rajasthan",
-              imageUri:
-                "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-              stars: 5,
+              type: "container",
+              styling: { padding: "3%" },
+              children: [
+                {
+                  type: "container",
+                  styling: { flexDirection: "row", marginVertical: "3%" },
+                  children: [
+                    {
+                      type: "icon",
+                      iconName: "star",
+                      iconSize: 24,
+                      iconColor: "#F9C700",
+                    },
+                    {
+                      type: "icon",
+                      iconName: "star",
+                      iconSize: 24,
+                      iconColor: "#F9C700",
+                    },
+                    {
+                      type: "icon",
+                      iconName: "star",
+                      iconSize: 24,
+                      iconColor: "#F9C700",
+                    },
+                    {
+                      type: "icon",
+                      iconName: "star",
+                      iconSize: 24,
+                      iconColor: "#F9C700",
+                    },
+                    {
+                      type: "icon",
+                      iconName: "star",
+                      iconSize: 24,
+                      iconColor: "#F9C700",
+                    },
+                  ],
+                },
+                {
+                  type: "subtitle",
+                  styling: { fontSize: 16, lineHeight: 24 },
+                  title:
+                    "“Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.”",
+                },
+                {
+                  type: "twoColumn",
+                  widths: ["11%", "89%"],
+                  styling: {
+                    margin: 0,
+                    marginTop: "3%",
+                  },
+                  children: [
+                    {
+                      type: "image",
+                      styling: { borderRadius: 50 },
+                      url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+                    },
+                    {
+                      type: "container",
+                      styling: { marginLeft: "2%" },
+                      children: [
+                        {
+                          type: "subtitle",
+                          title: "Manager",
+                          styling: { marginBottom: -5 },
+                        },
+                        { type: "subtitle", title: "Neemrana, Rajasthan" },
+                      ],
+                    },
+                  ],
+                },
+              ],
             },
           ],
         },
@@ -348,6 +478,7 @@ export const DUMMY_RES = {
             {
               type: "video",
               videoUri: "ux6XLNiEpLs",
+              size: "small",
               thumbnail:
                 "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
             },
@@ -1770,7 +1901,7 @@ export const DUMMY_RES = {
   bottom_alert: [
     {
       type: "bottomAlert",
-      visible: true,
+      visible: false,
       children: [
         {
           type: "container",

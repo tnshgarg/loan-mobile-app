@@ -14,14 +14,16 @@ import PrimaryButton from "../atoms/PrimaryButton";
 import Rating from "../atoms/Rating";
 
 const FeedbackAlert = ({
-  rating,
-  setRating,
+  // rating,
+  // setRating,
+  ratingHook,
   category,
   setCategory,
   data,
   onSubmit,
 }) => {
   const [visible, setVisible] = useState(true);
+  const [rating, setRating] = ratingHook || [];
   return (
     <BottomSheetWrapper open={visible} setOpen={setVisible}>
       <Text style={styles.header}>Rate your experience</Text>

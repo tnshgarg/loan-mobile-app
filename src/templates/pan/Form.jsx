@@ -87,7 +87,7 @@ const PanFormTemplate = (props) => {
               onRightIconPress={() =>
                 navigationHelper({
                   type: "cms",
-                  params: { blogKey: "aadhaar_help" },
+                  params: { blogKey: "pan_help" },
                 })
               }
             >
@@ -100,7 +100,7 @@ const PanFormTemplate = (props) => {
             onRightIconPress={() =>
               navigationHelper({
                 type: "cms",
-                params: { blogKey: "aadhaar_help" },
+                params: { blogKey: "pan_help" },
               })
             }
           />
