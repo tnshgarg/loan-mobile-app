@@ -1767,6 +1767,47 @@ export const DUMMY_RES = {
       cta: "Click here to see details",
     },
   ],
+  bottom_alert: [
+    {
+      type: "bottomAlert",
+      visible: true,
+      children: [
+        {
+          type: "container",
+          styling: {
+            // height: 300,
+            // backgroundColor: "black",
+          },
+          children: [
+            {
+              type: "container",
+              // styling: { backgroundColor: "black" },
+              children: [
+                {
+                  type: "image",
+                  url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+                },
+              ],
+            },
+            {
+              type: "button",
+              title: "Verify Aadhaar",
+              variant: "filled",
+              clickType: "navigation",
+              styling: { marginTop: "5%" },
+            },
+            {
+              type: "button",
+              title: "Verify Aadhaar",
+              variant: "filled",
+              clickType: "navigation",
+              styling: { marginBottom: "5%" },
+            },
+          ],
+        },
+      ],
+    },
+  ],
   account: [
     {
       type: "container",

@@ -7,12 +7,16 @@ import Success from "../../../../assets/animations/Success";
 import Header from "../../../../components/atoms/Header";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
 import { strings } from "../../../../helpers/Localization";
-import { useGetDisbursementQuery } from "../../../../store/apiSlices/ewaApi";
+import {
+  useDisbursementFeedbackMutation,
+  useGetDisbursementQuery,
+} from "../../../../store/apiSlices/ewaApi";
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import { styles } from "../../../../styles";
 import SvgContainer from "../../../../components/atoms/SvgContainer";
 import { COLORS, FONTS } from "../../../../constants/Theme";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
+import FeedbackAlert from "../../../../components/molecules/FeedbackAlert";
 
 const Disbursement = ({ route, navigation }) => {
   const dispatch = useDispatch();
@@ -30,6 +34,16 @@ const Disbursement = ({ route, navigation }) => {
   const [loanAmount, setLoanAmount] = useState(0);
   const [netAmount, setNetAmount] = useState(0);
   const [status, setStatus] = useState("");
+  const [rating, setRating] = useState(0);
+  const [category, setCategory] = useState("");
+  const categoryData = [
+    "Medical Emergency",
+    "Shopping",
+    "Travel",
+    "Special Occasion",
+    "Other",
+  ];
+
   console.log({ status });
 
   const backAction = () => {
@@ -160,6 +174,25 @@ const Disbursement = ({ route, navigation }) => {
     { subTitle: "Loan Account Number", value: loanAccountNumber },
     { subTitle: "Transfer Status", value: status },
   ];
+  const [disbursementFeedback] = useDisbursementFeedbackMutation();
+  const onSubmitFeedback = () => {
+    let data = {
+      unipeEmployeeId: unipeEmployeeId,
+      language: "en",
+      contentType: "offerid-feedback",
+      content: { stars: rating, category: category },
+    };
+    disbursementFeedback(data)
+      .unwrap()
+      .then((res) => {
+        console.log("ewa/disbursement-feedback res: ", res);
+        const responseJson = res?.data;
+        console.log("ewa/disbursement-feedback responseJson: ", responseJson);
+      })
+      .catch((error) => {
+        console.log({ error });
+      });
+  };
 
   return (
     <SafeAreaView style={styles.safeContainer}>
@@ -178,6 +211,16 @@ const Disbursement = ({ route, navigation }) => {
             title={strings.loanDetails}
             info={strings.moneyAutoDebitedUpcomingSalary}
             iconName="ticket-percent-outline"
+          />
+        )}
+        {status != "SUCCESS" && (
+          <FeedbackAlert
+            data={categoryData}
+            setRating={setRating}
+            rating={rating}
+            setCategory={setCategory}
+            category={category}
+            onSubmit={onSubmitFeedback}
           />
         )}
       </View>

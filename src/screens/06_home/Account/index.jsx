@@ -61,7 +61,7 @@ const AccountMenu = (props) => {
 
   const image = aadhaar?.data?.photo_base64;
   console.log({ image });
-  const name = aadhaar.data?.name || pan.data?.name || auth.employeeName;
+  const name = aadhaar?.data?.name || pan.data?.name || auth.employeeName;
 
   const backAction = () => {
     navigation.navigate("HomeStack", {

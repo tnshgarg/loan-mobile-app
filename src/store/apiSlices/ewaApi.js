@@ -48,6 +48,14 @@ export const ewaApi = api
         }),
         providesTags: ["getDisbursement"],
       }),
+      disbursementFeedback: builder.mutation({
+        query: (body) => ({
+          url: `cms`,
+          method: "POST",
+          body: body,
+        }),
+        // invalidatesTags: ["disbursementFeedback"],
+      }),
     }),
     overrideExisting: true,
   });
@@ -58,4 +66,5 @@ export const {
   useUpdateKycMutation,
   useUpdateAgreementMutation,
   useGetDisbursementQuery,
+  useDisbursementFeedbackMutation,
 } = ewaApi;

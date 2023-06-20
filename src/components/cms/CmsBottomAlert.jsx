@@ -1,87 +1,17 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  Platform,
-  Image,
-} from "react-native";
-import React, { useEffect } from "react";
+import { View } from "react-native";
+import React, { useEffect, useState } from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
 import BottomSheetWrapper from "../atoms/BottomSheetWrapper";
-import { useState } from "react";
-import PrimaryButton from "../atoms/PrimaryButton";
-import CompleteKyc from "../../assets/CompleteKyc.svg";
 
-import SvgContainer from "../atoms/SvgContainer";
-import LinearGradient from "react-native-linear-gradient";
-
-const BottomAlert = ({ visible, setVisible, data }) => {
-  const {
-    title,
-    subtitle,
-    imageUri,
-    primaryBtnText,
-    onPressPrimaryBtn,
-    secondaryBtnText,
-    onPressSecondaryBtn,
-    primaryBtnIcon,
-  } = data;
+const CmsBottomAlert = ({ visible, children }) => {
+  const safeChildren = children || [];
+  const [alertVisible, setAlertVisible] = useState(visible);
   return (
-    <BottomSheetWrapper open={visible} setOpen={setVisible}>
-      <LinearGradient
-        style={styles.svgBackground}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        colors={[COLORS.lightGreen, COLORS.lightYellow]}
-      >
-        <SvgContainer width={250} height={200}>
-          {imageUri}
-        </SvgContainer>
-      </LinearGradient>
-
-      <Text
-        style={{
-          ...FONTS.h2,
-          color: COLORS.black,
-          alignSelf: "center",
-          marginVertical: 10,
-        }}
-      >
-        {title}
-      </Text>
-      <Text
-        style={{
-          ...FONTS.body3,
-          color: COLORS.gray,
-          alignSelf: "center",
-          textAlign: "center",
-          marginBottom: 5,
-        }}
-      >
-        {subtitle}
-      </Text>
-      <PrimaryButton
-        title={primaryBtnText}
-        iconName={primaryBtnIcon}
-        onPress={() => {
-          onPressPrimaryBtn();
-        }}
-      />
-
-      <PrimaryButton
-        title={secondaryBtnText}
-        containerStyle={{
-          borderWidth: 1.5,
-          borderColor: COLORS.black,
-          backgroundColor: COLORS.white,
-        }}
-        titleStyle={{ color: COLORS.black }}
-        onPress={() => {
-          onPressSecondaryBtn();
-        }}
-      />
+    <BottomSheetWrapper open={alertVisible} setOpen={setAlertVisible}>
+      {safeChildren?.map((child, index) => (
+        <View key={index}>{child.element(child)}</View>
+      ))}
     </BottomSheetWrapper>
   );
 };
@@ -109,4 +39,4 @@ const styles = EStyleSheet.create({
   },
 });
 
-export default BottomAlert;
+export default CmsBottomAlert;

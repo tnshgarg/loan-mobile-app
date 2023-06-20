@@ -24,6 +24,7 @@ import CmsVideo from "./CmsVideo";
 import { CmsMarkdown } from "./CmsMarkdown";
 import CmsFooter from "./CmsFooter";
 import CmsBadge from "./CmsBadge";
+import CmsBottomAlert from "./CmsBottomAlert";
 
 const CMS_TYPES = {
   markdown: CmsMarkdown,
@@ -50,6 +51,7 @@ const CMS_TYPES = {
   notification: CmsNotification,
   footer: CmsFooter,
   badge: CmsBadge,
+  bottomAlert: CmsBottomAlert,
   default: () => <></>,
 };
 

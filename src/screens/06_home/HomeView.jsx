@@ -202,8 +202,8 @@ const HomeView = () => {
   console.warn("No intent. User opened App.");
 
   useEffect(() => {
-    // if (!kycCompleted && !kycLoading) setAlertVisible(true);
-    if (true) setAlertVisible(true);
+    if (!kycCompleted && !kycLoading) setAlertVisible(true);
+    // if (true) setAlertVisible(true);
   }, []);
 
   const data = {
@@ -265,6 +265,7 @@ const HomeView = () => {
           <></>
         )} */}
         <CmsRoot children={DUMMY_RES?.home || []}></CmsRoot>
+        <CmsRoot children={DUMMY_RES?.bottom_alert || []}></CmsRoot>
         <View
           style={{
             width: "100%",
