@@ -90,7 +90,7 @@ const Mandate = () => {
         onRightIconPress={() =>
           navigationHelper({
             type: "cms",
-            params: { blogKey: "aadhaar_help" },
+            params: { blogKey: "mandate_help" },
           })
         }
       />

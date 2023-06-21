@@ -15,7 +15,7 @@ import {
   notificationListener,
   requestUserPermission,
 } from "../../services/notifications/notificationService";
-import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import {
   useDisbursementFeedbackMutation,
   useGetOffersQuery,
@@ -32,7 +32,6 @@ import {
 import { addCurrentStack } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
-import { DUMMY_RES } from "../../constants/Strings";
 
 const HomeView = () => {
   const [visible, setVisible] = useState(false);

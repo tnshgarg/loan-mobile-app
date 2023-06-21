@@ -12,7 +12,6 @@ import CmsIconText from "./CmsIconText";
 import CmsImage from "./CmsImage";
 import { CmsMarkdown } from "./CmsMarkdown";
 import CmsNotification from "./CmsNotification";
-import CmsReview from "./CmsReview";
 import CmsSection from "./CmsSection";
 import CmsSpacer from "./CmsSpacer";
 import CmsSubtitle from "./CmsSubtitle";
@@ -34,7 +33,6 @@ const CMS_TYPES = {
   banner: CmsBanner,
   column: CmsColumn,
   video: CmsVideo,
-  review: CmsReview,
   tabs: CmsTabs,
   card: CmsCard,
   twoColumn: CmsTwoColumn,

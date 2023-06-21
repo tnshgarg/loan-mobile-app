@@ -88,13 +88,13 @@ const KycSuccess = () => {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
-  //   const {
-  //   data: cmsData,
-  //   isLoading: cmsLoading,
-  //   isError: cmsError,
-  // } = useGetCmsQuery(unipeEmployeeId, {
-  //   pollingInterval: 1000,
-  // });
+  const {
+    data: cmsData,
+    isLoading: cmsLoading,
+    isError: cmsError,
+  } = useGetCmsQuery(unipeEmployeeId, {
+    pollingInterval: 1000,
+  });
 
   return (
     <SafeAreaView style={styles.safeContainer}>
@@ -104,17 +104,16 @@ const KycSuccess = () => {
         onRightIconPress={() =>
           navigationHelper({
             type: "cms",
-            params: { blogKey: "aadhaar_help" },
+            params: { blogKey: "mandate_help" },
           })
         }
       />
 
-      {/* {!cmsLoading ? (
-          <CmsRoot children={cmsData?.kyc_success || []}></CmsRoot>
-        ) : (
-          <></>
-        )} */}
-      <CmsRoot children={DUMMY_RES?.kyc_success || []}></CmsRoot>
+      {!cmsLoading ? (
+        <CmsRoot children={cmsData?.kyc_success || []}></CmsRoot>
+      ) : (
+        <></>
+      )}
     </SafeAreaView>
   );
 };

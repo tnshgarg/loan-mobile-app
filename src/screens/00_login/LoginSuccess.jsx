@@ -92,13 +92,13 @@ const LoginSuccess = () => {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
-  // const {
-  //   data: cmsData,
-  //   isLoading: cmsLoading,
-  //   isError: cmsError,
-  // } = useGetCmsQuery(unipeEmployeeId, {
-  //   pollingInterval: 1000,
-  // });
+  const {
+    data: cmsData,
+    isLoading: cmsLoading,
+    isError: cmsError,
+  } = useGetCmsQuery(unipeEmployeeId, {
+    pollingInterval: 1000,
+  });
 
   return (
     <SafeAreaView accessibilityLabel="WelcomePage" style={styles.safeContainer}>
@@ -112,12 +112,11 @@ const LoginSuccess = () => {
           })
         }
       />
-      {/* {!cmsLoading ? (
-          <CmsRoot children={cmsData?.login_success || []}></CmsRoot>
-        ) : (
-          <></>
-        )} */}
-      <CmsRoot children={DUMMY_RES?.login_success || []}></CmsRoot>
+      {!cmsLoading ? (
+        <CmsRoot children={cmsData?.login_success || []}></CmsRoot>
+      ) : (
+        <></>
+      )}
     </SafeAreaView>
   );
 };

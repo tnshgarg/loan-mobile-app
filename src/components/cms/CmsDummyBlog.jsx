@@ -2,11 +2,10 @@ import { useNavigation } from "@react-navigation/core";
 import React from "react";
 import { ScrollView, View } from "react-native";
 import { useSelector } from "react-redux";
-import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { styles } from "../../styles";
 import LogoHeaderBack from "../molecules/LogoHeaderBack";
 import CmsRoot from "./CmsRoot";
-import { DUMMY_RES } from "../../constants/Strings";
 
 const CmsDummyBlog = (props) => {
   const navigation = useNavigation();
@@ -20,9 +19,8 @@ const CmsDummyBlog = (props) => {
 
   console.log("route.params: ", props.route.params);
 
-  // let blogKey = props.route?.params?.blogKey;
   // const { data, screenTitle, headline, headingImage } =
-  //   DUMMY_RES?.["aadhaar_help"] ?? {};
+  //   DUMMY_RES?.["kyc_help"] ?? {};
 
   let blogKey = props.route?.params?.blogKey;
   const { data, screenTitle, headline, headingImage } =
@@ -47,8 +45,8 @@ const CmsDummyBlog = (props) => {
       />
       <ScrollView>
         <View style={[styles.container, { padding: 0 }]}>
-          {/* {!cmsLoading ? <CmsRoot children={data}></CmsRoot> : <></>} */}
-          <CmsRoot children={data}></CmsRoot>
+          {!cmsLoading ? <CmsRoot children={data}></CmsRoot> : <></>}
+          {/* <CmsRoot children={data}></CmsRoot> */}
         </View>
       </ScrollView>
     </View>

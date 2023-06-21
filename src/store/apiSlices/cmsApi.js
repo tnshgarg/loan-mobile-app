@@ -1494,6 +1494,204 @@ export const DUMMY_RES = {
     ],
   },
 
+  kyc_help: {
+    screenTitle: "Help - KYC Verification",
+    data: [
+      {
+        type: "container",
+        styling: { padding: "4%" },
+        children: [
+          {
+            type: "twoColumn",
+            widths: ["35%", "65%"],
+            styling: { margin: 0 },
+            children: [
+              {
+                type: "image",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/Logo.png",
+                styling: {
+                  width: "100%",
+                  flex: 1,
+                  aspectRatio: 1.6,
+                },
+              },
+              {
+                type: "container",
+                styling: {
+                  flex: 1,
+                  justifyContent: "center",
+                  paddingLeft: "5%",
+                  // backgroundColor: "black",
+                },
+                children: [
+                  {
+                    type: "title",
+                    title: "KYC verification in just 3 simple steps",
+                  },
+                  {
+                    type: "subtitle",
+                    title: "Verify your identity & complete your full KYC",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: "button",
+            title: "Start KYC",
+            variant: "filled",
+            clickType: "navigation",
+            styling: { marginVertical: "10%" },
+            navigate: { type: "app", screen: "KycProgress" },
+          },
+          {
+            type: "video",
+            size: "large",
+            thumbnail:
+              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+          },
+          {
+            type: "container",
+            styling: {
+              flexDirection: "row",
+              alignItems: "center",
+              marginVertical: "5%",
+            },
+            children: [
+              {
+                type: "badge",
+                text: "Step 1",
+              },
+              {
+                type: "title",
+                title: "Verify Aadhaar",
+                styling: { fontSize: 18, marginLeft: "10%" },
+              },
+            ],
+          },
+          {
+            type: "container",
+            styling: { paddingTop: 0 },
+            children: [
+              {
+                type: "subtitle",
+                title:
+                  "Enter your Aadhaar number and complete verification with OTP",
+                styling: { fontSize: 16 },
+              },
+              {
+                type: "image",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/step1.png",
+                styling: { marginTop: "5%" },
+              },
+            ],
+          },
+          {
+            type: "container",
+            styling: {
+              flexDirection: "row",
+              alignItems: "center",
+              marginVertical: "5%",
+            },
+            children: [
+              { type: "badge", text: "Step 2" },
+              {
+                type: "title",
+                title: "Verify PAN Card",
+                styling: { fontSize: 18, marginLeft: "10%" },
+              },
+            ],
+          },
+          {
+            type: "container",
+            styling: { paddingTop: 0 },
+            children: [
+              {
+                type: "subtitle",
+                title: "Enter your PAN Card number and verify the details.",
+                styling: { fontSize: 16 },
+              },
+              {
+                type: "image",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/step2.png",
+                styling: { marginTop: "5%" },
+              },
+            ],
+          },
+          {
+            type: "container",
+            styling: {
+              flexDirection: "row",
+              alignItems: "center",
+              marginVertical: "5%",
+            },
+            children: [
+              { type: "badge", text: "Step 3" },
+              {
+                type: "title",
+                title: "Add Bank Account",
+                styling: { fontSize: 18, marginLeft: "10%" },
+              },
+            ],
+          },
+          {
+            type: "container",
+            styling: { paddingTop: 0 },
+            children: [
+              {
+                type: "subtitle",
+                title:
+                  "Enter your bank account number to receive the advance salary money",
+                styling: { fontSize: 16 },
+              },
+              {
+                type: "image",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/step3.png",
+                styling: { marginTop: "5%" },
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "section",
+        title: "Frequently Asked Questions",
+        children: [
+          {
+            type: "collapsibleList",
+            title: "Q: Do I need to pay for KYC",
+            subtitle: "A: No. KYC is FREE.",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: Why do I need to do KYC?",
+            subtitle:
+              "A: As per RBI Regulations, KYC verification is mandatory.",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: What are the required documents for KYC?",
+            subtitle:
+              "A: Aadhaar Card and PAN Card are mandatory to initiate KYC process.",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: How much time will KYC Process take?",
+            subtitle: "A: KYC happens instantly with government APIs.",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: What happens if I don’t complete my minimum KYC?",
+            subtitle: "A: You won't be able to withdraw your advance salary.",
+          },
+        ],
+      },
+      {
+        type: "footer",
+      },
+    ],
+  },
+
   aadhaar_help: {
     screenTitle: "Help - Aadhaar Verification",
     data: [
@@ -1680,6 +1878,183 @@ export const DUMMY_RES = {
             title: "Q: Do I need to submit physical copy of my Aadhaar card?",
             subtitle:
               "A: No. Aadhaar verification is a completely paperless process.",
+          },
+        ],
+      },
+      {
+        type: "footer",
+      },
+    ],
+  },
+
+  mandate_help: {
+    screenTitle: "Help - Mandate Registration",
+    data: [
+      {
+        type: "container",
+        styling: { padding: "4%" },
+        children: [
+          {
+            type: "twoColumn",
+            widths: ["35%", "65%"],
+            styling: { margin: 0 },
+            children: [
+              {
+                type: "image",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Mandata/Logo.png",
+                styling: {
+                  width: "100%",
+                  flex: 1,
+                  aspectRatio: 1.6,
+                },
+              },
+              {
+                type: "container",
+                styling: {
+                  flex: 1,
+                  justifyContent: "center",
+                  paddingLeft: "5%",
+                  // backgroundColor: "black",
+                },
+                children: [
+                  { type: "title", title: "Adding Repayment Method (Mandate)" },
+                  {
+                    type: "subtitle",
+                    title: "Choose one of the methods to setup repayment.",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: "button",
+            title: "Add Mandate",
+            variant: "filled",
+            clickType: "navigation",
+            styling: { marginVertical: "10%" },
+          },
+          {
+            type: "video",
+
+            size: "large",
+            thumbnail:
+              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+          },
+          {
+            type: "container",
+            styling: {
+              flexDirection: "row",
+              alignItems: "center",
+              marginVertical: "5%",
+            },
+            children: [
+              {
+                type: "badge",
+                text: "OPTION 1",
+              },
+              {
+                type: "title",
+                title: "Debit Card",
+                styling: { fontSize: 18, marginLeft: "10%" },
+              },
+            ],
+          },
+          {
+            type: "container",
+            styling: { paddingTop: 0 },
+            children: [
+              {
+                type: "subtitle",
+                title:
+                  "To complete Mandate with a debit card, provide your debit card details and OTP to authenticate your Mandate.",
+                styling: { fontSize: 16 },
+              },
+            ],
+          },
+          {
+            type: "container",
+            styling: {
+              flexDirection: "row",
+              alignItems: "center",
+              marginVertical: "5%",
+            },
+            children: [
+              { type: "badge", text: "OPTION 2" },
+              {
+                type: "title",
+                title: "Net Banking",
+                styling: { fontSize: 18, marginLeft: "10%" },
+              },
+            ],
+          },
+          {
+            type: "container",
+            styling: { paddingTop: 0 },
+            children: [
+              {
+                type: "subtitle",
+                title:
+                  "To complete Mandate with a debit card, provide your debit card details and OTP to authenticate your Mandate.",
+                styling: { fontSize: 16 },
+              },
+            ],
+          },
+          {
+            type: "container",
+            styling: {
+              flexDirection: "row",
+              alignItems: "center",
+              marginVertical: "5%",
+            },
+            children: [
+              { type: "badge", text: "OPTION 3" },
+              {
+                type: "title",
+                title: "Aadhaar Card",
+                styling: { fontSize: 18, marginLeft: "10%" },
+              },
+            ],
+          },
+          {
+            type: "container",
+            styling: { paddingTop: 0 },
+            children: [
+              {
+                type: "subtitle",
+                title:
+                  "To complete Mandate with a debit card, provide your debit card details and OTP to authenticate your Mandate.",
+                styling: { fontSize: 16 },
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "section",
+        title: "Frequently Asked Questions",
+        children: [
+          {
+            type: "collapsibleList",
+            title: "Q: Is it mandatory to add Repayment Method (Mandate)?",
+            subtitle:
+              "A: Yes. This is 100% secure and executed by an RBI approved entity.",
+          },
+          {
+            type: "collapsibleList",
+            title:
+              "Q:  What happens in case of insufficient balance in the bank account for auto-debit?",
+            subtitle:
+              "A: The transaction will fail and may impose additional penalty charges.",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: What is the fastest way to register mandate?",
+            subtitle: "A: Debit Card",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: How much time will Aadhaar Mandate take?",
+            subtitle: "A: 4-5 Banking Days",
           },
         ],
       },
