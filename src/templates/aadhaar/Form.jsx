@@ -8,7 +8,6 @@ import FormInput from "../../components/atoms/FormInput";
 import InfoCard from "../../components/atoms/InfoCard";
 import { COLORS, FONTS } from "../../constants/Theme";
 import HelpCard from "../../components/atoms/HelpCard";
-import { useGetAadhaarQuery } from "../../store/apiSlices/aadhaarApi";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { styles } from "../../styles";
 import { addNumber } from "../../store/slices/aadhaarSlice";

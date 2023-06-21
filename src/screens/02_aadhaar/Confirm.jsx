@@ -10,6 +10,7 @@ import Header from "../../components/atoms/Header";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { strings } from "../../helpers/Localization";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import BottomAlert from "../../components/molecules/BottomAlert";
 
 const AadhaarConfirm = () => {
   const dispatch = useDispatch();
@@ -20,10 +21,7 @@ const AadhaarConfirm = () => {
   }, []);
 
   const backAction = () => {
-    Alert.alert(strings.holdOn, strings.goBackAadhaarVerification, [
-      { text: "No", onPress: () => null, style: "cancel" },
-      { text: "Yes", onPress: () => navigation.navigate("AadhaarForm") },
-    ]);
+    setAlertVisible(true);
     return true;
   };
 
@@ -32,6 +30,27 @@ const AadhaarConfirm = () => {
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
+
+  const [alertVisible, setAlertVisible] = useState(false);
+
+  const alertData = {
+    title: "Wait! KYC is in progress",
+    subtitle: "To get advance salary you must complete your KYC",
+
+    imageUri:
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+    primaryBtnText: "Continue KYC",
+    onPressPrimaryBtn: () => {
+      setAlertVisible(false);
+    },
+    secondaryBtnText: "I will do it later",
+    infoText: "",
+    contentContainerStyle: { flexDirection: "column-reverse" },
+    onPressSecondaryBtn: () => {
+      setAlertVisible(false);
+      navigation.navigate("HomeStack");
+    },
+  };
 
   return (
     <SafeAreaView style={styles.safeContainer}>
@@ -42,6 +61,13 @@ const AadhaarConfirm = () => {
           "क्या ये स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?"
         }
       />
+      {alertVisible && (
+        <BottomAlert
+          visible={alertVisible}
+          setVisible={setAlertVisible}
+          data={alertData}
+        />
+      )}
       <ScrollView keyboardShouldPersistTaps="handled">
         <AadhaarConfirmApi />
       </ScrollView>

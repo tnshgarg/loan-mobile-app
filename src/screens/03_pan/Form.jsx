@@ -7,9 +7,9 @@ import { styles } from "../../styles";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import PanFormTemplate from "../../templates/pan/Form";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
-import { useGetAadhaarQuery } from "../../store/apiSlices/aadhaarApi";
 import { strings } from "../../helpers/Localization";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 
 export default PanForm = () => {
   const [visible, setVisible] = useState(false);
@@ -17,11 +17,13 @@ export default PanForm = () => {
   const navigation = useNavigation();
 
   const { unipeEmployeeId } = useSelector((state) => state.auth);
-  const { data: aadhaarData } = useGetAadhaarQuery(unipeEmployeeId, {
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
     pollingInterval: 1000 * 60 * 60 * 24,
   });
 
-  console.log({ aadhaarData });
+  console.log({ kycData });
+
+  const { aadhaar, pan, bank } = kycData ?? {};
 
   useEffect(() => {
     dispatch(addCurrentScreen("PanForm"));
@@ -36,7 +38,7 @@ export default PanForm = () => {
         {
           text: "Yes",
           onPress: () => {
-            aadhaarData?.verifyStatus === "SUCCESS"
+            aadhaar?.verifyStatus === "SUCCESS"
               ? navigation.navigate("AadhaarConfirm")
               : navigation.navigate("AadhaarForm");
           },

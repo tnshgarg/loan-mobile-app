@@ -8,6 +8,7 @@ import AadhaarFormTemplate from "../../templates/aadhaar/Form";
 import { styles } from "../../styles";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
+import BottomAlert from "../../components/molecules/BottomAlert";
 
 const AadhaarForm = () => {
   const dispatch = useDispatch();
@@ -19,10 +20,7 @@ const AadhaarForm = () => {
   }, []);
 
   const backAction = () => {
-    Alert.alert("Hold on!", "Are you sure you want to go back?", [
-      { text: "No", onPress: () => null, style: "cancel" },
-      { text: "Yes", onPress: () => navigation.navigate("ProfileForm") },
-    ]);
+    setAlertVisible(true);
     return true;
   };
 
@@ -31,6 +29,27 @@ const AadhaarForm = () => {
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
+
+  const [alertVisible, setAlertVisible] = useState(false);
+
+  const alertData = {
+    title: "Wait! KYC is in progress",
+    subtitle: "To get advance salary you must complete your KYC",
+
+    imageUri:
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+    primaryBtnText: "Continue KYC",
+    onPressPrimaryBtn: () => {
+      setAlertVisible(false);
+    },
+    secondaryBtnText: "I will do it later",
+    infoText: "",
+    contentContainerStyle: { flexDirection: "column-reverse" },
+    onPressSecondaryBtn: () => {
+      setAlertVisible(false);
+      navigation.navigate("HomeStack");
+    },
+  };
 
   return (
     <SafeAreaView style={styles.safeContainer} accessibilityLabel="AadhaarForm">
@@ -47,6 +66,14 @@ const AadhaarForm = () => {
           })
         }
       />
+
+      {alertVisible && (
+        <BottomAlert
+          visible={alertVisible}
+          setVisible={setAlertVisible}
+          data={alertData}
+        />
+      )}
 
       <AadhaarFormTemplate setHelpSectionVisible={setVisible} />
     </SafeAreaView>

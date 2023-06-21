@@ -1,7 +1,6 @@
 import React from "react";
 import { View } from "react-native";
 import CmsBanner from "./CmsBanner";
-import CmsBlog from "./CmsBlog";
 import CmsButton from "./CmsButton";
 import CmsCard from "./CmsCard";
 import CmsCollapsibleList from "./CmsCollapsibleList";
@@ -38,7 +37,6 @@ const CMS_TYPES = {
   threeColumn: CmsThreeColumn,
   title: CmsTitle,
   subtitle: CmsSubtitle,
-  blog: CmsBlog,
   button: CmsButton,
   container: CmsContainer,
   iconText: CmsIconText,
