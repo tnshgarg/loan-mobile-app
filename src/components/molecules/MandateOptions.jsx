@@ -4,17 +4,24 @@ import { View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import ListItem from "../atoms/ListItem";
-import bankCodeEmandateOptionsMap from "../../assets/bankCodeEmandateOptionsMap";
-
+import { useGetMandateOptionsQuery } from "../../store/apiSlices/mandateApi";
+import { useIsFocused } from "@react-navigation/native";
 const MandateOptions = ({ ProceedButton, disabled, authType }) => {
-  const ifsc = useSelector((state) => state.bank?.data?.ifsc);
-
+  const isFocused = useIsFocused();
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const [mandateButtons, setMandateButtons] = useState([]);
+  const { error: getMandateOptionsError, data: getMandateOptionsData } =
+    useGetMandateOptionsQuery(unipeEmployeeId, {
+      pollingInterval: isFocused ? 1000 * 2 : undefined,
+    });
 
   useEffect(() => {
     let mandateOptions = [];
-    let bankCode = ifsc.substring(0, 4);
-    let emandateOptions = bankCodeEmandateOptionsMap[bankCode] || "000";
+    let emandateOptions = "000";
+    console.log("getMandateOptionsData", getMandateOptionsData);
+    if (!getMandateOptionsError && getMandateOptionsData?.body?.methods) {
+      emandateOptions = getMandateOptionsData?.body?.methods;
+    }
     mandateOptions.push({
       title: "UPI",
       subtitle: "Instant registration",
@@ -22,7 +29,7 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
       iconName: "card-account-details-outline",
       type: "upi",
       onPress: () => {
-        ProceedButton({ authType: "upi" , provider : "cashfree"});
+        ProceedButton({ authType: "upi", provider: "cashfree" });
       },
     });
     if (emandateOptions[2] === "1") {
@@ -79,7 +86,7 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
         },
       ]);
     }
-  }, [ifsc]);
+  }, [unipeEmployeeId]);
 
   return (
     <View style={styles.container}>
