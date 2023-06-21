@@ -1,29 +1,20 @@
-import { useEffect, useState } from "react";
-import {
-  Image,
-  Modal,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { COLORS, FONTS, SIZES } from "../../constants/Theme";
+import { COLORS, FONTS } from "../../constants/Theme";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import HelpFooterImage from "../../assets/HelpFooter.png";
-import SvgContainer from "../atoms/SvgContainer";
+import { strings } from "../../helpers/Localization";
 import whatsappLinking from "../../helpers/WhatsappLinking";
 
 const CmsFooter = () => {
   return (
     <View style={styles.container}>
       <Text style={{ ...FONTS.h3, color: COLORS.secondary }}>
-        Still need help?
+        {strings.stillNeedHelp}
       </Text>
       <Text style={{ ...FONTS.body3, color: COLORS.secondary, marginTop: 10 }}>
-        Have queries? please get in touch and we will be happy to help you
+        {strings.getInTouch}
       </Text>
       <TouchableOpacity
         activeOpacity={0.7}
@@ -59,9 +50,11 @@ const CmsFooter = () => {
         </View>
 
         <View style={{ flexDirection: "column", paddingLeft: 10 }}>
-          <Text style={{ ...FONTS.body5, color: COLORS.gray }}>Need help?</Text>
+          <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
+            {strings.needHelp}
+          </Text>
           <Text style={{ ...FONTS.body4, color: "#00DB10" }}>
-            Contact Support
+            {strings.contactSupport}
           </Text>
         </View>
       </TouchableOpacity>

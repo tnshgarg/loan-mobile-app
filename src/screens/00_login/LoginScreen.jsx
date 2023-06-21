@@ -274,13 +274,13 @@ const LoginScreen = () => {
       </Animated.View>
       <View style={[styles.container, { flex: 0 }]}>
         <PrimaryButton
-          title="Continue"
+          title={strings.continue}
           accessibilityLabel="LoginNextBtn"
           disabled={!next}
           loading={loading}
           onPress={() => signIn()}
         />
-        <ShieldTitle title={"100% Secure"} />
+        <ShieldTitle title={strings.secured} />
       </View>
     </SafeAreaView>
   );

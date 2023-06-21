@@ -223,4 +223,30 @@ export default {
   takeBusinessDays: "Takes upto 1 business day",
   withdrawalDeduction:
     "The withdrawl will be deducted from your upcoming paycheck",
+  loanAgreement: "Loan Agreement",
+  learnWithUs: "Learn With Us",
+  getYouVerified: "Let’s get you verified",
+  complete4Steps: "Complete the following 4 steps to verify your account ",
+  step: "Step",
+  goodAfternoon: "Good Afternoon",
+  needHelp: "Need help?",
+  clickHere: "Click here",
+  stillNeedHelp: "Still need help?",
+  getInTouch:
+    "Have queries? please get in touch and we will be happy to help you",
+  contactSupport: "Contact Support",
+  explore: "Explore",
+  loggingOut: "Logging you out...",
+  logout: "Logout",
+  amountDue: "Amount Due",
+  noInternet: "No Internet",
+  checkInternetConnection: "Please check your internet connection",
+  refresh: "Refresh",
+  rbiGuidelines:
+    "As per RBI guidelines, you have to complete e-KYC to get Advance Salary",
+  rbiApprovedLendingPartners: "RBI approved Lending Partners",
+  transport: "Transport",
+  pleaseNote:
+    "Please note: We will use this bank account/UPI ID to deposite your salary every month, Please provide your own bank account details.",
 };
+

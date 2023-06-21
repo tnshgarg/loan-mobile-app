@@ -6,8 +6,11 @@ import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import BankVerifyApi from "../../apis/bank/Verify";
 import InfoCard from "../../components/atoms/InfoCard";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
+import ShieldTitle from "../../components/atoms/ShieldTitle";
 import PopableInput from "../../components/molecules/PopableInput";
 import { strings } from "../../helpers/Localization";
+import { KYC_POLLING_DURATION } from "../../services/constants";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import {
   addAccountHolderName,
   addAccountNumber,
@@ -15,9 +18,6 @@ import {
   addUpi,
 } from "../../store/slices/bankSlice";
 import { bankform, styles } from "../../styles";
-import ShieldTitle from "../../components/atoms/ShieldTitle";
-import { useGetKycQuery } from "../../store/apiSlices/kycApi";
-import { KYC_POLLING_DURATION } from "../../services/constants";
 
 const BankFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -81,9 +81,7 @@ const BankFormTemplate = (props) => {
               value={accountHolderName}
               onChange={setAccountHolderName}
               autoCapitalize="characters"
-              content={
-                "Refer to your Bank Passbook or Cheque book for the exact Name mentioned in your bank records"
-              }
+              content={strings.referToPassbook}
             />
 
             <PopableInput
@@ -93,9 +91,7 @@ const BankFormTemplate = (props) => {
               onChange={setAccountNumber}
               autoFocus={isFocused}
               autoCapitalize="characters"
-              content={
-                "Refer to your Bank Passbook or Cheque book to get the Bank Account Number."
-              }
+              content={strings.refertoGetAccountNumber}
             />
             {accountNumber && !accNumNext ? (
               <Text style={bankform.formatmsg}>{strings.incorrectFormat}</Text>
@@ -107,9 +103,7 @@ const BankFormTemplate = (props) => {
               value={ifsc}
               onChange={setIfsc}
               autoCapitalize="characters"
-              content={
-                "You can find the IFSC code on the cheque book or bank passbook that is provided by the bank"
-              }
+              content={strings.find}
             />
 
             {ifsc && !ifscNext ? (
@@ -124,11 +118,7 @@ const BankFormTemplate = (props) => {
               content={strings.lotsOfUpiApps}
             />
 
-            <InfoCard
-              info={
-                "Please note: We will use this bank account/UPI ID to deposite your salary every month, Please provide your own bank account details."
-              }
-            />
+            <InfoCard info={strings.pleaseNote} />
 
             <BankVerifyApi
               disabled={!ifscNext || !accNumNext || !accountHolderName}

@@ -1,22 +1,21 @@
-import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/core";
 import React from "react";
-import { styles } from "../styles";
-import LogoHeaderBack from "../components/molecules/LogoHeaderBack";
-import { COLORS, FONTS } from "../constants/Theme";
-import Profile from "../assets/Profile.svg";
+import { SafeAreaView, Text, View } from "react-native";
+import { useSelector } from "react-redux";
+import Aadhaar from "../assets/Aadhaar.svg";
 import Bank from "../assets/Bank.svg";
 import Pan from "../assets/Pan.svg";
+import Profile from "../assets/Profile.svg";
 import Tick from "../assets/Tick.svg";
-import Aadhaar from "../assets/Aadhaar.svg";
-import SvgContainer from "../components/atoms/SvgContainer";
-import LinearGradient from "react-native-linear-gradient";
-import PrimaryButton from "../components/atoms/PrimaryButton";
-import { useSelector } from "react-redux";
 import Badge from "../components/atoms/Badge";
 import LogoHeader from "../components/atoms/LogoHeader";
-import { useNavigation } from "@react-navigation/core";
-import { useGetKycQuery } from "../store/apiSlices/kycApi";
+import PrimaryButton from "../components/atoms/PrimaryButton";
+import SvgContainer from "../components/atoms/SvgContainer";
+import { COLORS, FONTS } from "../constants/Theme";
+import { strings } from "../helpers/Localization";
 import { KYC_POLLING_DURATION } from "../services/constants";
+import { useGetKycQuery } from "../store/apiSlices/kycApi";
+import { styles } from "../styles";
 
 const KycProgress = () => {
   const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
@@ -138,8 +137,8 @@ const KycProgress = () => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeader
-        headline={"Let’s get you verified"}
-        subHeadline={"Complete the following 4 steps to verify your account "}
+        headline={strings.getYouVerified}
+        subHeadline={strings.complete4Steps}
       />
       <View style={styles.container}>
         {kycSteps.map((item, index) => (
@@ -179,11 +178,14 @@ const KycProgress = () => {
               </SvgContainer>
             ) : null}
 
-            <Badge text={`STEP ${index + 1}`} />
+            <Badge text={`${strings.step} ${index + 1}`} />
           </View>
         ))}
         <View style={{ flex: 1 }} />
-        <PrimaryButton title={"Continue"} onPress={handleConditionalNav} />
+        <PrimaryButton
+          title={strings.continue}
+          onPress={handleConditionalNav}
+        />
       </View>
     </SafeAreaView>
   );

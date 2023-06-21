@@ -8,13 +8,17 @@ import CmsRoot from "../../components/cms/CmsRoot";
 import BottomAlert from "../../components/molecules/BottomAlert";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
+import { DUMMY_RES } from "../../constants/Strings";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
+import { strings } from "../../helpers/Localization";
+import { CMS_POLLING_DURATION, EWA_POLLING_DURATION, KYC_POLLING_DURATION } from "../../services/constants";
 import {
   notificationListener,
   requestUserPermission,
 } from "../../services/notifications/notificationService";
-import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import {
   useDisbursementFeedbackMutation,
   useGetOffersQuery,
@@ -30,9 +34,6 @@ import {
 } from "../../store/slices/ewaLiveSlice";
 import { addCurrentStack } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
-import { navigationHelper } from "../../helpers/CmsNavigationHelper";
-import CmsOverlay from "../../components/cms/CmsOverlay";
-import { CMS_POLLING_DURATION, KYC_POLLING_DURATION, EWA_POLLING_DURATION } from "../../services/constants";
 
 const HomeView = () => {
   const [visible, setVisible] = useState(false);
@@ -215,7 +216,7 @@ const HomeView = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <LogoHeaderBack
           notificationIconPresent={true}
-          title={`Good Afternoon \n${name}!`}
+          title={`${strings.goodAfternoon} \n${name}!`}
           onRightIconPress={() => {
             navigationHelper({
               type: "cms",
@@ -252,7 +253,7 @@ const HomeView = () => {
           }}
         >
           <Text style={{ ...FONTS.body4, color: COLORS.white }}>
-            RBI approved Lending Partners
+            {strings.rbiApprovedLendingPartners}
           </Text>
         </View>
       </ScrollView>

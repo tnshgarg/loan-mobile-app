@@ -270,7 +270,7 @@ const Agreement = () => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
-        title={"Loan agreement"}
+        title={strings.loanAgreement}
         onLeftIconPress={() => backAction()}
         subHeadline={strings.confirmIfTheseDetails}
       />
