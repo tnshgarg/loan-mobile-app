@@ -4,7 +4,6 @@ import { SafeAreaView, ScrollView, Text, View } from "react-native";
 // import PushNotification from 'react-native-push-notification';
 import { STAGE } from "@env";
 import { useDispatch, useSelector } from "react-redux";
-import CmsMiniPlacement from "../../components/cms/CmsMiniPlacement";
 import CmsRoot from "../../components/cms/CmsRoot";
 import BottomAlert from "../../components/molecules/BottomAlert";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
@@ -32,6 +31,7 @@ import {
 import { addCurrentStack } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
+import CmsOverlay from "../../components/cms/CmsOverlay";
 
 const HomeView = () => {
   const [visible, setVisible] = useState(false);
@@ -211,14 +211,7 @@ const HomeView = () => {
   }, []);
 
   return (
-    <SafeAreaView
-      style={[
-        styles.safeContainer,
-        cmsData?.miniPlacement ? { paddingBottom: 60 } : { paddingBottom: 0 },
-      ]}
-    >
-      {cmsData?.miniPlacement ? <CmsMiniPlacement /> : <></>}
-
+    <SafeAreaView style={[styles.safeContainer]}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <LogoHeaderBack
           notificationIconPresent={true}
@@ -269,6 +262,7 @@ const HomeView = () => {
           data={data}
         />
       )}
+      <CmsRoot children={DUMMY_RES?.mini_placement || []} />
     </SafeAreaView>
   );
 };

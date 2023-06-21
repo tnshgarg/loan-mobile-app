@@ -16,7 +16,6 @@ import CmsSection from "./CmsSection";
 import CmsSpacer from "./CmsSpacer";
 import CmsSubtitle from "./CmsSubtitle";
 import CmsSwiper from "./CmsSwiper";
-import CmsTabs from "./CmsTabs";
 import CmsThreeColumn from "./CmsThreeColumn";
 import CmsTitle from "./CmsTitle";
 import CmsTwoColumn from "./CmsTwoColumn";
@@ -24,6 +23,7 @@ import CmsVideo from "./CmsVideo";
 import CmsFooter from "./CmsFooter";
 import CmsBadge from "./CmsBadge";
 import CmsBottomAlert from "./CmsBottomAlert";
+import CmsOverlay from "./CmsOverlay";
 
 const CMS_TYPES = {
   markdown: CmsMarkdown,
@@ -33,7 +33,6 @@ const CMS_TYPES = {
   banner: CmsBanner,
   column: CmsColumn,
   video: CmsVideo,
-  tabs: CmsTabs,
   card: CmsCard,
   twoColumn: CmsTwoColumn,
   threeColumn: CmsThreeColumn,
@@ -50,6 +49,7 @@ const CMS_TYPES = {
   footer: CmsFooter,
   badge: CmsBadge,
   bottomAlert: CmsBottomAlert,
+  overlay: CmsOverlay,
   default: () => <></>,
 };
 

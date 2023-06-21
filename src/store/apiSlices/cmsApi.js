@@ -1689,6 +1689,19 @@ export const DUMMY_RES = {
       {
         type: "footer",
       },
+      // {
+      //   type: "overlay",
+      //   visible: true,
+      //   children: [
+      //     {
+      //       type: "button",
+      //       title: "Start KYC",
+      //       variant: "filled",
+      //       clickType: "navigation",
+      //       navigate: { type: "app", screen: "KycProgress" },
+      //     },
+      //   ],
+      // },
     ],
   },
 
@@ -2251,13 +2264,43 @@ export const DUMMY_RES = {
       },
     ],
   },
-  miniPlacement: [
+  mini_placement: [
     {
-      type: "mini_placement",
-      leftIcon:
-        "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/learn.png",
-      title: "March Payslip is ready for download",
-      cta: "Click here to see details",
+      type: "overlay",
+      visible: true,
+      styling: {
+        backgroundColor: "#377476",
+      },
+      children: [
+        {
+          type: "container",
+          // widths: ["10%", "90%"],
+          styling: { flexDirection: "row", alignItems: "center" },
+          children: [
+            {
+              type: "image",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/learn.png",
+              styling: { height: 32, width: 32 },
+            },
+            {
+              type: "container",
+              styling: { paddingLeft: "3%" },
+              children: [
+                {
+                  type: "title",
+                  title: "March Payslip is ready for download",
+                  styling: { color: "#fff" },
+                },
+                {
+                  type: "subtitle",
+                  title: "Click here to see details",
+                  styling: { flex: 0, color: "#fff" },
+                },
+              ],
+            },
+          ],
+        },
+      ],
     },
   ],
   bottom_alert: [
