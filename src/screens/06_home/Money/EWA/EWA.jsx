@@ -21,6 +21,7 @@ import {
   resetMandate,
 } from "../../../../store/slices/mandateSlice";
 import { styles } from "../../../../styles";
+import { EWA_POLLING_DURATION } from "../../../../services/constants";
 const EWA = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -95,7 +96,7 @@ const EWA = () => {
     error: getEwaOffersError,
     data: getEwaOffersData,
   } = useGetOffersQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 2,
+    pollingInterval: EWA_POLLING_DURATION,
   });
 
   useEffect(() => {

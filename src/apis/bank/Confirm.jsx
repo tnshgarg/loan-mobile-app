@@ -15,6 +15,7 @@ import { addOnboarded } from "../../store/slices/authSlice";
 import { addVerifyStatus } from "../../store/slices/bankSlice";
 import { form, styles } from "../../styles";
 import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
+import { KYC_POLLING_DURATION } from "../../services/constants";
 
 const BankConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const BankConfirmApi = (props) => {
   const { data: bankData, isLoading: loading } = useGetBankQuery(
     unipeEmployeeId,
     {
-      pollingInterval: 1000 * 60 * 60 * 24,
+      pollingInterval: KYC_POLLING_DURATION,
     }
   );
   const { data, number, verifyStatus } = bankData ?? {};

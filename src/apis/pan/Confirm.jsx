@@ -14,6 +14,7 @@ import { strings } from "../../helpers/Localization";
 import { addVerifyStatus } from "../../store/slices/panSlice";
 import { form, styles } from "../../styles";
 import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
+import { KYC_POLLING_DURATION } from "../../services/constants";
 
 const PanConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const PanConfirmApi = (props) => {
   const { data: panData, isLoading: loading } = useGetPanQuery(
     unipeEmployeeId,
     {
-      pollingInterval: 1000 * 60 * 60 * 24,
+      pollingInterval: KYC_POLLING_DURATION,
     }
   );
   const { data, number, verifyStatus } = panData ?? {};

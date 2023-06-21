@@ -18,6 +18,7 @@ import { styles } from "../../../../styles";
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 import { useGetKycQuery } from "../../../../store/apiSlices/kycApi";
+import { EWA_POLLING_DURATION, KYC_POLLING_DURATION } from "../../../../services/constants";
 
 const KYC = () => {
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ const KYC = () => {
   );
 
   const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 60 * 24,
+    pollingInterval: KYC_POLLING_DURATION,
   });
   const { aadhaar, pan, bank, profile } = kycData ?? {};
 
@@ -56,7 +57,7 @@ const KYC = () => {
     dispatch(addCurrentScreen("EWA_KYC"));
   }, []);
   const { data, error, isLoading } = useGetMandateQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 2,
+    pollingInterval: EWA_POLLING_DURATION,
   });
   useEffect(() => {
     if (unipeEmployeeId && deviceId !== 0 && ipAddress !== 0) {

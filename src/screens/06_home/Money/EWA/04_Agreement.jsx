@@ -36,6 +36,7 @@ import { useGetKycQuery } from "../../../../store/apiSlices/kycApi";
 import { moneyStyles, styles } from "../../../../styles";
 import kfs from "../../../../templates/docs/liquiloans/LiquiLoansKFS";
 import agreement from "../../../../templates/docs/liquiloans/LiquiLoansLoanAgreement";
+import { KYC_POLLING_DURATION } from "../../../../services/constants";
 
 const Agreement = () => {
   const dispatch = useDispatch();
@@ -59,7 +60,7 @@ const Agreement = () => {
   );
 
   const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 60 * 24,
+    pollingInterval: KYC_POLLING_DURATION,
   });
   const { aadhaar, pan, bank, profile } = kycData ?? {};
 

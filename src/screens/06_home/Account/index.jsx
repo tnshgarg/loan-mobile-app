@@ -11,6 +11,7 @@ import CmsRoot from "../../../components/cms/CmsRoot";
 import { useGetCmsQuery } from "../../../store/apiSlices/cmsApi";
 import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
 import { styles } from "../../../styles";
+import { CMS_POLLING_DURATION, KYC_POLLING_DURATION } from "../../../services/constants";
 
 const AccountMenu = (props) => {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const AccountMenu = (props) => {
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 60 * 24,
+    pollingInterval: KYC_POLLING_DURATION,
   });
   const {
     isAadhaarSuccess,
@@ -89,7 +90,7 @@ const AccountMenu = (props) => {
   const { data: cmsData, isLoading: cmsLoading } = useGetCmsQuery(
     unipeEmployeeId,
     {
-      pollingInterval: 1000,
+      pollingInterval: CMS_POLLING_DURATION,
     }
   );
 

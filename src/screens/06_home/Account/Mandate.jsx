@@ -11,6 +11,7 @@ import {
 } from "../../../store/slices/mandateSlice";
 import { styles } from "../../../styles";
 import MandateFormTemplate from "../../../templates/mandate/Form";
+import { EWA_POLLING_DURATION } from "../../../services/constants";
 
 const Mandate = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const Mandate = ({ navigation }) => {
     isLoading: mandateLoading,
     isError: mandateError,
   } = useGetMandateQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 2,
+    pollingInterval: EWA_POLLING_DURATION,
   });
 
   console.log("Mandate Log: ", mandateData?.body);

@@ -17,6 +17,7 @@ import { showToast } from "../../components/atoms/Toast";
 import { useUpdateProfileMutation } from "../../store/apiSlices/profileApi";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
+import { KYC_POLLING_DURATION } from "../../services/constants";
 
 const ProfileFormTemplate = ({ type }) => {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const ProfileFormTemplate = ({ type }) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   console.log({ unipeEmployeeId });
   const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 60 * 24,
+    pollingInterval: KYC_POLLING_DURATION,
   });
   const {
     isAadhaarSuccess,

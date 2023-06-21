@@ -10,6 +10,7 @@ import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { useGetPanQuery } from "../../store/apiSlices/panApi";
 import { strings } from "../../helpers/Localization";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
+import { CMS_POLLING_DURATION } from "../../services/constants";
 
 const BankForm = () => {
   const [visible, setVisible] = useState(false);
@@ -17,7 +18,7 @@ const BankForm = () => {
   const navigation = useNavigation();
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const { data: panData } = useGetPanQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 60 * 24,
+    pollingInterval: CMS_POLLING_DURATION,
   });
   const { verifyStatus } = panData ?? {};
 

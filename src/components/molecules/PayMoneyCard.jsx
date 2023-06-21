@@ -22,6 +22,7 @@ import {
 import { resetRepayment } from "../../store/slices/repaymentSlice";
 import PrimaryButton from "../atoms/PrimaryButton";
 import LinearGradient from "react-native-linear-gradient";
+import { EWA_POLLING_DURATION } from "../../services/constants";
 
 const PayMoneyCard = () => {
   const dispatch = useDispatch();
@@ -65,7 +66,7 @@ const PayMoneyCard = () => {
     error: getRepaymentError,
     data: getRepaymentData,
   } = useGetRepaymentQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 2,
+    pollingInterval: EWA_POLLING_DURATION,
   });
 
   const [updateRepayment] = useUpdateRepaymentMutation();

@@ -35,6 +35,7 @@ import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import Analytics, {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
+import { EWA_POLLING_DURATION, KYC_POLLING_DURATION } from "../../services/constants";
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -50,7 +51,7 @@ const MandateFormTemplate = (props) => {
   const { data: kycData, isLoading: kycLoading } = useGetKycQuery(
     unipeEmployeeId,
     {
-      pollingInterval: 1000 * 60 * 60 * 24,
+      pollingInterval: KYC_POLLING_DURATION,
     }
   );
 
@@ -66,7 +67,7 @@ const MandateFormTemplate = (props) => {
     isLoading: mandateLoading,
     isError: mandateError,
   } = useGetMandateQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 2,
+    pollingInterval: EWA_POLLING_DURATION,
   });
 
   const [loading, setLoading] = useState(false);

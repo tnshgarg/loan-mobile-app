@@ -16,13 +16,14 @@ import Badge from "../components/atoms/Badge";
 import LogoHeader from "../components/atoms/LogoHeader";
 import { useNavigation } from "@react-navigation/core";
 import { useGetKycQuery } from "../store/apiSlices/kycApi";
+import { KYC_POLLING_DURATION } from "../services/constants";
 
 const KycProgress = () => {
   const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
   const navigation = useNavigation();
 
   const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 60 * 24,
+    pollingInterval: KYC_POLLING_DURATION,
   });
 
   console.log({ kycData });

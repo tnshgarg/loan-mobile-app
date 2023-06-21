@@ -6,6 +6,7 @@ import CmsRoot from "../../components/cms/CmsRoot";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { styles } from "../../styles";
+import { CMS_POLLING_DURATION } from "../../services/constants";
 
 const LearnWithUs = () => {
   const navigation = useNavigation();
@@ -13,7 +14,7 @@ const LearnWithUs = () => {
   const { data: cmsData, isLoading: cmsLoading } = useGetCmsQuery(
     unipeEmployeeId,
     {
-      pollingInterval: 1000,
+      pollingInterval: CMS_POLLING_DURATION,
     }
   );
 

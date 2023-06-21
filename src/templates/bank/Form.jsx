@@ -17,6 +17,7 @@ import {
 import { bankform, styles } from "../../styles";
 import ShieldTitle from "../../components/atoms/ShieldTitle";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
+import { KYC_POLLING_DURATION } from "../../services/constants";
 
 const BankFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const BankFormTemplate = (props) => {
   const [ifscNext, setIfscNext] = useState(false);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 60 * 24,
+    pollingInterval: KYC_POLLING_DURATION,
   });
 
   const { aadhaar, bank } = kycData ?? {};

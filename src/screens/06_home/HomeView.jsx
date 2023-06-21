@@ -32,6 +32,7 @@ import { addCurrentStack } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import CmsOverlay from "../../components/cms/CmsOverlay";
+import { CMS_POLLING_DURATION, KYC_POLLING_DURATION, EWA_POLLING_DURATION } from "../../services/constants";
 
 const HomeView = () => {
   const [visible, setVisible] = useState(false);
@@ -47,7 +48,7 @@ const HomeView = () => {
   const { data: kycData, isLoading: kycLoading } = useGetKycQuery(
     unipeEmployeeId,
     {
-      pollingInterval: 24 * 3600 * 1000,
+      pollingInterval: KYC_POLLING_DURATION,
     }
   );
   const { aadhaar, pan, bank, kycCompleted } = kycData ?? {};
@@ -57,7 +58,7 @@ const HomeView = () => {
     isLoading: cmsLoading,
     isError: cmsError,
   } = useGetCmsQuery(unipeEmployeeId, {
-    pollingInterval: 1000,
+    pollingInterval: CMS_POLLING_DURATION,
   });
   console.log({ cmsData, cmsError });
   const [fetched, setFetched] = useState(false);
@@ -112,7 +113,7 @@ const HomeView = () => {
     error: getEwaOffersError,
     data: getEwaOffersData,
   } = useGetOffersQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 2,
+    pollingInterval: EWA_POLLING_DURATION,
   });
 
   useEffect(() => {

@@ -6,6 +6,7 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import LogoHeaderBack from "../molecules/LogoHeaderBack";
 import CmsRoot from "./CmsRoot";
+import { CMS_POLLING_DURATION } from "../../services/constants";
 
 const CmsTopTabNav = (props) => {
   const navigation = useNavigation();
@@ -17,7 +18,7 @@ const CmsTopTabNav = (props) => {
   const { data: cmsData, isLoading: cmsLoading } = useGetCmsQuery(
     unipeEmployeeId,
     {
-      pollingInterval: 1000,
+      pollingInterval: CMS_POLLING_DURATION,
     }
   );
 

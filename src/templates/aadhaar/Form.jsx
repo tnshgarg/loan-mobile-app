@@ -12,6 +12,7 @@ import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { styles } from "../../styles";
 import { addNumber } from "../../store/slices/aadhaarSlice";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
+import { KYC_POLLING_DURATION } from "../../services/constants";
 
 const AadhaarFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const AadhaarFormTemplate = (props) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
   const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 60 * 24,
+    pollingInterval: KYC_POLLING_DURATION,
   });
   const { aadhaar } = kycData ?? {};
 

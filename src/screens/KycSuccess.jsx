@@ -16,6 +16,7 @@ import LogoHeaderBack from "../components/molecules/LogoHeaderBack";
 import { navigationHelper } from "../helpers/CmsNavigationHelper";
 import CmsRoot from "../components/cms/CmsRoot";
 import DUMMY_RES, { useGetCmsQuery } from "../store/apiSlices/cmsApi";
+import { CMS_POLLING_DURATION } from "../services/constants";
 
 const KycSuccess = () => {
   const [visible, setVisible] = useState(false);
@@ -93,7 +94,7 @@ const KycSuccess = () => {
     isLoading: cmsLoading,
     isError: cmsError,
   } = useGetCmsQuery(unipeEmployeeId, {
-    pollingInterval: 1000,
+    pollingInterval: CMS_POLLING_DURATION,
   });
 
   return (

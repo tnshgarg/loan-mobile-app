@@ -28,6 +28,7 @@ import { useUpdateOfferMutation } from "../../../../store/apiSlices/ewaApi";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 import { COLORS } from "../../../../constants/Theme";
 import { useGetKycQuery } from "../../../../store/apiSlices/kycApi";
+import { KYC_POLLING_DURATION } from "../../../../services/constants";
 
 const Offer = () => {
   const dispatch = useDispatch();
@@ -55,7 +56,7 @@ const Offer = () => {
   const { data: kycData, refetch: refetchKycData } = useGetKycQuery(
     unipeEmployeeId,
     {
-      pollingInterval: 1000 * 60 * 60 * 24,
+      pollingInterval: KYC_POLLING_DURATION,
     }
   );
   const { aadhaar, pan, bank, profile } = kycData ?? {};

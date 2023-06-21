@@ -12,11 +12,12 @@ import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import Analytics, {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
+import { KYC_POLLING_DURATION } from "../../services/constants";
 
 const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 60 * 24,
+    pollingInterval: KYC_POLLING_DURATION,
   });
   const {
     isAadhaarSuccess,

@@ -14,6 +14,7 @@ import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { bankform, form, styles } from "../../styles";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { addNumber } from "../../store/slices/panSlice";
+import { KYC_POLLING_DURATION } from "../../services/constants";
 
 const PanFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const PanFormTemplate = (props) => {
     (state) => state.auth
   );
   const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 60 * 24,
+    pollingInterval: KYC_POLLING_DURATION,
   });
   const {
     isAadhaarSuccess,

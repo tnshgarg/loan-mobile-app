@@ -6,6 +6,7 @@ import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { styles } from "../../styles";
 import LogoHeaderBack from "../molecules/LogoHeaderBack";
 import CmsRoot from "./CmsRoot";
+import { CMS_POLLING_DURATION } from "../../services/constants";
 
 const CmsDummyBlog = (props) => {
   const navigation = useNavigation();
@@ -13,7 +14,7 @@ const CmsDummyBlog = (props) => {
   const { data: cmsData, isLoading: cmsLoading } = useGetCmsQuery(
     unipeEmployeeId,
     {
-      pollingInterval: 1000,
+      pollingInterval: CMS_POLLING_DURATION,
     }
   );
 

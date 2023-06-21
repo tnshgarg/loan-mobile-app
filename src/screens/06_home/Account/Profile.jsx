@@ -14,6 +14,7 @@ import CustomerSupport from "../../../assets/CustomerSupport.svg";
 import AltMobile from "../../../assets/AltMobile.svg";
 import Education from "../../../assets/Education.svg";
 import MaritalStatus from "../../../assets/MaritalStatus.svg";
+import { KYC_POLLING_DURATION } from "../../../services/constants";
 
 const Profile = ({ navigation }) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -21,7 +22,7 @@ const Profile = ({ navigation }) => {
   const { data: kycData, isLoading: loading } = useGetKycQuery(
     unipeEmployeeId,
     {
-      pollingInterval: 1000 * 60 * 60 * 24,
+      pollingInterval: KYC_POLLING_DURATION,
     }
   );
   const { aadhaar, pan, profile } = kycData ?? {};

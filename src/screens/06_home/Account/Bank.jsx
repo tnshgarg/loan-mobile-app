@@ -9,6 +9,7 @@ import { styles } from "../../../styles";
 import DetailsCard from "../../../components/molecules/DetailsCard";
 import { useGetBankQuery } from "../../../store/apiSlices/bankApi";
 import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
+import { KYC_POLLING_DURATION } from "../../../services/constants";
 
 const Bank = () => {
   const navigation = useNavigation();
@@ -18,7 +19,7 @@ const Bank = () => {
   const { data: kycData, isLoading: loading } = useGetKycQuery(
     unipeEmployeeId,
     {
-      pollingInterval: 1000 * 60 * 60 * 24,
+      pollingInterval: KYC_POLLING_DURATION,
     }
   );
 
