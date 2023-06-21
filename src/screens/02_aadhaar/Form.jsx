@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Alert, BackHandler, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/core";
+import { useEffect, useState } from "react";
+import { BackHandler, SafeAreaView } from "react-native";
+import { useDispatch } from "react-redux";
 
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import AadhaarFormTemplate from "../../templates/aadhaar/Form";
-import { styles } from "../../styles";
+import BottomAlert from "../../components/molecules/BottomAlert";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
-import BottomAlert from "../../components/molecules/BottomAlert";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { styles } from "../../styles";
+import AadhaarFormTemplate from "../../templates/aadhaar/Form";
 
 const AadhaarForm = () => {
   const dispatch = useDispatch();

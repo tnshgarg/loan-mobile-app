@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import { BackHandler, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import Failure from "../../../../assets/animations/Failure";
 import Hourglass from "../../../../assets/Hourglass.svg";
+import Failure from "../../../../assets/animations/Failure";
 import Success from "../../../../assets/animations/Success";
-import Header from "../../../../components/atoms/Header";
+import PrimaryButton from "../../../../components/atoms/PrimaryButton";
+import SvgContainer from "../../../../components/atoms/SvgContainer";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
+import FeedbackAlert from "../../../../components/molecules/FeedbackAlert";
+import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
+import { COLORS, FONTS } from "../../../../constants/Theme";
 import { strings } from "../../../../helpers/Localization";
 import {
   useDisbursementFeedbackMutation,
@@ -13,12 +17,6 @@ import {
 } from "../../../../store/apiSlices/ewaApi";
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import { styles } from "../../../../styles";
-import SvgContainer from "../../../../components/atoms/SvgContainer";
-import { COLORS, FONTS } from "../../../../constants/Theme";
-import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
-import FeedbackAlert from "../../../../components/molecules/FeedbackAlert";
-import LogoHeader from "../../../../components/atoms/LogoHeader";
-import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 
 const Disbursement = ({ route, navigation }) => {
   const dispatch = useDispatch();

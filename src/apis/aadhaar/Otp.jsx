@@ -1,21 +1,20 @@
-import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
 import { useState } from "react";
 import { Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import InfoCard from "../../components/atoms/InfoCard";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { showToast } from "../../components/atoms/Toast";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { useGenerateAadhaarOtpMutation } from "../../store/apiSlices/aadhaarApi";
-import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
-import { resetTimer } from "../../store/slices/timerSlice";
 import Analytics, {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
-import { getBackendData } from "../../services/employees/employeeServices";
 import { asyncTimeout } from "../../helpers/asyncTimer";
-import InfoCard from "../../components/atoms/InfoCard";
 import { KYC_RETRY_WAIT_TIME } from "../../services/constants";
+import { getBackendData } from "../../services/employees/employeeServices";
+import { useGenerateAadhaarOtpMutation } from "../../store/apiSlices/aadhaarApi";
+import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
+import { resetTimer } from "../../store/slices/timerSlice";
 
 const AadhaarOtpApi = (props) => {
   const dispatch = useDispatch();

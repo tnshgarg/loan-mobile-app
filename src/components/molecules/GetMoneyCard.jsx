@@ -1,18 +1,16 @@
-import { View, Text } from "react-native";
+import { Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { COLORS, FONTS, SIZES } from "../../constants/Theme";
-import PrimaryButton from "../atoms/PrimaryButton";
+import { useSelector } from "react-redux";
 import Coin from "../../assets/Coin.svg";
 import Hourglass from "../../assets/Hourglass.svg";
-import { useEffect } from "react";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import SvgContainer from "../atoms/SvgContainer";
-import { useGetKycQuery } from "../../store/apiSlices/kycApi";
+import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics, {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
 import { KYC_POLLING_DURATION } from "../../services/constants";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
+import PrimaryButton from "../atoms/PrimaryButton";
+import SvgContainer from "../atoms/SvgContainer";
 
 const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);

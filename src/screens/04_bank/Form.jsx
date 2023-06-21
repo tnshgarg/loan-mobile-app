@@ -3,14 +3,14 @@ import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
+import { strings } from "../../helpers/Localization";
+import { CMS_POLLING_DURATION } from "../../services/constants";
+import { useGetPanQuery } from "../../store/apiSlices/panApi";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import BankFormTemplate from "../../templates/bank/Form";
-import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
-import { useGetPanQuery } from "../../store/apiSlices/panApi";
-import { strings } from "../../helpers/Localization";
-import { navigationHelper } from "../../helpers/CmsNavigationHelper";
-import { CMS_POLLING_DURATION } from "../../services/constants";
 
 const BankForm = () => {
   const [visible, setVisible] = useState(false);

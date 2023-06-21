@@ -3,10 +3,10 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { ScrollView, View } from "react-native";
 import { useSelector } from "react-redux";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { CMS_POLLING_DURATION } from "../../services/constants";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import LogoHeaderBack from "../molecules/LogoHeaderBack";
 import CmsRoot from "./CmsRoot";
-import { CMS_POLLING_DURATION } from "../../services/constants";
 
 const CmsTopTabNav = (props) => {
   const navigation = useNavigation();

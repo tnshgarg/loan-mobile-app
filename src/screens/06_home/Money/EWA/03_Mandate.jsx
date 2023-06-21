@@ -1,13 +1,12 @@
 import { useNavigation } from "@react-navigation/core";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { BackHandler, SafeAreaView } from "react-native";
-import MandateFormTemplate from "../../../../templates/mandate/Form";
-import { styles } from "../../../../styles";
-import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
-import { useState } from "react";
-import { navigationHelper } from "../../../../helpers/CmsNavigationHelper";
+import { useSelector } from "react-redux";
 import BottomAlert from "../../../../components/molecules/BottomAlert";
+import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
+import { navigationHelper } from "../../../../helpers/CmsNavigationHelper";
+import { styles } from "../../../../styles";
+import MandateFormTemplate from "../../../../templates/mandate/Form";
 
 const Mandate = () => {
   const navigation = useNavigation();

@@ -9,28 +9,26 @@ import EWAStack from "./stacks/EWAStack";
 import OnboardingStack from "./stacks/OnboardingStack";
 
 import { useNavigation } from "@react-navigation/core";
-import { decode } from "react-native-pure-jwt";
-import { showToast } from "../components/atoms/Toast";
+import { Linking } from "react-native";
 import LogoutModal from "../components/organisms/LogoutModal";
+import Analytics, {
+  InteractionTypes,
+} from "../helpers/analytics/commonAnalytics";
 import LearnWithUs from "../screens/06_home/LearnWithUs";
 import BackendSync from "../screens/BackendSync";
 import CmsScreen from "../screens/CmsScreen";
 import KycProgress from "../screens/KycProgress";
 import KycSuccess from "../screens/KycSuccess";
 import SplashScreen from "../screens/SplashScreen";
+import { handleCampaignNavigation } from "../services/campaign/campaignNavigation";
+import { setCampaignStoreData } from "../services/campaign/storeManagement";
+import { parseUrl } from "../services/campaign/urlParsing";
+import { setPendingUrl } from "../store/slices/pendingCampaignClickSlice";
 import BottomTabNav from "./BottomTabNav";
 import AccountStack from "./stacks/AccountStack";
 import BenefitsStack from "./stacks/BenefitsStack";
 import CmsStack from "./stacks/CmsStack";
 import InvestStack from "./stacks/InvestStack";
-import Analytics, {
-  InteractionTypes,
-} from "../helpers/analytics/commonAnalytics";
-import { parseUrl } from "../services/campaign/urlParsing";
-import { setCampaignStoreData } from "../services/campaign/storeManagement";
-import { handleCampaignNavigation } from "../services/campaign/campaignNavigation";
-import { setPendingUrl } from "../store/slices/pendingCampaignClickSlice";
-import { Linking } from "react-native";
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   const navigation = useNavigation();

@@ -1,15 +1,14 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, SafeAreaView, BackHandler } from "react-native";
+import { Alert, BackHandler, SafeAreaView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
-import { styles } from "../../styles";
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import PanFormTemplate from "../../templates/pan/Form";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
-import { strings } from "../../helpers/Localization";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { styles } from "../../styles";
+import PanFormTemplate from "../../templates/pan/Form";
 
 export default PanForm = () => {
   const [visible, setVisible] = useState(false);

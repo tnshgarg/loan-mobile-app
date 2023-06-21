@@ -1,24 +1,23 @@
 import { useNavigation } from "@react-navigation/core";
-import Analytics, {InteractionTypes} from "../../../../helpers/analytics/commonAnalytics";
 import { useEffect, useState } from "react";
-import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
+import { Alert, BackHandler, SafeAreaView, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
-import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import DetailsCard from "../../../../components/molecules/DetailsCard";
+import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
+import Analytics, { InteractionTypes } from "../../../../helpers/analytics/commonAnalytics";
+import { EWA_POLLING_DURATION, KYC_POLLING_DURATION } from "../../../../services/constants";
 import { useUpdateKycMutation } from "../../../../store/apiSlices/ewaApi";
+import { useGetKycQuery } from "../../../../store/apiSlices/kycApi";
 import { useGetMandateQuery } from "../../../../store/apiSlices/mandateApi";
 import {
   addVerifyStatus,
   resetMandate,
 } from "../../../../store/slices/mandateSlice";
-import { styles } from "../../../../styles";
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
-import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
-import { useGetKycQuery } from "../../../../store/apiSlices/kycApi";
-import { EWA_POLLING_DURATION, KYC_POLLING_DURATION } from "../../../../services/constants";
+import { styles } from "../../../../styles";
 
 const KYC = () => {
   const dispatch = useDispatch();

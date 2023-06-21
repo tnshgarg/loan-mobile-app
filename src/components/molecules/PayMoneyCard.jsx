@@ -1,9 +1,8 @@
-import analytics from "@react-native-firebase/analytics";
 import { useIsFocused } from "@react-navigation/core";
-import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 import { useEffect, useState } from "react";
 import { Alert, Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
+import LinearGradient from "react-native-linear-gradient";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS, FONTS } from "../../constants/Theme";
@@ -11,6 +10,8 @@ import {
   getNumberOfDays,
   setYYYYMMDDtoDDMMYYYY,
 } from "../../helpers/DateFunctions";
+import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
+import { EWA_POLLING_DURATION } from "../../services/constants";
 import {
   createRepaymentOrder,
   openRazorpayCheckout,
@@ -21,8 +22,6 @@ import {
 } from "../../store/apiSlices/repaymentApi";
 import { resetRepayment } from "../../store/slices/repaymentSlice";
 import PrimaryButton from "../atoms/PrimaryButton";
-import LinearGradient from "react-native-linear-gradient";
-import { EWA_POLLING_DURATION } from "../../services/constants";
 
 const PayMoneyCard = () => {
   const dispatch = useDispatch();

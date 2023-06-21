@@ -1,20 +1,18 @@
-import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import Analytics, {
-  InteractionTypes,
-} from "../../helpers/analytics/commonAnalytics";
-import { SafeAreaView, Text, View, Linking } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import { useSelector } from "react-redux";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import LogoHeader from "../../components/atoms/LogoHeader";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import ShieldTitle from "../../components/atoms/ShieldTitle";
 import SvgListItem from "../../components/molecules/SvgListItem";
 import { COLORS, FONTS } from "../../constants/Theme";
 import whatsappLinking from "../../helpers/WhatsappLinking";
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
 import { requestUserPermission } from "../../services/notifications/notificationService";
-import { onboardingStyles, styles } from "../../styles";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { styles } from "../../styles";
 
 const Onboarding = () => {
   const navigation = useNavigation();

@@ -1,4 +1,3 @@
-import { COLORS } from "./Theme";
 
 //00_login
 export const LOGIN_TITLE = "Enter Mobile Number for Verification";
