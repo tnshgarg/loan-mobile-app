@@ -1,13 +1,15 @@
 import { useNavigation } from "@react-navigation/core";
+import { useRef } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import Earn from "../../assets/Earn.svg";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import ODS from "../../assets/GetODS.svg";
 import Refer from "../../assets/Refer.svg";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { useRef } from "react";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
+import { strings } from "../../helpers/Localization";
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
 
 const Card = ({ destination, component, inactive }) => {
   const navigation = useNavigation();
@@ -21,7 +23,7 @@ const Card = ({ destination, component, inactive }) => {
           component: "ExploreCards",
           action: `navigate:${destination}`,
           status: "",
-        })
+        });
         navigation.navigate(destination);
       }}
     >
@@ -46,7 +48,7 @@ const ExploreCards = () => {
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <Text style={styles.title}>Explore</Text>
+        <Text style={styles.title}>{strings.explore}</Text>
         <View style={{ justifyContent: "flex-end" }}>
           <Ionicons
             name="arrow-forward"

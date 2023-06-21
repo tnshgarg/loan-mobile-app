@@ -1,19 +1,16 @@
 import { Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
 
 const VerifyMandateCard = ({ mandateVerifyStatus }) => {
   return mandateVerifyStatus === "INPROGRESS" ? (
     <View style={styles.container}>
-      <Text style={styles.title}>
-        Your Mandate Registration is currently in Progress.
-      </Text>
+      <Text style={styles.title}>{strings.mandateRegistrationInProgress}</Text>
     </View>
   ) : mandateVerifyStatus === "ERROR" ? (
     <View style={styles.errorContainer}>
-      <Text style={styles.title}>
-        Your Mandate Registration failed, please try again.
-      </Text>
+      <Text style={styles.title}>{strings.mandateFailed}</Text>
     </View>
   ) : null;
 };

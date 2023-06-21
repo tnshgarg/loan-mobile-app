@@ -1,13 +1,12 @@
 import { useNavigation } from "@react-navigation/core";
 import { useState } from "react";
-import { Pressable, Text, Modal, View, Alert } from "react-native";
-import AntDesign from "react-native-vector-icons/AntDesign";
-import { useDispatch } from "react-redux";
-import { COLORS, FONTS, SIZES } from "../../constants/Theme";
+import { Alert, Modal, Pressable, Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
+import AntDesign from "react-native-vector-icons/AntDesign";
 import { useDispatch } from "react-redux";
 import SVGImg from "../../assets/UnipeLogo.svg";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
 
 export default Logout = () => {
   const navigation = useNavigation();
@@ -53,9 +52,7 @@ export default Logout = () => {
                 style={{
                   ...FONTS.h2,
                 }}
-              >
-                Logging you out...
-              </Text>
+              ></Text>
             </View>
           </View>
         </Modal>
@@ -79,7 +76,7 @@ export default Logout = () => {
       >
         <AntDesign name="logout" color={COLORS.warning} size={16} />
         <Text style={{ ...FONTS.h4, paddingLeft: 10, color: COLORS.warning }}>
-          Logout
+          {strings.logout}
         </Text>
       </Pressable>
     </>

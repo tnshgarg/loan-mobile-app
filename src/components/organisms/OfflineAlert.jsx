@@ -1,13 +1,14 @@
 import NetInfo from "@react-native-community/netinfo";
 import { useEffect, useState } from "react";
 import { Image, Modal, SafeAreaView, Text, View } from "react-native";
-import { AddListener } from "../../helpers/InternetCheck";
-import { showToast } from "../atoms/Toast";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { COLORS, FONTS, SIZES } from "../../constants/Theme";
-import PrimaryButton from "../atoms/PrimaryButton";
 import Offline from "../../assets/Offline.svg";
+import { COLORS, FONTS, SIZES } from "../../constants/Theme";
+import { AddListener } from "../../helpers/InternetCheck";
+import { strings } from "../../helpers/Localization";
+import PrimaryButton from "../atoms/PrimaryButton";
 import SvgContainer from "../atoms/SvgContainer";
+import { showToast } from "../atoms/Toast";
 
 const OfflineAlert = ({ children }) => {
   const [isConnected, setIsConnected] = useState(true);
@@ -49,14 +50,12 @@ const OfflineAlert = ({ children }) => {
             <Offline />
           </SvgContainer>
 
-          <Text style={styles.title}>No Internet</Text>
+          <Text style={styles.title}>{strings.noInternet}</Text>
 
-          <Text style={styles.subtitle}>
-            Please check your internet connection
-          </Text>
+          <Text style={styles.subtitle}>{strings.checkInternetConnection}</Text>
 
           <PrimaryButton
-            title={"Refresh"}
+            title={strings.refresh}
             onPress={() => {
               NetInfo.refresh();
               showToast("Trying to Connect to the internet", "pending");

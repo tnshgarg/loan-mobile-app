@@ -4,6 +4,7 @@ import { SafeAreaView, ScrollView, View } from "react-native";
 import { useSelector } from "react-redux";
 import CmsRoot from "../../components/cms/CmsRoot";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import { strings } from "../../helpers/Localization";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { styles } from "../../styles";
 
@@ -20,7 +21,7 @@ const LearnWithUs = () => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
-        title={"Learn with us"}
+        title={strings.learnWithUs}
         onLeftIconPress={() => {
           navigation.goBack();
         }}

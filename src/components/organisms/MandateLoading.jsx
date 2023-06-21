@@ -1,8 +1,9 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useState, useEffect } from "react";
-import { View, Text, Image, Modal } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Image, Modal, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
 import { useGetMandateQuery } from "../../store/apiSlices/mandateApi";
 import { addVerifyStatus, resetMandate } from "../../store/slices/mandateSlice";
 import { styles } from "../../styles";
@@ -72,9 +73,9 @@ export default function MandateLoading({
         />
         <View style={{ flex: 1 }} />
         <Text style={[styles.headline, { ...FONTS.h3 }]}>
-          Updating mandate registration details
+          {strings.updatingMandate}
         </Text>
-        <Text style={styles.subHeadline}>This may take few seconds</Text>
+        <Text style={styles.subHeadline}>{strings.mayTakeFewSeconds}</Text>
         <View
           style={{
             width: "100%",
@@ -93,7 +94,7 @@ export default function MandateLoading({
         </View>
         <View style={{ flex: 1 }} />
         <Text style={[styles.subHeadline, { marginBottom: "10%" }]}>
-          Please don't press the back button
+          {strings.dontPressBack}
         </Text>
       </View>
     </Modal>

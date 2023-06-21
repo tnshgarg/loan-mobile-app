@@ -5,15 +5,16 @@ import { SafeAreaView, ScrollView, Text, View } from "react-native";
 import { STAGE } from "@env";
 import { useDispatch, useSelector } from "react-redux";
 import CompleteKyc from "../../assets/CompleteKyc.svg";
-import HelpFooter from "../../components/atoms/HelpFooter";
 import CmsMiniPlacement from "../../components/cms/CmsMiniPlacement";
 import CmsRoot from "../../components/cms/CmsRoot";
 import BottomAlert from "../../components/molecules/BottomAlert";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
-import HelpSection from "../../components/organisms/HelpSection";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
+import { DUMMY_RES } from "../../constants/Strings";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
+import { strings } from "../../helpers/Localization";
 import {
   notificationListener,
   requestUserPermission,
@@ -31,8 +32,6 @@ import {
 } from "../../store/slices/ewaLiveSlice";
 import { addCurrentStack } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
-import { navigationHelper } from "../../helpers/CmsNavigationHelper";
-import { DUMMY_RES } from "../../constants/Strings";
 
 const HomeView = () => {
   const aadhaarData = {
@@ -238,7 +237,7 @@ const HomeView = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <LogoHeaderBack
           notificationIconPresent={true}
-          title={`Good Afternoon \n${name}!`}
+          title={`${strings.goodAfternoon} \n${name}!`}
           onRightIconPress={() => {
             navigationHelper({
               type: "cms",
@@ -273,7 +272,7 @@ const HomeView = () => {
           }}
         >
           <Text style={{ ...FONTS.body4, color: COLORS.white }}>
-            RBI approved Lending Partners
+            {strings.rbiApprovedLendingPartners}
           </Text>
         </View>
       </ScrollView>

@@ -1,8 +1,9 @@
-import { View, Text, Modal, Alert } from "react-native";
 import React from "react";
-import { FONTS } from "../../constants/Theme";
+import { Alert, Modal, Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import SVGImg from "../../assets/UnipeLogo.svg";
+import { FONTS } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
 
 const LogoutModal = ({ modalVisible }) => {
   return (
@@ -29,7 +30,7 @@ const LogoutModal = ({ modalVisible }) => {
               ...FONTS.h2,
             }}
           >
-            Logging you out...
+            {strings.loggingOut}
           </Text>
         </View>
       </View>

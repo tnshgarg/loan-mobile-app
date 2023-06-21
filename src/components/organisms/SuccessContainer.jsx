@@ -1,14 +1,11 @@
-import { View, Text } from "react-native";
-import { onboardingStyles, styles } from "../../styles";
-import LogoHeader from "../../components/atoms/LogoHeader";
-import { COLORS, FONTS, SIZES } from "../../constants/Theme";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { useDispatch, useSelector } from "react-redux";
-import Info from "../../assets/Info.svg";
-import { useNavigation } from "@react-navigation/native";
-import SvgContainer from "../../components/atoms/SvgContainer";
+import { Text, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import LogoHeaderBack from "../molecules/LogoHeaderBack";
+import Info from "../../assets/Info.svg";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import SvgContainer from "../../components/atoms/SvgContainer";
+import { COLORS, FONTS, SIZES } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
+import { onboardingStyles, styles } from "../../styles";
 import VideoPlayer from "./VideoPlayer";
 
 const SuccessContainer = ({ data }) => {
@@ -94,8 +91,7 @@ const SuccessContainer = ({ data }) => {
               paddingLeft: 10,
             }}
           >
-            As per RBI guidelines, you have to complete e-KYC to get Advance
-            Salary
+            {strings.rbiGuidelines}
           </Text>
         </LinearGradient>
       ) : (

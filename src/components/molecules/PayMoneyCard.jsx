@@ -252,7 +252,7 @@ const PayMoneyCard = () => {
             >
               ₹{repaymentAmount}
             </Text>
-            <Text style={styles.text}>Amount Due</Text>
+            <Text style={styles.text}>{strings.amountDue}</Text>
           </View>
 
           <PrimaryButton
