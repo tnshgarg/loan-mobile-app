@@ -18,22 +18,22 @@ const CmsDummyBlog = (props) => {
   );
 
   console.log("route.params: ", props.route.params);
+  let blogKey = props.route?.params?.blogKey;
+
+  // const { data, screenTitle, headline, headingImage } =
+  //   DUMMY_RES?.[blogKey] ?? {};
 
   const { data, screenTitle, headline, headingImage } =
-    DUMMY_RES?.["kyc_help"] ?? {};
-
-  // let blogKey = props.route?.params?.blogKey;
-  // const { data, screenTitle, headline, headingImage } =
-  //   cmsData?.[blogKey] ?? {};
-  // console.log("MyData: ", {
-  //   blogKey,
-  //   data,
-  //   screenTitle,
-  //   headline,
-  //   headingImage,
-  //   cmsData,
-  //   cms: cmsData?.[blogKey],
-  // });
+    cmsData?.[blogKey] ?? {};
+  console.log("MyData: ", {
+    blogKey,
+    data,
+    screenTitle,
+    headline,
+    headingImage,
+    cmsData,
+    cms: cmsData?.[blogKey],
+  });
 
   return (
     <View style={[styles.safeContainer, { padding: 0 }]}>

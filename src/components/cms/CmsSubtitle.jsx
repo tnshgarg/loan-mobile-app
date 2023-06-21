@@ -8,9 +8,7 @@ const CmsSubtitle = ({ children, title, styling }) => {
   console.log("Cms Title", title);
   return (
     <View style={styles.container}>
-      <Text
-        style={{ ...FONTS.body4, color: COLORS.black, flex: 1, ...styling }}
-      >
+      <Text style={{ ...FONTS.body4, color: COLORS.black, ...styling }}>
         {title}
       </Text>
       {safeChildren?.map((child, index) => (

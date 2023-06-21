@@ -43,7 +43,6 @@ const HomeView = () => {
   const { unipeEmployeeId, token, onboarded } = useSelector(
     (state) => state.auth
   );
-  console.log({ token });
   const { data: kycData, isLoading: kycLoading } = useGetKycQuery(
     unipeEmployeeId,
     {
@@ -234,12 +233,13 @@ const HomeView = () => {
             ewaLiveSlice={ewaLiveSlice}
           />
         </View>
-        {!cmsLoading ? (
+        {/* {!cmsLoading ? (
           <CmsRoot children={cmsData?.home || []}></CmsRoot>
         ) : (
           <></>
-        )}
-        {/* <CmsRoot children={DUMMY_RES?.home || []}></CmsRoot> */}
+        )} */}
+        <CmsRoot children={DUMMY_RES?.home || []}></CmsRoot>
+
         <CmsRoot children={DUMMY_RES?.bottom_alert || []}></CmsRoot>
         <View
           style={{
@@ -263,10 +263,10 @@ const HomeView = () => {
         />
       )}
       {/* {!cmsLoading ? (
-          <CmsRoot children={cmsData?.mini_placement || []}></CmsRoot>
-        ) : (
-          <></>
-        )} */}
+        <CmsRoot children={cmsData?.mini_placement || []}></CmsRoot>
+      ) : (
+        <></>
+      )} */}
       <CmsRoot children={DUMMY_RES?.mini_placement || []} />
     </SafeAreaView>
   );

@@ -10,6 +10,10 @@ export const mandateApi = api
           params: { unipeEmployeeId },
         }),
         providesTags: ["getMandate"],
+        transformResponse: (response) => {
+          console.log("mandate:", response);
+          return response?.body?.data;
+        },
       }),
       updateMandate: builder.mutation({
         query: (body) => ({

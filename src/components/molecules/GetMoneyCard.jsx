@@ -12,6 +12,7 @@ import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import Analytics, {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
+import { useGetMandateQuery } from "../../store/apiSlices/mandateApi";
 
 const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -25,6 +26,15 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
     isProfileSuccess,
     kycCompleted,
   } = kycData ?? {};
+
+  const { data, error, isLoading } = useGetMandateQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 10,
+  });
+
+  console.log("Mandate Error:", error);
+
+  const mandateVerifyStatus = data?.verifyStatus;
+  console.log({ mandateVerifyStatus });
 
   const BUTTON_TEXT = {
     kycNotCompleted:
@@ -41,7 +51,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
         }}
       >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          {kycCompleted ? (
+          {kycCompleted && mandateVerifyStatus == "SUCCESS" ? (
             <SvgContainer height={20} width={20}>
               <Coin />
             </SvgContainer>
@@ -52,7 +62,9 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
           )}
           <Text style={[styles.text, { marginLeft: 10 }]}>
             {kycCompleted
-              ? "Withdraw Advance Salary"
+              ? mandateVerifyStatus != "SUCCESS"
+                ? "Setup Repayment for Advance Salary"
+                : "Withdraw Advance Salary"
               : "KYC pending for Advance Salary"}
           </Text>
         </View>
@@ -83,7 +95,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
           }
           disabled={!kycCompleted ? false : !eligible || !accessible}
           onPress={() => {
-            if (kycCompleted) {
+            if (kycCompleted && mandateVerifyStatus == "SUCCESS") {
               Analytics.trackEvent({
                 interaction: InteractionTypes.BUTTON_PRESS,
                 component: "GetMoneyCard",
@@ -91,6 +103,11 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
                 status: "",
               });
               navigation.navigate("EWAStack", { screen: "EWA_OFFER" });
+            } else if (mandateVerifyStatus != "SUCCESS") {
+              navigation.navigate("EWAStack", {
+                screen: "EWA_MANDATE",
+                params: { previousScreen: "HomeStack" },
+              });
             } else {
               Analytics.trackEvent({
                 interaction: InteractionTypes.BUTTON_PRESS,
@@ -107,16 +124,19 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
         style={{
           paddingVertical: 10,
           paddingHorizontal: 15,
-          backgroundColor: kycCompleted
-            ? COLORS.primaryBackground
-            : COLORS.pendingBackground,
+          backgroundColor:
+            kycCompleted && mandateVerifyStatus == "SUCCESS"
+              ? COLORS.primaryBackground
+              : COLORS.pendingBackground,
           borderBottomLeftRadius: 10,
           borderBottomRightRadius: 10,
         }}
       >
         <Text style={styles.text}>
           {kycCompleted
-            ? `Transfer ${amount} to your Bank account in minutes`
+            ? mandateVerifyStatus != "SUCCESS"
+              ? "Kindly register mandate for seamless advance salary experience and to make repayments on time."
+              : `Transfer ${amount} to your Bank account in minutes`
             : "Verify your identity and complete your full KYC process to withdraw advance salary."}
         </Text>
       </View>

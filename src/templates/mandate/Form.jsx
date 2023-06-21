@@ -113,6 +113,7 @@ const MandateFormTemplate = (props) => {
     if (fetched && props?.type === "EWA" && verifyStatus === "SUCCESS") {
       showToast("Mandate verified successfully", "success");
       setModalVisible(false);
+      // TODO Check props
       navigation.navigate("HomeStack");
     } else if (fetched && props?.type === "EWA" && verifyStatus === "ERROR") {
       showToast("Mandate verification error", "warning");

@@ -9,11 +9,14 @@ import { useState } from "react";
 import { navigationHelper } from "../../../../helpers/CmsNavigationHelper";
 import BottomAlert from "../../../../components/molecules/BottomAlert";
 
-const Mandate = () => {
+const Mandate = (props) => {
   const navigation = useNavigation();
   const mandateVerifyStatus = useSelector(
     (state) => state.mandate.verifyStatus
   );
+
+  const { previousScreen } = props.route.params;
+  console.log({ previousScreen });
 
   const backAction = () => {
     setAlertVisible(true);
@@ -28,7 +31,10 @@ const Mandate = () => {
 
   useEffect(() => {
     if (mandateVerifyStatus === "SUCCESS") {
-      navigation.navigate("EWA_AGREEMENT");
+      // if(previousScreen == 'HomeStack'){
+
+      // }
+      navigation.navigate("EWA_OFFER");
     }
   }, [mandateVerifyStatus]);
 

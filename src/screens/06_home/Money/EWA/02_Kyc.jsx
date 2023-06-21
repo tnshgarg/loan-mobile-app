@@ -1,5 +1,7 @@
 import { useNavigation } from "@react-navigation/core";
-import Analytics, {InteractionTypes} from "../../../../helpers/analytics/commonAnalytics";
+import Analytics, {
+  InteractionTypes,
+} from "../../../../helpers/analytics/commonAnalytics";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
@@ -34,9 +36,6 @@ const KYC = () => {
   );
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
-  const [mandateVerifyStatus, setMandateVerifyStatus] = useState(
-    useSelector((state) => state.mandate.verifyStatus)
-  );
 
   const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
     pollingInterval: 1000 * 60 * 60 * 24,
@@ -58,15 +57,16 @@ const KYC = () => {
   const { data, error, isLoading } = useGetMandateQuery(unipeEmployeeId, {
     pollingInterval: 1000 * 60 * 2,
   });
+  console.log("Mandate Error:", error?.status);
   useEffect(() => {
     if (unipeEmployeeId && deviceId !== 0 && ipAddress !== 0) {
       if (data && !isLoading && !error) {
         console.log("Form mandateFetch response.data", data);
-        dispatch(resetMandate(data?.body));
-        dispatch(addVerifyStatus(data?.body?.verifyStatus));
-        setMandateVerifyStatus(data?.body?.verifyStatus);
+        dispatch(resetMandate(data));
+        dispatch(addVerifyStatus(data?.verifyStatus));
+        setMandateVerifyStatus(data?.verifyStatus);
         setFetched(true);
-      } else {
+      } else if (error?.status == 404) {
         console.log("mandateFetch error: ", error);
         Alert.alert("An Error occured", error.message);
       }
@@ -126,7 +126,7 @@ const KYC = () => {
           action: "Kyc",
           status: "Success",
         });
-        if (mandateVerifyStatus === "SUCCESS") {
+        if (data?.verifyStatus === "SUCCESS") {
           navigation.navigate("EWA_AGREEMENT");
         } else {
           navigation.navigate("EWA_MANDATE");
