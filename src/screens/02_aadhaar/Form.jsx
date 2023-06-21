@@ -6,10 +6,7 @@ import { useNavigation } from "@react-navigation/core";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import AadhaarFormTemplate from "../../templates/aadhaar/Form";
 import { styles } from "../../styles";
-import Header from "../../components/atoms/Header";
-import LogoHeader from "../../components/atoms/LogoHeader";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
-import HelpSection from "../../components/organisms/HelpSection";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
 const AadhaarForm = () => {

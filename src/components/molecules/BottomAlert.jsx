@@ -98,7 +98,7 @@ const styles = EStyleSheet.create({
   },
   svgBackground: {
     backgroundColor: COLORS.lightgray_01,
-    margin: "-15rem",
+    margin: "-25rem",
     borderTopLeftRadius: "20rem",
     borderTopRightRadius: "20rem",
     marginBottom: "10rem",

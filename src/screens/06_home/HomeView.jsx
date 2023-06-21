@@ -262,6 +262,11 @@ const HomeView = () => {
           data={data}
         />
       )}
+      {/* {!cmsLoading ? (
+          <CmsRoot children={cmsData?.mini_placement || []}></CmsRoot>
+        ) : (
+          <></>
+        )} */}
       <CmsRoot children={DUMMY_RES?.mini_placement || []} />
     </SafeAreaView>
   );

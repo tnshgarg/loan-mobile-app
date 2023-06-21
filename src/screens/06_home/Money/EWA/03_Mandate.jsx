@@ -5,65 +5,18 @@ import { BackHandler, SafeAreaView } from "react-native";
 import MandateFormTemplate from "../../../../templates/mandate/Form";
 import { styles } from "../../../../styles";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
-import HelpSection from "../../../../components/organisms/HelpSection";
 import { useState } from "react";
 import { navigationHelper } from "../../../../helpers/CmsNavigationHelper";
+import BottomAlert from "../../../../components/molecules/BottomAlert";
 
 const Mandate = () => {
-  const mandateData = {
-    heading: "Help - Mandate Verification",
-    headingImage: require("../../../../assets/MandateHeader.png"),
-    title: "Adding Repayment Method (Mandate)",
-    subtitle: "Choose one of the methods to setup repayment.",
-    btnText: "Add Mandate",
-    badgeTitle: "OPTION",
-    steps: [
-      {
-        title: "Debit Card",
-        subtitle:
-          "To complete Mandate with a debit card, provide your debit card details and OTP to authenticate your Mandate.",
-      },
-      {
-        title: "Net Banking",
-        subtitle:
-          "To complete Mandate with a debit card, provide your debit card details and OTP to authenticate your Mandate.",
-      },
-      {
-        title: "Aadhaar Card",
-        subtitle:
-          "To complete Mandate with a debit card, provide your debit card details and OTP to authenticate your Mandate.",
-      },
-    ],
-    questions: [
-      {
-        title: "Q: Is it mandatory to add Repayment Method (Mandate)?",
-        subtitle:
-          "A: Yes. This is 100% secure and executed by an RBI approved entity.",
-      },
-      {
-        title:
-          "Q:  What happens in case of insufficient balance in the bank account for auto-debit?",
-        subtitle:
-          "A: The transaction will fail and may impose additional penalty charges.",
-      },
-      {
-        title: "Q: What is the fastest way to register mandate?",
-        subtitle: "A: Debit Card",
-      },
-      {
-        title: "Q: How much time will Aadhaar Mandate take?",
-        subtitle: "A: 4-5 Banking Days",
-      },
-    ],
-  };
-  const [visible, setVisible] = useState(false);
   const navigation = useNavigation();
   const mandateVerifyStatus = useSelector(
     (state) => state.mandate.verifyStatus
   );
 
   const backAction = () => {
-    navigation.navigate("EWA_KYC");
+    setAlertVisible(true);
     return true;
   };
 
@@ -78,6 +31,28 @@ const Mandate = () => {
       navigation.navigate("EWA_AGREEMENT");
     }
   }, [mandateVerifyStatus]);
+
+  const [alertVisible, setAlertVisible] = useState(false);
+
+  const alertData = {
+    title: "Wait! One last step",
+    subtitle:
+      "Add your mandate details to withdraw advance salary in our bank account",
+
+    imageUri:
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+    primaryBtnText: "+ Add Repayment Method",
+    onPressPrimaryBtn: () => {
+      setAlertVisible(false);
+    },
+    secondaryBtnText: "I will do it later",
+    infoText: "",
+    contentContainerStyle: { flexDirection: "column-reverse" },
+    onPressSecondaryBtn: () => {
+      setAlertVisible(false);
+      navigation.navigate("HomeStack");
+    },
+  };
 
   return (
     <SafeAreaView style={styles.safeContainer}>
@@ -94,11 +69,12 @@ const Mandate = () => {
           })
         }
       />
-      {visible && (
-        <HelpSection
-          visible={visible}
-          setVisible={setVisible}
-          data={mandateData}
+
+      {alertVisible && (
+        <BottomAlert
+          visible={alertVisible}
+          setVisible={setAlertVisible}
+          data={alertData}
         />
       )}
 
