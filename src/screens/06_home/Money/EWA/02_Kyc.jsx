@@ -37,9 +37,6 @@ const KYC = () => {
   );
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
-  const [mandateVerifyStatus, setMandateVerifyStatus] = useState(
-    useSelector((state) => state.mandate.verifyStatus)
-  );
 
   const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
     pollingInterval: KYC_POLLING_DURATION,
@@ -61,15 +58,16 @@ const KYC = () => {
   const { data, error, isLoading } = useGetMandateQuery(unipeEmployeeId, {
     pollingInterval: EWA_POLLING_DURATION,
   });
+  console.log("Mandate Error:", error?.status);
   useEffect(() => {
     if (unipeEmployeeId && deviceId !== 0 && ipAddress !== 0) {
       if (data && !isLoading && !error) {
         console.log("Form mandateFetch response.data", data);
-        dispatch(resetMandate(data?.body));
-        dispatch(addVerifyStatus(data?.body?.verifyStatus));
-        setMandateVerifyStatus(data?.body?.verifyStatus);
+        dispatch(resetMandate(data));
+        dispatch(addVerifyStatus(data?.verifyStatus));
+        setMandateVerifyStatus(data?.verifyStatus);
         setFetched(true);
-      } else {
+      } else if (error?.status == 404) {
         console.log("mandateFetch error: ", error);
         Alert.alert("An Error occured", error.message);
       }
@@ -129,7 +127,7 @@ const KYC = () => {
           action: "Kyc",
           status: "Success",
         });
-        if (mandateVerifyStatus === "SUCCESS") {
+        if (data?.verifyStatus === "SUCCESS") {
           navigation.navigate("EWA_AGREEMENT");
         } else {
           navigation.navigate("EWA_MANDATE");

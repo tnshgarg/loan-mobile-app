@@ -244,7 +244,8 @@ const Disbursement = ({ route, navigation }) => {
         ) : (
           <></>
         )}
-        {status == "SUCCESS" && enableFeedback ? (
+
+        {status == "PENDING" && enableFeedback ? (
           <FeedbackAlert
             data={categoryData}
             ratingHook={[rating, setRating]}

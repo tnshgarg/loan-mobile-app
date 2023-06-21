@@ -35,6 +35,7 @@ import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import { moneyStyles, styles } from "../../../../styles";
 import kfs from "../../../../templates/docs/liquiloans/LiquiLoansKFS";
 import agreement from "../../../../templates/docs/liquiloans/LiquiLoansLoanAgreement";
+import { useGetMandateQuery } from "../../../../store/apiSlices/mandateApi";
 
 const Agreement = () => {
   const dispatch = useDispatch();
@@ -65,9 +66,15 @@ const Agreement = () => {
   console.log({ profile });
   const authSlice = useSelector((state) => state.auth);
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
-  const mandateVerifyStatus = useSelector(
-    (state) => state.mandate.verifyStatus
-  );
+  const {
+    data: mandateData,
+    error,
+    isLoading,
+  } = useGetMandateQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 10,
+  });
+
+  const mandateVerifyStatus = mandateData?.verifyStatus;
 
   const today = new Date();
   const [updateAgreement] = useUpdateAgreementMutation();
@@ -168,10 +175,10 @@ const Agreement = () => {
       action: "Agreement",
       status: "Back",
     });
-    if (mandateVerifyStatus === "SUCCESS") {
-      navigation.navigate("EWA_KYC");
-    } else {
+    if (mandateVerifyStatus != "SUCCESS") {
       navigation.navigate("EWA_MANDATE");
+    } else {
+      navigation.navigate("EWA_KYC");
     }
     return true;
   };

@@ -27,7 +27,7 @@ export const DUMMY_RES = {
               children: [
                 {
                   type: "card",
-
+                  navigate: { type: "cms", screen: "bonus_day_page" },
                   children: [
                     {
                       type: "image",
@@ -2307,7 +2307,7 @@ export const DUMMY_RES = {
   bottom_alert: [
     {
       type: "bottomAlert",
-      visible: false,
+      visible: true,
       children: [
         {
           type: "container",
@@ -2322,23 +2322,27 @@ export const DUMMY_RES = {
               children: [
                 {
                   type: "image",
-                  url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+                  url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/SplashScreens/Sorry.png",
+                  styling: { marginBottom: "10%" },
+                },
+                {
+                  type: "title",
+                  title: "App Update Available",
+                },
+                {
+                  type: "subtitle",
+                  title:
+                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+                  styling: { flex: 0 },
                 },
               ],
             },
             {
               type: "button",
-              title: "Verify Aadhaar",
+              title: "Update Now",
               variant: "filled",
               clickType: "navigation",
               styling: { marginTop: "5%" },
-            },
-            {
-              type: "button",
-              title: "Verify Aadhaar",
-              variant: "filled",
-              clickType: "navigation",
-              styling: { marginBottom: "5%" },
             },
           ],
         },
@@ -2759,6 +2763,121 @@ export const DUMMY_RES = {
       ],
     },
   ],
+
+  bonus_day_page: {
+    data: [
+      {
+        type: "container",
+        // styling: { padding: "4%" },
+        children: [
+          {
+            type: "banner",
+            styling: { borderRadius: 0 },
+            children: [
+              {
+                type: "image",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/ContestBlog/ContestBanner.png",
+                styling: {
+                  // marginBottom: "-40%",
+                  // marginTop: "-20%",
+                  alignSelf: "center",
+                },
+              },
+              {
+                type: "twoColumn",
+                widths: ["30%", "70%"],
+                styling: {
+                  backgroundColor: "#fff",
+                  padding: "3%",
+                  borderRadius: 10,
+                },
+                children: [
+                  {
+                    type: "image",
+                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/ContestBlog/SmartphonePrize.png",
+                  },
+                  {
+                    type: "container",
+                    styling: {
+                      paddingLeft: "5%",
+                    },
+                    children: [
+                      {
+                        type: "title",
+                        title: "Loreum Ipsum",
+                        styling: { color: "#8414f4" },
+                      },
+                      {
+                        type: "title",
+                        title: "Loreum Ipsum",
+                        styling: { fontSize: 28, lineHeight: 38 },
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                type: "twoColumn",
+                widths: ["30%", "70%"],
+                styling: {
+                  backgroundColor: "#fff",
+                  padding: "3%",
+                  borderRadius: 10,
+                  marginTop: 0,
+                },
+                children: [
+                  {
+                    type: "image",
+                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/ContestBlog/TShirtPrize.png",
+                  },
+                  {
+                    type: "container",
+                    styling: {
+                      paddingLeft: "5%",
+                    },
+                    children: [
+                      {
+                        type: "title",
+                        title: "Loreum Ipsum",
+                        styling: { color: "#8414f4" },
+                      },
+                      {
+                        type: "title",
+                        title: "Loreum Ipsum",
+                        styling: { fontSize: 28, lineHeight: 38 },
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                type: "container",
+                styling: { padding: "3%" },
+                children: [
+                  {
+                    type: "button",
+                    title: "Get Salary Now",
+                    variant: "filled",
+                  },
+                  {
+                    type: "button",
+                    title: "See Past Winners",
+                    variant: "filled",
+                    styling: { marginBottom: "10%", backgroundColor: "#fff" },
+                  },
+                  {
+                    type: "video",
+                    thumbnail:
+                      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 };
 
 export default DUMMY_RES;

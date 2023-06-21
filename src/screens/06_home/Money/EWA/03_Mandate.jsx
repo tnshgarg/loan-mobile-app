@@ -8,11 +8,14 @@ import { strings } from "../../../../helpers/Localization";
 import { styles } from "../../../../styles";
 import MandateFormTemplate from "../../../../templates/mandate/Form";
 
-const Mandate = () => {
+const Mandate = (props) => {
   const navigation = useNavigation();
   const mandateVerifyStatus = useSelector(
     (state) => state.mandate.verifyStatus
   );
+
+  const { previousScreen } = props.route.params;
+  console.log({ previousScreen });
 
   const backAction = () => {
     setAlertVisible(true);
@@ -27,7 +30,10 @@ const Mandate = () => {
 
   useEffect(() => {
     if (mandateVerifyStatus === "SUCCESS") {
-      navigation.navigate("EWA_AGREEMENT");
+      // if(previousScreen == 'HomeStack'){
+
+      // }
+      navigation.navigate("EWA_OFFER");
     }
   }, [mandateVerifyStatus]);
 

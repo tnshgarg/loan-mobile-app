@@ -10,6 +10,7 @@ import Analytics, {
 } from "../../helpers/analytics/commonAnalytics";
 import { KYC_POLLING_DURATION } from "../../services/constants";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
+import { useGetMandateQuery } from "../../store/apiSlices/mandateApi";
 import PrimaryButton from "../atoms/PrimaryButton";
 import SvgContainer from "../atoms/SvgContainer";
 
@@ -26,6 +27,15 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
     kycCompleted,
   } = kycData ?? {};
 
+  const { data, error, isLoading } = useGetMandateQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 10,
+  });
+
+  console.log("Mandate Error:", error);
+
+  const mandateVerifyStatus = data?.verifyStatus;
+  console.log({ mandateVerifyStatus });
+
   const BUTTON_TEXT = {
     kycNotCompleted:
       "Verify your identity and complete your full KYC process to withdraw advance salary.",
@@ -41,7 +51,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
         }}
       >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          {kycCompleted ? (
+          {kycCompleted && mandateVerifyStatus == "SUCCESS" ? (
             <SvgContainer height={20} width={20}>
               <Coin />
             </SvgContainer>
@@ -50,8 +60,13 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
               <Hourglass />
             </SvgContainer>
           )}
+          {/* TODO: add localization */}
           <Text style={[styles.text, { marginLeft: 10 }]}>
-            {kycCompleted ? strings.withDrawAdvanceSalary : strings.kycPending}
+            {kycCompleted
+              ? mandateVerifyStatus != "SUCCESS"
+                ? "Setup Repayment for Advance Salary"
+                : strings.withDrawAdvanceSalary
+              : strings.kycPending}
           </Text>
         </View>
       </View>
@@ -81,7 +96,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
           }
           disabled={!kycCompleted ? false : !eligible || !accessible}
           onPress={() => {
-            if (kycCompleted) {
+            if (kycCompleted && mandateVerifyStatus == "SUCCESS") {
               Analytics.trackEvent({
                 interaction: InteractionTypes.BUTTON_PRESS,
                 component: "GetMoneyCard",
@@ -89,6 +104,11 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
                 status: "",
               });
               navigation.navigate("EWAStack", { screen: "EWA_OFFER" });
+            } else if (mandateVerifyStatus != "SUCCESS") {
+              navigation.navigate("EWAStack", {
+                screen: "EWA_MANDATE",
+                params: { previousScreen: "HomeStack" },
+              });
             } else {
               Analytics.trackEvent({
                 interaction: InteractionTypes.BUTTON_PRESS,
@@ -105,16 +125,20 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
         style={{
           paddingVertical: 10,
           paddingHorizontal: 15,
-          backgroundColor: kycCompleted
-            ? COLORS.primaryBackground
-            : COLORS.pendingBackground,
+          backgroundColor:
+            kycCompleted && mandateVerifyStatus == "SUCCESS"
+              ? COLORS.primaryBackground
+              : COLORS.pendingBackground,
           borderBottomLeftRadius: 10,
           borderBottomRightRadius: 10,
         }}
       >
+        {/* TODO: add localization */}
         <Text style={styles.text}>
           {kycCompleted
-            ? `${strings.transfer} ${amount} ${strings.toBankAccount}`
+            ? mandateVerifyStatus != "SUCCESS"
+              ? "Kindly register mandate for seamless advance salary experience and to make repayments on time."
+              : `${strings.transfer} ${amount} ${strings.toBankAccount}`
             : strings.verifyYourIdentity}
         </Text>
       </View>
