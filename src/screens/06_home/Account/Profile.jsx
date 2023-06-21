@@ -10,7 +10,6 @@ import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
 import LogoHeaderBack from "../../../components/molecules/LogoHeaderBack";
 import { COLORS, FONTS } from "../../../constants/Theme";
 import SvgContainer from "../../../components/atoms/SvgContainer";
-import Kyc from "../../../assets/Kyc.svg";
 import CustomerSupport from "../../../assets/CustomerSupport.svg";
 import AltMobile from "../../../assets/AltMobile.svg";
 import Education from "../../../assets/Education.svg";

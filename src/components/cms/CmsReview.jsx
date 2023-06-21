@@ -3,7 +3,6 @@ import React from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
 import SvgContainer from "../atoms/SvgContainer";
-import BannerBg from "../../assets/BannerBg.svg";
 import LinearGradient from "react-native-linear-gradient";
 import Star from "../../assets/Star.svg";
 

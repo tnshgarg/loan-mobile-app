@@ -1,12 +1,11 @@
 import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
-import { SafeAreaView, Text, View, Linking} from "react-native";
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
+import { SafeAreaView, Text, View, Linking } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
-import Clock from "../../assets/Clock.svg";
-import InterestFree from "../../assets/InterestFree.svg";
-import OnDemand from "../../assets/OnDemand.svg";
 import LogoHeader from "../../components/atoms/LogoHeader";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import ShieldTitle from "../../components/atoms/ShieldTitle";
@@ -95,7 +94,7 @@ const Onboarding = () => {
               interaction: InteractionTypes.BUTTON_PRESS,
               component: "Onboarding",
               action: "GetStarted",
-              status: ""
+              status: "",
             });
             navigation.navigate("Login");
           }}

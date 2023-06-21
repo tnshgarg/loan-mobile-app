@@ -6,8 +6,6 @@ import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import RBI from "../../assets/RBI.svg";
-import Shield from "../../assets/Shield.svg";
 import { showToast } from "../../components/atoms/Toast";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import MandateOptions from "../../components/molecules/MandateOptions";
@@ -34,7 +32,9 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import HelpCard from "../../components/atoms/HelpCard";
 import InfoCard from "../../components/atoms/InfoCard";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
-import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -238,7 +238,7 @@ const MandateFormTemplate = (props) => {
           interaction: InteractionTypes.BUTTON_PRESS,
           component: "Mandate",
           action: `CreateOrder_${authType}`,
-          status: "Success"
+          status: "Success",
         });
         await initiateRazorpayCheckout({
           orderId: razorpayOrder.id,

@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { COLORS, FONTS } from "../../constants/Theme";
-import LogoImage from "../../assets/HeaderLogo.svg";
 import EStyleSheet from "react-native-extended-stylesheet";
 import SvgContainer from "./SvgContainer";
 import Help from "../../assets/Help.svg";

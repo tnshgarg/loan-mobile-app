@@ -8,23 +8,16 @@ import {
   Text,
   View,
 } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
-import ListItem from "../../../components/atoms/ListItem";
 import LogoHeader from "../../../components/atoms/LogoHeader";
 import TermsAndPrivacyModal from "../../../components/molecules/TermsAndPrivacyModal";
 import LogoutModal from "../../../components/organisms/LogoutModal";
 import { COLORS } from "../../../constants/Theme";
 import { strings } from "../../../helpers/Localization";
-
-import Logout from "../../../assets/Logout.svg";
-import InfoCard from "../../../components/atoms/InfoCard";
 import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
 import { accountStyles, styles } from "../../../styles";
 import { useGetCmsQuery } from "../../../store/apiSlices/cmsApi";
 import CmsRoot from "../../../components/cms/CmsRoot";
-import CmsThreeColumn from "../../../components/cms/CmsThreeColumn";
 import LogoutItem from "../../../components/atoms/LogoutItem";
 
 const AccountMenu = (props) => {

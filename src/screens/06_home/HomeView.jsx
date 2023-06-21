@@ -4,13 +4,10 @@ import { SafeAreaView, ScrollView, Text, View } from "react-native";
 // import PushNotification from 'react-native-push-notification';
 import { STAGE } from "@env";
 import { useDispatch, useSelector } from "react-redux";
-import CompleteKyc from "../../assets/CompleteKyc.svg";
-import HelpFooter from "../../components/atoms/HelpFooter";
 import CmsMiniPlacement from "../../components/cms/CmsMiniPlacement";
 import CmsRoot from "../../components/cms/CmsRoot";
 import BottomAlert from "../../components/molecules/BottomAlert";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
-import HelpSection from "../../components/organisms/HelpSection";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
@@ -38,42 +35,6 @@ import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { DUMMY_RES } from "../../constants/Strings";
 
 const HomeView = () => {
-  const aadhaarData = {
-    heading: "Customer Support",
-    // headingImage: require("../../assets/AadhaarHeader.png"),
-    // title: "How to verify Aadhaar?",
-    // subtitle: "Follow this 3-step process",
-
-    questions: [
-      {
-        title: "Q: What is Unipe?",
-        subtitle:
-          "A: Unipe is an interest-free solution that allows them to withdraw their salary advance whenever they need it.",
-      },
-      {
-        title: "Q: How can I get advance salary from Unipe?",
-        subtitle:
-          "A: To get advance salary, follow these 5 simple steps: \n- Download and login to the Unipe App \n- Complete KYC verification by entering your Aadhar, Pan & Bank details \n- Enter the amount you want to withdraw \n- Set up repayment metho \nWithdraw your advance salary \n",
-      },
-      {
-        title:
-          "Q: Does Unipe charge me any fees or interest on advance salary?",
-        subtitle:
-          "A: The Unipe EWA program is interest free. However, we do charge a very small processing fee at the time of disbursement. If the Advance salary is paid back on time, there is no separate interest charged.",
-      },
-      {
-        title: "Q: If I take Rs.1000 today, when will I have to pay it back?",
-        subtitle:
-          "A: The advance amount taken will be automatically deducted from your salary at the time of payroll processing.",
-      },
-      {
-        title: "Q: Is my data protected?",
-        subtitle:
-          "A: Your data is 100% encrypted and stored securely and only shared with third parties post your consent.",
-      },
-    ],
-  };
-
   const [visible, setVisible] = useState(false);
 
   const dispatch = useDispatch();

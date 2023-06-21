@@ -2,8 +2,6 @@ import { View, Text, Image } from "react-native";
 import React from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS } from "../../constants/Theme";
-import SvgContainer from "../atoms/SvgContainer";
-import BannerBg from "../../assets/BannerBg.svg";
 import LinearGradient from "react-native-linear-gradient";
 
 const CmsBanner = ({ children, colors }) => {
