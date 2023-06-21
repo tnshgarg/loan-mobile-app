@@ -14,16 +14,27 @@ import { useGetMandateQuery } from "../../store/apiSlices/mandateApi";
 import PrimaryButton from "../atoms/PrimaryButton";
 import SvgContainer from "../atoms/SvgContainer";
 
+const USER_STAGE = {
+  KYC_PENDING: 0,
+  MANDATE_PENDING: 1,
+  EWA_AVAILABLE: 2
+}
+const US = USER_STAGE
+const getUserStage = (kycCompleted, mandateVerifyStatus) => {
+  if (!kycCompleted) {
+    return USER_STAGE.KYC_PENDING
+  }
+  if (mandateVerifyStatus != "SUCCESS") {
+    return USER_STAGE.MANDATE_PENDING
+  } 
+  return USER_STAGE.EWA_AVAILABLE
+}
 const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
     pollingInterval: KYC_POLLING_DURATION,
   });
   const {
-    isAadhaarSuccess,
-    isPanSuccess,
-    isBankSuccess,
-    isProfileSuccess,
     kycCompleted,
   } = kycData ?? {};
 
@@ -36,11 +47,23 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
   const mandateVerifyStatus = data?.verifyStatus;
   console.log({ mandateVerifyStatus });
 
+  const userStage = getUserStage(kycCompleted, mandateVerifyStatus)
   const BUTTON_TEXT = {
     kycNotCompleted:
       "Verify your identity and complete your full KYC process to withdraw advance salary.",
   };
 
+  const cardTopMessages = {
+    [US.KYC_PENDING]: strings.kycPending,
+    [US.MANDATE_PENDING]: "Setup Repayment for Advance Salary",
+    [US.EWA_AVAILABLE]: strings.withDrawAdvanceSalary,
+  }
+
+  const cardBottomMessages = {
+    [US.KYC_PENDING]: strings.verifyYourIdentity,
+    [US.MANDATE_PENDING]: "Kindly register mandate for seamless advance salary experience and to make repayments on time.",
+    [US.EWA_AVAILABLE]: `${strings.transfer} ${amount} ${strings.toBankAccount}`,
+  }
   return (
     <View style={styles.container}>
       <View
@@ -51,7 +74,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
         }}
       >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          {kycCompleted && mandateVerifyStatus == "SUCCESS" ? (
+          {userStage == USER_STAGE.EWA_AVAILABLE ? (
             <SvgContainer height={20} width={20}>
               <Coin />
             </SvgContainer>
@@ -62,11 +85,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
           )}
           {/* TODO: add localization */}
           <Text style={[styles.text, { marginLeft: 10 }]}>
-            {kycCompleted
-              ? mandateVerifyStatus != "SUCCESS"
-                ? "Setup Repayment for Advance Salary"
-                : strings.withDrawAdvanceSalary
-              : strings.kycPending}
+            {cardTopMessages[userStage]}
           </Text>
         </View>
       </View>
@@ -135,11 +154,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
       >
         {/* TODO: add localization */}
         <Text style={styles.text}>
-          {kycCompleted
-            ? mandateVerifyStatus != "SUCCESS"
-              ? "Kindly register mandate for seamless advance salary experience and to make repayments on time."
-              : `${strings.transfer} ${amount} ${strings.toBankAccount}`
-            : strings.verifyYourIdentity}
+          {cardBottomMessages[userStage] }
         </Text>
       </View>
     </View>
