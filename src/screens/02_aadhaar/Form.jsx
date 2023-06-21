@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { BackHandler, SafeAreaView } from "react-native";
 import { useDispatch } from "react-redux";
 
-import BottomAlert from "../../components/molecules/BottomAlert";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
+import { strings } from "../../helpers/Localization";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import AadhaarFormTemplate from "../../templates/aadhaar/Form";
@@ -54,7 +54,7 @@ const AadhaarForm = () => {
   return (
     <SafeAreaView style={styles.safeContainer} accessibilityLabel="AadhaarForm">
       <LogoHeaderBack
-        headline={"Aadhaar Verification"}
+        headline={strings.aadhaarVerification}
         subHeadline={
           "भारतीय रिजर्व बैंक के मानदंडों के अनुसार, आपको अपना आधार वेरीफाई करना अनिवार्य है।"
         }

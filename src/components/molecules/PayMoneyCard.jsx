@@ -10,7 +10,10 @@ import {
   getNumberOfDays,
   setYYYYMMDDtoDDMMYYYY,
 } from "../../helpers/DateFunctions";
-import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
+import { strings } from "../../helpers/Localization";
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
 import { EWA_POLLING_DURATION } from "../../services/constants";
 import {
   createRepaymentOrder,
@@ -257,9 +260,9 @@ const PayMoneyCard = () => {
             title={
               repaymentStatus !== "INPROGRESS"
                 ? inactive || loading
-                  ? "Verifying"
-                  : "Pay now"
-                : "In Progress"
+                  ? strings.verifying
+                  : strings.payNow
+                : strings.inProgress
             }
             onPress={() => initiatePayment()}
             disabled={inactive || loading || repaymentStatus === "INPROGRESS"}

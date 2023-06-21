@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Alert,
   BackHandler,
@@ -9,28 +9,28 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import BackgroundTimer from "react-native-background-timer";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
-import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import { showToast } from "../../components/atoms/Toast";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import OtpInput from "../../components/molecules/OtpInput";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
+import { strings } from "../../helpers/Localization";
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
+import { useLazyGetKycQuery } from "../../store/apiSlices/kycApi";
 import {
-  useVerifyOtpMutation,
   useGenerateOtpMutation,
+  useVerifyOtpMutation,
 } from "../../store/apiSlices/loginApi";
 import { addToken } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics, {
-  InteractionTypes,
-} from "../../helpers/analytics/commonAnalytics";
 import { styles } from "../../styles";
-import { COLORS, FONTS } from "../../constants/Theme";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import OtpInput from "../../components/molecules/OtpInput";
-import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
-import BackgroundTimer from "react-native-background-timer";
-import { showToast } from "../../components/atoms/Toast";
-import { useLazyGetKycQuery } from "../../store/apiSlices/kycApi";
-import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
 const OTPScreen = () => {
   const dispatch = useDispatch();
@@ -215,17 +215,17 @@ const OTPScreen = () => {
     <SafeAreaView accessibilityLabel="OtpScreen" style={styles.safeContainer}>
       <LogoHeaderBack
         onLeftIconPress={backAction}
-        headline={"Verify mobile number"}
+        headline={strings.verifyMobileNumber}
       />
       <View style={styles.container}>
         <View accessibilityLabel="OtpKeyboardView" style={styles.safeContainer}>
           <Text
             style={[
               styles.subHeadline,
-              { width: "90%", marginTop: 10, textAlign: "left" },
+              { width: "90%", marginTop: 10, textAlign: "left", fontSize: 13 },
             ]}
           >
-            Please wait, we will auto verify the OTP sent to
+            {strings.pleaseWaitOtp}
           </Text>
           <View
             style={[
@@ -268,18 +268,21 @@ const OTPScreen = () => {
 
           <View style={{ flex: 1 }} />
 
-          <Text style={styles.subHeadline} accessibilityLabel="OtpText">
-            Didn’t receive the secure code?{" "}
+          <Text
+            style={[styles.subHeadline, { fontSize: 14 }]}
+            accessibilityLabel="OtpText"
+          >
+            {strings.didnotReceiveOtp}{" "}
             {back ? (
               <Text
                 style={{ ...FONTS.h4, color: COLORS.primary }}
                 onPress={onResendOtp}
               >
-                Resend OTP
+                {strings.resendOtp}
               </Text>
             ) : (
               <Text style={{ color: COLORS.lightGray }}>
-                Resend OTP in {Math.trunc(countDownTime / 60)}:
+                {strings.resendOtpIn} {Math.trunc(countDownTime / 60)}:
                 {String("0" + (countDownTime % 60)).slice(-2)}
               </Text>
             )}

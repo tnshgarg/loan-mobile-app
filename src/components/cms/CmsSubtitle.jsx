@@ -1,11 +1,10 @@
-import { View, Text, Image } from "react-native";
 import React from "react";
+import { Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
 
 const CmsSubtitle = ({ children, title, styling }) => {
   const safeChildren = children || [];
-  console.log("Cms Title", title);
   return (
     <View style={styles.container}>
       <Text

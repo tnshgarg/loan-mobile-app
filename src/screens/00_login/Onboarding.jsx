@@ -7,6 +7,7 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import ShieldTitle from "../../components/atoms/ShieldTitle";
 import SvgListItem from "../../components/molecules/SvgListItem";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
 import whatsappLinking from "../../helpers/WhatsappLinking";
 import Analytics, {
   InteractionTypes,
@@ -16,6 +17,11 @@ import { styles } from "../../styles";
 
 const Onboarding = () => {
   const navigation = useNavigation();
+
+  console.log(
+    "strings.phoneVerificationSuccess: ",
+    strings.phoneVerificationSuccess
+  );
 
   const data = [
     {
@@ -66,6 +72,7 @@ const Onboarding = () => {
             style={{
               ...FONTS.title,
               color: COLORS.primary,
+              fontSize: 50,
             }}
           >
             नमस्ते
@@ -74,7 +81,7 @@ const Onboarding = () => {
           <Text
             style={{ ...FONTS.h1, color: COLORS.secondary, marginBottom: "5%" }}
           >
-            Get your salary today!
+            {strings.getYourSalaryToday}
           </Text>
 
           {data.map((item, index) => (

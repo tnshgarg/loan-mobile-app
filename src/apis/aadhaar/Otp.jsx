@@ -6,6 +6,7 @@ import InfoCard from "../../components/atoms/InfoCard";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { showToast } from "../../components/atoms/Toast";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
@@ -147,7 +148,7 @@ const AadhaarOtpApi = (props) => {
       )}
       <PrimaryButton
         accessibilityLabel={"AadhaarOtpBtn"}
-        title={loading ? "Verifying" : props.title || "Continue"}
+        title={loading ? "Verifying" : props.title || strings.continue}
         disabled={props.disabled}
         loading={loading}
         onPress={() => {

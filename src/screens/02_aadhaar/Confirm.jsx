@@ -52,7 +52,7 @@ const AadhaarConfirm = () => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
-        headline={"Are these your Aadhaar details?"}
+        headline={strings.areTheseAadhaarDetails}
         onLeftIconPress={() => backAction()}
         subHeadline={
           "क्या ये स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?"

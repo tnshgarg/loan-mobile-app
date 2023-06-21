@@ -217,10 +217,10 @@ const Offer = () => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
-        title="On-Demand Salary"
+        title={strings.onDemandSalary}
         onLeftIconPress={() => backAction()}
         progress={25}
-        subHeadline={"Select amount you want to withdraw"}
+        subHeadline={strings.selectAmount}
       />
       <View style={[styles.container, { backgroundColor: "#f3f6f7" }]}>
         <SliderCard

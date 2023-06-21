@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import Coin from "../../assets/Coin.svg";
 import Hourglass from "../../assets/Hourglass.svg";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
@@ -50,9 +51,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
             </SvgContainer>
           )}
           <Text style={[styles.text, { marginLeft: 10 }]}>
-            {kycCompleted
-              ? "Withdraw Advance Salary"
-              : "KYC pending for Advance Salary"}
+            {kycCompleted ? strings.withDrawAdvanceSalary : strings.kycPending}
           </Text>
         </View>
       </View>
@@ -64,7 +63,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
           alignItems: "center",
         }}
       >
-        <Text style={styles.text}>Available Salary</Text>
+        <Text style={styles.text}>{strings.availableSalary}</Text>
         <Text style={[styles.text, { ...FONTS.body1 }]}>
           {kycCompleted ? amount : "XX,XXX"}
         </Text>
@@ -74,10 +73,10 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
           title={
             kycCompleted
               ? !accessible
-                ? "Offer Inactive"
+                ? strings.offerInactive
                 : !eligible
-                ? "Offer Inactive"
-                : "Get Salary Now"
+                ? strings.offerInactive
+                : strings.getSalaryNow
               : "Complete Your KYC"
           }
           disabled={!kycCompleted ? false : !eligible || !accessible}
@@ -115,8 +114,8 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
       >
         <Text style={styles.text}>
           {kycCompleted
-            ? `Transfer ${amount} to your Bank account in minutes`
-            : "Verify your identity and complete your full KYC process to withdraw advance salary."}
+            ? `${strings.transfer} ${amount} ${strings.toBankAccount}`
+            : strings.verifyYourIdentity}
         </Text>
       </View>
     </View>

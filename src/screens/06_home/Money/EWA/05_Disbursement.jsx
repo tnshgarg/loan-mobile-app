@@ -167,12 +167,12 @@ const Disbursement = ({ route, navigation }) => {
   }, [offer]);
 
   const data = [
-    { subTitle: "Loan Amount ", value: "₹" + loanAmount },
-    { subTitle: "Net Transfer Amount ", value: "₹" + netAmount },
-    { subTitle: "Bank Account Number", value: bankAccountNumber },
-    { subTitle: "Due Date", value: dueDate },
-    { subTitle: "Loan Account Number", value: loanAccountNumber },
-    { subTitle: "Transfer Status", value: status },
+    { subTitle: strings.loanAmount, value: "₹" + loanAmount },
+    { subTitle: strings.netTransferAmount, value: "₹" + netAmount },
+    { subTitle: strings.bankAccountNumber, value: bankAccountNumber },
+    { subTitle: strings.dueDate, value: dueDate },
+    { subTitle: strings.loanAccountNumber, value: loanAccountNumber },
+    { subTitle: strings.transferStatus, value: status },
   ];
   const [disbursementFeedback] = useDisbursementFeedbackMutation();
   const onSubmitFeedback = () => {

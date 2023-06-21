@@ -8,6 +8,7 @@ import HelpCard from "../../components/atoms/HelpCard";
 import InfoCard from "../../components/atoms/InfoCard";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
+import { strings } from "../../helpers/Localization";
 import { KYC_POLLING_DURATION } from "../../services/constants";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { addNumber } from "../../store/slices/aadhaarSlice";
@@ -43,13 +44,13 @@ const AadhaarFormTemplate = (props) => {
       <View style={[styles.container, {}]}>
         <FormInput
           accessibilityLabel={"AadhaarInput"}
-          placeholder={"Enter Aadhaar Number"}
+          placeholder={strings.enterAadhaarNumber}
           keyboardType="numeric"
           autoFocus={isFocused}
           value={number}
           onChange={setNumber}
           maxLength={12}
-          errorMsg={number && !validNumber ? "Invalid Aadhaar Number" : ""}
+          errorMsg={number && !validNumber ? strings.invalidAadhaarNumber : ""}
           numeric
           appendComponent={
             <Text style={{ ...FONTS.body5, color: COLORS.gray }}>

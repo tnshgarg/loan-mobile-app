@@ -50,7 +50,7 @@ const BankForm = () => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
-        headline={"Add Bank Account"}
+        headline={strings.addBankAccount}
         onLeftIconPress={() => backAction()}
         subHeadline={"आपको इस बैंक खाते/यूपीआई में एडवांस सैलरी भेजी जाएगी।"}
         onRightIconPress={() =>

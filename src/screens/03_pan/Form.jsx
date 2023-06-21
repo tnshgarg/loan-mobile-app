@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
+import { strings } from "../../helpers/Localization";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
@@ -56,7 +57,7 @@ export default PanForm = () => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
-        headline={"PAN Card Verification"}
+        headline={strings.panVerification}
         subHeadline={
           "हमें आपका नाम और जन्मतिथि जांच करने के लिए आपके पैन की आवश्यकता है।"
         }

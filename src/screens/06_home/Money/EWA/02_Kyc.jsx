@@ -7,7 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import DetailsCard from "../../../../components/molecules/DetailsCard";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
-import Analytics, { InteractionTypes } from "../../../../helpers/analytics/commonAnalytics";
+import { strings } from "../../../../helpers/Localization";
+import Analytics, {
+  InteractionTypes,
+} from "../../../../helpers/analytics/commonAnalytics";
 import { EWA_POLLING_DURATION, KYC_POLLING_DURATION } from "../../../../services/constants";
 import { useUpdateKycMutation } from "../../../../store/apiSlices/ewaApi";
 import { useGetKycQuery } from "../../../../store/apiSlices/kycApi";
@@ -161,9 +164,9 @@ const KYC = () => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
-        title={"Confirm KYC"}
+        title={strings.confirmKyc}
         onLeftIconPress={() => backAction()}
-        subHeadline={"Please confirm if these are your details"}
+        subHeadline={strings.confirmIfTheseDetails}
       />
 
       <View style={styles.container}>
@@ -179,7 +182,7 @@ const KYC = () => {
         <View style={{ flex: 1 }} />
 
         <PrimaryButton
-          title={loading ? "Verifying" : "I confirm my KYC"}
+          title={loading ? strings.verifying : strings.confirmMyKyc}
           disabled={loading || !fetched}
           onPress={() => {
             handleKyc();
