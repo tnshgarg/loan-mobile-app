@@ -17,6 +17,8 @@ import SvgContainer from "../../../../components/atoms/SvgContainer";
 import { COLORS, FONTS } from "../../../../constants/Theme";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 import FeedbackAlert from "../../../../components/molecules/FeedbackAlert";
+import LogoHeader from "../../../../components/atoms/LogoHeader";
+import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 
 const Disbursement = ({ route, navigation }) => {
   const dispatch = useDispatch();
@@ -197,15 +199,29 @@ const Disbursement = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <LogoHeaderBack
-        title="Money Transfer"
-        onLeftIconPress={() => {
-          enableFeedback ? null : backAction();
-        }}
-        onRightIconPress={() => {}}
-        titleStyle={{ ...FONTS.body3 }}
-      />
-      <View style={[styles.container, { alignItems: "center" }]}>
+      {enableFeedback ? (
+        <LogoHeaderBack
+          onRightIconPress={() => {}}
+          hideLogo={true}
+          containerStyle={{ backgroundColor: null }}
+        />
+      ) : (
+        <LogoHeaderBack
+          title="Money Transfer"
+          onLeftIconPress={() => {
+            backAction();
+          }}
+          onRightIconPress={() => {}}
+          titleStyle={{ ...FONTS.body3 }}
+        />
+      )}
+
+      <View
+        style={[
+          styles.container,
+          { alignItems: "center", justifyContent: "space-evenly" },
+        ]}
+      >
         {StatusImage(status)}
         {StatusText(status)}
         {status == "REJECTED" || status == "ERROR" ? null : (
@@ -215,6 +231,20 @@ const Disbursement = ({ route, navigation }) => {
             info={strings.moneyAutoDebitedUpcomingSalary}
             iconName="ticket-percent-outline"
           />
+        )}
+        {enableFeedback ? (
+          <PrimaryButton
+            title="Thank you"
+            containerStyle={{
+              backgroundColor: null,
+              borderWidth: 1.5,
+              borderColor: COLORS.black,
+            }}
+            onPress={backAction}
+            titleStyle={{ color: COLORS.black }}
+          />
+        ) : (
+          <></>
         )}
         {status == "SUCCESS" && enableFeedback ? (
           <FeedbackAlert
