@@ -4,17 +4,13 @@ import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import Analytics from "appcenter-analytics";
 import { requestUserPermission } from "../../services/notifications/notificationService";
 import { useDispatch, useSelector } from "react-redux";
-import Welcome from "../../assets/Welcome.svg";
 import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import HelpSection from "../../components/organisms/HelpSection";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
-import SuccessContainer from "../../components/organisms/SuccessContainer";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import CmsRoot from "../../components/cms/CmsRoot";
-import { DUMMY_RES } from "../../constants/Strings";
-import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 
 const LoginSuccess = () => {
   const kycData = {
@@ -96,62 +92,13 @@ const LoginSuccess = () => {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
-  const data = {
-    title: "Congratulations on \n joining Unipe!",
-    // subtitle: "Your employer, Amazon, has initiated your onboarding process.",
-    renderSubtitle: () => (
-      <Text
-        style={[
-          styles.subHeadline,
-          {
-            color: COLORS.white,
-            ...FONTS.body3,
-            width: "100%",
-          },
-        ]}
-      >
-        Your employer,{" "}
-        <Text
-          style={{
-            ...FONTS.h3,
-            color: "#D9F68A",
-          }}
-        >
-          XXXXXXX
-        </Text>
-        , has initiated your onboarding process.
-      </Text>
-    ),
-    // videoUri: "",
-    // videoThumbnail:
-    //   "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
-
-    imageUri: <Welcome />,
-    primaryBtnText: "Start KYC",
-    primaryBtnIcon: "arrow-right",
-    primaryBtnLabel: "WelcomeBtn",
-    onPressPrimaryBtn: () => {
-      requestUserPermission();
-      Analytics.trackEvent("WelcomePage", {
-        unipeEmployeeId: unipeEmployeeId,
-      });
-      navigation.navigate("KycProgress");
-    },
-    secondaryBtnText: "I will do it later",
-    onPressSecondaryBtn: () => {
-      navigation.navigate("HomeStack");
-    },
-    infoText:
-      "As per RBI guidelines, you have to complete e-KYC to get Advance Salary",
-  };
-
-  const {
-    data: cmsData,
-    isLoading: cmsLoading,
-    isError: cmsError,
-  } = useGetCmsQuery(unipeEmployeeId, {
-    pollingInterval: 1000,
-  });
+  // const {
+  //   data: cmsData,
+  //   isLoading: cmsLoading,
+  //   isError: cmsError,
+  // } = useGetCmsQuery(unipeEmployeeId, {
+  //   pollingInterval: 1000,
+  // });
 
   return (
     <SafeAreaView accessibilityLabel="WelcomePage" style={styles.safeContainer}>
@@ -166,16 +113,11 @@ const LoginSuccess = () => {
         }
       />
       {/* {!cmsLoading ? (
-          <CmsRoot children={cmsData?.home || []}></CmsRoot>
+          <CmsRoot children={cmsData?.login_success || []}></CmsRoot>
         ) : (
           <></>
         )} */}
-      {/* <CmsRoot children={DUMMY_RES?.login_success || []}></CmsRoot> */}
-      <SuccessContainer data={data} />
-
-      {visible && (
-        <HelpSection visible={visible} setVisible={setVisible} data={kycData} />
-      )}
+      <CmsRoot children={DUMMY_RES?.login_success || []}></CmsRoot>
     </SafeAreaView>
   );
 };

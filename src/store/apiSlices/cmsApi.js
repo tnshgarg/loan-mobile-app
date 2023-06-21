@@ -1,182 +1,46 @@
 import { COLORS } from "../../constants/Theme";
 import { api } from "./api";
 
-const DUMMY_RES = {
+export const DUMMY_RES = {
   home: [
-    // {
-    //   type: "button",
-    //   clickType: "navigation", // if linking, then url also
-    //   navigate: { type: "app", stack: "EWAStack", screen: "Money" },
-    //   children: [
-    //     {
-    //       title: "Continue",
-    //       type: "outlined", // filled
-    //       buttonColor: "#41be89",
-    //       leftIcon: "file",
-    //       rightIcon: "file",
-    //       loading: false,
-    //       containerStyle: {},
-    //       titleStyle: {
-    //         fontSize: 20,
-    //         color: "#41be89",
-    //       },
-    //       iconColor: "#41be89",
-    //     },
-    //   ],
-    // },
     {
-      type: "banner",
+      type: "container",
+      styling: { padding: "4%" },
       children: [
         {
-          type: "image",
-          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBanner.png",
-          styling: {
-            marginBottom: "-40%",
-            marginTop: "-5%",
-            alignSelf: "center",
-          },
-        },
-        {
-          type: "twoColumn",
-          widths: ["46%", "46%"],
-          styling: { border: "1px solid black" },
+          type: "banner",
           children: [
             {
-              type: "card",
+              type: "image",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBanner.png",
+              styling: {
+                marginBottom: "-40%",
+                marginTop: "-20%",
+                alignSelf: "center",
+              },
+            },
+            {
+              type: "twoColumn",
+              widths: ["48%", "48%"],
+              styling: { border: "1px solid black" },
+              children: [
+                {
+                  type: "card",
 
-              children: [
-                {
-                  type: "image",
-                  url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBannerCurrentContest.png",
-                },
-              ],
-            },
-            {
-              type: "card",
-              gradientColors: ["#fff", "#fff"],
-              children: [
-                {
-                  type: "image",
-                  url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBannerLastMonthWinners.png",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-    {
-      type: "section",
-      title: "Learn With Us",
-      gradientColors: [COLORS.white, COLORS.white],
-      styling: { padding: 0 },
-      leftIcon:
-        "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsIcon.png",
-      ctaText: "SEE ALL",
-      ctaRoute: "LearnWithUs",
-      onPressCta: { stack: "LearnWithUs" },
-      children: [
-        {
-          type: "swiper",
-          children: [
-            {
-              type: "card",
-              navigate: { type: "cms", screen: "blog_1" },
-              children: [
-                {
-                  type: "twoColumn",
-                  widths: ["70%", "30%"],
                   children: [
                     {
-                      type: "container",
-                      children: [
-                        {
-                          type: "title",
-                          title: "What are the benefits of completing KYC?",
-                        },
-                      ],
-                    },
-                    {
                       type: "image",
-                      url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
+                      url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBannerCurrentContest.png",
                     },
                   ],
                 },
-              ],
-            },
-
-            {
-              type: "card",
-              navigate: { type: "cms", screen: "blog_3" },
-              children: [
                 {
-                  type: "twoColumn",
-                  widths: ["70%", "30%"],
+                  type: "card",
+                  gradientColors: ["#fff", "#fff"],
                   children: [
                     {
-                      type: "container",
-                      children: [
-                        {
-                          type: "title",
-                          title:
-                            "What are the benefits of Mandate Registration?",
-                        },
-                      ],
-                    },
-                    {
                       type: "image",
-                      url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/MandateBenefits.png",
-                    },
-                  ],
-                },
-              ],
-            },
-
-            {
-              type: "card",
-              navigate: { type: "cms", screen: "blog_5" },
-              children: [
-                {
-                  type: "twoColumn",
-                  widths: ["70%", "30%"],
-                  children: [
-                    {
-                      type: "container",
-                      children: [
-                        {
-                          type: "title",
-                          title: "What are the benefits of Advance Salary?",
-                        },
-                      ],
-                    },
-                    {
-                      type: "image",
-                      url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/AdvanceSalaryBenefits.png",
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: "card",
-              navigate: { type: "cms", screen: "blog_6" },
-              children: [
-                {
-                  type: "twoColumn",
-                  widths: ["70%", "30%"],
-                  children: [
-                    {
-                      type: "container",
-                      children: [
-                        {
-                          type: "title",
-                          title: "How do I check my PF Balance?",
-                        },
-                      ],
-                    },
-                    {
-                      type: "image",
-                      url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/CheckPFBalance.png",
+                      url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBannerLastMonthWinners.png",
                     },
                   ],
                 },
@@ -184,110 +48,367 @@ const DUMMY_RES = {
             },
           ],
         },
-      ],
-    },
-    {
-      type: "card",
-      gradientColors: [COLORS.cardBackground, COLORS.cardBackground],
-      navigate: { type: "cms", screen: "blog_2" },
-      children: [
         {
-          type: "twoColumn",
-          styling: { flexDirection: "row-reverse" },
+          type: "section",
+          title: "Learn With Us",
+          gradientColors: ["#FFFFFF", "#FFFFFF"],
+          styling: { padding: 0, marginTop: "10%" },
+          leftIcon:
+            "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsIcon.png",
+          ctaText: "SEE ALL",
+          ctaRoute: "LearnWithUs",
+          onPressCta: { stack: "LearnWithUs" },
+          children: [
+            {
+              type: "swiper",
+              children: [
+                {
+                  type: "card",
+                  navigate: { type: "cms", screen: "blog_1" },
+                  children: [
+                    {
+                      type: "twoColumn",
+                      widths: ["70%", "30%"],
+                      children: [
+                        {
+                          type: "container",
+                          children: [
+                            {
+                              type: "title",
+                              title: "What are the benefits of completing KYC?",
+                            },
+                          ],
+                        },
+                        {
+                          type: "image",
+                          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
+                        },
+                      ],
+                    },
+                  ],
+                },
+
+                {
+                  type: "card",
+                  navigate: { type: "cms", screen: "blog_3" },
+                  children: [
+                    {
+                      type: "twoColumn",
+                      widths: ["70%", "30%"],
+                      children: [
+                        {
+                          type: "container",
+                          children: [
+                            {
+                              type: "title",
+                              title:
+                                "What are the benefits of Mandate Registration?",
+                            },
+                          ],
+                        },
+                        {
+                          type: "image",
+                          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/MandateBenefits.png",
+                        },
+                      ],
+                    },
+                  ],
+                },
+
+                {
+                  type: "card",
+                  navigate: { type: "cms", screen: "blog_5" },
+                  children: [
+                    {
+                      type: "twoColumn",
+                      widths: ["70%", "30%"],
+                      children: [
+                        {
+                          type: "container",
+                          children: [
+                            {
+                              type: "title",
+                              title: "What are the benefits of Advance Salary?",
+                            },
+                          ],
+                        },
+                        {
+                          type: "image",
+                          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/AdvanceSalaryBenefits.png",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  type: "card",
+                  navigate: { type: "cms", screen: "blog_6" },
+                  children: [
+                    {
+                      type: "twoColumn",
+                      widths: ["70%", "30%"],
+                      children: [
+                        {
+                          type: "container",
+                          children: [
+                            {
+                              type: "title",
+                              title: "How do I check my PF Balance?",
+                            },
+                          ],
+                        },
+                        {
+                          type: "image",
+                          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/CheckPFBalance.png",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: "card",
+          gradientColors: [COLORS.cardBackground, COLORS.cardBackground],
           navigate: { type: "cms", screen: "blog_2" },
-
           children: [
             {
-              type: "container",
-              styling: { marginLeft: "5%" },
+              type: "twoColumn",
+              styling: { flexDirection: "row-reverse" },
+              navigate: { type: "cms", screen: "blog_2" },
+
               children: [
                 {
-                  type: "title",
-                  title: "Why Unipe?",
+                  type: "container",
+                  styling: { marginLeft: "5%" },
+                  children: [
+                    {
+                      type: "title",
+                      title: "Why Unipe?",
+                    },
+                    {
+                      type: "subtitle",
+                      title: "Lorem Ipsum is simply dumm typesetting industry.",
+                    },
+                  ],
                 },
                 {
-                  type: "subtitle",
-                  title: "Lorem Ipsum is simply dumm typesetting industry.",
+                  type: "video",
+                  videoUri: "ux6XLNiEpLs",
+                  size: "small",
+                  thumbnail:
+                    "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
                 },
               ],
             },
-            {
-              type: "video",
-              videoUri: "ux6XLNiEpLs",
-              thumbnail:
-                "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
-            },
           ],
         },
-      ],
-    },
-    {
-      type: "card",
-      gradientColors: [COLORS.cardBackground, COLORS.cardBackground],
-      navigate: { type: "cms", screen: "blog_4" },
-      children: [
         {
-          type: "twoColumn",
-          styling: { flexDirection: "row-reverse" },
+          type: "card",
+          gradientColors: [COLORS.cardBackground, COLORS.cardBackground],
           navigate: { type: "cms", screen: "blog_4" },
+          children: [
+            {
+              type: "twoColumn",
+              styling: { flexDirection: "row-reverse" },
+              navigate: { type: "cms", screen: "blog_4" },
 
+              children: [
+                {
+                  type: "container",
+                  styling: { marginLeft: "5%" },
+                  children: [
+                    {
+                      type: "title",
+                      title: "How Unipe Works?",
+                    },
+                    {
+                      type: "subtitle",
+                      title: "Lorem Ipsum is simply dumm typesetting industry.",
+                    },
+                  ],
+                },
+                {
+                  type: "video",
+                  videoUri: "ux6XLNiEpLs",
+                  size: "small",
+                  thumbnail:
+                    "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+                },
+              ],
+            },
+          ],
+        },
+
+        {
+          type: "section",
+          title: "User Story",
+          gradientColors: ["#FFFFFF", "#FFFFFF"],
+          styling: { padding: 0, marginTop: "10%" },
+          leftIcon:
+            "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/learn.png",
           children: [
             {
               type: "container",
-              styling: { marginLeft: "5%" },
+              styling: { padding: "3%" },
               children: [
                 {
-                  type: "title",
-                  title: "How Unipe Works?",
+                  type: "container",
+                  styling: { flexDirection: "row", marginVertical: "3%" },
+                  children: [
+                    {
+                      type: "icon",
+                      iconName: "star",
+                      iconSize: 24,
+                      iconColor: "#F9C700",
+                    },
+                    {
+                      type: "icon",
+                      iconName: "star",
+                      iconSize: 24,
+                      iconColor: "#F9C700",
+                    },
+                    {
+                      type: "icon",
+                      iconName: "star",
+                      iconSize: 24,
+                      iconColor: "#F9C700",
+                    },
+                    {
+                      type: "icon",
+                      iconName: "star",
+                      iconSize: 24,
+                      iconColor: "#F9C700",
+                    },
+                    {
+                      type: "icon",
+                      iconName: "star",
+                      iconSize: 24,
+                      iconColor: "#F9C700",
+                    },
+                  ],
                 },
                 {
                   type: "subtitle",
-                  title: "Lorem Ipsum is simply dumm typesetting industry.",
+                  styling: { fontSize: 16, lineHeight: 24 },
+                  title:
+                    "“Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.”",
+                },
+                {
+                  type: "twoColumn",
+                  widths: ["11%", "89%"],
+                  styling: {
+                    margin: 0,
+                    marginTop: "3%",
+                  },
+                  children: [
+                    {
+                      type: "image",
+                      styling: { borderRadius: 50 },
+                      url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+                    },
+                    {
+                      type: "container",
+                      styling: { marginLeft: "2%" },
+                      children: [
+                        {
+                          type: "subtitle",
+                          title: "Manager",
+                          styling: { marginBottom: -5 },
+                        },
+                        { type: "subtitle", title: "Neemrana, Rajasthan" },
+                      ],
+                    },
+                  ],
                 },
               ],
             },
             {
-              type: "video",
-              videoUri: "ux6XLNiEpLs",
-              thumbnail:
-                "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+              type: "container",
+              styling: { padding: "3%" },
+              children: [
+                {
+                  type: "container",
+                  styling: { flexDirection: "row", marginVertical: "3%" },
+                  children: [
+                    {
+                      type: "icon",
+                      iconName: "star",
+                      iconSize: 24,
+                      iconColor: "#F9C700",
+                    },
+                    {
+                      type: "icon",
+                      iconName: "star",
+                      iconSize: 24,
+                      iconColor: "#F9C700",
+                    },
+                    {
+                      type: "icon",
+                      iconName: "star",
+                      iconSize: 24,
+                      iconColor: "#F9C700",
+                    },
+                    {
+                      type: "icon",
+                      iconName: "star",
+                      iconSize: 24,
+                      iconColor: "#F9C700",
+                    },
+                    {
+                      type: "icon",
+                      iconName: "star",
+                      iconSize: 24,
+                      iconColor: "#F9C700",
+                    },
+                  ],
+                },
+                {
+                  type: "subtitle",
+                  styling: { fontSize: 16, lineHeight: 24 },
+                  title:
+                    "“Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.”",
+                },
+                {
+                  type: "twoColumn",
+                  widths: ["11%", "89%"],
+                  styling: {
+                    margin: 0,
+                    marginTop: "3%",
+                  },
+                  children: [
+                    {
+                      type: "image",
+                      styling: { borderRadius: 50 },
+                      url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+                    },
+                    {
+                      type: "container",
+                      styling: { marginLeft: "2%" },
+                      children: [
+                        {
+                          type: "subtitle",
+                          title: "Manager",
+                          styling: { marginBottom: -5 },
+                        },
+                        { type: "subtitle", title: "Neemrana, Rajasthan" },
+                      ],
+                    },
+                  ],
+                },
+              ],
             },
           ],
         },
       ],
     },
-
     {
-      type: "section",
-      title: "User Story",
-      styling: { padding: 0 },
-      gradientColors: [COLORS.white, COLORS.white],
-      leftIcon:
-        "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/learn.png",
-      children: [
-        {
-          type: "review",
-          testimony:
-            "“Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.”",
-          name: "Manager",
-          address: "Neemrana, Rajasthan",
-          imageUri:
-            "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-          stars: 5,
-        },
-        {
-          type: "review",
-          testimony:
-            "“Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.”",
-          name: "Manager",
-          address: "Neemrana, Rajasthan",
-          imageUri:
-            "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
-          stars: 5,
-        },
-      ],
+      type: "footer",
     },
   ],
+
   blogs: [
     {
       type: "card",
@@ -295,10 +416,11 @@ const DUMMY_RES = {
       children: [
         {
           type: "twoColumn",
-          widths: ["70%", "30%"],
+          widths: ["30%", "70%"],
           children: [
             {
               type: "container",
+
               children: [
                 {
                   type: "title",
@@ -343,6 +465,7 @@ const DUMMY_RES = {
             {
               type: "video",
               videoUri: "ux6XLNiEpLs",
+              size: "small",
               thumbnail:
                 "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
             },
@@ -356,7 +479,7 @@ const DUMMY_RES = {
       children: [
         {
           type: "twoColumn",
-          widths: ["70%", "30%"],
+          widths: ["30%", "70%"],
           children: [
             {
               type: "container",
@@ -419,7 +542,7 @@ const DUMMY_RES = {
       children: [
         {
           type: "twoColumn",
-          widths: ["70%", "30%"],
+          widths: ["30%", "70%"],
           children: [
             {
               type: "container",
@@ -444,7 +567,7 @@ const DUMMY_RES = {
       children: [
         {
           type: "twoColumn",
-          widths: ["70%", "30%"],
+          widths: ["30%", "70%"],
           children: [
             {
               type: "container",
@@ -468,27 +591,26 @@ const DUMMY_RES = {
     screenTitle: "",
     headline: "What are the benefits of completing KYC?",
     headingImage:
-      "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
 
     data: [
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            styling: { marginLeft: "-15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhatKYC.png",
           },
           {
             type: "container",
-            // styling: { flexDirection: "row" },
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "What is KYC?" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee’s identity while offering features like advance salrary.",
               },
             ],
           },
@@ -496,23 +618,23 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            styling: { marginLeft: "15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhyCompleteKYC.png",
           },
           {
             type: "container",
 
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "Why Complete KYC?" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "Unipe advance salary is powered by RBI approved lending partners which mandates completion of Full KYC to avail the advance salary balance.",
               },
             ],
           },
@@ -520,22 +642,22 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            styling: { marginLeft: "-15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/RisksofIncompleteKYC.png",
           },
           {
             type: "container",
 
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "Risks of Incomplete KYC" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "Without KYC completion, employees will not be able to withdraw advance salary balance to their bank account.",
               },
             ],
           },
@@ -543,23 +665,46 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            styling: { marginLeft: "15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/UnlockAdvancewithKYC.png",
           },
           {
             type: "container",
 
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "Unlock Advance with KYC" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "One the KYC is done, the Advance Salary balance will be unlocked and employees can transfer the shown amount without any limit.",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        widths: ["30%", "70%"],
+        children: [
+          {
+            type: "image",
+            styling: { marginLeft: "-15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/AdvancewithoutKYC.png",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "Advance without KYC" },
+              {
+                type: "subtitle",
+                title:
+                  "If KYC is not done and the advance is approved from the employer, the employees will be able to see the amount but will not be able to withdraw it.",
               },
             ],
           },
@@ -571,23 +716,23 @@ const DUMMY_RES = {
         children: [
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. How to complete KYC Verification?",
+            subtitle: "A. Search on the internet",
           },
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. My advance salary balance is 0 (Waiting for approval)",
+            subtitle: "A. Search on the internet",
           },
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. I don't have PAN Card",
+            subtitle: "A. Search on the internet",
           },
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. I have not received my advance salary",
+            subtitle: "A. Search on the internet",
           },
         ],
       },
@@ -597,27 +742,26 @@ const DUMMY_RES = {
     screenTitle: "",
     headline: "What are the benefits of completing KYC?",
     headingImage:
-      "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
 
     data: [
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            styling: { marginLeft: "-15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhatKYC.png",
           },
           {
             type: "container",
-            // styling: { flexDirection: "row" },
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "What is KYC?" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee’s identity while offering features like advance salrary.",
               },
             ],
           },
@@ -625,23 +769,23 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            styling: { marginLeft: "15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhyCompleteKYC.png",
           },
           {
             type: "container",
 
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "Why Complete KYC?" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "Unipe advance salary is powered by RBI approved lending partners which mandates completion of Full KYC to avail the advance salary balance.",
               },
             ],
           },
@@ -649,22 +793,22 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            styling: { marginLeft: "-15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/RisksofIncompleteKYC.png",
           },
           {
             type: "container",
 
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "Risks of Incomplete KYC" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "Without KYC completion, employees will not be able to withdraw advance salary balance to their bank account.",
               },
             ],
           },
@@ -672,23 +816,46 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            styling: { marginLeft: "15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/UnlockAdvancewithKYC.png",
           },
           {
             type: "container",
 
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "Unlock Advance with KYC" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "One the KYC is done, the Advance Salary balance will be unlocked and employees can transfer the shown amount without any limit.",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        widths: ["30%", "70%"],
+        children: [
+          {
+            type: "image",
+            styling: { marginLeft: "-15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/AdvancewithoutKYC.png",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "Advance without KYC" },
+              {
+                type: "subtitle",
+                title:
+                  "If KYC is not done and the advance is approved from the employer, the employees will be able to see the amount but will not be able to withdraw it.",
               },
             ],
           },
@@ -700,23 +867,23 @@ const DUMMY_RES = {
         children: [
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. How to complete KYC Verification?",
+            subtitle: "A. Search on the internet",
           },
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. My advance salary balance is 0 (Waiting for approval)",
+            subtitle: "A. Search on the internet",
           },
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. I don't have PAN Card",
+            subtitle: "A. Search on the internet",
           },
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. I have not received my advance salary",
+            subtitle: "A. Search on the internet",
           },
         ],
       },
@@ -726,27 +893,26 @@ const DUMMY_RES = {
     screenTitle: "",
     headline: "What are the benefits of completing KYC?",
     headingImage:
-      "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
 
     data: [
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            styling: { marginLeft: "-15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhatKYC.png",
           },
           {
             type: "container",
-            // styling: { flexDirection: "row" },
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "What is KYC?" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee’s identity while offering features like advance salrary.",
               },
             ],
           },
@@ -754,23 +920,23 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            styling: { marginLeft: "15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhyCompleteKYC.png",
           },
           {
             type: "container",
 
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "Why Complete KYC?" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "Unipe advance salary is powered by RBI approved lending partners which mandates completion of Full KYC to avail the advance salary balance.",
               },
             ],
           },
@@ -778,22 +944,22 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            styling: { marginLeft: "-15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/RisksofIncompleteKYC.png",
           },
           {
             type: "container",
 
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "Risks of Incomplete KYC" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "Without KYC completion, employees will not be able to withdraw advance salary balance to their bank account.",
               },
             ],
           },
@@ -801,23 +967,46 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            styling: { marginLeft: "15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/UnlockAdvancewithKYC.png",
           },
           {
             type: "container",
 
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "Unlock Advance with KYC" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "One the KYC is done, the Advance Salary balance will be unlocked and employees can transfer the shown amount without any limit.",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        widths: ["30%", "70%"],
+        children: [
+          {
+            type: "image",
+            styling: { marginLeft: "-15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/AdvancewithoutKYC.png",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "Advance without KYC" },
+              {
+                type: "subtitle",
+                title:
+                  "If KYC is not done and the advance is approved from the employer, the employees will be able to see the amount but will not be able to withdraw it.",
               },
             ],
           },
@@ -829,23 +1018,23 @@ const DUMMY_RES = {
         children: [
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. How to complete KYC Verification?",
+            subtitle: "A. Search on the internet",
           },
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. My advance salary balance is 0 (Waiting for approval)",
+            subtitle: "A. Search on the internet",
           },
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. I don't have PAN Card",
+            subtitle: "A. Search on the internet",
           },
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. I have not received my advance salary",
+            subtitle: "A. Search on the internet",
           },
         ],
       },
@@ -855,27 +1044,26 @@ const DUMMY_RES = {
     screenTitle: "",
     headline: "What are the benefits of completing KYC?",
     headingImage:
-      "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
 
     data: [
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            styling: { marginLeft: "-15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhatKYC.png",
           },
           {
             type: "container",
-            // styling: { flexDirection: "row" },
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "What is KYC?" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee’s identity while offering features like advance salrary.",
               },
             ],
           },
@@ -883,23 +1071,23 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            styling: { marginLeft: "15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhyCompleteKYC.png",
           },
           {
             type: "container",
 
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "Why Complete KYC?" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "Unipe advance salary is powered by RBI approved lending partners which mandates completion of Full KYC to avail the advance salary balance.",
               },
             ],
           },
@@ -907,22 +1095,22 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            styling: { marginLeft: "-15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/RisksofIncompleteKYC.png",
           },
           {
             type: "container",
 
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "Risks of Incomplete KYC" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "Without KYC completion, employees will not be able to withdraw advance salary balance to their bank account.",
               },
             ],
           },
@@ -930,23 +1118,46 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            styling: { marginLeft: "15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/UnlockAdvancewithKYC.png",
           },
           {
             type: "container",
 
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "Unlock Advance with KYC" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "One the KYC is done, the Advance Salary balance will be unlocked and employees can transfer the shown amount without any limit.",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        widths: ["30%", "70%"],
+        children: [
+          {
+            type: "image",
+            styling: { marginLeft: "-15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/AdvancewithoutKYC.png",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "Advance without KYC" },
+              {
+                type: "subtitle",
+                title:
+                  "If KYC is not done and the advance is approved from the employer, the employees will be able to see the amount but will not be able to withdraw it.",
               },
             ],
           },
@@ -958,23 +1169,23 @@ const DUMMY_RES = {
         children: [
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. How to complete KYC Verification?",
+            subtitle: "A. Search on the internet",
           },
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. My advance salary balance is 0 (Waiting for approval)",
+            subtitle: "A. Search on the internet",
           },
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. I don't have PAN Card",
+            subtitle: "A. Search on the internet",
           },
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. I have not received my advance salary",
+            subtitle: "A. Search on the internet",
           },
         ],
       },
@@ -989,22 +1200,21 @@ const DUMMY_RES = {
     data: [
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
+            styling: { marginLeft: "-15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhatKYC.png",
           },
           {
             type: "container",
-            // styling: { flexDirection: "row" },
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "What is KYC?" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee’s identity while offering features like advance salrary.",
               },
             ],
           },
@@ -1012,23 +1222,23 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/MandateBenefits.png",
+            styling: { marginLeft: "15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhyCompleteKYC.png",
           },
           {
             type: "container",
 
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "Why Complete KYC?" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "Unipe advance salary is powered by RBI approved lending partners which mandates completion of Full KYC to avail the advance salary balance.",
               },
             ],
           },
@@ -1036,22 +1246,22 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            styling: { marginLeft: "-15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/RisksofIncompleteKYC.png",
           },
           {
             type: "container",
 
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "Risks of Incomplete KYC" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "Without KYC completion, employees will not be able to withdraw advance salary balance to their bank account.",
               },
             ],
           },
@@ -1059,23 +1269,46 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            styling: { marginLeft: "15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/UnlockAdvancewithKYC.png",
           },
           {
             type: "container",
 
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "Unlock Advance with KYC" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "One the KYC is done, the Advance Salary balance will be unlocked and employees can transfer the shown amount without any limit.",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        widths: ["30%", "70%"],
+        children: [
+          {
+            type: "image",
+            styling: { marginLeft: "-15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/AdvancewithoutKYC.png",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "Advance without KYC" },
+              {
+                type: "subtitle",
+                title:
+                  "If KYC is not done and the advance is approved from the employer, the employees will be able to see the amount but will not be able to withdraw it.",
               },
             ],
           },
@@ -1087,23 +1320,23 @@ const DUMMY_RES = {
         children: [
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. How to complete KYC Verification?",
+            subtitle: "A. Search on the internet",
           },
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. My advance salary balance is 0 (Waiting for approval)",
+            subtitle: "A. Search on the internet",
           },
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. I don't have PAN Card",
+            subtitle: "A. Search on the internet",
           },
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. I have not received my advance salary",
+            subtitle: "A. Search on the internet",
           },
         ],
       },
@@ -1113,27 +1346,26 @@ const DUMMY_RES = {
     screenTitle: "",
     headline: "What are the benefits of completing KYC?",
     headingImage:
-      "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
 
     data: [
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            styling: { marginLeft: "-15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhatKYC.png",
           },
           {
             type: "container",
-            // styling: { flexDirection: "row" },
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "What is KYC?" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee’s identity while offering features like advance salrary.",
               },
             ],
           },
@@ -1141,23 +1373,23 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            styling: { marginLeft: "15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhyCompleteKYC.png",
           },
           {
             type: "container",
 
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "Why Complete KYC?" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "Unipe advance salary is powered by RBI approved lending partners which mandates completion of Full KYC to avail the advance salary balance.",
               },
             ],
           },
@@ -1165,22 +1397,22 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            styling: { marginLeft: "-15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/RisksofIncompleteKYC.png",
           },
           {
             type: "container",
 
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "Risks of Incomplete KYC" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "Without KYC completion, employees will not be able to withdraw advance salary balance to their bank account.",
               },
             ],
           },
@@ -1188,23 +1420,46 @@ const DUMMY_RES = {
       },
       {
         type: "twoColumn",
-        widths: ["70%", "30%"],
+        widths: ["30%", "70%"],
         styling: { flexDirection: "row-reverse" },
         children: [
           {
             type: "image",
-            styling: { width: "100%" },
-            url: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
+            styling: { marginLeft: "15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/UnlockAdvancewithKYC.png",
           },
           {
             type: "container",
 
             children: [
-              { type: "title", title: "What is e-Mandate" },
+              { type: "title", title: "Unlock Advance with KYC" },
               {
                 type: "subtitle",
                 title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salary",
+                  "One the KYC is done, the Advance Salary balance will be unlocked and employees can transfer the shown amount without any limit.",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "twoColumn",
+        widths: ["30%", "70%"],
+        children: [
+          {
+            type: "image",
+            styling: { marginLeft: "-15%" },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/AdvancewithoutKYC.png",
+          },
+          {
+            type: "container",
+
+            children: [
+              { type: "title", title: "Advance without KYC" },
+              {
+                type: "subtitle",
+                title:
+                  "If KYC is not done and the advance is approved from the employer, the employees will be able to see the amount but will not be able to withdraw it.",
               },
             ],
           },
@@ -1216,30 +1471,225 @@ const DUMMY_RES = {
         children: [
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. How to complete KYC Verification?",
+            subtitle: "A. Search on the internet",
           },
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. My advance salary balance is 0 (Waiting for approval)",
+            subtitle: "A. Search on the internet",
           },
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. I don't have PAN Card",
+            subtitle: "A. Search on the internet",
           },
           {
             type: "collapsibleList",
-            title: "How to complete KYC Verification?",
-            subtitle: "Search on the internet",
+            title: "Q. I have not received my advance salary",
+            subtitle: "A. Search on the internet",
           },
         ],
       },
     ],
   },
 
-  CustomerSupport: {
+  aadhaar_help: {
+    screenTitle: "Help - Aadhaar Verification",
+    data: [
+      {
+        type: "container",
+        styling: { padding: "4%" },
+        children: [
+          {
+            type: "twoColumn",
+            widths: ["35%", "65%"],
+            styling: { margin: 0 },
+            children: [
+              {
+                type: "image",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/Logo.png",
+                styling: {
+                  width: "100%",
+                  flex: 1,
+                  aspectRatio: 1.6,
+                },
+              },
+              {
+                type: "container",
+                styling: {
+                  flex: 1,
+                  justifyContent: "center",
+                  paddingLeft: "5%",
+                  // backgroundColor: "black",
+                },
+                children: [
+                  { type: "title", title: "How to verify Aadhaar?" },
+                  { type: "subtitle", title: "Follow this 3-step process" },
+                ],
+              },
+            ],
+          },
+          {
+            type: "button",
+            title: "Verify Aadhaar",
+            variant: "filled",
+            clickType: "navigation",
+            styling: { marginVertical: "10%" },
+          },
+          {
+            type: "video",
+
+            size: "large",
+            thumbnail:
+              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+          },
+          {
+            type: "container",
+            styling: {
+              flexDirection: "row",
+              alignItems: "center",
+              marginVertical: "5%",
+            },
+            children: [
+              {
+                type: "badge",
+                text: "Step 1",
+              },
+              {
+                type: "title",
+                title: "Aadhaar Number",
+                styling: { fontSize: 18, marginLeft: "10%" },
+              },
+            ],
+          },
+          {
+            type: "container",
+            styling: { paddingTop: 0 },
+            children: [
+              {
+                type: "subtitle",
+                title: "Enter your 12 Digit Aadhaar Card number",
+                styling: { fontSize: 16 },
+              },
+              {
+                type: "image",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+                styling: { marginTop: "5%" },
+              },
+            ],
+          },
+          {
+            type: "container",
+            styling: {
+              flexDirection: "row",
+              alignItems: "center",
+              marginVertical: "5%",
+            },
+            children: [
+              { type: "badge", text: "Step 2" },
+              {
+                type: "title",
+                title: "Aadhaar OTP",
+                styling: { fontSize: 18, marginLeft: "10%" },
+              },
+            ],
+          },
+          {
+            type: "container",
+            styling: { paddingTop: 0 },
+            children: [
+              {
+                type: "subtitle",
+                title:
+                  "Enter OTP you received on Aadhaar registered mobile number",
+                styling: { fontSize: 16 },
+              },
+              {
+                type: "image",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+                styling: { marginTop: "5%" },
+              },
+            ],
+          },
+          {
+            type: "container",
+            styling: {
+              flexDirection: "row",
+              alignItems: "center",
+              marginVertical: "5%",
+            },
+            children: [
+              { type: "badge", text: "Step 3" },
+              {
+                type: "title",
+                title: "Confirm Identity",
+                styling: { fontSize: 18, marginLeft: "10%" },
+              },
+            ],
+          },
+          {
+            type: "container",
+            styling: { paddingTop: 0 },
+            children: [
+              {
+                type: "subtitle",
+                title:
+                  "Confirm your Aadhaar details - Name, Date of birth & Address",
+                styling: { fontSize: 16 },
+              },
+              {
+                type: "image",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+                styling: { marginTop: "5%" },
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "section",
+        title: "Frequently Asked Questions",
+        children: [
+          {
+            type: "collapsibleList",
+            title: "Q: Why do I need to verify Aadhaar?",
+            subtitle:
+              "A: Digital aadhaar verification proves your identity and address",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: What is aadhaar OTP?",
+            subtitle:
+              "A: Aadhaar OTP is sent via UIDAI for authentication purposes.",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: I did not get any OTP for Aadhaar verification",
+            subtitle:
+              "A: Please ensure that you have access to the mobile number linked with your Aadhaar in order to get the OTP.",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: I don't know which mobile number is linked with Aadhaar",
+            subtitle:
+              "A: Follow this process:\nStep 1: Go to https://myaadhaar.uidai.gov.in/verifyAadhaar\nStep 2: Enter 12-digit Aadhaar number and captcha code \nStep 3: Click on ‘Proceed to Verify’ \nStep 4: Here you will see the last three digits of the linked mobile number.",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: Do I need to submit physical copy of my Aadhaar card?",
+            subtitle:
+              "A: No. Aadhaar verification is a completely paperless process.",
+          },
+        ],
+      },
+      {
+        type: "footer",
+      },
+    ],
+  },
+
+  customer_support: {
     screenTitle: "Customer Support",
     data: [
       {
@@ -1421,6 +1871,9 @@ const DUMMY_RES = {
           },
         ],
       },
+      {
+        type: "footer",
+      },
     ],
   },
   miniPlacement: [
@@ -1430,6 +1883,47 @@ const DUMMY_RES = {
         "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/learn.png",
       title: "March Payslip is ready for download",
       cta: "Click here to see details",
+    },
+  ],
+  bottom_alert: [
+    {
+      type: "bottomAlert",
+      visible: false,
+      children: [
+        {
+          type: "container",
+          styling: {
+            // height: 300,
+            // backgroundColor: "black",
+          },
+          children: [
+            {
+              type: "container",
+              // styling: { backgroundColor: "black" },
+              children: [
+                {
+                  type: "image",
+                  url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+                },
+              ],
+            },
+            {
+              type: "button",
+              title: "Verify Aadhaar",
+              variant: "filled",
+              clickType: "navigation",
+              styling: { marginTop: "5%" },
+            },
+            {
+              type: "button",
+              title: "Verify Aadhaar",
+              variant: "filled",
+              clickType: "navigation",
+              styling: { marginBottom: "5%" },
+            },
+          ],
+        },
+      ],
     },
   ],
   account: [
@@ -1607,7 +2101,7 @@ const DUMMY_RES = {
           children: [
             {
               type: "image",
-              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/AboutUs.png ",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/AboutUs.png",
             },
             {
               type: "container",
@@ -1639,6 +2133,193 @@ const DUMMY_RES = {
     //   url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
     // },
   ],
+  login_success: [
+    {
+      type: "container",
+      styling: {
+        // alignItems: "center",
+        padding: "4%",
+        backgroundColor: "#223240",
+        height: "98%",
+        justifyContent: "space-between",
+      },
+
+      children: [
+        // {
+        //   type: "container",
+        //   styling: {
+        //     flexDirection: "row",
+        //     width: "100%",
+        //     justifyContent: "flex-end",
+        //   },
+        //   children: [
+        //     {
+        //       type: "image",
+        //       url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/AboutUs.png",
+        //       styling: { height: 36 },
+        //     },
+        //   ],
+        // },
+        {
+          type: "container",
+          children: [
+            {
+              type: "title",
+              title: "Congratulations on \n joining Unipe!",
+              styling: { fontSize: 24, textAlign: "center", color: "#fff" },
+            },
+            {
+              type: "subtitle",
+              title:
+                "Your employer, XXXXXXX has initiated \n your onboarding process.",
+              styling: {
+                fontSize: 18,
+                textAlign: "center",
+                flex: 0,
+                color: "#fff",
+                marginTop: "2%",
+              },
+            },
+          ],
+        },
+
+        {
+          type: "image",
+          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/SplashScreens/AddRepaymentImage.png",
+          styling: { aspectRatio: 1 },
+        },
+        {
+          type: "card",
+          gradientColors: [
+            "rgba(110, 220, 133,0.3)",
+            "rgba(237, 251, 139,0.3)",
+          ],
+          styling: { padding: "5%" },
+          // widths: ["10%", "90%"],
+          children: [
+            {
+              type: "icon",
+              iconName: "information-outline",
+              iconSize: 24,
+              iconColor: "#fff",
+            },
+            {
+              type: "container",
+              styling: { paddingLeft: "4%" },
+              children: [
+                {
+                  type: "subtitle",
+                  styling: { color: "#ffffff", flex: 0, fontSize: 16 },
+                  title:
+                    "As per RBI guidelines, you have to complete e-KYC to get Advance Salary",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: "container",
+          children: [
+            {
+              type: "button",
+              title: "Start KYC",
+              variant: "filled",
+              clickType: "navigation",
+              navigate: { type: "app", screen: "KycProgress" },
+              styling: { marginVertical: 0 },
+            },
+            {
+              type: "button",
+              title: "I will do it later",
+              clickType: "navigation",
+              navigate: { type: "app", screen: "HomeStack" },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  kyc_success: [
+    {
+      type: "container",
+      styling: {
+        // alignItems: "center",
+        padding: "4%",
+        backgroundColor: "#223240",
+        height: "98%",
+        justifyContent: "space-between",
+      },
+
+      children: [
+        // {
+        //   type: "container",
+        //   styling: {
+        //     flexDirection: "row",
+        //     width: "100%",
+        //     justifyContent: "flex-end",
+        //   },
+        //   children: [
+        //     {
+        //       type: "image",
+        //       url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/AboutUs.png",
+        //       styling: { height: 36 },
+        //     },
+        //   ],
+        // },
+
+        {
+          type: "image",
+          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/SplashScreens/AddRepaymentImage.png",
+          styling: { aspectRatio: 1 },
+        },
+        {
+          type: "container",
+          children: [
+            {
+              type: "title",
+              title: "KYC done Successfully",
+              styling: { fontSize: 24, textAlign: "center", color: "#fff" },
+            },
+            {
+              type: "subtitle",
+              title: "As a last step please register your mandate information",
+              styling: {
+                fontSize: 18,
+                textAlign: "center",
+                flex: 0,
+                color: "#fff",
+                marginTop: "2%",
+              },
+            },
+          ],
+        },
+
+        {
+          type: "container",
+          children: [
+            {
+              type: "button",
+              title: "+ Add Repayment Method",
+              variant: "filled",
+              clickType: "navigation",
+              navigate: {
+                type: "app",
+                stack: "EWAStack",
+                screen: "EWA_MANDATE",
+              },
+              styling: { marginVertical: 0 },
+            },
+            {
+              type: "button",
+              title: "I will do it later",
+              clickType: "navigation",
+              navigate: { type: "app", screen: "HomeStack" },
+            },
+          ],
+        },
+      ],
+    },
+  ],
   notifications: [
     {
       type: "notification",
@@ -1659,94 +2340,6 @@ const DUMMY_RES = {
       ],
     },
   ],
-  aboutUs: [
-    {
-      type: "tab",
-      title: "About Us",
-      key: "AboutUs",
-      children: [
-        {
-          type: "title",
-          title: "About Us",
-        },
-        {
-          type: "markdown",
-          content: "Sint voluptate ad irure esse et anim officia elit culpa nulla laborum sint. Veniam commodo ad esse officia enim sit esse ad veniam aliqua non. In laborum magna exercitation sunt. Enim pariatur et exercitation ipsum exercitation reprehenderit.",
-        },
-        {
-          type: "title",
-          title: "Follow us on",
-          styling: {
-            fontSize: 15,
-            marginTop: 20,
-          }
-        },
-        {
-          type: "container",
-          styling: {
-            flexDirection: "row"
-          },
-          children: [{
-            type: "image",
-            url: 
-            "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
-            styling: {
-              width: 50,
-              height: 50,
-              resizeMode: "contain",
-              marginRight: 30
-            }
-          },
-          {
-            type: "image",
-            url: 
-            "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
-            styling: {
-              width: 50,
-              height: 50,
-              resizeMode: "contain",
-              marginRight: 30
-            }
-          },
-          {
-            type: "image",
-            url: 
-            "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
-            styling: {
-              width: 50,
-              height: 50,
-              resizeMode: "contain",
-              marginRight: 30
-            }
-          },]
-        }
-        
-      ],
-    },
-    {
-      type: "tab",
-      title: "T&C",
-      key: "TermsAndConditions",
-      children: [
-        {
-          type: "markdown",
-          content: "Sint voluptate ad irure esse et anim officia elit ",
-        },
-      ],
-    },
-    {
-      type: "tab",
-      title: "Privacy Policy",
-      key: "PrivacyPolicy",
-      children: [
-        
-        {
-          type: "markdown",
-          content: "Sint voluptate ad irure esse et anim officia elit culpa nulla laborum sint. Veniam commodo ad esse officia enim sit esse ad veniam aliqua non. In laborum magna exercitation sunt. Enim pariatur et exercitation ipsum exercitation reprehenderit.",
-        },
-      ],
-    },
-  ],
 };
 
 export default DUMMY_RES;
@@ -1757,11 +2350,12 @@ export const cmsApi = api
     endpoints: (builder) => ({
       getCms: builder.query({
         query: (unipeEmployeeId) => ({
-          url: `ping`,
+          url: `cms`,
           params: { unipeEmployeeId, x: 1 },
         }),
         providesTags: ["getPersonalization"],
         transformResponse: (response) => {
+          console.log("cms:", response);
           return response?.body;
         },
       }),

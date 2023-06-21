@@ -58,7 +58,7 @@ const HomeView = () => {
     isLoading: cmsLoading,
     isError: cmsError,
   } = useGetCmsQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 3600,
+    pollingInterval: 1000,
   });
   console.log({ cmsData, cmsError });
   const [fetched, setFetched] = useState(false);

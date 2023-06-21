@@ -12,10 +12,10 @@ import KycDone from "../assets/KycDone.svg";
 import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { addCurrentScreen } from "../store/slices/navigationSlice";
-import SuccessContainer from "../components/organisms/SuccessContainer";
 import LogoHeaderBack from "../components/molecules/LogoHeaderBack";
-import HelpSection from "../components/organisms/HelpSection";
 import { navigationHelper } from "../helpers/CmsNavigationHelper";
+import CmsRoot from "../components/cms/CmsRoot";
+import DUMMY_RES, { useGetCmsQuery } from "../store/apiSlices/cmsApi";
 
 const KycSuccess = () => {
   const [visible, setVisible] = useState(false);
@@ -88,21 +88,13 @@ const KycSuccess = () => {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
-  const data = {
-    title: "KYC done Successfully",
-    subtitle: "As a last step please register your mandate information",
-    imageUri: <KycDone />,
-    primaryBtnText: "+ Add Repayment Method",
-    onPressPrimaryBtn: () => {
-      navigation.replace("EWAStack", { screen: "EWA_MANDATE" });
-    },
-    secondaryBtnText: "I will do it later",
-    infoText: "",
-    contentContainerStyle: { flexDirection: "column-reverse" },
-    onPressSecondaryBtn: () => {
-      navigation.navigate("HomeStack");
-    },
-  };
+  //   const {
+  //   data: cmsData,
+  //   isLoading: cmsLoading,
+  //   isError: cmsError,
+  // } = useGetCmsQuery(unipeEmployeeId, {
+  //   pollingInterval: 1000,
+  // });
 
   return (
     <SafeAreaView style={styles.safeContainer}>
@@ -117,14 +109,12 @@ const KycSuccess = () => {
         }
       />
 
-      {visible && (
-        <HelpSection
-          visible={visible}
-          setVisible={setVisible}
-          data={mandateData}
-        />
-      )}
-      <SuccessContainer data={data} />
+      {/* {!cmsLoading ? (
+          <CmsRoot children={cmsData?.kyc_success || []}></CmsRoot>
+        ) : (
+          <></>
+        )} */}
+      <CmsRoot children={DUMMY_RES?.kyc_success || []}></CmsRoot>
     </SafeAreaView>
   );
 };

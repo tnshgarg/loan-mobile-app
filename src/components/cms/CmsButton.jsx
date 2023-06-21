@@ -34,9 +34,8 @@ const CmsButton = ({
           ? { backgroundColor: loading ? COLORS.lightGray : COLORS.primary }
           : {
               borderWidth: 2,
-              borderColor: loading ? COLORS.lightGray : COLORS.primary,
-              backgroundColor: COLORS.white,
-              color: COLORS.primary,
+              borderColor: loading ? COLORS.gray : COLORS.white,
+              backgroundColor: null,
             },
       ]}
       loadingIndicatorPosition="trailing"

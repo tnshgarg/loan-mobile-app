@@ -3,7 +3,9 @@ import { navigationRef } from "../navigators/RootNavigation";
 const navigationHelper = ({ type, stack, screen, params }) => {
   if (type == "app") {
     console.log("App navigation triggered!");
-    navigationRef.navigate(stack, { screen: screen, params: params });
+    if (stack)
+      navigationRef.navigate(stack, { screen: screen, params: params });
+    else navigationRef.navigate(screen, { params: params });
   } else if (type == "cms") {
     console.log("CMS navigation triggered!");
     navigationRef.navigate("CmsStack", {

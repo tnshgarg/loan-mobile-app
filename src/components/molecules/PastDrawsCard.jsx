@@ -111,7 +111,7 @@ const OfferCard = ({ offer }) => {
 const PastDrawsCard = (props) => {
   return (
     <>
-    {props.data.length > 0 && props.screenType == "half" ? (
+      {props.data.length > 0 && props.screenType == "half" ? (
         <View style={styles.pastDrawsContainer}>
           <Text style={styles.title}>Your past draws</Text>
           <TouchableOpacity
@@ -132,11 +132,11 @@ const PastDrawsCard = (props) => {
       ) : (
         <></>
       )}
-    <ScrollView style={{ marginTop: "1%" }}>
-      {props.data.map((offer, index) => (
-        <OfferCard offer={offer} key={index} />
-      ))}
-    </ScrollView>
+      <ScrollView style={{ marginTop: "1%" }}>
+        {props.data.map((offer, index) => (
+          <OfferCard offer={offer} key={index} />
+        ))}
+      </ScrollView>
     </>
   );
 };
@@ -178,11 +178,16 @@ const styles = EStyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-  title: { ...FONTS.body3, color: COLORS.black, marginBottom: "10rem" },
+  title: {
+    ...FONTS.body3,
+    color: COLORS.black,
+    marginBottom: "10rem",
+  },
   pastDrawsContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    marginTop: "20rem",
   },
 });
 
