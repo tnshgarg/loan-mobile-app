@@ -1,12 +1,13 @@
-import { View, Text } from "react-native";
 import React from "react";
-import FormInput from "../atoms/FormInput";
+import { Text, View } from "react-native";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
+import FormInput from "../atoms/FormInput";
 
 const LoginInput = ({ phoneNumber, setPhoneNumber, accessibilityLabel }) => {
   return (
     <FormInput
-      placeholder="Enter mobile number"
+      placeholder={strings.enterMobileNumber}
       accessibilityLabel={accessibilityLabel}
       containerStyle={{ marginVertical: 15 }}
       autoCompleteType="tel"

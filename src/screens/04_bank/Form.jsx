@@ -3,15 +3,14 @@ import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import HelpSection from "../../components/organisms/HelpSection";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
+import { strings } from "../../helpers/Localization";
+import { useGetPanQuery } from "../../store/apiSlices/panApi";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import BankFormTemplate from "../../templates/bank/Form";
-import Header from "../../components/atoms/Header";
-import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
-import HelpSection from "../../components/organisms/HelpSection";
-import { useGetPanQuery } from "../../store/apiSlices/panApi";
-import { strings } from "../../helpers/Localization";
-import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
 const BankForm = () => {
   const bankData = {
@@ -86,7 +85,7 @@ const BankForm = () => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
-        headline={"Add Bank Account"}
+        headline={strings.addBankAccount}
         onLeftIconPress={() => backAction()}
         subHeadline={"आपको इस बैंक खाते/यूपीआई में एडवांस सैलरी भेजी जाएगी।"}
         onRightIconPress={() =>

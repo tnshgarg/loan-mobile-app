@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Alert, BackHandler, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/core";
+import { useEffect, useState } from "react";
+import { Alert, BackHandler, SafeAreaView } from "react-native";
+import { useDispatch } from "react-redux";
 
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import AadhaarFormTemplate from "../../templates/aadhaar/Form";
-import { styles } from "../../styles";
-import Header from "../../components/atoms/Header";
-import LogoHeader from "../../components/atoms/LogoHeader";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
-import HelpSection from "../../components/organisms/HelpSection";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
+import { strings } from "../../helpers/Localization";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { styles } from "../../styles";
+import AadhaarFormTemplate from "../../templates/aadhaar/Form";
 
 const AadhaarForm = () => {
   const dispatch = useDispatch();
@@ -38,7 +36,7 @@ const AadhaarForm = () => {
   return (
     <SafeAreaView style={styles.safeContainer} accessibilityLabel="AadhaarForm">
       <LogoHeaderBack
-        headline={"Aadhaar Verification"}
+        headline={strings.aadhaarVerification}
         subHeadline={
           "भारतीय रिजर्व बैंक के मानदंडों के अनुसार, आपको अपना आधार वेरीफाई करना अनिवार्य है।"
         }

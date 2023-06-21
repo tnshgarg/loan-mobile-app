@@ -36,6 +36,7 @@ import Tick from "../../assets/Tick.svg";
 import LogoHeader from "../../components/atoms/LogoHeader";
 import SvgContainer from "../../components/atoms/SvgContainer";
 import SvgListItem from "../../components/molecules/SvgListItem";
+import { strings } from "../../helpers/Localization";
 
 const LoginScreen = () => {
   SplashScreen.hide();
@@ -44,6 +45,9 @@ const LoginScreen = () => {
 
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState(false);
+  const language = useSelector((state) => state.localization.language);
+
+  console.log("Language: ", language);
 
   const authSlice = useSelector((state) => state.auth);
   const [phoneNumber, setPhoneNumber] = useState(authSlice?.phoneNumber);
@@ -149,7 +153,7 @@ const LoginScreen = () => {
 
   const data = [
     {
-      title: "0% Interest Charges",
+      title: strings.zeroInterestCharge,
       imageUri: (
         <SvgContainer height={24} width={24}>
           <Tick />
@@ -157,7 +161,7 @@ const LoginScreen = () => {
       ),
     },
     {
-      title: "No Joining Fees",
+      title: strings.noJoiningFees,
       imageUri: (
         <SvgContainer height={24} width={24}>
           <Tick />
@@ -165,7 +169,7 @@ const LoginScreen = () => {
       ),
     },
     {
-      title: "Instant cash in bank account",
+      title: strings.interestInBank,
       imageUri: (
         <SvgContainer height={24} width={24}>
           <Tick />
@@ -198,7 +202,7 @@ const LoginScreen = () => {
     <SafeAreaView accessibilityLabel="LoginScreen" style={styles.safeContainer}>
       {startClicked ? (
         <LogoHeader
-          headline={"Enter Mobile Number"}
+          headline={strings.enterMobileNumber}
           // rightIcon={
           //   <Icon name="logo-whatsapp" size={28} color={COLORS.primary} />
           // }
@@ -236,7 +240,7 @@ const LoginScreen = () => {
                 color: COLORS.secondary,
               }}
             >
-              Get Your Advance{"\n"}Salary. Today.
+              {strings.getAdvancedSalaryToday}
             </Text>
           </View>
         </LinearGradient>

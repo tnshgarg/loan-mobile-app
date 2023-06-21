@@ -1,11 +1,11 @@
 import { useNavigation } from "@react-navigation/core";
-import { Alert, SafeAreaView, BackHandler } from "react-native";
+import { Alert, BackHandler, SafeAreaView } from "react-native";
 
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import { strings } from "../../helpers/Localization";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import AadhaarVerifyTemplate from "../../templates/aadhaar/Verify";
-import Header from "../../components/atoms/Header";
-import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
 const AadhaarVerify = () => {
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ const AadhaarVerify = () => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
-        headline={"Verify Aadhaar"}
+        headline={strings.verifyAadhaar}
         onLeftIconPress={() => backAction()}
         subHeadline={
           "कृपया छ डिजिट का OTP यहाँ भरें। इसी के द्वारा ये स्पष्ट होगा की ऊपर भरा आधार नम्बर आपका है।"

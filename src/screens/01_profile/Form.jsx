@@ -1,11 +1,10 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect } from "react";
 import { Alert, BackHandler, SafeAreaView } from "react-native";
-import Header from "../../components/atoms/Header";
+import LogoHeader from "../../components/atoms/LogoHeader";
+import { strings } from "../../helpers/Localization";
 import { styles } from "../../styles";
 import ProfileFormTemplate from "../../templates/profile/Form";
-import LogoHeader from "../../components/atoms/LogoHeader";
-import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 
 const ProfileForm = () => {
   const navigation = useNavigation();
@@ -30,7 +29,7 @@ const ProfileForm = () => {
   return (
     <SafeAreaView style={styles.safeContainer} accessibilityLabel="ProfileForm">
       <LogoHeader
-        headline={"Enter Your Details"}
+        headline={strings.enterYourDetails}
         subHeadline={
           "एडवांस सैलरी की प्रक्रिया जारी रखने के लिए, निम्नलिखित अनिवार्य जानकारी प्रदान करें:"
         }

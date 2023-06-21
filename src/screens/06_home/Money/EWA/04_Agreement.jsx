@@ -1,6 +1,4 @@
-import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import Analytics, {InteractionTypes} from "../../../../helpers/analytics/commonAnalytics";
 import { useEffect, useState } from "react";
 import {
   Alert,
@@ -20,17 +18,19 @@ import RenderHtml from "react-native-render-html";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { useDispatch, useSelector } from "react-redux";
 import Checkbox from "../../../../components/atoms/Checkbox";
-import Header from "../../../../components/atoms/Header";
 import LiquiloansTitle from "../../../../components/atoms/LiquiloansTitle";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
+import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 import { strings } from "../../../../helpers/Localization";
+import Analytics, {
+  InteractionTypes,
+} from "../../../../helpers/analytics/commonAnalytics";
 import { useUpdateAgreementMutation } from "../../../../store/apiSlices/ewaApi";
+import { useGetKycQuery } from "../../../../store/apiSlices/kycApi";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
-import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
-import { useGetKycQuery } from "../../../../store/apiSlices/kycApi";
 import { moneyStyles, styles } from "../../../../styles";
 import kfs from "../../../../templates/docs/liquiloans/LiquiLoansKFS";
 import agreement from "../../../../templates/docs/liquiloans/LiquiLoansLoanAgreement";
@@ -165,7 +165,7 @@ const Agreement = () => {
       interaction: InteractionTypes.BUTTON_PRESS,
       component: "Ewa",
       action: "Agreement",
-      status: "Back"
+      status: "Back",
     });
     if (mandateVerifyStatus === "SUCCESS") {
       navigation.navigate("EWA_KYC");
@@ -182,29 +182,29 @@ const Agreement = () => {
   }, []);
 
   const profileData = [
-    { subTitle: "Name", value: aadhaar?.data?.name },
-    { subTitle: "PAN Number", value: pan?.number },
-    { subTitle: "Date of Birth", value: aadhaar?.data?.date_of_birth },
+    { subTitle: strings.name, value: aadhaar?.data?.name },
+    { subTitle: strings.panNumber, value: pan?.number },
+    { subTitle: strings.dateOfBirth, value: aadhaar?.data?.date_of_birth },
   ];
 
   const bankData = [
-    { subTitle: "Bank Name", value: bank?.data?.bankName },
-    { subTitle: "Branch", value: bank?.data?.branchName },
-    { subTitle: "Account Number", value: bank?.data?.accountNumber },
-    { subTitle: "IFSC", value: bank?.data?.ifsc },
+    { subTitle: strings.bankName, value: bank?.data?.bankName },
+    { subTitle: strings.branchName, value: bank?.data?.branchName },
+    { subTitle: strings.bankAccountNumber, value: bank?.data?.accountNumber },
+    { subTitle: strings.ifscCode, value: bank?.data?.ifsc },
   ];
 
   const data = [
-    { subTitle: "Loan Amount", value: "₹" + ewaLiveSlice?.loanAmount },
+    { subTitle: strings.loanAmount, value: "₹" + ewaLiveSlice?.loanAmount },
     {
-      subTitle: "Processing Fees †",
+      subTitle: strings.processingFees,
       value: "₹" + ewaLiveSlice?.processingFees,
     },
     {
-      subTitle: "Disbursement Amount *",
+      subTitle: strings.disAmount,
       value: "₹" + ewaLiveSlice?.netAmount,
     },
-    { subTitle: "Due Date", value: ewaLiveSlice?.dueDate },
+    { subTitle: strings.dueDate, value: ewaLiveSlice?.dueDate },
   ];
 
   function handleAgreement() {
@@ -261,7 +261,7 @@ const Agreement = () => {
       <LogoHeaderBack
         title={"Loan agreement"}
         onLeftIconPress={() => backAction()}
-        subHeadline={"Please confirm if these are your details"}
+        subHeadline={strings.confirmIfTheseDetails}
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
@@ -301,13 +301,13 @@ const Agreement = () => {
           />
 
           <PrimaryButton
-            title={loading ? "Processing" : "Proceed"}
+            title={loading ? strings.processing : strings.proceed}
             disabled={!consent || loading}
             onPress={() => {
               handleAgreement();
             }}
           />
-          <LiquiloansTitle title={"an RBI registered NBFC-P2P"} />
+          <LiquiloansTitle title={strings.rbiRegisteredNBFC} />
           <Text style={moneyStyles.percentageTitle}>
             {strings.apr} {ewaLiveSlice?.apr} %
           </Text>

@@ -4,33 +4,34 @@ import { useDispatch, useSelector } from "react-redux";
 import { STAGE } from "@env";
 import { useEffect, useState } from "react";
 import OfflineAlert from "../components/organisms/OfflineAlert";
-import DevMenu from "../screens/DevMenu";
+// import DevMenu from "../screens/DevMenu";
 import EWAStack from "./stacks/EWAStack";
 import OnboardingStack from "./stacks/OnboardingStack";
 
 import { useNavigation } from "@react-navigation/core";
-import { decode } from "react-native-pure-jwt";
-import { showToast } from "../components/atoms/Toast";
+import { Linking } from "react-native";
 import LogoutModal from "../components/organisms/LogoutModal";
+import { changeLanguage } from "../helpers/Localization";
+import Analytics, {
+  InteractionTypes,
+} from "../helpers/analytics/commonAnalytics";
 import LearnWithUs from "../screens/06_home/LearnWithUs";
 import BackendSync from "../screens/BackendSync";
 import CmsScreen from "../screens/CmsScreen";
 import KycProgress from "../screens/KycProgress";
 import KycSuccess from "../screens/KycSuccess";
 import SplashScreen from "../screens/SplashScreen";
+import { handleCampaignNavigation } from "../services/campaign/campaignNavigation";
+import { setCampaignStoreData } from "../services/campaign/storeManagement";
+import { parseUrl } from "../services/campaign/urlParsing";
+import { setPendingUrl } from "../store/slices/pendingCampaignClickSlice";
+import { store } from "../store/store";
 import BottomTabNav from "./BottomTabNav";
 import AccountStack from "./stacks/AccountStack";
 import BenefitsStack from "./stacks/BenefitsStack";
 import CmsStack from "./stacks/CmsStack";
 import InvestStack from "./stacks/InvestStack";
-import Analytics, {
-  InteractionTypes,
-} from "../helpers/analytics/commonAnalytics";
-import { parseUrl } from "../services/campaign/urlParsing";
-import { setCampaignStoreData } from "../services/campaign/storeManagement";
-import { handleCampaignNavigation } from "../services/campaign/campaignNavigation";
-import { setPendingUrl } from "../store/slices/pendingCampaignClickSlice";
-import { Linking } from "react-native";
+
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   const navigation = useNavigation();
@@ -40,6 +41,10 @@ const StackNavigator = () => {
   const onboarded = useSelector((state) => state.auth.onboarded);
   var initialScreen = useSelector((state) => state.navigation.currentScreen);
   const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    changeLanguage(store.getState().localization.language);
+  }, []);
 
   const handleCampaignUrlClick = (url) => {
     // Alert.alert("Url",`${url}`)
@@ -100,29 +105,31 @@ const StackNavigator = () => {
   console.log("STAGE: ", STAGE);
   console.log("initialRoute: ", initialRoute);
   console.log("currentScreen: ", initialScreen);
-  let devMenu = null;
-  if (STAGE === "dev") {
-    initialRoute = "DevMenu";
-    devMenu = (
-      <Stack.Screen
-        name="DevMenu"
-        options={{ headerShown: false, header: null }}
-        component={DevMenu}
-        initialParams={{
-          initialRoute: initialRoute,
-          initialScreen: initialScreen,
-        }}
-      />
-    );
-  }
+  // let devMenu = null;
+  // if (STAGE === "dev") {
+  //   initialRoute = "Splash";
+  //   devMenu = (
+  //     <Stack.Screen
+  //       name="DevMenu"
+  //       options={{ headerShown: false, header: null }}
+  //       component={DevMenu}
+  //       initialParams={{
+  //         initialRoute: initialRoute,
+  //         initialScreen: initialScreen,
+  //       }}
+  //     />
+  //   );
+  // }
+
   console.log("initialRoute: ", initialRoute);
+  console.log("initialScreen: ", initialScreen);
   return (
     <OfflineAlert>
       <Stack.Navigator
         initialRouteName={initialRoute}
         screenOptions={{ headerShown: false, header: null }}
       >
-        {devMenu}
+        {/* {devMenu} */}
         <Stack.Screen
           name="Splash"
           options={{ headerShown: false, header: null }}

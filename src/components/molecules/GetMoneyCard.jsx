@@ -1,15 +1,16 @@
-import { View, Text } from "react-native";
+import { Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { COLORS, FONTS, SIZES } from "../../constants/Theme";
-import PrimaryButton from "../atoms/PrimaryButton";
+import { useSelector } from "react-redux";
 import Coin from "../../assets/Coin.svg";
 import Hourglass from "../../assets/Hourglass.svg";
-import { useEffect } from "react";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import SvgContainer from "../atoms/SvgContainer";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
-import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
+import PrimaryButton from "../atoms/PrimaryButton";
+import SvgContainer from "../atoms/SvgContainer";
 
 const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -49,9 +50,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
             </SvgContainer>
           )}
           <Text style={[styles.text, { marginLeft: 10 }]}>
-            {kycCompleted
-              ? "Withdraw Advance Salary"
-              : "KYC pending for Advance Salary"}
+            {kycCompleted ? strings.withDrawAdvanceSalary : strings.kycPending}
           </Text>
         </View>
       </View>
@@ -63,7 +62,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
           alignItems: "center",
         }}
       >
-        <Text style={styles.text}>Available Salary</Text>
+        <Text style={styles.text}>{strings.availableSalary}</Text>
         <Text style={[styles.text, { ...FONTS.body1 }]}>
           {kycCompleted ? amount : "XX,XXX"}
         </Text>
@@ -73,31 +72,31 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
           title={
             kycCompleted
               ? !accessible
-                ? "Offer Inactive"
+                ? strings.offerInactive
                 : !eligible
-                ? "Offer Inactive"
-                : "Get Salary Now"
+                ? strings.offerInactive
+                : strings.getSalaryNow
               : "Complete Your KYC"
           }
           disabled={!kycCompleted ? false : !eligible || !accessible}
           onPress={() => {
-             if (kycCompleted) {
+            if (kycCompleted) {
               Analytics.trackEvent({
                 interaction: InteractionTypes.BUTTON_PRESS,
                 component: "ExploreCards",
                 action: `navigate:EWAStack:EWA_OFFER`,
                 status: "",
-              })
-              navigation.navigate("EWAStack", { screen: "EWA_OFFER" })
-             } else {
+              });
+              navigation.navigate("EWAStack", { screen: "EWA_OFFER" });
+            } else {
               Analytics.trackEvent({
                 interaction: InteractionTypes.BUTTON_PRESS,
                 component: "ExploreCards",
                 action: `navigate:KycProgress`,
                 status: "",
-              })
+              });
               navigation.navigate("KycProgress");
-             }
+            }
           }}
         />
       </View>
@@ -114,8 +113,8 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
       >
         <Text style={styles.text}>
           {kycCompleted
-            ? `Transfer ${amount} to your Bank account in minutes`
-            : "Verify your identity and complete your full KYC process to withdraw advance salary."}
+            ? `${strings.transfer} ${amount} ${strings.toBankAccount}`
+            : strings.verifyYourIdentity}
         </Text>
       </View>
     </View>

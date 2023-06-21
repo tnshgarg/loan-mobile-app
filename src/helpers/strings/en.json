@@ -1,0 +1,16 @@
+
+{
+  "phoneVerificationSuccess": "Your phone number was verified successfully.",
+  "completeEkyc":
+    "As a next step please complete your eKYC to get money in your bank account",
+  "startEkyc": "Start eKYC",
+  "onboarding": "Onboarding",
+  "tellUsAboutYou": "Tell us about you",
+  
+  "getYourSalaryToday": "Get your salary today!",
+  "enterMobileNumber": "Enter Mobile Number",
+  "getAdvancedSalaryToday": "Get Your Advance\nSalary Today",
+  "zeroInterestCharge": "0% Interest Charges",
+  "noJoiningFees": "No Joining Fees",
+  "interestInBank": "Instant cash in bank account"
+}

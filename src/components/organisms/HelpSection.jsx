@@ -1,23 +1,21 @@
-import { useEffect, useState } from "react";
 import {
   Image,
   Modal,
   SafeAreaView,
   ScrollView,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { COLORS, FONTS, SIZES } from "../../constants/Theme";
-import PrimaryButton from "../atoms/PrimaryButton";
-import LogoHeaderBack from "../molecules/LogoHeaderBack";
-import Badge from "../atoms/Badge";
-import SvgContainer from "../atoms/SvgContainer";
 import Tick from "../../assets/Tick.svg";
+import { COLORS, FONTS } from "../../constants/Theme";
+import Badge from "../atoms/Badge";
 import CollapsibleItem from "../atoms/CollapsibleItem";
-import VideoPlayer from "./VideoPlayer";
 import HelpFooter from "../atoms/HelpFooter";
+import PrimaryButton from "../atoms/PrimaryButton";
+import SvgContainer from "../atoms/SvgContainer";
+import LogoHeaderBack from "../molecules/LogoHeaderBack";
+import VideoPlayer from "./VideoPlayer";
 
 const HelpSection = ({ visible, setVisible, data }) => {
   const {
@@ -132,7 +130,7 @@ const HelpSection = ({ visible, setVisible, data }) => {
               </View>
             ))}
             <Text style={[styles.title, { marginVertical: 10 }]}>
-              Frequently Asked Questions
+              {strings.faq}
             </Text>
             {questions.map((item, index) => (
               <CollapsibleItem item={item} key={index} />

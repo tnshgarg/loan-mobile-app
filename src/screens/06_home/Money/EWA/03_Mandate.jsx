@@ -1,13 +1,13 @@
 import { useNavigation } from "@react-navigation/core";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { BackHandler, SafeAreaView } from "react-native";
-import MandateFormTemplate from "../../../../templates/mandate/Form";
-import { styles } from "../../../../styles";
+import { useSelector } from "react-redux";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 import HelpSection from "../../../../components/organisms/HelpSection";
-import { useState } from "react";
 import { navigationHelper } from "../../../../helpers/CmsNavigationHelper";
+import { strings } from "../../../../helpers/Localization";
+import { styles } from "../../../../styles";
+import MandateFormTemplate from "../../../../templates/mandate/Form";
 
 const Mandate = () => {
   const mandateData = {
@@ -82,7 +82,7 @@ const Mandate = () => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
-        headline={"Add Repayment Method"}
+        headline={strings.addRepaymentMethod}
         onLeftIconPress={() => backAction()}
         subHeadline={
           "एडवांस सैलरी का भुगतान करने के लिए, कृपया निम्नलिखित भुगतान विधियों में से एक का चयन करें:"

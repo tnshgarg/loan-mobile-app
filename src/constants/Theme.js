@@ -135,7 +135,7 @@ export const FONTS = {
   body4: {
     fontFamily: "Proxima Nova Regular",
     fontSize: SIZES.body4,
-    lineHeight: normalize(18),
+    lineHeight: normalize(20),
   },
   body5: {
     fontFamily: "Proxima Nova Regular",

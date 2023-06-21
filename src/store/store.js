@@ -20,6 +20,7 @@ import pendingCampaignClickSlice from "./slices/pendingCampaignClickSlice";
 
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { api } from "./apiSlices/api";
+import localizationSlice from "./slices/localizationSlice";
 // import reactotron from "../ReactotronConfig";
 
 const persistConfig = {
@@ -44,6 +45,7 @@ const appReducer = combineReducers({
   ewaLive: ewaLiveSlice,
   ewaHistorical: ewaHistoricalSlice,
   pendingCampaignClick: pendingCampaignClickSlice,
+  localization: localizationSlice,
 });
 
 const rootReducer = (state, action) => {

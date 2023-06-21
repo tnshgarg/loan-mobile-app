@@ -1,23 +1,25 @@
 import { useNavigation } from "@react-navigation/core";
-import Analytics, {InteractionTypes} from "../../../../helpers/analytics/commonAnalytics";
 import { useEffect, useState } from "react";
-import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
+import { Alert, BackHandler, SafeAreaView, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
-import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import DetailsCard from "../../../../components/molecules/DetailsCard";
+import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
+import { strings } from "../../../../helpers/Localization";
+import Analytics, {
+  InteractionTypes,
+} from "../../../../helpers/analytics/commonAnalytics";
 import { useUpdateKycMutation } from "../../../../store/apiSlices/ewaApi";
+import { useGetKycQuery } from "../../../../store/apiSlices/kycApi";
 import { useGetMandateQuery } from "../../../../store/apiSlices/mandateApi";
 import {
   addVerifyStatus,
   resetMandate,
 } from "../../../../store/slices/mandateSlice";
-import { styles } from "../../../../styles";
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
-import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
-import { useGetKycQuery } from "../../../../store/apiSlices/kycApi";
+import { styles } from "../../../../styles";
 
 const KYC = () => {
   const dispatch = useDispatch();
@@ -161,9 +163,9 @@ const KYC = () => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
-        title={"Confirm KYC"}
+        title={strings.confirmKyc}
         onLeftIconPress={() => backAction()}
-        subHeadline={"Please confirm if these are your details"}
+        subHeadline={strings.confirmIfTheseDetails}
       />
 
       <View style={styles.container}>
@@ -179,7 +181,7 @@ const KYC = () => {
         <View style={{ flex: 1 }} />
 
         <PrimaryButton
-          title={loading ? "Verifying" : "I confirm my KYC"}
+          title={loading ? strings.verifying : strings.confirmMyKyc}
           disabled={loading || !fetched}
           onPress={() => {
             handleKyc();

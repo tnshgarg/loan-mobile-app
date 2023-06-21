@@ -1,17 +1,16 @@
-import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import Analytics, {
-  InteractionTypes,
-} from "../../../../helpers/analytics/commonAnalytics";
 import { useEffect, useState } from "react";
-import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
+import { Alert, BackHandler, SafeAreaView, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
-import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import TermsAndPrivacyModal from "../../../../components/molecules/TermsAndPrivacyModal";
+import SliderCard from "../../../../components/organisms/SliderCard";
 import { strings } from "../../../../helpers/Localization";
+import Analytics, {
+  InteractionTypes,
+} from "../../../../helpers/analytics/commonAnalytics";
 import {
   addAPR,
   addLoanAmount,
@@ -21,12 +20,10 @@ import {
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import { styles } from "../../../../styles";
 import TnC from "../../../../templates/docs/EWATnC.js";
-import SliderCard from "../../../../components/organisms/SliderCard";
 
 import Checkbox from "../../../../components/atoms/Checkbox";
-import { useUpdateOfferMutation } from "../../../../store/apiSlices/ewaApi";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
-import { COLORS } from "../../../../constants/Theme";
+import { useUpdateOfferMutation } from "../../../../store/apiSlices/ewaApi";
 import { useGetKycQuery } from "../../../../store/apiSlices/kycApi";
 
 const Offer = () => {
@@ -219,10 +216,10 @@ const Offer = () => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
-        title="On-Demand Salary"
+        title={strings.onDemandSalary}
         onLeftIconPress={() => backAction()}
         progress={25}
-        subHeadline={"Select amount you want to withdraw"}
+        subHeadline={strings.selectAmount}
       />
       <View style={[styles.container, { backgroundColor: "#f3f6f7" }]}>
         <SliderCard

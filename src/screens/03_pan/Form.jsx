@@ -1,17 +1,16 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, SafeAreaView, BackHandler } from "react-native";
+import { Alert, BackHandler, SafeAreaView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
-import { styles } from "../../styles";
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import PanFormTemplate from "../../templates/pan/Form";
-import Header from "../../components/atoms/Header";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import HelpSection from "../../components/organisms/HelpSection";
-import { useGetAadhaarQuery } from "../../store/apiSlices/aadhaarApi";
-import { strings } from "../../helpers/Localization";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
+import { strings } from "../../helpers/Localization";
+import { useGetAadhaarQuery } from "../../store/apiSlices/aadhaarApi";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { styles } from "../../styles";
+import PanFormTemplate from "../../templates/pan/Form";
 
 export default PanForm = () => {
   const panData = {
@@ -97,7 +96,7 @@ export default PanForm = () => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
-        headline={"PAN Card Verification"}
+        headline={strings.panVerification}
         subHeadline={
           "हमें आपका नाम और जन्मतिथि जांच करने के लिए आपके पैन की आवश्यकता है।"
         }

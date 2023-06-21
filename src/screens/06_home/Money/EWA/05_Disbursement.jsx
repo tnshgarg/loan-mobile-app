@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import { BackHandler, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import Failure from "../../../../assets/animations/Failure";
 import Hourglass from "../../../../assets/Hourglass.svg";
+import Failure from "../../../../assets/animations/Failure";
 import Success from "../../../../assets/animations/Success";
-import Header from "../../../../components/atoms/Header";
+import SvgContainer from "../../../../components/atoms/SvgContainer";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
+import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
+import { COLORS, FONTS } from "../../../../constants/Theme";
 import { strings } from "../../../../helpers/Localization";
 import { useGetDisbursementQuery } from "../../../../store/apiSlices/ewaApi";
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import { styles } from "../../../../styles";
-import SvgContainer from "../../../../components/atoms/SvgContainer";
-import { COLORS, FONTS } from "../../../../constants/Theme";
-import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 
 const Disbursement = ({ route, navigation }) => {
   const dispatch = useDispatch();
@@ -153,18 +152,18 @@ const Disbursement = ({ route, navigation }) => {
   }, [offer]);
 
   const data = [
-    { subTitle: "Loan Amount ", value: "₹" + loanAmount },
-    { subTitle: "Net Transfer Amount ", value: "₹" + netAmount },
-    { subTitle: "Bank Account Number", value: bankAccountNumber },
-    { subTitle: "Due Date", value: dueDate },
-    { subTitle: "Loan Account Number", value: loanAccountNumber },
-    { subTitle: "Transfer Status", value: status },
+    { subTitle: strings.loanAmount, value: "₹" + loanAmount },
+    { subTitle: strings.netTransferAmount, value: "₹" + netAmount },
+    { subTitle: strings.bankAccountNumber, value: bankAccountNumber },
+    { subTitle: strings.dueDate, value: dueDate },
+    { subTitle: strings.loanAccountNumber, value: loanAccountNumber },
+    { subTitle: strings.transferStatus, value: status },
   ];
 
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
-        title="Money Transfer"
+        title={strings.moneyTransfer}
         onLeftIconPress={() => backAction()}
         onRightIconPress={() => {}}
         titleStyle={{ ...FONTS.body3 }}

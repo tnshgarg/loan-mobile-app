@@ -2,14 +2,14 @@ import { Slider } from "@miblanchard/react-native-slider";
 import React from "react";
 import { Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
+import LinearGradient from "react-native-linear-gradient";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { COLORS, FONTS, SIZES } from "../../constants/Theme";
-import HelpCard from "../atoms/HelpCard";
-import InfoCard from "../atoms/InfoCard";
-import SvgContainer from "../atoms/SvgContainer";
 import BankVariant from "../../assets/BankVariant.svg";
 import Rupee from "../../assets/Rupee.svg";
-import LinearGradient from "react-native-linear-gradient";
+import { COLORS, FONTS, SIZES } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
+import InfoCard from "../atoms/InfoCard";
+import SvgContainer from "../atoms/SvgContainer";
 
 const SliderCard = ({
   info,
@@ -56,7 +56,7 @@ const SliderCard = ({
             alignSelf: "center",
           }}
         >
-          I want to withdraw
+          {strings.iWantToWithdraw}
         </Text>
         <Text
           style={{
@@ -143,14 +143,14 @@ const SliderCard = ({
               style={{ padding: 5, borderRadius: 5, alignSelf: "flex-start" }}
             >
               <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
-                Bank Account
+                {strings.bankAccount}
               </Text>
             </LinearGradient>
           </View>
         </View>
-        <InfoCard info="Takes upto 1 business day" />
+        <InfoCard info={strings.takeBusinessDays} />
         <InfoCard
-          info="The withdrawl will be deducted from your upcoming paycheck"
+          info={strings.withdrawalDeduction}
           variant="gradient"
           containerStyle={{ marginVertical: 0 }}
         />
