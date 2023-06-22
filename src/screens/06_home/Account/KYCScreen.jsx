@@ -2,13 +2,12 @@ import { useEffect } from "react";
 import TopTabNav from "../../../navigators/TopTabNav";
 
 import { BackHandler, SafeAreaView } from "react-native";
-import Header from "../../../components/atoms/Header";
+import LogoHeaderBack from "../../../components/molecules/LogoHeaderBack";
 import { styles } from "../../../styles";
 import Aadhaar from "./Aadhaar";
 import Bank from "./Bank";
-import Pan from "./Pan";
 import Mandate from "./Mandate";
-import LogoHeaderBack from "../../../components/molecules/LogoHeaderBack";
+import Pan from "./Pan";
 
 const KYCScreen = ({ navigation }) => {
   const tabs = [
@@ -19,7 +18,8 @@ const KYCScreen = ({ navigation }) => {
   ];
 
   const backAction = () => {
-    navigation.navigate("HomeStack", { screen: "Account" });
+    // navigation.navigate("HomeStack", { screen: "Account" });
+    navigation.goBack();
     return true;
   };
 

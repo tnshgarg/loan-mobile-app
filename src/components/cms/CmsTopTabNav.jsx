@@ -14,6 +14,10 @@ const CmsTopTabNav = (props) => {
   const hide = { display: "none", backgroundColor: "white" };
   const show = { backgroundColor: "white" };
 
+  const { params } = props.route;
+
+  console.log("Params: ", props.route);
+
   const { unipeEmployeeId } = useSelector((state) => state.auth);
   const { data: cmsData, isLoading: cmsLoading } = useGetCmsQuery(
     unipeEmployeeId,
@@ -22,13 +26,14 @@ const CmsTopTabNav = (props) => {
     }
   );
 
-  console.log("ACCOUNT DATA: ", cmsData.aboutUs);
+  console.log("ACCOUNT DATA: ", cmsData.account_navigation_list);
 
   return (
     <>
       <LogoHeaderBack
-        title={"About Us"}
+        title={cmsData.account_navigation_list[0].title}
         onLeftIconPress={() => navigation.goBack()}
+        headline={cmsData.account_navigation_list[0].title}
       />
       {!cmsLoading ? (
         <Tab.Navigator
@@ -46,7 +51,7 @@ const CmsTopTabNav = (props) => {
             tabBarIndicatorStyle: { backgroundColor: COLORS.primary },
           }}
         >
-          {cmsData?.aboutUs.map((tab, index) => {
+          {cmsData[params.key].map((tab, index) => {
             console.log("TABDATA: ", tab.children);
             return (
               <Tab.Screen

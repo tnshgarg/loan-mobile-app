@@ -18,6 +18,7 @@ import Analytics, {
 import LearnWithUs from "../screens/06_home/LearnWithUs";
 import BackendSync from "../screens/BackendSync";
 import CmsScreen from "../screens/CmsScreen";
+import DevMenu from "../screens/DevMenu";
 import KycProgress from "../screens/KycProgress";
 import KycSuccess from "../screens/KycSuccess";
 import SplashScreen from "../screens/SplashScreen";
@@ -105,21 +106,21 @@ const StackNavigator = () => {
   console.log("STAGE: ", STAGE);
   console.log("initialRoute: ", initialRoute);
   console.log("currentScreen: ", initialScreen);
-  // let devMenu = null;
-  // if (STAGE === "dev") {
-  //   initialRoute = "Splash";
-  //   devMenu = (
-  //     <Stack.Screen
-  //       name="DevMenu"
-  //       options={{ headerShown: false, header: null }}
-  //       component={DevMenu}
-  //       initialParams={{
-  //         initialRoute: initialRoute,
-  //         initialScreen: initialScreen,
-  //       }}
-  //     />
-  //   );
-  // }
+  let devMenu = null;
+  if (STAGE === "dev") {
+    initialRoute = "DevMenu";
+    devMenu = (
+      <Stack.Screen
+        name="DevMenu"
+        options={{ headerShown: false, header: null }}
+        component={DevMenu}
+        initialParams={{
+          initialRoute: initialRoute,
+          initialScreen: initialScreen,
+        }}
+      />
+    );
+  }
 
   console.log("initialRoute: ", initialRoute);
   console.log("initialScreen: ", initialScreen);
@@ -129,7 +130,7 @@ const StackNavigator = () => {
         initialRouteName={"Splash"}
         screenOptions={{ headerShown: false, header: null }}
       >
-        {/* {devMenu} */}
+        {devMenu}
         <Stack.Screen
           name="Splash"
           options={{ headerShown: false, header: null }}

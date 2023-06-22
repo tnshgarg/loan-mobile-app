@@ -3,15 +3,18 @@ import { useEffect, useState } from "react";
 import { BackHandler, SafeAreaView, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import LogoHeader from "../../../components/atoms/LogoHeader";
+import LogoutItem from "../../../components/atoms/LogoutItem";
+import CmsRoot from "../../../components/cms/CmsRoot";
 import TermsAndPrivacyModal from "../../../components/molecules/TermsAndPrivacyModal";
 import LogoutModal from "../../../components/organisms/LogoutModal";
 import { strings } from "../../../helpers/Localization";
-import LogoutItem from "../../../components/atoms/LogoutItem";
-import CmsRoot from "../../../components/cms/CmsRoot";
+import {
+  CMS_POLLING_DURATION,
+  KYC_POLLING_DURATION,
+} from "../../../services/constants";
 import { useGetCmsQuery } from "../../../store/apiSlices/cmsApi";
 import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
 import { styles } from "../../../styles";
-import { CMS_POLLING_DURATION, KYC_POLLING_DURATION } from "../../../services/constants";
 
 const AccountMenu = (props) => {
   const dispatch = useDispatch();
@@ -44,10 +47,6 @@ const AccountMenu = (props) => {
       setKycCompleted(true);
     }
   }, [isAadhaarSuccess, isPanSuccess, isBankSuccess, isProfileSuccess]);
-
-  const image = aadhaar?.data?.photo_base64;
-  console.log({ image });
-  const name = aadhaar?.data?.name || pan?.data?.name || auth?.employeeName;
 
   const backAction = () => {
     navigation.navigate("HomeStack", {
@@ -100,16 +99,15 @@ const AccountMenu = (props) => {
         title={"Account"}
         containerStyle={{ backgroundColor: null }}
       />
-      {/* <CmsButton
-        title={"TopTabNav"}
-        clickType={"navigation"}
-        navigate={{ type: "app", stack: "AccountStack", screen: "KYC" }}
-      /> */}
       <ScrollView>
         {!cmsLoading ? (
           <CmsRoot children={cmsData?.account_top || []}></CmsRoot>
         ) : (
           <></>
+        )}
+        {console.log(
+          "Account Nav list: ",
+          cmsData?.account_navigation_list[0].children
         )}
 
         {!cmsLoading ? (

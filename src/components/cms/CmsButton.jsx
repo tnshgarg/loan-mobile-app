@@ -3,7 +3,6 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
-import { View } from "react-native";
 
 const CmsButton = ({
   children,
@@ -45,6 +44,7 @@ const CmsButton = ({
               type: navigate.type,
               stack: navigate.stack,
               screen: navigate.screen,
+              params: navigate.params ? navigate.params : {},
             })
           : Linking.openURL(url)
       }

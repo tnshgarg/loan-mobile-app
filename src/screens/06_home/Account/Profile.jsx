@@ -1,20 +1,18 @@
-import { View, BackHandler, Image, Text } from "react-native";
-import { useSelector } from "react-redux";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { styles } from "../../../styles";
-import Header from "../../../components/atoms/Header";
-import DetailsCard from "../../../components/molecules/DetailsCard";
 import { useEffect } from "react";
-import ProfileFormTemplate from "../../../templates/profile/Form";
-import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
-import LogoHeaderBack from "../../../components/molecules/LogoHeaderBack";
-import { COLORS, FONTS } from "../../../constants/Theme";
-import SvgContainer from "../../../components/atoms/SvgContainer";
-import CustomerSupport from "../../../assets/CustomerSupport.svg";
+import { BackHandler, Image, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
 import AltMobile from "../../../assets/AltMobile.svg";
+import CustomerSupport from "../../../assets/CustomerSupport.svg";
 import Education from "../../../assets/Education.svg";
 import MaritalStatus from "../../../assets/MaritalStatus.svg";
+import SvgContainer from "../../../components/atoms/SvgContainer";
+import LogoHeaderBack from "../../../components/molecules/LogoHeaderBack";
+import { COLORS, FONTS } from "../../../constants/Theme";
 import { KYC_POLLING_DURATION } from "../../../services/constants";
+import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
+import { styles } from "../../../styles";
+import ProfileFormTemplate from "../../../templates/profile/Form";
 
 const Profile = ({ navigation }) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -54,9 +52,10 @@ const Profile = ({ navigation }) => {
   ];
 
   const backAction = () => {
-    navigation.navigate("HomeStack", {
-      screen: "Account",
-    });
+    // navigation.navigate("HomeStack", {
+    //   screen: "Account",
+    // });
+    navigation.goBack();
     return true;
   };
 

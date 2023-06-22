@@ -1,11 +1,12 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
 import React from "react";
-import { COLORS, FONTS } from "../../constants/Theme";
+import { TouchableOpacity, View } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import LinearGradient from "react-native-linear-gradient";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
 const CmsCard = ({ children, styling, gradientColors, navigate }) => {
+  console.log("Navigate: ", navigate);
+
   const safeChildren = children || [];
   return (
     <TouchableOpacity
@@ -13,10 +14,7 @@ const CmsCard = ({ children, styling, gradientColors, navigate }) => {
       disabled={!navigate}
       onPress={() => {
         if (navigate) {
-          navigationHelper({
-            type: navigate.type,
-            params: { blogKey: navigate.screen },
-          });
+          navigationHelper(navigate);
         }
       }}
     >

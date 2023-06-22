@@ -24,6 +24,9 @@ const handleLanguageUpdate = async (language) => {
   }
 };
 const navigationHelper = async ({ type, stack, screen, language, params }) => {
+
+  console.log("Paramsd: ", params);
+  console.log("screensd: ", params);
   
   await handleLanguageUpdate(language);
   if (type == "app") {
