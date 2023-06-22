@@ -116,5 +116,5 @@
 		"start": "react-native start",
 		"test": "jest"
 	},
-	"version": "2023.06.22.001"
+	"version": "2023.6.22"
 }
