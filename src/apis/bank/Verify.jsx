@@ -115,22 +115,13 @@ const BankVerifyApi = (props) => {
     };
     verifyBank(data)
       .unwrap()
-      .then((res) => {
-        console.log("kyc/bank-verify-account res: ", res);
-        const responseJson = res?.data;
+      .then((responseJson) => {
         console.log("kyc/bank-verify-account responseJson: ", responseJson);
-        try {
-          if (responseJson?.status === 200) {
-            handleBankSuccess(responseJson);
-          } else {
-            throw responseJson;
-          }
-        } catch (error) {
-          handleBankError(error, res);
-        }
+        handleBankSuccess(responseJson)
         setLoading(false);
       })
       .catch((error) => {
+        console.log({bankError123: error})
         handleAPIErrorWithRetry(error);
       });
   };

@@ -229,7 +229,8 @@ const Offer = () => {
           amount={loanAmount}
           setAmount={setLoanAmount}
           eligibleAmount={ewaLiveSlice.eligibleAmount}
-          accountNumber={bank?.data.accountNumber}
+          accountNumber={bank?.data?.accountNumber}
+          bankName={bank?.data?.bankName}
         />
         <View style={{ flex: 1 }} />
 

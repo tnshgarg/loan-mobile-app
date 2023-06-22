@@ -6,6 +6,7 @@ import { store } from "../store/store";
 import { changeLanguage, strings } from "./Localization";
 
 const handleLanguageUpdate = async (language) => {
+  let content = {};
   if(language) {
     store.dispatch(addLanguage(language));
     await axios.get(`${EMPLOYEE_API_URL}/cms`, {
@@ -23,8 +24,7 @@ const handleLanguageUpdate = async (language) => {
   }
 };
 const navigationHelper = async ({ type, stack, screen, language, params }) => {
-  let content = {};
-  console.log("guage: ", language);
+  
   await handleLanguageUpdate(language);
   if (type == "app") {
     if (stack) {

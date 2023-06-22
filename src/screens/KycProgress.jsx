@@ -172,7 +172,7 @@ const KycProgress = () => {
                 {item.subtitle}
               </Text>
             </View>
-            {item.status == true ? (
+            {item?.status == true ? (
               <SvgContainer height={16} width={16}>
                 <Tick />
               </SvgContainer>

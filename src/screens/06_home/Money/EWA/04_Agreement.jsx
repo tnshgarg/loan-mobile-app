@@ -18,7 +18,7 @@ import RenderHtml from "react-native-render-html";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { useDispatch, useSelector } from "react-redux";
 import Checkbox from "../../../../components/atoms/Checkbox";
-import LiquiloansTitle from "../../../../components/atoms/LiquiloansTitle";
+import LoanProviderLogo from "../../../../components/atoms/LoanProviderLogo";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
@@ -27,15 +27,14 @@ import Analytics, {
   InteractionTypes,
 } from "../../../../helpers/analytics/commonAnalytics";
 import { KYC_POLLING_DURATION } from "../../../../services/constants";
+import { useGetCmsGroupQuery } from "../../../../store/apiSlices/cmsApi";
 import { useUpdateAgreementMutation } from "../../../../store/apiSlices/ewaApi";
 import { useGetKycQuery } from "../../../../store/apiSlices/kycApi";
+import { useGetMandateQuery } from "../../../../store/apiSlices/mandateApi";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
 import { resetEwaLive } from "../../../../store/slices/ewaLiveSlice";
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import { moneyStyles, styles } from "../../../../styles";
-import kfs from "../../../../templates/docs/liquiloans/LiquiLoansKFS";
-import agreement from "../../../../templates/docs/liquiloans/LiquiLoansLoanAgreement";
-import { useGetMandateQuery } from "../../../../store/apiSlices/mandateApi";
 
 const Agreement = () => {
   const dispatch = useDispatch();
@@ -45,7 +44,6 @@ const Agreement = () => {
   const [fetched, setFetched] = useState(false);
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
-
   const [consent, setConsent] = useState(true);
   const [loading, setLoading] = useState(false);
   const [isTermsModalVisible, setIsTermsModalVisible] = useState(false);
@@ -73,8 +71,17 @@ const Agreement = () => {
   } = useGetMandateQuery(unipeEmployeeId, {
     pollingInterval: 1000 * 10,
   });
-
   const mandateVerifyStatus = mandateData?.verifyStatus;
+  const provider = ewaLiveSlice?.provider || "liquiloans"
+  const {
+    data: loanProviderData, 
+    isLoading: loanProviderDataLoading, 
+    error: loanProviderDataError,
+    refetch: loanProviderDataRefetch
+  } = useGetCmsGroupQuery({
+    group: `loan_provider_${provider}`,
+    language: "en"
+  })
 
   const today = new Date();
   const [updateAgreement] = useUpdateAgreementMutation();
@@ -135,6 +142,7 @@ const Agreement = () => {
       setIpAdress(ipv4Address);
     });
     dispatch(addCurrentScreen("EWA_AGREEMENT"));
+    loanProviderDataRefetch()
   }, []);
 
   useEffect(() => {
@@ -318,7 +326,7 @@ const Agreement = () => {
               handleAgreement();
             }}
           />
-          <LiquiloansTitle title={strings.rbiRegisteredNBFC} />
+          <LoanProviderLogo title={loanProviderData?.title} url={loanProviderData?.logo + "?somech=123" || ""}/>
           <Text style={moneyStyles.percentageTitle}>
             {strings.apr} {ewaLiveSlice?.apr} %
           </Text>
@@ -351,7 +359,7 @@ const Agreement = () => {
               <ScrollView style={{ padding: "5%" }}>
                 <RenderHtml
                   contentWidth={width}
-                  source={agreement}
+                  source={loanProviderData?.agreement || {"html": "<h1> Please Reopen to see</h1>"}}
                   enableExperimentalMarginCollapsing={true}
                   renderersProps={{
                     img: {
@@ -392,7 +400,7 @@ const Agreement = () => {
               <ScrollView style={{ padding: "5%" }}>
                 <RenderHtml
                   contentWidth={width}
-                  source={kfs}
+                  source={loanProviderData?.kfs || {"html": "<h1> Please Reopen to see</h1>"}}
                   enableExperimentalMarginCollapsing={true}
                   renderersProps={{
                     img: {

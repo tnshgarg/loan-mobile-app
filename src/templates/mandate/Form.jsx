@@ -1,41 +1,35 @@
-import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, SafeAreaView, ScrollView, Text, View } from "react-native";
+import { Alert, SafeAreaView, ScrollView, Text } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
+import HelpCard from "../../components/atoms/HelpCard";
+import InfoCard from "../../components/atoms/InfoCard";
 import { showToast } from "../../components/atoms/Toast";
-import DetailsCard from "../../components/molecules/DetailsCard";
 import MandateOptions from "../../components/molecules/MandateOptions";
 import MandateLoading from "../../components/organisms/MandateLoading";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
+import { EWA_POLLING_DURATION, KYC_POLLING_DURATION } from "../../services/constants";
 import {
   createMandateOrder,
   openRazorpayCheckout,
 } from "../../services/mandate/Razorpay/services";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import {
   useGetMandateQuery,
   useUpdateMandateMutation,
 } from "../../store/apiSlices/mandateApi";
 import {
-  addData,
-  addVerifyMsg,
-  addVerifyStatus,
-  addVerifyTimestamp,
-  resetMandate,
+  addVerifyStatus
 } from "../../store/slices/mandateSlice";
-import { styles } from "../../styles";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import HelpCard from "../../components/atoms/HelpCard";
-import InfoCard from "../../components/atoms/InfoCard";
-import { useGetKycQuery } from "../../store/apiSlices/kycApi";
-import Analytics, {
-  InteractionTypes,
-} from "../../helpers/analytics/commonAnalytics";
-import { EWA_POLLING_DURATION, KYC_POLLING_DURATION } from "../../services/constants";
+import { styles } from "../../styles";
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -66,20 +60,14 @@ const MandateFormTemplate = (props) => {
     data: mandateData,
     isLoading: mandateLoading,
     isError: mandateError,
+    refetch: refreshMandateFromBackend
   } = useGetMandateQuery(unipeEmployeeId, {
     pollingInterval: EWA_POLLING_DURATION,
   });
 
   const [loading, setLoading] = useState(false);
   const [authType, setAuthType] = useState();
-  const [data, setData] = useState(mandateData?.body?.data);
-  const [verifyMsg, setVerifyMsg] = useState(mandateData?.body?.verifyMsg);
-  const [verifyStatus, setVerifyStatus] = useState(
-    mandateData?.body?.verifyStatus
-  );
-  const [verifyTimestamp, setVerifyTimestamp] = useState(
-    mandateData?.body?.verifyTimestamp
-  );
+  const {verifyStatus , verifyTimestamp } = mandateData || {}
   const campaignId = useSelector(
     (state) =>
       state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
@@ -93,22 +81,12 @@ const MandateFormTemplate = (props) => {
       setIpAdress(ipv4Address);
     });
     dispatch(addCurrentScreen("Mandate"));
+    refreshMandateFromBackend().then(() => {
+      setFetched(true)
+    });
   }, []);
 
-  useEffect(() => {
-    if (deviceId !== 0 && ipAddress !== 0) {
-      setFetched(true);
-    }
-  }, [deviceId, ipAddress]);
-
-  useEffect(() => {
-    dispatch(addData(data));
-  }, [data]);
-
-  useEffect(() => {
-    dispatch(addVerifyMsg(verifyMsg));
-  }, [verifyMsg]);
-
+  
   useEffect(() => {
     dispatch(addVerifyStatus(verifyStatus));
     if (fetched && props?.type === "EWA" && verifyStatus === "SUCCESS") {
@@ -123,15 +101,8 @@ const MandateFormTemplate = (props) => {
     }
   }, [verifyStatus]);
 
-  useEffect(() => {
-    dispatch(addVerifyTimestamp(verifyTimestamp));
-  }, [verifyTimestamp]);
-
   const backendPush = ({ data, verifyMsg, verifyStatus, verifyTimestamp }) => {
     console.log("mandateData: ", mandateData);
-    setData(data);
-    setVerifyMsg(verifyMsg);
-    setVerifyTimestamp(verifyTimestamp);
     let payload = {
       unipeEmployeeId: unipeEmployeeId,
       ipAddress: ipAddress,
@@ -143,27 +114,10 @@ const MandateFormTemplate = (props) => {
       campaignId: campaignId,
     };
     return updateMandate(payload)
-      .then((res) => {
-        console.log("mandatePush res.data: ", res.data);
-        if (res.data.status === 200) {
-          setVerifyStatus(verifyStatus);
-        } else {
-          setVerifyStatus(res.data.verifyStatus);
-          throw res.data;
-        }
-      })
       .catch((error) => {
         console.log("mandatePush error: ", error);
         throw error;
       });
-  };
-
-  const refreshMandateFromBackend = () => {
-    if (mandateData && !mandateLoading && !mandateError) {
-      console.log("Form mandateFetch response.data", mandateData);
-      dispatch(resetMandate(mandateData?.data?.body));
-      setVerifyStatus(mandateData?.data?.body?.verifyStatus);
-    }
   };
 
   const initiateRazorpayCheckout = async ({ customerId, orderId, notes }) => {
@@ -211,8 +165,8 @@ const MandateFormTemplate = (props) => {
         verifyStatus: "INPROGRESS",
         verifyTimestamp: Date.now(),
       })
-        .then(() => {})
         .catch((error) => {
+          console.log({innerError: error})
           setModalVisible(false);
           Alert.alert("Error", error?.message || "Something went wrong");
         });
@@ -257,7 +211,9 @@ const MandateFormTemplate = (props) => {
           "Create Mandate Error",
           "Mandate Registration Process already started, Please check the status after sometime"
         );
-        refreshMandateFromBackend();
+        refreshMandateFromBackend().then(() => {
+          setFetched(true)
+        });
       } else {
         Alert.alert("Create Order Error", error.message);
       }
@@ -301,7 +257,7 @@ const MandateFormTemplate = (props) => {
       <KeyboardAvoidingWrapper>
         <ScrollView showsVerticalScrollIndicator={false}>
           <InfoCard
-            info={`Please note that you have to register mandate using your ${bankName} bank account ending with ${lastDigitsAccount}.`}
+            info={`${strings.registerMandateNote}`.replace("{{bankName}}", bankName).replace("{{lastFour}}", lastDigitsAccount)}
             infoStyle={{ ...FONTS.body3, color: COLORS.black }}
             variant={"gradient"}
           />
@@ -344,7 +300,6 @@ const MandateFormTemplate = (props) => {
       {modalVisible && (
         <MandateLoading
           {...props}
-          setMandateVerifyStatus={setVerifyStatus}
           mandateVerifyStatus={verifyStatus}
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}

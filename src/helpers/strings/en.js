@@ -248,5 +248,10 @@ export default {
   transport: "Transport",
   pleaseNote:
     "Please note: We will use this bank account/UPI ID to deposite your salary every month, Please provide your own bank account details.",
+    setupRepayment: "Setup Repayment for Advance Salary",
+    kindlySetupRepayment: "Kindly register mandate for seamless advance salary experience and to make repayments on time.",
+    registerMandateNote: "Please note that you have to register mandate using your {{bankName}} bank account ending with {{lastFour}}.",
+    howtocompletexverification: "to see how to complete your {{id}} verification.",
+    transferTo: "Transfer to {{accountNumber}}"
 };
 

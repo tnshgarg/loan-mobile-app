@@ -2,11 +2,11 @@ import { useNavigation } from "@react-navigation/core";
 import React from "react";
 import { ScrollView, View } from "react-native";
 import { useSelector } from "react-redux";
-import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import { CMS_POLLING_DURATION } from "../../services/constants";
+import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { styles } from "../../styles";
 import LogoHeaderBack from "../molecules/LogoHeaderBack";
 import CmsRoot from "./CmsRoot";
-import { CMS_POLLING_DURATION } from "../../services/constants";
 
 const CmsDummyBlog = (props) => {
   const navigation = useNavigation();
@@ -34,6 +34,7 @@ const CmsDummyBlog = (props) => {
     headingImage,
     cmsData,
     cms: cmsData?.[blogKey],
+    styling: (data || [])[0]?.styling
   });
 
   return (
@@ -45,7 +46,7 @@ const CmsDummyBlog = (props) => {
         headerImageUri={headingImage}
       />
       <ScrollView>
-        <View style={[styles.container, { padding: 0 }]}>
+        <View style={[styles.container, { padding: 0,margin: 0 }]}>
           {/* {!cmsLoading ? <CmsRoot children={data}></CmsRoot> : <></>} */}
           <CmsRoot children={data}></CmsRoot>
         </View>

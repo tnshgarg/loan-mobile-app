@@ -1,16 +1,20 @@
 import React from "react";
 import { View } from "react-native";
+import CmsBadge from "./CmsBadge";
 import CmsBanner from "./CmsBanner";
+import CmsBottomAlert from "./CmsBottomAlert";
 import CmsButton from "./CmsButton";
 import CmsCard from "./CmsCard";
 import CmsCollapsibleList from "./CmsCollapsibleList";
 import CmsColumn from "./CmsColumn";
 import CmsContainer from "./CmsContainer";
+import CmsFooter from "./CmsFooter";
 import CmsIcon from "./CmsIcon";
 import CmsIconText from "./CmsIconText";
 import CmsImage from "./CmsImage";
 import { CmsMarkdown } from "./CmsMarkdown";
 import CmsNotification from "./CmsNotification";
+import CmsOverlay from "./CmsOverlay";
 import CmsSection from "./CmsSection";
 import CmsSpacer from "./CmsSpacer";
 import CmsSubtitle from "./CmsSubtitle";
@@ -19,10 +23,6 @@ import CmsThreeColumn from "./CmsThreeColumn";
 import CmsTitle from "./CmsTitle";
 import CmsTwoColumn from "./CmsTwoColumn";
 import CmsVideo from "./CmsVideo";
-import CmsFooter from "./CmsFooter";
-import CmsBadge from "./CmsBadge";
-import CmsBottomAlert from "./CmsBottomAlert";
-import CmsOverlay from "./CmsOverlay";
 
 const CMS_TYPES = {
   markdown: CmsMarkdown,
@@ -55,7 +55,7 @@ const renderChildren = (node) => {
   let renderNode = { ...node };
 
   if (node.type) {
-    renderNode.element = CMS_TYPES[node?.type || "default"];
+    renderNode.element = CMS_TYPES[node?.type] || CMS_TYPES["default"];
   }
   let renderedChildren = [];
 

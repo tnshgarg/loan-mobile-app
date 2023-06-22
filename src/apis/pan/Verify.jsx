@@ -34,22 +34,15 @@ const PanVerifyApi = (props) => {
       .unwrap()
       .then((res) => {
         console.log("kyc/pan-fetch-details res: ", res);
-        if (res?.status === 200) {
-          setLoading(false);
-          Analytics.trackEvent({
-            interaction: InteractionTypes.BUTTON_PRESS,
-            component: "Pan",
-            action: "Verify",
-            status: "Error",
-            error: `fetchPanDetails API Catch Error: ${JSON.stringify(
-              error
-            )}, ${JSON.stringify(res)}`,
-          });
-          if (props.type !== "KYC") {
-            navigation.navigate("PanConfirm");
-          }
-        } else {
-          throw res;
+        setLoading(false);
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "Pan",
+          action: "Verify",
+          status: "Success",
+        });
+        if (props.type !== "KYC") {
+          navigation.navigate("PanConfirm");
         }
       })
       .catch((error) => {

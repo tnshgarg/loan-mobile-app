@@ -1,12 +1,12 @@
-import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import React, { useEffect } from "react";
-import { investStyles, styles } from "../../../styles";
-import LogoHeader from "../../../components/atoms/LogoHeader";
+import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { COLORS, FONTS } from "../../../constants/Theme";
 import InvestSVG from "../../../assets/Invest.svg";
+import LoanProviderLogo from "../../../components/atoms/LoanProviderLogo";
+import LogoHeader from "../../../components/atoms/LogoHeader";
 import PrimaryButton from "../../../components/atoms/PrimaryButton";
-import LiquiloansTitle from "../../../components/atoms/LiquiloansTitle";
+import { COLORS, FONTS } from "../../../constants/Theme";
+import { investStyles, styles } from "../../../styles";
 
 import Analytics, { InteractionTypes } from "../../../helpers/analytics/commonAnalytics";
 
@@ -72,7 +72,7 @@ const Invest = (props) => {
             );
           }}
         />
-        <LiquiloansTitle title={"an RBI registered NBFC-P2P"} />
+        <LoanProviderLogo title={"an RBI registered NBFC-P2P"} />
       </View>
     </SafeAreaView>
   );

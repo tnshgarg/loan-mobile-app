@@ -34,7 +34,7 @@ const Localization = () => {
   return (
     <View>
       {!cmsLoading ? (
-        <CmsRoot children={cmsLanguageList.language_list.languages} />
+        <CmsRoot children={cmsLanguageList?.language_list?.languages} />
       ) : (
         <></>
       )}

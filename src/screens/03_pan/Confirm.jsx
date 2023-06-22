@@ -3,6 +3,8 @@ import { Alert, BackHandler, SafeAreaView, ScrollView } from "react-native";
 
 import { styles } from "../../styles";
 
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import PanConfirmApi from "../../apis/pan/Confirm";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { strings } from "../../helpers/Localization";
@@ -10,6 +12,7 @@ import { addCurrentScreen } from "../../store/slices/navigationSlice";
 
 export default PanConfirm = () => {
   const dispatch = useDispatch();
+  
   const navigation = useNavigation();
 
   useEffect(() => {

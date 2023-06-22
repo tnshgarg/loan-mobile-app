@@ -5,10 +5,8 @@ import { SafeAreaView, ScrollView, Text, View } from "react-native";
 import { STAGE } from "@env";
 import { useDispatch, useSelector } from "react-redux";
 import CmsRoot from "../../components/cms/CmsRoot";
-import BottomAlert from "../../components/molecules/BottomAlert";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
-import { DUMMY_RES } from "../../constants/Strings";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
@@ -20,8 +18,7 @@ import {
 } from "../../services/notifications/notificationService";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import {
-  useDisbursementFeedbackMutation,
-  useGetOffersQuery,
+  useGetOffersQuery
 } from "../../store/apiSlices/ewaApi";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { addOnboarded } from "../../store/slices/authSlice";
@@ -60,7 +57,7 @@ const HomeView = () => {
   } = useGetCmsQuery(unipeEmployeeId, {
     pollingInterval: CMS_POLLING_DURATION,
   });
-  console.log({ cmsData, cmsError });
+  
   const [fetched, setFetched] = useState(false);
   const [alertVisible, setAlertVisible] = useState(false);
 
@@ -68,7 +65,7 @@ const HomeView = () => {
   // || auth?.employeeName;
 
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
-  console.log({ ewaLiveSlice });
+  
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
   const onboardingCampaignId = useSelector(
@@ -91,7 +88,8 @@ const HomeView = () => {
   useEffect(() => {
     dispatch(addEligible(eligible));
   }, [eligible]);
-
+  console.log({ cmsData, cmsError });
+  console.log({ ewaLiveSlice });
   useEffect(() => {
     if (
       STAGE !== "prod" ||
@@ -189,28 +187,7 @@ const HomeView = () => {
       setAlertVisible(false);
     },
   };
-
-  console.log("CmsData ", cmsData?.home);
-  const [disbursementFeedback] = useDisbursementFeedbackMutation();
-  useEffect(() => {
-    let data = {
-      unipeEmployeeId: unipeEmployeeId,
-      language: "en",
-      contentType: "offerid-feedback",
-      content: { stars: 5, category: "category" },
-    };
-    disbursementFeedback(data)
-      .unwrap()
-      .then((res) => {
-        console.log("ewa/disbursement-feedback res: ", res);
-        const responseJson = res?.body;
-        console.log("ewa/disbursement-feedback responseJson: ", responseJson);
-      })
-      .catch((error) => {
-        console.log("ewa/disbursement-feedback error:", error);
-      });
-  }, []);
-
+  console.log({"bottomAlert": cmsData?.bottom_alert})
   return (
     <SafeAreaView style={[styles.safeContainer]}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -235,14 +212,14 @@ const HomeView = () => {
             ewaLiveSlice={ewaLiveSlice}
           />
         </View>
-        {/* {!cmsLoading ? (
+        {!cmsLoading ? (
           <CmsRoot children={cmsData?.home || []}></CmsRoot>
         ) : (
           <></>
-        )} */}
-        <CmsRoot children={DUMMY_RES?.home || []}></CmsRoot>
+        )}
+        {/* <CmsRoot children={DUMMY_RES?.home || []}></CmsRoot> */}
 
-        <CmsRoot children={DUMMY_RES?.bottom_alert || []}></CmsRoot>
+        <CmsRoot children={cmsData?.bottom_alert || []}></CmsRoot> 
         <View
           style={{
             width: "100%",
@@ -257,19 +234,14 @@ const HomeView = () => {
           </Text>
         </View>
       </ScrollView>
-      {alertVisible && (
+      {/* {alertVisible && (
         <BottomAlert
           visible={alertVisible}
           setVisible={setAlertVisible}
           data={data}
         />
-      )}
-      {/* {!cmsLoading ? (
-        <CmsRoot children={cmsData?.mini_placement || []}></CmsRoot>
-      ) : (
-        <></>
       )} */}
-      <CmsRoot children={DUMMY_RES?.mini_placement || []} />
+      <CmsRoot children={cmsData?.mini_placement || []} />
     </SafeAreaView>
   );
 };

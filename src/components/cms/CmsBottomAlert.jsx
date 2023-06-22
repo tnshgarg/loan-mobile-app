@@ -1,14 +1,30 @@
+import React, { useState } from "react";
 import { View } from "react-native";
-import React, { useEffect, useState } from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { COLORS, FONTS } from "../../constants/Theme";
+import { COLORS } from "../../constants/Theme";
+import { cmsApi } from "../../store/apiSlices/cmsApi";
+import { store } from "../../store/store";
 import BottomSheetWrapper from "../atoms/BottomSheetWrapper";
 
 const CmsBottomAlert = ({ visible, children }) => {
   const safeChildren = children || [];
   const [alertVisible, setAlertVisible] = useState(visible);
+  const handleOpen = (opened) => {
+    console.log({opened})
+    if (!opened) {
+      store.dispatch(cmsApi.endpoints.updateCms.initiate({
+        contentType: "bottom_alert",
+        content: [{
+          "type": "bottomAlert",
+          "visible": false,
+          "children": safeChildren.map((child) => ({...child,element: ""})),
+        }]
+      }))
+    }
+    setAlertVisible(opened)
+  }
   return (
-    <BottomSheetWrapper open={alertVisible} setOpen={setAlertVisible}>
+    <BottomSheetWrapper open={alertVisible} setOpen={handleOpen}>
       {safeChildren?.map((child, index) => (
         <View key={index}>{child.element(child)}</View>
       ))}

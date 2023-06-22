@@ -1,9 +1,8 @@
-import { View, Text } from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
 import React from "react";
-import { COLORS, FONTS } from "../../constants/Theme";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { Text, View } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import LinearGradient from "react-native-linear-gradient";
+import { COLORS, FONTS } from "../../constants/Theme";
 
 const DisbursementCard = ({ title, data, info, iconName, variant }) => {
   return (
@@ -19,7 +18,9 @@ const DisbursementCard = ({ title, data, info, iconName, variant }) => {
         style={[
           styles.row,
           {
-            marginBottom: 5,
+            marginBottom: 1,
+            padding: 5,
+            paddingLeft: 10,
           },
         ]}
       >
@@ -42,7 +43,7 @@ const DisbursementCard = ({ title, data, info, iconName, variant }) => {
           key={index}
           style={[
             styles.row,
-            { justifyContent: "space-between", paddingVertical: 6 },
+            { justifyContent: "space-between", paddingVertical: 1 },
           ]}
         >
           <Text

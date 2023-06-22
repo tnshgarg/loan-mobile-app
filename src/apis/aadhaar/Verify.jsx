@@ -1,21 +1,18 @@
-import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
 import { useState } from "react";
 import { Alert } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { strings } from "../../helpers/Localization";
-import { useVerifyAadhaarOtpMutation } from "../../store/apiSlices/aadhaarApi";
-import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
-import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
-import { getBackendData } from "../../services/employees/employeeServices";
-import { asyncTimeout } from "../../helpers/asyncTimer";
+import { useSelector } from "react-redux";
 import InfoCard from "../../components/atoms/InfoCard";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { COLORS } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
+import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
+import { asyncTimeout } from "../../helpers/asyncTimer";
 import { KYC_RETRY_WAIT_TIME } from "../../services/constants";
+import { getBackendData } from "../../services/employees/employeeServices";
+import { useVerifyAadhaarOtpMutation } from "../../store/apiSlices/aadhaarApi";
 
 const AadhaarVerifyApi = (props) => {
-  const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const [loading, setLoading] = useState(false);
@@ -28,7 +25,6 @@ const AadhaarVerifyApi = (props) => {
   const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
   const handleOtpSuccess = (responseJson) => {
     props.setVerified(true);
-    dispatch(addData(responseJson?.body?.data));
     Analytics.trackEvent({
       interaction: InteractionTypes.BUTTON_PRESS,
       component: "Aadhaar",
@@ -36,13 +32,11 @@ const AadhaarVerifyApi = (props) => {
       status: "Success"
     });
     setLoading(false);
-    dispatch(addVerifyStatus(responseJson?.body?.verifyStatus));
     if (props.type !== "KYC") {
       navigation.navigate("AadhaarConfirm");
     }
   }
   const handleOtpError = (error, res) => {
-    dispatch(addVerifyStatus("ERROR"));
     Analytics.trackEvent({
       interaction: InteractionTypes.BUTTON_PRESS,
       component: "Aadhaar",
@@ -105,21 +99,8 @@ const AadhaarVerifyApi = (props) => {
     };
     verifyAadhaarOtp(data)
       .unwrap()
-      .then((res) => {
-        console.log("kyc/aadhaar-submit-otp res: ", res);
-        const responseJson = res?.data;
-        console.log("kyc/aadhaar-submit-otp responseJson: ", JSON.stringify(responseJson));
-        try {
-          if (responseJson?.status === 200) {
-            handleOtpSuccess(responseJson)
-          } else {
-            throw responseJson;
-          }
-        } catch (error) {
-
-          console.log("kyc/aadhaar-submit-otp error: ", error);
-          handleOtpError(error, responseJson)
-        }
+      .then((responseJson) => {
+        handleOtpSuccess(responseJson)
       })
       .catch((error) => {
         handleAPIErrorWithRetry(error)

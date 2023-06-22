@@ -8,7 +8,7 @@ import { strings } from "../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
-import { KYC_POLLING_DURATION } from "../../services/constants";
+import { EWA_POLLING_DURATION, KYC_POLLING_DURATION } from "../../services/constants";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { useGetMandateQuery } from "../../store/apiSlices/mandateApi";
 import PrimaryButton from "../atoms/PrimaryButton";
@@ -39,10 +39,10 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
   } = kycData ?? {};
 
   const { data, error, isLoading } = useGetMandateQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 10,
+    pollingInterval: EWA_POLLING_DURATION,
   });
 
-  console.log("Mandate Error:", error);
+  console.log("Mandate Error:", data, error);
 
   const mandateVerifyStatus = data?.verifyStatus;
   console.log({ mandateVerifyStatus });
@@ -55,13 +55,13 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
 
   const cardTopMessages = {
     [US.KYC_PENDING]: strings.kycPending,
-    [US.MANDATE_PENDING]: "Setup Repayment for Advance Salary",
+    [US.MANDATE_PENDING]: strings.setupRepayment,
     [US.EWA_AVAILABLE]: strings.withDrawAdvanceSalary,
   }
 
   const cardBottomMessages = {
     [US.KYC_PENDING]: strings.verifyYourIdentity,
-    [US.MANDATE_PENDING]: "Kindly register mandate for seamless advance salary experience and to make repayments on time.",
+    [US.MANDATE_PENDING]: strings.kindlySetupRepayment,
     [US.EWA_AVAILABLE]: `${strings.transfer} ${amount} ${strings.toBankAccount}`,
   }
   return (
@@ -115,7 +115,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
           }
           disabled={!kycCompleted ? false : !eligible || !accessible}
           onPress={() => {
-            if (kycCompleted && mandateVerifyStatus == "SUCCESS") {
+            if (userStage == US.EWA_AVAILABLE) {
               Analytics.trackEvent({
                 interaction: InteractionTypes.BUTTON_PRESS,
                 component: "GetMoneyCard",
@@ -123,7 +123,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
                 status: "",
               });
               navigation.navigate("EWAStack", { screen: "EWA_OFFER" });
-            } else if (mandateVerifyStatus != "SUCCESS") {
+            } else if (userStage == US.MANDATE_PENDING) {
               navigation.navigate("EWAStack", {
                 screen: "EWA_MANDATE",
                 params: { previousScreen: "HomeStack" },
@@ -145,7 +145,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
           paddingVertical: 10,
           paddingHorizontal: 15,
           backgroundColor:
-            kycCompleted && mandateVerifyStatus == "SUCCESS"
+            userStage == US.EWA_AVAILABLE
               ? COLORS.primaryBackground
               : COLORS.pendingBackground,
           borderBottomLeftRadius: 10,

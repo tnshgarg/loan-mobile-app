@@ -1,23 +1,22 @@
-import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
-import { form, styles } from "../../styles";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
 import FormInput from "../../components/atoms/FormInput";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import { showToast } from "../../components/atoms/Toast";
 import DropDownForm from "../../components/molecules/DropDownForm";
 import Analytics, {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
-import { showToast } from "../../components/atoms/Toast";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { form, styles } from "../../styles";
 
-import { useUpdateProfileMutation } from "../../store/apiSlices/profileApi";
-import { COLORS, FONTS } from "../../constants/Theme";
-import { useGetKycQuery } from "../../store/apiSlices/kycApi";
+import { strings } from "../../helpers/Localization";
 import { KYC_POLLING_DURATION } from "../../services/constants";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
+import { useUpdateProfileMutation } from "../../store/apiSlices/profileApi";
 
 const ProfileFormTemplate = ({ type }) => {
   const dispatch = useDispatch();

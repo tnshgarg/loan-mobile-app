@@ -11,13 +11,6 @@ const delay = (ms) => {
 };
 const SplashScreen = (props) => {
   const navigation = useNavigation();
-  // const { unipeEmployeeId } = useSelector((state) => state.auth);
-  // const { data: cmsData, isLoading: cmsLoading } = useGetCmsQuery(
-  //   unipeEmployeeId,
-  //   {
-  //     pollingInterval: 1000,
-  //   }
-  // );
 
   const navigateHome = () =>
     navigation.navigate("HomeStack", { screen: "Home" });
@@ -27,9 +20,6 @@ const SplashScreen = (props) => {
     const { initialRoute, initialScreen } = props?.route?.params;
     if (initialRoute && navigation.replace)
       navigation.navigate(initialRoute, { screen: initialScreen });
-    // else if (cmsData.language_list.localization_enabled) {
-    //   navigation.navigate("OnboardingStack", { screen: "Localization" });
-    // }
     else {
       navigateHome();
     }

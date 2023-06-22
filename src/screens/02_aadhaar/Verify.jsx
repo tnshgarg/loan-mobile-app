@@ -1,22 +1,17 @@
 import { useNavigation } from "@react-navigation/core";
 import { Alert, BackHandler, SafeAreaView } from "react-native";
 
+import { useEffect, useState } from "react";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { strings } from "../../helpers/Localization";
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import AadhaarVerifyTemplate from "../../templates/aadhaar/Verify";
 
 const AadhaarVerify = () => {
-  const dispatch = useDispatch();
   const navigation = useNavigation();
-
   const [back, setBack] = useState(false);
 
-  useEffect(() => {
-    dispatch(addCurrentScreen("AadhaarVerify"));
-  }, []);
-
+  
   const backAction = () => {
     if (back) {
       Alert.alert("OTP Timer", "You must wait for 10 minutes to resend OTP.");

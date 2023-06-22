@@ -15,18 +15,12 @@ import { EWA_POLLING_DURATION, KYC_POLLING_DURATION } from "../../../../services
 import { useUpdateKycMutation } from "../../../../store/apiSlices/ewaApi";
 import { useGetKycQuery } from "../../../../store/apiSlices/kycApi";
 import { useGetMandateQuery } from "../../../../store/apiSlices/mandateApi";
-import {
-  addVerifyStatus,
-  resetMandate,
-} from "../../../../store/slices/mandateSlice";
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import { styles } from "../../../../styles";
 
 const KYC = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
-  const [fetched, setFetched] = useState(false);
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
 
@@ -41,6 +35,9 @@ const KYC = () => {
   const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
     pollingInterval: KYC_POLLING_DURATION,
   });
+  const { data: mandateData, error, isLoading , refetch: fetchMandate} = useGetMandateQuery(unipeEmployeeId, {
+    pollingInterval: EWA_POLLING_DURATION,
+  });
   const { aadhaar, pan, bank, profile } = kycData ?? {};
 
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
@@ -54,47 +51,33 @@ const KYC = () => {
       setIpAdress(ipv4Address);
     });
     dispatch(addCurrentScreen("EWA_KYC"));
+
   }, []);
-  const { data, error, isLoading } = useGetMandateQuery(unipeEmployeeId, {
-    pollingInterval: EWA_POLLING_DURATION,
-  });
+  
   console.log("Mandate Error:", error?.status);
   useEffect(() => {
-    if (unipeEmployeeId && deviceId !== 0 && ipAddress !== 0) {
-      if (data && !isLoading && !error) {
-        console.log("Form mandateFetch response.data", data);
-        dispatch(resetMandate(data));
-        dispatch(addVerifyStatus(data?.verifyStatus));
-        setMandateVerifyStatus(data?.verifyStatus);
-        setFetched(true);
-      } else if (error?.status == 404) {
-        console.log("mandateFetch error: ", error);
-        Alert.alert("An Error occured", error.message);
-      }
-    }
-  }, [deviceId, ipAddress]);
-
-  useEffect(() => {
-    if (fetched) {
-      let data = {
-        offerId: ewaLiveSlice?.offerId,
-        unipeEmployeeId: unipeEmployeeId,
-        status: "INPROGRESS",
-        timestamp: Date.now(),
-        ipAddress: ipAddress,
-        deviceId: deviceId,
-        campaignId: campaignId,
-      };
-      updateKyc(data)
-        .then((response) => {
-          console.log("updateKycMutateAsync response.data: ", response.data);
+    fetchMandate().then(() => {
+      if(mandateData?.verifyStatus == "SUCCESS") {
+        updateKyc( {
+          offerId: ewaLiveSlice?.offerId,
+          unipeEmployeeId: unipeEmployeeId,
+          status: "INPROGRESS",
+          timestamp: Date.now(),
+          ipAddress: ipAddress,
+          deviceId: deviceId,
+          campaignId: campaignId,
         })
-        .catch((error) => {
-          console.log("updateKycMutateAsync error: ", error.message);
-          Alert.alert("An Error occured", error.message);
-        });
-    }
-  }, [fetched]);
+          .then((response) => {
+            console.log("updateKycMutateAsync response.data: ", response.data);
+          })
+          .catch((error) => {
+            console.log("updateKycMutateAsync error: ", error.message);
+            Alert.alert("An Error occured", error.message);
+          });
+      }
+    })
+  },[])
+  
 
   const backAction = () => {
     navigation.navigate("EWA_OFFER");
@@ -109,7 +92,7 @@ const KYC = () => {
 
   function handleKyc() {
     setLoading(true);
-    let data = {
+    let payload = {
       offerId: ewaLiveSlice?.offerId,
       unipeEmployeeId: unipeEmployeeId,
       status: "CONFIRMED",
@@ -118,16 +101,16 @@ const KYC = () => {
       deviceId: deviceId,
       campaignId: campaignId,
     };
-    updateKyc(data)
+    updateKyc(payload)
       .then((response) => {
-        console.log("updateKycMutateAsync response.data: ", response.data);
+        console.log("updateKycMutateAsync response.data: ", response, mandateData);
         setLoading(false);
         Analytics.trackEvent({
           component: "Ewa",
           action: "Kyc",
           status: "Success",
         });
-        if (data?.verifyStatus === "SUCCESS") {
+        if (mandateData?.verifyStatus === "SUCCESS") {
           navigation.navigate("EWA_AGREEMENT");
         } else {
           navigation.navigate("EWA_MANDATE");
@@ -181,7 +164,7 @@ const KYC = () => {
 
         <PrimaryButton
           title={loading ? strings.verifying : strings.confirmMyKyc}
-          disabled={loading || !fetched}
+          disabled={loading}
           onPress={() => {
             handleKyc();
           }}

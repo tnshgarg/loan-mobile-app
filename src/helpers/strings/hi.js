@@ -1,5 +1,7 @@
 /* eslint-disable quotes */
 export default {
+  setupRepayment: "पूर्व वेतन के लिए स्वचालित भुगतान सेटअप करें",
+  kindlySetupRepayment: "कृपया पूर्व वेतन के लिए स्वचालित भुगतान सेटअप करें",
   phoneVerificationSuccess: "आपका फ़ोन नंबर सफलतापूर्वक सत्यापित किया गया।",
   completeEkyc:
     "अगले चरण के रूप में कृपया अपने बैंक खाते में पैसा प्राप्त करने के लिए अपना ईकेवाईसी पूरा करें",
@@ -217,7 +219,7 @@ export default {
   toBankAccount: "आपके बैंक खाते में मिनटों में",
   payNow: "भुगतान करें",
   inProgress: "प्रगति पर है",
-  iWantToWithdraw: "I want to withdraw",
+  iWantToWithdraw: "मैं पैसा निकालना चाहता हूँ",
   bankAccount: "बैंक खाता",
   takeBusinessDays: "1 कार्य दिवस तक लेता है",
   withdrawalDeduction: "निकासी को आपके आगामी पेचेक से काट लिया जाएगा",
@@ -247,4 +249,7 @@ export default {
   transport: "ट्रांसपोर्ट",
   pleaseNote:
     "कृपया ध्यान दें: हम हर महीने आपका वेतन जमा करने के लिए इस बैंक खाते/यूपीआई आईडी का उपयोग करेंगे, कृपया अपने बैंक खाते का विवरण प्रदान करें।",
+    registerMandateNote: "कृपया ध्यान दें कि आपको अपने {{bankName}} द्वारा , {{lastFour}} के साथ समाप्त होने वाले बैंक खाते का उपयोग करें",
+    howtocompletexverification: "यह देखने के लिए कि अपना {{id}} सत्यापन कैसे पूरा करेंगे",
+    transferTo: "{{accountNumber}} बैंक खाते में"
 };

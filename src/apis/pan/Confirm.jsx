@@ -1,20 +1,19 @@
-import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import { Alert, Text, View } from "react-native";
+import { Alert, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
+import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
+import { KYC_POLLING_DURATION } from "../../services/constants";
 import {
   useGetPanQuery,
   useUpdatePanMutation,
 } from "../../store/apiSlices/panApi";
-import { strings } from "../../helpers/Localization";
 import { addVerifyStatus } from "../../store/slices/panSlice";
 import { form, styles } from "../../styles";
-import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
-import { KYC_POLLING_DURATION } from "../../services/constants";
 
 const PanConfirmApi = (props) => {
   const dispatch = useDispatch();

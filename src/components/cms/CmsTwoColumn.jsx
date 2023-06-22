@@ -3,38 +3,18 @@ import { TouchableOpacity, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
-const CmsTwoColumn = ({ children, widths, styling, onPress, navigate }) => {
+const CmsTwoColumn = ({ children, widths, styling, navigate }) => {
   const safeChildren = children || [];
-  // const [getCmsLanguageStrings] = useLazyGetCmsLanguageStringsQuery();
-
-  // const language = onPress.language;
-  // let content = {};
-  // console.log("LAANG: ", language);
-
+  let onPress = () => {}
+  if (navigate)
+    onPress = () => {
+      navigationHelper(navigate)
+    }
   return (
     <TouchableOpacity
-      onPress={() => {
-        if (onPress.type == "changeLanguage") {
-          // getCmsLanguageStrings(onPress.language)
-          //   .then(({ data }) => {
-          //     console.log("langgggg: ", data.strings);
-          //     content[language] = data.strings;
-          //     strings.setContent(content);
-          //     console.log("Content: ", content);
-          //     changeLanguage(onPress.language);
-          navigationHelper({
-            type: navigate.type,
-            stack: navigate.stack,
-            screen: navigate.screen,
-            language: onPress.language,
-          });
-          // })
-          // .catch((e) => console.log("error occured: ", e));
-        } else {
-          return null;
-        }
-      }}
+      onPress={onPress}
       style={[styles.row, { ...styling }]}
+      disabled={!navigate}
     >
       {safeChildren?.map((child, index) => (
         <View

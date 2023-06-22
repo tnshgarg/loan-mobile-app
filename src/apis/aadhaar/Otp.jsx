@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import { useState } from "react";
-import { Text } from "react-native";
+import { Alert, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import InfoCard from "../../components/atoms/InfoCard";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
@@ -51,7 +51,7 @@ const AadhaarOtpApi = (props) => {
     dispatch(addVerifyStatus("ERROR"));
     Alert.alert(
       "generateAadhaarOTP Catch Error",
-      res?.body?.verifyMsg || JSON.stringify(error)
+      res?.verifyMsg || JSON.stringify(error)
     );
     Analytics.trackEvent({
       interaction: InteractionTypes.BUTTON_PRESS,
@@ -77,7 +77,6 @@ const AadhaarOtpApi = (props) => {
           handleOtpSuccess({ body, status });
         } else {
           const res = { body, status };
-          // FIXME: poor handling practice
           handleOtpError(res, res);
         }
       })
@@ -111,22 +110,12 @@ const AadhaarOtpApi = (props) => {
 
     generateAadhaarOtp(data)
       .unwrap()
-      .then((res) => {
-        console.log("first");
-        console.log("kyc/aadhaar-generate-otp res: ", res);
-        const responseJson = res?.data;
+      .then((responseJson) => {
         console.log("kyc/aadhaar-generate-otp responseJson: ", responseJson);
-        try {
-          if (responseJson?.status === 200) {
-            handleOtpSuccess(responseJson);
-          } else {
-            throw responseJson;
-          }
-        } catch (error) {
-          handleAPIErrorWithRetry(error, res);
-        }
+        handleOtpSuccess(responseJson);
       })
       .catch((error) => {
+        console.log({generateAadhaarOtpError: error})
         handleAPIErrorWithRetry(error);
       });
   };

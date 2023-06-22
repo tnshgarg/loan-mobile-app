@@ -18,6 +18,7 @@ const SliderCard = ({
   setAmount,
   eligibleAmount,
   accountNumber,
+  bankName
 }) => {
   return (
     <View style={[styles.container]}>
@@ -36,7 +37,7 @@ const SliderCard = ({
         <Text
           style={{ ...FONTS.body4, color: COLORS.secondary, paddingLeft: 10 }}
         >
-          Available Salary:{" "}
+          {strings.availableSalary}:{" "}
           <Text style={{ ...FONTS.h4, color: COLORS.secondary }}>
             ₹{eligibleAmount}
           </Text>
@@ -134,7 +135,7 @@ const SliderCard = ({
             <Text
               style={{ ...FONTS.body3, color: COLORS.black, marginBottom: 5 }}
             >
-              Transfer to {accountNumber}
+              {`${strings.transferTo}`.replace("{{accountNumber}}",accountNumber)}
             </Text>
             <LinearGradient
               start={{ x: 0, y: 0 }}
@@ -143,7 +144,7 @@ const SliderCard = ({
               style={{ padding: 5, borderRadius: 5, alignSelf: "flex-start" }}
             >
               <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
-                {strings.bankAccount}
+                {bankName || strings.bankAccount}
               </Text>
             </LinearGradient>
           </View>

@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { BackHandler, SafeAreaView } from "react-native";
 import { useSelector } from "react-redux";
+import BottomAlert from "../../../../components/molecules/BottomAlert";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 import { navigationHelper } from "../../../../helpers/CmsNavigationHelper";
 import { strings } from "../../../../helpers/Localization";
@@ -13,9 +14,6 @@ const Mandate = (props) => {
   const mandateVerifyStatus = useSelector(
     (state) => state.mandate.verifyStatus
   );
-
-  const { previousScreen } = props.route.params;
-  console.log({ previousScreen });
 
   const backAction = () => {
     setAlertVisible(true);

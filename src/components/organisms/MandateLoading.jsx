@@ -5,13 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
 import { useGetMandateQuery } from "../../store/apiSlices/mandateApi";
-import { addVerifyStatus, resetMandate } from "../../store/slices/mandateSlice";
 import { styles } from "../../styles";
 import { showToast } from "../atoms/Toast";
 
 export default function MandateLoading({
   mandateVerifyStatus,
-  setMandateVerifyStatus,
   modalVisible,
   setModalVisible,
 }) {
@@ -35,10 +33,7 @@ export default function MandateLoading({
           console.log("api called");
           if (data && !isLoading && !error) {
             console.log("mandateLoader", data);
-            let mandateData = data?.body;
-            dispatch(resetMandate(mandateData));
-            dispatch(addVerifyStatus(data?.body?.verifyStatus));
-            setMandateVerifyStatus(data?.body?.verifyStatus);
+            let mandateData = data;
             if (mandateData.verifyStatus == "ERROR") {
               showToast(
                 "Mandate Registration Failed, Please Try Again",

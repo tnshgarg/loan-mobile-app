@@ -1,16 +1,16 @@
-import { View, Text, Image } from "react-native";
 import React from "react";
+import { Image, Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
 
-const LiquiloansTitle = ({ title }) => {
+const LoanProviderLogo = ({ title, url }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Powered by</Text>
       <Image
         style={styles.image}
         resizeMode="contain"
-        source={require("../../assets/LiquiLoansLogo.jpg")}
+        source={{uri: url || ""}}
       />
       <Text style={styles.title}>{title}</Text>
     </View>
@@ -30,10 +30,10 @@ const styles = EStyleSheet.create({
     color: COLORS.gray,
   },
   image: {
-    height: "40rem",
-    width: "40rem",
+    height: "60rem",
+    width: "160rem",
     marginRight: "5rem",
   },
 });
 
-export default LiquiloansTitle;
+export default LoanProviderLogo;

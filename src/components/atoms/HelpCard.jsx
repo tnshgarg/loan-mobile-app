@@ -33,19 +33,17 @@ const HelpCard = ({ text, onPress }) => {
       <View style={{ flexDirection: "column", flex: 1 }}>
         <Text style={styles.text}>{strings.needHelp}</Text>
         <Text style={styles.text}>
-          {/* <TouchableOpacity activeOpacity={0.7}> */}
-          <Text
-            onPress={onPress}
-            style={{
-              ...styles.text,
-              textDecorationLine: "underline",
-              color: "#377476",
-            }}
-          >
-            {strings.clickHere}
-          </Text>
-          {/* </TouchableOpacity> */} to see how to complete your {text}{" "}
-          verification.
+        <Text
+          onPress={onPress}
+          style={{
+            ...styles.text,
+            textDecorationLine: "underline",
+            color: "#377476",
+          }}
+        >
+          {strings.clickHere}
+        </Text>
+          {` ${strings.howtocompletexverification}`.replace('{{id}}', text)}
         </Text>
       </View>
     </LinearGradient>

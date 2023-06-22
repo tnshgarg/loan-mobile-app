@@ -140,7 +140,7 @@ const PayMoneyCard = () => {
     return updateRepayment(repaymentData)
       .then((res) => {
         console.log("repaymentPush response: ", res?.data);
-        if (res?.data.status === 200) {
+        if (res?.data?.status === 200) {
           setRepaymentStatus(status);
         } else {
           setRepaymentStatus(res?.data.paymentStatus);

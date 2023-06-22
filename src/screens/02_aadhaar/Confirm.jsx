@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BackHandler, SafeAreaView, ScrollView } from "react-native";
 import { useDispatch } from "react-redux";
 import { styles } from "../../styles";
@@ -7,6 +7,7 @@ import { styles } from "../../styles";
 import AadhaarConfirmApi from "../../apis/aadhaar/Confirm";
 import BottomAlert from "../../components/molecules/BottomAlert";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import { strings } from "../../helpers/Localization";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 
 const AadhaarConfirm = () => {
@@ -21,7 +22,7 @@ const AadhaarConfirm = () => {
     setAlertVisible(true);
     return true;
   };
-
+  
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
     return () =>
@@ -29,7 +30,6 @@ const AadhaarConfirm = () => {
   }, []);
 
   const [alertVisible, setAlertVisible] = useState(false);
-
   const alertData = {
     title: "Wait! KYC is in progress",
     subtitle: "To get advance salary you must complete your KYC",

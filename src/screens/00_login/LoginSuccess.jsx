@@ -1,17 +1,14 @@
-import { Text, SafeAreaView, Alert, BackHandler } from "react-native";
-import { styles } from "../../styles";
-import { COLORS, FONTS, SIZES } from "../../constants/Theme";
-import Analytics from "appcenter-analytics";
-import { requestUserPermission } from "../../services/notifications/notificationService";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { useEffect, useState } from "react";
+import { Alert, BackHandler, SafeAreaView } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import CmsRoot from "../../components/cms/CmsRoot";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
-import CmsRoot from "../../components/cms/CmsRoot";
-import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { CMS_POLLING_DURATION } from "../../services/constants";
+import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
+import { styles } from "../../styles";
 
 const LoginSuccess = () => {
   const kycData = {
@@ -100,7 +97,7 @@ const LoginSuccess = () => {
   } = useGetCmsQuery(unipeEmployeeId, {
     pollingInterval: CMS_POLLING_DURATION,
   });
-
+  console.log({cmsError, cmsData})
   return (
     <SafeAreaView accessibilityLabel="WelcomePage" style={styles.safeContainer}>
       <LogoHeaderBack

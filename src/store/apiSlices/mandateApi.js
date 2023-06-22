@@ -12,7 +12,7 @@ export const mandateApi = api
         providesTags: ["getMandate"],
         transformResponse: (response) => {
           console.log("mandate:", response);
-          return response?.body?.data;
+          return response?.body;
         },
       }),
       updateMandate: builder.mutation({
@@ -21,6 +21,7 @@ export const mandateApi = api
           method: "POST",
           body: body,
         }),
+        invalidatesTags: ["getMandate"]
       }),
       overrideExisting: true,
     }),
