@@ -16,7 +16,6 @@ import Analytics, {
   InteractionTypes,
 } from "../helpers/analytics/commonAnalytics";
 import LearnWithUs from "../screens/06_home/LearnWithUs";
-import BackendSync from "../screens/BackendSync";
 import CmsScreen from "../screens/CmsScreen";
 import DevMenu from "../screens/DevMenu";
 import KycProgress from "../screens/KycProgress";
@@ -160,13 +159,6 @@ const StackNavigator = () => {
         />
         {token ? (
           <>
-            <Stack.Screen
-              name="BackendSync"
-              component={BackendSync}
-              options={{
-                animation: "default",
-              }}
-            />
             <Stack.Screen name="HomeStack" component={BottomTabNav} />
             <Stack.Screen name="LearnWithUs" component={LearnWithUs} />
             <Stack.Screen name="InvestStack" component={InvestStack} />
