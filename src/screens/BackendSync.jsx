@@ -2,11 +2,9 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect } from "react";
 import { Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { useGetAadhaarQuery } from "../store/apiSlices/aadhaarApi";
-import { useGetBankQuery } from "../store/apiSlices/bankApi";
+import { KYC_POLLING_DURATION } from "../services/constants";
+import { useGetKycQuery } from "../store/apiSlices/kycApi";
 import { useGetMandateQuery } from "../store/apiSlices/mandateApi";
-import { useGetPanQuery } from "../store/apiSlices/panApi";
-import { useGetProfileQuery } from "../store/apiSlices/profileApi";
 import { resetAadhaar } from "../store/slices/aadhaarSlice";
 import { resetBank } from "../store/slices/bankSlice";
 import { resetMandate } from "../store/slices/mandateSlice";
@@ -17,34 +15,34 @@ const BackendSync = () => {
   const dispatch = useDispatch();
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
-  const {
-    data: aadhaarData,
-    isLoading: aadhaarLoading,
-    isError: aadhaarError,
-  } = useGetAadhaarQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 60 * 24,
-  });
-  const {
-    data: panData,
-    isLoading: panLoading,
-    isError: panError,
-  } = useGetPanQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 60 * 24,
-  });
-  const {
-    data: bankData,
-    isLoading: bankLoading,
-    isError: bankError,
-  } = useGetBankQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 60 * 24,
-  });
-  const {
-    data: profileData,
-    isLoading: profileLoading,
-    isError: profileError,
-  } = useGetProfileQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 60 * 24,
-  });
+  // const {
+  //   data: aadhaarData,
+  //   isLoading: aadhaarLoading,
+  //   isError: aadhaarError,
+  // } = useGetAadhaarQuery(unipeEmployeeId, {
+  //   pollingInterval: 1000 * 60 * 60 * 24,
+  // });
+  // const {
+  //   data: panData,
+  //   isLoading: panLoading,
+  //   isError: panError,
+  // } = useGetPanQuery(unipeEmployeeId, {
+  //   pollingInterval: 1000 * 60 * 60 * 24,
+  // });
+  // const {
+  //   data: bankData,
+  //   isLoading: bankLoading,
+  //   isError: bankError,
+  // } = useGetBankQuery(unipeEmployeeId, {
+  //   pollingInterval: 1000 * 60 * 60 * 24,
+  // });
+  // const {
+  //   data: profileData,
+  //   isLoading: profileLoading,
+  //   isError: profileError,
+  // } = useGetProfileQuery(unipeEmployeeId, {
+  //   pollingInterval: 1000 * 60 * 60 * 24,
+  // });
   const {
     data: mandateData,
     isLoading: mandateLoading,
@@ -52,6 +50,21 @@ const BackendSync = () => {
   } = useGetMandateQuery(unipeEmployeeId, {
     pollingInterval: 1000 * 60 * 2,
   });
+
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: KYC_POLLING_DURATION,
+  });
+
+  const {
+    aadhaar: aadhaarData,
+    pan: panData,
+    bank: bankData,
+    profile: profileData,
+    isAadhaarSuccess,
+    isPanSuccess,
+    isBankSuccess,
+    isProfileSuccess,
+  } = kycData;
 
   useEffect(() => {
     console.log("BackendSync unipeEmployeeId: ", unipeEmployeeId);
@@ -61,7 +74,7 @@ const BackendSync = () => {
   }, []);
 
   useEffect(() => {
-    if (unipeEmployeeId && !aadhaarLoading && !aadhaarError) {
+    if (unipeEmployeeId && isAadhaarSuccess) {
       try {
         dispatch(resetAadhaar(aadhaarData));
       } catch (error) {
@@ -71,7 +84,7 @@ const BackendSync = () => {
   }, [unipeEmployeeId]);
 
   useEffect(() => {
-    if (unipeEmployeeId && !panLoading && !panError) {
+    if (unipeEmployeeId && isPanSuccess) {
       try {
         dispatch(resetPan(panData));
       } catch (error) {
@@ -81,7 +94,7 @@ const BackendSync = () => {
   }, [unipeEmployeeId]);
 
   useEffect(() => {
-    if (unipeEmployeeId && !bankLoading && !bankError) {
+    if (unipeEmployeeId && isBankSuccess) {
       try {
         dispatch(resetBank(bankData));
       } catch (error) {
@@ -91,7 +104,7 @@ const BackendSync = () => {
   }, [unipeEmployeeId]);
 
   useEffect(() => {
-    if (unipeEmployeeId && !profileLoading && !profileError) {
+    if (unipeEmployeeId && isProfileSuccess) {
       try {
         dispatch(resetProfile(profileData));
       } catch (error) {

@@ -6,6 +6,7 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import { CMS_POLLING_DURATION } from "../../services/constants";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import LogoHeaderBack from "../molecules/LogoHeaderBack";
+import CmsLoading from "./CmsLoading";
 import CmsRoot from "./CmsRoot";
 
 const CmsTopTabNav = (props) => {
@@ -74,7 +75,7 @@ const CmsTopTabNav = (props) => {
           })}
         </Tab.Navigator>
       ) : (
-        <></>
+        <CmsLoading />
       )}
     </>
   );

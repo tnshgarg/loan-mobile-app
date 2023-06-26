@@ -8,10 +8,8 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
 import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
 import { KYC_POLLING_DURATION } from "../../services/constants";
-import {
-  useGetPanQuery,
-  useUpdatePanMutation,
-} from "../../store/apiSlices/panApi";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
+import { useUpdatePanMutation } from "../../store/apiSlices/panApi";
 import { addVerifyStatus } from "../../store/slices/panSlice";
 import { form, styles } from "../../styles";
 
@@ -24,12 +22,10 @@ const PanConfirmApi = (props) => {
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
-  const { data: panData, isLoading: loading } = useGetPanQuery(
-    unipeEmployeeId,
-    {
-      pollingInterval: KYC_POLLING_DURATION,
-    }
-  );
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: KYC_POLLING_DURATION,
+  });
+  const { pan: panData } = kycData;
   const { data, number, verifyStatus } = panData ?? {};
   console.log({ data });
 

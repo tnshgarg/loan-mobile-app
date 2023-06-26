@@ -2,12 +2,13 @@ import { useNavigation } from "@react-navigation/core";
 import React from "react";
 import { SafeAreaView, ScrollView, View } from "react-native";
 import { useSelector } from "react-redux";
+import CmsLoading from "../../components/cms/CmsLoading";
 import CmsRoot from "../../components/cms/CmsRoot";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { strings } from "../../helpers/Localization";
+import { CMS_POLLING_DURATION } from "../../services/constants";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { styles } from "../../styles";
-import { CMS_POLLING_DURATION } from "../../services/constants";
 
 const LearnWithUs = () => {
   const navigation = useNavigation();
@@ -33,7 +34,7 @@ const LearnWithUs = () => {
           {!cmsLoading ? (
             <CmsRoot children={cmsData?.blogs || []}></CmsRoot>
           ) : (
-            <></>
+            <CmsLoading />
           )}
         </ScrollView>
       </View>

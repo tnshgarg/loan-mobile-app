@@ -1,21 +1,20 @@
-import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { showToast } from "../../components/atoms/Toast";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import { COLORS, FONTS } from "../../constants/Theme";
-import {
-  useGetBankQuery,
-  useUpdateBankMutation,
-} from "../../store/apiSlices/bankApi";
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
+import { KYC_POLLING_DURATION } from "../../services/constants";
+import { useUpdateBankMutation } from "../../store/apiSlices/bankApi";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { addOnboarded } from "../../store/slices/authSlice";
 import { addVerifyStatus } from "../../store/slices/bankSlice";
 import { form, styles } from "../../styles";
-import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
-import { KYC_POLLING_DURATION } from "../../services/constants";
 
 const BankConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -24,12 +23,13 @@ const BankConfirmApi = (props) => {
   const token = useSelector((state) => state.auth.token);
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const { data: bankData, isLoading: loading } = useGetBankQuery(
-    unipeEmployeeId,
-    {
-      pollingInterval: KYC_POLLING_DURATION,
-    }
-  );
+
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: KYC_POLLING_DURATION,
+  });
+
+  const { bank: bankData } = kycData;
+
   const { data, number, verifyStatus } = bankData ?? {};
 
   const campaignId = useSelector(
@@ -66,7 +66,7 @@ const BankConfirmApi = (props) => {
             showToast("KYC Completed Successfully");
             navigation.navigate("HomeStack", {
               screen: "Home",
-            })
+            });
           } else {
             navigation.navigate("KycSuccess");
             // navigation.replace("EWA_MANDATE");
@@ -136,7 +136,7 @@ const BankConfirmApi = (props) => {
               interaction: InteractionTypes.BUTTON_PRESS,
               component: "Bank",
               action: "Confirm",
-              status: "Success"
+              status: "Success",
             });
           }}
         />
