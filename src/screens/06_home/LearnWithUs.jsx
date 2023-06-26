@@ -31,10 +31,10 @@ const LearnWithUs = () => {
 
       <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {!cmsLoading ? (
-            <CmsRoot children={cmsData?.blogs || []}></CmsRoot>
-          ) : (
+          {!cmsData && cmsLoading ? (
             <CmsLoading />
+          ) : (
+            <CmsRoot children={cmsData?.blogs || []}></CmsRoot>
           )}
         </ScrollView>
       </View>

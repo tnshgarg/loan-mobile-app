@@ -101,20 +101,20 @@ const AccountMenu = (props) => {
         containerStyle={{ backgroundColor: null }}
       />
       <ScrollView>
-        {!cmsLoading ? (
-          <CmsRoot children={cmsData?.account_top || []}></CmsRoot>
-        ) : (
+        {!cmsData && cmsLoading ? (
           <CmsLoading />
+        ) : (
+          <CmsRoot children={cmsData?.account_top || []}></CmsRoot>
         )}
         {console.log(
           "Account Nav list: ",
           cmsData?.account_navigation_list[0].children
         )}
 
-        {!cmsLoading ? (
-          <CmsRoot children={cmsData?.account_navigation_list || []}></CmsRoot>
-        ) : (
+        {!cmsData && cmsLoading ? (
           <CmsLoading />
+        ) : (
+          <CmsRoot children={cmsData?.account_navigation_list || []}></CmsRoot>
         )}
 
         {options.map((item, index) => (

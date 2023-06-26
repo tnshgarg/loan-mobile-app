@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import CmsLoading from "../../components/cms/CmsLoading";
 import CmsRoot from "../../components/cms/CmsRoot";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
@@ -110,10 +111,10 @@ const LoginSuccess = () => {
           })
         }
       />
-      {!cmsLoading ? (
-        <CmsRoot children={cmsData?.login_success || []}></CmsRoot>
+      {!cmsData && cmsLoading ? (
+        <CmsLoading />
       ) : (
-        <></>
+        <CmsRoot children={cmsData?.login_success || []}></CmsRoot>
       )}
     </SafeAreaView>
   );

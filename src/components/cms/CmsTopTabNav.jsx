@@ -36,7 +36,9 @@ const CmsTopTabNav = (props) => {
         onLeftIconPress={() => navigation.goBack()}
         headline={cmsData.account_navigation_list[0].title}
       />
-      {!cmsLoading ? (
+      {!cmsData && cmsLoading ? (
+        <CmsLoading />
+      ) : (
         <Tab.Navigator
           screenOptions={{
             tabBarLabelStyle: {
@@ -74,8 +76,6 @@ const CmsTopTabNav = (props) => {
             );
           })}
         </Tab.Navigator>
-      ) : (
-        <CmsLoading />
       )}
     </>
   );

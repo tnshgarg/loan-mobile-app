@@ -24,10 +24,10 @@ const CmsNotificationView = () => {
         onLeftIconPress={() => navigationRef.goBack()}
       />
       <View>
-        {!cmsLoading ? (
-          <CmsRoot children={cmsData?.notifications?.data} />
-        ) : (
+        {!cmsData && cmsLoading ? (
           <CmsLoading />
+        ) : (
+          <CmsRoot children={cmsData?.notifications?.data} />
         )}
       </View>
     </View>

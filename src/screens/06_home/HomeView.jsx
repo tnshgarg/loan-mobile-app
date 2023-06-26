@@ -215,17 +215,17 @@ const HomeView = () => {
             ewaLiveSlice={ewaLiveSlice}
           />
         </View>
-        {!cmsLoading ? (
-          <CmsRoot children={cmsData?.home || []}></CmsRoot>
-        ) : (
+        {!cmsData && cmsLoading ? (
           <CmsLoading />
+        ) : (
+          <CmsRoot children={cmsData?.home || []}></CmsRoot>
         )}
         {/* <CmsRoot children={DUMMY_RES?.home || []}></CmsRoot> */}
 
-        {!cmsLoading ? (
-          <CmsRoot children={cmsData?.bottom_alert || []}></CmsRoot>
+        {!cmsData && cmsLoading ? (
+          <CmsLoading />
         ) : (
-          <></>
+          <CmsRoot children={cmsData?.bottom_alert || []}></CmsRoot>
         )}
         <View
           style={{
