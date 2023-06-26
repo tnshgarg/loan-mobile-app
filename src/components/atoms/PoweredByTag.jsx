@@ -3,15 +3,21 @@ import React from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
 
-const LiquiloansTitle = ({ title }) => {
+const PoweredByTag = ({ image, title }) => {
+  let lenght = Object.keys(image).length;
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Powered by</Text>
-      <Image
-        style={styles.image}
-        resizeMode="contain"
-        source={require("../../assets/LiquiLoansLogo.jpg")}
-      />
+      <Text style={styles.title}>Powered by </Text>
+      {image.map((item, index) => (
+        <>
+          <Image
+            style={styles.image}
+            resizeMode="contain"
+            source={item}
+          />
+          {lenght > 1 && index < lenght-1 ? <Text style={styles.ampersand}>&</Text> : null}
+        </>
+      ))}
       <Text style={styles.title}>{title}</Text>
     </View>
   );
@@ -29,6 +35,11 @@ const styles = EStyleSheet.create({
     ...FONTS.body5,
     color: COLORS.gray,
   },
+  ampersand: {
+    ...FONTS.body5,
+    color: COLORS.gray,
+    marginRight: "10rem",
+  },
   image: {
     height: "40rem",
     width: "40rem",
@@ -36,4 +47,4 @@ const styles = EStyleSheet.create({
   },
 });
 
-export default LiquiloansTitle;
+export default PoweredByTag;

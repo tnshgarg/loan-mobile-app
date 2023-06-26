@@ -21,7 +21,7 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import { useDispatch, useSelector } from "react-redux";
 import Checkbox from "../../../../components/atoms/Checkbox";
 import Header from "../../../../components/atoms/Header";
-import LiquiloansTitle from "../../../../components/atoms/LiquiloansTitle";
+import PoweredByTag from "../../../../components/atoms/PoweredByTag";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
 import { strings } from "../../../../helpers/Localization";
@@ -302,7 +302,7 @@ const Agreement = () => {
               handleAgreement();
             }}
           />
-          <LiquiloansTitle title={"an RBI registered NBFC-P2P"} />
+          <PoweredByTag image={[require("../../../../assets/LiquiLoansLogo.jpg")]} title={"an RBI registered NBFC-P2P"} />
           <Text style={moneyStyles.percentageTitle}>
             {strings.apr} {ewaLiveSlice?.apr} %
           </Text>

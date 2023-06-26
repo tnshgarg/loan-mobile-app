@@ -38,6 +38,7 @@ import { styles } from "../../styles";
 import Analytics, {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
+import PoweredByTag from "../../components/atoms/PoweredByTag";
 
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -181,6 +182,8 @@ const MandateFormTemplate = (props) => {
         Alert.alert("Error", error?.message || "Something went wrong");
       });
   };
+
+  
   const initiateRazorpayCheckout = async ({ customerId, orderId, notes }) => {
     let verifyMsg;
     try {
@@ -267,8 +270,7 @@ const MandateFormTemplate = (props) => {
         } else if (provider == "cashfree") {
           await initiateCashfreeCheckout({
             upiIntent:
-              order.authPaymentData.upiIntentData.androidAuthAppLinks
-                .DEFAULT,
+              order.authPaymentData.upiIntentData.androidAuthAppLinks.DEFAULT,
           });
         }
       } else {
@@ -398,6 +400,13 @@ const MandateFormTemplate = (props) => {
               </Text>
             </View>
           </View>
+          <PoweredByTag
+            image={[
+              require("../../assets/rzp.png"),
+              require("../../assets/cf.png"),
+            ]}
+            title="RBI regulated payment partners"
+          />
         </ScrollView>
       </KeyboardAvoidingWrapper>
       {modalVisible && (
