@@ -174,6 +174,8 @@ dependencies {
     implementation ("com.facebook.fresco:animated-gif:2.6.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
 
+    implementation 'com.facebook.react:react-native:+'  // Replace the '+' with the actual version of React Native you're using
+
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
         exclude group:'com.squareup.okhttp3', module:'okhttp'
