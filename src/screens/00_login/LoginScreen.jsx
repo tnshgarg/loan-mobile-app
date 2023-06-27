@@ -106,7 +106,7 @@ const LoginScreen = () => {
           interaction: InteractionTypes.BUTTON_PRESS,
           component: "LoginScreen",
           action: "SendSms",
-          status: "Success",
+          status: "Success"
         });
         // TODO: Success message handling
         navigation.navigate("Otp");

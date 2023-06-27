@@ -6,7 +6,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { COLORS, FONTS } from "../../../constants/Theme";
 import InvestSVG from "../../../assets/Invest.svg";
 import PrimaryButton from "../../../components/atoms/PrimaryButton";
-import LiquiloansTitle from "../../../components/atoms/LiquiloansTitle";
+import PoweredByTag from "../../../components/atoms/PoweredByTag";
 
 import Analytics, { InteractionTypes } from "../../../helpers/analytics/commonAnalytics";
 
@@ -72,7 +72,7 @@ const Invest = (props) => {
             );
           }}
         />
-        <LiquiloansTitle title={"an RBI registered NBFC-P2P"} />
+        <PoweredByTag image={[require("../../../assets/LiquiLoansLogo.jpg")]} title={"an RBI registered NBFC-P2P"} />
       </View>
     </SafeAreaView>
   );

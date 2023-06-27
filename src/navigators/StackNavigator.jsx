@@ -31,6 +31,7 @@ import { setCampaignStoreData } from "../services/campaign/storeManagement";
 import { handleCampaignNavigation } from "../services/campaign/campaignNavigation";
 import { setPendingUrl } from "../store/slices/pendingCampaignClickSlice";
 import { Linking } from "react-native";
+
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   const navigation = useNavigation();

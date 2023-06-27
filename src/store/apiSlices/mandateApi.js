@@ -11,6 +11,12 @@ export const mandateApi = api
         }),
         providesTags: ["getMandate"],
       }),
+      getMandateOptions: builder.query({
+        query: (unipeEmployeeId) => ({
+          url: `mandate/options`,
+          params: { unipeEmployeeId },
+        }),
+      }),
       updateMandate: builder.mutation({
         query: (body) => ({
           url: `mandate`,
@@ -22,4 +28,4 @@ export const mandateApi = api
     }),
   });
 
-export const { useGetMandateQuery, useUpdateMandateMutation } = mandateApi;
+export const { useGetMandateQuery, useGetMandateOptionsQuery, useUpdateMandateMutation } = mandateApi;

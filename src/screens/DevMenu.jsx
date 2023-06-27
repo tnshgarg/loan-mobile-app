@@ -79,6 +79,13 @@ export default DevMenu = () => {
               })
             }
           />
+           <DevMenuButton
+            style={{ marginTop: 20 }}
+            title={"BackendSync"}
+            onPress={() =>
+              navigation.navigate("BackendSync")
+            }
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

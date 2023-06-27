@@ -1,21 +1,19 @@
-import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { form, styles } from "../../styles";
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
+import { useUpdateProfileMutation } from "../../store/apiSlices/profileApi";
+import { strings } from "../../helpers/Localization";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import FormInput from "../../components/atoms/FormInput";
 import DropDownForm from "../../components/molecules/DropDownForm";
-import Analytics, {
-  InteractionTypes,
-} from "../../helpers/analytics/commonAnalytics";
 import { showToast } from "../../components/atoms/Toast";
-
-import { useUpdateProfileMutation } from "../../store/apiSlices/profileApi";
-import { COLORS, FONTS } from "../../constants/Theme";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 
 const ProfileFormTemplate = ({ type }) => {

@@ -11,10 +11,8 @@ import {
   getNumberOfDays,
   setYYYYMMDDtoDDMMYYYY,
 } from "../../helpers/DateFunctions";
-import {
-  createRepaymentOrder,
-  openRazorpayCheckout,
-} from "../../services/mandate/Razorpay/services";
+import { openRazorpayCheckout } from "../../services/mandate/Razorpay/services";
+import { createRepaymentOrder } from "../../services/mandate/services";
 import {
   useGetRepaymentQuery,
   useUpdateRepaymentMutation,
