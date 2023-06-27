@@ -8,20 +8,21 @@ import { useGetCmsLanguageListQuery } from "../../store/apiSlices/cmsApi";
 import { addLanguage } from "../../store/slices/localizationSlice";
 
 const Localization = () => {
+  
   const dispatch = useDispatch()
-  const loggedOut = useSelector((state) => state.auth.loggedOut);
+  const loggedIn = !!useSelector((state) => state.auth.token);
   const language = useSelector((state) => state.localization.language);
   console.log("Localization Screen Language: ", language);
-  const { data: languageList, isSuccess: languageListSuccess , refetch: fetchLanguageList} =
+  const { data: languageList, isSuccess: languageListSuccess , refetch: fetchLanguageList,isLoading: cmsLoading} =
     useGetCmsLanguageListQuery();
 
   const navigateUser = () => {
-    if (loggedOut === true) {
-      navigationRef.navigate("OnboardingStack", { screen: "Login" });
-    } else {
+    if (loggedIn) {
       navigationRef.navigate("HomeStack", {
         screen: "Home",
       });
+    } else {
+      navigationRef.navigate("OnboardingStack", { screen: "Login" });
     }
   }
   useEffect(() => {
@@ -45,10 +46,10 @@ const Localization = () => {
   console.log(languageList?.language_list?.languages)
   return (
     <View>
-      {!cmsLanguageList && cmsLoading ? (
+      {!languageList && cmsLoading ? (
         <CmsLoading />
       ) : (
-        <CmsRoot children={cmsLanguageList?.language_list?.languages} />
+        <CmsRoot children={languageList?.language_list?.languages} />
       )}
     </View>
   );

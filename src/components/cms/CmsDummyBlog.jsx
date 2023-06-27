@@ -43,7 +43,7 @@ const CmsDummyBlog = (props) => {
   console.log(JSON.stringify(data))
   const backAction = () => {
     if (disableBack)  {
-      Alert.alert("Hold on!", "Are you sure you want to Logout?", [
+      Alert.alert("Hold on! This will log you out", "Are you sure you want to Logout?", [
         { text: "No", onPress: () => null, style: "cancel" },
         { text: "Yes", onPress: () => {
           dispatch({"action": "Logout"})
@@ -72,12 +72,11 @@ const CmsDummyBlog = (props) => {
         headerImageUri={headingImage}
       />
       <ScrollView>
-        <View style={[styles.container, { padding: 0, margin: 0 }]}>
-          {/* {!cmsLoading ? <CmsRoot children={data}></CmsRoot> : <></>} */}
+        <View style={[styles.container, { padding: 0, margin: 0,flex:1 }]}>
           {!cmsData && cmsLoading ? (
             <CmsLoading />
           ) : (
-            <CmsRoot children={data}></CmsRoot>
+            <CmsRoot children={data} style={{flex: 1}}></CmsRoot>
           )}
         </View>
       </ScrollView>

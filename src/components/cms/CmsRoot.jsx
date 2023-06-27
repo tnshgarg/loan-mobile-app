@@ -68,14 +68,14 @@ const renderChildren = (node) => {
   return renderNode;
 };
 
-const CmsRoot = ({ children }) => {
+const CmsRoot = ({ children, style }) => {
   const safeChildren = children || [];
   const { children: renderedChildren } = renderChildren({
     children: safeChildren,
   });
 
   return (
-    <View>
+    <View style={style}>
       {renderedChildren.map((child, index) => (
         <View key={index}>{child?.element(child)}</View>
       ))}
