@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import CmsRoot from "../../components/cms/CmsRoot";
 import { navigationRef } from "../../navigators/RootNavigation";
 import { useGetCmsLanguageListQuery } from "../../store/apiSlices/cmsApi";
+import { DUMMY_LANGUAGE_RES } from "../../constants/Strings";
 
 const Localization = () => {
   const loggedOut = useSelector((state) => state.auth.loggedOut);
@@ -34,7 +35,7 @@ const Localization = () => {
   return (
     <View>
       {!cmsLoading ? (
-        <CmsRoot children={cmsLanguageList?.language_list?.languages} />
+        <CmsRoot children={DUMMY_LANGUAGE_RES?.language_list?.languages} />
       ) : (
         <></>
       )}

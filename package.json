@@ -102,7 +102,7 @@
 		"android:start:qa": "gulp set --env=qa && npx react-native run-android --active-arch-only --variant=qaDebug --appIdSuffix=qa",
 		"android:test:deeplink": "npx uri-scheme open 'https://mobile-app.unipe.co/ewa' --android",
 		"clean:gradle": "cd android && ./gradlew clean",
-		"clean:start": " watchman watch-del-all && rm -rf node_modules && rm -rf /tmp/metro-* && npm add @babel/runtime && npm i && npx react-native start --reset-cache",
+		"clean:start": "watchman watch-del-all && rm -rf node_modules && rm -rf /tmp/metro-* && npm add @babel/runtime && npm install --force && npx react-native start --reset-cache",
 		"ios": "react-native run-ios",
 		"ios:codepush:qa": "appcenter codepush release-react -a Unipe/Unipe-QA-App-iOS -d QA -m",
 		"ios:start:demo": "cp ios/GoogleService-Info-demo.plist ios/GoogleService-Info.plist && cp ios/AppCenter-Config-Demo.plist ios/AppCenter-Config.plist && gulp set --env=test && react-native run-ios --scheme 'employeeappDemo'",
@@ -116,5 +116,5 @@
 		"start": "react-native start",
 		"test": "jest"
 	},
-	"version": "2023.6.22"
+	"version": "2023.6.26"
 }

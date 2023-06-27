@@ -2,26 +2,20 @@ import { Dimensions, PixelRatio, Platform } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 
 const { width, height } = Dimensions.get("window");
+let guidelineBaseWidth;
+console.log("Aspect Ratio: " + height / width);
+const aspectRatio = height / width;
 
-const scale = width / 380;
+if (aspectRatio > 2.1) guidelineBaseWidth = 380;
+else if (aspectRatio < 2.1 && aspectRatio > 1.9) guidelineBaseWidth = 400;
+else if (aspectRatio < 1.9 && aspectRatio > 1.7) guidelineBaseWidth = 450;
+
+const scale = width / guidelineBaseWidth;
 
 EStyleSheet.build({
   $rem: scale,
-  $primaryPending: "#4E46F1",
-  $primary: "#41be89",
-  $primaryBackground: "#DDE9E4",
-  $appBarBackground: "#2CB77C",
-  $appBarText: "",
-  $secondary: "#230C45",
-  $warning: "#f56a6a",
-  $warningBackground: "#fde1e1",
-  $darkGray: "#333333",
-  $gray: "#808080",
-  $lightGray: "#aaaaaa",
-  $black: "#000000",
-  $white: "#FFFFFF",
-  $lightgray_01: "#f1f1f1",
 });
+
 export function normalize(size) {
   const newSize = size * scale;
   if (Platform.OS === "ios") {
@@ -62,7 +56,7 @@ export const SIZES = {
   opacity: 0.7,
   btnHeight: normalize(50),
   shadow: {
-    shadowColor: COLORS.gray,
+    shadowColor: COLORS.black,
     shadowOffset: { width: 10, height: 20 },
     shadowOpacity: 1,
     shadowRadius: 15,
@@ -90,57 +84,57 @@ export const FONTS = {
   title: {
     fontFamily: "Proxima Nova Regular",
     fontSize: normalize(62),
-    lineHeight: normalize(62),
+    // lineHeight: normalize(62),
   },
   h1: {
     fontFamily: "Proxima Nova Bold",
     fontSize: SIZES.h1,
-    lineHeight: normalize(36),
+    // lineHeight: normalize(36),
   },
   h2: {
     fontFamily: "Proxima Nova Bold",
     fontSize: SIZES.h2,
-    lineHeight: normalize(30),
+    // lineHeight: normalize(30),
   },
   h3: {
     fontFamily: "Proxima Nova Bold",
     fontSize: SIZES.h3,
-    lineHeight: normalize(26),
+    // lineHeight: normalize(26),
   },
   h4: {
     fontFamily: "Proxima Nova Bold",
     fontSize: SIZES.h4,
-    lineHeight: normalize(20),
+    // lineHeight: normalize(20),
   },
   h5: {
     fontFamily: "Proxima Nova Bold",
     fontSize: SIZES.h5,
-    lineHeight: normalize(16),
+    // lineHeight: normalize(16),
   },
   body1: {
     fontFamily: "Proxima Nova Regular",
     fontSize: SIZES.body1,
-    lineHeight: normalize(36),
+    // lineHeight: normalize(36),
   },
   body2: {
     fontFamily: "Proxima Nova Regular",
     fontSize: SIZES.body2,
-    lineHeight: normalize(30),
+    // lineHeight: normalize(30),
   },
   body3: {
     fontFamily: "Proxima Nova Regular",
     fontSize: SIZES.body3,
-    lineHeight: normalize(26),
+    // lineHeight: normalize(26),
   },
   body4: {
     fontFamily: "Proxima Nova Regular",
     fontSize: SIZES.body4,
-    lineHeight: normalize(20),
+    // lineHeight: normalize(20),
   },
   body5: {
     fontFamily: "Proxima Nova Regular",
     fontSize: SIZES.body5,
-    lineHeight: normalize(18),
+    // lineHeight: normalize(18),
   },
 };
 
