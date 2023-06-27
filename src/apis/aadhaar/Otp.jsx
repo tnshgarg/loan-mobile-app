@@ -17,7 +17,7 @@ import { useGenerateAadhaarOtpMutation } from "../../store/apiSlices/aadhaarApi"
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 
-const AadhaarOtpApi = (props) => {
+const  AadhaarOtpApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -25,7 +25,8 @@ const AadhaarOtpApi = (props) => {
   const [delayedResponseText, setDelayedResponseText] = useState("");
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-
+  const [generateAadhaarOtp] = useGenerateAadhaarOtpMutation();
+  
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
@@ -63,7 +64,7 @@ const AadhaarOtpApi = (props) => {
     setLoading(false);
   };
 
-  const [generateAadhaarOtp] = useGenerateAadhaarOtpMutation();
+  
   const handleAPIResponseDelay = async () => {
     setDelayedResponseText("We are still getting your details please wait....");
     await asyncTimeout(KYC_RETRY_WAIT_TIME);

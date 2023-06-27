@@ -51,7 +51,6 @@ const KYC = () => {
       setIpAdress(ipv4Address);
     });
     dispatch(addCurrentScreen("EWA_KYC"));
-
   }, []);
   
   console.log("Mandate Error:", error?.status);

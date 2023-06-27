@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import InvestSVG from "../../../assets/Invest.svg";
-import LoanProviderLogo from "../../../components/atoms/LoanProviderLogo";
 import LogoHeader from "../../../components/atoms/LogoHeader";
+import PoweredByTag from "../../../components/atoms/PoweredByTag";
 import PrimaryButton from "../../../components/atoms/PrimaryButton";
 import { COLORS, FONTS } from "../../../constants/Theme";
 import { investStyles, styles } from "../../../styles";
@@ -72,7 +72,7 @@ const Invest = (props) => {
             );
           }}
         />
-        <LoanProviderLogo title={"an RBI registered NBFC-P2P"} />
+        <PoweredByTag image={[require("../../../assets/LiquiLoansLogo.jpg")]} title={"an RBI registered NBFC-P2P"} />
       </View>
     </SafeAreaView>
   );

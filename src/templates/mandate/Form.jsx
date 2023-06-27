@@ -1,6 +1,12 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, SafeAreaView, ScrollView, Text } from "react-native";
+import {
+  Alert,
+  Linking,
+  SafeAreaView,
+  ScrollView,
+  Text
+} from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,10 +23,8 @@ import Analytics, {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
 import { EWA_POLLING_DURATION, KYC_POLLING_DURATION } from "../../services/constants";
-import {
-  createMandateOrder,
-  openRazorpayCheckout,
-} from "../../services/mandate/Razorpay/services";
+import { openRazorpayCheckout } from "../../services/mandate/Razorpay/services";
+import { createMandateOrder } from "../../services/mandate/services";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import {
   useGetMandateQuery,
@@ -31,6 +35,7 @@ import {
 } from "../../store/slices/mandateSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
+
 const MandateFormTemplate = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -121,6 +126,29 @@ const MandateFormTemplate = (props) => {
       });
   };
 
+  const initiateCashfreeCheckout = async ({ upiIntent }) => {
+    let verifyMsg;
+    Linking.openURL(upiIntent)
+      .then(() => {
+        setModalVisible(true);
+        verifyMsg = "Mandate Initiated from App Intent Success";
+        backendPush({
+          verifyMsg,
+          verifyStatus: "INPROGRESS",
+          verifyTimestamp: Date.now(),
+        })
+          .then(() => {})
+          .catch((error) => {
+            setModalVisible(false);
+            Alert.alert("Error", error?.message || "Something went wrong");
+          });
+      })
+      .catch((error) => {
+        setModalVisible(false);
+        Alert.alert("Error", error?.message || "Something went wrong");
+      });
+  };
+
   const initiateRazorpayCheckout = async ({ customerId, orderId, notes }) => {
     let verifyMsg;
     try {
@@ -174,7 +202,11 @@ const MandateFormTemplate = (props) => {
     }
   };
 
-  const ProceedButton = async ({ authType }) => {
+  const ProceedButton = async ({
+    authType,
+    provider = "razorpay",
+    app = "",
+  }) => {
     console.log("proceed button pressed", authType);
     setLoading(true);
     setAuthType(authType);
@@ -183,6 +215,7 @@ const MandateFormTemplate = (props) => {
         authType,
         unipeEmployeeId,
         token,
+        provider,
       });
       const createOrderResponse = res?.data;
       console.log(
@@ -190,18 +223,25 @@ const MandateFormTemplate = (props) => {
         createOrderResponse
       );
       if (createOrderResponse.status === 200) {
-        let razorpayOrder = createOrderResponse.body;
+        let order = createOrderResponse.body;
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
           component: "Mandate",
           action: `CreateOrder_${authType}`,
           status: "Success",
         });
-        await initiateRazorpayCheckout({
-          orderId: razorpayOrder.id,
-          customerId: razorpayOrder.customer_id,
-          notes: razorpayOrder.notes,
-        });
+        if (provider == "razorpay") {
+          await initiateRazorpayCheckout({
+            orderId: order.id,
+            customerId: order.customer_id,
+            notes: order.notes,
+          });
+        } else if (provider == "cashfree") {
+          await initiateCashfreeCheckout({
+            upiIntent:
+              order.authPaymentData.upiIntentData.androidAuthAppLinks[app],
+          });
+        }
       } else {
         throw createOrderResponse;
       }
@@ -301,6 +341,14 @@ const MandateFormTemplate = (props) => {
               params: { blogKey: "mandate_help" },
             });
           }}/>
+          <PoweredByTag
+            image={[
+              require("../../assets/rzp.png"),
+              require("../../assets/cf.png"),
+            ]}
+            title="RBI regulated payment partners"
+          />
+          <HelpCard text="repayment methods" />
         </ScrollView>
       </KeyboardAvoidingWrapper>
       {modalVisible && (

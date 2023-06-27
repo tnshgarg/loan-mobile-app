@@ -15,10 +15,8 @@ import Analytics, {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
 import { EWA_POLLING_DURATION } from "../../services/constants";
-import {
-  createRepaymentOrder,
-  openRazorpayCheckout,
-} from "../../services/mandate/Razorpay/services";
+import { openRazorpayCheckout } from "../../services/mandate/Razorpay/services";
+import { createRepaymentOrder } from "../../services/mandate/services";
 import {
   useGetRepaymentQuery,
   useUpdateRepaymentMutation,
