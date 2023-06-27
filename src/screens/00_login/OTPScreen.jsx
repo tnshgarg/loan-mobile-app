@@ -44,17 +44,13 @@ const OTPScreen = () => {
   const [back, setBack] = useState(false);
 
   const countDownTime = useSelector((state) => state.timer.login);
-  const phoneNumber = useSelector((state) => state.auth.phoneNumber);
-  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const {phoneNumber,unipeEmployeeId,token} = useSelector((state) => state.auth || {});
   const [trigger, result, lastPromiseInfo] = useLazyGetKycQuery();
 
   const [kycCompleted, setKycCompleted] = useState(false);
 
   const [postVerifyOtp] = useVerifyOtpMutation();
   const [postGenerateOtp] = useGenerateOtpMutation();
-  useEffect(() => {
-    dispatch(addCurrentScreen("Otp"));
-  }, []);
 
   let interval;
 
@@ -122,7 +118,7 @@ const OTPScreen = () => {
     }
     return true;
   };
-
+  
   const onResendOtp = () => {
     postGenerateOtp(phoneNumber)
       .unwrap()
@@ -160,16 +156,10 @@ const OTPScreen = () => {
         // Alert.alert("Error", error.message);
       });
   };
-
-  const onSubmitOtp = () => {
-    setNext(false);
-    postVerifyOtp({ mobileNumber: phoneNumber, otp: otp })
-      .unwrap()
-      .then((res) => {
-        // TODO: Verify Response
-        console.log({ res });
-        dispatch(addToken(res["token"]));
-        trigger(res?.employeeDetails?.unipeEmployeeId, false)
+  
+  const handleNavigation = (token,unipeEmployeeId)  => {
+    if (token) {
+      trigger(unipeEmployeeId, false)
           .then(({ data }) =>
             data?.kycCompleted
               ? navigation.navigate("HomeStack")
@@ -179,6 +169,19 @@ const OTPScreen = () => {
                 })
           )
           .catch((err) => console.log(err));
+    } else if (!phoneNumber) {
+      navigation.navigate("Login")
+    }
+  }
+  const onSubmitOtp = () => {
+    setNext(false);
+    postVerifyOtp({ mobileNumber: phoneNumber, otp: otp })
+      .unwrap()
+      .then((res) => {
+        // TODO: Verify Response
+        console.log({ res });
+        dispatch(addToken(res["token"]));
+        handleNavigation(res["token"],res?.employeeDetails?.unipeEmployeeId);
         setVerified(true);
 
         Analytics.trackEvent({
@@ -206,11 +209,12 @@ const OTPScreen = () => {
   };
 
   useEffect(() => {
+    dispatch(addCurrentScreen("Otp"));
     BackHandler.addEventListener("hardwareBackPress", backAction);
+    handleNavigation(token, unipeEmployeeId)
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
-
   return (
     <SafeAreaView accessibilityLabel="OtpScreen" style={styles.safeContainer}>
       <LogoHeaderBack

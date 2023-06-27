@@ -4,6 +4,7 @@ import { BackHandler, SafeAreaView, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import LogoHeader from "../../../components/atoms/LogoHeader";
 import LogoutItem from "../../../components/atoms/LogoutItem";
+import CmsLoading from "../../../components/cms/CmsLoading";
 import CmsRoot from "../../../components/cms/CmsRoot";
 import TermsAndPrivacyModal from "../../../components/molecules/TermsAndPrivacyModal";
 import LogoutModal from "../../../components/organisms/LogoutModal";
@@ -100,20 +101,20 @@ const AccountMenu = (props) => {
         containerStyle={{ backgroundColor: null }}
       />
       <ScrollView>
-        {!cmsLoading ? (
-          <CmsRoot children={cmsData?.account_top || []}></CmsRoot>
+        {!cmsData && cmsLoading ? (
+          <CmsLoading />
         ) : (
-          <></>
+          <CmsRoot children={cmsData?.account_top || []}></CmsRoot>
         )}
         {console.log(
           "Account Nav list: ",
           cmsData?.account_navigation_list?.[0].children
         )}
 
-        {!cmsLoading ? (
-          <CmsRoot children={cmsData?.account_navigation_list || []}></CmsRoot>
+        {!cmsData && cmsLoading ? (
+          <CmsLoading />
         ) : (
-          <></>
+          <CmsRoot children={cmsData?.account_navigation_list || []}></CmsRoot>
         )}
 
         {options.map((item, index) => (

@@ -1,24 +1,17 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Alert,
-  BackHandler,
-  Linking,
-} from "react-native";
-import { onboardingStyles, styles } from "../styles";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { addCurrentScreen } from "../store/slices/navigationSlice";
+import { useEffect } from "react";
+import { Alert, BackHandler, SafeAreaView } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import CmsLoading from "../components/cms/CmsLoading";
+import CmsRoot from "../components/cms/CmsRoot";
 import LogoHeaderBack from "../components/molecules/LogoHeaderBack";
 import { navigationHelper } from "../helpers/CmsNavigationHelper";
-import CmsRoot from "../components/cms/CmsRoot";
-import DUMMY_RES, { useGetCmsQuery } from "../store/apiSlices/cmsApi";
 import { CMS_POLLING_DURATION } from "../services/constants";
+import { useGetCmsQuery } from "../store/apiSlices/cmsApi";
+import { addCurrentScreen } from "../store/slices/navigationSlice";
+import { styles } from "../styles";
 
 const KycSuccess = () => {
-  const [visible, setVisible] = useState(false);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -62,10 +55,10 @@ const KycSuccess = () => {
         }
       />
 
-      {!cmsLoading ? (
-        <CmsRoot children={cmsData?.kyc_success || []}></CmsRoot>
+      {!cmsData && cmsLoading ? (
+        <CmsLoading />
       ) : (
-        <></>
+        <CmsRoot children={cmsData?.kyc_success || []}></CmsRoot>
       )}
     </SafeAreaView>
   );

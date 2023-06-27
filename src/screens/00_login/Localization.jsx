@@ -1,43 +1,59 @@
 import React, { useEffect } from "react";
 import { View } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import CmsLoading from "../../components/cms/CmsLoading";
 import CmsRoot from "../../components/cms/CmsRoot";
 import { navigationRef } from "../../navigators/RootNavigation";
 import { useGetCmsLanguageListQuery } from "../../store/apiSlices/cmsApi";
-import { DUMMY_LANGUAGE_RES } from "../../constants/Strings";
+import { addLanguage } from "../../store/slices/localizationSlice";
 
 const Localization = () => {
-  const loggedOut = useSelector((state) => state.auth.loggedOut);
+  const dispatch = useDispatch();
+  const loggedIn = !!useSelector((state) => state.auth.token);
   const language = useSelector((state) => state.localization.language);
-  console.log("Language: ", language);
-  const { data: cmsLanguageList, isLoading: cmsLoading } =
-    useGetCmsLanguageListQuery();
+  console.log("Localization Screen Language: ", language);
+  const {
+    data: languageList,
+    isSuccess: languageListSuccess,
+    refetch: fetchLanguageList,
+    isLoading: cmsLoading,
+  } = useGetCmsLanguageListQuery();
 
-  useEffect(() => {
-    if (!cmsLoading) {
-      console.log("Second stage");
-      if (
-        !cmsLanguageList.language_list.localization_enabled ||
-        language !== ""
-      ) {
-        console.log("third stage");
-        if (loggedOut) {
-          navigationRef.navigate("OnboardingStack", { screen: "Login" });
-        } else {
-          navigationRef.navigate("HomeStack", {
-            screen: "Home",
-          });
-        }
-      }
+  const navigateUser = () => {
+    if (loggedIn) {
+      navigationRef.navigate("HomeStack", {
+        screen: "Home",
+      });
+    } else {
+      navigationRef.navigate("OnboardingStack", { screen: "Login" });
     }
-  }, [cmsLoading]);
-
+  };
+  useEffect(() => {
+    fetchLanguageList()
+      .unwrap()
+      .then((res) => {
+        if (languageListSuccess) {
+          console.log("Second stage");
+          if (!languageList?.language_list?.localization_enabled) {
+            console.log("this called");
+            dispatch(addLanguage("en"));
+            navigateUser();
+            return;
+          }
+          if (language) {
+            navigateUser();
+            return;
+          }
+        }
+      });
+  }, [languageListSuccess]);
+  console.log(languageList?.language_list?.languages);
   return (
     <View>
-      {!cmsLoading ? (
-        <CmsRoot children={DUMMY_LANGUAGE_RES?.language_list?.languages} />
+      {!languageList && cmsLoading ? (
+        <CmsLoading />
       ) : (
-        <></>
+        <CmsRoot children={languageList?.language_list?.languages} />
       )}
     </View>
   );

@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
 import SplashScreen from "react-native-splash-screen";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import ShieldTitle from "../../components/atoms/ShieldTitle";
@@ -37,6 +38,7 @@ import LogoHeader from "../../components/atoms/LogoHeader";
 import SvgContainer from "../../components/atoms/SvgContainer";
 import SvgListItem from "../../components/molecules/SvgListItem";
 import { strings } from "../../helpers/Localization";
+import { addLanguage } from "../../store/slices/localizationSlice";
 
 const LoginScreen = () => {
   SplashScreen.hide();
@@ -198,11 +200,25 @@ const LoginScreen = () => {
     };
   }, []);
 
+  const goToLocalization = async () => {
+    dispatch(addLanguage(""))
+    navigation.navigate("OnboardingStack", {screen: "Localization"})
+  }
+
+  const goToLanding = () => {
+    setStartClicked(false)
+  }
   return (
     <SafeAreaView accessibilityLabel="LoginScreen" style={styles.safeContainer}>
       {startClicked ? (
         <LogoHeader
           headline={strings.enterMobileNumber}
+          leftIcon={<Ionicons
+              name="arrow-back-outline"
+              size={28}
+              color={COLORS.secondary}
+            />}
+          leftOnPress={goToLanding()}
           // rightIcon={
           //   <Icon name="logo-whatsapp" size={28} color={COLORS.primary} />
           // }
@@ -224,6 +240,13 @@ const LoginScreen = () => {
             ]}
           >
             <View style={{ flexDirection: "row", width: "100%" }}>
+              <Ionicons
+                style={{"margin": 10}}
+                onPress={goToLocalization}
+                name="arrow-back-outline"
+                size={28}
+                color={COLORS.secondary}
+              />
               <SvgContainer width={150} height={50}>
                 <LogoImage />
               </SvgContainer>

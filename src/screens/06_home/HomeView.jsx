@@ -4,6 +4,7 @@ import { SafeAreaView, ScrollView, Text, View } from "react-native";
 // import PushNotification from 'react-native-push-notification';
 import { STAGE } from "@env";
 import { useDispatch, useSelector } from "react-redux";
+import CmsLoading from "../../components/cms/CmsLoading";
 import CmsRoot from "../../components/cms/CmsRoot";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
@@ -11,15 +12,17 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
 import { strings } from "../../helpers/Localization";
-import { CMS_POLLING_DURATION, EWA_POLLING_DURATION, KYC_POLLING_DURATION } from "../../services/constants";
+import {
+  CMS_POLLING_DURATION,
+  EWA_POLLING_DURATION,
+  KYC_POLLING_DURATION,
+} from "../../services/constants";
 import {
   notificationListener,
   requestUserPermission,
 } from "../../services/notifications/notificationService";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
-import {
-  useGetOffersQuery
-} from "../../store/apiSlices/ewaApi";
+import { useGetOffersQuery } from "../../store/apiSlices/ewaApi";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { addOnboarded } from "../../store/slices/authSlice";
 import { resetEwaHistorical } from "../../store/slices/ewaHistoricalSlice";
@@ -57,7 +60,7 @@ const HomeView = () => {
   } = useGetCmsQuery(unipeEmployeeId, {
     pollingInterval: CMS_POLLING_DURATION,
   });
-  
+
   const [fetched, setFetched] = useState(false);
   const [alertVisible, setAlertVisible] = useState(false);
 
@@ -65,7 +68,7 @@ const HomeView = () => {
   // || auth?.employeeName;
 
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
-  
+
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
   const onboardingCampaignId = useSelector(
@@ -187,7 +190,7 @@ const HomeView = () => {
       setAlertVisible(false);
     },
   };
-  console.log({"bottomAlert": cmsData?.bottom_alert})
+  console.log({ bottomAlert: cmsData?.bottom_alert });
   return (
     <SafeAreaView style={[styles.safeContainer]}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -212,14 +215,18 @@ const HomeView = () => {
             ewaLiveSlice={ewaLiveSlice}
           />
         </View>
-        {!cmsLoading ? (
-          <CmsRoot children={cmsData?.home || []}></CmsRoot>
+        {!cmsData && cmsLoading ? (
+          <CmsLoading />
         ) : (
-          <></>
+          <CmsRoot children={cmsData?.home || []}></CmsRoot>
         )}
         {/* <CmsRoot children={DUMMY_RES?.home || []}></CmsRoot> */}
 
-        <CmsRoot children={cmsData?.bottom_alert || []}></CmsRoot> 
+        {!cmsData && cmsLoading ? (
+          <CmsLoading />
+        ) : (
+          <CmsRoot children={cmsData?.bottom_alert || []}></CmsRoot>
+        )}
         <View
           style={{
             width: "100%",
@@ -241,7 +248,11 @@ const HomeView = () => {
           data={data}
         />
       )} */}
-      <CmsRoot children={cmsData?.mini_placement || []} />
+      {!cmsLoading ? (
+        <CmsRoot children={cmsData?.mini_placement || []} />
+      ) : (
+        <></>
+      )}
     </SafeAreaView>
   );
 };

@@ -7,7 +7,7 @@ import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { strings } from "../../helpers/Localization";
 import { CMS_POLLING_DURATION } from "../../services/constants";
-import { useGetPanQuery } from "../../store/apiSlices/panApi";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import BankFormTemplate from "../../templates/bank/Form";
@@ -17,9 +17,10 @@ const BankForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const { data: panData } = useGetPanQuery(unipeEmployeeId, {
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
     pollingInterval: CMS_POLLING_DURATION,
   });
+  const { pan: panData } = kycData;
   const { verifyStatus } = panData ?? {};
 
   useEffect(() => {
@@ -56,7 +57,8 @@ const BankForm = () => {
         onRightIconPress={() =>
           navigationHelper({
             type: "cms",
-            params: { blogKey: "bank_help" },
+            params: { blogKey: "bank_help", backScreen: {stack: "OnboardingStack", screen: "BankForm"}},
+            
           })
         }
       />

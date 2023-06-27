@@ -5,7 +5,6 @@ import LoginSuccess from "../../screens/00_login/LoginSuccess";
 import OTPScreen from "../../screens/00_login/OTPScreen";
 
 import Localization from "../../screens/00_login/Localization";
-import Onboarding from "../../screens/00_login/Onboarding";
 
 const OnboardingStack = () => {
   const Stack = createNativeStackNavigator();
@@ -18,13 +17,6 @@ const OnboardingStack = () => {
       screenOptions={{ animation: "slide_from_right" }}
       initialRouteName={initialRoute}
     >
-      <Stack.Screen
-        name="Onboarding"
-        component={Onboarding}
-        options={{
-          headerShown: false,
-        }}
-      />
       <Stack.Screen
         name="Localization"
         component={Localization}

@@ -16,7 +16,6 @@ import Analytics, {
   InteractionTypes,
 } from "../helpers/analytics/commonAnalytics";
 import LearnWithUs from "../screens/06_home/LearnWithUs";
-import BackendSync from "../screens/BackendSync";
 import CmsScreen from "../screens/CmsScreen";
 import DevMenu from "../screens/DevMenu";
 import KycProgress from "../screens/KycProgress";
@@ -26,7 +25,6 @@ import { handleCampaignNavigation } from "../services/campaign/campaignNavigatio
 import { setCampaignStoreData } from "../services/campaign/storeManagement";
 import { parseUrl } from "../services/campaign/urlParsing";
 import { setPendingUrl } from "../store/slices/pendingCampaignClickSlice";
-import { store } from "../store/store";
 import BottomTabNav from "./BottomTabNav";
 import AccountStack from "./stacks/AccountStack";
 import BenefitsStack from "./stacks/BenefitsStack";
@@ -37,15 +35,16 @@ const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  var initialRoute = useSelector((state) => state.navigation.currentStack);
   const token = useSelector((state) => state.auth?.token);
   const onboarded = useSelector((state) => state.auth.onboarded);
-  var initialScreen = useSelector((state) => state.navigation.currentScreen);
   const [modalVisible, setModalVisible] = useState(false);
-
+  const language = useSelector(state => state.localization.language)
+  let initialRoute = useSelector((state) => state.navigation.currentStack);
+  let initialScreen = useSelector((state) => state.navigation.currentScreen);
   useEffect(() => {
-    changeLanguage(store.getState().localization.language);
-  }, []);
+    changeLanguage(language ?? "en");
+    console.log("stack navigator use effect")
+  }, [language]);
 
   const handleCampaignUrlClick = (url) => {
     // Alert.alert("Url",`${url}`)
@@ -160,13 +159,6 @@ const StackNavigator = () => {
         />
         {token ? (
           <>
-            <Stack.Screen
-              name="BackendSync"
-              component={BackendSync}
-              options={{
-                animation: "default",
-              }}
-            />
             <Stack.Screen name="HomeStack" component={BottomTabNav} />
             <Stack.Screen name="LearnWithUs" component={LearnWithUs} />
             <Stack.Screen name="InvestStack" component={InvestStack} />
