@@ -57,7 +57,7 @@ const KycSuccess = () => {
 
       {!cmsData && cmsLoading ? (
         <CmsLoading />
-    ) : (
+      ) : (
         <CmsRoot children={cmsData?.kyc_success || []}></CmsRoot>
       )}
     </SafeAreaView>

@@ -201,24 +201,26 @@ const LoginScreen = () => {
   }, []);
 
   const goToLocalization = async () => {
-    dispatch(addLanguage(""))
-    navigation.navigate("OnboardingStack", {screen: "Localization"})
-  }
+    dispatch(addLanguage(""));
+    navigation.navigate("OnboardingStack", { screen: "Localization" });
+  };
 
   const goToLanding = () => {
-    setStartClicked(false)
-  }
+    setStartClicked(false);
+  };
   return (
     <SafeAreaView accessibilityLabel="LoginScreen" style={styles.safeContainer}>
       {startClicked ? (
         <LogoHeader
           headline={strings.enterMobileNumber}
-          leftIcon={<Ionicons
+          leftIcon={
+            <Ionicons
               name="arrow-back-outline"
               size={28}
               color={COLORS.secondary}
-            />}
-          leftOnPress={goToLanding()}
+            />
+          }
+          leftOnPress={() => goToLanding()}
           // rightIcon={
           //   <Icon name="logo-whatsapp" size={28} color={COLORS.primary} />
           // }
@@ -241,7 +243,7 @@ const LoginScreen = () => {
           >
             <View style={{ flexDirection: "row", width: "100%" }}>
               <Ionicons
-                style={{"margin": 10}}
+                style={{ margin: 10 }}
                 onPress={goToLocalization}
                 name="arrow-back-outline"
                 size={28}
@@ -268,12 +270,14 @@ const LoginScreen = () => {
           </View>
         </LinearGradient>
       )}
-      {!startClicked && (
+      {!startClicked ? (
         <View style={[styles.container, { flex: 0 }]}>
           {data.map((item, index) => (
             <SvgListItem item={item} key={index} />
           ))}
         </View>
+      ) : (
+        <></>
       )}
 
       <Animated.View style={[styles.bottomPart, { flex: bottomFlex }]}>

@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Alert, BackHandler, SafeAreaView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { CMS_POLLING_DURATION } from "../../services/constants";
-import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 
@@ -37,7 +37,7 @@ const LoginSuccess = () => {
   } = useGetCmsQuery(unipeEmployeeId, {
     pollingInterval: CMS_POLLING_DURATION,
   });
-  console.log({cmsError, cmsData})
+  console.log({ cmsError, cmsData });
   return (
     <SafeAreaView accessibilityLabel="WelcomePage" style={styles.safeContainer}>
       {/* <LogoHeaderBack

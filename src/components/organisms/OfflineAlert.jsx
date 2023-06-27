@@ -70,7 +70,7 @@ const OfflineAlert = ({ children }) => {
 
 const styles = EStyleSheet.create({
   modalContainer: {
-    backgroundColor: "$white",
+    backgroundColor: COLORS.white,
     flex: 1,
     padding: "15rem",
     alignItems: "center",

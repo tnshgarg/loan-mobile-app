@@ -8,13 +8,16 @@ import { useGetCmsLanguageListQuery } from "../../store/apiSlices/cmsApi";
 import { addLanguage } from "../../store/slices/localizationSlice";
 
 const Localization = () => {
-  
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const loggedIn = !!useSelector((state) => state.auth.token);
   const language = useSelector((state) => state.localization.language);
   console.log("Localization Screen Language: ", language);
-  const { data: languageList, isSuccess: languageListSuccess , refetch: fetchLanguageList,isLoading: cmsLoading} =
-    useGetCmsLanguageListQuery();
+  const {
+    data: languageList,
+    isSuccess: languageListSuccess,
+    refetch: fetchLanguageList,
+    isLoading: cmsLoading,
+  } = useGetCmsLanguageListQuery();
 
   const navigateUser = () => {
     if (loggedIn) {
@@ -24,26 +27,27 @@ const Localization = () => {
     } else {
       navigationRef.navigate("OnboardingStack", { screen: "Login" });
     }
-  }
+  };
   useEffect(() => {
-    fetchLanguageList().unwrap().then((res) => {
-      if (languageListSuccess) {
-        console.log("Second stage");
-        if (!languageList?.language_list?.localization_enabled) {
-          console.log("this called")
-          dispatch(addLanguage("en"));
-          navigateUser()
-          return
+    fetchLanguageList()
+      .unwrap()
+      .then((res) => {
+        if (languageListSuccess) {
+          console.log("Second stage");
+          if (!languageList?.language_list?.localization_enabled) {
+            console.log("this called");
+            dispatch(addLanguage("en"));
+            navigateUser();
+            return;
+          }
+          if (language) {
+            navigateUser();
+            return;
+          }
         }
-        if (language) {
-          navigateUser()
-          return
-        }      
-      }
-    })
-    
+      });
   }, [languageListSuccess]);
-  console.log(languageList?.language_list?.languages)
+  console.log(languageList?.language_list?.languages);
   return (
     <View>
       {!languageList && cmsLoading ? (

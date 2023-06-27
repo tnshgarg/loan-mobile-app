@@ -108,7 +108,7 @@ const AccountMenu = (props) => {
         )}
         {console.log(
           "Account Nav list: ",
-          cmsData?.account_navigation_list[0].children
+          cmsData?.account_navigation_list?.[0].children
         )}
 
         {!cmsData && cmsLoading ? (
