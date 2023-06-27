@@ -77,7 +77,7 @@ const ListItem = ({
         <View style={styles.extension}>
           {subItems.map((item, index) => {
             return (
-              <TouchableOpacity style={styles.image} activeOpacity={0.5}>
+              <TouchableOpacity style={styles.image} activeOpacity={0.5} onPress={item.onPress}>
                 <Image
                   source={item.image}
                   style={{
@@ -118,7 +118,7 @@ const styles = EStyleSheet.create({
     width: "100%",
     padding: "5rem",
     flexDirection: "row",
-    height: "100rem",
+    height: "60rem",
     borderBottomWidth: 1,
     borderColor: COLORS.lightgray_01,
   },

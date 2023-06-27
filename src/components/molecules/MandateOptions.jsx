@@ -33,10 +33,39 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
         subtitleStyle: { color: COLORS.secondary },
         iconName: "card-account-details-outline",
         subItems: [
-          { title: "Google Pay", image: require("../../assets/gpay.png")},
-          { title: "AmazonPay", image: require("../../assets/amazon_pay.png")},
-          { title: "PhonePe", image: require("../../assets/phonepe.png") },
-          { title: "Paytm", image: require("../../assets/paytm.png") },
+          {
+            title: "Google Pay",
+            image: require("../../assets/gpay.png"),
+            onPress: () => {
+              ProceedButton({
+                authType: "upi",
+                provider: "cashfree",
+                app: "GPAY",
+              });
+            },
+          },
+          {
+            title: "AmazonPay",
+            image: require("../../assets/amazon_pay.png"),
+            onPress: () => {
+              ProceedButton({
+                authType: "upi",
+                provider: "cashfree",
+                app: "AMAZONPAY",
+              });
+            },
+          },
+          {
+            title: "Paytm",
+            image: require("../../assets/paytm.png"),
+            onPress: () => {
+              ProceedButton({
+                authType: "upi",
+                provider: "cashfree",
+                app: "PAYTM",
+              });
+            },
+          },
         ],
         type: "upi",
         onPress: () => {

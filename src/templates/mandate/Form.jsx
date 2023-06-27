@@ -237,7 +237,7 @@ const MandateFormTemplate = (props) => {
     }
   };
 
-  const ProceedButton = async ({ authType, provider = "razorpay" }) => {
+  const ProceedButton = async ({ authType, provider = "razorpay" , app = ""}) => {
     console.log("proceed button pressed", authType);
     setLoading(true);
     setAuthType(authType);
@@ -270,7 +270,7 @@ const MandateFormTemplate = (props) => {
         } else if (provider == "cashfree") {
           await initiateCashfreeCheckout({
             upiIntent:
-              order.authPaymentData.upiIntentData.androidAuthAppLinks.DEFAULT,
+              order.authPaymentData.upiIntentData.androidAuthAppLinks[app],
           });
         }
       } else {
