@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import CmsLoading from "../../components/cms/CmsLoading";
 import CmsRoot from "../../components/cms/CmsRoot";
 import { navigationRef } from "../../navigators/RootNavigation";
 import { useGetCmsLanguageListQuery } from "../../store/apiSlices/cmsApi";
@@ -44,10 +45,10 @@ const Localization = () => {
   console.log(languageList?.language_list?.languages)
   return (
     <View>
-      {languageListSuccess ? (
-        <CmsRoot children={languageList?.language_list?.languages} />
+      {!cmsLanguageList && cmsLoading ? (
+        <CmsLoading />
       ) : (
-        <></>
+        <CmsRoot children={cmsLanguageList?.language_list?.languages} />
       )}
     </View>
   );

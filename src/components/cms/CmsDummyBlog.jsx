@@ -6,6 +6,7 @@ import { CMS_POLLING_DURATION } from "../../services/constants";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { styles } from "../../styles";
 import LogoHeaderBack from "../molecules/LogoHeaderBack";
+import CmsLoading from "./CmsLoading";
 import CmsRoot from "./CmsRoot";
 
 const CmsDummyBlog = (props) => {
@@ -71,9 +72,13 @@ const CmsDummyBlog = (props) => {
         headerImageUri={headingImage}
       />
       <ScrollView>
-        <View style={[styles.container, { padding: 0,margin: 0 }]}>
+        <View style={[styles.container, { padding: 0, margin: 0 }]}>
           {/* {!cmsLoading ? <CmsRoot children={data}></CmsRoot> : <></>} */}
-          <CmsRoot children={data}></CmsRoot>
+          {!cmsData && cmsLoading ? (
+            <CmsLoading />
+          ) : (
+            <CmsRoot children={data}></CmsRoot>
+          )}
         </View>
       </ScrollView>
     </View>

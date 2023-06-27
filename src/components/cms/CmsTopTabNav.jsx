@@ -6,6 +6,7 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import { CMS_POLLING_DURATION } from "../../services/constants";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import LogoHeaderBack from "../molecules/LogoHeaderBack";
+import CmsLoading from "./CmsLoading";
 import CmsRoot from "./CmsRoot";
 
 const CmsTopTabNav = (props) => {
@@ -35,7 +36,9 @@ const CmsTopTabNav = (props) => {
         onLeftIconPress={() => navigation.goBack()}
         headline={cmsData.account_navigation_list[0].title}
       />
-      {!cmsLoading ? (
+      {!cmsData && cmsLoading ? (
+        <CmsLoading />
+      ) : (
         <Tab.Navigator
           screenOptions={{
             tabBarLabelStyle: {
@@ -73,8 +76,6 @@ const CmsTopTabNav = (props) => {
             );
           })}
         </Tab.Navigator>
-      ) : (
-        <></>
       )}
     </>
   );
