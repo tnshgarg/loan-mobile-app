@@ -1,12 +1,12 @@
-import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import React, { useEffect } from "react";
-import { investStyles, styles } from "../../../styles";
-import LogoHeader from "../../../components/atoms/LogoHeader";
+import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { COLORS, FONTS } from "../../../constants/Theme";
 import InvestSVG from "../../../assets/Invest.svg";
-import PrimaryButton from "../../../components/atoms/PrimaryButton";
+import LogoHeader from "../../../components/atoms/LogoHeader";
 import PoweredByTag from "../../../components/atoms/PoweredByTag";
+import PrimaryButton from "../../../components/atoms/PrimaryButton";
+import { COLORS, FONTS } from "../../../constants/Theme";
+import { investStyles, styles } from "../../../styles";
 
 import Analytics, { InteractionTypes } from "../../../helpers/analytics/commonAnalytics";
 

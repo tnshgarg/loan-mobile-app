@@ -1,7 +1,8 @@
+import analytics from "@react-native-firebase/analytics";
 import Analytics from "appcenter-analytics";
-import UnipeAnalyticsAPI from "./unipeAnalyticsAPI";
-import {store} from "../../store/store"
 import { version } from "../../../package.json";
+import { store } from "../../store/store";
+import UnipeAnalyticsAPI from "./unipeAnalyticsAPI";
 
 const analyticsSession = {
     startTime: new Date().getTime() / 1000,
@@ -9,6 +10,7 @@ const analyticsSession = {
     logCount: 0
 }
 
+let firebaseAnalytics = null;
 export const InteractionTypes =  {
     "BANNER_TAP": "BP",
     "BUTTON_PRESS": "BP",
@@ -33,7 +35,9 @@ export async function trackEvent(
         event: event || {}
     }
     const codepushEventName = `${event.component}|${event.action}|${event.status}`
+    const analyticsEventName = `${event.component}_${event.action}_${event.status}`.replace(":","__")
     Analytics.trackEvent(codepushEventName, analyticsEvent.event).catch(console.error)
+    firebaseAnalytics.logEvent(analyticsEventName, {unipeEmployeeId: analyticsEvent.user})
     UnipeAnalyticsAPI.post("/",analyticsEvent
     ).then(r => console.log("AnalyticsResponse:",r?.data)).catch(console.error)
 }
@@ -41,6 +45,7 @@ export async function trackEvent(
 export async function init() {
     await Analytics.setEnabled(true);
     const codepushEnabled = await Analytics.isEnabled();
+    firebaseAnalytics = analytics()
     console.log("CodePush Analytics Enabled", codepushEnabled, );
 
     return {

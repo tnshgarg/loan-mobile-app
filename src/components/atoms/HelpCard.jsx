@@ -1,9 +1,10 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import React from "react";
-import { COLORS, FONTS } from "../../constants/Theme";
+import { Text, View } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import LinearGradient from "react-native-linear-gradient";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
 
 const HelpCard = ({ text, onPress }) => {
   return (
@@ -30,21 +31,19 @@ const HelpCard = ({ text, onPress }) => {
       </View>
 
       <View style={{ flexDirection: "column", flex: 1 }}>
-        <Text style={styles.text}>Need help?</Text>
+        <Text style={styles.text}>{strings.needHelp}</Text>
         <Text style={styles.text}>
-          {/* <TouchableOpacity activeOpacity={0.7}> */}
-          <Text
-            onPress={onPress}
-            style={{
-              ...styles.text,
-              textDecorationLine: "underline",
-              color: "#377476",
-            }}
-          >
-            Click here
-          </Text>
-          {/* </TouchableOpacity> */} to see how to complete your {text}{" "}
-          verification.
+        <Text
+          onPress={onPress}
+          style={{
+            ...styles.text,
+            textDecorationLine: "underline",
+            color: "#377476",
+          }}
+        >
+          {strings.clickHere}
+        </Text>
+          {` ${strings.howtocompletexverification}`.replace('{{id}}', text)}
         </Text>
       </View>
     </LinearGradient>

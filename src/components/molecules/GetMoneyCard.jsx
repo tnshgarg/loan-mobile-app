@@ -1,34 +1,71 @@
-import { View, Text } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { COLORS, FONTS, SIZES } from "../../constants/Theme";
-import PrimaryButton from "../atoms/PrimaryButton";
+import { useSelector } from "react-redux";
 import Coin from "../../assets/Coin.svg";
 import Hourglass from "../../assets/Hourglass.svg";
-import { useEffect } from "react";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import SvgContainer from "../atoms/SvgContainer";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
+import { EWA_POLLING_DURATION, KYC_POLLING_DURATION } from "../../services/constants";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
-import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
+import { useGetMandateQuery } from "../../store/apiSlices/mandateApi";
+import PrimaryButton from "../atoms/PrimaryButton";
+import SvgContainer from "../atoms/SvgContainer";
 
+const USER_STAGE = {
+  KYC_PENDING: 0,
+  MANDATE_PENDING: 1,
+  EWA_AVAILABLE: 2
+}
+const US = USER_STAGE
+const getUserStage = (kycCompleted, mandateVerifyStatus) => {
+  if (!kycCompleted) {
+    return USER_STAGE.KYC_PENDING
+  }
+  if (mandateVerifyStatus != "SUCCESS") {
+    return USER_STAGE.MANDATE_PENDING
+  } 
+  return USER_STAGE.EWA_AVAILABLE
+}
 const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 60 * 24,
+  const { data: kycData,isLoading: kycLoading } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: KYC_POLLING_DURATION,
   });
   const {
-    isAadhaarSuccess,
-    isPanSuccess,
-    isBankSuccess,
-    isProfileSuccess,
     kycCompleted,
   } = kycData ?? {};
 
+  const { data, error, isLoading: mandateLoading } = useGetMandateQuery(unipeEmployeeId, {
+    pollingInterval: EWA_POLLING_DURATION,
+  });
+
+  console.log("Mandate Error:", data, error);
+
+  const mandateVerifyStatus = data?.verifyStatus;
+  console.log({ mandateVerifyStatus });
+
+  const userStage = getUserStage(kycCompleted, mandateVerifyStatus)
   const BUTTON_TEXT = {
     kycNotCompleted:
       "Verify your identity and complete your full KYC process to withdraw advance salary.",
   };
 
+  const cardTopMessages = {
+    [US.KYC_PENDING]: strings.kycPending,
+    [US.MANDATE_PENDING]: strings.setupRepayment,
+    [US.EWA_AVAILABLE]: strings.withDrawAdvanceSalary,
+  }
+
+  const cardBottomMessages = {
+    [US.KYC_PENDING]: strings.verifyYourIdentity,
+    [US.MANDATE_PENDING]: strings.kindlySetupRepayment,
+    [US.EWA_AVAILABLE]: `${strings.transfer} ${amount} ${strings.toBankAccount}`,
+  }
+
+  const contentLoading = mandateLoading || kycLoading
   return (
     <View style={styles.container}>
       <View
@@ -39,7 +76,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
         }}
       >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          {kycCompleted ? (
+          {userStage == USER_STAGE.EWA_AVAILABLE ? (
             <SvgContainer height={20} width={20}>
               <Coin />
             </SvgContainer>
@@ -48,10 +85,9 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
               <Hourglass />
             </SvgContainer>
           )}
+          {/* TODO: add localization */}
           <Text style={[styles.text, { marginLeft: 10 }]}>
-            {kycCompleted
-              ? "Withdraw Advance Salary"
-              : "KYC pending for Advance Salary"}
+            {contentLoading ? "Loading..." : cardTopMessages[userStage]}
           </Text>
         </View>
       </View>
@@ -63,41 +99,49 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
           alignItems: "center",
         }}
       >
-        <Text style={styles.text}>Available Salary</Text>
-        <Text style={[styles.text, { ...FONTS.body1 }]}>
+        <Text style={styles.text}>{strings.availableSalary}</Text>
+        {contentLoading ? 
+        <ActivityIndicator color={COLORS.secondary}/>
+        : (<Text style={[styles.text, { ...FONTS.body1 }]}>
           {kycCompleted ? amount : "XX,XXX"}
-        </Text>
+        </Text>)}
+        
 
         <PrimaryButton
           containerStyle={{ height: 40 }}
           title={
             kycCompleted
               ? !accessible
-                ? "Offer Inactive"
+                ? strings.offerInactive
                 : !eligible
-                ? "Offer Inactive"
-                : "Get Salary Now"
+                ? strings.offerInactive
+                : strings.getSalaryNow
               : "Complete Your KYC"
           }
-          disabled={!kycCompleted ? false : !eligible || !accessible}
+          disabled={contentLoading || kycCompleted && (!eligible || !accessible)}
           onPress={() => {
-             if (kycCompleted) {
+            if (userStage == US.EWA_AVAILABLE) {
               Analytics.trackEvent({
                 interaction: InteractionTypes.BUTTON_PRESS,
-                component: "ExploreCards",
+                component: "GetMoneyCard",
                 action: `navigate:EWAStack:EWA_OFFER`,
                 status: "",
-              })
-              navigation.navigate("EWAStack", { screen: "EWA_OFFER" })
-             } else {
+              });
+              navigation.navigate("EWAStack", { screen: "EWA_OFFER" });
+            } else if (userStage == US.MANDATE_PENDING) {
+              navigation.navigate("EWAStack", {
+                screen: "EWA_MANDATE",
+                params: { previousScreen: "HomeStack" },
+              });
+            } else {
               Analytics.trackEvent({
                 interaction: InteractionTypes.BUTTON_PRESS,
-                component: "ExploreCards",
+                component: "GetMoneyCard",
                 action: `navigate:KycProgress`,
                 status: "",
-              })
+              });
               navigation.navigate("KycProgress");
-             }
+            }
           }}
         />
       </View>
@@ -105,17 +149,17 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
         style={{
           paddingVertical: 10,
           paddingHorizontal: 15,
-          backgroundColor: kycCompleted
-            ? COLORS.primaryBackground
-            : COLORS.pendingBackground,
+          backgroundColor:
+            userStage == US.EWA_AVAILABLE
+              ? COLORS.primaryBackground
+              : COLORS.pendingBackground,
           borderBottomLeftRadius: 10,
           borderBottomRightRadius: 10,
         }}
       >
+        {/* TODO: add localization */}
         <Text style={styles.text}>
-          {kycCompleted
-            ? `Transfer ${amount} to your Bank account in minutes`
-            : "Verify your identity and complete your full KYC process to withdraw advance salary."}
+          {contentLoading ? "Loading..." : cardBottomMessages[userStage] }
         </Text>
       </View>
     </View>

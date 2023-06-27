@@ -1,7 +1,7 @@
+import { ActivityIndicator, Text, TouchableOpacity } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { COLORS, FONTS, SIZES } from "../../constants/Theme";
-import { Text, TouchableOpacity } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 
 /**
  *
@@ -40,8 +40,6 @@ const PrimaryButton = ({
         },
       ]}
       disabled={disabled || loading}
-      loading={loading}
-      loadingIndicatorPosition="trailing"
       onPress={onPress}
     >
       <Text style={[styles.btnText, { ...titleStyle }]}>{title}</Text>
@@ -53,6 +51,7 @@ const PrimaryButton = ({
           style={{ marginLeft: 5 }}
         />
       ) : null}
+      {loading ? <ActivityIndicator color={COLORS.secondary}/> : <></>}
     </TouchableOpacity>
   );
 };

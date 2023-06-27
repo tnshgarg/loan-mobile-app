@@ -3,8 +3,10 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { ScrollView, View } from "react-native";
 import { useSelector } from "react-redux";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { CMS_POLLING_DURATION } from "../../services/constants";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import LogoHeaderBack from "../molecules/LogoHeaderBack";
+import CmsLoading from "./CmsLoading";
 import CmsRoot from "./CmsRoot";
 
 const CmsTopTabNav = (props) => {
@@ -13,23 +15,30 @@ const CmsTopTabNav = (props) => {
   const hide = { display: "none", backgroundColor: "white" };
   const show = { backgroundColor: "white" };
 
+  const { params } = props.route;
+
+  console.log("Params: ", props.route);
+
   const { unipeEmployeeId } = useSelector((state) => state.auth);
   const { data: cmsData, isLoading: cmsLoading } = useGetCmsQuery(
     unipeEmployeeId,
     {
-      pollingInterval: 1000,
+      pollingInterval: CMS_POLLING_DURATION,
     }
   );
 
-  console.log("ACCOUNT DATA: ", cmsData.aboutUs);
+  console.log("ACCOUNT DATA: ", cmsData.account_navigation_list);
 
   return (
     <>
       <LogoHeaderBack
-        title={"About Us"}
+        title={cmsData.account_navigation_list[0].title}
         onLeftIconPress={() => navigation.goBack()}
+        headline={cmsData.account_navigation_list[0].title}
       />
-      {!cmsLoading ? (
+      {!cmsData && cmsLoading ? (
+        <CmsLoading />
+      ) : (
         <Tab.Navigator
           screenOptions={{
             tabBarLabelStyle: {
@@ -45,7 +54,7 @@ const CmsTopTabNav = (props) => {
             tabBarIndicatorStyle: { backgroundColor: COLORS.primary },
           }}
         >
-          {cmsData?.aboutUs.map((tab, index) => {
+          {cmsData[params.key].map((tab, index) => {
             console.log("TABDATA: ", tab.children);
             return (
               <Tab.Screen
@@ -67,8 +76,6 @@ const CmsTopTabNav = (props) => {
             );
           })}
         </Tab.Navigator>
-      ) : (
-        <></>
       )}
     </>
   );

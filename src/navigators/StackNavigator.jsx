@@ -4,43 +4,47 @@ import { useDispatch, useSelector } from "react-redux";
 import { STAGE } from "@env";
 import { useEffect, useState } from "react";
 import OfflineAlert from "../components/organisms/OfflineAlert";
-import DevMenu from "../screens/DevMenu";
+// import DevMenu from "../screens/DevMenu";
 import EWAStack from "./stacks/EWAStack";
 import OnboardingStack from "./stacks/OnboardingStack";
 
 import { useNavigation } from "@react-navigation/core";
-import { decode } from "react-native-pure-jwt";
-import { showToast } from "../components/atoms/Toast";
+import { Linking } from "react-native";
 import LogoutModal from "../components/organisms/LogoutModal";
+import { changeLanguage } from "../helpers/Localization";
+import Analytics, {
+  InteractionTypes,
+} from "../helpers/analytics/commonAnalytics";
 import LearnWithUs from "../screens/06_home/LearnWithUs";
-import BackendSync from "../screens/BackendSync";
 import CmsScreen from "../screens/CmsScreen";
+import DevMenu from "../screens/DevMenu";
 import KycProgress from "../screens/KycProgress";
 import KycSuccess from "../screens/KycSuccess";
 import SplashScreen from "../screens/SplashScreen";
+import { handleCampaignNavigation } from "../services/campaign/campaignNavigation";
+import { setCampaignStoreData } from "../services/campaign/storeManagement";
+import { parseUrl } from "../services/campaign/urlParsing";
+import { setPendingUrl } from "../store/slices/pendingCampaignClickSlice";
 import BottomTabNav from "./BottomTabNav";
 import AccountStack from "./stacks/AccountStack";
 import BenefitsStack from "./stacks/BenefitsStack";
 import CmsStack from "./stacks/CmsStack";
 import InvestStack from "./stacks/InvestStack";
-import Analytics, {
-  InteractionTypes,
-} from "../helpers/analytics/commonAnalytics";
-import { parseUrl } from "../services/campaign/urlParsing";
-import { setCampaignStoreData } from "../services/campaign/storeManagement";
-import { handleCampaignNavigation } from "../services/campaign/campaignNavigation";
-import { setPendingUrl } from "../store/slices/pendingCampaignClickSlice";
-import { Linking } from "react-native";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  var initialRoute = useSelector((state) => state.navigation.currentStack);
-  const token = useSelector((state) => state.auth?.token);
-  const onboarded = useSelector((state) => state.auth.onboarded);
-  var initialScreen = useSelector((state) => state.navigation.currentScreen);
+  const token = useSelector((state) => state?.auth?.token);
+  const onboarded = useSelector((state) => state?.auth?.onboarded);
   const [modalVisible, setModalVisible] = useState(false);
+  const language = useSelector(state => state.localization.language)
+  let initialRoute = useSelector((state) => state.navigation.currentStack);
+  let initialScreen = useSelector((state) => state.navigation.currentScreen);
+  useEffect(() => {
+    changeLanguage(language ?? "en");
+    console.log("stack navigator use effect")
+  }, [language]);
 
   const handleCampaignUrlClick = (url) => {
     // Alert.alert("Url",`${url}`)
@@ -116,12 +120,15 @@ const StackNavigator = () => {
       />
     );
   }
+
   console.log("initialRoute: ", initialRoute);
+  console.log("initialScreen: ", initialScreen);
   return (
     <OfflineAlert>
       <Stack.Navigator
-        initialRouteName={initialRoute}
+        initialRouteName={"Splash"}
         screenOptions={{ headerShown: false, header: null }}
+        detachInactiveScreens={true}
       >
         {devMenu}
         <Stack.Screen
@@ -153,13 +160,6 @@ const StackNavigator = () => {
         />
         {token ? (
           <>
-            <Stack.Screen
-              name="BackendSync"
-              component={BackendSync}
-              options={{
-                animation: "default",
-              }}
-            />
             <Stack.Screen name="HomeStack" component={BottomTabNav} />
             <Stack.Screen name="LearnWithUs" component={LearnWithUs} />
             <Stack.Screen name="InvestStack" component={InvestStack} />

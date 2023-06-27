@@ -1,10 +1,10 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { COLORS, FONTS } from "../../constants/Theme";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { useNavigation } from "@react-navigation/core";
 import LinearGradient from "react-native-linear-gradient";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
 const CmsSection = ({
   title,
@@ -12,15 +12,12 @@ const CmsSection = ({
   rightIcon,
   subtitle,
   ctaText,
-  onPressCta,
   children,
-  cmsTypes,
-  ctaRoute,
   gradientColors,
   styling,
+  navigate
 }) => {
   const safeChildren = children || [];
-  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -40,7 +37,7 @@ const CmsSection = ({
           <TouchableOpacity
             style={{ flexDirection: "row", alignItems: "center" }}
             activeOpacity={0.7}
-            onPress={() => navigation.navigate("LearnWithUs")}
+            onPress={() => navigationHelper(navigate)}
           >
             <Text style={styles.ctaText}>{ctaText}</Text>
             <MaterialCommunityIcons
@@ -66,8 +63,7 @@ const styles = EStyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: "15rem",
-    marginTop: "15rem",
-    marginBottom: "10rem",
+    marginBottom: "5rem",
   },
   image: {
     height: "24rem",

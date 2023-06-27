@@ -18,7 +18,7 @@ export const panApi = api
           url: `kyc/pan-fetch-details`,
           method: "POST",
           body: body,
-        }),
+        })
       }),
       updatePan: builder.mutation({
         invalidatesTags: ["getKycStatus"],
@@ -28,6 +28,9 @@ export const panApi = api
           body: body,
         }),
         transformResponse: (response) => response.response,
+        transformErrorResponse: (response) => {
+          return response?.data?.error 
+        }
       }),
     }),
     overrideExisting: true,

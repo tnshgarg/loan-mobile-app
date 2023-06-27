@@ -1,15 +1,22 @@
 /* eslint-disable quotes */
 import LocalizedStrings from "react-native-localization";
-import english from "./strings/en";
-import hindi from "./strings/hi";
+import { addLanguage } from "../store/slices/localizationSlice";
+import { store } from "../store/store";
+import en from "./strings/en";
+import hi from "./strings/hi";
+
+console.log("Localization.js: ", store.getState().localization.strings);
 
 let strings = new LocalizedStrings({
-  en: english,
-  hi: hindi,
+  en: en,
+  hi: hi,
 });
 
 const changeLanguage = (languageKey) => {
+
+  store.dispatch(addLanguage(languageKey));
   strings.setLanguage(languageKey);
+  console.log("tinnns", languageKey)
 };
 
 export { changeLanguage, strings };

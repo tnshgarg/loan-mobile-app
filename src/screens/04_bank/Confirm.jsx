@@ -1,14 +1,14 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { Alert, SafeAreaView, ScrollView, BackHandler } from "react-native";
+import { useEffect } from "react";
+import { Alert, BackHandler, SafeAreaView, ScrollView } from "react-native";
+import { useDispatch } from "react-redux";
 
 import { styles } from "../../styles";
 
-import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import BankConfirmApi from "../../apis/bank/Confirm";
-import Header from "../../components/atoms/Header";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import { strings } from "../../helpers/Localization";
+import { addCurrentScreen } from "../../store/slices/navigationSlice";
 
 const BankConfirm = () => {
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ const BankConfirm = () => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
-        headline={"Verify your bank account details"}
+        headline={strings.areTheseBankDetails}
         onLeftIconPress={() => backAction()}
         subHeadline={
           "क्या ये स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?"

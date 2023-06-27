@@ -1,4 +1,3 @@
-import { STAGE } from "@env";
 import { NavigationContainer } from "@react-navigation/native";
 import Crashes from "appcenter-crashes";
 import { LogBox } from "react-native";
@@ -7,7 +6,7 @@ import SplashScreen from "react-native-splash-screen";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import UpdateDialog from "./components/UpdateDialog";
-import Analytics, {InteractionTypes} from "./helpers/analytics/commonAnalytics";
+import Analytics from "./helpers/analytics/commonAnalytics";
 import { navigationRef } from "./navigators/RootNavigation";
 import StackNavigator from "./navigators/StackNavigator";
 import { persistor, store } from "./store/store";

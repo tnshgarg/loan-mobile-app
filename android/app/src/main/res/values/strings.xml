@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Unipe</string>
+    <string name="app_name">Unipe QA</string>
     <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true" translatable="false">ASK_JAVASCRIPT</string>
     <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
     <string moduleConfig="true" name="CodePushDeploymentKey">OGFzMHN3wqcd_76HCbnxHqyIS7rcCoT0R8DtY</string>

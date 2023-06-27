@@ -4,16 +4,19 @@ import { SafeAreaView, ScrollView, Text, View } from "react-native";
 // import PushNotification from 'react-native-push-notification';
 import { STAGE } from "@env";
 import { useDispatch, useSelector } from "react-redux";
-import CompleteKyc from "../../assets/CompleteKyc.svg";
-import HelpFooter from "../../components/atoms/HelpFooter";
-import CmsMiniPlacement from "../../components/cms/CmsMiniPlacement";
+import CmsLoading from "../../components/cms/CmsLoading";
 import CmsRoot from "../../components/cms/CmsRoot";
-import BottomAlert from "../../components/molecules/BottomAlert";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
-import HelpSection from "../../components/organisms/HelpSection";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
+import { strings } from "../../helpers/Localization";
+import {
+  CMS_POLLING_DURATION,
+  EWA_POLLING_DURATION,
+  KYC_POLLING_DURATION,
+} from "../../services/constants";
 import {
   notificationListener,
   requestUserPermission,
@@ -31,45 +34,8 @@ import {
 } from "../../store/slices/ewaLiveSlice";
 import { addCurrentStack } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
-import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
 const HomeView = () => {
-  const aadhaarData = {
-    heading: "Customer Support",
-    // headingImage: require("../../assets/AadhaarHeader.png"),
-    // title: "How to verify Aadhaar?",
-    // subtitle: "Follow this 3-step process",
-
-    questions: [
-      {
-        title: "Q: What is Unipe?",
-        subtitle:
-          "A: Unipe is an interest-free solution that allows them to withdraw their salary advance whenever they need it.",
-      },
-      {
-        title: "Q: How can I get advance salary from Unipe?",
-        subtitle:
-          "A: To get advance salary, follow these 5 simple steps: \n- Download and login to the Unipe App \n- Complete KYC verification by entering your Aadhar, Pan & Bank details \n- Enter the amount you want to withdraw \n- Set up repayment metho \nWithdraw your advance salary \n",
-      },
-      {
-        title:
-          "Q: Does Unipe charge me any fees or interest on advance salary?",
-        subtitle:
-          "A: The Unipe EWA program is interest free. However, we do charge a very small processing fee at the time of disbursement. If the Advance salary is paid back on time, there is no separate interest charged.",
-      },
-      {
-        title: "Q: If I take Rs.1000 today, when will I have to pay it back?",
-        subtitle:
-          "A: The advance amount taken will be automatically deducted from your salary at the time of payroll processing.",
-      },
-      {
-        title: "Q: Is my data protected?",
-        subtitle:
-          "A: Your data is 100% encrypted and stored securely and only shared with third parties post your consent.",
-      },
-    ],
-  };
-
   const [visible, setVisible] = useState(false);
 
   const dispatch = useDispatch();
@@ -79,20 +45,23 @@ const HomeView = () => {
   const { unipeEmployeeId, token, onboarded } = useSelector(
     (state) => state.auth
   );
-  console.log({token})
-  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: 24 * 3600 * 1000,
-  });
+  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: KYC_POLLING_DURATION,
+    }
+  );
   const { aadhaar, pan, bank, kycCompleted } = kycData ?? {};
 
   const {
     data: cmsData,
     isLoading: cmsLoading,
     isError: cmsError,
+    refetch: fetchCms,
   } = useGetCmsQuery(unipeEmployeeId, {
-    pollingInterval: 1000,
+    pollingInterval: CMS_POLLING_DURATION,
   });
-  console.log({cmsData, cmsError})
+
   const [fetched, setFetched] = useState(false);
   const [alertVisible, setAlertVisible] = useState(false);
 
@@ -100,7 +69,7 @@ const HomeView = () => {
   // || auth?.employeeName;
 
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
-  console.log({ ewaLiveSlice });
+
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
   const onboardingCampaignId = useSelector(
@@ -113,17 +82,17 @@ const HomeView = () => {
   useEffect(() => {
     dispatch(addCurrentStack("HomeStack"));
     if (!onboarded) addOnboarded(true);
-  }, []);
-
-  useEffect(() => {
     requestUserPermission();
     notificationListener();
+    fetchCms()
   }, []);
 
   useEffect(() => {
     dispatch(addEligible(eligible));
   }, [eligible]);
-
+  console.log({ cmsData, cmsError });
+  console.log({ ewaLiveSlice });
+  
   useEffect(() => {
     if (
       STAGE !== "prod" ||
@@ -145,7 +114,7 @@ const HomeView = () => {
     error: getEwaOffersError,
     data: getEwaOffersData,
   } = useGetOffersQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 2,
+    pollingInterval: EWA_POLLING_DURATION,
   });
 
   useEffect(() => {
@@ -198,7 +167,8 @@ const HomeView = () => {
   console.warn("No intent. User opened App.");
 
   useEffect(() => {
-    if (!kycCompleted) setAlertVisible(true);
+    if (!kycCompleted && !kycLoading) setAlertVisible(true);
+    // if (true) setAlertVisible(true);
   }, []);
 
   const data = {
@@ -206,7 +176,8 @@ const HomeView = () => {
     subtitle:
       "Verify your identity to withdraw advance salary in our bank account",
 
-    imageUri: <CompleteKyc />,
+    imageUri:
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
     primaryBtnText: "Start KYC",
     primaryBtnIcon: "arrow-right",
     onPressPrimaryBtn: () => {
@@ -219,22 +190,13 @@ const HomeView = () => {
       setAlertVisible(false);
     },
   };
-
-  console.log("CmsData ", cmsData?.home);
-
+  console.log({ bottomAlert: cmsData?.bottom_alert });
   return (
-    <SafeAreaView
-      style={[
-        styles.safeContainer,
-        cmsData?.miniPlacement ? { paddingBottom: 60 } : { paddingBottom: 0 },
-      ]}
-    >
-      {cmsData?.miniPlacement ? <CmsMiniPlacement /> : <></>}
-
+    <SafeAreaView style={[styles.safeContainer]}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <LogoHeaderBack
           notificationIconPresent={true}
-          title={`Good Afternoon \n${name}!`}
+          title={`${strings.goodAfternoon} \n${name}!`}
           onRightIconPress={() => {
             navigationHelper({
               type: "cms",
@@ -253,12 +215,18 @@ const HomeView = () => {
             ewaLiveSlice={ewaLiveSlice}
           />
         </View>
-        {!cmsLoading ? (
-          <CmsRoot children={cmsData?.home || []}></CmsRoot>
+        {!cmsData && cmsLoading ? (
+          <CmsLoading />
         ) : (
-          <></>
+          <CmsRoot children={cmsData?.home || []}></CmsRoot>
         )}
-        {/* <HelpFooter /> */}
+        {/* <CmsRoot children={DUMMY_RES?.home || []}></CmsRoot> */}
+
+        {!cmsData && cmsLoading ? (
+          <CmsLoading />
+        ) : (
+          <CmsRoot children={cmsData?.bottom_alert || []}></CmsRoot>
+        )}
         <View
           style={{
             width: "100%",
@@ -269,16 +237,21 @@ const HomeView = () => {
           }}
         >
           <Text style={{ ...FONTS.body4, color: COLORS.white }}>
-            RBI approved Lending Partners
+            {strings.rbiApprovedLendingPartners}
           </Text>
         </View>
       </ScrollView>
-      {alertVisible && (
+      {/* {alertVisible && (
         <BottomAlert
           visible={alertVisible}
           setVisible={setAlertVisible}
           data={data}
         />
+      )} */}
+      {!cmsLoading ? (
+        <CmsRoot children={cmsData?.mini_placement || []} />
+      ) : (
+        <></>
       )}
     </SafeAreaView>
   );

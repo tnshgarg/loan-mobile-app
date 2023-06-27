@@ -1,13 +1,21 @@
-import { View, Text, Image } from "react-native";
 import React from "react";
+import { TouchableOpacity, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { COLORS, FONTS } from "../../constants/Theme";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
-const CmsTwoColumn = ({ children, widths, styling }) => {
+const CmsTwoColumn = ({ children, widths, styling, navigate }) => {
   const safeChildren = children || [];
-
+  let onPress = () => {}
+  if (navigate)
+    onPress = () => {
+      navigationHelper(navigate)
+    }
   return (
-    <View style={[styles.row, { ...styling }]}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.row, { ...styling }]}
+      disabled={!navigate}
+    >
       {safeChildren?.map((child, index) => (
         <View
           key={index}
@@ -23,7 +31,7 @@ const CmsTwoColumn = ({ children, widths, styling }) => {
           {child.element(child)}
         </View>
       ))}
-    </View>
+    </TouchableOpacity>
   );
 };
 

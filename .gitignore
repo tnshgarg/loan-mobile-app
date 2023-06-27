@@ -67,6 +67,3 @@ env/
 # Environment Variables
 .env
 ./android/app/src/main/assets/appcenter-config.json
-
-# VSCode
-.vscode/

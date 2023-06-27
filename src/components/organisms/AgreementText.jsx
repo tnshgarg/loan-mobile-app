@@ -1,8 +1,9 @@
 import { Text } from "react-native";
-import termsOfUse from "../../templates/docs/TermsOfUse";
-import privacyPolicy from "../../templates/docs/PrivacyPolicy";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
+import privacyPolicy from "../../templates/docs/PrivacyPolicy";
+import termsOfUse from "../../templates/docs/TermsOfUse";
 import TermsAndPrivacyModal from "../molecules/TermsAndPrivacyModal";
 
 const AgreementText = ({
@@ -19,14 +20,14 @@ const AgreementText = ({
           onPress={() => setIsTermsOfUseModalVisible(true)}
           style={styles.childText}
         >
-          Terms of use
+          {strings.termsAndConditions}
         </Text>{" "}
         and{" "}
         <Text
           onPress={() => setIsPrivacyModalVisible(true)}
           style={styles.childText}
         >
-          Privacy Policy.
+          {strings.privacyPolicy}
         </Text>
       </Text>
       {isTermsOfUseModalVisible && (

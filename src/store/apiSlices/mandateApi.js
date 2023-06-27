@@ -10,6 +10,10 @@ export const mandateApi = api
           params: { unipeEmployeeId },
         }),
         providesTags: ["getMandate"],
+        transformResponse: (response) => {
+          console.log("mandate:", response);
+          return response?.body;
+        },
       }),
       getMandateOptions: builder.query({
         query: (unipeEmployeeId) => ({
@@ -23,6 +27,7 @@ export const mandateApi = api
           method: "POST",
           body: body,
         }),
+        invalidatesTags: ["getMandate"]
       }),
       overrideExisting: true,
     }),

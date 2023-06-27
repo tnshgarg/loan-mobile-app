@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import CmsBadge from "./CmsBadge";
 import CmsBanner from "./CmsBanner";
-import CmsBlog from "./CmsBlog";
+import CmsBottomAlert from "./CmsBottomAlert";
 import CmsButton from "./CmsButton";
 import CmsCard from "./CmsCard";
 import CmsCollapsibleList from "./CmsCollapsibleList";
@@ -14,12 +14,11 @@ import CmsIconText from "./CmsIconText";
 import CmsImage from "./CmsImage";
 import { CmsMarkdown } from "./CmsMarkdown";
 import CmsNotification from "./CmsNotification";
-import CmsReview from "./CmsReview";
+import CmsOverlay from "./CmsOverlay";
 import CmsSection from "./CmsSection";
 import CmsSpacer from "./CmsSpacer";
 import CmsSubtitle from "./CmsSubtitle";
 import CmsSwiper from "./CmsSwiper";
-import CmsTabs from "./CmsTabs";
 import CmsThreeColumn from "./CmsThreeColumn";
 import CmsTitle from "./CmsTitle";
 import CmsTwoColumn from "./CmsTwoColumn";
@@ -33,14 +32,11 @@ const CMS_TYPES = {
   banner: CmsBanner,
   column: CmsColumn,
   video: CmsVideo,
-  review: CmsReview,
-  tabs: CmsTabs,
   card: CmsCard,
   twoColumn: CmsTwoColumn,
   threeColumn: CmsThreeColumn,
   title: CmsTitle,
   subtitle: CmsSubtitle,
-  blog: CmsBlog,
   button: CmsButton,
   container: CmsContainer,
   iconText: CmsIconText,
@@ -50,6 +46,8 @@ const CMS_TYPES = {
   notification: CmsNotification,
   footer: CmsFooter,
   badge: CmsBadge,
+  bottomAlert: CmsBottomAlert,
+  overlay: CmsOverlay,
   default: () => <></>,
 };
 
@@ -57,7 +55,7 @@ const renderChildren = (node) => {
   let renderNode = { ...node };
 
   if (node.type) {
-    renderNode.element = CMS_TYPES[node?.type || "default"];
+    renderNode.element = CMS_TYPES[node?.type] || CMS_TYPES["default"];
   }
   let renderedChildren = [];
 
@@ -70,14 +68,14 @@ const renderChildren = (node) => {
   return renderNode;
 };
 
-const CmsRoot = ({ children }) => {
+const CmsRoot = ({ children, style }) => {
   const safeChildren = children || [];
   const { children: renderedChildren } = renderChildren({
     children: safeChildren,
   });
 
   return (
-    <View>
+    <View style={style}>
       {renderedChildren.map((child, index) => (
         <View key={index}>{child?.element(child)}</View>
       ))}

@@ -39,10 +39,10 @@ const authSlice = createSlice({
       loginApi.endpoints.verifyOtp.matchFulfilled,
       (state, { payload }) => {
         console.log("payload: ", payload);
-        state.token = payload.token;
-        state.onboarded = payload.employeeDetails.onboarded;
-        state.unipeEmployeeId = payload.employeeDetails.unipeEmployeeId;
-        state.employeeName = payload.employeeDetails.name;
+        state.token = payload?.token;
+        state.onboarded = payload.employeeDetails?.onboarded;
+        state.unipeEmployeeId = payload.employeeDetails?.unipeEmployeeId;
+        state.employeeName = payload.employeeDetails?.name;
       }
     );
   },

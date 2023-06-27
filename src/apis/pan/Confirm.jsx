@@ -1,41 +1,39 @@
-import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import { Alert, Text, View } from "react-native";
+import { useState } from "react";
+import { ActivityIndicator, Alert, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import { COLORS, FONTS } from "../../constants/Theme";
-import {
-  useGetPanQuery,
-  useUpdatePanMutation,
-} from "../../store/apiSlices/panApi";
 import { strings } from "../../helpers/Localization";
+import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
+import { KYC_POLLING_DURATION } from "../../services/constants";
+import { kycNavigate } from "../../services/kyc/navigation";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
+import { useUpdatePanMutation } from "../../store/apiSlices/panApi";
 import { addVerifyStatus } from "../../store/slices/panSlice";
 import { form, styles } from "../../styles";
-import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 
 const PanConfirmApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
-  const token = useSelector((state) => state.auth.token);
+  const [loading, setLoading] = useState(false);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
-  const { data: panData, isLoading: loading } = useGetPanQuery(
-    unipeEmployeeId,
-    {
-      pollingInterval: 1000 * 60 * 60 * 24,
-    }
-  );
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: KYC_POLLING_DURATION,
+  });
+  const { pan: panData } = kycData || {};
   const { data, number, verifyStatus } = panData ?? {};
   console.log({ data });
 
   const [updatePan] = useUpdatePanMutation();
 
   const backendPush = async ({ verifyStatus }) => {
+    setLoading(true)
     dispatch(addVerifyStatus(verifyStatus));
 
     const payload = {
@@ -48,29 +46,13 @@ const PanConfirmApi = (props) => {
     updatePan(payload)
       .unwrap()
       .then((res) => {
-        if (verifyStatus === "REJECTED") {
-          if (props?.route?.params?.type === "KYC") {
-            navigation.navigate("KYC", {
-              screen: "PAN",
-              params: {
-                screen: "Form",
-              },
-            });
-          } else {
-            navigation.navigate("PanForm");
-          }
-        } else if (verifyStatus === "SUCCESS") {
-          if (props?.route?.params?.type === "KYC") {
-            navigation.navigate("KYC", {
-              screen: "PAN",
-            });
-          } else {
-            navigation.navigate("BankForm");
-          }
-        }
+        kycNavigate({...kycData, pan: {verifyStatus}}, navigation)
       })
       .catch((error) => {
+        console.error(error)
         Alert.alert("Error", error?.message);
+      }).finally(() => {
+        setLoading(false);
       });
   };
 
@@ -91,7 +73,11 @@ const PanConfirmApi = (props) => {
   return (
     <View style={styles.container}>
       <DetailsCard data={cardData()} />
-      <View style={[styles.row, { justifyContent: "space-between" }]}>
+      {loading ? <View style={{marginTop: 20}}>
+        <ActivityIndicator size={"large"} color={COLORS.secondary}/> 
+        </View>: <></> 
+      }
+      <View style={[styles.row, { justifyContent: "space-between", display: loading ? "none": null }]}>
         <FuzzyCheck name={data?.["name"]} step="PAN" />
         <PrimaryButton
           title={strings.notMe}

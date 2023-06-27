@@ -1,16 +1,18 @@
 import { useNavigation } from "@react-navigation/core";
-import { Alert, SafeAreaView, ScrollView, BackHandler } from "react-native";
+import { Alert, BackHandler, SafeAreaView, ScrollView } from "react-native";
 
 import { styles } from "../../styles";
 
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import PanConfirmApi from "../../apis/pan/Confirm";
-import Header from "../../components/atoms/Header";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { strings } from "../../helpers/Localization";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 
 export default PanConfirm = () => {
   const dispatch = useDispatch();
+  
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -34,7 +36,7 @@ export default PanConfirm = () => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
-        headline={"Are these your PAN details?"}
+        headline={strings.areThesePanDetails}
         onLeftIconPress={() => backAction()}
         subHeadline={
           "क्या ये स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?"

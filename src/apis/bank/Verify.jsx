@@ -2,23 +2,24 @@ import { useNavigation } from "@react-navigation/core";
 import { useState } from "react";
 import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addBankName,
-  addAccountHolderName,
-  addBranchName,
-  addBranchCity,
-  addVerifyStatus,
-} from "../../store/slices/bankSlice";
+import InfoCard from "../../components/atoms/InfoCard";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { useVerifyBankMutation } from "../../store/apiSlices/bankApi";
+import { COLORS } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
-import { getBackendData } from "../../services/employees/employeeServices";
-import { KYC_RETRY_WAIT_TIME } from "../../services/constants";
-import InfoCard from "../../components/atoms/InfoCard";
-import { COLORS } from "../../constants/Theme";
 import { asyncTimeout } from "../../helpers/asyncTimer";
+import { KYC_RETRY_WAIT_TIME } from "../../services/constants";
+import { getBackendData } from "../../services/employees/employeeServices";
+import { useVerifyBankMutation } from "../../store/apiSlices/bankApi";
+import {
+  addAccountHolderName,
+  addBankName,
+  addBranchCity,
+  addBranchName,
+  addVerifyStatus,
+} from "../../store/slices/bankSlice";
 
 const BankVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -114,22 +115,13 @@ const BankVerifyApi = (props) => {
     };
     verifyBank(data)
       .unwrap()
-      .then((res) => {
-        console.log("kyc/bank-verify-account res: ", res);
-        const responseJson = res?.data;
+      .then((responseJson) => {
         console.log("kyc/bank-verify-account responseJson: ", responseJson);
-        try {
-          if (responseJson?.status === 200) {
-            handleBankSuccess(responseJson);
-          } else {
-            throw responseJson;
-          }
-        } catch (error) {
-          handleBankError(error, res);
-        }
+        handleBankSuccess(responseJson)
         setLoading(false);
       })
       .catch((error) => {
+        console.log({bankError123: error})
         handleAPIErrorWithRetry(error);
       });
   };
@@ -147,7 +139,7 @@ const BankVerifyApi = (props) => {
       )}
       <PrimaryButton
         accessibilityLabel={"BankFormBtn"}
-        title={loading ? "Verifying" : "Continue"}
+        title={loading ? "Verifying" : strings.continue}
         disabled={props.disabled}
         loading={loading}
         onPress={() => {

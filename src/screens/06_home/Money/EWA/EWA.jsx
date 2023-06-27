@@ -8,6 +8,7 @@ import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
 import VerifyMandateCard from "../../../../components/molecules/VerifyMandateCard";
 import LiveOfferCard from "../../../../components/organisms/LiveOfferCard";
 import { getNumberOfDays } from "../../../../helpers/DateFunctions";
+import { EWA_POLLING_DURATION } from "../../../../services/constants";
 import { useGetOffersQuery } from "../../../../store/apiSlices/ewaApi";
 import { useGetMandateQuery } from "../../../../store/apiSlices/mandateApi";
 import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
@@ -16,10 +17,6 @@ import {
   addEligible,
   resetEwaLive,
 } from "../../../../store/slices/ewaLiveSlice";
-import {
-  addVerifyStatus,
-  resetMandate,
-} from "../../../../store/slices/mandateSlice";
 import { styles } from "../../../../styles";
 const EWA = () => {
   const dispatch = useDispatch();
@@ -30,9 +27,6 @@ const EWA = () => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const [mandateVerifyStatus, setMandateVerifyStatus] = useState(
-    useSelector((state) => state.mandate.verifyStatus)
-  );
 
   // const panMisMatch = useSelector((state) => state.pan.misMatch);
   // const bankMisMatch = useSelector((state) => state.bank.misMatch);
@@ -42,26 +36,12 @@ const EWA = () => {
 
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
-  const { data, error, isLoading } = useGetMandateQuery(unipeEmployeeId);
+  const { data: mandateData, error, isLoading } = useGetMandateQuery(unipeEmployeeId);
 
   const backAction = () => {
     navigation.navigate("EWA", { replace: true });
     return true;
   };
-
-  useEffect(() => {
-    if (isFocused) {
-      if (data && !isLoading && !error) {
-        console.log("ewa mandate data", data?.body);
-        dispatch(resetMandate(data?.data?.body));
-        dispatch(addVerifyStatus(data?.data?.body?.verifyStatus));
-        setMandateVerifyStatus(data?.data?.body?.verifyStatus);
-      } else {
-        console.log("mandateFetch error: ", error);
-        console.log("mandateFetch error: ", data);
-      }
-    }
-  }, [unipeEmployeeId, mandateVerifyStatus, isFocused]);
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
@@ -95,7 +75,7 @@ const EWA = () => {
     error: getEwaOffersError,
     data: getEwaOffersData,
   } = useGetOffersQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 2,
+    pollingInterval: EWA_POLLING_DURATION,
   });
 
   useEffect(() => {
@@ -138,7 +118,12 @@ const EWA = () => {
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
         title={`Money`}
-        onRightIconPress={() => {}}
+        onRightIconPress={() => {
+          navigationHelper({
+            type: "cms",
+            params: { blogKey: "customer_support" },
+          });
+        }}
         containerStyle={{
           backgroundColor: null,
         }}
@@ -149,7 +134,7 @@ const EWA = () => {
           accessible={accessible}
           ewaLiveSlice={ewaLiveSlice}
         />
-        <VerifyMandateCard mandateVerifyStatus={mandateVerifyStatus} />
+        <VerifyMandateCard mandateVerifyStatus={mandateData?.verifyStatus} />
         <PastDrawsCard screenType="half" data={ewaHistoricalSlice} />
       </View>
     </SafeAreaView>

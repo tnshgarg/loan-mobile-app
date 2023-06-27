@@ -100,8 +100,8 @@ android {
         applicationId "com.employeeapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 202306121
-        versionName "2023.6.12"
+        versionCode 202306226
+        versionName "2023.6.22"
         resValue 'string', "CODE_PUSH_APK_BUILD_TIME", String.format("\"%d\"", System.currentTimeMillis())
     }
 
@@ -155,7 +155,7 @@ android {
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
             // https://developer.android.com/studio/build/configure-apk-splits.html
-            // Example: versionCode 202306121 will generate 1001 for armeabi-v7a, 1002 for x86, etc.
+            // Example: versionCode 202306226 will generate 1001 for armeabi-v7a, 1002 for x86, etc.
             def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
@@ -173,6 +173,8 @@ dependencies {
 
     implementation ("com.facebook.fresco:animated-gif:2.6.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
+
+    implementation 'com.facebook.react:react-native:+'  // Replace the '+' with the actual version of React Native you're using
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {

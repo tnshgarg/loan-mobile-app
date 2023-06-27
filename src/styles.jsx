@@ -3,12 +3,12 @@ import EStyleSheet from "react-native-extended-stylesheet";
 
 export const styles = EStyleSheet.create({
   container: {
-    backgroundColor: "$white",
+    backgroundColor: COLORS.white,
     flex: 1,
     padding: "15rem",
   },
   safeContainer: {
-    backgroundColor: "$white",
+    backgroundColor: COLORS.white,
     flex: 1,
   },
 
@@ -74,7 +74,7 @@ export const styles = EStyleSheet.create({
     justifyContent: "center",
     width: "100%",
     marginVertical: "10rem",
-  }
+  },
 });
 
 export const progressBar = EStyleSheet.create({

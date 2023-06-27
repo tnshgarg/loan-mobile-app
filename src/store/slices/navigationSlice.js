@@ -1,8 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
 import analytics from "@react-native-firebase/analytics";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  currentScreen: "Login",
+  currentScreen: "Localization",
   currentStack: "OnboardingStack",
 };
 

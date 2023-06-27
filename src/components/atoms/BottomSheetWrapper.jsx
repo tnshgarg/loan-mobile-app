@@ -5,14 +5,14 @@ import Modal from "react-native-modal";
 
 import { COLORS, SIZES } from "../../constants/Theme";
 
-const BottomSheetWrapper = ({ open, setOpen, children }) => {
+const BottomSheetWrapper = ({ open, setOpen, children, containerStyle }) => {
   return (
     <Modal
       isVisible={open}
       style={styles.modal}
       onBackdropPress={() => setOpen(false)}
     >
-      <View style={styles.container}>{children}</View>
+      <View style={[styles.container, { ...containerStyle }]}>{children}</View>
     </Modal>
   );
 };
@@ -26,7 +26,7 @@ const styles = EStyleSheet.create({
     //flex: 0.35,
     backgroundColor: COLORS.white,
     justifyContent: "flex-start",
-    padding: "15rem",
+    padding: "25rem",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     width: "100%",

@@ -1,22 +1,26 @@
 import { useEffect, useState } from "react";
 import { BackHandler, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import Failure from "../../../../assets/animations/Failure";
 import Hourglass from "../../../../assets/Hourglass.svg";
+import Failure from "../../../../assets/animations/Failure";
 import Success from "../../../../assets/animations/Success";
-import Header from "../../../../components/atoms/Header";
+import PrimaryButton from "../../../../components/atoms/PrimaryButton";
+import SvgContainer from "../../../../components/atoms/SvgContainer";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
+import FeedbackAlert from "../../../../components/molecules/FeedbackAlert";
+import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
+import { COLORS, FONTS } from "../../../../constants/Theme";
 import { strings } from "../../../../helpers/Localization";
-import { useGetDisbursementQuery } from "../../../../store/apiSlices/ewaApi";
+import {
+  useDisbursementFeedbackMutation,
+  useGetDisbursementQuery,
+} from "../../../../store/apiSlices/ewaApi";
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import { styles } from "../../../../styles";
-import SvgContainer from "../../../../components/atoms/SvgContainer";
-import { COLORS, FONTS } from "../../../../constants/Theme";
-import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 
 const Disbursement = ({ route, navigation }) => {
   const dispatch = useDispatch();
-  const { offer } = route.params;
+  const { offer, enableFeedback } = route.params;
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -30,6 +34,16 @@ const Disbursement = ({ route, navigation }) => {
   const [loanAmount, setLoanAmount] = useState(0);
   const [netAmount, setNetAmount] = useState(0);
   const [status, setStatus] = useState("");
+  const [rating, setRating] = useState(0);
+  const [category, setCategory] = useState("");
+  const categoryData = [
+    "Medical Emergency",
+    "Shopping",
+    "Travel",
+    "Special Occasion",
+    "Other",
+  ];
+
   console.log({ status });
 
   const backAction = () => {
@@ -153,23 +167,61 @@ const Disbursement = ({ route, navigation }) => {
   }, [offer]);
 
   const data = [
-    { subTitle: "Loan Amount ", value: "₹" + loanAmount },
-    { subTitle: "Net Transfer Amount ", value: "₹" + netAmount },
-    { subTitle: "Bank Account Number", value: bankAccountNumber },
-    { subTitle: "Due Date", value: dueDate },
-    { subTitle: "Loan Account Number", value: loanAccountNumber },
-    { subTitle: "Transfer Status", value: status },
+    { subTitle: strings.loanAmount, value: "₹" + loanAmount },
+    { subTitle: strings.netTransferAmount, value: "₹" + netAmount },
+    { subTitle: strings.bankAccountNumber, value: bankAccountNumber },
+    { subTitle: strings.dueDate, value: dueDate },
+    { subTitle: strings.loanAccountNumber, value: loanAccountNumber },
+    { subTitle: strings.transferStatus, value: status },
   ];
+  const [disbursementFeedback] = useDisbursementFeedbackMutation();
+  const onSubmitFeedback = () => {
+    const offerId = offer?.offerId;
+    let data = {
+      unipeEmployeeId: unipeEmployeeId,
+      language: "en",
+      contentType: `${offerId}-feedback`,
+      content: { stars: rating, category: category, offerId: offerId },
+    };
+    disbursementFeedback(data)
+      .unwrap()
+      .then((res) => {
+        console.log("ewa/disbursement-feedback res: ", res);
+        const responseJson = res?.data;
+        console.log("ewa/disbursement-feedback responseJson: ", responseJson);
+      })
+      .catch((error) => {
+        console.log("ewa/disbursement-feedback error:", error);
+      });
+  };
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <LogoHeaderBack
-        title="Money Transfer"
-        onLeftIconPress={() => backAction()}
-        onRightIconPress={() => {}}
-        titleStyle={{ ...FONTS.body3 }}
-      />
-      <View style={[styles.container, { alignItems: "center" }]}>
+      {enableFeedback ? (
+        <LogoHeaderBack
+          onRightIconPress={() => {
+            
+          }}
+          hideLogo={true}
+          containerStyle={{ backgroundColor: null }}
+        />
+      ) : (
+        <LogoHeaderBack
+          title="Money Transfer"
+          onLeftIconPress={() => {
+            backAction();
+          }}
+          onRightIconPress={() => {}}
+          titleStyle={{ ...FONTS.body3 }}
+        />
+      )}
+
+      <View
+        style={[
+          styles.container,
+          { alignItems: "center", justifyContent: "space-evenly" },
+        ]}
+      >
         {StatusImage(status)}
         {StatusText(status)}
         {status == "REJECTED" || status == "ERROR" ? null : (
@@ -179,6 +231,32 @@ const Disbursement = ({ route, navigation }) => {
             info={strings.moneyAutoDebitedUpcomingSalary}
             iconName="ticket-percent-outline"
           />
+        )}
+        {enableFeedback ? (
+          <PrimaryButton
+            title="Thank you"
+            containerStyle={{
+              backgroundColor: null,
+              borderWidth: 1.5,
+              borderColor: COLORS.black,
+            }}
+            onPress={backAction}
+            titleStyle={{ color: COLORS.black }}
+          />
+        ) : (
+          <></>
+        )}
+
+        {status == "PENDING" && enableFeedback ? (
+          <FeedbackAlert
+            data={categoryData}
+            ratingHook={[rating, setRating]}
+            setCategory={setCategory}
+            category={category}
+            onSubmit={onSubmitFeedback}
+          />
+        ) : (
+          <></>
         )}
       </View>
     </SafeAreaView>

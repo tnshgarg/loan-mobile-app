@@ -1,9 +1,8 @@
-import analytics from "@react-native-firebase/analytics";
 import { useIsFocused } from "@react-navigation/core";
-import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 import { useEffect, useState } from "react";
 import { Alert, Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
+import LinearGradient from "react-native-linear-gradient";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS, FONTS } from "../../constants/Theme";
@@ -11,6 +10,11 @@ import {
   getNumberOfDays,
   setYYYYMMDDtoDDMMYYYY,
 } from "../../helpers/DateFunctions";
+import { strings } from "../../helpers/Localization";
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
+import { EWA_POLLING_DURATION } from "../../services/constants";
 import { openRazorpayCheckout } from "../../services/mandate/Razorpay/services";
 import { createRepaymentOrder } from "../../services/mandate/services";
 import {
@@ -19,7 +23,6 @@ import {
 } from "../../store/apiSlices/repaymentApi";
 import { resetRepayment } from "../../store/slices/repaymentSlice";
 import PrimaryButton from "../atoms/PrimaryButton";
-import LinearGradient from "react-native-linear-gradient";
 
 const PayMoneyCard = () => {
   const dispatch = useDispatch();
@@ -63,7 +66,7 @@ const PayMoneyCard = () => {
     error: getRepaymentError,
     data: getRepaymentData,
   } = useGetRepaymentQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 2,
+    pollingInterval: EWA_POLLING_DURATION,
   });
 
   const [updateRepayment] = useUpdateRepaymentMutation();
@@ -135,7 +138,7 @@ const PayMoneyCard = () => {
     return updateRepayment(repaymentData)
       .then((res) => {
         console.log("repaymentPush response: ", res?.data);
-        if (res?.data.status === 200) {
+        if (res?.data?.status === 200) {
           setRepaymentStatus(status);
         } else {
           setRepaymentStatus(res?.data.paymentStatus);
@@ -248,16 +251,16 @@ const PayMoneyCard = () => {
             >
               ₹{repaymentAmount}
             </Text>
-            <Text style={styles.text}>Amount Due</Text>
+            <Text style={styles.text}>{strings.amountDue}</Text>
           </View>
 
           <PrimaryButton
             title={
               repaymentStatus !== "INPROGRESS"
                 ? inactive || loading
-                  ? "Verifying"
-                  : "Pay now"
-                : "In Progress"
+                  ? strings.verifying
+                  : strings.payNow
+                : strings.inProgress
             }
             onPress={() => initiatePayment()}
             disabled={inactive || loading || repaymentStatus === "INPROGRESS"}

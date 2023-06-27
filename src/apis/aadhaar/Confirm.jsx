@@ -1,17 +1,18 @@
-import analytics from "@react-native-firebase/analytics";
 import { useNavigation } from "@react-navigation/core";
-import { Text, View } from "react-native";
+import { useState } from "react";
+import { ActivityIndicator, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { showToast } from "../../components/atoms/Toast";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
+import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
+import { kycNavigate } from "../../services/kyc/navigation";
 import { useUpdateAadhaarMutation } from "../../store/apiSlices/aadhaarApi";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
-import { useGetKycQuery } from "../../store/apiSlices/kycApi";
-import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
 
 
 const AadhaarConfirmApi = (props) => {
@@ -20,17 +21,18 @@ const AadhaarConfirmApi = (props) => {
 
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const [loading, setLoading] = useState(false);
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
 
-  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(unipeEmployeeId, {
     pollingInterval: 1000 * 60 * 60 * 24,
   });
 
   console.log({ kycData });
 
-  const { aadhaar, pan, bank } = kycData ?? {};
+  const { aadhaar } = kycData ?? {};
 
   const { data, number } = aadhaar ?? {};
 
@@ -38,6 +40,7 @@ const AadhaarConfirmApi = (props) => {
 
   const [updateAadhaar] = useUpdateAadhaarMutation();
   const backendPush = async ({ verifyStatus }) => {
+    setLoading(true);
     dispatch(addVerifyStatus(verifyStatus));
 
     const payload = {
@@ -62,18 +65,12 @@ const AadhaarConfirmApi = (props) => {
             navigation.navigate("AadhaarForm");
           }
         } else if (verifyStatus === "SUCCESS") {
-          if (props?.route?.params?.type === "KYC") {
-            navigation.navigate("KYC", {
-              screen: "AADHAAR",
-            });
-          } else {
-            navigation.navigate("PanForm");
-          }
+          kycNavigate({...kycData,aadhaar: {verifyStatus}}, navigation)
         }
       })
       .catch((error) => {
         showToast(error?.message, "error");
-      });
+      }).finally(() => setLoading(false));
   };
 
   const cardData = () => {
@@ -86,9 +83,11 @@ const AadhaarConfirmApi = (props) => {
     ];
     return res;
   };
-
+  const contentLoading = kycLoading || loading;
+  let displayStyle = contentLoading ? {display: "none"} : {}
+  console.log({contentLoading})
   return (
-    <View style={styles.container}>
+    <View style={[styles.container]}>
       <DetailsCard
         data={cardData()}
         imageUri={{
@@ -97,8 +96,12 @@ const AadhaarConfirmApi = (props) => {
         }}
         type={"Aadhaar"}
       />
-
-      <View style={[styles.row, { justifyContent: "space-between" }]}>
+      {/* TODO: make a loader component which takes in an attribute to do this */}
+      {contentLoading ? <View style={{marginTop: 20}}>
+        <ActivityIndicator size={"large"} color={COLORS.secondary}/> 
+        </View>: <></> 
+      }
+      <View style={[styles.row, { justifyContent: "space-between"}, displayStyle]}>
         <PrimaryButton
           title={strings.notMe}
           containerStyle={form.noButton}
@@ -125,8 +128,7 @@ const AadhaarConfirmApi = (props) => {
             backendPush({
               verifyStatus: "SUCCESS",
             });
-            analytics().logEvent("Aadhaar_Confirm_Success", {
-              unipeEmployeeId: unipeEmployeeId,})
+            
             Analytics.trackEvent({
               interaction: InteractionTypes.BUTTON_PRESS,
               component: "Aadhaar",

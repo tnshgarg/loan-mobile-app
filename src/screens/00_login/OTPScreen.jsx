@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Alert,
   BackHandler,
@@ -9,25 +9,28 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import BackgroundTimer from "react-native-background-timer";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
-import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import { showToast } from "../../components/atoms/Toast";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import OtpInput from "../../components/molecules/OtpInput";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
+import { strings } from "../../helpers/Localization";
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
+import { useLazyGetKycQuery } from "../../store/apiSlices/kycApi";
 import {
-  useVerifyOtpMutation,
   useGenerateOtpMutation,
+  useVerifyOtpMutation,
 } from "../../store/apiSlices/loginApi";
 import { addToken } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 import { styles } from "../../styles";
-import { COLORS, FONTS } from "../../constants/Theme";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import OtpInput from "../../components/molecules/OtpInput";
-import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
-import BackgroundTimer from "react-native-background-timer";
-import { showToast } from "../../components/atoms/Toast";
-import { useLazyGetKycQuery } from "../../store/apiSlices/kycApi";
 
 const OTPScreen = () => {
   const dispatch = useDispatch();
@@ -37,29 +40,15 @@ const OTPScreen = () => {
   const [verified, setVerified] = useState(false);
 
   const [otp, setOtp] = useState("");
-  const [next, setNext] = useState(false);
   const [back, setBack] = useState(false);
 
   const countDownTime = useSelector((state) => state.timer.login);
-  const phoneNumber = useSelector((state) => state.auth.phoneNumber);
-  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const {phoneNumber,unipeEmployeeId,token} = useSelector((state) => state.auth || {});
   const [trigger, result, lastPromiseInfo] = useLazyGetKycQuery();
-
-  const [kycCompleted, setKycCompleted] = useState(false);
-
-  const [postVerifyOtp] = useVerifyOtpMutation();
+  const [postVerifyOtp,{isLoading: verifyOtpLoading}] = useVerifyOtpMutation();
   const [postGenerateOtp] = useGenerateOtpMutation();
-  useEffect(() => {
-    dispatch(addCurrentScreen("Otp"));
-  }, []);
 
   let interval;
-
-  // useEffect(() => {
-  //   if (isAadhaarSuccess && isPanSuccess && isBankSuccess && isProfileSuccess) {
-  //     setKycCompleted(true);
-  //   }
-  // }, [isAadhaarSuccess, isPanSuccess, isBankSuccess, isProfileSuccess]);
 
   useEffect(() => {
     interval = BackgroundTimer.setInterval(() => {
@@ -77,13 +66,7 @@ const OTPScreen = () => {
     return () => BackgroundTimer.clearInterval(interval);
   }, [countDownTime, verified]);
 
-  useEffect(() => {
-    if (otp.length === 6) {
-      setNext(true);
-    } else {
-      setNext(false);
-    }
-  }, [otp]);
+  
 
   const backAction = () => {
     console.log(back);
@@ -119,7 +102,7 @@ const OTPScreen = () => {
     }
     return true;
   };
-
+  
   const onResendOtp = () => {
     postGenerateOtp(phoneNumber)
       .unwrap()
@@ -150,29 +133,36 @@ const OTPScreen = () => {
           component: "OTPScreen",
           action: "SendSms",
           status: "Error",
-          error: error.message
+          error: error.message,
         });
         console.log(error, error.message);
         showToast(error.message, "error");
         // Alert.alert("Error", error.message);
       });
   };
-
+  
+  const handleNavigation = (token,unipeEmployeeId)  => {
+    if (token) {
+      trigger(unipeEmployeeId, false)
+          .then(({ data }) => {
+            if(data?.kycCompleted)
+              navigation.navigate("HomeStack")
+            else
+              navigationHelper({
+                  type: "cms",
+                  params: { blogKey: "login_success" },
+                })
+          }).catch((err) => console.log(err));
+    } else if (!phoneNumber) {
+      navigation.navigate("Login")
+    }
+  }
   const onSubmitOtp = () => {
-    setNext(false);
     postVerifyOtp({ mobileNumber: phoneNumber, otp: otp })
       .unwrap()
       .then((res) => {
-        // TODO: Verify Response
-        console.log({ res });
         dispatch(addToken(res["token"]));
-        trigger(res?.employeeDetails?.unipeEmployeeId, false)
-          .then(({ data }) =>
-            navigation.navigate(
-              data?.kycCompleted ? "HomeStack" : "LoginSuccess"
-            )
-          )
-          .catch((err) => console.log(err));
+        handleNavigation(res["token"],res?.employeeDetails?.unipeEmployeeId);
         setVerified(true);
 
         Analytics.trackEvent({
@@ -194,32 +184,39 @@ const OTPScreen = () => {
         // Alert.alert("Error", error?.message || error?.error?.message);
         showToast(error?.message || error?.error?.message, "error");
         if (error?.status != 406) {
+          setOtp("")
           navigation.navigate("Login");
         }
       });
   };
 
   useEffect(() => {
+    console.log("back handler subscribe called")
+    dispatch(addCurrentScreen("Otp"));
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () =>
+    handleNavigation(token, unipeEmployeeId)
+    return () => {
+      console.log("back handler unsubscribe called")
       BackHandler.removeEventListener("hardwareBackPress", backAction);
+    }
   }, []);
 
+  let isValidOtp = otp.length == 6;
   return (
     <SafeAreaView accessibilityLabel="OtpScreen" style={styles.safeContainer}>
       <LogoHeaderBack
         onLeftIconPress={backAction}
-        headline={"Verify mobile number"}
+        headline={strings.verifyMobileNumber}
       />
       <View style={styles.container}>
         <View accessibilityLabel="OtpKeyboardView" style={styles.safeContainer}>
           <Text
             style={[
               styles.subHeadline,
-              { width: "90%", marginTop: 10, textAlign: "left" },
+              { width: "90%", marginTop: 10, textAlign: "left", fontSize: 13 },
             ]}
           >
-            Please wait, we will auto verify the OTP sent to
+            {strings.pleaseWaitOtp}
           </Text>
           <View
             style={[
@@ -262,18 +259,21 @@ const OTPScreen = () => {
 
           <View style={{ flex: 1 }} />
 
-          <Text style={styles.subHeadline} accessibilityLabel="OtpText">
-            Didn’t receive the secure code?{" "}
+          <Text
+            style={[styles.subHeadline, { fontSize: 14 }]}
+            accessibilityLabel="OtpText"
+          >
+            {strings.didnotReceiveOtp}{" "}
             {back ? (
               <Text
                 style={{ ...FONTS.h4, color: COLORS.primary }}
                 onPress={onResendOtp}
               >
-                Resend OTP
+                {strings.resendOtp}
               </Text>
             ) : (
               <Text style={{ color: COLORS.lightGray }}>
-                Resend OTP in {Math.trunc(countDownTime / 60)}:
+                {strings.resendOtpIn} {Math.trunc(countDownTime / 60)}:
                 {String("0" + (countDownTime % 60)).slice(-2)}
               </Text>
             )}
@@ -281,7 +281,8 @@ const OTPScreen = () => {
           <PrimaryButton
             accessibilityLabel="OtpBtn"
             title="Continue"
-            disabled={!next}
+            disabled={!isValidOtp || verifyOtpLoading}
+            loading={verifyOtpLoading}
             onPress={onSubmitOtp}
           />
         </View>

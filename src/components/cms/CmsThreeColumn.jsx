@@ -1,8 +1,7 @@
-import { View, Text, Image } from "react-native";
 import React from "react";
+import { TouchableOpacity, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { COLORS, FONTS } from "../../constants/Theme";
-import { TouchableOpacity } from "react-native";
+import { COLORS } from "../../constants/Theme";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
 const CmsThreeColumn = ({
@@ -18,11 +17,7 @@ const CmsThreeColumn = ({
     <TouchableOpacity
       style={[styles.row, { ...styling }]}
       onPress={() => {
-        navigationHelper({
-          type: navigate.type,
-          screen: navigate.screen,
-          // params: { blogKey: navigate.screen },
-        });
+        navigationHelper(navigate);
       }}
     >
       {safeChildren?.map((child, index) => (

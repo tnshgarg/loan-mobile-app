@@ -1,11 +1,12 @@
-import { Alert, Text, View, SafeAreaView } from "react-native";
+import { Alert, SafeAreaView, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import DetailItem from "../../../../components/molecules/DetailItem";
 import TopTabNav from "../../../../navigators/TopTabNav";
-import { license, styles, checkBox } from "../../../../styles";
+import { checkBox, license, styles } from "../../../../styles";
 
+import { strings } from "../../../../helpers/Localization";
 import Confirm from "./Confirm";
 import Form from "./Form";
 
@@ -63,11 +64,11 @@ const License = () => {
                   divider={false}
                 />
                 <View style={{ flexDirection: "row" }}>
-                  <Text style={license.authority}>Non-Transport</Text>
+                  <Text style={license.authority}>{strings.nonTransport}</Text>
                   {isDateValid(data?.validity?.non_transport?.expiry_date) ? (
-                    <Text style={license.valid}>Valid</Text>
+                    <Text style={license.valid}>{strings.valid}</Text>
                   ) : (
-                    <Text style={license.invalid}>Invalid</Text>
+                    <Text style={license.invalid}>{strings.invalid}</Text>
                   )}
                 </View>
               </>
@@ -81,11 +82,11 @@ const License = () => {
                   divider={true}
                 />
                 <View style={{ flexDirection: "row" }}>
-                  <Text style={license.authority}>Transport</Text>
+                  <Text style={license.authority}>{strings.transport}</Text>
                   {isDateValid(data?.validity?.transport?.expiry_date) ? (
-                    <Text style={license.valid}>Valid</Text>
+                    <Text style={license.valid}>{strings.valid}</Text>
                   ) : (
-                    <Text style={license.invalid}>Invalid</Text>
+                    <Text style={license.invalid}>{strings.invalid}</Text>
                   )}
                 </View>
               </>

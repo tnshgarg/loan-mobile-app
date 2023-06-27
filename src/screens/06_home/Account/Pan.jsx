@@ -10,6 +10,7 @@ import { styles } from "../../../styles";
 import PanFormTemplate from "../../../templates/pan/Form";
 import PrimaryButton from "../../../components/atoms/PrimaryButton";
 import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
+import { KYC_POLLING_DURATION } from "../../../services/constants";
 
 const Pan = () => {
   const navigation = useNavigation();
@@ -18,7 +19,7 @@ const Pan = () => {
   const { data: kycData, isLoading: loading } = useGetKycQuery(
     unipeEmployeeId,
     {
-      pollingInterval: 1000 * 60 * 60 * 24,
+      pollingInterval: KYC_POLLING_DURATION,
     }
   );
 

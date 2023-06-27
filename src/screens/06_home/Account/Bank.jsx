@@ -1,14 +1,14 @@
-import { SafeAreaView, View } from "react-native";
-import React, { useEffect } from "react";
 import { useNavigation } from "@react-navigation/core";
+import React, { useEffect } from "react";
+import { SafeAreaView, View } from "react-native";
 import { useSelector } from "react-redux";
-import BankFormTemplate from "../../../templates/bank/Form";
 import BankConfirmApi from "../../../apis/bank/Confirm";
-import TopTabNav from "../../../navigators/TopTabNav";
-import { styles } from "../../../styles";
 import DetailsCard from "../../../components/molecules/DetailsCard";
-import { useGetBankQuery } from "../../../store/apiSlices/bankApi";
+import TopTabNav from "../../../navigators/TopTabNav";
+import { KYC_POLLING_DURATION } from "../../../services/constants";
 import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
+import { styles } from "../../../styles";
+import BankFormTemplate from "../../../templates/bank/Form";
 
 const Bank = () => {
   const navigation = useNavigation();
@@ -18,7 +18,7 @@ const Bank = () => {
   const { data: kycData, isLoading: loading } = useGetKycQuery(
     unipeEmployeeId,
     {
-      pollingInterval: 1000 * 60 * 60 * 24,
+      pollingInterval: KYC_POLLING_DURATION,
     }
   );
 

@@ -2,8 +2,10 @@ import React from "react";
 import { View } from "react-native";
 import { useSelector } from "react-redux";
 import { navigationRef } from "../../navigators/RootNavigation";
+import { CMS_POLLING_DURATION } from "../../services/constants";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import LogoHeaderBack from "../molecules/LogoHeaderBack";
+import CmsLoading from "./CmsLoading";
 import CmsRoot from "./CmsRoot";
 
 const CmsNotificationView = () => {
@@ -11,7 +13,7 @@ const CmsNotificationView = () => {
   const { data: cmsData, isLoading: cmsLoading } = useGetCmsQuery(
     unipeEmployeeId,
     {
-      pollingInterval: 1000,
+      pollingInterval: CMS_POLLING_DURATION,
     }
   );
 
@@ -22,7 +24,11 @@ const CmsNotificationView = () => {
         onLeftIconPress={() => navigationRef.goBack()}
       />
       <View>
-        {!cmsLoading ? <CmsRoot children={cmsData?.notifications?.data} /> : <></>}
+        {!cmsData && cmsLoading ? (
+          <CmsLoading />
+        ) : (
+          <CmsRoot children={cmsData?.notifications?.data} />
+        )}
       </View>
     </View>
   );

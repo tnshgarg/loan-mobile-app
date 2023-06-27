@@ -3,13 +3,12 @@ import { useState } from "react";
 import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import {
-  useGetPanQuery,
-  useVerifyPanMutation,
-} from "../../store/apiSlices/panApi";
+import { strings } from "../../helpers/Localization";
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
+import { useVerifyPanMutation } from "../../store/apiSlices/panApi";
 import { addVerifyStatus } from "../../store/slices/panSlice";
-import { showToast } from "../../components/atoms/Toast";
-import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 
 const PanVerifyApi = (props) => {
   const dispatch = useDispatch();
@@ -35,21 +34,15 @@ const PanVerifyApi = (props) => {
       .unwrap()
       .then((res) => {
         console.log("kyc/pan-fetch-details res: ", res);
-        if (res?.status === 200) {
-          setLoading(false);
-          Analytics.trackEvent({
-            interaction: InteractionTypes.BUTTON_PRESS,
-            component: "Pan",
-            action: "Verify",
-            status: "Error",
-            error: `fetchPanDetails API Catch Error: ${JSON.stringify(error)}, ${JSON.stringify(res)}`,
-          });
-          if (props.type !== "KYC") {
-            navigation.navigate("PanConfirm");
-          }
-        } else {
-          throw res;
-        }
+        setLoading(false);
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          component: "Pan",
+          action: "Verify",
+          status: "Success",
+        });
+        
+        navigation.navigate("PanConfirm");
       })
       .catch((error) => {
         console.log("kyc/pan-fetch-details error: ", error);
@@ -69,7 +62,7 @@ const PanVerifyApi = (props) => {
   return (
     <PrimaryButton
       accessibilityLabel={"PanVerifyBtn"}
-      title={loading ? "Verifying" : "Continue"}
+      title={loading ? "Verifying" : strings.continue}
       disabled={props.disabled}
       loading={loading}
       onPress={() => {

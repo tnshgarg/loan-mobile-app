@@ -19,6 +19,7 @@ export const profileApi = api
           body: body,
         }),
         transformResponse: (response) => response.response,
+        invalidatesTags: ["getKycStatus"],
       }),
     }),
     overrideExisting: true,

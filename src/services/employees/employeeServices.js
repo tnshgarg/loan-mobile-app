@@ -1,8 +1,8 @@
 import axios from "axios";
-import { EMPLOYEE_API_URL } from "../constants";
 import { Alert } from "react-native";
-import {store} from "../../store/store"
 import * as RootNavigation from "../../navigators/RootNavigation";
+import { store } from "../../store/store";
+import { EMPLOYEE_API_URL } from "../constants";
 
 const forcedLogout = (response) => {
   Alert.alert("Authentication Failed",response?.data?.message || "Your session has expired. Please login again.",[
@@ -64,7 +64,7 @@ export const getBackendData = async (props) => {
   };
 
   return await axios(config).then((response) => {
-    if (!response.data.status || response.data.status === 500) {
+    if (!response?.data?.status || response.data.status === 500) {
       throw new Error("Oops! Something went wrong. Please try again later.");
     }
     else if (response.data.status === 401) {

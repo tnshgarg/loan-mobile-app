@@ -1,5 +1,5 @@
-import { View, ScrollView, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView, ScrollView, View } from "react-native";
 import DevMenuButton from "../components/atoms/DevMenuButton";
 
 export default DevMenu = () => {
@@ -7,6 +7,7 @@ export default DevMenu = () => {
 
   const screens = [
     { title: "Login", stack: "OnboardingStack", name: "Login" },
+    { title: "Localization", stack: "OnboardingStack", name: "Localization" },
     { title: "Login Success", stack: "OnboardingStack", name: "LoginSuccess" },
     {
       title: "Profile",

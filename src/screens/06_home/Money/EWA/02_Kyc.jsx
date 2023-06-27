@@ -1,29 +1,26 @@
 import { useNavigation } from "@react-navigation/core";
-import Analytics, {InteractionTypes} from "../../../../helpers/analytics/commonAnalytics";
 import { useEffect, useState } from "react";
-import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
+import { Alert, BackHandler, SafeAreaView, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
-import Header from "../../../../components/atoms/Header";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import DetailsCard from "../../../../components/molecules/DetailsCard";
-import { useUpdateKycMutation } from "../../../../store/apiSlices/ewaApi";
-import { useGetMandateQuery } from "../../../../store/apiSlices/mandateApi";
-import {
-  addVerifyStatus,
-  resetMandate,
-} from "../../../../store/slices/mandateSlice";
-import { styles } from "../../../../styles";
-import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
+import { strings } from "../../../../helpers/Localization";
+import Analytics, {
+  InteractionTypes,
+} from "../../../../helpers/analytics/commonAnalytics";
+import { EWA_POLLING_DURATION, KYC_POLLING_DURATION } from "../../../../services/constants";
+import { useUpdateKycMutation } from "../../../../store/apiSlices/ewaApi";
 import { useGetKycQuery } from "../../../../store/apiSlices/kycApi";
+import { useGetMandateQuery } from "../../../../store/apiSlices/mandateApi";
+import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
+import { styles } from "../../../../styles";
 
 const KYC = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
-  const [fetched, setFetched] = useState(false);
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
 
@@ -34,12 +31,12 @@ const KYC = () => {
   );
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
-  const [mandateVerifyStatus, setMandateVerifyStatus] = useState(
-    useSelector((state) => state.mandate.verifyStatus)
-  );
 
   const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 60 * 24,
+    pollingInterval: KYC_POLLING_DURATION,
+  });
+  const { data: mandateData, error, isLoading , refetch: fetchMandate} = useGetMandateQuery(unipeEmployeeId, {
+    pollingInterval: EWA_POLLING_DURATION,
   });
   const { aadhaar, pan, bank, profile } = kycData ?? {};
 
@@ -55,49 +52,31 @@ const KYC = () => {
     });
     dispatch(addCurrentScreen("EWA_KYC"));
   }, []);
-  const { data, error, isLoading } = useGetMandateQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 2,
-  });
+  
+  console.log("Mandate Error:", error?.status);
   useEffect(() => {
-    if (unipeEmployeeId && deviceId !== 0 && ipAddress !== 0) {
-      if (data && !isLoading && !error) {
-        console.log("Form mandateFetch response.data", data);
-        dispatch(resetMandate(data?.body));
-        dispatch(addVerifyStatus(data?.body?.verifyStatus));
-        setMandateVerifyStatus(data?.body?.verifyStatus);
-        setFetched(true);
-      } else {
-        if (error.status === 404) {
-          setFetched(true);
-        } else {
-          Alert.alert("An Error occured", error.message);
-        }
-        console.log("mandateFetch error: ", error);
-      }
-    }
-  }, [deviceId, ipAddress]);
-
-  useEffect(() => {
-    if (fetched) {
-      let data = {
-        offerId: ewaLiveSlice?.offerId,
-        unipeEmployeeId: unipeEmployeeId,
-        status: "INPROGRESS",
-        timestamp: Date.now(),
-        ipAddress: ipAddress,
-        deviceId: deviceId,
-        campaignId: campaignId,
-      };
-      updateKyc(data)
-        .then((response) => {
-          console.log("updateKycMutateAsync response.data: ", response.data);
+    fetchMandate().then(() => {
+      if(mandateData?.verifyStatus == "SUCCESS") {
+        updateKyc( {
+          offerId: ewaLiveSlice?.offerId,
+          unipeEmployeeId: unipeEmployeeId,
+          status: "INPROGRESS",
+          timestamp: Date.now(),
+          ipAddress: ipAddress,
+          deviceId: deviceId,
+          campaignId: campaignId,
         })
-        .catch((error) => {
-          console.log("updateKycMutateAsync error: ", error.message);
-          Alert.alert("An Error occured", error.message);
-        });
-    }
-  }, [fetched]);
+          .then((response) => {
+            console.log("updateKycMutateAsync response.data: ", response.data);
+          })
+          .catch((error) => {
+            console.log("updateKycMutateAsync error: ", error.message);
+            Alert.alert("An Error occured", error.message);
+          });
+      }
+    })
+  },[])
+  
 
   const backAction = () => {
     navigation.navigate("EWA_OFFER");
@@ -112,7 +91,7 @@ const KYC = () => {
 
   function handleKyc() {
     setLoading(true);
-    let data = {
+    let payload = {
       offerId: ewaLiveSlice?.offerId,
       unipeEmployeeId: unipeEmployeeId,
       status: "CONFIRMED",
@@ -121,16 +100,16 @@ const KYC = () => {
       deviceId: deviceId,
       campaignId: campaignId,
     };
-    updateKyc(data)
+    updateKyc(payload)
       .then((response) => {
-        console.log("updateKycMutateAsync response.data: ", response.data);
+        console.log("updateKycMutateAsync response.data: ", response, mandateData);
         setLoading(false);
         Analytics.trackEvent({
           component: "Ewa",
           action: "Kyc",
           status: "Success",
         });
-        if (mandateVerifyStatus === "SUCCESS") {
+        if (mandateData?.verifyStatus === "SUCCESS") {
           navigation.navigate("EWA_AGREEMENT");
         } else {
           navigation.navigate("EWA_MANDATE");
@@ -165,9 +144,9 @@ const KYC = () => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
-        title={"Confirm KYC"}
+        title={strings.confirmKyc}
         onLeftIconPress={() => backAction()}
-        subHeadline={"Please confirm if these are your details"}
+        subHeadline={strings.confirmIfTheseDetails}
       />
 
       <View style={styles.container}>
@@ -183,8 +162,8 @@ const KYC = () => {
         <View style={{ flex: 1 }} />
 
         <PrimaryButton
-          title={loading ? "Verifying" : "I confirm my KYC"}
-          disabled={loading || !fetched}
+          title={loading ? strings.verifying : strings.confirmMyKyc}
+          disabled={loading}
           onPress={() => {
             handleKyc();
           }}
