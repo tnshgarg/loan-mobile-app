@@ -1,16 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Alert, BackHandler, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/core";
-import OnboardingProgressBar from "../../navigators/OnboardingProgressBar";
+
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import AadhaarFormTemplate from "../../templates/aadhaar/Form";
 import { styles } from "../../styles";
 import Header from "../../components/atoms/Header";
+import LogoHeader from "../../components/atoms/LogoHeader";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import HelpSection from "../../components/organisms/HelpSection";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
 const AadhaarForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     dispatch(addCurrentScreen("AadhaarForm"));
@@ -32,13 +37,21 @@ const AadhaarForm = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer} accessibilityLabel="AadhaarForm">
-      <Header
-        title="Onboarding"
-        onLeftIconPress={() => backAction()}
-        progress={30}
+      <LogoHeaderBack
+        headline={"Aadhaar Verification"}
+        subHeadline={
+          "भारतीय रिजर्व बैंक के मानदंडों के अनुसार, आपको अपना आधार वेरीफाई करना अनिवार्य है।"
+        }
+        onLeftIconPress={backAction}
+        onRightIconPress={() =>
+          navigationHelper({
+            type: "cms",
+            params: { blogKey: "AadhaarHelp" },
+          })
+        }
       />
-      <OnboardingProgressBar step={1} />
-      <AadhaarFormTemplate />
+
+      <AadhaarFormTemplate setHelpSectionVisible={setVisible} />
     </SafeAreaView>
   );
 };

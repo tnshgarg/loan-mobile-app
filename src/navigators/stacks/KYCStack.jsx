@@ -8,6 +8,7 @@ import PanConfirm from "../../screens/03_pan/Confirm";
 import PanForm from "../../screens/03_pan/Form";
 import BankConfirm from "../../screens/04_bank/Confirm";
 import BankForm from "../../screens/04_bank/Form";
+import KycProgress from "../../screens/KycProgress";
 
 const KYCStack = () => {
   const Stack = createNativeStackNavigator();

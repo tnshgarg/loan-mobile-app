@@ -2,32 +2,41 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect } from "react";
 import { SafeAreaView, View } from "react-native";
 import { useSelector } from "react-redux";
-import AadhaarConfirmApi from "../../../apis/aadhaar/Confirm";
-import PrimaryButton from "../../../components/atoms/PrimaryButton";
-import DetailsCard from "../../../components/molecules/DetailsCard";
 import { strings } from "../../../helpers/Localization";
 import TopTabNav from "../../../navigators/TopTabNav";
-import { styles } from "../../../styles";
 import AadhaarFormTemplate from "../../../templates/aadhaar/Form";
 import AadhaarVerifyTemplate from "../../../templates/aadhaar/Verify";
+import AadhaarConfirmApi from "../../../apis/aadhaar/Confirm";
+import { styles } from "../../../styles";
+import DetailsCard from "../../../components/molecules/DetailsCard";
+import PrimaryButton from "../../../components/atoms/PrimaryButton";
+import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
 
 const Aadhaar = () => {
   const navigation = useNavigation();
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
-  const number = useSelector((state) => state.aadhaar.number);
-  const data = useSelector((state) => state.aadhaar.data);
-  const verifyStatus = useSelector((state) => state.aadhaar.verifyStatus);
-  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
-  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
+  const { data: kycData, isLoading: loading } = useGetKycQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: 1000 * 60 * 60 * 24,
+    }
+  );
+
+  const { aadhaar, pan, bank } = kycData ?? {};
 
   const cardData = () => {
     let res = [
-      { subTitle: "Name", value: data?.name, fullWidth: true },
-      { subTitle: "Number", value: number },
-      { subTitle: "Gender", value: data?.gender },
-      { subTitle: "Date of Birth", value: data?.date_of_birth },
-      { subTitle: "Address", value: data?.address, fullWidth: true },
-      { subTitle: "Verify Status", value: verifyStatus },
+      { subTitle: "Name", value: aadhaar?.data?.name, fullWidth: true },
+      { subTitle: "Number", value: aadhaar?.number },
+      { subTitle: "Date of Birth", value: aadhaar?.data?.date_of_birth },
+      { subTitle: "Gender", value: aadhaar?.data?.gender },
+      {
+        subTitle: "Address",
+        value: aadhaar?.data?.address,
+        fullWidth: true,
+      },
+      // { subTitle: "Verify Status", value: aadhaar?.verifyStatus },
     ];
     return res;
   };
@@ -54,14 +63,14 @@ const Aadhaar = () => {
   ];
 
   useEffect(() => {
-    if (verifyStatus === "INPROGRESS_OTP") {
+    if (aadhaar?.verifyStatus === "INPROGRESS_OTP") {
       navigation.navigate("KYC", {
         screen: "AADHAAR",
         params: {
           screen: "Verify",
         },
       });
-    } else if (verifyStatus === "INPROGRESS_CONFIRMATION") {
+    } else if (aadhaar?.verifyStatus === "INPROGRESS_CONFIRMATION") {
       navigation.navigate("KYC", {
         screen: "AADHAAR",
         params: {
@@ -70,20 +79,23 @@ const Aadhaar = () => {
       });
     }
     return () => {};
-  }, [verifyStatus]);
+  }, [aadhaar?.verifyStatus]);
+
+  if (loading) return null;
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      {verifyStatus === "SUCCESS" ? (
+      {aadhaar?.verifyStatus === "SUCCESS" ? (
         <View style={styles.container}>
           <DetailsCard
             data={cardData()}
             imageUri={{
-              uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
+              uri: `data:image/jpeg;base64,${aadhaar?.data["photo_base64"]}`,
               cache: "only-if-cached",
             }}
+            variant={"light"}
           />
-          {panVerifyStatus != "SUCCESS" ? (
+          {pan?.verifyStatus != "SUCCESS" ? (
             <PrimaryButton
               title={strings.continuePanVerification}
               onPress={() => {
@@ -92,7 +104,7 @@ const Aadhaar = () => {
                 });
               }}
             />
-          ) : bankVerifyStatus != "SUCCESS" ? (
+          ) : bank?.verifyStatus != "SUCCESS" ? (
             <PrimaryButton
               title={strings.continueBankVerification}
               onPress={() => {

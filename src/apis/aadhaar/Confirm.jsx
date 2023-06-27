@@ -10,6 +10,7 @@ import { strings } from "../../helpers/Localization";
 import { useUpdateAadhaarMutation } from "../../store/apiSlices/aadhaarApi";
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
 
 
@@ -22,8 +23,19 @@ const AadhaarConfirmApi = (props) => {
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
-  const data = useSelector((state) => state.aadhaar.data);
-  const number = useSelector((state) => state.aadhaar.number);
+
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
+
+  console.log({ kycData });
+
+  const { aadhaar, pan, bank } = kycData ?? {};
+
+  const { data, number } = aadhaar ?? {};
+
+  console.log({ aadhaar });
+
   const [updateAadhaar] = useUpdateAadhaarMutation();
   const backendPush = async ({ verifyStatus }) => {
     dispatch(addVerifyStatus(verifyStatus));
@@ -77,23 +89,20 @@ const AadhaarConfirmApi = (props) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headline}>{strings.areTheseAadhaarDetails}</Text>
-      <Text style={styles.subHeadline}>
-        कृपया स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?
-      </Text>
       <DetailsCard
         data={cardData()}
         imageUri={{
-          uri: `data:image/jpeg;base64,${data["photo_base64"]}`,
+          uri: `data:image/jpeg;base64,${data?.["photo_base64"]}`,
           cache: "only-if-cached",
         }}
+        type={"Aadhaar"}
       />
 
       <View style={[styles.row, { justifyContent: "space-between" }]}>
         <PrimaryButton
           title={strings.notMe}
           containerStyle={form.noButton}
-          titleStyle={{ ...FONTS.h4, color: COLORS.warning }}
+          titleStyle={{ ...FONTS.h3, color: COLORS.black }}
           onPress={() => {
             backendPush({
               verifyStatus: "REJECTED",
@@ -111,7 +120,7 @@ const AadhaarConfirmApi = (props) => {
           accessibilityLabel="YesButton"
           title={strings.yesMe}
           containerStyle={form.yesButton}
-          titleStyle={{ ...FONTS.h4, color: COLORS.primary }}
+          titleStyle={{ ...FONTS.h3, color: COLORS.white }}
           onPress={() => {
             backendPush({
               verifyStatus: "SUCCESS",

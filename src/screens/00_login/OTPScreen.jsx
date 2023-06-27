@@ -26,6 +26,8 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import OtpInput from "../../components/molecules/OtpInput";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import BackgroundTimer from "react-native-background-timer";
+import { showToast } from "../../components/atoms/Toast";
+import { useLazyGetKycQuery } from "../../store/apiSlices/kycApi";
 
 const OTPScreen = () => {
   const dispatch = useDispatch();
@@ -41,6 +43,9 @@ const OTPScreen = () => {
   const countDownTime = useSelector((state) => state.timer.login);
   const phoneNumber = useSelector((state) => state.auth.phoneNumber);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const [trigger, result, lastPromiseInfo] = useLazyGetKycQuery();
+
+  const [kycCompleted, setKycCompleted] = useState(false);
 
   const [postVerifyOtp] = useVerifyOtpMutation();
   const [postGenerateOtp] = useGenerateOtpMutation();
@@ -49,6 +54,12 @@ const OTPScreen = () => {
   }, []);
 
   let interval;
+
+  // useEffect(() => {
+  //   if (isAadhaarSuccess && isPanSuccess && isBankSuccess && isProfileSuccess) {
+  //     setKycCompleted(true);
+  //   }
+  // }, [isAadhaarSuccess, isPanSuccess, isBankSuccess, isProfileSuccess]);
 
   useEffect(() => {
     interval = BackgroundTimer.setInterval(() => {
@@ -113,7 +124,8 @@ const OTPScreen = () => {
     postGenerateOtp(phoneNumber)
       .unwrap()
       .then((res) => {
-        console.log(res);
+        console.log({ res });
+
         setOtp("");
         setBack(false);
         Analytics.trackEvent({
@@ -141,7 +153,8 @@ const OTPScreen = () => {
           error: error.message
         });
         console.log(error, error.message);
-        Alert.alert("Error", error.message);
+        showToast(error.message, "error");
+        // Alert.alert("Error", error.message);
       });
   };
 
@@ -150,6 +163,18 @@ const OTPScreen = () => {
     postVerifyOtp({ mobileNumber: phoneNumber, otp: otp })
       .unwrap()
       .then((res) => {
+        // TODO: Verify Response
+        console.log({ res });
+        dispatch(addToken(res["token"]));
+        trigger(res?.employeeDetails?.unipeEmployeeId, false)
+          .then(({ data }) =>
+            navigation.navigate(
+              data?.kycCompleted ? "HomeStack" : "LoginSuccess"
+            )
+          )
+          .catch((err) => console.log(err));
+        setVerified(true);
+
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
           component: "OTPScreen",
@@ -166,8 +191,9 @@ const OTPScreen = () => {
           error: error?.message || error?.error?.message,
         });
         console.log(error);
-        Alert.alert("Error", error?.message || error?.error?.message);
-        if (error?.status != 406){
+        // Alert.alert("Error", error?.message || error?.error?.message);
+        showToast(error?.message || error?.error?.message, "error");
+        if (error?.status != 406) {
           navigation.navigate("Login");
         }
       });
@@ -181,15 +207,31 @@ const OTPScreen = () => {
 
   return (
     <SafeAreaView accessibilityLabel="OtpScreen" style={styles.safeContainer}>
-      <LogoHeaderBack leftOnPress={backAction} />
-      <KeyboardAvoidingWrapper>
+      <LogoHeaderBack
+        onLeftIconPress={backAction}
+        headline={"Verify mobile number"}
+      />
+      <View style={styles.container}>
         <View accessibilityLabel="OtpKeyboardView" style={styles.safeContainer}>
-          <Text style={styles.headline}>Verify mobile number</Text>
-          <Text style={styles.subHeadline}>
+          <Text
+            style={[
+              styles.subHeadline,
+              { width: "90%", marginTop: 10, textAlign: "left" },
+            ]}
+          >
             Please wait, we will auto verify the OTP sent to
           </Text>
-          <View style={[styles.row, { alignSelf: "center" }]}>
-            <Text style={[styles.headline, { marginTop: 5, ...FONTS.h3 }]}>
+          <View
+            style={[
+              styles.row,
+              {
+                alignSelf: "center",
+                marginTop: 0,
+                width: "90%",
+              },
+            ]}
+          >
+            <Text style={[styles.headline, { ...FONTS.body3, marginTop: 5 }]}>
               {phoneNumber}
             </Text>
             <TouchableOpacity
@@ -204,9 +246,9 @@ const OTPScreen = () => {
               }}
             >
               <MaterialCommunityIcons
-                name="pencil"
+                name="pencil-outline"
                 size={18}
-                color={back ? COLORS.primary : COLORS.gray}
+                color={COLORS.primary}
               />
             </TouchableOpacity>
           </View>
@@ -218,6 +260,8 @@ const OTPScreen = () => {
             accessibilityLabel="OtpInput"
           />
 
+          <View style={{ flex: 1 }} />
+
           <Text style={styles.subHeadline} accessibilityLabel="OtpText">
             Didn’t receive the secure code?{" "}
             {back ? (
@@ -228,7 +272,7 @@ const OTPScreen = () => {
                 Resend OTP
               </Text>
             ) : (
-              <Text style={{ color: COLORS.secondary }}>
+              <Text style={{ color: COLORS.lightGray }}>
                 Resend OTP in {Math.trunc(countDownTime / 60)}:
                 {String("0" + (countDownTime % 60)).slice(-2)}
               </Text>
@@ -241,7 +285,7 @@ const OTPScreen = () => {
             onPress={onSubmitOtp}
           />
         </View>
-      </KeyboardAvoidingWrapper>
+      </View>
     </SafeAreaView>
   );
 };

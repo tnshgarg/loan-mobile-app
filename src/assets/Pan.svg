@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100%" height="100%" viewBox="0 0 28 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>PAN</title>
+    <defs>
+        <linearGradient x1="7.40295049%" y1="30.7513371%" x2="100%" y2="67.0823364%" id="linearGradient-1">
+            <stop stop-color="#C2B6C6" offset="0%"></stop>
+            <stop stop-color="#62B1C5" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="PAN">
+            <rect id="Rectangle" fill="url(#linearGradient-1)" x="0" y="0" width="28" height="19" rx="2"></rect>
+            <rect id="Rectangle" stroke="#FFFFFF" fill="#FFFFFF" x="3.5" y="3.5" width="11" height="1"></rect>
+            <rect id="Rectangle-Copy-4" stroke="#FFFFFF" fill="#FFFFFF" x="3.5" y="6.5" width="11" height="1"></rect>
+            <rect id="Rectangle-Copy-5" stroke="#FFFFFF" fill="#FFFFFF" x="3.5" y="13.5" width="5" height="1"></rect>
+            <rect id="Rectangle-Copy-6" stroke="#FFFFFF" fill="#FFFFFF" x="20.5" y="3.5" width="4" height="4"></rect>
+        </g>
+    </g>
+</svg>

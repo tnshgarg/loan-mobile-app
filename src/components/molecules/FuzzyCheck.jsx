@@ -7,11 +7,13 @@ const fuzz = require("fuzzball");
 
 const FuzzyCheck = (props) => {
   const name = useSelector((state) => state.aadhaar.data?.name);
+
   const dispatch = useDispatch();
   const checkName =
     props.step == "PAN"
       ? useSelector((state) => state.pan.data?.name)
       : useSelector((state) => state.bank.data?.accountHolderName);
+
   const score = 100 - fuzz.token_set_ratio(name, checkName);
   useEffect(() => {
     console.log("FuzzyCheck", props.step, score);
@@ -24,12 +26,12 @@ const FuzzyCheck = (props) => {
 
   return (
     <>
-      {score > 20
+      {/* {score > 20
         ? Alert.alert(
             "Name mismatch",
             `Your Aadhaar Card name ${name} does not match with your ${props.step} name ${checkName}`
           )
-        : null}
+        : null} */}
     </>
   );
 };

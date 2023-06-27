@@ -1,21 +1,25 @@
-import { View, Text, ScrollView, TouchableNativeFeedback } from "react-native";
 import { useNavigation } from "@react-navigation/core";
-import { COLORS, FONTS } from "../../constants/Theme";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { COLORS, FONTS, SIZES } from "../../constants/Theme";
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
+import { navigationRef } from "../../navigators/RootNavigation";
 
 const COLOR_MAP = {
   Due: "orange",
-  Missed: COLORS.warning,
-  Paid: COLORS.primary,
+  Missed: COLORS.white,
+  Paid: COLORS.gray,
   Pending: "orange",
-  Rejected: "red"
+  Rejected: "red",
 };
 
 const BACKGROUND_COLOR_MAP = {
   Due: "rgba(183, 65, 44, 0.08)",
-  Missed: COLORS.warningBackground,
-  Paid: COLORS.primaryBackground,
+  Missed: COLORS.warning,
+  Paid: COLORS.lightGreen,
   Pending: "rgba(183, 65, 44, 0.08)",
   Rejected: "rgba(183, 65, 44, 0.08)",
 };
@@ -24,16 +28,17 @@ const StatusCard = ({ offerType }) => {
   return (
     <View
       style={{
-        borderRadius: 3,
+        borderRadius: 50,
         borderColor: COLOR_MAP[offerType],
         borderWidth: 1,
-        paddingHorizontal: "2%",
-        paddingVertical: "1%",
+        paddingHorizontal: 10,
+        paddingVertical: 5,
         alignSelf: "center",
+        marginRight: 15,
         backgroundColor: BACKGROUND_COLOR_MAP[offerType],
       }}
     >
-      <Text style={{ color: COLOR_MAP[offerType], ...FONTS.body5 }}>
+      <Text style={{ color: COLOR_MAP[offerType], ...FONTS.h5 }}>
         {offerType}
       </Text>
     </View>
@@ -58,7 +63,7 @@ const OfferCard = ({ offer }) => {
   } else if (offer.availed) {
     offerType = "Pending";
   } else if (offer.rejected) {
-    offerType = "Rejected";  
+    offerType = "Rejected";
   }
 
   let dateString = date.toDateString();
@@ -66,7 +71,9 @@ const OfferCard = ({ offer }) => {
   let month = dateString.split(" ")[1];
 
   return (
-    <TouchableNativeFeedback
+    <TouchableOpacity
+      activeOpacity={0.7}
+      style={styles.container}
       onPress={() => {
         if (offerType !== "Missed") {
           Analytics.trackEvent({
@@ -74,7 +81,7 @@ const OfferCard = ({ offer }) => {
             component: "Money",
             action: "OfferDetailsClick",
             status: "",
-            offer: offer.offerId
+            offer: offer.offerId,
           });
           navigation.navigate("EWAStack", {
             screen: "EWA_DISBURSEMENT",
@@ -83,70 +90,100 @@ const OfferCard = ({ offer }) => {
         }
       }}
     >
-      <View style={styles.container}>
-        <View style={styles.dateCard}>
-          <Text style={{ color: COLORS.gray, ...FONTS.body5 }}>{day}</Text>
-          <Text style={{ color: COLORS.gray, ...FONTS.body5 }}>{month}</Text>
-        </View>
-        <View style={styles.textContainer}>
-          <Text style={{ ...FONTS.h4, color: COLORS.black }}>₹{amount}</Text>
-          {
-            ["Due", "Pending"].includes(offerType) 
-            ?
-            <Text style={{ color: COLORS.gray, ...FONTS.body5 }}>
-              Due date {offer.dueDate}
-            </Text>
-            :
-            null
-          }
-        </View>
-
-        <StatusCard offerType={offerType} />
+      <View style={styles.dateCard}>
+        <Text style={{ color: COLORS.gray, ...FONTS.body1 }}>{day}</Text>
+        <Text style={{ color: COLORS.gray, ...FONTS.body5 }}>{month}</Text>
       </View>
-    </TouchableNativeFeedback>
+      <View style={styles.textContainer}>
+        <Text style={{ ...FONTS.body3, color: COLORS.gray }}>₹{amount}</Text>
+        {["Due", "Pending"].includes(offerType) ? (
+          <Text style={{ color: COLORS.gray, ...FONTS.body5 }}>
+            Due date {offer.dueDate}
+          </Text>
+        ) : null}
+      </View>
+
+      <StatusCard offerType={offerType} />
+    </TouchableOpacity>
   );
 };
 
 const PastDrawsCard = (props) => {
   return (
-    <ScrollView style={{ marginTop: "5%" }}>
-      <Text style={styles.title}>Your past draws</Text>
+    <>
+    {props.data.length > 0 && props.screenType == "half" ? (
+        <View style={styles.pastDrawsContainer}>
+          <Text style={styles.title}>Your past draws</Text>
+          <TouchableOpacity
+            onPress={() =>
+              navigationRef.navigate("CmsStack", { screen: "CmsPastDraws" })
+            }
+            activeOpacity={0.92}
+            style={styles.seeAllContainer}
+          >
+            <Text style={styles.seeAll}>See All</Text>
+            <MaterialCommunityIcons
+              name="chevron-right-circle"
+              color={COLORS.primary}
+              size={15}
+            />
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <></>
+      )}
+    <ScrollView style={{ marginTop: "1%" }}>
       {props.data.map((offer, index) => (
         <OfferCard offer={offer} key={index} />
       ))}
     </ScrollView>
+    </>
   );
 };
 
 const styles = EStyleSheet.create({
   container: {
     alignSelf: "center",
-    paddingVertical: "7rem",
-    paddingHorizontal: "5rem",
-    width: "100%",
+    width: "99%",
     flexDirection: "row",
     backgroundColor: COLORS.white,
-    borderBottomWidth:  "0.75rem",
-    borderTopWidth:  "0.75rem",
-    borderColor: COLORS.lightGray,
     justifyContent: "space-between",
+    marginVertical: "5rem",
+    borderRadius: "10rem",
+    ...SIZES.shadow,
+  },
+  seeAll: {
+    color: COLORS.primary,
+    marginRight: 5,
+    ...FONTS.body4,
+  },
+  seeAllContainer: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    marginTop: "-3rem",
   },
   dateCard: {
-    backgroundColor: COLORS.lightGray,
-    borderRadius: 5,
-    paddingVertical: "5rem",
-    paddingHorizontal: "10rem",
+    backgroundColor: COLORS.lightgray_01,
+    padding: "10rem",
     justifyContent: "flex-start",
     alignSelf: "center",
     alignItems: "center",
+    width: "18%",
+    borderTopLeftRadius: "10rem",
+    borderBottomLeftRadius: "10rem",
   },
   textContainer: {
     flexDirection: "column",
-    marginLeft: "15rem",
+    padding: "15rem",
     flex: 1,
     justifyContent: "center",
   },
-  title: { ...FONTS.body3, color: COLORS.gray, marginBottom: "3%" },
+  title: { ...FONTS.body3, color: COLORS.black, marginBottom: "10rem" },
+  pastDrawsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
 });
 
 export default PastDrawsCard;

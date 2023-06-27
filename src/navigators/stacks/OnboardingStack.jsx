@@ -2,7 +2,8 @@ import { useSelector } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "../../screens/00_login/LoginScreen";
 import OTPScreen from "../../screens/00_login/OTPScreen";
-import WelcomePage from "../../screens/00_login/WelcomePage";
+import LoginSuccess from "../../screens/00_login/LoginSuccess";
+
 import Onboarding from "../../screens/00_login/Onboarding";
 
 const OnboardingStack = () => {
@@ -37,9 +38,10 @@ const OnboardingStack = () => {
           headerShown: false,
         }}
       />
+
       <Stack.Screen
-        name="Welcome"
-        component={WelcomePage}
+        name="LoginSuccess"
+        component={LoginSuccess}
         options={{
           headerShown: false,
         }}

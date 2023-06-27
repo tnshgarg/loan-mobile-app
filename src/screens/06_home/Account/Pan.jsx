@@ -3,23 +3,29 @@ import React, { useEffect } from "react";
 import { SafeAreaView, View } from "react-native";
 import { useSelector } from "react-redux";
 import PanConfirmApi from "../../../apis/pan/Confirm";
-import PrimaryButton from "../../../components/atoms/PrimaryButton";
 import DetailsCard from "../../../components/molecules/DetailsCard";
 import { strings } from "../../../helpers/Localization";
 import TopTabNav from "../../../navigators/TopTabNav";
 import { styles } from "../../../styles";
 import PanFormTemplate from "../../../templates/pan/Form";
+import PrimaryButton from "../../../components/atoms/PrimaryButton";
+import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
 
 const Pan = () => {
   const navigation = useNavigation();
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
-  const data = useSelector((state) => state.pan.data);
-  const number = useSelector((state) => state.pan.number);
-  const verifyStatus = useSelector((state) => state.pan.verifyStatus);
-  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
+  const { data: kycData, isLoading: loading } = useGetKycQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: 1000 * 60 * 60 * 24,
+    }
+  );
+
+  const { aadhaar, pan, bank } = kycData ?? {};
 
   useEffect(() => {
-    if (verifyStatus == "INPROGRESS_CONFIRMATION") {
+    if (pan?.verifyStatus == "INPROGRESS_CONFIRMATION") {
       navigation.navigate("KYC", {
         screen: "PAN",
         params: {
@@ -28,16 +34,16 @@ const Pan = () => {
       });
     }
     return () => {};
-  }, [verifyStatus]);
+  }, [pan?.verifyStatus]);
 
   const cardData = () => {
     let res = [
-      { subTitle: "Name", value: data?.name, fullWidth: true },
-      { subTitle: "Number", value: number, fullWidth: true },
-      { subTitle: "Date of Birth", value: data?.date_of_birth },
-      { subTitle: "Gender", value: data?.gender },
-      { subTitle: "Email", value: data?.email, fullWidth: true },
-      { subTitle: "Verify Status", value: verifyStatus },
+      { subTitle: "Name", value: pan?.data?.name, fullWidth: true },
+      { subTitle: "Number", value: pan?.number },
+      { subTitle: "Date of Birth", value: pan?.data?.date_of_birth },
+      { subTitle: "Gender", value: pan?.data?.gender },
+      { subTitle: "Email", value: pan?.data?.email, fullWidth: true },
+      // { subTitle: "Verify Status", value: pan?.verifyStatus },
     ];
     return res;
   };
@@ -57,12 +63,14 @@ const Pan = () => {
     },
   ];
 
+  if (loading) return <></>;
+
   return (
     <SafeAreaView style={styles.safeContainer}>
-      {verifyStatus == "SUCCESS" ? (
+      {pan?.verifyStatus == "SUCCESS" ? (
         <View style={styles.container}>
-          <DetailsCard data={cardData()} />
-          {bankVerifyStatus != "SUCCESS" ? (
+          <DetailsCard data={cardData()} variant={"light"} />
+          {bank?.verifyStatus != "SUCCESS" ? (
             <PrimaryButton
               title={strings.continueBankVerification}
               onPress={() => {

@@ -6,7 +6,6 @@ import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import BankVerifyApi from "../../apis/bank/Verify";
 import InfoCard from "../../components/atoms/InfoCard";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import ShieldTitle from "../../components/atoms/ShieldTitle";
 import PopableInput from "../../components/molecules/PopableInput";
 import { strings } from "../../helpers/Localization";
 import {
@@ -16,6 +15,8 @@ import {
   addUpi,
 } from "../../store/slices/bankSlice";
 import { bankform, styles } from "../../styles";
+import ShieldTitle from "../../components/atoms/ShieldTitle";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 
 const BankFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -24,19 +25,21 @@ const BankFormTemplate = (props) => {
 
   const [accNumNext, setAccNumNext] = useState(false);
   const [ifscNext, setIfscNext] = useState(false);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
 
-  const aadhaarSlice = useSelector((state) => state.aadhaar);
-  const aadhaarVerifyStatus = aadhaarSlice?.verifyStatus;
+  const { aadhaar, bank } = kycData ?? {};
 
-  const bankSlice = useSelector((state) => state.bank);
-  const [ifsc, setIfsc] = useState(bankSlice?.data?.ifsc);
-  const [accountNumber, setAccountNumber] = useState(
-    bankSlice?.data?.accountNumber
-  );
+  const aadhaarVerifyStatus = aadhaar?.verifyStatus;
+
+  const [ifsc, setIfsc] = useState(bank?.data?.ifsc);
+  const [accountNumber, setAccountNumber] = useState(bank?.data?.accountNumber);
   const [accountHolderName, setAccountHolderName] = useState(
-    aadhaarSlice?.data.name || bankSlice?.data?.accountHolderName
+    aadhaar?.data.name || bank?.data?.accountHolderName
   );
-  const [upi, setUpi] = useState(bankSlice?.data?.upi);
+  const [upi, setUpi] = useState(bank?.data?.upi);
 
   useEffect(() => {
     dispatch(addAccountHolderName(accountHolderName));
@@ -68,15 +71,9 @@ const BankFormTemplate = (props) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      {true ? (
+      {aadhaarVerifyStatus === "SUCCESS" ? (
         <KeyboardAvoidingWrapper>
           <View>
-            <Text style={styles.headline}>Bank Account Details</Text>
-            <Text style={styles.subHeadline}>
-              कृपया अपना बैंक अकाउंट नम्बर की जानकारी दें । इसी अकाउंट में वेतन
-              जमा करा जाएगा ।
-            </Text>
-
             <PopableInput
               accessibilityLabel="AccHolderName"
               placeholder={strings.accountHolderName}
@@ -126,11 +123,19 @@ const BankFormTemplate = (props) => {
               content={strings.lotsOfUpiApps}
             />
 
-            <InfoCard info={strings.agreeWithKycRegistration} />
+            <InfoCard
+              info={
+                "Please note: We will use this bank account/UPI ID to deposite your salary every month, Please provide your own bank account details."
+              }
+            />
 
             <BankVerifyApi
               disabled={!ifscNext || !accNumNext || !accountHolderName}
               type={props?.route?.params?.type || ""}
+              accountNumber={accountNumber}
+              accountHolderName={accountHolderName}
+              ifsc={ifsc}
+              upi={upi}
             />
             <ShieldTitle title={strings.detailsSafe} />
           </View>

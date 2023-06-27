@@ -1,44 +1,50 @@
 import React from "react";
-import { Text, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { COLORS, FONTS } from "../../constants/Theme";
-import whatsappLinking from "../../helpers/WhatsappLinking";
+import Help from "../../assets/Help.svg";
+import { COLORS } from "../../constants/Theme";
 import LogoHeader from "../atoms/LogoHeader";
+import SvgContainer from "../atoms/SvgContainer";
 
-const LogoHeaderBack = ({ leftOnPress, rightOnPress, title, skipEnabled }) => {
+const LogoHeaderBack = ({
+  onLeftIconPress,
+  onRightIconPress,
+  title,
+  titleStyle,
+  headline,
+  subHeadline,
+  containerStyle,
+  hideLogo,
+  headerImageUri,
+  notificationIconPresent,
+}) => {
   return (
     <LogoHeader
       leftIcon={
-        <Ionicons name="arrow-back-outline" size={28} color={COLORS.primary} />
-      }
-      leftOnPress={leftOnPress}
-      title={title}
-      rightIcon={
-        skipEnabled ? (
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <Text style={{ ...FONTS.h5, color: COLORS.warning }}>Skip</Text>
-            <Ionicons
-              name="chevron-forward-outline"
-              size={18}
-              color={COLORS.warning}
-            />
-          </View>
-        ) : (
-          <Ionicons name="logo-whatsapp" size={28} color={COLORS.primary} />
+        onLeftIconPress && (
+          <Ionicons
+            name="arrow-back-outline"
+            size={28}
+            color={COLORS.secondary}
+          />
         )
       }
-      rightOnPress={
-        skipEnabled
-          ? rightOnPress
-          : () => {
-              whatsappLinking();
-            }
+      containerStyle={{ ...containerStyle }}
+      titleStyle={{ ...titleStyle }}
+      headerImageUri={headerImageUri}
+      hideLogo={hideLogo}
+      leftOnPress={onLeftIconPress}
+      title={title}
+      headline={headline}
+      subHeadline={subHeadline}
+      notificationIconPresent={notificationIconPresent}
+      rightIcon={
+        onRightIconPress && (
+          <SvgContainer height={42} width={42}>
+            <Help />
+          </SvgContainer>
+        )
       }
+      rightOnPress={onRightIconPress}
     />
   );
 };

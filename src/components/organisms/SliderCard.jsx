@@ -4,25 +4,67 @@ import { Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
+import HelpCard from "../atoms/HelpCard";
+import InfoCard from "../atoms/InfoCard";
+import SvgContainer from "../atoms/SvgContainer";
+import BankVariant from "../../assets/BankVariant.svg";
+import Rupee from "../../assets/Rupee.svg";
+import LinearGradient from "react-native-linear-gradient";
 
-const SliderCard = ({ info, iconName, amount, setAmount, eligibleAmount }) => {
+const SliderCard = ({
+  info,
+  iconName,
+  amount,
+  setAmount,
+  eligibleAmount,
+  accountNumber,
+}) => {
   return (
-    <View style={styles.container}>
-      <View style={{ padding: 15 }}>
+    <View style={[styles.container]}>
+      <View
+        style={{
+          borderBottomWidth: 0.5,
+          borderColor: COLORS.lightGray,
+          padding: 20,
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <SvgContainer height={24} width={24}>
+          <Rupee />
+        </SvgContainer>
+        <Text
+          style={{ ...FONTS.body4, color: COLORS.secondary, paddingLeft: 10 }}
+        >
+          Available Salary:{" "}
+          <Text style={{ ...FONTS.h4, color: COLORS.secondary }}>
+            ₹{eligibleAmount}
+          </Text>
+        </Text>
+      </View>
+      <View
+        style={{
+          padding: 20,
+          borderBottomWidth: 0.5,
+          borderColor: COLORS.lightGray,
+        }}
+      >
         <Text
           style={{
-            ...FONTS.body5,
-            color: COLORS.gray,
+            ...FONTS.body3,
+            color: COLORS.secondary,
             alignSelf: "center",
           }}
         >
-          Withdrawal Amount
+          I want to withdraw
         </Text>
         <Text
           style={{
-            ...FONTS.h1,
-            color: COLORS.black,
+            ...FONTS.body1,
+            color: COLORS.secondary,
             alignSelf: "center",
+            fontSize: 48,
+            lineHeight: 60,
           }}
         >
           ₹{amount}
@@ -47,40 +89,71 @@ const SliderCard = ({ info, iconName, amount, setAmount, eligibleAmount }) => {
           <View style={styles.col}>
             <Text
               style={{
-                ...FONTS.h3,
-                color: COLORS.black,
-              }}
-            >
-              ₹1000
-            </Text>
-            <Text
-              style={{
-                ...FONTS.body5,
+                ...FONTS.body3,
                 color: COLORS.gray,
               }}
             >
-              (minimum)
+              ₹1000
             </Text>
           </View>
           <View style={styles.col}>
             <Text
               style={{
-                ...FONTS.h3,
-                color: COLORS.black,
+                ...FONTS.body3,
+                color: COLORS.gray,
               }}
             >
               ₹{eligibleAmount}
             </Text>
-            <Text
-              style={{
-                ...FONTS.body5,
-                color: COLORS.gray,
-              }}
-            >
-              (maximum)
-            </Text>
           </View>
         </View>
+      </View>
+      <View
+        style={{
+          padding: 10,
+          // borderBottomWidth: 1,
+          // borderColor: COLORS.lightGray,
+        }}
+      >
+        <View
+          style={{
+            flexDirection: "row",
+            width: "100%",
+            padding: 15,
+            borderWidth: 0.5,
+            borderColor: COLORS.lightGray,
+            borderRadius: 10,
+            alignItems: "center",
+            backgroundColor: "#f8fcfd",
+          }}
+        >
+          <SvgContainer height={42} width={42}>
+            <BankVariant />
+          </SvgContainer>
+          <View style={{ flexDirection: "column", paddingLeft: 15 }}>
+            <Text
+              style={{ ...FONTS.body3, color: COLORS.black, marginBottom: 5 }}
+            >
+              Transfer to {accountNumber}
+            </Text>
+            <LinearGradient
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              colors={[COLORS.lightGreen, COLORS.lightYellow]}
+              style={{ padding: 5, borderRadius: 5, alignSelf: "flex-start" }}
+            >
+              <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
+                Bank Account
+              </Text>
+            </LinearGradient>
+          </View>
+        </View>
+        <InfoCard info="Takes upto 1 business day" />
+        <InfoCard
+          info="The withdrawl will be deducted from your upcoming paycheck"
+          variant="gradient"
+          containerStyle={{ marginVertical: 0 }}
+        />
       </View>
 
       {info ? (
@@ -111,7 +184,7 @@ const SliderCard = ({ info, iconName, amount, setAmount, eligibleAmount }) => {
           </Text>
         </View>
       ) : (
-        <View style={{ padding: 5 }} />
+        <></>
       )}
     </View>
   );
@@ -121,12 +194,9 @@ const styles = EStyleSheet.create({
   container: {
     width: "100%",
     flexDirection: "column",
-    borderRadius: 4,
+    borderRadius: 10,
     backgroundColor: COLORS.white,
-    ...SIZES.shadow,
     marginVertical: "10rem",
-    // borderWidth: 0.5,
-    borderColor: COLORS.lightgray_01,
   },
   row: { flexDirection: "row", alignItems: "center", padding: "8rem" },
   col: { flexDirection: "column", alignItems: "center" },
@@ -146,10 +216,10 @@ const styles = EStyleSheet.create({
     backgroundColor: COLORS.lightGray,
   },
   thumb: {
-    width: "25rem",
-    height: "25rem",
-    borderWidth: "4rem",
-    backgroundColor: COLORS.primary,
+    width: "40rem",
+    height: "18rem",
+    borderWidth: "3rem",
+    backgroundColor: "#377476",
     borderColor: COLORS.white,
     ...SIZES.shadow,
     borderRadius: "50rem",

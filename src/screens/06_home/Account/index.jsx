@@ -1,26 +1,17 @@
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import {
-  BackHandler,
-  Image,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { BackHandler, SafeAreaView, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import ListItem from "../../../components/atoms/ListItem";
 import LogoHeader from "../../../components/atoms/LogoHeader";
 import TermsAndPrivacyModal from "../../../components/molecules/TermsAndPrivacyModal";
 import LogoutModal from "../../../components/organisms/LogoutModal";
-import { COLORS } from "../../../constants/Theme";
 import { strings } from "../../../helpers/Localization";
-import whatsappLinking from "../../../helpers/WhatsappLinking";
-import { accountStyles, styles } from "../../../styles";
-import privacyPolicy from "../../../templates/docs/PrivacyPolicy";
-import termsOfUse from "../../../templates/docs/TermsOfUse";
+
+import LogoutItem from "../../../components/atoms/LogoutItem";
+import CmsRoot from "../../../components/cms/CmsRoot";
+import { useGetCmsQuery } from "../../../store/apiSlices/cmsApi";
+import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
+import { styles } from "../../../styles";
 
 const AccountMenu = (props) => {
   const dispatch = useDispatch();
@@ -31,13 +22,32 @@ const AccountMenu = (props) => {
     useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const image = useSelector((state) => state.aadhaar?.data?.photo_base64);
-  const name = useSelector(
-    (state) =>
-      state.aadhaar.data?.name ||
-      state.pan.data?.name ||
-      state.auth.employeeName
-  );
+  const [kycCompleted, setKycCompleted] = useState(false);
+
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
+  const {
+    isAadhaarSuccess,
+    isPanSuccess,
+    isBankSuccess,
+    isProfileSuccess,
+    profile,
+    aadhaar,
+    pan,
+    bank,
+  } = kycData ?? {};
+
+  useEffect(() => {
+    if (isAadhaarSuccess && isPanSuccess && isBankSuccess && isProfileSuccess) {
+      setKycCompleted(true);
+    }
+  }, [isAadhaarSuccess, isPanSuccess, isBankSuccess, isProfileSuccess]);
+
+  const image = aadhaar?.data?.photo_base64;
+  console.log({ image });
+  // const name = aadhaar.data?.name || pan.data?.name || auth.employeeName;
 
   const backAction = () => {
     navigation.navigate("HomeStack", {
@@ -63,53 +73,10 @@ const AccountMenu = (props) => {
 
   const options = [
     {
-      title: "Profile",
-      subtitle: strings.editProfileDetails,
-      iconName: "account-circle-outline",
-      route: { stack: "AccountStack", screen: "Profile" },
-    },
-    {
-      title: "KYC",
-      subtitle: strings.kycDetailsInOnePlace,
-      iconName: "order-bool-ascending-variant",
-      route: { stack: "AccountStack", screen: "KYC" },
-    },
-    // {
-    //   title: "Mandate",
-    //   subtitle: "Mandate is required for availing advance salary",
-    //   iconName: "order-bool-ascending-variant",
-    //   route: { stack: "AccountStack", screen: "Mandate" },
-    // },
-    // {
-    //   title: "Documents",
-    //   subtitle: "All your documents at one place",
-    //   iconName: "file-document-outline",
-    //   route: { stack: "AccountStack", screen: "Documents" },
-    // },
-    {
-      title: strings.customerSupport,
-      subtitle: strings.talkToSupportTeam,
-      iconName: "whatsapp",
-      action: () => {
-        whatsappLinking();
-      },
-    },
-    {
-      title: strings.termsAndConditions,
-      subtitle: strings.readTermsOfUse,
-      iconName: "file-document-outline",
-      action: () => setIsTermsOfUseModalVisible(true),
-    },
-    {
-      title: strings.privacyPolicy,
-      subtitle: strings.readPrivacyPolicy,
-      iconName: "shield-outline",
-      action: () => setIsPrivacyModalVisible(true),
-    },
-    {
       title: strings.logout,
       subtitle: strings.logoutFromUnipe,
-      iconName: "exit-to-app",
+      imageUri:
+        "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/logout.png ",
       action: () => onLogout(),
     },
   ];
@@ -120,45 +87,42 @@ const AccountMenu = (props) => {
     else action();
   };
 
+  const { data: cmsData, isLoading: cmsLoading } = useGetCmsQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: 1000,
+    }
+  );
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeader
         title={"Account"}
-        rightIcon={
-          <Ionicons
-            name="help-circle-outline"
-            size={28}
-            color={COLORS.primary}
-          />
-        }
+        containerStyle={{ backgroundColor: null }}
       />
+      {/* <CmsButton
+        title={"TopTabNav"}
+        clickType={"navigation"}
+        navigate={{ type: "app", stack: "AccountStack", screen: "KYC" }}
+      /> */}
       <ScrollView>
-        <View style={accountStyles.imageContainer}>
-          {!image ? (
-            <View style={accountStyles.guestIcon}>
-              <MaterialCommunityIcons
-                name={"account"}
-                size={48}
-                color={COLORS.white}
-              />
-            </View>
-          ) : (
-            <Image
-              source={{
-                uri: `data:image/jpeg;base64,${image}`,
-                cache: "only-if-cached",
-              }}
-              style={accountStyles.userImage}
-            />
-          )}
+        {!cmsLoading ? (
+          <CmsRoot children={cmsData?.account_top || []}></CmsRoot>
+        ) : (
+          <></>
+        )}
 
-          <Text style={accountStyles.userTitle}>{name}</Text>
-        </View>
+        {!cmsLoading ? (
+          <CmsRoot children={cmsData?.account_navigation_list || []}></CmsRoot>
+        ) : (
+          <></>
+        )}
+
         {options.map((item, index) => (
-          <ListItem
+          <LogoutItem
             key={index}
             item={{ ...item, onPress: () => onPressCard(item) }}
-            showIcon={false}
+            showIcon={true}
           />
         ))}
       </ScrollView>

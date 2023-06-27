@@ -6,9 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { showToast } from "../../components/atoms/Toast";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { useGenerateAadhaarOtpMutation } from "../../store/apiSlices/aadhaarApi";
+import {
+  useGenerateAadhaarOtpMutation,
+  useGetAadhaarQuery,
+} from "../../store/apiSlices/aadhaarApi";
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
 import { getBackendData } from "../../services/employees/employeeServices";
 import { asyncTimeout } from "../../helpers/asyncTimer"
@@ -23,7 +27,7 @@ const AadhaarOtpApi = (props) => {
   const [delayedResponseText, setDelayedResponseText]= useState("");
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const aadhaarSlice = useSelector((state) => state.aadhaar);
+
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
@@ -92,14 +96,13 @@ const AadhaarOtpApi = (props) => {
   }
   const goForFetch = () => {
     setLoading(true);
-    console.log("aadhaarSlice: ", aadhaarSlice);
 
     if (props.isTextButton) {
       props.toggle(false); // setResend(false)
     }
     let data = {
       unipeEmployeeId: unipeEmployeeId,
-      aadhaarNumber: aadhaarSlice?.number,
+      aadhaarNumber: props.number,
       campaignId: campaignId,
       provider: "ongrid",
     };
@@ -107,6 +110,7 @@ const AadhaarOtpApi = (props) => {
     generateAadhaarOtp(data)
       .unwrap()
       .then((res) => {
+        console.log("first");
         console.log("kyc/aadhaar-generate-otp res: ", res);
         const responseJson = res?.data;
         console.log("kyc/aadhaar-generate-otp responseJson: ", responseJson);

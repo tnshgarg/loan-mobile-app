@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { BackHandler, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Failure from "../../../../assets/animations/Failure";
-import Pending from "../../../../assets/animations/Pending";
+import Hourglass from "../../../../assets/Hourglass.svg";
 import Success from "../../../../assets/animations/Success";
 import Header from "../../../../components/atoms/Header";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
@@ -10,6 +10,9 @@ import { strings } from "../../../../helpers/Localization";
 import { useGetDisbursementQuery } from "../../../../store/apiSlices/ewaApi";
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import { styles } from "../../../../styles";
+import SvgContainer from "../../../../components/atoms/SvgContainer";
+import { COLORS, FONTS } from "../../../../constants/Theme";
+import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 
 const Disbursement = ({ route, navigation }) => {
   const dispatch = useDispatch();
@@ -27,6 +30,7 @@ const Disbursement = ({ route, navigation }) => {
   const [loanAmount, setLoanAmount] = useState(0);
   const [netAmount, setNetAmount] = useState(0);
   const [status, setStatus] = useState("");
+  console.log({ status });
 
   const backAction = () => {
     navigation.navigate("HomeStack", {
@@ -46,23 +50,48 @@ const Disbursement = ({ route, navigation }) => {
   const StatusImage = (status) => {
     switch (status) {
       case "SUCCESS":
-        return <Success />;
+        return (
+          <SvgContainer height={200} width={200}>
+            <Success />
+          </SvgContainer>
+        );
       case "REJECTED":
-        return <Failure />;
+        return (
+          <SvgContainer height={300} width={300}>
+            <Failure />
+          </SvgContainer>
+        );
       case "FAILURE":
-        return <Failure />;
-      case "REJECTED":
-          return <Failure />;
+        return (
+          <SvgContainer height={300} width={300}>
+            <Failure />
+          </SvgContainer>
+        );
       default:
-        return <Pending />;
+        return (
+          <SvgContainer height={200} width={200}>
+            <Hourglass />
+          </SvgContainer>
+        );
     }
   };
 
   const getStatusText = (headline, subheadline) => {
     return (
       <View style={{ alignItems: "center", width: "100%" }}>
-        <Text style={styles.headline}>{headline}</Text>
-        <Text style={styles.subHeadline}>{subheadline}</Text>
+        <Text
+          style={[
+            styles.headline,
+            { marginTop: "10%", color: COLORS.black, ...FONTS.body2 },
+          ]}
+        >
+          {headline}
+        </Text>
+        <Text
+          style={[styles.subHeadline, { color: COLORS.gray, ...FONTS.body3 }]}
+        >
+          {subheadline}
+        </Text>
       </View>
     );
   };
@@ -134,21 +163,23 @@ const Disbursement = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
+      <LogoHeaderBack
         title="Money Transfer"
         onLeftIconPress={() => backAction()}
-        // progress={100}
+        onRightIconPress={() => {}}
+        titleStyle={{ ...FONTS.body3 }}
       />
-      <View style={styles.container}>
-        {StatusImage("REJECTED")}
-        {StatusText("REJECTED")}
-        <DisbursementCard
-          data={data}
-          title={strings.loanDetails}
-          info={strings.moneyAutoDebitedUpcomingSalary}
-          iconName="ticket-percent-outline"
-          variant={"dark"}
-        />
+      <View style={[styles.container, { alignItems: "center" }]}>
+        {StatusImage(status)}
+        {StatusText(status)}
+        {status == "REJECTED" || status == "ERROR" ? null : (
+          <DisbursementCard
+            data={data}
+            title={strings.loanDetails}
+            info={strings.moneyAutoDebitedUpcomingSalary}
+            iconName="ticket-percent-outline"
+          />
+        )}
       </View>
     </SafeAreaView>
   );

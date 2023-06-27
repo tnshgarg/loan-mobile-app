@@ -5,12 +5,18 @@ import HomeView from "../screens/06_home/HomeView";
 import AccountStack from "./stacks/AccountStack";
 import EWAStack from "./stacks/EWAStack";
 import InvestStack from "./stacks/InvestStack";
+import Home from "../assets/icons/Home.svg";
+import HomeActive from "../assets/icons/HomeActive.svg";
+import Account from "../assets/icons/Account.svg";
+import AccountActive from "../assets/icons/AccountActive.svg";
+import Money from "../assets/icons/Money.svg";
+import MoneyActive from "../assets/icons/MoneyActive.svg";
 
 export default BottomTabNav = () => {
   const bottomTab = createBottomTabNavigator();
   const tabs = [
     { name: "Home", component: HomeView },
-    { name: "Invest", component: InvestStack },
+    // { name: "Invest", component: InvestStack },
     // { name: "Benefits", component: Benefits },
     { name: "Money", component: EWAStack },
     { name: "Account", component: AccountStack },
@@ -19,27 +25,33 @@ export default BottomTabNav = () => {
     <bottomTab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarLabelStyle: { ...FONTS.body5, marginBottom: 5 },
+        tabBarStyle: { height: 55 },
+        tabBarLabelStyle: {
+          ...FONTS.body5,
+          marginBottom: 5,
+
+          color: COLORS.secondary,
+        },
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
           switch (route.name) {
             case "Home":
-              iconName = focused ? "home" : "home-outline";
+              iconName = focused ? <HomeActive /> : <Home />;
               break;
-            case "Invest":
-              iconName = focused ? "cash-multiple" : "cash-multiple";
-              break;
-            case "Benefits":
-              iconName = focused ? "crown" : "crown-outline";
-              break;
+            // case "Invest":
+            //   iconName = focused ? <Home /> : <Home />;
+            //   break;
+            // case "Benefits":
+            //   iconName = focused ? <Home /> : <Home />;
+            //   break;
             case "Money":
-              iconName = focused ? "currency-inr" : "currency-inr";
+              iconName = focused ? <MoneyActive /> : <Money />;
               break;
             case "Account":
-              iconName = focused ? "account-circle" : "account-circle-outline";
+              iconName = focused ? <AccountActive /> : <Account />;
               break;
           }
-          return <Icon name={iconName} size={size} color={color} />;
+          return iconName;
         },
         tabBarActiveTintColor: COLORS.primary,
         tabBarInactiveTintColor: COLORS.gray,

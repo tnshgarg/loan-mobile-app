@@ -7,6 +7,7 @@ import { styles } from "../../styles";
 
 import AadhaarConfirmApi from "../../apis/aadhaar/Confirm";
 import Header from "../../components/atoms/Header";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { strings } from "../../helpers/Localization";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 
@@ -34,12 +35,13 @@ const AadhaarConfirm = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <Header
-        title="Onboarding"
+      <LogoHeaderBack
+        headline={"Are these your Aadhaar details?"}
         onLeftIconPress={() => backAction()}
-        progress={30}
+        subHeadline={
+          "क्या ये स्पष्ट करें की यहाँ दी गयी सारी जानकारी आपकी ही है?"
+        }
       />
-      <OnboardingProgressBar step={1} />
       <ScrollView keyboardShouldPersistTaps="handled">
         <AadhaarConfirmApi />
       </ScrollView>

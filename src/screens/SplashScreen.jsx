@@ -12,7 +12,6 @@ const delay = (ms) => {
 }
 const SplashScreen = (props) => {
   const navigation = useNavigation();
-
   const navigateHome = () => navigation.navigate("HomeStack", {screen: "Home"})
   const navigateInitialRoute = async () => {
     await delay(500);

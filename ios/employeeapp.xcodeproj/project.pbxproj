@@ -87,6 +87,11 @@
 		AA8A95E1B96D4347B1DE4FBA /* Montserrat-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0186A3C4F2AE4DFCA51503EE /* Montserrat-Thin.ttf */; };
 		E84971D35756D3245F968085 /* libPods-employeeapp-employeeappDev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CCE81CD8300F24017D5BA47 /* libPods-employeeapp-employeeappDev.a */; };
 		F76B675CFB074A299FC61589 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CD9A58DB06C4943868C0E8A /* Montserrat-SemiBold.ttf */; };
+		8D06AB98004344538A25B871 /* Proxima Nova Condensed Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 07CBA61F2CDA48979208A53C /* Proxima Nova Condensed Light.otf */; };
+		139938EEB48E4CAFBBAEE420 /* Proxima Nova Condensed Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 65DB5C78FA70458DB4D6AD16 /* Proxima Nova Condensed Semibold.otf */; };
+		3FCBE287DB0B40D9B70A8AD2 /* Proxima Nova Extra Condensed Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3531B96A70949558B2F2B36 /* Proxima Nova Extra Condensed Regular.otf */; };
+		824502CD364B42FE89B7CD44 /* Proxima Nova Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF969C8C5A304E0D895EE43F /* Proxima Nova Bold.otf */; };
+		6AFCFB7B1A44475ABE1BFF94 /* Proxima Nova Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1CE109B382E240049A337B15 /* Proxima Nova Regular.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -187,6 +192,11 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		EE5F08F7983D49C6A5A895C9 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = ../assets/fonts/AntDesign.ttf; sourceTree = "<group>"; };
 		F99D05C8C419468090AB8903 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Bold.ttf"; path = "../assets/fonts/Montserrat-Bold.ttf"; sourceTree = "<group>"; };
+		07CBA61F2CDA48979208A53C /* Proxima Nova Condensed Light.otf */ = {isa = PBXFileReference; name = "Proxima Nova Condensed Light.otf"; path = "../assets/fonts/Proxima Nova Condensed Light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		65DB5C78FA70458DB4D6AD16 /* Proxima Nova Condensed Semibold.otf */ = {isa = PBXFileReference; name = "Proxima Nova Condensed Semibold.otf"; path = "../assets/fonts/Proxima Nova Condensed Semibold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B3531B96A70949558B2F2B36 /* Proxima Nova Extra Condensed Regular.otf */ = {isa = PBXFileReference; name = "Proxima Nova Extra Condensed Regular.otf"; path = "../assets/fonts/Proxima Nova Extra Condensed Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		CF969C8C5A304E0D895EE43F /* Proxima Nova Bold.otf */ = {isa = PBXFileReference; name = "Proxima Nova Bold.otf"; path = "../assets/fonts/Proxima Nova Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1CE109B382E240049A337B15 /* Proxima Nova Regular.otf */ = {isa = PBXFileReference; name = "Proxima Nova Regular.otf"; path = "../assets/fonts/Proxima Nova Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -343,6 +353,11 @@
 				1715F14422E745B8A313B3BC /* Ionicons.ttf */,
 				05D00C898D6A4370A7C3B789 /* MaterialCommunityIcons.ttf */,
 				D7C10EC9EC2C49B6B74CE012 /* MaterialIcons.ttf */,
+				07CBA61F2CDA48979208A53C /* Proxima Nova Condensed Light.otf */,
+				65DB5C78FA70458DB4D6AD16 /* Proxima Nova Condensed Semibold.otf */,
+				B3531B96A70949558B2F2B36 /* Proxima Nova Extra Condensed Regular.otf */,
+				CF969C8C5A304E0D895EE43F /* Proxima Nova Bold.otf */,
+				1CE109B382E240049A337B15 /* Proxima Nova Regular.otf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -665,6 +680,11 @@
 				6E53362D205A4F4EB96BFBC3 /* Ionicons.ttf in Resources */,
 				4948A10CCCEC44E3B1167E76 /* MaterialCommunityIcons.ttf in Resources */,
 				442357BF81524910AC71448F /* MaterialIcons.ttf in Resources */,
+				8D06AB98004344538A25B871 /* Proxima Nova Condensed Light.otf in Resources */,
+				139938EEB48E4CAFBBAEE420 /* Proxima Nova Condensed Semibold.otf in Resources */,
+				3FCBE287DB0B40D9B70A8AD2 /* Proxima Nova Extra Condensed Regular.otf in Resources */,
+				824502CD364B42FE89B7CD44 /* Proxima Nova Bold.otf in Resources */,
+				6AFCFB7B1A44475ABE1BFF94 /* Proxima Nova Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

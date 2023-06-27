@@ -6,13 +6,41 @@ export default DevMenu = () => {
   const navigation = useNavigation();
 
   const screens = [
-    { title: "Onboarding", stack: "OnboardingStack", name: "Onboarding" },
-    { title: "Welcome", stack: "OnboardingStack", name: "Welcome" },
     { title: "Login", stack: "OnboardingStack", name: "Login" },
-    { title: "Profile", stack: "OnboardingStack", name: "ProfileForm" },
-    { title: "AADHAAR", stack: "OnboardingStack", name: "AadhaarForm" },
-    { title: "PAN", stack: "OnboardingStack", name: "PanForm" },
-    { title: "BANK", stack: "OnboardingStack", name: "BankForm" },
+    { title: "Login Success", stack: "OnboardingStack", name: "LoginSuccess" },
+    {
+      title: "Profile",
+      stack: "EWAStack",
+      name: "EWA_KYC_STACK",
+      screen: "ProfileForm",
+    },
+    {
+      title: "Kyc Progress",
+      stack: "KycProgress",
+    },
+
+    {
+      title: "AADHAAR",
+      stack: "EWAStack",
+      name: "EWA_KYC_STACK",
+      screen: "AadhaarForm",
+    },
+    {
+      title: "PAN",
+      stack: "EWAStack",
+      name: "EWA_KYC_STACK",
+      screen: "PanForm",
+    },
+    {
+      title: "BANK",
+      stack: "EWAStack",
+      name: "EWA_KYC_STACK",
+      screen: "BankForm",
+    },
+    {
+      title: "Kyc Success",
+      stack: "KycSuccess",
+    },
     { title: "Mandate", stack: "EWAStack", name: "EWA_MANDATE" },
     { title: "Home", stack: "HomeStack", name: "Home" },
     { title: "KYC Details", stack: "AccountStack", name: "KYC" },
@@ -34,7 +62,10 @@ export default DevMenu = () => {
               style={{ marginTop: 20 }}
               title={screen.title}
               onPress={() =>
-                navigation.navigate(screen.stack, { screen: screen.name })
+                navigation.navigate(screen.stack, {
+                  screen: screen.name,
+                  params: screen.screen ? { screen: screen.screen } : null,
+                })
               }
             />
           ))}

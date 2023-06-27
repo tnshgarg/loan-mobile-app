@@ -1,8 +1,9 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import CmsNotificationView from "../../components/cms/CmsNotificationView";
+import CmsTopTabNav from "../../components/cms/CmsTopTabNav";
+import AccountMenu from "../../screens/06_home/Account";
 import Profile from "../../screens/06_home/Account/Profile";
 import Documents from "../../screens/06_home/Documents/Documents";
-import KYCScreen from "../../screens/06_home/Account/KYCScreen";
-import AccountMenu from "../../screens/06_home/Account";
 
 const AccountStack = () => {
   const Stack = createNativeStackNavigator();
@@ -25,7 +26,7 @@ const AccountStack = () => {
       />
       <Stack.Screen
         name="KYC"
-        component={KYCScreen}
+        component={CmsTopTabNav}
         options={{
           headerShown: false,
         }}
@@ -33,6 +34,13 @@ const AccountStack = () => {
       <Stack.Screen
         name="Documents"
         component={Documents}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="NotificationView"
+        component={CmsNotificationView}
         options={{
           headerShown: false,
         }}

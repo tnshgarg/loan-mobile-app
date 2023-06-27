@@ -129,31 +129,32 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
     }
   }, [unipeEmployeeId, getMandateOptionsLoading]);
 
-  return (
-    <View style={styles.container}>
-      {mandateButtons.map((item, index) => {
-        return (
-          <ListItem
-            titleStyle={{ ...FONTS.body4 }}
-            subtitleStyle={{ ...FONTS.body5, ...item.subtitleStyle }}
-            key={index}
-            item={item}
-            disabled={disabled || item.disabled}
-            showIcon={!item.disabled}
-            selected={authType == item.type}
-          />
-        );
-      })}
-    </View>
-  );
+  return mandateButtons.map((item, index) => {
+    return (
+      <View style={styles.container}>
+        <ListItem
+          titleStyle={{ ...FONTS.body4 }}
+          subtitleStyle={{ ...FONTS.body5, ...item.subtitleStyle }}
+          key={index}
+          item={item}
+          disabled={disabled || item.disabled}
+          showIcon={!item.disabled}
+          selected={authType == item.type}
+          containerStyle={{
+            marginVertical: 5,
+            ...SIZES.shadow,
+            width: "99%",
+            alignSelf: "center",
+            padding: 15,
+          }}
+        />
+      </View>
+    );
+  });
 };
 
 const styles = EStyleSheet.create({
-  container: {
-    ...SIZES.shadow,
-    backgroundColor: COLORS.white,
-    margin: 1,
-  },
+  container: { padding: 2 },
   notFoundContainer: {
     padding: "10rem",
   },

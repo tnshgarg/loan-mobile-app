@@ -2,11 +2,6 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
-import FormInput from "../../components/atoms/FormInput";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { showToast } from "../../components/atoms/Toast";
-import DropDownForm from "../../components/molecules/DropDownForm";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { form, styles } from "../../styles";
 import Analytics, {
@@ -14,6 +9,13 @@ import Analytics, {
 } from "../../helpers/analytics/commonAnalytics";
 import { useUpdateProfileMutation } from "../../store/apiSlices/profileApi";
 import { strings } from "../../helpers/Localization";
+import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import FormInput from "../../components/atoms/FormInput";
+import DropDownForm from "../../components/molecules/DropDownForm";
+import { showToast } from "../../components/atoms/Toast";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
+
 const ProfileFormTemplate = ({ type }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -23,25 +25,30 @@ const ProfileFormTemplate = ({ type }) => {
   const [validAltMobile, setValidAltMobile] = useState(false);
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const profileSlice = useSelector((state) => state.profile);
-  const [maritalStatus, setMaritalStatus] = useState(
-    profileSlice?.maritalStatus
-  );
-  const [qualification, setQualification] = useState(
-    profileSlice?.qualification
-  );
-  const [altMobile, setAltMobile] = useState(profileSlice?.altMobile);
-  const [email, setEmail] = useState(profileSlice?.email);
-  const [motherName, setMotherName] = useState(profileSlice?.motherName);
+  console.log({ unipeEmployeeId });
+  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+    pollingInterval: 1000 * 60 * 60 * 24,
+  });
+  const {
+    isAadhaarSuccess,
+    isPanSuccess,
+    isBankSuccess,
+    isProfileSuccess,
+    profile,
+    aadhaar,
+    pan,
+    bank,
+  } = kycData ?? {};
+  console.log({ kycData });
+
+  const [maritalStatus, setMaritalStatus] = useState(profile?.maritalStatus);
+  const [qualification, setQualification] = useState(profile?.qualification);
+  const [altMobile, setAltMobile] = useState(profile?.altMobile);
+  const [email, setEmail] = useState(profile?.email);
+  const [motherName, setMotherName] = useState(profile?.motherName);
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
-
-  const aadhaarVerifyStatus = useSelector(
-    (state) => state.aadhaar.verifyStatus
-  );
-  const panVerifyStatus = useSelector((state) => state.pan.verifyStatus);
-  const bankVerifyStatus = useSelector((state) => state.bank.verifyStatus);
 
   const [updateProfile] = useUpdateProfileMutation();
 
@@ -64,15 +71,15 @@ const ProfileFormTemplate = ({ type }) => {
   }, [maritalStatus, qualification, motherName, validEmail, validAltMobile]);
 
   const handleConditionalNav = () => {
-    if (aadhaarVerifyStatus != "SUCCESS") {
+    if (aadhaar.verifyStatus != "SUCCESS") {
       navigation.navigate("KYC", {
         screen: "AADHAAR",
       });
-    } else if (panVerifyStatus != "SUCCESS") {
+    } else if (pan.verifyStatus != "SUCCESS") {
       navigation.navigate("KYC", {
         screen: "PAN",
       });
-    } else if (bankVerifyStatus != "SUCCESS") {
+    } else if (bank.verifyStatus != "SUCCESS") {
       navigation.navigate("KYC", {
         screen: "BANK",
       });
@@ -152,8 +159,6 @@ const ProfileFormTemplate = ({ type }) => {
 
   return (
     <SafeAreaView style={styles.safeContainer} accessibilityLabel="ProfileForm">
-      <Text style={styles.headline}>Tell us about you</Text>
-      <Text style={styles.subHeadline}>(अपनी जानकारी यहाँ भरें)</Text>
       <KeyboardAvoidingWrapper>
         <View>
           <DropDownForm
@@ -182,8 +187,8 @@ const ProfileFormTemplate = ({ type }) => {
             autoCompleteType="tel"
             keyboardType="phone-pad"
             value={altMobile}
-            onChange={setAltMobile}
             maxLength={10}
+            onChange={setAltMobile}
           />
           {altMobile && !validAltMobile ? (
             <Text style={form.formatmsg}>{strings.incorrectFormat}</Text>

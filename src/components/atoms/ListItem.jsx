@@ -10,6 +10,8 @@ const ListItem = ({
   selected,
   titleStyle,
   subtitleStyle,
+  iconSize,
+  containerStyle,
 }) => {
   const { title, subtitle, iconName, onPress, subItems } = item;
 
@@ -98,7 +100,7 @@ const ListItem = ({
 const styles = EStyleSheet.create({
   container: {
     width: "100%",
-    padding: "15rem",
+    padding: "20rem",
     flexDirection: "row",
     alignItems: "center",
     borderBottomWidth: 1,

@@ -5,7 +5,7 @@ export const styles = EStyleSheet.create({
   container: {
     backgroundColor: "$white",
     flex: 1,
-    padding: "10rem",
+    padding: "15rem",
   },
   safeContainer: {
     backgroundColor: "$white",
@@ -23,10 +23,11 @@ export const styles = EStyleSheet.create({
   subHeadline: {
     //marginTop: "5rem",
     ...FONTS.body4,
-    color: COLORS.gray,
+    color: COLORS.black,
     textAlign: "center",
     alignSelf: "center",
     marginBottom: "5rem",
+    // width: "85%",
   },
   btn: {
     marginTop: "20rem",
@@ -108,7 +109,7 @@ export const form = EStyleSheet.create({
   yesButton: {
     flex: 1,
     height: SIZES.btnHeight,
-    backgroundColor: COLORS.primaryBackground,
+    backgroundColor: COLORS.primary,
     alignItems: "center",
     justifyContent: "center",
     marginLeft: "5rem",
@@ -116,7 +117,9 @@ export const form = EStyleSheet.create({
   noButton: {
     flex: 1,
     height: SIZES.btnHeight,
-    backgroundColor: COLORS.warningBackground,
+    backgroundColor: null,
+    borderWidth: 1.5,
+    borderColor: COLORS.black,
     alignItems: "center",
     justifyContent: "center",
     marginRight: "5rem",
@@ -245,6 +248,15 @@ export const onboardingStyles = EStyleSheet.create({
     marginRight: "10rem",
     marginLeft: "-20rem",
   },
+  alertBox: {
+    //backgroundColor: "#46A7AA",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "15rem",
+    marginTop: "15rem",
+    borderRadius: "10rem",
+  },
 });
 
 export const moneyStyles = EStyleSheet.create({
@@ -264,6 +276,9 @@ export const accountStyles = EStyleSheet.create({
     padding: "15rem",
     borderBottomWidth: 0.8,
     borderColor: COLORS.lightGray,
+    backgroundColor: "#213240",
+    margin: "15rem",
+    borderRadius: "10rem",
   },
   guestIcon: {
     width: "60rem",
@@ -282,8 +297,13 @@ export const accountStyles = EStyleSheet.create({
     borderColor: COLORS.lightGray,
   },
   userTitle: {
-    ...FONTS.h4,
-    color: COLORS.black,
+    ...FONTS.body2,
+    color: COLORS.white,
+    marginLeft: "15rem",
+  },
+  userSubtitle: {
+    ...FONTS.body3,
+    color: COLORS.white,
     marginLeft: "15rem",
   },
 });

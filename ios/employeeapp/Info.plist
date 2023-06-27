@@ -67,6 +67,11 @@
       <string>Ionicons.ttf</string>
       <string>MaterialCommunityIcons.ttf</string>
       <string>MaterialIcons.ttf</string>
+	  		<string>Proxima Nova Condensed Light.otf</string>
+		<string>Proxima Nova Condensed Semibold.otf</string>
+		<string>Proxima Nova Extra Condensed Regular.otf</string>
+		<string>Proxima Nova Bold.otf</string>
+		<string>Proxima Nova Regular.otf</string>
     </array>
     <key>UIBackgroundModes</key>
     <array>

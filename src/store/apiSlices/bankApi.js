@@ -18,6 +18,12 @@ export const bankApi = api
           method: "POST",
           body: body,
         }),
+        invalidatesTags: ["getKycStatus"],
+        transformResponse: (response) => response.response,
+        transformErrorResponse: (error) => {
+          console.log({ error });
+          return error || { message: "Unknown Error!" };
+        },
       }),
       updateBank: builder.mutation({
         query: (body) => ({
@@ -25,6 +31,7 @@ export const bankApi = api
           method: "POST",
           body: body,
         }),
+        invalidatesTags: ["getKycStatus"],
         transformResponse: (response) => response.response,
       }),
     }),

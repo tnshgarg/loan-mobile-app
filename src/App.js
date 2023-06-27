@@ -1,6 +1,7 @@
 import { STAGE } from "@env";
 import { NavigationContainer } from "@react-navigation/native";
 import Crashes from "appcenter-crashes";
+import { LogBox } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import SplashScreen from "react-native-splash-screen";
 import { Provider } from "react-redux";
@@ -17,16 +18,21 @@ Crashes.setListener({
   },
 });
 
-if(__DEV__) {
-  import('./ReactotronConfig').then(() => console.log('Reactotron Configured'))
-}
+// if (__DEV__) {
+//   import("./ReactotronConfig").then(() => console.log("Reactotron Configured"));
+// }
 const analyticsInit = async () => {
   await Analytics.init();
 };
 
+
+
 const App = () => {
   analyticsInit();
   SplashScreen.hide();
+
+  LogBox.ignoreAllLogs();
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

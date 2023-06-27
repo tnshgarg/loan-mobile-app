@@ -15,7 +15,7 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import EStyleSheet from "react-native-extended-stylesheet";
 
-export default function VideoPlayer({ thumbnail, title, videoId }) {
+export default function VideoPlayer({ thumbnail, title, videoId, size }) {
   const [playing, setPlaying] = useState(true);
   const [visible, setVisible] = useState(false);
 
@@ -29,23 +29,33 @@ export default function VideoPlayer({ thumbnail, title, videoId }) {
   return (
     <SafeAreaView>
       <ImageBackground
-        style={styles.thumbnailContainer}
+        style={[
+          styles.thumbnailContainer,
+          size == "small" && styles.smallThumbnailContainer,
+        ]}
         borderRadius={5}
         source={thumbnail}
       >
         <TouchableOpacity
           //activeOpacity={0.7}
           onPress={() => videoId?.length > 0 && setVisible(true)}
-          style={[styles.thumbnailContainer, { opacity: 0.4 }]}
+          style={[
+            styles.thumbnailContainer,
+
+            size == "small" && styles.smallThumbnailContainer,
+            { opacity: 0.4, width: "100%" },
+          ]}
         />
         <View style={{ position: "absolute", alignItems: "center" }}>
           <Ionicons
             name="play-circle"
-            size={62}
+            size={size == "small" ? 48 : 62}
             color={COLORS.white}
             onPress={() => videoId?.length > 0 && setVisible(true)}
           />
-          <Text style={{ ...FONTS.h3, color: COLORS.white }}>{title}</Text>
+          {title && (
+            <Text style={{ ...FONTS.h3, color: COLORS.white }}>{title}</Text>
+          )}
         </View>
       </ImageBackground>
 
@@ -95,7 +105,10 @@ const styles = EStyleSheet.create({
     borderRadius: "5rem",
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: "10rem",
+  },
+  smallThumbnailContainer: {
+    //width: "45%",
+    height: "90rem",
   },
   childText: {
     ...FONTS.body5,

@@ -15,23 +15,41 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import whatsappLinking from "../../helpers/WhatsappLinking";
 import { requestUserPermission } from "../../services/notifications/notificationService";
 import { onboardingStyles, styles } from "../../styles";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Onboarding = () => {
   const navigation = useNavigation();
 
   const data = [
     {
-      title: "On-demand Salary\n(पाएँ वेतन अपने मनचाहे समय पर)",
-      imageUri: <OnDemand />,
+      title: "0% Interest Charges",
+      imageUri: (
+        <MaterialCommunityIcons
+          name="check-circle"
+          size={32}
+          color={COLORS.primary}
+        />
+      ),
     },
     {
-      title: "Interest Free\nशून्य ब्याज दर",
-      imageUri: <Clock />,
+      title: "No Joining Fees",
+      imageUri: (
+        <MaterialCommunityIcons
+          name="check-circle"
+          size={32}
+          color={COLORS.primary}
+        />
+      ),
     },
     {
-      title:
-        "Money in your bank in 5 mins\nसिर्फ़ पाँच मिनट में पैसा आपके बैंक अकाउंट में",
-      imageUri: <InterestFree />,
+      title: "Instant cash in bank account",
+      imageUri: (
+        <MaterialCommunityIcons
+          name="check-circle"
+          size={32}
+          color={COLORS.primary}
+        />
+      ),
     },
   ];
 
@@ -46,26 +64,29 @@ const Onboarding = () => {
         }}
       />
       <View style={styles.container}>
-        <Text
-          style={{
-            ...FONTS.title,
-            color: COLORS.primary,
-          }}
-        >
-          नमस्ते
-        </Text>
-        <View style={styles.row}>
-          <View style={onboardingStyles.curvedBox} />
-          <Text style={{ ...FONTS.h2, color: COLORS.secondary }}>
-            Unipe के साथ पाएँ
+        <View style={[styles.container, { padding: "5%" }]}>
+          <Text
+            style={{
+              ...FONTS.title,
+              color: COLORS.primary,
+            }}
+          >
+            नमस्ते
           </Text>
-        </View>
-        {data.map((item, index) => (
-          <SvgListItem item={item} key={index} />
-        ))}
 
-        <View style={{ flex: 1 }} />
-        <ShieldTitle title="100% Secure" />
+          <Text
+            style={{ ...FONTS.h1, color: COLORS.secondary, marginBottom: "5%" }}
+          >
+            Get your salary today!
+          </Text>
+
+          {data.map((item, index) => (
+            <SvgListItem item={item} key={index} />
+          ))}
+        </View>
+
+        <View style={{ flex: 4 }} />
+
         <PrimaryButton
           title="Get Started Now"
           onPress={() => {
@@ -79,6 +100,7 @@ const Onboarding = () => {
             navigation.navigate("Login");
           }}
         />
+        <ShieldTitle title="100% Secure" />
       </View>
     </SafeAreaView>
   );
