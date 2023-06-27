@@ -1,3 +1,4 @@
+import { STAGE } from "@env";
 import { NavigationContainer } from "@react-navigation/native";
 import Crashes from "appcenter-crashes";
 import { LogBox } from "react-native";
@@ -10,7 +11,6 @@ import Analytics from "./helpers/analytics/commonAnalytics";
 import { navigationRef } from "./navigators/RootNavigation";
 import StackNavigator from "./navigators/StackNavigator";
 import { persistor, store } from "./store/store";
-
 Crashes.setListener({
   shouldProcess: function (report) {
     return true; // return true if the crash report should be processed, otherwise false.
@@ -22,6 +22,7 @@ Crashes.setListener({
 // }
 const analyticsInit = async () => {
   await Analytics.init();
+  
 };
 
 
