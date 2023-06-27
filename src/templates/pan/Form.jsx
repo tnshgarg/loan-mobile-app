@@ -1,20 +1,18 @@
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Linking, SafeAreaView, Text, View } from "react-native";
+import { ActivityIndicator, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import PanVerifyApi from "../../apis/pan/Verify";
 import FormInput from "../../components/atoms/FormInput";
-import InfoCard from "../../components/atoms/InfoCard";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
 import HelpCard from "../../components/atoms/HelpCard";
-import { useGetKycQuery } from "../../store/apiSlices/kycApi";
-import { strings } from "../../helpers/Localization";
-import { navigationHelper } from "../../helpers/CmsNavigationHelper";
-import { bankform, form, styles } from "../../styles";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { addNumber } from "../../store/slices/panSlice";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
+import { strings } from "../../helpers/Localization";
 import { KYC_POLLING_DURATION } from "../../services/constants";
+import { useGetKycQuery } from "../../store/apiSlices/kycApi";
+import { addNumber } from "../../store/slices/panSlice";
+import { bankform, form, styles } from "../../styles";
 
 const PanFormTemplate = (props) => {
   const dispatch = useDispatch();
@@ -25,7 +23,7 @@ const PanFormTemplate = (props) => {
   const { unipeEmployeeId, token, onboarded } = useSelector(
     (state) => state.auth
   );
-  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(unipeEmployeeId, {
     pollingInterval: KYC_POLLING_DURATION,
   });
   const {
@@ -54,7 +52,9 @@ const PanFormTemplate = (props) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      {aadhaar?.verifyStatus === "SUCCESS" ? (
+      {kycLoading ? (<>
+        <ActivityIndicator />
+      </>) : isAadhaarSuccess ? (
         <View style={styles.container}>
           <FormInput
             accessibilityLabel={"PanInput"}
@@ -80,11 +80,6 @@ const PanFormTemplate = (props) => {
           <View style={form.forgotText}>
             <Text
               style={styles.termsText}
-              // onPress={() =>
-              //   Linking.openURL(
-              //     "https://docs.google.com/document/d/19nf3qwzXcun0yTN6WH6iA5hpGKlgsg4erbHuDql0EZQ/edit"
-              //   )
-              // }
               onRightIconPress={() =>
                 navigationHelper({
                   type: "cms",

@@ -26,7 +26,6 @@ import { handleCampaignNavigation } from "../services/campaign/campaignNavigatio
 import { setCampaignStoreData } from "../services/campaign/storeManagement";
 import { parseUrl } from "../services/campaign/urlParsing";
 import { setPendingUrl } from "../store/slices/pendingCampaignClickSlice";
-import { store } from "../store/store";
 import BottomTabNav from "./BottomTabNav";
 import AccountStack from "./stacks/AccountStack";
 import BenefitsStack from "./stacks/BenefitsStack";
@@ -42,10 +41,11 @@ const StackNavigator = () => {
   const onboarded = useSelector((state) => state.auth.onboarded);
   var initialScreen = useSelector((state) => state.navigation.currentScreen);
   const [modalVisible, setModalVisible] = useState(false);
-
+  const language = useSelector(state => state.localization.language)
   useEffect(() => {
-    changeLanguage(store.getState().localization.language);
-  }, []);
+    changeLanguage(language ?? "en");
+    console.log("stack navigator use effect")
+  }, [language]);
 
   const handleCampaignUrlClick = (url) => {
     // Alert.alert("Url",`${url}`)

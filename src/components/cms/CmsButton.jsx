@@ -44,7 +44,7 @@ const CmsButton = ({
               type: navigate.type,
               stack: navigate.stack,
               screen: navigate.screen,
-              params: navigate.params ? navigate.params : {},
+              params: navigate.params || {},
             })
           : Linking.openURL(url)
       }

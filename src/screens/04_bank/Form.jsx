@@ -56,7 +56,8 @@ const BankForm = () => {
         onRightIconPress={() =>
           navigationHelper({
             type: "cms",
-            params: { blogKey: "bank_help" },
+            params: { blogKey: "bank_help", backScreen: {stack: "OnboardingStack", screen: "BankForm"}},
+            
           })
         }
       />

@@ -20,8 +20,6 @@ const AadhaarVerifyApi = (props) => {
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const token = useSelector((state) => state.auth.token);
-
-  const aadhaarSlice = useSelector((state) => state.aadhaar);
   const campaignId = useSelector((state) => state.campaign.onboardingCampaignId);
   const handleOtpSuccess = (responseJson) => {
     props.setVerified(true);
@@ -90,7 +88,6 @@ const AadhaarVerifyApi = (props) => {
   const [verifyAadhaarOtp] = useVerifyAadhaarOtpMutation();
   const goForFetch = () => {
     setLoading(true);
-    console.log("aadhaarSlice: ", aadhaarSlice);
     const data = {
       unipeEmployeeId: unipeEmployeeId,
       otp: props.data.otp,
