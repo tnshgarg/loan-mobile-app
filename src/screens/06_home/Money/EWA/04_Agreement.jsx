@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   Alert,
   BackHandler,
   Dimensions,
@@ -22,6 +23,7 @@ import LoanProviderLogo from "../../../../components/atoms/LoanProviderLogo";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
+import { COLORS } from "../../../../constants/Theme";
 import { strings } from "../../../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
@@ -318,15 +320,20 @@ const Agreement = () => {
             additionalText="KFS"
             onPress={() => setIsKFSModalVisible(true)}
           />
-
-          <PrimaryButton
-            title={loading ? strings.processing : strings.proceed}
-            disabled={!consent || loading}
-            onPress={() => {
-              handleAgreement();
-            }}
-          />
-          <LoanProviderLogo title={loanProviderData?.title} url={loanProviderData?.logo + "?somech=123" || ""}/>
+          {loading ? (
+            <ActivityIndicator size="large" color={COLORS.secondary}/>
+          ): (
+            <>
+              <PrimaryButton
+                title={loading ? strings.processing : strings.proceed}
+                disabled={!consent || loading}
+                onPress={() => {
+                  handleAgreement();
+                }}
+              />
+              <LoanProviderLogo title={loanProviderData?.title} url={loanProviderData?.logo || ""}/>
+            </>
+          )}
           <Text style={moneyStyles.percentageTitle}>
             {strings.apr} {ewaLiveSlice?.apr} %
           </Text>

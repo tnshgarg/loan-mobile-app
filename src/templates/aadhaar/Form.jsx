@@ -1,5 +1,5 @@
 import { useIsFocused } from "@react-navigation/core";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import AadhaarOtpApi from "../../apis/aadhaar/Otp";
@@ -11,33 +11,27 @@ import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { strings } from "../../helpers/Localization";
 import { KYC_POLLING_DURATION } from "../../services/constants";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
-import { addNumber } from "../../store/slices/aadhaarSlice";
 import { styles } from "../../styles";
 
 const AadhaarFormTemplate = (props) => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
 
-  const [validNumber, setValidNumber] = useState(true);
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
-  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(unipeEmployeeId, {
     pollingInterval: KYC_POLLING_DURATION,
   });
   const { aadhaar } = kycData ?? {};
 
   const [number, setNumber] = useState(aadhaar?.number);
+  let aadhaarReg = /^\d{12}$/gm;
+  let isValidAadhaar = false;
+  if (aadhaarReg.test(number || "")) {
+    isValidAadhaar = true;
+  }
 
-  useEffect(() => {
-    let aadhaarReg = /^\d{12}$/gm;
-    if (aadhaarReg.test(number)) {
-      dispatch(addNumber(number));
-      setValidNumber(true);
-    } else {
-      setValidNumber(false);
-    }
-  }, [number]);
 
   return (
     <SafeAreaView style={styles.safeContainer}>
@@ -50,7 +44,7 @@ const AadhaarFormTemplate = (props) => {
           value={number}
           onChange={setNumber}
           maxLength={12}
-          errorMsg={number && !validNumber ? strings.invalidAadhaarNumber : ""}
+          errorMsg={number && !isValidAadhaar ? strings.invalidAadhaarNumber : ""}
           numeric
           appendComponent={
             <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
@@ -63,7 +57,7 @@ const AadhaarFormTemplate = (props) => {
         <View style={{ flex: 1 }} />
         <HelpCard
           text="Aadhaar"
-          onRightIconPress={() =>
+          onPress={() =>
             navigationHelper({
               type: "cms",
               params: { blogKey: "aadhaar_help" },
@@ -72,7 +66,7 @@ const AadhaarFormTemplate = (props) => {
         />
 
         <AadhaarOtpApi
-          disabled={!validNumber}
+          disabled={!isValidAadhaar || kycLoading}
           type={props?.route?.params?.type || ""}
           number={number}
         />

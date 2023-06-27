@@ -27,7 +27,7 @@ const BankFormTemplate = (props) => {
   const [accNumNext, setAccNumNext] = useState(false);
   const [ifscNext, setIfscNext] = useState(false);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(unipeEmployeeId, {
     pollingInterval: KYC_POLLING_DURATION,
   });
 
@@ -132,7 +132,13 @@ const BankFormTemplate = (props) => {
           </View>
         </KeyboardAvoidingWrapper>
       ) : (
-        <View style={styles.container}>
+        kycLoading ? 
+          (
+          <View style={{marginTop: 20}}>
+            <ActivityIndicator size={"large"} color={COLORS.secondary}/>
+          </View>
+        )
+        : (<View style={styles.container}>
           <Text style={bankform.subTitle}>{strings.verifyAadhaarFirst}</Text>
           <PrimaryButton
             title="Verify Aadhaar Now"
@@ -147,7 +153,7 @@ const BankFormTemplate = (props) => {
                 : navigation.navigate("AadhaarForm");
             }}
           />
-        </View>
+        </View>) 
       )}
     </SafeAreaView>
   );

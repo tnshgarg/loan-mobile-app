@@ -40,7 +40,7 @@ const CmsDummyBlog = (props) => {
     cms: cmsData?.[blogKey],
     styling: (data || [])[0]?.styling
   });
-  console.log(JSON.stringify(data))
+  console.log(disableBack, JSON.stringify(data))
   const backAction = () => {
     if (disableBack)  {
       Alert.alert("Hold on! This will log you out", "Are you sure you want to Logout?", [

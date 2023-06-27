@@ -199,7 +199,9 @@ const Disbursement = ({ route, navigation }) => {
     <SafeAreaView style={styles.safeContainer}>
       {enableFeedback ? (
         <LogoHeaderBack
-          onRightIconPress={() => {}}
+          onRightIconPress={() => {
+            
+          }}
           hideLogo={true}
           containerStyle={{ backgroundColor: null }}
         />

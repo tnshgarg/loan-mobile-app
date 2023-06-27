@@ -15,32 +15,22 @@ import { form, styles } from "../../styles";
 
 import { strings } from "../../helpers/Localization";
 import { KYC_POLLING_DURATION } from "../../services/constants";
+import { kycNavigate } from "../../services/kyc/navigation";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { useUpdateProfileMutation } from "../../store/apiSlices/profileApi";
 
 const ProfileFormTemplate = ({ type }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
-  const [next, setNext] = useState(false);
   const [validEmail, setValidEmail] = useState(false);
   const [validAltMobile, setValidAltMobile] = useState(false);
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   console.log({ unipeEmployeeId });
-  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(unipeEmployeeId, {
     pollingInterval: KYC_POLLING_DURATION,
   });
-  const {
-    isAadhaarSuccess,
-    isPanSuccess,
-    isBankSuccess,
-    isProfileSuccess,
-    profile,
-    aadhaar,
-    pan,
-    bank,
-  } = kycData ?? {};
+  const {profile} = kycData ?? {};
   console.log({ kycData });
 
   const [maritalStatus, setMaritalStatus] = useState(profile?.maritalStatus);
@@ -52,61 +42,30 @@ const ProfileFormTemplate = ({ type }) => {
     (state) => state.campaign.onboardingCampaignId
   );
 
-  const [updateProfile] = useUpdateProfileMutation();
+  const [updateProfile, {isLoading: updateInProgress}] = useUpdateProfileMutation();
 
   useEffect(() => {
     dispatch(addCurrentScreen("ProfileForm"));
   }, []);
 
-  useEffect(() => {
-    if (
-      maritalStatus &&
-      qualification &&
-      motherName &&
-      validEmail &&
-      validAltMobile
-    ) {
-      setNext(true);
-    } else {
-      setNext(false);
-    }
-  }, [maritalStatus, qualification, motherName, validEmail, validAltMobile]);
+  const formFilled = maritalStatus && qualification && motherName && validEmail && validAltMobile
 
-  const handleConditionalNav = () => {
-    if (aadhaar.verifyStatus != "SUCCESS") {
-      navigation.navigate("KYC", {
-        screen: "AADHAAR",
-      });
-    } else if (pan.verifyStatus != "SUCCESS") {
-      navigation.navigate("KYC", {
-        screen: "PAN",
-      });
-    } else if (bank.verifyStatus != "SUCCESS") {
-      navigation.navigate("KYC", {
-        screen: "BANK",
-      });
-    }
-  };
-
-  const backendPush = async () => {
+  const handleSubmit = async () => {
     const body = {
-      unipeEmployeeId: unipeEmployeeId,
-      maritalStatus: maritalStatus,
-      qualification: qualification,
-      altMobile: altMobile,
-      email: email,
-      motherName: motherName,
-      campaignId: campaignId,
+      unipeEmployeeId,
+      maritalStatus,
+      qualification,
+      altMobile,
+      email,
+      motherName,
+      campaignId,
     };
-
+    console.log({updatePayload: body})
     updateProfile(body)
       .unwrap()
       .then((response) => {
-        if (type === "KYC") {
-          handleConditionalNav();
-        } else {
-          navigation.navigate("AadhaarForm");
-        }
+        console.log({response})
+        kycNavigate({...kycData,isProfileSuccess:true}, navigation);
         showToast("Profile Details Updated", "success");
       })
       .catch((error) => {
@@ -209,9 +168,10 @@ const ProfileFormTemplate = ({ type }) => {
           <PrimaryButton
             accessibilityLabel={"ProfileBtn"}
             title={strings.continue}
-            disabled={!next}
+            disabled={kycLoading || !formFilled || updateInProgress}
+            loading={updateInProgress}
             onPress={() => {
-              backendPush();
+              handleSubmit();
               Analytics.trackEvent({
                 interaction: InteractionTypes.BUTTON_PRESS,
                 component: "ProfileForm",

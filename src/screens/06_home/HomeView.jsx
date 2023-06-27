@@ -57,6 +57,7 @@ const HomeView = () => {
     data: cmsData,
     isLoading: cmsLoading,
     isError: cmsError,
+    refetch: fetchCms,
   } = useGetCmsQuery(unipeEmployeeId, {
     pollingInterval: CMS_POLLING_DURATION,
   });
@@ -81,11 +82,9 @@ const HomeView = () => {
   useEffect(() => {
     dispatch(addCurrentStack("HomeStack"));
     if (!onboarded) addOnboarded(true);
-  }, []);
-
-  useEffect(() => {
     requestUserPermission();
     notificationListener();
+    fetchCms()
   }, []);
 
   useEffect(() => {
@@ -93,6 +92,7 @@ const HomeView = () => {
   }, [eligible]);
   console.log({ cmsData, cmsError });
   console.log({ ewaLiveSlice });
+  
   useEffect(() => {
     if (
       STAGE !== "prod" ||

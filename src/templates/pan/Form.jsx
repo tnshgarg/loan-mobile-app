@@ -23,18 +23,12 @@ const PanFormTemplate = (props) => {
   const { unipeEmployeeId, token, onboarded } = useSelector(
     (state) => state.auth
   );
-  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(unipeEmployeeId, {
+  const { data: kycData, isLoading: kycLoading,isFetching: kycFetching } = useGetKycQuery(unipeEmployeeId, {
     pollingInterval: KYC_POLLING_DURATION,
   });
   const {
     isAadhaarSuccess,
-    isPanSuccess,
-    isBankSuccess,
-    isProfileSuccess,
-    profile,
-    aadhaar,
     pan,
-    bank,
   } = kycData ?? {};
 
   const [number, setNumber] = useState(pan?.number);
@@ -52,7 +46,7 @@ const PanFormTemplate = (props) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      {kycLoading ? (<>
+      {(kycLoading || kycFetching) ? (<>
         <ActivityIndicator />
       </>) : isAadhaarSuccess ? (
         <View style={styles.container}>
@@ -93,7 +87,7 @@ const PanFormTemplate = (props) => {
           <View style={{ flex: 1 }} />
           <HelpCard
             text="PAN card"
-            onRightIconPress={() =>
+            onPress={() =>
               navigationHelper({
                 type: "cms",
                 params: { blogKey: "pan_help" },

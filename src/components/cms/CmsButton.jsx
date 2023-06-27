@@ -40,12 +40,7 @@ const CmsButton = ({
       loadingIndicatorPosition="trailing"
       onPress={() =>
         clickType == "navigation"
-          ? navigationHelper({
-              type: navigate.type,
-              stack: navigate.stack,
-              screen: navigate.screen,
-              params: navigate.params || {},
-            })
+          ? navigationHelper(navigate || {})
           : Linking.openURL(url)
       }
     >

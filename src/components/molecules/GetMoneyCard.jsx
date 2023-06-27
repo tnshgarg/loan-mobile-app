@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { useSelector } from "react-redux";
 import Coin from "../../assets/Coin.svg";
@@ -31,14 +31,14 @@ const getUserStage = (kycCompleted, mandateVerifyStatus) => {
 }
 const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+  const { data: kycData,isLoading: kycLoading } = useGetKycQuery(unipeEmployeeId, {
     pollingInterval: KYC_POLLING_DURATION,
   });
   const {
     kycCompleted,
   } = kycData ?? {};
 
-  const { data, error, isLoading } = useGetMandateQuery(unipeEmployeeId, {
+  const { data, error, isLoading: mandateLoading } = useGetMandateQuery(unipeEmployeeId, {
     pollingInterval: EWA_POLLING_DURATION,
   });
 
@@ -64,6 +64,8 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
     [US.MANDATE_PENDING]: strings.kindlySetupRepayment,
     [US.EWA_AVAILABLE]: `${strings.transfer} ${amount} ${strings.toBankAccount}`,
   }
+
+  const contentLoading = mandateLoading || kycLoading
   return (
     <View style={styles.container}>
       <View
@@ -85,7 +87,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
           )}
           {/* TODO: add localization */}
           <Text style={[styles.text, { marginLeft: 10 }]}>
-            {cardTopMessages[userStage]}
+            {contentLoading ? "Loading..." : cardTopMessages[userStage]}
           </Text>
         </View>
       </View>
@@ -98,9 +100,12 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
         }}
       >
         <Text style={styles.text}>{strings.availableSalary}</Text>
-        <Text style={[styles.text, { ...FONTS.body1 }]}>
+        {contentLoading ? 
+        <ActivityIndicator color={COLORS.secondary}/>
+        : (<Text style={[styles.text, { ...FONTS.body1 }]}>
           {kycCompleted ? amount : "XX,XXX"}
-        </Text>
+        </Text>)}
+        
 
         <PrimaryButton
           containerStyle={{ height: 40 }}
@@ -113,7 +118,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
                 : strings.getSalaryNow
               : "Complete Your KYC"
           }
-          disabled={!kycCompleted ? false : !eligible || !accessible}
+          disabled={contentLoading || kycCompleted && (!eligible || !accessible)}
           onPress={() => {
             if (userStage == US.EWA_AVAILABLE) {
               Analytics.trackEvent({
@@ -154,7 +159,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
       >
         {/* TODO: add localization */}
         <Text style={styles.text}>
-          {cardBottomMessages[userStage] }
+          {contentLoading ? "Loading..." : cardBottomMessages[userStage] }
         </Text>
       </View>
     </View>

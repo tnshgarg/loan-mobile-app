@@ -19,7 +19,7 @@ export const kycApi = api
             isAadhaarSuccess: body?.aadhaar?.verifyStatus === "SUCCESS",
             isPanSuccess: body?.pan?.verifyStatus === "SUCCESS",
             isBankSuccess: body?.bank?.verifyStatus === "SUCCESS",
-            isProfileSuccess: body?.profile?.profileComplete === true,
+            isProfileSuccess: body?.profile?.profileComplete,
           };
         },
       }),

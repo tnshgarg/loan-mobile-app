@@ -1,7 +1,7 @@
 import axios from "axios";
-import { RZP_KEY_ID,EMPLOYEE_API_URL } from "../../constants";
 import RazorpayCheckout from "react-native-razorpay";
-import { COLORS} from "../../../constants/Theme";
+import { COLORS } from "../../../constants/Theme";
+import { EMPLOYEE_API_URL, RZP_KEY_ID } from "../../constants";
 
 
 const createOrder = (data, category, jwtToken) => {

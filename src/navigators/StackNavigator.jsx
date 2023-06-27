@@ -35,8 +35,8 @@ const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.auth?.token);
-  const onboarded = useSelector((state) => state.auth.onboarded);
+  const token = useSelector((state) => state?.auth?.token);
+  const onboarded = useSelector((state) => state?.auth?.onboarded);
   const [modalVisible, setModalVisible] = useState(false);
   const language = useSelector(state => state.localization.language)
   let initialRoute = useSelector((state) => state.navigation.currentStack);
@@ -128,6 +128,7 @@ const StackNavigator = () => {
       <Stack.Navigator
         initialRouteName={"Splash"}
         screenOptions={{ headerShown: false, header: null }}
+        detachInactiveScreens={true}
       >
         {devMenu}
         <Stack.Screen

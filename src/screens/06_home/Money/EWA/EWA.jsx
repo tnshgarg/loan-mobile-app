@@ -118,7 +118,12 @@ const EWA = () => {
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
         title={`Money`}
-        onRightIconPress={() => {}}
+        onRightIconPress={() => {
+          navigationHelper({
+            type: "cms",
+            params: { blogKey: "customer_support" },
+          });
+        }}
         containerStyle={{
           backgroundColor: null,
         }}

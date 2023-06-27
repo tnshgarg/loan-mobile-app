@@ -11,6 +11,7 @@ import { showToast } from "../../components/atoms/Toast";
 import MandateOptions from "../../components/molecules/MandateOptions";
 import MandateLoading from "../../components/organisms/MandateLoading";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
@@ -250,7 +251,7 @@ const MandateFormTemplate = (props) => {
     ];
   };
 
-  const lastDigitsAccount = accountNumber?.slice(0, 4);
+  const lastDigitsAccount = accountNumber?.slice(accountNumber.length-4,accountNumber.length);
 
   return (
     <SafeAreaView style={styles.safeContainer}>
@@ -294,7 +295,12 @@ const MandateFormTemplate = (props) => {
               "Mandate is required to auto-debit loan payments on Due Date. This is 100% secure and executed by an RBI approved entity."
             }
           />
-          <HelpCard text="repayment methods" />
+          <HelpCard text="repayment methods" onPress={() => {
+            navigationHelper({
+              type: "cms",
+              params: { blogKey: "mandate_help" },
+            });
+          }}/>
         </ScrollView>
       </KeyboardAvoidingWrapper>
       {modalVisible && (

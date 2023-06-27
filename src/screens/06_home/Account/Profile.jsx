@@ -17,7 +17,7 @@ import ProfileFormTemplate from "../../../templates/profile/Form";
 const Profile = ({ navigation }) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
-  const { data: kycData, isLoading: loading } = useGetKycQuery(
+  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(
     unipeEmployeeId,
     {
       pollingInterval: KYC_POLLING_DURATION,
@@ -52,9 +52,6 @@ const Profile = ({ navigation }) => {
   ];
 
   const backAction = () => {
-    // navigation.navigate("HomeStack", {
-    //   screen: "Account",
-    // });
     navigation.goBack();
     return true;
   };

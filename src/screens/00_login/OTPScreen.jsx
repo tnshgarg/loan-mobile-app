@@ -40,25 +40,15 @@ const OTPScreen = () => {
   const [verified, setVerified] = useState(false);
 
   const [otp, setOtp] = useState("");
-  const [next, setNext] = useState(false);
   const [back, setBack] = useState(false);
 
   const countDownTime = useSelector((state) => state.timer.login);
   const {phoneNumber,unipeEmployeeId,token} = useSelector((state) => state.auth || {});
   const [trigger, result, lastPromiseInfo] = useLazyGetKycQuery();
-
-  const [kycCompleted, setKycCompleted] = useState(false);
-
-  const [postVerifyOtp] = useVerifyOtpMutation();
+  const [postVerifyOtp,{isLoading: verifyOtpLoading}] = useVerifyOtpMutation();
   const [postGenerateOtp] = useGenerateOtpMutation();
 
   let interval;
-
-  // useEffect(() => {
-  //   if (isAadhaarSuccess && isPanSuccess && isBankSuccess && isProfileSuccess) {
-  //     setKycCompleted(true);
-  //   }
-  // }, [isAadhaarSuccess, isPanSuccess, isBankSuccess, isProfileSuccess]);
 
   useEffect(() => {
     interval = BackgroundTimer.setInterval(() => {
@@ -76,13 +66,7 @@ const OTPScreen = () => {
     return () => BackgroundTimer.clearInterval(interval);
   }, [countDownTime, verified]);
 
-  useEffect(() => {
-    if (otp.length === 6) {
-      setNext(true);
-    } else {
-      setNext(false);
-    }
-  }, [otp]);
+  
 
   const backAction = () => {
     console.log(back);
@@ -160,26 +144,23 @@ const OTPScreen = () => {
   const handleNavigation = (token,unipeEmployeeId)  => {
     if (token) {
       trigger(unipeEmployeeId, false)
-          .then(({ data }) =>
-            data?.kycCompleted
-              ? navigation.navigate("HomeStack")
-              : navigationHelper({
+          .then(({ data }) => {
+            if(data?.kycCompleted)
+              navigation.navigate("HomeStack")
+            else
+              navigationHelper({
                   type: "cms",
                   params: { blogKey: "login_success" },
                 })
-          )
-          .catch((err) => console.log(err));
+          }).catch((err) => console.log(err));
     } else if (!phoneNumber) {
       navigation.navigate("Login")
     }
   }
   const onSubmitOtp = () => {
-    setNext(false);
     postVerifyOtp({ mobileNumber: phoneNumber, otp: otp })
       .unwrap()
       .then((res) => {
-        // TODO: Verify Response
-        console.log({ res });
         dispatch(addToken(res["token"]));
         handleNavigation(res["token"],res?.employeeDetails?.unipeEmployeeId);
         setVerified(true);
@@ -203,18 +184,24 @@ const OTPScreen = () => {
         // Alert.alert("Error", error?.message || error?.error?.message);
         showToast(error?.message || error?.error?.message, "error");
         if (error?.status != 406) {
+          setOtp("")
           navigation.navigate("Login");
         }
       });
   };
 
   useEffect(() => {
+    console.log("back handler subscribe called")
     dispatch(addCurrentScreen("Otp"));
     BackHandler.addEventListener("hardwareBackPress", backAction);
     handleNavigation(token, unipeEmployeeId)
-    return () =>
+    return () => {
+      console.log("back handler unsubscribe called")
       BackHandler.removeEventListener("hardwareBackPress", backAction);
+    }
   }, []);
+
+  let isValidOtp = otp.length == 6;
   return (
     <SafeAreaView accessibilityLabel="OtpScreen" style={styles.safeContainer}>
       <LogoHeaderBack
@@ -294,7 +281,8 @@ const OTPScreen = () => {
           <PrimaryButton
             accessibilityLabel="OtpBtn"
             title="Continue"
-            disabled={!next}
+            disabled={!isValidOtp || verifyOtpLoading}
+            loading={verifyOtpLoading}
             onPress={onSubmitOtp}
           />
         </View>

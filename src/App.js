@@ -1,4 +1,3 @@
-import { STAGE } from "@env";
 import { NavigationContainer } from "@react-navigation/native";
 import Crashes from "appcenter-crashes";
 import { LogBox } from "react-native";
@@ -6,7 +5,6 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import SplashScreen from "react-native-splash-screen";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import UpdateDialog from "./components/UpdateDialog";
 import Analytics from "./helpers/analytics/commonAnalytics";
 import { navigationRef } from "./navigators/RootNavigation";
 import StackNavigator from "./navigators/StackNavigator";
@@ -39,7 +37,7 @@ const App = () => {
         <NavigationContainer ref={navigationRef}>
           <SafeAreaProvider style={{ backgroundColor: "white", flex: 1 }}>
             <StackNavigator />
-            {STAGE != "dev" && <UpdateDialog />}
+            {/* {STAGE != "dev" && <UpdateDialog />} */}
           </SafeAreaProvider>
         </NavigationContainer>
       </PersistGate>

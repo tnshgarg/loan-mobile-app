@@ -5,7 +5,7 @@ import { api } from "./api";
 export default DUMMY_RES;
 
 export const cmsApi = api
-  .enhanceEndpoints({ addTagTypes: ["getPersonalization"] })
+  .enhanceEndpoints({ addTagTypes: ["getPersonalization", "getLocalization"] })
   .injectEndpoints({
     endpoints: (builder) => ({
       getCms: builder.query({

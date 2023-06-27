@@ -21,6 +21,7 @@ export const aadhaarApi = api
         transformErrorResponse: (error) => {
           return error?.data?.error;
         },
+        invalidatesTags: ["getKycStatus"],
       }),
       verifyAadhaarOtp: builder.mutation({
         invalidatesTags: ["getKycStatus"],

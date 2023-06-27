@@ -14,32 +14,10 @@ import SvgContainer from "../components/atoms/SvgContainer";
 import { COLORS, FONTS } from "../constants/Theme";
 import { strings } from "../helpers/Localization";
 import { KYC_POLLING_DURATION } from "../services/constants";
+import { kycNavigate } from "../services/kyc/navigation";
 import { useGetKycQuery } from "../store/apiSlices/kycApi";
 import { styles } from "../styles";
 
-const KS = {
-  PROFILE_FORM: 0,
-  AADHAAR_FORM: 1,
-  AADHAAR_OTP: 2,
-  AADHAAR_CONFIRMATION: 3,
-  PAN_FORM: 4,
-  PAN_CONFIRMATION: 5,
-  BANK_FORM:6,
-  BANK_CONFIRMATION: 7,
-  COMPLETE: 8,
-}
-
-
-const redirectScreen = {
-  [KS.PROFILE_FORM]:"ProfileForm",
-  [KS.AADHAAR_FORM]:"AadhaarForm",
-  [KS.AADHAAR_OTP]:"AadhaarVerify",
-  [KS.AADHAAR_CONFIRMATION]:"AadhaarConfirm",
-  [KS.PAN_FORM]:"PanForm",
-  [KS.PAN_CONFIRMATION]:"PanConfirm",
-  [KS.BANK_FORM]:"BankForm",
-  [KS.BANK_CONFIRMATION]:"BankConfirm",
-}
 
 
 
@@ -50,31 +28,13 @@ const redirectScreen = {
 
 
 
-const getKYCStage = (isProfileSuccess, aadhaar,pan, bank) => {
-  if (!isProfileSuccess)
-    return KS.PROFILE_COMPLETE
-  if (!["INPROGRESS_OTP", "INPROGRESS_CONFIRMATION", "SUCCESS"].includes(aadhaar.verifyStatus))
-    return KS.AADHAAR_FORM
-  if (aadhaar.verifyStatus === "INPROGRESS_OTP")
-    return KS.AADHAAR_OTP
-  if (aadhaar.verifyStatus === "INPROGRESS_CONFIRMATION")
-    return KS.AADHAAR_CONFIRMATION
-  if (!["INPROGRESS_CONFIRMATION", "SUCCESS"].includes(pan.verifyStatus))
-    return KS.PAN_FORM
-  if (pan.verifyStatus === "INPROGRESS_CONFIRMATION") 
-    return KS.PAN_CONFIRMATION
-  if (!["INPROGRESS_CONFIRMATION", "SUCCESS"].includes(bank.verifyStatus)) {
-    return KS.BANK_FORM
-  }
-  if (bank.verifyStatus === "INPROGRESS_CONFIRMATION") 
-    return KS.BANK_CONFIRMATION
-  return KS.COMPLETE
-}
+
+
 const KycProgress = () => {
   const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
   const navigation = useNavigation();
 
-  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(unipeEmployeeId, {
     pollingInterval: KYC_POLLING_DURATION,
   });
 
@@ -84,9 +44,6 @@ const KycProgress = () => {
     isPanSuccess,
     isBankSuccess,
     isProfileSuccess,
-    aadhaar,
-    pan,
-    bank,
   } = kycData ?? {};
 
   const kycSteps = [
@@ -116,15 +73,11 @@ const KycProgress = () => {
     },
   ];
 
-  const handleConditionalNav = () => {
-    let kycStage = getKYCStage(isProfileSuccess, aadhaar, pan, bank)
-    navigation.navigate("EWAStack", {
-      screen: "EWA_KYC_STACK",
-      params: {
-        screen: redirectScreen[kycStage]
-      },
-    });
-  };
+  const continueButtonPress = () => {
+    console.log(kycData, kycData.isProfileSuccess)
+    kycNavigate(kycData,navigation)
+  }
+  
 
   const BORDER_COLOR = {
     // SUCCESS: COLORS.primary,
@@ -184,7 +137,9 @@ const KycProgress = () => {
         <View style={{ flex: 1 }} />
         <PrimaryButton
           title={strings.continue}
-          onPress={handleConditionalNav}
+          onPress={continueButtonPress}
+          loading={kycLoading}
+          disabled={kycLoading}
         />
       </View>
     </SafeAreaView>

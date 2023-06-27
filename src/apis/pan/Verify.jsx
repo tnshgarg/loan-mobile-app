@@ -41,9 +41,8 @@ const PanVerifyApi = (props) => {
           action: "Verify",
           status: "Success",
         });
-        if (props.type !== "KYC") {
-          navigation.navigate("PanConfirm");
-        }
+        
+        navigation.navigate("PanConfirm");
       })
       .catch((error) => {
         console.log("kyc/pan-fetch-details error: ", error);

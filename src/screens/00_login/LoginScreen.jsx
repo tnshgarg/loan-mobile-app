@@ -82,7 +82,7 @@ const LoginScreen = () => {
   };
 
   useEffect(() => {
-    if (STAGE !== "dev") {
+    if (STAGE === "dev") {
       onPhoneNumberPressed();
     }
   }, []);
@@ -279,6 +279,7 @@ const LoginScreen = () => {
       <Animated.View style={[styles.bottomPart, { flex: bottomFlex }]}>
         <KeyboardAvoidingWrapper>
           <View>
+
             <LoginInput
               accessibilityLabel="MobileNumber"
               phoneNumber={phoneNumber}

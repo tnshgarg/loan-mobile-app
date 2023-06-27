@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { BackHandler, SafeAreaView } from "react-native";
 import { useDispatch } from "react-redux";
 
+import BottomAlert from "../../components/molecules/BottomAlert";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { strings } from "../../helpers/Localization";

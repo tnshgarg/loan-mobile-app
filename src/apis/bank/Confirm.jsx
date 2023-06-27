@@ -1,5 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
-import { View } from "react-native";
+import { useState } from "react";
+import { ActivityIndicator, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { showToast } from "../../components/atoms/Toast";
@@ -10,6 +11,7 @@ import Analytics, {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
 import { KYC_POLLING_DURATION } from "../../services/constants";
+import { kycNavigate } from "../../services/kyc/navigation";
 import { useUpdateBankMutation } from "../../store/apiSlices/bankApi";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { addOnboarded } from "../../store/slices/authSlice";
@@ -20,14 +22,12 @@ const BankConfirmApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const token = useSelector((state) => state.auth.token);
-
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
-  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
+  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(unipeEmployeeId, {
     pollingInterval: KYC_POLLING_DURATION,
   });
-
+  const [awatingSubmit, setAwaitingMutation] = useState(false);
   const { bank: bankData } = kycData;
 
   const { data, number, verifyStatus } = bankData ?? {};
@@ -38,6 +38,7 @@ const BankConfirmApi = (props) => {
 
   const [updateBank] = useUpdateBankMutation();
   const backendPush = async ({ verifyStatus }) => {
+    setAwaitingMutation(true)
     dispatch(addVerifyStatus(verifyStatus));
 
     const payload = {
@@ -50,32 +51,17 @@ const BankConfirmApi = (props) => {
     updateBank(payload)
       .unwrap()
       .then((res) => {
-        if (verifyStatus === "REJECTED") {
-          if (props?.route?.params?.type === "KYC") {
-            navigation.navigate("KYC", {
-              screen: "BANK",
-              params: {
-                screen: "Form",
-              },
-            });
-          } else {
-            navigation.navigate("BankForm");
-          }
-        } else if (verifyStatus === "SUCCESS") {
-          if (props?.route?.params?.type === "KYC") {
-            showToast("KYC Completed Successfully");
-            navigation.navigate("HomeStack", {
-              screen: "Home",
-            });
-          } else {
-            navigation.navigate("KycSuccess");
-            // navigation.replace("EWA_MANDATE");
-          }
+        if (["REJECTED", "SUCCESS"].includes(verifyStatus)) {
+          kycNavigate({...kycData,bank: {verifyStatus}}, navigation)
+        } else {
+          const err = new Error("Something Unexpected has happened")
+          err.message = "Something Unexpected has happened"
+          throw err
         }
       })
       .catch((error) => {
-        showToast(error?.message, "error");
-      });
+        showToast(error?.message, "Please contact support");
+      }).finally(() => setAwaitingMutation(false));
   };
 
   const cardData = () => {
@@ -99,11 +85,18 @@ const BankConfirmApi = (props) => {
     return res;
   };
 
+  let loading = kycLoading || awatingSubmit;
   return (
     <View style={styles.container}>
       <DetailsCard data={cardData()} />
-
-      <View style={[styles.row, { justifyContent: "space-between" }]}>
+      {loading ? <View style={{marginTop: 20}}>
+        <ActivityIndicator size={"large"} color={COLORS.secondary}/> 
+        </View>: <></> 
+      }
+      <View style={[styles.row, { 
+        justifyContent: "space-between", 
+        display: loading ? "none": null 
+        }]}>
         <PrimaryButton
           title="Not Me"
           containerStyle={form.noButton}
