@@ -1,0 +1,49 @@
+import { NavigationContainer } from "@react-navigation/native";
+import Crashes from "appcenter-crashes";
+import { LogBox } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import SplashScreen from "react-native-splash-screen";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import UpdateDialog from "./components/UpdateDialog";
+import Analytics from "./helpers/analytics/commonAnalytics";
+import { navigationRef } from "./navigators/RootNavigation";
+import StackNavigator from "./navigators/StackNavigator";
+import { persistor, store } from "./store/store";
+
+Crashes.setListener({
+  shouldProcess: function (report) {
+    return true; // return true if the crash report should be processed, otherwise false.
+  },
+});
+
+// if (__DEV__) {
+//   import("./ReactotronConfig").then(() => console.log("Reactotron Configured"));
+// }
+const analyticsInit = async () => {
+  await Analytics.init();
+};
+
+
+
+const App = () => {
+  analyticsInit();
+  SplashScreen.hide();
+
+  LogBox.ignoreAllLogs();
+
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <NavigationContainer ref={navigationRef}>
+          <SafeAreaProvider style={{ backgroundColor: "white", flex: 1 }}>
+            <StackNavigator />
+            {STAGE != "dev" && <UpdateDialog />}
+          </SafeAreaProvider>
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
+  );
+};
+
+export default App;

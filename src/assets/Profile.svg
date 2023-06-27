@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100%" height="100%" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>profile (1)</title>
+    <defs>
+        <linearGradient x1="50%" y1="98.225%" x2="50%" y2="4.25%" id="linearGradient-1">
+            <stop stop-color="#FD4085" offset="0.26%"></stop>
+            <stop stop-color="#FFA28D" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="23:-Account-Page" transform="translate(-19.000000, -292.000000)" fill-rule="nonzero">
+            <g id="profile-(1)" transform="translate(19.000000, 292.000000)">
+                <circle id="Oval" fill="url(#linearGradient-1)" cx="15" cy="15" r="15"></circle>
+                <g id="Group" transform="translate(6.935997, 5.270400)" fill="#FFF1F3">
+                    <path d="M8.06400345,9.99200722e-16 C5.57865345,9.99200722e-16 3.56400345,1.9536 3.56400345,4.36365 C3.56400345,6.7737 5.57865345,9.7296 8.06400345,9.7296 C10.5493535,9.7296 12.5640035,6.7737 12.5640035,4.36365 C12.5640035,1.9536 10.5493535,9.99200722e-16 8.06400345,9.99200722e-16 L8.06400345,9.99200722e-16 Z" id="Path"></path>
+                    <path d="M14.6596535,19.73955 C16.1629535,18.7422 16.5459035,16.6509 15.5341535,15.1572 C13.9311035,12.79065 11.1735035,11.2245 8.04210345,11.2245 C4.92375345,11.2245 2.17650345,12.7779 0.570753451,15.1281 C-0.446996549,16.6176 -0.0692965491,18.70995 1.43010345,19.7133 C3.33030345,20.98485 5.61000345,21.7296 8.06400345,21.7296 C10.5012035,21.7296 12.7669535,20.9952 14.6596535,19.73955 L14.6596535,19.73955 Z" id="Path"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

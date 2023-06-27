@@ -1,0 +1,144 @@
+import { STAGE } from "@env";
+import { useIsFocused, useNavigation } from "@react-navigation/core";
+import { useEffect, useState } from "react";
+import { BackHandler, SafeAreaView, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
+import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
+import VerifyMandateCard from "../../../../components/molecules/VerifyMandateCard";
+import LiveOfferCard from "../../../../components/organisms/LiveOfferCard";
+import { getNumberOfDays } from "../../../../helpers/DateFunctions";
+import { EWA_POLLING_DURATION } from "../../../../services/constants";
+import { useGetOffersQuery } from "../../../../store/apiSlices/ewaApi";
+import { useGetMandateQuery } from "../../../../store/apiSlices/mandateApi";
+import { resetEwaHistorical } from "../../../../store/slices/ewaHistoricalSlice";
+import {
+  addAccessible,
+  addEligible,
+  resetEwaLive,
+} from "../../../../store/slices/ewaLiveSlice";
+import { styles } from "../../../../styles";
+const EWA = () => {
+  const dispatch = useDispatch();
+  const isFocused = useIsFocused();
+  const navigation = useNavigation();
+
+  const [fetched, setFetched] = useState(false);
+
+  const token = useSelector((state) => state.auth.token);
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+
+  // const panMisMatch = useSelector((state) => state.pan.misMatch);
+  // const bankMisMatch = useSelector((state) => state.bank.misMatch);
+
+  const ewaLiveSlice = useSelector((state) => state.ewaLive);
+  const ewaHistoricalSlice = useSelector((state) => state.ewaHistorical);
+
+  const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
+  const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
+  const { data: mandateData, error, isLoading } = useGetMandateQuery(unipeEmployeeId);
+
+  const backAction = () => {
+    navigation.navigate("EWA", { replace: true });
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
+  useEffect(() => {
+    dispatch(addEligible(eligible));
+  }, [eligible]);
+
+  useEffect(() => {
+    if (
+      STAGE !== "prod" ||
+      (STAGE === "prod" && parseInt(ewaLiveSlice?.eligibleAmount) >= 1000)
+    ) {
+      console.log("first");
+      setEligible(true);
+    } else {
+      setEligible(false);
+    }
+  }, [ewaLiveSlice, fetched]);
+
+  useEffect(() => {
+    dispatch(addAccessible(accessible));
+  }, [accessible]);
+
+  const {
+    isSuccess: getEwaOffersIsSuccess,
+    isError: getEwaOffersIsError,
+    error: getEwaOffersError,
+    data: getEwaOffersData,
+  } = useGetOffersQuery(unipeEmployeeId, {
+    pollingInterval: EWA_POLLING_DURATION,
+  });
+
+  useEffect(() => {
+    if (isFocused && getEwaOffersIsSuccess) {
+      if (getEwaOffersData.status === 200) {
+        if (Object.keys(getEwaOffersData.body.live).length !== 0) {
+          const closureDays = getNumberOfDays({
+            date: getEwaOffersData.body.live.dueDate,
+          });
+          if (closureDays <= 3) {
+            setAccessible(false);
+          } else {
+            setAccessible(true);
+          }
+        } else {
+          setAccessible(false);
+        }
+        dispatch(resetEwaLive(getEwaOffersData.body.live));
+        dispatch(resetEwaHistorical(getEwaOffersData.body.past));
+        setFetched(true);
+      } else {
+        console.log(
+          "Money ewaOffersFetch API error getEwaOffersData.data : ",
+          getEwaOffersData
+        );
+        dispatch(resetEwaLive());
+        dispatch(resetEwaHistorical());
+      }
+    } else if (getEwaOffersIsError) {
+      console.log(
+        "Money ewaOffersFetch API error getEwaOffersError.message : ",
+        getEwaOffersError.message
+      );
+      dispatch(resetEwaLive());
+      dispatch(resetEwaHistorical());
+    }
+  }, [getEwaOffersIsSuccess, getEwaOffersData, isFocused]);
+
+  return (
+    <SafeAreaView style={styles.safeContainer}>
+      <LogoHeaderBack
+        title={`Money`}
+        onRightIconPress={() => {
+          navigationHelper({
+            type: "cms",
+            params: { blogKey: "customer_support" },
+          });
+        }}
+        containerStyle={{
+          backgroundColor: null,
+        }}
+      />
+      <View style={styles.container}>
+        <LiveOfferCard
+          eligible={eligible}
+          accessible={accessible}
+          ewaLiveSlice={ewaLiveSlice}
+        />
+        <VerifyMandateCard mandateVerifyStatus={mandateData?.verifyStatus} />
+        <PastDrawsCard screenType="half" data={ewaHistoricalSlice} />
+      </View>
+    </SafeAreaView>
+  );
+};
+
+export default EWA;

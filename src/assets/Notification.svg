@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="29.5px" height="29.5px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Notification</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="22" height="22" rx="5"></rect>
+        <filter x="-31.8%" y="-22.7%" width="163.6%" height="163.6%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.711814991   0 0 0 0 0.711814991   0 0 0 0 0.711814991  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Notification" transform="translate(4.000000, 2.000000)">
+            <g id="Group" transform="translate(2.000000, 2.000000)">
+                <polygon id="Path" points="0 0 18 0 18 18 0 18"></polygon>
+                <path d="M7.5,3.75 C7.5,2.92157288 8.17157288,2.25 9,2.25 C9.82842712,2.25 10.5,2.92157288 10.5,3.75 C12.2551272,4.57991519 13.4089734,6.31068442 13.5,8.25 L13.5,10.5 C13.6144609,11.4455973 14.1711644,12.2806525 15,12.75 L3,12.75 C3.82883563,12.2806525 4.3855391,11.4455973 4.5,10.5 L4.5,8.25 C4.59102663,6.31068442 5.74487278,4.57991519 7.5,3.75" id="Path" stroke="#597E8D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M6.75,12.75 L6.75,13.5 C6.75,14.7426407 7.75735931,15.75 9,15.75 C10.2426407,15.75 11.25,14.7426407 11.25,13.5 L11.25,12.75" id="Path" stroke="#597E8D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -104,3 +104,11 @@ https://www.mobile-app.unipe.co/repayment/campaign/DDMMYYY$TEMPLATE_NAME
 
 Onboarding
 https://www.mobile-app.unipe.co/onboarding/[profile|aadhaar|pan|bank]/campaign/DDMMYYY$TEMPLATE_NAME
+
+## Patching
+
+```
+LIBRARY_NAME=react-native-code-push
+npx patch-package $LIBRARY_NAME
+
+```

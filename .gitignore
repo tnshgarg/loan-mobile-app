@@ -2,8 +2,6 @@
 #
 .DS_Store
 
-# Build Files
-ios/
 
 # Xcode
 #
@@ -68,6 +66,4 @@ env/
 
 # Environment Variables
 .env
-
-# VSCode
-.vscode/
+./android/app/src/main/assets/appcenter-config.json
