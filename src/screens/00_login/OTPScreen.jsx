@@ -17,7 +17,6 @@ import { showToast } from "../../components/atoms/Toast";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import OtpInput from "../../components/molecules/OtpInput";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
@@ -43,9 +42,12 @@ const OTPScreen = () => {
   const [back, setBack] = useState(false);
 
   const countDownTime = useSelector((state) => state.timer.login);
-  const {phoneNumber,unipeEmployeeId,token} = useSelector((state) => state.auth || {});
+  const { phoneNumber, unipeEmployeeId, token } = useSelector(
+    (state) => state.auth || {}
+  );
   const [trigger, result, lastPromiseInfo] = useLazyGetKycQuery();
-  const [postVerifyOtp,{isLoading: verifyOtpLoading}] = useVerifyOtpMutation();
+  const [postVerifyOtp, { isLoading: verifyOtpLoading }] =
+    useVerifyOtpMutation();
   const [postGenerateOtp] = useGenerateOtpMutation();
 
   let interval;
@@ -65,8 +67,6 @@ const OTPScreen = () => {
     }
     return () => BackgroundTimer.clearInterval(interval);
   }, [countDownTime, verified]);
-
-  
 
   const backAction = () => {
     console.log(back);
@@ -102,7 +102,7 @@ const OTPScreen = () => {
     }
     return true;
   };
-  
+
   const onResendOtp = () => {
     postGenerateOtp(phoneNumber)
       .unwrap()
@@ -140,29 +140,29 @@ const OTPScreen = () => {
         // Alert.alert("Error", error.message);
       });
   };
-  
-  const handleNavigation = (token,unipeEmployeeId)  => {
+
+  const handleNavigation = (token, unipeEmployeeId) => {
     if (token) {
       trigger(unipeEmployeeId, false)
-          .then(({ data }) => {
-            if(data?.kycCompleted)
-              navigation.navigate("HomeStack")
-            else
-              navigationHelper({
-                  type: "cms",
-                  params: { blogKey: "login_success" },
-                })
-          }).catch((err) => console.log(err));
+        .then(({ data }) => {
+          if (data?.kycCompleted) navigation.navigate("HomeStack");
+          else navigation.navigate("LoginSuccess");
+          // navigationHelper({
+          //     type: "cms",
+          //     params: { blogKey: "login_success" },
+          //   })
+        })
+        .catch((err) => console.log(err));
     } else if (!phoneNumber) {
-      navigation.navigate("Login")
+      navigation.navigate("Login");
     }
-  }
+  };
   const onSubmitOtp = () => {
     postVerifyOtp({ mobileNumber: phoneNumber, otp: otp })
       .unwrap()
       .then((res) => {
         dispatch(addToken(res["token"]));
-        handleNavigation(res["token"],res?.employeeDetails?.unipeEmployeeId);
+        handleNavigation(res["token"], res?.employeeDetails?.unipeEmployeeId);
         setVerified(true);
 
         Analytics.trackEvent({
@@ -184,21 +184,21 @@ const OTPScreen = () => {
         // Alert.alert("Error", error?.message || error?.error?.message);
         showToast(error?.message || error?.error?.message, "error");
         if (error?.status != 406) {
-          setOtp("")
+          setOtp("");
           navigation.navigate("Login");
         }
       });
   };
 
   useEffect(() => {
-    console.log("back handler subscribe called")
+    console.log("back handler subscribe called");
     dispatch(addCurrentScreen("Otp"));
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    handleNavigation(token, unipeEmployeeId)
+    handleNavigation(token, unipeEmployeeId);
     return () => {
-      console.log("back handler unsubscribe called")
+      console.log("back handler unsubscribe called");
       BackHandler.removeEventListener("hardwareBackPress", backAction);
-    }
+    };
   }, []);
 
   let isValidOtp = otp.length == 6;

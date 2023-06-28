@@ -80,10 +80,11 @@ const KycProgress = () => {
         headline={strings.getYouVerified}
         subHeadline={strings.complete4Steps}
         onLeftIconPress={() => {
-          navigationHelper({
-            type: "cms",
-            params: { blogKey: "login_success" },
-          });
+          navigation.navigate("LoginSuccess");
+          // navigationHelper({
+          //   type: "cms",
+          //   params: { blogKey: "login_success" },
+          // });
         }}
         onRightIconPress={() => {
           navigationHelper({

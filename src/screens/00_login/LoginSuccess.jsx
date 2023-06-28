@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { Alert, BackHandler, SafeAreaView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import CmsRoot from "../../components/cms/CmsRoot";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { CMS_POLLING_DURATION } from "../../services/constants";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
@@ -41,7 +42,7 @@ const LoginSuccess = () => {
   console.log({ cmsError, cmsData });
   return (
     <SafeAreaView accessibilityLabel="WelcomePage" style={styles.safeContainer}>
-      {/* <LogoHeaderBack
+      <LogoHeaderBack
         containerStyle={{ backgroundColor: "#223240" }}
         hideLogo={true}
         onRightIconPress={() =>
@@ -50,7 +51,7 @@ const LoginSuccess = () => {
             params: { blogKey: "kyc_help" },
           })
         }
-      /> */}
+      />
       {!cmsLoading ? (
         <CmsRoot children={cmsData?.login_success?.data || []}></CmsRoot>
       ) : (
