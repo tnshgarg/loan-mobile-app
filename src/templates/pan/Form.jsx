@@ -1,10 +1,11 @@
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, SafeAreaView, Text, View } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import PanVerifyApi from "../../apis/pan/Verify";
 import FormInput from "../../components/atoms/FormInput";
 import HelpCard from "../../components/atoms/HelpCard";
+import Loading from "../../components/atoms/Loading";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
@@ -23,13 +24,14 @@ const PanFormTemplate = (props) => {
   const { unipeEmployeeId, token, onboarded } = useSelector(
     (state) => state.auth
   );
-  const { data: kycData, isLoading: kycLoading,isFetching: kycFetching } = useGetKycQuery(unipeEmployeeId, {
+  const {
+    data: kycData,
+    isLoading: kycLoading,
+    isFetching: kycFetching,
+  } = useGetKycQuery(unipeEmployeeId, {
     pollingInterval: KYC_POLLING_DURATION,
   });
-  const {
-    isAadhaarSuccess,
-    pan,
-  } = kycData ?? {};
+  const { isAadhaarSuccess, pan } = kycData ?? {};
 
   const [number, setNumber] = useState(pan?.number);
 
@@ -46,9 +48,11 @@ const PanFormTemplate = (props) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      {(kycLoading || kycFetching) ? (<>
-        <ActivityIndicator />
-      </>) : isAadhaarSuccess ? (
+      {kycLoading || kycFetching ? (
+        <>
+          <Loading isLoading={kycLoading || kycFetching} />
+        </>
+      ) : isAadhaarSuccess ? (
         <View style={styles.container}>
           <FormInput
             accessibilityLabel={"PanInput"}

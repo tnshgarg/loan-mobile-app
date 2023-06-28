@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import BankVerifyApi from "../../apis/bank/Verify";
 import InfoCard from "../../components/atoms/InfoCard";
+import Loading from "../../components/atoms/Loading";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import ShieldTitle from "../../components/atoms/ShieldTitle";
 import PopableInput from "../../components/molecules/PopableInput";
@@ -27,9 +28,12 @@ const BankFormTemplate = (props) => {
   const [accNumNext, setAccNumNext] = useState(false);
   const [ifscNext, setIfscNext] = useState(false);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: KYC_POLLING_DURATION,
-  });
+  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: KYC_POLLING_DURATION,
+    }
+  );
 
   const { aadhaar, bank } = kycData ?? {};
 
@@ -38,7 +42,7 @@ const BankFormTemplate = (props) => {
   const [ifsc, setIfsc] = useState(bank?.data?.ifsc);
   const [accountNumber, setAccountNumber] = useState(bank?.data?.accountNumber);
   const [accountHolderName, setAccountHolderName] = useState(
-    aadhaar?.data.name || bank?.data?.accountHolderName
+    aadhaar?.data?.name || bank?.data?.accountHolderName
   );
   const [upi, setUpi] = useState(bank?.data?.upi);
 
@@ -131,14 +135,10 @@ const BankFormTemplate = (props) => {
             <ShieldTitle title={strings.detailsSafe} />
           </View>
         </KeyboardAvoidingWrapper>
+      ) : kycLoading ? (
+        <Loading isLoading={kycLoading} />
       ) : (
-        kycLoading ? 
-          (
-          <View style={{marginTop: 20}}>
-            <ActivityIndicator size={"large"} color={COLORS.secondary}/>
-          </View>
-        )
-        : (<View style={styles.container}>
+        <View style={styles.container}>
           <Text style={bankform.subTitle}>{strings.verifyAadhaarFirst}</Text>
           <PrimaryButton
             title="Verify Aadhaar Now"
@@ -153,7 +153,7 @@ const BankFormTemplate = (props) => {
                 : navigation.navigate("AadhaarForm");
             }}
           />
-        </View>) 
+        </View>
       )}
     </SafeAreaView>
   );

@@ -42,16 +42,21 @@ const PrimaryButton = ({
       disabled={disabled || loading}
       onPress={onPress}
     >
-      <Text style={[styles.btnText, { ...titleStyle }]}>{title}</Text>
-      {iconName ? (
-        <MaterialCommunityIcons
-          name={iconName}
-          color={COLORS.white}
-          size={20}
-          style={{ marginLeft: 5 }}
-        />
-      ) : null}
-      {loading ? <ActivityIndicator color={COLORS.secondary}/> : <></>}
+      {loading ? (
+        <ActivityIndicator color={COLORS.white} size={"large"} />
+      ) : (
+        <>
+          <Text style={[styles.btnText, { ...titleStyle }]}>{title}</Text>
+          {iconName ? (
+            <MaterialCommunityIcons
+              name={iconName}
+              color={COLORS.white}
+              size={20}
+              style={{ marginLeft: 5 }}
+            />
+          ) : null}
+        </>
+      )}
     </TouchableOpacity>
   );
 };

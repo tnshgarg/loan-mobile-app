@@ -130,7 +130,10 @@ const styles = EStyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
     backgroundColor: COLORS.headerBg,
-    padding: "15rem",
+    padding: "20rem",
+    paddingTop: "5rem",
+    borderBottomLeftRadius: "15rem",
+    borderBottomRightRadius: "15rem",
   },
   headerImage: {
     width: "100rem",
@@ -150,13 +153,13 @@ const styles = EStyleSheet.create({
     width: "30rem",
   },
   headline: {
-    ...FONTS.body2,
+    ...FONTS.h2,
     color: COLORS.secondary,
   },
   subHeadline: {
-    ...FONTS.body3,
+    ...FONTS.body4,
     color: COLORS.secondary,
     marginTop: "5rem",
-    marginBottom: "10rem",
+    width: "80%",
   },
 });

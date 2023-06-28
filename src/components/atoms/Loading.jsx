@@ -1,31 +1,26 @@
 import React from "react";
-import { View, ActivityIndicator } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import Modal from "react-native-modal";
+import { COLORS } from "../../constants/Theme";
 
 function LoadingComponent({ loaderColor }) {
   return (
     <View style={styles.cont}>
       <View
         style={{
-          width: "100%",
-          height: "100%",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "white",
+          backgroundColor: COLORS.white,
         }}
       >
-        <ActivityIndicator size="large" color={loaderColor} />
+        <ActivityIndicator size="large" color={loaderColor ?? COLORS.primary} />
       </View>
     </View>
   );
 }
 
-function Loading({
-  isLoading = false,
-  withModal = true,
-  loaderColor = "blue",
-}) {
+function Loading({ isLoading = false, withModal = true, loaderColor }) {
   if (withModal) {
     return (
       <Modal style={styles.cont} transparent visible={isLoading}>

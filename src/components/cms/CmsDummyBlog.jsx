@@ -12,7 +12,7 @@ import CmsRoot from "./CmsRoot";
 const CmsDummyBlog = (props) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  
+
   const { unipeEmployeeId } = useSelector((state) => state.auth);
   const { data: cmsData, isLoading: cmsLoading } = useGetCmsQuery(
     unipeEmployeeId,
@@ -24,11 +24,11 @@ const CmsDummyBlog = (props) => {
   console.log("route.params: ", props.route.params);
   let blogKey = props.route?.params?.blogKey;
   let backScreen = props.route?.params?.backScreen;
-    console.log({backScreen})
+  console.log({ backScreen });
   // const { data, screenTitle, headline, headingImage } =
   //   DUMMY_RES?.[blogKey] ?? {};
 
-  const { data, screenTitle, headline, headingImage,disableBack } =
+  const { data, screenTitle, headline, headingImage, disableBack } =
     cmsData?.[blogKey] ?? {};
   console.log("MyData: ", {
     blogKey,
@@ -38,31 +38,38 @@ const CmsDummyBlog = (props) => {
     headingImage,
     cmsData,
     cms: cmsData?.[blogKey],
-    styling: (data || [])[0]?.styling
+    styling: (data || [])[0]?.styling,
   });
-  console.log(disableBack, JSON.stringify(data))
+  console.log(disableBack, JSON.stringify(data));
   const backAction = () => {
-    if (disableBack)  {
-      Alert.alert("Hold on! This will log you out", "Are you sure you want to Logout?", [
-        { text: "No", onPress: () => null, style: "cancel" },
-        { text: "Yes", onPress: () => {
-          dispatch({"action": "Logout"})
-          navigation.navigate("Login")
-        }},
-      ]);
+    if (disableBack) {
+      Alert.alert(
+        "Hold on! This will log you out",
+        "Are you sure you want to Logout?",
+        [
+          { text: "No", onPress: () => null, style: "cancel" },
+          {
+            text: "Yes",
+            onPress: () => {
+              dispatch({ action: "Logout" });
+              navigation.navigate("Login");
+            },
+          },
+        ]
+      );
     } else if (backScreen) {
-      navigation.navigate(backScreen.stack, {screen: backScreen.screen})
+      navigation.navigate(backScreen.stack, { screen: backScreen.screen });
     } else {
-      navigation.goBack()
+      navigation.goBack();
     }
-  }
+  };
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
-  
+
   return (
     <View style={[styles.safeContainer, { padding: 0 }]}>
       <LogoHeaderBack
@@ -71,15 +78,13 @@ const CmsDummyBlog = (props) => {
         headline={headline}
         headerImageUri={headingImage}
       />
-      <ScrollView>
-        <View style={[styles.container, { padding: 0, margin: 0,flex:1 }]}>
-          {!cmsData && cmsLoading ? (
-            <CmsLoading />
-          ) : (
-            <CmsRoot children={data} style={{flex: 1}}></CmsRoot>
-          )}
-        </View>
-      </ScrollView>
+      {!cmsData && cmsLoading ? (
+        <CmsLoading />
+      ) : (
+        <ScrollView>
+          <CmsRoot children={data} style={{ flex: 1 }}></CmsRoot>
+        </ScrollView>
+      )}
     </View>
   );
 };

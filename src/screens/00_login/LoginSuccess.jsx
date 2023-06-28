@@ -2,8 +2,9 @@ import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
 import { Alert, BackHandler, SafeAreaView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import CmsRoot from "../../components/cms/CmsRoot";
 import { CMS_POLLING_DURATION } from "../../services/constants";
-import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 
@@ -50,11 +51,11 @@ const LoginSuccess = () => {
           })
         }
       /> */}
-      {/* {!cmsLoading ? (
-        <CmsRoot children={cmsData?.login_success || []}></CmsRoot>
+      {!cmsLoading ? (
+        <CmsRoot children={cmsData?.login_success?.data || []}></CmsRoot>
       ) : (
         <></>
-      )} */}
+      )}
     </SafeAreaView>
   );
 };

@@ -8,43 +8,31 @@ import Pan from "../assets/Pan.svg";
 import Profile from "../assets/Profile.svg";
 import Tick from "../assets/Tick.svg";
 import Badge from "../components/atoms/Badge";
-import LogoHeader from "../components/atoms/LogoHeader";
 import PrimaryButton from "../components/atoms/PrimaryButton";
 import SvgContainer from "../components/atoms/SvgContainer";
+import LogoHeaderBack from "../components/molecules/LogoHeaderBack";
 import { COLORS, FONTS } from "../constants/Theme";
+import { navigationHelper } from "../helpers/CmsNavigationHelper";
 import { strings } from "../helpers/Localization";
 import { KYC_POLLING_DURATION } from "../services/constants";
 import { kycNavigate } from "../services/kyc/navigation";
 import { useGetKycQuery } from "../store/apiSlices/kycApi";
 import { styles } from "../styles";
 
-
-
-
-
-
-
-
-
-
-
-
-
 const KycProgress = () => {
   const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
   const navigation = useNavigation();
 
-  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: KYC_POLLING_DURATION,
-  });
+  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: KYC_POLLING_DURATION,
+    }
+  );
 
   console.log({ kycData });
-  const {
-    isAadhaarSuccess,
-    isPanSuccess,
-    isBankSuccess,
-    isProfileSuccess,
-  } = kycData ?? {};
+  const { isAadhaarSuccess, isPanSuccess, isBankSuccess, isProfileSuccess } =
+    kycData ?? {};
 
   const kycSteps = [
     {
@@ -74,10 +62,9 @@ const KycProgress = () => {
   ];
 
   const continueButtonPress = () => {
-    console.log(kycData, kycData.isProfileSuccess)
-    kycNavigate(kycData,navigation)
-  }
-  
+    console.log(kycData, kycData.isProfileSuccess);
+    kycNavigate(kycData, navigation);
+  };
 
   const BORDER_COLOR = {
     // SUCCESS: COLORS.primary,
@@ -89,9 +76,21 @@ const KycProgress = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <LogoHeader
+      <LogoHeaderBack
         headline={strings.getYouVerified}
         subHeadline={strings.complete4Steps}
+        onLeftIconPress={() => {
+          navigationHelper({
+            type: "cms",
+            params: { blogKey: "login_success" },
+          });
+        }}
+        onRightIconPress={() => {
+          navigationHelper({
+            type: "cms",
+            params: { blogKey: "kyc_help" },
+          });
+        }}
       />
       <View style={styles.container}>
         {kycSteps.map((item, index) => (
@@ -118,10 +117,16 @@ const KycProgress = () => {
               {item.imageUri}
             </SvgContainer>
             <View style={{ flexDirection: "column", flex: 1, paddingLeft: 15 }}>
-              <Text style={{ ...FONTS.body3, color: COLORS.black }}>
+              <Text style={{ ...FONTS.h3, color: COLORS.black }}>
                 {item.title}
               </Text>
-              <Text style={{ ...FONTS.body4, color: COLORS.gray }}>
+              <Text
+                style={{
+                  ...FONTS.body4,
+                  color: COLORS.gray,
+                  marginTop: 5,
+                }}
+              >
                 {item.subtitle}
               </Text>
             </View>
@@ -131,7 +136,10 @@ const KycProgress = () => {
               </SvgContainer>
             ) : null}
 
-            <Badge text={`${strings.step} ${index + 1}`} />
+            <Badge
+              text={`${strings.step} ${index + 1}`}
+              containerStyle={{ marginLeft: 5 }}
+            />
           </View>
         ))}
         <View style={{ flex: 1 }} />

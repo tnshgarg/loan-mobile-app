@@ -84,7 +84,7 @@ export const FONTS = {
   title: {
     fontFamily: "Proxima Nova Regular",
     fontSize: normalize(62),
-    // lineHeight: normalize(62),
+    //  eight: normalize(62),
   },
   h1: {
     fontFamily: "Proxima Nova Bold",
