@@ -110,9 +110,9 @@ const LoginScreen = () => {
         console.log("otpResponse", otpResponse);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "LoginScreen",
-          action: "SendSms",
-          status: "Success"
+          flow: "login",
+          screen: "otp",
+          action: "SENT",
         });
         // TODO: Success message handling
         navigation.navigate("Otp");
@@ -124,9 +124,9 @@ const LoginScreen = () => {
         Alert.alert("Error", error.message);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "LoginScreen",
-          action: "SendSms",
-          status: "Error",
+          flow: "login",
+          screen: "otp",
+          action: "ERROR",
           error: JSON.stringify(error),
         });
       });

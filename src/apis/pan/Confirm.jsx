@@ -89,9 +89,9 @@ const PanConfirmApi = (props) => {
             });
             Analytics.trackEvent({
               interaction: InteractionTypes.BUTTON_PRESS,
-              component: "Pan",
-              action: "Confirm",
-              status: "Error",
+              flow: "kyc",
+              screen: "panOk",
+              action: "REJECT",
               error: "Rejected by User",
             });
           }}
@@ -108,9 +108,9 @@ const PanConfirmApi = (props) => {
             });
             Analytics.trackEvent({
               interaction: InteractionTypes.BUTTON_PRESS,
-              component: "Pan",
-              action: "Confirm",
-              status: "Success",
+              flow: "kyc",
+              screen: "panOk",
+              action: "ACCEPT",
             });
           }}
         />

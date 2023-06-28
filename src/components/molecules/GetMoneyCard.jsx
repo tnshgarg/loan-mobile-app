@@ -123,9 +123,9 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
             if (userStage == US.EWA_AVAILABLE) {
               Analytics.trackEvent({
                 interaction: InteractionTypes.BUTTON_PRESS,
-                component: "GetMoneyCard",
-                action: `navigate:EWAStack:EWA_OFFER`,
-                status: "",
+                flow: "money",
+                screen: "money",
+                action: "START",
               });
               navigation.navigate("EWAStack", { screen: "EWA_OFFER" });
             } else if (userStage == US.MANDATE_PENDING) {
@@ -136,9 +136,9 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
             } else {
               Analytics.trackEvent({
                 interaction: InteractionTypes.BUTTON_PRESS,
-                component: "GetMoneyCard",
-                action: `navigate:KycProgress`,
-                status: "",
+                flow: "money",
+                screen: "money",
+                action: "COMPLETEKYC",
               });
               navigation.navigate("KycProgress");
             }

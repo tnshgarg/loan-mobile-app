@@ -18,9 +18,9 @@ const Invest = (props) => {
   useEffect(() => {
     Analytics.trackEvent({
       interaction: InteractionTypes.SCREEN_OPEN,
-      component: "InvestPage",
-      action: "Visited",
-      status: ""
+      flow: "invest",
+      screen: "invest",
+      action: "VISITED",
     });
   }, []);
   return (
@@ -62,9 +62,9 @@ const Invest = (props) => {
           onPress={() => {
             Analytics.trackEvent({
               interaction: InteractionTypes.BUTTON_PRESS,
-              component: "Invest",
-              action: "WaitListed",
-              status: ""
+              flow: "invest",
+              screen: "invest",
+              action: "WAITLISTED",
             });
             showToast(
               "You've joined the waitlist for Unipe Invest!!",
@@ -72,7 +72,10 @@ const Invest = (props) => {
             );
           }}
         />
-        <PoweredByTag image={[require("../../../assets/LiquiLoansLogo.jpg")]} title={"an RBI registered NBFC-P2P"} />
+        <PoweredByTag
+          image={[require("../../../assets/LiquiLoansLogo.jpg")]}
+          title={"an RBI registered NBFC-P2P"}
+        />
       </View>
     </SafeAreaView>
   );

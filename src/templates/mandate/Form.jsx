@@ -169,18 +169,18 @@ const MandateFormTemplate = (props) => {
       console.log("Mandate Checkout Success", res);
       Analytics.trackEvent({
         interaction: InteractionTypes.BUTTON_PRESS,
-        component: "Mandate",
-        action: "AuthorizeCheckout",
-        status: "Success",
+        flow: "mandate",
+        screen: "mandateStart",
+        action: "AUTHORIZE",
       });
       verifyMsg = "Mandate Initiated from App Checkout Success";
     } catch (error) {
       console.log("Mandate Checkout Error", error);
       Analytics.trackEvent({
         interaction: InteractionTypes.BUTTON_PRESS,
-        component: "Mandate",
-        action: "AuthorizeCheckout",
-        status: "Checkout|Error",
+        flow: "mandate",
+        screen: "mandateStart",
+        action: "ERROR",
       });
       verifyMsg = error.message;
     } finally {
@@ -193,12 +193,11 @@ const MandateFormTemplate = (props) => {
         verifyMsg,
         verifyStatus: "INPROGRESS",
         verifyTimestamp: Date.now(),
-      })
-        .catch((error) => {
-          console.log({innerError: error})
-          setModalVisible(false);
-          Alert.alert("Error", error?.message || "Something went wrong");
-        });
+      }).catch((error) => {
+        console.log({ innerError: error });
+        setModalVisible(false);
+        Alert.alert("Error", error?.message || "Something went wrong");
+      });
     }
   };
 
@@ -226,9 +225,9 @@ const MandateFormTemplate = (props) => {
         let order = createOrderResponse.body;
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "Mandate",
+          flow: "mandate",
+          screen: "mandateStart",
           action: `CreateOrder_${authType}`,
-          status: "Success",
         });
         if (provider == "razorpay") {
           await initiateRazorpayCheckout({
@@ -253,16 +252,16 @@ const MandateFormTemplate = (props) => {
           "Mandate Registration Process already started, Please check the status after sometime"
         );
         refreshMandateFromBackend().then(() => {
-          setFetched(true)
+          setFetched(true);
         });
       } else {
         Alert.alert("Create Order Error", error.message);
       }
       Analytics.trackEvent({
         interaction: InteractionTypes.BUTTON_PRESS,
-        component: "Mandate",
-        action: `CreateOrder:${authType}`,
-        status: "Error",
+        flow: "mandate",
+        screen: "mandateStart",
+        action: `CHECKOUT_ERROR`,
         error: error.message,
       });
     } finally {

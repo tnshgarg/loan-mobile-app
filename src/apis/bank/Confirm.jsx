@@ -107,9 +107,9 @@ const BankConfirmApi = (props) => {
             });
             Analytics.trackEvent({
               interaction: InteractionTypes.BUTTON_PRESS,
-              component: "Bank",
-              action: "Confirm",
-              status: "Error",
+              flow: "kyc",
+              screen: "bankOk",
+              action: "REJECT",
               error: "Rejected by User",
             });
           }}
@@ -127,9 +127,9 @@ const BankConfirmApi = (props) => {
             });
             Analytics.trackEvent({
               interaction: InteractionTypes.BUTTON_PRESS,
-              component: "Bank",
-              action: "Confirm",
-              status: "Success",
+              flow: "kyc",
+              screen: "bankOk",
+              action: "ACCEPT",
             });
           }}
         />

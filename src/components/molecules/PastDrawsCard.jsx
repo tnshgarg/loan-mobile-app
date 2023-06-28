@@ -78,9 +78,9 @@ const OfferCard = ({ offer }) => {
         if (offerType !== "Missed") {
           Analytics.trackEvent({
             interaction: InteractionTypes.BUTTON_PRESS,
-            component: "Money",
-            action: "OfferDetailsClick",
-            status: "",
+            flow: "money",
+            screen: "pastWithdrawals",
+            action: "WITHDRAWALCARD",
             offer: offer.offerId,
           });
           navigation.navigate("EWAStack", {

@@ -194,9 +194,9 @@ const Offer = () => {
           handleConditionalNav();
           Analytics.trackEvent({
             interaction: InteractionTypes.BUTTON_PRESS,
-            component: "Ewa",
-            action: "OfferPush",
-            status: "Success",
+            flow: "ewa",
+            screen: "amountSelection",
+            action: "SUCCESS",
           });
         })
         .catch((error) => {
@@ -205,9 +205,9 @@ const Offer = () => {
           Alert.alert("An Error occured", error.message);
           Analytics.trackEvent({
             interaction: InteractionTypes.BUTTON_PRESS,
-            component: "Ewa",
-            action: "OfferPush",
-            status: "Error",
+            flow: "ewa",
+            screen: "amountSelection",
+            action: "ERROR",
             error: error.message,
           });
         });

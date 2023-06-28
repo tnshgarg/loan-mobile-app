@@ -112,10 +112,10 @@ const AadhaarConfirmApi = (props) => {
             });
             Analytics.trackEvent({
               interaction: InteractionTypes.BUTTON_PRESS,
-              component: "Aadhaar",
-              action: "Confirm",
-              status: "Error",
               error: "Rejected by User",
+              flow: "kyc",
+              screen: "aadhaarOk",
+              action: "REJECT",
             });
           }}
         />
@@ -131,9 +131,9 @@ const AadhaarConfirmApi = (props) => {
             
             Analytics.trackEvent({
               interaction: InteractionTypes.BUTTON_PRESS,
-              component: "Aadhaar",
-              action: "Confirm",
-              status: "Success"
+              flow: "kyc",
+              screen: "aadhaarOk",
+              action: "ACCEPT",
             });
           }}
         />

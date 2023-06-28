@@ -113,9 +113,9 @@ const OTPScreen = () => {
         setBack(false);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "OTPScreen",
-          action: "SendSms",
-          status: "Success",
+          flow: "login",
+          screen: "otp",
+          action: "RESENDOTP",
         });
         Alert.alert("OTP resent successfully", "", [
           {
@@ -130,9 +130,9 @@ const OTPScreen = () => {
       .catch((error) => {
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "OTPScreen",
-          action: "SendSms",
-          status: "Error",
+          flow: "login",
+          screen: "otp",
+          action: "ERROR",
           error: error.message,
         });
         console.log(error, error.message);
@@ -140,51 +140,51 @@ const OTPScreen = () => {
         // Alert.alert("Error", error.message);
       });
   };
-  
-  const handleNavigation = (token,unipeEmployeeId)  => {
+
+  const handleNavigation = (token, unipeEmployeeId) => {
     if (token) {
       trigger(unipeEmployeeId, false)
-          .then(({ data }) => {
-            if(data?.kycCompleted)
-              navigation.navigate("HomeStack")
-            else
-              navigationHelper({
-                  type: "cms",
-                  params: { blogKey: "login_success" },
-                })
-          }).catch((err) => console.log(err));
+        .then(({ data }) => {
+          if (data?.kycCompleted) navigation.navigate("HomeStack");
+          else
+            navigationHelper({
+              type: "cms",
+              params: { blogKey: "login_success" },
+            });
+        })
+        .catch((err) => console.log(err));
     } else if (!phoneNumber) {
-      navigation.navigate("Login")
+      navigation.navigate("Login");
     }
-  }
+  };
   const onSubmitOtp = () => {
     postVerifyOtp({ mobileNumber: phoneNumber, otp: otp })
       .unwrap()
       .then((res) => {
         dispatch(addToken(res["token"]));
-        handleNavigation(res["token"],res?.employeeDetails?.unipeEmployeeId);
+        handleNavigation(res["token"], res?.employeeDetails?.unipeEmployeeId);
         setVerified(true);
 
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "OTPScreen",
-          action: "Check",
-          status: "Success",
+          flow: "login",
+          screen: "otp",
+          action: "SUCCESS",
         });
       })
       .catch((error) => {
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "OTPScreen",
-          action: "Check",
-          status: "Error",
+          flow: "login",
+          screen: "otp",
+          action: "INVALID",
           error: error?.message || error?.error?.message,
         });
         console.log(error);
         // Alert.alert("Error", error?.message || error?.error?.message);
         showToast(error?.message || error?.error?.message, "error");
         if (error?.status != 406) {
-          setOtp("")
+          setOtp("");
           navigation.navigate("Login");
         }
       });

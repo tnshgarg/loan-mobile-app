@@ -105,9 +105,9 @@ const KYC = () => {
         console.log("updateKycMutateAsync response.data: ", response, mandateData);
         setLoading(false);
         Analytics.trackEvent({
-          component: "Ewa",
-          action: "Kyc",
-          status: "Success",
+          flow: "ewa",
+          screen: "confirmKyc",
+          action: "SUCCESS",
         });
         if (mandateData?.verifyStatus === "SUCCESS") {
           navigation.navigate("EWA_AGREEMENT");
@@ -121,9 +121,9 @@ const KYC = () => {
         Alert.alert("An Error occured", error.message);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "Ewa",
-          action: "Kyc",
-          status: "Error",
+          flow: "ewa",
+          screen: "confirmKyc",
+          action: "ERROR",
           error: error.message,
         });
       });

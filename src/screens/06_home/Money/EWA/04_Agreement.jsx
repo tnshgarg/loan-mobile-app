@@ -181,9 +181,9 @@ const Agreement = () => {
   const backAction = () => {
     Analytics.trackEvent({
       interaction: InteractionTypes.BUTTON_PRESS,
-      component: "Ewa",
-      action: "Agreement",
-      status: "Back",
+      flow: "ewa",
+      screen: "loanAgreement",
+      action: "BACK",
     });
     if (mandateVerifyStatus != "SUCCESS") {
       navigation.navigate("EWA_MANDATE");
@@ -254,9 +254,9 @@ const Agreement = () => {
         setLoading(false);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "Ewa",
-          action: "Agreement",
-          status: "Success",
+          flow: "ewa",
+          screen: "loanAgreement",
+          action: "SUCCESS",
         });
         navigation.navigate("EWA_DISBURSEMENT", {
           offer: ewaLiveSlice,
@@ -269,9 +269,9 @@ const Agreement = () => {
         Alert.alert("An Error occured", error.message);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "Ewa",
-          action: "Agreement",
-          status: "Error",
+          flow: "ewa",
+          screen: "loanAgreement",
+          action: "ERROR",
           error: error.message,
         });
       });

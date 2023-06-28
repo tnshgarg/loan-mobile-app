@@ -34,8 +34,10 @@ export async function trackEvent(
         eventTime: new Date().getTime() / 1000,
         event: event || {}
     }
-    const codepushEventName = `${event.component}|${event.action}|${event.status}`
-    const analyticsEventName = `${event.component}_${event.action}_${event.status}`.replace(":","__")
+    const codepushEventName = `${event.flow}|${event.screen}|${event.action}`;
+    // const analyticsEventName = `${event.component}_${event.action}_${event.status}`.replace(":","__")
+    const analyticsEventName =
+      `${event.flow}_${event.screen}_${event.action}`.replace(":", "__");
     Analytics.trackEvent(codepushEventName, analyticsEvent.event).catch(console.error)
     firebaseAnalytics.logEvent(analyticsEventName, {unipeEmployeeId: analyticsEvent.user})
     UnipeAnalyticsAPI.post("/",analyticsEvent

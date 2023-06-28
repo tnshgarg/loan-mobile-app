@@ -174,9 +174,9 @@ const ProfileFormTemplate = ({ type }) => {
               handleSubmit();
               Analytics.trackEvent({
                 interaction: InteractionTypes.BUTTON_PRESS,
-                component: "ProfileForm",
-                action: "PushData",
-                status: "Success",
+                flow: "account",
+                screen: "profile",
+                action: "START",
               });
             }}
           />

@@ -37,9 +37,9 @@ const PanVerifyApi = (props) => {
         setLoading(false);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "Pan",
-          action: "Verify",
-          status: "Success",
+          flow: "kyc",
+          screen: "pan",
+          action: "CONTINUE",
         });
         
         navigation.navigate("PanConfirm");
@@ -50,9 +50,9 @@ const PanVerifyApi = (props) => {
         Alert.alert("fetchPanDetails API Catch Error", error.message);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "Pan",
-          action: "Verify",
-          status: "Error",
+          flow: "kyc",
+          screen: "pan",
+          action: "ERROR",
           error: `fetchPanDetails Catch Error: ${JSON.stringify(error)}`,
         });
         setLoading(false);

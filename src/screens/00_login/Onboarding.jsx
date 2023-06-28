@@ -97,9 +97,9 @@ const Onboarding = () => {
             requestUserPermission();
             Analytics.trackEvent({
               interaction: InteractionTypes.BUTTON_PRESS,
-              component: "Onboarding",
-              action: "GetStarted",
-              status: "",
+              flow: "login",
+              screen: "welcome",
+              action: "START",
             });
             navigation.navigate("Login");
           }}
