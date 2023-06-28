@@ -1,18 +1,13 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import {
-  Alert,
-  Linking,
-  SafeAreaView,
-  ScrollView,
-  Text
-} from "react-native";
+import { Alert, Linking, SafeAreaView, ScrollView, Text } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import HelpCard from "../../components/atoms/HelpCard";
 import InfoCard from "../../components/atoms/InfoCard";
+import PoweredByTag from "../../components/atoms/PoweredByTag";
 import { showToast } from "../../components/atoms/Toast";
 import MandateOptions from "../../components/molecules/MandateOptions";
 import MandateLoading from "../../components/organisms/MandateLoading";
@@ -22,7 +17,10 @@ import { strings } from "../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
-import { EWA_POLLING_DURATION, KYC_POLLING_DURATION } from "../../services/constants";
+import {
+  EWA_POLLING_DURATION,
+  KYC_POLLING_DURATION,
+} from "../../services/constants";
 import { openRazorpayCheckout } from "../../services/mandate/Razorpay/services";
 import { createMandateOrder } from "../../services/mandate/services";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
@@ -30,9 +28,7 @@ import {
   useGetMandateQuery,
   useUpdateMandateMutation,
 } from "../../store/apiSlices/mandateApi";
-import {
-  addVerifyStatus
-} from "../../store/slices/mandateSlice";
+import { addVerifyStatus } from "../../store/slices/mandateSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 
@@ -66,14 +62,14 @@ const MandateFormTemplate = (props) => {
     data: mandateData,
     isLoading: mandateLoading,
     isError: mandateError,
-    refetch: refreshMandateFromBackend
+    refetch: refreshMandateFromBackend,
   } = useGetMandateQuery(unipeEmployeeId, {
     pollingInterval: EWA_POLLING_DURATION,
   });
 
   const [loading, setLoading] = useState(false);
   const [authType, setAuthType] = useState();
-  const {verifyStatus , verifyTimestamp } = mandateData || {}
+  const { verifyStatus, verifyTimestamp } = mandateData || {};
   const campaignId = useSelector(
     (state) =>
       state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
@@ -88,11 +84,10 @@ const MandateFormTemplate = (props) => {
     });
     dispatch(addCurrentScreen("Mandate"));
     refreshMandateFromBackend().then(() => {
-      setFetched(true)
+      setFetched(true);
     });
   }, []);
 
-  
   useEffect(() => {
     dispatch(addVerifyStatus(verifyStatus));
     if (fetched && props?.type === "EWA" && verifyStatus === "SUCCESS") {
@@ -119,11 +114,10 @@ const MandateFormTemplate = (props) => {
       verifyTimestamp: verifyTimestamp,
       campaignId: campaignId,
     };
-    return updateMandate(payload)
-      .catch((error) => {
-        console.log("mandatePush error: ", error);
-        throw error;
-      });
+    return updateMandate(payload).catch((error) => {
+      console.log("mandatePush error: ", error);
+      throw error;
+    });
   };
 
   const initiateCashfreeCheckout = async ({ upiIntent }) => {
@@ -193,12 +187,11 @@ const MandateFormTemplate = (props) => {
         verifyMsg,
         verifyStatus: "INPROGRESS",
         verifyTimestamp: Date.now(),
-      })
-        .catch((error) => {
-          console.log({innerError: error})
-          setModalVisible(false);
-          Alert.alert("Error", error?.message || "Something went wrong");
-        });
+      }).catch((error) => {
+        console.log({ innerError: error });
+        setModalVisible(false);
+        Alert.alert("Error", error?.message || "Something went wrong");
+      });
     }
   };
 
@@ -253,7 +246,7 @@ const MandateFormTemplate = (props) => {
           "Mandate Registration Process already started, Please check the status after sometime"
         );
         refreshMandateFromBackend().then(() => {
-          setFetched(true)
+          setFetched(true);
         });
       } else {
         Alert.alert("Create Order Error", error.message);
@@ -291,14 +284,19 @@ const MandateFormTemplate = (props) => {
     ];
   };
 
-  const lastDigitsAccount = accountNumber?.slice(accountNumber.length-4,accountNumber.length);
+  const lastDigitsAccount = accountNumber?.slice(
+    accountNumber.length - 4,
+    accountNumber.length
+  );
 
   return (
     <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <ScrollView showsVerticalScrollIndicator={false}>
           <InfoCard
-            info={`${strings.registerMandateNote}`.replace("{{bankName}}", bankName).replace("{{lastFour}}", lastDigitsAccount)}
+            info={`${strings.registerMandateNote}`
+              .replace("{{bankName}}", bankName)
+              .replace("{{lastFour}}", lastDigitsAccount)}
             infoStyle={{ ...FONTS.body3, color: COLORS.black }}
             variant={"gradient"}
           />
@@ -335,12 +333,15 @@ const MandateFormTemplate = (props) => {
               "Mandate is required to auto-debit loan payments on Due Date. This is 100% secure and executed by an RBI approved entity."
             }
           />
-          <HelpCard text="repayment methods" onPress={() => {
-            navigationHelper({
-              type: "cms",
-              params: { blogKey: "mandate_help" },
-            });
-          }}/>
+          <HelpCard
+            text="repayment methods"
+            onPress={() => {
+              navigationHelper({
+                type: "cms",
+                params: { blogKey: "mandate_help" },
+              });
+            }}
+          />
           <PoweredByTag
             image={[
               require("../../assets/rzp.png"),
