@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../KeyboardAvoidingWrapper";
 import HelpCard from "../../components/atoms/HelpCard";
 import InfoCard from "../../components/atoms/InfoCard";
+import PoweredByTag from "../../components/atoms/PoweredByTag";
 import { showToast } from "../../components/atoms/Toast";
 import MandateOptions from "../../components/molecules/MandateOptions";
 import MandateLoading from "../../components/organisms/MandateLoading";
