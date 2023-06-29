@@ -12,6 +12,7 @@ import whatsappLinking from "../../helpers/WhatsappLinking";
 import Analytics, {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
+import { navigate } from "../../navigators/RootNavigation";
 import { requestUserPermission } from "../../services/notifications/notificationService";
 import { styles } from "../../styles";
 
@@ -101,7 +102,7 @@ const Onboarding = () => {
               screen: "welcome",
               action: "START",
             });
-            navigation.navigate("Login");
+            navigate("OnboardingStack", { screen: "Login" });
           }}
         />
         <ShieldTitle title="100% Secure" />

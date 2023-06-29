@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import CmsLoading from "../../components/cms/CmsLoading";
 import CmsRoot from "../../components/cms/CmsRoot";
-import { navigationRef } from "../../navigators/RootNavigation";
+import { navigate } from "../../navigators/RootNavigation";
 import { useGetCmsLanguageListQuery } from "../../store/apiSlices/cmsApi";
 import { addLanguage } from "../../store/slices/localizationSlice";
 
@@ -21,11 +21,11 @@ const Localization = () => {
 
   const navigateUser = () => {
     if (loggedIn) {
-      navigationRef.navigate("HomeStack", {
+      navigate("HomeStack", {
         screen: "Home",
       });
     } else {
-      navigationRef.navigate("OnboardingStack", { screen: "Login" });
+      navigate("OnboardingStack", { screen: "Login" });
     }
   };
   useEffect(() => {

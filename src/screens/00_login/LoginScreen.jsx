@@ -38,6 +38,7 @@ import LogoHeader from "../../components/atoms/LogoHeader";
 import SvgContainer from "../../components/atoms/SvgContainer";
 import SvgListItem from "../../components/molecules/SvgListItem";
 import { strings } from "../../helpers/Localization";
+import { navigate } from "../../navigators/RootNavigation";
 import { addLanguage } from "../../store/slices/localizationSlice";
 
 const LoginScreen = () => {
@@ -115,7 +116,8 @@ const LoginScreen = () => {
           action: "SENT",
         });
         // TODO: Success message handling
-        navigation.navigate("Otp");
+        // navigation.navigate("Otp");
+        navigate("OnboardingStack", { screen: "Otp" });
         setLoading(false);
       })
       .catch((error) => {
@@ -202,7 +204,8 @@ const LoginScreen = () => {
 
   const goToLocalization = async () => {
     dispatch(addLanguage(""));
-    navigation.navigate("OnboardingStack", { screen: "Localization" });
+    // navigation.navigate("OnboardingStack", { screen: "Localization" });
+    navigate("OnboardingStack", { screen: "Localization" });
   };
 
   const goToLanding = () => {
@@ -283,7 +286,6 @@ const LoginScreen = () => {
       <Animated.View style={[styles.bottomPart, { flex: bottomFlex }]}>
         <KeyboardAvoidingWrapper>
           <View>
-
             <LoginInput
               accessibilityLabel="MobileNumber"
               phoneNumber={phoneNumber}

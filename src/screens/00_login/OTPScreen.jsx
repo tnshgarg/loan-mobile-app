@@ -22,6 +22,7 @@ import { strings } from "../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
+import { navigate } from "../../navigators/RootNavigation";
 import { useLazyGetKycQuery } from "../../store/apiSlices/kycApi";
 import {
   useGenerateOtpMutation,
@@ -43,9 +44,12 @@ const OTPScreen = () => {
   const [back, setBack] = useState(false);
 
   const countDownTime = useSelector((state) => state.timer.login);
-  const {phoneNumber,unipeEmployeeId,token} = useSelector((state) => state.auth || {});
+  const { phoneNumber, unipeEmployeeId, token } = useSelector(
+    (state) => state.auth || {}
+  );
   const [trigger, result, lastPromiseInfo] = useLazyGetKycQuery();
-  const [postVerifyOtp,{isLoading: verifyOtpLoading}] = useVerifyOtpMutation();
+  const [postVerifyOtp, { isLoading: verifyOtpLoading }] =
+    useVerifyOtpMutation();
   const [postGenerateOtp] = useGenerateOtpMutation();
 
   let interval;
@@ -66,8 +70,6 @@ const OTPScreen = () => {
     return () => BackgroundTimer.clearInterval(interval);
   }, [countDownTime, verified]);
 
-  
-
   const backAction = () => {
     console.log(back);
     if (!back) {
@@ -80,7 +82,7 @@ const OTPScreen = () => {
                 text: "Don't leave",
                 style: "destructive",
                 onPress: () => {
-                  navigation.navigate("Otp");
+                  navigate("OnboardingStack", { screen: "Otp" });
                 },
               },
             ]
@@ -94,15 +96,20 @@ const OTPScreen = () => {
         {
           text: "No",
           onPress: () =>
-            Platform.OS === "ios" ? navigation.navigate("Otp") : null,
+            Platform.OS === "ios"
+              ? navigate("OnboardingStack", { screen: "Otp" })
+              : null,
           style: "cancel",
         },
-        { text: "Yes", onPress: () => navigation.navigate("Login") },
+        {
+          text: "Yes",
+          onPress: () => navigate("OnboardingStack", { screen: "Login" }),
+        },
       ]);
     }
     return true;
   };
-  
+
   const onResendOtp = () => {
     postGenerateOtp(phoneNumber)
       .unwrap()
@@ -145,7 +152,7 @@ const OTPScreen = () => {
     if (token) {
       trigger(unipeEmployeeId, false)
         .then(({ data }) => {
-          if (data?.kycCompleted) navigation.navigate("HomeStack");
+          if (data?.kycCompleted) navigate("HomeStack", { screen: "Home" });
           else
             navigationHelper({
               type: "cms",
@@ -154,7 +161,7 @@ const OTPScreen = () => {
         })
         .catch((err) => console.log(err));
     } else if (!phoneNumber) {
-      navigation.navigate("Login");
+      navigate("OnboardingStack", { screen: "Login" });
     }
   };
   const onSubmitOtp = () => {
@@ -185,20 +192,20 @@ const OTPScreen = () => {
         showToast(error?.message || error?.error?.message, "error");
         if (error?.status != 406) {
           setOtp("");
-          navigation.navigate("Login");
+          navigate("OnboardingStack", { screen: "Login" });
         }
       });
   };
 
   useEffect(() => {
-    console.log("back handler subscribe called")
+    console.log("back handler subscribe called");
     dispatch(addCurrentScreen("Otp"));
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    handleNavigation(token, unipeEmployeeId)
+    handleNavigation(token, unipeEmployeeId);
     return () => {
-      console.log("back handler unsubscribe called")
+      console.log("back handler unsubscribe called");
       BackHandler.removeEventListener("hardwareBackPress", backAction);
-    }
+    };
   }, []);
 
   let isValidOtp = otp.length == 6;
@@ -235,7 +242,7 @@ const OTPScreen = () => {
               activeOpacity={0.7}
               onPress={() => {
                 back
-                  ? navigation.navigate("Login")
+                  ? navigate("OnboardingStack", { screen: "Login" })
                   : Alert.alert(
                       "OTP Timer",
                       "You must wait for 2 minutes to edit number."

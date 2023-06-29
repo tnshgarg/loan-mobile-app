@@ -23,6 +23,7 @@ import TnC from "../../../../templates/docs/EWATnC.js";
 
 import Checkbox from "../../../../components/atoms/Checkbox";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
+import { navigate } from "../../../../navigators/RootNavigation";
 import { KYC_POLLING_DURATION } from "../../../../services/constants";
 import { useUpdateOfferMutation } from "../../../../store/apiSlices/ewaApi";
 import { useGetKycQuery } from "../../../../store/apiSlices/kycApi";
@@ -83,7 +84,7 @@ const Offer = () => {
   }, [deviceId, ipAddress]);
 
   const backAction = () => {
-    navigation.navigate("Money", { screen: "EWA" });
+    navigate("Money", { screen: "EWA" });
     return true;
   };
 

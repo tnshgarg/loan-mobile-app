@@ -6,7 +6,7 @@ import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import Analytics, {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
-import { navigationRef } from "../../navigators/RootNavigation";
+import { navigate } from "../../navigators/RootNavigation";
 
 const COLOR_MAP = {
   Due: "orange",
@@ -83,7 +83,7 @@ const OfferCard = ({ offer }) => {
             action: "WITHDRAWALCARD",
             offer: offer.offerId,
           });
-          navigation.navigate("EWAStack", {
+          navigate("EWAStack", {
             screen: "EWA_DISBURSEMENT",
             params: { offer: offer },
           });
@@ -115,9 +115,7 @@ const PastDrawsCard = (props) => {
         <View style={styles.pastDrawsContainer}>
           <Text style={styles.title}>Your past draws</Text>
           <TouchableOpacity
-            onPress={() =>
-              navigationRef.navigate("CmsStack", { screen: "CmsPastDraws" })
-            }
+            onPress={() => navigate("CmsStack", { screen: "CmsPastDraws" })}
             activeOpacity={0.92}
             style={styles.seeAllContainer}
           >

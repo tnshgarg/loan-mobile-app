@@ -4,6 +4,7 @@ import { Image, Modal, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
+import { navigate } from "../../navigators/RootNavigation";
 import { useGetMandateQuery } from "../../store/apiSlices/mandateApi";
 import { styles } from "../../styles";
 import { showToast } from "../atoms/Toast";
@@ -47,7 +48,7 @@ export default function MandateLoading({
         setModalVisible(false);
         if (mandateVerifyStatus === "INPROGRESS") {
           showToast("Mandate verification In Progress", "pending");
-          navigation.navigate("HomeStack", { screen: "Money" });
+          navigate("HomeStack", { screen: "Money" });
         }
       }
     }, 10000);

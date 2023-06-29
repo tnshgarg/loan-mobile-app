@@ -7,6 +7,7 @@ import BottomAlert from "../../components/molecules/BottomAlert";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { strings } from "../../helpers/Localization";
+import { navigate } from "../../navigators/RootNavigation";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import AadhaarFormTemplate from "../../templates/aadhaar/Form";
@@ -48,7 +49,7 @@ const AadhaarForm = () => {
     contentContainerStyle: { flexDirection: "column-reverse" },
     onPressSecondaryBtn: () => {
       setAlertVisible(false);
-      navigation.navigate("HomeStack");
+      navigate("HomeStack", { screen: "Home" });
     },
   };
 

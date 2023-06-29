@@ -12,6 +12,7 @@ import Analytics, { InteractionTypes } from "../../../helpers/analytics/commonAn
 
 import { useSelector } from "react-redux";
 import { showToast } from "../../../components/atoms/Toast";
+import { navigate } from "../../../navigators/RootNavigation";
 
 const Invest = (props) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -49,7 +50,7 @@ const Invest = (props) => {
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => {
-              props.navigation.navigate("InvestStack", {
+              navigate("InvestStack", {
                 screen: "HowItWorks",
               });
             }}

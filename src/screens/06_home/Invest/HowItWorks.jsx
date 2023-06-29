@@ -1,15 +1,16 @@
-import { View, Text, SafeAreaView } from "react-native";
-import { investStyles, styles } from "../../../styles";
-import Percentage from "../../../assets/percentage.svg";
+import { SafeAreaView, Text, View } from "react-native";
 import Insurance from "../../../assets/insurance.svg";
+import Percentage from "../../../assets/percentage.svg";
 import TaskList from "../../../assets/task.svg";
 import Header from "../../../components/atoms/Header";
 import PrimaryButton from "../../../components/atoms/PrimaryButton";
 import SvgListItem from "../../../components/molecules/SvgListItem";
+import { navigate } from "../../../navigators/RootNavigation";
+import { investStyles, styles } from "../../../styles";
 
 const HowItWorks = ({ navigation }) => {
   const backAction = () => {
-    navigation.navigate("HomeStack", {
+    navigate("HomeStack", {
       screen: "InvestNow",
     });
     return true;
@@ -45,7 +46,7 @@ const HowItWorks = ({ navigation }) => {
         <PrimaryButton
           title="Know more"
           onPress={() => {
-            navigation.navigate("InvestStack", { screen: "P2P" });
+            navigate("InvestStack", { screen: "P2P" });
           }}
         />
       </View>

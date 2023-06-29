@@ -5,6 +5,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import LogoImage from "../../assets/HeaderLogo.svg";
 import NotificationFade from "../../assets/NotificationFade.svg";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { navigate } from "../../navigators/RootNavigation";
 import SvgContainer from "./SvgContainer";
 
 const LogoHeader = ({
@@ -64,7 +65,7 @@ const LogoHeader = ({
             style={{ paddingTop: 5 }}
             activeOpacity={0.7}
             onPress={() =>
-              navigation.navigate("AccountStack", {
+              navigate("AccountStack", {
                 screen: "NotificationView",
               })
             }

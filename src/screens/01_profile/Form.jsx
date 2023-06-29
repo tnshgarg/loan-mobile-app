@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { Alert, BackHandler, SafeAreaView } from "react-native";
 import LogoHeader from "../../components/atoms/LogoHeader";
 import { strings } from "../../helpers/Localization";
+import { navigate } from "../../navigators/RootNavigation";
 import { styles } from "../../styles";
 import ProfileFormTemplate from "../../templates/profile/Form";
 
@@ -14,7 +15,7 @@ const ProfileForm = () => {
       { text: "No", onPress: () => null, style: "cancel" },
       {
         text: "Yes",
-        onPress: () => navigation.navigate("EWAStack", { screen: "EWA_OFFER" }),
+        onPress: () => navigate("EWAStack", { screen: "EWA_OFFER" }),
       },
     ]);
     return true;

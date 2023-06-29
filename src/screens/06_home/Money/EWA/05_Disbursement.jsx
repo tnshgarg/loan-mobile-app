@@ -11,6 +11,7 @@ import FeedbackAlert from "../../../../components/molecules/FeedbackAlert";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 import { COLORS, FONTS } from "../../../../constants/Theme";
 import { strings } from "../../../../helpers/Localization";
+import { navigate } from "../../../../navigators/RootNavigation";
 import {
   useDisbursementFeedbackMutation,
   useGetDisbursementQuery,
@@ -47,7 +48,7 @@ const Disbursement = ({ route, navigation }) => {
   console.log({ status });
 
   const backAction = () => {
-    navigation.navigate("HomeStack", {
+    navigate("HomeStack", {
       screen: "Money",
       params: { screen: "EWA" },
     });
@@ -199,9 +200,7 @@ const Disbursement = ({ route, navigation }) => {
     <SafeAreaView style={styles.safeContainer}>
       {enableFeedback ? (
         <LogoHeaderBack
-          onRightIconPress={() => {
-            
-          }}
+          onRightIconPress={() => {}}
           hideLogo={true}
           containerStyle={{ backgroundColor: null }}
         />

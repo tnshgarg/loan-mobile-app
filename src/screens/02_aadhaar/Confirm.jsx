@@ -8,6 +8,7 @@ import AadhaarConfirmApi from "../../apis/aadhaar/Confirm";
 import BottomAlert from "../../components/molecules/BottomAlert";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { strings } from "../../helpers/Localization";
+import { navigate } from "../../navigators/RootNavigation";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 
 const AadhaarConfirm = () => {
@@ -45,7 +46,7 @@ const AadhaarConfirm = () => {
     contentContainerStyle: { flexDirection: "column-reverse" },
     onPressSecondaryBtn: () => {
       setAlertVisible(false);
-      navigation.navigate("HomeStack");
+      navigate("HomeStack", { screen: "Home" });
     },
   };
 

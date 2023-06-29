@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView, ScrollView, View } from "react-native";
 import DevMenuButton from "../components/atoms/DevMenuButton";
+import { navigate } from "../navigators/RootNavigation";
 
 export default DevMenu = () => {
   const navigation = useNavigation();
@@ -63,7 +64,7 @@ export default DevMenu = () => {
               style={{ marginTop: 20 }}
               title={screen.title}
               onPress={() =>
-                navigation.navigate(screen.stack, {
+                navigate(screen.stack, {
                   screen: screen.name,
                   params: screen.screen ? { screen: screen.screen } : null,
                 })
@@ -80,12 +81,10 @@ export default DevMenu = () => {
               })
             }
           />
-           <DevMenuButton
+          <DevMenuButton
             style={{ marginTop: 20 }}
             title={"BackendSync"}
-            onPress={() =>
-              navigation.navigate("BackendSync")
-            }
+            onPress={() => navigation.navigate("BackendSync")}
           />
         </View>
       </ScrollView>
