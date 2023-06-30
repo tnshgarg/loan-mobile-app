@@ -3324,7 +3324,7 @@ export const DUMMY_RES_HINDI = {
           },
           {
             type: "button",
-            title: "Start KYC",
+            title: "KYC शुरू करें  >",
             variant: "filled",
             clickType: "navigation",
             styling: { marginVertical: "10%" },
@@ -3467,7 +3467,7 @@ export const DUMMY_RES_HINDI = {
     ],
   },
   aadhaar_help: {
-    screenTitle: "Help - आधार वेरिफिकेशन",
+    screenTitle: "Help - Aadhaar Verification",
     data: [
       {
         children: [
@@ -3512,7 +3512,7 @@ export const DUMMY_RES_HINDI = {
             styling: {
               marginVertical: "10%",
             },
-            title: "Verify Aadhaar",
+            title: "AADHAAR वेरीफाई करें  > ",
             type: "button",
             variant: "filled",
           },
@@ -3533,7 +3533,7 @@ export const DUMMY_RES_HINDI = {
                   fontSize: 18,
                   marginLeft: "10%",
                 },
-                title: "Aadhaar Number",
+                title: "आधार नंबर",
                 type: "title",
               },
             ],
