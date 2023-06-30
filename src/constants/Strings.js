@@ -2416,9 +2416,9 @@ export const DUMMY_RES = [
         {
           children: [
             {
+              title: "Q: How to complete KYC verification?",
               subtitle:
                 "A: Unipe is an interest-free solution that allows them to withdraw their salary advance whenever they need it.",
-              title: "Q: What is Unipe?",
               type: "collapsibleList",
             },
             {

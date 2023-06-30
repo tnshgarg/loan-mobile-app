@@ -84,7 +84,7 @@ const HomeView = () => {
     if (!onboarded) addOnboarded(true);
     requestUserPermission();
     notificationListener();
-    fetchCms()
+    fetchCms();
   }, []);
 
   useEffect(() => {
@@ -92,7 +92,7 @@ const HomeView = () => {
   }, [eligible]);
   console.log({ cmsData, cmsError });
   console.log({ ewaLiveSlice });
-  
+
   useEffect(() => {
     if (
       STAGE !== "prod" ||
@@ -220,12 +220,16 @@ const HomeView = () => {
         ) : (
           <CmsRoot children={cmsData?.home || []}></CmsRoot>
         )}
-        {/* <CmsRoot children={DUMMY_RES?.home || []}></CmsRoot> */}
 
         {!cmsData && cmsLoading ? (
-          <CmsLoading />
+          <></>
         ) : (
           <CmsRoot children={cmsData?.bottom_alert || []}></CmsRoot>
+        )}
+        {!cmsLoading ? (
+          <CmsRoot children={cmsData?.mini_placement || []} />
+        ) : (
+          <></>
         )}
         <View
           style={{
@@ -241,18 +245,6 @@ const HomeView = () => {
           </Text>
         </View>
       </ScrollView>
-      {/* {alertVisible && (
-        <BottomAlert
-          visible={alertVisible}
-          setVisible={setAlertVisible}
-          data={data}
-        />
-      )} */}
-      {!cmsLoading ? (
-        <CmsRoot children={cmsData?.mini_placement || []} />
-      ) : (
-        <></>
-      )}
     </SafeAreaView>
   );
 };

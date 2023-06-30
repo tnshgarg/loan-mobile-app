@@ -64,10 +64,7 @@ const Profile = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <LogoHeaderBack
-        title="Profile Details"
-        onLeftIconPress={() => backAction()}
-      />
+      <LogoHeaderBack title="Profile" onLeftIconPress={() => backAction()} />
       {profileComplete ? (
         <View style={[styles.container, { alignItems: "center" }]}>
           <Image
@@ -75,9 +72,22 @@ const Profile = ({ navigation }) => {
               uri: `data:image/jpeg;base64,${aadhaar?.data?.["photo_base64"]}`,
               cache: "only-if-cached",
             }}
-            style={{ height: 100, width: 100 }}
+            style={{
+              height: 100,
+              width: 100,
+              borderWidth: 1,
+              borderColor: COLORS.lightGray,
+              borderRadius: 10,
+              marginTop: "5%",
+            }}
           />
-          <Text style={{ ...FONTS.body1, color: COLORS.black, marginTop: 10 }}>
+          <Text
+            style={{
+              ...FONTS.h2,
+              color: COLORS.black,
+              marginTop: 20,
+            }}
+          >
             {fullName}
           </Text>
           <Text style={{ ...FONTS.body3, color: COLORS.black }}>{email}</Text>
@@ -102,11 +112,13 @@ const Profile = ({ navigation }) => {
               <SvgContainer height={36} width={36}>
                 {item.imageUri}
               </SvgContainer>
-              <View style={{ flexDirection: "column", paddingLeft: 15 }}>
-                <Text style={{ ...FONTS.body4, color: COLORS.gray }}>
+              <View style={{ flexDirection: "column", paddingLeft: 25 }}>
+                <Text style={{ ...FONTS.body5, color: COLORS.gray }}>
                   {item.title}
                 </Text>
-                <Text style={{ ...FONTS.body3, color: COLORS.black }}>
+                <Text
+                  style={{ ...FONTS.h3, color: COLORS.black, marginTop: 5 }}
+                >
                   {item.subtitle}
                 </Text>
               </View>

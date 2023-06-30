@@ -1,7 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import {
-  ActivityIndicator,
   Alert,
   BackHandler,
   Dimensions,
@@ -19,11 +18,11 @@ import RenderHtml from "react-native-render-html";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { useDispatch, useSelector } from "react-redux";
 import Checkbox from "../../../../components/atoms/Checkbox";
+import Loading from "../../../../components/atoms/Loading";
 import LoanProviderLogo from "../../../../components/atoms/LoanProviderLogo";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
-import { COLORS } from "../../../../constants/Theme";
 import { strings } from "../../../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
@@ -74,16 +73,16 @@ const Agreement = () => {
     pollingInterval: 1000 * 10,
   });
   const mandateVerifyStatus = mandateData?.verifyStatus;
-  const provider = ewaLiveSlice?.provider || "liquiloans"
+  const provider = ewaLiveSlice?.provider || "liquiloans";
   const {
-    data: loanProviderData, 
-    isLoading: loanProviderDataLoading, 
+    data: loanProviderData,
+    isLoading: loanProviderDataLoading,
     error: loanProviderDataError,
-    refetch: loanProviderDataRefetch
+    refetch: loanProviderDataRefetch,
   } = useGetCmsGroupQuery({
     group: `loan_provider_${provider}`,
-    language: "en"
-  })
+    language: "en",
+  });
 
   const today = new Date();
   const [updateAgreement] = useUpdateAgreementMutation();
@@ -144,7 +143,7 @@ const Agreement = () => {
       setIpAdress(ipv4Address);
     });
     dispatch(addCurrentScreen("EWA_AGREEMENT"));
-    loanProviderDataRefetch()
+    loanProviderDataRefetch();
   }, []);
 
   useEffect(() => {
@@ -284,143 +283,149 @@ const Agreement = () => {
         onLeftIconPress={() => backAction()}
         subHeadline={strings.confirmIfTheseDetails}
       />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.container}>
-          <DisbursementCard
-            data={data}
-            title={strings.loanDetails}
-            info={strings.moneyAutoDebitedUpcomingSalary}
-            iconName="ticket-percent-outline"
-          />
+      {loading || loanProviderDataLoading ? (
+        <Loading isLoading={loading} />
+      ) : (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.container}>
+            <DisbursementCard
+              data={data}
+              title={strings.loanDetails}
+              info={strings.moneyAutoDebitedUpcomingSalary}
+            />
 
-          <DisbursementCard
-            data={bankData}
-            title={strings.bankDetails}
-            iconName="bank"
-          />
+            <DisbursementCard data={bankData} title={strings.bankDetails} />
 
-          <DisbursementCard
-            data={profileData}
-            title={strings.personalDetails}
-            iconName="account-outline"
-          />
+            <DisbursementCard
+              data={profileData}
+              title={strings.personalDetails}
+            />
 
-          <Checkbox
-            text={strings.aboveDetails}
-            value={consent}
-            setValue={setConsent}
-            additionalText={strings.termsAndConditions}
-            onPress={() => setIsTermsModalVisible(true)}
-          />
+            <Checkbox
+              conatinerStyle={{ marginTop: "15%" }}
+              text={strings.aboveDetails}
+              value={consent}
+              setValue={setConsent}
+              additionalText={strings.termsAndConditions}
+              onPress={() => setIsTermsModalVisible(true)}
+            />
 
-          <Checkbox
-            text={strings.aboveDetails}
-            value={consent}
-            setValue={setConsent}
-            additionalText="KFS"
-            onPress={() => setIsKFSModalVisible(true)}
-          />
-          {loading ? (
-            <ActivityIndicator size="large" color={COLORS.secondary}/>
-          ): (
-            <>
-              <PrimaryButton
-                title={loading ? strings.processing : strings.proceed}
-                disabled={!consent || loading}
-                onPress={() => {
-                  handleAgreement();
+            <Checkbox
+              text={strings.aboveDetails}
+              value={consent}
+              setValue={setConsent}
+              additionalText="KFS"
+              onPress={() => setIsKFSModalVisible(true)}
+            />
+
+            <PrimaryButton
+              title={loading ? strings.processing : strings.proceed}
+              disabled={!consent || loading}
+              onPress={() => {
+                handleAgreement();
+              }}
+            />
+            <LoanProviderLogo
+              title={loanProviderData?.title}
+              url={loanProviderData?.logo || ""}
+            />
+
+            <Text style={moneyStyles.percentageTitle}>
+              {strings.apr} {ewaLiveSlice?.apr} %
+            </Text>
+            <Modal
+              isVisible={isTermsModalVisible}
+              style={{
+                width: Dimensions.get("window").width,
+                height: Dimensions.get("window").height,
+              }}
+            >
+              <Pressable
+                onPress={() => setIsTermsModalVisible(false)}
+                style={{
+                  position: "absolute",
+                  top: 30,
+                  right: 50,
+                  zIndex: 999,
                 }}
-              />
-              <LoanProviderLogo title={loanProviderData?.title} url={loanProviderData?.logo || ""}/>
-            </>
-          )}
-          <Text style={moneyStyles.percentageTitle}>
-            {strings.apr} {ewaLiveSlice?.apr} %
-          </Text>
-          <Modal
-            isVisible={isTermsModalVisible}
-            style={{
-              width: Dimensions.get("window").width,
-              height: Dimensions.get("window").height,
-            }}
-          >
-            <Pressable
-              onPress={() => setIsTermsModalVisible(false)}
+              >
+                <AntDesign name="closesquareo" size={24} color="black" />
+              </Pressable>
+              <View
+                style={{
+                  height: Dimensions.get("window").height - 100,
+                  width: Dimensions.get("window").width - 40,
+                  backgroundColor: "white",
+                  borderRadius: 5,
+                }}
+              >
+                <ScrollView style={{ padding: "5%" }}>
+                  <RenderHtml
+                    contentWidth={width}
+                    source={
+                      loanProviderData?.agreement || {
+                        html: "<h1> Please Reopen to see</h1>",
+                      }
+                    }
+                    enableExperimentalMarginCollapsing={true}
+                    renderersProps={{
+                      img: {
+                        enableExperimentalPercentWidth: true,
+                      },
+                    }}
+                    domVisitors={{ onText: ValueEntryAgreement }}
+                  />
+                </ScrollView>
+              </View>
+            </Modal>
+            <Modal
+              isVisible={isKFSModalVisible}
               style={{
-                position: "absolute",
-                top: 30,
-                right: 50,
-                zIndex: 999,
+                width: Dimensions.get("window").width,
+                height: Dimensions.get("window").height,
               }}
             >
-              <AntDesign name="closesquareo" size={24} color="black" />
-            </Pressable>
-            <View
-              style={{
-                height: Dimensions.get("window").height - 100,
-                width: Dimensions.get("window").width - 40,
-                backgroundColor: "white",
-                borderRadius: 5,
-              }}
-            >
-              <ScrollView style={{ padding: "5%" }}>
-                <RenderHtml
-                  contentWidth={width}
-                  source={loanProviderData?.agreement || {"html": "<h1> Please Reopen to see</h1>"}}
-                  enableExperimentalMarginCollapsing={true}
-                  renderersProps={{
-                    img: {
-                      enableExperimentalPercentWidth: true,
-                    },
-                  }}
-                  domVisitors={{ onText: ValueEntryAgreement }}
-                />
-              </ScrollView>
-            </View>
-          </Modal>
-          <Modal
-            isVisible={isKFSModalVisible}
-            style={{
-              width: Dimensions.get("window").width,
-              height: Dimensions.get("window").height,
-            }}
-          >
-            <Pressable
-              onPress={() => setIsKFSModalVisible(false)}
-              style={{
-                position: "absolute",
-                top: 30,
-                right: 50,
-                zIndex: 999,
-              }}
-            >
-              <AntDesign name="closesquareo" size={24} color="black" />
-            </Pressable>
-            <View
-              style={{
-                height: Dimensions.get("window").height - 100,
-                width: Dimensions.get("window").width - 40,
-                backgroundColor: "white",
-                borderRadius: 5,
-              }}
-            >
-              <ScrollView style={{ padding: "5%" }}>
-                <RenderHtml
-                  contentWidth={width}
-                  source={loanProviderData?.kfs || {"html": "<h1> Please Reopen to see</h1>"}}
-                  enableExperimentalMarginCollapsing={true}
-                  renderersProps={{
-                    img: {
-                      enableExperimentalPercentWidth: true,
-                    },
-                  }}
-                  domVisitors={{ onText: ValueEntryKFS }}
-                />
-              </ScrollView>
-            </View>
-          </Modal>
-        </View>
-      </ScrollView>
+              <Pressable
+                onPress={() => setIsKFSModalVisible(false)}
+                style={{
+                  position: "absolute",
+                  top: 30,
+                  right: 50,
+                  zIndex: 999,
+                }}
+              >
+                <AntDesign name="closesquareo" size={24} color="black" />
+              </Pressable>
+              <View
+                style={{
+                  height: Dimensions.get("window").height - 100,
+                  width: Dimensions.get("window").width - 40,
+                  backgroundColor: "white",
+                  borderRadius: 5,
+                }}
+              >
+                <ScrollView style={{ padding: "5%" }}>
+                  <RenderHtml
+                    contentWidth={width}
+                    source={
+                      loanProviderData?.kfs || {
+                        html: "<h1> Please Reopen to see</h1>",
+                      }
+                    }
+                    enableExperimentalMarginCollapsing={true}
+                    renderersProps={{
+                      img: {
+                        enableExperimentalPercentWidth: true,
+                      },
+                    }}
+                    domVisitors={{ onText: ValueEntryKFS }}
+                  />
+                </ScrollView>
+              </View>
+            </Modal>
+          </View>
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 };

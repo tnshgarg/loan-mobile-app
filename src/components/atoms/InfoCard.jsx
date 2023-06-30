@@ -1,9 +1,9 @@
-import { View, Text } from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import React from "react";
-import { COLORS, FONTS } from "../../constants/Theme";
+import { Text, View } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import LinearGradient from "react-native-linear-gradient";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { COLORS, FONTS } from "../../constants/Theme";
 
 const InfoCard = ({
   title,
@@ -21,7 +21,10 @@ const InfoCard = ({
       colors={[COLORS.lightGreen, COLORS.lightYellow]}
       style={[styles.gradientContainer, { ...containerStyle }]}
     >
-      <View
+      <LinearGradient
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        colors={[COLORS.lightGreen, COLORS.lightYellow]}
         style={{
           padding: 5,
           borderRadius: 50,
@@ -35,7 +38,7 @@ const InfoCard = ({
           size={20}
           color={COLORS.gray}
         />
-      </View>
+      </LinearGradient>
       <View
         style={{ flexDirection: "column", flex: 1, alignItems: "flex-start" }}
       >

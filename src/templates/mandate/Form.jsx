@@ -349,7 +349,6 @@ const MandateFormTemplate = (props) => {
             ]}
             title="RBI regulated payment partners"
           />
-          <HelpCard text="repayment methods" />
         </ScrollView>
       </KeyboardAvoidingWrapper>
       {modalVisible && (

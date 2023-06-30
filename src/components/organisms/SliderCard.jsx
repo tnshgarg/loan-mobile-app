@@ -18,7 +18,7 @@ const SliderCard = ({
   setAmount,
   eligibleAmount,
   accountNumber,
-  bankName
+  bankName,
 }) => {
   return (
     <View style={[styles.container]}>
@@ -61,11 +61,10 @@ const SliderCard = ({
         </Text>
         <Text
           style={{
-            ...FONTS.body1,
+            ...FONTS.h1,
             color: COLORS.secondary,
             alignSelf: "center",
             fontSize: 48,
-            lineHeight: 60,
           }}
         >
           ₹{amount}
@@ -90,7 +89,7 @@ const SliderCard = ({
           <View style={styles.col}>
             <Text
               style={{
-                ...FONTS.body3,
+                ...FONTS.h3,
                 color: COLORS.gray,
               }}
             >
@@ -100,7 +99,7 @@ const SliderCard = ({
           <View style={styles.col}>
             <Text
               style={{
-                ...FONTS.body3,
+                ...FONTS.h3,
                 color: COLORS.gray,
               }}
             >
@@ -135,7 +134,10 @@ const SliderCard = ({
             <Text
               style={{ ...FONTS.body3, color: COLORS.black, marginBottom: 5 }}
             >
-              {`${strings.transferTo}`.replace("{{accountNumber}}",accountNumber)}
+              {`${strings.transferTo}`.replace(
+                "{{accountNumber}}",
+                accountNumber
+              )}
             </Text>
             <LinearGradient
               start={{ x: 0, y: 0 }}

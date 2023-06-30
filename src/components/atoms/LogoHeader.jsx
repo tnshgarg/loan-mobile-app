@@ -47,7 +47,7 @@ const LogoHeader = ({
         >
           {title ? (
             <Text
-              style={{ ...FONTS.body2, color: COLORS.secondary, ...titleStyle }}
+              style={{ ...FONTS.h2, color: COLORS.secondary, ...titleStyle }}
             >
               {title}
             </Text>
