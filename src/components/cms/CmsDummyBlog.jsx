@@ -2,7 +2,6 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
 import { Alert, BackHandler, ScrollView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { DUMMY_RES_HINDI } from "../../constants/Strings";
 import { CMS_POLLING_DURATION } from "../../services/constants";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { styles } from "../../styles";
@@ -28,11 +27,11 @@ const CmsDummyBlog = (props) => {
   let blogKey = props.route?.params?.blogKey;
   let backScreen = props.route?.params?.backScreen;
   console.log({ backScreen });
-  const { data, screenTitle, headline, headingImage, disableBack } =
-    DUMMY_RES_HINDI?.[blogKey] ?? {};
-
   // const { data, screenTitle, headline, headingImage, disableBack } =
-  //   cmsData?.[blogKey] ?? {};
+  //   DUMMY_RES_HINDI?.[blogKey] ?? {};
+
+  const { data, screenTitle, headline, headingImage, disableBack } =
+    cmsData?.[blogKey] ?? {};
   console.log("MyData: ", {
     blogKey,
     data,
