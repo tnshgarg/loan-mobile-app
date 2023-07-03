@@ -68,7 +68,7 @@ const LoginScreen = () => {
   useEffect(() => {
     trackEvent({
       interaction: InteractionTypes.SCREEN_OPEN,
-      screen: "phone",
+      screen: "landing",
       action: "START",
     });
   }, []);
@@ -78,7 +78,7 @@ const LoginScreen = () => {
     if (phoneno.test(phoneNumber) && phoneNumber.length === 10) {
       Analytics.trackEvent({
         interaction: InteractionTypes.BUTTON_PRESS,
-        screen: "login",
+        screen: "landing",
         action: "COMPLETE",
       });
       dispatch(addPhoneNumber(phoneNumber));
@@ -92,6 +92,11 @@ const LoginScreen = () => {
     try {
       let phoneNumber = await SmsRetriever.requestPhoneNumber();
       setPhoneNumber(phoneNumber.replace("+91", ""));
+      trackEvent({
+        interaction: InteractionTypes.BUTTON_PRESS,
+        screen: "landing",
+        action: "CONTINUE",
+      });
     } catch (error) {
       console.log("Error while fetching phoneNumber: ", error.message);
     }
@@ -112,7 +117,7 @@ const LoginScreen = () => {
           BackHandler.exitApp();
           trackEvent({
             interaction: InteractionTypes.BUTTON_PRESS,
-            screen: "phone",
+            screen: "landing",
             action: "BACK",
           });
         },
