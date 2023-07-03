@@ -31,20 +31,23 @@ export async function trackEvent(
     analyticsSession.logCount += 1
     console.log("trackEvent",event, analyticsSession.logCount, analyticsSession.campaignClick);
     const analyticsEvent = {
-        session: analyticsSession,
-        user: appState?.auth?.unipeEmployeeId,
-        campaign: appState?.campaign,
-        eventTime: new Date().getTime() / 1000,
-        event: event || {}
-    }
+      session: analyticsSession,
+      user: appState?.auth?.unipeEmployeeId,
+      campaign: appState?.campaign,
+      eventTime: new Date().getTime() / 1000,
+      event: event || {},
+    };
     const codepushEventName = `${event.flow}|${event.screen}|${event.action}`;
     // const analyticsEventName = `${event.component}_${event.action}_${event.status}`.replace(":","__")
     const analyticsEventName =
       `${event.flow}_${event.screen}_${event.action}`.replace(":", "__");
-    Analytics.trackEvent(codepushEventName, analyticsEvent.event).catch(console.error)
+    Analytics.trackEvent(codepushEventName, analyticsEvent.event).catch(
+      console.error
+    );
     const firebaseAnalyticsEventName = analyticsEventName.substring(0, 40);
     firebaseAnalytics.logEvent(firebaseAnalyticsEventName, {
       unipeEmployeeId: analyticsEvent.user,
+      ...(event.properties || {}),
     });
     UnipeAnalyticsAPI.post("/",analyticsEvent
     ).then(r => console.log("AnalyticsResponse:",r?.data)).catch(console.error)

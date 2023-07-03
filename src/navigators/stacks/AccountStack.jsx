@@ -5,6 +5,7 @@ import AccountMenu from "../../screens/06_home/Account";
 import KYCScreen from "../../screens/06_home/Account/KYCScreen";
 import Profile from "../../screens/06_home/Account/Profile";
 import Documents from "../../screens/06_home/Documents/Documents";
+
 const AccountStack = () => {
   const Stack = createNativeStackNavigator();
 

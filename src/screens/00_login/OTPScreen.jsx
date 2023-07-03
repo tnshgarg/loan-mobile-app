@@ -55,6 +55,14 @@ const OTPScreen = () => {
   let interval;
 
   useEffect(() => {
+    Analytics.trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "otp",
+      action: "START",
+    });
+  }, []);
+
+  useEffect(() => {
     interval = BackgroundTimer.setInterval(() => {
       if (countDownTime > 0) {
         dispatch(setLoginTimer(countDownTime - 1));
@@ -82,6 +90,11 @@ const OTPScreen = () => {
                 text: "Don't leave",
                 style: "destructive",
                 onPress: () => {
+                  Analytics.trackEvent({
+                    interaction: InteractionTypes.BUTTON_PRESS,
+                    screen: "otp",
+                    action: "BACK",
+                  });
                   navigate("OnboardingStack", { screen: "Otp" });
                 },
               },
@@ -111,18 +124,21 @@ const OTPScreen = () => {
   };
 
   const onResendOtp = () => {
+    Analytics.trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "otp",
+      action: "RESENDOTP",
+    });
     postGenerateOtp(phoneNumber)
       .unwrap()
       .then((res) => {
         console.log({ res });
-
         setOtp("");
         setBack(false);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          flow: "login",
           screen: "otp",
-          action: "RESENDOTP",
+          action: "RESENDOTPSUCCESS",
         });
         Alert.alert("OTP resent successfully", "", [
           {
@@ -137,9 +153,8 @@ const OTPScreen = () => {
       .catch((error) => {
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          flow: "login",
           screen: "otp",
-          action: "ERROR",
+          action: "RESENDOTPERROR",
           error: error.message,
         });
         console.log(error, error.message);
@@ -165,16 +180,19 @@ const OTPScreen = () => {
     }
   };
   const onSubmitOtp = () => {
+    Analytics.trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "otp",
+      action: "CONTINUE",
+    });
     postVerifyOtp({ mobileNumber: phoneNumber, otp: otp })
       .unwrap()
       .then((res) => {
         dispatch(addToken(res["token"]));
         handleNavigation(res["token"], res?.employeeDetails?.unipeEmployeeId);
         setVerified(true);
-
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          flow: "login",
           screen: "otp",
           action: "SUCCESS",
         });
@@ -182,7 +200,6 @@ const OTPScreen = () => {
       .catch((error) => {
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          flow: "login",
           screen: "otp",
           action: "INVALID",
           error: error?.message || error?.error?.message,

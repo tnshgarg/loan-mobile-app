@@ -5,6 +5,10 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import LogoImage from "../../assets/HeaderLogo.svg";
 import NotificationFade from "../../assets/NotificationFade.svg";
 import { COLORS, FONTS } from "../../constants/Theme";
+import {
+  InteractionTypes,
+  trackEvent,
+} from "../../helpers/analytics/commonAnalytics";
 import { navigate } from "../../navigators/RootNavigation";
 import SvgContainer from "./SvgContainer";
 
@@ -64,11 +68,16 @@ const LogoHeader = ({
           <TouchableOpacity
             style={{ paddingTop: 5 }}
             activeOpacity={0.7}
-            onPress={() =>
+            onPress={() => {
+              trackEvent({
+                interaction: InteractionTypes.BUTTON_PRESS,
+                screen: "home",
+                action: "NOTIFICATION",
+              });
               navigate("AccountStack", {
                 screen: "NotificationView",
-              })
-            }
+              });
+            }}
           >
             <SvgContainer height={42} width={42}>
               <NotificationFade />

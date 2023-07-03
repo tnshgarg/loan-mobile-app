@@ -1,7 +1,5 @@
 import axios from "axios";
-import Analytics, {
-  InteractionTypes,
-} from "../helpers/analytics/commonAnalytics";
+import Analytics from "../helpers/analytics/commonAnalytics";
 import { navigationRef } from "../navigators/RootNavigation";
 import { EMPLOYEE_API_URL } from "../services/constants";
 import { addLanguage } from "../store/slices/localizationSlice";
@@ -30,18 +28,20 @@ const handleLanguageUpdate = async (language) => {
   }
 };
 
-const navigationHelper = async ({ type, stack, screen, language, params }) => {
+const navigationHelper = async ({
+  type,
+  stack,
+  screen,
+  language,
+  params,
+  analytics,
+}) => {
   params = params || {};
   params = { ...params, language };
   console.log("Paramsd: ", params);
   console.log("screensd: ", params);
 
-  Analytics.trackEvent({
-    interaction: InteractionTypes.NAVIGATION,
-    flow: "navigation",
-    screen: `${stack}_${screen}`,
-    action: "navigate",
-  });
+  if (analytics) Analytics.trackEvent(analytics);
 
   await handleLanguageUpdate(language);
   if (type == "app") {

@@ -3,6 +3,10 @@ import TopTabNav from "../../../navigators/TopTabNav";
 
 import { BackHandler, SafeAreaView } from "react-native";
 import LogoHeaderBack from "../../../components/molecules/LogoHeaderBack";
+import {
+  InteractionTypes,
+  trackEvent,
+} from "../../../helpers/analytics/commonAnalytics";
 import { styles } from "../../../styles";
 import Aadhaar from "./Aadhaar";
 import Bank from "./Bank";
@@ -19,9 +23,22 @@ const KYCScreen = ({ navigation }) => {
 
   const backAction = () => {
     // navigation.navigate("HomeStack", { screen: "Account" });
+    trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "kycDetails",
+      action: "BACK",
+    });
     navigation.goBack();
     return true;
   };
+
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "kycDetails",
+      action: "START",
+    });
+  }, []);
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);

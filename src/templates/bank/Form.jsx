@@ -9,6 +9,10 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import ShieldTitle from "../../components/atoms/ShieldTitle";
 import PopableInput from "../../components/molecules/PopableInput";
 import { strings } from "../../helpers/Localization";
+import {
+  InteractionTypes,
+  trackEvent,
+} from "../../helpers/analytics/commonAnalytics";
 import { KYC_POLLING_DURATION } from "../../services/constants";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import {
@@ -27,9 +31,12 @@ const BankFormTemplate = (props) => {
   const [accNumNext, setAccNumNext] = useState(false);
   const [ifscNext, setIfscNext] = useState(false);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: KYC_POLLING_DURATION,
-  });
+  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: KYC_POLLING_DURATION,
+    }
+  );
 
   const { aadhaar, bank } = kycData ?? {};
 
@@ -63,6 +70,11 @@ const BankFormTemplate = (props) => {
   useEffect(() => {
     let ifscReg = /^[A-Z]{4}0[A-Z0-9]{6}$/gm;
     if (ifscReg.test(ifsc)) {
+      trackEvent({
+        interaction: InteractionTypes.SCREEN_OPEN,
+        screen: "bank",
+        action: "COMPLETE",
+      });
       dispatch(addIfsc(ifsc));
       setIfscNext(true);
     } else {
@@ -131,18 +143,21 @@ const BankFormTemplate = (props) => {
             <ShieldTitle title={strings.detailsSafe} />
           </View>
         </KeyboardAvoidingWrapper>
+      ) : kycLoading ? (
+        <View style={{ marginTop: 20 }}>
+          <ActivityIndicator size={"large"} color={COLORS.secondary} />
+        </View>
       ) : (
-        kycLoading ? 
-          (
-          <View style={{marginTop: 20}}>
-            <ActivityIndicator size={"large"} color={COLORS.secondary}/>
-          </View>
-        )
-        : (<View style={styles.container}>
+        <View style={styles.container}>
           <Text style={bankform.subTitle}>{strings.verifyAadhaarFirst}</Text>
           <PrimaryButton
             title="Verify Aadhaar Now"
             onPress={() => {
+              trackEvent({
+                interaction: InteractionTypes.BUTTON_PRESS,
+                screen: "bank",
+                action: "VERIFYAADHAARFIRST",
+              });
               props?.route?.params?.type === "KYC"
                 ? navigation.navigate("HomeStack", {
                     screen: "KYC",
@@ -153,7 +168,7 @@ const BankFormTemplate = (props) => {
                 : navigation.navigate("AadhaarForm");
             }}
           />
-        </View>) 
+        </View>
       )}
     </SafeAreaView>
   );

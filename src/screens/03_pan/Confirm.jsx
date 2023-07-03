@@ -8,6 +8,10 @@ import { useDispatch } from "react-redux";
 import PanConfirmApi from "../../apis/pan/Confirm";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { strings } from "../../helpers/Localization";
+import {
+  InteractionTypes,
+  trackEvent,
+} from "../../helpers/analytics/commonAnalytics";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 
 export default PanConfirm = () => {
@@ -22,10 +26,28 @@ export default PanConfirm = () => {
   const backAction = () => {
     Alert.alert(strings.goBack, strings.goBackPanVerification, [
       { text: "No", onPress: () => null, style: "cancel" },
-      { text: "Yes", onPress: () => navigation.navigate("PanForm") },
+      {
+        text: "Yes",
+        onPress: () => {
+          trackEvent({
+            interaction: InteractionTypes.SCREEN_OPEN,
+            screen: "panOk",
+            action: "BACK",
+          });
+          navigation.navigate("PanForm");
+        },
+      },
     ]);
     return true;
   };
+
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "panOk",
+      action: "START",
+    });
+  }, []);
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);

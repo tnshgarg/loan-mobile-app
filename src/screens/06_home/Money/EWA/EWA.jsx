@@ -8,6 +8,11 @@ import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
 import VerifyMandateCard from "../../../../components/molecules/VerifyMandateCard";
 import LiveOfferCard from "../../../../components/organisms/LiveOfferCard";
 import { getNumberOfDays } from "../../../../helpers/DateFunctions";
+import {
+  InteractionTypes,
+  setSessionValue,
+  trackEvent,
+} from "../../../../helpers/analytics/commonAnalytics";
 import { EWA_POLLING_DURATION } from "../../../../services/constants";
 import { useGetOffersQuery } from "../../../../store/apiSlices/ewaApi";
 import { useGetMandateQuery } from "../../../../store/apiSlices/mandateApi";
@@ -36,9 +41,18 @@ const EWA = () => {
 
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
-  const { data: mandateData, error, isLoading } = useGetMandateQuery(unipeEmployeeId);
+  const {
+    data: mandateData,
+    error,
+    isLoading,
+  } = useGetMandateQuery(unipeEmployeeId);
 
   const backAction = () => {
+    trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "money",
+      action: "BACK",
+    });
     navigation.navigate("EWA", { replace: true });
     return true;
   };
@@ -114,11 +128,20 @@ const EWA = () => {
     }
   }, [getEwaOffersIsSuccess, getEwaOffersData, isFocused]);
 
+  useEffect(() => {
+    setSessionValue("flow", "money");
+  }, []);
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
         title={`Money`}
         onRightIconPress={() => {
+          trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            screen: "money",
+            action: "HELP",
+          });
           navigationHelper({
             type: "cms",
             params: { blogKey: "customer_support" },

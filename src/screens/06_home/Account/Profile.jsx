@@ -9,6 +9,10 @@ import MaritalStatus from "../../../assets/MaritalStatus.svg";
 import SvgContainer from "../../../components/atoms/SvgContainer";
 import LogoHeaderBack from "../../../components/molecules/LogoHeaderBack";
 import { COLORS, FONTS } from "../../../constants/Theme";
+import {
+  InteractionTypes,
+  trackEvent,
+} from "../../../helpers/analytics/commonAnalytics";
 import { KYC_POLLING_DURATION } from "../../../services/constants";
 import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
 import { styles } from "../../../styles";
@@ -52,6 +56,11 @@ const Profile = ({ navigation }) => {
   ];
 
   const backAction = () => {
+    trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "profile",
+      action: "BACK",
+    });
     navigation.goBack();
     return true;
   };
@@ -60,6 +69,14 @@ const Profile = ({ navigation }) => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "profile",
+      action: "START",
+    });
   }, []);
 
   return (

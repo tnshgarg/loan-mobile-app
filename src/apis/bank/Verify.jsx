@@ -45,7 +45,6 @@ const BankVerifyApi = (props) => {
     }
     Analytics.trackEvent({
       interaction: InteractionTypes.BUTTON_PRESS,
-      flow: "kyc",
       screen: "bank",
       action: "CONTINUE",
     });
@@ -57,7 +56,6 @@ const BankVerifyApi = (props) => {
     Alert.alert("verifyBankAccount API Catch Error", JSON.stringify(error));
     Analytics.trackEvent({
       interaction: InteractionTypes.BUTTON_PRESS,
-      flow: "kyc",
       screen: "bank",
       action: "ERROR",
       error: `verifyBankAccount API Catch Error: ${JSON.stringify(

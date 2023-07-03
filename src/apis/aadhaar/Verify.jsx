@@ -28,7 +28,6 @@ const AadhaarVerifyApi = (props) => {
     props.setVerified(true);
     Analytics.trackEvent({
       interaction: InteractionTypes.BUTTON_PRESS,
-      flow: "kyc",
       screen: "aadhaarOtp",
       action: "VALID",
     });
@@ -40,7 +39,6 @@ const AadhaarVerifyApi = (props) => {
   const handleOtpError = (error, res) => {
     Analytics.trackEvent({
       interaction: InteractionTypes.BUTTON_PRESS,
-      flow: "kyc",
       screen: "aadhaarOtp",
       action: "INVALID",
       error: `submitAadhaarOTP API Catch Error: ${JSON.stringify(
@@ -128,6 +126,11 @@ const AadhaarVerifyApi = (props) => {
         disabled={props.disabled}
         loading={loading}
         onPress={() => {
+          trackEvent({
+            interaction: InteractionTypes.SCREEN_OPEN,
+            screen: "aadhaarOtp",
+            action: "CONTINUE",
+          });
           goForFetch();
         }}
       />

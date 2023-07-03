@@ -41,6 +41,12 @@ const BankConfirmApi = (props) => {
     setAwaitingMutation(true)
     dispatch(addVerifyStatus(verifyStatus));
 
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "bankOk",
+      action: "",
+    });
+
     const payload = {
       unipeEmployeeId: unipeEmployeeId,
       accountNumber: data.accountNumber,
@@ -51,17 +57,38 @@ const BankConfirmApi = (props) => {
     updateBank(payload)
       .unwrap()
       .then((res) => {
+        trackEvent({
+          interaction: InteractionTypes.SCREEN_OPEN,
+          screen: "bankOk",
+          action: "CONTINUE",
+        });
         if (["REJECTED", "SUCCESS"].includes(verifyStatus)) {
-          kycNavigate({...kycData,bank: {verifyStatus}}, navigation)
+          trackEvent({
+            interaction: InteractionTypes.SCREEN_OPEN,
+            screen: "bankOk",
+            action: "ACCEPT",
+          });
+          kycNavigate({ ...kycData, bank: { verifyStatus } }, navigation);
         } else {
-          const err = new Error("Something Unexpected has happened")
-          err.message = "Something Unexpected has happened"
-          throw err
+          const err = new Error("Something Unexpected has happened");
+          trackEvent({
+            interaction: InteractionTypes.SCREEN_OPEN,
+            screen: "bankOk",
+            action: "ERROR",
+          });
+          err.message = "Something Unexpected has happened";
+          throw err;
         }
       })
       .catch((error) => {
+        trackEvent({
+          interaction: InteractionTypes.SCREEN_OPEN,
+          screen: "bankOk",
+          action: "ERROR",
+        });
         showToast(error?.message, "Please contact support");
-      }).finally(() => setAwaitingMutation(false));
+      })
+      .finally(() => setAwaitingMutation(false));
   };
 
   const cardData = () => {

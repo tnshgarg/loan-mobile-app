@@ -174,7 +174,6 @@ const PayMoneyCard = () => {
       };
       Analytics.trackEvent({
         interaction: InteractionTypes.BUTTON_PRESS,
-        flow: "money",
         screen: "money",
         action: "PAYNOW",
       });
@@ -188,7 +187,6 @@ const PayMoneyCard = () => {
       };
       Analytics.trackEvent({
         interaction: InteractionTypes.BUTTON_PRESS,
-        flow: "money",
         screen: "money",
         action: "PAYNOW_ERROR",
       });
@@ -208,6 +206,11 @@ const PayMoneyCard = () => {
   };
 
   const initiatePayment = async () => {
+    Analytics.trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "money",
+      action: "PAYNOW",
+    });
     if (repaymentAmount > 0) {
       try {
         setLoading(true);
@@ -225,7 +228,6 @@ const PayMoneyCard = () => {
         Alert.alert("Error", error.message);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          flow: "money",
           screen: "money",
           action: "PAYNOW_ERROR",
           error: JSON.stringify(error),

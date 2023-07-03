@@ -21,6 +21,8 @@ import AgreementText from "../../components/organisms/AgreementText";
 import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics, {
   InteractionTypes,
+  setSessionValue,
+  trackEvent,
 } from "../../helpers/analytics/commonAnalytics";
 import { useGenerateOtpMutation } from "../../store/apiSlices/loginApi";
 import { addPhoneNumber } from "../../store/slices/authSlice";
@@ -64,8 +66,21 @@ const LoginScreen = () => {
   }, []);
 
   useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "phone",
+      action: "START",
+    });
+  }, []);
+
+  useEffect(() => {
     let phoneno = /^\d{10}$/gm;
     if (phoneno.test(phoneNumber) && phoneNumber.length === 10) {
+      Analytics.trackEvent({
+        interaction: InteractionTypes.BUTTON_PRESS,
+        screen: "login",
+        action: "COMPLETE",
+      });
       dispatch(addPhoneNumber(phoneNumber));
       setNext(true);
     } else {
@@ -91,7 +106,17 @@ const LoginScreen = () => {
   const backAction = () => {
     Alert.alert("Hold on!", "Are you sure you want to go back?", [
       { text: "No", onPress: () => null, style: "cancel" },
-      { text: "Yes", onPress: () => BackHandler.exitApp() },
+      {
+        text: "Yes",
+        onPress: () => {
+          BackHandler.exitApp();
+          trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            screen: "phone",
+            action: "BACK",
+          });
+        },
+      },
     ]);
     return true;
   };
@@ -102,7 +127,16 @@ const LoginScreen = () => {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
+  useEffect(() => {
+    setSessionValue("flow", "login");
+  }, []);
+
   const signIn = () => {
+    Analytics.trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "phone",
+      action: "CONTINUE",
+    });
     setLoading(true);
     dispatch(resetTimer());
     postGenerateOtp(phoneNumber)
@@ -111,9 +145,8 @@ const LoginScreen = () => {
         console.log("otpResponse", otpResponse);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          flow: "login",
-          screen: "otp",
-          action: "SENT",
+          screen: "phone",
+          action: "SUCCESS",
         });
         // TODO: Success message handling
         // navigation.navigate("Otp");
@@ -126,8 +159,7 @@ const LoginScreen = () => {
         Alert.alert("Error", error.message);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          flow: "login",
-          screen: "otp",
+          screen: "phone",
           action: "ERROR",
           error: JSON.stringify(error),
         });

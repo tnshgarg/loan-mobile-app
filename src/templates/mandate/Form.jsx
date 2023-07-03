@@ -109,6 +109,11 @@ const MandateFormTemplate = (props) => {
 
   const backendPush = ({ data, verifyMsg, verifyStatus, verifyTimestamp }) => {
     console.log("mandateData: ", mandateData);
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "mandateStart",
+      action: "CONTINUE",
+    });
     let payload = {
       unipeEmployeeId: unipeEmployeeId,
       ipAddress: ipAddress,
@@ -120,7 +125,20 @@ const MandateFormTemplate = (props) => {
       campaignId: campaignId,
     };
     return updateMandate(payload)
+      .then(() => {
+        trackEvent({
+          interaction: InteractionTypes.SCREEN_OPEN,
+          screen: "mandateStart",
+          action: "SUCCESS",
+        });
+      })
       .catch((error) => {
+        trackEvent({
+          interaction: InteractionTypes.SCREEN_OPEN,
+          screen: "mandateStart",
+          action: "ERROR",
+          error: error,
+        });
         console.log("mandatePush error: ", error);
         throw error;
       });
@@ -137,7 +155,13 @@ const MandateFormTemplate = (props) => {
           verifyStatus: "INPROGRESS",
           verifyTimestamp: Date.now(),
         })
-          .then(() => {})
+          .then(() => {
+            trackEvent({
+              interaction: InteractionTypes.SCREEN_OPEN,
+              screen: "mandateStart",
+              action: "INPROGRESS",
+            });
+          })
           .catch((error) => {
             setModalVisible(false);
             Alert.alert("Error", error?.message || "Something went wrong");
@@ -169,7 +193,6 @@ const MandateFormTemplate = (props) => {
       console.log("Mandate Checkout Success", res);
       Analytics.trackEvent({
         interaction: InteractionTypes.BUTTON_PRESS,
-        flow: "mandate",
         screen: "mandateStart",
         action: "AUTHORIZE",
       });
@@ -178,7 +201,6 @@ const MandateFormTemplate = (props) => {
       console.log("Mandate Checkout Error", error);
       Analytics.trackEvent({
         interaction: InteractionTypes.BUTTON_PRESS,
-        flow: "mandate",
         screen: "mandateStart",
         action: "ERROR",
       });
@@ -196,6 +218,12 @@ const MandateFormTemplate = (props) => {
       }).catch((error) => {
         console.log({ innerError: error });
         setModalVisible(false);
+        trackEvent({
+          interaction: InteractionTypes.SCREEN_OPEN,
+          screen: "mandateStart",
+          action: "ERROR",
+          error: error?.message,
+        });
         Alert.alert("Error", error?.message || "Something went wrong");
       });
     }
@@ -227,7 +255,10 @@ const MandateFormTemplate = (props) => {
           interaction: InteractionTypes.BUTTON_PRESS,
           flow: "mandate",
           screen: "mandateStart",
-          action: `CreateOrder_${authType}`,
+          action: `SUCCESS`,
+          properties: {
+            authType: authType,
+          },
         });
         if (provider == "razorpay") {
           await initiateRazorpayCheckout({
@@ -290,14 +321,19 @@ const MandateFormTemplate = (props) => {
     ];
   };
 
-  const lastDigitsAccount = accountNumber?.slice(accountNumber.length-4,accountNumber.length);
+  const lastDigitsAccount = accountNumber?.slice(
+    accountNumber.length - 4,
+    accountNumber.length
+  );
 
   return (
     <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <ScrollView showsVerticalScrollIndicator={false}>
           <InfoCard
-            info={`${strings.registerMandateNote}`.replace("{{bankName}}", bankName).replace("{{lastFour}}", lastDigitsAccount)}
+            info={`${strings.registerMandateNote}`
+              .replace("{{bankName}}", bankName)
+              .replace("{{lastFour}}", lastDigitsAccount)}
             infoStyle={{ ...FONTS.body3, color: COLORS.black }}
             variant={"gradient"}
           />
@@ -334,12 +370,20 @@ const MandateFormTemplate = (props) => {
               "Mandate is required to auto-debit loan payments on Due Date. This is 100% secure and executed by an RBI approved entity."
             }
           />
-          <HelpCard text="repayment methods" onPress={() => {
-            navigationHelper({
-              type: "cms",
-              params: { blogKey: "mandate_help" },
-            });
-          }}/>
+          <HelpCard
+            text="repayment methods"
+            onPress={() => {
+              trackEvent({
+                interaction: InteractionTypes.SCREEN_OPEN,
+                screen: "mandateStart",
+                action: "HELP",
+              });
+              navigationHelper({
+                type: "cms",
+                params: { blogKey: "mandate_help" },
+              });
+            }}
+          />
           <PoweredByTag
             image={[
               require("../../assets/rzp.png"),

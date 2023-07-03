@@ -1,11 +1,11 @@
+import { useIsFocused } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
+import { useSelector } from "react-redux";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
-import ListItem from "../atoms/ListItem";
 import { useGetMandateOptionsQuery } from "../../store/apiSlices/mandateApi";
-import { useIsFocused } from "@react-navigation/native";
+import ListItem from "../atoms/ListItem";
 
 const MandateOptions = ({ ProceedButton, disabled, authType }) => {
   const isFocused = useIsFocused();
@@ -37,6 +37,11 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
             title: "Google Pay",
             image: require("../../assets/gpay.png"),
             onPress: () => {
+              trackEvent({
+                interaction: InteractionTypes.SCREEN_OPEN,
+                screen: "mandateStart",
+                action: "CONTINUE",
+              });
               ProceedButton({
                 authType: "upi",
                 provider: "cashfree",
@@ -48,6 +53,11 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
             title: "AmazonPay",
             image: require("../../assets/amazon_pay.png"),
             onPress: () => {
+              trackEvent({
+                interaction: InteractionTypes.SCREEN_OPEN,
+                screen: "mandateStart",
+                action: "CONTINUE",
+              });
               ProceedButton({
                 authType: "upi",
                 provider: "cashfree",
@@ -59,6 +69,11 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
             title: "Paytm",
             image: require("../../assets/paytm.png"),
             onPress: () => {
+              trackEvent({
+                interaction: InteractionTypes.SCREEN_OPEN,
+                screen: "mandateStart",
+                action: "CONTINUE",
+              });
               ProceedButton({
                 authType: "upi",
                 provider: "cashfree",
@@ -69,6 +84,11 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
         ],
         type: "upi",
         onPress: () => {
+          trackEvent({
+            interaction: InteractionTypes.SCREEN_OPEN,
+            screen: "mandateStart",
+            action: "CONTINUE",
+          });
           ProceedButton({ authType: "upi", provider: "cashfree" });
         },
       });
@@ -80,6 +100,11 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
           iconName: "card-account-details-outline",
           type: "aadhaar",
           onPress: () => {
+            trackEvent({
+              interaction: InteractionTypes.SCREEN_OPEN,
+              screen: "mandateStart",
+              action: "CONTINUE",
+            });
             ProceedButton({ authType: "aadhaar" });
           },
         });
@@ -92,6 +117,11 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
           iconName: "bank-outline",
           type: "netbanking",
           onPress: () => {
+            trackEvent({
+              interaction: InteractionTypes.SCREEN_OPEN,
+              screen: "mandateStart",
+              action: "CONTINUE",
+            });
             ProceedButton({ authType: "netbanking" });
           },
         });
@@ -104,6 +134,11 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
           iconName: "credit-card-outline",
           type: "debitcard",
           onPress: () => {
+            trackEvent({
+              interaction: InteractionTypes.SCREEN_OPEN,
+              screen: "mandateStart",
+              action: "CONTINUE",
+            });
             ProceedButton({ authType: "debitcard" });
           },
         });

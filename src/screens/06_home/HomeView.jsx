@@ -13,6 +13,11 @@ import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { getNumberOfDays } from "../../helpers/DateFunctions";
 import { strings } from "../../helpers/Localization";
 import {
+  InteractionTypes,
+  setSessionValue,
+  trackEvent,
+} from "../../helpers/analytics/commonAnalytics";
+import {
   CMS_POLLING_DURATION,
   EWA_POLLING_DURATION,
   KYC_POLLING_DURATION,
@@ -84,7 +89,11 @@ const HomeView = () => {
     if (!onboarded) addOnboarded(true);
     requestUserPermission();
     notificationListener();
-    fetchCms()
+    fetchCms();
+  }, []);
+
+  useEffect(() => {
+    setSessionValue("flow", "home");
   }, []);
 
   useEffect(() => {
@@ -92,7 +101,7 @@ const HomeView = () => {
   }, [eligible]);
   console.log({ cmsData, cmsError });
   console.log({ ewaLiveSlice });
-  
+
   useEffect(() => {
     if (
       STAGE !== "prod" ||
@@ -107,6 +116,14 @@ const HomeView = () => {
   useEffect(() => {
     dispatch(addAccessible(accessible));
   }, [accessible]);
+
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "home",
+      action: "START",
+    });
+  }, []);
 
   const {
     isSuccess: getEwaOffersIsSuccess,
@@ -198,6 +215,11 @@ const HomeView = () => {
           notificationIconPresent={true}
           title={`${strings.goodAfternoon} \n${name}!`}
           onRightIconPress={() => {
+            trackEvent({
+              interaction: InteractionTypes.SCREEN_OPEN,
+              screen: "home",
+              action: "HELP",
+            });
             navigationHelper({
               type: "cms",
               params: { blogKey: "customer_support" },

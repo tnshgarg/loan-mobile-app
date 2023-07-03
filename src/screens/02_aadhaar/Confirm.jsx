@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { BackHandler, SafeAreaView, ScrollView } from "react-native";
 import { useDispatch } from "react-redux";
@@ -8,12 +7,15 @@ import AadhaarConfirmApi from "../../apis/aadhaar/Confirm";
 import BottomAlert from "../../components/molecules/BottomAlert";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { strings } from "../../helpers/Localization";
+import {
+  InteractionTypes,
+  trackEvent,
+} from "../../helpers/analytics/commonAnalytics";
 import { navigate } from "../../navigators/RootNavigation";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 
 const AadhaarConfirm = () => {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
 
   useEffect(() => {
     dispatch(addCurrentScreen("AadhaarConfirm"));
@@ -21,9 +23,22 @@ const AadhaarConfirm = () => {
 
   const backAction = () => {
     setAlertVisible(true);
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "aadhaarOk",
+      action: "BACK",
+    });
     return true;
   };
-  
+
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "aadhaarOk",
+      action: "START",
+    });
+  }, []);
+
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
     return () =>

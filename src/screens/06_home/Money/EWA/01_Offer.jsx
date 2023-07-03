@@ -10,6 +10,7 @@ import SliderCard from "../../../../components/organisms/SliderCard";
 import { strings } from "../../../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
+  setSessionValue,
 } from "../../../../helpers/analytics/commonAnalytics";
 import {
   addAPR,
@@ -84,14 +85,31 @@ const Offer = () => {
   }, [deviceId, ipAddress]);
 
   const backAction = () => {
+    trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "amountSelection",
+      action: "BACK",
+    });
     navigate("Money", { screen: "EWA" });
     return true;
   };
 
   useEffect(() => {
+    setSessionValue("flow", "ewa");
+  }, []);
+
+  useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "amountSelection",
+      action: "START",
+    });
   }, []);
 
   useEffect(() => {
@@ -195,7 +213,6 @@ const Offer = () => {
           handleConditionalNav();
           Analytics.trackEvent({
             interaction: InteractionTypes.BUTTON_PRESS,
-            flow: "ewa",
             screen: "amountSelection",
             action: "SUCCESS",
           });
@@ -206,7 +223,6 @@ const Offer = () => {
           Alert.alert("An Error occured", error.message);
           Analytics.trackEvent({
             interaction: InteractionTypes.BUTTON_PRESS,
-            flow: "ewa",
             screen: "amountSelection",
             action: "ERROR",
             error: error.message,
@@ -228,7 +244,14 @@ const Offer = () => {
           // info={"Zero Interest charges, Nominal Processing Fees"}
           iconName="brightness-percent"
           amount={loanAmount}
-          setAmount={setLoanAmount}
+          setAmount={(val) => {
+            trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              screen: "amountSelection",
+              action: "SELECT",
+            });
+            setLoanAmount(val);
+          }}
           eligibleAmount={ewaLiveSlice.eligibleAmount}
           accountNumber={bank?.data?.accountNumber}
           bankName={bank?.data?.bankName}
@@ -240,7 +263,14 @@ const Offer = () => {
           value={consent}
           setValue={setConsent}
           additionalText={strings.termsAndConditions}
-          onPress={() => setIsTermsOfUseModalVisible(true)}
+          onPress={() => {
+            trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              screen: "amountSelection",
+              action: "AGREE",
+            });
+            setIsTermsOfUseModalVisible(true);
+          }}
         />
 
         <PrimaryButton
@@ -248,6 +278,11 @@ const Offer = () => {
           disabled={loading || !consent || !validAmount || updating}
           loading={loading}
           onPress={() => {
+            trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              screen: "amountSelection",
+              action: "CONTINUE",
+            });
             handleAmount();
           }}
         />

@@ -7,13 +7,12 @@ import { showToast } from "../../components/atoms/Toast";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
-import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
+import { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
 import { kycNavigate } from "../../services/kyc/navigation";
 import { useUpdateAadhaarMutation } from "../../store/apiSlices/aadhaarApi";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { bankform, form, styles } from "../../styles";
-
 
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -26,9 +25,12 @@ const AadhaarConfirmApi = (props) => {
     (state) => state.campaign.onboardingCampaignId
   );
 
-  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: 1000 * 60 * 60 * 24,
-  });
+  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: 1000 * 60 * 60 * 24,
+    }
+  );
 
   console.log({ kycData });
 
@@ -54,6 +56,11 @@ const AadhaarConfirmApi = (props) => {
       .unwrap()
       .then((res) => {
         if (verifyStatus === "REJECTED") {
+          trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            screen: "aadhaarOk",
+            action: "REJECT",
+          });
           if (props?.route?.params?.type === "KYC") {
             navigation.navigate("KYC", {
               screen: "AADHAAR",
@@ -65,12 +72,23 @@ const AadhaarConfirmApi = (props) => {
             navigation.navigate("AadhaarForm");
           }
         } else if (verifyStatus === "SUCCESS") {
-          kycNavigate({...kycData,aadhaar: {verifyStatus}}, navigation)
+          trackEvent({
+            interaction: InteractionTypes.SCREEN_OPEN,
+            screen: "aadhaarOk",
+            action: "ACCEPT",
+          });
+          kycNavigate({ ...kycData, aadhaar: { verifyStatus } }, navigation);
         }
       })
       .catch((error) => {
+        trackEvent({
+          interaction: InteractionTypes.SCREEN_OPEN,
+          screen: "aadhaarOk",
+          action: "ERROR",
+        });
         showToast(error?.message, "error");
-      }).finally(() => setLoading(false));
+      })
+      .finally(() => setLoading(false));
   };
 
   const cardData = () => {
@@ -84,8 +102,8 @@ const AadhaarConfirmApi = (props) => {
     return res;
   };
   const contentLoading = kycLoading || loading;
-  let displayStyle = contentLoading ? {display: "none"} : {}
-  console.log({contentLoading})
+  let displayStyle = contentLoading ? { display: "none" } : {};
+  console.log({ contentLoading });
   return (
     <View style={[styles.container]}>
       <DetailsCard
@@ -97,11 +115,16 @@ const AadhaarConfirmApi = (props) => {
         type={"Aadhaar"}
       />
       {/* TODO: make a loader component which takes in an attribute to do this */}
-      {contentLoading ? <View style={{marginTop: 20}}>
-        <ActivityIndicator size={"large"} color={COLORS.secondary}/> 
-        </View>: <></> 
-      }
-      <View style={[styles.row, { justifyContent: "space-between"}, displayStyle]}>
+      {contentLoading ? (
+        <View style={{ marginTop: 20 }}>
+          <ActivityIndicator size={"large"} color={COLORS.secondary} />
+        </View>
+      ) : (
+        <></>
+      )}
+      <View
+        style={[styles.row, { justifyContent: "space-between" }, displayStyle]}
+      >
         <PrimaryButton
           title={strings.notMe}
           containerStyle={form.noButton}
@@ -109,13 +132,6 @@ const AadhaarConfirmApi = (props) => {
           onPress={() => {
             backendPush({
               verifyStatus: "REJECTED",
-            });
-            Analytics.trackEvent({
-              interaction: InteractionTypes.BUTTON_PRESS,
-              error: "Rejected by User",
-              flow: "kyc",
-              screen: "aadhaarOk",
-              action: "REJECT",
             });
           }}
         />
@@ -127,13 +143,6 @@ const AadhaarConfirmApi = (props) => {
           onPress={() => {
             backendPush({
               verifyStatus: "SUCCESS",
-            });
-            
-            Analytics.trackEvent({
-              interaction: InteractionTypes.BUTTON_PRESS,
-              flow: "kyc",
-              screen: "aadhaarOk",
-              action: "ACCEPT",
             });
           }}
         />

@@ -16,6 +16,7 @@ export function navigate(name, params) {
       screen: `${name}_${params.screen || ""}`,
       action: "navigate",
     });
+
     navigationRef.navigate(name, params);
   }
 }

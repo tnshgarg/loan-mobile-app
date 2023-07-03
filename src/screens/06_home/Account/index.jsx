@@ -9,6 +9,7 @@ import CmsRoot from "../../../components/cms/CmsRoot";
 import TermsAndPrivacyModal from "../../../components/molecules/TermsAndPrivacyModal";
 import LogoutModal from "../../../components/organisms/LogoutModal";
 import { strings } from "../../../helpers/Localization";
+import { setSessionValue } from "../../../helpers/analytics/commonAnalytics";
 import {
   CMS_POLLING_DURATION,
   KYC_POLLING_DURATION,
@@ -49,7 +50,20 @@ const AccountMenu = (props) => {
     }
   }, [isAadhaarSuccess, isPanSuccess, isBankSuccess, isProfileSuccess]);
 
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "account",
+      action: "START",
+    });
+  }, []);
+
   const backAction = () => {
+    trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "account",
+      action: "BACK",
+    });
     navigation.navigate("HomeStack", {
       screen: "Money",
     });
@@ -70,6 +84,10 @@ const AccountMenu = (props) => {
       navigation.navigate("OnboardingStack", { screen: "Login" });
     }, 5000);
   };
+
+  useEffect(() => {
+    setSessionValue("flow", "account");
+  }, []);
 
   const options = [
     {

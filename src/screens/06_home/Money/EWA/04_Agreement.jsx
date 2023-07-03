@@ -27,6 +27,7 @@ import { COLORS } from "../../../../constants/Theme";
 import { strings } from "../../../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
+  trackEvent,
 } from "../../../../helpers/analytics/commonAnalytics";
 import { KYC_POLLING_DURATION } from "../../../../services/constants";
 import { useGetCmsGroupQuery } from "../../../../store/apiSlices/cmsApi";
@@ -74,16 +75,16 @@ const Agreement = () => {
     pollingInterval: 1000 * 10,
   });
   const mandateVerifyStatus = mandateData?.verifyStatus;
-  const provider = ewaLiveSlice?.provider || "liquiloans"
+  const provider = ewaLiveSlice?.provider || "liquiloans";
   const {
-    data: loanProviderData, 
-    isLoading: loanProviderDataLoading, 
+    data: loanProviderData,
+    isLoading: loanProviderDataLoading,
     error: loanProviderDataError,
-    refetch: loanProviderDataRefetch
+    refetch: loanProviderDataRefetch,
   } = useGetCmsGroupQuery({
     group: `loan_provider_${provider}`,
-    language: "en"
-  })
+    language: "en",
+  });
 
   const today = new Date();
   const [updateAgreement] = useUpdateAgreementMutation();
@@ -144,7 +145,7 @@ const Agreement = () => {
       setIpAdress(ipv4Address);
     });
     dispatch(addCurrentScreen("EWA_AGREEMENT"));
-    loanProviderDataRefetch()
+    loanProviderDataRefetch();
   }, []);
 
   useEffect(() => {
@@ -181,7 +182,6 @@ const Agreement = () => {
   const backAction = () => {
     Analytics.trackEvent({
       interaction: InteractionTypes.BUTTON_PRESS,
-      flow: "ewa",
       screen: "loanAgreement",
       action: "BACK",
     });
@@ -225,6 +225,14 @@ const Agreement = () => {
     { subTitle: strings.dueDate, value: ewaLiveSlice?.dueDate },
   ];
 
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "loanAgreement",
+      action: "START",
+    });
+  }, []);
+
   function handleAgreement() {
     setLoading(true);
     let data = {
@@ -254,7 +262,6 @@ const Agreement = () => {
         setLoading(false);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          flow: "ewa",
           screen: "loanAgreement",
           action: "SUCCESS",
         });
@@ -269,7 +276,6 @@ const Agreement = () => {
         Alert.alert("An Error occured", error.message);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          flow: "ewa",
           screen: "loanAgreement",
           action: "ERROR",
           error: error.message,
@@ -318,20 +324,35 @@ const Agreement = () => {
             value={consent}
             setValue={setConsent}
             additionalText="KFS"
-            onPress={() => setIsKFSModalVisible(true)}
+            onPress={() => {
+              trackEvent({
+                interaction: InteractionTypes.BUTTON_PRESS,
+                screen: "loanAgreement",
+                action: "AGREE",
+              });
+              setIsKFSModalVisible(true);
+            }}
           />
           {loading ? (
-            <ActivityIndicator size="large" color={COLORS.secondary}/>
-          ): (
+            <ActivityIndicator size="large" color={COLORS.secondary} />
+          ) : (
             <>
               <PrimaryButton
                 title={loading ? strings.processing : strings.proceed}
                 disabled={!consent || loading}
                 onPress={() => {
+                  trackEvent({
+                    interaction: InteractionTypes.BUTTON_PRESS,
+                    screen: "loanAgreement",
+                    action: "CONTINUE",
+                  });
                   handleAgreement();
                 }}
               />
-              <LoanProviderLogo title={loanProviderData?.title} url={loanProviderData?.logo || ""}/>
+              <LoanProviderLogo
+                title={loanProviderData?.title}
+                url={loanProviderData?.logo || ""}
+              />
             </>
           )}
           <Text style={moneyStyles.percentageTitle}>
@@ -366,7 +387,11 @@ const Agreement = () => {
               <ScrollView style={{ padding: "5%" }}>
                 <RenderHtml
                   contentWidth={width}
-                  source={loanProviderData?.agreement || {"html": "<h1> Please Reopen to see</h1>"}}
+                  source={
+                    loanProviderData?.agreement || {
+                      html: "<h1> Please Reopen to see</h1>",
+                    }
+                  }
                   enableExperimentalMarginCollapsing={true}
                   renderersProps={{
                     img: {
@@ -407,7 +432,11 @@ const Agreement = () => {
               <ScrollView style={{ padding: "5%" }}>
                 <RenderHtml
                   contentWidth={width}
-                  source={loanProviderData?.kfs || {"html": "<h1> Please Reopen to see</h1>"}}
+                  source={
+                    loanProviderData?.kfs || {
+                      html: "<h1> Please Reopen to see</h1>",
+                    }
+                  }
                   enableExperimentalMarginCollapsing={true}
                   renderersProps={{
                     img: {

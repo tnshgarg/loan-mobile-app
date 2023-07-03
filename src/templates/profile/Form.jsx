@@ -9,6 +9,7 @@ import { showToast } from "../../components/atoms/Toast";
 import DropDownForm from "../../components/molecules/DropDownForm";
 import Analytics, {
   InteractionTypes,
+  trackEvent,
 } from "../../helpers/analytics/commonAnalytics";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { form, styles } from "../../styles";
@@ -27,10 +28,13 @@ const ProfileFormTemplate = ({ type }) => {
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   console.log({ unipeEmployeeId });
-  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: KYC_POLLING_DURATION,
-  });
-  const {profile} = kycData ?? {};
+  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: KYC_POLLING_DURATION,
+    }
+  );
+  const { profile } = kycData ?? {};
   console.log({ kycData });
 
   const [maritalStatus, setMaritalStatus] = useState(profile?.maritalStatus);
@@ -42,13 +46,29 @@ const ProfileFormTemplate = ({ type }) => {
     (state) => state.campaign.onboardingCampaignId
   );
 
-  const [updateProfile, {isLoading: updateInProgress}] = useUpdateProfileMutation();
+  const [updateProfile, { isLoading: updateInProgress }] =
+    useUpdateProfileMutation();
 
   useEffect(() => {
     dispatch(addCurrentScreen("ProfileForm"));
   }, []);
 
-  const formFilled = maritalStatus && qualification && motherName && validEmail && validAltMobile
+  const formFilled =
+    maritalStatus &&
+    qualification &&
+    motherName &&
+    validEmail &&
+    validAltMobile;
+
+  useEffect(() => {
+    if (formFilled) {
+      Analytics.trackEvent({
+        interaction: InteractionTypes.BUTTON_PRESS,
+        screen: "basicInfo",
+        action: "COMPLETE",
+      });
+    }
+  }, [formFilled]);
 
   const handleSubmit = async () => {
     const body = {
@@ -60,15 +80,25 @@ const ProfileFormTemplate = ({ type }) => {
       motherName,
       campaignId,
     };
-    console.log({updatePayload: body})
+    console.log({ updatePayload: body });
     updateProfile(body)
       .unwrap()
       .then((response) => {
-        console.log({response})
-        kycNavigate({...kycData,isProfileSuccess:true}, navigation);
+        console.log({ response });
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          screen: "basicInfo",
+          action: "SUCCESS",
+        });
+        kycNavigate({ ...kycData, isProfileSuccess: true }, navigation);
         showToast("Profile Details Updated", "success");
       })
       .catch((error) => {
+        Analytics.trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          screen: "basicInfo",
+          action: "ERROR",
+        });
         Alert.alert("Error", error.message);
       });
   };
@@ -88,7 +118,14 @@ const ProfileFormTemplate = ({ type }) => {
       { text: "No", onPress: () => null, style: "cancel" },
       {
         text: "Yes",
-        onPress: () => navigation.navigate("EWAStack", { screen: "EWA_OFFER" }),
+        onPress: () => {
+          trackEvent({
+            interaction: InteractionTypes.SCREEN_OPEN,
+            screen: "kycStart",
+            action: "BACK",
+          });
+          navigation.navigate("EWAStack", { screen: "EWA_OFFER" });
+        },
       },
     ]);
     return true;
@@ -116,6 +153,14 @@ const ProfileFormTemplate = ({ type }) => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "basicProfile",
+      action: "START",
+    });
   }, []);
 
   return (
@@ -171,13 +216,12 @@ const ProfileFormTemplate = ({ type }) => {
             disabled={kycLoading || !formFilled || updateInProgress}
             loading={updateInProgress}
             onPress={() => {
-              handleSubmit();
               Analytics.trackEvent({
                 interaction: InteractionTypes.BUTTON_PRESS,
-                flow: "account",
-                screen: "profile",
-                action: "START",
+                screen: "basicInfo",
+                action: "CONTINUE",
               });
+              handleSubmit();
             }}
           />
         </View>
