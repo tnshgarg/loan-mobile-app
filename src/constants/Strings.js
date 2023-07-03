@@ -2158,186 +2158,194 @@ export const DUMMY_RES = {
   blogs: {
     data: [
       {
+        type: "container",
+        styling: { padding: "4%" },
         children: [
           {
             children: [
               {
                 children: [
                   {
-                    title: "What are the benefits of completing KYC?",
-                    type: "title",
+                    children: [
+                      {
+                        title: "What are the benefits of completing KYC?",
+                        type: "title",
+                      },
+                    ],
+                    type: "container",
+                  },
+                  {
+                    type: "image",
+                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
                   },
                 ],
-                type: "container",
-              },
-              {
-                type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
+                type: "twoColumn",
+                widths: ["70%", "30%"],
               },
             ],
-            type: "twoColumn",
-            widths: ["70%", "30%"],
+            navigate: {
+              params: { blogKey: "blog_1" },
+              type: "cms",
+            },
+            type: "card",
           },
-        ],
-        navigate: {
-          params: { blogKey: "blog_1" },
-          type: "cms",
-        },
-        type: "card",
-      },
-      {
-        children: [
           {
             children: [
               {
                 children: [
                   {
-                    title: "Why Unipe?",
-                    type: "title",
+                    children: [
+                      {
+                        title: "Why Unipe?",
+                        type: "title",
+                      },
+                      {
+                        title:
+                          "Lorem Ipsum is simply dumm typesetting industry.",
+                        type: "subtitle",
+                      },
+                      {
+                        iconName: "video-outline",
+                        title: "3 min video",
+                        type: "iconText",
+                      },
+                    ],
+                    type: "container",
                   },
                   {
-                    title: "Lorem Ipsum is simply dumm typesetting industry.",
-                    type: "subtitle",
-                  },
-                  {
-                    iconName: "video-outline",
-                    title: "3 min video",
-                    type: "iconText",
+                    thumbnail:
+                      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+                    type: "video",
+                    size: "small",
+                    videoUri: "ux6XLNiEpLs",
                   },
                 ],
-                type: "container",
-              },
-              {
-                thumbnail:
-                  "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
-                type: "video",
-                size: "small",
-                videoUri: "ux6XLNiEpLs",
+                type: "twoColumn",
               },
             ],
-            type: "twoColumn",
+            type: "card",
           },
-        ],
-        type: "card",
-      },
-      {
-        children: [
           {
             children: [
               {
                 children: [
                   {
-                    title: "What are the benefits of Mandate Registration?",
-                    type: "title",
+                    children: [
+                      {
+                        title: "What are the benefits of Mandate Registration?",
+                        type: "title",
+                      },
+                    ],
+                    type: "container",
+                  },
+                  {
+                    type: "image",
+                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/MandateBenefits.png",
                   },
                 ],
-                type: "container",
-              },
-              {
-                type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/MandateBenefits.png",
+                type: "twoColumn",
+                widths: ["70%", "30%"],
               },
             ],
-            type: "twoColumn",
-            widths: ["70%", "30%"],
+            navigate: {
+              params: { blogKey: "blog_3" },
+              type: "cms",
+            },
+            type: "card",
           },
-        ],
-        navigate: {
-          params: { blogKey: "blog_3" },
-          type: "cms",
-        },
-        type: "card",
-      },
-      {
-        children: [
           {
             children: [
               {
                 children: [
                   {
-                    title: "How Unipe Works?",
-                    type: "title",
+                    children: [
+                      {
+                        title: "How Unipe Works?",
+                        type: "title",
+                      },
+                      {
+                        title:
+                          "Lorem Ipsum is simply dumm typesetting industry.",
+                        type: "subtitle",
+                      },
+                      {
+                        iconName: "video-outline",
+                        title: "3 min video",
+                        type: "iconText",
+                      },
+                    ],
+                    type: "container",
                   },
                   {
-                    title: "Lorem Ipsum is simply dumm typesetting industry.",
-                    type: "subtitle",
-                  },
-                  {
-                    iconName: "video-outline",
-                    title: "3 min video",
-                    type: "iconText",
+                    thumbnail:
+                      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+                    type: "video",
+                    size: "small",
+                    videoUri: "ux6XLNiEpLs",
                   },
                 ],
-                type: "container",
-              },
-              {
-                thumbnail:
-                  "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
-                type: "video",
-                size: "small",
-                videoUri: "ux6XLNiEpLs",
+                type: "twoColumn",
               },
             ],
-            type: "twoColumn",
+            type: "card",
           },
-        ],
-        type: "card",
-      },
-      {
-        children: [
           {
             children: [
               {
                 children: [
                   {
-                    title: "What are the benefits of Advance Salary?",
-                    type: "title",
+                    children: [
+                      {
+                        title: "What are the benefits of Advance Salary?",
+                        type: "title",
+                      },
+                    ],
+                    type: "container",
+                  },
+                  {
+                    type: "image",
+                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/AdvanceSalaryBenefits.png",
                   },
                 ],
-                type: "container",
-              },
-              {
-                type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/AdvanceSalaryBenefits.png",
+                type: "twoColumn",
+                widths: ["70%", "30%"],
               },
             ],
-            type: "twoColumn",
-            widths: ["70%", "30%"],
+            navigate: {
+              params: { blogKey: "blog_5" },
+              type: "cms",
+            },
+            type: "card",
           },
-        ],
-        navigate: {
-          params: { blogKey: "blog_5" },
-          type: "cms",
-        },
-        type: "card",
-      },
-      {
-        children: [
           {
             children: [
               {
                 children: [
                   {
-                    title: "How do I check my PF Balance?",
-                    type: "title",
+                    children: [
+                      {
+                        title: "How do I check my PF Balance?",
+                        type: "title",
+                      },
+                    ],
+                    type: "container",
+                  },
+                  {
+                    type: "image",
+                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/CheckPFBalance.png",
                   },
                 ],
-                type: "container",
-              },
-              {
-                type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/CheckPFBalance.png",
+                type: "twoColumn",
+                widths: ["70%", "30%"],
               },
             ],
-            type: "twoColumn",
-            widths: ["70%", "30%"],
+            navigate: {
+              params: { blogKey: "blog_6" },
+              type: "cms",
+            },
+            type: "card",
           },
         ],
-        navigate: {
-          params: { blogKey: "blog_6" },
-          type: "cms",
-        },
-        type: "card",
       },
     ],
     headingImage: "",
@@ -2761,10 +2769,6 @@ export const DUMMY_RES = {
             },
           ],
           gradientColors: ["#F2F8F9", "#F2F8F9"],
-          navigate: {
-            params: { blogKey: "blog_2" },
-            type: "cms",
-          },
           type: "card",
         },
         {
@@ -2802,10 +2806,6 @@ export const DUMMY_RES = {
             },
           ],
           gradientColors: ["#F2F8F9", "#F2F8F9"],
-          navigate: {
-            params: { blogKey: "blog_4" },
-            type: "cms",
-          },
           type: "card",
         },
         {
@@ -5428,191 +5428,201 @@ export const DUMMY_RES_HINDI = {
   blogs: {
     data: [
       {
+        type: "container",
         children: [
           {
             children: [
               {
                 children: [
                   {
-                    title: "What are the benefits of completing KYC?",
-                    type: "title",
+                    children: [
+                      {
+                        title: "What are the benefits of completing KYC?",
+                        type: "title",
+                      },
+                    ],
+                    type: "container",
+                  },
+                  {
+                    type: "image",
+                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
                   },
                 ],
-                type: "container",
-              },
-              {
-                type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
+                type: "twoColumn",
+                widths: ["70%", "30%"],
               },
             ],
-            type: "twoColumn",
-            widths: ["70%", "30%"],
+            navigate: {
+              params: { blogKey: "blog_1" },
+              type: "cms",
+            },
+            type: "card",
+          },
+          {
+            children: [
+              {
+                children: [
+                  {
+                    children: [
+                      {
+                        title: "Why Unipe?",
+                        type: "title",
+                      },
+                      {
+                        title:
+                          "Lorem Ipsum is simply dumm typesetting industry.",
+                        type: "subtitle",
+                      },
+                      {
+                        iconName: "video-outline",
+                        title: "3 min video",
+                        type: "iconText",
+                      },
+                    ],
+                    type: "container",
+                  },
+                  {
+                    thumbnail:
+                      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+                    type: "video",
+                    size: "small",
+                    videoUri: "ux6XLNiEpLs",
+                  },
+                ],
+                type: "twoColumn",
+              },
+            ],
+            type: "card",
+          },
+          {
+            children: [
+              {
+                children: [
+                  {
+                    children: [
+                      {
+                        title: "What are the benefits of Mandate Registration?",
+                        type: "title",
+                      },
+                    ],
+                    type: "container",
+                  },
+                  {
+                    type: "image",
+                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/MandateBenefits.png",
+                  },
+                ],
+                type: "twoColumn",
+                widths: ["70%", "30%"],
+              },
+            ],
+            navigate: {
+              params: { blogKey: "blog_3" },
+              type: "cms",
+            },
+            type: "card",
+          },
+          {
+            children: [
+              {
+                children: [
+                  {
+                    children: [
+                      {
+                        title: "How Unipe Works?",
+                        type: "title",
+                      },
+                      {
+                        title:
+                          "Lorem Ipsum is simply dumm typesetting industry.",
+                        type: "subtitle",
+                      },
+                      {
+                        iconName: "video-outline",
+                        title: "3 min video",
+                        type: "iconText",
+                      },
+                    ],
+                    type: "container",
+                  },
+                  {
+                    thumbnail:
+                      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+                    type: "video",
+                    size: "small",
+                    videoUri: "ux6XLNiEpLs",
+                  },
+                ],
+                type: "twoColumn",
+              },
+            ],
+            type: "card",
+          },
+          {
+            children: [
+              {
+                children: [
+                  {
+                    children: [
+                      {
+                        title: "What are the benefits of Advance Salary?",
+                        type: "title",
+                      },
+                    ],
+                    type: "container",
+                  },
+                  {
+                    type: "image",
+                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/AdvanceSalaryBenefits.png",
+                  },
+                ],
+                type: "twoColumn",
+                widths: ["70%", "30%"],
+              },
+            ],
+            navigate: {
+              params: { blogKey: "blog_5" },
+              type: "cms",
+            },
+            type: "card",
+          },
+          {
+            children: [
+              {
+                children: [
+                  {
+                    children: [
+                      {
+                        title: "How do I check my PF Balance?",
+                        type: "title",
+                      },
+                    ],
+                    type: "container",
+                  },
+                  {
+                    type: "image",
+                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/CheckPFBalance.png",
+                  },
+                ],
+                type: "twoColumn",
+                widths: ["70%", "30%"],
+              },
+            ],
+            navigate: {
+              params: { blogKey: "blog_6" },
+              type: "cms",
+            },
+            type: "card",
           },
         ],
-        navigate: {
-          params: { blogKey: "blog_1" },
-          type: "cms",
+        styling: {
+          padding: "15%",
         },
-        type: "card",
-      },
-      {
-        children: [
-          {
-            children: [
-              {
-                children: [
-                  {
-                    title: "Why Unipe?",
-                    type: "title",
-                  },
-                  {
-                    title: "Lorem Ipsum is simply dumm typesetting industry.",
-                    type: "subtitle",
-                  },
-                  {
-                    iconName: "video-outline",
-                    title: "3 min video",
-                    type: "iconText",
-                  },
-                ],
-                type: "container",
-              },
-              {
-                thumbnail:
-                  "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
-                type: "video",
-                size: "small",
-                videoUri: "ux6XLNiEpLs",
-              },
-            ],
-            type: "twoColumn",
-          },
-        ],
-        type: "card",
-      },
-      {
-        children: [
-          {
-            children: [
-              {
-                children: [
-                  {
-                    title: "What are the benefits of Mandate Registration?",
-                    type: "title",
-                  },
-                ],
-                type: "container",
-              },
-              {
-                type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/MandateBenefits.png",
-              },
-            ],
-            type: "twoColumn",
-            widths: ["70%", "30%"],
-          },
-        ],
-        navigate: {
-          params: { blogKey: "blog_3" },
-          type: "cms",
-        },
-        type: "card",
-      },
-      {
-        children: [
-          {
-            children: [
-              {
-                children: [
-                  {
-                    title: "How Unipe Works?",
-                    type: "title",
-                  },
-                  {
-                    title: "Lorem Ipsum is simply dumm typesetting industry.",
-                    type: "subtitle",
-                  },
-                  {
-                    iconName: "video-outline",
-                    title: "3 min video",
-                    type: "iconText",
-                  },
-                ],
-                type: "container",
-              },
-              {
-                thumbnail:
-                  "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
-                type: "video",
-                size: "small",
-                videoUri: "ux6XLNiEpLs",
-              },
-            ],
-            type: "twoColumn",
-          },
-        ],
-        type: "card",
-      },
-      {
-        children: [
-          {
-            children: [
-              {
-                children: [
-                  {
-                    title: "What are the benefits of Advance Salary?",
-                    type: "title",
-                  },
-                ],
-                type: "container",
-              },
-              {
-                type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/AdvanceSalaryBenefits.png",
-              },
-            ],
-            type: "twoColumn",
-            widths: ["70%", "30%"],
-          },
-        ],
-        navigate: {
-          params: { blogKey: "blog_5" },
-          type: "cms",
-        },
-        type: "card",
-      },
-      {
-        children: [
-          {
-            children: [
-              {
-                children: [
-                  {
-                    title: "How do I check my PF Balance?",
-                    type: "title",
-                  },
-                ],
-                type: "container",
-              },
-              {
-                type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/CheckPFBalance.png",
-              },
-            ],
-            type: "twoColumn",
-            widths: ["70%", "30%"],
-          },
-        ],
-        navigate: {
-          params: { blogKey: "blog_6" },
-          type: "cms",
-        },
-        type: "card",
       },
     ],
     headingImage: "",
     headline: "",
-    screenTitle: "Learn With Us",
+    screenTitle: "Learn With U",
   },
   customer_support: {
     data: [
@@ -5620,34 +5630,46 @@ export const DUMMY_RES_HINDI = {
         children: [
           {
             subtitle:
-              "A: Unipe is an interest-free solution that allows them to withdraw their salary advance whenever they need it.",
-            title: "Q: What is Unipe?",
+              "उ. ऑन-डिमांड सैलरी या एअर्नेड वेज एक्सेस (EWA) एक ऐसी सेवा है जिसके द्वारा कर्मचारियों को नियमित वेतन दिन से पहले ही अपने वेतन के कुछ हिस्से का प्राप्त करने की सुविधा होती है। यह कर्मचारियों को सैलरी का एक हिस्सा आवश्यकता के हिसाब से निकालने में सक्षम बनता है।",
+            title: "प्र. ऑन-डिमांड सैलरी या एअर्नेड वेज एक्सेस (EWA) क्या है?",
             type: "collapsibleList",
           },
           {
             subtitle:
-              "A: To get advance salary, follow these 5 simple steps: \n- Download and login to the Unipe App \n- Complete KYC verification by entering your Aadhar, Pan & Bank details \n- Enter the amount you want to withdraw \n- Set up repayment metho \nWithdraw your advance salary \n",
-            title: "Q: How can I get advance salary from Unipe?",
-            type: "collapsibleList",
-          },
-          {
-            subtitle:
-              "A: The Unipe EWA program is interest free. However, we do charge a very small processing fee at the time of disbursement. If the Advance salary is paid back on time, there is no separate interest charged.",
+              "उ. आप अपनी अर्जित सैलरी का कुछ हिस्सा, सामान्यतः उपस्थिति या कार्यकाल के आधार पर निकाल सकते हैं। पेरोल प्रक्रिया के दौरान अग्रिम राशि आपके वेतन से स्वचालित रूप से काट ली जाएगी।",
             title:
-              "Q: Does Unipe charge me any fees or interest on advance salary?",
+              "प्र. ऑन-डिमांड सैलरी या एअर्नेड वेज एक्सेस (EWA) कैसे काम करता है?",
             type: "collapsibleList",
           },
           {
             subtitle:
-              "A: The advance amount taken will be automatically deducted from your salary at the time of payroll processing.",
+              "उ. नहीं, ऑन-डिमांड सैलरी या EWA के साथ, कर्मचारी अपने अर्जित वेतन का केवल एक हिस्सा ही निकाल सकते हैं। निकासी के लिए उपलब्ध राशि सामान्यतः मासिक वेतन की कुल राशि से कम होती है।",
+            title: "प. क्या कोई कर्मचारी अर्जित वेतन से अधिक निकाल सकता है?",
+            type: "collapsibleList",
+          },
+          {
+            subtitle:
+              "उ. Unipe की ऑन-डिमांड सैलरी सुविधा ब्याज मुक्त है। हालांकि, निकासी के समय एक बहुत ही छोटी प्रोसेसिंग शुल्क लिया जा सकता है। यदि आप समय पर अगर आप समय पर एडवांस सैलरी चुकाते हैं तो अलग से कोई ब्याज नहीं लगेगा.",
+            title: "प्र. क्या Unipe मुझसे लोन पर कोई शुल्क या ब्याज लेता है?",
+            type: "collapsibleList",
+          },
+          {
+            subtitle:
+              "उ. आपको 24 बैंकिंग घंटों में मांगी गई ऑन डिमांड सैलरी प्राप्त होगी।",
+            title: "प. मुझे कितनी जल्दी लोन मिल जाएगा?",
+            type: "collapsibleList",
+          },
+          {
+            subtitle:
+              "उ. ली गई ऑन-डिमांड सैलरी राशि आपके पेरोल प्रोसेसिंग के समय आपके वेतन से स्वचालित रूप से काट ली जाएगी।",
             title:
-              "Q: If I take Rs.1000 today, when will I have to pay it back?",
+              "प. अगर मैं आज 1000 रुपये ले लेता हूं, तो मुझे इसे कब वापस करना होगा?",
             type: "collapsibleList",
           },
           {
             subtitle:
-              "A: Your data is 100% encrypted and stored securely and only shared with third parties post your consent.",
-            title: "Q: Is my data protected?",
+              "उ. हां, कर्मचारी ऑन-डिमांड वेतन सुविधा का उपयोग करके एक महीने के भीतर कई बार विथड्रावल कर सकते हैं। हालांकि, कंपनी की नीतियों के अनुसार निकासी की कुल राशि सीमित होगी।",
+            title: "प्र. क्या कोई कर्मचारी एकाधिक निकासी कर सकता है?",
             type: "collapsibleList",
           },
         ],
