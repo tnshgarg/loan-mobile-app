@@ -2,9 +2,9 @@ import { STAGE } from "@env";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useSelector } from "react-redux";
 
-
-import CmsDummyBlog from "../../components/cms/CmsDummyBlog";
 import CmsPastDraws from "../../components/cms/CmsPastDraws";
+import CmsScreenOne from "../../components/cms/CmsScreenOne";
+import CmsScreenTwo from "../../components/cms/CmsScreenTwo";
 
 const CmsStack = () => {
   const Stack = createNativeStackNavigator();
@@ -16,8 +16,15 @@ const CmsStack = () => {
   return (
     <Stack.Navigator initialRouteName={initialRoute}>
       <Stack.Screen
-        name="CmsDummyBlog"
-        component={CmsDummyBlog}
+        name="CmsScreenOne"
+        component={CmsScreenOne}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="CmsScreenTwo"
+        component={CmsScreenTwo}
         options={{
           headerShown: false,
         }}

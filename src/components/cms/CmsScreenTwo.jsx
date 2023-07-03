@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
 import { Alert, BackHandler, ScrollView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { DUMMY_RES_HINDI } from "../../constants/Strings";
+import { DUMMY_RES } from "../../constants/Strings";
 import { CMS_POLLING_DURATION } from "../../services/constants";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { styles } from "../../styles";
@@ -10,7 +10,7 @@ import LogoHeaderBack from "../molecules/LogoHeaderBack";
 import CmsLoading from "./CmsLoading";
 import CmsRoot from "./CmsRoot";
 
-const CmsDummyBlog = (props) => {
+const CmsScreenTwo = (props) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -29,7 +29,7 @@ const CmsDummyBlog = (props) => {
   let backScreen = props.route?.params?.backScreen;
   console.log({ backScreen });
   const { data, screenTitle, headline, headingImage, disableBack } =
-    DUMMY_RES_HINDI?.[blogKey] ?? {};
+    DUMMY_RES?.[blogKey] ?? {};
 
   // const { data, screenTitle, headline, headingImage, disableBack } =
   //   cmsData?.[blogKey] ?? {};
@@ -92,4 +92,4 @@ const CmsDummyBlog = (props) => {
   );
 };
 
-export default CmsDummyBlog;
+export default CmsScreenTwo;

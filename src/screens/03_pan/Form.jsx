@@ -65,7 +65,9 @@ export default PanForm = () => {
         onRightIconPress={() =>
           navigationHelper({
             type: "cms",
-            params: { blogKey: "pan_help", backScreen: {stack: "OnboardingStack", screen: "PanForm"} },
+            params: {
+              blogKey: "pan_help",
+            },
           })
         }
       />

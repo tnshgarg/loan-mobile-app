@@ -1136,6 +1136,47 @@ export const DUMMY_RES = {
           children: [
             {
               type: "image",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/Support.png ",
+            },
+            {
+              children: [
+                {
+                  title: "App Language",
+                  type: "title",
+                },
+                {
+                  title: "Choose your preferred language",
+                  type: "subtitle",
+                },
+              ],
+              styling: {
+                paddingLeft: "5%",
+              },
+              type: "container",
+            },
+            {
+              iconColor: "#5E8290",
+              iconName: "chevron-right",
+              iconSize: 28,
+              type: "icon",
+            },
+          ],
+          navigate: {
+            stack: "AccountStack",
+            screen: "Language",
+            type: "app",
+          },
+          secondColumnStyle: {
+            flex: 1,
+            paddingLeft: 15,
+          },
+          type: "threeColumn",
+          widths: ["10%", "80%", "10%"],
+        },
+        {
+          children: [
+            {
+              type: "image",
               url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/Feedback.png",
             },
             {
@@ -2306,38 +2347,25 @@ export const DUMMY_RES = {
         children: [
           {
             title: "Q: How to complete KYC verification?",
-            subtitle:
-              "A: Unipe is an interest-free solution that allows them to withdraw their salary advance whenever they need it.",
+            navigate: { type: "cmsScreenTwo", params: { blogKey: "kyc_help" } },
+
             type: "collapsibleList",
           },
           {
-            subtitle:
-              "A: To get advance salary, follow these 5 simple steps: \n- Download and login to the Unipe App \n- Complete KYC verification by entering your Aadhar, Pan & Bank details \n- Enter the amount you want to withdraw \n- Set up repayment metho \nWithdraw your advance salary \n",
-            title: "Q: How can I get advance salary from Unipe?",
+            navigate: { type: "cmsScreenTwo", params: { blogKey: "pan_info" } },
+            title: "Q. I don't have a Pan Card, what should I do?",
             type: "collapsibleList",
           },
           {
-            subtitle:
-              "A: The Unipe EWA program is interest free. However, we do charge a very small processing fee at the time of disbursement. If the Advance salary is paid back on time, there is no separate interest charged.",
-            title:
-              "Q: Does Unipe charge me any fees or interest on advance salary?",
-            type: "collapsibleList",
-          },
-          {
-            subtitle:
-              "A: The advance amount taken will be automatically deducted from your salary at the time of payroll processing.",
-            title:
-              "Q: If I take Rs.1000 today, when will I have to pay it back?",
-            type: "collapsibleList",
-          },
-          {
-            subtitle:
-              "A: Your data is 100% encrypted and stored securely and only shared with third parties post your consent.",
-            title: "Q: Is my data protected?",
+            navigate: {
+              type: "cmsScreenTwo",
+              params: { blogKey: "salary_info" },
+            },
+            title: "Q. Why was my advance salary request rejected?",
             type: "collapsibleList",
           },
         ],
-        title: "Basic Questions",
+        title: "Most Asked Questions",
         type: "section",
       },
       {
@@ -2372,8 +2400,8 @@ export const DUMMY_RES = {
               },
             ],
             navigate: {
-              screen: "Profile",
-              type: "account",
+              params: { blogKey: "kyc_help" },
+              type: "cmsScreenTwo",
             },
             type: "threeColumn",
             widths: ["10%", "80%", "10%"],
@@ -2408,8 +2436,8 @@ export const DUMMY_RES = {
               },
             ],
             navigate: {
-              screen: "Profile",
-              type: "account",
+              params: { blogKey: "mandate_help" },
+              type: "cmsScreenTwo",
             },
             type: "threeColumn",
             widths: ["10%", "80%", "10%"],
@@ -2458,34 +2486,45 @@ export const DUMMY_RES = {
         children: [
           {
             subtitle:
-              "A: Unipe is an interest-free solution that allows them to withdraw their salary advance whenever they need it.",
-            title: "Q: What is Unipe?",
+              "A. On-Demand Salary or Earned Wage Access is a service that allows employees to access a portion of their earned but unpaid salary before the regular payday. It provides financial flexibility by enabling employees to withdraw a portion of their salary on-demand.",
+            title: "Q. What is On-Demand Salary or Earned Wage Access?",
             type: "collapsibleList",
           },
           {
             subtitle:
-              "A: To get advance salary, follow these 5 simple steps: \n- Download and login to the Unipe App \n- Complete KYC verification by entering your Aadhar, Pan & Bank details \n- Enter the amount you want to withdraw \n- Set up repayment metho \nWithdraw your advance salary \n",
-            title: "Q: How can I get advance salary from Unipe?",
+              "A. You can withdraw a portion of your earned salary, typically based on your attendance or work hours. The advance amount will be automatically deducted from your salary during the payroll process.",
+            title: "Q. How does On-Demand Salary or Earned Wage work?",
             type: "collapsibleList",
           },
           {
             subtitle:
-              "A: The Unipe EWA program is interest free. However, we do charge a very small processing fee at the time of disbursement. If the Advance salary is paid back on time, there is no separate interest charged.",
+              "A. No, with On-Demand Salary or Earned Wage Access, employees can only withdraw a portion of their earned salary. The amount available for withdrawal is typically less than the total monthly salary.",
+            title: "Q. Can an employee withdraw more than the earned salary?",
+            type: "collapsibleList",
+          },
+          {
+            subtitle:
+              "A. Unipe's On-Demand Salary feature is interest-free. However, there may be a small processing fee charged at the time of disbursement. If you repay the advance salary on time, there will be no separate interest charged.",
+            title: "Q. Does Unipe charge me any fees or interest on the loans?",
+            type: "collapsibleList",
+          },
+          {
+            subtitle:
+              "A. You will receive the requested on demand salary in 24 banking hours.",
+            title: "Q. How quickly will I get the loan?",
+            type: "collapsibleList",
+          },
+          {
+            subtitle:
+              "A. The advance amount taken will be automatically deducted from your salary at the time of payroll processing.",
             title:
-              "Q: Does Unipe charge me any fees or interest on advance salary?",
+              "Q. If I take Rs.1000 today, when will I have to pay it back?",
             type: "collapsibleList",
           },
           {
             subtitle:
-              "A: The advance amount taken will be automatically deducted from your salary at the time of payroll processing.",
-            title:
-              "Q: If I take Rs.1000 today, when will I have to pay it back?",
-            type: "collapsibleList",
-          },
-          {
-            subtitle:
-              "A: Your data is 100% encrypted and stored securely and only shared with third parties post your consent.",
-            title: "Q: Is my data protected?",
+              "A. Yes, employees can make multiple withdrawals within a month using the On-Demand Salary feature. However, the total amount of withdrawal will be limited to the portion of the earned salary available for withdrawal based on the company's policies.",
+            title: "Q. Can an employee make multiple withdrawals?",
             type: "collapsibleList",
           },
         ],
@@ -3229,6 +3268,185 @@ export const DUMMY_RES = {
       ],
     },
   ],
+  pan_info: {
+    screenTitle: "",
+    data: [
+      {
+        type: "container",
+        styling: { padding: "5%" },
+
+        children: [
+          {
+            type: "title",
+            styling: { textAlign: "center" },
+            title: "I don't have a Pan Card, what should I do?",
+          },
+          {
+            type: "subtitle",
+            styling: { color: "grey", textAlign: "center", lineHeight: 20 },
+            title:
+              "Don't worry, you can simply apply for an e-PAN card from the website of the Income Tax Department. Applying for PAN is absolutely free and it takes only 5 minutes.",
+          },
+          {
+            type: "twoColumn",
+            widths: ["35%", "65%"],
+            styling: { margin: 0, marginVertical: "8%" },
+            children: [
+              {
+                type: "image",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/Logo.png",
+                styling: { width: "100%", flex: 1, aspectRatio: 1.6 },
+              },
+              {
+                type: "container",
+                styling: {
+                  flex: 1,
+                  justifyContent: "center",
+                  paddingLeft: "5%",
+                },
+                children: [
+                  {
+                    type: "title",
+                    title: "How to Apply for an e-PAN Card?",
+                  },
+                  {
+                    type: "subtitle",
+                    title:
+                      "Follow these simple steps to apply for an e-PAN Card:",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: "subtitle",
+            styling: { color: "black", lineHeight: 20 },
+            title:
+              "1. Visit the official website of the Income Tax Department.\n2. Click on the 'Instant PAN through Aadhaar' option.\n3. Enter your Aadhaar number and captcha code.\n4. Click on 'Generate Aadhaar OTP'.\n5. Verify your Aadhaar details.\n6. Click on 'Submit' to generate your e-PAN Card.",
+          },
+          {
+            type: "twoColumn",
+            widths: ["35%", "65%"],
+            styling: { margin: 0, marginTop: "8%" },
+            children: [
+              {
+                type: "image",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/Logo.png",
+                styling: { width: "100%", flex: 1, aspectRatio: 1.6 },
+              },
+              {
+                type: "container",
+                styling: {
+                  flex: 1,
+                  justifyContent: "center",
+                  paddingLeft: "5%",
+                },
+                children: [
+                  {
+                    type: "title",
+                    title: "Charges for e-PAN Card?",
+                  },
+                  {
+                    type: "subtitle",
+                    title:
+                      "There are no charges for e-PAN Card application. It is completely free of cost.",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: "twoColumn",
+            widths: ["35%", "65%"],
+            styling: { margin: 0, marginVertical: "8%" },
+            children: [
+              {
+                type: "image",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/Logo.png",
+                styling: { width: "100%", flex: 1, aspectRatio: 1.6 },
+              },
+              {
+                type: "container",
+                styling: {
+                  flex: 1,
+                  justifyContent: "center",
+                  paddingLeft: "5%",
+                },
+                children: [
+                  {
+                    type: "title",
+                    title: "Time to Generate e-PAN Card?",
+                  },
+                  {
+                    type: "subtitle",
+                    title:
+                      "Follow these simple steps to apply for an e-PAN Card:",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: "subtitle",
+            styling: {
+              color: "black",
+              textAlign: "center",
+              lineHeight: 24,
+              fontSize: 16,
+            },
+            title:
+              "For any further assistance, please refer to this link: https://www.incometax.gov.in/iec/foportal/help/how-to-generate-instant-e-pan",
+          },
+        ],
+      },
+    ],
+  },
+  salary_info: {
+    screenTitle: "",
+    data: [
+      {
+        type: "container",
+        styling: { padding: "5%" },
+
+        children: [
+          {
+            type: "title",
+            styling: { textAlign: "center", fontSize: 24 },
+            title: "Why was my advance salary request rejected?",
+          },
+          {
+            type: "subtitle",
+            styling: {
+              color: "grey",
+              textAlign: "center",
+              lineHeight: 24,
+              fontSize: 16,
+              marginTop: "5%",
+            },
+            title:
+              "If your advance salary request is rejected and could not clear the lending partner policies. You can reach out to us to become eligible.",
+          },
+          {
+            type: "title",
+            styling: { fontSize: 18, marginBottom: "5%", marginTop: "10%" },
+            title: "Some of the reasons why your request was rejected:",
+          },
+          {
+            type: "subtitle",
+            styling: {
+              color: "black",
+              lineHeight: 26,
+              fontSize: 18,
+            },
+            title:
+              "1. Salary is still processing in progress on your employer end\n2. Name mismatch in PAN and Bank account holder name\n3. You have low bureau score (credit score)",
+          },
+        ],
+      },
+      { type: "footer" },
+    ],
+  },
+  language_selection: [{}],
 };
 
 export const DUMMY_RES_HINDI = {
@@ -5529,6 +5747,146 @@ export const DUMMY_RES_HINDI = {
           {
             subtitle:
               "उ. ऑन-डिमांड सैलरी या एअर्नेड वेज एक्सेस (EWA) एक ऐसी सेवा है जिसके द्वारा कर्मचारियों को नियमित वेतन दिन से पहले ही अपने वेतन के कुछ हिस्से का प्राप्त करने की सुविधा होती है। यह कर्मचारियों को सैलरी का एक हिस्सा आवश्यकता के हिसाब से निकालने में सक्षम बनता है।",
+            title: "प्र. KYC सत्यापन कैसे पूरा करें?",
+            type: "collapsibleList",
+            navigate: { type: "cmsScreenTwo", params: { blogKey: "kyc_help" } },
+          },
+          {
+            subtitle:
+              "उ. आप अपनी अर्जित सैलरी का कुछ हिस्सा, सामान्यतः उपस्थिति या कार्यकाल के आधार पर निकाल सकते हैं। पेरोल प्रक्रिया के दौरान अग्रिम राशि आपके वेतन से स्वचालित रूप से काट ली जाएगी।",
+            title: "प्र. मेरे पास पैन कार्ड नहीं है, मुझे क्या करना चाहिए?",
+            type: "collapsibleList",
+          },
+          {
+            subtitle:
+              "उ. नहीं, ऑन-डिमांड सैलरी या EWA के साथ, कर्मचारी अपने अर्जित वेतन का केवल एक हिस्सा ही निकाल सकते हैं। निकासी के लिए उपलब्ध राशि सामान्यतः मासिक वेतन की कुल राशि से कम होती है।",
+            title:
+              "प्र. मेरी एडवांस सैलरी रिक्वेस्ट को क्यों अस्वीकार कर दिया गया?",
+            type: "collapsibleList",
+          },
+        ],
+        title: "सर्वाधिक पूछे गए प्रश्न",
+        type: "section",
+      },
+      {
+        children: [
+          {
+            children: [
+              {
+                type: "image",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/KYC.png",
+              },
+              {
+                children: [
+                  {
+                    title: "kyc Verification",
+                    type: "title",
+                  },
+                  {
+                    title: "All your kyc related queries at one place",
+                    type: "subtitle",
+                  },
+                ],
+                styling: {
+                  paddingLeft: "5%",
+                },
+                type: "container",
+              },
+              {
+                iconColor: "#5E8290",
+                iconName: "chevron-right",
+                iconSize: 28,
+                type: "icon",
+              },
+            ],
+            navigate: {
+              params: { blogKey: "kyc_help" },
+              type: "cmsScreenTwo",
+            },
+            type: "threeColumn",
+            widths: ["10%", "80%", "10%"],
+          },
+          {
+            children: [
+              {
+                type: "image",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/mandate.png",
+              },
+              {
+                children: [
+                  {
+                    title: "Mandate",
+                    type: "title",
+                  },
+                  {
+                    title: "All your repayment related queries",
+                    type: "subtitle",
+                  },
+                ],
+                styling: {
+                  paddingLeft: "5%",
+                },
+                type: "container",
+              },
+              {
+                iconColor: "#5E8290",
+                iconName: "chevron-right",
+                iconSize: 28,
+                type: "icon",
+              },
+            ],
+            navigate: {
+              params: { blogKey: "kyc_help" },
+              type: "cmsScreenTwo",
+            },
+            type: "threeColumn",
+            widths: ["10%", "80%", "10%"],
+          },
+          {
+            children: [
+              {
+                type: "image",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/SalaryWithdrawal.png",
+              },
+              {
+                children: [
+                  {
+                    title: "Salary Withdrawal",
+                    type: "title",
+                  },
+                  {
+                    title: "All your salary related questions",
+                    type: "subtitle",
+                  },
+                ],
+                styling: {
+                  paddingLeft: "5%",
+                },
+                type: "container",
+              },
+              {
+                iconColor: "#5E8290",
+                iconName: "chevron-right",
+                iconSize: 28,
+                type: "icon",
+              },
+            ],
+            navigate: {
+              params: { blogKey: "kyc_help" },
+              type: "cmsScreenTwo",
+            },
+            type: "threeColumn",
+            widths: ["10%", "80%", "10%"],
+          },
+        ],
+        title: "Topics",
+        type: "section",
+      },
+      {
+        children: [
+          {
+            subtitle:
+              "उ. ऑन-डिमांड सैलरी या एअर्नेड वेज एक्सेस (EWA) एक ऐसी सेवा है जिसके द्वारा कर्मचारियों को नियमित वेतन दिन से पहले ही अपने वेतन के कुछ हिस्से का प्राप्त करने की सुविधा होती है। यह कर्मचारियों को सैलरी का एक हिस्सा आवश्यकता के हिसाब से निकालने में सक्षम बनता है।",
             title: "प्र. ऑन-डिमांड सैलरी या एअर्नेड वेज एक्सेस (EWA) क्या है?",
             type: "collapsibleList",
           },
@@ -5571,159 +5929,7 @@ export const DUMMY_RES_HINDI = {
             type: "collapsibleList",
           },
         ],
-        title: "Basic Questions",
-        type: "section",
-      },
-      {
-        children: [
-          {
-            children: [
-              {
-                type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/KYC.png",
-              },
-              {
-                children: [
-                  {
-                    title: "kyc Verification",
-                    type: "title",
-                  },
-                  {
-                    title: "All your kyc related queries at one place",
-                    type: "subtitle",
-                  },
-                ],
-                styling: {
-                  paddingLeft: "5%",
-                },
-                type: "container",
-              },
-              {
-                iconColor: "#5E8290",
-                iconName: "chevron-right",
-                iconSize: 28,
-                type: "icon",
-              },
-            ],
-            navigate: {
-              screen: "Profile",
-              type: "account",
-            },
-            type: "threeColumn",
-            widths: ["10%", "80%", "10%"],
-          },
-          {
-            children: [
-              {
-                type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/mandate.png",
-              },
-              {
-                children: [
-                  {
-                    title: "Mandate",
-                    type: "title",
-                  },
-                  {
-                    title: "All your repayment related queries",
-                    type: "subtitle",
-                  },
-                ],
-                styling: {
-                  paddingLeft: "5%",
-                },
-                type: "container",
-              },
-              {
-                iconColor: "#5E8290",
-                iconName: "chevron-right",
-                iconSize: 28,
-                type: "icon",
-              },
-            ],
-            navigate: {
-              screen: "Profile",
-              type: "account",
-            },
-            type: "threeColumn",
-            widths: ["10%", "80%", "10%"],
-          },
-          {
-            children: [
-              {
-                type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/SalaryWithdrawal.png",
-              },
-              {
-                children: [
-                  {
-                    title: "Salary Withdrawal",
-                    type: "title",
-                  },
-                  {
-                    title: "All your salary related questions",
-                    type: "subtitle",
-                  },
-                ],
-                styling: {
-                  paddingLeft: "5%",
-                },
-                type: "container",
-              },
-              {
-                iconColor: "#5E8290",
-                iconName: "chevron-right",
-                iconSize: 28,
-                type: "icon",
-              },
-            ],
-            navigate: {
-              screen: "Profile",
-              type: "account",
-            },
-            type: "threeColumn",
-            widths: ["10%", "80%", "10%"],
-          },
-        ],
-        title: "Topics",
-        type: "section",
-      },
-      {
-        children: [
-          {
-            subtitle:
-              "A: Unipe is an interest-free solution that allows them to withdraw their salary advance whenever they need it.",
-            title: "Q: What is Unipe?",
-            type: "collapsibleList",
-          },
-          {
-            subtitle:
-              "A: To get advance salary, follow these 5 simple steps: \n- Download and login to the Unipe App \n- Complete KYC verification by entering your Aadhar, Pan & Bank details \n- Enter the amount you want to withdraw \n- Set up repayment metho \nWithdraw your advance salary \n",
-            title: "Q: How can I get advance salary from Unipe?",
-            type: "collapsibleList",
-          },
-          {
-            subtitle:
-              "A: The Unipe EWA program is interest free. However, we do charge a very small processing fee at the time of disbursement. If the Advance salary is paid back on time, there is no separate interest charged.",
-            title:
-              "Q: Does Unipe charge me any fees or interest on advance salary?",
-            type: "collapsibleList",
-          },
-          {
-            subtitle:
-              "A: The advance amount taken will be automatically deducted from your salary at the time of payroll processing.",
-            title:
-              "Q: If I take Rs.1000 today, when will I have to pay it back?",
-            type: "collapsibleList",
-          },
-          {
-            subtitle:
-              "A: Your data is 100% encrypted and stored securely and only shared with third parties post your consent.",
-            title: "Q: Is my data protected?",
-            type: "collapsibleList",
-          },
-        ],
-        title: "General FAQs",
+        title: "सामान्य सवाल",
         type: "section",
       },
       {
@@ -6586,6 +6792,12 @@ export const DUMMY_LANGUAGE_RES = {
             ],
           },
         ],
+      },
+    ],
+    language_selection: [
+      {
+        type: "card",
+        children: [{ type: "title", title: "Hindi" }],
       },
     ],
   },

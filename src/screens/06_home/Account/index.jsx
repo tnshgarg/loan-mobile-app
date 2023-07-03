@@ -13,7 +13,7 @@ import {
   CMS_POLLING_DURATION,
   KYC_POLLING_DURATION,
 } from "../../../services/constants";
-import { useGetCmsQuery } from "../../../store/apiSlices/cmsApi";
+import DUMMY_RES, { useGetCmsQuery } from "../../../store/apiSlices/cmsApi";
 import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
 import { styles } from "../../../styles";
 
@@ -114,7 +114,9 @@ const AccountMenu = (props) => {
         {!cmsData && cmsLoading ? (
           <CmsLoading />
         ) : (
-          <CmsRoot children={cmsData?.account_navigation_list || []}></CmsRoot>
+          <CmsRoot
+            children={DUMMY_RES?.account_navigation_list || []}
+          ></CmsRoot>
         )}
 
         {options.map((item, index) => (

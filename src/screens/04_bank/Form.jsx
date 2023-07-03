@@ -59,7 +59,6 @@ const BankForm = () => {
             type: "cms",
             params: {
               blogKey: "bank_help",
-              backScreen: { stack: "OnboardingStack", screen: "BankForm" },
             },
           })
         }
