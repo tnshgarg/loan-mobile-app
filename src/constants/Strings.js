@@ -446,16 +446,16 @@ export const DUMMY_RES = {
                   width: "100%",
                 },
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/Logo.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/PAN/Logo.png",
               },
               {
                 children: [
                   {
-                    title: "How to verify Aadhaar?",
+                    title: "How to verify PAN Card?",
                     type: "title",
                   },
                   {
-                    title: "Follow this 3-step process",
+                    title: "Follow this 2-step process",
                     type: "subtitle",
                   },
                 ],
@@ -478,7 +478,7 @@ export const DUMMY_RES = {
             styling: {
               marginVertical: "10%",
             },
-            title: "Verify Aadhaar",
+            title: "Verify PAN  >",
             type: "button",
             variant: "filled",
           },
@@ -488,26 +488,26 @@ export const DUMMY_RES = {
               "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
             type: "video",
           },
+
           {
             children: [
               {
-                styling: {
-                  marginRight: 15,
-                },
                 text: "Step 1",
                 type: "badge",
               },
               {
                 styling: {
                   fontSize: 18,
+                  marginLeft: "10%",
                 },
-                title: "Aadhaar Number",
+                title: "Pan Number",
                 type: "title",
               },
             ],
             styling: {
               alignItems: "center",
               flexDirection: "row",
+              marginVertical: "5%",
             },
             type: "container",
           },
@@ -517,7 +517,7 @@ export const DUMMY_RES = {
                 styling: {
                   fontSize: 16,
                 },
-                title: "Enter your 12 Digit Aadhaar Card number",
+                title: "Enter your PAN Card number (Permanent Account Number)",
                 type: "subtitle",
               },
               {
@@ -536,26 +536,26 @@ export const DUMMY_RES = {
           {
             children: [
               {
-                styling: {
-                  marginRight: 15,
-                },
                 text: "Step 2",
                 type: "badge",
               },
               {
                 styling: {
                   fontSize: 18,
+                  marginLeft: "10%",
                 },
-                title: "Aadhaar OTP",
+                title: "Confirm Details",
                 type: "title",
               },
             ],
             styling: {
               alignItems: "center",
               flexDirection: "row",
+              marginVertical: "5%",
             },
             type: "container",
           },
+
           {
             children: [
               {
@@ -563,53 +563,7 @@ export const DUMMY_RES = {
                   fontSize: 16,
                 },
                 title:
-                  "Enter OTP you received on Aadhaar registered mobile number",
-                type: "subtitle",
-              },
-              {
-                styling: {
-                  marginTop: "5%",
-                },
-                type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
-              },
-            ],
-            styling: {
-              paddingTop: 0,
-            },
-            type: "container",
-          },
-          {
-            children: [
-              {
-                styling: {
-                  marginRight: 15,
-                },
-                text: "Step 3",
-                type: "badge",
-              },
-              {
-                styling: {
-                  fontSize: 18,
-                },
-                title: "Confirm Identity",
-                type: "title",
-              },
-            ],
-            styling: {
-              alignItems: "center",
-              flexDirection: "row",
-            },
-            type: "container",
-          },
-          {
-            children: [
-              {
-                styling: {
-                  fontSize: 16,
-                },
-                title:
-                  "Confirm your Aadhaar details - Name, Date of birth & Address",
+                  "Confirm your PAN details - Name, Father's Name & Date of birth",
                 type: "subtitle",
               },
               {
@@ -635,32 +589,26 @@ export const DUMMY_RES = {
         children: [
           {
             subtitle:
-              "A: Digital aadhaar verification proves your identity and address",
-            title: "Q: Why do I need to verify Aadhaar?",
+              "A. PAN card verification proves your income and identity",
+            title: "Q. Why do I need to verify my PAN Card?",
             type: "collapsibleList",
           },
           {
             subtitle:
-              "A: Aadhaar OTP is sent via UIDAI for authentication purposes.",
-            title: "Q: What is aadhaar OTP?",
+              "A. No. PAN verification is a completely paperless process.",
+            title: "Q. Do I need to submit physical copy of my PAN card",
             type: "collapsibleList",
           },
           {
             subtitle:
-              "A: Please ensure that you have access to the mobile number linked with your Aadhaar in order to get the OTP.",
-            title: "Q: I did not get any OTP for Aadhaar verification",
+              "A. You can make an instant e-PAN card absolutely free (within 5 minutes) on the website of Income Tax Department.",
+            title: "Q. I don't have a Pan Card, what should I do?",
             type: "collapsibleList",
           },
           {
             subtitle:
-              "A: Follow this process:\nStep 1: Go to https://myaadhaar.uidai.gov.in/verifyAadhaar\nStep 2: Enter 12-digit Aadhaar number and captcha code \nStep 3: Click on 'Proceed to Verify' \nStep 4: Here you will see the last three digits of the linked mobile number.",
-            title: "Q: I don't know which mobile number is linked with Aadhaar",
-            type: "collapsibleList",
-          },
-          {
-            subtitle:
-              "A: No. Aadhaar verification is a completely paperless process.",
-            title: "Q: Do I need to submit physical copy of my Aadhaar card?",
+              "A. You can find your PAN Card number in any of the following ways:\n\nOption 1: Income Tax Website\nHead over to https://www.incometaxindiaefiling.gov.in/\nClick on “Know Your PAN” under section “Quick Links” \nEnter the details - including name, date of birth & mobile number \nEnter the OTP you received on the mobile number and click on “Validate” \nNow enter your Father’s name and click on the “Submit” button \n\nOption 2: Salary Slip\n Check your payslip to find your PAN number. It should be mentioned on the payslip if you receive regular salary payments from your employer. If you can't find it, contact your HR or finance department for assistance. \n\nOption 3: Form-16\nPAN numbers are mentioned in the Form 16 given to you by your employer. Most organisations mail the form 16 to their employees and/or upload the same to an internal portal. Have more questions? Read all FAQs.",
+            title: "Q. I don't remember my Pan Card number, what should I do?",
             type: "collapsibleList",
           },
         ],
@@ -671,7 +619,7 @@ export const DUMMY_RES = {
         type: "footer",
       },
     ],
-    screenTitle: "Help - Aadhaar Verification",
+    screenTitle: "Help - PAN Card Verification",
   },
   bank_help: {
     data: [
@@ -3714,16 +3662,16 @@ export const DUMMY_RES_HINDI = {
                   width: "100%",
                 },
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/Logo.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/PAN/Logo.png",
               },
               {
                 children: [
                   {
-                    title: "How to verify Aadhaar?",
+                    title: "पैन कार्ड वेरिफिकेशन कैसे करें?",
                     type: "title",
                   },
                   {
-                    title: "Follow this 3-step process",
+                    title: "इस 2-चरण प्रक्रिया का पालन करें",
                     type: "subtitle",
                   },
                 ],
@@ -3746,7 +3694,7 @@ export const DUMMY_RES_HINDI = {
             styling: {
               marginVertical: "10%",
             },
-            title: "Verify Aadhaar",
+            title: "पैन वेरीफाई करें  >",
             type: "button",
             variant: "filled",
           },
@@ -3756,26 +3704,26 @@ export const DUMMY_RES_HINDI = {
               "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
             type: "video",
           },
+
           {
             children: [
               {
-                styling: {
-                  marginRight: 15,
-                },
-                text: "Step 1",
+                text: "स्टेप 1:",
                 type: "badge",
               },
               {
                 styling: {
                   fontSize: 18,
+                  marginLeft: "10%",
                 },
-                title: "Aadhaar Number",
+                title: "पैन नंबर",
                 type: "title",
               },
             ],
             styling: {
               alignItems: "center",
               flexDirection: "row",
+              marginVertical: "5%",
             },
             type: "container",
           },
@@ -3785,7 +3733,7 @@ export const DUMMY_RES_HINDI = {
                 styling: {
                   fontSize: 16,
                 },
-                title: "Enter your 12 Digit Aadhaar Card number",
+                title: "अपना पैन कार्ड नंबर पैन दर्ज करें (स्थायी खाता संख्या)",
                 type: "subtitle",
               },
               {
@@ -3804,26 +3752,26 @@ export const DUMMY_RES_HINDI = {
           {
             children: [
               {
-                styling: {
-                  marginRight: 15,
-                },
-                text: "Step 2",
+                text: "स्टेप 2:",
                 type: "badge",
               },
               {
                 styling: {
                   fontSize: 18,
+                  marginLeft: "10%",
                 },
-                title: "Aadhaar OTP",
+                title: "विवरण की पुष्टि करें",
                 type: "title",
               },
             ],
             styling: {
               alignItems: "center",
               flexDirection: "row",
+              marginVertical: "5%",
             },
             type: "container",
           },
+
           {
             children: [
               {
@@ -3831,53 +3779,7 @@ export const DUMMY_RES_HINDI = {
                   fontSize: 16,
                 },
                 title:
-                  "Enter OTP you received on Aadhaar registered mobile number",
-                type: "subtitle",
-              },
-              {
-                styling: {
-                  marginTop: "5%",
-                },
-                type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
-              },
-            ],
-            styling: {
-              paddingTop: 0,
-            },
-            type: "container",
-          },
-          {
-            children: [
-              {
-                styling: {
-                  marginRight: 15,
-                },
-                text: "Step 3",
-                type: "badge",
-              },
-              {
-                styling: {
-                  fontSize: 18,
-                },
-                title: "Confirm Identity",
-                type: "title",
-              },
-            ],
-            styling: {
-              alignItems: "center",
-              flexDirection: "row",
-            },
-            type: "container",
-          },
-          {
-            children: [
-              {
-                styling: {
-                  fontSize: 16,
-                },
-                title:
-                  "Confirm your Aadhaar details - Name, Date of birth & Address",
+                  "अपने पैन विवरण की पुष्टि करें - नाम, पिता का नाम और जन्म तिथि",
                 type: "subtitle",
               },
               {
@@ -3903,43 +3805,39 @@ export const DUMMY_RES_HINDI = {
         children: [
           {
             subtitle:
-              "A: Digital aadhaar verification proves your identity and address",
-            title: "Q: Why do I need to verify Aadhaar?",
+              "उ. पैन कार्ड वेरिफिकेशन आपकी आय और पहचान को प्रमाणित करता है",
+            title:
+              "प्र. मुझे अपने पैन कार्ड को वेरीफाई करने की आवश्यकता क्यों है?",
+            type: "collapsibleList",
+          },
+          {
+            subtitle: "उ. नहीं, पैन वेरिफिकेशन एक डिजिटल प्रक्रिया है।",
+            title:
+              "प्र. क्या मुझे अपने पैन कार्ड की फिजिकल कॉपी जमा करने की आवश्यकता है",
             type: "collapsibleList",
           },
           {
             subtitle:
-              "A: Aadhaar OTP is sent via UIDAI for authentication purposes.",
-            title: "Q: What is aadhaar OTP?",
+              "उ. आप आयकर विभाग की वेबसाइट पर तत्काल ई-पैन कार्ड बिल्कुल मुफ्त बना सकते हैं। (5 मिनट के अंदर) ",
+            title: "प्र. मेरे पास पैन कार्ड नहीं है, मुझे क्या करना चाहिए?",
             type: "collapsibleList",
           },
           {
             subtitle:
-              "A: Please ensure that you have access to the mobile number linked with your Aadhaar in order to get the OTP.",
-            title: "Q: I did not get any OTP for Aadhaar verification",
-            type: "collapsibleList",
-          },
-          {
-            subtitle:
-              "A: Follow this process:\nStep 1: Go to https://myaadhaar.uidai.gov.in/verifyAadhaar\nStep 2: Enter 12-digit Aadhaar number and captcha code \nStep 3: Click on 'Proceed to Verify' \nStep 4: Here you will see the last three digits of the linked mobile number.",
-            title: "Q: I don't know which mobile number is linked with Aadhaar",
-            type: "collapsibleList",
-          },
-          {
-            subtitle:
-              "A: No. Aadhaar verification is a completely paperless process.",
-            title: "Q: Do I need to submit physical copy of my Aadhaar card?",
+              "उ. आप निम्नलिखित में से किसी भी तरीके से अपना पैन कार्ड नंबर ढूंढ सकते हैं:\n\nविकल्प 1: आयकर वेबसाइट\nhttps://www.incometaxindiafiling.gov.in/ पर जाएं\n क्विक लिंक्स सेक्शन के में अपने पैन को जानें पर क्लिक करें\nविवरण दर्ज करें - नाम, जन्म तिथि और मोबाइल नंबर सहित \nमोबाइल नंबर पर प्राप्त OTP दर्ज करें और Validate पर क्लिक करें \nअब अपने पिता का नाम दर्ज करें और सबमिट बटन पर क्लिक करें \n\nविकल्प 2: सैलरी स्लिप\n अपना पैन नंबर खोजने के लिए अपनी सैलरी स्लिप देखें। यदि आप अपनी कंपनी से नियमित वेतन भुगतान प्राप्त करते हैं तो पैन नंबर का सैलरी स्लिप से प्राप्त कर सकते हैं। यदि आपको पैन नंबर नहीं मिल रहा है, तो सहायता के लिए अपने HR या Accounts विभाग से संपर्क करें। \n\nविकल्प 3: फॉर्म-16\nपैन नंबरों का उल्लेख आपकी कंपनी द्वारा आपको दिए गए फॉर्म 16 में किया जाता है। अधिकांश कंपनी अपने कर्मचारियों को फॉर्म 16 मेल करते हैं और/या आंतरिक पोर्टल पर अपलोड करते हैं।",
+            title:
+              "प्र. मुझे अपना पैन कार्ड नंबर याद नहीं है, मुझे क्या करना चाहिए?",
             type: "collapsibleList",
           },
         ],
-        title: "Frequently Asked Questions",
+        title: "अक्सर पूछे जाने वाले प्रश्नों",
         type: "section",
       },
       {
         type: "footer",
       },
     ],
-    screenTitle: "Help - Aadhaar Verification",
+    screenTitle: "Help - PAN Card Verification",
   },
   bank_help: {
     data: [
