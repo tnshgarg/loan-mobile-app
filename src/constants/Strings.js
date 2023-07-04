@@ -1435,181 +1435,6 @@ export const DUMMY_RES = {
     headline: "What are the benefits of completing KYC?",
     screenTitle: "",
   },
-  blog_2: {
-    data: [
-      {
-        children: [
-          {
-            styling: {
-              marginLeft: "-15%",
-            },
-            type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhatKYC.png",
-          },
-          {
-            children: [
-              {
-                title: "What is KYC?",
-                type: "title",
-              },
-              {
-                title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salrary.",
-                type: "subtitle",
-              },
-            ],
-            type: "container",
-          },
-        ],
-        type: "twoColumn",
-        widths: ["30%", "70%"],
-      },
-      {
-        children: [
-          {
-            styling: {
-              marginLeft: "15%",
-            },
-            type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhyCompleteKYC.png",
-          },
-          {
-            children: [
-              {
-                title: "Why Complete KYC?",
-                type: "title",
-              },
-              {
-                title:
-                  "Unipe advance salary is powered by RBI approved lending partners which mandates completion of Full KYC to avail the advance salary balance.",
-                type: "subtitle",
-              },
-            ],
-            type: "container",
-          },
-        ],
-        styling: {
-          flexDirection: "row-reverse",
-        },
-        type: "twoColumn",
-        widths: ["30%", "70%"],
-      },
-      {
-        children: [
-          {
-            styling: {
-              marginLeft: "-15%",
-            },
-            type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/RisksofIncompleteKYC.png",
-          },
-          {
-            children: [
-              {
-                title: "Risks of Incomplete KYC",
-                type: "title",
-              },
-              {
-                title:
-                  "Without KYC completion, employees will not be able to withdraw advance salary balance to their bank account.",
-                type: "subtitle",
-              },
-            ],
-            type: "container",
-          },
-        ],
-        type: "twoColumn",
-        widths: ["30%", "70%"],
-      },
-      {
-        children: [
-          {
-            styling: {
-              marginLeft: "15%",
-            },
-            type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/UnlockAdvancewithKYC.png",
-          },
-          {
-            children: [
-              {
-                title: "Unlock Advance with KYC",
-                type: "title",
-              },
-              {
-                title:
-                  "One the KYC is done, the Advance Salary balance will be unlocked and employees can transfer the shown amount without any limit.",
-                type: "subtitle",
-              },
-            ],
-            type: "container",
-          },
-        ],
-        styling: {
-          flexDirection: "row-reverse",
-        },
-        type: "twoColumn",
-        widths: ["30%", "70%"],
-      },
-      {
-        children: [
-          {
-            styling: {
-              marginLeft: "-15%",
-            },
-            type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/AdvancewithoutKYC.png",
-          },
-          {
-            children: [
-              {
-                title: "Advance without KYC",
-                type: "title",
-              },
-              {
-                title:
-                  "If KYC is not done and the advance is approved from the employer, the employees will be able to see the amount but will not be able to withdraw it.",
-                type: "subtitle",
-              },
-            ],
-            type: "container",
-          },
-        ],
-        type: "twoColumn",
-        widths: ["30%", "70%"],
-      },
-      {
-        children: [
-          {
-            subtitle: "A. Search on the internet",
-            title: "Q. How to complete KYC Verification?",
-            type: "collapsibleList",
-          },
-          {
-            subtitle: "A. Search on the internet",
-            title: "Q. My advance salary balance is 0 (Waiting for approval)",
-            type: "collapsibleList",
-          },
-          {
-            subtitle: "A. Search on the internet",
-            title: "Q. I don't have PAN Card",
-            type: "collapsibleList",
-          },
-          {
-            subtitle: "A. Search on the internet",
-            title: "Q. I have not received my advance salary",
-            type: "collapsibleList",
-          },
-        ],
-        title: "FAQs",
-        type: "section",
-      },
-    ],
-    headingImage:
-      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
-    headline: "What are the benefits of completing KYC?",
-    screenTitle: "",
-  },
   blog_3: {
     data: [
       {
@@ -1766,181 +1591,6 @@ export const DUMMY_RES = {
     headingImage:
       "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/MandateBenefits.png",
     headline: "What are the benefits of Mandate Registration?",
-    screenTitle: "",
-  },
-  blog_4: {
-    data: [
-      {
-        children: [
-          {
-            styling: {
-              marginLeft: "-15%",
-            },
-            type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhatKYC.png",
-          },
-          {
-            children: [
-              {
-                title: "What is KYC?",
-                type: "title",
-              },
-              {
-                title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salrary.",
-                type: "subtitle",
-              },
-            ],
-            type: "container",
-          },
-        ],
-        type: "twoColumn",
-        widths: ["30%", "70%"],
-      },
-      {
-        children: [
-          {
-            styling: {
-              marginLeft: "15%",
-            },
-            type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhyCompleteKYC.png",
-          },
-          {
-            children: [
-              {
-                title: "Why Complete KYC?",
-                type: "title",
-              },
-              {
-                title:
-                  "Unipe advance salary is powered by RBI approved lending partners which mandates completion of Full KYC to avail the advance salary balance.",
-                type: "subtitle",
-              },
-            ],
-            type: "container",
-          },
-        ],
-        styling: {
-          flexDirection: "row-reverse",
-        },
-        type: "twoColumn",
-        widths: ["30%", "70%"],
-      },
-      {
-        children: [
-          {
-            styling: {
-              marginLeft: "-15%",
-            },
-            type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/RisksofIncompleteKYC.png",
-          },
-          {
-            children: [
-              {
-                title: "Risks of Incomplete KYC",
-                type: "title",
-              },
-              {
-                title:
-                  "Without KYC completion, employees will not be able to withdraw advance salary balance to their bank account.",
-                type: "subtitle",
-              },
-            ],
-            type: "container",
-          },
-        ],
-        type: "twoColumn",
-        widths: ["30%", "70%"],
-      },
-      {
-        children: [
-          {
-            styling: {
-              marginLeft: "15%",
-            },
-            type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/UnlockAdvancewithKYC.png",
-          },
-          {
-            children: [
-              {
-                title: "Unlock Advance with KYC",
-                type: "title",
-              },
-              {
-                title:
-                  "One the KYC is done, the Advance Salary balance will be unlocked and employees can transfer the shown amount without any limit.",
-                type: "subtitle",
-              },
-            ],
-            type: "container",
-          },
-        ],
-        styling: {
-          flexDirection: "row-reverse",
-        },
-        type: "twoColumn",
-        widths: ["30%", "70%"],
-      },
-      {
-        children: [
-          {
-            styling: {
-              marginLeft: "-15%",
-            },
-            type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/AdvancewithoutKYC.png",
-          },
-          {
-            children: [
-              {
-                title: "Advance without KYC",
-                type: "title",
-              },
-              {
-                title:
-                  "If KYC is not done and the advance is approved from the employer, the employees will be able to see the amount but will not be able to withdraw it.",
-                type: "subtitle",
-              },
-            ],
-            type: "container",
-          },
-        ],
-        type: "twoColumn",
-        widths: ["30%", "70%"],
-      },
-      {
-        children: [
-          {
-            subtitle: "A. Search on the internet",
-            title: "Q. How to complete KYC Verification?",
-            type: "collapsibleList",
-          },
-          {
-            subtitle: "A. Search on the internet",
-            title: "Q. My advance salary balance is 0 (Waiting for approval)",
-            type: "collapsibleList",
-          },
-          {
-            subtitle: "A. Search on the internet",
-            title: "Q. I don't have PAN Card",
-            type: "collapsibleList",
-          },
-          {
-            subtitle: "A. Search on the internet",
-            title: "Q. I have not received my advance salary",
-            type: "collapsibleList",
-          },
-        ],
-        title: "FAQs",
-        type: "section",
-      },
-    ],
-    headingImage:
-      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
-    headline: "What are the benefits of completing KYC?",
     screenTitle: "",
   },
   blog_5: {
@@ -2400,7 +2050,7 @@ export const DUMMY_RES = {
               },
             ],
             navigate: {
-              params: { blogKey: "kyc_help" },
+              params: { blogKey: "kyc_faq" },
               type: "cmsScreenTwo",
             },
             type: "threeColumn",
@@ -2436,7 +2086,7 @@ export const DUMMY_RES = {
               },
             ],
             navigate: {
-              params: { blogKey: "mandate_help" },
+              params: { blogKey: "mandate_faq" },
               type: "cmsScreenTwo",
             },
             type: "threeColumn",
@@ -3399,6 +3049,72 @@ export const DUMMY_RES = {
           },
         ],
       },
+    ],
+  },
+  kyc_faq: {
+    data: [
+      {
+        type: "section",
+        title: "Frequently Asked Questions",
+        children: [
+          {
+            type: "collapsibleList",
+            title: "Q: Do I need to pay for KYC",
+            subtitle: "A: No. KYC is FREE.",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: Why do I need to do KYC?",
+            subtitle:
+              "A: As per RBI Regulations, KYC verification is mandatory.",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: How much time will KYC Process take?",
+            subtitle: "A: KYC happens instantly with government APIs.",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: What happens if I don't complete my minimum KYC?",
+            subtitle: "A: You won't be able to withdraw your advance salary.",
+          },
+        ],
+      },
+      { type: "footer" },
+    ],
+  },
+  mandate_faq: {
+    data: [
+      {
+        type: "section",
+        title: "Frequently Asked Questions",
+        children: [
+          {
+            type: "collapsibleList",
+            title: "Q: Is it mandatory to add Repayment Method (Mandate)?",
+            subtitle:
+              "A: Yes. This is 100% secure and executed by an RBI approved entity.",
+          },
+          {
+            type: "collapsibleList",
+            title:
+              "Q:  What happens in case of insufficient balance in the bank account for auto-debit?",
+            subtitle:
+              "A: The transaction will fail and may impose additional penalty charges.",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: What is the fastest way to register mandate?",
+            subtitle: "A: Debit Card",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q: How much time will Aadhaar Mandate take?",
+            subtitle: "A: 4-5 Banking Days",
+          },
+        ],
+      },
+      { type: "footer" },
     ],
   },
   salary_info: {
@@ -4832,181 +4548,6 @@ export const DUMMY_RES_HINDI = {
     headline: "KYC को पूरा करने के क्या लाभ हैं?",
     screenTitle: "",
   },
-  blog_2: {
-    data: [
-      {
-        children: [
-          {
-            styling: {
-              marginLeft: "-15%",
-            },
-            type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhatKYC.png",
-          },
-          {
-            children: [
-              {
-                title: "What is KYC?",
-                type: "title",
-              },
-              {
-                title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salrary.",
-                type: "subtitle",
-              },
-            ],
-            type: "container",
-          },
-        ],
-        type: "twoColumn",
-        widths: ["30%", "70%"],
-      },
-      {
-        children: [
-          {
-            styling: {
-              marginLeft: "15%",
-            },
-            type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhyCompleteKYC.png",
-          },
-          {
-            children: [
-              {
-                title: "Why Complete KYC?",
-                type: "title",
-              },
-              {
-                title:
-                  "Unipe advance salary is powered by RBI approved lending partners which mandates completion of Full KYC to avail the advance salary balance.",
-                type: "subtitle",
-              },
-            ],
-            type: "container",
-          },
-        ],
-        styling: {
-          flexDirection: "row-reverse",
-        },
-        type: "twoColumn",
-        widths: ["30%", "70%"],
-      },
-      {
-        children: [
-          {
-            styling: {
-              marginLeft: "-15%",
-            },
-            type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/RisksofIncompleteKYC.png",
-          },
-          {
-            children: [
-              {
-                title: "Risks of Incomplete KYC",
-                type: "title",
-              },
-              {
-                title:
-                  "Without KYC completion, employees will not be able to withdraw advance salary balance to their bank account.",
-                type: "subtitle",
-              },
-            ],
-            type: "container",
-          },
-        ],
-        type: "twoColumn",
-        widths: ["30%", "70%"],
-      },
-      {
-        children: [
-          {
-            styling: {
-              marginLeft: "15%",
-            },
-            type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/UnlockAdvancewithKYC.png",
-          },
-          {
-            children: [
-              {
-                title: "Unlock Advance with KYC",
-                type: "title",
-              },
-              {
-                title:
-                  "One the KYC is done, the Advance Salary balance will be unlocked and employees can transfer the shown amount without any limit.",
-                type: "subtitle",
-              },
-            ],
-            type: "container",
-          },
-        ],
-        styling: {
-          flexDirection: "row-reverse",
-        },
-        type: "twoColumn",
-        widths: ["30%", "70%"],
-      },
-      {
-        children: [
-          {
-            styling: {
-              marginLeft: "-15%",
-            },
-            type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/AdvancewithoutKYC.png",
-          },
-          {
-            children: [
-              {
-                title: "Advance without KYC",
-                type: "title",
-              },
-              {
-                title:
-                  "If KYC is not done and the advance is approved from the employer, the employees will be able to see the amount but will not be able to withdraw it.",
-                type: "subtitle",
-              },
-            ],
-            type: "container",
-          },
-        ],
-        type: "twoColumn",
-        widths: ["30%", "70%"],
-      },
-      {
-        children: [
-          {
-            subtitle: "A. Search on the internet",
-            title: "Q. How to complete KYC Verification?",
-            type: "collapsibleList",
-          },
-          {
-            subtitle: "A. Search on the internet",
-            title: "Q. My advance salary balance is 0 (Waiting for approval)",
-            type: "collapsibleList",
-          },
-          {
-            subtitle: "A. Search on the internet",
-            title: "Q. I don't have PAN Card",
-            type: "collapsibleList",
-          },
-          {
-            subtitle: "A. Search on the internet",
-            title: "Q. I have not received my advance salary",
-            type: "collapsibleList",
-          },
-        ],
-        title: "FAQs",
-        type: "section",
-      },
-    ],
-    headingImage:
-      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
-    headline: "What are the benefits of completing KYC?",
-    screenTitle: "",
-  },
   blog_3: {
     data: [
       {
@@ -5163,181 +4704,6 @@ export const DUMMY_RES_HINDI = {
     headingImage:
       "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/MandateBenefits.png",
     headline: "ई-मैन्डेट पंजीकरण के क्या लाभ हैं?",
-    screenTitle: "",
-  },
-  blog_4: {
-    data: [
-      {
-        children: [
-          {
-            styling: {
-              marginLeft: "-15%",
-            },
-            type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhatKYC.png",
-          },
-          {
-            children: [
-              {
-                title: "What is KYC?",
-                type: "title",
-              },
-              {
-                title:
-                  "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salrary.",
-                type: "subtitle",
-              },
-            ],
-            type: "container",
-          },
-        ],
-        type: "twoColumn",
-        widths: ["30%", "70%"],
-      },
-      {
-        children: [
-          {
-            styling: {
-              marginLeft: "15%",
-            },
-            type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhyCompleteKYC.png",
-          },
-          {
-            children: [
-              {
-                title: "Why Complete KYC?",
-                type: "title",
-              },
-              {
-                title:
-                  "Unipe advance salary is powered by RBI approved lending partners which mandates completion of Full KYC to avail the advance salary balance.",
-                type: "subtitle",
-              },
-            ],
-            type: "container",
-          },
-        ],
-        styling: {
-          flexDirection: "row-reverse",
-        },
-        type: "twoColumn",
-        widths: ["30%", "70%"],
-      },
-      {
-        children: [
-          {
-            styling: {
-              marginLeft: "-15%",
-            },
-            type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/RisksofIncompleteKYC.png",
-          },
-          {
-            children: [
-              {
-                title: "Risks of Incomplete KYC",
-                type: "title",
-              },
-              {
-                title:
-                  "Without KYC completion, employees will not be able to withdraw advance salary balance to their bank account.",
-                type: "subtitle",
-              },
-            ],
-            type: "container",
-          },
-        ],
-        type: "twoColumn",
-        widths: ["30%", "70%"],
-      },
-      {
-        children: [
-          {
-            styling: {
-              marginLeft: "15%",
-            },
-            type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/UnlockAdvancewithKYC.png",
-          },
-          {
-            children: [
-              {
-                title: "Unlock Advance with KYC",
-                type: "title",
-              },
-              {
-                title:
-                  "One the KYC is done, the Advance Salary balance will be unlocked and employees can transfer the shown amount without any limit.",
-                type: "subtitle",
-              },
-            ],
-            type: "container",
-          },
-        ],
-        styling: {
-          flexDirection: "row-reverse",
-        },
-        type: "twoColumn",
-        widths: ["30%", "70%"],
-      },
-      {
-        children: [
-          {
-            styling: {
-              marginLeft: "-15%",
-            },
-            type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/AdvancewithoutKYC.png",
-          },
-          {
-            children: [
-              {
-                title: "Advance without KYC",
-                type: "title",
-              },
-              {
-                title:
-                  "If KYC is not done and the advance is approved from the employer, the employees will be able to see the amount but will not be able to withdraw it.",
-                type: "subtitle",
-              },
-            ],
-            type: "container",
-          },
-        ],
-        type: "twoColumn",
-        widths: ["30%", "70%"],
-      },
-      {
-        children: [
-          {
-            subtitle: "A. Search on the internet",
-            title: "Q. How to complete KYC Verification?",
-            type: "collapsibleList",
-          },
-          {
-            subtitle: "A. Search on the internet",
-            title: "Q. My advance salary balance is 0 (Waiting for approval)",
-            type: "collapsibleList",
-          },
-          {
-            subtitle: "A. Search on the internet",
-            title: "Q. I don't have PAN Card",
-            type: "collapsibleList",
-          },
-          {
-            subtitle: "A. Search on the internet",
-            title: "Q. I have not received my advance salary",
-            type: "collapsibleList",
-          },
-        ],
-        title: "FAQs",
-        type: "section",
-      },
-    ],
-    headingImage:
-      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
-    headline: "What are the benefits of completing KYC?",
     screenTitle: "",
   },
   blog_5: {
@@ -5749,7 +5115,7 @@ export const DUMMY_RES_HINDI = {
               "उ. ऑन-डिमांड सैलरी या एअर्नेड वेज एक्सेस (EWA) एक ऐसी सेवा है जिसके द्वारा कर्मचारियों को नियमित वेतन दिन से पहले ही अपने वेतन के कुछ हिस्से का प्राप्त करने की सुविधा होती है। यह कर्मचारियों को सैलरी का एक हिस्सा आवश्यकता के हिसाब से निकालने में सक्षम बनता है।",
             title: "प्र. KYC सत्यापन कैसे पूरा करें?",
             type: "collapsibleList",
-            navigate: { type: "cmsScreenTwo", params: { blogKey: "kyc_help" } },
+            navigate: { type: "cmsScreenTwo", params: { blogKey: "kyc_faq" } },
           },
           {
             subtitle:
@@ -5836,7 +5202,7 @@ export const DUMMY_RES_HINDI = {
               },
             ],
             navigate: {
-              params: { blogKey: "kyc_help" },
+              params: { blogKey: "mandate_faq" },
               type: "cmsScreenTwo",
             },
             type: "threeColumn",
@@ -6157,10 +5523,6 @@ export const DUMMY_RES_HINDI = {
             },
           ],
           gradientColors: ["#F2F8F9", "#F2F8F9"],
-          navigate: {
-            params: { blogKey: "blog_2" },
-            type: "cms",
-          },
           type: "card",
         },
         {
@@ -6198,10 +5560,6 @@ export const DUMMY_RES_HINDI = {
             },
           ],
           gradientColors: ["#F2F8F9", "#F2F8F9"],
-          navigate: {
-            params: { blogKey: "blog_4" },
-            type: "cms",
-          },
           type: "card",
         },
         {
@@ -6677,6 +6035,216 @@ export const DUMMY_RES_HINDI = {
       ],
     },
   ],
+  pan_info: {
+    screenTitle: "",
+    data: [
+      {
+        type: "container",
+        styling: { padding: "5%" },
+
+        children: [
+          {
+            type: "title",
+            styling: { textAlign: "center" },
+            title: "I don't have a Pan Card, what should I do?",
+          },
+          {
+            type: "subtitle",
+            styling: { color: "grey", textAlign: "center", lineHeight: 20 },
+            title:
+              "Don't worry, you can simply apply for an e-PAN card from the website of the Income Tax Department. Applying for PAN is absolutely free and it takes only 5 minutes.",
+          },
+          {
+            type: "twoColumn",
+            widths: ["35%", "65%"],
+            styling: { margin: 0, marginVertical: "8%" },
+            children: [
+              {
+                type: "image",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/Logo.png",
+                styling: { width: "100%", flex: 1, aspectRatio: 1.6 },
+              },
+              {
+                type: "container",
+                styling: {
+                  flex: 1,
+                  justifyContent: "center",
+                  paddingLeft: "5%",
+                },
+                children: [
+                  {
+                    type: "title",
+                    title: "How to Apply for an e-PAN Card?",
+                  },
+                  {
+                    type: "subtitle",
+                    title:
+                      "Follow these simple steps to apply for an e-PAN Card:",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: "subtitle",
+            styling: { color: "black", lineHeight: 20 },
+            title:
+              "1. Visit the official website of the Income Tax Department.\n2. Click on the 'Instant PAN through Aadhaar' option.\n3. Enter your Aadhaar number and captcha code.\n4. Click on 'Generate Aadhaar OTP'.\n5. Verify your Aadhaar details.\n6. Click on 'Submit' to generate your e-PAN Card.",
+          },
+          {
+            type: "twoColumn",
+            widths: ["35%", "65%"],
+            styling: { margin: 0, marginTop: "8%" },
+            children: [
+              {
+                type: "image",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/Logo.png",
+                styling: { width: "100%", flex: 1, aspectRatio: 1.6 },
+              },
+              {
+                type: "container",
+                styling: {
+                  flex: 1,
+                  justifyContent: "center",
+                  paddingLeft: "5%",
+                },
+                children: [
+                  {
+                    type: "title",
+                    title: "Charges for e-PAN Card?",
+                  },
+                  {
+                    type: "subtitle",
+                    title:
+                      "There are no charges for e-PAN Card application. It is completely free of cost.",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: "twoColumn",
+            widths: ["35%", "65%"],
+            styling: { margin: 0, marginVertical: "8%" },
+            children: [
+              {
+                type: "image",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/Logo.png",
+                styling: { width: "100%", flex: 1, aspectRatio: 1.6 },
+              },
+              {
+                type: "container",
+                styling: {
+                  flex: 1,
+                  justifyContent: "center",
+                  paddingLeft: "5%",
+                },
+                children: [
+                  {
+                    type: "title",
+                    title: "Time to Generate e-PAN Card?",
+                  },
+                  {
+                    type: "subtitle",
+                    title:
+                      "Follow these simple steps to apply for an e-PAN Card:",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: "subtitle",
+            styling: {
+              color: "black",
+              textAlign: "center",
+              lineHeight: 24,
+              fontSize: 16,
+            },
+            title:
+              "For any further assistance, please refer to this link: https://www.incometax.gov.in/iec/foportal/help/how-to-generate-instant-e-pan",
+          },
+        ],
+      },
+    ],
+  },
+  kyc_faq: {
+    data: [
+      {
+        type: "section",
+        title: "अक्सर पूछे जाने वाले प्रश्नों",
+        children: [
+          {
+            type: "collapsibleList",
+            title: "प्र. क्या मुझे KYC के लिए भुगतान करने की आवश्यकता है?",
+            subtitle: "उ. नहीं, केवाईसी निःशुल्क है।",
+          },
+          {
+            type: "collapsibleList",
+            title: "प्र. मुझे KYC करने की आवश्यकता क्यों है?",
+            subtitle:
+              "उ. भारतीय रिजर्व बैंक के नियमों के अनुसार, KYC सत्यापन अनिवार्य है।",
+          },
+          {
+            type: "collapsibleList",
+            title: "प्र. KYC प्रक्रिया में कितना समय लगेगा?",
+            subtitle: "उ. KYC सरकार API के साथ तुरंत होता है।",
+          },
+          {
+            type: "collapsibleList",
+            title: "प्र. अगर मैं अपना KYC पूरा नहीं करता तो क्या होगा?",
+            subtitle: "उ. आप एडवांस सैलरी नहीं निकाल पाएंगे।",
+          },
+        ],
+      },
+      { type: "footer" },
+    ],
+  },
+  salary_info: {
+    screenTitle: "",
+    data: [
+      {
+        type: "container",
+        styling: { padding: "5%" },
+
+        children: [
+          {
+            type: "title",
+            styling: { textAlign: "center", fontSize: 24 },
+            title: "Why was my advance salary request rejected?",
+          },
+          {
+            type: "subtitle",
+            styling: {
+              color: "grey",
+              textAlign: "center",
+              lineHeight: 24,
+              fontSize: 16,
+              marginTop: "5%",
+            },
+            title:
+              "If your advance salary request is rejected and could not clear the lending partner policies. You can reach out to us to become eligible.",
+          },
+          {
+            type: "title",
+            styling: { fontSize: 18, marginBottom: "5%", marginTop: "10%" },
+            title: "Some of the reasons why your request was rejected:",
+          },
+          {
+            type: "subtitle",
+            styling: {
+              color: "black",
+              lineHeight: 26,
+              fontSize: 18,
+            },
+            title:
+              "1. Salary is still processing in progress on your employer end\n2. Name mismatch in PAN and Bank account holder name\n3. You have low bureau score (credit score)",
+          },
+        ],
+      },
+      { type: "footer" },
+    ],
+  },
 };
 
 export const DUMMY_LANGUAGE_RES = {
