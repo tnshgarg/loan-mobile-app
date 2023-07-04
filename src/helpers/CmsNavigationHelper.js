@@ -51,6 +51,8 @@ const navigationHelper = async ({ type, stack, screen, language, params }) => {
       screen: "CmsScreenTwo",
       params: params ?? {},
     });
+  } else if (type == "back") {
+    navigationRef.goBack();
   } else {
     console.log("Navigation Type Invalid!");
   }

@@ -236,10 +236,11 @@ export const DUMMY_RES = {
           },
           {
             clickType: "navigation",
+            navigate: { type: "back" },
             styling: {
               marginVertical: "10%",
             },
-            title: "Verify Aadhaar",
+            title: "Verify Aadhaar >",
             type: "button",
             variant: "filled",
           },
@@ -475,6 +476,7 @@ export const DUMMY_RES = {
           },
           {
             clickType: "navigation",
+            navigate: { type: "back" },
             styling: {
               marginVertical: "10%",
             },
@@ -663,6 +665,7 @@ export const DUMMY_RES = {
           },
           {
             clickType: "navigation",
+            navigate: { type: "back" },
             styling: {
               marginVertical: "10%",
             },
@@ -799,7 +802,7 @@ export const DUMMY_RES = {
         type: "footer",
       },
     ],
-    screenTitle: "Help - Bank Verification",
+    screenTitle: "Help - Bank Account Addition",
   },
   mandate_help: {
     screenTitle: "Help - Mandate Registration",
@@ -3167,7 +3170,7 @@ export const DUMMY_RES = {
 
 export const DUMMY_RES_HINDI = {
   kyc_help: {
-    screenTitle: "Help - KYC वेरिफिकेशन",
+    screenTitle: "सहायता - KYC वेरिफिकेशन",
     data: [
       {
         type: "container",
@@ -3349,7 +3352,7 @@ export const DUMMY_RES_HINDI = {
     ],
   },
   aadhaar_help: {
-    screenTitle: "Help - Aadhaar Verification",
+    screenTitle: "सहायता - आधार वेरिफिकेशन",
     data: [
       {
         children: [
@@ -3391,6 +3394,7 @@ export const DUMMY_RES_HINDI = {
           },
           {
             clickType: "navigation",
+            navigate: { type: "back" },
             styling: {
               marginVertical: "10%",
             },
@@ -3625,6 +3629,7 @@ export const DUMMY_RES_HINDI = {
           },
           {
             clickType: "navigation",
+            navigate: { type: "back" },
             styling: {
               marginVertical: "10%",
             },
@@ -3771,7 +3776,7 @@ export const DUMMY_RES_HINDI = {
         type: "footer",
       },
     ],
-    screenTitle: "Help - PAN Card Verification",
+    screenTitle: "सहायता - PAN कार्ड वेरिफिकेशन",
   },
   bank_help: {
     data: [
@@ -3815,6 +3820,7 @@ export const DUMMY_RES_HINDI = {
           },
           {
             clickType: "navigation",
+            navigate: { type: "back" },
             styling: {
               marginVertical: "10%",
             },
@@ -3952,10 +3958,10 @@ export const DUMMY_RES_HINDI = {
         type: "footer",
       },
     ],
-    screenTitle: "Help - Bank Verification",
+    screenTitle: "सहायता - बैंक खाता जोड़ना",
   },
   mandate_help: {
-    screenTitle: "Help - Mandate Registration",
+    screenTitle: "सहायता - मैंडेट रजिस्ट्रेशन",
     data: [
       {
         type: "container",
@@ -5798,7 +5804,7 @@ export const DUMMY_RES_HINDI = {
             children: [
               {
                 type: "button",
-                title: "Start KYC",
+                title: "Start KYC now >",
                 variant: "filled",
                 clickType: "navigation",
                 navigate: { type: "app", screen: "KycProgress" },

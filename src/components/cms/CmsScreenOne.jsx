@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { Alert, BackHandler, ScrollView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { CMS_POLLING_DURATION } from "../../services/constants";
-import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { styles } from "../../styles";
 import LogoHeaderBack from "../molecules/LogoHeaderBack";
 import CmsLoading from "./CmsLoading";
@@ -27,11 +27,11 @@ const CmsScreenOne = (props) => {
   let blogKey = props.route?.params?.blogKey;
   let backScreen = props.route?.params?.backScreen;
   console.log({ backScreen });
-  const { data, screenTitle, headline, headingImage, disableBack } =
-    DUMMY_RES?.[blogKey] ?? {};
-
   // const { data, screenTitle, headline, headingImage, disableBack } =
-  //   cmsData?.[blogKey] ?? {};
+  //   DUMMY_RES?.[blogKey] ?? {};
+
+  const { data, screenTitle, headline, headingImage, disableBack } =
+    cmsData?.[blogKey] ?? {};
   console.log("MyData: ", {
     blogKey,
     data,
