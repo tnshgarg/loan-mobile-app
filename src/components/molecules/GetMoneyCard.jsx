@@ -3,12 +3,15 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { useSelector } from "react-redux";
 import Coin from "../../assets/Coin.svg";
 import Hourglass from "../../assets/Hourglass.svg";
-import { COLORS, FONTS } from "../../constants/Theme";
+import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
-import { EWA_POLLING_DURATION, KYC_POLLING_DURATION } from "../../services/constants";
+import {
+  EWA_POLLING_DURATION,
+  KYC_POLLING_DURATION,
+} from "../../services/constants";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { useGetMandateQuery } from "../../store/apiSlices/mandateApi";
 import PrimaryButton from "../atoms/PrimaryButton";
@@ -17,28 +20,33 @@ import SvgContainer from "../atoms/SvgContainer";
 const USER_STAGE = {
   KYC_PENDING: 0,
   MANDATE_PENDING: 1,
-  EWA_AVAILABLE: 2
-}
-const US = USER_STAGE
+  EWA_AVAILABLE: 2,
+};
+const US = USER_STAGE;
 const getUserStage = (kycCompleted, mandateVerifyStatus) => {
   if (!kycCompleted) {
-    return USER_STAGE.KYC_PENDING
+    return USER_STAGE.KYC_PENDING;
   }
   if (mandateVerifyStatus != "SUCCESS") {
-    return USER_STAGE.MANDATE_PENDING
-  } 
-  return USER_STAGE.EWA_AVAILABLE
-}
+    return USER_STAGE.MANDATE_PENDING;
+  }
+  return USER_STAGE.EWA_AVAILABLE;
+};
 const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const { data: kycData,isLoading: kycLoading } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: KYC_POLLING_DURATION,
-  });
-  const {
-    kycCompleted,
-  } = kycData ?? {};
+  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: KYC_POLLING_DURATION,
+    }
+  );
+  const { kycCompleted } = kycData ?? {};
 
-  const { data, error, isLoading: mandateLoading } = useGetMandateQuery(unipeEmployeeId, {
+  const {
+    data,
+    error,
+    isLoading: mandateLoading,
+  } = useGetMandateQuery(unipeEmployeeId, {
     pollingInterval: EWA_POLLING_DURATION,
   });
 
@@ -47,7 +55,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
   const mandateVerifyStatus = data?.verifyStatus;
   console.log({ mandateVerifyStatus });
 
-  const userStage = getUserStage(kycCompleted, mandateVerifyStatus)
+  const userStage = getUserStage(kycCompleted, mandateVerifyStatus);
   const BUTTON_TEXT = {
     kycNotCompleted:
       "Verify your identity and complete your full KYC process to withdraw advance salary.",
@@ -57,22 +65,22 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
     [US.KYC_PENDING]: strings.kycPending,
     [US.MANDATE_PENDING]: strings.setupRepayment,
     [US.EWA_AVAILABLE]: strings.withDrawAdvanceSalary,
-  }
+  };
 
   const cardBottomMessages = {
     [US.KYC_PENDING]: strings.verifyYourIdentity,
     [US.MANDATE_PENDING]: strings.kindlySetupRepayment,
     [US.EWA_AVAILABLE]: `${strings.transfer} ${amount} ${strings.toBankAccount}`,
-  }
+  };
 
-  const contentLoading = mandateLoading || kycLoading
+  const contentLoading = mandateLoading || kycLoading;
   return (
     <View style={styles.container}>
       <View
         style={{
           borderBottomWidth: 1,
           borderColor: COLORS.lightGray,
-          padding: 15,
+          padding: "6%",
         }}
       >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -95,17 +103,22 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
         style={{
           borderBottomWidth: 1,
           borderColor: COLORS.lightGray,
-          padding: 15,
+          padding: "6%",
           alignItems: "center",
         }}
       >
-        <Text style={styles.text}>{strings.availableSalary}</Text>
-        {contentLoading ? 
-        <ActivityIndicator color={COLORS.secondary}/>
-        : (<Text style={[styles.text, { ...FONTS.body1 }]}>
-          {kycCompleted ? amount : "XX,XXX"}
-        </Text>)}
-        
+        <Text style={[styles.text, { marginBottom: 0, ...FONTS.body5 }]}>
+          {strings.availableSalary}
+        </Text>
+        {contentLoading ? (
+          <ActivityIndicator color={COLORS.secondary} />
+        ) : (
+          <Text
+            style={[styles.text, { ...FONTS.h1, fontSize: 36, marginTop: 0 }]}
+          >
+            {kycCompleted ? amount : "XX,XXX"}
+          </Text>
+        )}
 
         <PrimaryButton
           containerStyle={{ height: 40 }}
@@ -118,7 +131,9 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
                 : strings.getSalaryNow
               : "Complete Your KYC"
           }
-          disabled={contentLoading || kycCompleted && (!eligible || !accessible)}
+          disabled={
+            contentLoading || (kycCompleted && (!eligible || !accessible))
+          }
           onPress={() => {
             if (userStage == US.EWA_AVAILABLE) {
               Analytics.trackEvent({
@@ -148,7 +163,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
       <View
         style={{
           paddingVertical: 10,
-          paddingHorizontal: 15,
+          paddingHorizontal: "6%",
           backgroundColor:
             userStage == US.EWA_AVAILABLE
               ? COLORS.primaryBackground
@@ -159,7 +174,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
       >
         {/* TODO: add localization */}
         <Text style={styles.text}>
-          {contentLoading ? "Loading..." : cardBottomMessages[userStage] }
+          {contentLoading ? "Loading..." : cardBottomMessages[userStage]}
         </Text>
       </View>
     </View>
@@ -175,6 +190,7 @@ const styles = EStyleSheet.create({
     borderRadius: 10,
 
     backgroundColor: "#f5f9f9",
+    ...SIZES.shadow,
   },
   text: { ...FONTS.body4, color: COLORS.secondary, marginVertical: 5 },
 });

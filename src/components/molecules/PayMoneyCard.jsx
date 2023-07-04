@@ -5,7 +5,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import LinearGradient from "react-native-linear-gradient";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
-import { COLORS, FONTS } from "../../constants/Theme";
+import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import {
   getNumberOfDays,
   setYYYYMMDDtoDDMMYYYY,
@@ -320,6 +320,8 @@ const styles = EStyleSheet.create({
     borderColor: COLORS.lightgray_01,
     borderRadius: "10rem",
     marginTop: "10rem",
+    backgroundColor: COLORS.white,
+    ...SIZES.shadow,
   },
   row: {
     padding: "15rem",
