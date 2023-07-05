@@ -38,12 +38,12 @@ const StackNavigator = () => {
   const token = useSelector((state) => state?.auth?.token);
   const onboarded = useSelector((state) => state?.auth?.onboarded);
   const [modalVisible, setModalVisible] = useState(false);
-  const language = useSelector(state => state.localization.language)
+  const language = useSelector((state) => state.localization.language);
   let initialRoute = useSelector((state) => state.navigation.currentStack);
   let initialScreen = useSelector((state) => state.navigation.currentScreen);
   useEffect(() => {
     changeLanguage(language ?? "en");
-    console.log("stack navigator use effect")
+    console.log("stack navigator use effect");
   }, [language]);
 
   const handleCampaignUrlClick = (url) => {
