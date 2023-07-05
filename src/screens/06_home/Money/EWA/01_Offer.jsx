@@ -10,6 +10,7 @@ import SliderCard from "../../../../components/organisms/SliderCard";
 import { strings } from "../../../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
+  setSessionValue,
 } from "../../../../helpers/analytics/commonAnalytics";
 import {
   addAPR,
@@ -23,6 +24,7 @@ import TnC from "../../../../templates/docs/EWATnC.js";
 
 import Checkbox from "../../../../components/atoms/Checkbox";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
+import { navigate } from "../../../../navigators/RootNavigation";
 import { KYC_POLLING_DURATION } from "../../../../services/constants";
 import { useUpdateOfferMutation } from "../../../../store/apiSlices/ewaApi";
 import { useGetKycQuery } from "../../../../store/apiSlices/kycApi";
@@ -83,14 +85,31 @@ const Offer = () => {
   }, [deviceId, ipAddress]);
 
   const backAction = () => {
-    navigation.navigate("Money", { screen: "EWA" });
+    trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "amountSelection",
+      action: "BACK",
+    });
+    navigate("Money", { screen: "EWA" });
     return true;
   };
+
+  useEffect(() => {
+    setSessionValue("flow", "ewa");
+  }, []);
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "amountSelection",
+      action: "START",
+    });
   }, []);
 
   useEffect(() => {
@@ -194,9 +213,8 @@ const Offer = () => {
           handleConditionalNav();
           Analytics.trackEvent({
             interaction: InteractionTypes.BUTTON_PRESS,
-            component: "Ewa",
-            action: "OfferPush",
-            status: "Success",
+            screen: "amountSelection",
+            action: "SUCCESS",
           });
         })
         .catch((error) => {
@@ -205,9 +223,8 @@ const Offer = () => {
           Alert.alert("An Error occured", error.message);
           Analytics.trackEvent({
             interaction: InteractionTypes.BUTTON_PRESS,
-            component: "Ewa",
-            action: "OfferPush",
-            status: "Error",
+            screen: "amountSelection",
+            action: "ERROR",
             error: error.message,
           });
         });
@@ -227,7 +244,14 @@ const Offer = () => {
           // info={"Zero Interest charges, Nominal Processing Fees"}
           iconName="brightness-percent"
           amount={loanAmount}
-          setAmount={setLoanAmount}
+          setAmount={(val) => {
+            trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              screen: "amountSelection",
+              action: "SELECT",
+            });
+            setLoanAmount(val);
+          }}
           eligibleAmount={ewaLiveSlice.eligibleAmount}
           accountNumber={bank?.data?.accountNumber}
           bankName={bank?.data?.bankName}
@@ -239,7 +263,14 @@ const Offer = () => {
           value={consent}
           setValue={setConsent}
           additionalText={strings.termsAndConditions}
-          onPress={() => setIsTermsOfUseModalVisible(true)}
+          onPress={() => {
+            trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              screen: "amountSelection",
+              action: "AGREE",
+            });
+            setIsTermsOfUseModalVisible(true);
+          }}
         />
 
         <PrimaryButton
@@ -247,6 +278,11 @@ const Offer = () => {
           disabled={loading || !consent || !validAmount || updating}
           loading={loading}
           onPress={() => {
+            trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              screen: "amountSelection",
+              action: "CONTINUE",
+            });
             handleAmount();
           }}
         />

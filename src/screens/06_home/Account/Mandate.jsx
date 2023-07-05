@@ -2,8 +2,13 @@ import { useIsFocused } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { SafeAreaView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import Header from "../../../components/atoms/Header";
 import DetailsCard from "../../../components/molecules/DetailsCard";
+import {
+  InteractionTypes,
+  setSessionValue,
+  trackEvent,
+} from "../../../helpers/analytics/commonAnalytics";
+import { EWA_POLLING_DURATION } from "../../../services/constants";
 import { useGetMandateQuery } from "../../../store/apiSlices/mandateApi";
 import {
   addVerifyStatus,
@@ -11,7 +16,6 @@ import {
 } from "../../../store/slices/mandateSlice";
 import { styles } from "../../../styles";
 import MandateFormTemplate from "../../../templates/mandate/Form";
-import { EWA_POLLING_DURATION } from "../../../services/constants";
 
 const Mandate = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -33,6 +37,17 @@ const Mandate = ({ navigation }) => {
     mandateData?.body?.verifyStatus
   );
   console.log({ verifyStatus });
+  useEffect(() => {
+    setSessionValue("flow", "mandate");
+  }, []);
+
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "mandate",
+      action: "START",
+    });
+  }, []);
 
   useEffect(() => {
     if (isFocused && unipeEmployeeId) {
@@ -64,6 +79,7 @@ const Mandate = ({ navigation }) => {
     return res;
   };
 
+  
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       {authType && verifyStatus === "SUCCESS" ? (

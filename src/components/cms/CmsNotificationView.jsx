@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View } from "react-native";
 import { useSelector } from "react-redux";
+import {
+  InteractionTypes,
+  trackEvent,
+} from "../../helpers/analytics/commonAnalytics";
 import { navigationRef } from "../../navigators/RootNavigation";
 import { CMS_POLLING_DURATION } from "../../services/constants";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
@@ -17,11 +21,26 @@ const CmsNotificationView = () => {
     }
   );
 
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "notifications",
+      action: "START",
+    });
+  }, []);
+
   return (
     <View>
       <LogoHeaderBack
         title={cmsData?.notifications?.title}
-        onLeftIconPress={() => navigationRef.goBack()}
+        onLeftIconPress={() => {
+          trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            screen: "notifications",
+            action: "BACK",
+          });
+          navigationRef.goBack();
+        }}
       />
       <View>
         {!cmsData && cmsLoading ? (

@@ -36,9 +36,8 @@ const  AadhaarOtpApi = (props) => {
     showToast(responseJson?.body?.message || responseJson?.body?.verifyMsg);
     Analytics.trackEvent({
       interaction: InteractionTypes.BUTTON_PRESS,
-      component: "Aadhaar",
-      action: "Otp",
-      status: "Success",
+      screen: "aadhaar",
+      action: "CONTINUE",
     });
     setLoading(false);
     dispatch(addVerifyStatus(responseJson?.body?.verifyStatus));
@@ -56,9 +55,8 @@ const  AadhaarOtpApi = (props) => {
     );
     Analytics.trackEvent({
       interaction: InteractionTypes.BUTTON_PRESS,
-      component: "Aadhaar",
-      action: "Otp",
-      status: "Error",
+      screen: "aadhaar",
+      action: "ERROR",
       error: `generateAadhaarOTP API Catch Error: ${JSON.stringify(error)}`,
     });
     setLoading(false);

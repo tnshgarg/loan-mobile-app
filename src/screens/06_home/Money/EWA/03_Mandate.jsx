@@ -66,10 +66,17 @@ const Mandate = (props) => {
           "एडवांस सैलरी का भुगतान करने के लिए, कृपया निम्नलिखित भुगतान विधियों में से एक का चयन करें:"
         }
         onRightIconPress={() =>
-          navigationHelper({
-            type: "cms",
-            params: { blogKey: "mandate_help" },
-          })
+          {
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              screen: "mandate",
+              action: "HELP",
+            });
+            navigationHelper({
+              type: "cms",
+              params: { blogKey: "mandate_help" },
+            });
+          }
         }
       />
 

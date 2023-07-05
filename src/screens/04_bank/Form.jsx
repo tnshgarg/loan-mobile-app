@@ -6,6 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { strings } from "../../helpers/Localization";
+import {
+  InteractionTypes,
+  trackEvent,
+} from "../../helpers/analytics/commonAnalytics";
 import { CMS_POLLING_DURATION } from "../../services/constants";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
@@ -33,6 +37,11 @@ const BankForm = () => {
       {
         text: "Yes",
         onPress: () => {
+          trackEvent({
+            interaction: InteractionTypes.SCREEN_OPEN,
+            screen: "bank",
+            action: "BACK",
+          });
           verifyStatus === "SUCCESS"
             ? navigation.navigate("PanConfirm")
             : navigation.navigate("PanForm");
@@ -41,6 +50,14 @@ const BankForm = () => {
     ]);
     return true;
   };
+
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "bank",
+      action: "START",
+    });
+  }, []);
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
@@ -54,13 +71,20 @@ const BankForm = () => {
         headline={strings.addBankAccount}
         onLeftIconPress={() => backAction()}
         subHeadline={"आपको इस बैंक खाते/यूपीआई में एडवांस सैलरी भेजी जाएगी।"}
-        onRightIconPress={() =>
+        onRightIconPress={() => {
+          trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            screen: "bank",
+            action: "HELP",
+          });
           navigationHelper({
             type: "cms",
-            params: { blogKey: "bank_help", backScreen: {stack: "OnboardingStack", screen: "BankForm"}},
-            
-          })
-        }
+            params: {
+              blogKey: "bank_help",
+              backScreen: { stack: "OnboardingStack", screen: "BankForm" },
+            },
+          });
+        }}
       />
 
       <BankFormTemplate />

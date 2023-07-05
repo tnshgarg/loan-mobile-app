@@ -54,7 +54,16 @@ const AadhaarVerifyTemplate = (props) => {
   }, [countDownTime, verified]);
 
   useEffect(() => {
-    setValidOtp(otp.length === 6);
+    if (otp.length == 6) {
+      trackEvent({
+        interaction: InteractionTypes.SCREEN_OPEN,
+        screen: "aadhaarOtp",
+        action: "COMPLETE",
+      });
+      setValidOtp(true);
+    } else {
+      setValidOtp(false);
+    }
     return () => {};
   }, [otp]);
 

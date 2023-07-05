@@ -4,6 +4,10 @@ import { Alert, BackHandler, SafeAreaView } from "react-native";
 import { useEffect, useState } from "react";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { strings } from "../../helpers/Localization";
+import {
+  InteractionTypes,
+  trackEvent,
+} from "../../helpers/analytics/commonAnalytics";
 import { styles } from "../../styles";
 import AadhaarVerifyTemplate from "../../templates/aadhaar/Verify";
 
@@ -18,11 +22,29 @@ const AadhaarVerify = () => {
     } else {
       Alert.alert(strings.holdOn, strings.goBackEditAadhaar, [
         { text: "No", onPress: () => null, style: "cancel" },
-        { text: "Yes", onPress: () => navigation.navigate("AadhaarForm") },
+        {
+          text: "Yes",
+          onPress: () => {
+            trackEvent({
+              interaction: InteractionTypes.SCREEN_OPEN,
+              screen: "aadhaarOtp",
+              action: "BACK",
+            });
+            navigation.navigate("AadhaarForm");
+          },
+        },
       ]);
     }
     return true;
   };
+
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "aadhaarOtp",
+      action: "START",
+    });
+  }, []);
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);

@@ -2,16 +2,17 @@ import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { SafeAreaView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
 import FormInput from "../../../../components/atoms/FormInput";
-import DropDownForm from "../../../../components/molecules/DropDownForm";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import { showToast } from "../../../../components/atoms/Toast";
+import DropDownForm from "../../../../components/molecules/DropDownForm";
 import { relationPush } from "../../../../helpers/BackendPush";
 import {
-  nomineeRelations,
   employeeRelations,
+  nomineeRelations,
 } from "../../../../helpers/RelationData";
-import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
+import { navigate } from "../../../../navigators/RootNavigation";
 import { addESICFamilyDetails } from "../../../../store/slices/esicSlice";
 import { styles } from "../../../../styles";
 
@@ -128,7 +129,7 @@ export default Relation = () => {
               });
 
               showToast("Family details recorded.", "success");
-              navigation.navigate("Benefits", {
+              navigate("Benefits", {
                 screen: "ESIC",
                 params: {
                   screen: "Employee Address",

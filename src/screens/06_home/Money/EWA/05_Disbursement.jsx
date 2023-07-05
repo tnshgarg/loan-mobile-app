@@ -12,6 +12,11 @@ import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 import { COLORS, FONTS } from "../../../../constants/Theme";
 import { strings } from "../../../../helpers/Localization";
 import {
+  InteractionTypes,
+  trackEvent,
+} from "../../../../helpers/analytics/commonAnalytics";
+import { navigate } from "../../../../navigators/RootNavigation";
+import {
   useDisbursementFeedbackMutation,
   useGetDisbursementQuery,
 } from "../../../../store/apiSlices/ewaApi";
@@ -47,12 +52,25 @@ const Disbursement = ({ route, navigation }) => {
   console.log({ status });
 
   const backAction = () => {
-    navigation.navigate("HomeStack", {
+    trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "requestProcessed",
+      action: "BACK",
+    });
+    navigate("HomeStack", {
       screen: "Money",
       params: { screen: "EWA" },
     });
     return true;
   };
+
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "requestProcessed",
+      action: "START",
+    });
+  }, []);
 
   useEffect(() => {
     dispatch(addCurrentScreen("EWA_Disbursement"));
@@ -174,9 +192,19 @@ const Disbursement = ({ route, navigation }) => {
       .then((res) => {
         console.log("ewa/disbursement-feedback res: ", res);
         const responseJson = res?.data;
+        trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          screen: "requestProcessed",
+          action: "SUCCESS",
+        });
         console.log("ewa/disbursement-feedback responseJson: ", responseJson);
       })
       .catch((error) => {
+        trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          screen: "requestProcessed",
+          action: "ERROR",
+        });
         console.log("ewa/disbursement-feedback error:", error);
       });
   };
@@ -185,9 +213,7 @@ const Disbursement = ({ route, navigation }) => {
     <SafeAreaView style={styles.safeContainer}>
       {enableFeedback ? (
         <LogoHeaderBack
-          onRightIconPress={() => {
-            
-          }}
+          onRightIconPress={() => {}}
           hideLogo={true}
           containerStyle={{ backgroundColor: null }}
         />
@@ -226,7 +252,14 @@ const Disbursement = ({ route, navigation }) => {
               borderWidth: 1.5,
               borderColor: COLORS.black,
             }}
-            onPress={backAction}
+            onPress={() => {
+              trackEvent({
+                interaction: InteractionTypes.BUTTON_PRESS,
+                screen: "requestProcessed",
+                action: "THANKYOU",
+              });
+              backAction();
+            }}
             titleStyle={{ color: COLORS.black }}
           />
         ) : (

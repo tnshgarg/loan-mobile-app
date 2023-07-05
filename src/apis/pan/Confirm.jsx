@@ -73,26 +73,38 @@ const PanConfirmApi = (props) => {
   return (
     <View style={styles.container}>
       <DetailsCard data={cardData()} />
-      {loading ? <View style={{marginTop: 20}}>
-        <ActivityIndicator size={"large"} color={COLORS.secondary}/> 
-        </View>: <></> 
-      }
-      <View style={[styles.row, { justifyContent: "space-between", display: loading ? "none": null }]}>
+      {loading ? (
+        <View style={{ marginTop: 20 }}>
+          <ActivityIndicator size={"large"} color={COLORS.secondary} />
+        </View>
+      ) : (
+        <></>
+      )}
+      <View
+        style={[
+          styles.row,
+          { justifyContent: "space-between", display: loading ? "none" : null },
+        ]}
+      >
         <FuzzyCheck name={data?.["name"]} step="PAN" />
         <PrimaryButton
           title={strings.notMe}
           containerStyle={form.noButton}
           titleStyle={{ ...FONTS.h3, color: COLORS.black }}
           onPress={() => {
-            backendPush({
-              verifyStatus: "REJECTED",
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              screen: "panOk",
+              action: "CONTINUE",
             });
             Analytics.trackEvent({
               interaction: InteractionTypes.BUTTON_PRESS,
-              component: "Pan",
-              action: "Confirm",
-              status: "Error",
+              screen: "panOk",
+              action: "REJECT",
               error: "Rejected by User",
+            });
+            backendPush({
+              verifyStatus: "REJECTED",
             });
           }}
         />
@@ -103,14 +115,18 @@ const PanConfirmApi = (props) => {
           color={COLORS.primary}
           titleStyle={{ ...FONTS.h3, color: COLORS.white }}
           onPress={() => {
-            backendPush({
-              verifyStatus: "SUCCESS",
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              screen: "panOk",
+              action: "CONTINUE",
             });
             Analytics.trackEvent({
               interaction: InteractionTypes.BUTTON_PRESS,
-              component: "Pan",
-              action: "Confirm",
-              status: "Success",
+              screen: "panOk",
+              action: "SUCCESS",
+            });
+            backendPush({
+              verifyStatus: "SUCCESS",
             });
           }}
         />

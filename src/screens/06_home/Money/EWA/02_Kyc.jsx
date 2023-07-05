@@ -76,9 +76,21 @@ const KYC = () => {
       }
     })
   },[])
-  
+
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "confirmKyc",
+      action: "BACK",
+    });
+  }, []);
 
   const backAction = () => {
+    trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "confirmKyc",
+      action: "BACK",
+    });
     navigation.navigate("EWA_OFFER");
     return true;
   };
@@ -102,12 +114,16 @@ const KYC = () => {
     };
     updateKyc(payload)
       .then((response) => {
-        console.log("updateKycMutateAsync response.data: ", response, mandateData);
+        console.log(
+          "updateKycMutateAsync response.data: ",
+          response,
+          mandateData
+        );
         setLoading(false);
         Analytics.trackEvent({
-          component: "Ewa",
-          action: "Kyc",
-          status: "Success",
+          interaction: InteractionTypes.BUTTON_PRESS,
+          screen: "confirmKyc",
+          action: "SUCCESS",
         });
         if (mandateData?.verifyStatus === "SUCCESS") {
           navigation.navigate("EWA_AGREEMENT");
@@ -121,9 +137,8 @@ const KYC = () => {
         Alert.alert("An Error occured", error.message);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "Ewa",
-          action: "Kyc",
-          status: "Error",
+          screen: "confirmKyc",
+          action: "ERROR",
           error: error.message,
         });
       });
@@ -165,6 +180,11 @@ const KYC = () => {
           title={loading ? strings.verifying : strings.confirmMyKyc}
           disabled={loading}
           onPress={() => {
+            Analytics.trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              screen: "confirmKyc",
+              action: "CONTINUE",
+            });
             handleKyc();
           }}
         />

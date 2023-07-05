@@ -45,9 +45,8 @@ const BankVerifyApi = (props) => {
     }
     Analytics.trackEvent({
       interaction: InteractionTypes.BUTTON_PRESS,
-      component: "Bank",
-      action: "Verify",
-      status: "Success",
+      screen: "bank",
+      action: "CONTINUE",
     });
     setLoading(false);
   };
@@ -57,9 +56,8 @@ const BankVerifyApi = (props) => {
     Alert.alert("verifyBankAccount API Catch Error", JSON.stringify(error));
     Analytics.trackEvent({
       interaction: InteractionTypes.BUTTON_PRESS,
-      component: "Bank",
-      action: "Verify",
-      status: "Error",
+      screen: "bank",
+      action: "ERROR",
       error: `verifyBankAccount API Catch Error: ${JSON.stringify(
         error
       )}, ${JSON.stringify(res)}`,

@@ -174,9 +174,8 @@ const PayMoneyCard = () => {
       };
       Analytics.trackEvent({
         interaction: InteractionTypes.BUTTON_PRESS,
-        component: "Ewa",
-        action: "Repayment",
-        status: "Success",
+        screen: "money",
+        action: "PAYNOW",
       });
     } catch (error) {
       console.log("ewaRepayment Checkout error: ", error);
@@ -188,9 +187,8 @@ const PayMoneyCard = () => {
       };
       Analytics.trackEvent({
         interaction: InteractionTypes.BUTTON_PRESS,
-        component: "Ewa",
-        action: "Repayment",
-        status: "Error",
+        screen: "money",
+        action: "PAYNOW_ERROR",
       });
     } finally {
       backendPush({
@@ -208,6 +206,11 @@ const PayMoneyCard = () => {
   };
 
   const initiatePayment = async () => {
+    Analytics.trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "money",
+      action: "PAYNOW",
+    });
     if (repaymentAmount > 0) {
       try {
         setLoading(true);
@@ -225,9 +228,8 @@ const PayMoneyCard = () => {
         Alert.alert("Error", error.message);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "Ewa",
-          action: "Repayment",
-          status: "Error",
+          screen: "money",
+          action: "PAYNOW_ERROR",
           error: JSON.stringify(error),
         });
         setLoading(false);

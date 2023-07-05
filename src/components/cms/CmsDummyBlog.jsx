@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
 import { Alert, BackHandler, ScrollView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { navigate } from "../../navigators/RootNavigation";
 import { CMS_POLLING_DURATION } from "../../services/constants";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { styles } from "../../styles";
@@ -47,11 +48,11 @@ const CmsDummyBlog = (props) => {
         { text: "No", onPress: () => null, style: "cancel" },
         { text: "Yes", onPress: () => {
           dispatch({"action": "Logout"})
-          navigation.navigate("Login")
+          navigate("OnboardingStack", { screen: "Login" });
         }},
       ]);
     } else if (backScreen) {
-      navigation.navigate(backScreen.stack, {screen: backScreen.screen})
+      navigate(backScreen.stack, { screen: backScreen.screen });
     } else {
       navigation.goBack()
     }

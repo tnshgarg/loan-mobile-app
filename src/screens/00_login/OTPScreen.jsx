@@ -22,6 +22,7 @@ import { strings } from "../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
+import { navigate } from "../../navigators/RootNavigation";
 import { useLazyGetKycQuery } from "../../store/apiSlices/kycApi";
 import {
   useGenerateOtpMutation,
@@ -43,12 +44,23 @@ const OTPScreen = () => {
   const [back, setBack] = useState(false);
 
   const countDownTime = useSelector((state) => state.timer.login);
-  const {phoneNumber,unipeEmployeeId,token} = useSelector((state) => state.auth || {});
+  const { phoneNumber, unipeEmployeeId, token } = useSelector(
+    (state) => state.auth || {}
+  );
   const [trigger, result, lastPromiseInfo] = useLazyGetKycQuery();
-  const [postVerifyOtp,{isLoading: verifyOtpLoading}] = useVerifyOtpMutation();
+  const [postVerifyOtp, { isLoading: verifyOtpLoading }] =
+    useVerifyOtpMutation();
   const [postGenerateOtp] = useGenerateOtpMutation();
 
   let interval;
+
+  useEffect(() => {
+    Analytics.trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "otp",
+      action: "START",
+    });
+  }, []);
 
   useEffect(() => {
     interval = BackgroundTimer.setInterval(() => {
@@ -66,8 +78,6 @@ const OTPScreen = () => {
     return () => BackgroundTimer.clearInterval(interval);
   }, [countDownTime, verified]);
 
-  
-
   const backAction = () => {
     console.log(back);
     if (!back) {
@@ -80,7 +90,12 @@ const OTPScreen = () => {
                 text: "Don't leave",
                 style: "destructive",
                 onPress: () => {
-                  navigation.navigate("Otp");
+                  Analytics.trackEvent({
+                    interaction: InteractionTypes.BUTTON_PRESS,
+                    screen: "otp",
+                    action: "BACK",
+                  });
+                  navigate("OnboardingStack", { screen: "Otp" });
                 },
               },
             ]
@@ -94,28 +109,36 @@ const OTPScreen = () => {
         {
           text: "No",
           onPress: () =>
-            Platform.OS === "ios" ? navigation.navigate("Otp") : null,
+            Platform.OS === "ios"
+              ? navigate("OnboardingStack", { screen: "Otp" })
+              : null,
           style: "cancel",
         },
-        { text: "Yes", onPress: () => navigation.navigate("Login") },
+        {
+          text: "Yes",
+          onPress: () => navigate("OnboardingStack", { screen: "Login" }),
+        },
       ]);
     }
     return true;
   };
-  
+
   const onResendOtp = () => {
+    Analytics.trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "otp",
+      action: "RESENDOTP",
+    });
     postGenerateOtp(phoneNumber)
       .unwrap()
       .then((res) => {
         console.log({ res });
-
         setOtp("");
         setBack(false);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "OTPScreen",
-          action: "SendSms",
-          status: "Success",
+          screen: "otp",
+          action: "RESENDOTPSUCCESS",
         });
         Alert.alert("OTP resent successfully", "", [
           {
@@ -130,9 +153,8 @@ const OTPScreen = () => {
       .catch((error) => {
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "OTPScreen",
-          action: "SendSms",
-          status: "Error",
+          screen: "otp",
+          action: "RESENDOTPERROR",
           error: error.message,
         });
         console.log(error, error.message);
@@ -140,65 +162,67 @@ const OTPScreen = () => {
         // Alert.alert("Error", error.message);
       });
   };
-  
-  const handleNavigation = (token,unipeEmployeeId)  => {
+
+  const handleNavigation = (token, unipeEmployeeId) => {
     if (token) {
       trigger(unipeEmployeeId, false)
-          .then(({ data }) => {
-            if(data?.kycCompleted)
-              navigation.navigate("HomeStack")
-            else
-              navigationHelper({
-                  type: "cms",
-                  params: { blogKey: "login_success" },
-                })
-          }).catch((err) => console.log(err));
+        .then(({ data }) => {
+          if (data?.kycCompleted) navigate("HomeStack", { screen: "Home" });
+          else
+            navigationHelper({
+              type: "cms",
+              params: { blogKey: "login_success" },
+            });
+        })
+        .catch((err) => console.log(err));
     } else if (!phoneNumber) {
-      navigation.navigate("Login")
+      navigate("OnboardingStack", { screen: "Login" });
     }
-  }
+  };
   const onSubmitOtp = () => {
+    Analytics.trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "otp",
+      action: "CONTINUE",
+    });
     postVerifyOtp({ mobileNumber: phoneNumber, otp: otp })
       .unwrap()
       .then((res) => {
         dispatch(addToken(res["token"]));
-        handleNavigation(res["token"],res?.employeeDetails?.unipeEmployeeId);
+        handleNavigation(res["token"], res?.employeeDetails?.unipeEmployeeId);
         setVerified(true);
-
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "OTPScreen",
-          action: "Check",
-          status: "Success",
+          screen: "otp",
+          action: "SUCCESS",
         });
       })
       .catch((error) => {
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "OTPScreen",
-          action: "Check",
-          status: "Error",
+          screen: "otp",
+          action: "INVALID",
           error: error?.message || error?.error?.message,
         });
         console.log(error);
         // Alert.alert("Error", error?.message || error?.error?.message);
         showToast(error?.message || error?.error?.message, "error");
         if (error?.status != 406) {
-          setOtp("")
-          navigation.navigate("Login");
+          setOtp("");
+          navigate("OnboardingStack", { screen: "Login" });
         }
       });
   };
 
   useEffect(() => {
-    console.log("back handler subscribe called")
+    console.log("back handler subscribe called");
     dispatch(addCurrentScreen("Otp"));
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    handleNavigation(token, unipeEmployeeId)
+    handleNavigation(token, unipeEmployeeId);
     return () => {
-      console.log("back handler unsubscribe called")
+      console.log("back handler unsubscribe called");
       BackHandler.removeEventListener("hardwareBackPress", backAction);
-    }
+    };
   }, []);
 
   let isValidOtp = otp.length == 6;
@@ -235,7 +259,7 @@ const OTPScreen = () => {
               activeOpacity={0.7}
               onPress={() => {
                 back
-                  ? navigation.navigate("Login")
+                  ? navigate("OnboardingStack", { screen: "Login" })
                   : Alert.alert(
                       "OTP Timer",
                       "You must wait for 2 minutes to edit number."

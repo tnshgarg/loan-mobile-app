@@ -30,9 +30,9 @@ const UpdateDialog = () => {
           console.log("Up to date");
           Analytics.trackEvent({
             interaction: InteractionTypes.APP_UPDATE,
-            component: "UpdateDialog",
-            action: "InstallUpdate",
-            status: "Success",
+            flow: "popup",
+            screen: "popup",
+            action: "UPDATEAPP",
           });
           setShow(false);
           break;

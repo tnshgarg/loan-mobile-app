@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Platform,
   ScrollView,
@@ -9,6 +9,7 @@ import {
 import EStyleSheet from "react-native-extended-stylesheet";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { setSessionValue } from "../../helpers/analytics/commonAnalytics";
 import BottomSheetWrapper from "../atoms/BottomSheetWrapper";
 import PrimaryButton from "../atoms/PrimaryButton";
 import Rating from "../atoms/Rating";
@@ -24,6 +25,11 @@ const FeedbackAlert = ({
 }) => {
   const [visible, setVisible] = useState(true);
   const [rating, setRating] = ratingHook || [];
+
+  useEffect(() => {
+    setSessionValue("flow", "feedback");
+  }, []);
+
   return (
     <BottomSheetWrapper open={visible} setOpen={setVisible}>
       <Text style={styles.header}>Rate your experience</Text>

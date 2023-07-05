@@ -50,23 +50,23 @@ export const kycNavigate = (kycData, navigation) => {
     let kycStage = getKYCStage(isProfileSuccess, aadhaar, pan, bank)
     console.log({kycData, kycStage, redirectScreen: redirectScreen[kycStage]})
     if (!kycStage) {
-        navigation.navigate("HomeStack", {
-            screen: "Home"
-        })
+        navigate("HomeStack", {
+          screen: "Home",
+        });
     }
 
     if (kycStage == KS.COMPLETE) {
         
-        navigation.navigate("CmsStack", {
-            screen: "CmsDummyBlog",
-            params: {blogKey: "kyc_success"}
-        })
+        navigate("CmsStack", {
+          screen: "CmsDummyBlog",
+          params: { blogKey: "kyc_success" },
+        });
         return;
     }
-    navigation.navigate("EWAStack", {
+    navigate("EWAStack", {
       screen: "EWA_KYC_STACK",
       params: {
-        screen: redirectScreen[kycStage]
+        screen: redirectScreen[kycStage],
       },
     });
   };

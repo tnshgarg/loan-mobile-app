@@ -53,9 +53,9 @@ const StackNavigator = () => {
       console.error("Token is not present");
       Analytics.trackEvent({
         interaction: InteractionTypes.CAMPAIGN_URL,
-        component: "STACK_NAVIGATOR",
-        action: "campaign_url_open",
-        status: "WAITING_LOGIN",
+        flow: "campaign_url_open",
+        screen: "login",
+        action: "ERROR",
         error: "user token is not present",
       });
       dispatch(setPendingUrl(url));
@@ -74,16 +74,16 @@ const StackNavigator = () => {
       );
       Analytics.trackEvent({
         interaction: InteractionTypes.CAMPAIGN_URL,
-        component: "STACK_NAVIGATOR",
-        action: "campaign_url_open",
-        status: "SUCCESS",
+        flow: "campaign_url_open",
+        screen: "login",
+        action: "SUCCESS",
       });
     } catch (err) {
       Analytics.trackEvent({
         interaction: InteractionTypes.CAMPAIGN_URL,
-        component: "STACK_NAVIGATOR",
-        action: "campaign_url_open",
-        status: "ERROR",
+        flow: "campaign_url_open",
+        screen: "login",
+        action: "ERROR",
         error: JSON.stringify({ message: err.message, stack: err.stack }),
       });
       console.error(err);

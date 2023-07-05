@@ -11,15 +11,18 @@ const analyticsSession = {
 }
 
 let firebaseAnalytics = null;
-export const InteractionTypes =  {
-    "BANNER_TAP": "BP",
-    "BUTTON_PRESS": "BP",
-    "SCREEN_OPEN": "SO",
-    "INPUT": "INP",
-    "IN_APP_NOTIFICATION": "IAN",
-    "CAMPAIGN_URL": "CU",
-    "APP_UPDATE" : "AU"
-}
+
+export const InteractionTypes = {
+  BANNER_TAP: "BP",
+  BUTTON_PRESS: "BP",
+  SCREEN_OPEN: "SO",
+  INPUT: "INP",
+  IN_APP_NOTIFICATION: "IAN",
+  CAMPAIGN_URL: "CU",
+  APP_UPDATE: "AU",
+  APP_CLOSED: "AC",
+  NAVIGATION: "NA",
+};
 
 export async function trackEvent(
     event
@@ -28,16 +31,24 @@ export async function trackEvent(
     analyticsSession.logCount += 1
     console.log("trackEvent",event, analyticsSession.logCount, analyticsSession.campaignClick);
     const analyticsEvent = {
-        session: analyticsSession,
-        user: appState?.auth?.unipeEmployeeId,
-        campaign: appState?.campaign,
-        eventTime: new Date().getTime() / 1000,
-        event: event || {}
-    }
-    const codepushEventName = `${event.component}|${event.action}|${event.status}`
-    const analyticsEventName = `${event.component}_${event.action}_${event.status}`.replace(":","__")
-    Analytics.trackEvent(codepushEventName, analyticsEvent.event).catch(console.error)
-    firebaseAnalytics.logEvent(analyticsEventName, {unipeEmployeeId: analyticsEvent.user})
+      session: analyticsSession,
+      user: appState?.auth?.unipeEmployeeId,
+      campaign: appState?.campaign,
+      eventTime: new Date().getTime() / 1000,
+      event: event || {},
+    };
+    const codepushEventName = `${event.flow}|${event.screen}|${event.action}`;
+    // const analyticsEventName = `${event.component}_${event.action}_${event.status}`.replace(":","__")
+    const analyticsEventName =
+      `${event.flow}_${event.screen}_${event.action}`.replace(":", "__");
+    Analytics.trackEvent(codepushEventName, analyticsEvent.event).catch(
+      console.error
+    );
+    const firebaseAnalyticsEventName = analyticsEventName.substring(0, 40);
+    firebaseAnalytics.logEvent(firebaseAnalyticsEventName, {
+      unipeEmployeeId: analyticsEvent.user,
+      ...(event.properties || {}),
+    });
     UnipeAnalyticsAPI.post("/",analyticsEvent
     ).then(r => console.log("AnalyticsResponse:",r?.data)).catch(console.error)
 }
