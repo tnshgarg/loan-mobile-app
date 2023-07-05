@@ -152,20 +152,6 @@ const Disbursement = ({ route, navigation }) => {
     }
   }, [getDisbursementIsSuccess, getDisbursementData]);
 
-  useEffect(() => {
-    setDueDate(offer?.dueDate);
-    setLoanAccountNumber(offer?.loanAccountNumber);
-    setLoanAmount(offer?.loanAmount);
-    let pf = (parseInt(offer?.loanAmount) * offer?.fees) / 100;
-    let pF;
-    if (parseInt(pf) % 10 < 4) {
-      pF = Math.max(9, Math.floor(pf / 10) * 10 - 1);
-    } else {
-      pF = Math.max(9, Math.floor((pf + 10) / 10) * 10 - 1);
-    }
-    setNetAmount(parseInt(offer?.loanAmount) - pF);
-  }, [offer]);
-
   const data = [
     { subTitle: strings.loanAmount, value: "₹" + loanAmount },
     { subTitle: strings.netTransferAmount, value: "₹" + netAmount },
