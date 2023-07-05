@@ -1,4 +1,4 @@
-
+import { navigate } from "../../navigation/RootNavigation";
 // KS stands for KYC_STATE which can be used to redirect user in any flow
 const KS = {
     PROFILE_FORM: 0,
