@@ -1,7 +1,7 @@
-import { View, Text, TextInput, TouchableWithoutFeedback } from "react-native";
+import { useEffect } from "react";
+import { Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { useEffect } from "react";
 
 const OtpInput = ({ otp, setOtp, inputRef, accessibilityLabel }) => {
   useEffect(() => {
@@ -71,7 +71,7 @@ const styles = EStyleSheet.create({
     width: "70%",
     alignSelf: "center",
     marginVertical: 40,
-    height: 50,
+    height: 80,
   },
   empty: {
     width: 16,
