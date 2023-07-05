@@ -14,22 +14,24 @@ const SubmitFeedback = () => {
   const [recording, setRecording] = useState(false);
 
   useEffect(() => {
-    Alert.alert(
-      "Camera Permission Request",
-      "We need Camera Permissions to record your story",
-      [
-        {
-          text: "Cancel",
-          onPress: () => navigationRef.goBack(),
-          style: "cancel",
-        },
-        {
-          text: "Okay",
-          onPress: () =>
-            PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA),
-        },
-      ]
-    );
+    if (!PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.CAMERA)) {
+      Alert.alert(
+        "Camera Permission Request",
+        "We need Camera Permissions to record your story",
+        [
+          {
+            text: "Cancel",
+            onPress: () => navigationRef.goBack(),
+            style: "cancel",
+          },
+          {
+            text: "Okay",
+            onPress: () =>
+              PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA),
+          },
+        ]
+      );
+    }
   }, []);
 
   const { unipeEmployeeId } = useSelector((state) => state.auth);
@@ -47,7 +49,7 @@ const SubmitFeedback = () => {
         videoQuality: "high",
       };
 
-      launchCamera(options, (response) => {
+      launchCamera(cmsData?.cameraProperties || options, (response) => {
         if (response.didCancel) {
           console.log("Video recording cancelled");
         } else if (response.error) {
@@ -64,7 +66,6 @@ const SubmitFeedback = () => {
           });
         }
       });
-      setRecording(true);
     }
   };
 
@@ -100,6 +101,10 @@ const SubmitFeedback = () => {
         ],
       },
     ],
+    properties: {
+      mediaType: "video",
+      videoQuality: "high",
+    },
   };
 
   return (

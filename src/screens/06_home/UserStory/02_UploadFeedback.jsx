@@ -9,7 +9,7 @@ import CmsRoot from "../../../components/cms/CmsRoot";
 import LogoHeaderBack from "../../../components/molecules/LogoHeaderBack";
 import VideoDisplayer from "../../../components/organisms/VideoDisplayer";
 import { FONTS } from "../../../constants/Theme";
-import { navigationRef } from "../../../navigators/RootNavigation";
+import { navigate, navigationRef } from "../../../navigators/RootNavigation";
 import { CMS_POLLING_DURATION } from "../../../services/constants";
 import { useGetCmsQuery } from "../../../store/apiSlices/cmsApi";
 
@@ -18,7 +18,7 @@ const UploadFeedback = ({ route }) => {
 
   const { videoUri } = route.params;
 
-  const { unipeEmployeeId } = useSelector((state) => state.auth);
+  const { unipeEmployeeId, token } = useSelector((state) => state.auth);
   const { data: cmsData, isLoading: cmsLoading } = useGetCmsQuery(
     unipeEmployeeId,
     {
@@ -31,15 +31,32 @@ const UploadFeedback = ({ route }) => {
     formData.append("video", {
       uri: videoUri,
       type: "video/mp4",
-      name: "userStory.mp4",
+      name: `${unipeEmployeeId}.mp4`,
+      params: {
+        unipeEmployeeId: unipeEmployeeId,
+        token: token,
+      },
     });
 
+    console.log("Form data: ", formData);
+
     try {
-      // const response = await axios.post("", formData);
+      // const response = await axios
+      //   .post(`${EMPLOYEE_API_URL}/userstory`, {
+      //     params: {
+      //       unipeEmployeeId: unipeEmployeeId,
+      //       token: token,
+      //       uri: videoUri,
+      //       type: "video/mp4",
+      //       name: `${unipeEmployeeId}.mp4`,
+      //     },
+      //   })
+      //   .then((data) => console.log("Request made: ", data))
+      //   .catch((error) => console.log("error occured: ", error));
       // console.log("Video uploaded successfully:", response.data);
       setFeedbackSubmitted(true);
     } catch (error) {
-      console.log("Error uploading video:", error);
+      console.log("Error uploading video:", error.toString());
     }
   };
 
@@ -133,10 +150,9 @@ const UploadFeedback = ({ route }) => {
           <PrimaryButton title="Submit" onPress={() => uploadVideo(videoUri)} />
           <TouchableOpacity
             onPress={() => {
-              //   navigate("AccountStack", {
-              //     screen: "SubmitFeedback",
-              //   });
-              navigationRef.goBack();
+              navigate("AccountStack", {
+                screen: "SubmitFeedback",
+              });
             }}
           >
             <Text
