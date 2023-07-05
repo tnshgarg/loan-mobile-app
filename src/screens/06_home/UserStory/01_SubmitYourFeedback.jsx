@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { PermissionsAndroid, View } from "react-native";
+import { Alert, PermissionsAndroid, View } from "react-native";
 import { launchCamera } from "react-native-image-picker";
 import { useSelector } from "react-redux";
 import PrimaryButton from "../../../components/atoms/PrimaryButton";
@@ -14,7 +14,22 @@ const SubmitFeedback = () => {
   const [recording, setRecording] = useState(false);
 
   useEffect(() => {
-    PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
+    Alert.alert(
+      "Camera Permission Request",
+      "We need Camera Permissions to record your story",
+      [
+        {
+          text: "Cancel",
+          onPress: () => navigationRef.goBack(),
+          style: "cancel",
+        },
+        {
+          text: "Okay",
+          onPress: () =>
+            PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA),
+        },
+      ]
+    );
   }, []);
 
   const { unipeEmployeeId } = useSelector((state) => state.auth);
