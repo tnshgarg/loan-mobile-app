@@ -238,8 +238,8 @@ const HomeView = () => {
         ) : (
           <CmsRoot children={cmsData?.home || []}></CmsRoot>
         )}
-
-        {!cmsData && cmsLoading ? (
+      </ScrollView>
+      {!cmsData && cmsLoading ? (
           <></>
         ) : (
           <CmsRoot children={cmsData?.bottom_alert || []}></CmsRoot>
@@ -249,7 +249,7 @@ const HomeView = () => {
         ) : (
           <></>
         )}
-        <View
+      <View
           style={{
             width: "100%",
             backgroundColor: COLORS.primary,
@@ -258,11 +258,10 @@ const HomeView = () => {
             padding: 10,
           }}
         >
-          <Text style={{ ...FONTS.body4, color: COLORS.white }}>
-            {strings.rbiApprovedLendingPartners}
-          </Text>
-        </View>
-      </ScrollView>
+        <Text style={{ ...FONTS.body4, color: COLORS.white }}>
+          {strings.rbiApprovedLendingPartners}
+        </Text>
+      </View>
     </SafeAreaView>
   );
 };
