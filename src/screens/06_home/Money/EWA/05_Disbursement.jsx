@@ -213,7 +213,9 @@ const Disbursement = ({ route, navigation }) => {
     <SafeAreaView style={styles.safeContainer}>
       {enableFeedback ? (
         <LogoHeaderBack
-          onRightIconPress={() => {}}
+          onRightIconPress={() => {
+            navigate("CmsStack", {screen: "CmsScreenOne", params: {blogKey: "salary_info"}})
+          }}
           hideLogo={true}
           containerStyle={{ backgroundColor: null }}
         />
@@ -223,7 +225,9 @@ const Disbursement = ({ route, navigation }) => {
           onLeftIconPress={() => {
             backAction();
           }}
-          onRightIconPress={() => {}}
+          onRightIconPress={() => {
+            navigate("CmsStack", {screen: "CmsScreenOne", params: {blogKey: "salary_info"}})
+          }}
           titleStyle={{ ...FONTS.body3 }}
         />
       )}

@@ -210,7 +210,6 @@ const Offer = () => {
       updateOffer(data)
         .then((response) => {
           console.log("updateOfferMutateAsync response.data: ", response.data);
-          setLoading(false);
           handleConditionalNav();
           Analytics.trackEvent({
             interaction: InteractionTypes.BUTTON_PRESS,
@@ -220,7 +219,6 @@ const Offer = () => {
         })
         .catch((error) => {
           console.log("updateOfferMutateAsync error: ", error.message);
-          setLoading(false);
           Alert.alert("An Error occured", error.message);
           Analytics.trackEvent({
             interaction: InteractionTypes.BUTTON_PRESS,
@@ -228,6 +226,8 @@ const Offer = () => {
             action: "ERROR",
             error: error.message,
           });
+        }).finally(() => {
+          setLoading(false);
         });
     }
   }

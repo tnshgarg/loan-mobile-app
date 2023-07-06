@@ -7,6 +7,7 @@ import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
 import VerifyMandateCard from "../../../../components/molecules/VerifyMandateCard";
 import LiveOfferCard from "../../../../components/organisms/LiveOfferCard";
+import { navigationHelper } from "../../../../helpers/CmsNavigationHelper";
 import { getNumberOfDays } from "../../../../helpers/DateFunctions";
 import {
   InteractionTypes,
