@@ -1,3 +1,4 @@
+import { navigate } from "../../navigators/RootNavigation";
 // KS stands for KYC_STATE which can be used to redirect user in any flow
 const KS = {
   PROFILE_FORM: 0,
@@ -50,19 +51,19 @@ export const kycNavigate = (kycData, navigation) => {
   let kycStage = getKYCStage(isProfileSuccess, aadhaar, pan, bank);
   console.log({ kycData, kycStage, redirectScreen: redirectScreen[kycStage] });
   if (!kycStage) {
-    navigation.navigate("HomeStack", {
+    navigate("HomeStack", {
       screen: "Home",
     });
   }
 
   if (kycStage == KS.COMPLETE) {
-    navigation.navigate("CmsStack", {
+    navigate("CmsStack", {
       screen: "CmsScreenOne",
       params: { blogKey: "kyc_success" },
     });
     return;
   }
-  navigation.navigate("EWAStack", {
+  navigate("EWAStack", {
     screen: "EWA_KYC_STACK",
     params: {
       screen: redirectScreen[kycStage],
