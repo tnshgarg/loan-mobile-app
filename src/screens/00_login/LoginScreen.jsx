@@ -240,14 +240,12 @@ const LoginScreen = () => {
   }, []);
 
   const goToLocalization = async () => {
+    setStartClicked(false)
     dispatch(addLanguage(""));
-    // navigation.navigate("OnboardingStack", { screen: "Localization" });
     navigate("OnboardingStack", { screen: "Localization" });
   };
 
-  const goToLanding = () => {
-    setStartClicked(false);
-  };
+  
   return (
     <SafeAreaView accessibilityLabel="LoginScreen" style={styles.safeContainer}>
       {startClicked ? (
@@ -260,7 +258,7 @@ const LoginScreen = () => {
               color={COLORS.secondary}
             />
           }
-          leftOnPress={() => goToLanding()}
+          leftOnPress={() => goToLocalization()}
           // rightIcon={
           //   <Icon name="logo-whatsapp" size={28} color={COLORS.primary} />
           // }

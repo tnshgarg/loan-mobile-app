@@ -1,5 +1,5 @@
-import { api } from "./api";
 import { getVersion } from "react-native-device-info";
+import { api } from "./api";
 
 export const repaymentApi = api
   .enhanceEndpoints({ addTagTypes: ["getRepayment"] })
@@ -26,6 +26,7 @@ export const repaymentApi = api
         invalidatesTags: ["getRepayment", "getOffers"],
       }),
     }),
+    overrideExisting: true,
   });
 
 export const { useGetRepaymentQuery, useUpdateRepaymentMutation } =

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CmsLoading from "../../components/cms/CmsLoading";
 import CmsRoot from "../../components/cms/CmsRoot";
 import {
+  InteractionTypes,
   setSessionValue,
   trackEvent,
 } from "../../helpers/analytics/commonAnalytics";

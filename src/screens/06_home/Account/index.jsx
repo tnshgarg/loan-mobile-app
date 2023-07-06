@@ -9,13 +9,11 @@ import CmsRoot from "../../../components/cms/CmsRoot";
 import TermsAndPrivacyModal from "../../../components/molecules/TermsAndPrivacyModal";
 import LogoutModal from "../../../components/organisms/LogoutModal";
 import { strings } from "../../../helpers/Localization";
-import { setSessionValue } from "../../../helpers/analytics/commonAnalytics";
+import { InteractionTypes, setSessionValue, trackEvent } from "../../../helpers/analytics/commonAnalytics";
 import {
-  CMS_POLLING_DURATION,
-  KYC_POLLING_DURATION,
+  CMS_POLLING_DURATION
 } from "../../../services/constants";
 import { useGetCmsQuery } from "../../../store/apiSlices/cmsApi";
-import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
 import { styles } from "../../../styles";
 
 const AccountMenu = (props) => {
@@ -26,29 +24,7 @@ const AccountMenu = (props) => {
   const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
     useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-
-  const [kycCompleted, setKycCompleted] = useState(false);
-
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: KYC_POLLING_DURATION,
-  });
-  const {
-    isAadhaarSuccess,
-    isPanSuccess,
-    isBankSuccess,
-    isProfileSuccess,
-    profile,
-    aadhaar,
-    pan,
-    bank,
-  } = kycData ?? {};
-
-  useEffect(() => {
-    if (isAadhaarSuccess && isPanSuccess && isBankSuccess && isProfileSuccess) {
-      setKycCompleted(true);
-    }
-  }, [isAadhaarSuccess, isPanSuccess, isBankSuccess, isProfileSuccess]);
 
   useEffect(() => {
     trackEvent({

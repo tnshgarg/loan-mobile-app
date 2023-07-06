@@ -1,11 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import messaging from "@react-native-firebase/messaging";
 import { version } from "../../../package.json";
-import { fcmPush } from "../../helpers/BackendPush";
 import Analytics, {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
 import * as RootNavigation from "../../navigators/RootNavigation";
+import { fcmApi } from "../../store/apiSlices/fcmApi";
 import { store } from "../../store/store";
 
 function generateCampainClick(remoteMessage) {
@@ -56,10 +56,10 @@ export const getFcmToken = async () => {
       console.log(data);
       if (fcmToken) {
         console.log(fcmToken, "new generated FCM token");
-        fcmPush({
+        fcmApi.endpoints.updateFcm.initiate({
           data: data,
           token: store.getState().auth.token,
-        });
+        })
         await AsyncStorage.setItem("fcmToken", fcmToken);
         await messaging().subscribeToTopic("initial-users");
       }
