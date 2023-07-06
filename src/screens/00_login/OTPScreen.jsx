@@ -17,7 +17,6 @@ import { showToast } from "../../components/atoms/Toast";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import OtpInput from "../../components/molecules/OtpInput";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
@@ -168,11 +167,7 @@ const OTPScreen = () => {
       trigger(unipeEmployeeId, false)
         .then(({ data }) => {
           if (data?.kycCompleted) navigate("HomeStack", { screen: "Home" });
-          else
-            navigationHelper({
-              type: "cms",
-              params: { blogKey: "login_success" },
-            });
+          else navigation.navigate("LoginSuccess");
         })
         .catch((err) => console.log(err));
     } else if (!phoneNumber) {

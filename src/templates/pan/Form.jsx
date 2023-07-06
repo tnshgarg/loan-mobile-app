@@ -1,11 +1,11 @@
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, SafeAreaView, Text, View } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import PanVerifyApi from "../../apis/pan/Verify";
 import FormInput from "../../components/atoms/FormInput";
 import HelpCard from "../../components/atoms/HelpCard";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
+import Loading from "../../components/atoms/Loading";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { strings } from "../../helpers/Localization";
@@ -58,9 +58,9 @@ const PanFormTemplate = (props) => {
     <SafeAreaView style={styles.safeContainer}>
       {kycLoading || kycFetching ? (
         <>
-          <ActivityIndicator />
+          <Loading isLoading={kycLoading || kycFetching} />
         </>
-      ) : isAadhaarSuccess ? (
+      ) : (
         <View style={styles.container}>
           <FormInput
             accessibilityLabel={"PanInput"}
@@ -122,25 +122,6 @@ const PanFormTemplate = (props) => {
             disabled={!validNumber}
             type={props?.route?.params?.type || ""}
             number={number}
-          />
-        </View>
-      ) : (
-        <View style={styles.container}>
-          <Text style={bankform.subTitle}>{strings.verifyAadhaarFirst}</Text>
-          <PrimaryButton
-            title={strings.verifyAadhaar}
-            onPress={() => {
-              trackEvent({
-                interaction: InteractionTypes.BUTTON_PRESS,
-                screen: "pan",
-                action: "VERIFYAADHAARFIRST",
-              });
-              props?.route?.params?.type === "KYC"
-                ? navigation.navigate("KYC", {
-                    screen: "AADHAAR",
-                  })
-                : navigation.navigate("AadhaarForm");
-            }}
           />
         </View>
       )}

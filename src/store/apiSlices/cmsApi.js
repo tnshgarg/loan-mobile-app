@@ -54,12 +54,12 @@ export const cmsApi = api
         },
       }),
       getCmsGroup: builder.query({
-        query: ({group, language}) => ({
+        query: ({ group, language }) => ({
           url: `cms`,
           params: {
             group,
-            language
-          }
+            language,
+          },
         }),
         transformResponse: (response) => {
           console.log("Language Strings: ", response);
@@ -68,7 +68,7 @@ export const cmsApi = api
         providesTags: ["getGroup"],
       }),
       updateCms: builder.mutation({
-        query: ({contentType, content}) => ({
+        query: ({ contentType, content }) => ({
           url: `cms`,
           method: "POST",
           body: {
@@ -81,7 +81,7 @@ export const cmsApi = api
         invalidatesTags: ["getPersonalization"],
       }),
     }),
-    
+
     overrideExisting: true,
   });
 
@@ -90,7 +90,7 @@ export const {
   useGetCmsLanguageListQuery,
   useLazyGetCmsLanguageStringsQuery,
   useGetCmsLanguageStringsQuery,
-  useGetCmsGroupQuery
+  useGetCmsGroupQuery,
 } = cmsApi;
 
 // Language Store

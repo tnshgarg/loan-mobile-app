@@ -28,16 +28,15 @@ const LearnWithUs = () => {
           navigation.goBack();
         }}
       />
-
-      <View style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
           {!cmsData && cmsLoading ? (
             <CmsLoading />
           ) : (
             <CmsRoot children={cmsData?.blogs || []}></CmsRoot>
           )}
-        </ScrollView>
-      </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

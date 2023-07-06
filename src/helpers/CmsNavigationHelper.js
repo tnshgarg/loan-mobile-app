@@ -53,9 +53,17 @@ const navigationHelper = async ({
   } else if (type == "cms") {
     console.log("CMS navigation triggered!");
     navigationRef.navigate("CmsStack", {
-      screen: "CmsDummyBlog",
+      screen: "CmsScreenOne",
       params: params ?? {},
     });
+  } else if (type == "cmsScreenTwo") {
+    console.log("CMS nest navigation triggered!");
+    navigationRef.navigate("CmsStack", {
+      screen: "CmsScreenTwo",
+      params: params ?? {},
+    });
+  } else if (type == "back") {
+    navigationRef.goBack();
   } else {
     console.log("Navigation Type Invalid!");
   }

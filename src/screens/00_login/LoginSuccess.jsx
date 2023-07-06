@@ -76,8 +76,9 @@ const LoginSuccess = () => {
           });
         }}
       />
+      
       {!cmsLoading ? (
-        <CmsRoot children={cmsData?.login_success || []}></CmsRoot>
+        <CmsRoot children={cmsData?.login_success?.data || []}></CmsRoot>
       ) : (
         <></>
       )}

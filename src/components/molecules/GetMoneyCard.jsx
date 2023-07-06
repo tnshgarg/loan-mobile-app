@@ -3,7 +3,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { useSelector } from "react-redux";
 import Coin from "../../assets/Coin.svg";
 import Hourglass from "../../assets/Hourglass.svg";
-import { COLORS, FONTS } from "../../constants/Theme";
+import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
@@ -81,7 +81,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
         style={{
           borderBottomWidth: 1,
           borderColor: COLORS.lightGray,
-          padding: 15,
+          padding: "6%",
         }}
       >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -104,15 +104,19 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
         style={{
           borderBottomWidth: 1,
           borderColor: COLORS.lightGray,
-          padding: 15,
+          padding: "6%",
           alignItems: "center",
         }}
       >
-        <Text style={styles.text}>{strings.availableSalary}</Text>
+        <Text style={[styles.text, { marginBottom: 0, ...FONTS.body5 }]}>
+          {strings.availableSalary}
+        </Text>
         {contentLoading ? (
           <ActivityIndicator color={COLORS.secondary} />
         ) : (
-          <Text style={[styles.text, { ...FONTS.body1 }]}>
+          <Text
+            style={[styles.text, { ...FONTS.h1, fontSize: 36, marginTop: 0 }]}
+          >
             {kycCompleted ? amount : "XX,XXX"}
           </Text>
         )}
@@ -163,7 +167,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
       <View
         style={{
           paddingVertical: 10,
-          paddingHorizontal: 15,
+          paddingHorizontal: "6%",
           backgroundColor:
             userStage == US.EWA_AVAILABLE
               ? COLORS.primaryBackground
@@ -190,6 +194,7 @@ const styles = EStyleSheet.create({
     borderRadius: 10,
 
     backgroundColor: "#f5f9f9",
+    ...SIZES.shadow,
   },
   text: { ...FONTS.body4, color: COLORS.secondary, marginVertical: 5 },
 });

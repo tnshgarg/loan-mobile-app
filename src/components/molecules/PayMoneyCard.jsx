@@ -5,7 +5,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import LinearGradient from "react-native-linear-gradient";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
-import { COLORS, FONTS } from "../../constants/Theme";
+import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import {
   getNumberOfDays,
   setYYYYMMDDtoDDMMYYYY,
@@ -246,7 +246,7 @@ const PayMoneyCard = () => {
               style={[
                 styles.text,
                 {
-                  ...FONTS.h3,
+                  ...FONTS.h2,
                   color: overdueDays < 0 ? COLORS.warning : COLORS.black,
                 },
               ]}
@@ -266,8 +266,14 @@ const PayMoneyCard = () => {
             }
             onPress={() => initiatePayment()}
             disabled={inactive || loading || repaymentStatus === "INPROGRESS"}
-            containerStyle={{ width: "35%", marginTop: 0 }}
-            titleStyle={{ ...FONTS.body3 }}
+            containerStyle={{
+              width: null,
+              marginTop: 0,
+              height: null,
+              paddingHorizontal: 20,
+              paddingVertical: 10,
+            }}
+            titleStyle={{ ...FONTS.h4 }}
           />
         </View>
 
@@ -315,6 +321,9 @@ const styles = EStyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.lightgray_01,
     borderRadius: "10rem",
+    marginTop: "10rem",
+    backgroundColor: COLORS.white,
+    ...SIZES.shadow,
   },
   row: {
     padding: "15rem",
@@ -337,7 +346,7 @@ const styles = EStyleSheet.create({
     flexDirection: "column",
     alignItems: "flex-start",
   },
-  text: { ...FONTS.body4, color: COLORS.gray },
+  text: { ...FONTS.body5, color: COLORS.gray },
 });
 
 export default PayMoneyCard;

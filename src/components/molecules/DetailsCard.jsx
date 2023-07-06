@@ -1,18 +1,18 @@
-import { View, Text, Image } from "react-native";
+import { Image, Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { COLORS, FONTS } from "../../constants/Theme";
 import LinearGradient from "react-native-linear-gradient";
+import { COLORS, FONTS } from "../../constants/Theme";
 
 const DetailsCard = ({ data, imageUri, containerStyle, type, variant }) => {
   return type == "Aadhaar" ? (
-    <View style={{ backgroundColor: "#f7f6f1", borderRadius: 10 }}>
+    <View style={{ backgroundColor: COLORS.beige, borderRadius: 10 }}>
       <LinearGradient
         style={styles.gradient}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
         colors={[COLORS.lightGreen, COLORS.lightYellow]}
       >
-        <Text style={{ ...FONTS.body2, width: "50%" }}>{data[0].value}</Text>
+        <Text style={{ ...FONTS.h2, width: "50%" }}>{data[0].value}</Text>
         {imageUri && <Image source={imageUri} style={styles.aadhaarImage} />}
       </LinearGradient>
       <View style={styles.container}>

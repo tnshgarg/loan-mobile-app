@@ -1,12 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import {
-  Alert,
-  Linking,
-  SafeAreaView,
-  ScrollView,
-  Text
-} from "react-native";
+import { Alert, Linking, SafeAreaView, ScrollView, Text } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,7 +17,10 @@ import { strings } from "../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
-import { EWA_POLLING_DURATION, KYC_POLLING_DURATION } from "../../services/constants";
+import {
+  EWA_POLLING_DURATION,
+  KYC_POLLING_DURATION,
+} from "../../services/constants";
 import { openRazorpayCheckout } from "../../services/mandate/Razorpay/services";
 import { createMandateOrder } from "../../services/mandate/services";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
@@ -31,9 +28,7 @@ import {
   useGetMandateQuery,
   useUpdateMandateMutation,
 } from "../../store/apiSlices/mandateApi";
-import {
-  addVerifyStatus
-} from "../../store/slices/mandateSlice";
+import { addVerifyStatus } from "../../store/slices/mandateSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 
@@ -67,14 +62,14 @@ const MandateFormTemplate = (props) => {
     data: mandateData,
     isLoading: mandateLoading,
     isError: mandateError,
-    refetch: refreshMandateFromBackend
+    refetch: refreshMandateFromBackend,
   } = useGetMandateQuery(unipeEmployeeId, {
     pollingInterval: EWA_POLLING_DURATION,
   });
 
   const [loading, setLoading] = useState(false);
   const [authType, setAuthType] = useState();
-  const {verifyStatus , verifyTimestamp } = mandateData || {}
+  const { verifyStatus, verifyTimestamp } = mandateData || {};
   const campaignId = useSelector(
     (state) =>
       state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
@@ -89,11 +84,10 @@ const MandateFormTemplate = (props) => {
     });
     dispatch(addCurrentScreen("Mandate"));
     refreshMandateFromBackend().then(() => {
-      setFetched(true)
+      setFetched(true);
     });
   }, []);
 
-  
   useEffect(() => {
     dispatch(addVerifyStatus(verifyStatus));
     if (fetched && props?.type === "EWA" && verifyStatus === "SUCCESS") {
@@ -392,7 +386,6 @@ const MandateFormTemplate = (props) => {
             ]}
             title="RBI regulated payment partners"
           />
-          <HelpCard text="repayment methods" />
         </ScrollView>
       </KeyboardAvoidingWrapper>
       {modalVisible && (

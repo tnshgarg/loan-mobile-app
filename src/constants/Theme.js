@@ -45,6 +45,7 @@ export const COLORS = {
   yellow: "#F9C700",
   lightGreen: "rgba(110, 220, 133,0.3)",
   lightYellow: "rgba(237, 251, 139,0.3)",
+  beige: "#f7f6f1",
 };
 
 export const SIZES = {
@@ -84,7 +85,7 @@ export const FONTS = {
   title: {
     fontFamily: "Proxima Nova Regular",
     fontSize: normalize(62),
-    // lineHeight: normalize(62),
+    //  eight: normalize(62),
   },
   h1: {
     fontFamily: "Proxima Nova Bold",

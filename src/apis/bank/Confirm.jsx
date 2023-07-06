@@ -1,13 +1,14 @@
 import { useNavigation } from "@react-navigation/core";
 import { useState } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import Loading from "../../components/atoms/Loading";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { showToast } from "../../components/atoms/Toast";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import { COLORS, FONTS } from "../../constants/Theme";
-import Analytics, {
+import {
   InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
 import { KYC_POLLING_DURATION } from "../../services/constants";
@@ -24,11 +25,14 @@ const BankConfirmApi = (props) => {
 
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
-  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: KYC_POLLING_DURATION,
-  });
+  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: KYC_POLLING_DURATION,
+    }
+  );
   const [awatingSubmit, setAwaitingMutation] = useState(false);
-  const { bank: bankData } = kycData;
+  const { bank: bankData } = kycData ?? {};
 
   const { data, number, verifyStatus } = bankData ?? {};
 
@@ -38,7 +42,7 @@ const BankConfirmApi = (props) => {
 
   const [updateBank] = useUpdateBankMutation();
   const backendPush = async ({ verifyStatus }) => {
-    setAwaitingMutation(true)
+    setAwaitingMutation(true);
     dispatch(addVerifyStatus(verifyStatus));
 
     trackEvent({
@@ -113,54 +117,49 @@ const BankConfirmApi = (props) => {
   };
 
   let loading = kycLoading || awatingSubmit;
+
   return (
-    <View style={styles.container}>
-      <DetailsCard data={cardData()} />
-      {loading ? <View style={{marginTop: 20}}>
-        <ActivityIndicator size={"large"} color={COLORS.secondary}/> 
-        </View>: <></> 
-      }
-      <View style={[styles.row, { 
-        justifyContent: "space-between", 
-        display: loading ? "none": null 
-        }]}>
-        <PrimaryButton
-          title="Not Me"
-          containerStyle={form.noButton}
-          titleStyle={{ ...FONTS.h3, color: COLORS.black }}
-          onPress={() => {
-            backendPush({
-              verifyStatus: "REJECTED",
-            });
-            Analytics.trackEvent({
-              interaction: InteractionTypes.BUTTON_PRESS,
-              flow: "kyc",
-              screen: "bankOk",
-              action: "REJECT",
-              error: "Rejected by User",
-            });
-          }}
-        />
-        <FuzzyCheck name={data?.accountHolderName} step="Bank Account" />
-        <PrimaryButton
-          accessibilityLabel="BankYesBtn"
-          title="Yes, that’s me"
-          containerStyle={form.yesButton}
-          titleStyle={{ ...FONTS.h3, color: COLORS.white }}
-          onPress={() => {
-            dispatch(addOnboarded(true));
-            backendPush({
-              verifyStatus: "SUCCESS",
-            });
-            Analytics.trackEvent({
-              interaction: InteractionTypes.BUTTON_PRESS,
-              flow: "kyc",
-              screen: "bankOk",
-              action: "ACCEPT",
-            });
-          }}
-        />
-      </View>
+    <View style={styles.safeContainer}>
+      {loading ? (
+        <Loading isLoading={loading} />
+      ) : (
+        <View style={styles.container}>
+          <DetailsCard data={cardData()} />
+          <View
+            style={[
+              styles.row,
+              {
+                justifyContent: "space-between",
+                display: loading ? "none" : null,
+              },
+            ]}
+          >
+            <PrimaryButton
+              title="Not Me"
+              containerStyle={form.noButton}
+              titleStyle={{ ...FONTS.h3, color: COLORS.black }}
+              onPress={() => {
+                backendPush({
+                  verifyStatus: "REJECTED",
+                });
+              }}
+            />
+            <FuzzyCheck name={data?.accountHolderName} step="Bank Account" />
+            <PrimaryButton
+              accessibilityLabel="BankYesBtn"
+              title="Yes, that’s me"
+              containerStyle={form.yesButton}
+              titleStyle={{ ...FONTS.h3, color: COLORS.white }}
+              onPress={() => {
+                dispatch(addOnboarded(true));
+                backendPush({
+                  verifyStatus: "SUCCESS",
+                });
+              }}
+            />
+          </View>
+        </View>
+      )}
     </View>
   );
 };

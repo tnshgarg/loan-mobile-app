@@ -10,7 +10,7 @@ import {
   InteractionTypes,
   trackEvent,
 } from "../../helpers/analytics/commonAnalytics";
-import { CMS_POLLING_DURATION } from "../../services/constants";
+import { KYC_POLLING_DURATION } from "../../services/constants";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
@@ -22,9 +22,9 @@ const BankForm = () => {
   const navigation = useNavigation();
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: CMS_POLLING_DURATION,
+    pollingInterval: KYC_POLLING_DURATION,
   });
-  const { pan: panData } = kycData;
+  const { pan: panData } = kycData ?? {};
   const { verifyStatus } = panData ?? {};
 
   useEffect(() => {

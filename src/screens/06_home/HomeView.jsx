@@ -1,8 +1,7 @@
+import { STAGE } from "@env";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, Text, View } from "react-native";
-// import PushNotification from 'react-native-push-notification';
-import { STAGE } from "@env";
 import { useDispatch, useSelector } from "react-redux";
 import CmsLoading from "../../components/cms/CmsLoading";
 import CmsRoot from "../../components/cms/CmsRoot";
@@ -90,9 +89,6 @@ const HomeView = () => {
     requestUserPermission();
     notificationListener();
     fetchCms();
-  }, []);
-
-  useEffect(() => {
     setSessionValue("flow", "home");
   }, []);
 
@@ -242,12 +238,16 @@ const HomeView = () => {
         ) : (
           <CmsRoot children={cmsData?.home || []}></CmsRoot>
         )}
-        {/* <CmsRoot children={DUMMY_RES?.home || []}></CmsRoot> */}
 
         {!cmsData && cmsLoading ? (
-          <CmsLoading />
+          <></>
         ) : (
           <CmsRoot children={cmsData?.bottom_alert || []}></CmsRoot>
+        )}
+        {!cmsLoading ? (
+          <CmsRoot children={cmsData?.mini_placement || []} />
+        ) : (
+          <></>
         )}
         <View
           style={{
@@ -263,18 +263,6 @@ const HomeView = () => {
           </Text>
         </View>
       </ScrollView>
-      {/* {alertVisible && (
-        <BottomAlert
-          visible={alertVisible}
-          setVisible={setAlertVisible}
-          data={data}
-        />
-      )} */}
-      {!cmsLoading ? (
-        <CmsRoot children={cmsData?.mini_placement || []} />
-      ) : (
-        <></>
-      )}
     </SafeAreaView>
   );
 };

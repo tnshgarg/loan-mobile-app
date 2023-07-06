@@ -1,7 +1,8 @@
 import { useNavigation } from "@react-navigation/core";
 import { useState } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import Loading from "../../components/atoms/Loading";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { showToast } from "../../components/atoms/Toast";
 import DetailsCard from "../../components/molecules/DetailsCard";
@@ -12,7 +13,7 @@ import { kycNavigate } from "../../services/kyc/navigation";
 import { useUpdateAadhaarMutation } from "../../store/apiSlices/aadhaarApi";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
-import { bankform, form, styles } from "../../styles";
+import { form, styles } from "../../styles";
 
 const AadhaarConfirmApi = (props) => {
   const dispatch = useDispatch();
@@ -105,49 +106,52 @@ const AadhaarConfirmApi = (props) => {
   let displayStyle = contentLoading ? { display: "none" } : {};
   console.log({ contentLoading });
   return (
-    <View style={[styles.container]}>
-      <DetailsCard
-        data={cardData()}
-        imageUri={{
-          uri: `data:image/jpeg;base64,${data?.["photo_base64"]}`,
-          cache: "only-if-cached",
-        }}
-        type={"Aadhaar"}
-      />
-      {/* TODO: make a loader component which takes in an attribute to do this */}
+    <View style={styles.safeContainer}>
       {contentLoading ? (
-        <View style={{ marginTop: 20 }}>
-          <ActivityIndicator size={"large"} color={COLORS.secondary} />
-        </View>
+        <Loading isLoading={contentLoading} />
       ) : (
-        <></>
+        <View style={styles.container}>
+          <DetailsCard
+            data={cardData()}
+            imageUri={{
+              uri: `data:image/jpeg;base64,${data?.["photo_base64"]}`,
+              cache: "only-if-cached",
+            }}
+            type={"Aadhaar"}
+          />
+
+          <View
+            style={[
+              styles.row,
+              { justifyContent: "space-between" },
+              displayStyle,
+            ]}
+          >
+            <PrimaryButton
+              title={strings.notMe}
+              containerStyle={form.noButton}
+              titleStyle={{ ...FONTS.h3, color: COLORS.black }}
+              onPress={() => {
+                backendPush({
+                  verifyStatus: "REJECTED",
+                });
+           
+              }}
+            />
+            <PrimaryButton
+              accessibilityLabel="YesButton"
+              title={strings.yesMe}
+              containerStyle={form.yesButton}
+              titleStyle={{ ...FONTS.h3, color: COLORS.white }}
+              onPress={() => {
+                backendPush({
+                  verifyStatus: "SUCCESS",
+                });
+              }}
+            />
+          </View>
+        </View>
       )}
-      <View
-        style={[styles.row, { justifyContent: "space-between" }, displayStyle]}
-      >
-        <PrimaryButton
-          title={strings.notMe}
-          containerStyle={form.noButton}
-          titleStyle={{ ...FONTS.h3, color: COLORS.black }}
-          onPress={() => {
-            backendPush({
-              verifyStatus: "REJECTED",
-            });
-          }}
-        />
-        <PrimaryButton
-          accessibilityLabel="YesButton"
-          title={strings.yesMe}
-          containerStyle={form.yesButton}
-          titleStyle={{ ...FONTS.h3, color: COLORS.white }}
-          onPress={() => {
-            backendPush({
-              verifyStatus: "SUCCESS",
-            });
-          }}
-        />
-        <View style={bankform.padding}></View>
-      </View>
     </View>
   );
 };

@@ -10,28 +10,15 @@ const DisbursementCard = ({ title, data, info, iconName, variant }) => {
       style={[
         styles.container,
         {
-          backgroundColor: variant == "dark" ? COLORS.moneyCardBg : "#f7f6f1",
+          backgroundColor:
+            variant == "dark" ? COLORS.moneyCardBg : COLORS.beige,
         },
       ]}
     >
-      <View
-        style={[
-          styles.row,
-          {
-            marginBottom: 1,
-            padding: 5,
-            paddingLeft: 10,
-          },
-        ]}
-      >
-        {/* <MaterialCommunityIcons
-          name={iconName}
-          color={variant == "dark" ? COLORS.white : COLORS.secondary}
-          size={18}
-        /> */}
+      <View style={[styles.row, {}]}>
         <Text
           style={{
-            ...FONTS.body4,
+            ...FONTS.h4,
             color: variant == "dark" ? COLORS.white : COLORS.black,
           }}
         >
@@ -43,7 +30,7 @@ const DisbursementCard = ({ title, data, info, iconName, variant }) => {
           key={index}
           style={[
             styles.row,
-            { justifyContent: "space-between", paddingVertical: 1 },
+            { justifyContent: "space-between", paddingVertical: 5 },
           ]}
         >
           <Text
@@ -70,12 +57,8 @@ const DisbursementCard = ({ title, data, info, iconName, variant }) => {
           end={{ x: 1, y: 0 }}
           colors={[COLORS.lightGreen, COLORS.lightYellow]}
           style={[
-            styles.row,
+            styles.infoContainer,
             {
-              justifyContent: "center",
-              marginTop: 5,
-              borderBottomLeftRadius: 5,
-              borderBottomRightRadius: 5,
               backgroundColor:
                 variant == "dark" ? COLORS.moneyCardBgVariant : COLORS.white,
             },
@@ -83,7 +66,7 @@ const DisbursementCard = ({ title, data, info, iconName, variant }) => {
         >
           <Text
             style={{
-              ...FONTS.body4,
+              ...FONTS.body5,
               color: variant == "dark" ? COLORS.white : COLORS.gray,
             }}
           >
@@ -108,7 +91,7 @@ const styles = EStyleSheet.create({
     borderBottomWidth: 1,
     borderColor: COLORS.lightGray,
   },
-  row: { flexDirection: "row", alignItems: "center", padding: "10rem" },
+  row: { flexDirection: "row", alignItems: "center", padding: "15rem" },
 
   listItem: { marginVertical: "5rem" },
   label: {
@@ -116,10 +99,19 @@ const styles = EStyleSheet.create({
     color: COLORS.black,
   },
   value: {
-    ...FONTS.body4,
+    ...FONTS.h4,
     color: COLORS.black,
   },
   text: { paddingLeft: "10rem", ...FONTS.body5, color: COLORS.gray, flex: 1 },
+  infoContainer: {
+    justifyContent: "center",
+    marginTop: "10rem",
+    borderBottomLeftRadius: "5rem",
+    borderBottomRightRadius: "5rem",
+    flexDirection: "row",
+    alignItems: "center",
+    padding: "10rem",
+  },
 });
 
 export default DisbursementCard;

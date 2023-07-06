@@ -232,14 +232,16 @@ const Offer = () => {
   }
 
   return (
-    <SafeAreaView style={styles.safeContainer}>
+    <SafeAreaView
+      style={[styles.safeContainer, { backgroundColor: "#f3f6f7" }]}
+    >
       <LogoHeaderBack
         title={strings.onDemandSalary}
         onLeftIconPress={() => backAction()}
         progress={25}
         subHeadline={strings.selectAmount}
       />
-      <View style={[styles.container, { backgroundColor: "#f3f6f7" }]}>
+      <View style={[styles.container, { backgroundColor: null }]}>
         <SliderCard
           // info={"Zero Interest charges, Nominal Processing Fees"}
           iconName="brightness-percent"

@@ -74,6 +74,17 @@ export default DevMenu = () => {
 
           <DevMenuButton
             style={{ marginTop: 20 }}
+            title={"CmsTest"}
+            onPress={() =>
+              navigationHelper({
+                type: "cms",
+                params: { blogKey: "customer_support" },
+              })
+            }
+          />
+
+          <DevMenuButton
+            style={{ marginTop: 20 }}
             title={"Account"}
             onPress={() =>
               navigation.navigate("HomeStack", {
