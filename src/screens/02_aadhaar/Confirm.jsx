@@ -9,7 +9,7 @@ import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { strings } from "../../helpers/Localization";
 import {
   InteractionTypes,
-  trackEvent,
+  trackEvent
 } from "../../helpers/analytics/commonAnalytics";
 import { navigate } from "../../navigators/RootNavigation";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";

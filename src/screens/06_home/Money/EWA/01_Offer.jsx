@@ -11,6 +11,7 @@ import { strings } from "../../../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
   setSessionValue,
+  trackEvent
 } from "../../../../helpers/analytics/commonAnalytics";
 import {
   addAPR,

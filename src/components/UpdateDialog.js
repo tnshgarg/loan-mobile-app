@@ -6,7 +6,9 @@ import Modal from "react-native-modal";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS, SIZES } from "../constants/Theme";
 import whatsappLinking from "../helpers/WhatsappLinking";
-import Analytics, { InteractionTypes } from "../helpers/analytics/commonAnalytics";
+import Analytics, {
+  InteractionTypes
+} from "../helpers/analytics/commonAnalytics";
 
 const UpdateDialog = () => {
   const [show, setShow] = useState(false);

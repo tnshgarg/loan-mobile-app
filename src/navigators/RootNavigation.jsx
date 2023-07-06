@@ -3,7 +3,7 @@
 import { createNavigationContainerRef } from "@react-navigation/native";
 import {
   InteractionTypes,
-  trackEvent,
+  trackEvent
 } from "../helpers/analytics/commonAnalytics";
 
 export const navigationRef = createNavigationContainerRef();

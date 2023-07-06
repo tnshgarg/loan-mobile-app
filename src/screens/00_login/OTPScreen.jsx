@@ -19,7 +19,7 @@ import OtpInput from "../../components/molecules/OtpInput";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
-  InteractionTypes,
+  InteractionTypes
 } from "../../helpers/analytics/commonAnalytics";
 import { navigate } from "../../navigators/RootNavigation";
 import { useLazyGetKycQuery } from "../../store/apiSlices/kycApi";

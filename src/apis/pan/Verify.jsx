@@ -6,6 +6,7 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
+  trackEvent
 } from "../../helpers/analytics/commonAnalytics";
 import { useVerifyPanMutation } from "../../store/apiSlices/panApi";
 import { addVerifyStatus } from "../../store/slices/panSlice";

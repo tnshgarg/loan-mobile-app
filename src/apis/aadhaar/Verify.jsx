@@ -6,7 +6,7 @@ import InfoCard from "../../components/atoms/InfoCard";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { COLORS } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
-import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
+import Analytics, { InteractionTypes, trackEvent } from "../../helpers/analytics/commonAnalytics";
 import { asyncTimeout } from "../../helpers/asyncTimer";
 import { KYC_RETRY_WAIT_TIME } from "../../services/constants";
 import { getBackendData } from "../../services/employees/employeeServices";

@@ -1,14 +1,14 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Image, Text, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { addVerifyMsg, addVerifyStatus } from "../../store/slices/licenseSlice";
-import { licenseBackendPush } from "../../helpers/BackendPush";
-import { form, license, styles, selfie, accountStyles } from "../../styles";
-import { COLORS, FONTS } from "../../constants/Theme";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
+import { useDispatch, useSelector } from "react-redux";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { licenseBackendPush } from "../../helpers/BackendPush";
+import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
+import { addVerifyMsg, addVerifyStatus } from "../../store/slices/licenseSlice";
+import { accountStyles, form, license, styles } from "../../styles";
 
 export default Confirm = () => {
   const dispatch = useDispatch();

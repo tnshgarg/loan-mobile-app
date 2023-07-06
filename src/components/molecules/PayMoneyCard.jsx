@@ -12,7 +12,7 @@ import {
 } from "../../helpers/DateFunctions";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
-  InteractionTypes,
+  InteractionTypes
 } from "../../helpers/analytics/commonAnalytics";
 import { EWA_POLLING_DURATION } from "../../services/constants";
 import { openRazorpayCheckout } from "../../services/mandate/Razorpay/services";

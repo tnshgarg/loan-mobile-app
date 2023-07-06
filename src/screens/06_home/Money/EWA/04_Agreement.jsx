@@ -26,7 +26,7 @@ import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 import { strings } from "../../../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
-  trackEvent,
+  trackEvent
 } from "../../../../helpers/analytics/commonAnalytics";
 import { KYC_POLLING_DURATION } from "../../../../services/constants";
 import { useGetCmsGroupQuery } from "../../../../store/apiSlices/cmsApi";

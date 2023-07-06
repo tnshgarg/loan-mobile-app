@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import messaging from "@react-native-firebase/messaging";
 import { version } from "../../../package.json";
 import Analytics, {
-  InteractionTypes,
+  InteractionTypes
 } from "../../helpers/analytics/commonAnalytics";
 import * as RootNavigation from "../../navigators/RootNavigation";
 import { fcmApi } from "../../store/apiSlices/fcmApi";

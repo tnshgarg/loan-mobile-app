@@ -7,7 +7,7 @@ import NotificationFade from "../../assets/NotificationFade.svg";
 import { COLORS, FONTS } from "../../constants/Theme";
 import {
   InteractionTypes,
-  trackEvent,
+  trackEvent
 } from "../../helpers/analytics/commonAnalytics";
 import { navigate } from "../../navigators/RootNavigation";
 import SvgContainer from "./SvgContainer";

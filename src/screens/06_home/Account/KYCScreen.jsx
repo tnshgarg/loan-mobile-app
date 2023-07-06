@@ -5,7 +5,7 @@ import { BackHandler, SafeAreaView } from "react-native";
 import LogoHeaderBack from "../../../components/molecules/LogoHeaderBack";
 import {
   InteractionTypes,
-  trackEvent,
+  trackEvent
 } from "../../../helpers/analytics/commonAnalytics";
 import { styles } from "../../../styles";
 import Aadhaar from "./Aadhaar";

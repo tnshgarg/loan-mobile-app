@@ -9,7 +9,9 @@ import {
 import EStyleSheet from "react-native-extended-stylesheet";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { setSessionValue } from "../../helpers/analytics/commonAnalytics";
+import {
+  setSessionValue
+} from "../../helpers/analytics/commonAnalytics";
 import BottomSheetWrapper from "../atoms/BottomSheetWrapper";
 import PrimaryButton from "../atoms/PrimaryButton";
 import Rating from "../atoms/Rating";

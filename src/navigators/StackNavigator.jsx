@@ -13,7 +13,7 @@ import { Linking } from "react-native";
 import LogoutModal from "../components/organisms/LogoutModal";
 import { changeLanguage } from "../helpers/Localization";
 import Analytics, {
-  InteractionTypes,
+  InteractionTypes
 } from "../helpers/analytics/commonAnalytics";
 import LearnWithUs from "../screens/06_home/LearnWithUs";
 import CmsScreen from "../screens/CmsScreen";

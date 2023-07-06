@@ -20,9 +20,7 @@ import LoginInput from "../../components/molecules/LoginInput";
 import AgreementText from "../../components/organisms/AgreementText";
 import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics, {
-  InteractionTypes,
-  setSessionValue,
-  trackEvent,
+  InteractionTypes, setSessionValue, trackEvent
 } from "../../helpers/analytics/commonAnalytics";
 import { useGenerateOtpMutation } from "../../store/apiSlices/loginApi";
 import { addPhoneNumber } from "../../store/slices/authSlice";

@@ -10,6 +10,7 @@ import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import { COLORS, FONTS } from "../../constants/Theme";
 import {
   InteractionTypes,
+  trackEvent
 } from "../../helpers/analytics/commonAnalytics";
 import { KYC_POLLING_DURATION } from "../../services/constants";
 import { kycNavigate } from "../../services/kyc/navigation";

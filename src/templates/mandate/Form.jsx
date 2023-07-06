@@ -16,6 +16,7 @@ import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
+  trackEvent
 } from "../../helpers/analytics/commonAnalytics";
 import {
   EWA_POLLING_DURATION,

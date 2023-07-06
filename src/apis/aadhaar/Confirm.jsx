@@ -8,7 +8,7 @@ import { showToast } from "../../components/atoms/Toast";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
-import { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
+import { InteractionTypes, trackEvent } from "../../helpers/analytics/commonAnalytics";
 import { kycNavigate } from "../../services/kyc/navigation";
 import { useUpdateAadhaarMutation } from "../../store/apiSlices/aadhaarApi";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";

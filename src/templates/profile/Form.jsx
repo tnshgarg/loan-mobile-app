@@ -9,7 +9,7 @@ import { showToast } from "../../components/atoms/Toast";
 import DropDownForm from "../../components/molecules/DropDownForm";
 import Analytics, {
   InteractionTypes,
-  trackEvent,
+  trackEvent
 } from "../../helpers/analytics/commonAnalytics";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { form, styles } from "../../styles";

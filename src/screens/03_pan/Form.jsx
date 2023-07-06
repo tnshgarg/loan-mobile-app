@@ -8,7 +8,7 @@ import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { strings } from "../../helpers/Localization";
 import {
   InteractionTypes,
-  trackEvent,
+  trackEvent
 } from "../../helpers/analytics/commonAnalytics";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";

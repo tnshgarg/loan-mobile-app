@@ -3,7 +3,7 @@ import { ScrollView, View } from "react-native";
 import { useSelector } from "react-redux";
 import {
   InteractionTypes,
-  trackEvent,
+  trackEvent
 } from "../../helpers/analytics/commonAnalytics";
 import { navigationRef } from "../../navigators/RootNavigation";
 import LogoHeaderBack from "../molecules/LogoHeaderBack";

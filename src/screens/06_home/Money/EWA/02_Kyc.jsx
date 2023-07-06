@@ -10,6 +10,7 @@ import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 import { strings } from "../../../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
+  trackEvent
 } from "../../../../helpers/analytics/commonAnalytics";
 import { EWA_POLLING_DURATION, KYC_POLLING_DURATION } from "../../../../services/constants";
 import { useUpdateKycMutation } from "../../../../store/apiSlices/ewaApi";

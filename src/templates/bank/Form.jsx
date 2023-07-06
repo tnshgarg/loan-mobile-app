@@ -11,7 +11,7 @@ import PopableInput from "../../components/molecules/PopableInput";
 import { strings } from "../../helpers/Localization";
 import {
   InteractionTypes,
-  trackEvent,
+  trackEvent
 } from "../../helpers/analytics/commonAnalytics";
 import { KYC_POLLING_DURATION } from "../../services/constants";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";

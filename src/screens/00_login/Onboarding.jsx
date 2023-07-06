@@ -10,7 +10,7 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
 import whatsappLinking from "../../helpers/WhatsappLinking";
 import Analytics, {
-  InteractionTypes,
+  InteractionTypes
 } from "../../helpers/analytics/commonAnalytics";
 import { navigate } from "../../navigators/RootNavigation";
 import { requestUserPermission } from "../../services/notifications/notificationService";

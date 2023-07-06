@@ -13,7 +13,7 @@ import { COLORS, FONTS } from "../../../../constants/Theme";
 import { strings } from "../../../../helpers/Localization";
 import {
   InteractionTypes,
-  trackEvent,
+  trackEvent
 } from "../../../../helpers/analytics/commonAnalytics";
 import { navigate } from "../../../../navigators/RootNavigation";
 import {

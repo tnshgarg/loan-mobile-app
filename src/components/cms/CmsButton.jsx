@@ -4,7 +4,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import Analytics, {
-  InteractionTypes,
+  InteractionTypes
 } from "../../helpers/analytics/commonAnalytics";
 
 const CmsButton = ({
