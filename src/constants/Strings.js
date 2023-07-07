@@ -2176,6 +2176,10 @@ export const DUMMY_RES = {
               type: "account",
             },
             type: "threeColumn",
+            navigate: {
+              params: { blogKey: "salary_faq" },
+              type: "cmsScreenTwo",
+            },
             widths: ["10%", "80%", "10%"],
           },
         ],
@@ -3207,6 +3211,49 @@ export const DUMMY_RES = {
             },
             title:
               "1. Salary is still processing in progress on your employer end\n2. Name mismatch in PAN and Bank account holder name\n3. You have low bureau score (credit score)",
+          },
+        ],
+      },
+      { type: "footer" },
+    ],
+  },
+  salary_faq: {
+    screenTitle: "Salary Withdrawal",
+    data: [
+      {
+        type: "section",
+        title: "Frequently Asked Questions",
+        children: [
+          {
+            type: "collapsibleList",
+            title: "Q. My withdrawal status is pending",
+            subtitle:
+              "A: It usually takes up to 24 banking hours for the funds to be credited to your account. If you have not received your advance salary yet or if your transaction is pending, please reach out to us on whatsapp or email (support@unipe.money) with your details.",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q. My advance salary balance is ZERO",
+            subtitle:
+              "A: Your advance salary balance is calculated on the basis of your attendance. If your advance salary balance is showing as zero or the offer is not available, it could be because we haven't received your attendance from your employer. Please talk to your supervisor or HR and ask them to share your attendance with us.",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q. My advance salary transaction failed",
+            subtitle:
+              "A: If your advance salary request is rejected and could not clear the lending partner policies. You can reach out to us to become eligible.\n\nSome of the reasons why your request was rejected:\n- Approval is still pending in progress on your employer end\n- Name mismatch in Aadhaar, PAN and Bank account holder name\n- Your credit score is low ",
+          },
+          {
+            type: "collapsibleList",
+            title: "Q. I want to repay my advance salary",
+            subtitle:
+              "A: You can repay the advance salary amount either by using the 'Pay Now' button on the Home Screen or Money Screen of the Unipe app; or we can share a payment link with you where you can make the payment.",
+          },
+          {
+            type: "collapsibleList",
+            title:
+              "Q. Can I make multiple advance salary withdrawal in a month?",
+            subtitle:
+              "A: Yes, employees can make multiple withdrawals within a month using the Advance Salary feature. However, the total amount of withdrawal will be limited to the portion of the earned salary available for withdrawal based on the company's policies.",
           },
         ],
       },
@@ -5454,7 +5501,7 @@ export const DUMMY_RES_HINDI = {
                     type: "title",
                   },
                   {
-                    title: "All your kyc related queries at one place",
+                    title: "KYC वेरिफिकेशन से जुड़े सवाल",
                     type: "subtitle",
                   },
                 ],
@@ -5471,7 +5518,7 @@ export const DUMMY_RES_HINDI = {
               },
             ],
             navigate: {
-              params: { blogKey: "kyc_help" },
+              params: { blogKey: "kyc_faq" },
               type: "cmsScreenTwo",
             },
             type: "threeColumn",
@@ -5490,7 +5537,7 @@ export const DUMMY_RES_HINDI = {
                     type: "title",
                   },
                   {
-                    title: "All your repayment related queries",
+                    title: "मैंडेट रजिस्ट्रेशन से जुड़े सवाल",
                     type: "subtitle",
                   },
                 ],
@@ -5526,7 +5573,7 @@ export const DUMMY_RES_HINDI = {
                     type: "title",
                   },
                   {
-                    title: "All your salary related questions",
+                    title: "एडवांस विड्रॉल से जुड़े सवाल",
                     type: "subtitle",
                   },
                 ],
@@ -5543,7 +5590,7 @@ export const DUMMY_RES_HINDI = {
               },
             ],
             navigate: {
-              params: { blogKey: "kyc_help" },
+              params: { blogKey: "salary_faq" },
               type: "cmsScreenTwo",
             },
             type: "threeColumn",
@@ -6505,6 +6552,40 @@ export const DUMMY_RES_HINDI = {
       { type: "footer" },
     ],
   },
+  mandate_faq: {
+    data: [
+      {
+        type: "section",
+        title: "अक्सर पूछे जाने वाले प्रश्नों",
+        children: [
+          {
+            type: "collapsibleList",
+            title: "प्र. क्या पुनर्भुगतान सेटअप (मैंडेट) अनिवार्य है?",
+            subtitle:
+              "उ. हाँ। यह 100% सुरक्षित है और RBI द्वारा अनुमोदित इकाई द्वारा निष्पादित किया जाता है।",
+          },
+          {
+            type: "collapsibleList",
+            title:
+              "प्र. पुनर्भुगतान के लिए बैंक खाते में अपर्याप्त राशि होने की स्थिति में क्या होता है?",
+            subtitle:
+              "उ. लेन -देन विफल हो जाएगा और अतिरिक्त जुर्माना शुल्क लगाया जा सकता है।",
+          },
+          {
+            type: "collapsibleList",
+            title: "प्र. मैंडेट रजिस्टर करने का सबसे तेज़ तरीका क्या है?",
+            subtitle: "उ. डेबिट कार्ड",
+          },
+          {
+            type: "collapsibleList",
+            title: "प्र. आधार मैंडेट में कितना वक्त लगेगा?",
+            subtitle: "उ. 4-5 बैंकिंग दिन",
+          },
+        ],
+      },
+      { type: "footer" },
+    ],
+  },
   salary_info: {
     screenTitle: "",
     data: [
@@ -6550,7 +6631,215 @@ export const DUMMY_RES_HINDI = {
       { type: "footer" },
     ],
   },
-
+  salary_faq: {
+    data: [
+      {
+        type: "section",
+        title: "अक्सर पूछे जाने वाले प्रश्नों",
+        children: [
+          {
+            type: "collapsibleList",
+            title: "प्र. मेरा एडवांस सैलरी विथड्रावल पेंडिंग है।",
+            subtitle:
+              "उ. सामान्यतः आपके खाते में एडवांस सैलरी राशि जमा होने में 24 बैंकिंग घंटे लग सकते हैं। यदि आपने अभी तक अपनी एडवांस सैलरी नहीं प्राप्त होती है या एडवांस सैलरी स्टेटस पेंडिंग है, तो कृपया हमसे whatsapp या ईमेल (support@unipe.money) पर अपना विवरण साझा करें।",
+          },
+          {
+            type: "collapsibleList",
+            title: "प्र. मेरा एडवांस सैलरी बैलेंस शून्य है",
+            subtitle:
+              "उ. आपके एडवांस सैलरी बैलेंस की गणना आपकी अटेंडेंस के आधार पर की जाती है। यदि आपकी एडवांस सैलरी बैलेंस शून्य दिखा रही है या यह सुविधा उपलब्ध नहीं है, तो यह हो सकता है कि हमें आपकी अटेंडेंस आपकी कंपनी से प्राप्त नहीं हुई है। कृपया अपने सुपरवाइज़र या HR से बात करें और उनसे अपनी अटेंडेंस हमारे साथ साझा करने को कहें।",
+          },
+          {
+            type: "collapsibleList",
+            title: "प्र. मेरा एडवांस सैलरी विथड्रावल फेल हो गया है ",
+            subtitle:
+              "उ. आपकी एडवांस सैलरी रिजेक्ट की जा सकती है अगर आप लोन देने वाली साझेदार नीतियों को पूरा नहीं कर सके। आप योग्य बनने के लिए हमसे संपर्क कर सकते हैं।\n\nआपकी एडवांस सैलरी रिक्वेस्ट अस्वीकार किए जाने के कुछ कारण:\n- आपका ट्रांसफर आपके इम्प्लॉयर की ओर से पेंडिंग में है\n- पैन, आधार और बैंक खाता धारक के नाम में नाम का मेल न होना\n- आपका क्रेडिट स्कोर कम है",
+          },
+          {
+            type: "collapsibleList",
+            title: "प्र. मैं एडवांस सैलरी बकाया चुकाना चाहता हूं",
+            subtitle:
+              "उ. आप एडवांस सैलरी राशि को 'Pay Now' बटन का उपयोग करके Unipe ऐप के होम स्क्रीन या मनी स्क्रीन पर वापस कर सकते हैं। वैकल्पिक रूप से, हम आपके साथ एक भुगतान लिंक साझा कर सकते हैं, जहां आप भुगतान कर सकते हैं।            ",
+          },
+          {
+            type: "collapsibleList",
+            title:
+              "प्र. क्या मैं एक महीने में कई बार एडवांस सैलरी निकाल सकता हूँ?",
+            subtitle:
+              "उ. हां, कर्मचारी एडवांस सैलरी सुविधा का उपयोग करके एक महीने के भीतर कई बार विथड्रावल कर सकते हैं। हालांकि, कंपनी की नीतियों के अनुसार निकासी की कुल राशि सीमित होगी।",
+          },
+        ],
+      },
+      { type: "footer" },
+    ],
+  },
+  // customer_survey: {
+  //   screenTitle: "Survey",
+  //   data: [
+  //     {
+  //       type: "container",
+  //       styling: { padding: "5%" },
+  //       children: [
+  //         {
+  //           type: "subtitle",
+  //           title: "Hi there! Please take this survey",
+  //           styling: { textAlign: "center", fontSize: 20 },
+  //         },
+  //         {
+  //           type: "image",
+  //           url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/SplashScreens/AddRepaymentImage.png",
+  //           styling: { width: "100%", flex: 1, aspectRatio: 1 },
+  //         },
+  //         {
+  //           type: "subtitle",
+  //           title:
+  //             "- Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n- Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,\n- When an unknown printer took a galley of type and scrambled web page editors ",
+  //           styling: { fontSize: 18, lineHeight: 28, marginTop: "5%" },
+  //         },
+  //         {
+  //           type: "button",
+  //           title: "Start Survey",
+  //           variant: "filled",
+  //           clickType: "navigation",
+  //           styling: { marginTop: "15%" },
+  //           navigate: {
+  //             params: { blogKey: "survey_questions" },
+  //             type: "cmsScreenTwo",
+  //           },
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
+  // survey_questions: {
+  //   screenTitle: "Survey",
+  //   data: [
+  //     {
+  //       type: "questions",
+  //       children: [
+  //         {
+  //           type: "container",
+  //           children: [
+  //             { type: "subtitle", title: "Q1" },
+  //             {
+  //               type: "subtitle",
+  //               title: "Lorem Ipsum is simply dummy text of the printing?",
+  //               styling: { marginTop: "5%", fontSize: 24 },
+  //             },
+  //             {
+  //               type: "container",
+  //               styling: {
+  //                 width: "100%",
+  //                 borderWidth: 1,
+  //                 borderColor: "#000",
+  //                 padding: "6%",
+  //                 marginTop: "10%",
+  //                 borderRadius: 10,
+  //                 backgroundColor: "#fff",
+  //               },
+  //               children: [
+  //                 {
+  //                   type: "subtitle",
+  //                   title: "Answer 1",
+  //                   styling: { fontSize: 20 },
+  //                 },
+  //               ],
+  //             },
+  //             {
+  //               type: "container",
+  //               styling: {
+  //                 width: "100%",
+  //                 borderWidth: 1,
+  //                 borderColor: "#000",
+  //                 padding: "6%",
+  //                 marginTop: "5%",
+  //                 borderRadius: 10,
+  //               },
+  //               children: [
+  //                 {
+  //                   type: "subtitle",
+  //                   title: "Answer 2",
+  //                   styling: { fontSize: 20 },
+  //                 },
+  //               ],
+  //             },
+  //             {
+  //               type: "container",
+  //               styling: {
+  //                 width: "100%",
+  //                 borderWidth: 1,
+  //                 borderColor: "#000",
+  //                 padding: "6%",
+  //                 marginTop: "5%",
+  //                 borderRadius: 10,
+  //               },
+  //               children: [
+  //                 {
+  //                   type: "subtitle",
+  //                   title: "Answer 3",
+  //                   styling: { fontSize: 20 },
+  //                 },
+  //               ],
+  //             },
+  //             {
+  //               type: "container",
+  //               styling: {
+  //                 width: "100%",
+  //                 borderWidth: 1,
+  //                 borderColor: "#000",
+  //                 padding: "6%",
+  //                 marginTop: "5%",
+  //                 borderRadius: 10,
+  //               },
+  //               children: [
+  //                 {
+  //                   type: "subtitle",
+  //                   title: "Answer 4",
+  //                   styling: { fontSize: 20 },
+  //                 },
+  //               ],
+  //             },
+  //           ],
+  //         },
+  //         {
+  //           type: "container",
+  //           children: [
+  //             { type: "subtitle", title: "Q2" },
+  //             {
+  //               type: "subtitle",
+  //               title: "Lorem Ipsum is simply dummy text of the printing?",
+  //               styling: { marginTop: "5%", fontSize: 24 },
+  //             },
+  //             {
+  //               type: "container",
+  //               children: [
+  //                 {
+  //                   type: "title",
+  //                   title: "Asnwer 4",
+  //                   styling: { fontSize: 24 },
+  //                 },
+  //               ],
+  //             },
+  //           ],
+  //         },
+  //         {
+  //           type: "container",
+  //           children: [
+  //             { type: "subtitle", title: "Q3" },
+  //             {
+  //               type: "subtitle",
+  //               title: "Lorem Ipsum is simply dummy text of the printing?",
+  //               styling: { marginTop: "5%", fontSize: 24 },
+  //             },
+  //           ],
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
+  // survey_done: {
+  //   data: [{}],
+  // },
   app_language: {
     screenTitle: "App Language",
     data: [
