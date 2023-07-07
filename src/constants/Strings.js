@@ -2171,10 +2171,6 @@ export const DUMMY_RES = {
                 type: "icon",
               },
             ],
-            navigate: {
-              screen: "Profile",
-              type: "account",
-            },
             type: "threeColumn",
             navigate: {
               params: { blogKey: "salary_faq" },

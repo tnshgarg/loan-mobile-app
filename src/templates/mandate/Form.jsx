@@ -18,6 +18,7 @@ import Analytics, {
   InteractionTypes,
   trackEvent
 } from "../../helpers/analytics/commonAnalytics";
+import { navigate } from "../../navigators/RootNavigation";
 import {
   EWA_POLLING_DURATION,
   KYC_POLLING_DURATION,
@@ -272,11 +273,20 @@ const MandateFormTemplate = (props) => {
         throw createOrderResponse;
       }
     } catch (error) {
-      console.log("Create Mandate Error: ", error);
-      if (error?.status === 409) {
+      console.log("Create Mandate Error: ",error?.response, error?.response?.status);
+      if (error?.response?.status === 409) {
         Alert.alert(
           "Create Mandate Error",
-          "Mandate Registration Process already started, Please check the status after sometime"
+          "Mandate Registration Process already started, Please check the status after sometime",
+          [{
+            text: "ok",
+            onPress: () => {
+              navigate("HomeStack", {
+                screen: "Money",
+                params: { screen: "EWA" },
+              });
+            }
+          }]
         );
         refreshMandateFromBackend().then(() => {
           setFetched(true);

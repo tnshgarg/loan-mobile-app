@@ -10,13 +10,16 @@ import Tick from "../assets/Tick.svg";
 import Badge from "../components/atoms/Badge";
 import PrimaryButton from "../components/atoms/PrimaryButton";
 import SvgContainer from "../components/atoms/SvgContainer";
+import { showToast } from "../components/atoms/Toast";
 import LogoHeaderBack from "../components/molecules/LogoHeaderBack";
 import { COLORS, FONTS } from "../constants/Theme";
 import { navigationHelper } from "../helpers/CmsNavigationHelper";
 import { strings } from "../helpers/Localization";
+import { navigate } from "../navigators/RootNavigation";
 import { KYC_POLLING_DURATION } from "../services/constants";
 import { kycNavigate } from "../services/kyc/navigation";
 import { useGetKycQuery } from "../store/apiSlices/kycApi";
+import { useGetMandateQuery } from "../store/apiSlices/mandateApi";
 import { styles } from "../styles";
 
 const KycProgress = () => {
@@ -29,7 +32,7 @@ const KycProgress = () => {
       pollingInterval: KYC_POLLING_DURATION,
     }
   );
-
+  const {data: mandateData, isLoading: mandateLoading } = useGetMandateQuery(unipeEmployeeId)
   console.log({ kycData });
   const { isAadhaarSuccess, isPanSuccess, isBankSuccess, isProfileSuccess } =
     kycData ?? {};
@@ -60,10 +63,13 @@ const KycProgress = () => {
       status: isBankSuccess,
     },
   ];
-
   const continueButtonPress = () => {
-    console.log(kycData, kycData.isProfileSuccess);
-    kycNavigate(kycData, navigation);
+    if (mandateData.verifyStatus == "SUCCESS") {
+      showToast("You're all set for advance salary","success")
+      navigate("HomeStack", { screen: "Money" });
+    } else {
+      kycNavigate(kycData, navigation);  
+    }
   };
 
   const BORDER_COLOR = {
