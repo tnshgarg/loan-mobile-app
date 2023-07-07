@@ -29,7 +29,7 @@ const LogoHeader = ({
   return (
     <View style={[styles.mainContainer]}>
       <View style={[styles.container, { ...containerStyle }]}>
-        {leftIcon && (
+        {leftIcon != null && (
           <TouchableOpacity
             activeOpacity={0.7}
             style={{ marginRight: 10 }}
