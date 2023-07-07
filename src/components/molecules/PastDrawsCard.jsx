@@ -69,13 +69,14 @@ const OfferCard = ({ offer }) => {
   let dateString = date.toDateString();
   let day = dateString.split(" ")[2];
   let month = dateString.split(" ")[1];
-
+  let canNavigate = !["Missed", "Rejected"].includes(offerType);
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       style={styles.container}
+      disabled={!canNavigate}
       onPress={() => {
-        if (offerType !== "Missed") {
+        if (canNavigate) {
           Analytics.trackEvent({
             interaction: InteractionTypes.BUTTON_PRESS,
             flow: "money",
@@ -84,7 +85,7 @@ const OfferCard = ({ offer }) => {
             offer: offer.offerId,
           });
           navigate("EWAStack", {
-            screen: "EWA_DISBURSEMENT",
+            screen: "EWA_WITHDRAWAL_STATEMENT",
             params: { offer: offer },
           });
         }
@@ -98,7 +99,7 @@ const OfferCard = ({ offer }) => {
         <Text style={{ ...FONTS.body3, color: COLORS.gray }}>₹{amount}</Text>
         {["Due", "Pending"].includes(offerType) ? (
           <Text style={{ color: COLORS.gray, ...FONTS.body5 }}>
-            Due date {offer.dueDate}
+            {strrings.dueDate} {offer.dueDate}
           </Text>
         ) : null}
       </View>
