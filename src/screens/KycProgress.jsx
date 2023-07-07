@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import React from "react";
-import { SafeAreaView, Text, View } from "react-native";
+import { Alert, SafeAreaView, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import Aadhaar from "../assets/Aadhaar.svg";
 import Bank from "../assets/Bank.svg";
@@ -86,15 +86,23 @@ const KycProgress = () => {
         headline={strings.getYouVerified}
         subHeadline={strings.complete4Steps}
         onLeftIconPress={() => {
-          // navigation.navigate("LoginSuccess");
-          navigationHelper({
-            type: "cms",
-            params: { blogKey: "login_success" },
-          });
+          Alert.alert(strings.goBack,strings.verifyYourIdentity,
+            [
+            {
+              text: "yes",
+              onPress: () => {
+                navigate("HomeStack", {screen: "Home"});
+              }
+            },{
+              text: "no",
+              onPress: () => {}
+            }
+          ])
         }}
         onRightIconPress={() => {
           navigationHelper({
             type: "cms",
+            screen: 2,
             params: { blogKey: "kyc_help" },
           });
         }}

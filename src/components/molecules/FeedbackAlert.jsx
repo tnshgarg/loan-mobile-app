@@ -66,9 +66,9 @@ const FeedbackAlert = ({
         title="Submit"
         disabled={category?.length == 0 || rating == 0}
         containerStyle={{ marginBottom: Platform.OS === "ios" ? 20 : 0 }}
-        onPress={() => {
+        onPress={async () => {          
+          await onSubmit();
           setVisible(false);
-          onSubmit();
         }}
       />
     </BottomSheetWrapper>

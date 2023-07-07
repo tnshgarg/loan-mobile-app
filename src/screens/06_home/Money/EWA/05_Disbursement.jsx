@@ -26,7 +26,7 @@ import { styles } from "../../../../styles";
 const Disbursement = ({ route, navigation }) => {
   const dispatch = useDispatch();
   const { offer, enableFeedback } = route.params;
-
+  const [feedbackPopupOpen, setFeedbackPopupOpen] = useState(false);
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
@@ -179,7 +179,7 @@ const Disbursement = ({ route, navigation }) => {
     { subTitle: strings.transferStatus, value: status },
   ];
   const [disbursementFeedback] = useDisbursementFeedbackMutation();
-  const onSubmitFeedback = () => {
+  const onSubmitFeedback = async () => {
     const offerId = offer?.offerId;
     let data = {
       unipeEmployeeId: unipeEmployeeId,
@@ -187,7 +187,7 @@ const Disbursement = ({ route, navigation }) => {
       contentType: `${offerId}-feedback`,
       content: { stars: rating, category: category, offerId: offerId },
     };
-    disbursementFeedback(data)
+    await disbursementFeedback(data)
       .unwrap()
       .then((res) => {
         console.log("ewa/disbursement-feedback res: ", res);
@@ -206,6 +206,8 @@ const Disbursement = ({ route, navigation }) => {
           action: "ERROR",
         });
         console.log("ewa/disbursement-feedback error:", error);
+      }).finally(() => {
+        backAction();
       });
   };
 
@@ -262,7 +264,10 @@ const Disbursement = ({ route, navigation }) => {
                 screen: "requestProcessed",
                 action: "THANKYOU",
               });
-              backAction();
+              if (enableFeedback)
+                setFeedbackPopupOpen(true);
+              else 
+                backAction();
             }}
             titleStyle={{ color: COLORS.black }}
           />
@@ -270,7 +275,7 @@ const Disbursement = ({ route, navigation }) => {
           <></>
         )}
 
-        {status == "PENDING" && enableFeedback ? (
+        {status == "PENDING" && enableFeedback && feedbackPopupOpen ? (
           <FeedbackAlert
             data={categoryData}
             ratingHook={[rating, setRating]}

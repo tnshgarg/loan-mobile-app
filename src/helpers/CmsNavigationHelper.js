@@ -28,6 +28,11 @@ const handleLanguageUpdate = async (language) => {
   }
 };
 
+const cmsScreenMap = {
+  1: "CmsScreenOne",
+  2: "CmsScreenTwo",
+  3: "CmsScreenThree",
+}
 const navigationHelper = async ({
   type,
   stack,
@@ -51,11 +56,21 @@ const navigationHelper = async ({
       navigationRef.navigate(screen, { params: params });
     }
   } else if (type == "cms") {
-    console.log("CMS navigation triggered!");
-    navigationRef.navigate("CmsStack", {
+    console.log("CMS navigation triggered!", {
       screen: "CmsScreenOne",
       params: params ?? {},
     });
+    if (screen) {
+      navigationRef.navigate("CmsStack", {
+        screen: cmsScreenMap[screen],
+        params: params ?? {},
+      });
+    } else {
+      navigationRef.navigate("CmsStack", {
+        screen: "CmsScreenOne",
+        params: params ?? {},
+      });
+    }
   } else if (type == "cmsScreenTwo") {
     console.log("CMS nest navigation triggered!");
     navigationRef.navigate("CmsStack", {
