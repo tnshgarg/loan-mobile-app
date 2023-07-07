@@ -53,12 +53,12 @@ const AccountMenu = (props) => {
   }, []);
 
   const onLogout = () => {
-    dispatch({ type: "LOGOUT" });
     setModalVisible(true);
     setTimeout(() => {
+      dispatch({ type: "LOGOUT" });
       setModalVisible(false);
-      navigation.navigate("OnboardingStack", { screen: "Login" });
-    }, 5000);
+      navigation.replace("OnboardingStack", { screen: "Login" });
+    }, 2000);
   };
 
   useEffect(() => {
@@ -94,6 +94,7 @@ const AccountMenu = (props) => {
         title={"Account"}
         containerStyle={{ backgroundColor: null }}
       />
+      <LogoutModal modalVisible={modalVisible} />
       <ScrollView>
         {!cmsData && cmsLoading ? (
           <CmsLoading />
@@ -133,7 +134,6 @@ const AccountMenu = (props) => {
           data={privacyPolicy}
         />
       )}
-      {modalVisible && <LogoutModal modalVisible={modalVisible} />}
     </SafeAreaView>
   );
 };
