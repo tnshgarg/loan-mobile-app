@@ -16,6 +16,7 @@ const LogoHeaderBack = ({
   hideLogo,
   headerImageUri,
   notificationIconPresent,
+  unreadNotifications,
 }) => {
   return (
     <LogoHeader
@@ -37,6 +38,7 @@ const LogoHeaderBack = ({
       headline={headline}
       subHeadline={subHeadline}
       notificationIconPresent={notificationIconPresent}
+      unreadNotifications={unreadNotifications}
       rightIcon={
         onRightIconPress && (
           <SvgContainer height={42} width={42}>

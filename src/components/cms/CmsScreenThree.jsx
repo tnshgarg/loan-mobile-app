@@ -9,7 +9,7 @@ import LogoHeaderBack from "../molecules/LogoHeaderBack";
 import CmsLoading from "./CmsLoading";
 import CmsRoot from "./CmsRoot";
 
-const CmsScreenOne = (props) => {
+const CmsScreenThree = (props) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -92,4 +92,4 @@ const CmsScreenOne = (props) => {
   );
 };
 
-export default CmsScreenOne;
+export default CmsScreenThree;

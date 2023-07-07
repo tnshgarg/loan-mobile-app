@@ -7,6 +7,7 @@ import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
 import VerifyMandateCard from "../../../../components/molecules/VerifyMandateCard";
 import LiveOfferCard from "../../../../components/organisms/LiveOfferCard";
+import { navigationHelper } from "../../../../helpers/CmsNavigationHelper";
 import { getNumberOfDays } from "../../../../helpers/DateFunctions";
 import { EWA_POLLING_DURATION } from "../../../../services/constants";
 import { useGetOffersQuery } from "../../../../store/apiSlices/ewaApi";
@@ -36,7 +37,11 @@ const EWA = () => {
 
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
-  const { data: mandateData, error, isLoading } = useGetMandateQuery(unipeEmployeeId);
+  const {
+    data: mandateData,
+    error,
+    isLoading,
+  } = useGetMandateQuery(unipeEmployeeId);
 
   const backAction = () => {
     navigation.navigate("EWA", { replace: true });

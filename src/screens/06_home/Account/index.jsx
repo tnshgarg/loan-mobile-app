@@ -76,7 +76,7 @@ const AccountMenu = (props) => {
       title: strings.logout,
       subtitle: strings.logoutFromUnipe,
       imageUri:
-        "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/logout.png ",
+        "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/logout.png",
       action: () => onLogout(),
     },
   ];
@@ -105,10 +105,6 @@ const AccountMenu = (props) => {
           <CmsLoading />
         ) : (
           <CmsRoot children={cmsData?.account_top || []}></CmsRoot>
-        )}
-        {console.log(
-          "Account Nav list: ",
-          cmsData?.account_navigation_list?.[0].children
         )}
 
         {!cmsData && cmsLoading ? (

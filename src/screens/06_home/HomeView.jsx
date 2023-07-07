@@ -196,6 +196,7 @@ const HomeView = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <LogoHeaderBack
           notificationIconPresent={true}
+          unreadNotifications={true}
           title={`${strings.goodAfternoon} \n${name}!`}
           onRightIconPress={() => {
             navigationHelper({

@@ -3,7 +3,6 @@ import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import LogoImage from "../../assets/HeaderLogo.svg";
-import NotificationFade from "../../assets/NotificationFade.svg";
 import { COLORS, FONTS } from "../../constants/Theme";
 import SvgContainer from "./SvgContainer";
 
@@ -20,6 +19,7 @@ const LogoHeader = ({
   hideLogo,
   headerImageUri,
   notificationIconPresent,
+  unreadNotifications,
 }) => {
   const navigation = useNavigation();
   const EmptyView = () => {
@@ -61,7 +61,13 @@ const LogoHeader = ({
         </View>
         {notificationIconPresent ? (
           <TouchableOpacity
-            style={{ paddingTop: 5 }}
+            style={{
+              backgroundColor: COLORS.white,
+              padding: 4,
+              elevation: 5,
+              marginRight: 15,
+              borderRadius: 5,
+            }}
             activeOpacity={0.7}
             onPress={() =>
               navigation.navigate("AccountStack", {
@@ -69,9 +75,14 @@ const LogoHeader = ({
               })
             }
           >
-            <SvgContainer height={42} width={42}>
-              <NotificationFade />
-            </SvgContainer>
+            <Image
+              source={{
+                uri: `https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/${
+                  unreadNotifications ? "UnreadNotifs" : "Notif"
+                }.png`,
+              }}
+              style={{ height: 24, width: 24 }}
+            />
           </TouchableOpacity>
         ) : (
           <></>

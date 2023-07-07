@@ -846,6 +846,7 @@ export const DUMMY_RES = {
             title: "Add Mandate",
             variant: "filled",
             clickType: "navigation",
+            navigate: { type: "back" },
             styling: { marginVertical: "10%" },
           },
           {
@@ -938,6 +939,40 @@ export const DUMMY_RES = {
               },
             ],
           },
+          {
+            type: "container",
+            styling: {
+              flexDirection: "row",
+              alignItems: "center",
+              marginVertical: "5%",
+            },
+            children: [
+              { type: "badge", text: "OPTION 4" },
+              {
+                type: "title",
+                title: "UPI",
+                styling: { fontSize: 18, marginLeft: "10%" },
+              },
+            ],
+          },
+          {
+            type: "container",
+            styling: { paddingTop: 0 },
+            children: [
+              {
+                type: "subtitle",
+                title:
+                  "To complete you e-mandate with UPI, select youe preferred UPI app, review and approve the mandate summary in the chosen app, and are then redirected back to the checkout page where the mandate summary is displayed.",
+                styling: { fontSize: 16 },
+              },
+            ],
+          },
+          {
+            type: "title",
+            title:
+              "Please Note: Once this mandate is authenticated successfully, your bank will approve it in due course. You can check the mandate status on the Unipe App itself.",
+            styling: { fontSize: 16, marginTop: "5%" },
+          },
         ],
       },
       {
@@ -979,7 +1014,7 @@ export const DUMMY_RES = {
           children: [
             {
               type: "image",
-              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/profile.png ",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/profile.png",
             },
             {
               children: [
@@ -1166,8 +1201,8 @@ export const DUMMY_RES = {
           ],
           navigate: {
             stack: "AccountStack",
-            screen: "Language",
-            type: "app",
+            params: { blogKey: "app_language" },
+            type: "cms",
           },
           secondColumnStyle: {
             flex: 1,
@@ -1262,6 +1297,18 @@ export const DUMMY_RES = {
       type: "container",
     },
   ],
+  // account_top: [
+  //   {
+  //     type: "twoColumn",
+  //     children: [
+  //       { type: "image", url: "" },
+  //       {
+  //         type: "container",
+  //         children: [{ type: "title", title: "Test Username" }],
+  //       },
+  //     ],
+  //   },
+  // ],
   blog_1: {
     data: [
       {
@@ -2032,7 +2079,7 @@ export const DUMMY_RES = {
               {
                 children: [
                   {
-                    title: "kyc Verification",
+                    title: "KYC Verification",
                     type: "title",
                   },
                   {
@@ -3165,7 +3212,217 @@ export const DUMMY_RES = {
       { type: "footer" },
     ],
   },
-  language_selection: [{}],
+  customer_survey: {
+    screenTitle: "Survey",
+    data: [
+      {
+        type: "container",
+        styling: { padding: "5%" },
+        children: [
+          {
+            type: "subtitle",
+            title: "Hi there! Please take this survey",
+            styling: { textAlign: "center", fontSize: 20 },
+          },
+          {
+            type: "image",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/SplashScreens/AddRepaymentImage.png",
+            styling: { width: "100%", flex: 1, aspectRatio: 1 },
+          },
+          {
+            type: "subtitle",
+            title:
+              "- Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n- Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,\n- When an unknown printer took a galley of type and scrambled web page editors ",
+            styling: { fontSize: 18, lineHeight: 28, marginTop: "5%" },
+          },
+          {
+            type: "button",
+            title: "Start Survey",
+            variant: "filled",
+            clickType: "navigation",
+            styling: { marginTop: "15%" },
+            navigate: {
+              params: { blogKey: "survey_questions" },
+              type: "cmsScreenTwo",
+            },
+          },
+        ],
+      },
+    ],
+  },
+  survey_questions: {
+    screenTitle: "Survey",
+    data: [
+      {
+        type: "questions",
+        children: [
+          {
+            type: "container",
+            children: [
+              { type: "subtitle", title: "Q1" },
+              {
+                type: "subtitle",
+                title: "Lorem Ipsum is simply dummy text of the printing?",
+                styling: { marginTop: "5%", fontSize: 24 },
+              },
+              {
+                type: "container",
+                styling: {
+                  width: "100%",
+                  borderWidth: 1,
+                  borderColor: "#000",
+                  padding: "6%",
+                  marginTop: "10%",
+                  borderRadius: 10,
+                  backgroundColor: "#fff",
+                },
+                children: [
+                  {
+                    type: "subtitle",
+                    title: "Answer 1",
+                    styling: { fontSize: 20 },
+                  },
+                ],
+              },
+              {
+                type: "container",
+                styling: {
+                  width: "100%",
+                  borderWidth: 1,
+                  borderColor: "#000",
+                  padding: "6%",
+                  marginTop: "5%",
+                  borderRadius: 10,
+                },
+                children: [
+                  {
+                    type: "subtitle",
+                    title: "Answer 2",
+                    styling: { fontSize: 20 },
+                  },
+                ],
+              },
+              {
+                type: "container",
+                styling: {
+                  width: "100%",
+                  borderWidth: 1,
+                  borderColor: "#000",
+                  padding: "6%",
+                  marginTop: "5%",
+                  borderRadius: 10,
+                },
+                children: [
+                  {
+                    type: "subtitle",
+                    title: "Answer 3",
+                    styling: { fontSize: 20 },
+                  },
+                ],
+              },
+              {
+                type: "container",
+                styling: {
+                  width: "100%",
+                  borderWidth: 1,
+                  borderColor: "#000",
+                  padding: "6%",
+                  marginTop: "5%",
+                  borderRadius: 10,
+                },
+                children: [
+                  {
+                    type: "subtitle",
+                    title: "Answer 4",
+                    styling: { fontSize: 20 },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: "container",
+            children: [
+              { type: "subtitle", title: "Q2" },
+              {
+                type: "subtitle",
+                title: "Lorem Ipsum is simply dummy text of the printing?",
+                styling: { marginTop: "5%", fontSize: 24 },
+              },
+              {
+                type: "container",
+                children: [
+                  {
+                    type: "title",
+                    title: "Asnwer 4",
+                    styling: { fontSize: 24 },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: "container",
+            children: [
+              { type: "subtitle", title: "Q3" },
+              {
+                type: "subtitle",
+                title: "Lorem Ipsum is simply dummy text of the printing?",
+                styling: { marginTop: "5%", fontSize: 24 },
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  survey_done: {
+    data: [{}],
+  },
+  app_language: {
+    screenTitle: "App Language",
+    data: [
+      {
+        type: "threeColumn",
+        widths: ["10%", "80%", "10%"],
+        styling: {
+          padding: "5%",
+        },
+        children: [
+          {
+            type: "image",
+            styling: { height: 42, width: 42 },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/LanguageSelection/en.png",
+          },
+
+          { type: "title", title: "English", styling: { paddingLeft: 15 } },
+          {
+            type: "icon",
+            iconName: "radiobox-marked",
+            iconSize: 24,
+            iconColor: "#41be89",
+          },
+        ],
+      },
+      {
+        type: "threeColumn",
+        widths: ["10%", "80%", "10%"],
+        styling: {
+          padding: "5%",
+        },
+        children: [
+          {
+            type: "image",
+            styling: { height: 42, width: 42 },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/LanguageSelection/hi.png",
+          },
+
+          { type: "title", title: "हिंदी ", styling: { paddingLeft: 15 } },
+          { type: "icon", iconName: "radiobox-blank", iconSize: 24 },
+        ],
+      },
+    ],
+  },
 };
 
 export const DUMMY_RES_HINDI = {
@@ -4003,6 +4260,7 @@ export const DUMMY_RES_HINDI = {
             title: "Add Mandate",
             variant: "filled",
             clickType: "navigation",
+            navigate: { type: "back" },
             styling: { marginVertical: "10%" },
           },
           {
@@ -4078,7 +4336,7 @@ export const DUMMY_RES_HINDI = {
               { type: "badge", text: "विकल्प 3:" },
               {
                 type: "title",
-                title: "Aadhaar Card",
+                title: "आधार",
                 styling: { fontSize: 18, marginLeft: "10%" },
               },
             ],
@@ -4094,6 +4352,40 @@ export const DUMMY_RES_HINDI = {
                 styling: { fontSize: 16 },
               },
             ],
+          },
+          {
+            type: "container",
+            styling: {
+              flexDirection: "row",
+              alignItems: "center",
+              marginVertical: "5%",
+            },
+            children: [
+              { type: "badge", text: "विकल्प 3:" },
+              {
+                type: "title",
+                title: "UPI",
+                styling: { fontSize: 18, marginLeft: "10%" },
+              },
+            ],
+          },
+          {
+            type: "container",
+            styling: { paddingTop: 0 },
+            children: [
+              {
+                type: "subtitle",
+                title:
+                  "UPI के साथ अपना मैंडेट पूरा करने के लिए, अपनी पसंदीदा UPI ऐप चुने, चुने गए ऐप में मैंडेट समरी देखें और उसे मंजूरी दें, और उसके बाद वापस चेकआउट पेज पर वापिस भेज दिया जायेगा जहां मैंडेट समरी दिखाई जाएगी।",
+                styling: { fontSize: 16 },
+              },
+            ],
+          },
+          {
+            type: "title",
+            title:
+              "ध्यान दें: एक बार जब यह मैंडेट सफलतापूर्वक प्रमाणित हो जाता है, तो आपका बैंक उचित समय के अंदर इसे स्वीकृति दे देगा। आप Unipe App पर मैंडेट स्टेटस चेक कर सकते हैं।",
+            styling: { fontSize: 16, marginTop: "5%" },
           },
         ],
       },
@@ -5151,7 +5443,7 @@ export const DUMMY_RES_HINDI = {
               {
                 children: [
                   {
-                    title: "kyc Verification",
+                    title: "KYC Verification",
                     type: "title",
                   },
                   {
@@ -6250,6 +6542,10 @@ export const DUMMY_RES_HINDI = {
       },
       { type: "footer" },
     ],
+  },
+  app_language: {
+    screenTitle: "App Language",
+    data: [{}],
   },
 };
 
