@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
 import { Alert, BackHandler, ScrollView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { CMS_POLLING_DURATION } from "../../services/constants";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { styles } from "../../styles";
@@ -27,11 +28,29 @@ const CmsScreenOne = (props) => {
   let blogKey = props.route?.params?.blogKey;
   let backScreen = props.route?.params?.backScreen;
   console.log({ backScreen });
-  // const { data, screenTitle, headline, headingImage, disableBack } =
-  //   DUMMY_RES?.[blogKey] ?? {};
+  // const {
+  //   data,
+  //   screenTitle,
+  //   headline,
+  //   headingImage,
+  //   disableBack,
+  //   headerStyle,
+  //   hideLogo,
+  //   hideLeftIcon,
+  //   rightIconNavigate,
+  // } = DUMMY_RES?.[blogKey] ?? {};
 
-  const { data, screenTitle, headline, headingImage, disableBack } =
-    cmsData?.[blogKey] ?? {};
+  const {
+    data,
+    screenTitle,
+    headline,
+    headingImage,
+    disableBack,
+    headerStyle,
+    hideLogo,
+    hideLeftIcon,
+    rightIconNavigate,
+  } = cmsData?.[blogKey] ?? {};
 
   console.log("MyData: ", {
     blogKey,
@@ -39,6 +58,7 @@ const CmsScreenOne = (props) => {
     screenTitle,
     headline,
     headingImage,
+
     // cmsData,
     // cms: cmsData?.[blogKey],
     styling: (data || [])[0]?.styling,
@@ -77,15 +97,18 @@ const CmsScreenOne = (props) => {
     <View style={[styles.safeContainer, { padding: 0 }]}>
       <LogoHeaderBack
         title={screenTitle}
-        onLeftIconPress={backAction}
+        onLeftIconPress={hideLeftIcon ? null : backAction}
         headline={headline}
         headerImageUri={headingImage}
+        onRightIconPress={() => navigationHelper(rightIconNavigate)}
+        containerStyle={{ ...headerStyle }}
+        hideLogo={hideLogo}
       />
       {!cmsData && cmsLoading ? (
         <CmsLoading />
       ) : (
-        <ScrollView>
-          <CmsRoot children={data} style={{ flex: 1 }}></CmsRoot>
+        <ScrollView contentContainerStyle={{ flex: 1 }}>
+          <CmsRoot children={data}></CmsRoot>
         </ScrollView>
       )}
     </View>
