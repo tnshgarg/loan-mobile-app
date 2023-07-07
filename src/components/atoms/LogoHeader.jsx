@@ -61,13 +61,6 @@ const LogoHeader = ({
         </View>
         {notificationIconPresent ? (
           <TouchableOpacity
-            style={{
-              backgroundColor: COLORS.white,
-              padding: 4,
-              elevation: 5,
-              marginRight: 15,
-              borderRadius: 5,
-            }}
             activeOpacity={0.7}
             onPress={() =>
               navigation.navigate("AccountStack", {
@@ -81,7 +74,7 @@ const LogoHeader = ({
                   unreadNotifications ? "UnreadNotifs" : "Notif"
                 }.png`,
               }}
-              style={{ height: 24, width: 24 }}
+              style={{ height: 36, width: 36, marginRight: 15 }}
             />
           </TouchableOpacity>
         ) : (
