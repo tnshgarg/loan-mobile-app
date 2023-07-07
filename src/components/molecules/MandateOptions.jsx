@@ -81,6 +81,38 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
               });
             },
           },
+          {
+            title: "PhonePe",
+            image: require("../../assets/payment_icons/Phonepe.png"),
+            onPress: () => {
+              trackEvent({
+                interaction: InteractionTypes.SCREEN_OPEN,
+                screen: "mandateStart",
+                action: "CONTINUE",
+              });
+              ProceedButton({
+                authType: "upi",
+                provider: "cashfree",
+                app: "PHONEPE",
+              });
+            },
+          },
+          {
+            title: "BHIM",
+            image: require("../../assets/payment_icons/Bhim.png"),
+            onPress: () => {
+              trackEvent({
+                interaction: InteractionTypes.SCREEN_OPEN,
+                screen: "mandateStart",
+                action: "CONTINUE",
+              });
+              ProceedButton({
+                authType: "upi",
+                provider: "cashfree",
+                app: "BHIM",
+              });
+            },
+          },
         ],
         type: "upi",
         onPress: () => {
