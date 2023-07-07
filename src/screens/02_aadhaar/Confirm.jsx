@@ -22,7 +22,7 @@ const AadhaarConfirm = () => {
     setAlertVisible(true);
     return true;
   };
-  
+
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
     return () =>
@@ -35,7 +35,7 @@ const AadhaarConfirm = () => {
     subtitle: "To get advance salary you must complete your KYC",
 
     imageUri:
-      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Aadhaar/step3.png",
     primaryBtnText: "Continue KYC",
     onPressPrimaryBtn: () => {
       setAlertVisible(false);

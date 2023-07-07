@@ -43,7 +43,7 @@ const Mandate = (props) => {
       "Add your mandate details to withdraw advance salary in our bank account",
 
     imageUri:
-      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Aadhaar/step3.png",
     primaryBtnText: "+ Add Repayment Method",
     onPressPrimaryBtn: () => {
       setAlertVisible(false);

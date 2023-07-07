@@ -77,7 +77,7 @@ const LogoHeader = ({
           >
             <Image
               source={{
-                uri: `https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/${
+                uri: `https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/${
                   unreadNotifications ? "UnreadNotifs" : "Notif"
                 }.png`,
               }}

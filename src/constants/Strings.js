@@ -27,7 +27,7 @@ export const DUMMY_RES = {
             children: [
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/Logo.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/KYC/Logo.png",
                 styling: { width: "100%", flex: 1, aspectRatio: 1.6 },
               },
               {
@@ -62,7 +62,7 @@ export const DUMMY_RES = {
             type: "video",
             size: "large",
             thumbnail:
-              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
           },
           {
             type: "container",
@@ -92,7 +92,7 @@ export const DUMMY_RES = {
               },
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/step1.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/KYC/step1.png",
                 styling: { marginTop: "5%" },
               },
             ],
@@ -124,7 +124,7 @@ export const DUMMY_RES = {
               },
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/step2.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/KYC/step2.png",
                 styling: { marginTop: "5%" },
               },
             ],
@@ -157,7 +157,7 @@ export const DUMMY_RES = {
               },
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/step3.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/KYC/step3.png",
                 styling: { marginTop: "5%" },
               },
             ],
@@ -207,7 +207,7 @@ export const DUMMY_RES = {
                   width: "100%",
                 },
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/Logo.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Aadhaar/Logo.png",
               },
               {
                 children: [
@@ -247,7 +247,7 @@ export const DUMMY_RES = {
           {
             size: "large",
             thumbnail:
-              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
             type: "video",
           },
 
@@ -287,7 +287,7 @@ export const DUMMY_RES = {
                   marginTop: "5%",
                 },
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Aadhaar/step1.png",
               },
             ],
             styling: {
@@ -333,7 +333,7 @@ export const DUMMY_RES = {
                   marginTop: "5%",
                 },
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Aadhaar/step2.png",
               },
             ],
             styling: {
@@ -378,7 +378,7 @@ export const DUMMY_RES = {
                   marginTop: "5%",
                 },
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Aadhaar/step3.png",
               },
             ],
             styling: {
@@ -447,7 +447,7 @@ export const DUMMY_RES = {
                   width: "100%",
                 },
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/PAN/Logo.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/PAN/Logo.png",
               },
               {
                 children: [
@@ -487,7 +487,7 @@ export const DUMMY_RES = {
           {
             size: "large",
             thumbnail:
-              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
             type: "video",
           },
 
@@ -527,7 +527,7 @@ export const DUMMY_RES = {
                   marginTop: "5%",
                 },
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/PAN/step1.png",
               },
             ],
             styling: {
@@ -573,7 +573,7 @@ export const DUMMY_RES = {
                   marginTop: "5%",
                 },
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/PAN/step2.png",
               },
             ],
             styling: {
@@ -636,7 +636,7 @@ export const DUMMY_RES = {
                   width: "100%",
                 },
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/Logo.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Aadhaar/Logo.png",
               },
               {
                 children: [
@@ -676,7 +676,7 @@ export const DUMMY_RES = {
           {
             size: "large",
             thumbnail:
-              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
             type: "video",
           },
           {
@@ -716,7 +716,7 @@ export const DUMMY_RES = {
                   marginTop: "5%",
                 },
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Bank/step1.png",
               },
             ],
             styling: {
@@ -761,7 +761,7 @@ export const DUMMY_RES = {
                   marginTop: "5%",
                 },
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Bank/step2.png",
               },
             ],
             styling: {
@@ -818,7 +818,7 @@ export const DUMMY_RES = {
             children: [
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Mandata/Logo.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Mandata/Logo.png",
                 styling: { width: "100%", flex: 1, aspectRatio: 1.6 },
               },
               {
@@ -853,7 +853,7 @@ export const DUMMY_RES = {
             type: "video",
             size: "large",
             thumbnail:
-              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
           },
           {
             type: "container",
@@ -1014,7 +1014,7 @@ export const DUMMY_RES = {
           children: [
             {
               type: "image",
-              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/profile.png",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/profile.png",
             },
             {
               children: [
@@ -1054,7 +1054,7 @@ export const DUMMY_RES = {
           children: [
             {
               type: "image",
-              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/payslip.png ",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/payslip.png ",
             },
             {
               children: [
@@ -1094,7 +1094,7 @@ export const DUMMY_RES = {
           children: [
             {
               type: "image",
-              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/KYC.png ",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/KYC.png ",
             },
             {
               children: [
@@ -1134,7 +1134,7 @@ export const DUMMY_RES = {
           children: [
             {
               type: "image",
-              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/Support.png ",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/Support.png ",
             },
             {
               children: [
@@ -1174,7 +1174,7 @@ export const DUMMY_RES = {
           children: [
             {
               type: "image",
-              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/Support.png ",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/Support.png ",
             },
             {
               children: [
@@ -1215,7 +1215,7 @@ export const DUMMY_RES = {
           children: [
             {
               type: "image",
-              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/Feedback.png",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/Feedback.png",
             },
             {
               children: [
@@ -1255,7 +1255,7 @@ export const DUMMY_RES = {
           children: [
             {
               type: "image",
-              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/AboutUs.png ",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/AboutUs.png ",
             },
             {
               children: [
@@ -1318,7 +1318,7 @@ export const DUMMY_RES = {
               marginLeft: "-15%",
             },
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhatKYC.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/KYC/WhatKYC.png",
           },
           {
             children: [
@@ -1345,7 +1345,7 @@ export const DUMMY_RES = {
               marginLeft: "15%",
             },
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhyCompleteKYC.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/KYC/WhyCompleteKYC.png",
           },
           {
             children: [
@@ -1375,7 +1375,7 @@ export const DUMMY_RES = {
               marginLeft: "-15%",
             },
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/RisksofIncompleteKYC.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/KYC/RisksofIncompleteKYC.png",
           },
           {
             children: [
@@ -1402,7 +1402,7 @@ export const DUMMY_RES = {
               marginLeft: "15%",
             },
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/UnlockAdvancewithKYC.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/KYC/UnlockAdvancewithKYC.png",
           },
           {
             children: [
@@ -1432,7 +1432,7 @@ export const DUMMY_RES = {
               marginLeft: "-15%",
             },
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/AdvancewithoutKYC.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/KYC/AdvancewithoutKYC.png",
           },
           {
             children: [
@@ -1481,7 +1481,7 @@ export const DUMMY_RES = {
       },
     ],
     headingImage:
-      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/KYCBenefits.png",
     headline: "What are the benefits of completing KYC?",
     screenTitle: "",
   },
@@ -1495,7 +1495,7 @@ export const DUMMY_RES = {
             },
             type: "image",
             aspectRatio: 0.88,
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/Mandate/WhatMandate.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/Mandate/WhatMandate.png",
           },
           {
             children: [
@@ -1523,7 +1523,7 @@ export const DUMMY_RES = {
             },
             type: "image",
             aspectRatio: 0.88,
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/Mandate/OneTimeProc.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/Mandate/OneTimeProc.png",
           },
           {
             children: [
@@ -1554,7 +1554,7 @@ export const DUMMY_RES = {
             },
             aspectRatio: 0.88,
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/Mandate/SaveMoney.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/Mandate/SaveMoney.png",
           },
           {
             children: [
@@ -1582,7 +1582,7 @@ export const DUMMY_RES = {
             },
             type: "image",
             aspectRatio: 0.78,
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/Mandate/AvoidLateFine.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/Mandate/AvoidLateFine.png",
           },
           {
             children: [
@@ -1639,7 +1639,7 @@ export const DUMMY_RES = {
       },
     ],
     headingImage:
-      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/MandateBenefits.png",
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/MandateBenefits.png",
     headline: "What are the benefits of Mandate Registration?",
     screenTitle: "",
   },
@@ -1652,7 +1652,7 @@ export const DUMMY_RES = {
               marginLeft: "-15%",
             },
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/AdvanceSalary/What.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/AdvanceSalary/What.png",
           },
           {
             children: [
@@ -1680,7 +1680,7 @@ export const DUMMY_RES = {
             },
             type: "image",
             aspectRatio: 0.8,
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/AdvanceSalary/zeroInterest.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/AdvanceSalary/zeroInterest.png",
           },
           {
             children: [
@@ -1710,7 +1710,7 @@ export const DUMMY_RES = {
               marginLeft: "-15%",
             },
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/AdvanceSalary/JoiningFees.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/AdvanceSalary/JoiningFees.png",
           },
           {
             children: [
@@ -1738,7 +1738,7 @@ export const DUMMY_RES = {
             },
             aspectRatio: 0.92,
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/AdvanceSalary/AvoidLoans.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/AdvanceSalary/AvoidLoans.png",
           },
           {
             children: [
@@ -1784,7 +1784,7 @@ export const DUMMY_RES = {
       },
     ],
     headingImage:
-      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/AdvanceSalaryBenefits.png",
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/AdvanceSalaryBenefits.png",
     headline: "What are the benefits of Advance Salary?",
     screenTitle: "",
   },
@@ -1797,7 +1797,7 @@ export const DUMMY_RES = {
               marginLeft: "-15%",
             },
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/PF/What.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/PF/What.png",
           },
           {
             children: [
@@ -1840,7 +1840,7 @@ export const DUMMY_RES = {
       },
     ],
     headingImage:
-      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/CheckPFBalance.png",
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/CheckPFBalance.png",
     headline: "How do I check my PF Balance?",
     screenTitle: "",
   },
@@ -1865,7 +1865,7 @@ export const DUMMY_RES = {
                   },
                   {
                     type: "image",
-                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
+                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/KYCBenefits.png",
                   },
                 ],
                 type: "twoColumn",
@@ -1874,7 +1874,7 @@ export const DUMMY_RES = {
             ],
             navigate: {
               params: { blogKey: "blog_1" },
-              type: "cms",
+              type: "cmsScreenTwo",
             },
             type: "card",
           },
@@ -1903,7 +1903,7 @@ export const DUMMY_RES = {
                   },
                   {
                     thumbnail:
-                      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+                      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
                     type: "video",
                     size: "small",
                     videoUri: "ux6XLNiEpLs",
@@ -1929,7 +1929,7 @@ export const DUMMY_RES = {
                   },
                   {
                     type: "image",
-                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/MandateBenefits.png",
+                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/MandateBenefits.png",
                   },
                 ],
                 type: "twoColumn",
@@ -1938,7 +1938,7 @@ export const DUMMY_RES = {
             ],
             navigate: {
               params: { blogKey: "blog_3" },
-              type: "cms",
+              type: "cmsScreenTwo",
             },
             type: "card",
           },
@@ -1967,7 +1967,7 @@ export const DUMMY_RES = {
                   },
                   {
                     thumbnail:
-                      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+                      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
                     type: "video",
                     size: "small",
                     videoUri: "ux6XLNiEpLs",
@@ -1993,7 +1993,7 @@ export const DUMMY_RES = {
                   },
                   {
                     type: "image",
-                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/AdvanceSalaryBenefits.png",
+                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/AdvanceSalaryBenefits.png",
                   },
                 ],
                 type: "twoColumn",
@@ -2002,7 +2002,7 @@ export const DUMMY_RES = {
             ],
             navigate: {
               params: { blogKey: "blog_5" },
-              type: "cms",
+              type: "cmsScreenTwo",
             },
             type: "card",
           },
@@ -2021,7 +2021,7 @@ export const DUMMY_RES = {
                   },
                   {
                     type: "image",
-                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/CheckPFBalance.png",
+                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/CheckPFBalance.png",
                   },
                 ],
                 type: "twoColumn",
@@ -2030,7 +2030,7 @@ export const DUMMY_RES = {
             ],
             navigate: {
               params: { blogKey: "blog_6" },
-              type: "cms",
+              type: "cmsScreenTwo",
             },
             type: "card",
           },
@@ -2074,7 +2074,7 @@ export const DUMMY_RES = {
             children: [
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/KYC.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/KYC.png",
               },
               {
                 children: [
@@ -2110,7 +2110,7 @@ export const DUMMY_RES = {
             children: [
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/mandate.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/mandate.png",
               },
               {
                 children: [
@@ -2146,7 +2146,7 @@ export const DUMMY_RES = {
             children: [
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/SalaryWithdrawal.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/SalaryWithdrawal.png",
               },
               {
                 children: [
@@ -2245,11 +2245,12 @@ export const DUMMY_RES = {
             {
               styling: {
                 alignSelf: "center",
-                marginBottom: "-40%",
-                marginTop: "-20%",
+                marginBottom: "-15%",
+                marginTop: "-10%",
+                width: "70%",
               },
               type: "image",
-              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBanner.png",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/ContestBanner.png",
             },
             {
               children: [
@@ -2257,7 +2258,7 @@ export const DUMMY_RES = {
                   children: [
                     {
                       type: "image",
-                      url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBannerCurrentContest.png",
+                      url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/ContestBannerCurrentContest.png",
                     },
                   ],
                   type: "card",
@@ -2266,7 +2267,7 @@ export const DUMMY_RES = {
                   children: [
                     {
                       type: "image",
-                      url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBannerLastMonthWinners.png",
+                      url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/ContestBannerLastMonthWinners.png",
                     },
                   ],
                   gradientColors: ["#fff", "#fff"],
@@ -2301,7 +2302,7 @@ export const DUMMY_RES = {
                         },
                         {
                           type: "image",
-                          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
+                          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/KYCBenefits.png",
                         },
                       ],
                       type: "twoColumn",
@@ -2330,7 +2331,7 @@ export const DUMMY_RES = {
                         },
                         {
                           type: "image",
-                          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/MandateBenefits.png",
+                          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/MandateBenefits.png",
                         },
                       ],
                       type: "twoColumn",
@@ -2358,7 +2359,7 @@ export const DUMMY_RES = {
                         },
                         {
                           type: "image",
-                          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/AdvanceSalaryBenefits.png",
+                          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/AdvanceSalaryBenefits.png",
                         },
                       ],
                       type: "twoColumn",
@@ -2386,7 +2387,7 @@ export const DUMMY_RES = {
                         },
                         {
                           type: "image",
-                          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/CheckPFBalance.png",
+                          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/CheckPFBalance.png",
                         },
                       ],
                       type: "twoColumn",
@@ -2407,7 +2408,7 @@ export const DUMMY_RES = {
           ctaText: "SEE ALL",
           gradientColors: ["#FFFFFF", "#FFFFFF"],
           leftIcon:
-            "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsIcon.png",
+            "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsIcon.png",
           styling: {
             marginTop: "10%",
             padding: 0,
@@ -2444,7 +2445,7 @@ export const DUMMY_RES = {
                 {
                   size: "small",
                   thumbnail:
-                    "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+                    "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
                   type: "video",
                   videoUri: "ux6XLNiEpLs",
                 },
@@ -2481,7 +2482,7 @@ export const DUMMY_RES = {
                 {
                   size: "small",
                   thumbnail:
-                    "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+                    "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
                   type: "video",
                   videoUri: "ux6XLNiEpLs",
                 },
@@ -2695,7 +2696,7 @@ export const DUMMY_RES = {
           },
           {
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/SplashScreens/AddRepaymentImage.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/SplashScreens/Welcome.png",
             styling: { aspectRatio: 1 },
           },
           {
@@ -2761,7 +2762,7 @@ export const DUMMY_RES = {
       children: [
         {
           type: "image",
-          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/SplashScreens/AddRepaymentImage.png",
+          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/SplashScreens/AddRepaymentImage.png",
           styling: { aspectRatio: 1 },
         },
         {
@@ -2865,7 +2866,7 @@ export const DUMMY_RES = {
               children: [
                 {
                   type: "image",
-                  url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/SplashScreens/Sorry.png",
+                  url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/SplashScreens/Sorry.png",
                   styling: { marginBottom: "10%" },
                 },
                 { type: "title", title: "App Update Available" },
@@ -2994,7 +2995,7 @@ export const DUMMY_RES = {
             children: [
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/Logo.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/KYC/Logo.png",
                 styling: { width: "100%", flex: 1, aspectRatio: 1.6 },
               },
               {
@@ -3031,7 +3032,7 @@ export const DUMMY_RES = {
             children: [
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/Logo.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/KYC/Logo.png",
                 styling: { width: "100%", flex: 1, aspectRatio: 1.6 },
               },
               {
@@ -3062,7 +3063,7 @@ export const DUMMY_RES = {
             children: [
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/Logo.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/KYC/Logo.png",
                 styling: { width: "100%", flex: 1, aspectRatio: 1.6 },
               },
               {
@@ -3226,7 +3227,7 @@ export const DUMMY_RES = {
           },
           {
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/SplashScreens/AddRepaymentImage.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/SplashScreens/AddRepaymentImage.png",
             styling: { width: "100%", flex: 1, aspectRatio: 1 },
           },
           {
@@ -3385,6 +3386,9 @@ export const DUMMY_RES = {
       {
         type: "threeColumn",
         widths: ["10%", "80%", "10%"],
+        navigate: {
+          language: "en",
+        },
         styling: {
           padding: "5%",
         },
@@ -3409,6 +3413,9 @@ export const DUMMY_RES = {
         widths: ["10%", "80%", "10%"],
         styling: {
           padding: "5%",
+        },
+        navigate: {
+          language: "hi",
         },
         children: [
           {
@@ -3440,7 +3447,7 @@ export const DUMMY_RES_HINDI = {
             children: [
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/Logo.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/KYC/Logo.png",
                 styling: { width: "100%", flex: 1, aspectRatio: 1.6 },
               },
               {
@@ -3476,7 +3483,7 @@ export const DUMMY_RES_HINDI = {
             type: "video",
             size: "large",
             thumbnail:
-              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
           },
           {
             type: "container",
@@ -3506,7 +3513,7 @@ export const DUMMY_RES_HINDI = {
               },
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/step1.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/KYC/step1.png",
                 styling: { marginTop: "5%" },
               },
             ],
@@ -3538,7 +3545,7 @@ export const DUMMY_RES_HINDI = {
               },
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/step2.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/KYC/step2.png",
                 styling: { marginTop: "5%" },
               },
             ],
@@ -3571,7 +3578,7 @@ export const DUMMY_RES_HINDI = {
               },
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/step3.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/KYC/step3.png",
                 styling: { marginTop: "5%" },
               },
             ],
@@ -3622,7 +3629,7 @@ export const DUMMY_RES_HINDI = {
                   width: "100%",
                 },
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/Logo.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Aadhaar/Logo.png",
               },
               {
                 children: [
@@ -3662,7 +3669,7 @@ export const DUMMY_RES_HINDI = {
           {
             size: "large",
             thumbnail:
-              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
             type: "video",
           },
           {
@@ -3701,7 +3708,7 @@ export const DUMMY_RES_HINDI = {
                   marginTop: "5%",
                 },
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Aadhaar/step1.png",
               },
             ],
             styling: {
@@ -3745,7 +3752,7 @@ export const DUMMY_RES_HINDI = {
                   marginTop: "5%",
                 },
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Aadhaar/step2.png",
               },
             ],
             styling: {
@@ -3789,7 +3796,7 @@ export const DUMMY_RES_HINDI = {
                   marginTop: "5%",
                 },
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Aadhaar/step3.png",
               },
             ],
             styling: {
@@ -3857,7 +3864,7 @@ export const DUMMY_RES_HINDI = {
                   width: "100%",
                 },
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/PAN/Logo.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/PAN/Logo.png",
               },
               {
                 children: [
@@ -3897,7 +3904,7 @@ export const DUMMY_RES_HINDI = {
           {
             size: "large",
             thumbnail:
-              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
             type: "video",
           },
 
@@ -3937,7 +3944,7 @@ export const DUMMY_RES_HINDI = {
                   marginTop: "5%",
                 },
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/PAN/step1.png",
               },
             ],
             styling: {
@@ -3983,7 +3990,7 @@ export const DUMMY_RES_HINDI = {
                   marginTop: "5%",
                 },
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/PAN/step2.png",
               },
             ],
             styling: {
@@ -4048,7 +4055,7 @@ export const DUMMY_RES_HINDI = {
                   width: "100%",
                 },
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/Logo.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Aadhaar/Logo.png",
               },
               {
                 children: [
@@ -4088,7 +4095,7 @@ export const DUMMY_RES_HINDI = {
           {
             size: "large",
             thumbnail:
-              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
             type: "video",
           },
           {
@@ -4128,7 +4135,7 @@ export const DUMMY_RES_HINDI = {
                   marginTop: "5%",
                 },
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Bank/step1.png",
               },
             ],
             styling: {
@@ -4173,7 +4180,7 @@ export const DUMMY_RES_HINDI = {
                   marginTop: "5%",
                 },
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Bank/step2.png",
               },
             ],
             styling: {
@@ -4231,7 +4238,7 @@ export const DUMMY_RES_HINDI = {
             children: [
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Mandata/Logo.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Mandata/Logo.png",
                 styling: { width: "100%", flex: 1, aspectRatio: 1.6 },
               },
               {
@@ -4267,7 +4274,7 @@ export const DUMMY_RES_HINDI = {
             type: "video",
             size: "large",
             thumbnail:
-              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+              "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
           },
           {
             type: "container",
@@ -4428,7 +4435,7 @@ export const DUMMY_RES_HINDI = {
           children: [
             {
               type: "image",
-              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/profile.png ",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/profile.png ",
             },
             {
               children: [
@@ -4468,7 +4475,7 @@ export const DUMMY_RES_HINDI = {
           children: [
             {
               type: "image",
-              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/payslip.png ",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/payslip.png ",
             },
             {
               children: [
@@ -4508,7 +4515,7 @@ export const DUMMY_RES_HINDI = {
           children: [
             {
               type: "image",
-              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/KYC.png ",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/KYC.png ",
             },
             {
               children: [
@@ -4548,7 +4555,7 @@ export const DUMMY_RES_HINDI = {
           children: [
             {
               type: "image",
-              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/Support.png ",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/Support.png ",
             },
             {
               children: [
@@ -4588,7 +4595,7 @@ export const DUMMY_RES_HINDI = {
           children: [
             {
               type: "image",
-              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/Feedback.png",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/Feedback.png",
             },
             {
               children: [
@@ -4628,7 +4635,7 @@ export const DUMMY_RES_HINDI = {
           children: [
             {
               type: "image",
-              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/AboutUs.png ",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/AboutUs.png ",
             },
             {
               children: [
@@ -4679,7 +4686,7 @@ export const DUMMY_RES_HINDI = {
               marginLeft: "-15%",
             },
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhatKYC.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/KYC/WhatKYC.png",
           },
           {
             children: [
@@ -4706,7 +4713,7 @@ export const DUMMY_RES_HINDI = {
               marginLeft: "15%",
             },
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/WhyCompleteKYC.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/KYC/WhyCompleteKYC.png",
           },
           {
             children: [
@@ -4736,7 +4743,7 @@ export const DUMMY_RES_HINDI = {
               marginLeft: "-15%",
             },
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/RisksofIncompleteKYC.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/KYC/RisksofIncompleteKYC.png",
           },
           {
             children: [
@@ -4763,7 +4770,7 @@ export const DUMMY_RES_HINDI = {
               marginLeft: "15%",
             },
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/UnlockAdvancewithKYC.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/KYC/UnlockAdvancewithKYC.png",
           },
           {
             children: [
@@ -4793,7 +4800,7 @@ export const DUMMY_RES_HINDI = {
               marginLeft: "-15%",
             },
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/KYC/AdvancewithoutKYC.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/KYC/AdvancewithoutKYC.png",
           },
           {
             children: [
@@ -4842,7 +4849,7 @@ export const DUMMY_RES_HINDI = {
       },
     ],
     headingImage:
-      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/KYCBenefits.png",
     headline: "KYC को पूरा करने के क्या लाभ हैं?",
     screenTitle: "",
   },
@@ -4856,7 +4863,7 @@ export const DUMMY_RES_HINDI = {
             },
             type: "image",
             aspectRatio: 0.88,
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/Mandate/WhatMandate.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/Mandate/WhatMandate.png",
           },
           {
             children: [
@@ -4884,7 +4891,7 @@ export const DUMMY_RES_HINDI = {
             },
             type: "image",
             aspectRatio: 0.88,
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/Mandate/OneTimeProc.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/Mandate/OneTimeProc.png",
           },
           {
             children: [
@@ -4915,7 +4922,7 @@ export const DUMMY_RES_HINDI = {
             },
             aspectRatio: 0.88,
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/Mandate/SaveMoney.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/Mandate/SaveMoney.png",
           },
           {
             children: [
@@ -4943,7 +4950,7 @@ export const DUMMY_RES_HINDI = {
             },
             type: "image",
             aspectRatio: 0.78,
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/Mandate/AvoidLateFine.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/Mandate/AvoidLateFine.png",
           },
           {
             children: [
@@ -5000,7 +5007,7 @@ export const DUMMY_RES_HINDI = {
       },
     ],
     headingImage:
-      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/MandateBenefits.png",
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/MandateBenefits.png",
     headline: "ई-मैन्डेट पंजीकरण के क्या लाभ हैं?",
     screenTitle: "",
   },
@@ -5013,7 +5020,7 @@ export const DUMMY_RES_HINDI = {
               marginLeft: "-15%",
             },
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/AdvanceSalary/What.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/AdvanceSalary/What.png",
           },
           {
             children: [
@@ -5041,7 +5048,7 @@ export const DUMMY_RES_HINDI = {
             },
             type: "image",
             aspectRatio: 0.8,
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/AdvanceSalary/zeroInterest.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/AdvanceSalary/zeroInterest.png",
           },
           {
             children: [
@@ -5071,7 +5078,7 @@ export const DUMMY_RES_HINDI = {
               marginLeft: "-15%",
             },
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/AdvanceSalary/JoiningFees.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/AdvanceSalary/JoiningFees.png",
           },
           {
             children: [
@@ -5099,7 +5106,7 @@ export const DUMMY_RES_HINDI = {
             },
             aspectRatio: 0.92,
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/AdvanceSalary/AvoidLoans.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/AdvanceSalary/AvoidLoans.png",
           },
           {
             children: [
@@ -5145,7 +5152,7 @@ export const DUMMY_RES_HINDI = {
       },
     ],
     headingImage:
-      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/AdvanceSalaryBenefits.png",
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/AdvanceSalaryBenefits.png",
     headline: "एडवांस सैलरी के क्या लाभ हैं?",
     screenTitle: "",
   },
@@ -5158,7 +5165,7 @@ export const DUMMY_RES_HINDI = {
               marginLeft: "-15%",
             },
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Blogs/PF/What.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/PF/What.png",
           },
           {
             children: [
@@ -5201,7 +5208,7 @@ export const DUMMY_RES_HINDI = {
       },
     ],
     headingImage:
-      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/CheckPFBalance.png",
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/CheckPFBalance.png",
     headline: "कैसे चेक करें अपना पीएफ बैलेंस?",
     screenTitle: "",
   },
@@ -5225,7 +5232,7 @@ export const DUMMY_RES_HINDI = {
                   },
                   {
                     type: "image",
-                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
+                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/KYCBenefits.png",
                   },
                 ],
                 type: "twoColumn",
@@ -5263,7 +5270,7 @@ export const DUMMY_RES_HINDI = {
                   },
                   {
                     thumbnail:
-                      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+                      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
                     type: "video",
                     size: "small",
                     videoUri: "ux6XLNiEpLs",
@@ -5289,7 +5296,7 @@ export const DUMMY_RES_HINDI = {
                   },
                   {
                     type: "image",
-                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/MandateBenefits.png",
+                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/MandateBenefits.png",
                   },
                 ],
                 type: "twoColumn",
@@ -5327,7 +5334,7 @@ export const DUMMY_RES_HINDI = {
                   },
                   {
                     thumbnail:
-                      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+                      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
                     type: "video",
                     size: "small",
                     videoUri: "ux6XLNiEpLs",
@@ -5353,7 +5360,7 @@ export const DUMMY_RES_HINDI = {
                   },
                   {
                     type: "image",
-                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/AdvanceSalaryBenefits.png",
+                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/AdvanceSalaryBenefits.png",
                   },
                 ],
                 type: "twoColumn",
@@ -5381,7 +5388,7 @@ export const DUMMY_RES_HINDI = {
                   },
                   {
                     type: "image",
-                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/CheckPFBalance.png",
+                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/CheckPFBalance.png",
                   },
                 ],
                 type: "twoColumn",
@@ -5438,7 +5445,7 @@ export const DUMMY_RES_HINDI = {
             children: [
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/KYC.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/KYC.png",
               },
               {
                 children: [
@@ -5474,7 +5481,7 @@ export const DUMMY_RES_HINDI = {
             children: [
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/mandate.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/mandate.png",
               },
               {
                 children: [
@@ -5510,7 +5517,7 @@ export const DUMMY_RES_HINDI = {
             children: [
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/SalaryWithdrawal.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/SalaryWithdrawal.png",
               },
               {
                 children: [
@@ -5614,7 +5621,7 @@ export const DUMMY_RES_HINDI = {
                 marginTop: "-20%",
               },
               type: "image",
-              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBanner.png",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/ContestBanner.png",
             },
             {
               children: [
@@ -5622,7 +5629,7 @@ export const DUMMY_RES_HINDI = {
                   children: [
                     {
                       type: "image",
-                      url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBannerCurrentContest.png",
+                      url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/ContestBannerCurrentContest.png",
                     },
                   ],
                   type: "card",
@@ -5631,7 +5638,7 @@ export const DUMMY_RES_HINDI = {
                   children: [
                     {
                       type: "image",
-                      url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/ContestBannerLastMonthWinners.png",
+                      url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/ContestBannerLastMonthWinners.png",
                     },
                   ],
                   gradientColors: ["#fff", "#fff"],
@@ -5666,7 +5673,7 @@ export const DUMMY_RES_HINDI = {
                         },
                         {
                           type: "image",
-                          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/KYCBenefits.png",
+                          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/KYCBenefits.png",
                         },
                       ],
                       type: "twoColumn",
@@ -5695,7 +5702,7 @@ export const DUMMY_RES_HINDI = {
                         },
                         {
                           type: "image",
-                          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/MandateBenefits.png",
+                          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/MandateBenefits.png",
                         },
                       ],
                       type: "twoColumn",
@@ -5723,7 +5730,7 @@ export const DUMMY_RES_HINDI = {
                         },
                         {
                           type: "image",
-                          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/AdvanceSalaryBenefits.png",
+                          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/AdvanceSalaryBenefits.png",
                         },
                       ],
                       type: "twoColumn",
@@ -5751,7 +5758,7 @@ export const DUMMY_RES_HINDI = {
                         },
                         {
                           type: "image",
-                          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsCards/CheckPFBalance.png",
+                          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/CheckPFBalance.png",
                         },
                       ],
                       type: "twoColumn",
@@ -5772,7 +5779,7 @@ export const DUMMY_RES_HINDI = {
           ctaText: "SEE ALL",
           gradientColors: ["#FFFFFF", "#FFFFFF"],
           leftIcon:
-            "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/LearnWithUsIcon.png",
+            "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsIcon.png",
           styling: {
             marginTop: "10%",
             padding: 0,
@@ -5809,7 +5816,7 @@ export const DUMMY_RES_HINDI = {
                 {
                   size: "small",
                   thumbnail:
-                    "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+                    "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
                   type: "video",
                   videoUri: "ux6XLNiEpLs",
                 },
@@ -5846,7 +5853,7 @@ export const DUMMY_RES_HINDI = {
                 {
                   size: "small",
                   thumbnail:
-                    "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/HomePage/VideoThumbnail.png",
+                    "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
                   type: "video",
                   videoUri: "ux6XLNiEpLs",
                 },
@@ -6060,7 +6067,7 @@ export const DUMMY_RES_HINDI = {
           },
           {
             type: "image",
-            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/SplashScreens/AddRepaymentImage.png",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/SplashScreens/Welcome.png",
             styling: { aspectRatio: 1 },
           },
           {
@@ -6126,7 +6133,7 @@ export const DUMMY_RES_HINDI = {
       children: [
         {
           type: "image",
-          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/SplashScreens/AddRepaymentImage.png",
+          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/SplashScreens/AddRepaymentImage.png",
           styling: { aspectRatio: 1 },
         },
         {
@@ -6230,7 +6237,7 @@ export const DUMMY_RES_HINDI = {
               children: [
                 {
                   type: "image",
-                  url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/SplashScreens/Sorry.png",
+                  url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/SplashScreens/Sorry.png",
                   styling: { marginBottom: "10%" },
                 },
                 { type: "title", title: "App Update Available" },
@@ -6359,7 +6366,7 @@ export const DUMMY_RES_HINDI = {
             children: [
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/Logo.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/KYC/Logo.png",
                 styling: { width: "100%", flex: 1, aspectRatio: 1.6 },
               },
               {
@@ -6396,7 +6403,7 @@ export const DUMMY_RES_HINDI = {
             children: [
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/Logo.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/KYC/Logo.png",
                 styling: { width: "100%", flex: 1, aspectRatio: 1.6 },
               },
               {
@@ -6427,7 +6434,7 @@ export const DUMMY_RES_HINDI = {
             children: [
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/KYC/Logo.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/KYC/Logo.png",
                 styling: { width: "100%", flex: 1, aspectRatio: 1.6 },
               },
               {
@@ -6543,9 +6550,60 @@ export const DUMMY_RES_HINDI = {
       { type: "footer" },
     ],
   },
+
   app_language: {
     screenTitle: "App Language",
-    data: [{}],
+    data: [
+      {
+        type: "threeColumn",
+        widths: ["10%", "80%", "10%"],
+        navigate: {
+          language: "en",
+        },
+        styling: {
+          padding: "5%",
+        },
+        children: [
+          {
+            type: "image",
+            styling: { height: 42, width: 42 },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/LanguageSelection/en.png",
+          },
+
+          { type: "title", title: "English", styling: { paddingLeft: 15 } },
+          {
+            type: "icon",
+            iconName: "radiobox-blank",
+            iconSize: 24,
+          },
+        ],
+      },
+      {
+        type: "threeColumn",
+        widths: ["10%", "80%", "10%"],
+        styling: {
+          padding: "5%",
+        },
+        navigate: {
+          language: "hi",
+        },
+        children: [
+          {
+            type: "image",
+            styling: { height: 42, width: 42 },
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/LanguageSelection/hi.png",
+          },
+
+          { type: "title", title: "हिंदी ", styling: { paddingLeft: 15 } },
+          {
+            type: "icon",
+            iconName: "radiobox-marked",
+            iconSize: 24,
+            iconColor: "#41be89",
+          },
+        ],
+      },
+    ],
   },
 };
 
@@ -6604,7 +6662,7 @@ export const DUMMY_LANGUAGE_RES = {
                       height: 42,
                       resizeMode: "contain",
                     },
-                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/LanguageSelection/en.png",
+                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/LanguageSelection/en.png",
                   },
                   {
                     type: "container",
@@ -6645,7 +6703,7 @@ export const DUMMY_LANGUAGE_RES = {
                       height: 42,
                       resizeMode: "contain",
                     },
-                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/LanguageSelection/hi.png",
+                    url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/LanguageSelection/hi.png",
                   },
                   {
                     type: "container",
