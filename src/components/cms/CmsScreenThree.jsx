@@ -2,7 +2,6 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
 import { Alert, BackHandler, ScrollView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { navigate } from "../../navigators/RootNavigation";
 import { CMS_POLLING_DURATION } from "../../services/constants";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { styles } from "../../styles";
@@ -10,7 +9,7 @@ import LogoHeaderBack from "../molecules/LogoHeaderBack";
 import CmsLoading from "./CmsLoading";
 import CmsRoot from "./CmsRoot";
 
-const CmsScreenOne = (props) => {
+const CmsScreenThree = (props) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -55,14 +54,14 @@ const CmsScreenOne = (props) => {
           {
             text: "Yes",
             onPress: () => {
-              dispatch({"action": "Logout"})
-              navigate("OnboardingStack", { screen: "Login" });
+              dispatch({ action: "Logout" });
+              navigation.navigate("Login");
             },
           },
         ]
       );
     } else if (backScreen) {
-      navigate(backScreen.stack, { screen: backScreen.screen });
+      navigation.navigate(backScreen.stack, { screen: backScreen.screen });
     } else {
       navigation.goBack();
     }
@@ -93,4 +92,4 @@ const CmsScreenOne = (props) => {
   );
 };
 
-export default CmsScreenOne;
+export default CmsScreenThree;

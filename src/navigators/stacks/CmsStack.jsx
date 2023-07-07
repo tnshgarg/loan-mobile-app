@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 import CmsPastDraws from "../../components/cms/CmsPastDraws";
 import CmsScreenOne from "../../components/cms/CmsScreenOne";
+import CmsScreenThree from "../../components/cms/CmsScreenThree";
 import CmsScreenTwo from "../../components/cms/CmsScreenTwo";
 
 const CmsStack = () => {
@@ -25,6 +26,13 @@ const CmsStack = () => {
       <Stack.Screen
         name="CmsScreenTwo"
         component={CmsScreenTwo}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="CmsScreenThree"
+        component={CmsScreenThree}
         options={{
           headerShown: false,
         }}

@@ -62,6 +62,12 @@ const navigationHelper = async ({
       screen: "CmsScreenTwo",
       params: params ?? {},
     });
+  } else if (type == "cmsScreenThree") {
+    console.log("CMS nest navigation triggered!");
+    navigationRef.navigate("CmsStack", {
+      screen: "cmsScreenThree",
+      params: params ?? {},
+    });
   } else if (type == "back") {
     navigationRef.goBack();
   } else {

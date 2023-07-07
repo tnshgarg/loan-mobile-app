@@ -10,7 +10,6 @@ import {
 import { styles } from "../../../styles";
 import Aadhaar from "./Aadhaar";
 import Bank from "./Bank";
-import Mandate from "./Mandate";
 import Pan from "./Pan";
 
 const KYCScreen = ({ navigation }) => {
@@ -18,7 +17,6 @@ const KYCScreen = ({ navigation }) => {
     { name: "AADHAAR", component: Aadhaar },
     { name: "PAN", component: Pan },
     { name: "BANK", component: Bank },
-    { name: "MANDATE", component: Mandate },
   ];
 
   const backAction = () => {

@@ -14,7 +14,9 @@ import CmsIconText from "./CmsIconText";
 import CmsImage from "./CmsImage";
 import { CmsMarkdown } from "./CmsMarkdown";
 import CmsNotification from "./CmsNotification";
+import CmsOptions from "./CmsOptions";
 import CmsOverlay from "./CmsOverlay";
+import CmsQuestions from "./CmsQuestions";
 import CmsSection from "./CmsSection";
 import CmsSpacer from "./CmsSpacer";
 import CmsSubtitle from "./CmsSubtitle";
@@ -48,6 +50,8 @@ const CMS_TYPES = {
   badge: CmsBadge,
   bottomAlert: CmsBottomAlert,
   overlay: CmsOverlay,
+  questions: CmsQuestions,
+  options: CmsOptions,
   default: () => <></>,
 };
 

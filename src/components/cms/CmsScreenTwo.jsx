@@ -32,6 +32,7 @@ const CmsScreenTwo = (props) => {
 
   const { data, screenTitle, headline, headingImage, disableBack } =
     cmsData?.[blogKey] ?? {};
+
   console.log("MyData: ", {
     blogKey,
     data,

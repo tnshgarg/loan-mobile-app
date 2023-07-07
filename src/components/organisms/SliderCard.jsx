@@ -136,7 +136,12 @@ const SliderCard = ({
             >
               {`${strings.transferTo}`.replace(
                 "{{accountNumber}}",
-                accountNumber
+                accountNumber?.slice(0, 2) +
+                  "*".repeat(accountNumber?.length - 4) +
+                  accountNumber?.slice(
+                    accountNumber?.length - 2,
+                    accountNumber?.length
+                  )
               )}
             </Text>
             <LinearGradient

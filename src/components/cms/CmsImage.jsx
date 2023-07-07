@@ -1,6 +1,5 @@
-import EStyleSheet from "react-native-extended-stylesheet";
-import { useEffect, useState } from "react";
 import { Image } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 
 const CmsImage = ({ url, styling, aspectRatio }) => {
   // const [{ width, height }, setDimensions] = useState({

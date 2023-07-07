@@ -3,7 +3,6 @@ import CmsNotificationView from "../../components/cms/CmsNotificationView";
 import CmsTopTabNav from "../../components/cms/CmsTopTabNav";
 import AccountMenu from "../../screens/06_home/Account";
 import KYCScreen from "../../screens/06_home/Account/KYCScreen";
-import Language from "../../screens/06_home/Account/Language";
 import Profile from "../../screens/06_home/Account/Profile";
 import Documents from "../../screens/06_home/Documents/Documents";
 
@@ -51,13 +50,6 @@ const AccountStack = () => {
       <Stack.Screen
         name="TabsScreen"
         component={CmsTopTabNav}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="Language"
-        component={Language}
         options={{
           headerShown: false,
         }}
