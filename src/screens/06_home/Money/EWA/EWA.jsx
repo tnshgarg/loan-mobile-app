@@ -24,6 +24,12 @@ import {
   resetEwaLive,
 } from "../../../../store/slices/ewaLiveSlice";
 import { styles } from "../../../../styles";
+
+import { Text } from "react-native";
+// import PushNotification from 'react-native-push-notification';
+import { COLORS, FONTS } from "../../../../constants/Theme";
+import { strings } from "../../../../helpers/Localization";
+
 const EWA = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -161,6 +167,19 @@ const EWA = () => {
         <VerifyMandateCard mandateVerifyStatus={mandateData?.verifyStatus} />
         <PastDrawsCard screenType="half" data={ewaHistoricalSlice} />
       </View>
+      <View
+          style={{
+            width: "100%",
+            backgroundColor: COLORS.primary,
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 10,
+          }}
+        >
+          <Text style={{ ...FONTS.body4, color: COLORS.white }}>
+            {strings.rbiApprovedLendingPartners}
+          </Text>
+        </View>
     </SafeAreaView>
   );
 };

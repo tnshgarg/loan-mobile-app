@@ -33,7 +33,7 @@ const Bank = () => {
         },
       });
     }
-  }, [bank?.erifyStatus]);
+  }, [bank?.verifyStatus]);
 
   const cardData = () => {
     let res = [

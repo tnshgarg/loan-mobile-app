@@ -35,7 +35,7 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
         subItems: [
           {
             title: "Google Pay",
-            image: require("../../assets/gpay.png"),
+            image: require("../../assets/payment_icons/gpay.png"),
             onPress: () => {
               trackEvent({
                 interaction: InteractionTypes.SCREEN_OPEN,
@@ -51,7 +51,7 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
           },
           {
             title: "AmazonPay",
-            image: require("../../assets/amazon_pay.png"),
+            image: require("../../assets/payment_icons/amazon.png"),
             onPress: () => {
               trackEvent({
                 interaction: InteractionTypes.SCREEN_OPEN,
@@ -67,7 +67,7 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
           },
           {
             title: "Paytm",
-            image: require("../../assets/paytm.png"),
+            image: require("../../assets/payment_icons/paytm.png"),
             onPress: () => {
               trackEvent({
                 interaction: InteractionTypes.SCREEN_OPEN,

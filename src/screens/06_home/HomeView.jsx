@@ -239,18 +239,7 @@ const HomeView = () => {
         ) : (
           <CmsRoot children={cmsData?.home || []}></CmsRoot>
         )}
-      </ScrollView>
-      {!cmsData && cmsLoading ? (
-          <></>
-        ) : (
-          <CmsRoot children={cmsData?.bottom_alert || []}></CmsRoot>
-        )}
-        {!cmsLoading ? (
-          <CmsRoot children={cmsData?.mini_placement || []} />
-        ) : (
-          <></>
-        )}
-      <View
+        <View
           style={{
             width: "100%",
             backgroundColor: COLORS.primary,
@@ -259,10 +248,21 @@ const HomeView = () => {
             padding: 10,
           }}
         >
-        <Text style={{ ...FONTS.body4, color: COLORS.white }}>
-          {strings.rbiApprovedLendingPartners}
-        </Text>
-      </View>
+          <Text style={{ ...FONTS.body4, color: COLORS.white }}>
+            {strings.rbiApprovedLendingPartners}
+          </Text>
+        </View>
+      </ScrollView>
+      {!cmsData && cmsLoading ? (
+        <></>
+      ) : (
+        <CmsRoot children={cmsData?.bottom_alert || []}></CmsRoot>
+      )}
+      {!cmsLoading ? (
+        <CmsRoot children={cmsData?.mini_placement || []} />
+      ) : (
+        <></>
+      )}
     </SafeAreaView>
   );
 };
