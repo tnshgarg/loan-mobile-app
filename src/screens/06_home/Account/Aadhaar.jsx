@@ -1,18 +1,15 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect } from "react";
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import { useSelector } from "react-redux";
-import { strings } from "../../../helpers/Localization";
-import TopTabNav from "../../../navigators/TopTabNav";
-import AadhaarFormTemplate from "../../../templates/aadhaar/Form";
-import AadhaarVerifyTemplate from "../../../templates/aadhaar/Verify";
-import AadhaarConfirmApi from "../../../apis/aadhaar/Confirm";
-import { styles } from "../../../styles";
-import DetailsCard from "../../../components/molecules/DetailsCard";
+import NoData from "../../../assets/NoData.svg";
 import PrimaryButton from "../../../components/atoms/PrimaryButton";
-import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
+import SvgContainer from "../../../components/atoms/SvgContainer";
+import DetailsCard from "../../../components/molecules/DetailsCard";
+import { COLORS, FONTS } from "../../../constants/Theme";
 import { KYC_POLLING_DURATION } from "../../../services/constants";
-
+import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
+import { styles } from "../../../styles";
 const Aadhaar = () => {
   const navigation = useNavigation();
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
@@ -41,27 +38,6 @@ const Aadhaar = () => {
     ];
     return res;
   };
-
-  const tabs = [
-    {
-      name: "Form",
-      component: AadhaarFormTemplate,
-      initialParams: { type: "KYC" },
-      disable: true,
-    },
-    {
-      name: "Verify",
-      component: AadhaarVerifyTemplate,
-      initialParams: { type: "KYC" },
-      disable: true,
-    },
-    {
-      name: "Confirm",
-      component: AadhaarConfirmApi,
-      initialParams: { type: "KYC" },
-      disable: true,
-    },
-  ];
 
   useEffect(() => {
     if (aadhaar?.verifyStatus === "INPROGRESS_OTP") {
@@ -96,28 +72,42 @@ const Aadhaar = () => {
             }}
             variant={"light"}
           />
-          {pan?.verifyStatus != "SUCCESS" ? (
-            <PrimaryButton
-              title={strings.continuePanVerification}
-              onPress={() => {
-                navigation.navigate("KYC", {
-                  screen: "PAN",
-                });
-              }}
-            />
-          ) : bank?.verifyStatus != "SUCCESS" ? (
-            <PrimaryButton
-              title={strings.continueBankVerification}
-              onPress={() => {
-                navigation.navigate("KYC", {
-                  screen: "BANK",
-                });
-              }}
-            />
-          ) : null}
         </View>
       ) : (
-        <TopTabNav tabs={tabs} hide={true} />
+        <View style={[styles.container, { alignItems: "center" }]}>
+          <SvgContainer height={300} width={300}>
+            <NoData />
+          </SvgContainer>
+          <Text
+            style={{
+              ...FONTS.h2,
+              color: COLORS.secondary,
+              textAlign: "center",
+            }}
+          >
+            Aadhaar not added
+          </Text>
+          <Text
+            style={{
+              ...FONTS.body3,
+              color: COLORS.gray,
+              textAlign: "center",
+              marginTop: 5,
+              marginBottom: 15,
+            }}
+          >
+            Please add your aadhaar details now
+          </Text>
+          <PrimaryButton
+            title={"+ Add Aadhaar"}
+            onPress={() =>
+              navigation.navigate("EWAStack", {
+                screen: "EWA_KYC_STACK",
+                params: { screen: "AadhaarForm" },
+              })
+            }
+          />
+        </View>
       )}
     </SafeAreaView>
   );

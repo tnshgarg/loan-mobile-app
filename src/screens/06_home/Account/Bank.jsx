@@ -1,14 +1,15 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import { useSelector } from "react-redux";
-import BankConfirmApi from "../../../apis/bank/Confirm";
+import NoData from "../../../assets/NoData.svg";
+import PrimaryButton from "../../../components/atoms/PrimaryButton";
+import SvgContainer from "../../../components/atoms/SvgContainer";
 import DetailsCard from "../../../components/molecules/DetailsCard";
-import TopTabNav from "../../../navigators/TopTabNav";
+import { COLORS, FONTS } from "../../../constants/Theme";
 import { KYC_POLLING_DURATION } from "../../../services/constants";
 import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
 import { styles } from "../../../styles";
-import BankFormTemplate from "../../../templates/bank/Form";
 
 const Bank = () => {
   const navigation = useNavigation();
@@ -33,7 +34,7 @@ const Bank = () => {
         },
       });
     }
-  }, [bank?.erifyStatus]);
+  }, [bank?.verifyStatus]);
 
   const cardData = () => {
     let res = [
@@ -61,21 +62,6 @@ const Bank = () => {
     return res;
   };
 
-  const tabs = [
-    {
-      name: "Form",
-      component: BankFormTemplate,
-      initialParams: { type: "KYC" },
-      disable: true,
-    },
-    {
-      name: "Confirm",
-      component: BankConfirmApi,
-      initialParams: { type: "KYC" },
-      disable: true,
-    },
-  ];
-
   if (loading) return null;
 
   return (
@@ -85,7 +71,53 @@ const Bank = () => {
           <DetailsCard data={cardData()} variant={"light"} />
         </View>
       ) : (
-        <TopTabNav tabs={tabs} hide={true} />
+        <View style={[styles.container, { alignItems: "center" }]}>
+          <SvgContainer height={300} width={300}>
+            <NoData />
+          </SvgContainer>
+          <Text
+            style={{
+              ...FONTS.h2,
+              color: COLORS.secondary,
+              textAlign: "center",
+            }}
+          >
+            {aadhaar.verifyStatus != "SUCCESS"
+              ? "Aadhaar not added"
+              : "Bank A/C not added"}
+          </Text>
+          <Text
+            style={{
+              ...FONTS.body3,
+              color: COLORS.gray,
+              textAlign: "center",
+              marginTop: 5,
+              marginBottom: 15,
+            }}
+          >
+            {aadhaar.verifyStatus != "SUCCESS"
+              ? "Please add your aadhaar details first"
+              : "Please add your bank account details now"}
+          </Text>
+          <PrimaryButton
+            title={
+              aadhaar.verifyStatus != "SUCCESS"
+                ? "+ Add Aadhaar"
+                : "+ Add Bank Account"
+            }
+            onPress={() =>
+              navigation.navigate("EWAStack", {
+                screen: "EWA_KYC_STACK",
+                params: {
+                  screen:
+                    aadhaar.verifyStatus != "SUCCESS"
+                      ? "AadhaarForm"
+                      : "BankForm",
+                },
+              })
+            }
+          />
+        </View>
       )}
     </SafeAreaView>
   );

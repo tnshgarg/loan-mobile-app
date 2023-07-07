@@ -2,9 +2,9 @@ import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { BackHandler, SafeAreaView, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import Loading from "../../../components/atoms/Loading";
 import LogoHeader from "../../../components/atoms/LogoHeader";
 import LogoutItem from "../../../components/atoms/LogoutItem";
-import CmsLoading from "../../../components/cms/CmsLoading";
 import CmsRoot from "../../../components/cms/CmsRoot";
 import TermsAndPrivacyModal from "../../../components/molecules/TermsAndPrivacyModal";
 import LogoutModal from "../../../components/organisms/LogoutModal";
@@ -100,27 +100,34 @@ const AccountMenu = (props) => {
         title={"Account"}
         containerStyle={{ backgroundColor: null }}
       />
-      <ScrollView>
-        {!cmsData && cmsLoading ? (
-          <CmsLoading />
-        ) : (
-          <CmsRoot children={cmsData?.account_top || []}></CmsRoot>
-        )}
+      {!cmsLoading ? (
+        <ScrollView>
+          {!cmsData && cmsLoading ? (
+            <></>
+          ) : (
+            <CmsRoot children={cmsData?.account_top || []}></CmsRoot>
+          )}
 
-        {!cmsData && cmsLoading ? (
-          <CmsLoading />
-        ) : (
-          <CmsRoot children={cmsData?.account_navigation_list || []}></CmsRoot>
-        )}
+          {!cmsData && cmsLoading ? (
+            <></>
+          ) : (
+            <CmsRoot
+              children={cmsData?.account_navigation_list || []}
+            ></CmsRoot>
+          )}
 
-        {options.map((item, index) => (
-          <LogoutItem
-            key={index}
-            item={{ ...item, onPress: () => onPressCard(item) }}
-            showIcon={true}
-          />
-        ))}
-      </ScrollView>
+          {options.map((item, index) => (
+            <LogoutItem
+              key={index}
+              item={{ ...item, onPress: () => onPressCard(item) }}
+              showIcon={true}
+            />
+          ))}
+        </ScrollView>
+      ) : (
+        <Loading isLoading={cmsLoading} />
+      )}
+
       {isTermsOfUseModalVisible && (
         <TermsAndPrivacyModal
           isVisible={isTermsOfUseModalVisible}
