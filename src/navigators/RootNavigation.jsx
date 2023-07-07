@@ -13,7 +13,7 @@ export function navigate(name, params) {
     trackEvent({
       interaction: InteractionTypes.NAVIGATION,
       flow: "navigation",
-      screen: `${name}_${params.screen || ""}`,
+      screen: `${name}_${params ? params.screen : ""}`,
       action: "navigate",
     });
 

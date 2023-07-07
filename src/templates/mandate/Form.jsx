@@ -382,8 +382,8 @@ const MandateFormTemplate = (props) => {
           />
           <PoweredByTag
             image={[
-              require("../../assets/rzp.png"),
-              require("../../assets/cf.png"),
+              require("../../assets/payment_icons/rzp.png"),
+              require("../../assets/payment_icons/cf.png"),
             ]}
             title="RBI regulated payment partners"
           />
