@@ -57,10 +57,7 @@ export const kycNavigate = (kycData, navigation) => {
   }
 
   if (kycStage == KS.COMPLETE) {
-    navigate("CmsStack", {
-      screen: "CmsScreenOne",
-      params: { blogKey: "kyc_success" },
-    });
+    navigate("KycSuccess");
     return;
   }
   navigate("EWAStack", {
