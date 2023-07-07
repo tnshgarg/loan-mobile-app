@@ -2665,7 +2665,13 @@ export const DUMMY_RES = {
     },
   ],
   login_success: {
-    screenTitle: "",
+    hideLeftIcon: true,
+    hideLogo: true,
+    headerStyle: { backgroundColor: "#223240" },
+    rightIconNavigate: {
+      type: "cmsScreenTwo",
+      params: { blogKey: "kyc_help" },
+    },
     data: [
       {
         type: "container",
@@ -2754,68 +2760,78 @@ export const DUMMY_RES = {
       },
     ],
   },
-  kyc_success: [
-    {
-      type: "container",
-      styling: {
-        padding: "4%",
-        backgroundColor: "#223240",
-        height: "98%",
-        justifyContent: "space-between",
-      },
-      children: [
-        {
-          type: "image",
-          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/SplashScreens/AddRepaymentImage.png",
-          styling: { aspectRatio: 1 },
-        },
-        {
-          type: "container",
-          children: [
-            {
-              type: "title",
-              title: "KYC done Successfully",
-              styling: { fontSize: 24, textAlign: "center", color: "#fff" },
-            },
-            {
-              type: "subtitle",
-              title: "As a last step please register your mandate information",
-              styling: {
-                fontSize: 18,
-                textAlign: "center",
-                flex: 0,
-                color: "#fff",
-                marginTop: "2%",
-              },
-            },
-          ],
-        },
-        {
-          type: "container",
-          children: [
-            {
-              type: "button",
-              title: "+ Add Repayment Method",
-              variant: "filled",
-              clickType: "navigation",
-              navigate: {
-                type: "app",
-                stack: "EWAStack",
-                screen: "EWA_MANDATE",
-              },
-              styling: { marginVertical: 0 },
-            },
-            {
-              type: "button",
-              title: "I will do it later",
-              clickType: "navigation",
-              navigate: { type: "app", screen: "HomeStack" },
-            },
-          ],
-        },
-      ],
+  kyc_success: {
+    hideLeftIcon: true,
+    hideLogo: true,
+    headerStyle: { backgroundColor: "#223240" },
+    rightIconNavigate: {
+      type: "cmsScreenTwo",
+      params: { blogKey: "mandate_help" },
     },
-  ],
+    data: [
+      {
+        type: "container",
+        styling: {
+          padding: "4%",
+          backgroundColor: "#223240",
+          height: "100%",
+          justifyContent: "space-between",
+        },
+        children: [
+          {
+            type: "image",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/SplashScreens/AddRepaymentImage.png",
+            styling: { aspectRatio: 1 },
+          },
+          {
+            type: "container",
+            children: [
+              {
+                type: "title",
+                title: "KYC done Successfully",
+                styling: { fontSize: 24, textAlign: "center", color: "#fff" },
+              },
+              {
+                type: "subtitle",
+                title:
+                  "As a last step please register your mandate information",
+                styling: {
+                  fontSize: 18,
+                  textAlign: "center",
+                  flex: 0,
+                  color: "#fff",
+                  marginTop: "2%",
+                },
+              },
+            ],
+          },
+          {
+            type: "container",
+            children: [
+              {
+                type: "button",
+                title: "+ Add Repayment Method",
+                variant: "filled",
+                clickType: "navigation",
+                navigate: {
+                  type: "app",
+                  stack: "EWAStack",
+                  screen: "EWA_MANDATE",
+                },
+                styling: { marginVertical: 0 },
+              },
+              {
+                type: "button",
+                title: "I will do it later",
+                clickType: "navigation",
+                navigate: { type: "app", screen: "HomeStack" },
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
   mini_placement: [
     {
       type: "overlay",
@@ -6079,7 +6095,13 @@ export const DUMMY_RES_HINDI = {
     },
   ],
   login_success: {
-    screenTitle: "",
+    hideLeftIcon: true,
+    hideLogo: true,
+    headerStyle: { backgroundColor: "#223240" },
+    rightIconNavigate: {
+      type: "cmsScreenTwo",
+      params: { blogKey: "kyc_help" },
+    },
     data: [
       {
         type: "container",
@@ -6168,68 +6190,78 @@ export const DUMMY_RES_HINDI = {
       },
     ],
   },
-  kyc_success: [
-    {
-      type: "container",
-      styling: {
-        padding: "4%",
-        backgroundColor: "#223240",
-        height: "98%",
-        justifyContent: "space-between",
-      },
-      children: [
-        {
-          type: "image",
-          url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/SplashScreens/AddRepaymentImage.png",
-          styling: { aspectRatio: 1 },
-        },
-        {
-          type: "container",
-          children: [
-            {
-              type: "title",
-              title: "KYC done Successfully",
-              styling: { fontSize: 24, textAlign: "center", color: "#fff" },
-            },
-            {
-              type: "subtitle",
-              title: "As a last step please register your mandate information",
-              styling: {
-                fontSize: 18,
-                textAlign: "center",
-                flex: 0,
-                color: "#fff",
-                marginTop: "2%",
-              },
-            },
-          ],
-        },
-        {
-          type: "container",
-          children: [
-            {
-              type: "button",
-              title: "+ Add Repayment Method",
-              variant: "filled",
-              clickType: "navigation",
-              navigate: {
-                type: "app",
-                stack: "EWAStack",
-                screen: "EWA_MANDATE",
-              },
-              styling: { marginVertical: 0 },
-            },
-            {
-              type: "button",
-              title: "I will do it later",
-              clickType: "navigation",
-              navigate: { type: "app", screen: "HomeStack" },
-            },
-          ],
-        },
-      ],
+  kyc_success: {
+    hideLeftIcon: true,
+    hideLogo: true,
+    headerStyle: { backgroundColor: "#223240" },
+    rightIconNavigate: {
+      type: "cmsScreenTwo",
+      params: { blogKey: "mandate_help" },
     },
-  ],
+    data: [
+      {
+        type: "container",
+        styling: {
+          padding: "4%",
+          backgroundColor: "#223240",
+          height: "98%",
+          justifyContent: "space-between",
+        },
+        children: [
+          {
+            type: "image",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/SplashScreens/AddRepaymentImage.png",
+            styling: { aspectRatio: 1 },
+          },
+          {
+            type: "container",
+            children: [
+              {
+                type: "title",
+                title: "KYC done Successfully",
+                styling: { fontSize: 24, textAlign: "center", color: "#fff" },
+              },
+              {
+                type: "subtitle",
+                title:
+                  "As a last step please register your mandate information",
+                styling: {
+                  fontSize: 18,
+                  textAlign: "center",
+                  flex: 0,
+                  color: "#fff",
+                  marginTop: "2%",
+                },
+              },
+            ],
+          },
+          {
+            type: "container",
+            children: [
+              {
+                type: "button",
+                title: "+ Add Repayment Method",
+                variant: "filled",
+                clickType: "navigation",
+                navigate: {
+                  type: "app",
+                  stack: "EWAStack",
+                  screen: "EWA_MANDATE",
+                },
+                styling: { marginVertical: 0 },
+              },
+              {
+                type: "button",
+                title: "I will do it later",
+                clickType: "navigation",
+                navigate: { type: "app", screen: "HomeStack" },
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
   mini_placement: [
     {
       type: "overlay",

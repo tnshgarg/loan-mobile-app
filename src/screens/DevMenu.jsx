@@ -78,7 +78,7 @@ export default DevMenu = () => {
             onPress={() =>
               navigationHelper({
                 type: "cms",
-                params: { blogKey: "customer_survey" },
+                params: { blogKey: "login_success" },
               })
             }
           />
