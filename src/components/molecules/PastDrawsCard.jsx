@@ -3,6 +3,7 @@ import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
 import Analytics, {
   InteractionTypes
 } from "../../helpers/analytics/commonAnalytics";
@@ -99,7 +100,8 @@ const OfferCard = ({ offer }) => {
         <Text style={{ ...FONTS.body3, color: COLORS.gray }}>₹{amount}</Text>
         {["Due", "Pending"].includes(offerType) ? (
           <Text style={{ color: COLORS.gray, ...FONTS.body5 }}>
-            {strrings.dueDate} {offer.dueDate}
+            
+            {strings.dueDate} {offer.dueDate}
           </Text>
         ) : null}
       </View>

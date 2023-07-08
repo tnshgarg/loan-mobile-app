@@ -61,7 +61,7 @@ const App = () => {
 
     // Clean up the event listener on unmount
     return () => {
-      AppState.removeEventListener("change", handleAppStateChange);
+      // AppState.removeEventListener("change", handleAppStateChange);
     };
   }, []); // Empty dependency array to only run once
 
