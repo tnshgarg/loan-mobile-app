@@ -17,7 +17,6 @@ import Analytics, {
 } from "../helpers/analytics/commonAnalytics";
 import LearnWithUs from "../screens/06_home/LearnWithUs";
 import CmsScreen from "../screens/CmsScreen";
-import DevMenu from "../screens/DevMenu";
 import KycProgress from "../screens/KycProgress";
 import KycSuccess from "../screens/KycSuccess";
 import SplashScreen from "../screens/SplashScreen";
@@ -38,12 +37,12 @@ const StackNavigator = () => {
   const token = useSelector((state) => state?.auth?.token);
   const onboarded = useSelector((state) => state?.auth?.onboarded);
   const [modalVisible, setModalVisible] = useState(false);
-  const language = useSelector(state => state.localization.language)
+  const language = useSelector((state) => state.localization.language);
   let initialRoute = useSelector((state) => state.navigation.currentStack);
   let initialScreen = useSelector((state) => state.navigation.currentScreen);
   useEffect(() => {
     changeLanguage(language ?? "en");
-    console.log("stack navigator use effect")
+    console.log("stack navigator use effect");
   }, [language]);
 
   const handleCampaignUrlClick = (url) => {
@@ -105,21 +104,21 @@ const StackNavigator = () => {
   console.log("STAGE: ", STAGE);
   console.log("initialRoute: ", initialRoute);
   console.log("currentScreen: ", initialScreen);
-  let devMenu = null;
-  if (STAGE === "dev") {
-    initialRoute = "DevMenu";
-    devMenu = (
-      <Stack.Screen
-        name="DevMenu"
-        options={{ headerShown: false, header: null }}
-        component={DevMenu}
-        initialParams={{
-          initialRoute: initialRoute,
-          initialScreen: initialScreen,
-        }}
-      />
-    );
-  }
+  // let devMenu = null;
+  // if (STAGE === "dev") {
+  //   initialRoute = "DevMenu";
+  //   devMenu = (
+  //     <Stack.Screen
+  //       name="DevMenu"
+  //       options={{ headerShown: false, header: null }}
+  //       component={DevMenu}
+  //       initialParams={{
+  //         initialRoute: initialRoute,
+  //         initialScreen: initialScreen,
+  //       }}
+  //     />
+  //   );
+  // }
 
   console.log("initialRoute: ", initialRoute);
   console.log("initialScreen: ", initialScreen);
@@ -130,7 +129,7 @@ const StackNavigator = () => {
         screenOptions={{ headerShown: false, header: null }}
         detachInactiveScreens={true}
       >
-        {devMenu}
+        {/* {devMenu} */}
         <Stack.Screen
           name="Splash"
           options={{ headerShown: false, header: null }}
