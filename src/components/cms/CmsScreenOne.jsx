@@ -107,7 +107,7 @@ const CmsScreenOne = (props) => {
       {!cmsData && cmsLoading ? (
         <CmsLoading />
       ) : (
-        <ScrollView contentContainerStyle={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <CmsRoot children={data}></CmsRoot>
         </ScrollView>
       )}
