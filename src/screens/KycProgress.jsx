@@ -64,7 +64,7 @@ const KycProgress = () => {
     },
   ];
   const continueButtonPress = () => {
-    if (mandateData.verifyStatus == "SUCCESS") {
+    if (mandateData?.verifyStatus == "SUCCESS") {
       showToast("You're all set for advance salary","success")
       navigate("HomeStack", { screen: "Money" });
     } else {
