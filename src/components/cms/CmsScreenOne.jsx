@@ -2,7 +2,6 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
 import { Alert, BackHandler, ScrollView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { navigate } from "../../navigators/RootNavigation";
 import { CMS_POLLING_DURATION } from "../../services/constants";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
@@ -74,7 +73,7 @@ const CmsScreenOne = (props) => {
           {
             text: "Yes",
             onPress: () => {
-              dispatch({"action": "Logout"})
+              dispatch({ action: "Logout" });
               navigate("OnboardingStack", { screen: "Login" });
             },
           },
@@ -107,7 +106,7 @@ const CmsScreenOne = (props) => {
       {!cmsData && cmsLoading ? (
         <CmsLoading />
       ) : (
-        <ScrollView contentContainerStyle={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <CmsRoot children={data}></CmsRoot>
         </ScrollView>
       )}
