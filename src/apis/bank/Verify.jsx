@@ -107,7 +107,6 @@ const BankVerifyApi = (props) => {
       accountHolderName: props.accountHolderName,
       accountNumber: props.accountNumber,
       ifsc: props.ifsc,
-      upi: props.upi,
       campaignId: campaignId,
       provider: "ongrid",
     };
