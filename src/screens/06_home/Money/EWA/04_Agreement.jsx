@@ -308,7 +308,7 @@ const Agreement = () => {
             />
 
             <Checkbox
-              conatinerStyle={{ marginTop: "15%" }}
+              conatinerStyle={{ marginTop: "5%" }}
               text={strings.aboveDetails}
               value={consent}
               setValue={setConsent}

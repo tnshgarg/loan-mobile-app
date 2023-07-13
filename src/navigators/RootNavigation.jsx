@@ -21,4 +21,9 @@ export function navigate(name, params) {
   }
 }
 
+export function navigateBack() {
+  if (navigationRef?.current?.isReady()) {
+    navigationRef.goBack();
+  }
+}
 // add other navigation functions that you need and export them

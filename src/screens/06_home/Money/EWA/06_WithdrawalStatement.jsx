@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
 import { BackHandler, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import Hourglass from "../../../../assets/Hourglass.svg";
-import Failure from "../../../../assets/animations/Failure";
-import Success from "../../../../assets/animations/Success";
-import PrimaryButton from "../../../../components/atoms/PrimaryButton";
-import SvgContainer from "../../../../components/atoms/SvgContainer";
+import Loading from "../../../../components/atoms/Loading";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
-import FeedbackAlert from "../../../../components/molecules/FeedbackAlert";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 import { COLORS, FONTS } from "../../../../constants/Theme";
 import { strings } from "../../../../helpers/Localization";
@@ -15,7 +10,7 @@ import {
   InteractionTypes,
   trackEvent
 } from "../../../../helpers/analytics/commonAnalytics";
-import { navigate } from "../../../../navigators/RootNavigation";
+import { navigate, navigateBack } from "../../../../navigators/RootNavigation";
 import {
   useDisbursementFeedbackMutation,
   useGetDisbursementQuery,
@@ -23,11 +18,9 @@ import {
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import { styles } from "../../../../styles";
 
-const Disbursement = ({ route, navigation }) => {
+const WithdrawalStatement = ({ route, navigation }) => {
   const dispatch = useDispatch();
   const { offer, enableFeedback } = route.params;
-  const [feedbackPopupOpen, setFeedbackPopupOpen] = useState(false);
-  const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
   const bankSlice = useSelector((state) => state.bank);
@@ -39,28 +32,16 @@ const Disbursement = ({ route, navigation }) => {
   const [loanAmount, setLoanAmount] = useState(0);
   const [netAmount, setNetAmount] = useState(0);
   const [status, setStatus] = useState("");
-  const [rating, setRating] = useState(0);
-  const [category, setCategory] = useState("");
-  const categoryData = [
-    "Medical Emergency",
-    "Shopping",
-    "Travel",
-    "Special Occasion",
-    "Other",
-  ];
 
   console.log({ status });
 
   const backAction = () => {
     trackEvent({
       interaction: InteractionTypes.BUTTON_PRESS,
-      screen: "requestProcessed",
+      screen: "withdrawalStatement",
       action: "BACK",
     });
-    navigate("HomeStack", {
-      screen: "Money",
-      params: { screen: "EWA" },
-    });
+    navigateBack();
     return true;
   };
 
@@ -78,35 +59,6 @@ const Disbursement = ({ route, navigation }) => {
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
-
-  const StatusImage = (status) => {
-    switch (status) {
-      case "SUCCESS":
-        return (
-          <SvgContainer height={200} width={200}>
-            <Success />
-          </SvgContainer>
-        );
-      case "REJECTED":
-        return (
-          <SvgContainer height={300} width={300}>
-            <Failure />
-          </SvgContainer>
-        );
-      case "FAILURE":
-        return (
-          <SvgContainer height={300} width={300}>
-            <Failure />
-          </SvgContainer>
-        );
-      default:
-        return (
-          <SvgContainer height={200} width={200}>
-            <Hourglass />
-          </SvgContainer>
-        );
-    }
-  };
 
   const getStatusText = (headline, subheadline) => {
     return (
@@ -213,82 +165,38 @@ const Disbursement = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      {enableFeedback ? (
-        <LogoHeaderBack
-          onRightIconPress={() => {
-            navigate("CmsStack", {screen: "CmsScreenOne", params: {blogKey: "salary_info"}})
-          }}
-          hideLogo={true}
-          containerStyle={{ backgroundColor: null }}
-        />
-      ) : (
-        <LogoHeaderBack
-          title="Money Transfer"
-          onLeftIconPress={() => {
-            backAction();
-          }}
-          onRightIconPress={() => {
-            navigate("CmsStack", {screen: "CmsScreenOne", params: {blogKey: "salary_info"}})
-          }}
-          titleStyle={{ ...FONTS.body3 }}
-        />
-      )}
-
+      <LogoHeaderBack
+        title="Withdrawal Statement"
+        onLeftIconPress={() => {
+          backAction();
+        }}
+        onRightIconPress={() => {
+          navigate("CmsStack", {screen: "CmsScreenOne", params: {blogKey: "salary_info"}})
+        }}
+        titleStyle={{ ...FONTS.body3 }}
+      />
+      
       <View
         style={[
-          styles.container,
-          { alignItems: "center", justifyContent: "space-evenly" },
+          styles.container
         ]}
       >
-        {StatusImage(status)}
-        {StatusText(status)}
-        {status == "REJECTED" || status == "ERROR" ? null : (
-          <DisbursementCard
-            data={data}
-            title={strings.loanDetails}
-            info={strings.moneyAutoDebitedUpcomingSalary}
-            iconName="ticket-percent-outline"
-          />
+        { getDisbursementIsSuccess || getDisbursementError ? (
+          status == "REJECTED" || status == "ERROR" ? null : (
+            <DisbursementCard
+              data={data}
+              title={strings.loanDetails}
+              info={strings.moneyAutoDebitedUpcomingSalary}
+              iconName="ticket-percent-outline"
+            />
+          )
+        ): (
+          <Loading isLoading={true}/>
         )}
-        {enableFeedback ? (
-          <PrimaryButton
-            title="Thank you"
-            containerStyle={{
-              backgroundColor: null,
-              borderWidth: 1.5,
-              borderColor: COLORS.black,
-            }}
-            onPress={() => {
-              trackEvent({
-                interaction: InteractionTypes.BUTTON_PRESS,
-                screen: "requestProcessed",
-                action: "THANKYOU",
-              });
-              if (enableFeedback)
-                setFeedbackPopupOpen(true);
-              else 
-                backAction();
-            }}
-            titleStyle={{ color: COLORS.black }}
-          />
-        ) : (
-          <></>
-        )}
-
-        {status == "PENDING" && enableFeedback && feedbackPopupOpen ? (
-          <FeedbackAlert
-            data={categoryData}
-            ratingHook={[rating, setRating]}
-            setCategory={setCategory}
-            category={category}
-            onSubmit={onSubmitFeedback}
-          />
-        ) : (
-          <></>
-        )}
+        
       </View>
     </SafeAreaView>
   );
 };
 
-export default Disbursement;
+export default WithdrawalStatement;

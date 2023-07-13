@@ -45,6 +45,8 @@ export async function trackEvent(
       console.error
     );
     const firebaseAnalyticsEventName = analyticsEventName.substring(0, 40);
+    if (!firebaseAnalytics)
+      firebaseAnalytics = analytics()
     firebaseAnalytics.logEvent(firebaseAnalyticsEventName, {
       unipeEmployeeId: analyticsEvent.user,
       ...(event.properties || {}),

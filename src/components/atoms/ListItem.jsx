@@ -1,4 +1,4 @@
-import { Text, TouchableNativeFeedback, View, Image, TouchableOpacity } from "react-native";
+import { Image, Text, TouchableNativeFeedback, TouchableOpacity, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS } from "../../constants/Theme";
@@ -79,12 +79,12 @@ const ListItem = ({
         <View style={styles.extension}>
           {subItems.map((item, index) => {
             return (
-              <TouchableOpacity style={styles.image} activeOpacity={0.5} onPress={item.onPress}>
+              <TouchableOpacity key={item?.title} style={styles.image} activeOpacity={0.5} onPress={item.onPress}>
                 <Image
                   source={item.image}
                   style={{
                     flex: 1,
-                    aspectRatio: 3,
+                    aspectRatio: 1,
                   }}
                   resizeMode="contain"
                 />
@@ -122,13 +122,14 @@ const styles = EStyleSheet.create({
     flexDirection: "row",
     height: "60rem",
     borderBottomWidth: 1,
+    alignItems: "space-between",
     borderColor: COLORS.lightgray_01,
   },
   subtitle: { ...FONTS.body5, color: COLORS.gray },
   image: {
-    flexDirection: "row",
+    flex: 1,
     alignItems: "center",
-    width: "80rem",
+    width: "40rem",
   },
 });
 
