@@ -3316,12 +3316,15 @@ export const DUMMY_RES = {
   },
   survey_questions: {
     screenTitle: "Survey",
+
     data: [
       {
         type: "questions",
+        survey_id: "id_353",
         children: [
           {
-            type: "container",
+            type: "mcq",
+            question_id: "ques_351",
             children: [
               { type: "subtitle", title: "Q1" },
               {
@@ -3405,7 +3408,8 @@ export const DUMMY_RES = {
             ],
           },
           {
-            type: "container",
+            type: "mcq",
+            question_id: "ques_352",
             children: [
               { type: "subtitle", title: "Q2" },
               {
@@ -3426,7 +3430,8 @@ export const DUMMY_RES = {
             ],
           },
           {
-            type: "container",
+            type: "mcq",
+            question_id: "ques_35",
             children: [
               { type: "subtitle", title: "Q3" },
               {

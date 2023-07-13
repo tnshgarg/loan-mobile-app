@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView, ScrollView, View } from "react-native";
 import DevMenuButton from "../components/atoms/DevMenuButton";
+import { navigationHelper } from "../helpers/CmsNavigationHelper";
 import { navigate } from "../navigators/RootNavigation";
 
 export default DevMenu = () => {
@@ -78,7 +79,7 @@ export default DevMenu = () => {
             onPress={() =>
               navigationHelper({
                 type: "cms",
-                params: { blogKey: "login_success" },
+                params: { blogKey: "customer_survey" },
               })
             }
           />

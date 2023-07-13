@@ -6,7 +6,7 @@ import LogoImage from "../../assets/HeaderLogo.svg";
 import { COLORS, FONTS } from "../../constants/Theme";
 import {
   InteractionTypes,
-  trackEvent
+  trackEvent,
 } from "../../helpers/analytics/commonAnalytics";
 import { navigate } from "../../navigators/RootNavigation";
 import SvgContainer from "./SvgContainer";
@@ -90,7 +90,7 @@ const LogoHeader = ({
         ) : (
           <></>
         )}
-        {rightIcon ? (
+        {rightOnPress ? (
           <TouchableOpacity activeOpacity={0.7} onPress={rightOnPress}>
             {rightIcon}
           </TouchableOpacity>

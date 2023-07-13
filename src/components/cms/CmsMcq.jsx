@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import LinearGradient from "react-native-linear-gradient";
 import { useSelector } from "react-redux";
 import { COLORS, FONTS } from "../../constants/Theme";
+import PrimaryButton from "../atoms/PrimaryButton";
 
-const CmsQuestions = ({
+const CmsMcq = ({
   children,
   styling,
   gradientColors,
@@ -20,51 +20,34 @@ const CmsQuestions = ({
   useEffect(() => {}, []);
 
   return (
-    <LinearGradient
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 0 }}
-      colors={gradientColors ?? ["#b4ecc1", "#f5fcc4"]}
-      style={[styles.container, { ...styling }]}
-    >
-      <View
-        style={{
-          flexDirection: "row",
-          width: "100%",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginBottom: "5%",
-        }}
-      >
+    <View style={{ flex: 1 }}>
+      <View style={styles.innerContainer}>
         {safeChildren?.map((child, index) => (
-          <View
-            key={index}
-            style={{
-              flex: 1,
-              borderTopWidth: 5,
-              borderColor:
-                currentIndex >= index ? COLORS.primary : COLORS.white,
-              marginHorizontal: 5,
-              borderRadius: 10,
-            }}
-          ></View>
+          <View key={index}>{child.element(child)}</View>
         ))}
       </View>
-      <View style={styles.innerContainer}>
-        <View>
-          {safeChildren[currentIndex].element(safeChildren[currentIndex])}
-        </View>
-      </View>
-    </LinearGradient>
+      <PrimaryButton
+        title={"Next"}
+        containerStyle={{ width: "100%", marginTop: "10%" }}
+        onPress={() =>
+          safeChildren.length - 1 == currentIndex
+            ? navigationHelper({
+                type: "cmsScreenThree",
+                params: { blogKey: "survey_done" },
+              })
+            : setCurrentIndex(currentIndex + 1)
+        }
+      />
+    </View>
   );
 };
 
-export default CmsQuestions;
+export default CmsMcq;
 
 const styles = EStyleSheet.create({
   container: {
     padding: "5%",
     width: "100%",
-    height: "100%",
     // backgroundColor: "#fff",
   },
   innerContainer: {
