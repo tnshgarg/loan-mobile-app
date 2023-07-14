@@ -27,7 +27,7 @@ import {
   useGenerateOtpMutation,
   useVerifyOtpMutation,
 } from "../../store/apiSlices/loginApi";
-import { addToken } from "../../store/slices/authSlice";
+import { addToken, addUnipeEmployeeId } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
@@ -187,8 +187,14 @@ const OTPScreen = () => {
     postVerifyOtp({ mobileNumber: phoneNumber, otp: otp })
       .unwrap()
       .then((res) => {
-        dispatch(addToken(res["token"]));
-        handleNavigation(res["token"], res?.employeeDetails?.unipeEmployeeId);
+        dispatch(addToken(res?.response?.token));
+        dispatch(
+          addUnipeEmployeeId(res.response?.employeeDetails?.unipeEmployeeId)
+        );
+        handleNavigation(
+          res.response?.token,
+          res.response?.employeeDetails?.unipeEmployeeId
+        );
         setVerified(true);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
@@ -203,7 +209,7 @@ const OTPScreen = () => {
           action: "INVALID",
           error: error?.message || error?.error?.message,
         });
-        console.log(error);
+        console.log("error: ", error);
         // Alert.alert("Error", error?.message || error?.error?.message);
         showToast(error?.message || error?.error?.message, "error");
         if (error?.status != 406) {
