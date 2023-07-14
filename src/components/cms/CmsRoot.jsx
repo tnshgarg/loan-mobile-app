@@ -13,6 +13,7 @@ import CmsIcon from "./CmsIcon";
 import CmsIconText from "./CmsIconText";
 import CmsImage from "./CmsImage";
 import { CmsMarkdown } from "./CmsMarkdown";
+import CmsMcq from "./CmsMcq";
 import CmsNotification from "./CmsNotification";
 import CmsOptions from "./CmsOptions";
 import CmsOverlay from "./CmsOverlay";
@@ -54,6 +55,7 @@ const CMS_TYPES = {
   questions: CmsQuestions,
   options: CmsOptions,
   webview: CmsWebView,
+  mcq: CmsMcq,
   default: () => <></>,
 };
 

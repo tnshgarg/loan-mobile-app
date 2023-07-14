@@ -8,6 +8,7 @@ import AadhaarVerifyApi from "../../apis/aadhaar/Verify";
 import OtpInput from "../../components/molecules/OtpInput";
 import { COLORS } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
+import { InteractionTypes, trackEvent } from "../../helpers/analytics/commonAnalytics";
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { setAadhaarTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";

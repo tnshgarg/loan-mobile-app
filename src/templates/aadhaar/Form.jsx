@@ -9,6 +9,7 @@ import InfoCard from "../../components/atoms/InfoCard";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { strings } from "../../helpers/Localization";
+import { InteractionTypes, trackEvent } from "../../helpers/analytics/commonAnalytics";
 import { KYC_POLLING_DURATION } from "../../services/constants";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { styles } from "../../styles";
