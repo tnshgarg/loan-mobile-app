@@ -117,7 +117,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
           <Text
             style={[styles.text, { ...FONTS.h1, fontSize: 36, marginTop: 0 }]}
           >
-            {kycCompleted ? amount : "XX,XXX"}
+            {amount}
           </Text>
         )}
 
