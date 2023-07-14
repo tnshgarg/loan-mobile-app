@@ -194,6 +194,7 @@ const ProfileFormTemplate = ({ type }) => {
             accessibilityLabel="CurrentAddressInput"
             placeholder={strings.currentAddressPlaceholder}
             value={currentAddress}
+            multiline={true}
             onChange={setCurrentAddress}
           />
           <FormInput

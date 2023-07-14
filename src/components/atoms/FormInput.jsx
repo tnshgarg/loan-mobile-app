@@ -1,8 +1,8 @@
 import React from "react";
-import { View, Text, TextInput } from "react-native";
+import { Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { FloatingLabelInput } from "react-native-floating-label-input";
-import { COLORS, FONTS, SIZES } from "../../constants/Theme";
+import { COLORS, FONTS } from "../../constants/Theme";
 
 const FormInput = ({
   containerStyle,
@@ -10,6 +10,7 @@ const FormInput = ({
   label,
   labelStyle,
   placeholder,
+  multiline,
   inputStyle,
   prependComponent,
   appendComponent,
@@ -73,14 +74,14 @@ const FormInput = ({
           containerStyles={{
             borderWidth: 0,
             height: 70,
-            maxWidth: "70%",
+            maxWidth: multiline ? "100%" : "70%",
           }}
           inputStyles={{
             ...FONTS.body4,
             color: COLORS.black,
             paddingLeft: 5,
             ...inputStyle,
-            //backgroundColor: COLORS.secondary,
+            // backgroundColor: COLORS.secondary,
           }}
           label={placeholder}
           labelStyles={{
@@ -103,6 +104,7 @@ const FormInput = ({
           onChangeText={(value) => onChange(value)}
           editable={!disabled}
           maxLength={maxLength}
+          multiline={multiline}
           numeric={numeric}
           autoFocus={autoFocus}
           required={required}
