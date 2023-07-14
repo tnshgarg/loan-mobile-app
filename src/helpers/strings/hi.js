@@ -230,6 +230,8 @@ export default {
   complete4Steps: "अपना खाता सत्यापित करने के लिए निम्नलिखित 4 चरण पूरे करें",
   step: "कदम",
   goodAfternoon: "नमस्कार",
+  goodMorning: "स्वागत",
+  goodEvening: "नमस्ते",
   needHelp: "सहायता चाहिए?",
   clickHere: "यहाँ क्लिक करें",
   stillNeedHelp: "अभी भी सहायता चाहिए?",

@@ -230,6 +230,8 @@ export default {
   complete4Steps: "Complete the following 4 steps to verify your account ",
   step: "Step",
   goodAfternoon: "Good Afternoon",
+  goodMorning: "Good Morning",
+  goodEvening: "Good Evening",
   needHelp: "Need help?",
   clickHere: "Click here",
   stillNeedHelp: "Still need help?",
