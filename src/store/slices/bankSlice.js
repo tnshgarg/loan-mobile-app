@@ -9,7 +9,6 @@ const initialState = {
     branchName: "",
     branchCity: "",
     ifsc: "",
-    upi: "",
   },
   verifyStatus: "PENDING",
   misMatch: "",
@@ -37,9 +36,6 @@ const bankSlice = createSlice({
     addIfsc(state, action) {
       state.data.ifsc = action.payload;
     },
-    addUpi(state, action) {
-      state.data.upi = action.payload;
-    },
     addVerifyStatus(state, action) {
       state.verifyStatus = action.payload;
     },
@@ -65,7 +61,6 @@ const bankSlice = createSlice({
         state.data.branchName = payload?.body?.data?.branchName;
         state.data.branchCity = payload?.body?.data?.branchCity;
         state.data.ifsc = payload?.body?.data?.ifsc;
-        state.data.upi = payload?.body?.data?.upi;
         state.verifyStatus = payload?.body?.verifyStatus;
       }
     )
@@ -79,7 +74,6 @@ export const {
   addBranchName,
   addBranchCity,
   addIfsc,
-  addUpi,
   addVerifyStatus,
   setMistmatch,
   resetBank,

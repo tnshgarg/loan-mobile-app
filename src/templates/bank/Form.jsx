@@ -19,7 +19,6 @@ import {
   addAccountHolderName,
   addAccountNumber,
   addIfsc,
-  addUpi,
 } from "../../store/slices/bankSlice";
 import { bankform, styles } from "../../styles";
 
@@ -47,15 +46,10 @@ const BankFormTemplate = (props) => {
   const [accountHolderName, setAccountHolderName] = useState(
     aadhaar?.data?.name || bank?.data?.accountHolderName
   );
-  const [upi, setUpi] = useState(bank?.data?.upi);
 
   useEffect(() => {
     dispatch(addAccountHolderName(accountHolderName));
   }, [accountHolderName]);
-
-  useEffect(() => {
-    dispatch(addUpi(upi));
-  }, [upi]);
 
   useEffect(() => {
     let accountNumberReg = /^[A-Z0-9]{6,25}$/gm;
@@ -124,14 +118,6 @@ const BankFormTemplate = (props) => {
               <Text style={bankform.formatmsg}>{strings.incorrectFormat}</Text>
             ) : null}
 
-            <PopableInput
-              accessibilityLabel={"UpiId"}
-              placeholder={strings.upiId}
-              value={upi}
-              onChange={setUpi}
-              content={strings.lotsOfUpiApps}
-            />
-
             <InfoCard info={strings.pleaseNote} />
 
             <BankVerifyApi
@@ -140,7 +126,6 @@ const BankFormTemplate = (props) => {
               accountNumber={accountNumber}
               accountHolderName={accountHolderName}
               ifsc={ifsc}
-              upi={upi}
             />
             <ShieldTitle title={strings.detailsSafe} />
           </View>

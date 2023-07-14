@@ -112,7 +112,6 @@ const BankConfirmApi = (props) => {
       { subTitle: "Branch City", value: data?.branchCity },
 
       { subTitle: "IFSC", value: data?.ifsc },
-      { subTitle: "UPI", value: data?.upi, fullWidth: true },
     ];
     return res;
   };

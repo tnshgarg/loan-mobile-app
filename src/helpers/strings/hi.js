@@ -12,9 +12,10 @@ export default {
   continue: "आगे बढ़े",
   whatsappPlaceholder: "आपका व्हाट्सएप मोबाइल नं.",
   motherNamePlaceholder: "मां का नाम*",
+  currentAddressPlaceholder: "वर्तमान पता*",
   maritalStatusPlaceholder: "वैवाहिक स्थिति का चयन करें*",
   educationPlaceholder: "शैक्षणिक योग्यता का चयन करें*",
-  emailPlaceholder: "Your email ID",
+  emailPlaceholder: "Your email ID*",
   holdOnBack: "रुकिए! क्या आप वाकई वापस जाना चाहते हैं?",
   aadhaarNumber: "आधार नंबर",
   agreeKycTNC:
@@ -47,7 +48,7 @@ export default {
   referToPassbook:
     "अपने बैंक रिकॉर्ड में उल्लिखित सटीक नाम के लिए अपनी बैंक पासबुक या चेक बुक देखें",
   accountHolderName: "खाता धारक का नाम*",
-  bankAccountNumber: "बैंक खाता संख्या*",
+  bankAccountNumber: "वेतन बैंक खाता संख्या*",
   refertoGetAccountNumber:
     "बैंक खाता संख्या प्राप्त करने के लिए अपनी बैंक पासबुक या चेक बुक देखें।",
   ifscCode: "IFSC कोड*",
@@ -229,6 +230,8 @@ export default {
   complete4Steps: "अपना खाता सत्यापित करने के लिए निम्नलिखित 4 चरण पूरे करें",
   step: "कदम",
   goodAfternoon: "नमस्कार",
+  goodMorning: "स्वागत",
+  goodEvening: "नमस्ते",
   needHelp: "सहायता चाहिए?",
   clickHere: "यहाँ क्लिक करें",
   stillNeedHelp: "अभी भी सहायता चाहिए?",
