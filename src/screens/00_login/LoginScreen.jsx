@@ -49,6 +49,7 @@ const LoginScreen = () => {
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState(false);
   const language = useSelector((state) => state.localization.language);
+  const [startClicked, setStartClicked] = useState(false);
 
   console.log("Language: ", language);
 
@@ -155,6 +156,7 @@ const LoginScreen = () => {
         // navigation.navigate("Otp");
         navigate("OnboardingStack", { screen: "Otp" });
         setLoading(false);
+        setStartClicked(false);
       })
       .catch((error) => {
         console.log("error", error);
@@ -169,7 +171,6 @@ const LoginScreen = () => {
       });
   };
 
-  const [startClicked, setStartClicked] = useState(false);
 
   useEffect(() => {
     if (startClicked) {

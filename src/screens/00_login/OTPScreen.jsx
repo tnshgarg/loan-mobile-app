@@ -46,7 +46,11 @@ const OTPScreen = () => {
   const { phoneNumber, unipeEmployeeId, token } = useSelector(
     (state) => state.auth || {}
   );
-  const [trigger, result, lastPromiseInfo] = useLazyGetKycQuery();
+  const [
+    trigger,
+    { isLoading: isTriggerLoading, isSuccess: isTriggerSuccess },
+    lastPromiseInfo,
+  ] = useLazyGetKycQuery();
   const [postVerifyOtp, { isLoading: verifyOtpLoading }] =
     useVerifyOtpMutation();
   const [postGenerateOtp] = useGenerateOtpMutation();
@@ -300,8 +304,8 @@ const OTPScreen = () => {
           <PrimaryButton
             accessibilityLabel="OtpBtn"
             title="Continue"
-            disabled={!isValidOtp || verifyOtpLoading}
-            loading={verifyOtpLoading}
+            disabled={!isValidOtp || verifyOtpLoading || isTriggerLoading}
+            loading={verifyOtpLoading || isTriggerLoading}
             onPress={onSubmitOtp}
           />
         </View>

@@ -2,9 +2,9 @@ import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { BackHandler, SafeAreaView, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import Loading from "../../../components/atoms/Loading";
 import LogoHeader from "../../../components/atoms/LogoHeader";
 import LogoutItem from "../../../components/atoms/LogoutItem";
+import CmsLoading from "../../../components/cms/CmsLoading";
 import CmsRoot from "../../../components/cms/CmsRoot";
 import TermsAndPrivacyModal from "../../../components/molecules/TermsAndPrivacyModal";
 import LogoutModal from "../../../components/organisms/LogoutModal";
@@ -53,12 +53,12 @@ const AccountMenu = (props) => {
   }, []);
 
   const onLogout = () => {
-    dispatch({ type: "LOGOUT" });
     setModalVisible(true);
     setTimeout(() => {
+      dispatch({ type: "LOGOUT" });
       setModalVisible(false);
-      navigation.navigate("OnboardingStack", { screen: "Login" });
-    }, 5000);
+      navigation.replace("OnboardingStack", { screen: "Login" });
+    }, 2000);
   };
 
   useEffect(() => {
@@ -94,33 +94,30 @@ const AccountMenu = (props) => {
         title={"Account"}
         containerStyle={{ backgroundColor: null }}
       />
-      {!cmsLoading ? (
-        <ScrollView>
-          {!cmsData && cmsLoading ? (
-            <></>
-          ) : (
-            <CmsRoot children={cmsData?.account_top || []}></CmsRoot>
-          )}
+      <LogoutModal modalVisible={modalVisible} />
+      <ScrollView>
+        {!cmsData && cmsLoading ? (
+          <CmsLoading />
+        ) : (
+          <CmsRoot children={cmsData?.account_top || []}></CmsRoot>
+        )}
 
-          {!cmsData && cmsLoading ? (
-            <></>
-          ) : (
-            <CmsRoot
-              children={cmsData?.account_navigation_list || []}
-            ></CmsRoot>
-          )}
+        {!cmsData && cmsLoading ? (
+          <CmsLoading />
+        ) : (
+          <CmsRoot
+            children={cmsData?.account_navigation_list || []}
+          ></CmsRoot>
+        )}
 
-          {options.map((item, index) => (
-            <LogoutItem
-              key={index}
-              item={{ ...item, onPress: () => onPressCard(item) }}
-              showIcon={true}
-            />
-          ))}
-        </ScrollView>
-      ) : (
-        <Loading isLoading={cmsLoading} />
-      )}
+        {options.map((item, index) => (
+          <LogoutItem
+            key={index}
+            item={{ ...item, onPress: () => onPressCard(item) }}
+            showIcon={true}
+          />
+        ))}
+      </ScrollView>
 
       {isTermsOfUseModalVisible && (
         <TermsAndPrivacyModal
@@ -136,7 +133,6 @@ const AccountMenu = (props) => {
           data={privacyPolicy}
         />
       )}
-      {modalVisible && <LogoutModal modalVisible={modalVisible} />}
     </SafeAreaView>
   );
 };
