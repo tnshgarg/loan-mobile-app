@@ -104,21 +104,21 @@ const StackNavigator = () => {
   console.log("STAGE: ", STAGE);
   console.log("initialRoute: ", initialRoute);
   console.log("currentScreen: ", initialScreen);
-  // let devMenu = null;
-  // if (STAGE === "dev") {
-  //   initialRoute = "DevMenu";
-  //   devMenu = (
-  //     <Stack.Screen
-  //       name="DevMenu"
-  //       options={{ headerShown: false, header: null }}
-  //       component={DevMenu}
-  //       initialParams={{
-  //         initialRoute: initialRoute,
-  //         initialScreen: initialScreen,
-  //       }}
-  //     />
-  //   );
-  // }
+  let devMenu = null;
+  if (STAGE === "dev") {
+    initialRoute = "DevMenu";
+    devMenu = (
+      <Stack.Screen
+        name="DevMenu"
+        options={{ headerShown: false, header: null }}
+        component={DevMenu}
+        initialParams={{
+          initialRoute: initialRoute,
+          initialScreen: initialScreen,
+        }}
+      />
+    );
+  }
 
   console.log("initialRoute: ", initialRoute);
   console.log("initialScreen: ", initialScreen);
@@ -129,7 +129,7 @@ const StackNavigator = () => {
         screenOptions={{ headerShown: false, header: null }}
         detachInactiveScreens={true}
       >
-        {/* {devMenu} */}
+        {devMenu}
         <Stack.Screen
           name="Splash"
           options={{ headerShown: false, header: null }}
