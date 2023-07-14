@@ -25,6 +25,7 @@ import CmsThreeColumn from "./CmsThreeColumn";
 import CmsTitle from "./CmsTitle";
 import CmsTwoColumn from "./CmsTwoColumn";
 import CmsVideo from "./CmsVideo";
+import CmsWebView from "./CmsWebview";
 
 const CMS_TYPES = {
   markdown: CmsMarkdown,
@@ -52,6 +53,7 @@ const CMS_TYPES = {
   overlay: CmsOverlay,
   questions: CmsQuestions,
   options: CmsOptions,
+  webview: CmsWebView,
   default: () => <></>,
 };
 
