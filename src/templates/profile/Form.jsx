@@ -9,7 +9,7 @@ import { showToast } from "../../components/atoms/Toast";
 import DropDownForm from "../../components/molecules/DropDownForm";
 import Analytics, {
   InteractionTypes,
-  trackEvent
+  trackEvent,
 } from "../../helpers/analytics/commonAnalytics";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { form, styles } from "../../styles";
@@ -42,6 +42,7 @@ const ProfileFormTemplate = ({ type }) => {
   const [altMobile, setAltMobile] = useState(profile?.altMobile);
   const [email, setEmail] = useState(profile?.email);
   const [motherName, setMotherName] = useState(profile?.motherName);
+  const [currentAddress, setCurrentAddress] = useState(profile?.currentAddress);
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
@@ -58,6 +59,7 @@ const ProfileFormTemplate = ({ type }) => {
     qualification &&
     motherName &&
     validEmail &&
+    currentAddress &&
     validAltMobile;
 
   useEffect(() => {
@@ -78,6 +80,7 @@ const ProfileFormTemplate = ({ type }) => {
       altMobile,
       email,
       motherName,
+      currentAddress,
       campaignId,
     };
     console.log({ updatePayload: body });
@@ -186,6 +189,12 @@ const ProfileFormTemplate = ({ type }) => {
             placeholder={strings.motherNamePlaceholder}
             value={motherName}
             onChange={setMotherName}
+          />
+          <FormInput
+            accessibilityLabel="CurrentAddressInput"
+            placeholder={strings.currentAddressPlaceholder}
+            value={currentAddress}
+            onChange={setCurrentAddress}
           />
           <FormInput
             accessibilityLabel="AltPhoneNumberInput"
