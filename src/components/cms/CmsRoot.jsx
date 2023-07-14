@@ -26,7 +26,7 @@ import CmsThreeColumn from "./CmsThreeColumn";
 import CmsTitle from "./CmsTitle";
 import CmsTwoColumn from "./CmsTwoColumn";
 import CmsVideo from "./CmsVideo";
-import CmsWebView from "./CmsWebview";
+import CmsWebView from "./CmsWebView";
 
 const CMS_TYPES = {
   markdown: CmsMarkdown,
