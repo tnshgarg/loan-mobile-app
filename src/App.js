@@ -14,7 +14,6 @@ import Analytics, {
 import { navigationRef } from "./navigators/RootNavigation";
 import StackNavigator from "./navigators/StackNavigator";
 import { persistor, store } from "./store/store";
-
 Crashes.setListener({
   shouldProcess: function (report) {
     return true; // return true if the crash report should be processed, otherwise false.
@@ -26,6 +25,7 @@ Crashes.setListener({
 // }
 const analyticsInit = async () => {
   await Analytics.init();
+  
 };
 
 const App = () => {
