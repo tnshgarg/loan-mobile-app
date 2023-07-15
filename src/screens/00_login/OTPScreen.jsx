@@ -187,13 +187,13 @@ const OTPScreen = () => {
     postVerifyOtp({ mobileNumber: phoneNumber, otp: otp })
       .unwrap()
       .then((res) => {
-        dispatch(addToken(res?.response?.token));
+        dispatch(addToken(res?.token));
         dispatch(
-          addUnipeEmployeeId(res.response?.employeeDetails?.unipeEmployeeId)
+          addUnipeEmployeeId(res?.employeeDetails?.unipeEmployeeId)
         );
         handleNavigation(
-          res.response?.token,
-          res.response?.employeeDetails?.unipeEmployeeId
+          res?.token,
+          res?.employeeDetails?.unipeEmployeeId
         );
         setVerified(true);
         Analytics.trackEvent({
