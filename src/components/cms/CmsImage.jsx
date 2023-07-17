@@ -24,6 +24,8 @@ const CmsImage = ({ url, styling, aspectRatio }) => {
       aspectRatio: aspectRatio || 1,
       resizeMode: "contain",
       borderRadius: "10rem",
+      paddding:0,
+      margin:0
     },
   });
 

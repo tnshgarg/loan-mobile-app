@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { STAGE } from "@env";
 import { useEffect, useState } from "react";
 import OfflineAlert from "../components/organisms/OfflineAlert";
-// import DevMenu from "../screens/DevMenu";
+import DevMenu from "../screens/DevMenu";
 import EWAStack from "./stacks/EWAStack";
 import OnboardingStack from "./stacks/OnboardingStack";
 

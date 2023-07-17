@@ -65,15 +65,13 @@ const AccountMenu = (props) => {
     setSessionValue("flow", "account");
   }, []);
 
-  const options = [
-    {
-      title: strings.logout,
-      subtitle: strings.logoutFromUnipe,
-      imageUri:
-        "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/logout.png",
-      action: () => onLogout(),
-    },
-  ];
+  const logOutItem = {
+    title: strings.logout,
+    subtitle: strings.logoutFromUnipe,
+    imageUri:
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/logout.png",
+    action: () => onLogout(),
+  };
 
   const onPressCard = ({ route, action }) => {
     console.log({ route });
@@ -87,7 +85,7 @@ const AccountMenu = (props) => {
       pollingInterval: CMS_POLLING_DURATION,
     }
   );
-
+  console.log({nav_list: JSON.stringify(cmsData?.account_navigation_list)})
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeader
@@ -110,13 +108,12 @@ const AccountMenu = (props) => {
           ></CmsRoot>
         )}
 
-        {options.map((item, index) => (
-          <LogoutItem
-            key={index}
-            item={{ ...item, onPress: () => onPressCard(item) }}
-            showIcon={true}
-          />
-        ))}
+        <LogoutItem
+          key={logOutItem}
+          item={{ ...logOutItem, onPress: () => onPressCard(logOutItem) }}
+          showIcon={true}
+        />
+        
       </ScrollView>
 
       {isTermsOfUseModalVisible && (
