@@ -14,6 +14,7 @@ const AgreementText = ({
   setIsPrivacyModalVisible,
 }) => {
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const { data: cmsData, isLoading: cmsLoading } = useGetCmsQuery(
     unipeEmployeeId,
     {
       pollingInterval: CMS_POLLING_DURATION,
