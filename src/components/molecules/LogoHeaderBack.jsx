@@ -18,6 +18,7 @@ const LogoHeaderBack = ({
   notificationIconPresent,
   unreadNotifications,
 }) => {
+  console.log({ onRightIconPress });
   return (
     <LogoHeader
       leftIcon={

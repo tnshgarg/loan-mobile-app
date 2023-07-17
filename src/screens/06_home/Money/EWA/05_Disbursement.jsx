@@ -13,7 +13,7 @@ import { COLORS, FONTS } from "../../../../constants/Theme";
 import { strings } from "../../../../helpers/Localization";
 import {
   InteractionTypes,
-  trackEvent
+  trackEvent,
 } from "../../../../helpers/analytics/commonAnalytics";
 import { navigate } from "../../../../navigators/RootNavigation";
 import {
@@ -184,7 +184,7 @@ const Disbursement = ({ route, navigation }) => {
     let data = {
       unipeEmployeeId: unipeEmployeeId,
       language: "en",
-      contentType: `${offerId}-feedback`,
+      contentType: `feedback-${offerId}`,
       content: { stars: rating, category: category, offerId: offerId },
     };
     await disbursementFeedback(data)
@@ -206,7 +206,8 @@ const Disbursement = ({ route, navigation }) => {
           action: "ERROR",
         });
         console.log("ewa/disbursement-feedback error:", error);
-      }).finally(() => {
+      })
+      .finally(() => {
         backAction();
       });
   };
@@ -216,7 +217,10 @@ const Disbursement = ({ route, navigation }) => {
       {enableFeedback ? (
         <LogoHeaderBack
           onRightIconPress={() => {
-            navigate("CmsStack", {screen: "CmsScreenOne", params: {blogKey: "salary_info"}})
+            navigate("CmsStack", {
+              screen: "CmsScreenOne",
+              params: { blogKey: "salary_info" },
+            });
           }}
           hideLogo={true}
           containerStyle={{ backgroundColor: null }}
@@ -228,7 +232,10 @@ const Disbursement = ({ route, navigation }) => {
             backAction();
           }}
           onRightIconPress={() => {
-            navigate("CmsStack", {screen: "CmsScreenOne", params: {blogKey: "salary_info"}})
+            navigate("CmsStack", {
+              screen: "CmsScreenOne",
+              params: { blogKey: "salary_info" },
+            });
           }}
           titleStyle={{ ...FONTS.body3 }}
         />
@@ -264,10 +271,8 @@ const Disbursement = ({ route, navigation }) => {
                 screen: "requestProcessed",
                 action: "THANKYOU",
               });
-              if (enableFeedback)
-                setFeedbackPopupOpen(true);
-              else 
-                backAction();
+              if (enableFeedback) setFeedbackPopupOpen(true);
+              else backAction();
             }}
             titleStyle={{ color: COLORS.black }}
           />

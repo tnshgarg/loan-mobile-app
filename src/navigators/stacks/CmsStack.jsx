@@ -36,6 +36,27 @@ const CmsStack = () => {
         }}
       />
       <Stack.Screen
+        name="CmsScreenFour"
+        component={CmsScreenOne}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="CmsScreenFive"
+        component={CmsScreenOne}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="CmsScreenSix"
+        component={CmsScreenOne}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="CmsPastDraws"
         component={CmsPastDraws}
         options={{

@@ -80,6 +80,13 @@ export const cmsApi = api
         }),
         invalidatesTags: ["getPersonalization"],
       }),
+      surveySubmission: builder.mutation({
+        query: (body) => ({
+          url: `cms`,
+          method: "POST",
+          body: body,
+        }),
+      }),
     }),
 
     overrideExisting: true,
@@ -91,6 +98,7 @@ export const {
   useLazyGetCmsLanguageStringsQuery,
   useGetCmsLanguageStringsQuery,
   useGetCmsGroupQuery,
+  useSurveySubmissionMutation,
 } = cmsApi;
 
 // Language Store
