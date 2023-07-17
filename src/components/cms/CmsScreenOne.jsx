@@ -4,7 +4,7 @@ import { Alert, BackHandler, ScrollView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { navigate } from "../../navigators/RootNavigation";
 import { CMS_POLLING_DURATION } from "../../services/constants";
-import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { styles } from "../../styles";
 import LogoHeaderBack from "../molecules/LogoHeaderBack";
 import CmsLoading from "./CmsLoading";
@@ -28,17 +28,6 @@ const CmsScreenOne = (props) => {
   let blogKey = props.route?.params?.blogKey;
   let backScreen = props.route?.params?.backScreen;
   console.log({ backScreen });
-  // const {
-  //   data,
-  //   screenTitle,
-  //   headline,
-  //   headingImage,
-  //   disableBack,
-  //   headerStyle,
-  //   hideLogo,
-  //   hideLeftIcon,
-  //   rightIconNavigate,
-  // } = DUMMY_RES?.[blogKey] ?? {};
   const {
     data,
     screenTitle,
@@ -49,7 +38,18 @@ const CmsScreenOne = (props) => {
     hideLogo,
     hideLeftIcon,
     rightIconNavigate,
-  } = cmsData?.[blogKey] ?? {};
+  } = DUMMY_RES?.[blogKey] ?? {};
+  // const {
+  //   data,
+  //   screenTitle,
+  //   headline,
+  //   headingImage,
+  //   disableBack,
+  //   headerStyle,
+  //   hideLogo,
+  //   hideLeftIcon,
+  //   rightIconNavigate,
+  // } = cmsData?.[blogKey] ?? {};
 
   console.log("MyData: ", {
     blogKey,

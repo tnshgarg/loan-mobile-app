@@ -53,7 +53,6 @@ const CmsOptions = ({ children, styling, gradientColors, navigate }) => {
 };
 
 export default CmsOptions;
-CmsOptions;
 const styles = EStyleSheet.create({
   container: {
     padding: "5%",

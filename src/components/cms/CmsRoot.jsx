@@ -53,8 +53,6 @@ const CMS_TYPES = {
   bottomAlert: CmsBottomAlert,
   overlay: CmsOverlay,
   survey: CmsSurvey,
-  questions: CmsQuestions,
-  options: CmsOptions,
   webview: CmsWebView,
   mcq: CmsMcq,
   input: CmsInput,
