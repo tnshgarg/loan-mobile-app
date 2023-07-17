@@ -21,12 +21,15 @@ import {
 } from "../../../../store/slices/ewaLiveSlice";
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import { styles } from "../../../../styles";
-import TnC from "../../../../templates/docs/EWATnC.js";
 
 import Checkbox from "../../../../components/atoms/Checkbox";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 import { navigate } from "../../../../navigators/RootNavigation";
-import { KYC_POLLING_DURATION } from "../../../../services/constants";
+import {
+  CMS_POLLING_DURATION,
+  KYC_POLLING_DURATION,
+} from "../../../../services/constants";
+import { useGetCmsQuery } from "../../../../store/apiSlices/cmsApi";
 import { useUpdateOfferMutation } from "../../../../store/apiSlices/ewaApi";
 import { useGetKycQuery } from "../../../../store/apiSlices/kycApi";
 
@@ -51,6 +54,13 @@ const Offer = () => {
   const campaignId = useSelector(
     (state) =>
       state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
+  );
+
+  const { data: cmsData, isLoading: cmsLoading } = useGetCmsQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: CMS_POLLING_DURATION,
+    }
   );
 
   const { data: kycData, refetch: refetchKycData } = useGetKycQuery(
@@ -226,7 +236,8 @@ const Offer = () => {
             action: "ERROR",
             error: error.message,
           });
-        }).finally(() => {
+        })
+        .finally(() => {
           setLoading(false);
         });
     }
@@ -295,7 +306,7 @@ const Offer = () => {
         <TermsAndPrivacyModal
           isVisible={isTermsOfUseModalVisible}
           setIsVisible={setIsTermsOfUseModalVisible}
-          data={TnC}
+          data={cmsData?.ewa_terms_and_conditions}
         />
       )}
     </SafeAreaView>

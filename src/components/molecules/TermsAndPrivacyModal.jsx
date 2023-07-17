@@ -3,8 +3,8 @@ import { Pressable, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import Modal from "react-native-modal";
 import AntDesign from "react-native-vector-icons/AntDesign";
-import WebView from "react-native-webview";
 import { COLORS, SIZES } from "../../constants/Theme";
+import CmsRoot from "../cms/CmsRoot";
 
 const TermsAndPrivacyModal = ({
   isVisible,
@@ -28,12 +28,7 @@ const TermsAndPrivacyModal = ({
         <AntDesign name="closesquareo" size={24} color="black" />
       </Pressable>
       <View style={styles.container}>
-        <WebView
-          style={{ flex: 1 }}
-          containerStyle={{ padding: 10 }}
-          originWhitelist={["*"]}
-          source={{ html: data }}
-        />
+        {!data ? <></> : <CmsRoot children={data || []}></CmsRoot>}
       </View>
     </Modal>
   );
