@@ -86,7 +86,7 @@ const PanFormTemplate = (props) => {
           <View style={form.forgotText}>
             <Text
               style={styles.termsText}
-              onRightIconPress={() => {
+              onPress={() => {
                 trackEvent({
                   interaction: InteractionTypes.SCREEN_OPEN,
                   screen: "pan",

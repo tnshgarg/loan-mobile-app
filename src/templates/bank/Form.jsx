@@ -111,7 +111,7 @@ const BankFormTemplate = (props) => {
               value={ifsc}
               onChange={setIfsc}
               autoCapitalize="characters"
-              content={strings.find}
+              content={strings.findIfscCode}
             />
 
             {ifsc && !ifscNext ? (

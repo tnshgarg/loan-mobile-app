@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
 import { Alert, BackHandler, ScrollView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { navigate } from "../../navigators/RootNavigation";
 import { CMS_POLLING_DURATION } from "../../services/constants";
 import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
@@ -96,7 +97,7 @@ const CmsScreenOne = (props) => {
         onLeftIconPress={hideLeftIcon ? null : backAction}
         headline={headline}
         headerImageUri={headingImage}
-        onRightIconPress={() => navigationHelper(rightIconNavigate)}
+        onRightIconPress={rightIconNavigate && (() => navigationHelper(rightIconNavigate))}
         containerStyle={{ ...headerStyle }}
         hideLogo={hideLogo}
       />
