@@ -6,13 +6,14 @@ import LogoHeader from "../../../components/atoms/LogoHeader";
 import LogoutItem from "../../../components/atoms/LogoutItem";
 import CmsLoading from "../../../components/cms/CmsLoading";
 import CmsRoot from "../../../components/cms/CmsRoot";
-import TermsAndPrivacyModal from "../../../components/molecules/TermsAndPrivacyModal";
 import LogoutModal from "../../../components/organisms/LogoutModal";
 import { strings } from "../../../helpers/Localization";
-import { InteractionTypes, setSessionValue, trackEvent } from "../../../helpers/analytics/commonAnalytics";
 import {
-  CMS_POLLING_DURATION
-} from "../../../services/constants";
+  InteractionTypes,
+  setSessionValue,
+  trackEvent,
+} from "../../../helpers/analytics/commonAnalytics";
+import { CMS_POLLING_DURATION } from "../../../services/constants";
 import { useGetCmsQuery } from "../../../store/apiSlices/cmsApi";
 import { styles } from "../../../styles";
 
@@ -20,9 +21,6 @@ const AccountMenu = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const [isPrivacyModalVisible, setIsPrivacyModalVisible] = useState(false);
-  const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
-    useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
@@ -85,7 +83,7 @@ const AccountMenu = (props) => {
       pollingInterval: CMS_POLLING_DURATION,
     }
   );
-  console.log({nav_list: JSON.stringify(cmsData?.account_navigation_list)})
+  console.log({ nav_list: JSON.stringify(cmsData?.account_navigation_list) });
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeader
@@ -103,9 +101,7 @@ const AccountMenu = (props) => {
         {!cmsData && cmsLoading ? (
           <CmsLoading />
         ) : (
-          <CmsRoot
-            children={cmsData?.account_navigation_list || []}
-          ></CmsRoot>
+          <CmsRoot children={cmsData?.account_navigation_list || []}></CmsRoot>
         )}
 
         <LogoutItem
@@ -113,23 +109,7 @@ const AccountMenu = (props) => {
           item={{ ...logOutItem, onPress: () => onPressCard(logOutItem) }}
           showIcon={true}
         />
-        
       </ScrollView>
-
-      {isTermsOfUseModalVisible && (
-        <TermsAndPrivacyModal
-          isVisible={isTermsOfUseModalVisible}
-          setIsVisible={setIsTermsOfUseModalVisible}
-          data={termsOfUse}
-        />
-      )}
-      {isPrivacyModalVisible && (
-        <TermsAndPrivacyModal
-          isVisible={isPrivacyModalVisible}
-          setIsVisible={setIsPrivacyModalVisible}
-          data={privacyPolicy}
-        />
-      )}
     </SafeAreaView>
   );
 };

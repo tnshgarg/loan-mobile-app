@@ -1,21 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import LinearGradient from "react-native-linear-gradient";
 import { useSelector } from "react-redux";
 import { COLORS, FONTS } from "../../constants/Theme";
 
-const CmsQuestions = ({
-  children,
-  styling,
-  gradientColors,
-  navigate,
-  survey_id,
-  question_id,
-}) => {
+const CmsSurvey = ({ children, styling, gradientColors, survey_id }) => {
   const safeChildren = children || [];
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const x = useSelector((state) => state?.[survey_id]?.[question_id]);
+
+  // const x = useSelector((state) => state?.[survey_id]?.[question_id]);
+  const currentStep = useSelector(
+    (state) => state?.cmsForms?.[survey_id]?.["form_progress"] ?? 0
+  );
+
+  console.log({ currentStep });
 
   useEffect(() => {}, []);
 
@@ -41,8 +39,7 @@ const CmsQuestions = ({
             style={{
               flex: 1,
               borderTopWidth: 5,
-              borderColor:
-                currentIndex >= index ? COLORS.primary : COLORS.white,
+              borderColor: currentStep >= index ? COLORS.primary : COLORS.white,
               marginHorizontal: 5,
               borderRadius: 10,
             }}
@@ -51,14 +48,19 @@ const CmsQuestions = ({
       </View>
       <View style={styles.innerContainer}>
         <View>
-          {safeChildren[currentIndex].element(safeChildren[currentIndex])}
+          {safeChildren[currentStep].element({
+            ...safeChildren[currentStep],
+            stepNo: currentStep,
+            survey_id: survey_id,
+            totalQues: safeChildren?.length,
+          })}
         </View>
       </View>
     </LinearGradient>
   );
 };
 
-export default CmsQuestions;
+export default CmsSurvey;
 
 const styles = EStyleSheet.create({
   container: {

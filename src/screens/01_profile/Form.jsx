@@ -27,7 +27,7 @@ const ProfileForm = () => {
             screen: "kycStart",
             action: "BACK",
           });
-          navigate("EWAStack", { screen: "EWA_OFFER" });
+          navigate("KycProgress");
         },
       },
     ]);

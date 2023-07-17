@@ -2675,6 +2675,7 @@ export const DUMMY_RES = {
           padding: "4%",
           backgroundColor: "#223240",
           height: "100%",
+          // flexGrow: 1,
           justifyContent: "space-between",
         },
         children: [
@@ -2684,7 +2685,7 @@ export const DUMMY_RES = {
               {
                 type: "title",
                 title: "Congratulations on \n joining Unipe!",
-                styling: { fontSize: 24, textAlign: "center", color: "#fff" },
+                styling: { fontSize: 28, textAlign: "center", color: "#fff" },
               },
               {
                 type: "subtitle",
@@ -2703,7 +2704,7 @@ export const DUMMY_RES = {
           {
             type: "image",
             url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/SplashScreens/Welcome.png",
-            styling: { aspectRatio: 1 },
+            styling: { aspectRatio: 1.4 },
           },
           {
             type: "card",
@@ -2721,11 +2722,17 @@ export const DUMMY_RES = {
               },
               {
                 type: "container",
-                styling: { paddingLeft: "4%" },
+                styling: {
+                  paddingLeft: "3%",
+                },
                 children: [
                   {
                     type: "subtitle",
-                    styling: { color: "#ffffff", flex: 0, fontSize: 16 },
+                    styling: {
+                      color: "#ffffff",
+                      fontSize: 16,
+                      width: "60%",
+                    },
                     title:
                       "As per RBI guidelines, you have to complete e-KYC to get Advance Salary",
                   },
@@ -3311,34 +3318,23 @@ export const DUMMY_RES = {
     ],
   },
   survey_questions: {
-    screenTitle: "Survey",
-
+    // screenTitle: "Survey",
+    headerStyle: { backgroundColor: null },
     data: [
       {
-        type: "questions",
+        type: "survey",
         survey_id: "id_353",
         children: [
           {
             type: "mcq",
             question_id: "ques_351",
+            quesNo: "Q1",
+            quesTitle: "Lorem Ipsum is simply dummy text of the printing?",
             children: [
-              { type: "subtitle", title: "Q1" },
-              {
-                type: "subtitle",
-                title: "Lorem Ipsum is simply dummy text of the printing?",
-                styling: { marginTop: "5%", fontSize: 24 },
-              },
               {
                 type: "container",
-                styling: {
-                  width: "100%",
-                  borderWidth: 1,
-                  borderColor: "#000",
-                  padding: "6%",
-                  marginTop: "10%",
-                  borderRadius: 10,
-                  backgroundColor: "#fff",
-                },
+                answer_id: "ans_1",
+
                 children: [
                   {
                     type: "subtitle",
@@ -3349,14 +3345,8 @@ export const DUMMY_RES = {
               },
               {
                 type: "container",
-                styling: {
-                  width: "100%",
-                  borderWidth: 1,
-                  borderColor: "#000",
-                  padding: "6%",
-                  marginTop: "5%",
-                  borderRadius: 10,
-                },
+                answer_id: "ans_2",
+
                 children: [
                   {
                     type: "subtitle",
@@ -3367,14 +3357,8 @@ export const DUMMY_RES = {
               },
               {
                 type: "container",
-                styling: {
-                  width: "100%",
-                  borderWidth: 1,
-                  borderColor: "#000",
-                  padding: "6%",
-                  marginTop: "5%",
-                  borderRadius: 10,
-                },
+                answer_id: "ans_3",
+
                 children: [
                   {
                     type: "subtitle",
@@ -3385,14 +3369,8 @@ export const DUMMY_RES = {
               },
               {
                 type: "container",
-                styling: {
-                  width: "100%",
-                  borderWidth: 1,
-                  borderColor: "#000",
-                  padding: "6%",
-                  marginTop: "5%",
-                  borderRadius: 10,
-                },
+                answer_id: "ans_4",
+
                 children: [
                   {
                     type: "subtitle",
@@ -3406,43 +3384,133 @@ export const DUMMY_RES = {
           {
             type: "mcq",
             question_id: "ques_352",
+            quesNo: "Q2",
+            quesTitle: "Lorem Ipsum is simply dummy text of the printing?",
             children: [
-              { type: "subtitle", title: "Q2" },
               {
-                type: "subtitle",
-                title: "Lorem Ipsum is simply dummy text of the printing?",
-                styling: { marginTop: "5%", fontSize: 24 },
+                type: "container",
+                answer_id: "ans_1",
+
+                children: [
+                  {
+                    type: "subtitle",
+                    title: "Answer 1",
+                    styling: { fontSize: 20 },
+                  },
+                ],
               },
               {
                 type: "container",
+                answer_id: "ans_2",
+
                 children: [
                   {
-                    type: "title",
-                    title: "Asnwer 4",
-                    styling: { fontSize: 24 },
+                    type: "subtitle",
+                    title: "Answer 2",
+                    styling: { fontSize: 20 },
+                  },
+                ],
+              },
+              {
+                type: "container",
+                answer_id: "ans_3",
+
+                children: [
+                  {
+                    type: "subtitle",
+                    title: "Answer 3",
+                    styling: { fontSize: 20 },
+                  },
+                ],
+              },
+              {
+                type: "container",
+                answer_id: "ans_4",
+
+                children: [
+                  {
+                    type: "subtitle",
+                    title: "Answer 4",
+                    styling: { fontSize: 20 },
                   },
                 ],
               },
             ],
           },
           {
-            type: "mcq",
-            question_id: "ques_35",
-            children: [
-              { type: "subtitle", title: "Q3" },
-              {
-                type: "subtitle",
-                title: "Lorem Ipsum is simply dummy text of the printing?",
-                styling: { marginTop: "5%", fontSize: 24 },
-              },
-            ],
+            type: "input",
+            question_id: "ques_353",
+            quesNo: "Q3",
+            quesTitle: "Lorem Ipsum is simply dummy text of the printing?",
+            answer_id: "ans_1",
+            styling: {
+              borderRadius: 5,
+              height: 150,
+              borderWidth: 1.5,
+              borderColor: "#f1f1f1",
+              padding: 15,
+              marginTop: "5%",
+            },
           },
         ],
       },
     ],
   },
   survey_done: {
-    data: [{}],
+    screenTitle: "Survey",
+    data: [
+      {
+        type: "container",
+        styling: {
+          padding: "5%",
+          height: "100%",
+          backgroundColor: "white",
+          justifyContent: "space-between",
+        },
+        children: [
+          {
+            type: "container",
+            styling: {
+              alignItems: "center",
+              paddingTop: "20%",
+            },
+            children: [
+              {
+                type: "icon",
+                iconName: "check-circle",
+                iconSize: 200,
+                iconColor: "#41be89",
+              },
+              {
+                type: "subtitle",
+                title: "Survey submitted successfully",
+                styling: {
+                  textAlign: "center",
+                  fontSize: 22,
+                  color: "#18225D",
+                  marginTop: "10%",
+                },
+              },
+              {
+                type: "subtitle",
+                title:
+                  "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+                styling: { textAlign: "center", fontSize: 16 },
+              },
+            ],
+          },
+
+          {
+            type: "button",
+            title: "Done",
+            variant: "filled",
+            clickType: "navigation",
+            styling: { marginTop: "15%" },
+            navigate: { type: "app", screen: "HomeStack" },
+          },
+        ],
+      },
+    ],
   },
   app_language: {
     screenTitle: "App Language",
@@ -6160,7 +6228,11 @@ export const DUMMY_RES_HINDI = {
                 children: [
                   {
                     type: "subtitle",
-                    styling: { color: "#ffffff", flex: 0, fontSize: 16 },
+                    styling: {
+                      color: "#ffffff",
+                      fontSize: 16,
+                      width: "60%",
+                    },
                     title:
                       "As per RBI guidelines, you have to complete e-KYC to get Advance Salary",
                   },
@@ -6748,7 +6820,7 @@ export const DUMMY_RES_HINDI = {
   //   screenTitle: "Survey",
   //   data: [
   //     {
-  //       type: "questions",
+  //       type: "survey",
   //       children: [
   //         {
   //           type: "container",

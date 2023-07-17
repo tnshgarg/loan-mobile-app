@@ -12,15 +12,15 @@ import CmsFooter from "./CmsFooter";
 import CmsIcon from "./CmsIcon";
 import CmsIconText from "./CmsIconText";
 import CmsImage from "./CmsImage";
+import CmsInput from "./CmsInput";
 import { CmsMarkdown } from "./CmsMarkdown";
 import CmsMcq from "./CmsMcq";
 import CmsNotification from "./CmsNotification";
-import CmsOptions from "./CmsOptions";
 import CmsOverlay from "./CmsOverlay";
-import CmsQuestions from "./CmsQuestions";
 import CmsSection from "./CmsSection";
 import CmsSpacer from "./CmsSpacer";
 import CmsSubtitle from "./CmsSubtitle";
+import CmsSurvey from "./CmsSurvey";
 import CmsSwiper from "./CmsSwiper";
 import CmsThreeColumn from "./CmsThreeColumn";
 import CmsTitle from "./CmsTitle";
@@ -52,10 +52,10 @@ const CMS_TYPES = {
   badge: CmsBadge,
   bottomAlert: CmsBottomAlert,
   overlay: CmsOverlay,
-  questions: CmsQuestions,
-  options: CmsOptions,
+  survey: CmsSurvey,
   webview: CmsWebView,
   mcq: CmsMcq,
+  input: CmsInput,
   default: () => <></>,
 };
 

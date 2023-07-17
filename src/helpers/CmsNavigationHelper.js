@@ -32,7 +32,7 @@ const cmsScreenMap = {
   1: "CmsScreenOne",
   2: "CmsScreenTwo",
   3: "CmsScreenThree",
-}
+};
 const navigationHelper = async ({
   type,
   stack,
@@ -78,7 +78,7 @@ const navigationHelper = async ({
       params: params ?? {},
     });
   } else if (type == "cmsScreenThree") {
-    console.log("CMS nest navigation triggered!");
+    console.log("CMS 3 nest navigation triggered!");
     navigationRef.navigate("CmsStack", {
       screen: "cmsScreenThree",
       params: params ?? {},

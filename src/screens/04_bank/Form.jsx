@@ -43,9 +43,7 @@ const BankForm = () => {
             action: "BACK",
           });
           verifyStatus === "SUCCESS"
-            ? navigation.navigate("HomeStack", {
-              screen: "Home",
-            })
+            ? navigation.navigate("KycProgress")
             : navigation.navigate("PanForm");
         },
       },

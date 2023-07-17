@@ -13,10 +13,9 @@ import { Linking } from "react-native";
 import LogoutModal from "../components/organisms/LogoutModal";
 import { changeLanguage } from "../helpers/Localization";
 import Analytics, {
-  InteractionTypes
+  InteractionTypes,
 } from "../helpers/analytics/commonAnalytics";
 import LearnWithUs from "../screens/06_home/LearnWithUs";
-import CmsScreen from "../screens/CmsScreen";
 import KycProgress from "../screens/KycProgress";
 import KycSuccess from "../screens/KycSuccess";
 import SplashScreen from "../screens/SplashScreen";
@@ -142,13 +141,7 @@ const StackNavigator = () => {
         <Stack.Screen name="OnboardingStack" component={OnboardingStack} />
         <Stack.Screen name="KycProgress" component={KycProgress} />
         <Stack.Screen name="KycSuccess" component={KycSuccess} />
-        <Stack.Screen
-          name="CmsScreen"
-          component={CmsScreen}
-          options={{
-            animation: "default",
-          }}
-        />
+
         <Stack.Screen
           name="CmsStack"
           component={CmsStack}
