@@ -75,11 +75,11 @@ const ListItem = ({
         </View>
       </TouchableNativeFeedback>
 
-      {subItems && (
+      {!disabled && subItems ? (
         <View style={styles.extension}>
           {subItems.map((item, index) => {
             return (
-              <TouchableOpacity key={item?.title} style={styles.image} activeOpacity={0.5} onPress={item.onPress}>
+              <TouchableOpacity key={item?.title} style={styles.image} activeOpacity={0.5} onPress={item.onPress} disabled={disabled}>
                 <Image
                   source={item.image}
                   style={{
@@ -92,7 +92,7 @@ const ListItem = ({
             );
           })}
         </View>
-      )}
+      ): null}
     </>
   );
 };
