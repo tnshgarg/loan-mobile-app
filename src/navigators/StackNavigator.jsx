@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { STAGE } from "@env";
 import { useEffect, useState } from "react";
 import OfflineAlert from "../components/organisms/OfflineAlert";
-// import DevMenu from "../screens/DevMenu";
+import DevMenu from "../screens/DevMenu";
 import EWAStack from "./stacks/EWAStack";
 import OnboardingStack from "./stacks/OnboardingStack";
 
@@ -17,7 +17,6 @@ import Analytics, {
 } from "../helpers/analytics/commonAnalytics";
 import LearnWithUs from "../screens/06_home/LearnWithUs";
 import CmsScreen from "../screens/CmsScreen";
-import DevMenu from "../screens/DevMenu";
 import KycProgress from "../screens/KycProgress";
 import KycSuccess from "../screens/KycSuccess";
 import SplashScreen from "../screens/SplashScreen";
@@ -38,12 +37,12 @@ const StackNavigator = () => {
   const token = useSelector((state) => state?.auth?.token);
   const onboarded = useSelector((state) => state?.auth?.onboarded);
   const [modalVisible, setModalVisible] = useState(false);
-  const language = useSelector(state => state.localization.language)
+  const language = useSelector((state) => state.localization.language);
   let initialRoute = useSelector((state) => state.navigation.currentStack);
   let initialScreen = useSelector((state) => state.navigation.currentScreen);
   useEffect(() => {
     changeLanguage(language ?? "en");
-    console.log("stack navigator use effect")
+    console.log("stack navigator use effect");
   }, [language]);
 
   const handleCampaignUrlClick = (url) => {

@@ -1,3 +1,5 @@
+import { strings } from "./Localization";
+
 const setDDMMYYYYtoYYYYMMDD = (date) => {
   const [day, month, year] = date.split("/");
   const formattedDate = year + "/" + month + "/" + day;
@@ -29,7 +31,22 @@ const getNumberOfDays = ({ date, formatted }) => {
   return diffInDays;
 };
 
+const getGreetingFromTimeOfDay = () => {
+  const date = new Date();
+  const hour = date.getHours();
+  let greeting = "";
+  if (hour >= 0 && hour < 12) {
+    greeting = strings.goodMorning;
+  } else if (hour >= 12 && hour < 18) {
+    greeting = strings.goodAfternoon;
+  } else {
+    greeting = strings.goodEvening;
+  }
+  return greeting;
+};
+
 module.exports = {
   getNumberOfDays,
   setYYYYMMDDtoDDMMYYYY,
+  getGreetingFromTimeOfDay
 };

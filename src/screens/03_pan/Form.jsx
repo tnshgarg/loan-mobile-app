@@ -8,7 +8,7 @@ import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { strings } from "../../helpers/Localization";
 import {
   InteractionTypes,
-  trackEvent
+  trackEvent,
 } from "../../helpers/analytics/commonAnalytics";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
@@ -48,7 +48,9 @@ export default PanForm = () => {
               action: "BACK",
             });
             aadhaar?.verifyStatus === "SUCCESS"
-              ? navigation.navigate("AadhaarConfirm")
+              ? navigation.navigate("HomeStack", {
+                  screen: "Home",
+                })
               : navigation.navigate("AadhaarForm");
           },
         },

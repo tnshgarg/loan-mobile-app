@@ -50,10 +50,14 @@ const CmsButton = ({
           ...styling,
         },
         variant == "filled"
-          ? { backgroundColor: loading ? COLORS.lightGray : COLORS.primary }
+          ? {
+              backgroundColor: loading
+                ? COLORS.lightGray
+                : buttonColor || COLORS.primary,
+            }
           : {
               borderWidth: 2,
-              borderColor: loading ? COLORS.gray : COLORS.white,
+              borderColor: loading ? COLORS.gray : buttonColor || COLORS.white,
               backgroundColor: null,
             },
       ]}
@@ -65,7 +69,7 @@ const CmsButton = ({
           name={leftIcon}
           color={iconColor || COLORS.white}
           size={20}
-          style={{ marginLeft: 5 }}
+          style={{ marginRight: 5 }}
         />
       ) : null}
       <Text style={[styles.btnText, { ...titleStyle }]}>{title}</Text>

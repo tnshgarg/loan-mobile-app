@@ -56,7 +56,6 @@ const Bank = () => {
       { subTitle: "Branch City", value: bank?.data?.branchCity },
 
       { subTitle: "IFSC", value: bank?.data?.ifsc },
-      { subTitle: "UPI", value: bank?.data?.upi, fullWidth: true },
       // { subTitle: "Verify Status", value: !loading && bank?.verifyStatus },
     ];
     return res;

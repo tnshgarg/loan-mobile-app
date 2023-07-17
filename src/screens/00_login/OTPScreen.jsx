@@ -27,7 +27,7 @@ import {
   useGenerateOtpMutation,
   useVerifyOtpMutation,
 } from "../../store/apiSlices/loginApi";
-import { addToken } from "../../store/slices/authSlice";
+import { addToken, addUnipeEmployeeId } from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
@@ -46,7 +46,11 @@ const OTPScreen = () => {
   const { phoneNumber, unipeEmployeeId, token } = useSelector(
     (state) => state.auth || {}
   );
-  const [trigger, result, lastPromiseInfo] = useLazyGetKycQuery();
+  const [
+    trigger,
+    { isLoading: isTriggerLoading, isSuccess: isTriggerSuccess },
+    lastPromiseInfo,
+  ] = useLazyGetKycQuery();
   const [postVerifyOtp, { isLoading: verifyOtpLoading }] =
     useVerifyOtpMutation();
   const [postGenerateOtp] = useGenerateOtpMutation();
@@ -183,8 +187,14 @@ const OTPScreen = () => {
     postVerifyOtp({ mobileNumber: phoneNumber, otp: otp })
       .unwrap()
       .then((res) => {
-        dispatch(addToken(res["token"]));
-        handleNavigation(res["token"], res?.employeeDetails?.unipeEmployeeId);
+        dispatch(addToken(res?.token));
+        dispatch(
+          addUnipeEmployeeId(res?.employeeDetails?.unipeEmployeeId)
+        );
+        handleNavigation(
+          res?.token,
+          res?.employeeDetails?.unipeEmployeeId
+        );
         setVerified(true);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
@@ -199,7 +209,7 @@ const OTPScreen = () => {
           action: "INVALID",
           error: error?.message || error?.error?.message,
         });
-        console.log(error);
+        console.log("error: ", error);
         // Alert.alert("Error", error?.message || error?.error?.message);
         showToast(error?.message || error?.error?.message, "error");
         if (error?.status != 406) {
@@ -300,8 +310,8 @@ const OTPScreen = () => {
           <PrimaryButton
             accessibilityLabel="OtpBtn"
             title="Continue"
-            disabled={!isValidOtp || verifyOtpLoading}
-            loading={verifyOtpLoading}
+            disabled={!isValidOtp || verifyOtpLoading || isTriggerLoading}
+            loading={verifyOtpLoading || isTriggerLoading}
             onPress={onSubmitOtp}
           />
         </View>

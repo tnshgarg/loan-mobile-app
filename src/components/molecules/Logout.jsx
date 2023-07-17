@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import SVGImg from "../../assets/UnipeLogo.svg";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
-import { navigate } from "../../navigators/RootNavigation";
 
 export default Logout = () => {
   const navigation = useNavigation();
@@ -64,8 +63,8 @@ export default Logout = () => {
           setModalVisible(true);
           setTimeout(() => {
             setModalVisible(false);
-            // navigation.replace("OnboardingStack", { screen: "Login" });
-            navigate("OnboardingStack", { screen: "Login" });
+            navigation.replace("OnboardingStack", { screen: "Login" });
+            // navigate("OnboardingStack", { screen: "Login" });
           }, 5000);
         }}
         style={{
