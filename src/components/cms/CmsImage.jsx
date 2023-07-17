@@ -1,7 +1,8 @@
-import { Image } from "react-native";
+import { Image, Linking, TouchableOpacity } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
-const CmsImage = ({ url, styling, aspectRatio }) => {
+const CmsImage = ({ url, styling, aspectRatio, navigate, clickType, link }) => {
   // const [{ width, height }, setDimensions] = useState({
   //   width: 0,
   //   height: 0,
@@ -16,7 +17,7 @@ const CmsImage = ({ url, styling, aspectRatio }) => {
   //   });
   // }, [url]);
 
-  console.log({ url, aspectRatio });
+  console.log("clickType: ", { clickType, navigate });
 
   const style = EStyleSheet.create({
     fullWidthImage: {
@@ -30,12 +31,23 @@ const CmsImage = ({ url, styling, aspectRatio }) => {
   });
 
   return (
-    <Image
-      style={[style.fullWidthImage, { ...styling }]}
-      source={{
-        uri: url,
-      }}
-    />
+    <TouchableOpacity
+      activeOpacity={0.95}
+      onPress={() =>
+        navigate || link
+          ? clickType == "navigation"
+            ? navigationHelper(navigate)
+            : Linking.openURL(link)
+          : null
+      }
+    >
+      <Image
+        style={[style.fullWidthImage, { ...styling }]}
+        source={{
+          uri: url,
+        }}
+      />
+    </TouchableOpacity>
   );
 };
 
