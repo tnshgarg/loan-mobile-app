@@ -4,9 +4,13 @@ import { View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { useSelector } from "react-redux";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
-import { InteractionTypes, trackEvent } from "../../helpers/analytics/commonAnalytics";
+import {
+  InteractionTypes,
+  trackEvent,
+} from "../../helpers/analytics/commonAnalytics";
 import { useGetMandateOptionsQuery } from "../../store/apiSlices/mandateApi";
 import ListItem from "../atoms/ListItem";
+import CmsLoading from "../cms/CmsLoading";
 
 const MandateOptions = ({ ProceedButton, disabled, authType }) => {
   const isFocused = useIsFocused();
@@ -17,7 +21,7 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
     error: getMandateOptionsError,
     data: getMandateOptionsData,
   } = useGetMandateOptionsQuery(unipeEmployeeId, {
-    pollingInterval: isFocused ? 1000 * 2 : undefined,
+    pollingInterval: isFocused ? 1000 * 10 : undefined,
   });
 
   useEffect(() => {
@@ -43,9 +47,9 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
                 screen: "mandateStart",
                 action: "CONTINUE",
                 properties: {
-                  "method": "upi",
-                  "provider": "gpay"
-                }
+                  method: "upi",
+                  provider: "gpay",
+                },
               });
               ProceedButton({
                 authType: "upi",
@@ -63,9 +67,9 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
                 screen: "mandateStart",
                 action: "CONTINUE",
                 properties: {
-                  "method": "upi",
-                  "provider": "amazonpay"
-                }
+                  method: "upi",
+                  provider: "amazonpay",
+                },
               });
               ProceedButton({
                 authType: "upi",
@@ -88,9 +92,9 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
                 provider: "cashfree",
                 app: "PAYTM",
                 properties: {
-                  "method": "upi",
-                  "provider": "paytm"
-                }
+                  method: "upi",
+                  provider: "paytm",
+                },
               });
             },
           },
@@ -103,9 +107,9 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
                 screen: "mandateStart",
                 action: "CONTINUE",
                 properties: {
-                  "method": "upi",
-                  "provider": "phonepe"
-                }
+                  method: "upi",
+                  provider: "phonepe",
+                },
               });
               ProceedButton({
                 authType: "upi",
@@ -123,10 +127,9 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
                 screen: "mandateStart",
                 action: "CONTINUE",
                 properties: {
-                  "method": "upi",
-                  "provider": "bhim"
-                }
-
+                  method: "upi",
+                  provider: "bhim",
+                },
               });
               ProceedButton({
                 authType: "upi",
@@ -213,26 +216,30 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
 
   return (
     <View style={styles.container}>
-      {mandateButtons.map((item, index) => (
-            <ListItem
-              titleStyle={{ ...FONTS.body4 }}
-              subtitleStyle={{ ...FONTS.body5, ...item.subtitleStyle }}
-              key={index}
-              item={item}
-              disabled={disabled || item.disabled}
-              showIcon={!item.disabled}
-              selected={authType == item.type}
-              containerStyle={{
-                marginVertical: 5,
-                ...SIZES.shadow,
-                width: "99%",
-                alignSelf: "center",
-                padding: 15,
-              }}
-            />
-        )
+      {getMandateOptionsLoading ? (
+        <CmsLoading />
+      ) : (
+        mandateButtons.map((item, index) => (
+          <ListItem
+            titleStyle={{ ...FONTS.body4 }}
+            subtitleStyle={{ ...FONTS.body5, ...item.subtitleStyle }}
+            key={index}
+            item={item}
+            disabled={disabled || item.disabled}
+            showIcon={!item.disabled}
+            selected={authType == item.type}
+            containerStyle={{
+              marginVertical: 5,
+              ...SIZES.shadow,
+              width: "99%",
+              alignSelf: "center",
+              padding: 15,
+            }}
+          />
+        ))
       )}
-  </View>);
+    </View>
+  );
 };
 
 const styles = EStyleSheet.create({
