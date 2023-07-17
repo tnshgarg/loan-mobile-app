@@ -27,7 +27,7 @@ const CmsScreenOne = (props) => {
   console.log("route.params: ", props.route.params);
   let blogKey = props.route?.params?.blogKey;
   let backScreen = props.route?.params?.backScreen;
-  console.log({ backScreen });
+  // console.log({ backScreen });
   const {
     data,
     screenTitle,

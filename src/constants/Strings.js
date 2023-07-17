@@ -2675,6 +2675,7 @@ export const DUMMY_RES = {
           padding: "4%",
           backgroundColor: "#223240",
           height: "100%",
+          // flexGrow: 1,
           justifyContent: "space-between",
         },
         children: [
@@ -2684,7 +2685,7 @@ export const DUMMY_RES = {
               {
                 type: "title",
                 title: "Congratulations on \n joining Unipe!",
-                styling: { fontSize: 24, textAlign: "center", color: "#fff" },
+                styling: { fontSize: 28, textAlign: "center", color: "#fff" },
               },
               {
                 type: "subtitle",
@@ -2703,7 +2704,7 @@ export const DUMMY_RES = {
           {
             type: "image",
             url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/SplashScreens/Welcome.png",
-            styling: { aspectRatio: 1 },
+            styling: { aspectRatio: 1.4 },
           },
           {
             type: "card",
@@ -2721,11 +2722,17 @@ export const DUMMY_RES = {
               },
               {
                 type: "container",
-                styling: { paddingLeft: "4%" },
+                styling: {
+                  paddingLeft: "3%",
+                },
                 children: [
                   {
                     type: "subtitle",
-                    styling: { color: "#ffffff", flex: 0, fontSize: 16 },
+                    styling: {
+                      color: "#ffffff",
+                      fontSize: 16,
+                      width: "60%",
+                    },
                     title:
                       "As per RBI guidelines, you have to complete e-KYC to get Advance Salary",
                   },
@@ -6221,7 +6228,11 @@ export const DUMMY_RES_HINDI = {
                 children: [
                   {
                     type: "subtitle",
-                    styling: { color: "#ffffff", flex: 0, fontSize: 16 },
+                    styling: {
+                      color: "#ffffff",
+                      fontSize: 16,
+                      width: "60%",
+                    },
                     title:
                       "As per RBI guidelines, you have to complete e-KYC to get Advance Salary",
                   },
