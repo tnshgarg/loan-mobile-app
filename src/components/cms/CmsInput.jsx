@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS, FONTS } from "../../constants/Theme";
@@ -12,7 +12,7 @@ import { useSurveySubmissionMutation } from "../../store/apiSlices/cmsApi";
 import { cmsFormData, cmsFormProgress } from "../../store/slices/cmsSlice";
 import PrimaryButton from "../atoms/PrimaryButton";
 
-const CmsMcq = ({
+const CmsInput = ({
   children,
   survey_id,
   question_id,
@@ -20,6 +20,8 @@ const CmsMcq = ({
   totalQues,
   quesNo,
   quesTitle,
+  answer_id,
+  styling,
 }) => {
   const safeChildren = children || [];
   const dispatch = useDispatch();
@@ -27,13 +29,22 @@ const CmsMcq = ({
   const formAnswer = useSelector(
     (state) => state?.cmsForms?.[survey_id]?.[question_id] ?? ""
   );
-
   const formData = useSelector((state) => state?.cmsForms?.[survey_id]);
   const [surveySubmission] = useSurveySubmissionMutation();
-
   console.log({ formData });
 
   useEffect(() => {}, []);
+
+  const onChangeText = (value) => {
+    console.log({ value });
+    dispatch(
+      cmsFormData({
+        formId: survey_id,
+        key: question_id,
+        value: value,
+      })
+    );
+  };
 
   const onSubmitForm = () => {
     let data = {
@@ -77,34 +88,18 @@ const CmsMcq = ({
       <Text style={{ ...FONTS.body2, color: COLORS.black, marginTop: "5%" }}>
         {quesTitle}
       </Text>
-      <View style={{ flexGrow: 1 }}>
-        {safeChildren?.map((child, index) => (
-          <TouchableOpacity
-            style={{
-              width: "100%",
-              borderWidth: 1,
-              borderColor:
-                child?.answer_id == formAnswer ? COLORS.primary : COLORS.gray,
-              padding: "6%",
-              marginTop: "5%",
-              borderRadius: 10,
-              backgroundColor: "#fff",
-            }}
-            key={index}
-            onPress={() => {
-              dispatch(
-                cmsFormData({
-                  formId: survey_id,
-                  key: question_id,
-                  value: child?.answer_id,
-                })
-              );
-            }}
-          >
-            {child.element(child)}
-          </TouchableOpacity>
-        ))}
-      </View>
+      <TextInput
+        placeholder={"Type your answer"}
+        style={{
+          alignItems: "flex-start",
+          ...FONTS.body4,
+          ...styling,
+        }}
+        textAlignVertical="top"
+        multiline
+        value={formAnswer}
+        onChangeText={(value) => onChangeText(value)}
+      />
 
       <PrimaryButton
         title={totalQues - 1 == stepNo ? "Submit" : "Next"}
@@ -122,7 +117,7 @@ const CmsMcq = ({
   );
 };
 
-export default CmsMcq;
+export default CmsInput;
 
 const styles = EStyleSheet.create({
   container: {

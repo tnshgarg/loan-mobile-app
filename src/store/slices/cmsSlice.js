@@ -16,10 +16,22 @@ const cmsSlice = createSlice({
         state[formId] = {};
       }
       state[formId][key] = value;
+      console.log({ state });
+      return state;
+    },
+    setProgress: (state, action) => {
+      let { formId, value } = action.payload;
+      if (!state[formId]) {
+        state[formId] = {};
+      }
+      state[formId]["form_progress"] = value;
+      console.log("cms state:", state);
+      return state;
     },
   },
 });
 
-export const { setFormData: cmsFormData } = cmsSlice.actions;
+export const { setFormData: cmsFormData, setProgress: cmsFormProgress } =
+  cmsSlice.actions;
 
 export default cmsSlice.reducer;
