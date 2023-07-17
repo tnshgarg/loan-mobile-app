@@ -6,6 +6,7 @@ import BottomAlert from "../../../../components/molecules/BottomAlert";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 import { navigationHelper } from "../../../../helpers/CmsNavigationHelper";
 import { strings } from "../../../../helpers/Localization";
+import { InteractionTypes, trackEvent } from "../../../../helpers/analytics/commonAnalytics";
 import { styles } from "../../../../styles";
 import MandateFormTemplate from "../../../../templates/mandate/Form";
 
@@ -67,7 +68,7 @@ const Mandate = (props) => {
         }
         onRightIconPress={() =>
           {
-            Analytics.trackEvent({
+            trackEvent({
               interaction: InteractionTypes.BUTTON_PRESS,
               screen: "mandate",
               action: "HELP",

@@ -90,8 +90,7 @@ export default PanForm = () => {
           navigationHelper({
             type: "cms",
             params: {
-              blogKey: "pan_help",
-              backScreen: { stack: "OnboardingStack", screen: "PanForm" },
+              blogKey: "pan_help"
             },
           });
         }}

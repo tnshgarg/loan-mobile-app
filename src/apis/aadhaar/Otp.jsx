@@ -33,7 +33,7 @@ const  AadhaarOtpApi = (props) => {
   const handleOtpSuccess = (responseJson) => {
     console.log({ responseJson });
     dispatch(resetTimer());
-    showToast(responseJson?.body?.message || responseJson?.body?.verifyMsg);
+    showToast(responseJson?.body?.message || responseJson?.body?.verifyMsg, "success");
     Analytics.trackEvent({
       interaction: InteractionTypes.BUTTON_PRESS,
       screen: "aadhaar",

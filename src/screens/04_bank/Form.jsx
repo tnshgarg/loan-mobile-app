@@ -82,8 +82,7 @@ const BankForm = () => {
           navigationHelper({
             type: "cms",
             params: {
-              blogKey: "bank_help",
-              backScreen: { stack: "OnboardingStack", screen: "BankForm" },
+              blogKey: "bank_help"
             },
           });
         }}

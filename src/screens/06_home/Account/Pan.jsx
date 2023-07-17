@@ -100,7 +100,7 @@ const Pan = () => {
             title={
               aadhaar.verifyStatus != "SUCCESS"
                 ? "+ Add Aadhaar"
-                : "+ Add Bank Account"
+                : "+ Add PAN"
             }
             onPress={() =>
               navigation.navigate("EWAStack", {
