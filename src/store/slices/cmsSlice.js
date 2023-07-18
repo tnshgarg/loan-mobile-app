@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {};
+const initialState = {webviewdata: {}};
 
 const cmsSlice = createSlice({
   name: "cms",
@@ -28,10 +28,15 @@ const cmsSlice = createSlice({
       console.log("cms state:", state);
       return state;
     },
+    setWebViewHeight: (state, action) => {
+      let { uri, height } = action.payload;
+      state.webviewdata[uri] = height
+      return state;
+    }
   },
 });
 
-export const { setFormData: cmsFormData, setProgress: cmsFormProgress } =
+export const { setFormData: cmsFormData, setProgress: cmsFormProgress, setWebViewHeight } =
   cmsSlice.actions;
 
 export default cmsSlice.reducer;

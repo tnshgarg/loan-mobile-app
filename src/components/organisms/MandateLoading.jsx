@@ -46,7 +46,7 @@ export default function MandateLoading({
         }
       } else if (refetchTime > 60) {
         setModalVisible(false);
-        if (mandateVerifyStatus === "INPROGRESS") {
+        if (mandateData.verifyStatus === "INPROGRESS") {
           showToast("Mandate verification In Progress", "pending");
           navigate("HomeStack", { screen: "Money" });
         }

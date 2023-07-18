@@ -1,6 +1,6 @@
 import { Slider } from "@miblanchard/react-native-slider";
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import LinearGradient from "react-native-linear-gradient";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -10,6 +10,7 @@ import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
 import InfoCard from "../atoms/InfoCard";
 import SvgContainer from "../atoms/SvgContainer";
+import { showToast } from "../atoms/Toast";
 
 const SliderCard = ({
   info,
@@ -59,17 +60,43 @@ const SliderCard = ({
         >
           {strings.iWantToWithdraw}
         </Text>
-        <Text
-          style={{
-            ...FONTS.h1,
-            color: COLORS.secondary,
-            alignSelf: "center",
-            fontSize: 48,
-          }}
-        >
-          ₹{amount}
-        </Text>
-
+        <View style={[styles.row,{
+            justifyContent:"center",
+            alignItems: "center", 
+            textAlign: "center",
+          }]}>
+          <Text
+            style={{
+              ...FONTS.h1,
+              color: COLORS.secondary,
+              alignSelf: "center",
+              fontSize: 48
+            }}
+          >
+            ₹{" "}
+          </Text>
+          <TextInput
+            editable
+            style={{
+              ...FONTS.h1,
+              color: COLORS.secondary,
+              alignSelf: "center",
+              fontSize: 48,
+              borderBottomColor: COLORS.primary,
+              borderBottomWidth: 2,
+              paddingBottom: -20,
+            }}
+            onChangeText={(value) => setAmount(value)}
+            onBlur={(value) => {
+              const roundedAmount  = Math.min(Math.max(1000,parseInt(Math.ceil(amount/100)*100)),eligibleAmount);
+              if (roundedAmount != amount)
+                showToast("Amount should be a multiple of 100")
+              setAmount(roundedAmount)}}
+            value={"" + amount}
+            keyboardType="numeric"
+          />
+        </View>
+        
         {eligibleAmount >= 1000 ? (
           <Slider
             minimumValue={1000}

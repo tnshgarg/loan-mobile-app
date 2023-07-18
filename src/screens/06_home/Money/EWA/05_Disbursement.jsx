@@ -16,6 +16,8 @@ import {
   trackEvent,
 } from "../../../../helpers/analytics/commonAnalytics";
 import { navigate } from "../../../../navigators/RootNavigation";
+import { CMS_POLLING_DURATION } from "../../../../services/constants";
+import { useGetCmsQuery } from "../../../../store/apiSlices/cmsApi";
 import {
   useDisbursementFeedbackMutation,
   useGetDisbursementQuery,
@@ -29,7 +31,12 @@ const Disbursement = ({ route, navigation }) => {
   const [feedbackPopupOpen, setFeedbackPopupOpen] = useState(false);
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-
+  const {data:cmsData} = useGetCmsQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: CMS_POLLING_DURATION,
+    }
+  )
   const bankSlice = useSelector((state) => state.bank);
   const [bankAccountNumber, setBankAccountNumber] = useState(
     bankSlice?.data?.accountNumber
@@ -41,7 +48,7 @@ const Disbursement = ({ route, navigation }) => {
   const [status, setStatus] = useState("");
   const [rating, setRating] = useState(0);
   const [category, setCategory] = useState("");
-  const categoryData = [
+  const categoryData = cmsData?.disbursement_feedback_options || [
     "Medical Emergency",
     "Shopping",
     "Travel",
@@ -49,7 +56,7 @@ const Disbursement = ({ route, navigation }) => {
     "Other",
   ];
 
-  console.log({ status });
+  console.log({ status, cmsData: cmsData?.disbursement_feedback_options });
 
   const backAction = () => {
     trackEvent({

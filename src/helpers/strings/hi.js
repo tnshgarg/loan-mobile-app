@@ -194,7 +194,7 @@ export default {
   enterYourDetails: "अपना विवरण दर्ज करें",
   verifyAadhaar: "आधार सत्यापित करें",
   panVerification: "पैन कार्ड सत्यापन",
-  addBankAccount: "बैंक खाता जोड़ें",
+  addBankAccount: "वेतन बैंक खाता जोड़ें",
   onDemandSalary: "ऑन-डिमांड वेतन",
   selectAmount: "वह राशि चुनें जिसे आप निकालना चाहते हैं",
   confirmKyc: "केवाईसी की पुष्टि करें",

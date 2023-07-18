@@ -74,7 +74,7 @@ const Offer = () => {
 
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const fees = useSelector((state) => state.ewaLive.fees);
-  const [loanAmount, setLoanAmount] = useState(ewaLiveSlice?.eligibleAmount);
+  const [loanAmount, setLoanAmount] = useState(ewaLiveSlice?.eligibleAmount || 0);
   const [processingFees, setProcessingFees] = useState(
     ewaLiveSlice?.processingFees
   );

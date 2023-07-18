@@ -193,7 +193,7 @@ export default {
   enterYourDetails: "Enter Your Details",
   verifyAadhaar: "Verify Aadhaar",
   panVerification: "PAN Card Verification",
-  addBankAccount: "Add Bank Account",
+  addBankAccount: "Add Salary Bank Account",
   onDemandSalary: "On-Demand Salary",
   selectAmount: "Select amount you want to withdraw",
   confirmKyc: "Confirm KYC",

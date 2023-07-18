@@ -2105,6 +2105,9 @@ export const DUMMY_RES = {
             },
             type: "threeColumn",
             widths: ["10%", "80%", "10%"],
+            styling: {
+              padding: "0rem"
+            }
           },
           {
             children: [

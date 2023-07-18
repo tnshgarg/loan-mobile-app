@@ -44,7 +44,7 @@ const Bank = () => {
         fullWidth: true,
       },
       {
-        subTitle: "Account Number",
+        subTitle: "Salary Account Number",
         value: bank?.data?.accountNumber,
       },
       { subTitle: "Bank Name", value: bank?.data?.bankName },

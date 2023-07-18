@@ -17,8 +17,6 @@ import PrimaryButton from "../atoms/PrimaryButton";
 import Rating from "../atoms/Rating";
 
 const FeedbackAlert = ({
-  // rating,
-  // setRating,
   ratingHook,
   category,
   setCategory,
@@ -26,7 +24,7 @@ const FeedbackAlert = ({
   onSubmit,
 }) => {
   const [visible, setVisible] = useState(true);
-  const [rating, setRating] = ratingHook || [];
+  const [rating, setRating] = ratingHook || [null, null];
 
   useEffect(() => {
     setSessionValue("flow", "feedback");
@@ -36,32 +34,37 @@ const FeedbackAlert = ({
     <BottomSheetWrapper open={visible} setOpen={setVisible}>
       <Text style={styles.header}>Rate your experience</Text>
       <Rating value={rating} setValue={setRating} />
-      <Text style={styles.header}>
-        Tell us the purpose of your EWA withdrawal
-      </Text>
-      <ScrollView>
-        {data.map((item, index) => (
-          <View
-            accessibilityLabel="Dropdown"
-            style={styles.container}
-            key={item}
-          >
-            <TouchableOpacity
-              style={styles.listItem}
-              activeOpacity={0.7}
-              onPress={() => setCategory(item)}
-              accessibilityLabel={data[1]}
-            >
-              <MaterialCommunityIcons
-                name={category == item ? "radiobox-marked" : "radiobox-blank"}
-                size={24}
-                color={category == item ? COLORS.primary : COLORS.gray}
-              />
-              <Text style={styles.listText}>{item}</Text>
-            </TouchableOpacity>
-          </View>
-        ))}
-      </ScrollView>
+      {rating > 0 && (
+        <>
+          <Text style={styles.header}>
+            Tell us the purpose of your EWA withdrawal
+          </Text>
+          <ScrollView>
+            {data.map((item, index) => (
+              <View
+                accessibilityLabel="Dropdown"
+                style={styles.container}
+                key={item}
+              >
+                <TouchableOpacity
+                  style={styles.listItem}
+                  activeOpacity={0.7}
+                  onPress={() => setCategory(item)}
+                  accessibilityLabel={data[1]}
+                >
+                  <MaterialCommunityIcons
+                    name={category == item ? "radiobox-marked" : "radiobox-blank"}
+                    size={24}
+                    color={category == item ? COLORS.primary : COLORS.gray}
+                  />
+                  <Text style={styles.listText}>{item}</Text>
+                </TouchableOpacity>
+              </View>
+            ))}
+          </ScrollView>
+        </>
+      ) }
+      
       <PrimaryButton
         title="Submit"
         disabled={category?.length == 0 || rating == 0}

@@ -43,7 +43,7 @@ const AgreementText = ({
         <TermsAndPrivacyModal
           isVisible={isTermsOfUseModalVisible}
           setIsVisible={setIsTermsOfUseModalVisible}
-          data={cmsData?.termsOfUse}
+          data={cmsData?.login_terms_of_use}
         />
       )}
 
@@ -51,7 +51,7 @@ const AgreementText = ({
         <TermsAndPrivacyModal
           isVisible={isPrivacyModalVisible}
           setIsVisible={setIsPrivacyModalVisible}
-          data={cmsData?.privacyPolicy}
+          data={cmsData?.login_privacy_policy}
         />
       )}
     </>

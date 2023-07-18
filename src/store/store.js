@@ -58,7 +58,7 @@ const rootReducer = (state, action) => {
     } catch (error) {
       console.log(error);
     }
-    return appReducer({ auth: { phoneNumber: "", loggedOut: true } }, action);
+    return appReducer({ auth: { phoneNumber: "", loggedOut: true },localization: state.localization }, action);
   }
   return appReducer(state, action);
 };

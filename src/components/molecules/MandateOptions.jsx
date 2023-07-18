@@ -24,14 +24,10 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
     pollingInterval: isFocused ? 1000 * 10 : undefined,
   });
 
-  useEffect(() => {
-    if (!getMandateOptionsLoading) {
-      let mandateOptions = [];
-      let emandateOptions = "000";
-      console.log("getMandateOptionsData", getMandateOptionsData);
-      if (!getMandateOptionsError && getMandateOptionsData?.body?.methods) {
-        emandateOptions = getMandateOptionsData?.body?.methods;
-      }
+  const mandateOptionsHandler = {
+    "upi": (emandateOptions, mandateOptions) => {
+      if (emandateOptions?.[3] == "0")
+        return
       mandateOptions.push({
         title: "UPI",
         subtitle: "Instant registration",
@@ -142,6 +138,44 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
         type: "upi",
         onPress: () => {},
       });
+    },
+    "debitcard": (emandateOptions, mandateOptions) => {
+      if (emandateOptions[1] === "1") {
+        mandateOptions.push({
+          title: "Debit Card",
+          subtitleStyle: { color: COLORS.primary },
+          iconName: "credit-card-outline",
+          type: "debitcard",
+          onPress: () => {
+            trackEvent({
+              interaction: InteractionTypes.SCREEN_OPEN,
+              screen: "mandateStart",
+              action: "CONTINUE",
+            });
+            ProceedButton({ authType: "debitcard" });
+          },
+        });
+      }
+    },
+    "netbanking": (emandateOptions, mandateOptions) => { 
+      if (emandateOptions[0] === "1") {
+        mandateOptions.push({
+          title: "Net Banking",
+          subtitleStyle: { color: COLORS.primary },
+          iconName: "bank-outline",
+          type: "netbanking",
+          onPress: () => {
+            trackEvent({
+              interaction: InteractionTypes.SCREEN_OPEN,
+              screen: "mandateStart",
+              action: "CONTINUE",
+            });
+            ProceedButton({ authType: "netbanking" });
+          },
+        });
+      }
+    },
+    "aadhaar": ( emandateOptions, mandateOptions) => {
       if (emandateOptions[2] === "1") {
         mandateOptions.push({
           title: "Aadhaar",
@@ -159,43 +193,25 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
           },
         });
       }
-
-      if (emandateOptions[0] === "1") {
-        mandateOptions.push({
-          title: "Net Banking",
-          subtitleStyle: { color: COLORS.primary },
-          iconName: "bank-outline",
-          type: "netbanking",
-          onPress: () => {
-            trackEvent({
-              interaction: InteractionTypes.SCREEN_OPEN,
-              screen: "mandateStart",
-              action: "CONTINUE",
-            });
-            ProceedButton({ authType: "netbanking" });
-          },
-        });
-      }
-
-      if (emandateOptions[1] === "1") {
-        mandateOptions.push({
-          title: "Debit Card",
-          subtitleStyle: { color: COLORS.primary },
-          iconName: "credit-card-outline",
-          type: "debitcard",
-          onPress: () => {
-            trackEvent({
-              interaction: InteractionTypes.SCREEN_OPEN,
-              screen: "mandateStart",
-              action: "CONTINUE",
-            });
-            ProceedButton({ authType: "debitcard" });
-          },
-        });
-      }
-
+    }
+  }
+  useEffect(() => {
+    if (!getMandateOptionsLoading) {
+      let mandateOptions = [];
+      let emandateOptions = "000";
+      let mandateOrdering = []
+      console.log("getMandateOptionsData", getMandateOptionsData);
+      if (!getMandateOptionsError && getMandateOptionsData?.body?.methods) {
+        emandateOptions = getMandateOptionsData?.body?.methods;
+        mandateOrdering = getMandateOptionsData?.body?.ordering || [
+          "upi", "debitcard", "netbanking", "aadhaar"
+        ];
+      }   
+      mandateOrdering.forEach((method) => {
+        mandateOptionsHandler[method](emandateOptions, mandateOptions)
+      })
       if (mandateOptions.length > 1) {
-        mandateOptions[mandateOptions.length - 1].subtitle = "Recommended";
+        mandateOptions[0].subtitle = "Recommended";
       }
 
       if (mandateOptions.length > 0) {
