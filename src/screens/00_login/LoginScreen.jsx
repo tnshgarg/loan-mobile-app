@@ -20,7 +20,7 @@ import LoginInput from "../../components/molecules/LoginInput";
 import AgreementText from "../../components/organisms/AgreementText";
 import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics, {
-  InteractionTypes,
+  InteractionTypes, setSessionValue, trackEvent
 } from "../../helpers/analytics/commonAnalytics";
 import { useGenerateOtpMutation } from "../../store/apiSlices/loginApi";
 import { addPhoneNumber } from "../../store/slices/authSlice";
@@ -38,6 +38,7 @@ import LogoHeader from "../../components/atoms/LogoHeader";
 import SvgContainer from "../../components/atoms/SvgContainer";
 import SvgListItem from "../../components/molecules/SvgListItem";
 import { strings } from "../../helpers/Localization";
+import { navigate } from "../../navigators/RootNavigation";
 import { addLanguage } from "../../store/slices/localizationSlice";
 
 const LoginScreen = () => {
@@ -48,6 +49,7 @@ const LoginScreen = () => {
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState(false);
   const language = useSelector((state) => state.localization.language);
+  const [startClicked, setStartClicked] = useState(false);
 
   console.log("Language: ", language);
 
@@ -63,8 +65,21 @@ const LoginScreen = () => {
   }, []);
 
   useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "landing",
+      action: "START",
+    });
+  }, []);
+
+  useEffect(() => {
     let phoneno = /^\d{10}$/gm;
     if (phoneno.test(phoneNumber) && phoneNumber.length === 10) {
+      Analytics.trackEvent({
+        interaction: InteractionTypes.BUTTON_PRESS,
+        screen: "landing",
+        action: "COMPLETE",
+      });
       dispatch(addPhoneNumber(phoneNumber));
       setNext(true);
     } else {
@@ -76,6 +91,11 @@ const LoginScreen = () => {
     try {
       let phoneNumber = await SmsRetriever.requestPhoneNumber();
       setPhoneNumber(phoneNumber.replace("+91", ""));
+      trackEvent({
+        interaction: InteractionTypes.BUTTON_PRESS,
+        screen: "landing",
+        action: "CONTINUE",
+      });
     } catch (error) {
       console.log("Error while fetching phoneNumber: ", error.message);
     }
@@ -90,7 +110,17 @@ const LoginScreen = () => {
   const backAction = () => {
     Alert.alert("Hold on!", "Are you sure you want to go back?", [
       { text: "No", onPress: () => null, style: "cancel" },
-      { text: "Yes", onPress: () => BackHandler.exitApp() },
+      {
+        text: "Yes",
+        onPress: () => {
+          BackHandler.exitApp();
+          trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            screen: "landing",
+            action: "BACK",
+          });
+        },
+      },
     ]);
     return true;
   };
@@ -101,7 +131,16 @@ const LoginScreen = () => {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
+  useEffect(() => {
+    setSessionValue("flow", "login");
+  }, []);
+
   const signIn = () => {
+    Analytics.trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "phone",
+      action: "CONTINUE",
+    });
     setLoading(true);
     dispatch(resetTimer());
     postGenerateOtp(phoneNumber)
@@ -110,13 +149,14 @@ const LoginScreen = () => {
         console.log("otpResponse", otpResponse);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "LoginScreen",
-          action: "SendSms",
-          status: "Success"
+          screen: "phone",
+          action: "SUCCESS",
         });
         // TODO: Success message handling
-        navigation.navigate("Otp");
+        // navigation.navigate("Otp");
+        navigate("OnboardingStack", { screen: "Otp" });
         setLoading(false);
+        setStartClicked(false);
       })
       .catch((error) => {
         console.log("error", error);
@@ -124,15 +164,13 @@ const LoginScreen = () => {
         Alert.alert("Error", error.message);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "LoginScreen",
-          action: "SendSms",
-          status: "Error",
+          screen: "phone",
+          action: "ERROR",
           error: JSON.stringify(error),
         });
       });
   };
 
-  const [startClicked, setStartClicked] = useState(false);
 
   useEffect(() => {
     if (startClicked) {
@@ -201,13 +239,12 @@ const LoginScreen = () => {
   }, []);
 
   const goToLocalization = async () => {
+    setStartClicked(false)
     dispatch(addLanguage(""));
-    navigation.navigate("OnboardingStack", { screen: "Localization" });
+    navigate("OnboardingStack", { screen: "Localization" });
   };
 
-  const goToLanding = () => {
-    setStartClicked(false);
-  };
+  
   return (
     <SafeAreaView accessibilityLabel="LoginScreen" style={styles.safeContainer}>
       {startClicked ? (
@@ -220,7 +257,7 @@ const LoginScreen = () => {
               color={COLORS.secondary}
             />
           }
-          leftOnPress={() => goToLanding()}
+          leftOnPress={() => goToLocalization()}
           // rightIcon={
           //   <Icon name="logo-whatsapp" size={28} color={COLORS.primary} />
           // }
@@ -283,7 +320,6 @@ const LoginScreen = () => {
       <Animated.View style={[styles.bottomPart, { flex: bottomFlex }]}>
         <KeyboardAvoidingWrapper>
           <View>
-
             <LoginInput
               accessibilityLabel="MobileNumber"
               phoneNumber={phoneNumber}

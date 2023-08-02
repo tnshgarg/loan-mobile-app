@@ -1,12 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import {
-  Alert,
-  Linking,
-  SafeAreaView,
-  ScrollView,
-  Text
-} from "react-native";
+import { Alert, Linking, SafeAreaView, ScrollView, Text } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,8 +16,13 @@ import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
+  trackEvent
 } from "../../helpers/analytics/commonAnalytics";
-import { EWA_POLLING_DURATION, KYC_POLLING_DURATION } from "../../services/constants";
+import { navigate } from "../../navigators/RootNavigation";
+import {
+  EWA_POLLING_DURATION,
+  KYC_POLLING_DURATION,
+} from "../../services/constants";
 import { openRazorpayCheckout } from "../../services/mandate/Razorpay/services";
 import { createMandateOrder } from "../../services/mandate/services";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
@@ -31,9 +30,7 @@ import {
   useGetMandateQuery,
   useUpdateMandateMutation,
 } from "../../store/apiSlices/mandateApi";
-import {
-  addVerifyStatus
-} from "../../store/slices/mandateSlice";
+import { addVerifyStatus } from "../../store/slices/mandateSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 
@@ -67,14 +64,14 @@ const MandateFormTemplate = (props) => {
     data: mandateData,
     isLoading: mandateLoading,
     isError: mandateError,
-    refetch: refreshMandateFromBackend
+    refetch: refreshMandateFromBackend,
   } = useGetMandateQuery(unipeEmployeeId, {
     pollingInterval: EWA_POLLING_DURATION,
   });
 
   const [loading, setLoading] = useState(false);
   const [authType, setAuthType] = useState();
-  const {verifyStatus , verifyTimestamp } = mandateData || {}
+  const { verifyStatus, verifyTimestamp } = mandateData || {};
   const campaignId = useSelector(
     (state) =>
       state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
@@ -89,11 +86,10 @@ const MandateFormTemplate = (props) => {
     });
     dispatch(addCurrentScreen("Mandate"));
     refreshMandateFromBackend().then(() => {
-      setFetched(true)
+      setFetched(true);
     });
   }, []);
 
-  
   useEffect(() => {
     dispatch(addVerifyStatus(verifyStatus));
     if (fetched && props?.type === "EWA" && verifyStatus === "SUCCESS") {
@@ -110,6 +106,11 @@ const MandateFormTemplate = (props) => {
 
   const backendPush = ({ data, verifyMsg, verifyStatus, verifyTimestamp }) => {
     console.log("mandateData: ", mandateData);
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "mandateStart",
+      action: "CONTINUE",
+    });
     let payload = {
       unipeEmployeeId: unipeEmployeeId,
       ipAddress: ipAddress,
@@ -121,7 +122,20 @@ const MandateFormTemplate = (props) => {
       campaignId: campaignId,
     };
     return updateMandate(payload)
+      .then(() => {
+        trackEvent({
+          interaction: InteractionTypes.SCREEN_OPEN,
+          screen: "mandateStart",
+          action: "SUCCESS",
+        });
+      })
       .catch((error) => {
+        trackEvent({
+          interaction: InteractionTypes.SCREEN_OPEN,
+          screen: "mandateStart",
+          action: "ERROR",
+          error: error,
+        });
         console.log("mandatePush error: ", error);
         throw error;
       });
@@ -138,7 +152,13 @@ const MandateFormTemplate = (props) => {
           verifyStatus: "INPROGRESS",
           verifyTimestamp: Date.now(),
         })
-          .then(() => {})
+          .then(() => {
+            trackEvent({
+              interaction: InteractionTypes.SCREEN_OPEN,
+              screen: "mandateStart",
+              action: "INPROGRESS",
+            });
+          })
           .catch((error) => {
             setModalVisible(false);
             Alert.alert("Error", error?.message || "Something went wrong");
@@ -170,18 +190,16 @@ const MandateFormTemplate = (props) => {
       console.log("Mandate Checkout Success", res);
       Analytics.trackEvent({
         interaction: InteractionTypes.BUTTON_PRESS,
-        component: "Mandate",
-        action: "AuthorizeCheckout",
-        status: "Success",
+        screen: "mandateStart",
+        action: "AUTHORIZE",
       });
       verifyMsg = "Mandate Initiated from App Checkout Success";
     } catch (error) {
       console.log("Mandate Checkout Error", error);
       Analytics.trackEvent({
         interaction: InteractionTypes.BUTTON_PRESS,
-        component: "Mandate",
-        action: "AuthorizeCheckout",
-        status: "Checkout|Error",
+        screen: "mandateStart",
+        action: "ERROR",
       });
       verifyMsg = error.message;
     } finally {
@@ -194,12 +212,17 @@ const MandateFormTemplate = (props) => {
         verifyMsg,
         verifyStatus: "INPROGRESS",
         verifyTimestamp: Date.now(),
-      })
-        .catch((error) => {
-          console.log({innerError: error})
-          setModalVisible(false);
-          Alert.alert("Error", error?.message || "Something went wrong");
+      }).catch((error) => {
+        console.log({ innerError: error });
+        setModalVisible(false);
+        trackEvent({
+          interaction: InteractionTypes.SCREEN_OPEN,
+          screen: "mandateStart",
+          action: "ERROR",
+          error: error?.message,
         });
+        Alert.alert("Error", error?.message || "Something went wrong");
+      });
     }
   };
 
@@ -227,9 +250,12 @@ const MandateFormTemplate = (props) => {
         let order = createOrderResponse.body;
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "Mandate",
-          action: `CreateOrder_${authType}`,
-          status: "Success",
+          flow: "mandate",
+          screen: "mandateStart",
+          action: `SUCCESS`,
+          properties: {
+            authType: authType,
+          },
         });
         if (provider == "razorpay") {
           await initiateRazorpayCheckout({
@@ -247,23 +273,32 @@ const MandateFormTemplate = (props) => {
         throw createOrderResponse;
       }
     } catch (error) {
-      console.log("Create Mandate Error: ", error);
-      if (error?.status === 409) {
+      console.log("Create Mandate Error: ",error?.response, error?.response?.status);
+      if (error?.response?.status === 409) {
         Alert.alert(
           "Create Mandate Error",
-          "Mandate Registration Process already started, Please check the status after sometime"
+          "Mandate Registration Process already started, Please check the status after sometime",
+          [{
+            text: "ok",
+            onPress: () => {
+              navigate("HomeStack", {
+                screen: "Money",
+                params: { screen: "EWA" },
+              });
+            }
+          }]
         );
         refreshMandateFromBackend().then(() => {
-          setFetched(true)
+          setFetched(true);
         });
       } else {
         Alert.alert("Create Order Error", error.message);
       }
       Analytics.trackEvent({
         interaction: InteractionTypes.BUTTON_PRESS,
-        component: "Mandate",
-        action: `CreateOrder:${authType}`,
-        status: "Error",
+        flow: "mandate",
+        screen: "mandateStart",
+        action: `CHECKOUT_ERROR`,
         error: error.message,
       });
     } finally {
@@ -292,14 +327,19 @@ const MandateFormTemplate = (props) => {
     ];
   };
 
-  const lastDigitsAccount = accountNumber?.slice(accountNumber.length-4,accountNumber.length);
+  const lastDigitsAccount = accountNumber?.slice(
+    accountNumber.length - 4,
+    accountNumber.length
+  );
 
   return (
     <SafeAreaView style={styles.safeContainer}>
       <KeyboardAvoidingWrapper>
         <ScrollView showsVerticalScrollIndicator={false}>
           <InfoCard
-            info={`${strings.registerMandateNote}`.replace("{{bankName}}", bankName).replace("{{lastFour}}", lastDigitsAccount)}
+            info={`${strings.registerMandateNote}`
+              .replace("{{bankName}}", bankName)
+              .replace("{{lastFour}}", lastDigitsAccount)}
             infoStyle={{ ...FONTS.body3, color: COLORS.black }}
             variant={"gradient"}
           />
@@ -336,20 +376,27 @@ const MandateFormTemplate = (props) => {
               "Mandate is required to auto-debit loan payments on Due Date. This is 100% secure and executed by an RBI approved entity."
             }
           />
-          <HelpCard text="repayment methods" onPress={() => {
-            navigationHelper({
-              type: "cms",
-              params: { blogKey: "mandate_help" },
-            });
-          }}/>
+          <HelpCard
+            text="repayment methods"
+            onPress={() => {
+              trackEvent({
+                interaction: InteractionTypes.SCREEN_OPEN,
+                screen: "mandateStart",
+                action: "HELP",
+              });
+              navigationHelper({
+                type: "cms",
+                params: { blogKey: "mandate_help" },
+              });
+            }}
+          />
           <PoweredByTag
             image={[
-              require("../../assets/rzp.png"),
-              require("../../assets/cf.png"),
+              require("../../assets/payment_icons/rzp.png"),
+              require("../../assets/payment_icons/cf.png"),
             ]}
             title="RBI regulated payment partners"
           />
-          <HelpCard text="repayment methods" />
         </ScrollView>
       </KeyboardAvoidingWrapper>
       {modalVisible && (

@@ -1,24 +1,46 @@
-import { useNavigation } from "@react-navigation/core";
 import { useEffect } from "react";
 import { Alert, BackHandler, SafeAreaView } from "react-native";
 import LogoHeader from "../../components/atoms/LogoHeader";
 import { strings } from "../../helpers/Localization";
+import {
+  InteractionTypes,
+  setSessionValue,
+  trackEvent,
+} from "../../helpers/analytics/commonAnalytics";
+import { navigate } from "../../navigators/RootNavigation";
 import { styles } from "../../styles";
 import ProfileFormTemplate from "../../templates/profile/Form";
 
 const ProfileForm = () => {
-  const navigation = useNavigation();
+  useEffect(() => {
+    setSessionValue("flow", "kyc");
+  }, []);
 
   const backAction = () => {
     Alert.alert("Hold on!", "Are you sure you want to go back?", [
       { text: "No", onPress: () => null, style: "cancel" },
       {
         text: "Yes",
-        onPress: () => navigation.navigate("EWAStack", { screen: "EWA_OFFER" }),
+        onPress: () => {
+          trackEvent({
+            interaction: InteractionTypes.SCREEN_OPEN,
+            screen: "kycStart",
+            action: "BACK",
+          });
+          navigate("KycProgress");
+        },
       },
     ]);
     return true;
   };
+
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "kycStart",
+      action: "START",
+    });
+  }, []);
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);

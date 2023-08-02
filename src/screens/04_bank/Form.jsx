@@ -6,7 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { strings } from "../../helpers/Localization";
-import { CMS_POLLING_DURATION } from "../../services/constants";
+import {
+  InteractionTypes,
+  trackEvent
+} from "../../helpers/analytics/commonAnalytics";
+import { KYC_POLLING_DURATION } from "../../services/constants";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
@@ -18,9 +22,9 @@ const BankForm = () => {
   const navigation = useNavigation();
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: CMS_POLLING_DURATION,
+    pollingInterval: KYC_POLLING_DURATION,
   });
-  const { pan: panData } = kycData;
+  const { pan: panData } = kycData ?? {};
   const { verifyStatus } = panData ?? {};
 
   useEffect(() => {
@@ -33,14 +37,27 @@ const BankForm = () => {
       {
         text: "Yes",
         onPress: () => {
+          trackEvent({
+            interaction: InteractionTypes.SCREEN_OPEN,
+            screen: "bank",
+            action: "BACK",
+          });
           verifyStatus === "SUCCESS"
-            ? navigation.navigate("PanConfirm")
+            ? navigation.navigate("KycProgress")
             : navigation.navigate("PanForm");
         },
       },
     ]);
     return true;
   };
+
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "bank",
+      action: "START",
+    });
+  }, []);
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
@@ -54,13 +71,19 @@ const BankForm = () => {
         headline={strings.addBankAccount}
         onLeftIconPress={() => backAction()}
         subHeadline={"आपको इस बैंक खाते/यूपीआई में एडवांस सैलरी भेजी जाएगी।"}
-        onRightIconPress={() =>
+        onRightIconPress={() => {
+          trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            screen: "bank",
+            action: "HELP",
+          });
           navigationHelper({
             type: "cms",
-            params: { blogKey: "bank_help", backScreen: {stack: "OnboardingStack", screen: "BankForm"}},
-            
-          })
-        }
+            params: {
+              blogKey: "bank_help"
+            },
+          });
+        }}
       />
 
       <BankFormTemplate />

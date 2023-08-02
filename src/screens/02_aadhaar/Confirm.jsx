@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { BackHandler, SafeAreaView, ScrollView } from "react-native";
 import { useDispatch } from "react-redux";
@@ -8,11 +7,15 @@ import AadhaarConfirmApi from "../../apis/aadhaar/Confirm";
 import BottomAlert from "../../components/molecules/BottomAlert";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { strings } from "../../helpers/Localization";
+import {
+  InteractionTypes,
+  trackEvent
+} from "../../helpers/analytics/commonAnalytics";
+import { navigate } from "../../navigators/RootNavigation";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 
 const AadhaarConfirm = () => {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
 
   useEffect(() => {
     dispatch(addCurrentScreen("AadhaarConfirm"));
@@ -20,10 +23,20 @@ const AadhaarConfirm = () => {
 
   const backAction = () => {
     setAlertVisible(true);
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "aadhaarOk",
+      action: "BACK",
+    });
     return true;
   };
-  
+
   useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "aadhaarOk",
+      action: "START",
+    });
     BackHandler.addEventListener("hardwareBackPress", backAction);
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
@@ -35,7 +48,7 @@ const AadhaarConfirm = () => {
     subtitle: "To get advance salary you must complete your KYC",
 
     imageUri:
-      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Aadhaar/step3.png",
     primaryBtnText: "Continue KYC",
     onPressPrimaryBtn: () => {
       setAlertVisible(false);
@@ -45,7 +58,7 @@ const AadhaarConfirm = () => {
     contentContainerStyle: { flexDirection: "column-reverse" },
     onPressSecondaryBtn: () => {
       setAlertVisible(false);
-      navigation.navigate("HomeStack");
+      navigate("HomeStack", { screen: "Home" });
     },
   };
 

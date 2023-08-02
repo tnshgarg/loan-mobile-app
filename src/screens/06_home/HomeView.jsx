@@ -1,8 +1,7 @@
+import { STAGE } from "@env";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, Text, View } from "react-native";
-// import PushNotification from 'react-native-push-notification';
-import { STAGE } from "@env";
 import { useDispatch, useSelector } from "react-redux";
 import CmsLoading from "../../components/cms/CmsLoading";
 import CmsRoot from "../../components/cms/CmsRoot";
@@ -10,8 +9,13 @@ import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
-import { getNumberOfDays } from "../../helpers/DateFunctions";
+import { getGreetingFromTimeOfDay, getNumberOfDays } from "../../helpers/DateFunctions";
 import { strings } from "../../helpers/Localization";
+import {
+  InteractionTypes,
+  setSessionValue,
+  trackEvent,
+} from "../../helpers/analytics/commonAnalytics";
 import {
   CMS_POLLING_DURATION,
   EWA_POLLING_DURATION,
@@ -84,7 +88,8 @@ const HomeView = () => {
     if (!onboarded) addOnboarded(true);
     requestUserPermission();
     notificationListener();
-    fetchCms()
+    fetchCms();
+    setSessionValue("flow", "home");
   }, []);
 
   useEffect(() => {
@@ -92,7 +97,7 @@ const HomeView = () => {
   }, [eligible]);
   console.log({ cmsData, cmsError });
   console.log({ ewaLiveSlice });
-  
+
   useEffect(() => {
     if (
       STAGE !== "prod" ||
@@ -107,6 +112,14 @@ const HomeView = () => {
   useEffect(() => {
     dispatch(addAccessible(accessible));
   }, [accessible]);
+
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "home",
+      action: "START",
+    });
+  }, []);
 
   const {
     isSuccess: getEwaOffersIsSuccess,
@@ -177,7 +190,7 @@ const HomeView = () => {
       "Verify your identity to withdraw advance salary in our bank account",
 
     imageUri:
-      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Aadhaar/step3.png",
     primaryBtnText: "Start KYC",
     primaryBtnIcon: "arrow-right",
     onPressPrimaryBtn: () => {
@@ -190,14 +203,21 @@ const HomeView = () => {
       setAlertVisible(false);
     },
   };
+  let greeting = getGreetingFromTimeOfDay();
   console.log({ bottomAlert: cmsData?.bottom_alert });
   return (
     <SafeAreaView style={[styles.safeContainer]}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <LogoHeaderBack
           notificationIconPresent={true}
-          title={`${strings.goodAfternoon} \n${name}!`}
+          unreadNotifications={true}
+          title={`${greeting} \n${name}!`}
           onRightIconPress={() => {
+            trackEvent({
+              interaction: InteractionTypes.SCREEN_OPEN,
+              screen: "home",
+              action: "HELP",
+            });
             navigationHelper({
               type: "cms",
               params: { blogKey: "customer_support" },
@@ -220,13 +240,6 @@ const HomeView = () => {
         ) : (
           <CmsRoot children={cmsData?.home || []}></CmsRoot>
         )}
-        {/* <CmsRoot children={DUMMY_RES?.home || []}></CmsRoot> */}
-
-        {!cmsData && cmsLoading ? (
-          <CmsLoading />
-        ) : (
-          <CmsRoot children={cmsData?.bottom_alert || []}></CmsRoot>
-        )}
         <View
           style={{
             width: "100%",
@@ -241,13 +254,11 @@ const HomeView = () => {
           </Text>
         </View>
       </ScrollView>
-      {/* {alertVisible && (
-        <BottomAlert
-          visible={alertVisible}
-          setVisible={setAlertVisible}
-          data={data}
-        />
-      )} */}
+      {!cmsData && cmsLoading ? (
+        <></>
+      ) : (
+        <CmsRoot children={cmsData?.bottom_alert || []}></CmsRoot>
+      )}
       {!cmsLoading ? (
         <CmsRoot children={cmsData?.mini_placement || []} />
       ) : (

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { STAGE } from "@env";
 import { useEffect, useState } from "react";
 import OfflineAlert from "../components/organisms/OfflineAlert";
-// import DevMenu from "../screens/DevMenu";
+import DevMenu from "../screens/DevMenu";
 import EWAStack from "./stacks/EWAStack";
 import OnboardingStack from "./stacks/OnboardingStack";
 
@@ -16,8 +16,6 @@ import Analytics, {
   InteractionTypes,
 } from "../helpers/analytics/commonAnalytics";
 import LearnWithUs from "../screens/06_home/LearnWithUs";
-import CmsScreen from "../screens/CmsScreen";
-import DevMenu from "../screens/DevMenu";
 import KycProgress from "../screens/KycProgress";
 import KycSuccess from "../screens/KycSuccess";
 import SplashScreen from "../screens/SplashScreen";
@@ -53,9 +51,9 @@ const StackNavigator = () => {
       console.error("Token is not present");
       Analytics.trackEvent({
         interaction: InteractionTypes.CAMPAIGN_URL,
-        component: "STACK_NAVIGATOR",
-        action: "campaign_url_open",
-        status: "WAITING_LOGIN",
+        flow: "campaign_url_open",
+        screen: "login",
+        action: "ERROR",
         error: "user token is not present",
       });
       dispatch(setPendingUrl(url));
@@ -74,16 +72,16 @@ const StackNavigator = () => {
       );
       Analytics.trackEvent({
         interaction: InteractionTypes.CAMPAIGN_URL,
-        component: "STACK_NAVIGATOR",
-        action: "campaign_url_open",
-        status: "SUCCESS",
+        flow: "campaign_url_open",
+        screen: "login",
+        action: "SUCCESS",
       });
     } catch (err) {
       Analytics.trackEvent({
         interaction: InteractionTypes.CAMPAIGN_URL,
-        component: "STACK_NAVIGATOR",
-        action: "campaign_url_open",
-        status: "ERROR",
+        flow: "campaign_url_open",
+        screen: "login",
+        action: "ERROR",
         error: JSON.stringify({ message: err.message, stack: err.stack }),
       });
       console.error(err);
@@ -143,13 +141,7 @@ const StackNavigator = () => {
         <Stack.Screen name="OnboardingStack" component={OnboardingStack} />
         <Stack.Screen name="KycProgress" component={KycProgress} />
         <Stack.Screen name="KycSuccess" component={KycSuccess} />
-        <Stack.Screen
-          name="CmsScreen"
-          component={CmsScreen}
-          options={{
-            animation: "default",
-          }}
-        />
+
         <Stack.Screen
           name="CmsStack"
           component={CmsStack}

@@ -10,6 +10,8 @@ import SliderCard from "../../../../components/organisms/SliderCard";
 import { strings } from "../../../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
+  setSessionValue,
+  trackEvent
 } from "../../../../helpers/analytics/commonAnalytics";
 import {
   addAPR,
@@ -19,11 +21,15 @@ import {
 } from "../../../../store/slices/ewaLiveSlice";
 import { addCurrentScreen } from "../../../../store/slices/navigationSlice";
 import { styles } from "../../../../styles";
-import TnC from "../../../../templates/docs/EWATnC.js";
 
 import Checkbox from "../../../../components/atoms/Checkbox";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
-import { KYC_POLLING_DURATION } from "../../../../services/constants";
+import { navigate } from "../../../../navigators/RootNavigation";
+import {
+  CMS_POLLING_DURATION,
+  KYC_POLLING_DURATION,
+} from "../../../../services/constants";
+import { useGetCmsQuery } from "../../../../store/apiSlices/cmsApi";
 import { useUpdateOfferMutation } from "../../../../store/apiSlices/ewaApi";
 import { useGetKycQuery } from "../../../../store/apiSlices/kycApi";
 
@@ -50,6 +56,13 @@ const Offer = () => {
       state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
   );
 
+  const { data: cmsData, isLoading: cmsLoading } = useGetCmsQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: CMS_POLLING_DURATION,
+    }
+  );
+
   const { data: kycData, refetch: refetchKycData } = useGetKycQuery(
     unipeEmployeeId,
     {
@@ -61,7 +74,7 @@ const Offer = () => {
 
   const ewaLiveSlice = useSelector((state) => state.ewaLive);
   const fees = useSelector((state) => state.ewaLive.fees);
-  const [loanAmount, setLoanAmount] = useState(ewaLiveSlice?.eligibleAmount);
+  const [loanAmount, setLoanAmount] = useState(ewaLiveSlice?.eligibleAmount || 0);
   const [processingFees, setProcessingFees] = useState(
     ewaLiveSlice?.processingFees
   );
@@ -83,14 +96,31 @@ const Offer = () => {
   }, [deviceId, ipAddress]);
 
   const backAction = () => {
-    navigation.navigate("Money", { screen: "EWA" });
+    trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "amountSelection",
+      action: "BACK",
+    });
+    navigate("Money", { screen: "EWA" });
     return true;
   };
+
+  useEffect(() => {
+    setSessionValue("flow", "ewa");
+  }, []);
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "amountSelection",
+      action: "START",
+    });
   }, []);
 
   useEffect(() => {
@@ -190,44 +220,52 @@ const Offer = () => {
       updateOffer(data)
         .then((response) => {
           console.log("updateOfferMutateAsync response.data: ", response.data);
-          setLoading(false);
           handleConditionalNav();
           Analytics.trackEvent({
             interaction: InteractionTypes.BUTTON_PRESS,
-            component: "Ewa",
-            action: "OfferPush",
-            status: "Success",
+            screen: "amountSelection",
+            action: "SUCCESS",
           });
         })
         .catch((error) => {
           console.log("updateOfferMutateAsync error: ", error.message);
-          setLoading(false);
           Alert.alert("An Error occured", error.message);
           Analytics.trackEvent({
             interaction: InteractionTypes.BUTTON_PRESS,
-            component: "Ewa",
-            action: "OfferPush",
-            status: "Error",
+            screen: "amountSelection",
+            action: "ERROR",
             error: error.message,
           });
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   }
 
   return (
-    <SafeAreaView style={styles.safeContainer}>
+    <SafeAreaView
+      style={[styles.safeContainer, { backgroundColor: "#f3f6f7" }]}
+    >
       <LogoHeaderBack
         title={strings.onDemandSalary}
         onLeftIconPress={() => backAction()}
         progress={25}
         subHeadline={strings.selectAmount}
       />
-      <View style={[styles.container, { backgroundColor: "#f3f6f7" }]}>
+      <View style={[styles.container, { backgroundColor: null }]}>
         <SliderCard
           // info={"Zero Interest charges, Nominal Processing Fees"}
           iconName="brightness-percent"
           amount={loanAmount}
-          setAmount={setLoanAmount}
+          setAmount={(val) => {
+            trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              screen: "amountSelection",
+              action: "SELECT",
+            });
+            setLoanAmount(val);
+          }}
           eligibleAmount={ewaLiveSlice.eligibleAmount}
           accountNumber={bank?.data?.accountNumber}
           bankName={bank?.data?.bankName}
@@ -239,7 +277,14 @@ const Offer = () => {
           value={consent}
           setValue={setConsent}
           additionalText={strings.termsAndConditions}
-          onPress={() => setIsTermsOfUseModalVisible(true)}
+          onPress={() => {
+            trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              screen: "amountSelection",
+              action: "AGREE",
+            });
+            setIsTermsOfUseModalVisible(true);
+          }}
         />
 
         <PrimaryButton
@@ -247,6 +292,11 @@ const Offer = () => {
           disabled={loading || !consent || !validAmount || updating}
           loading={loading}
           onPress={() => {
+            trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              screen: "amountSelection",
+              action: "CONTINUE",
+            });
             handleAmount();
           }}
         />
@@ -256,7 +306,7 @@ const Offer = () => {
         <TermsAndPrivacyModal
           isVisible={isTermsOfUseModalVisible}
           setIsVisible={setIsTermsOfUseModalVisible}
-          data={TnC}
+          data={cmsData?.ewa_terms_and_conditions}
         />
       )}
     </SafeAreaView>

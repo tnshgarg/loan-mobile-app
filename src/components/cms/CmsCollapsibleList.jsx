@@ -1,16 +1,24 @@
-import { View, Text, Image, StyleSheet } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { COLORS, FONTS } from "../../constants/Theme";
-import { TouchableOpacity } from "react-native";
-import { useState } from "react";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Markdown from "react-native-markdown-display";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { COLORS, FONTS } from "../../constants/Theme";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 
-const CmsCollapsibleList = ({ title, subtitle, titleStyle, subtitleStyle }) => {
+const CmsCollapsibleList = ({
+  title,
+  subtitle,
+  titleStyle,
+  subtitleStyle,
+  navigate,
+}) => {
   const [show, setShow] = useState(false);
   return (
-    <TouchableOpacity onPress={() => setShow(!show)} activeOpacity={0.7}>
+    <TouchableOpacity
+      onPress={() => (navigate ? navigationHelper(navigate) : setShow(!show))}
+      activeOpacity={0.7}
+    >
       <View style={styles.container}>
         <View style={styles.textContainer}>
           <Text style={[styles.title, { ...titleStyle }]}>{title}</Text>

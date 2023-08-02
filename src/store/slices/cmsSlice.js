@@ -1,58 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  home: [
-    {
-      type: "banner",
-      url: "https://d22ss3ef1t9wna.cloudfront.net/fcm_test_1.jpeg",
-    },
-    {
-      type: "section",
-      title: "Learn With Us",
-      leftIcon:
-        "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/learn.png",
-      ctaText: "SEE ALL",
-      children: [
-        {
-          type: "swiper",
-          urls: [
-            "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/carousel_1.png",
-            "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/carousel_1.png",
-            "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/carousel_1.png",
-          ],
-        },
-      ],
-    },
-    {
-      type: "column",
-      title: "Why Unipe?",
-      subtitle: "Why Unipe?",
-      children: [
-        {
-          type: "video",
-          videoUri: "",
-        },
-      ],
-    },
-    {
-      type: "column",
-      title: "Why Unipe?",
-      subtitle: "Why Unipe?",
-      children: [
-        {
-          type: "video",
-          videoUri: "",
-        },
-      ],
-    },
-    {
-      type: "section",
-      title: "User Story",
-      leftIcon:
-        "https://d22ss3ef1t9wna.cloudfront.net/mobile-app-assets/Userstory.png",
-    },
-  ],
-};
+const initialState = {webviewdata: {}};
 
 const cmsSlice = createSlice({
   name: "cms",
@@ -62,10 +10,33 @@ const cmsSlice = createSlice({
     updateState: (state, action) => {
       Object.assign(state, action.payload);
     },
+    setFormData: (state, action) => {
+      let { formId, key, value } = action.payload;
+      if (!state[formId]) {
+        state[formId] = {};
+      }
+      state[formId][key] = value;
+      console.log({ state });
+      return state;
+    },
+    setProgress: (state, action) => {
+      let { formId, value } = action.payload;
+      if (!state[formId]) {
+        state[formId] = {};
+      }
+      state[formId]["form_progress"] = value;
+      console.log("cms state:", state);
+      return state;
+    },
+    setWebViewHeight: (state, action) => {
+      let { uri, height } = action.payload;
+      state.webviewdata[uri] = height
+      return state;
+    }
   },
 });
 
-export const { setState: cmsFullUpdate, updateState: cmsPartialUpdate } =
+export const { setFormData: cmsFormData, setProgress: cmsFormProgress, setWebViewHeight } =
   cmsSlice.actions;
 
 export default cmsSlice.reducer;

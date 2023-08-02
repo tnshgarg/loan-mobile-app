@@ -3,6 +3,9 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
+import Analytics, {
+  InteractionTypes
+} from "../../helpers/analytics/commonAnalytics";
 
 const CmsButton = ({
   children,
@@ -18,8 +21,25 @@ const CmsButton = ({
   styling,
   titleStyle,
   iconColor,
+  analytics,
 }) => {
   console.log("CHILDREN: ", clickType);
+
+  const onPress = () => {
+    if (analytics) {
+      Analytics.trackEvent({
+        interaction: InteractionTypes.BUTTON_PRESS,
+        flow: analytics.flow,
+        screen: analytics.screen,
+        action: analytics.action,
+      });
+    }
+    if (clickType == "navigation") {
+      navigationHelper(navigate || {});
+    } else {
+      Linking.openURL(url);
+    }
+  };
 
   return (
     <TouchableOpacity
@@ -30,26 +50,26 @@ const CmsButton = ({
           ...styling,
         },
         variant == "filled"
-          ? { backgroundColor: loading ? COLORS.lightGray : COLORS.primary }
+          ? {
+              backgroundColor: loading
+                ? COLORS.lightGray
+                : buttonColor || COLORS.primary,
+            }
           : {
               borderWidth: 2,
-              borderColor: loading ? COLORS.gray : COLORS.white,
+              borderColor: loading ? COLORS.gray : buttonColor || COLORS.white,
               backgroundColor: null,
             },
       ]}
       loadingIndicatorPosition="trailing"
-      onPress={() =>
-        clickType == "navigation"
-          ? navigationHelper(navigate || {})
-          : Linking.openURL(url)
-      }
+      onPress={onPress}
     >
       {leftIcon ? (
         <MaterialCommunityIcons
           name={leftIcon}
           color={iconColor || COLORS.white}
           size={20}
-          style={{ marginLeft: 5 }}
+          style={{ marginRight: 5 }}
         />
       ) : null}
       <Text style={[styles.btnText, { ...titleStyle }]}>{title}</Text>

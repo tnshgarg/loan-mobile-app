@@ -12,6 +12,13 @@ import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 import { COLORS, FONTS } from "../../../../constants/Theme";
 import { strings } from "../../../../helpers/Localization";
 import {
+  InteractionTypes,
+  trackEvent,
+} from "../../../../helpers/analytics/commonAnalytics";
+import { navigate } from "../../../../navigators/RootNavigation";
+import { CMS_POLLING_DURATION } from "../../../../services/constants";
+import { useGetCmsQuery } from "../../../../store/apiSlices/cmsApi";
+import {
   useDisbursementFeedbackMutation,
   useGetDisbursementQuery,
 } from "../../../../store/apiSlices/ewaApi";
@@ -21,10 +28,15 @@ import { styles } from "../../../../styles";
 const Disbursement = ({ route, navigation }) => {
   const dispatch = useDispatch();
   const { offer, enableFeedback } = route.params;
-
+  const [feedbackPopupOpen, setFeedbackPopupOpen] = useState(false);
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-
+  const {data:cmsData} = useGetCmsQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: CMS_POLLING_DURATION,
+    }
+  )
   const bankSlice = useSelector((state) => state.bank);
   const [bankAccountNumber, setBankAccountNumber] = useState(
     bankSlice?.data?.accountNumber
@@ -36,7 +48,7 @@ const Disbursement = ({ route, navigation }) => {
   const [status, setStatus] = useState("");
   const [rating, setRating] = useState(0);
   const [category, setCategory] = useState("");
-  const categoryData = [
+  const categoryData = cmsData?.disbursement_feedback_options || [
     "Medical Emergency",
     "Shopping",
     "Travel",
@@ -44,15 +56,28 @@ const Disbursement = ({ route, navigation }) => {
     "Other",
   ];
 
-  console.log({ status });
+  console.log({ status, cmsData: cmsData?.disbursement_feedback_options });
 
   const backAction = () => {
-    navigation.navigate("HomeStack", {
+    trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "requestProcessed",
+      action: "BACK",
+    });
+    navigate("HomeStack", {
       screen: "Money",
       params: { screen: "EWA" },
     });
     return true;
   };
+
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "requestProcessed",
+      action: "START",
+    });
+  }, []);
 
   useEffect(() => {
     dispatch(addCurrentScreen("EWA_Disbursement"));
@@ -152,20 +177,6 @@ const Disbursement = ({ route, navigation }) => {
     }
   }, [getDisbursementIsSuccess, getDisbursementData]);
 
-  useEffect(() => {
-    setDueDate(offer?.dueDate);
-    setLoanAccountNumber(offer?.loanAccountNumber);
-    setLoanAmount(offer?.loanAmount);
-    let pf = (parseInt(offer?.loanAmount) * offer?.fees) / 100;
-    let pF;
-    if (parseInt(pf) % 10 < 4) {
-      pF = Math.max(9, Math.floor(pf / 10) * 10 - 1);
-    } else {
-      pF = Math.max(9, Math.floor((pf + 10) / 10) * 10 - 1);
-    }
-    setNetAmount(parseInt(offer?.loanAmount) - pF);
-  }, [offer]);
-
   const data = [
     { subTitle: strings.loanAmount, value: "₹" + loanAmount },
     { subTitle: strings.netTransferAmount, value: "₹" + netAmount },
@@ -175,23 +186,36 @@ const Disbursement = ({ route, navigation }) => {
     { subTitle: strings.transferStatus, value: status },
   ];
   const [disbursementFeedback] = useDisbursementFeedbackMutation();
-  const onSubmitFeedback = () => {
+  const onSubmitFeedback = async () => {
     const offerId = offer?.offerId;
     let data = {
       unipeEmployeeId: unipeEmployeeId,
       language: "en",
-      contentType: `${offerId}-feedback`,
+      contentType: `feedback-${offerId}`,
       content: { stars: rating, category: category, offerId: offerId },
     };
-    disbursementFeedback(data)
+    await disbursementFeedback(data)
       .unwrap()
       .then((res) => {
         console.log("ewa/disbursement-feedback res: ", res);
         const responseJson = res?.data;
+        trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          screen: "requestProcessed",
+          action: "SUCCESS",
+        });
         console.log("ewa/disbursement-feedback responseJson: ", responseJson);
       })
       .catch((error) => {
+        trackEvent({
+          interaction: InteractionTypes.BUTTON_PRESS,
+          screen: "requestProcessed",
+          action: "ERROR",
+        });
         console.log("ewa/disbursement-feedback error:", error);
+      })
+      .finally(() => {
+        backAction();
       });
   };
 
@@ -200,7 +224,10 @@ const Disbursement = ({ route, navigation }) => {
       {enableFeedback ? (
         <LogoHeaderBack
           onRightIconPress={() => {
-            
+            navigate("CmsStack", {
+              screen: "CmsScreenOne",
+              params: { blogKey: "salary_info" },
+            });
           }}
           hideLogo={true}
           containerStyle={{ backgroundColor: null }}
@@ -211,7 +238,12 @@ const Disbursement = ({ route, navigation }) => {
           onLeftIconPress={() => {
             backAction();
           }}
-          onRightIconPress={() => {}}
+          onRightIconPress={() => {
+            navigate("CmsStack", {
+              screen: "CmsScreenOne",
+              params: { blogKey: "salary_info" },
+            });
+          }}
           titleStyle={{ ...FONTS.body3 }}
         />
       )}
@@ -240,14 +272,22 @@ const Disbursement = ({ route, navigation }) => {
               borderWidth: 1.5,
               borderColor: COLORS.black,
             }}
-            onPress={backAction}
+            onPress={() => {
+              trackEvent({
+                interaction: InteractionTypes.BUTTON_PRESS,
+                screen: "requestProcessed",
+                action: "THANKYOU",
+              });
+              if (enableFeedback) setFeedbackPopupOpen(true);
+              else backAction();
+            }}
             titleStyle={{ color: COLORS.black }}
           />
         ) : (
           <></>
         )}
 
-        {status == "PENDING" && enableFeedback ? (
+        {status == "PENDING" && enableFeedback && feedbackPopupOpen ? (
           <FeedbackAlert
             data={categoryData}
             ratingHook={[rating, setRating]}

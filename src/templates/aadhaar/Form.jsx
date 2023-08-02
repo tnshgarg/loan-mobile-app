@@ -1,5 +1,5 @@
 import { useIsFocused } from "@react-navigation/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import AadhaarOtpApi from "../../apis/aadhaar/Otp";
@@ -9,6 +9,10 @@ import InfoCard from "../../components/atoms/InfoCard";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { strings } from "../../helpers/Localization";
+import {
+  InteractionTypes,
+  trackEvent,
+} from "../../helpers/analytics/commonAnalytics";
 import { KYC_POLLING_DURATION } from "../../services/constants";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { styles } from "../../styles";
@@ -17,12 +21,14 @@ const AadhaarFormTemplate = (props) => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
 
-
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
 
-  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: KYC_POLLING_DURATION,
-  });
+  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: KYC_POLLING_DURATION,
+    }
+  );
   const { aadhaar } = kycData ?? {};
 
   const [number, setNumber] = useState(aadhaar?.number);
@@ -32,6 +38,26 @@ const AadhaarFormTemplate = (props) => {
     isValidAadhaar = true;
   }
 
+  useEffect(() => {
+    if (isValidAadhaar) {
+      trackEvent({
+        interaction: InteractionTypes.SCREEN_OPEN,
+        screen: "aadhaar",
+        action: "VALID",
+      });
+      trackEvent({
+        interaction: InteractionTypes.SCREEN_OPEN,
+        screen: "aadhaar",
+        action: "COMPLETE",
+      });
+    } else {
+      trackEvent({
+        interaction: InteractionTypes.SCREEN_OPEN,
+        screen: "aadhaar",
+        action: "INVALID",
+      });
+    }
+  }, [isValidAadhaar]);
 
   return (
     <SafeAreaView style={styles.safeContainer}>
@@ -44,7 +70,9 @@ const AadhaarFormTemplate = (props) => {
           value={number}
           onChange={setNumber}
           maxLength={12}
-          errorMsg={number && !isValidAadhaar ? strings.invalidAadhaarNumber : ""}
+          errorMsg={
+            number && !isValidAadhaar ? strings.invalidAadhaarNumber : ""
+          }
           numeric
           appendComponent={
             <Text style={{ ...FONTS.body5, color: COLORS.gray }}>

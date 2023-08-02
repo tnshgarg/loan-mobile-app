@@ -7,7 +7,7 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { COLORS } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
-  InteractionTypes,
+  InteractionTypes
 } from "../../helpers/analytics/commonAnalytics";
 import { asyncTimeout } from "../../helpers/asyncTimer";
 import { KYC_RETRY_WAIT_TIME } from "../../services/constants";
@@ -45,9 +45,8 @@ const BankVerifyApi = (props) => {
     }
     Analytics.trackEvent({
       interaction: InteractionTypes.BUTTON_PRESS,
-      component: "Bank",
-      action: "Verify",
-      status: "Success",
+      screen: "bank",
+      action: "CONTINUE",
     });
     setLoading(false);
   };
@@ -57,9 +56,8 @@ const BankVerifyApi = (props) => {
     Alert.alert("verifyBankAccount API Catch Error", JSON.stringify(error));
     Analytics.trackEvent({
       interaction: InteractionTypes.BUTTON_PRESS,
-      component: "Bank",
-      action: "Verify",
-      status: "Error",
+      screen: "bank",
+      action: "ERROR",
       error: `verifyBankAccount API Catch Error: ${JSON.stringify(
         error
       )}, ${JSON.stringify(res)}`,
@@ -109,7 +107,6 @@ const BankVerifyApi = (props) => {
       accountHolderName: props.accountHolderName,
       accountNumber: props.accountNumber,
       ifsc: props.ifsc,
-      upi: props.upi,
       campaignId: campaignId,
       provider: "ongrid",
     };

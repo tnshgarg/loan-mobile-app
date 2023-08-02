@@ -6,6 +6,7 @@ import BottomAlert from "../../../../components/molecules/BottomAlert";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 import { navigationHelper } from "../../../../helpers/CmsNavigationHelper";
 import { strings } from "../../../../helpers/Localization";
+import { InteractionTypes, trackEvent } from "../../../../helpers/analytics/commonAnalytics";
 import { styles } from "../../../../styles";
 import MandateFormTemplate from "../../../../templates/mandate/Form";
 
@@ -43,7 +44,7 @@ const Mandate = (props) => {
       "Add your mandate details to withdraw advance salary in our bank account",
 
     imageUri:
-      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Aadhaar/step3.png",
     primaryBtnText: "+ Add Repayment Method",
     onPressPrimaryBtn: () => {
       setAlertVisible(false);
@@ -66,10 +67,17 @@ const Mandate = (props) => {
           "एडवांस सैलरी का भुगतान करने के लिए, कृपया निम्नलिखित भुगतान विधियों में से एक का चयन करें:"
         }
         onRightIconPress={() =>
-          navigationHelper({
-            type: "cms",
-            params: { blogKey: "mandate_help" },
-          })
+          {
+            trackEvent({
+              interaction: InteractionTypes.BUTTON_PRESS,
+              screen: "mandate",
+              action: "HELP",
+            });
+            navigationHelper({
+              type: "cms",
+              params: { blogKey: "mandate_help" },
+            });
+          }
         }
       />
 

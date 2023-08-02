@@ -8,7 +8,7 @@ import { showToast } from "../../components/atoms/Toast";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
-  InteractionTypes,
+  InteractionTypes
 } from "../../helpers/analytics/commonAnalytics";
 import { asyncTimeout } from "../../helpers/asyncTimer";
 import { KYC_RETRY_WAIT_TIME } from "../../services/constants";
@@ -33,12 +33,11 @@ const  AadhaarOtpApi = (props) => {
   const handleOtpSuccess = (responseJson) => {
     console.log({ responseJson });
     dispatch(resetTimer());
-    showToast(responseJson?.body?.message || responseJson?.body?.verifyMsg);
+    showToast(responseJson?.body?.message || responseJson?.body?.verifyMsg, "success");
     Analytics.trackEvent({
       interaction: InteractionTypes.BUTTON_PRESS,
-      component: "Aadhaar",
-      action: "Otp",
-      status: "Success",
+      screen: "aadhaar",
+      action: "CONTINUE",
     });
     setLoading(false);
     dispatch(addVerifyStatus(responseJson?.body?.verifyStatus));
@@ -56,9 +55,8 @@ const  AadhaarOtpApi = (props) => {
     );
     Analytics.trackEvent({
       interaction: InteractionTypes.BUTTON_PRESS,
-      component: "Aadhaar",
-      action: "Otp",
-      status: "Error",
+      screen: "aadhaar",
+      action: "ERROR",
       error: `generateAadhaarOTP API Catch Error: ${JSON.stringify(error)}`,
     });
     setLoading(false);

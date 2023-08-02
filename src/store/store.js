@@ -20,13 +20,14 @@ import pendingCampaignClickSlice from "./slices/pendingCampaignClickSlice";
 
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { api } from "./apiSlices/api";
+import cmsSlice from "./slices/cmsSlice";
 import localizationSlice from "./slices/localizationSlice";
 // import reactotron from "../ReactotronConfig";
 
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  blacklist: ["api"]
+  blacklist: ["api", "cmsForms"],
 };
 
 const appReducer = combineReducers({
@@ -46,6 +47,7 @@ const appReducer = combineReducers({
   ewaHistorical: ewaHistoricalSlice,
   pendingCampaignClick: pendingCampaignClickSlice,
   localization: localizationSlice,
+  cmsForms: cmsSlice,
 });
 
 const rootReducer = (state, action) => {
@@ -56,7 +58,7 @@ const rootReducer = (state, action) => {
     } catch (error) {
       console.log(error);
     }
-    return appReducer({ auth: { phoneNumber: "", loggedOut: true } }, action);
+    return appReducer({ auth: { phoneNumber: "", loggedOut: true },localization: state.localization }, action);
   }
   return appReducer(state, action);
 };

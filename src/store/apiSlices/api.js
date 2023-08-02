@@ -1,6 +1,7 @@
 import analytics from "@react-native-firebase/analytics";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Alert } from "react-native";
+import { navigate } from "../../navigators/RootNavigation";
 import { EMPLOYEE_API_URL } from "../../services/constants";
 
 const baseQuery = fetchBaseQuery({
@@ -18,7 +19,7 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
   if (result?.error) {
-    console.log("result?.error", result?.error);
+    console.log("result?.error", args, api, result?.error);
     analytics().logEvent(
       `${result?.meta?.request?.url
         ?.split("?")[0]
@@ -28,7 +29,14 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       }`
     );
     if (result?.error?.status === 401) {
-      Alert.alert("Session expired", "Logging you out!");
+      Alert.alert("Session expired", "Logging you out!",[
+        {
+          title: "ok",
+          onPress: () => {
+            navigate("Login")
+          }
+        }
+      ]);
       console.log("401 error");
       api.dispatch({ type: "LOGOUT" });
     } else if (result?.error?.status === 404) {

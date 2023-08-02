@@ -7,6 +7,11 @@ import BottomAlert from "../../components/molecules/BottomAlert";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { strings } from "../../helpers/Localization";
+import {
+  InteractionTypes,
+  trackEvent
+} from "../../helpers/analytics/commonAnalytics";
+import { navigate } from "../../navigators/RootNavigation";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 import AadhaarFormTemplate from "../../templates/aadhaar/Form";
@@ -22,8 +27,21 @@ const AadhaarForm = () => {
 
   const backAction = () => {
     setAlertVisible(true);
+    trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "aadhaar",
+      action: "BACK",
+    });
     return true;
   };
+
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "aadhaar",
+      action: "START",
+    });
+  }, []);
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
@@ -38,7 +56,7 @@ const AadhaarForm = () => {
     subtitle: "To get advance salary you must complete your KYC",
 
     imageUri:
-      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/Help/Aadhaar/step3.png",
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Aadhaar/step3.png",
     primaryBtnText: "Continue KYC",
     onPressPrimaryBtn: () => {
       setAlertVisible(false);
@@ -48,7 +66,7 @@ const AadhaarForm = () => {
     contentContainerStyle: { flexDirection: "column-reverse" },
     onPressSecondaryBtn: () => {
       setAlertVisible(false);
-      navigation.navigate("HomeStack");
+      navigate("HomeStack", { screen: "Home" });
     },
   };
 
@@ -60,12 +78,17 @@ const AadhaarForm = () => {
           "भारतीय रिजर्व बैंक के मानदंडों के अनुसार, आपको अपना आधार वेरीफाई करना अनिवार्य है।"
         }
         onLeftIconPress={backAction}
-        onRightIconPress={() =>
+        onRightIconPress={() => {
+          trackEvent({
+            interaction: InteractionTypes.SCREEN_OPEN,
+            screen: "aadhaar",
+            action: "HELP",
+          });
           navigationHelper({
             type: "cms",
             params: { blogKey: "aadhaar_help" },
-          })
-        }
+          });
+        }}
       />
 
       {alertVisible && (

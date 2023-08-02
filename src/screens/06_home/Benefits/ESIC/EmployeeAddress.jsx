@@ -1,12 +1,13 @@
 import { useNavigation } from "@react-navigation/core";
 import { SafeAreaView, View } from "react-native";
-import AddressDropdown from "../../../../components/molecules/AddressDropdown";
-import { styles } from "../../../../styles";
 import { useSelector } from "react-redux";
-import { addressPush } from "../../../../helpers/BackendPush";
-import { showToast } from "../../../../components/atoms/Toast";
 import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
+import { showToast } from "../../../../components/atoms/Toast";
+import AddressDropdown from "../../../../components/molecules/AddressDropdown";
+import { addressPush } from "../../../../helpers/BackendPush";
+import { navigate } from "../../../../navigators/RootNavigation";
+import { styles } from "../../../../styles";
 
 export default EmployeeAddress = () => {
   const navigation = useNavigation();
@@ -47,7 +48,7 @@ export default EmployeeAddress = () => {
                 token: token,
               });
               showToast("Employee Address details recorded.", "success");
-              navigation.navigate("Benefits", {
+              navigate("Benefits", {
                 screen: "ESIC",
                 params: {
                   screen: "Nominee Address",

@@ -6,50 +6,38 @@ import LogoHeader from "../../../components/atoms/LogoHeader";
 import LogoutItem from "../../../components/atoms/LogoutItem";
 import CmsLoading from "../../../components/cms/CmsLoading";
 import CmsRoot from "../../../components/cms/CmsRoot";
-import TermsAndPrivacyModal from "../../../components/molecules/TermsAndPrivacyModal";
 import LogoutModal from "../../../components/organisms/LogoutModal";
 import { strings } from "../../../helpers/Localization";
 import {
-  CMS_POLLING_DURATION,
-  KYC_POLLING_DURATION,
-} from "../../../services/constants";
+  InteractionTypes,
+  setSessionValue,
+  trackEvent,
+} from "../../../helpers/analytics/commonAnalytics";
+import { CMS_POLLING_DURATION } from "../../../services/constants";
 import { useGetCmsQuery } from "../../../store/apiSlices/cmsApi";
-import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
 import { styles } from "../../../styles";
 
 const AccountMenu = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const [isPrivacyModalVisible, setIsPrivacyModalVisible] = useState(false);
-  const [isTermsOfUseModalVisible, setIsTermsOfUseModalVisible] =
-    useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-
-  const [kycCompleted, setKycCompleted] = useState(false);
-
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: KYC_POLLING_DURATION,
-  });
-  const {
-    isAadhaarSuccess,
-    isPanSuccess,
-    isBankSuccess,
-    isProfileSuccess,
-    profile,
-    aadhaar,
-    pan,
-    bank,
-  } = kycData ?? {};
 
   useEffect(() => {
-    if (isAadhaarSuccess && isPanSuccess && isBankSuccess && isProfileSuccess) {
-      setKycCompleted(true);
-    }
-  }, [isAadhaarSuccess, isPanSuccess, isBankSuccess, isProfileSuccess]);
+    trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "account",
+      action: "START",
+    });
+  }, []);
 
   const backAction = () => {
+    trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "account",
+      action: "BACK",
+    });
     navigation.navigate("HomeStack", {
       screen: "Money",
     });
@@ -63,23 +51,25 @@ const AccountMenu = (props) => {
   }, []);
 
   const onLogout = () => {
-    dispatch({ type: "LOGOUT" });
     setModalVisible(true);
     setTimeout(() => {
+      dispatch({ type: "LOGOUT" });
       setModalVisible(false);
-      navigation.navigate("OnboardingStack", { screen: "Login" });
-    }, 5000);
+      navigation.replace("OnboardingStack", { screen: "Login" });
+    }, 2000);
   };
 
-  const options = [
-    {
-      title: strings.logout,
-      subtitle: strings.logoutFromUnipe,
-      imageUri:
-        "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/circleIcons/logout.png ",
-      action: () => onLogout(),
-    },
-  ];
+  useEffect(() => {
+    setSessionValue("flow", "account");
+  }, []);
+
+  const logOutItem = {
+    title: strings.logout,
+    subtitle: strings.logoutFromUnipe,
+    imageUri:
+      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/logout.png",
+    action: () => onLogout(),
+  };
 
   const onPressCard = ({ route, action }) => {
     console.log({ route });
@@ -93,22 +83,19 @@ const AccountMenu = (props) => {
       pollingInterval: CMS_POLLING_DURATION,
     }
   );
-
+  console.log({ nav_list: JSON.stringify(cmsData?.account_navigation_list) });
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeader
         title={"Account"}
         containerStyle={{ backgroundColor: null }}
       />
+      <LogoutModal modalVisible={modalVisible} />
       <ScrollView>
         {!cmsData && cmsLoading ? (
           <CmsLoading />
         ) : (
           <CmsRoot children={cmsData?.account_top || []}></CmsRoot>
-        )}
-        {console.log(
-          "Account Nav list: ",
-          cmsData?.account_navigation_list?.[0].children
         )}
 
         {!cmsData && cmsLoading ? (
@@ -117,29 +104,12 @@ const AccountMenu = (props) => {
           <CmsRoot children={cmsData?.account_navigation_list || []}></CmsRoot>
         )}
 
-        {options.map((item, index) => (
-          <LogoutItem
-            key={index}
-            item={{ ...item, onPress: () => onPressCard(item) }}
-            showIcon={true}
-          />
-        ))}
+        <LogoutItem
+          key={logOutItem}
+          item={{ ...logOutItem, onPress: () => onPressCard(logOutItem) }}
+          showIcon={true}
+        />
       </ScrollView>
-      {isTermsOfUseModalVisible && (
-        <TermsAndPrivacyModal
-          isVisible={isTermsOfUseModalVisible}
-          setIsVisible={setIsTermsOfUseModalVisible}
-          data={termsOfUse}
-        />
-      )}
-      {isPrivacyModalVisible && (
-        <TermsAndPrivacyModal
-          isVisible={isPrivacyModalVisible}
-          setIsVisible={setIsPrivacyModalVisible}
-          data={privacyPolicy}
-        />
-      )}
-      {modalVisible && <LogoutModal modalVisible={modalVisible} />}
     </SafeAreaView>
   );
 };

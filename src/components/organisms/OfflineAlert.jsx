@@ -2,12 +2,10 @@ import NetInfo from "@react-native-community/netinfo";
 import { useEffect, useState } from "react";
 import { Image, Modal, SafeAreaView, Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import Offline from "../../assets/Offline.svg";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import { AddListener } from "../../helpers/InternetCheck";
 import { strings } from "../../helpers/Localization";
 import PrimaryButton from "../atoms/PrimaryButton";
-import SvgContainer from "../atoms/SvgContainer";
 import { showToast } from "../atoms/Toast";
 
 const OfflineAlert = ({ children }) => {
@@ -46,9 +44,12 @@ const OfflineAlert = ({ children }) => {
     <Modal animationType="fade" visible={true}>
       <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
         <View style={styles.modalContainer}>
-          <SvgContainer width={SIZES.width * 0.8} height={SIZES.width * 0.8}>
-            <Offline />
-          </SvgContainer>
+          <Image
+            source={{
+              uri: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/SplashScreens/NoInternet.png",
+            }}
+            style={{ height: "25%", width: "100%", resizeMode: "cover" }}
+          />
 
           <Text style={styles.title}>{strings.noInternet}</Text>
 

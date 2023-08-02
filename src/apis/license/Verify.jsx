@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/core";
+import { useEffect, useState } from "react";
+import { Alert } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import PrimaryButton from "../../components/atoms/PrimaryButton";
+import { licenseBackendPush } from "../../helpers/BackendPush";
+import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
+import { OG_API_KEY } from "../../services/constants";
 import {
   addData,
   addVerifyMsg,
   addVerifyStatus,
   addVerifyTimestamp,
 } from "../../store/slices/licenseSlice";
-import { licenseBackendPush } from "../../helpers/BackendPush";
-import { OG_API_KEY } from "../../services/constants";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
-import Analytics, {InteractionTypes} from "../../helpers/analytics/commonAnalytics";
 
 const Verify = (props) => {
   const dispatch = useDispatch();

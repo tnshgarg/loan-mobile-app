@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import React from "react";
-import { SafeAreaView, Text, View } from "react-native";
+import { Alert, SafeAreaView, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import Aadhaar from "../assets/Aadhaar.svg";
 import Bank from "../assets/Bank.svg";
@@ -8,43 +8,34 @@ import Pan from "../assets/Pan.svg";
 import Profile from "../assets/Profile.svg";
 import Tick from "../assets/Tick.svg";
 import Badge from "../components/atoms/Badge";
-import LogoHeader from "../components/atoms/LogoHeader";
 import PrimaryButton from "../components/atoms/PrimaryButton";
 import SvgContainer from "../components/atoms/SvgContainer";
+import { showToast } from "../components/atoms/Toast";
+import LogoHeaderBack from "../components/molecules/LogoHeaderBack";
 import { COLORS, FONTS } from "../constants/Theme";
+import { navigationHelper } from "../helpers/CmsNavigationHelper";
 import { strings } from "../helpers/Localization";
+import { navigate } from "../navigators/RootNavigation";
 import { KYC_POLLING_DURATION } from "../services/constants";
 import { kycNavigate } from "../services/kyc/navigation";
 import { useGetKycQuery } from "../store/apiSlices/kycApi";
+import { useGetMandateQuery } from "../store/apiSlices/mandateApi";
 import { styles } from "../styles";
-
-
-
-
-
-
-
-
-
-
-
-
 
 const KycProgress = () => {
   const unipeEmployeeId = useSelector((state) => state.auth?.unipeEmployeeId);
   const navigation = useNavigation();
 
-  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(unipeEmployeeId, {
-    pollingInterval: KYC_POLLING_DURATION,
-  });
-
+  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: KYC_POLLING_DURATION,
+    }
+  );
+  const {data: mandateData, isLoading: mandateLoading } = useGetMandateQuery(unipeEmployeeId)
   console.log({ kycData });
-  const {
-    isAadhaarSuccess,
-    isPanSuccess,
-    isBankSuccess,
-    isProfileSuccess,
-  } = kycData ?? {};
+  const { isAadhaarSuccess, isPanSuccess, isBankSuccess, isProfileSuccess } =
+    kycData ?? {};
 
   const kycSteps = [
     {
@@ -72,12 +63,14 @@ const KycProgress = () => {
       status: isBankSuccess,
     },
   ];
-
   const continueButtonPress = () => {
-    console.log(kycData, kycData.isProfileSuccess)
-    kycNavigate(kycData,navigation)
-  }
-  
+    if (mandateData?.verifyStatus == "SUCCESS") {
+      showToast("You're all set for advance salary","success")
+      navigate("HomeStack", { screen: "Money" });
+    } else {
+      kycNavigate(kycData, navigation);  
+    }
+  };
 
   const BORDER_COLOR = {
     // SUCCESS: COLORS.primary,
@@ -89,9 +82,30 @@ const KycProgress = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <LogoHeader
+      <LogoHeaderBack
         headline={strings.getYouVerified}
         subHeadline={strings.complete4Steps}
+        onLeftIconPress={() => {
+          Alert.alert(strings.goBack,strings.verifyYourIdentity,
+            [
+            {
+              text: "yes",
+              onPress: () => {
+                navigate("HomeStack", {screen: "Home"});
+              }
+            },{
+              text: "no",
+              onPress: () => {}
+            }
+          ])
+        }}
+        onRightIconPress={() => {
+          navigationHelper({
+            type: "cms",
+            screen: 2,
+            params: { blogKey: "kyc_help" },
+          });
+        }}
       />
       <View style={styles.container}>
         {kycSteps.map((item, index) => (
@@ -118,10 +132,16 @@ const KycProgress = () => {
               {item.imageUri}
             </SvgContainer>
             <View style={{ flexDirection: "column", flex: 1, paddingLeft: 15 }}>
-              <Text style={{ ...FONTS.body3, color: COLORS.black }}>
+              <Text style={{ ...FONTS.h3, color: COLORS.black }}>
                 {item.title}
               </Text>
-              <Text style={{ ...FONTS.body4, color: COLORS.gray }}>
+              <Text
+                style={{
+                  ...FONTS.body4,
+                  color: COLORS.gray,
+                  marginTop: 5,
+                }}
+              >
                 {item.subtitle}
               </Text>
             </View>
@@ -131,7 +151,10 @@ const KycProgress = () => {
               </SvgContainer>
             ) : null}
 
-            <Badge text={`${strings.step} ${index + 1}`} />
+            <Badge
+              text={`${strings.step} ${index + 1}`}
+              containerStyle={{ marginLeft: 5 }}
+            />
           </View>
         ))}
         <View style={{ flex: 1 }} />

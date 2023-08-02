@@ -8,6 +8,10 @@ import { styles } from "../../styles";
 import BankConfirmApi from "../../apis/bank/Confirm";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { strings } from "../../helpers/Localization";
+import {
+  InteractionTypes,
+  trackEvent
+} from "../../helpers/analytics/commonAnalytics";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 
 const BankConfirm = () => {
@@ -18,13 +22,31 @@ const BankConfirm = () => {
     dispatch(addCurrentScreen("BankConfirm"));
   }, []);
 
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "bankOk",
+      action: "START",
+    });
+  }, []);
+
   const backAction = () => {
     Alert.alert(
       "Do you want to go back ?",
       "If you go back your Bank Verification will have to be redone. Continue only if you want to edit your Bank Account Details.",
       [
         { text: "No", onPress: () => null, style: "cancel" },
-        { text: "Yes", onPress: () => navigation.navigate("BankForm") },
+        {
+          text: "Yes",
+          onPress: () => {
+            trackEvent({
+              interaction: InteractionTypes.SCREEN_OPEN,
+              screen: "bankOk",
+              action: "BACK",
+            });
+            navigation.navigate("BankForm");
+          },
+        },
       ]
     );
     return true;

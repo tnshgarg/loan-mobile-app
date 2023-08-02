@@ -12,9 +12,10 @@ export default {
   continue: "Continue",
   whatsappPlaceholder: "Your whatsapp mobile no.",
   motherNamePlaceholder: "Mother's Name*",
+  currentAddressPlaceholder: "Current Address*",
   maritalStatusPlaceholder: "Select Maritial Status*",
   educationPlaceholder: "Select Education*",
-  emailPlaceholder: "Your email ID",
+  emailPlaceholder: "Your email ID*",
   holdOnBack: "Are you sure you want to go back?",
   aadhaarNumber: "Aadhaar Number",
   agreeKycTNC:
@@ -47,7 +48,7 @@ export default {
   referToPassbook:
     "Refer to your Bank Passbook or Cheque book for the exact Name mentioned in your bank records",
   accountHolderName: "Account Holder Name*",
-  bankAccountNumber: "Bank Account Number*",
+  bankAccountNumber: "Salary Bank Account Number*",
   refertoGetAccountNumber:
     "Refer to your Bank Passbook or Cheque book to get the Bank Account Number.",
   ifscCode: "IFSC Code*",
@@ -192,7 +193,7 @@ export default {
   enterYourDetails: "Enter Your Details",
   verifyAadhaar: "Verify Aadhaar",
   panVerification: "PAN Card Verification",
-  addBankAccount: "Add Bank Account",
+  addBankAccount: "Add Salary Bank Account",
   onDemandSalary: "On-Demand Salary",
   selectAmount: "Select amount you want to withdraw",
   confirmKyc: "Confirm KYC",
@@ -229,6 +230,8 @@ export default {
   complete4Steps: "Complete the following 4 steps to verify your account ",
   step: "Step",
   goodAfternoon: "Good Afternoon",
+  goodMorning: "Good Morning",
+  goodEvening: "Good Evening",
   needHelp: "Need help?",
   clickHere: "Click here",
   stillNeedHelp: "Still need help?",

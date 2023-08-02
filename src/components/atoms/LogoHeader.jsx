@@ -3,8 +3,12 @@ import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import LogoImage from "../../assets/HeaderLogo.svg";
-import NotificationFade from "../../assets/NotificationFade.svg";
 import { COLORS, FONTS } from "../../constants/Theme";
+import {
+  InteractionTypes,
+  trackEvent,
+} from "../../helpers/analytics/commonAnalytics";
+import { navigate } from "../../navigators/RootNavigation";
 import SvgContainer from "./SvgContainer";
 
 const LogoHeader = ({
@@ -20,6 +24,7 @@ const LogoHeader = ({
   hideLogo,
   headerImageUri,
   notificationIconPresent,
+  unreadNotifications,
 }) => {
   const navigation = useNavigation();
   const EmptyView = () => {
@@ -29,7 +34,7 @@ const LogoHeader = ({
   return (
     <View style={[styles.mainContainer]}>
       <View style={[styles.container, { ...containerStyle }]}>
-        {leftIcon && (
+        {leftIcon != null && (
           <TouchableOpacity
             activeOpacity={0.7}
             style={{ marginRight: 10 }}
@@ -47,7 +52,7 @@ const LogoHeader = ({
         >
           {title ? (
             <Text
-              style={{ ...FONTS.body2, color: COLORS.secondary, ...titleStyle }}
+              style={{ ...FONTS.h2, color: COLORS.secondary, ...titleStyle }}
             >
               {title}
             </Text>
@@ -61,22 +66,31 @@ const LogoHeader = ({
         </View>
         {notificationIconPresent ? (
           <TouchableOpacity
-            style={{ paddingTop: 5 }}
             activeOpacity={0.7}
-            onPress={() =>
-              navigation.navigate("AccountStack", {
+            onPress={() => {
+              trackEvent({
+                interaction: InteractionTypes.BUTTON_PRESS,
+                screen: "home",
+                action: "NOTIFICATION",
+              });
+              navigate("AccountStack", {
                 screen: "NotificationView",
-              })
-            }
+              });
+            }}
           >
-            <SvgContainer height={42} width={42}>
-              <NotificationFade />
-            </SvgContainer>
+            <Image
+              source={{
+                uri: `https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/${
+                  unreadNotifications ? "UnreadNotifs" : "Notif"
+                }.png`,
+              }}
+              style={{ height: 36, width: 36, marginRight: 15 }}
+            />
           </TouchableOpacity>
         ) : (
           <></>
         )}
-        {rightIcon ? (
+        {rightOnPress ? (
           <TouchableOpacity activeOpacity={0.7} onPress={rightOnPress}>
             {rightIcon}
           </TouchableOpacity>
@@ -130,7 +144,10 @@ const styles = EStyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
     backgroundColor: COLORS.headerBg,
-    padding: "15rem",
+    padding: "20rem",
+    paddingTop: "5rem",
+    borderBottomLeftRadius: "15rem",
+    borderBottomRightRadius: "15rem",
   },
   headerImage: {
     width: "100rem",
@@ -150,13 +167,13 @@ const styles = EStyleSheet.create({
     width: "30rem",
   },
   headline: {
-    ...FONTS.body2,
+    ...FONTS.h2,
     color: COLORS.secondary,
   },
   subHeadline: {
-    ...FONTS.body3,
+    ...FONTS.body4,
     color: COLORS.secondary,
     marginTop: "5rem",
-    marginBottom: "10rem",
+    width: "80%",
   },
 });

@@ -6,6 +6,7 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
+  trackEvent
 } from "../../helpers/analytics/commonAnalytics";
 import { useVerifyPanMutation } from "../../store/apiSlices/panApi";
 import { addVerifyStatus } from "../../store/slices/panSlice";
@@ -23,6 +24,11 @@ const PanVerifyApi = (props) => {
   const [verifyPan] = useVerifyPanMutation();
   const goForFetch = () => {
     setLoading(true);
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "pan",
+      action: "CONTINUE",
+    });
 
     const data = {
       unipeEmployeeId: unipeEmployeeId,
@@ -37,11 +43,10 @@ const PanVerifyApi = (props) => {
         setLoading(false);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "Pan",
-          action: "Verify",
-          status: "Success",
+          screen: "pan",
+          action: "VALID",
         });
-        
+
         navigation.navigate("PanConfirm");
       })
       .catch((error) => {
@@ -50,9 +55,8 @@ const PanVerifyApi = (props) => {
         Alert.alert("fetchPanDetails API Catch Error", error.message);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
-          component: "Pan",
-          action: "Verify",
-          status: "Error",
+          screen: "pan",
+          action: "INVALID",
           error: `fetchPanDetails Catch Error: ${JSON.stringify(error)}`,
         });
         setLoading(false);

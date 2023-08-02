@@ -10,8 +10,9 @@ import { COLORS, FONTS } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
 import whatsappLinking from "../../helpers/WhatsappLinking";
 import Analytics, {
-  InteractionTypes,
+  InteractionTypes
 } from "../../helpers/analytics/commonAnalytics";
+import { navigate } from "../../navigators/RootNavigation";
 import { requestUserPermission } from "../../services/notifications/notificationService";
 import { styles } from "../../styles";
 
@@ -97,11 +98,11 @@ const Onboarding = () => {
             requestUserPermission();
             Analytics.trackEvent({
               interaction: InteractionTypes.BUTTON_PRESS,
-              component: "Onboarding",
-              action: "GetStarted",
-              status: "",
+              flow: "login",
+              screen: "welcome",
+              action: "START",
             });
-            navigation.navigate("Login");
+            navigate("OnboardingStack", { screen: "Login" });
           }}
         />
         <ShieldTitle title="100% Secure" />

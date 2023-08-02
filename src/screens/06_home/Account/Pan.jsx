@@ -1,16 +1,16 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import { useSelector } from "react-redux";
-import PanConfirmApi from "../../../apis/pan/Confirm";
-import DetailsCard from "../../../components/molecules/DetailsCard";
-import { strings } from "../../../helpers/Localization";
-import TopTabNav from "../../../navigators/TopTabNav";
-import { styles } from "../../../styles";
-import PanFormTemplate from "../../../templates/pan/Form";
+import NoData from "../../../assets/NoData.svg";
 import PrimaryButton from "../../../components/atoms/PrimaryButton";
-import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
+import SvgContainer from "../../../components/atoms/SvgContainer";
+import DetailsCard from "../../../components/molecules/DetailsCard";
+import { COLORS, FONTS } from "../../../constants/Theme";
+import { strings } from "../../../helpers/Localization";
 import { KYC_POLLING_DURATION } from "../../../services/constants";
+import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
+import { styles } from "../../../styles";
 
 const Pan = () => {
   const navigation = useNavigation();
@@ -49,21 +49,6 @@ const Pan = () => {
     return res;
   };
 
-  const tabs = [
-    {
-      name: "Form",
-      component: PanFormTemplate,
-      initialParams: { type: "KYC" },
-      disable: true,
-    },
-    {
-      name: "Confirm",
-      component: PanConfirmApi,
-      initialParams: { type: "KYC" },
-      disable: true,
-    },
-  ];
-
   if (loading) return <></>;
 
   return (
@@ -83,9 +68,53 @@ const Pan = () => {
           ) : null}
         </View>
       ) : (
-        <>
-          <TopTabNav tabs={tabs} hide={true} />
-        </>
+        <View style={[styles.container, { alignItems: "center" }]}>
+          <SvgContainer height={300} width={300}>
+            <NoData />
+          </SvgContainer>
+          <Text
+            style={{
+              ...FONTS.h2,
+              color: COLORS.secondary,
+              textAlign: "center",
+            }}
+          >
+            {aadhaar.verifyStatus != "SUCCESS"
+              ? "Aadhaar not added"
+              : "PAN not added"}
+          </Text>
+          <Text
+            style={{
+              ...FONTS.body3,
+              color: COLORS.gray,
+              textAlign: "center",
+              marginTop: 5,
+              marginBottom: 15,
+            }}
+          >
+            {aadhaar.verifyStatus != "SUCCESS"
+              ? "Please add your aadhaar details first"
+              : "Please add your PAN details now"}
+          </Text>
+          <PrimaryButton
+            title={
+              aadhaar.verifyStatus != "SUCCESS"
+                ? "+ Add Aadhaar"
+                : "+ Add PAN"
+            }
+            onPress={() =>
+              navigation.navigate("EWAStack", {
+                screen: "EWA_KYC_STACK",
+                params: {
+                  screen:
+                    aadhaar.verifyStatus != "SUCCESS"
+                      ? "AadhaarForm"
+                      : "PanForm",
+                },
+              })
+            }
+          />
+        </View>
       )}
     </SafeAreaView>
   );

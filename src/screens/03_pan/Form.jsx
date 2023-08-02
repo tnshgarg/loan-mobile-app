@@ -6,6 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { strings } from "../../helpers/Localization";
+import {
+  InteractionTypes,
+  trackEvent,
+} from "../../helpers/analytics/commonAnalytics";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
@@ -38,8 +42,13 @@ export default PanForm = () => {
         {
           text: "Yes",
           onPress: () => {
+            trackEvent({
+              interaction: InteractionTypes.SCREEN_OPEN,
+              screen: "pan",
+              action: "BACK",
+            });
             aadhaar?.verifyStatus === "SUCCESS"
-              ? navigation.navigate("AadhaarConfirm")
+              ? navigation.navigate("KycProgress")
               : navigation.navigate("AadhaarForm");
           },
         },
@@ -54,6 +63,14 @@ export default PanForm = () => {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
+  useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "pan",
+      action: "START",
+    });
+  }, []);
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
@@ -62,12 +79,19 @@ export default PanForm = () => {
           "हमें आपका नाम और जन्मतिथि जांच करने के लिए आपके पैन की आवश्यकता है।"
         }
         onLeftIconPress={backAction}
-        onRightIconPress={() =>
+        onRightIconPress={() => {
+          trackEvent({
+            interaction: InteractionTypes.SCREEN_OPEN,
+            screen: "pan",
+            action: "HELP",
+          });
           navigationHelper({
             type: "cms",
-            params: { blogKey: "pan_help", backScreen: {stack: "OnboardingStack", screen: "PanForm"} },
-          })
-        }
+            params: {
+              blogKey: "pan_help"
+            },
+          });
+        }}
       />
 
       <PanFormTemplate setHelpSectionVisible={setVisible} />

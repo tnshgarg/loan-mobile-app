@@ -1,29 +1,35 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import messaging from "@react-native-firebase/messaging";
-import { store } from "../../store/store";
 import { version } from "../../../package.json";
+import Analytics, {
+  InteractionTypes
+} from "../../helpers/analytics/commonAnalytics";
 import * as RootNavigation from "../../navigators/RootNavigation";
-import { fcmPush } from "../../helpers/BackendPush";
-import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
+import { fcmApi } from "../../store/apiSlices/fcmApi";
+import { store } from "../../store/store";
 
 function generateCampainClick(remoteMessage) {
-  const data = remoteMessage?.data ?? {}
-  const utm_campaign = `utm_campaign=${data.utm_campaign}`
-  const utm_medium = `utm_medium=${data.utm_medium}`
-  const utm_source = `utm_source=${data.utm_source}`
-  const utm_content = `utm_content=${data.utm_content}`
-  
-  return `fcm://screen/${remoteMessage?.data?.screenName}/fcm_notification?${utm_campaign}&${utm_medium}&${utm_source}&${utm_content}`
+  const data = remoteMessage?.data ?? {};
+  const utm_campaign = `utm_campaign=${data.utm_campaign}`;
+  const utm_medium = `utm_medium=${data.utm_medium}`;
+  const utm_source = `utm_source=${data.utm_source}`;
+  const utm_content = `utm_content=${data.utm_content}`;
+
+  return `fcm://screen/${remoteMessage?.data?.screenName}/fcm_notification?${utm_campaign}&${utm_medium}&${utm_source}&${utm_content}`;
 }
+
 function pushAnalytics(remoteMessage, status) {
-  Analytics.setSessionValue("campaignClick", generateCampainClick(remoteMessage))
-  Analytics.setSessionValue("in_app_notification", remoteMessage.data)
+  Analytics.setSessionValue(
+    "campaignClick",
+    generateCampainClick(remoteMessage)
+  );
+  Analytics.setSessionValue("in_app_notification", remoteMessage.data);
   Analytics.trackEvent({
     interaction: InteractionTypes.IN_APP_NOTIFICATION,
-    component: remoteMessage?.data?.screenName || "not set",
+    flow: "notification",
+    screen: remoteMessage?.data?.screenName || "not set",
     action: remoteMessage?.data?.type || "not set",
-    status: status
-  })
+  });
 }
 
 export async function requestUserPermission() {
@@ -50,10 +56,10 @@ export const getFcmToken = async () => {
       console.log(data);
       if (fcmToken) {
         console.log(fcmToken, "new generated FCM token");
-        fcmPush({
+        fcmApi.endpoints.updateFcm.initiate({
           data: data,
           token: store.getState().auth.token,
-        });
+        })
         await AsyncStorage.setItem("fcmToken", fcmToken);
         await messaging().subscribeToTopic("initial-users");
       }

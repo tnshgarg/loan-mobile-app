@@ -1,11 +1,12 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { STAGE } from "@env";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useSelector } from "react-redux";
 import Offer from "../../screens/06_home/Money/EWA/01_Offer";
 import KYC from "../../screens/06_home/Money/EWA/02_Kyc";
 import Mandate from "../../screens/06_home/Money/EWA/03_Mandate";
 import Agreement from "../../screens/06_home/Money/EWA/04_Agreement";
 import Disbursement from "../../screens/06_home/Money/EWA/05_Disbursement";
+import WithdrawalStatement from "../../screens/06_home/Money/EWA/06_WithdrawalStatement";
 import EWA from "../../screens/06_home/Money/EWA/EWA";
 import KYCStack from "./KYCStack";
 
@@ -66,6 +67,13 @@ const EWAStack = () => {
       <Stack.Screen
         name="EWA_DISBURSEMENT"
         component={Disbursement}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="EWA_WITHDRAWAL_STATEMENT"
+        component={WithdrawalStatement}
         options={{
           headerShown: false,
         }}

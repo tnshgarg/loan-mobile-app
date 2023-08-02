@@ -3,10 +3,11 @@ import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
 import Analytics, {
-  InteractionTypes,
+  InteractionTypes
 } from "../../helpers/analytics/commonAnalytics";
-import { navigationRef } from "../../navigators/RootNavigation";
+import { navigate } from "../../navigators/RootNavigation";
 
 const COLOR_MAP = {
   Due: "orange",
@@ -69,22 +70,23 @@ const OfferCard = ({ offer }) => {
   let dateString = date.toDateString();
   let day = dateString.split(" ")[2];
   let month = dateString.split(" ")[1];
-
+  let canNavigate = !["Missed", "Rejected"].includes(offerType);
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       style={styles.container}
+      disabled={!canNavigate}
       onPress={() => {
-        if (offerType !== "Missed") {
+        if (canNavigate) {
           Analytics.trackEvent({
             interaction: InteractionTypes.BUTTON_PRESS,
-            component: "Money",
-            action: "OfferDetailsClick",
-            status: "",
+            flow: "money",
+            screen: "pastWithdrawals",
+            action: "WITHDRAWALCARD",
             offer: offer.offerId,
           });
-          navigation.navigate("EWAStack", {
-            screen: "EWA_DISBURSEMENT",
+          navigate("EWAStack", {
+            screen: "EWA_WITHDRAWAL_STATEMENT",
             params: { offer: offer },
           });
         }
@@ -98,7 +100,8 @@ const OfferCard = ({ offer }) => {
         <Text style={{ ...FONTS.body3, color: COLORS.gray }}>₹{amount}</Text>
         {["Due", "Pending"].includes(offerType) ? (
           <Text style={{ color: COLORS.gray, ...FONTS.body5 }}>
-            Due date {offer.dueDate}
+            
+            {strings.dueDate} {offer.dueDate}
           </Text>
         ) : null}
       </View>
@@ -115,9 +118,7 @@ const PastDrawsCard = (props) => {
         <View style={styles.pastDrawsContainer}>
           <Text style={styles.title}>Your past draws</Text>
           <TouchableOpacity
-            onPress={() =>
-              navigationRef.navigate("CmsStack", { screen: "CmsPastDraws" })
-            }
+            onPress={() => navigate("CmsStack", { screen: "CmsPastDraws" })}
             activeOpacity={0.92}
             style={styles.seeAllContainer}
           >

@@ -7,7 +7,13 @@ import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 import PastDrawsCard from "../../../../components/molecules/PastDrawsCard";
 import VerifyMandateCard from "../../../../components/molecules/VerifyMandateCard";
 import LiveOfferCard from "../../../../components/organisms/LiveOfferCard";
+import { navigationHelper } from "../../../../helpers/CmsNavigationHelper";
 import { getNumberOfDays } from "../../../../helpers/DateFunctions";
+import {
+  InteractionTypes,
+  setSessionValue,
+  trackEvent,
+} from "../../../../helpers/analytics/commonAnalytics";
 import { EWA_POLLING_DURATION } from "../../../../services/constants";
 import { useGetOffersQuery } from "../../../../store/apiSlices/ewaApi";
 import { useGetMandateQuery } from "../../../../store/apiSlices/mandateApi";
@@ -18,6 +24,12 @@ import {
   resetEwaLive,
 } from "../../../../store/slices/ewaLiveSlice";
 import { styles } from "../../../../styles";
+
+import { Text } from "react-native";
+// import PushNotification from 'react-native-push-notification';
+import { COLORS, FONTS } from "../../../../constants/Theme";
+import { strings } from "../../../../helpers/Localization";
+
 const EWA = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -36,9 +48,18 @@ const EWA = () => {
 
   const [eligible, setEligible] = useState(ewaLiveSlice?.eligible);
   const [accessible, setAccessible] = useState(ewaLiveSlice?.accessible);
-  const { data: mandateData, error, isLoading } = useGetMandateQuery(unipeEmployeeId);
+  const {
+    data: mandateData,
+    error,
+    isLoading,
+  } = useGetMandateQuery(unipeEmployeeId);
 
   const backAction = () => {
+    trackEvent({
+      interaction: InteractionTypes.BUTTON_PRESS,
+      screen: "money",
+      action: "BACK",
+    });
     navigation.navigate("EWA", { replace: true });
     return true;
   };
@@ -114,11 +135,20 @@ const EWA = () => {
     }
   }, [getEwaOffersIsSuccess, getEwaOffersData, isFocused]);
 
+  useEffect(() => {
+    setSessionValue("flow", "money");
+  }, []);
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
         title={`Money`}
         onRightIconPress={() => {
+          trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            screen: "money",
+            action: "HELP",
+          });
           navigationHelper({
             type: "cms",
             params: { blogKey: "customer_support" },
@@ -137,6 +167,19 @@ const EWA = () => {
         <VerifyMandateCard mandateVerifyStatus={mandateData?.verifyStatus} />
         <PastDrawsCard screenType="half" data={ewaHistoricalSlice} />
       </View>
+      <View
+          style={{
+            width: "100%",
+            backgroundColor: COLORS.primary,
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 10,
+          }}
+        >
+          <Text style={{ ...FONTS.body4, color: COLORS.white }}>
+            {strings.rbiApprovedLendingPartners}
+          </Text>
+        </View>
     </SafeAreaView>
   );
 };

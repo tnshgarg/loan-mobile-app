@@ -1,13 +1,14 @@
-import { View, Text, SafeAreaView, ScrollView } from "react-native";
-import React, { useEffect } from "react";
-import { investStyles, styles } from "../../../styles";
-import { COLORS, FONTS } from "../../../constants/Theme";
+import React from "react";
+import { SafeAreaView, ScrollView, Text, View } from "react-native";
 import Header from "../../../components/atoms/Header";
 import VideoPlayer from "../../../components/organisms/VideoPlayer";
+import { COLORS, FONTS } from "../../../constants/Theme";
+import { navigate } from "../../../navigators/RootNavigation";
+import { investStyles, styles } from "../../../styles";
 
 const P2P = ({ navigation }) => {
   const backAction = () => {
-    navigation.navigate("InvestStack", { screen: "HowItWorks" });
+    navigate("InvestStack", { screen: "HowItWorks" });
     return true;
   };
   const data = [

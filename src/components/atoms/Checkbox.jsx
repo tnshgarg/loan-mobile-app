@@ -4,10 +4,17 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS } from "../../constants/Theme";
 
-const Checkbox = ({ value, setValue, text, additionalText, onPress }) => {
+const Checkbox = ({
+  value,
+  setValue,
+  text,
+  additionalText,
+  onPress,
+  conatinerStyle,
+}) => {
   console.log(value);
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { ...conatinerStyle }]}>
       <TouchableOpacity onPress={() => setValue(!value)} activeOpacity={0.7}>
         <MaterialCommunityIcons
           name={value ? "checkbox-marked" : "checkbox-blank-outline"}

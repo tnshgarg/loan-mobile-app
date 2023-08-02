@@ -12,17 +12,21 @@ import CmsFooter from "./CmsFooter";
 import CmsIcon from "./CmsIcon";
 import CmsIconText from "./CmsIconText";
 import CmsImage from "./CmsImage";
+import CmsInput from "./CmsInput";
 import { CmsMarkdown } from "./CmsMarkdown";
+import CmsMcq from "./CmsMcq";
 import CmsNotification from "./CmsNotification";
 import CmsOverlay from "./CmsOverlay";
 import CmsSection from "./CmsSection";
 import CmsSpacer from "./CmsSpacer";
 import CmsSubtitle from "./CmsSubtitle";
+import CmsSurvey from "./CmsSurvey";
 import CmsSwiper from "./CmsSwiper";
 import CmsThreeColumn from "./CmsThreeColumn";
 import CmsTitle from "./CmsTitle";
 import CmsTwoColumn from "./CmsTwoColumn";
 import CmsVideo from "./CmsVideo";
+import CmsWebView from "./CmsWebView";
 
 const CMS_TYPES = {
   markdown: CmsMarkdown,
@@ -48,6 +52,10 @@ const CMS_TYPES = {
   badge: CmsBadge,
   bottomAlert: CmsBottomAlert,
   overlay: CmsOverlay,
+  survey: CmsSurvey,
+  webview: CmsWebView,
+  mcq: CmsMcq,
+  input: CmsInput,
   default: () => <></>,
 };
 

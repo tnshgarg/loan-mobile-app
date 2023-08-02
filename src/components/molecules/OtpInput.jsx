@@ -1,16 +1,8 @@
-import { View, Text, TextInput, TouchableWithoutFeedback } from "react-native";
+import { Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
-import { useEffect } from "react";
 
 const OtpInput = ({ otp, setOtp, inputRef, accessibilityLabel }) => {
-  useEffect(() => {
-    setTimeout(() => {
-      if(inputRef?.current?.focus) {
-        inputRef.current.focus();
-      }
-    }, 300);
-  }, [inputRef, inputRef.current]);
 
   const getNumberView = (val) => {
     return val != "" ? (
@@ -29,7 +21,10 @@ const OtpInput = ({ otp, setOtp, inputRef, accessibilityLabel }) => {
 
   return (
     <>
-      <TouchableWithoutFeedback onPress={() => inputRef.current.focus()}>
+      <TouchableWithoutFeedback
+        onPress={() => inputRef.current.focus()}
+        // activeOpacity={0.5}
+      >
         <View style={styles.container}>
           {getNumberView(otp?.charAt(0))}
           {getNumberView(otp?.charAt(1))}
@@ -71,7 +66,6 @@ const styles = EStyleSheet.create({
     width: "70%",
     alignSelf: "center",
     marginVertical: 40,
-    height: 50,
   },
   empty: {
     width: 16,

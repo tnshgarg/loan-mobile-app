@@ -2,8 +2,14 @@ import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
 import { Alert, BackHandler, SafeAreaView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import CmsRoot from "../../components/cms/CmsRoot";
+import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import {
+  InteractionTypes,
+  trackEvent
+} from "../../helpers/analytics/commonAnalytics";
 import { CMS_POLLING_DURATION } from "../../services/constants";
-import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 
@@ -13,13 +19,28 @@ const LoginSuccess = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
+    trackEvent({
+      interaction: InteractionTypes.SCREEN_OPEN,
+      screen: "welcome",
+      action: "START",
+    });
     dispatch(addCurrentScreen("LoginSuccess"));
   }, []);
 
   const backAction = () => {
     Alert.alert("Hold on!", "Are you sure you want to Logout?", [
       { text: "No", onPress: () => null, style: "cancel" },
-      { text: "Yes", onPress: () => navigation.navigate("Login") },
+      {
+        text: "Yes",
+        onPress: () => {
+          trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            screen: "welcome",
+            action: "BACK",
+          });
+          navigation.navigate("Login");
+        },
+      },
     ]);
     return true;
   };
@@ -40,21 +61,27 @@ const LoginSuccess = () => {
   console.log({ cmsError, cmsData });
   return (
     <SafeAreaView accessibilityLabel="WelcomePage" style={styles.safeContainer}>
-      {/* <LogoHeaderBack
+      <LogoHeaderBack
         containerStyle={{ backgroundColor: "#223240" }}
         hideLogo={true}
-        onRightIconPress={() =>
+        onRightIconPress={() => {
+          trackEvent({
+            interaction: InteractionTypes.SCREEN_OPEN,
+            screen: "welcome",
+            action: "HELP",
+          });
           navigationHelper({
             type: "cms",
             params: { blogKey: "kyc_help" },
-          })
-        }
-      /> */}
-      {/* {!cmsLoading ? (
-        <CmsRoot children={cmsData?.login_success || []}></CmsRoot>
+          });
+        }}
+      />
+      
+      {!cmsLoading ? (
+        <CmsRoot children={cmsData?.login_success?.data || []}></CmsRoot>
       ) : (
         <></>
-      )} */}
+      )}
     </SafeAreaView>
   );
 };

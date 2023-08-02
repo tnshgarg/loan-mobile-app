@@ -10,7 +10,7 @@ const LoanProviderLogo = ({ title, url }) => {
       <Image
         style={styles.image}
         resizeMode="contain"
-        source={{uri: url || ""}}
+        source={{ uri: url || "" }}
       />
       <Text style={styles.title}>{title}</Text>
     </View>
@@ -31,7 +31,7 @@ const styles = EStyleSheet.create({
   },
   image: {
     height: "60rem",
-    width: "160rem",
+    width: "110rem",
     marginRight: "5rem",
   },
 });

@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { SafeAreaView, View } from "react-native";
 import { useNavigation } from "@react-navigation/core";
-import { portalPush } from "../../../../helpers/BackendPush";
-import { addESICPortal } from "../../../../store/slices/esicSlice";
-import { bankform, styles } from "../../../../styles";
-import { showToast } from "../../../../components/atoms/Toast";
+import React, { useEffect, useState } from "react";
+import { SafeAreaView, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingWrapper } from "../../../../KeyboardAvoidingWrapper";
 import FormInput from "../../../../components/atoms/FormInput";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
+import { showToast } from "../../../../components/atoms/Toast";
+import { portalPush } from "../../../../helpers/BackendPush";
+import { navigate } from "../../../../navigators/RootNavigation";
+import { addESICPortal } from "../../../../store/slices/esicSlice";
+import { bankform, styles } from "../../../../styles";
 
 export default Portal = () => {
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ export default Portal = () => {
                 token: token,
               });
               showToast("ESIC Portal details recorded.", "success");
-              navigation.navigate("Benefits", {
+              navigate("Benefits", {
                 screen: "ESIC",
                 params: {
                   screen: "Family Details",

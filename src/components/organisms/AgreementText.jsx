@@ -1,9 +1,10 @@
 import { Text } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
+import { useSelector } from "react-redux";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
-import privacyPolicy from "../../templates/docs/PrivacyPolicy";
-import termsOfUse from "../../templates/docs/TermsOfUse";
+import { CMS_POLLING_DURATION } from "../../services/constants";
+import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import TermsAndPrivacyModal from "../molecules/TermsAndPrivacyModal";
 
 const AgreementText = ({
@@ -12,6 +13,14 @@ const AgreementText = ({
   isPrivacyModalVisible,
   setIsPrivacyModalVisible,
 }) => {
+  const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const { data: cmsData, isLoading: cmsLoading } = useGetCmsQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: CMS_POLLING_DURATION,
+    }
+  );
+
   return (
     <>
       <Text style={styles.parentText}>
@@ -34,7 +43,7 @@ const AgreementText = ({
         <TermsAndPrivacyModal
           isVisible={isTermsOfUseModalVisible}
           setIsVisible={setIsTermsOfUseModalVisible}
-          data={termsOfUse}
+          data={cmsData?.login_terms_of_use}
         />
       )}
 
@@ -42,7 +51,7 @@ const AgreementText = ({
         <TermsAndPrivacyModal
           isVisible={isPrivacyModalVisible}
           setIsVisible={setIsPrivacyModalVisible}
-          data={privacyPolicy}
+          data={cmsData?.login_privacy_policy}
         />
       )}
     </>

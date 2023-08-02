@@ -1,6 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView, ScrollView, View } from "react-native";
 import DevMenuButton from "../components/atoms/DevMenuButton";
+import { navigationHelper } from "../helpers/CmsNavigationHelper";
+import { navigate } from "../navigators/RootNavigation";
 
 export default DevMenu = () => {
   const navigation = useNavigation();
@@ -72,13 +74,24 @@ export default DevMenu = () => {
               style={{ marginTop: 20 }}
               title={screen.title}
               onPress={() =>
-                navigation.navigate(screen.stack, {
+                navigate(screen.stack, {
                   screen: screen.name,
                   params: screen.screen ? { screen: screen.screen } : null,
                 })
               }
             />
           ))}
+
+          <DevMenuButton
+            style={{ marginTop: 20 }}
+            title={"CmsTest"}
+            onPress={() =>
+              navigationHelper({
+                type: "cms",
+                params: { blogKey: "login_success" },
+              })
+            }
+          />
 
           <DevMenuButton
             style={{ marginTop: 20 }}
