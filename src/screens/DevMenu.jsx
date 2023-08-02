@@ -58,6 +58,15 @@ export default DevMenu = () => {
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
+          <DevMenuButton
+            style={{ marginTop: 20 }}
+            title={"User Story"}
+            onPress={() =>
+              navigation.navigate("AccountStack", {
+                screen: "SubmitFeedback",
+              })
+            }
+          />
           {screens.map((screen, index) => (
             <DevMenuButton
               accessibilityLabel={screen.title}
