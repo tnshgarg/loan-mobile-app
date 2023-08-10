@@ -24,201 +24,180 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
     pollingInterval: isFocused ? 1000 * 10 : undefined,
   });
 
-  const mandateOptionsHandler = {
-    upi: (emandateOptions, mandateOptions) => {
-      if (emandateOptions?.[3] === "1") {
-        mandateOptions.push({
-          title: "UPI",
-          subtitle: "Instant registration",
-          subtitleStyle: { color: COLORS.secondary },
-          iconName: "card-account-details-outline",
-          subItems: [
-            {
-              title: "Google Pay",
-              image: require("../../assets/payment_icons/gpay.png"),
-              onPress: () => {
-                trackEvent({
-                  interaction: InteractionTypes.SCREEN_OPEN,
-                  screen: "mandateStart",
-                  action: "CONTINUE",
-                  properties: {
-                    method: "upi",
-                    provider: "gpay",
-                  },
-                });
-                ProceedButton({
-                  authType: "upi",
-                  provider: "cashfree",
-                  app: "GPAY",
-                });
+  let AllMandateOptions = {
+    UPI: {
+      title: "UPI",
+      subtitle: "Instant registration",
+      subtitleStyle: { color: COLORS.primary },
+      iconName: "card-account-details-outline",
+      subItems: [
+        {
+          title: "Google Pay",
+          image: require("../../assets/payment_icons/gpay.png"),
+          onPress: () => {
+            trackEvent({
+              interaction: InteractionTypes.SCREEN_OPEN,
+              screen: "mandateStart",
+              action: "CONTINUE",
+              properties: {
+                method: "upi",
+                provider: "gpay",
               },
-            },
-            {
-              title: "AmazonPay",
-              image: require("../../assets/payment_icons/amazon.png"),
-              onPress: () => {
-                trackEvent({
-                  interaction: InteractionTypes.SCREEN_OPEN,
-                  screen: "mandateStart",
-                  action: "CONTINUE",
-                  properties: {
-                    method: "upi",
-                    provider: "amazonpay",
-                  },
-                });
-                ProceedButton({
-                  authType: "upi",
-                  provider: "cashfree",
-                  app: "AMAZONPAY",
-                });
+            });
+            ProceedButton({
+              authType: "upi",
+              provider: "cashfree",
+              app: "GPAY",
+            });
+          },
+        },
+        {
+          title: "AmazonPay",
+          image: require("../../assets/payment_icons/amazon.png"),
+          onPress: () => {
+            trackEvent({
+              interaction: InteractionTypes.SCREEN_OPEN,
+              screen: "mandateStart",
+              action: "CONTINUE",
+              properties: {
+                method: "upi",
+                provider: "amazonpay",
               },
-            },
-            {
-              title: "Paytm",
-              image: require("../../assets/payment_icons/paytm.png"),
-              onPress: () => {
-                trackEvent({
-                  interaction: InteractionTypes.SCREEN_OPEN,
-                  screen: "mandateStart",
-                  action: "CONTINUE",
-                });
-                ProceedButton({
-                  authType: "upi",
-                  provider: "cashfree",
-                  app: "PAYTM",
-                  properties: {
-                    method: "upi",
-                    provider: "paytm",
-                  },
-                });
-              },
-            },
-            {
-              title: "PhonePe",
-              image: require("../../assets/payment_icons/Phonepe.png"),
-              onPress: () => {
-                trackEvent({
-                  interaction: InteractionTypes.SCREEN_OPEN,
-                  screen: "mandateStart",
-                  action: "CONTINUE",
-                  properties: {
-                    method: "upi",
-                    provider: "phonepe",
-                  },
-                });
-                ProceedButton({
-                  authType: "upi",
-                  provider: "cashfree",
-                  app: "PHONEPE",
-                });
-              },
-            },
-            {
-              title: "BHIM",
-              image: require("../../assets/payment_icons/Bhim.png"),
-              onPress: () => {
-                trackEvent({
-                  interaction: InteractionTypes.SCREEN_OPEN,
-                  screen: "mandateStart",
-                  action: "CONTINUE",
-                  properties: {
-                    method: "upi",
-                    provider: "bhim",
-                  },
-                });
-                ProceedButton({
-                  authType: "upi",
-                  provider: "cashfree",
-                  app: "BHIM",
-                });
-              },
-            },
-          ],
-          type: "upi",
-          onPress: () => {},
-        });
-      }
-    },
-    debitcard: (emandateOptions, mandateOptions) => {
-      if (emandateOptions[1] === "1") {
-        mandateOptions.push({
-          title: "Debit Card",
-          subtitleStyle: { color: COLORS.primary },
-          iconName: "credit-card-outline",
-          type: "debitcard",
+            });
+            ProceedButton({
+              authType: "upi",
+              provider: "cashfree",
+              app: "AMAZONPAY",
+            });
+          },
+        },
+        {
+          title: "Paytm",
+          image: require("../../assets/payment_icons/paytm.png"),
           onPress: () => {
             trackEvent({
               interaction: InteractionTypes.SCREEN_OPEN,
               screen: "mandateStart",
               action: "CONTINUE",
             });
-            ProceedButton({ authType: "debitcard" });
+            ProceedButton({
+              authType: "upi",
+              provider: "cashfree",
+              app: "PAYTM",
+              properties: {
+                method: "upi",
+                provider: "paytm",
+              },
+            });
           },
-        });
-      }
-    },
-    netbanking: (emandateOptions, mandateOptions) => {
-      if (emandateOptions[0] === "1") {
-        mandateOptions.push({
-          title: "Net Banking",
-          subtitleStyle: { color: COLORS.primary },
-          iconName: "bank-outline",
-          type: "netbanking",
+        },
+        {
+          title: "PhonePe",
+          image: require("../../assets/payment_icons/Phonepe.png"),
           onPress: () => {
             trackEvent({
               interaction: InteractionTypes.SCREEN_OPEN,
               screen: "mandateStart",
               action: "CONTINUE",
+              properties: {
+                method: "upi",
+                provider: "phonepe",
+              },
             });
-            ProceedButton({ authType: "netbanking" });
+            ProceedButton({
+              authType: "upi",
+              provider: "cashfree",
+              app: "PHONEPE",
+            });
           },
-        });
-      }
-    },
-    aadhaar: (emandateOptions, mandateOptions) => {
-      if (emandateOptions[2] === "1") {
-        mandateOptions.push({
-          title: "Aadhaar",
-          subtitle: "Takes upto 96 banking hours to register",
-          subtitleStyle: { color: COLORS.secondary },
-          iconName: "card-account-details-outline",
-          type: "aadhaar",
+        },
+        {
+          title: "BHIM",
+          image: require("../../assets/payment_icons/Bhim.png"),
           onPress: () => {
             trackEvent({
               interaction: InteractionTypes.SCREEN_OPEN,
               screen: "mandateStart",
               action: "CONTINUE",
+              properties: {
+                method: "upi",
+                provider: "bhim",
+              },
             });
-            ProceedButton({ authType: "aadhaar" });
+            ProceedButton({
+              authType: "upi",
+              provider: "cashfree",
+              app: "BHIM",
+            });
           },
+        },
+      ],
+      type: "upi",
+      onPress: () => {},
+    },
+    DebitCard: {
+      title: "Debit Card",
+      subtitleStyle: { color: COLORS.primary },
+      iconName: "credit-card-outline",
+      type: "debitcard",
+      onPress: () => {
+        trackEvent({
+          interaction: InteractionTypes.SCREEN_OPEN,
+          screen: "mandateStart",
+          action: "CONTINUE",
         });
-      }
+        ProceedButton({ authType: "debitcard" });
+      },
+    },
+    NetBanking: {
+      title: "Net Banking",
+      subtitleStyle: { color: COLORS.primary },
+      iconName: "bank-outline",
+      type: "netbanking",
+      onPress: () => {
+        trackEvent({
+          interaction: InteractionTypes.SCREEN_OPEN,
+          screen: "mandateStart",
+          action: "CONTINUE",
+        });
+        ProceedButton({ authType: "netbanking" });
+      },
+    },
+    Aadhaar: {
+      title: "Aadhaar",
+      subtitle: "Takes upto 96 banking hours to register",
+      subtitleStyle: { color: COLORS.secondary },
+      iconName: "card-account-details-outline",
+      type: "aadhaar",
+      onPress: () => {
+        trackEvent({
+          interaction: InteractionTypes.SCREEN_OPEN,
+          screen: "mandateStart",
+          action: "CONTINUE",
+        });
+        ProceedButton({ authType: "aadhaar" });
+      },
     },
   };
+
   useEffect(() => {
     if (!getMandateOptionsLoading) {
       let mandateOptions = [];
-      let emandateOptions = "0000";
-      let mandateOrdering = [];
+      const usermandateoptions = [];
       console.log("getMandateOptionsData", getMandateOptionsData);
       if (!getMandateOptionsError && getMandateOptionsData?.body?.methods) {
-        emandateOptions = getMandateOptionsData?.body?.methods;
-        mandateOrdering = getMandateOptionsData?.body?.ordering || [
-          "upi",
-          "debitcard",
-          "netbanking",
-          "aadhaar",
-        ];
+        mandateOptions = getMandateOptionsData?.body?.methods;
       }
-      mandateOrdering.forEach((method) => {
-        mandateOptionsHandler[method](emandateOptions, mandateOptions);
+      mandateOptions.map((item) => {
+        usermandateoptions.push(AllMandateOptions[item]);
       });
-      if (mandateOptions.length > 1) {
-        mandateOptions[0].subtitle = "Recommended";
+
+      if (usermandateoptions.length > 1) {
+        usermandateoptions[0].subtitle = "Recommended";
       }
 
-      if (mandateOptions.length > 0) {
-        setMandateButtons(mandateOptions);
+      if (usermandateoptions.length > 0) {
+        setMandateButtons(usermandateoptions);
       } else {
         setMandateButtons([
           {
@@ -230,7 +209,9 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
           },
         ]);
       }
+      console.log("mandateButtons", mandateButtons, usermandateoptions);
     }
+    
   }, [unipeEmployeeId, getMandateOptionsLoading]);
 
   return (
@@ -241,12 +222,12 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
         mandateButtons.map((item, index) => (
           <ListItem
             titleStyle={{ ...FONTS.body4 }}
-            subtitleStyle={{ ...FONTS.body5, ...item.subtitleStyle }}
+            subtitleStyle={{ ...FONTS.body5, ...item?.subtitleStyle }}
             key={index}
             item={item}
-            disabled={disabled || item.disabled}
-            showIcon={!item.disabled}
-            selected={authType == item.type}
+            disabled={disabled || item?.disabled}
+            showIcon={!item?.disabled}
+            selected={authType == item?.type}
             containerStyle={{
               marginVertical: 5,
               ...SIZES.shadow,
