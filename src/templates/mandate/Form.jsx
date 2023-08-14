@@ -16,7 +16,7 @@ import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
-  trackEvent
+  trackEvent,
 } from "../../helpers/analytics/commonAnalytics";
 import { navigate } from "../../navigators/RootNavigation";
 import {
@@ -273,20 +273,26 @@ const MandateFormTemplate = (props) => {
         throw createOrderResponse;
       }
     } catch (error) {
-      console.log("Create Mandate Error: ",error?.response, error?.response?.status);
+      console.log(
+        "Create Mandate Error: ",
+        error?.response,
+        error?.response?.status
+      );
       if (error?.response?.status === 409) {
         Alert.alert(
           "Create Mandate Error",
           "Mandate Registration Process already started, Please check the status after sometime",
-          [{
-            text: "ok",
-            onPress: () => {
-              navigate("HomeStack", {
-                screen: "Money",
-                params: { screen: "EWA" },
-              });
-            }
-          }]
+          [
+            {
+              text: "ok",
+              onPress: () => {
+                navigate("HomeStack", {
+                  screen: "Money",
+                  params: { screen: "EWA" },
+                });
+              },
+            },
+          ]
         );
         refreshMandateFromBackend().then(() => {
           setFetched(true);
@@ -371,11 +377,7 @@ const MandateFormTemplate = (props) => {
               bankData={bank?.data}
             />
           )}
-          <InfoCard
-            info={
-              "Mandate is required to auto-debit loan payments on Due Date. This is 100% secure and executed by an RBI approved entity."
-            }
-          />
+          <InfoCard info={strings.MandateRequired} />
           <HelpCard
             text="repayment methods"
             onPress={() => {

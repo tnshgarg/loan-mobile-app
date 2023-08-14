@@ -8,7 +8,10 @@ import { showToast } from "../../components/atoms/Toast";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
-import { InteractionTypes, trackEvent } from "../../helpers/analytics/commonAnalytics";
+import {
+  InteractionTypes,
+  trackEvent,
+} from "../../helpers/analytics/commonAnalytics";
 import { kycNavigate } from "../../services/kyc/navigation";
 import { useUpdateAadhaarMutation } from "../../store/apiSlices/aadhaarApi";
 import { useGetKycQuery } from "../../store/apiSlices/kycApi";
@@ -94,11 +97,11 @@ const AadhaarConfirmApi = (props) => {
 
   const cardData = () => {
     let res = [
-      { subTitle: "Name", value: data?.name, fullWidth: true },
-      { subTitle: "Number", value: number },
-      { subTitle: "Gender", value: data?.gender },
-      { subTitle: "Date of Birth", value: data?.date_of_birth },
-      { subTitle: "Address", value: data?.address, fullWidth: true },
+      { subTitle: strings.name, value: data?.name, fullWidth: true },
+      { subTitle: strings.number, value: number },
+      { subTitle: strings.gender, value: data?.gender },
+      { subTitle: strings.dateOfBirth, value: data?.date_of_birth },
+      { subTitle: strings.address, value: data?.address, fullWidth: true },
     ];
     return res;
   };
@@ -135,7 +138,6 @@ const AadhaarConfirmApi = (props) => {
                 backendPush({
                   verifyStatus: "REJECTED",
                 });
-           
               }}
             />
             <PrimaryButton

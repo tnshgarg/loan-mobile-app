@@ -6,7 +6,7 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
-  trackEvent
+  trackEvent,
 } from "../../helpers/analytics/commonAnalytics";
 import { useVerifyPanMutation } from "../../store/apiSlices/panApi";
 import { addVerifyStatus } from "../../store/slices/panSlice";
@@ -66,7 +66,7 @@ const PanVerifyApi = (props) => {
   return (
     <PrimaryButton
       accessibilityLabel={"PanVerifyBtn"}
-      title={loading ? "Verifying" : strings.continue}
+      title={loading ? strings.verifying : strings.continue}
       disabled={props.disabled}
       loading={loading}
       onPress={() => {

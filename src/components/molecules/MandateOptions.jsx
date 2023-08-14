@@ -4,6 +4,7 @@ import { View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { useSelector } from "react-redux";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
 import {
   InteractionTypes,
   trackEvent,
@@ -25,12 +26,11 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
   });
 
   const mandateOptionsHandler = {
-    "upi": (emandateOptions, mandateOptions) => {
-      if (emandateOptions?.[3] == "0")
-        return
+    upi: (emandateOptions, mandateOptions) => {
+      if (emandateOptions?.[3] == "0") return;
       mandateOptions.push({
         title: "UPI",
-        subtitle: "Instant registration",
+        subtitle: `${strings.instantRegistration}`,
         subtitleStyle: { color: COLORS.secondary },
         iconName: "card-account-details-outline",
         subItems: [
@@ -139,7 +139,7 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
         onPress: () => {},
       });
     },
-    "debitcard": (emandateOptions, mandateOptions) => {
+    debitcard: (emandateOptions, mandateOptions) => {
       if (emandateOptions[1] === "1") {
         mandateOptions.push({
           title: "Debit Card",
@@ -157,7 +157,7 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
         });
       }
     },
-    "netbanking": (emandateOptions, mandateOptions) => { 
+    netbanking: (emandateOptions, mandateOptions) => {
       if (emandateOptions[0] === "1") {
         mandateOptions.push({
           title: "Net Banking",
@@ -175,7 +175,7 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
         });
       }
     },
-    "aadhaar": ( emandateOptions, mandateOptions) => {
+    aadhaar: (emandateOptions, mandateOptions) => {
       if (emandateOptions[2] === "1") {
         mandateOptions.push({
           title: "Aadhaar",
@@ -193,23 +193,26 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
           },
         });
       }
-    }
-  }
+    },
+  };
   useEffect(() => {
     if (!getMandateOptionsLoading) {
       let mandateOptions = [];
       let emandateOptions = "000";
-      let mandateOrdering = []
+      let mandateOrdering = [];
       console.log("getMandateOptionsData", getMandateOptionsData);
       if (!getMandateOptionsError && getMandateOptionsData?.body?.methods) {
         emandateOptions = getMandateOptionsData?.body?.methods;
         mandateOrdering = getMandateOptionsData?.body?.ordering || [
-          "upi", "debitcard", "netbanking", "aadhaar"
+          "upi",
+          "debitcard",
+          "netbanking",
+          "aadhaar",
         ];
-      }   
+      }
       mandateOrdering.forEach((method) => {
-        mandateOptionsHandler[method](emandateOptions, mandateOptions)
-      })
+        mandateOptionsHandler[method](emandateOptions, mandateOptions);
+      });
       if (mandateOptions.length > 1) {
         mandateOptions[0].subtitle = "Recommended";
       }

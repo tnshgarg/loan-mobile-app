@@ -7,7 +7,7 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { COLORS } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
-  InteractionTypes
+  InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
 import { asyncTimeout } from "../../helpers/asyncTimer";
 import { KYC_RETRY_WAIT_TIME } from "../../services/constants";
@@ -114,11 +114,11 @@ const BankVerifyApi = (props) => {
       .unwrap()
       .then((responseJson) => {
         console.log("kyc/bank-verify-account responseJson: ", responseJson);
-        handleBankSuccess(responseJson)
+        handleBankSuccess(responseJson);
         setLoading(false);
       })
       .catch((error) => {
-        console.log({bankError123: error})
+        console.log({ bankError123: error });
         handleAPIErrorWithRetry(error);
       });
   };
@@ -136,7 +136,7 @@ const BankVerifyApi = (props) => {
       )}
       <PrimaryButton
         accessibilityLabel={"BankFormBtn"}
-        title={loading ? "Verifying" : strings.continue}
+        title={loading ? strings.verifying : strings.continue}
         disabled={props.disabled}
         loading={loading}
         onPress={() => {

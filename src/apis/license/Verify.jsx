@@ -4,7 +4,10 @@ import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { licenseBackendPush } from "../../helpers/BackendPush";
-import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
+import { strings } from "../../helpers/Localization";
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
 import { OG_API_KEY } from "../../services/constants";
 import {
   addData,
@@ -179,7 +182,7 @@ const Verify = (props) => {
 
   return (
     <PrimaryButton
-      title={loading ? "Verifying" : "Continue"}
+      title={loading ? strings.verifying : strings.continue}
       disabled={props.disabled}
       loading={loading}
       onPress={() => {

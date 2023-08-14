@@ -28,7 +28,7 @@ export default {
     "Are you sure you want to go back? Continue if you want to edit your Aadhaar number.",
   verifyAadhaar: "Verify Aadhaar",
   otpNotReceived: "Didn’t receive the secure code?",
-  resendOtp: "Resend OTP in",
+  resendOtpIn: "Resend OTP in",
   goBackAadhaarVerification:
     "If you go back your Aadhaar Verification will have to be redone. Continue only if you want to edit your Aadhaar number.",
   areTheseAadhaarDetails: "Are these your Aadhaar details?",
@@ -106,7 +106,6 @@ export default {
   nomineeRelationship: "Nominee Relationship with Employee*",
   documents: "Documents",
   moreDetailsComingSoon: "More Details Coming Soon",
-  dateOfBirth: "Date of birth as recorded in License",
   licenseNeeded:
     "License is needed to verify your eligibility to operate heavy machinery.",
   expiryDate: "Expiry date",
@@ -251,10 +250,28 @@ export default {
   transport: "Transport",
   pleaseNote:
     "Please note: We will use this bank account/UPI ID to deposite your salary every month, Please provide your own bank account details.",
-    setupRepayment: "Setup Repayment for Advance Salary",
-    kindlySetupRepayment: "Kindly register mandate for seamless advance salary experience and to make repayments on time.",
-    registerMandateNote: "Please note that you have to register mandate using your {{bankName}} bank account ending with {{lastFour}}.",
-    howtocompletexverification: "to see how to complete your {{id}} verification.",
-    transferTo: "Transfer to {{accountNumber}}"
-};
+  setupRepayment: "Setup Repayment for Advance Salary",
+  kindlySetupRepayment:
+    "Kindly register mandate for seamless advance salary experience and to make repayments on time.",
+  registerMandateNote:
+    "Please note that you have to register mandate using your {{bankName}} bank account ending with {{lastFour}}.",
+  howtocompletexverification:
+    "to see how to complete your {{id}} verification.",
+  transferTo: "Transfer to {{accountNumber}}",
 
+  byClickingContinue: "By clicking 'Continue' you are agreeing to Unipe’s",
+  afterContinue: "",
+  and: "and",
+  instantRegistration: "Instant Registration",
+  takes96BankingHours: "Takes upto 96 banking hours to register",
+  withdrawalStatement: "Withdrawal Statement",
+  yourPastDraws: "Your past draws",
+  seeAll: "See All",
+  gender: "Gender",
+  name: "Name",
+  number: "Number",
+  email: "Email",
+  accountNumber: "Account Number",
+  ifsc: "IFSC",
+  address: "Address",
+};

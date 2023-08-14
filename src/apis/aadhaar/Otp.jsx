@@ -8,7 +8,7 @@ import { showToast } from "../../components/atoms/Toast";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
-  InteractionTypes
+  InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
 import { asyncTimeout } from "../../helpers/asyncTimer";
 import { KYC_RETRY_WAIT_TIME } from "../../services/constants";
@@ -17,7 +17,7 @@ import { useGenerateAadhaarOtpMutation } from "../../store/apiSlices/aadhaarApi"
 import { addVerifyStatus } from "../../store/slices/aadhaarSlice";
 import { resetTimer } from "../../store/slices/timerSlice";
 
-const  AadhaarOtpApi = (props) => {
+const AadhaarOtpApi = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -26,14 +26,17 @@ const  AadhaarOtpApi = (props) => {
   const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const [generateAadhaarOtp] = useGenerateAadhaarOtpMutation();
-  
+
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
   const handleOtpSuccess = (responseJson) => {
     console.log({ responseJson });
     dispatch(resetTimer());
-    showToast(responseJson?.body?.message || responseJson?.body?.verifyMsg, "success");
+    showToast(
+      responseJson?.body?.message || responseJson?.body?.verifyMsg,
+      "success"
+    );
     Analytics.trackEvent({
       interaction: InteractionTypes.BUTTON_PRESS,
       screen: "aadhaar",
@@ -62,7 +65,6 @@ const  AadhaarOtpApi = (props) => {
     setLoading(false);
   };
 
-  
   const handleAPIResponseDelay = async () => {
     setDelayedResponseText("We are still getting your details please wait....");
     await asyncTimeout(KYC_RETRY_WAIT_TIME);
@@ -114,7 +116,7 @@ const  AadhaarOtpApi = (props) => {
         handleOtpSuccess(responseJson);
       })
       .catch((error) => {
-        console.log({generateAadhaarOtpError: error})
+        console.log({ generateAadhaarOtpError: error });
         handleAPIErrorWithRetry(error);
       });
   };
@@ -136,7 +138,7 @@ const  AadhaarOtpApi = (props) => {
       )}
       <PrimaryButton
         accessibilityLabel={"AadhaarOtpBtn"}
-        title={loading ? "Verifying" : props.title || strings.continue}
+        title={loading ? strings.verifying : props.title || strings.continue}
         disabled={props.disabled}
         loading={loading}
         onPress={() => {

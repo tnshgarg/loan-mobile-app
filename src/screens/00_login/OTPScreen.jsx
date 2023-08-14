@@ -19,7 +19,7 @@ import OtpInput from "../../components/molecules/OtpInput";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
-  InteractionTypes
+  InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
 import { navigate } from "../../navigators/RootNavigation";
 import { useLazyGetKycQuery } from "../../store/apiSlices/kycApi";
@@ -188,13 +188,8 @@ const OTPScreen = () => {
       .unwrap()
       .then((res) => {
         dispatch(addToken(res?.token));
-        dispatch(
-          addUnipeEmployeeId(res?.employeeDetails?.unipeEmployeeId)
-        );
-        handleNavigation(
-          res?.token,
-          res?.employeeDetails?.unipeEmployeeId
-        );
+        dispatch(addUnipeEmployeeId(res?.employeeDetails?.unipeEmployeeId));
+        handleNavigation(res?.token, res?.employeeDetails?.unipeEmployeeId);
         setVerified(true);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
@@ -309,7 +304,7 @@ const OTPScreen = () => {
           </Text>
           <PrimaryButton
             accessibilityLabel="OtpBtn"
-            title="Continue"
+            title={strings.continue}
             disabled={!isValidOtp || verifyOtpLoading || isTriggerLoading}
             loading={verifyOtpLoading || isTriggerLoading}
             onPress={onSubmitOtp}
