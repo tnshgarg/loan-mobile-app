@@ -9,6 +9,7 @@ import HelpCard from "../../components/atoms/HelpCard";
 import InfoCard from "../../components/atoms/InfoCard";
 import PoweredByTag from "../../components/atoms/PoweredByTag";
 import { showToast } from "../../components/atoms/Toast";
+import CmsLoading from "../../components/cms/CmsLoading";
 import MandateOptions from "../../components/molecules/MandateOptions";
 import MandateLoading from "../../components/organisms/MandateLoading";
 import { COLORS, FONTS } from "../../constants/Theme";
@@ -218,8 +219,12 @@ const MandateFormTemplate = (props) => {
     }
   };
 
-  const ProceedButton = async ({ authType, provider = "razorpay" }) => {
-    console.log("proceed button pressed", authType);
+  const ProceedButton = async ({
+    authType,
+    provider = "razorpay",
+    additionalData,
+  }) => {
+    console.log("proceed button pressed", authType, provider, additionalData);
     setLoading(true);
     setAuthType(authType);
     try {
@@ -228,6 +233,7 @@ const MandateFormTemplate = (props) => {
         unipeEmployeeId,
         token,
         provider,
+        additionalData,
       });
       const createOrderResponse = res?.data;
       console.log(
@@ -300,26 +306,6 @@ const MandateFormTemplate = (props) => {
     }
   };
 
-  const cardData = () => {
-    return [
-      {
-        subTitle: "Account Holder Name",
-        value: accountHolderName,
-        fullWidth: true,
-      },
-      {
-        subTitle: "Bank Account No*",
-        value: accountNumber,
-        fullWidth: true,
-      },
-      {
-        subTitle: "IFSC code",
-        value: ifsc,
-        fullWidth: true,
-      },
-    ];
-  };
-
   const lastDigitsAccount = accountNumber?.slice(
     accountNumber.length - 4,
     accountNumber.length
@@ -356,12 +342,13 @@ const MandateFormTemplate = (props) => {
             <Text style={{ ...FONTS.body4, color: COLORS.black }}>
               {strings.mandateRegistrationInProgress}
             </Text>
-          ) : verifyStatus === "SUCCESS" ? null : (
+          ) : verifyStatus === "SUCCESS" ? null : loading ? (
+            <CmsLoading />
+          ) : (
             <MandateOptions
               ProceedButton={ProceedButton}
               disabled={loading}
               authType={authType}
-              bankData={bank?.data}
             />
           )}
           <InfoCard

@@ -2,8 +2,6 @@ import { Text, TouchableNativeFeedback, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS, FONTS } from "../../constants/Theme";
-import FormInput from "./FormInput";
-import PrimaryButton from "./PrimaryButton";
 
 const ListItem = ({
   item,
@@ -15,7 +13,7 @@ const ListItem = ({
   iconSize,
   containerStyle,
 }) => {
-  const { title, subtitle, iconName, onPress, textInput } = item;
+  const { title, subtitle, iconName, onPress } = item;
 
   return (
     <>
@@ -76,22 +74,6 @@ const ListItem = ({
           )}
         </View>
       </TouchableNativeFeedback>
-
-      {!disabled && textInput ? (
-        <View style={styles.extension}>
-          <FormInput
-            containerStyle={{ width: "100%" }}
-            placeholder={textInput.placeholder}
-            value={textInput.value}
-            onChange={textInput.setValue}
-            errorMsg={
-              textInput.value && !textInput.valid ? textInput.invalidMsg : ""
-            }
-            disabled={disabled}
-          />
-          <PrimaryButton title={"Confirm UPI ID"} onPress={textInput.onPress}/>
-        </View>
-      ) : null}
     </>
   );
 };
