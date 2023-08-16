@@ -15,6 +15,7 @@ import CmsLoading from "../cms/CmsLoading";
 const MandateOptions = ({ ProceedButton, disabled, authType }) => {
   const isFocused = useIsFocused();
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+  const [vpa, setVpa] = useState("");
   const [mandateButtons, setMandateButtons] = useState([]);
   const {
     isLoading: getMandateOptionsLoading,
@@ -24,116 +25,33 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
     pollingInterval: isFocused ? 1000 * 10 : undefined,
   });
 
+  let upiReg = /^[a-zA-Z0-9.\-_]{2,49}@[a-zA-Z._]{2,49}/gm;
+  let isValidVpa = false;
+  if (upiReg.test(vpa || "")) {
+    isValidVpa = true;
+  }
   let AllMandateOptions = {
     UPI: {
       title: "UPI",
       subtitle: "Instant registration",
       subtitleStyle: { color: COLORS.primary },
       iconName: "card-account-details-outline",
-      subItems: [
-        {
-          title: "Google Pay",
-          image: require("../../assets/payment_icons/gpay.png"),
-          onPress: () => {
-            trackEvent({
-              interaction: InteractionTypes.SCREEN_OPEN,
-              screen: "mandateStart",
-              action: "CONTINUE",
-              properties: {
-                method: "upi",
-                provider: "gpay",
-              },
-            });
-            ProceedButton({
-              authType: "upi",
-              provider: "cashfree",
-              app: "GPAY",
-            });
-          },
-        },
-        {
-          title: "AmazonPay",
-          image: require("../../assets/payment_icons/amazon.png"),
-          onPress: () => {
-            trackEvent({
-              interaction: InteractionTypes.SCREEN_OPEN,
-              screen: "mandateStart",
-              action: "CONTINUE",
-              properties: {
-                method: "upi",
-                provider: "amazonpay",
-              },
-            });
-            ProceedButton({
-              authType: "upi",
-              provider: "cashfree",
-              app: "AMAZONPAY",
-            });
-          },
-        },
-        {
-          title: "Paytm",
-          image: require("../../assets/payment_icons/paytm.png"),
-          onPress: () => {
-            trackEvent({
-              interaction: InteractionTypes.SCREEN_OPEN,
-              screen: "mandateStart",
-              action: "CONTINUE",
-            });
-            ProceedButton({
-              authType: "upi",
-              provider: "cashfree",
-              app: "PAYTM",
-              properties: {
-                method: "upi",
-                provider: "paytm",
-              },
-            });
-          },
-        },
-        {
-          title: "PhonePe",
-          image: require("../../assets/payment_icons/Phonepe.png"),
-          onPress: () => {
-            trackEvent({
-              interaction: InteractionTypes.SCREEN_OPEN,
-              screen: "mandateStart",
-              action: "CONTINUE",
-              properties: {
-                method: "upi",
-                provider: "phonepe",
-              },
-            });
-            ProceedButton({
-              authType: "upi",
-              provider: "cashfree",
-              app: "PHONEPE",
-            });
-          },
-        },
-        {
-          title: "BHIM",
-          image: require("../../assets/payment_icons/Bhim.png"),
-          onPress: () => {
-            trackEvent({
-              interaction: InteractionTypes.SCREEN_OPEN,
-              screen: "mandateStart",
-              action: "CONTINUE",
-              properties: {
-                method: "upi",
-                provider: "bhim",
-              },
-            });
-            ProceedButton({
-              authType: "upi",
-              provider: "cashfree",
-              app: "BHIM",
-            });
-          },
-        },
-      ],
       type: "upi",
-      onPress: () => {},
+      textInput: {
+        placeholder: "Enter UPI ID",
+        value: {vpa},
+        setValue: setVpa,
+        valid: isValidVpa,
+        invalidMsg : "Please enter a valid UPI ID",
+        onPress: () => {
+          trackEvent({
+            interaction: InteractionTypes.SCREEN_OPEN,
+            screen: "mandateStart",
+            action: "CONTINUE",
+          });
+          ProceedButton({ authType: "upi", provider: "cashfree" });
+        },
+      },
     },
     DebitCard: {
       title: "Debit Card",
@@ -211,7 +129,6 @@ const MandateOptions = ({ ProceedButton, disabled, authType }) => {
       }
       console.log("mandateButtons", mandateButtons, usermandateoptions);
     }
-    
   }, [unipeEmployeeId, getMandateOptionsLoading]);
 
   return (
