@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
 import { Alert, BackHandler, ScrollView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { DUMMY_RES } from "../../constants/Strings";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { navigate } from "../../navigators/RootNavigation";
 import { CMS_POLLING_DURATION } from "../../services/constants";
@@ -29,17 +30,6 @@ const CmsScreenOne = (props) => {
   let blogKey = props.route?.params?.blogKey;
   let backScreen = props.route?.params?.backScreen;
   // console.log({ backScreen });
-  // const {
-  //   data,
-  //   screenTitle,
-  //   headline,
-  //   headingImage,
-  //   disableBack,
-  //   headerStyle,
-  //   hideLogo,
-  //   hideLeftIcon,
-  //   rightIconNavigate,
-  // } = DUMMY_RES?.[blogKey] ?? {};
   const {
     data,
     screenTitle,
@@ -50,7 +40,18 @@ const CmsScreenOne = (props) => {
     hideLogo,
     hideLeftIcon,
     rightIconNavigate,
-  } = cmsData?.[blogKey] ?? {};
+  } = DUMMY_RES?.[blogKey] ?? {};
+  // const {
+  //   data,
+  //   screenTitle,
+  //   headline,
+  //   headingImage,
+  //   disableBack,
+  //   headerStyle,
+  //   hideLogo,
+  //   hideLeftIcon,
+  //   rightIconNavigate,
+  // } = cmsData?.[blogKey] ?? {};
 
   console.log("MyData: ", {
     blogKey,
@@ -97,7 +98,9 @@ const CmsScreenOne = (props) => {
         onLeftIconPress={hideLeftIcon ? null : backAction}
         headline={headline}
         headerImageUri={headingImage}
-        onRightIconPress={rightIconNavigate && (() => navigationHelper(rightIconNavigate))}
+        onRightIconPress={
+          rightIconNavigate && (() => navigationHelper(rightIconNavigate))
+        }
         containerStyle={{ ...headerStyle }}
         hideLogo={hideLogo}
       />

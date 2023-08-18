@@ -1,6 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { BackHandler, SafeAreaView, ScrollView } from "react-native";
+import {
+  BackHandler,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import LogoHeader from "../../../components/atoms/LogoHeader";
 import LogoutItem from "../../../components/atoms/LogoutItem";
@@ -13,9 +20,13 @@ import {
   setSessionValue,
   trackEvent,
 } from "../../../helpers/analytics/commonAnalytics";
-import { CMS_POLLING_DURATION } from "../../../services/constants";
+import {
+  CMS_POLLING_DURATION,
+  KYC_POLLING_DURATION,
+} from "../../../services/constants";
 import { useGetCmsQuery } from "../../../store/apiSlices/cmsApi";
-import { styles } from "../../../styles";
+import { useGetKycQuery } from "../../../store/apiSlices/kycApi";
+import { accountStyles, styles } from "../../../styles";
 
 const AccountMenu = (props) => {
   const dispatch = useDispatch();
@@ -23,6 +34,15 @@ const AccountMenu = (props) => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
+
+  const { data: kycData, isLoading: kycLoading } = useGetKycQuery(
+    unipeEmployeeId,
+    {
+      pollingInterval: KYC_POLLING_DURATION,
+    }
+  );
+  const { aadhaar, pan, profile } = kycData ?? {};
+  const fullName = aadhaar?.data?.name || pan?.data?.name;
 
   useEffect(() => {
     trackEvent({
@@ -92,11 +112,23 @@ const AccountMenu = (props) => {
       />
       <LogoutModal modalVisible={modalVisible} />
       <ScrollView>
-        {!cmsData && cmsLoading ? (
+        {/* {!cmsData && cmsLoading ? (
           <CmsLoading />
         ) : (
-          <CmsRoot children={cmsData?.account_top || []}></CmsRoot>
-        )}
+          <CmsRoot children={DUMMY_RES?.account_top || []}></CmsRoot>
+        )} */}
+        <View style={accountStyles.imageContainer}>
+          <Image
+            style={accountStyles.userImage}
+            source={{
+              uri: `data:image/jpeg;base64,${aadhaar?.data["photo_base64"]}`,
+            }}
+          />
+          <View style={{ flexDirection: "column", flex: 1 }}>
+            <Text style={accountStyles.userTitle}>{fullName}</Text>
+            <Text style={accountStyles.userSubtitle}>Employer</Text>
+          </View>
+        </View>
 
         {!cmsData && cmsLoading ? (
           <CmsLoading />

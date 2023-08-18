@@ -1297,18 +1297,18 @@ export const DUMMY_RES = {
       type: "container",
     },
   ],
-  // account_top: [
-  //   {
-  //     type: "twoColumn",
-  //     children: [
-  //       { type: "image", url: "" },
-  //       {
-  //         type: "container",
-  //         children: [{ type: "title", title: "Test Username" }],
-  //       },
-  //     ],
-  //   },
-  // ],
+  account_top: [
+    {
+      type: "twoColumn",
+      children: [
+        { type: "image", url: "" },
+        {
+          type: "container",
+          children: [{ type: "title", title: "Test Username" }],
+        },
+      ],
+    },
+  ],
   blog_1: {
     data: [
       {
@@ -1903,10 +1903,10 @@ export const DUMMY_RES = {
                   },
                   {
                     thumbnail:
-                      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
+                      "https://d22ss3ef1t9wna.cloudfront.net/ad-hoc/why_unipe_thumbnail.png",
                     type: "video",
                     size: "small",
-                    videoUri: "ux6XLNiEpLs",
+                    videoUri: "GyXnZpi788w",
                   },
                 ],
                 type: "twoColumn",
@@ -2105,9 +2105,6 @@ export const DUMMY_RES = {
             },
             type: "threeColumn",
             widths: ["10%", "80%", "10%"],
-            styling: {
-              padding: "0rem"
-            }
           },
           {
             children: [
@@ -2446,11 +2443,11 @@ export const DUMMY_RES = {
                   type: "container",
                 },
                 {
-                  size: "small",
                   thumbnail:
-                    "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
+                    "https://d22ss3ef1t9wna.cloudfront.net/ad-hoc/why_unipe_thumbnail.png",
                   type: "video",
-                  videoUri: "ux6XLNiEpLs",
+                  size: "small",
+                  videoUri: "GyXnZpi788w",
                 },
               ],
               styling: {
@@ -2551,7 +2548,7 @@ export const DUMMY_RES = {
                   type: "subtitle",
                   styling: { fontSize: 16, lineHeight: 24 },
                   title:
-                    '"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500."',
+                    '"Now I dont have to ask HR for salary advances. Quick process. Thank you unipe!"',
                 },
                 {
                   type: "twoColumn",
@@ -2569,10 +2566,9 @@ export const DUMMY_RES = {
                       children: [
                         {
                           type: "subtitle",
-                          title: "Manager",
-                          styling: { marginBottom: -5 },
+                          title: "Rajesh Kumar",
                         },
-                        { type: "subtitle", title: "Neemrana, Rajasthan" },
+                        // { type: "subtitle", title: "Neemrana, Rajasthan" },
                       ],
                     },
                   ],
@@ -2623,7 +2619,7 @@ export const DUMMY_RES = {
                   type: "subtitle",
                   styling: { fontSize: 16, lineHeight: 24 },
                   title:
-                    '"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500."',
+                    '"Nice app which gives salary in advance whenever required!"',
                 },
                 {
                   type: "twoColumn",
@@ -2641,10 +2637,9 @@ export const DUMMY_RES = {
                       children: [
                         {
                           type: "subtitle",
-                          title: "Manager",
-                          styling: { marginBottom: -5 },
+                          title: "Manish Gupta",
                         },
-                        { type: "subtitle", title: "Neemrana, Rajasthan" },
+                        // { type: "subtitle", title: "Neemrana, Rajasthan" },
                       ],
                     },
                   ],
@@ -5351,6 +5346,7 @@ export const DUMMY_RES_HINDI = {
     data: [
       {
         type: "container",
+        styling: { padding: "4%" },
         children: [
           {
             children: [
@@ -5359,7 +5355,7 @@ export const DUMMY_RES_HINDI = {
                   {
                     children: [
                       {
-                        title: "What are the benefits of completing KYC?",
+                        title: "KYC को पूरा करने के क्या लाभ हैं?",
                         type: "title",
                       },
                     ],
@@ -5405,10 +5401,10 @@ export const DUMMY_RES_HINDI = {
                   },
                   {
                     thumbnail:
-                      "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
+                      "https://d22ss3ef1t9wna.cloudfront.net/ad-hoc/why_unipe_thumbnail.png",
                     type: "video",
                     size: "small",
-                    videoUri: "ux6XLNiEpLs",
+                    videoUri: "GyXnZpi788w",
                   },
                 ],
                 type: "twoColumn",
@@ -5423,7 +5419,7 @@ export const DUMMY_RES_HINDI = {
                   {
                     children: [
                       {
-                        title: "What are the benefits of Mandate Registration?",
+                        title: "ई-मैन्डेट पंजीकरण के क्या लाभ हैं?",
                         type: "title",
                       },
                     ],
@@ -5487,7 +5483,7 @@ export const DUMMY_RES_HINDI = {
                   {
                     children: [
                       {
-                        title: "What are the benefits of Advance Salary?",
+                        title: "एडवांस सैलरी के क्या लाभ हैं?",
                         type: "title",
                       },
                     ],
@@ -5515,7 +5511,7 @@ export const DUMMY_RES_HINDI = {
                   {
                     children: [
                       {
-                        title: "How do I check my PF Balance?",
+                        title: "कैसे चेक करें अपना PF बैलेंस?",
                         type: "title",
                       },
                     ],
@@ -5537,14 +5533,11 @@ export const DUMMY_RES_HINDI = {
             type: "card",
           },
         ],
-        styling: {
-          padding: "15%",
-        },
       },
     ],
     headingImage: "",
     headline: "",
-    screenTitle: "Learn With U",
+    screenTitle: "Learn With Us",
   },
   customer_support: {
     data: [
@@ -5585,7 +5578,7 @@ export const DUMMY_RES_HINDI = {
               {
                 children: [
                   {
-                    title: "KYC Verification",
+                    title: "KYC वेरिफिकेशन",
                     type: "title",
                   },
                   {
@@ -5621,7 +5614,7 @@ export const DUMMY_RES_HINDI = {
               {
                 children: [
                   {
-                    title: "Mandate",
+                    title: "मैंडेट",
                     type: "title",
                   },
                   {
@@ -5657,7 +5650,7 @@ export const DUMMY_RES_HINDI = {
               {
                 children: [
                   {
-                    title: "Salary Withdrawal",
+                    title: "सैलरी विड्रॉल",
                     type: "title",
                   },
                   {
@@ -5685,7 +5678,7 @@ export const DUMMY_RES_HINDI = {
             widths: ["10%", "80%", "10%"],
           },
         ],
-        title: "Topics",
+        title: "विषय",
         type: "section",
       },
       {
@@ -5752,8 +5745,9 @@ export const DUMMY_RES_HINDI = {
             {
               styling: {
                 alignSelf: "center",
-                marginBottom: "-40%",
-                marginTop: "-20%",
+                marginBottom: "-15%",
+                marginTop: "-10%",
+                width: "70%",
               },
               type: "image",
               url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/ContestBanner.png",
@@ -5800,7 +5794,7 @@ export const DUMMY_RES_HINDI = {
                         {
                           children: [
                             {
-                              title: "What are the benefits of completing KYC?",
+                              title: "KYC को पूरा करने के क्या लाभ हैं?",
                               type: "title",
                             },
                           ],
@@ -5828,8 +5822,7 @@ export const DUMMY_RES_HINDI = {
                         {
                           children: [
                             {
-                              title:
-                                "What are the benefits of Mandate Registration?",
+                              title: "ई-मैन्डेट पंजीकरण के क्या लाभ हैं?",
                               type: "title",
                             },
                           ],
@@ -5857,7 +5850,7 @@ export const DUMMY_RES_HINDI = {
                         {
                           children: [
                             {
-                              title: "What are the benefits of Advance Salary?",
+                              title: "एडवांस सैलरी के क्या लाभ हैं?",
                               type: "title",
                             },
                           ],
@@ -5885,7 +5878,7 @@ export const DUMMY_RES_HINDI = {
                         {
                           children: [
                             {
-                              title: "How do I check my PF Balance?",
+                              title: "कैसे चेक करें अपना PF बैलेंस?",
                               type: "title",
                             },
                           ],
@@ -5949,11 +5942,11 @@ export const DUMMY_RES_HINDI = {
                   type: "container",
                 },
                 {
-                  size: "small",
                   thumbnail:
-                    "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
+                    "https://d22ss3ef1t9wna.cloudfront.net/ad-hoc/why_unipe_thumbnail.png",
                   type: "video",
-                  videoUri: "ux6XLNiEpLs",
+                  size: "small",
+                  videoUri: "GyXnZpi788w",
                 },
               ],
               styling: {
@@ -6054,7 +6047,7 @@ export const DUMMY_RES_HINDI = {
                   type: "subtitle",
                   styling: { fontSize: 16, lineHeight: 24 },
                   title:
-                    '"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500."',
+                    '"अब मैं समय पर अपनी बच्चों की फ़ीस दे सकती हूँ जो कि मेरे लिए बहुत ज़रूरी है। Unipe एप्प मुझे बिना किसी ब्याज के एडवांस सैलरी ट्रांसफर कर देता है जो मेरी बहुत मदद करता है।"',
                 },
                 {
                   type: "twoColumn",
@@ -6072,10 +6065,9 @@ export const DUMMY_RES_HINDI = {
                       children: [
                         {
                           type: "subtitle",
-                          title: "Manager",
-                          styling: { marginBottom: -5 },
+                          title: "Aabha Sharma",
                         },
-                        { type: "subtitle", title: "Neemrana, Rajasthan" },
+                        // { type: "subtitle", title: "Neemrana, Rajasthan" },
                       ],
                     },
                   ],
@@ -6126,7 +6118,7 @@ export const DUMMY_RES_HINDI = {
                   type: "subtitle",
                   styling: { fontSize: 16, lineHeight: 24 },
                   title:
-                    '"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500."',
+                    '"पहले मैं हर काम में ब्याज पर उधार लेता था। अब Unipe एप्प की मदद से मैं सीधे अपनी सैलरी से पैसे ले सकता हूँ। धन्यवाद"',
                 },
                 {
                   type: "twoColumn",
@@ -6144,10 +6136,9 @@ export const DUMMY_RES_HINDI = {
                       children: [
                         {
                           type: "subtitle",
-                          title: "Manager",
-                          styling: { marginBottom: -5 },
+                          title: "Mukesh Yadav",
                         },
-                        { type: "subtitle", title: "Neemrana, Rajasthan" },
+                        // { type: "subtitle", title: "Neemrana, Rajasthan" },
                       ],
                     },
                   ],
