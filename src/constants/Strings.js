@@ -2921,12 +2921,12 @@ export const DUMMY_RES = {
         {
           type: "markdown",
           content:
-            "Sint voluptate ad irure esse et anim officia elit culpa nulla laborum sint. Veniam commodo ad esse officia enim sit esse ad veniam aliqua non. In laborum magna exercitation sunt. Enim pariatur et exercitation ipsum exercitation reprehenderit.",
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
         },
         {
           type: "title",
           title: "Follow us on",
-          styling: { fontSize: 15, marginTop: 20 },
+          styling: { fontSize: 15, marginTop: 20, marginBottom: 10 },
         },
         {
           type: "container",
@@ -2934,32 +2934,31 @@ export const DUMMY_RES = {
           children: [
             {
               type: "image",
-              url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/socials/facebook.png",
               styling: {
                 width: 50,
                 height: 50,
                 resizeMode: "contain",
-                marginRight: 30,
+                marginRight: 15,
               },
             },
             {
               type: "image",
-              url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/socials/instagram.png",
               styling: {
                 width: 50,
                 height: 50,
                 resizeMode: "contain",
-                marginRight: 30,
+                marginRight: 15,
               },
             },
             {
               type: "image",
-              url: "https://static-cse.canva.com/blob/1068019/1600w-wlXEWqHuexQ.jpg",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/socials/youtube.png",
               styling: {
                 width: 50,
                 height: 50,
                 resizeMode: "contain",
-                marginRight: 30,
               },
             },
           ],
@@ -2973,7 +2972,8 @@ export const DUMMY_RES = {
       children: [
         {
           type: "markdown",
-          content: "Sint voluptate ad irure esse et anim officia elit ",
+          content:
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. \n\n Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
         },
       ],
     },
@@ -2985,7 +2985,7 @@ export const DUMMY_RES = {
         {
           type: "markdown",
           content:
-            "Sint voluptate ad irure esse et anim officia elit culpa nulla laborum sint. Veniam commodo ad esse officia enim sit esse ad veniam aliqua non. In laborum magna exercitation sunt. Enim pariatur et exercitation ipsum exercitation reprehenderit.",
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. \n\n Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
         },
       ],
     },
@@ -3554,7 +3554,7 @@ export const DUMMY_RES = {
             url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/LanguageSelection/hi.png",
           },
 
-          { type: "title", title: "हिंदी ", styling: { paddingLeft: 15 } },
+          { type: "title", title: "हिंदी", styling: { paddingLeft: 15 } },
           { type: "icon", iconName: "radiobox-blank", iconSize: 24 },
         ],
       },
@@ -4565,7 +4565,7 @@ export const DUMMY_RES_HINDI = {
           children: [
             {
               type: "image",
-              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/profile.png ",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/profile.png",
             },
             {
               children: [
@@ -4712,6 +4712,47 @@ export const DUMMY_RES_HINDI = {
           ],
           navigate: {
             params: { blogKey: "customer_support" },
+            type: "cms",
+          },
+          secondColumnStyle: {
+            flex: 1,
+            paddingLeft: 15,
+          },
+          type: "threeColumn",
+          widths: ["10%", "80%", "10%"],
+        },
+        {
+          children: [
+            {
+              type: "image",
+              url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/Support.png ",
+            },
+            {
+              children: [
+                {
+                  title: "App Language",
+                  type: "title",
+                },
+                {
+                  title: "Choose your preferred language",
+                  type: "subtitle",
+                },
+              ],
+              styling: {
+                paddingLeft: "5%",
+              },
+              type: "container",
+            },
+            {
+              iconColor: "#5E8290",
+              iconName: "chevron-right",
+              iconSize: 28,
+              type: "icon",
+            },
+          ],
+          navigate: {
+            stack: "AccountStack",
+            params: { blogKey: "app_language" },
             type: "cms",
           },
           secondColumnStyle: {
@@ -6982,7 +7023,7 @@ export const DUMMY_RES_HINDI = {
             url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/LanguageSelection/hi.png",
           },
 
-          { type: "title", title: "हिंदी ", styling: { paddingLeft: 15 } },
+          { type: "title", title: "हिंदी", styling: { paddingLeft: 15 } },
           {
             type: "icon",
             iconName: "radiobox-marked",

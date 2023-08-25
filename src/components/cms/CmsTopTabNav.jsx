@@ -32,9 +32,9 @@ const CmsTopTabNav = (props) => {
   return (
     <>
       <LogoHeaderBack
-        title={cmsData.account_navigation_list[0].title}
+        title={cmsData.account_navigation_list?.[0].title}
         onLeftIconPress={() => navigation.goBack()}
-        headline={cmsData.account_navigation_list[0].title}
+        headline={cmsData.account_navigation_list?.[0].title}
       />
       {!cmsData && cmsLoading ? (
         <CmsLoading />

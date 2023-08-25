@@ -126,7 +126,7 @@ const AccountMenu = (props) => {
           />
           <View style={{ flexDirection: "column", flex: 1 }}>
             <Text style={accountStyles.userTitle}>{fullName}</Text>
-            <Text style={accountStyles.userSubtitle}>Employer</Text>
+            {/* <Text style={accountStyles.userSubtitle}>Employer</Text> */}
           </View>
         </View>
 

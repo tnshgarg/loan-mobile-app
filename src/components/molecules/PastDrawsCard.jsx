@@ -5,12 +5,12 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
-  InteractionTypes
+  InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
 import { navigate } from "../../navigators/RootNavigation";
 
 const COLOR_MAP = {
-  Due: "orange",
+  Due: COLORS.white,
   Missed: COLORS.white,
   Paid: COLORS.gray,
   Pending: "orange",
@@ -18,7 +18,7 @@ const COLOR_MAP = {
 };
 
 const BACKGROUND_COLOR_MAP = {
-  Due: "rgba(183, 65, 44, 0.08)",
+  Due: COLORS.warning,
   Missed: COLORS.warning,
   Paid: COLORS.lightGreen,
   Pending: "rgba(183, 65, 44, 0.08)",
@@ -100,7 +100,6 @@ const OfferCard = ({ offer }) => {
         <Text style={{ ...FONTS.body3, color: COLORS.gray }}>₹{amount}</Text>
         {["Due", "Pending"].includes(offerType) ? (
           <Text style={{ color: COLORS.gray, ...FONTS.body5 }}>
-            
             {strings.dueDate} {offer.dueDate}
           </Text>
         ) : null}
@@ -116,7 +115,7 @@ const PastDrawsCard = (props) => {
     <>
       {props.data.length > 0 && props.screenType == "half" ? (
         <View style={styles.pastDrawsContainer}>
-          <Text style={styles.title}>Your past draws</Text>
+          <Text style={styles.title}>{strings.pastDraws}</Text>
           <TouchableOpacity
             onPress={() => navigate("CmsStack", { screen: "CmsPastDraws" })}
             activeOpacity={0.92}
