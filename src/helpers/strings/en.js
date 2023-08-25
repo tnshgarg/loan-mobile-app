@@ -176,7 +176,7 @@ export default {
   onDemandSalary: "Here is your On-Demand Salary",
   totalAmountDue: "Your total amount due",
   RepaymentDue: "Your repayment is overdue by <> days",
-  pastDraws: "Your past draws",
+  pastDraws: "Past draws",
   getYourSalaryToday: "Get your salary today!",
   enterMobileNumber: "Enter Mobile Number",
   getAdvancedSalaryToday: "Get Your Advance\nSalary Today",
