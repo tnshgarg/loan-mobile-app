@@ -351,11 +351,7 @@ const MandateFormTemplate = (props) => {
               authType={authType}
             />
           )}
-          <InfoCard
-            info={
-              "Mandate is required to auto-debit loan payments on Due Date. This is 100% secure and executed by an RBI approved entity."
-            }
-          />
+          <InfoCard info={strings.MandateRequired} />
           <HelpCard
             text="repayment methods"
             onPress={() => {

@@ -5,7 +5,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
-  InteractionTypes
+  InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
 import { navigate } from "../../navigators/RootNavigation";
 
@@ -100,7 +100,6 @@ const OfferCard = ({ offer }) => {
         <Text style={{ ...FONTS.body3, color: COLORS.gray }}>₹{amount}</Text>
         {["Due", "Pending"].includes(offerType) ? (
           <Text style={{ color: COLORS.gray, ...FONTS.body5 }}>
-            
             {strings.dueDate} {offer.dueDate}
           </Text>
         ) : null}
@@ -116,13 +115,13 @@ const PastDrawsCard = (props) => {
     <>
       {props.data.length > 0 && props.screenType == "half" ? (
         <View style={styles.pastDrawsContainer}>
-          <Text style={styles.title}>Your past draws</Text>
+          <Text style={styles.title}>{strings.yourPastDraws}</Text>
           <TouchableOpacity
             onPress={() => navigate("CmsStack", { screen: "CmsPastDraws" })}
             activeOpacity={0.92}
             style={styles.seeAllContainer}
           >
-            <Text style={styles.seeAll}>See All</Text>
+            <Text style={styles.seeAll}>{strings.seeAll}</Text>
             <MaterialCommunityIcons
               name="chevron-right-circle"
               color={COLORS.primary}

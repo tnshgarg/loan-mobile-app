@@ -28,7 +28,7 @@ export default {
     "क्या आप वाकई वापस जाना चाहते हैं? अगर आप अपना आधार नंबर बदलना चाहते हैं तो जारी रखें।",
   verifyAadhaar: "आधार वेरीफाई करें",
   otpNotReceived: "क्या सुरक्षित कोड प्राप्त नहीं हुआ?",
-  resendOtp: "फिर से ओटीपी भेजें",
+  resendOtpIn: "फिर से ओटीपी भेजें",
   goBackAadhaarVerification:
     "अगर आप वापस जाते हैं तो आपका आधार वेरिफिकेशन दोबारा कराना होगा। यदि आप अपना आधार नंबर बदलना चाहते हैं तो ही जारी रखें।",
   areTheseAadhaarDetails: "क्या यह आपके आधार का विवरण हैं?",
@@ -74,8 +74,8 @@ export default {
   editProfileDetails: "अपना प्रोफ़ाइल विवरण देखें और बदलाव करें",
   kycDetailsInOnePlace: "आपके सभी KYC विवरण एक ही स्थान पर",
   customerSupport: "ग्राहक सहायता",
-  termsAndConditions: "Terms & Conditions",
-  privacyPolicy: "Privacy Policy",
+  termsAndConditions: "नियम और शर्तों ",
+  privacyPolicy: " गोपनीयता नीति",
   talkToSupportTeam: "हमारी सहायता टीम से बात करें",
   readTermsOfUse: "Terms of use पढ़ें",
   readPrivacyPolicy: "हमारी Privacy Policy पढ़ें",
@@ -106,7 +106,6 @@ export default {
   nomineeRelationship: "कर्मचारी के साथ नामिती व्यक्ति का संबंध*",
   documents: "दस्तावेज़",
   moreDetailsComingSoon: "अधिक जानकारी जल्द आ रही है",
-  dateOfBirth: "लाइसेंस में दर्ज जन्म तिथि",
   licenseNeeded:
     "भारी मशीनरी संचालित करने के लिए अपनी पात्रता को वेरीफाई करने के लिए लाइसेंस की आवश्यकता होती है।",
   expiryDate: "एक्सपायरी डेट",
@@ -189,7 +188,7 @@ export default {
   verifyMobileNumber: "मोबाइल नंबर सत्यापित करें",
   resendOtp: "ओटीपी पुनः भेजें",
   didnotReceiveOtp: "सुरक्षित कोड प्राप्त नहीं हुआ?",
-  resendOtpIn: "Resend OTP in",
+  resendOtpIn: "ओटीपी पुनः भेजें",
   aadhaarVerification: "आधार सत्यापन",
   enterYourDetails: "अपना विवरण दर्ज करें",
   verifyAadhaar: "आधार सत्यापित करें",
@@ -252,7 +251,25 @@ export default {
   transport: "ट्रांसपोर्ट",
   pleaseNote:
     "कृपया ध्यान दें: हम हर महीने आपका वेतन जमा करने के लिए इस बैंक खाते/यूपीआई आईडी का उपयोग करेंगे, कृपया अपने बैंक खाते का विवरण प्रदान करें।",
-    registerMandateNote: "कृपया ध्यान दें कि आपको अपने {{bankName}} द्वारा , {{lastFour}} के साथ समाप्त होने वाले बैंक खाते का उपयोग करें",
-    howtocompletexverification: "यह देखने के लिए कि अपना {{id}} सत्यापन कैसे पूरा करेंगे",
-    transferTo: "{{accountNumber}} बैंक खाते में"
+  registerMandateNote:
+    "कृपया ध्यान दें कि आपको अपने {{bankName}} द्वारा , {{lastFour}} के साथ समाप्त होने वाले बैंक खाते का उपयोग करें",
+  howtocompletexverification:
+    "यह देखने के लिए कि अपना {{id}} सत्यापन कैसे पूरा करेंगे",
+  transferTo: "{{accountNumber}} बैंक खाते में",
+
+  byClickingContinue: "'आगे बढ़ें' पर क्लिक करके आप यूनिप के ",
+  afterContinue: " से सहमत हैं",
+  and: "और",
+  instantRegistration: "तत्काल पंजीकरण",
+  takes96BankingHours: "पंजीकरण करने में 96 बैंकिंग घंटे तक का समय लगता है",
+  withdrawalStatement: "निकासी विवरण",
+  yourPastDraws: "आपकी पिछली निकासीयाँ",
+  seeAll: "सब देखो",
+  gender: "लिंग",
+  name: "नाम",
+  number: "नंबर",
+  email: "ई-मेल",
+  accountNumber: "खाता क्रमांक",
+  ifsc: "IFSC",
+  address: "पता",
 };

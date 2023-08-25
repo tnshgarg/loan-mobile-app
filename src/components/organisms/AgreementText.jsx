@@ -24,20 +24,21 @@ const AgreementText = ({
   return (
     <>
       <Text style={styles.parentText}>
-        By clicking “Continue” you are agreeing to Unipe’s{" "}
+        {strings.byClickingContinue}{" "}
         <Text
           onPress={() => setIsTermsOfUseModalVisible(true)}
           style={styles.childText}
         >
           {strings.termsAndConditions}
         </Text>{" "}
-        and{" "}
+        {strings.and}{" "}
         <Text
           onPress={() => setIsPrivacyModalVisible(true)}
           style={styles.childText}
         >
           {strings.privacyPolicy}
         </Text>
+        {strings.afterContinue}
       </Text>
       {isTermsOfUseModalVisible && (
         <TermsAndPrivacyModal

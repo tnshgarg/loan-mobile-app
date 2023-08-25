@@ -8,9 +8,10 @@ import { showToast } from "../../components/atoms/Toast";
 import DetailsCard from "../../components/molecules/DetailsCard";
 import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import { COLORS, FONTS } from "../../constants/Theme";
+import { strings } from "../../helpers/Localization";
 import {
   InteractionTypes,
-  trackEvent
+  trackEvent,
 } from "../../helpers/analytics/commonAnalytics";
 import { KYC_POLLING_DURATION } from "../../services/constants";
 import { kycNavigate } from "../../services/kyc/navigation";
@@ -99,19 +100,23 @@ const BankConfirmApi = (props) => {
   const cardData = () => {
     let res = [
       {
-        subTitle: "Account Holder Name",
+        subTitle: strings.accountHolderName,
         value: data?.accountHolderName,
         fullWidth: true,
       },
       {
-        subTitle: "Account Number",
+        subTitle: strings.accountNumber,
         value: data?.accountNumber,
       },
-      { subTitle: "Bank Name", value: data?.bankName },
-      { subTitle: "Branch Name", value: data?.branchName, fullWidth: true },
-      { subTitle: "Branch City", value: data?.branchCity },
+      { subTitle: strings.bankName, value: data?.bankName },
+      {
+        subTitle: strings.branchName,
+        value: data?.branchName,
+        fullWidth: true,
+      },
+      { subTitle: strings.branchCity, value: data?.branchCity },
 
-      { subTitle: "IFSC", value: data?.ifsc },
+      { subTitle: strings.ifsc, value: data?.ifsc },
     ];
     return res;
   };
@@ -135,7 +140,7 @@ const BankConfirmApi = (props) => {
             ]}
           >
             <PrimaryButton
-              title="Not Me"
+              title={strings.notMe}
               containerStyle={form.noButton}
               titleStyle={{ ...FONTS.h3, color: COLORS.black }}
               onPress={() => {
@@ -147,7 +152,7 @@ const BankConfirmApi = (props) => {
             <FuzzyCheck name={data?.accountHolderName} step="Bank Account" />
             <PrimaryButton
               accessibilityLabel="BankYesBtn"
-              title="Yes, that’s me"
+              title={strings.yesMe}
               containerStyle={form.yesButton}
               titleStyle={{ ...FONTS.h3, color: COLORS.white }}
               onPress={() => {
