@@ -8,7 +8,7 @@ import { COLORS, FONTS } from "../../../../constants/Theme";
 import { strings } from "../../../../helpers/Localization";
 import {
   InteractionTypes,
-  trackEvent
+  trackEvent,
 } from "../../../../helpers/analytics/commonAnalytics";
 import { navigate, navigateBack } from "../../../../navigators/RootNavigation";
 import {
@@ -158,7 +158,8 @@ const WithdrawalStatement = ({ route, navigation }) => {
           action: "ERROR",
         });
         console.log("ewa/disbursement-feedback error:", error);
-      }).finally(() => {
+      })
+      .finally(() => {
         backAction();
       });
   };
@@ -166,22 +167,21 @@ const WithdrawalStatement = ({ route, navigation }) => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeaderBack
-        title="Withdrawal Statement"
+        title={strings.withdrawalStatement}
         onLeftIconPress={() => {
           backAction();
         }}
         onRightIconPress={() => {
-          navigate("CmsStack", {screen: "CmsScreenOne", params: {blogKey: "salary_info"}})
+          navigate("CmsStack", {
+            screen: "CmsScreenOne",
+            params: { blogKey: "salary_info" },
+          });
         }}
         titleStyle={{ ...FONTS.body3 }}
       />
-      
-      <View
-        style={[
-          styles.container
-        ]}
-      >
-        { getDisbursementIsSuccess || getDisbursementError ? (
+
+      <View style={[styles.container]}>
+        {getDisbursementIsSuccess || getDisbursementError ? (
           status == "REJECTED" || status == "ERROR" ? null : (
             <DisbursementCard
               data={data}
@@ -190,10 +190,9 @@ const WithdrawalStatement = ({ route, navigation }) => {
               iconName="ticket-percent-outline"
             />
           )
-        ): (
-          <Loading isLoading={true}/>
+        ) : (
+          <Loading isLoading={true} />
         )}
-        
       </View>
     </SafeAreaView>
   );

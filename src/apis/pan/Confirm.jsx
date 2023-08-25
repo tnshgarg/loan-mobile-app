@@ -9,7 +9,7 @@ import FuzzyCheck from "../../components/molecules/FuzzyCheck";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
-  InteractionTypes
+  InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
 import { KYC_POLLING_DURATION } from "../../services/constants";
 import { kycNavigate } from "../../services/kyc/navigation";
@@ -65,14 +65,18 @@ const PanConfirmApi = (props) => {
 
   const cardData = () => {
     let res = [
-      { subTitle: "Name", value: data?.name, fullWidth: true },
-      { subTitle: "Number", value: number, fullWidth: true },
+      { subTitle: strings.name, value: data?.name, fullWidth: true },
+      { subTitle: strings.number, value: number, fullWidth: true },
 
-      { subTitle: "Date of Birth", value: data?.date_of_birth },
-      { subTitle: "Gender", value: data?.gender },
+      { subTitle: strings.dateOfBirth, value: data?.date_of_birth },
+      { subTitle: strings.gender, value: data?.gender },
     ];
     if (data?.["email"]) {
-      res.push({ subTitle: "Email", value: data?.email, fullWidth: true });
+      res.push({
+        subTitle: strings.email,
+        value: data?.email,
+        fullWidth: true,
+      });
     }
     return res;
   };

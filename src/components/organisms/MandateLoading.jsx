@@ -20,7 +20,7 @@ export default function MandateLoading({
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const navigation = useNavigation();
   // TODO: fix 2 intervals
-  const { data, error, isLoading } = useGetMandateQuery(unipeEmployeeId, {
+  const { data : mandateData, error, isLoading } = useGetMandateQuery(unipeEmployeeId, {
     pollingInterval: 1000 * 10,
   });
   let interval;
@@ -32,9 +32,8 @@ export default function MandateLoading({
         setRefetchTime(refetchTime + 10);
         if (refetchTime % 10 == 0) {
           console.log("api called");
-          if (data && !isLoading && !error) {
-            console.log("mandateLoader", data);
-            let mandateData = data;
+          if (mandateData && !isLoading && !error) {
+            console.log("mandateLoader", mandateData);
             if (mandateData.verifyStatus == "ERROR") {
               showToast(
                 "Mandate Registration Failed, Please Try Again",

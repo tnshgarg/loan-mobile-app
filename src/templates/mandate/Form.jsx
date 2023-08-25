@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
-import { Alert, Linking, SafeAreaView, ScrollView, Text } from "react-native";
+import { Alert, SafeAreaView, ScrollView, Text } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +9,7 @@ import HelpCard from "../../components/atoms/HelpCard";
 import InfoCard from "../../components/atoms/InfoCard";
 import PoweredByTag from "../../components/atoms/PoweredByTag";
 import { showToast } from "../../components/atoms/Toast";
+import CmsLoading from "../../components/cms/CmsLoading";
 import MandateOptions from "../../components/molecules/MandateOptions";
 import MandateLoading from "../../components/organisms/MandateLoading";
 import { COLORS, FONTS } from "../../constants/Theme";
@@ -16,7 +17,7 @@ import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
-  trackEvent
+  trackEvent,
 } from "../../helpers/analytics/commonAnalytics";
 import { navigate } from "../../navigators/RootNavigation";
 import {
@@ -143,26 +144,18 @@ const MandateFormTemplate = (props) => {
 
   const initiateCashfreeCheckout = async ({ upiIntent }) => {
     let verifyMsg;
-    Linking.openURL(upiIntent)
+    setModalVisible(true);
+    backendPush({
+      verifyMsg,
+      verifyStatus: "INPROGRESS",
+      verifyTimestamp: Date.now(),
+    })
       .then(() => {
-        setModalVisible(true);
-        verifyMsg = "Mandate Initiated from App Intent Success";
-        backendPush({
-          verifyMsg,
-          verifyStatus: "INPROGRESS",
-          verifyTimestamp: Date.now(),
-        })
-          .then(() => {
-            trackEvent({
-              interaction: InteractionTypes.SCREEN_OPEN,
-              screen: "mandateStart",
-              action: "INPROGRESS",
-            });
-          })
-          .catch((error) => {
-            setModalVisible(false);
-            Alert.alert("Error", error?.message || "Something went wrong");
-          });
+        trackEvent({
+          interaction: InteractionTypes.SCREEN_OPEN,
+          screen: "mandateStart",
+          action: "INPROGRESS",
+        });
       })
       .catch((error) => {
         setModalVisible(false);
@@ -229,9 +222,9 @@ const MandateFormTemplate = (props) => {
   const ProceedButton = async ({
     authType,
     provider = "razorpay",
-    app = "",
+    additionalData,
   }) => {
-    console.log("proceed button pressed", authType);
+    console.log("proceed button pressed", authType, provider, additionalData);
     setLoading(true);
     setAuthType(authType);
     try {
@@ -240,6 +233,7 @@ const MandateFormTemplate = (props) => {
         unipeEmployeeId,
         token,
         provider,
+        additionalData,
       });
       const createOrderResponse = res?.data;
       console.log(
@@ -265,28 +259,33 @@ const MandateFormTemplate = (props) => {
           });
         } else if (provider == "cashfree") {
           await initiateCashfreeCheckout({
-            upiIntent:
-              order.authPaymentData.upiIntentData.androidAuthAppLinks[app],
+            upiIntent: order,
           });
         }
       } else {
         throw createOrderResponse;
       }
     } catch (error) {
-      console.log("Create Mandate Error: ",error?.response, error?.response?.status);
+      console.log(
+        "Create Mandate Error: ",
+        error?.response,
+        error?.response?.status
+      );
       if (error?.response?.status === 409) {
         Alert.alert(
           "Create Mandate Error",
           "Mandate Registration Process already started, Please check the status after sometime",
-          [{
-            text: "ok",
-            onPress: () => {
-              navigate("HomeStack", {
-                screen: "Money",
-                params: { screen: "EWA" },
-              });
-            }
-          }]
+          [
+            {
+              text: "ok",
+              onPress: () => {
+                navigate("HomeStack", {
+                  screen: "Money",
+                  params: { screen: "EWA" },
+                });
+              },
+            },
+          ]
         );
         refreshMandateFromBackend().then(() => {
           setFetched(true);
@@ -305,26 +304,6 @@ const MandateFormTemplate = (props) => {
       setAuthType("");
       setLoading(false);
     }
-  };
-
-  const cardData = () => {
-    return [
-      {
-        subTitle: "Account Holder Name",
-        value: accountHolderName,
-        fullWidth: true,
-      },
-      {
-        subTitle: "Bank Account No*",
-        value: accountNumber,
-        fullWidth: true,
-      },
-      {
-        subTitle: "IFSC code",
-        value: ifsc,
-        fullWidth: true,
-      },
-    ];
   };
 
   const lastDigitsAccount = accountNumber?.slice(
@@ -363,19 +342,16 @@ const MandateFormTemplate = (props) => {
             <Text style={{ ...FONTS.body4, color: COLORS.black }}>
               {strings.mandateRegistrationInProgress}
             </Text>
-          ) : verifyStatus === "SUCCESS" ? null : (
+          ) : verifyStatus === "SUCCESS" ? null : loading ? (
+            <CmsLoading />
+          ) : (
             <MandateOptions
               ProceedButton={ProceedButton}
               disabled={loading}
               authType={authType}
-              bankData={bank?.data}
             />
           )}
-          <InfoCard
-            info={
-              "Mandate is required to auto-debit loan payments on Due Date. This is 100% secure and executed by an RBI approved entity."
-            }
-          />
+          <InfoCard info={strings.MandateRequired} />
           <HelpCard
             text="repayment methods"
             onPress={() => {

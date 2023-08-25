@@ -115,13 +115,13 @@ const PastDrawsCard = (props) => {
     <>
       {props.data.length > 0 && props.screenType == "half" ? (
         <View style={styles.pastDrawsContainer}>
-          <Text style={styles.title}>{strings.pastDraws}</Text>
+          <Text style={styles.title}>{strings.yourPastDraws}</Text>
           <TouchableOpacity
             onPress={() => navigate("CmsStack", { screen: "CmsPastDraws" })}
             activeOpacity={0.92}
             style={styles.seeAllContainer}
           >
-            <Text style={styles.seeAll}>See All</Text>
+            <Text style={styles.seeAll}>{strings.seeAll}</Text>
             <MaterialCommunityIcons
               name="chevron-right-circle"
               color={COLORS.primary}

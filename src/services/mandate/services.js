@@ -14,11 +14,12 @@ const createOrder = (data, category, jwtToken) => {
   return axios(config);
 };
 
-const createMandateOrder = ({ unipeEmployeeId, authType, token, provider }) => {
+const createMandateOrder = ({ unipeEmployeeId, authType, token, provider, additionalData}) => {
   let data = JSON.stringify({
     unipeEmployeeId,
     authType,
     provider,
+    additionalData
   });
   return createOrder(data, "mandate", token);
 };
