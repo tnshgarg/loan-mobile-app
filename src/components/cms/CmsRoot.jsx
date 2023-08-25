@@ -26,7 +26,7 @@ import CmsThreeColumn from "./CmsThreeColumn";
 import CmsTitle from "./CmsTitle";
 import CmsTwoColumn from "./CmsTwoColumn";
 import CmsVideo from "./CmsVideo";
-import CmsWebView from "./CmsWebView";
+// import CmsWebView from "./CmsWebView";
 
 const CMS_TYPES = {
   markdown: CmsMarkdown,
@@ -53,7 +53,7 @@ const CMS_TYPES = {
   bottomAlert: CmsBottomAlert,
   overlay: CmsOverlay,
   survey: CmsSurvey,
-  webview: CmsWebView,
+  // webview: CmsWebView,
   mcq: CmsMcq,
   input: CmsInput,
   default: () => <></>,
