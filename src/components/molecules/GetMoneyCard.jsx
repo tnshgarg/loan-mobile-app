@@ -6,7 +6,7 @@ import Hourglass from "../../assets/Hourglass.svg";
 import { COLORS, FONTS, SIZES } from "../../constants/Theme";
 import { strings } from "../../helpers/Localization";
 import Analytics, {
-  InteractionTypes
+  InteractionTypes,
 } from "../../helpers/analytics/commonAnalytics";
 import { navigate } from "../../navigators/RootNavigation";
 import {
@@ -130,7 +130,7 @@ const GetMoneyCard = ({ navigation, eligible, amount, accessible }) => {
                 : !eligible
                 ? strings.offerInactive
                 : strings.getSalaryNow
-              : "Complete Your KYC"
+              : strings.completeYourKyc
           }
           disabled={
             contentLoading || (kycCompleted && (!eligible || !accessible))

@@ -10,7 +10,7 @@ import Analytics, {
 import { navigate } from "../../navigators/RootNavigation";
 
 const COLOR_MAP = {
-  Due: "orange",
+  Due: COLORS.white,
   Missed: COLORS.white,
   Paid: COLORS.gray,
   Pending: "orange",
@@ -18,7 +18,7 @@ const COLOR_MAP = {
 };
 
 const BACKGROUND_COLOR_MAP = {
-  Due: "rgba(183, 65, 44, 0.08)",
+  Due: COLORS.warning,
   Missed: COLORS.warning,
   Paid: COLORS.lightGreen,
   Pending: "rgba(183, 65, 44, 0.08)",

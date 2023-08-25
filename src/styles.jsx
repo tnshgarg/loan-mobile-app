@@ -1,5 +1,5 @@
-import { COLORS, FONTS, SIZES } from "./constants/Theme";
 import EStyleSheet from "react-native-extended-stylesheet";
+import { COLORS, FONTS, SIZES } from "./constants/Theme";
 
 export const styles = EStyleSheet.create({
   container: {
@@ -278,6 +278,7 @@ export const accountStyles = EStyleSheet.create({
     borderColor: COLORS.lightGray,
     backgroundColor: "#213240",
     margin: "15rem",
+    marginTop: 0,
     borderRadius: "10rem",
   },
   guestIcon: {

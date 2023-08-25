@@ -39,7 +39,7 @@ const CmsScreenOne = (props) => {
   //   hideLogo,
   //   hideLeftIcon,
   //   rightIconNavigate,
-  // } = DUMMY_RES?.[blogKey] ?? {};
+  // } = DUMMY_RES_HINDI?.[blogKey] ?? {};
   const {
     data,
     screenTitle,
@@ -97,7 +97,9 @@ const CmsScreenOne = (props) => {
         onLeftIconPress={hideLeftIcon ? null : backAction}
         headline={headline}
         headerImageUri={headingImage}
-        onRightIconPress={rightIconNavigate && (() => navigationHelper(rightIconNavigate))}
+        onRightIconPress={
+          rightIconNavigate && (() => navigationHelper(rightIconNavigate))
+        }
         containerStyle={{ ...headerStyle }}
         hideLogo={hideLogo}
       />

@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { ScrollView, View } from "react-native";
 import { useSelector } from "react-redux";
+import { strings } from "../../helpers/Localization";
 import {
   InteractionTypes,
-  trackEvent
+  trackEvent,
 } from "../../helpers/analytics/commonAnalytics";
 import { navigationRef } from "../../navigators/RootNavigation";
 import LogoHeaderBack from "../molecules/LogoHeaderBack";
@@ -23,7 +24,7 @@ const CmsPastDraws = () => {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <LogoHeaderBack
-        title={"Past Draws"}
+        title={strings.pastDraws}
         onLeftIconPress={() => {
           trackEvent({
             interaction: InteractionTypes.BUTTON_PRESS,

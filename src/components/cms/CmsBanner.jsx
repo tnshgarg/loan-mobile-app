@@ -1,7 +1,6 @@
-import { View, Text, Image } from "react-native";
 import React from "react";
+import { View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { COLORS } from "../../constants/Theme";
 import LinearGradient from "react-native-linear-gradient";
 
 const CmsBanner = ({ children, colors, styling }) => {
@@ -11,7 +10,7 @@ const CmsBanner = ({ children, colors, styling }) => {
       style={[styles.container, { ...styling }]}
       start={{ x: 0, y: 0 }}
       end={{ x: 0, y: 1 }}
-      colors={colors ?? ["rgba(185, 233, 136, 0.6)", "rgba(237, 251, 139,1)"]}
+      colors={colors ?? ["#d5f2b2", "#ebfa8d"]}
     >
       {safeChildren?.map((child, index) => (
         <View key={index}>{child.element(child)}</View>
