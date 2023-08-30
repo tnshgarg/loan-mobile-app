@@ -11,7 +11,7 @@ import {
   trackEvent,
 } from "../../helpers/analytics/commonAnalytics";
 import { CMS_POLLING_DURATION } from "../../services/constants";
-import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 
@@ -82,7 +82,7 @@ const LoginSuccess = () => {
         <CmsLoading />
       ) : (
         <View style={{ flex: 1 }}>
-          <CmsRoot children={DUMMY_RES?.login_success?.data || []}></CmsRoot>
+          <CmsRoot children={cmsData?.login_success?.data || []}></CmsRoot>
         </View>
       )}
     </SafeAreaView>

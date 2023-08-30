@@ -7,7 +7,7 @@ import CmsRoot from "../components/cms/CmsRoot";
 import LogoHeaderBack from "../components/molecules/LogoHeaderBack";
 import { navigationHelper } from "../helpers/CmsNavigationHelper";
 import { CMS_POLLING_DURATION } from "../services/constants";
-import DUMMY_RES, { useGetCmsQuery } from "../store/apiSlices/cmsApi";
+import { useGetCmsQuery } from "../store/apiSlices/cmsApi";
 import { addCurrentScreen } from "../store/slices/navigationSlice";
 import { styles } from "../styles";
 
@@ -59,7 +59,7 @@ const KycSuccess = () => {
         <CmsLoading />
       ) : (
         <View style={{ flex: 1 }}>
-          <CmsRoot children={DUMMY_RES?.kyc_success?.data || []}></CmsRoot>
+          <CmsRoot children={cmsData?.kyc_success?.data || []}></CmsRoot>
         </View>
       )}
     </SafeAreaView>
