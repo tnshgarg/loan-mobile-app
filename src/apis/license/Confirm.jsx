@@ -6,7 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { licenseBackendPush } from "../../helpers/BackendPush";
-import Analytics, { InteractionTypes } from "../../helpers/analytics/commonAnalytics";
+import Analytics, {
+  InteractionTypes,
+} from "../../helpers/analytics/commonAnalytics";
 import { addVerifyMsg, addVerifyStatus } from "../../store/slices/licenseSlice";
 import { accountStyles, form, license, styles } from "../../styles";
 
@@ -69,7 +71,7 @@ export default Confirm = () => {
       {data?.photo_base64 ? (
         <Image
           source={{
-            uri: `data:image/jpeg;base64,${data?.photo_base64}`,
+            uri: `data:image/jpeg;base64,${data?.["photo_base64"]}`,
             cache: "only-if-cached",
           }}
           style={form.aadharimg}

@@ -121,7 +121,7 @@ const AccountMenu = (props) => {
           <Image
             style={accountStyles.userImage}
             source={{
-              uri: `data:image/jpeg;base64,${aadhaar?.data["photo_base64"]}`,
+              uri: `data:image/jpeg;base64,${aadhaar?.data?.["photo_base64"]}`,
             }}
           />
           <View style={{ flexDirection: "column", flex: 1 }}>
