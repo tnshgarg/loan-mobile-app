@@ -201,24 +201,14 @@ export const DUMMY_RES = {
           {
             children: [
               {
-                styling: {
-                  aspectRatio: 1.6,
-                  flex: 1,
-                  width: "100%",
-                },
+                styling: { aspectRatio: 1.6, flex: 1, width: "100%" },
                 type: "image",
                 url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Aadhaar/Logo.png",
               },
               {
                 children: [
-                  {
-                    title: "How to verify Aadhaar?",
-                    type: "title",
-                  },
-                  {
-                    title: "Follow this 3-step process",
-                    type: "subtitle",
-                  },
+                  { title: "How to verify Aadhaar?", type: "title" },
+                  { title: "Follow this 3-step process", type: "subtitle" },
                 ],
                 styling: {
                   flex: 1,
@@ -228,18 +218,14 @@ export const DUMMY_RES = {
                 type: "container",
               },
             ],
-            styling: {
-              margin: 0,
-            },
+            styling: { margin: 0 },
             type: "twoColumn",
             widths: ["35%", "65%"],
           },
           {
             clickType: "navigation",
             navigate: { type: "back" },
-            styling: {
-              marginVertical: "10%",
-            },
+            styling: { marginVertical: "10%" },
             title: "Verify Aadhaar >",
             type: "button",
             variant: "filled",
@@ -250,18 +236,11 @@ export const DUMMY_RES = {
               "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
             type: "video",
           },
-
           {
             children: [
+              { text: "Step 1", type: "badge" },
               {
-                text: "Step 1",
-                type: "badge",
-              },
-              {
-                styling: {
-                  fontSize: 18,
-                  marginLeft: "10%",
-                },
+                styling: { fontSize: 18, marginLeft: "10%" },
                 title: "Aadhaar Number",
                 type: "title",
               },
@@ -276,36 +255,24 @@ export const DUMMY_RES = {
           {
             children: [
               {
-                styling: {
-                  fontSize: 16,
-                },
+                styling: { fontSize: 16 },
                 title: "Enter your 12 Digit Aadhaar Card number",
                 type: "subtitle",
               },
               {
-                styling: {
-                  marginTop: "5%",
-                },
+                styling: { marginTop: "5%" },
                 type: "image",
                 url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Aadhaar/step1.png",
               },
             ],
-            styling: {
-              paddingTop: 0,
-            },
+            styling: { paddingTop: 0 },
             type: "container",
           },
           {
             children: [
+              { text: "Step 2", type: "badge" },
               {
-                text: "Step 2",
-                type: "badge",
-              },
-              {
-                styling: {
-                  fontSize: 18,
-                  marginLeft: "10%",
-                },
+                styling: { fontSize: 18, marginLeft: "10%" },
                 title: "Aadhaar OTP",
                 type: "title",
               },
@@ -317,41 +284,28 @@ export const DUMMY_RES = {
             },
             type: "container",
           },
-
           {
             children: [
               {
-                styling: {
-                  fontSize: 16,
-                },
+                styling: { fontSize: 16 },
                 title:
                   "Enter OTP you received on Aadhaar registered mobile number",
                 type: "subtitle",
               },
               {
-                styling: {
-                  marginTop: "5%",
-                },
+                styling: { marginTop: "5%" },
                 type: "image",
                 url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Aadhaar/step2.png",
               },
             ],
-            styling: {
-              paddingTop: 0,
-            },
+            styling: { paddingTop: 0 },
             type: "container",
           },
           {
             children: [
+              { text: "Step 3", type: "badge" },
               {
-                text: "Step 3",
-                type: "badge",
-              },
-              {
-                styling: {
-                  fontSize: 18,
-                  marginLeft: "10%",
-                },
+                styling: { fontSize: 18, marginLeft: "10%" },
                 title: "Confirm Identity",
                 type: "title",
               },
@@ -366,30 +320,22 @@ export const DUMMY_RES = {
           {
             children: [
               {
-                styling: {
-                  fontSize: 16,
-                },
+                styling: { fontSize: 16 },
                 title:
                   "Confirm your Aadhaar details - Name, Date of birth & Address",
                 type: "subtitle",
               },
               {
-                styling: {
-                  marginTop: "5%",
-                },
+                styling: { marginTop: "5%" },
                 type: "image",
                 url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Aadhaar/step3.png",
               },
             ],
-            styling: {
-              paddingTop: 0,
-            },
+            styling: { paddingTop: 0 },
             type: "container",
           },
         ],
-        styling: {
-          padding: "4%",
-        },
+        styling: { padding: "4%" },
         type: "container",
       },
       {
@@ -428,9 +374,7 @@ export const DUMMY_RES = {
         title: "Frequently Asked Questions",
         type: "section",
       },
-      {
-        type: "footer",
-      },
+      { type: "footer" },
     ],
     screenTitle: "Help - Aadhaar Verification",
   },
@@ -441,24 +385,14 @@ export const DUMMY_RES = {
           {
             children: [
               {
-                styling: {
-                  aspectRatio: 1.6,
-                  flex: 1,
-                  width: "100%",
-                },
+                styling: { aspectRatio: 1.6, flex: 1, width: "100%" },
                 type: "image",
                 url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/PAN/Logo.png",
               },
               {
                 children: [
-                  {
-                    title: "How to verify PAN Card?",
-                    type: "title",
-                  },
-                  {
-                    title: "Follow this 2-step process",
-                    type: "subtitle",
-                  },
+                  { title: "How to verify PAN Card?", type: "title" },
+                  { title: "Follow this 2-step process", type: "subtitle" },
                 ],
                 styling: {
                   flex: 1,
@@ -468,18 +402,14 @@ export const DUMMY_RES = {
                 type: "container",
               },
             ],
-            styling: {
-              margin: 0,
-            },
+            styling: { margin: 0 },
             type: "twoColumn",
             widths: ["35%", "65%"],
           },
           {
             clickType: "navigation",
             navigate: { type: "back" },
-            styling: {
-              marginVertical: "10%",
-            },
+            styling: { marginVertical: "10%" },
             title: "Verify PAN  >",
             type: "button",
             variant: "filled",
@@ -490,18 +420,11 @@ export const DUMMY_RES = {
               "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/VideoThumbnail.png",
             type: "video",
           },
-
           {
             children: [
+              { text: "Step 1", type: "badge" },
               {
-                text: "Step 1",
-                type: "badge",
-              },
-              {
-                styling: {
-                  fontSize: 18,
-                  marginLeft: "10%",
-                },
+                styling: { fontSize: 18, marginLeft: "10%" },
                 title: "Pan Number",
                 type: "title",
               },
@@ -516,36 +439,24 @@ export const DUMMY_RES = {
           {
             children: [
               {
-                styling: {
-                  fontSize: 16,
-                },
+                styling: { fontSize: 16 },
                 title: "Enter your PAN Card number (Permanent Account Number)",
                 type: "subtitle",
               },
               {
-                styling: {
-                  marginTop: "5%",
-                },
+                styling: { marginTop: "5%" },
                 type: "image",
                 url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/PAN/step1.png",
               },
             ],
-            styling: {
-              paddingTop: 0,
-            },
+            styling: { paddingTop: 0 },
             type: "container",
           },
           {
             children: [
+              { text: "Step 2", type: "badge" },
               {
-                text: "Step 2",
-                type: "badge",
-              },
-              {
-                styling: {
-                  fontSize: 18,
-                  marginLeft: "10%",
-                },
+                styling: { fontSize: 18, marginLeft: "10%" },
                 title: "Confirm Details",
                 type: "title",
               },
@@ -557,34 +468,25 @@ export const DUMMY_RES = {
             },
             type: "container",
           },
-
           {
             children: [
               {
-                styling: {
-                  fontSize: 16,
-                },
+                styling: { fontSize: 16 },
                 title:
                   "Confirm your PAN details - Name, Father's Name & Date of birth",
                 type: "subtitle",
               },
               {
-                styling: {
-                  marginTop: "5%",
-                },
+                styling: { marginTop: "5%" },
                 type: "image",
                 url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/PAN/step2.png",
               },
             ],
-            styling: {
-              paddingTop: 0,
-            },
+            styling: { paddingTop: 0 },
             type: "container",
           },
         ],
-        styling: {
-          padding: "4%",
-        },
+        styling: { padding: "4%" },
         type: "container",
       },
       {
@@ -617,9 +519,7 @@ export const DUMMY_RES = {
         title: "Frequently Asked Questions",
         type: "section",
       },
-      {
-        type: "footer",
-      },
+      { type: "footer" },
     ],
     screenTitle: "Help - PAN Card Verification",
   },
@@ -630,24 +530,14 @@ export const DUMMY_RES = {
           {
             children: [
               {
-                styling: {
-                  aspectRatio: 1.6,
-                  flex: 1,
-                  width: "100%",
-                },
+                styling: { aspectRatio: 1.6, flex: 1, width: "100%" },
                 type: "image",
                 url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Aadhaar/Logo.png",
               },
               {
                 children: [
-                  {
-                    title: "How to Add Bank Account?",
-                    type: "title",
-                  },
-                  {
-                    title: "Follow this 2-step process",
-                    type: "subtitle",
-                  },
+                  { title: "How to Add Bank Account?", type: "title" },
+                  { title: "Follow this 2-step process", type: "subtitle" },
                 ],
                 styling: {
                   flex: 1,
@@ -657,18 +547,14 @@ export const DUMMY_RES = {
                 type: "container",
               },
             ],
-            styling: {
-              margin: 0,
-            },
+            styling: { margin: 0 },
             type: "twoColumn",
             widths: ["35%", "65%"],
           },
           {
             clickType: "navigation",
             navigate: { type: "back" },
-            styling: {
-              marginVertical: "10%",
-            },
+            styling: { marginVertical: "10%" },
             title: "Verify Bank Account",
             type: "button",
             variant: "filled",
@@ -681,15 +567,9 @@ export const DUMMY_RES = {
           },
           {
             children: [
+              { text: "Step 1", type: "badge" },
               {
-                text: "Step 1",
-                type: "badge",
-              },
-              {
-                styling: {
-                  fontSize: 18,
-                  marginLeft: "10%",
-                },
+                styling: { fontSize: 18, marginLeft: "10%" },
                 title: "Bank Account Details",
                 type: "title",
               },
@@ -704,37 +584,25 @@ export const DUMMY_RES = {
           {
             children: [
               {
-                styling: {
-                  fontSize: 16,
-                },
+                styling: { fontSize: 16 },
                 title:
                   "Provide your Account Holder's Name, Account Number, IFSC Code",
                 type: "subtitle",
               },
               {
-                styling: {
-                  marginTop: "5%",
-                },
+                styling: { marginTop: "5%" },
                 type: "image",
                 url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Bank/step1.png",
               },
             ],
-            styling: {
-              paddingTop: 0,
-            },
+            styling: { paddingTop: 0 },
             type: "container",
           },
           {
             children: [
+              { text: "Step 2", type: "badge" },
               {
-                text: "Step 2",
-                type: "badge",
-              },
-              {
-                styling: {
-                  fontSize: 18,
-                  marginLeft: "10%",
-                },
+                styling: { fontSize: 18, marginLeft: "10%" },
                 title: "Confirm Bank Account",
                 type: "title",
               },
@@ -749,30 +617,22 @@ export const DUMMY_RES = {
           {
             children: [
               {
-                styling: {
-                  fontSize: 16,
-                },
+                styling: { fontSize: 16 },
                 title:
                   "Confirm your Account details - Name, Account Number & IFSC",
                 type: "subtitle",
               },
               {
-                styling: {
-                  marginTop: "5%",
-                },
+                styling: { marginTop: "5%" },
                 type: "image",
                 url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Bank/step2.png",
               },
             ],
-            styling: {
-              paddingTop: 0,
-            },
+            styling: { paddingTop: 0 },
             type: "container",
           },
         ],
-        styling: {
-          padding: "4%",
-        },
+        styling: { padding: "4%" },
         type: "container",
       },
       {
@@ -798,9 +658,7 @@ export const DUMMY_RES = {
         title: "Frequently Asked Questions",
         type: "section",
       },
-      {
-        type: "footer",
-      },
+      { type: "footer" },
     ],
     screenTitle: "Help - Bank Account Addition",
   },
@@ -818,7 +676,7 @@ export const DUMMY_RES = {
             children: [
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Mandata/Logo.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Mandate/Logo.png",
                 styling: { width: "100%", flex: 1, aspectRatio: 1.6 },
               },
               {
@@ -829,10 +687,7 @@ export const DUMMY_RES = {
                   paddingLeft: "5%",
                 },
                 children: [
-                  {
-                    type: "title",
-                    title: "Adding Repayment Method (Mandate)",
-                  },
+                  { type: "title", title: "Adding Repayment Method (Mandate)" },
                   {
                     type: "subtitle",
                     title: "Choose one of the methods to setup repayment.",
@@ -1018,18 +873,10 @@ export const DUMMY_RES = {
             },
             {
               children: [
-                {
-                  title: "Profile",
-                  type: "title",
-                },
-                {
-                  title: "See & edit your profile details",
-                  type: "subtitle",
-                },
+                { title: "Profile", type: "title" },
+                { title: "See & edit your profile details", type: "subtitle" },
               ],
-              styling: {
-                paddingLeft: "5%",
-              },
+              styling: { paddingLeft: "5%" },
               type: "container",
             },
             {
@@ -1039,14 +886,8 @@ export const DUMMY_RES = {
               type: "icon",
             },
           ],
-          navigate: {
-            screen: "Profile",
-            type: "app",
-          },
-          secondColumnStyle: {
-            flex: 1,
-            paddingLeft: 15,
-          },
+          navigate: { screen: "Profile", type: "app" },
+          secondColumnStyle: { flex: 1, paddingLeft: 15 },
           type: "threeColumn",
           widths: ["10%", "80%", "10%"],
         },
@@ -1058,18 +899,10 @@ export const DUMMY_RES = {
             },
             {
               children: [
-                {
-                  title: "Pay Slips",
-                  type: "title",
-                },
-                {
-                  title: "View and download payslips",
-                  type: "subtitle",
-                },
+                { title: "Pay Slips", type: "title" },
+                { title: "View and download payslips", type: "subtitle" },
               ],
-              styling: {
-                paddingLeft: "5%",
-              },
+              styling: { paddingLeft: "5%" },
               type: "container",
             },
             {
@@ -1079,14 +912,8 @@ export const DUMMY_RES = {
               type: "icon",
             },
           ],
-          navigate: {
-            screen: "Profile",
-            type: "app",
-          },
-          secondColumnStyle: {
-            flex: 1,
-            paddingLeft: 15,
-          },
+          navigate: { screen: "Profile", type: "app" },
+          secondColumnStyle: { flex: 1, paddingLeft: 15 },
           type: "threeColumn",
           widths: ["10%", "80%", "10%"],
         },
@@ -1098,18 +925,13 @@ export const DUMMY_RES = {
             },
             {
               children: [
-                {
-                  title: "KYC",
-                  type: "title",
-                },
+                { title: "KYC", type: "title" },
                 {
                   title: "All your KYC details in one place",
                   type: "subtitle",
                 },
               ],
-              styling: {
-                paddingLeft: "5%",
-              },
+              styling: { paddingLeft: "5%" },
               type: "container",
             },
             {
@@ -1119,14 +941,8 @@ export const DUMMY_RES = {
               type: "icon",
             },
           ],
-          navigate: {
-            screen: "KYC",
-            type: "app",
-          },
-          secondColumnStyle: {
-            flex: 1,
-            paddingLeft: 15,
-          },
+          navigate: { screen: "KYC", type: "app" },
+          secondColumnStyle: { flex: 1, paddingLeft: 15 },
           type: "threeColumn",
           widths: ["10%", "80%", "10%"],
         },
@@ -1138,18 +954,10 @@ export const DUMMY_RES = {
             },
             {
               children: [
-                {
-                  title: "Customer Support",
-                  type: "title",
-                },
-                {
-                  title: "Talk to our support team",
-                  type: "subtitle",
-                },
+                { title: "Customer Support", type: "title" },
+                { title: "Talk to our support team", type: "subtitle" },
               ],
-              styling: {
-                paddingLeft: "5%",
-              },
+              styling: { paddingLeft: "5%" },
               type: "container",
             },
             {
@@ -1159,14 +967,8 @@ export const DUMMY_RES = {
               type: "icon",
             },
           ],
-          navigate: {
-            params: { blogKey: "customer_support" },
-            type: "cms",
-          },
-          secondColumnStyle: {
-            flex: 1,
-            paddingLeft: 15,
-          },
+          navigate: { params: { blogKey: "customer_support" }, type: "cms" },
+          secondColumnStyle: { flex: 1, paddingLeft: 15 },
           type: "threeColumn",
           widths: ["10%", "80%", "10%"],
         },
@@ -1178,18 +980,10 @@ export const DUMMY_RES = {
             },
             {
               children: [
-                {
-                  title: "App Language",
-                  type: "title",
-                },
-                {
-                  title: "Choose your preferred language",
-                  type: "subtitle",
-                },
+                { title: "App Language", type: "title" },
+                { title: "Choose your preferred language", type: "subtitle" },
               ],
-              styling: {
-                paddingLeft: "5%",
-              },
+              styling: { paddingLeft: "5%" },
               type: "container",
             },
             {
@@ -1204,10 +998,7 @@ export const DUMMY_RES = {
             params: { blogKey: "app_language" },
             type: "cms",
           },
-          secondColumnStyle: {
-            flex: 1,
-            paddingLeft: 15,
-          },
+          secondColumnStyle: { flex: 1, paddingLeft: 15 },
           type: "threeColumn",
           widths: ["10%", "80%", "10%"],
         },
@@ -1219,18 +1010,13 @@ export const DUMMY_RES = {
             },
             {
               children: [
-                {
-                  title: "Submit Feedback",
-                  type: "title",
-                },
+                { title: "Submit Feedback", type: "title" },
                 {
                   title: "Let us know your experience with us",
                   type: "subtitle",
                 },
               ],
-              styling: {
-                paddingLeft: "5%",
-              },
+              styling: { paddingLeft: "5%" },
               type: "container",
             },
             {
@@ -1240,14 +1026,8 @@ export const DUMMY_RES = {
               type: "icon",
             },
           ],
-          navigate: {
-            screen: "Profile",
-            type: "app",
-          },
-          secondColumnStyle: {
-            flex: 1,
-            paddingLeft: 15,
-          },
+          navigate: { screen: "Profile", type: "app" },
+          secondColumnStyle: { flex: 1, paddingLeft: 15 },
           type: "threeColumn",
           widths: ["10%", "80%", "10%"],
         },
@@ -1259,18 +1039,10 @@ export const DUMMY_RES = {
             },
             {
               children: [
-                {
-                  title: "About Us",
-                  type: "title",
-                },
-                {
-                  title: "Read about us & our terms of use",
-                  type: "subtitle",
-                },
+                { title: "About Us", type: "title" },
+                { title: "Read about us & our terms of use", type: "subtitle" },
               ],
-              styling: {
-                paddingLeft: "5%",
-              },
+              styling: { paddingLeft: "5%" },
               type: "container",
             },
             {
@@ -1286,10 +1058,7 @@ export const DUMMY_RES = {
             screen: "TabsScreen",
             params: { key: "about_us" },
           },
-          secondColumnStyle: {
-            flex: 1,
-            paddingLeft: 15,
-          },
+          secondColumnStyle: { flex: 1, paddingLeft: 15 },
           type: "threeColumn",
           widths: ["10%", "80%", "10%"],
         },
@@ -1314,18 +1083,13 @@ export const DUMMY_RES = {
       {
         children: [
           {
-            styling: {
-              marginLeft: "-15%",
-            },
+            styling: { marginLeft: "-15%" },
             type: "image",
             url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/KYC/WhatKYC.png",
           },
           {
             children: [
-              {
-                title: "What is KYC?",
-                type: "title",
-              },
+              { title: "What is KYC?", type: "title" },
               {
                 title:
                   "KYC (Know Your Customer) is a mandatory process of identifying and verifying the employee's identity while offering features like advance salrary.",
@@ -1341,18 +1105,13 @@ export const DUMMY_RES = {
       {
         children: [
           {
-            styling: {
-              marginLeft: "15%",
-            },
+            styling: { marginLeft: "15%" },
             type: "image",
             url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/KYC/WhyCompleteKYC.png",
           },
           {
             children: [
-              {
-                title: "Why Complete KYC?",
-                type: "title",
-              },
+              { title: "Why Complete KYC?", type: "title" },
               {
                 title:
                   "Unipe advance salary is powered by RBI approved lending partners which mandates completion of Full KYC to avail the advance salary balance.",
@@ -1362,27 +1121,20 @@ export const DUMMY_RES = {
             type: "container",
           },
         ],
-        styling: {
-          flexDirection: "row-reverse",
-        },
+        styling: { flexDirection: "row-reverse" },
         type: "twoColumn",
         widths: ["30%", "70%"],
       },
       {
         children: [
           {
-            styling: {
-              marginLeft: "-15%",
-            },
+            styling: { marginLeft: "-15%" },
             type: "image",
             url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/KYC/RisksofIncompleteKYC.png",
           },
           {
             children: [
-              {
-                title: "Risks of Incomplete KYC",
-                type: "title",
-              },
+              { title: "Risks of Incomplete KYC", type: "title" },
               {
                 title:
                   "Without KYC completion, employees will not be able to withdraw advance salary balance to their bank account.",
@@ -1398,18 +1150,13 @@ export const DUMMY_RES = {
       {
         children: [
           {
-            styling: {
-              marginLeft: "15%",
-            },
+            styling: { marginLeft: "15%" },
             type: "image",
             url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/KYC/UnlockAdvancewithKYC.png",
           },
           {
             children: [
-              {
-                title: "Unlock Advance with KYC",
-                type: "title",
-              },
+              { title: "Unlock Advance with KYC", type: "title" },
               {
                 title:
                   "One the KYC is done, the Advance Salary balance will be unlocked and employees can transfer the shown amount without any limit.",
@@ -1419,27 +1166,20 @@ export const DUMMY_RES = {
             type: "container",
           },
         ],
-        styling: {
-          flexDirection: "row-reverse",
-        },
+        styling: { flexDirection: "row-reverse" },
         type: "twoColumn",
         widths: ["30%", "70%"],
       },
       {
         children: [
           {
-            styling: {
-              marginLeft: "-15%",
-            },
+            styling: { marginLeft: "-15%" },
             type: "image",
             url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/KYC/AdvancewithoutKYC.png",
           },
           {
             children: [
-              {
-                title: "Advance without KYC",
-                type: "title",
-              },
+              { title: "Advance without KYC", type: "title" },
               {
                 title:
                   "If KYC is not done and the advance is approved from the employer, the employees will be able to see the amount but will not be able to withdraw it.",
@@ -1490,19 +1230,14 @@ export const DUMMY_RES = {
       {
         children: [
           {
-            styling: {
-              marginLeft: "-15%",
-            },
+            styling: { marginLeft: "-15%" },
             type: "image",
             aspectRatio: 0.88,
             url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/Mandate/WhatMandate.png",
           },
           {
             children: [
-              {
-                title: "What is e-Mandate ?",
-                type: "title",
-              },
+              { title: "What is e-Mandate ?", type: "title" },
               {
                 title:
                   "e-Mandate is a simple one-time registration process that enables automatic repayments of the advance salary amount.",
@@ -1518,19 +1253,14 @@ export const DUMMY_RES = {
       {
         children: [
           {
-            styling: {
-              marginLeft: "15%",
-            },
+            styling: { marginLeft: "15%" },
             type: "image",
             aspectRatio: 0.88,
             url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/Mandate/OneTimeProc.png",
           },
           {
             children: [
-              {
-                title: "One-Time Process",
-                type: "title",
-              },
+              { title: "One-Time Process", type: "title" },
               {
                 title:
                   "With e-Mandate registration, you only have to register once to fulfill all your future advance salary requirements.",
@@ -1540,28 +1270,21 @@ export const DUMMY_RES = {
             type: "container",
           },
         ],
-        styling: {
-          flexDirection: "row-reverse",
-        },
+        styling: { flexDirection: "row-reverse" },
         type: "twoColumn",
         widths: ["30%", "70%"],
       },
       {
         children: [
           {
-            styling: {
-              marginLeft: "-15%",
-            },
+            styling: { marginLeft: "-15%" },
             aspectRatio: 0.88,
             type: "image",
             url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/Mandate/SaveMoney.png",
           },
           {
             children: [
-              {
-                title: "Save Money with Auto Repayments",
-                type: "title",
-              },
+              { title: "Save Money with Auto Repayments", type: "title" },
               {
                 title:
                   "e-Mandate registration ensures automatic deduction of repayment amount, avoiding interest charges due to delayed repayments.",
@@ -1577,19 +1300,14 @@ export const DUMMY_RES = {
       {
         children: [
           {
-            styling: {
-              marginLeft: "15%",
-            },
+            styling: { marginLeft: "15%" },
             type: "image",
             aspectRatio: 0.78,
             url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/Mandate/AvoidLateFine.png",
           },
           {
             children: [
-              {
-                title: "Avoid Late Fine",
-                type: "title",
-              },
+              { title: "Avoid Late Fine", type: "title" },
               {
                 title:
                   "Timely repayment of the advance salary amount through e-Mandate registration ensures that employees are safe from any late fine that may be charged in case of delayed repayment.",
@@ -1599,9 +1317,7 @@ export const DUMMY_RES = {
             type: "container",
           },
         ],
-        styling: {
-          flexDirection: "row-reverse",
-        },
+        styling: { flexDirection: "row-reverse" },
         type: "twoColumn",
         widths: ["30%", "70%"],
       },
@@ -1634,9 +1350,7 @@ export const DUMMY_RES = {
         title: "FAQs",
         type: "section",
       },
-      {
-        type: "footer",
-      },
+      { type: "footer" },
     ],
     headingImage:
       "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsCards/MandateBenefits.png",
@@ -1648,18 +1362,13 @@ export const DUMMY_RES = {
       {
         children: [
           {
-            styling: {
-              marginLeft: "-15%",
-            },
+            styling: { marginLeft: "-15%" },
             type: "image",
             url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/AdvanceSalary/What.png",
           },
           {
             children: [
-              {
-                title: "What is Advance Salary?",
-                type: "title",
-              },
+              { title: "What is Advance Salary?", type: "title" },
               {
                 title:
                   "Advance salary option provides employees with the ability to access their earned salary before the end of the month.",
@@ -1675,19 +1384,14 @@ export const DUMMY_RES = {
       {
         children: [
           {
-            styling: {
-              marginLeft: "15%",
-            },
+            styling: { marginLeft: "15%" },
             type: "image",
             aspectRatio: 0.8,
             url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/AdvanceSalary/zeroInterest.png",
           },
           {
             children: [
-              {
-                title: "Zero Interest Advance Salary",
-                type: "title",
-              },
+              { title: "Zero Interest Advance Salary", type: "title" },
               {
                 title:
                   "With advance salary, you can get paid early without any interest charges, giving you instant access to your earned salary.",
@@ -1697,27 +1401,20 @@ export const DUMMY_RES = {
             type: "container",
           },
         ],
-        styling: {
-          flexDirection: "row-reverse",
-        },
+        styling: { flexDirection: "row-reverse" },
         type: "twoColumn",
         widths: ["30%", "70%"],
       },
       {
         children: [
           {
-            styling: {
-              marginLeft: "-15%",
-            },
+            styling: { marginLeft: "-15%" },
             type: "image",
             url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/AdvanceSalary/JoiningFees.png",
           },
           {
             children: [
-              {
-                title: "No Joining Fees",
-                type: "title",
-              },
+              { title: "No Joining Fees", type: "title" },
               {
                 title:
                   "Completing your full KYC process is the only requirement to withdraw your advance salary without any joining fees.",
@@ -1733,19 +1430,14 @@ export const DUMMY_RES = {
       {
         children: [
           {
-            styling: {
-              marginLeft: "15%",
-            },
+            styling: { marginLeft: "15%" },
             aspectRatio: 0.92,
             type: "image",
             url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/AdvanceSalary/AvoidLoans.png",
           },
           {
             children: [
-              {
-                title: "Avoid High-Interest Loans",
-                type: "title",
-              },
+              { title: "Avoid High-Interest Loans", type: "title" },
               {
                 title:
                   "By utilizing advance salary, you can avoid taking high-interest loans when you are in need of immediate cash, providing financial security.",
@@ -1755,28 +1447,19 @@ export const DUMMY_RES = {
             type: "container",
           },
         ],
-        styling: {
-          flexDirection: "row-reverse",
-        },
+        styling: { flexDirection: "row-reverse" },
         type: "twoColumn",
         widths: ["30%", "70%"],
       },
       {
         children: [
-          {
-            title: "Ready to get your advance salary money?",
-            type: "title",
-          },
+          { title: "Ready to get your advance salary money?", type: "title" },
           {
             type: "button",
             variant: "filled",
             title: "Get Money",
             clickType: "navigation",
-            navigate: {
-              type: "app",
-              stack: "HomeStack",
-              screen: "Money",
-            },
+            navigate: { type: "app", stack: "HomeStack", screen: "Money" },
           },
         ],
         styling: { paddingLeft: "10%", paddingRight: "10%" },
@@ -1793,18 +1476,13 @@ export const DUMMY_RES = {
       {
         children: [
           {
-            styling: {
-              marginLeft: "-15%",
-            },
+            styling: { marginLeft: "-15%" },
             type: "image",
             url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Blogs/PF/What.png",
           },
           {
             children: [
-              {
-                title: "What is PF Balance?",
-                type: "title",
-              },
+              { title: "What is PF Balance?", type: "title" },
               {
                 title:
                   "PF Balance is the amount that has been accumulated in your Provident Fund account. It is your savings for your retirement years.",
@@ -1827,15 +1505,11 @@ export const DUMMY_RES = {
                 type: "markdown",
               },
             ],
-            styling: {
-              padding: "5%",
-            },
+            styling: { padding: "5%" },
             type: "card",
           },
         ],
-        styling: {
-          padding: "5%",
-        },
+        styling: { padding: "5%" },
         type: "container",
       },
     ],
@@ -1872,10 +1546,7 @@ export const DUMMY_RES = {
                 widths: ["70%", "30%"],
               },
             ],
-            navigate: {
-              params: { blogKey: "blog_1" },
-              type: "cmsScreenTwo",
-            },
+            navigate: { params: { blogKey: "blog_1" }, type: "cmsScreenTwo" },
             type: "card",
           },
           {
@@ -1884,10 +1555,7 @@ export const DUMMY_RES = {
                 children: [
                   {
                     children: [
-                      {
-                        title: "Why Unipe?",
-                        type: "title",
-                      },
+                      { title: "Why Unipe?", type: "title" },
                       {
                         title:
                           "Lorem Ipsum is simply dumm typesetting industry.",
@@ -1936,10 +1604,7 @@ export const DUMMY_RES = {
                 widths: ["70%", "30%"],
               },
             ],
-            navigate: {
-              params: { blogKey: "blog_3" },
-              type: "cmsScreenTwo",
-            },
+            navigate: { params: { blogKey: "blog_3" }, type: "cmsScreenTwo" },
             type: "card",
           },
           {
@@ -1948,10 +1613,7 @@ export const DUMMY_RES = {
                 children: [
                   {
                     children: [
-                      {
-                        title: "How Unipe Works?",
-                        type: "title",
-                      },
+                      { title: "How Unipe Works?", type: "title" },
                       {
                         title:
                           "Lorem Ipsum is simply dumm typesetting industry.",
@@ -2000,10 +1662,7 @@ export const DUMMY_RES = {
                 widths: ["70%", "30%"],
               },
             ],
-            navigate: {
-              params: { blogKey: "blog_5" },
-              type: "cmsScreenTwo",
-            },
+            navigate: { params: { blogKey: "blog_5" }, type: "cmsScreenTwo" },
             type: "card",
           },
           {
@@ -2012,10 +1671,7 @@ export const DUMMY_RES = {
                 children: [
                   {
                     children: [
-                      {
-                        title: "How do I check my PF Balance?",
-                        type: "title",
-                      },
+                      { title: "How do I check my PF Balance?", type: "title" },
                     ],
                     type: "container",
                   },
@@ -2028,10 +1684,7 @@ export const DUMMY_RES = {
                 widths: ["70%", "30%"],
               },
             ],
-            navigate: {
-              params: { blogKey: "blog_6" },
-              type: "cmsScreenTwo",
-            },
+            navigate: { params: { blogKey: "blog_6" }, type: "cmsScreenTwo" },
             type: "card",
           },
         ],
@@ -2048,7 +1701,6 @@ export const DUMMY_RES = {
           {
             title: "Q: How to complete KYC verification?",
             navigate: { type: "cmsScreenTwo", params: { blogKey: "kyc_help" } },
-
             type: "collapsibleList",
           },
           {
@@ -2078,18 +1730,13 @@ export const DUMMY_RES = {
               },
               {
                 children: [
-                  {
-                    title: "KYC Verification",
-                    type: "title",
-                  },
+                  { title: "KYC Verification", type: "title" },
                   {
                     title: "All your kyc related queries at one place",
                     type: "subtitle",
                   },
                 ],
-                styling: {
-                  paddingLeft: "5%",
-                },
+                styling: { paddingLeft: "5%" },
                 type: "container",
               },
               {
@@ -2099,10 +1746,7 @@ export const DUMMY_RES = {
                 type: "icon",
               },
             ],
-            navigate: {
-              params: { blogKey: "kyc_faq" },
-              type: "cmsScreenTwo",
-            },
+            navigate: { params: { blogKey: "kyc_faq" }, type: "cmsScreenTwo" },
             type: "threeColumn",
             widths: ["10%", "80%", "10%"],
           },
@@ -2114,18 +1758,13 @@ export const DUMMY_RES = {
               },
               {
                 children: [
-                  {
-                    title: "Mandate",
-                    type: "title",
-                  },
+                  { title: "Mandate", type: "title" },
                   {
                     title: "All your repayment related queries",
                     type: "subtitle",
                   },
                 ],
-                styling: {
-                  paddingLeft: "5%",
-                },
+                styling: { paddingLeft: "5%" },
                 type: "container",
               },
               {
@@ -2150,18 +1789,13 @@ export const DUMMY_RES = {
               },
               {
                 children: [
-                  {
-                    title: "Salary Withdrawal",
-                    type: "title",
-                  },
+                  { title: "Salary Withdrawal", type: "title" },
                   {
                     title: "All your salary related questions",
                     type: "subtitle",
                   },
                 ],
-                styling: {
-                  paddingLeft: "5%",
-                },
+                styling: { paddingLeft: "5%" },
                 type: "container",
               },
               {
@@ -2231,9 +1865,7 @@ export const DUMMY_RES = {
         title: "General FAQs",
         type: "section",
       },
-      {
-        type: "footer",
-      },
+      { type: "footer" },
     ],
     screenTitle: "Customer Support",
   },
@@ -2274,9 +1906,7 @@ export const DUMMY_RES = {
                   type: "card",
                 },
               ],
-              styling: {
-                border: "1px solid black",
-              },
+              styling: { border: "1px solid black" },
               type: "twoColumn",
               widths: ["48%", "48%"],
             },
@@ -2309,10 +1939,7 @@ export const DUMMY_RES = {
                       widths: ["70%", "30%"],
                     },
                   ],
-                  navigate: {
-                    params: { blogKey: "blog_1" },
-                    type: "cms",
-                  },
+                  navigate: { params: { blogKey: "blog_1" }, type: "cms" },
                   type: "card",
                 },
                 {
@@ -2338,10 +1965,7 @@ export const DUMMY_RES = {
                       widths: ["70%", "30%"],
                     },
                   ],
-                  navigate: {
-                    params: { blogKey: "blog_3" },
-                    type: "cms",
-                  },
+                  navigate: { params: { blogKey: "blog_3" }, type: "cms" },
                   type: "card",
                 },
                 {
@@ -2366,10 +1990,7 @@ export const DUMMY_RES = {
                       widths: ["70%", "30%"],
                     },
                   ],
-                  navigate: {
-                    params: { blogKey: "blog_5" },
-                    type: "cms",
-                  },
+                  navigate: { params: { blogKey: "blog_5" }, type: "cms" },
                   type: "card",
                 },
                 {
@@ -2394,10 +2015,7 @@ export const DUMMY_RES = {
                       widths: ["70%", "30%"],
                     },
                   ],
-                  navigate: {
-                    params: { blogKey: "blog_6" },
-                    type: "cms",
-                  },
+                  navigate: { params: { blogKey: "blog_6" }, type: "cms" },
                   type: "card",
                 },
               ],
@@ -2409,18 +2027,10 @@ export const DUMMY_RES = {
           gradientColors: ["#FFFFFF", "#FFFFFF"],
           leftIcon:
             "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/HomePage/LearnWithUsIcon.png",
-          styling: {
-            marginTop: "10%",
-            padding: 0,
-          },
+          styling: { marginTop: "10%", padding: 0 },
           title: "Learn With Us",
           type: "section",
-          navigate: {
-            type: "cms",
-            params: {
-              blogKey: "blogs",
-            },
-          },
+          navigate: { type: "cms", params: { blogKey: "blogs" } },
         },
         {
           children: [
@@ -2428,18 +2038,13 @@ export const DUMMY_RES = {
               children: [
                 {
                   children: [
-                    {
-                      title: "Why Unipe?",
-                      type: "title",
-                    },
+                    { title: "Why Unipe?", type: "title" },
                     {
                       title: "Lorem Ipsum is simply dumm typesetting industry.",
                       type: "subtitle",
                     },
                   ],
-                  styling: {
-                    marginLeft: "5%",
-                  },
+                  styling: { marginLeft: "5%" },
                   type: "container",
                 },
                 {
@@ -2450,9 +2055,7 @@ export const DUMMY_RES = {
                   videoUri: "GyXnZpi788w",
                 },
               ],
-              styling: {
-                flexDirection: "row-reverse",
-              },
+              styling: { flexDirection: "row-reverse" },
               type: "twoColumn",
             },
           ],
@@ -2465,18 +2068,13 @@ export const DUMMY_RES = {
               children: [
                 {
                   children: [
-                    {
-                      title: "How Unipe Works?",
-                      type: "title",
-                    },
+                    { title: "How Unipe Works?", type: "title" },
                     {
                       title: "Lorem Ipsum is simply dumm typesetting industry.",
                       type: "subtitle",
                     },
                   ],
-                  styling: {
-                    marginLeft: "5%",
-                  },
+                  styling: { marginLeft: "5%" },
                   type: "container",
                 },
                 {
@@ -2487,9 +2085,7 @@ export const DUMMY_RES = {
                   videoUri: "ux6XLNiEpLs",
                 },
               ],
-              styling: {
-                flexDirection: "row-reverse",
-              },
+              styling: { flexDirection: "row-reverse" },
               type: "twoColumn",
             },
           ],
@@ -2563,13 +2159,7 @@ export const DUMMY_RES = {
                     {
                       type: "container",
                       styling: { marginLeft: "2%" },
-                      children: [
-                        {
-                          type: "subtitle",
-                          title: "Rajesh Kumar",
-                        },
-                        // { type: "subtitle", title: "Neemrana, Rajasthan" },
-                      ],
+                      children: [{ type: "subtitle", title: "Rajesh Kumar" }],
                     },
                   ],
                 },
@@ -2634,13 +2224,7 @@ export const DUMMY_RES = {
                     {
                       type: "container",
                       styling: { marginLeft: "2%" },
-                      children: [
-                        {
-                          type: "subtitle",
-                          title: "Manish Gupta",
-                        },
-                        // { type: "subtitle", title: "Neemrana, Rajasthan" },
-                      ],
+                      children: [{ type: "subtitle", title: "Manish Gupta" }],
                     },
                   ],
                 },
@@ -2649,14 +2233,10 @@ export const DUMMY_RES = {
           ],
         },
       ],
-      styling: {
-        padding: "4%",
-      },
+      styling: { padding: "4%" },
       type: "container",
     },
-    {
-      type: "footer",
-    },
+    { type: "footer" },
   ],
   login_success: {
     hideLeftIcon: true,
@@ -2673,8 +2253,8 @@ export const DUMMY_RES = {
           padding: "4%",
           backgroundColor: "#223240",
           height: "100%",
-          // flexGrow: 1,
           justifyContent: "space-between",
+          flexGrow: 1,
         },
         children: [
           {
@@ -2720,17 +2300,11 @@ export const DUMMY_RES = {
               },
               {
                 type: "container",
-                styling: {
-                  paddingLeft: "3%",
-                },
+                styling: { paddingLeft: "3%" },
                 children: [
                   {
                     type: "subtitle",
-                    styling: {
-                      color: "#ffffff",
-                      fontSize: 16,
-                      width: "60%",
-                    },
+                    styling: { color: "#ffffff", fontSize: 16, width: "60%" },
                     title:
                       "As per RBI guidelines, you have to complete e-KYC to get Advance Salary",
                   },
@@ -2777,6 +2351,7 @@ export const DUMMY_RES = {
           backgroundColor: "#223240",
           height: "100%",
           justifyContent: "space-between",
+          flexGrow: 1,
         },
         children: [
           {
@@ -2869,10 +2444,7 @@ export const DUMMY_RES = {
       ],
     },
   ],
-  notifications: {
-    data: [],
-    screenTitle: "Notifications",
-  },
+  notifications: { data: [], screenTitle: "Notifications" },
   bottom_alert: [
     {
       type: "bottomAlert",
@@ -2955,11 +2527,7 @@ export const DUMMY_RES = {
             {
               type: "image",
               url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/socials/youtube.png",
-              styling: {
-                width: 50,
-                height: 50,
-                resizeMode: "contain",
-              },
+              styling: { width: 50, height: 50, resizeMode: "contain" },
             },
           ],
         },
@@ -2996,7 +2564,6 @@ export const DUMMY_RES = {
       {
         type: "container",
         styling: { padding: "5%" },
-
         children: [
           {
             type: "title",
@@ -3027,10 +2594,7 @@ export const DUMMY_RES = {
                   paddingLeft: "5%",
                 },
                 children: [
-                  {
-                    type: "title",
-                    title: "How to Apply for an e-PAN Card?",
-                  },
+                  { type: "title", title: "How to Apply for an e-PAN Card?" },
                   {
                     type: "subtitle",
                     title:
@@ -3064,10 +2628,7 @@ export const DUMMY_RES = {
                   paddingLeft: "5%",
                 },
                 children: [
-                  {
-                    type: "title",
-                    title: "Charges for e-PAN Card?",
-                  },
+                  { type: "title", title: "Charges for e-PAN Card?" },
                   {
                     type: "subtitle",
                     title:
@@ -3095,10 +2656,7 @@ export const DUMMY_RES = {
                   paddingLeft: "5%",
                 },
                 children: [
-                  {
-                    type: "title",
-                    title: "Time to Generate e-PAN Card?",
-                  },
+                  { type: "title", title: "Time to Generate e-PAN Card?" },
                   {
                     type: "subtitle",
                     title:
@@ -3195,7 +2753,6 @@ export const DUMMY_RES = {
       {
         type: "container",
         styling: { padding: "5%" },
-
         children: [
           {
             type: "title",
@@ -3221,11 +2778,7 @@ export const DUMMY_RES = {
           },
           {
             type: "subtitle",
-            styling: {
-              color: "black",
-              lineHeight: 26,
-              fontSize: 18,
-            },
+            styling: { color: "black", lineHeight: 26, fontSize: 18 },
             title:
               "1. Salary is still processing in progress on your employer end\n2. Name mismatch in PAN and Bank account holder name\n3. You have low bureau score (credit score)",
           },
@@ -3316,7 +2869,6 @@ export const DUMMY_RES = {
     ],
   },
   survey_questions: {
-    // screenTitle: "Survey",
     headerStyle: { backgroundColor: null },
     data: [
       {
@@ -3332,7 +2884,6 @@ export const DUMMY_RES = {
               {
                 type: "container",
                 answer_id: "ans_1",
-
                 children: [
                   {
                     type: "subtitle",
@@ -3344,7 +2895,6 @@ export const DUMMY_RES = {
               {
                 type: "container",
                 answer_id: "ans_2",
-
                 children: [
                   {
                     type: "subtitle",
@@ -3356,7 +2906,6 @@ export const DUMMY_RES = {
               {
                 type: "container",
                 answer_id: "ans_3",
-
                 children: [
                   {
                     type: "subtitle",
@@ -3368,7 +2917,6 @@ export const DUMMY_RES = {
               {
                 type: "container",
                 answer_id: "ans_4",
-
                 children: [
                   {
                     type: "subtitle",
@@ -3388,7 +2936,6 @@ export const DUMMY_RES = {
               {
                 type: "container",
                 answer_id: "ans_1",
-
                 children: [
                   {
                     type: "subtitle",
@@ -3400,7 +2947,6 @@ export const DUMMY_RES = {
               {
                 type: "container",
                 answer_id: "ans_2",
-
                 children: [
                   {
                     type: "subtitle",
@@ -3412,7 +2958,6 @@ export const DUMMY_RES = {
               {
                 type: "container",
                 answer_id: "ans_3",
-
                 children: [
                   {
                     type: "subtitle",
@@ -3424,7 +2969,6 @@ export const DUMMY_RES = {
               {
                 type: "container",
                 answer_id: "ans_4",
-
                 children: [
                   {
                     type: "subtitle",
@@ -3468,10 +3012,7 @@ export const DUMMY_RES = {
         children: [
           {
             type: "container",
-            styling: {
-              alignItems: "center",
-              paddingTop: "20%",
-            },
+            styling: { alignItems: "center", paddingTop: "20%" },
             children: [
               {
                 type: "icon",
@@ -3497,7 +3038,6 @@ export const DUMMY_RES = {
               },
             ],
           },
-
           {
             type: "button",
             title: "Done",
@@ -3516,19 +3056,14 @@ export const DUMMY_RES = {
       {
         type: "threeColumn",
         widths: ["10%", "80%", "10%"],
-        navigate: {
-          language: "en",
-        },
-        styling: {
-          padding: "5%",
-        },
+        navigate: { language: "en" },
+        styling: { padding: "5%" },
         children: [
           {
             type: "image",
             styling: { height: 42, width: 42 },
             url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/LanguageSelection/en.png",
           },
-
           { type: "title", title: "English", styling: { paddingLeft: 15 } },
           {
             type: "icon",
@@ -3541,19 +3076,14 @@ export const DUMMY_RES = {
       {
         type: "threeColumn",
         widths: ["10%", "80%", "10%"],
-        styling: {
-          padding: "5%",
-        },
-        navigate: {
-          language: "hi",
-        },
+        styling: { padding: "5%" },
+        navigate: { language: "hi" },
         children: [
           {
             type: "image",
             styling: { height: 42, width: 42 },
             url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-06-13/LanguageSelection/hi.png",
           },
-
           { type: "title", title: "हिंदी", styling: { paddingLeft: 15 } },
           { type: "icon", iconName: "radiobox-blank", iconSize: 24 },
         ],
@@ -4368,7 +3898,7 @@ export const DUMMY_RES_HINDI = {
             children: [
               {
                 type: "image",
-                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Mandata/Logo.png",
+                url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/Help/Mandate/Logo.png",
                 styling: { width: "100%", flex: 1, aspectRatio: 1.6 },
               },
               {
@@ -6212,8 +5742,9 @@ export const DUMMY_RES_HINDI = {
         styling: {
           padding: "4%",
           backgroundColor: "#223240",
-          height: "98%",
+          height: "100%",
           justifyContent: "space-between",
+          flexGrow: 1,
         },
         children: [
           {
@@ -6312,8 +5843,9 @@ export const DUMMY_RES_HINDI = {
         styling: {
           padding: "4%",
           backgroundColor: "#223240",
-          height: "98%",
+          height: "100%",
           justifyContent: "space-between",
+          flexGrow: 1,
         },
         children: [
           {

@@ -1,15 +1,17 @@
 import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
-import { Alert, BackHandler, SafeAreaView } from "react-native";
+import { Alert, BackHandler, SafeAreaView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import CmsLoading from "../../components/cms/CmsLoading";
 import CmsRoot from "../../components/cms/CmsRoot";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import {
   InteractionTypes,
-  trackEvent
+  trackEvent,
 } from "../../helpers/analytics/commonAnalytics";
 import { CMS_POLLING_DURATION } from "../../services/constants";
-import { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
+import DUMMY_RES, { useGetCmsQuery } from "../../store/apiSlices/cmsApi";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { styles } from "../../styles";
 
@@ -76,11 +78,12 @@ const LoginSuccess = () => {
           });
         }}
       />
-      
-      {!cmsLoading ? (
-        <CmsRoot children={cmsData?.login_success?.data || []}></CmsRoot>
+      {!cmsData && cmsLoading ? (
+        <CmsLoading />
       ) : (
-        <></>
+        <View style={{ flex: 1 }}>
+          <CmsRoot children={DUMMY_RES?.login_success?.data || []}></CmsRoot>
+        </View>
       )}
     </SafeAreaView>
   );

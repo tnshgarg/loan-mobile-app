@@ -3,7 +3,6 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS, FONTS } from "../../constants/Theme";
 
 const OtpInput = ({ otp, setOtp, inputRef, accessibilityLabel }) => {
-
   const getNumberView = (val) => {
     return val != "" ? (
       <Text
@@ -22,8 +21,10 @@ const OtpInput = ({ otp, setOtp, inputRef, accessibilityLabel }) => {
   return (
     <>
       <TouchableWithoutFeedback
-        onPress={() => inputRef.current.focus()}
-        // activeOpacity={0.5}
+        onPress={() => {
+          inputRef.current?.blur();
+          inputRef.current && inputRef.current.focus();
+        }}
       >
         <View style={styles.container}>
           {getNumberView(otp?.charAt(0))}
