@@ -1,4 +1,5 @@
 import axios from "axios";
+import CodePush from "react-native-code-push";
 import Analytics from "../helpers/analytics/commonAnalytics";
 import { navigationRef } from "../navigators/RootNavigation";
 import { EMPLOYEE_API_URL } from "../services/constants";
@@ -17,12 +18,13 @@ const handleLanguageUpdate = async (language) => {
         },
       })
       .then(({ data }) => {
-        console.log("langgggg: ", data);
         content[language] = data.body.strings;
         strings.setContent(content);
         console.log("Content: ", content);
         console.log("langggg", language);
         store.dispatch(addLanguage(language));
+        if (!store.getState()?.auth?.loggedOut)
+          CodePush.restartApp()
       })
       .catch((e) => console.log("An error occured: ", e));
   }

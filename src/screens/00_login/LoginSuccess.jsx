@@ -4,6 +4,7 @@ import { Alert, BackHandler, SafeAreaView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import CmsRoot from "../../components/cms/CmsRoot";
 import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
+import { navigationHelper } from "../../helpers/CmsNavigationHelper";
 import {
   InteractionTypes,
   trackEvent
@@ -76,7 +77,7 @@ const LoginSuccess = () => {
           });
         }}
       />
-      
+
       {!cmsLoading ? (
         <CmsRoot children={cmsData?.login_success?.data || []}></CmsRoot>
       ) : (

@@ -41,7 +41,6 @@ const styles = EStyleSheet.create({
   row: {
     flex: 1,
     flexDirection: "row",
-    flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "space-between",
     borderBottomWidth: 1,

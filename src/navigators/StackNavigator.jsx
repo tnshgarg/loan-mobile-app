@@ -41,7 +41,7 @@ const StackNavigator = () => {
   let initialScreen = useSelector((state) => state.navigation.currentScreen);
   useEffect(() => {
     changeLanguage(language ?? "en");
-    console.log("stack navigator use effect");
+    console.log("stack navigator use effect", language);
   }, [language]);
 
   const handleCampaignUrlClick = (url) => {

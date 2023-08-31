@@ -16,7 +16,6 @@ const changeLanguage = (languageKey) => {
 
   store.dispatch(addLanguage(languageKey));
   strings.setLanguage(languageKey);
-  console.log("tinnns", languageKey)
 };
 
 export { changeLanguage, strings };
