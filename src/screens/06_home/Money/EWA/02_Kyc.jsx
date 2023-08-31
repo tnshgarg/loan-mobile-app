@@ -10,9 +10,12 @@ import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
 import { strings } from "../../../../helpers/Localization";
 import Analytics, {
   InteractionTypes,
-  trackEvent
+  trackEvent,
 } from "../../../../helpers/analytics/commonAnalytics";
-import { EWA_POLLING_DURATION, KYC_POLLING_DURATION } from "../../../../services/constants";
+import {
+  EWA_POLLING_DURATION,
+  KYC_POLLING_DURATION,
+} from "../../../../services/constants";
 import { useUpdateKycMutation } from "../../../../store/apiSlices/ewaApi";
 import { useGetKycQuery } from "../../../../store/apiSlices/kycApi";
 import { useGetMandateQuery } from "../../../../store/apiSlices/mandateApi";
@@ -36,7 +39,12 @@ const KYC = () => {
   const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
     pollingInterval: KYC_POLLING_DURATION,
   });
-  const { data: mandateData, error, isLoading , refetch: fetchMandate} = useGetMandateQuery(unipeEmployeeId, {
+  const {
+    data: mandateData,
+    error,
+    isLoading,
+    refetch: fetchMandate,
+  } = useGetMandateQuery(unipeEmployeeId, {
     pollingInterval: EWA_POLLING_DURATION,
   });
   const { aadhaar, pan, bank, profile } = kycData ?? {};
@@ -53,12 +61,12 @@ const KYC = () => {
     });
     dispatch(addCurrentScreen("EWA_KYC"));
   }, []);
-  
+
   console.log("Mandate Error:", error?.status);
   useEffect(() => {
     fetchMandate().then(() => {
-      if(mandateData?.verifyStatus == "SUCCESS") {
-        updateKyc( {
+      if (mandateData?.verifyStatus == "SUCCESS") {
+        updateKyc({
           offerId: ewaLiveSlice?.offerId,
           unipeEmployeeId: unipeEmployeeId,
           status: "INPROGRESS",
@@ -75,8 +83,8 @@ const KYC = () => {
             Alert.alert("An Error occured", error.message);
           });
       }
-    })
-  },[])
+    });
+  }, []);
 
   useEffect(() => {
     trackEvent({

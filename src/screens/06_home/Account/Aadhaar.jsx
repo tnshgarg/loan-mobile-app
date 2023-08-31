@@ -67,7 +67,7 @@ const Aadhaar = () => {
           <DetailsCard
             data={cardData()}
             imageUri={{
-              uri: `data:image/jpeg;base64,${aadhaar?.data["photo_base64"]}`,
+              uri: `data:image/jpeg;base64,${aadhaar?.data?.["photo_base64"]}`,
               cache: "only-if-cached",
             }}
             variant={"light"}
