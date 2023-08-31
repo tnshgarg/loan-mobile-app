@@ -56,7 +56,7 @@ const LoginSuccess = () => {
   const {
     data: cmsData,
     isLoading: cmsLoading,
-    isFetching: cmsFetching
+    isFetching: cmsFetching,
     isError: cmsError,
   } = useGetCmsQuery(unipeEmployeeId, {
     pollingInterval: CMS_POLLING_DURATION,
