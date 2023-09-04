@@ -13,7 +13,7 @@ const handle401Alert = () => {
                 title: "ok",
                 onPress: () => {
                     LOGOUT_ALERT_OPEN = false;
-                    navigate("Login")
+                    navigate("OnboardingStack", { screen: "Login" })
                 }
             }
         ]);

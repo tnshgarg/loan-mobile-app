@@ -36,8 +36,8 @@ const Upi = ({ ProceedButton, disabled }) => {
               backgroundColor: selected
                 ? COLORS.primary
                 : selected
-                ? COLORS.lightgray_01
-                : COLORS.white,
+                  ? COLORS.lightgray_01
+                  : COLORS.white,
             },
           ]}
         >
@@ -56,8 +56,8 @@ const Upi = ({ ProceedButton, disabled }) => {
                   color: selected
                     ? COLORS.white
                     : selected
-                    ? COLORS.gray
-                    : COLORS.black,
+                      ? COLORS.gray
+                      : COLORS.black,
                 },
               ]}
             >
@@ -98,7 +98,7 @@ const Upi = ({ ProceedButton, disabled }) => {
               ProceedButton({
                 authType: "upi",
                 provider: "cashfree",
-                additionalData: { vpa },
+                additionalData: { upi_vpa: vpa },
               });
             }}
           />
@@ -131,8 +131,8 @@ const DebitCard = ({ ProceedButton, disabled }) => {
               backgroundColor: selected
                 ? COLORS.primary
                 : disabled
-                ? COLORS.lightgray_01
-                : COLORS.white,
+                  ? COLORS.lightgray_01
+                  : COLORS.white,
             },
           ]}
         >
@@ -151,8 +151,8 @@ const DebitCard = ({ ProceedButton, disabled }) => {
                   color: selected
                     ? COLORS.white
                     : disabled
-                    ? COLORS.gray
-                    : COLORS.black,
+                      ? COLORS.gray
+                      : COLORS.black,
                 },
               ]}
             >
@@ -196,8 +196,8 @@ const NetBanking = ({ ProceedButton, disabled }) => {
               backgroundColor: selected
                 ? COLORS.primary
                 : selected
-                ? COLORS.lightgray_01
-                : COLORS.white,
+                  ? COLORS.lightgray_01
+                  : COLORS.white,
             },
           ]}
         >
@@ -216,8 +216,8 @@ const NetBanking = ({ ProceedButton, disabled }) => {
                   color: selected
                     ? COLORS.white
                     : selected
-                    ? COLORS.gray
-                    : COLORS.black,
+                      ? COLORS.gray
+                      : COLORS.black,
                 },
               ]}
             >
@@ -261,8 +261,8 @@ const Aadhaar = ({ ProceedButton, disabled }) => {
               backgroundColor: selected
                 ? COLORS.primary
                 : selected
-                ? COLORS.lightgray_01
-                : COLORS.white,
+                  ? COLORS.lightgray_01
+                  : COLORS.white,
             },
           ]}
         >
@@ -281,8 +281,8 @@ const Aadhaar = ({ ProceedButton, disabled }) => {
                   color: selected
                     ? COLORS.white
                     : selected
-                    ? COLORS.gray
-                    : COLORS.black,
+                      ? COLORS.gray
+                      : COLORS.black,
                 },
               ]}
             >
@@ -327,8 +327,8 @@ const NA = () => {
               backgroundColor: selected
                 ? COLORS.primary
                 : selected
-                ? COLORS.lightgray_01
-                : COLORS.white,
+                  ? COLORS.lightgray_01
+                  : COLORS.white,
             },
           ]}
         >
@@ -347,8 +347,8 @@ const NA = () => {
                   color: selected
                     ? COLORS.white
                     : selected
-                    ? COLORS.gray
-                    : COLORS.black,
+                      ? COLORS.gray
+                      : COLORS.black,
                 },
               ]}
             >

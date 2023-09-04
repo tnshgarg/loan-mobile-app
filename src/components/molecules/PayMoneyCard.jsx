@@ -73,10 +73,10 @@ const PayMoneyCard = () => {
   useEffect(() => {
     if (isFocused && !getRepaymentIsLoading && !getRepaymentIsError) {
       console.log("ewaRepaymentFetch API: ", getRepaymentData);
-      if (getRepaymentData.status === 200) {
+      if (getRepaymentData?.status === 200) {
         let repaymentAmount = Math.max(
           getRepaymentData?.body?.amount -
-            (getRepaymentData?.body?.paidAmount ?? 0),
+          (getRepaymentData?.body?.paidAmount ?? 0),
           0
         );
         let repaymentStatus = getRepaymentData?.body?.status;
@@ -303,8 +303,8 @@ const PayMoneyCard = () => {
             {overdueDays < 0
               ? `Your repayment is overdue by ${-overdueDays} days`
               : dueDate !== null
-              ? `Due by ${dueDate}`
-              : `No dues`}
+                ? `Due by ${dueDate}`
+                : `No dues`}
           </Text>
         </LinearGradient>
       </View>
