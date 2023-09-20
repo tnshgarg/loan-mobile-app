@@ -142,7 +142,7 @@ const MandateFormTemplate = (props) => {
       });
   };
 
-  const initiateCashfreeCheckout = async ({ upiIntent }) => {
+  const initiateCashfreeCheckout = async () => {
     let verifyMsg;
     setModalVisible(true);
     backendPush({
@@ -258,9 +258,7 @@ const MandateFormTemplate = (props) => {
             notes: order.notes,
           });
         } else if (provider == "cashfree") {
-          await initiateCashfreeCheckout({
-            upiIntent: order,
-          });
+          await initiateCashfreeCheckout();
         }
       } else {
         throw createOrderResponse;
