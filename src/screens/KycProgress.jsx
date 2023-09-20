@@ -32,7 +32,8 @@ const KycProgress = () => {
       pollingInterval: KYC_POLLING_DURATION,
     }
   );
-  const {data: mandateData, isLoading: mandateLoading } = useGetMandateQuery(unipeEmployeeId)
+  const { data: mandateData, isLoading: mandateLoading } =
+    useGetMandateQuery(unipeEmployeeId);
   console.log({ kycData });
   const { isAadhaarSuccess, isPanSuccess, isBankSuccess, isProfileSuccess } =
     kycData ?? {};
@@ -65,10 +66,11 @@ const KycProgress = () => {
   ];
   const continueButtonPress = () => {
     if (mandateData?.verifyStatus == "SUCCESS") {
-      showToast("You're all set for advance salary","success")
+      showToast("You're all set for advance salary", "success");
       navigate("HomeStack", { screen: "Money" });
     } else {
-      kycNavigate(kycData, navigation);  
+      console.log("KYCDATA: ", kycData);
+      kycNavigate(kycData, navigation);
     }
   };
 
@@ -86,18 +88,18 @@ const KycProgress = () => {
         headline={strings.getYouVerified}
         subHeadline={strings.complete4Steps}
         onLeftIconPress={() => {
-          Alert.alert(strings.goBack,strings.verifyYourIdentity,
-            [
+          Alert.alert(strings.goBack, strings.verifyYourIdentity, [
             {
               text: "yes",
               onPress: () => {
-                navigate("HomeStack", {screen: "Home"});
-              }
-            },{
+                navigate("HomeStack", { screen: "Home" });
+              },
+            },
+            {
               text: "no",
-              onPress: () => {}
-            }
-          ])
+              onPress: () => {},
+            },
+          ]);
         }}
         onRightIconPress={() => {
           navigationHelper({
