@@ -18,7 +18,7 @@ import { strings } from "../helpers/Localization";
 import { navigate } from "../navigators/RootNavigation";
 import { KYC_POLLING_DURATION } from "../services/constants";
 import { kycNavigate } from "../services/kyc/navigation";
-import { useGetKycQuery } from "../store/apiSlices/kycApi";
+import { useGetKycQuery, useLazyGetKycQuery } from "../store/apiSlices/kycApi";
 import { useGetMandateQuery } from "../store/apiSlices/mandateApi";
 import { styles } from "../styles";
 
@@ -37,6 +37,7 @@ const KycProgress = () => {
   console.log({ kycData });
   const { isAadhaarSuccess, isPanSuccess, isBankSuccess, isProfileSuccess } =
     kycData ?? {};
+  const [trigger] = useLazyGetKycQuery();
 
   const kycSteps = [
     {
@@ -65,13 +66,17 @@ const KycProgress = () => {
     },
   ];
   const continueButtonPress = () => {
-    if (mandateData?.verifyStatus == "SUCCESS") {
-      showToast("You're all set for advance salary", "success");
-      navigate("HomeStack", { screen: "Money" });
-    } else {
-      console.log("KYCDATA: ", kycData);
-      kycNavigate(kycData, navigation);
-    }
+    trigger(unipeEmployeeId, false)
+      .then(({ data }) => {
+        if (mandateData?.verifyStatus == "SUCCESS" && data.kycCompleted) {
+          showToast("You're all set for advance salary", "success");
+          navigate("HomeStack", { screen: "Money" });
+        } else {
+          console.log("KYCDATA: ", kycData);
+          kycNavigate(kycData, navigation);
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   const BORDER_COLOR = {
