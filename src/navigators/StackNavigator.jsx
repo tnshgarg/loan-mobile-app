@@ -11,7 +11,7 @@ import OnboardingStack from "./stacks/OnboardingStack";
 import { useNavigation } from "@react-navigation/core";
 import { Linking } from "react-native";
 import LogoutModal from "../components/organisms/LogoutModal";
-import { changeLanguage } from "../helpers/Localization";
+import { handleLanguageUpdate } from "../helpers/CmsNavigationHelper";
 import Analytics, {
   InteractionTypes,
 } from "../helpers/analytics/commonAnalytics";
@@ -39,9 +39,9 @@ const StackNavigator = () => {
   const language = useSelector((state) => state.localization.language);
   let initialRoute = useSelector((state) => state.navigation.currentStack);
   let initialScreen = useSelector((state) => state.navigation.currentScreen);
+
   useEffect(() => {
-    changeLanguage(language ?? "en");
-    console.log("stack navigator use effect");
+    handleLanguageUpdate(language);
   }, [language]);
 
   const handleCampaignUrlClick = (url) => {

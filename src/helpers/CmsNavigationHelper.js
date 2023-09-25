@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import Analytics from "../helpers/analytics/commonAnalytics";
 import { navigationRef } from "../navigators/RootNavigation";
@@ -6,7 +7,7 @@ import { addLanguage } from "../store/slices/localizationSlice";
 import { store } from "../store/store";
 import { strings } from "./Localization";
 
-const handleLanguageUpdate = async (language) => {
+export const handleLanguageUpdate = async (language) => {
   let content = {};
   if (language) {
     await axios
@@ -20,8 +21,7 @@ const handleLanguageUpdate = async (language) => {
         console.log("langgggg: ", data);
         content[language] = data.body.strings;
         strings.setContent(content);
-        console.log("Content: ", content);
-        console.log("langggg", language);
+        AsyncStorage.setItem("langData", content);
         store.dispatch(addLanguage(language));
       })
       .catch((e) => console.log("An error occured: ", e));
