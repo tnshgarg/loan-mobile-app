@@ -6,6 +6,7 @@ import { EMPLOYEE_API_URL } from "../services/constants";
 import { addLanguage } from "../store/slices/localizationSlice";
 import { store } from "../store/store";
 import { strings } from "./Localization";
+import {cmsApi} from "../store/apiSlices/cmsApi";
 
 export const handleLanguageUpdate = async (language) => {
   let content = {};
@@ -22,6 +23,7 @@ export const handleLanguageUpdate = async (language) => {
         content[language] = data.body.strings;
         strings.setContent(content);
         AsyncStorage.setItem("langData", content);
+        store.dispatch(cmsApi.util.resetApiState()); 
         store.dispatch(addLanguage(language));
       })
       .catch((e) => console.log("An error occured: ", e));
