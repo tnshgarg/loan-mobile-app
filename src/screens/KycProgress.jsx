@@ -67,6 +67,7 @@ const KycProgress = () => {
   ];
   const continueButtonPress = () => {
     trigger(unipeEmployeeId, false)
+      .unwrap()
       .then(({ data }) => {
         if (mandateData?.verifyStatus == "SUCCESS" && data.kycCompleted) {
           showToast("You're all set for advance salary", "success");

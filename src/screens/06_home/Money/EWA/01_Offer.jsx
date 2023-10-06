@@ -218,6 +218,7 @@ const Offer = () => {
         campaignId: campaignId,
       };
       updateOffer(data)
+        .unwrap()
         .then((response) => {
           console.log("updateOfferMutateAsync response.data: ", response.data);
           handleConditionalNav();
@@ -228,6 +229,7 @@ const Offer = () => {
           });
         })
         .catch((error) => {
+          console.log("updateOfferMutateAsync error: ", error);
           console.log("updateOfferMutateAsync error: ", error.message);
           Alert.alert("An Error occured", error.message);
           Analytics.trackEvent({

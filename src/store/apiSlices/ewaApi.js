@@ -1,5 +1,10 @@
 import { api } from "./api";
 
+const transformErrorResponse = (error) => {
+  console.log("error", error);
+  return error.data.error;
+}
+
 export const ewaApi = api
   .enhanceEndpoints({ addTagTypes: ["getOffers", "getDisbursement"] })
   .injectEndpoints({
@@ -14,10 +19,7 @@ export const ewaApi = api
           console.log("response", response);
           return response;
         },
-        transformErrorResponse: (response) => {
-          console.log("response", response);
-          return response;
-        },
+        transformErrorResponse
       }),
       updateOffer: builder.mutation({
         query: (body) => ({
@@ -25,6 +27,7 @@ export const ewaApi = api
           method: "POST",
           body: body,
         }),
+        transformErrorResponse
       }),
       updateKyc: builder.mutation({
         query: (body) => ({
@@ -32,6 +35,7 @@ export const ewaApi = api
           method: "POST",
           body: body,
         }),
+        transformErrorResponse
       }),
       updateAgreement: builder.mutation({
         query: (body) => ({
@@ -40,6 +44,7 @@ export const ewaApi = api
           body: body,
         }),
         invalidatesTags: ["getOffers"],
+        transformErrorResponse
       }),
       getDisbursement: builder.query({
         query: ({ unipeEmployeeId, offerId }) => ({
@@ -47,6 +52,7 @@ export const ewaApi = api
           params: { unipeEmployeeId, offerId },
         }),
         providesTags: ["getDisbursement"],
+        transformErrorResponse
       }),
       disbursementFeedback: builder.mutation({
         query: (body) => ({
@@ -54,6 +60,7 @@ export const ewaApi = api
           method: "POST",
           body: body,
         }),
+        transformErrorResponse
         // invalidatesTags: ["disbursementFeedback"],
       }),
     }),

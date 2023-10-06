@@ -45,8 +45,15 @@ const getGreetingFromTimeOfDay = () => {
   return greeting;
 };
 
+const getStringDate = (date) => {
+  let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  let temp_date = date.split("/");
+  return temp_date[0] + " " + months[Number(temp_date[1]) - 1] + " " + temp_date[2];
+};
+
 module.exports = {
   getNumberOfDays,
   setYYYYMMDDtoDDMMYYYY,
-  getGreetingFromTimeOfDay
+  getGreetingFromTimeOfDay,
+  getStringDate
 };
