@@ -184,10 +184,12 @@ const OTPScreen = () => {
       screen: "otp",
       action: "CONTINUE",
     });
+    console.log({ mobileNumber: phoneNumber, otp: otp})
     postVerifyOtp({ mobileNumber: phoneNumber, otp: otp })
       .unwrap()
       .then((res) => {
         dispatch(addToken(res?.token));
+        console.log({ res });
         dispatch(addUnipeEmployeeId(res?.employeeDetails?.unipeEmployeeId));
         handleNavigation(res?.token, res?.employeeDetails?.unipeEmployeeId);
         setVerified(true);

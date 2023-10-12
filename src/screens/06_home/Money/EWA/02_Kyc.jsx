@@ -4,6 +4,7 @@ import { Alert, BackHandler, SafeAreaView, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import { NetworkInfo } from "react-native-network-info";
 import { useDispatch, useSelector } from "react-redux";
+import KycLoading from "../../../../../src/components/organisms/KycLoading";
 import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import DetailsCard from "../../../../components/molecules/DetailsCard";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
@@ -27,6 +28,7 @@ const KYC = () => {
   const navigation = useNavigation();
   const [deviceId, setDeviceId] = useState(0);
   const [ipAddress, setIpAdress] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const campaignId = useSelector(
@@ -34,7 +36,6 @@ const KYC = () => {
       state.campaign.ewaCampaignId || state.campaign.onboardingCampaignId
   );
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
-  const token = useSelector((state) => state.auth.token);
 
   const { data: kycData } = useGetKycQuery(unipeEmployeeId, {
     pollingInterval: KYC_POLLING_DURATION,
@@ -129,20 +130,17 @@ const KYC = () => {
           mandateData
         );
         setLoading(false);
+        setModalVisible(true);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
           screen: "confirmKyc",
           action: "SUCCESS",
         });
-        if (mandateData?.verifyStatus === "SUCCESS") {
-          navigation.navigate("EWA_AGREEMENT");
-        } else {
-          navigation.navigate("EWA_MANDATE");
-        }
       })
       .catch((error) => {
         console.log("updateKycMutateAsync error: ", error.message);
         setLoading(false);
+        setModalVisible(false);
         Alert.alert("An Error occured", error.message);
         Analytics.trackEvent({
           interaction: InteractionTypes.BUTTON_PRESS,
@@ -198,6 +196,13 @@ const KYC = () => {
           }}
         />
       </View>
+      {modalVisible && (
+        <KycLoading
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          mandateData={mandateData}
+        />
+      )}
     </SafeAreaView>
   );
 };

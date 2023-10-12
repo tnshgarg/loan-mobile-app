@@ -8,6 +8,7 @@ const initialState = {
   token: "",
   unipeEmployeeId: "",
   loggedOut: true,
+  kycServiceToken: "",
 };
 
 const authSlice = createSlice({
@@ -43,6 +44,7 @@ const authSlice = createSlice({
         state.onboarded = payload.employeeDetails?.onboarded;
         state.unipeEmployeeId = payload.employeeDetails?.unipeEmployeeId;
         state.employeeName = payload.employeeDetails?.name;
+        state.kycServiceToken = payload.kyc_service_tokens?.access_token;
       }
     );
   },

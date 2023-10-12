@@ -1,6 +1,7 @@
 import analytics from "@react-native-firebase/analytics";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Alert } from "react-native";
+import { getDeviceName, getUniqueId } from "react-native-device-info";
 import { navigate } from "../../navigators/RootNavigation";
 import { EMPLOYEE_API_URL } from "../../services/constants";
 
@@ -11,6 +12,8 @@ const baseQuery = fetchBaseQuery({
     const token = getState().auth.token;
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
+      headers.set("x-unipe-device-id", getUniqueId());
+      headers.set("x-unipe-device-name", getDeviceName());
     }
     return headers;
   },
