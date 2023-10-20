@@ -100,7 +100,7 @@ const AadhaarVerifyApi = (props) => {
       unipeEmployeeId: unipeEmployeeId,
       otp: props.data.otp,
       campaignId: campaignId,
-      provider: "ongrid",
+      provider: "karza",
     };
     verifyAadhaarOtp(data)
       .unwrap()

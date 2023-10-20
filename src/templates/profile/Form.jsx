@@ -14,6 +14,7 @@ import Analytics, {
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { form, styles } from "../../styles";
 
+import ProfilePictureUpload from "../../components/organisms/ProfilePictureUpload";
 import { strings } from "../../helpers/Localization";
 import { KYC_POLLING_DURATION } from "../../services/constants";
 import { kycNavigate } from "../../services/kyc/navigation";
@@ -46,6 +47,7 @@ const ProfileFormTemplate = ({ type }) => {
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
+  const [profilePicModalVisible, setProfilePicModalVisible] = useState(true);
 
   const [updateProfile, { isLoading: updateInProgress }] =
     useUpdateProfileMutation();
@@ -236,6 +238,11 @@ const ProfileFormTemplate = ({ type }) => {
           />
         </View>
       </KeyboardAvoidingWrapper>
+      <ProfilePictureUpload
+        backAction={backAction}
+        visible={profilePicModalVisible}
+        setVisible={setProfilePicModalVisible}
+      />
     </SafeAreaView>
   );
 };

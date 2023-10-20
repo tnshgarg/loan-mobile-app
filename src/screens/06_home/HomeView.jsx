@@ -9,7 +9,10 @@ import LogoHeaderBack from "../../components/molecules/LogoHeaderBack";
 import LiveOfferCard from "../../components/organisms/LiveOfferCard";
 import { COLORS, FONTS } from "../../constants/Theme";
 import { navigationHelper } from "../../helpers/CmsNavigationHelper";
-import { getGreetingFromTimeOfDay, getNumberOfDays } from "../../helpers/DateFunctions";
+import {
+  getGreetingFromTimeOfDay,
+  getNumberOfDays,
+} from "../../helpers/DateFunctions";
 import { strings } from "../../helpers/Localization";
 import {
   InteractionTypes,
@@ -95,8 +98,6 @@ const HomeView = () => {
   useEffect(() => {
     dispatch(addEligible(eligible));
   }, [eligible]);
-  console.log({ cmsData, cmsError });
-  console.log({ ewaLiveSlice });
 
   useEffect(() => {
     if (

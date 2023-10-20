@@ -20,6 +20,7 @@ import pendingCampaignClickSlice from "./slices/pendingCampaignClickSlice";
 
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { api } from "./apiSlices/api";
+import { serviceApi } from "./apiSlices/serviceApi";
 import cmsSlice from "./slices/cmsSlice";
 import localizationSlice from "./slices/localizationSlice";
 // import reactotron from "../ReactotronConfig";
@@ -32,6 +33,7 @@ const persistConfig = {
 
 const appReducer = combineReducers({
   [api.reducerPath]: api.reducer,
+  [serviceApi.reducerPath]: serviceApi.reducer,
   aadhaar: aadhaarSlice,
   auth: authSlice,
   bank: bankSlice,
@@ -58,7 +60,13 @@ const rootReducer = (state, action) => {
     } catch (error) {
       console.log(error);
     }
-    return appReducer({ auth: { phoneNumber: "", loggedOut: true },localization: state.localization }, action);
+    return appReducer(
+      {
+        auth: { phoneNumber: "", loggedOut: true },
+        localization: state.localization,
+      },
+      action
+    );
   }
   return appReducer(state, action);
 };
@@ -70,7 +78,9 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(api.middleware),
+    })
+      .concat(api.middleware)
+      .concat(serviceApi.middleware),
 });
 setupListeners(store.dispatch);
 export const persistor = persistStore(store);

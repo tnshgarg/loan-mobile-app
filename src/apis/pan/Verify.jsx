@@ -34,7 +34,7 @@ const PanVerifyApi = (props) => {
       unipeEmployeeId: unipeEmployeeId,
       panNumber: props.number,
       campaignId: campaignId,
-      provider: "ongrid",
+      provider: "karza",
     };
     verifyPan(data)
       .unwrap()

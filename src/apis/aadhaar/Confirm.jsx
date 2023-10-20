@@ -36,16 +36,13 @@ const AadhaarConfirmApi = (props) => {
     }
   );
 
-  console.log({ kycData });
-
   const { aadhaar } = kycData ?? {};
 
   const { data, number } = aadhaar ?? {};
 
-  console.log({ aadhaar });
-
   const [updateAadhaar] = useUpdateAadhaarMutation();
   const backendPush = async ({ verifyStatus }) => {
+    console.log("Backend PUSH Called");
     setLoading(true);
     dispatch(addVerifyStatus(verifyStatus));
 
@@ -53,18 +50,23 @@ const AadhaarConfirmApi = (props) => {
       unipeEmployeeId: unipeEmployeeId,
       number: number,
       verifyStatus: verifyStatus,
-      campaignId: campaignId,
+      campaignId: campaignId || "123",
     };
-
+    console.log("Reached here", payload);
     updateAadhaar(payload)
       .unwrap()
       .then((res) => {
+        console.log("verify status: ", res);
         if (verifyStatus === "REJECTED") {
           trackEvent({
             interaction: InteractionTypes.BUTTON_PRESS,
             screen: "aadhaarOk",
             action: "REJECT",
           });
+          console.log(
+            "props?.route?.params?.type: ",
+            props?.route?.params?.type
+          );
           if (props?.route?.params?.type === "KYC") {
             navigation.navigate("KYC", {
               screen: "AADHAAR",

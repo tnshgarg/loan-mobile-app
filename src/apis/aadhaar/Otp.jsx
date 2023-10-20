@@ -106,7 +106,7 @@ const AadhaarOtpApi = (props) => {
       unipeEmployeeId: unipeEmployeeId,
       aadhaarNumber: props.number,
       campaignId: campaignId,
-      provider: "ongrid",
+      provider: "karza",
     };
 
     generateAadhaarOtp(data)
