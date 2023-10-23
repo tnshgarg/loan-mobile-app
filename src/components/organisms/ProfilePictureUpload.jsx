@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Alert, Image, PermissionsAndroid, Text, View } from "react-native";
 import { launchCamera } from "react-native-image-picker";
-import Modal from "react-native-modal";
 import { useSelector } from "react-redux";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { COLORS } from "../../constants/Theme";
@@ -10,13 +9,15 @@ import Analytics, {
 } from "../../helpers/analytics/commonAnalytics";
 import { useUploadProfilePicMutation } from "../../store/apiSlices/serviceApi";
 import { styles } from "../../styles";
+import { showToast } from "../atoms/Toast";
 
 const ProfilePictureUpload = ({ backAction, visible, setVisible }) => {
   const [imageUri, setImageUri] = useState("");
   const [fileName, setFileName] = useState("");
   const [fileType, setFileType] = useState("");
+  const [loading, setLoading] = useState(false);
   const { unipeEmployeeId, token } = useSelector((state) => state.auth);
-  const [uploadProfilePic] = useUploadProfilePicMutation();
+  const [uploadProfilePic, { isLoading }] = useUploadProfilePicMutation();
 
   useEffect(() => {
     PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
@@ -67,6 +68,7 @@ const ProfilePictureUpload = ({ backAction, visible, setVisible }) => {
 
   const uploadImage = async () => {
     if (imageUri) {
+      setLoading(true);
       const formData = new FormData();
       formData.append("profile_pic", {
         uri: imageUri,
@@ -83,12 +85,15 @@ const ProfilePictureUpload = ({ backAction, visible, setVisible }) => {
         .unwrap()
         .then((response) => {
           console.log("RES: ", response);
-          // Analytics.trackEvent({
-          //   interaction: InteractionTypes.BUTTON_PRESS,
-          //   screen: "profilePicUpload",
-          //   action: "SUCCESS",
-          // });
-          // showToast("Profile Picture Uploaded Successfully", "success");
+          if (response.status == 200) {
+            setVisible(false);
+            showToast("Profile Picture Uploaded Successfully", "success");
+          }
+          Analytics.trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            screen: "profilePicUpload",
+            action: "SUCCESS",
+          });
         })
         .catch((error) => {
           Analytics.trackEvent({
@@ -97,87 +102,81 @@ const ProfilePictureUpload = ({ backAction, visible, setVisible }) => {
             action: "ERROR",
           });
           console.error("API Error:", error);
-
-          // Handle API errors here
           Alert.alert(
             "Error",
             "An error occurred while uploading the profile picture."
           );
+        })
+        .finally(() => {
+          setLoading(false);
         });
     } else {
-      // Handle the case where no image has been captured
       Alert.alert("Error", "Please capture an image before uploading.");
     }
   };
 
   return (
-    <Modal
-      visible={visible}
-      backdropColor="black"
-      backdropOpacity={0.7}
-      onBackButtonPress={backAction}
-      animationIn={"slideInUp"}
+    <View
+      style={{
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "white",
+        borderRadius: 12,
+        paddingTop: 10,
+        paddingBottom: 20,
+        paddingLeft: 20,
+        paddingRight: 20,
+      }}
     >
+      <Text style={styles.headline}>Capture Profile Picture</Text>
+      <Text style={styles.subHeadline}>
+        Make sure to Click a clear picture of your face {"\n"}(without anyone
+        else in the frame)
+      </Text>
       <View
         style={{
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "white",
-          borderRadius: 12,
-          paddingTop: 10,
-          paddingBottom: 20,
-          paddingLeft: 20,
-          paddingRight: 20,
-          width: "105%",
-          marginLeft: -10,
-          marginTop: 20,
+          padding: 5,
+          borderWidth: 3,
+          borderColor: COLORS.lightGray,
+          borderRadius: 500,
+          marginVertical: 10,
         }}
       >
-        <Text style={styles.headline}>Capture Profile Picture</Text>
-        <Text style={styles.subHeadline}>
-          Make sure to Click a clear picture of your face {"\n"}(without anyone
-          else in the frame)
-        </Text>
-        <View
+        <Image
+          source={
+            imageUri
+              ? { uri: imageUri }
+              : require("../../assets/profile-placeholder.webp")
+          }
           style={{
-            padding: 5,
-            borderWidth: 3,
-            borderColor: COLORS.lightGray,
-            borderRadius: 500,
-            marginVertical: 10,
+            width: 300,
+            height: 300,
+            borderRadius: 300,
           }}
-        >
-          <Image
-            source={
-              imageUri
-                ? { uri: imageUri }
-                : require("../../assets/profile-placeholder.webp")
-            }
-            style={{
-              width: 300,
-              height: 300,
-              borderRadius: 300,
-            }}
-          />
-        </View>
-        {imageUri ? (
-          <View style={{ width: "100%" }}>
-            <PrimaryButton title="Continue" onPress={uploadImage} />
-            <Text
-              onPress={captureImage}
-              style={[
-                styles.subHeadline,
-                { color: COLORS.primary, paddingTop: 10 },
-              ]}
-            >
-              Retry
-            </Text>
-          </View>
-        ) : (
-          <PrimaryButton title="Capture Image" onPress={captureImage} />
-        )}
+        />
       </View>
-    </Modal>
+      {imageUri ? (
+        <View style={{ width: "100%" }}>
+          <PrimaryButton title="Continue" onPress={uploadImage} />
+          <Text
+            onPress={captureImage}
+            style={[
+              styles.subHeadline,
+              { color: COLORS.primary, paddingTop: 10 },
+            ]}
+          >
+            Retry
+          </Text>
+        </View>
+      ) : (
+        <PrimaryButton
+          loading={loading}
+          disabled={loading}
+          title="Capture Image"
+          onPress={captureImage}
+        />
+      )}
+    </View>
   );
 };
 

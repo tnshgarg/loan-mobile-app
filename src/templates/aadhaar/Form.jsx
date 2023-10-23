@@ -31,6 +31,8 @@ const AadhaarFormTemplate = (props) => {
   );
   const { aadhaar } = kycData ?? {};
 
+  console.log("Kycloading: ", kycLoading);
+
   const [number, setNumber] = useState(aadhaar?.number);
   let aadhaarReg = /^\d{12}$/gm;
   let isValidAadhaar = false;

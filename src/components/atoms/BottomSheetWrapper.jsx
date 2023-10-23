@@ -5,12 +5,18 @@ import Modal from "react-native-modal";
 
 import { COLORS, SIZES } from "../../constants/Theme";
 
-const BottomSheetWrapper = ({ open, setOpen, children, containerStyle }) => {
+const BottomSheetWrapper = ({
+  open,
+  setOpen,
+  children,
+  containerStyle,
+  dismissable = true,
+}) => {
   return (
     <Modal
       isVisible={open}
       style={styles.modal}
-      onBackdropPress={() => setOpen(false)}
+      onBackdropPress={() => (dismissable ? setOpen(false) : null)}
     >
       <View style={[styles.container, { ...containerStyle }]}>{children}</View>
     </Modal>

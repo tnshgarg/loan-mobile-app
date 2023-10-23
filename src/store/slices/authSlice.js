@@ -8,6 +8,7 @@ const initialState = {
   token: "",
   unipeEmployeeId: "",
   loggedOut: true,
+  kycServiceToken: "",
 };
 
 const authSlice = createSlice({
@@ -30,6 +31,12 @@ const authSlice = createSlice({
     addUnipeEmployeeId(state, action) {
       state.unipeEmployeeId = action.payload;
     },
+    addKycServiceToken(state, action) {
+      state.kycServiceToken = action.payload;
+    },
+    addUnipeEmployeeId(state, action) {
+      state.unipeEmployeeId = action.payload;
+    },
     resetAuth(state) {
       Object.assign(state, initialState);
     },
@@ -43,6 +50,7 @@ const authSlice = createSlice({
         state.onboarded = payload.employeeDetails?.onboarded;
         state.unipeEmployeeId = payload.employeeDetails?.unipeEmployeeId;
         state.employeeName = payload.employeeDetails?.name;
+        state.kycServiceToken = payload.kyc_service_tokens?.access_token;
       }
     );
   },
@@ -54,6 +62,7 @@ export const {
   addPhoneNumber,
   addToken,
   addUnipeEmployeeId,
+  addKycServiceToken,
   resetAuth,
 } = authSlice.actions;
 

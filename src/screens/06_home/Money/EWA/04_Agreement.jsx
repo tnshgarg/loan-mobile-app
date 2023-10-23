@@ -9,7 +9,6 @@ import {
   ScrollView,
   Text,
   View,
-  useWindowDimensions,
 } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import Modal from "react-native-modal";
@@ -19,10 +18,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Checkbox from "../../../../components/atoms/Checkbox";
 import Loading from "../../../../components/atoms/Loading";
 import LoanProviderLogo from "../../../../components/atoms/LoanProviderLogo";
-import PrimaryButton from "../../../../components/atoms/PrimaryButton";
 import CmsWebView from "../../../../components/cms/CmsWebView";
 import DisbursementCard from "../../../../components/molecules/DisbursementCard";
 import LogoHeaderBack from "../../../../components/molecules/LogoHeaderBack";
+import EWAOtpModal from "../../../../components/organisms/EwaOtpModal";
 import { getStringDate } from "../../../../helpers/DateFunctions";
 import { strings } from "../../../../helpers/Localization";
 import Analytics, {
@@ -42,7 +41,6 @@ import { moneyStyles, styles } from "../../../../styles";
 const Agreement = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const { width } = useWindowDimensions();
 
   const [fetched, setFetched] = useState(false);
   const [deviceId, setDeviceId] = useState(0);
@@ -52,7 +50,6 @@ const Agreement = () => {
   const [isTermsModalVisible, setIsTermsModalVisible] = useState(false);
   const [isKFSModalVisible, setIsKFSModalVisible] = useState(false);
 
-  const token = useSelector((state) => state.auth.token);
   const unipeEmployeeId = useSelector((state) => state.auth.unipeEmployeeId);
   const campaignId = useSelector(
     (state) =>
@@ -293,10 +290,7 @@ const Agreement = () => {
           screen: "loanAgreement",
           action: "SUCCESS",
         });
-        navigation.navigate("EWA_DISBURSEMENT", {
-          offer: ewaLiveSlice,
-          enableFeedback: true,
-        });
+        return response.data;
       })
       .catch((error) => {
         console.log("ewaAgreementPush error: ", error.message);
@@ -359,11 +353,8 @@ const Agreement = () => {
                 setIsKFSModalVisible(true);
               }}
             />
-
-            <PrimaryButton
-              title={loading ? strings.processing : strings.proceed}
-              disabled={!consent || loading}
-              onPress={() => {
+            <EWAOtpModal
+              onPressMethod={() => {
                 trackEvent({
                   interaction: InteractionTypes.BUTTON_PRESS,
                   screen: "loanAgreement",
@@ -371,6 +362,8 @@ const Agreement = () => {
                 });
                 handleAgreement();
               }}
+              loading={!consent || loading}
+              title={loading ? strings.processing : strings.proceed}
             />
             <LoanProviderLogo
               title={loanProviderData?.title}
@@ -380,6 +373,7 @@ const Agreement = () => {
             <Text style={moneyStyles.percentageTitle}>
               {strings.apr} {ewaLiveSlice?.apr} %
             </Text>
+
             <Modal
               isVisible={isTermsModalVisible}
               style={{
@@ -443,7 +437,9 @@ const Agreement = () => {
               >
                 <CmsWebView
                   source={
-                    ValueEntryKFS(loanProviderData?.kfs) || {
+                    {
+                      uri: "https://mozilla.github.io/pdf.js/web/viewer.html",
+                    } || {
                       html: "<h1> Please Reopen to see</h1>",
                     }
                   }

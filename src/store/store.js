@@ -20,7 +20,9 @@ import pendingCampaignClickSlice from "./slices/pendingCampaignClickSlice";
 
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { api } from "./apiSlices/api";
+import { ewaOtpApi } from "./apiSlices/ewaOtpApi";
 import { serviceApi } from "./apiSlices/serviceApi";
+
 import cmsSlice from "./slices/cmsSlice";
 import localizationSlice from "./slices/localizationSlice";
 // import reactotron from "../ReactotronConfig";
@@ -28,12 +30,13 @@ import localizationSlice from "./slices/localizationSlice";
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  blacklist: ["api", "cmsForms"],
+  blacklist: ["api", "cmsForms", "ewaOtpApi"],
 };
 
 const appReducer = combineReducers({
   [api.reducerPath]: api.reducer,
   [serviceApi.reducerPath]: serviceApi.reducer,
+  [ewaOtpApi.reducerPath]: ewaOtpApi.reducer,
   aadhaar: aadhaarSlice,
   auth: authSlice,
   bank: bankSlice,
@@ -80,6 +83,7 @@ export const store = configureStore({
       serializableCheck: false,
     })
       .concat(api.middleware)
+      .concat(ewaOtpApi.middleware)
       .concat(serviceApi.middleware),
 });
 setupListeners(store.dispatch);

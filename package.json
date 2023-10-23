@@ -122,5 +122,5 @@
 		"start": "react-native start",
 		"test": "jest"
 	},
-	"version": "2023.9.25"
+	"version": "2023.10.6"
 }

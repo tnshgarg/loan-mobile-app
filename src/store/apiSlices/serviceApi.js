@@ -4,9 +4,9 @@ import { KYC_SERVICE_URL } from "../../services/constants";
 const baseQuery = fetchBaseQuery({
   baseUrl: KYC_SERVICE_URL,
   prepareHeaders: (headers, { getState }) => {
-    // const token = getState().auth.kycServiceToken;
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTc4MDQ0NjYsInN1YiI6ImJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYiIsImNsaWVudF9pZCI6ImVtcGxveWVlLWFwcC1hcGkiLCJ0eXBlIjoiZW1wbG95ZWUifQ.JwJsc-kv3_9hLscVir37Y5ss9Zp5h_m2zeG691k84C8";
+    const token = getState().auth.kycServiceToken;
+    // const token =
+    //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTgwNDU0MDYsInN1YiI6ImJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYiIsImNsaWVudF9pZCI6ImVtcGxveWVlLWFwcC1hcGkiLCJ0eXBlIjoiZW1wbG95ZWUifQ.rCPBshWSbJxzoCvrlAlSlS_3raYyu8jJa7FW9Rv4bI0";
     console.log("Service Token: ", token);
     if (token) {
       headers.set("Authorization", token);
@@ -41,7 +41,7 @@ export const serviceApi = createApi({
   tagTypes: [],
   baseQuery,
   endpoints: (builder) => ({
-    uploadProfilePic: createUploadMutation(builder, "/profile-pic"),
+    uploadProfilePic: createUploadMutation(builder, "/kyc-service/profile-pic"),
   }),
 });
 
