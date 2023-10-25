@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Alert, Image, PermissionsAndroid, Text, View } from "react-native";
 import { launchCamera } from "react-native-image-picker";
 import { useSelector } from "react-redux";
+import User from "../../assets/user.svg";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { COLORS } from "../../constants/Theme";
 import Analytics, {
@@ -142,39 +143,53 @@ const ProfilePictureUpload = ({ backAction, visible, setVisible }) => {
           marginVertical: 10,
         }}
       >
-        <Image
-          source={
-            imageUri
-              ? { uri: imageUri }
-              : require("../../assets/profile-placeholder.webp")
-          }
-          style={{
-            width: 300,
-            height: 300,
-            borderRadius: 300,
-          }}
-        />
+        {imageUri ? (
+          <Image
+            source={{ uri: imageUri }}
+            style={{
+              width: 300,
+              height: 300,
+              borderRadius: 300,
+            }}
+          />
+        ) : (
+          <View
+            style={{
+              width: 300,
+              height: 300,
+              borderRadius: 300,
+              backgroundColor: COLORS.lightGray,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <User width={200} height={200} />
+          </View>
+        )}
       </View>
       {imageUri ? (
         <View style={{ width: "100%" }}>
-          <PrimaryButton title="Continue" onPress={uploadImage} />
+          <PrimaryButton
+            title="Continue"
+            onPress={uploadImage}
+            loading={loading}
+            disabled={loading}
+          />
           <Text
-            onPress={captureImage}
+            onPress={loading ? () => {} : captureImage}
             style={[
               styles.subHeadline,
-              { color: COLORS.primary, paddingTop: 10 },
+              {
+                color: loading ? COLORS.lightGray : COLORS.primary,
+                paddingTop: 10,
+              },
             ]}
           >
             Retry
           </Text>
         </View>
       ) : (
-        <PrimaryButton
-          loading={loading}
-          disabled={loading}
-          title="Capture Image"
-          onPress={captureImage}
-        />
+        <PrimaryButton title="Capture Image" onPress={captureImage} />
       )}
     </View>
   );
