@@ -83,9 +83,6 @@ const HomeView = () => {
     (state) => state.campaign.onboardingCampaignId
   );
 
-  // console.log(cmsData.home);
-  console.log("HomeView onboardingCampaignId : ", onboardingCampaignId);
-
   useEffect(() => {
     dispatch(addCurrentStack("HomeStack"));
     if (!onboarded) addOnboarded(true);

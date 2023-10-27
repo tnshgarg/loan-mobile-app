@@ -86,7 +86,6 @@ const OTPScreen = () => {
   }, [countDownTime, verified]);
 
   const backAction = () => {
-    console.log(back);
     if (!back) {
       Platform.OS === "ios"
         ? Alert.alert(
@@ -139,7 +138,6 @@ const OTPScreen = () => {
     postGenerateOtp(phoneNumber)
       .unwrap()
       .then((res) => {
-        console.log({ res });
         setOtp("");
         setBack(false);
         Analytics.trackEvent({
@@ -188,12 +186,10 @@ const OTPScreen = () => {
       screen: "otp",
       action: "CONTINUE",
     });
-    console.log({ mobileNumber: phoneNumber, otp: otp });
     postVerifyOtp({ mobileNumber: phoneNumber, otp: otp })
       .unwrap()
       .then((res) => {
         dispatch(addToken(res?.token));
-        console.log("OTP Response: ", { res });
         dispatch(addUnipeEmployeeId(res?.employeeDetails?.unipeEmployeeId));
         dispatch(addKycServiceToken(res?.kyc_service_tokens?.access_token));
         handleNavigation(res?.token, res?.employeeDetails?.unipeEmployeeId);

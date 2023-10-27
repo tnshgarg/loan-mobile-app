@@ -12,13 +12,13 @@ import { useUploadProfilePicMutation } from "../../store/apiSlices/serviceApi";
 import { styles } from "../../styles";
 import { showToast } from "../atoms/Toast";
 
-const ProfilePictureUpload = ({ backAction, visible, setVisible }) => {
+const ProfilePictureUpload = ({ setVisible }) => {
   const [imageUri, setImageUri] = useState("");
   const [fileName, setFileName] = useState("");
   const [fileType, setFileType] = useState("");
   const [loading, setLoading] = useState(false);
   const { unipeEmployeeId, token } = useSelector((state) => state.auth);
-  const [uploadProfilePic, { isLoading }] = useUploadProfilePicMutation();
+  const [uploadProfilePic] = useUploadProfilePicMutation();
 
   useEffect(() => {
     PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
@@ -54,11 +54,23 @@ const ProfilePictureUpload = ({ backAction, visible, setVisible }) => {
       },
       (response) => {
         if (response.didCancel) {
-          console.log("Image capture cancelled");
+          Analytics.trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            screen: "profilePicCapture",
+            action: "REJECT",
+          });
         } else if (response.error) {
-          console.log("Error capturing image:", response.error);
+          Analytics.trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            screen: "profilePicCapture",
+            action: "ERROR",
+          });
         } else {
-          console.log("Image URI: ", response);
+          Analytics.trackEvent({
+            interaction: InteractionTypes.BUTTON_PRESS,
+            screen: "profilePicCapture",
+            action: "SUCCESS",
+          });
           setImageUri(response.assets[0].uri);
           setFileName(response.assets[0].fileName);
           setFileType(response.assets[0].type);
@@ -80,12 +92,10 @@ const ProfilePictureUpload = ({ backAction, visible, setVisible }) => {
           token: token,
         },
       });
-      console.log("Formdata: ", formData);
 
       await uploadProfilePic(formData)
         .unwrap()
         .then((response) => {
-          console.log("RES: ", response);
           if (response.status == 200) {
             setVisible(false);
             showToast("Profile Picture Uploaded Successfully", "success");
@@ -107,12 +117,14 @@ const ProfilePictureUpload = ({ backAction, visible, setVisible }) => {
             "Error",
             "An error occurred while uploading the profile picture."
           );
+          showToast("Profile Picture Error", "error");
         })
         .finally(() => {
           setLoading(false);
         });
     } else {
       Alert.alert("Error", "Please capture an image before uploading.");
+      showToast("Profile Picture Error", "error");
     }
   };
 

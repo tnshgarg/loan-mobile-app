@@ -245,8 +245,6 @@ const LoginScreen = () => {
     navigate("OnboardingStack", { screen: "Localization" });
   };
 
-  const uploadImage = () => {};
-
   return (
     <SafeAreaView accessibilityLabel="LoginScreen" style={styles.safeContainer}>
       {startClicked ? (

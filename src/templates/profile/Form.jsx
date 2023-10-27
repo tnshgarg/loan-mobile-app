@@ -172,11 +172,7 @@ const ProfileFormTemplate = ({ type }) => {
     <SafeAreaView style={styles.safeContainer} accessibilityLabel="ProfileForm">
       <KeyboardAvoidingWrapper>
         {profilePicModalVisible ? (
-          <ProfilePictureUpload
-            backAction={backAction}
-            visible={profilePicModalVisible}
-            setVisible={setProfilePicModalVisible}
-          />
+          <ProfilePictureUpload setVisible={setProfilePicModalVisible} />
         ) : (
           <View>
             <DropDownForm
