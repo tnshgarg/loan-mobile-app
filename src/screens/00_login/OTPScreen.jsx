@@ -27,7 +27,11 @@ import {
   useGenerateOtpMutation,
   useVerifyOtpMutation,
 } from "../../store/apiSlices/loginApi";
-import { addToken, addUnipeEmployeeId } from "../../store/slices/authSlice";
+import {
+  addKycServiceToken,
+  addToken,
+  addUnipeEmployeeId,
+} from "../../store/slices/authSlice";
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { resetTimer, setLoginTimer } from "../../store/slices/timerSlice";
 import { styles } from "../../styles";
@@ -82,7 +86,6 @@ const OTPScreen = () => {
   }, [countDownTime, verified]);
 
   const backAction = () => {
-    console.log(back);
     if (!back) {
       Platform.OS === "ios"
         ? Alert.alert(
@@ -135,7 +138,6 @@ const OTPScreen = () => {
     postGenerateOtp(phoneNumber)
       .unwrap()
       .then((res) => {
-        console.log({ res });
         setOtp("");
         setBack(false);
         Analytics.trackEvent({
@@ -189,6 +191,7 @@ const OTPScreen = () => {
       .then((res) => {
         dispatch(addToken(res?.token));
         dispatch(addUnipeEmployeeId(res?.employeeDetails?.unipeEmployeeId));
+        dispatch(addKycServiceToken(res?.kyc_service_tokens?.access_token));
         handleNavigation(res?.token, res?.employeeDetails?.unipeEmployeeId);
         setVerified(true);
         Analytics.trackEvent({

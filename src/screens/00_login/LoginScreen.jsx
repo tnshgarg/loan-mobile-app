@@ -20,7 +20,9 @@ import LoginInput from "../../components/molecules/LoginInput";
 import AgreementText from "../../components/organisms/AgreementText";
 import { COLORS, FONTS } from "../../constants/Theme";
 import Analytics, {
-  InteractionTypes, setSessionValue, trackEvent
+  InteractionTypes,
+  setSessionValue,
+  trackEvent,
 } from "../../helpers/analytics/commonAnalytics";
 import { useGenerateOtpMutation } from "../../store/apiSlices/loginApi";
 import { addPhoneNumber } from "../../store/slices/authSlice";
@@ -171,7 +173,6 @@ const LoginScreen = () => {
       });
   };
 
-
   useEffect(() => {
     if (startClicked) {
       Animated.timing(bottomFlex, {
@@ -239,12 +240,11 @@ const LoginScreen = () => {
   }, []);
 
   const goToLocalization = async () => {
-    setStartClicked(false)
+    setStartClicked(false);
     dispatch(addLanguage(""));
     navigate("OnboardingStack", { screen: "Localization" });
   };
 
-  
   return (
     <SafeAreaView accessibilityLabel="LoginScreen" style={styles.safeContainer}>
       {startClicked ? (

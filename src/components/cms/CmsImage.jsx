@@ -17,16 +17,14 @@ const CmsImage = ({ url, styling, aspectRatio, navigate, clickType, link }) => {
   //   });
   // }, [url]);
 
-  console.log("clickType: ", { clickType, navigate });
-
   const style = EStyleSheet.create({
     fullWidthImage: {
       width: "100%",
       aspectRatio: aspectRatio || 1,
       resizeMode: "contain",
       borderRadius: "10rem",
-      padding:0,
-      margin:0
+      padding: 0,
+      margin: 0,
     },
   });
 

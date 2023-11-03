@@ -36,13 +36,9 @@ const AadhaarConfirmApi = (props) => {
     }
   );
 
-  console.log({ kycData });
-
   const { aadhaar } = kycData ?? {};
 
   const { data, number } = aadhaar ?? {};
-
-  console.log({ aadhaar });
 
   const [updateAadhaar] = useUpdateAadhaarMutation();
   const backendPush = async ({ verifyStatus }) => {
@@ -53,9 +49,8 @@ const AadhaarConfirmApi = (props) => {
       unipeEmployeeId: unipeEmployeeId,
       number: number,
       verifyStatus: verifyStatus,
-      campaignId: campaignId,
+      campaignId: campaignId || "123",
     };
-
     updateAadhaar(payload)
       .unwrap()
       .then((res) => {

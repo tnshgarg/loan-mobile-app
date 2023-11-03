@@ -14,6 +14,7 @@ import Analytics, {
 import { addCurrentScreen } from "../../store/slices/navigationSlice";
 import { form, styles } from "../../styles";
 
+import ProfilePictureUpload from "../../components/organisms/ProfilePictureUpload";
 import { strings } from "../../helpers/Localization";
 import { KYC_POLLING_DURATION } from "../../services/constants";
 import { kycNavigate } from "../../services/kyc/navigation";
@@ -46,6 +47,7 @@ const ProfileFormTemplate = ({ type }) => {
   const campaignId = useSelector(
     (state) => state.campaign.onboardingCampaignId
   );
+  const [profilePicModalVisible, setProfilePicModalVisible] = useState(true);
 
   const [updateProfile, { isLoading: updateInProgress }] =
     useUpdateProfileMutation();
@@ -169,72 +171,76 @@ const ProfileFormTemplate = ({ type }) => {
   return (
     <SafeAreaView style={styles.safeContainer} accessibilityLabel="ProfileForm">
       <KeyboardAvoidingWrapper>
-        <View>
-          <DropDownForm
-            accessibilityLabel="EducationDropdown"
-            placeholder={strings.educationPlaceholder}
-            value={qualification}
-            setValue={setQualification}
-            data={qualifications}
-          />
-          <DropDownForm
-            accessibilityLabel="MaritalStatusDropdown"
-            placeholder={strings.maritalStatusPlaceholder}
-            value={maritalStatus}
-            setValue={setMaritalStatus}
-            data={maritalStatuses}
-          />
-          <FormInput
-            accessibilityLabel="MotherNameInput"
-            placeholder={strings.motherNamePlaceholder}
-            value={motherName}
-            onChange={setMotherName}
-          />
-          <FormInput
-            accessibilityLabel="CurrentAddressInput"
-            placeholder={strings.currentAddressPlaceholder}
-            value={currentAddress}
-            multiline={true}
-            onChange={setCurrentAddress}
-          />
-          <FormInput
-            accessibilityLabel="AltPhoneNumberInput"
-            placeholder={strings.whatsappPlaceholder}
-            autoCompleteType="tel"
-            keyboardType="phone-pad"
-            value={altMobile}
-            maxLength={10}
-            onChange={setAltMobile}
-          />
-          {altMobile && !validAltMobile ? (
-            <Text style={form.formatmsg}>{strings.incorrectFormat}</Text>
-          ) : null}
-          <FormInput
-            accessibilityLabel="EmailAddressInput"
-            placeholder={strings.emailPlaceholder}
-            autoCompleteType="email"
-            keyboardType="email-address"
-            value={email}
-            onChange={setEmail}
-          />
-          {email && !validEmail ? (
-            <Text style={form.formatmsg}>{strings.incorrectFormat}</Text>
-          ) : null}
-          <PrimaryButton
-            accessibilityLabel={"ProfileBtn"}
-            title={strings.continue}
-            disabled={kycLoading || !formFilled || updateInProgress}
-            loading={updateInProgress}
-            onPress={() => {
-              Analytics.trackEvent({
-                interaction: InteractionTypes.BUTTON_PRESS,
-                screen: "basicInfo",
-                action: "CONTINUE",
-              });
-              handleSubmit();
-            }}
-          />
-        </View>
+        {profilePicModalVisible ? (
+          <ProfilePictureUpload setVisible={setProfilePicModalVisible} />
+        ) : (
+          <View>
+            <DropDownForm
+              accessibilityLabel="EducationDropdown"
+              placeholder={strings.educationPlaceholder}
+              value={qualification}
+              setValue={setQualification}
+              data={qualifications}
+            />
+            <DropDownForm
+              accessibilityLabel="MaritalStatusDropdown"
+              placeholder={strings.maritalStatusPlaceholder}
+              value={maritalStatus}
+              setValue={setMaritalStatus}
+              data={maritalStatuses}
+            />
+            <FormInput
+              accessibilityLabel="MotherNameInput"
+              placeholder={strings.motherNamePlaceholder}
+              value={motherName}
+              onChange={setMotherName}
+            />
+            <FormInput
+              accessibilityLabel="CurrentAddressInput"
+              placeholder={strings.currentAddressPlaceholder}
+              value={currentAddress}
+              multiline={true}
+              onChange={setCurrentAddress}
+            />
+            <FormInput
+              accessibilityLabel="AltPhoneNumberInput"
+              placeholder={strings.whatsappPlaceholder}
+              autoCompleteType="tel"
+              keyboardType="phone-pad"
+              value={altMobile}
+              maxLength={10}
+              onChange={setAltMobile}
+            />
+            {altMobile && !validAltMobile ? (
+              <Text style={form.formatmsg}>{strings.incorrectFormat}</Text>
+            ) : null}
+            <FormInput
+              accessibilityLabel="EmailAddressInput"
+              placeholder={strings.emailPlaceholder}
+              autoCompleteType="email"
+              keyboardType="email-address"
+              value={email}
+              onChange={setEmail}
+            />
+            {email && !validEmail ? (
+              <Text style={form.formatmsg}>{strings.incorrectFormat}</Text>
+            ) : null}
+            <PrimaryButton
+              accessibilityLabel={"ProfileBtn"}
+              title={strings.continue}
+              disabled={kycLoading || !formFilled || updateInProgress}
+              loading={updateInProgress}
+              onPress={() => {
+                Analytics.trackEvent({
+                  interaction: InteractionTypes.BUTTON_PRESS,
+                  screen: "basicInfo",
+                  action: "CONTINUE",
+                });
+                handleSubmit();
+              }}
+            />
+          </View>
+        )}
       </KeyboardAvoidingWrapper>
     </SafeAreaView>
   );
