@@ -1,8 +1,7 @@
 import analytics from "@react-native-firebase/analytics";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { Alert } from "react-native";
 import { getDeviceName, getUniqueId } from "react-native-device-info";
-import { navigate } from "../../navigators/RootNavigation";
+import AlertHandler from "../../services/alertHandler";
 import { EMPLOYEE_API_URL } from "../../services/constants";
 
 const baseQuery = fetchBaseQuery({
@@ -32,16 +31,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       }`
     );
     if (result?.error?.status === 401) {
-      Alert.alert("Session expired", "Logging you out!",[
-        {
-          title: "ok",
-          onPress: () => {
-            navigate("Login")
-          }
-        }
-      ]);
-      console.log("401 error");
-      api.dispatch({ type: "LOGOUT" });
+      AlertHandler.handle401Alert();
     } else if (result?.error?.status === 404) {
       return result;
     } else {

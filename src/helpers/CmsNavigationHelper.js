@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import CodePush from "react-native-code-push";
 import Analytics from "../helpers/analytics/commonAnalytics";
 import { navigationRef } from "../navigators/RootNavigation";
 import { EMPLOYEE_API_URL } from "../services/constants";
@@ -19,12 +20,13 @@ export const handleLanguageUpdate = async (language) => {
         },
       })
       .then(({ data }) => {
-        console.log("langgggg: ", data);
         content[language] = data.body.strings;
         strings.setContent(content);
         AsyncStorage.setItem("langData", content);
         store.dispatch(cmsApi.util.resetApiState()); 
         store.dispatch(addLanguage(language));
+        if (!store.getState()?.auth?.loggedOut)
+          CodePush.restartApp()
       })
       .catch((e) => console.log("An error occured: ", e));
   }

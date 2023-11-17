@@ -98,7 +98,7 @@ const Upi = ({ ProceedButton, disabled }) => {
               ProceedButton({
                 authType: "upi",
                 provider: "cashfree",
-                additionalData: { upi_vpa:vpa },
+                additionalData: { upi_vpa: vpa },
               });
             }}
           />

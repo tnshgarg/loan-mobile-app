@@ -105,7 +105,7 @@ const MandateFormTemplate = (props) => {
     }
   }, [verifyStatus]);
 
-  const backendPush = ({ data, verifyMsg, verifyStatus, verifyTimestamp }) => {
+  const backendPush = ({ data, verifyMsg, verifyStatus, verifyTimestamp, provider }) => {
     console.log("mandateData: ", mandateData);
     trackEvent({
       interaction: InteractionTypes.SCREEN_OPEN,
@@ -120,7 +120,8 @@ const MandateFormTemplate = (props) => {
       verifyMsg: verifyMsg,
       verifyStatus: verifyStatus,
       verifyTimestamp: verifyTimestamp,
-      campaignId: campaignId,
+      provider,
+      campaignId,
     };
     return updateMandate(payload)
       .then(() => {
@@ -149,6 +150,7 @@ const MandateFormTemplate = (props) => {
       verifyMsg,
       verifyStatus: "INPROGRESS",
       verifyTimestamp: Date.now(),
+      provider: "cashfree",
     })
       .then(() => {
         trackEvent({
@@ -198,6 +200,7 @@ const MandateFormTemplate = (props) => {
     } finally {
       setModalVisible(true);
       backendPush({
+        provider: "razorpay",
         data: {
           orderId,
           customerId,
@@ -289,7 +292,8 @@ const MandateFormTemplate = (props) => {
           setFetched(true);
         });
       } else {
-        Alert.alert("Create Order Error", error.message);
+        console.log(error)
+        Alert.alert("Create Order Error", error?.response?.message);
       }
       Analytics.trackEvent({
         interaction: InteractionTypes.BUTTON_PRESS,

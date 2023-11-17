@@ -7,4 +7,9 @@ let strings = new LocalizedStrings({
   hi: hi,
 });
 
-export { strings };
+const changeLanguage = (languageKey) => {
+  store.dispatch(addLanguage(languageKey));
+  strings.setLanguage(languageKey);
+};
+
+export { changeLanguage, strings };
