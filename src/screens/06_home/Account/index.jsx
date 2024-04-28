@@ -103,7 +103,9 @@ const AccountMenu = (props) => {
       pollingInterval: CMS_POLLING_DURATION,
     }
   );
-  console.log({ nav_list: JSON.stringify(cmsData?.account_navigation_list) });
+  console.log({
+    accountNavList: JSON.stringify(cmsData?.account_navigation_list),
+  });
   return (
     <SafeAreaView style={styles.safeContainer}>
       <LogoHeader

@@ -39,7 +39,7 @@ const CmsScreenOne = (props) => {
   //   hideLogo,
   //   hideLeftIcon,
   //   rightIconNavigate,
-  // } = DUMMY_RES_HINDI?.[blogKey] ?? {};
+  // } = DUMMY_RES?.payslips ?? {};
   const {
     data,
     screenTitle,

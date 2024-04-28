@@ -899,7 +899,7 @@ export const DUMMY_RES = {
             },
             {
               children: [
-                { title: "Pay Slips", type: "title" },
+                { title: "Payslips", type: "title" },
                 { title: "View and download payslips", type: "subtitle" },
               ],
               styling: { paddingLeft: "5%" },
@@ -912,7 +912,7 @@ export const DUMMY_RES = {
               type: "icon",
             },
           ],
-          navigate: { screen: "Profile", type: "app" },
+          navigate: { params: { blogKey: "payslips" }, type: "cms" },
           secondColumnStyle: { flex: 1, paddingLeft: 15 },
           type: "threeColumn",
           widths: ["10%", "80%", "10%"],
@@ -1868,6 +1868,98 @@ export const DUMMY_RES = {
       { type: "footer" },
     ],
     screenTitle: "Customer Support",
+  },
+  payslips: {
+    data: [
+      {
+        children: [
+          {
+            type: "image",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/payslip.png ",
+          },
+          {
+            children: [{ title: "SEP 2022", type: "title" }],
+            styling: { paddingLeft: "5%" },
+            type: "container",
+          },
+          {
+            type: "button",
+            title: "Open PDF",
+            variant: "filled",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/prod/pdf_viewer/viewer.html?file=https://d22ss3ef1t9wna.cloudfront.net/payslips/generated_unipe_payslip_1.pdf",
+            styling: {
+              marginVertical: 0,
+              width: 100,
+              marginRight: 50,
+              padding: 0,
+            },
+          },
+        ],
+        navigate: { type: "cms", params: { blogKey: "payslips" } },
+        secondColumnStyle: { flex: 1, paddingLeft: 15 },
+        type: "threeColumn",
+        widths: ["10%", "80%", "10%"],
+      },
+      {
+        children: [
+          {
+            type: "image",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/payslip.png ",
+          },
+          {
+            children: [{ title: "OCT 2022", type: "title" }],
+            styling: { paddingLeft: "5%" },
+            type: "container",
+          },
+          {
+            type: "button",
+            title: "Open PDF",
+            variant: "filled",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/prod/pdf_viewer/viewer.html?file=https://d22ss3ef1t9wna.cloudfront.net/payslips/generated_unipe_payslip_2.pdf",
+            styling: {
+              marginVertical: 0,
+              width: 100,
+              marginRight: 50,
+              padding: 0,
+            },
+          },
+        ],
+        navigate: { type: "cms", params: { blogKey: "payslips" } },
+        secondColumnStyle: { flex: 1, paddingLeft: 15 },
+        type: "threeColumn",
+        widths: ["10%", "80%", "10%"],
+      },
+      {
+        children: [
+          {
+            type: "image",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/dev/cms/2023-07-06/circleIcons/payslip.png ",
+          },
+          {
+            children: [{ title: "NOV 2022", type: "title" }],
+            styling: { paddingLeft: "5%" },
+            type: "container",
+          },
+          {
+            type: "button",
+            title: "Open PDF",
+            variant: "filled",
+            url: "https://d22ss3ef1t9wna.cloudfront.net/prod/pdf_viewer/viewer.html?file=https://d22ss3ef1t9wna.cloudfront.net/payslips/generated_unipe_payslip_3.pdf",
+            styling: {
+              marginVertical: 0,
+              width: 100,
+              marginRight: 50,
+              padding: 0,
+            },
+          },
+        ],
+        navigate: { type: "cms", params: { blogKey: "payslips" } },
+        secondColumnStyle: { flex: 1, paddingLeft: 15 },
+        type: "threeColumn",
+        widths: ["10%", "80%", "10%"],
+      },
+    ],
+    screenTitle: "Payslips",
   },
   home: [
     {
